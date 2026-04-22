@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OdontoFeed – Ciência odontológica direto para você</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary: #0ea5e9;
+      --primary-dark: #0284c7;
+      --accent: #06b6d4;
+      --bg: #0b1120;
+      --bg2: #111827;
+      --bg3: #1a2336;
+      --card: #1e2d45;
+      --border: #2a3f5f;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --success: #10b981;
+      --radius: 14px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 48px;
+      background: rgba(11,17,32,0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(42,63,95,0.5);
+    }
+    .logo {
+      font-size: 1.5rem; font-weight: 800; letter-spacing: -0.5px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .nav-cta {
+      background: var(--primary); color: #fff;
+      padding: 10px 24px; border-radius: 8px;
+      font-weight: 600; font-size: 0.9rem;
+      text-decoration: none; border: none; cursor: pointer;
+      transition: background 0.2s;
+    }
+    .nav-cta:hover { background: var(--primary-dark); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(14,165,233,0.12) 0%, transparent 70%);
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%230ea5e9' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(14,165,233,0.1); border: 1px solid rgba(14,165,233,0.3);
+      color: var(--primary); padding: 6px 16px; border-radius: 999px;
+      font-size: 0.8rem; font-weight: 600; letter-spacing: 0.5px;
+      text-transform: uppercase; margin-bottom: 28px;
+    }
+    .hero h1 {
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      font-weight: 800; line-height: 1.15;
+      letter-spacing: -1px; margin-bottom: 24px;
+    }
+    .hero h1 span {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      font-size: 1.15rem; color: var(--text-muted);
+      max-width: 560px; line-height: 1.7; margin-bottom: 48px;
+    }
+    .hero-stats {
+      display: flex; gap: 48px; justify-content: center;
+      margin-top: 56px; padding-top: 48px;
+      border-top: 1px solid var(--border);
+    }
+    .stat { text-align: center; }
+    .stat-num {
+      font-size: 2rem; font-weight: 800;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .stat-label { font-size: 0.82rem; color: var(--text-muted); margin-top: 4px; }
+
+    /* HOW IT WORKS */
+    section { padding: 96px 24px; }
+    .section-label {
+      text-align: center; font-size: 0.78rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 2px;
+      color: var(--primary); margin-bottom: 16px;
+    }
+    .section-title {
+      text-align: center; font-size: clamp(1.8rem, 3vw, 2.6rem);
+      font-weight: 800; letter-spacing: -0.5px; margin-bottom: 16px;
+    }
+    .section-sub {
+      text-align: center; color: var(--text-muted);
+      font-size: 1rem; max-width: 520px; margin: 0 auto 56px; line-height: 1.7;
+    }
+
+    .steps {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 24px; max-width: 960px; margin: 0 auto;
+    }
+    .step {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+      position: relative; overflow: hidden;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .step:hover { transform: translateY(-4px); border-color: var(--primary); }
+    .step-num {
+      width: 44px; height: 44px; border-radius: 12px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 1.1rem; margin-bottom: 20px;
+    }
+    .step h3 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; }
+    .step p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; }
+
+    /* SPECIALTIES */
+    .specialties-section { background: var(--bg2); }
+    .specialties-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 16px; max-width: 960px; margin: 0 auto;
+    }
+    .spec-card {
+      background: var(--bg3); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 28px 20px;
+      text-align: center; cursor: pointer;
+      transition: all 0.2s;
+    }
+    .spec-card:hover, .spec-card.active {
+      border-color: var(--primary);
+      background: rgba(14,165,233,0.08);
+      transform: translateY(-3px);
+    }
+    .spec-icon { font-size: 2.2rem; margin-bottom: 12px; }
+    .spec-card h4 { font-size: 0.9rem; font-weight: 700; margin-bottom: 6px; }
+    .spec-card p { font-size: 0.76rem; color: var(--text-muted); }
+
+    /* SIGNUP FORM */
+    .signup-section {
+      background: radial-gradient(ellipse 70% 80% at 50% 50%, rgba(14,165,233,0.08) 0%, transparent 70%);
+    }
+    .form-wrapper {
+      max-width: 640px; margin: 0 auto;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 20px; padding: 48px;
+    }
+    .form-wrapper h2 { font-size: 1.7rem; font-weight: 800; margin-bottom: 8px; }
+    .form-wrapper .sub { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 32px; }
+
+    .step-indicator {
+      display: flex; gap: 8px; margin-bottom: 32px;
+    }
+    .step-dot {
+      height: 4px; border-radius: 2px; flex: 1;
+      background: var(--border); transition: background 0.3s;
+    }
+    .step-dot.active { background: var(--primary); }
+    .step-dot.done { background: var(--success); }
+
+    .form-step { display: none; }
+    .form-step.active { display: block; }
+
+    .form-label { font-size: 0.85rem; font-weight: 600; margin-bottom: 8px; color: var(--text-muted); }
+    .form-input {
+      width: 100%; padding: 14px 18px;
+      background: var(--bg3); border: 1px solid var(--border);
+      border-radius: 10px; color: var(--text); font-size: 1rem;
+      font-family: inherit; outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-input:focus { border-color: var(--primary); }
+    .form-input::placeholder { color: #475569; }
+
+    .specialties-select {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 24px;
+    }
+    .spec-opt {
+      display: flex; align-items: center; gap: 10px;
+      background: var(--bg3); border: 1px solid var(--border);
+      border-radius: 10px; padding: 12px 14px;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .spec-opt:hover { border-color: var(--primary); }
+    .spec-opt input[type=radio] { display: none; }
+    .spec-opt.selected { border-color: var(--primary); background: rgba(14,165,233,0.1); }
+    .spec-opt-icon { font-size: 1.4rem; }
+    .spec-opt-label { font-size: 0.85rem; font-weight: 600; }
+
+    .themes-select {
+      display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 24px;
+    }
+    .theme-tag {
+      padding: 8px 16px; border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--bg3);
+      font-size: 0.82rem; font-weight: 500;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .theme-tag:hover { border-color: var(--primary); }
+    .theme-tag.selected {
+      background: rgba(14,165,233,0.15);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .btn-primary {
+      width: 100%; padding: 16px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: #fff; border: none; border-radius: 12px;
+      font-size: 1rem; font-weight: 700; cursor: pointer;
+      font-family: inherit;
+      transition: opacity 0.2s, transform 0.15s;
+    }
+    .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    .btn-back {
+      width: 100%; padding: 12px;
+      background: transparent; color: var(--text-muted);
+      border: 1px solid var(--border); border-radius: 12px;
+      font-size: 0.9rem; font-weight: 500; cursor: pointer;
+      font-family: inherit; margin-top: 10px;
+      transition: border-color 0.2s;
+    }
+    .btn-back:hover { border-color: var(--text-muted); }
+
+    .success-box {
+      text-align: center; display: none; padding: 16px 0;
+    }
+    .success-box .check {
+      width: 64px; height: 64px; border-radius: 50%;
+      background: rgba(16,185,129,0.15); border: 2px solid var(--success);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem; margin: 0 auto 20px;
+    }
+    .success-box h3 { font-size: 1.4rem; font-weight: 800; margin-bottom: 8px; }
+    .success-box p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; }
+
+    /* FEATURES */
+    .features-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px; max-width: 960px; margin: 0 auto;
+    }
+    .feature-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 32px 28px;
+    }
+    .feature-icon {
+      font-size: 2rem; margin-bottom: 16px;
+    }
+    .feature-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; }
+    .feature-card p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; }
+
+    /* FOOTER */
+    footer {
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      padding: 40px 48px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    footer .logo { font-size: 1.2rem; }
+    footer p { font-size: 0.82rem; color: var(--text-muted); }
+
+    @media (max-width: 600px) {
+      nav { padding: 16px 20px; }
+      .hero-stats { gap: 24px; }
+      .form-wrapper { padding: 28px 20px; }
+      .specialties-select { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 12px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">OdontoFeed</div>
+  <a href="#cadastro" class="nav-cta">Começar grátis</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">
+    <span>✦</span> Plataforma para Dentistas
+  </div>
+  <h1>Ciência odontológica<br><span>direto na sua caixa de entrada</span></h1>
+  <p>Receba 1 artigo científico por dia, curado do PubMed de acordo com a sua especialidade e temas de interesse, com resumo detalhado em português.</p>
+  <a href="#cadastro" class="nav-cta" style="font-size:1.05rem;padding:16px 36px;">Criar minha conta grátis →</a>
+
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-num">+20</div>
+      <div class="stat-label">Especialidades</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">1/dia</div>
+      <div class="stat-label">Artigo curado</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">100%</div>
+      <div class="stat-label">Gratuito</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">PT-BR</div>
+      <div class="stat-label">Resumos em português</div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section>
+  <div class="section-label">Como funciona</div>
+  <h2 class="section-title">Simples, personalizado e científico</h2>
+  <p class="section-sub">Em menos de 2 minutos você configura seus interesses e começa a receber conteúdo de alto nível.</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <h3>Escolha sua especialidade</h3>
+      <p>Selecione entre ortodontia, implantodontia, periodontia, dentística, bucomaxilo e muito mais.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <h3>Defina seus temas</h3>
+      <p>Escolha os assuntos dentro da sua especialidade que mais te interessam clinicamente.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <h3>Receba todo dia</h3>
+      <p>Às 7h da manhã você recebe 1 artigo selecionado do PubMed com resumo detalhado em português.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <h3>Evolua na prática</h3>
+      <p>Mantenha-se atualizado com a melhor evidência científica sem precisar garimpar a literatura.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SPECIALTIES SHOWCASE -->
+<section class="specialties-section">
+  <div class="section-label">Especialidades</div>
+  <h2 class="section-title">Para toda a Odontologia</h2>
+  <p class="section-sub">Cobertura completa das especialidades reconhecidas pelo CFO e áreas emergentes.</p>
+  <div class="specialties-grid">
+    <div class="spec-card"><div class="spec-icon">🦷</div><h4>Ortodontia</h4><p>Alinhadores, biomecânica, cefalometria</p></div>
+    <div class="spec-card"><div class="spec-icon">🔬</div><h4>Implantodontia</h4><p>Osseointegração, protocolos cirúrgicos</p></div>
+    <div class="spec-card"><div class="spec-icon">🌿</div><h4>Periodontia</h4><p>Doença periodontal, regeneração</p></div>
+    <div class="spec-card"><div class="spec-icon">✨</div><h4>Dentística</h4><p>Estética, resinas, clareamento</p></div>
+    <div class="spec-card"><div class="spec-icon">🦴</div><h4>Bucomaxilofacial</h4><p>Cirurgia, trauma, patologia</p></div>
+    <div class="spec-card"><div class="spec-icon">🔩</div><h4>Prótese</h4><p>Reabilitação, materiais, oclusão</p></div>
+    <div class="spec-card"><div class="spec-icon">🩺</div><h4>Endodontia</h4><p>Tratamento de canal, regeneração pulpar</p></div>
+    <div class="spec-card"><div class="spec-icon">👶</div><h4>Odontopediatria</h4><p>Saúde bucal infantil e adolescente</p></div>
+    <div class="spec-card"><div class="spec-icon">🧠</div><h4>DTM & Dor</h4><p>ATM, dor orofacial, bruxismo</p></div>
+    <div class="spec-card"><div class="spec-icon">📷</div><h4>Radiologia</h4><p>CBCT, diagnóstico por imagem</p></div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section>
+  <div class="section-label">Diferenciais</div>
+  <h2 class="section-title">Mais do que um newsletter</h2>
+  <p class="section-sub">Tecnologia e curadoria a serviço da sua atualização profissional.</p>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">🤖</div>
+      <h3>Curadoria com IA</h3>
+      <p>Artigos selecionados automaticamente do PubMed com base nos seus temas, priorizando publicações recentes e de alta relevância clínica.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📝</div>
+      <h3>Resumos em português</h3>
+      <p>Cada artigo vem acompanhado de um resumo estruturado em português: objetivos, metodologia, resultados e aplicação clínica.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">⏱️</div>
+      <h3>5 minutos por dia</h3>
+      <p>Um artigo por dia, no horário que você escolher. Sem sobrecarga de informação, sem ruído — apenas o essencial para sua prática.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🎯</div>
+      <h3>100% personalizado</h3>
+      <p>Você controla sua especialidade e os temas que quer receber. Mude suas preferências a qualquer momento pelo painel.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔗</div>
+      <h3>Link para o original</h3>
+      <p>Cada email inclui o link direto para o artigo completo no PubMed para você aprofundar quando quiser.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🆓</div>
+      <h3>Grátis para sempre</h3>
+      <p>O plano básico com 1 artigo por dia é completamente gratuito. Acreditamos que atualização científica deve ser acessível a todos.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SIGNUP -->
+<section class="signup-section" id="cadastro">
+  <div class="section-label">Cadastro</div>
+  <h2 class="section-title">Comece hoje, é grátis</h2>
+  <p class="section-sub">Configure suas preferências em 2 minutos e receba seu primeiro artigo amanhã de manhã.</p>
+
+  <div class="form-wrapper">
+    <div class="step-indicator">
+      <div class="step-dot active" id="dot1"></div>
+      <div class="step-dot" id="dot2"></div>
+      <div class="step-dot" id="dot3"></div>
+    </div>
+
+    <!-- STEP 1: Especialidade -->
+    <div class="form-step active" id="step1">
+      <p class="form-label">PASSO 1 DE 3 — Qual é a sua especialidade principal?</p>
+      <div class="specialties-select" id="specSelect">
+        <label class="spec-opt" data-value="Ortodontia">
+          <input type="radio" name="spec" value="Ortodontia"/>
+          <span class="spec-opt-icon">🦷</span>
+          <span class="spec-opt-label">Ortodontia</span>
+        </label>
+        <label class="spec-opt" data-value="Implantodontia">
+          <input type="radio" name="spec" value="Implantodontia"/>
+          <span class="spec-opt-icon">🔬</span>
+          <span class="spec-opt-label">Implantodontia</span>
+        </label>
+        <label class="spec-opt" data-value="Periodontia">
+          <input type="radio" name="spec" value="Periodontia"/>
+          <span class="spec-opt-icon">🌿</span>
+          <span class="spec-opt-label">Periodontia</span>
+        </label>
+        <label class="spec-opt" data-value="Dentística">
+          <input type="radio" name="spec" value="Dentística"/>
+          <span class="spec-opt-icon">✨</span>
+          <span class="spec-opt-label">Dentística</span>
+        </label>
+        <label class="spec-opt" data-value="Bucomaxilofacial">
+          <input type="radio" name="spec" value="Bucomaxilofacial"/>
+          <span class="spec-opt-icon">🦴</span>
+          <span class="spec-opt-label">Bucomaxilo</span>
+        </label>
+        <label class="spec-opt" data-value="Prótese">
+          <input type="radio" name="spec" value="Prótese"/>
+          <span class="spec-opt-icon">🔩</span>
+          <span class="spec-opt-label">Prótese</span>
+        </label>
+        <label class="spec-opt" data-value="Endodontia">
+          <input type="radio" name="spec" value="Endodontia"/>
+          <span class="spec-opt-icon">🩺</span>
+          <span class="spec-opt-label">Endodontia</span>
+        </label>
+        <label class="spec-opt" data-value="Odontopediatria">
+          <input type="radio" name="spec" value="Odontopediatria"/>
+          <span class="spec-opt-icon">👶</span>
+          <span class="spec-opt-label">Odontopediatria</span>
+        </label>
+        <label class="spec-opt" data-value="DTM e Dor Orofacial">
+          <input type="radio" name="spec" value="DTM e Dor Orofacial"/>
+          <span class="spec-opt-icon">🧠</span>
+          <span class="spec-opt-label">DTM & Dor</span>
+        </label>
+        <label class="spec-opt" data-value="Radiologia">
+          <input type="radio" name="spec" value="Radiologia"/>
+          <span class="spec-opt-icon">📷</span>
+          <span class="spec-opt-label">Radiologia</span>
+        </label>
+      </div>
+      <button class="btn-primary" id="toStep2" disabled>Próximo: escolher temas →</button>
+    </div>
+
+    <!-- STEP 2: Temas -->
+    <div class="form-step" id="step2">
+      <p class="form-label" id="themesLabel">PASSO 2 DE 3 — Quais temas você quer receber?</p>
+      <div class="themes-select" id="themesSelect"></div>
+      <button class="btn-primary" id="toStep3" disabled>Próximo: criar conta →</button>
+      <button class="btn-back" id="backTo1">← Voltar</button>
+    </div>
+
+    <!-- STEP 3: Dados -->
+    <div class="form-step" id="step3">
+      <p class="form-label">PASSO 3 DE 3 — Seus dados</p>
+      <div style="margin-bottom:16px">
+        <p class="form-label">Nome completo</p>
+        <input class="form-input" type="text" id="inputName" placeholder="Dr. João Silva" />
+      </div>
+      <div style="margin-bottom:24px">
+        <p class="form-label">E-mail profissional</p>
+        <input class="form-input" type="email" id="inputEmail" placeholder="joao@clinica.com.br" />
+      </div>
+      <button class="btn-primary" id="submitBtn">Criar conta e começar a receber →</button>
+      <button class="btn-back" id="backTo2">← Voltar</button>
+    </div>
+
+    <!-- SUCCESS -->
+    <div class="success-box" id="successBox">
+      <div class="check">✓</div>
+      <h3>Cadastro realizado!</h3>
+      <p>Perfeito! Seu primeiro artigo chegará amanhã às 7h. Fique de olho na sua caixa de entrada (e no spam, só na primeira vez).</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="logo">OdontoFeed</div>
+  <p>© 2026 OdontoFeed. Feito para dentistas brasileiros.</p>
+</footer>
+
+<script>
+const THEMES = {
+  "Ortodontia": ["Alinhadores invisíveis","Biomecânica","Cefalometria","Mini-implantes/TADs","Expansão de maxila","Cirurgia ortognática","Ortodontia & ATM","Ancoragem esquelética","Contenção e recidiva","Ortodontia interceptiva"],
+  "Implantodontia": ["Osseointegração","Carga imediata","Enxertos ósseos","Implantes zigomáticos","Prótese sobre implante","Peri-implantite","Planejamento digital","All-on-4/All-on-X"],
+  "Periodontia": ["Doença periodontal","Regeneração tecidual","Cirurgia mucogengival","Periodontia e sistêmicas","Lasers em periodontia","Manutenção periodontal"],
+  "Dentística": ["Resinas compostas","Clareamento dental","Facetas e laminados","Adesão","Estética digital","Restaurações indiretas"],
+  "Bucomaxilofacial": ["Cirurgia ortognática","Trauma facial","Patologia oral","Cistos e tumores","Reconstrução mandibular","Distração osteogênica"],
+  "Prótese": ["Prótese total","Prótese parcial removível","Prótese fixa","Oclusão","Reabilitação oral","Materiais protéticos"],
+  "Endodontia": ["Tratamento de canal","Retratamento","Cirurgia periapical","Regeneração pulpar","Instrumentação rotatória","Irrigação e desinfecção"],
+  "Odontopediatria": ["Cárie precoce","Traumatismo dental infantil","Pulpotomia","Odontologia para bebês","Prevenção e flúor","Ortopedia funcional"],
+  "DTM e Dor Orofacial": ["Bruxismo","Articulação temporomandibular","Dor crônica orofacial","Placa oclusal","Botox em DTM","Diagnóstico por imagem da ATM"],
+  "Radiologia": ["CBCT 3D","Diagnóstico de cárie","Patologia em imagem","Implantes e CBCT","Inteligência artificial em radiologia","Dose de radiação"]
+};
+
+let selectedSpec = null;
+let selectedThemes = [];
+
+// Specialty selection
+document.querySelectorAll('.spec-opt').forEach(opt => {
+  opt.addEventListener('click', () => {
+    document.querySelectorAll('.spec-opt').forEach(o => o.classList.remove('selected'));
+    opt.classList.add('selected');
+    selectedSpec = opt.dataset.value;
+    document.getElementById('toStep2').disabled = false;
+  });
+});
+
+document.getElementById('toStep2').addEventListener('click', () => {
+  goToStep(2);
+  renderThemes();
+});
+
+function renderThemes() {
+  const themes = THEMES[selectedSpec] || [];
+  selectedThemes = [];
+  document.getElementById('toStep3').disabled = true;
+  document.getElementById('themesLabel').textContent = 'PASSO 2 DE 3 — Temas de ' + selectedSpec;
+  const container = document.getElementById('themesSelect');
+  container.innerHTML = '';
+  themes.forEach(t => {
+    const tag = document.createElement('div');
+    tag.className = 'theme-tag';
+    tag.textContent = t;
+    tag.addEventListener('click', () => {
+      tag.classList.toggle('selected');
+      if (tag.classList.contains('selected')) {
+        selectedThemes.push(t);
+      } else {
+        selectedThemes = selectedThemes.filter(x => x !== t);
+      }
+      document.getElementById('toStep3').disabled = selectedThemes.length === 0;
+    });
+    container.appendChild(tag);
+  });
+}
+
+document.getElementById('toStep3').addEventListener('click', () => goToStep(3));
+document.getElementById('backTo1').addEventListener('click', () => goToStep(1));
+document.getElementById('backTo2').addEventListener('click', () => goToStep(2));
+
+function goToStep(n) {
+  document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
+  document.getElementById('step' + n).classList.add('active');
+  ['dot1','dot2','dot3'].forEach((id, i) => {
+    const dot = document.getElementById(id);
+    dot.classList.remove('active','done');
+    if (i + 1 < n) dot.classList.add('done');
+    if (i + 1 === n) dot.classList.add('active');
+  });
+}
+
+// Submit
+document.getElementById('submitBtn').addEventListener('click', async () => {
+  const name = document.getElementById('inputName').value.trim();
+  const email = document.getElementById('inputEmail').value.trim();
+  if (!name || !email) { alert('Preencha nome e e-mail.'); return; }
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = 'Cadastrando...';
+
+  try {
+    await fetch('/.netlify/functions/register', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ name, email, especialidade: selectedSpec, temas: selectedThemes })
+    });
+  } catch(e) {}
+
+  document.getElementById('step3').style.display = 'none';
+  document.getElementById('successBox').style.display = 'block';
+  document.querySelector('.step-indicator').style.display = 'none';
+});
+</script>
+</body>
+</html>
