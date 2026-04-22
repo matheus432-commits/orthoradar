@@ -117,6 +117,27 @@
       footer { flex-direction: column; gap: 12px; text-align: center; }
     }
   </style>
+
+  <!-- PWA Meta Tags -->
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#00d4ff" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="OdontoFeed" />
+  <meta name="application-name" content="OdontoFeed" />
+  <meta name="msapplication-TileColor" content="#0a0a1a" />
+  <meta name="msapplication-TileImage" content="/icons/icon-144.png" />
+  <!-- Apple Touch Icons -->
+  <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+  <link rel="apple-touch-icon" sizes="152x152" href="/icons/icon-152.png" />
+  <link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144.png" />
+  <link rel="apple-touch-icon" sizes="128x128" href="/icons/icon-128.png" />
+  <link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96.png" />
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png" />
+  <link rel="icon" type="image/png" sizes="96x96" href="/icons/icon-96.png" />
+  <link rel="icon" type="image/png" sizes="72x72" href="/icons/icon-72.png" />
 </head>
 <body>
 <nav>
@@ -394,5 +415,174 @@ async function submitForm() {
   document.querySelector('.step-indicator').style.display = 'none';
 }
 </script>
+
+  <!-- PWA Install Banner -->
+  <div id="pwa-banner" style="
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(135deg, #0d1a2e 0%, #0a0f1e 100%);
+    border-top: 1px solid rgba(0,212,255,0.3);
+    padding: 16px 20px;
+    z-index: 9999;
+    box-shadow: 0 -4px 30px rgba(0,212,255,0.15);
+    display: none;
+    align-items: center;
+    gap: 16px;
+    font-family: 'Inter', sans-serif;
+  ">
+    <img src="/icons/icon-72.png" alt="OdontoFeed" style="width:48px;height:48px;border-radius:12px;flex-shrink:0;" />
+    <div style="flex:1;">
+      <div style="color:#fff;font-weight:600;font-size:15px;margin-bottom:2px;">Instalar OdontoFeed</div>
+      <div style="color:rgba(255,255,255,0.6);font-size:13px;">Adicione à tela inicial para acesso rápido</div>
+    </div>
+    <button onclick="installPWA()" style="
+      background: linear-gradient(135deg, #00d4ff, #0099cc);
+      color: #000;
+      border: none;
+      border-radius: 20px;
+      padding: 10px 20px;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+    ">Instalar</button>
+    <button onclick="dismissBanner()" style="
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.4);
+      cursor: pointer;
+      font-size: 20px;
+      padding: 4px 8px;
+      flex-shrink: 0;
+      line-height: 1;
+    ">✕</button>
+  </div>
+
+  <!-- iOS Install Instruction Modal -->
+  <div id="ios-install-modal" style="
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(135deg, #0d1a2e 0%, #0a0f1e 100%);
+    border-top: 1px solid rgba(0,212,255,0.3);
+    border-radius: 16px 16px 0 0;
+    padding: 24px 24px 40px;
+    z-index: 9999;
+    box-shadow: 0 -4px 30px rgba(0,212,255,0.2);
+    font-family: 'Inter', sans-serif;
+    text-align: center;
+  ">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+      <div style="color:#00d4ff;font-weight:700;font-size:16px;">📱 Instalar OdontoFeed no iPhone</div>
+      <button onclick="document.getElementById('ios-install-modal').style.display='none'" style="background:none;border:none;color:rgba(255,255,255,0.5);font-size:20px;cursor:pointer;">✕</button>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:16px;text-align:left;">
+      <div style="display:flex;align-items:center;gap:12px;color:#fff;">
+        <div style="background:rgba(0,212,255,0.15);border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">1</div>
+        <span>Toque no ícone de <strong style="color:#00d4ff;">compartilhar</strong> <span style="font-size:18px;">⬆️</span> na barra do Safari</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;color:#fff;">
+        <div style="background:rgba(0,212,255,0.15);border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">2</div>
+        <span>Selecione <strong style="color:#00d4ff;">"Adicionar à Tela de Início"</strong></span>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;color:#fff;">
+        <div style="background:rgba(0,212,255,0.15);border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">3</div>
+        <span>Toque em <strong style="color:#00d4ff;">"Adicionar"</strong> no canto superior direito</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // PWA Install Logic
+    let deferredPrompt = null;
+    const banner = document.getElementById('pwa-banner');
+
+    // Check if already installed
+    const isInstalled = window.matchMedia('(display-mode: standalone)').matches || 
+                        window.navigator.standalone === true;
+
+    if (!isInstalled) {
+      // Android/Chrome: listen for beforeinstallprompt
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        // Show banner after 3 seconds
+        setTimeout(() => {
+          if (banner && !localStorage.getItem('pwa-dismissed')) {
+            banner.style.display = 'flex';
+          }
+        }, 3000);
+      });
+
+      // iOS detection: show iOS instructions
+      const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+      const isInStandaloneMode = window.navigator.standalone;
+      if (isIOS && !isInStandaloneMode && !localStorage.getItem('pwa-dismissed')) {
+        setTimeout(() => {
+          document.getElementById('ios-install-modal').style.display = 'block';
+        }, 4000);
+      }
+    }
+
+    function installPWA() {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((result) => {
+          if (result.outcome === 'accepted') {
+            console.log('PWA installed!');
+            banner.style.display = 'none';
+          }
+          deferredPrompt = null;
+        });
+      }
+    }
+
+    function dismissBanner() {
+      if (banner) banner.style.display = 'none';
+      document.getElementById('ios-install-modal').style.display = 'none';
+      localStorage.setItem('pwa-dismissed', '1');
+    }
+
+    // Register Service Worker
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then(reg => {
+            console.log('[PWA] Service Worker registered:', reg.scope);
+            // Request notification permission after user interaction
+            window._swRegistration = reg;
+          })
+          .catch(err => console.warn('[PWA] Service Worker failed:', err));
+      });
+    }
+
+    // Request push notification permission (triggered after form submission)
+    async function requestNotificationPermission() {
+      if ('Notification' in window && 'serviceWorker' in navigator) {
+        const permission = await Notification.requestPermission();
+        if (permission === 'granted') {
+          console.log('[PWA] Notification permission granted');
+          return true;
+        }
+      }
+      return false;
+    }
+
+    // Auto-request after successful registration
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.querySelector('form');
+      if (form) {
+        form.addEventListener('submit', async () => {
+          await requestNotificationPermission();
+        });
+      }
+    });
+  </script>
 </body>
 </html>
