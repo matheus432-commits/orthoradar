@@ -146,6 +146,38 @@ function buildEmail(user, article, tema) {
 }
 
 // ─── Send email ────────────────────────────────────────────────────────────
+
+// ── Save article to Firestore (REST API) ──────────────────────────────────────
+async function saveArticleToFirestore(projectId, apiKey, data) {
+  const collectionId = 'artigos_enviados';
+  const fields = {};
+  for (const [key, val] of Object.entries(data)) {
+    if (typeof val === 'string') fields[key] = { stringValue: val };
+    else if (typeof val === 'number') fields[key] = { integerValue: String(val) };
+    else if (typeof val === 'boolean') fields[key] = { booleanValue: val };
+    else fields[key] = { stringValue: String(val) };
+  }
+  const body = JSON.stringify({ fields });
+  return new Promise((resolve, reject) => {
+    const https = require('https');
+    const bodyBuffer = Buffer.from(body, 'utf8');
+    const options = {
+      hostname: 'firestore.googleapis.com',
+      path: '/v1/projects/' + projectId + '/databases/(default)/documents/' + collectionId + '?key=' + apiKey,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Content-Length': bodyBuffer.length }
+    };
+    const req = https.request(options, res => {
+      let d = '';
+      res.on('data', c => d += c);
+      res.on('end', () => resolve({ status: res.statusCode, body: d }));
+    });
+    req.on('error', reject);
+    req.write(bodyBuffer);
+    req.end();
+  });
+}
+
 async function sendEmail(resendKey, to, subject, html) {
   const payload = JSON.stringify({ from: "OdontoFeed <artigos@odontofeed.com>", to, subject, html });
   return request({
@@ -201,6 +233,21 @@ exports.handler = async function(event) {
       if (emailRes.status === 200 || emailRes.status === 201) {
         console.log("Email sent to", user.email);
         sent++;
+        // 4. Save article to Firestore history
+        try {
+          await saveArticleToFirestore(projectId, apiKey, {
+            email: user.email,
+            especialidade: user.especialidade,
+            tema: tema,
+            titulo: article.title || '',
+            resumo: article.abstract || '',
+            pubmedUrl: article.pubmedUrl || ('https://pubmed.ncbi.nlm.nih.gov/' + (article.pmid || '')),
+            pmid: String(article.pmid || ''),
+            data: new Date().toISOString()
+          });
+        } catch (saveErr) {
+          console.warn('Could not save article to history:', saveErr.message);
+        }
       } else {
         console.error("Email error for", user.email, emailRes.status, emailRes.body.substring(0, 100));
         errors++;
