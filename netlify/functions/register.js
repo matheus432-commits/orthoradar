@@ -1,114 +1,196 @@
-const https = require("https");
+const { initializeApp, getApps } = require('firebase/app');
+const { getFirestore, collection, addDoc, query, where, getDocs } = require('firebase/firestore');
 
-function httpsRequest(options, body) {
-  return new Promise((resolve, reject) => {
-    const req = https.request(options, (res) => {
-      let data = "";
-      res.on("data", (c) => { data += c; });
-      res.on("end", () => resolve({ status: res.statusCode, body: data }));
-    });
-    req.on("error", reject);
-    if (body) req.write(body);
-    req.end();
-  });
+const firebaseConfig = {
+  apiKey: process.env.FIREBASE_API_KEY,
+  authDomain: "orthoradar.firebaseapp.com",
+  projectId: "orthoradar",
+  storageBucket: "orthoradar.appspot.com",
+  messagingSenderId: "1234567890",
+  appId: "1:1234567890:web:abcdef"
+};
+
+let app;
+if (!getApps().length) {
+  app = initializeApp(firebaseConfig);
+} else {
+  app = getApps()[0];
 }
+const db = getFirestore(app);
 
-exports.handler = async function(event) {
-  const cors = {
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Headers": "Content-Type",
-    "Access-Control-Allow-Methods": "POST, OPTIONS",
-    "Content-Type": "application/json"
+const RESEND_API_KEY = process.env.RESEND_API_KEY || 're_KCF7fs3T_JxYL3yhWF9TWs2oQarMXtehY';
+
+exports.handler = async (event) => {
+  if (event.httpMethod === 'OPTIONS') {
+    return {
+      statusCode: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Methods': 'POST, OPTIONS'
+      },
+      body: ''
+    };
+  }
+
+  if (event.httpMethod !== 'POST') {
+    return { statusCode: 405, body: 'Method Not Allowed' };
+  }
+
+  const headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Content-Type': 'application/json'
   };
 
-  if (event.httpMethod === "OPTIONS") return { statusCode: 200, headers: cors, body: "" };
-  if (event.httpMethod !== "POST") return { statusCode: 405, headers: cors, body: JSON.stringify({ error: "Method not allowed" }) };
+  let body;
+  try {
+    body = JSON.parse(event.body);
+  } catch {
+    return { statusCode: 400, headers, body: JSON.stringify({ error: 'JSON inválido' }) };
+  }
+
+  const { nome, email, especialidade, temas } = body;
+
+  if (!nome || !email || !especialidade || !temas || !temas.length) {
+    return { statusCode: 400, headers, body: JSON.stringify({ error: 'Campos obrigatórios faltando' }) };
+  }
+
+  // Validate email format
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return { statusCode: 400, headers, body: JSON.stringify({ error: 'Email inválido' }) };
+  }
 
   try {
-    const { name, email, especialidade, temas } = JSON.parse(event.body || "{}");
-    if (!name || !email || !especialidade) {
-      return { statusCode: 400, headers: cors, body: JSON.stringify({ error: "Campos obrigatorios: name, email, especialidade" }) };
+    // Check if email already exists
+    const existing = query(collection(db, 'cadastros'), where('email', '==', email));
+    const existingSnap = await getDocs(existing);
+
+    if (!existingSnap.empty) {
+      const existingData = existingSnap.docs[0].data();
+      if (existingData.ativo === false) {
+        return { statusCode: 409, headers, body: JSON.stringify({ error: 'reativacao', message: 'Este email estava cancelado. Por favor entre em contato para reativar.' }) };
+      }
+      return { statusCode: 409, headers, body: JSON.stringify({ error: 'duplicado', message: 'Este email já está cadastrado!' }) };
     }
 
-    const projectId = process.env.FIREBASE_PROJECT_ID || "orthoradar";
-    const apiKey = process.env.FIREBASE_API_KEY;
+    // Generate verification token
+    const verifyToken = Math.random().toString(36).substring(2) + Date.now().toString(36);
 
-    // Firestore document fields
-    const temasStr = Array.isArray(temas) ? temas.join(", ") : (temas || "");
-    function fsVal(val) {
-      if (typeof val === "boolean") return { booleanValue: val };
-      return { stringValue: String(val) };
-    }
-    const fields = {
-      nome: fsVal(name),
-      email: fsVal(email),
-      especialidade: fsVal(especialidade),
-      temas: fsVal(temasStr),
-      dataCadastro: fsVal(new Date().toISOString()),
-      ativo: fsVal(true)
+    // Save to Firestore
+    const docRef = await addDoc(collection(db, 'cadastros'), {
+      nome,
+      email,
+      especialidade,
+      temas,
+      ativo: false, // inactive until email verified
+      verificado: false,
+      verifyToken,
+      criadoEm: new Date().toISOString(),
+      ultimoArtigo: null
+    });
+
+    console.log('Cadastro criado:', docRef.id, email);
+
+    // Send verification email
+    const verifyUrl = `https://odontofeed.com/.netlify/functions/verify?email=${encodeURIComponent(email)}&token=${verifyToken}`;
+    const unsubscribeUrl = `https://odontofeed.com/.netlify/functions/unsubscribe?email=${encodeURIComponent(email)}`;
+
+    const temasLista = temas.slice(0, 5).map(t => `<li style="margin-bottom:6px;">✓ ${t}</li>`).join('');
+    const maisText = temas.length > 5 ? `<li style="color:rgba(255,255,255,0.4);">+ ${temas.length - 5} mais...</li>` : '';
+
+    const emailHtml = `<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Confirme seu email – OdontoFeed</title>
+</head>
+<body style="margin:0;padding:0;background:#0a0a1a;font-family:'Segoe UI',Arial,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#0a0a1a;padding:40px 16px;">
+    <tr><td align="center">
+      <table width="600" cellpadding="0" cellspacing="0" style="background:linear-gradient(135deg,#0d1a2e,#0a0f1e);border:1px solid rgba(0,212,255,0.15);border-radius:20px;overflow:hidden;max-width:600px;width:100%;">
+        <!-- Header -->
+        <tr>
+          <td style="background:linear-gradient(135deg,#001a2e,#002a40);padding:32px 40px;text-align:center;border-bottom:1px solid rgba(0,212,255,0.1);">
+            <div style="font-size:32px;font-weight:900;color:#00d4ff;letter-spacing:-1px;">Odonto<span style="color:#fff;">Feed</span></div>
+            <div style="color:rgba(255,255,255,0.5);font-size:13px;margin-top:4px;">Ciência odontológica direto para você</div>
+          </td>
+        </tr>
+        <!-- Body -->
+        <tr>
+          <td style="padding:40px;">
+            <div style="font-size:42px;text-align:center;margin-bottom:16px;">✉️</div>
+            <h1 style="color:#fff;font-size:22px;font-weight:700;text-align:center;margin:0 0 8px;">Confirme seu email</h1>
+            <p style="color:rgba(255,255,255,0.6);text-align:center;margin:0 0 32px;line-height:1.6;">Olá, <strong style="color:#fff;">${nome}</strong>! Clique no botão abaixo para ativar sua conta e começar a receber artigos científicos diários.</p>
+
+            <!-- Verify Button -->
+            <div style="text-align:center;margin-bottom:32px;">
+              <a href="${verifyUrl}" style="display:inline-block;background:linear-gradient(135deg,#00d4ff,#0099cc);color:#000;font-weight:800;font-size:16px;padding:16px 40px;border-radius:100px;text-decoration:none;letter-spacing:0.3px;">
+                ✓ Confirmar meu email
+              </a>
+            </div>
+
+            <!-- Preferences Summary -->
+            <div style="background:rgba(0,212,255,0.05);border:1px solid rgba(0,212,255,0.15);border-radius:12px;padding:20px;margin-bottom:24px;">
+              <div style="color:#00d4ff;font-weight:700;font-size:14px;margin-bottom:12px;text-transform:uppercase;letter-spacing:0.5px;">Suas preferências</div>
+              <div style="color:rgba(255,255,255,0.5);font-size:13px;margin-bottom:8px;">Especialidade:</div>
+              <div style="color:#fff;font-weight:600;font-size:15px;margin-bottom:16px;">${especialidade}</div>
+              <div style="color:rgba(255,255,255,0.5);font-size:13px;margin-bottom:8px;">Temas selecionados:</div>
+              <ul style="color:rgba(255,255,255,0.8);font-size:14px;padding-left:4px;list-style:none;margin:0;">
+                ${temasLista}${maisText}
+              </ul>
+            </div>
+
+            <div style="background:rgba(255,200,0,0.05);border:1px solid rgba(255,200,0,0.15);border-radius:12px;padding:16px;margin-bottom:24px;">
+              <p style="color:rgba(255,200,0,0.9);font-size:13px;margin:0;line-height:1.5;">⏰ <strong>O link de confirmação expira em 48 horas.</strong> Se você não se cadastrou no OdontoFeed, ignore este email.</p>
+            </div>
+
+            <p style="color:rgba(255,255,255,0.4);font-size:12px;text-align:center;line-height:1.6;">
+              Se o botão não funcionar, copie e cole este link no navegador:<br/>
+              <span style="color:#00d4ff;word-break:break-all;">${verifyUrl}</span>
+            </p>
+          </td>
+        </tr>
+        <!-- Footer -->
+        <tr>
+          <td style="padding:20px 40px 32px;border-top:1px solid rgba(255,255,255,0.05);">
+            <p style="color:rgba(255,255,255,0.3);font-size:12px;text-align:center;margin:0;line-height:1.6;">
+              OdontoFeed · Artigos científicos para dentistas<br/>
+              <a href="${unsubscribeUrl}" style="color:rgba(255,255,255,0.3);">Cancelar inscrição</a>
+            </p>
+          </td>
+        </tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`;
+
+    // Send via Resend
+    await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${RESEND_API_KEY}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        from: 'OdontoFeed <artigos@odontofeed.com>',
+        to: [email],
+        subject: '✉️ Confirme seu email para ativar o OdontoFeed',
+        html: emailHtml
+      })
+    });
+
+    return {
+      statusCode: 200,
+      headers,
+      body: JSON.stringify({ 
+        success: true, 
+        message: 'Cadastro realizado! Verifique seu email para ativar a conta.',
+        id: docRef.id 
+      })
     };
 
-    const docId = email.replace(/[^a-zA-Z0-9]/g, "_") + "_" + Date.now();
-    const fsBody = JSON.stringify({ fields });
-    const path = "/v1/projects/" + projectId + "/databases/(default)/documents/cadastros?documentId=" + docId + (apiKey ? "&key=" + apiKey : "");
-
-    const fsResult = await httpsRequest({
-      hostname: "firestore.googleapis.com",
-      path,
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Content-Length": Buffer.byteLength(fsBody)
-      }
-    }, fsBody);
-
-    console.log("Firestore response:", fsResult.status, fsResult.body.substring(0, 200));
-
-    // Send welcome email via Resend
-    const resendKey = process.env.RESEND_API_KEY;
-    if (resendKey) {
-      const temasHtml = Array.isArray(temas) ? temas.map(t => '<span style="display:inline-block;background:rgba(14,165,233,0.15);color:#0ea5e9;padding:4px 12px;border-radius:999px;font-size:0.82rem;margin:3px;">' + t + '</span>').join("") : temasStr;
-      const emailHtml = '<div style="font-family:Inter,sans-serif;max-width:600px;margin:0 auto;background:#0b1120;color:#f1f5f9;padding:40px;border-radius:16px;">' +
-        '<div style="margin-bottom:24px;"><span style="background:linear-gradient(135deg,#0ea5e9,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:1.5rem;font-weight:800;">OdontoFeed</span></div>' +
-        '<h1 style="font-size:1.6rem;font-weight:800;margin-bottom:8px;">Bem-vindo, ' + name.split(" ")[0] + '!</h1>' +
-        '<p style="color:#94a3b8;margin-bottom:28px;">Seu cadastro foi realizado com sucesso. A partir de amanha voce comecara a receber artigos cientificos diretamente no seu email.</p>' +
-        '<div style="background:#1e2d45;border:1px solid #2a3f5f;border-radius:12px;padding:24px;margin-bottom:24px;">' +
-        '<p style="margin:0 0 6px;font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#94a3b8;">Sua especialidade</p>' +
-        '<p style="color:#0ea5e9;font-size:1.1rem;font-weight:700;margin:0 0 16px;">' + especialidade + '</p>' +
-        '<p style="margin:0 0 10px;font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#94a3b8;">Temas selecionados</p>' +
-        '<div>' + temasHtml + '</div></div>' +
-        '<p style="color:#94a3b8;font-size:0.9rem;line-height:1.7;">Todo dia voce recebera 1 artigo curado do PubMed com resumo detalhado em portugues, objetivos, metodologia e aplicacao clinica pratica.</p>' +
-        '<div style="margin-top:32px;padding-top:24px;border-top:1px solid #2a3f5f;"><p style="color:#475569;font-size:0.8rem;margin:0;">OdontoFeed &mdash; Ciencia odontologica direto para voce<br>Para cancelar, responda este email com "cancelar".</p></div></div>';
-
-      const emailPayload = JSON.stringify({
-        from: "OdontoFeed <artigos@odontofeed.com>",
-        to: email,
-        subject: "Bem-vindo ao OdontoFeed! Seu primeiro artigo chega amanha",
-        html: emailHtml
-      });
-
-      const emailResult = await httpsRequest({
-        hostname: "api.resend.com",
-        path: "/emails",
-        method: "POST",
-        headers: {
-          "Authorization": "Bearer " + resendKey,
-          "Content-Type": "application/json",
-          "Content-Length": Buffer.byteLength(emailPayload)
-        }
-      }, emailPayload);
-
-      console.log("Email result:", emailResult.status);
-    }
-
-    if (fsResult.status === 200 || fsResult.status === 201) {
-      return { statusCode: 200, headers: cors, body: JSON.stringify({ success: true }) };
-    } else {
-      return { statusCode: 500, headers: cors, body: JSON.stringify({ error: "Firestore error", status: fsResult.status }) };
-    }
-
   } catch (err) {
-    console.error("Error:", err.message);
-    return { statusCode: 500, headers: cors, body: JSON.stringify({ error: err.message }) };
+    console.error('Register error:', err);
+    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Erro interno: ' + err.message }) };
   }
 };
