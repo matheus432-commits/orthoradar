@@ -1,28 +1,56 @@
-const { initializeApp, getApps } = require('firebase/app');
-const { getFirestore, collection, query, where, getDocs } = require('firebase/firestore');
+const https = require('https');
 
-const firebaseConfig = {
-  apiKey: process.env.FIREBASE_API_KEY,
-  authDomain: "orthoradar.firebaseapp.com",
-  projectId: "orthoradar",
-  storageBucket: "orthoradar.appspot.com",
-  messagingSenderId: "1234567890",
-  appId: "1:1234567890:web:abcdef"
-};
+// HTTP helper
+function request(options, body) {
+  return new Promise((resolve, reject) => {
+    const req = https.request(options, (res) => {
+      let data = '';
+      res.on('data', c => data += c);
+      res.on('end', () => resolve({ status: res.statusCode, body: data }));
+    });
+    req.on('error', reject);
+    if (body) req.write(body);
+    req.end();
+  });
+}
 
-let app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
-const db = getFirestore(app);
+// Firestore: query collection by field value
+async function queryByField(projectId, apiKey, collectionId, field, value, limit) {
+  const body = JSON.stringify({
+    structuredQuery: {
+      from: [{ collectionId }],
+      where: { fieldFilter: { field: { fieldPath: field }, op: 'EQUAL', value: { stringValue: value } } },
+      limit: limit || 200
+    }
+  });
+  const buf = Buffer.from(body, 'utf8');
+  const res = await request({
+    hostname: 'firestore.googleapis.com',
+    path: '/v1/projects/' + projectId + '/databases/(default)/documents:runQuery?key=' + apiKey,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Content-Length': buf.length }
+  }, buf);
+  if (res.status !== 200) return [];
+  const docs = JSON.parse(res.body);
+  return docs.filter(d => d.document).map(d => {
+    const f = d.document.fields || {};
+    const out = { _id: d.document.name.split('/').pop() };
+    for (const [k, v] of Object.entries(f)) {
+      if (v.stringValue !== undefined) out[k] = v.stringValue;
+      else if (v.booleanValue !== undefined) out[k] = v.booleanValue;
+      else if (v.integerValue !== undefined) out[k] = parseInt(v.integerValue);
+      else if (v.arrayValue !== undefined) out[k] = (v.arrayValue.values || []).map(i => i.stringValue || i.integerValue || i.booleanValue || '');
+      else out[k] = '';
+    }
+    return out;
+  });
+}
 
 exports.handler = async (event) => {
-  const headers = {
-    'Access-Control-Allow-Origin': '*',
-    'Content-Type': 'application/json'
-  };
-
+  const headers = { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' };
   if (event.httpMethod === 'OPTIONS') {
     return { statusCode: 200, headers: { ...headers, 'Access-Control-Allow-Headers': 'Content-Type, Authorization', 'Access-Control-Allow-Methods': 'GET, OPTIONS' }, body: '' };
   }
-
   if (event.httpMethod !== 'GET') {
     return { statusCode: 405, headers, body: JSON.stringify({ error: 'Method Not Allowed' }) };
   }
@@ -32,55 +60,45 @@ exports.handler = async (event) => {
   const token = authHeader && authHeader.startsWith('Bearer ') ? authHeader.substring(7) : null;
 
   if (!email || !token) {
-    return { statusCode: 401, headers, body: JSON.stringify({ error: 'Email e token obrigatórios' }) };
+    return { statusCode: 401, headers, body: JSON.stringify({ error: 'Email e token obrigatorios' }) };
   }
 
+  const projectId = process.env.FIREBASE_PROJECT_ID || 'orthoradar';
+  const apiKey = process.env.FIREBASE_API_KEY;
+
   try {
-    // Find user and validate token
-    const q = query(collection(db, 'cadastros'), where('email', '==', email));
-    const snap = await getDocs(q);
-
-    if (snap.empty) {
-      return { statusCode: 404, headers, body: JSON.stringify({ error: 'Usuário não encontrado' }) };
+    // Find user by email
+    const users = await queryByField(projectId, apiKey, 'cadastros', 'email', email, 1);
+    if (!users.length) {
+      return { statusCode: 404, headers, body: JSON.stringify({ error: 'Usuario nao encontrado' }) };
     }
-
-    const userDoc = snap.docs[0];
-    const userData = userDoc.data();
+    const user = users[0];
 
     // Validate magic token
-    if (userData.magicToken !== token) {
-      return { statusCode: 401, headers, body: JSON.stringify({ error: 'Token inválido' }) };
+    if (user.magicToken !== token) {
+      return { statusCode: 401, headers, body: JSON.stringify({ error: 'Token invalido' }) };
     }
-
-    // Check token expiry
-    if (userData.magicTokenExpiry && new Date(userData.magicTokenExpiry) < new Date()) {
-      return { statusCode: 401, headers, body: JSON.stringify({ error: 'Token expirado. Solicite um novo link de acesso.' }) };
+    if (user.magicTokenExpiry && new Date(user.magicTokenExpiry) < new Date()) {
+      return { statusCode: 401, headers, body: JSON.stringify({ error: 'Sessao expirada. Solicite um novo link.' }) };
     }
 
     // Get articles sent to this user
     let artigos = [];
     try {
-      const artigosQ = query(collection(db, 'artigos_enviados'), where('email', '==', email));
-      const artigosSnap = await getDocs(artigosQ);
-      artigos = artigosSnap.docs.map(d => ({ id: d.id, ...d.data() }));
-      // Sort by date descending
+      artigos = await queryByField(projectId, apiKey, 'artigos_enviados', 'email', email, 200);
       artigos.sort((a, b) => new Date(b.data || 0) - new Date(a.data || 0));
     } catch(e) {
       console.warn('Could not fetch artigos:', e.message);
     }
 
-    // Get friends (users with same especialidade, excluding self, limited to 20)
+    // Get friends (users with same especialidade)
     let amigos = [];
     try {
-      const amigosQ = query(collection(db, 'cadastros'), where('especialidade', '==', userData.especialidade), where('verificado', '==', true));
-      const amigosSnap = await getDocs(amigosQ);
-      amigos = amigosSnap.docs
-        .filter(d => d.data().email !== email)
+      const allSameSpec = await queryByField(projectId, apiKey, 'cadastros', 'especialidade', user.especialidade || '', 50);
+      amigos = allSameSpec
+        .filter(u => u.email !== email && u.verificado === true)
         .slice(0, 20)
-        .map(d => {
-          const d2 = d.data();
-          return { nome: d2.nome, email: d2.email, especialidade: d2.especialidade };
-        });
+        .map(u => ({ nome: u.nome || '', email: u.email || '', especialidade: u.especialidade || '' }));
     } catch(e) {
       console.warn('Could not fetch amigos:', e.message);
     }
@@ -89,17 +107,16 @@ exports.handler = async (event) => {
       statusCode: 200,
       headers,
       body: JSON.stringify({
-        nome: userData.nome,
-        email: userData.email,
-        especialidade: userData.especialidade,
-        temas: userData.temas || [],
-        criadoEm: userData.criadoEm,
+        nome: user.nome || '',
+        email: user.email || '',
+        especialidade: user.especialidade || '',
+        temas: user.temas || '',
+        criadoEm: user.criadoEm || '',
         artigos,
-        curtidos: userData.curtidos || [],
+        curtidos: user.curtidos || [],
         amigos
       })
     };
-
   } catch(err) {
     console.error('Get user data error:', err);
     return { statusCode: 500, headers, body: JSON.stringify({ error: 'Erro interno: ' + err.message }) };
