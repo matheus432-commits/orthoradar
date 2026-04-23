@@ -1,388 +1,487 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Minha Conta – OdontoFeed</title>
-  <link rel="icon" href="/icons/icon-96.png"/>
-  <style>
-    *{margin:0;padding:0;box-sizing:border-box;}
-    body{background:#0a0a1a;color:#fff;font-family:'Segoe UI',Arial,sans-serif;min-height:100vh;}
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Minha Conta – OdontoFeed</title>
+<link rel="icon" href="/icons/icon-96.png"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --primary:#0ea5e9;--accent:#06b6d4;--success:#10b981;--danger:#ef4444;--warn:#f59e0b;
+  --bg:#0b1120;--bg2:#111827;--bg3:#1a2336;--card:#1e2d45;--border:#2a3f5f;
+  --text:#f1f5f9;--muted:#94a3b8;--radius:14px;
+}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;}
 
-    /* NAV */
-    nav{display:flex;align-items:center;justify-content:space-between;padding:16px 32px;border-bottom:1px solid rgba(255,255,255,0.08);position:sticky;top:0;background:#0a0a1a;z-index:100;}
-    .logo{font-size:22px;font-weight:900;color:#00d4ff;text-decoration:none;}
-    .logo span{color:#fff;}
-    nav a.btn-nav{background:linear-gradient(135deg,#00d4ff,#0099cc);color:#000;padding:8px 20px;border-radius:8px;font-weight:700;font-size:14px;text-decoration:none;}
+/* NAV */
+nav{display:flex;align-items:center;justify-content:space-between;padding:16px 32px;border-bottom:1px solid rgba(255,255,255,0.07);position:sticky;top:0;background:rgba(11,17,32,0.95);backdrop-filter:blur(16px);z-index:100;}
+.logo{font-size:1.35rem;font-weight:800;background:linear-gradient(135deg,var(--primary),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none;}
+.btn-nav{background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;padding:8px 20px;border-radius:9px;font-weight:700;font-size:13px;text-decoration:none;border:none;cursor:pointer;font-family:inherit;}
 
-    /* LOGIN PAGE */
-    #loginPage{display:flex;align-items:center;justify-content:center;min-height:calc(100vh - 65px);padding:32px 16px;}
-    .login-card{background:linear-gradient(135deg,#0d1a2e,#0a1628);border:1px solid rgba(0,212,255,0.2);border-radius:20px;padding:48px 40px;max-width:440px;width:100%;text-align:center;}
-    .login-card h1{font-size:26px;font-weight:800;margin-bottom:8px;}
-    .login-card p{color:rgba(255,255,255,0.6);margin-bottom:32px;line-height:1.6;}
-    .login-card input{width:100%;background:rgba(255,255,255,0.07);border:1px solid rgba(0,212,255,0.25);border-radius:10px;padding:14px 16px;color:#fff;font-size:16px;outline:none;margin-bottom:16px;transition:border 0.2s;}
-    .login-card input:focus{border-color:#00d4ff;}
-    .login-card input::placeholder{color:rgba(255,255,255,0.35);}
-    .btn-primary{width:100%;background:linear-gradient(135deg,#00d4ff,#0099cc);color:#000;border:none;border-radius:10px;padding:14px;font-size:16px;font-weight:700;cursor:pointer;transition:opacity 0.2s;}
-    .btn-primary:hover{opacity:0.9;}
-    .btn-primary:disabled{opacity:0.5;cursor:not-allowed;}
-    .login-msg{margin-top:16px;font-size:14px;color:rgba(255,255,255,0.6);line-height:1.6;}
-    .login-msg.success{color:#00d4ff;}
-    .login-msg.error{color:#ff6b6b;}
+/* ========== LOGIN PAGE ========== */
+#loginPage{display:flex;align-items:center;justify-content:center;min-height:calc(100vh - 65px);padding:32px 16px;background:radial-gradient(ellipse 70% 60% at 50% 30%,rgba(14,165,233,0.08) 0%,transparent 70%);}
+.login-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:48px 40px;max-width:440px;width:100%;text-align:center;}
+.login-icon{width:72px;height:72px;background:linear-gradient(135deg,rgba(14,165,233,0.15),rgba(6,182,212,0.1));border:1px solid rgba(14,165,233,0.3);border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 24px;}
+.login-card h1{font-size:24px;font-weight:800;margin-bottom:10px;letter-spacing:-0.5px;}
+.login-card>p{color:var(--muted);margin-bottom:32px;line-height:1.65;font-size:15px;}
+.login-card input{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px 16px;color:var(--text);font-size:15px;font-family:inherit;outline:none;margin-bottom:16px;transition:border 0.2s;}
+.login-card input:focus{border-color:var(--primary);}
+.login-card input::placeholder{color:#475569;}
+.btn-primary{width:100%;background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;border:none;border-radius:10px;padding:14px;font-size:15px;font-weight:700;cursor:pointer;transition:opacity 0.2s,transform 0.15s;font-family:inherit;}
+.btn-primary:hover{opacity:0.9;transform:translateY(-1px);}
+.btn-primary:disabled{opacity:0.5;cursor:not-allowed;transform:none;}
+.login-msg{margin-top:16px;font-size:14px;color:var(--muted);line-height:1.6;}
+.login-msg.success{color:var(--success);}
+.login-msg.error{color:var(--danger);}
+.login-divider{margin:24px 0;text-align:center;font-size:13px;color:var(--muted);}
 
-    /* DASHBOARD */
-    #dashboardPage{display:none;padding:32px;}
-    .dash-header{display:flex;align-items:center;gap:16px;margin-bottom:32px;}
-    .avatar{width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#00d4ff,#0099cc);display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;color:#000;flex-shrink:0;}
-    .dash-header-info h2{font-size:20px;font-weight:700;}
-    .dash-header-info p{color:rgba(255,255,255,0.5);font-size:14px;margin-top:2px;}
-    .badge{display:inline-block;background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.3);color:#00d4ff;font-size:12px;padding:3px 10px;border-radius:20px;margin-top:6px;}
+/* ========== DASHBOARD PAGE ========== */
+#dashboardPage{display:none;padding:28px 32px;max-width:1100px;margin:0 auto;}
 
-    /* TABS */
-    .tabs{display:flex;gap:4px;margin-bottom:28px;background:rgba(255,255,255,0.04);padding:4px;border-radius:12px;width:fit-content;}
-    .tab-btn{background:none;border:none;color:rgba(255,255,255,0.5);padding:10px 20px;border-radius:9px;cursor:pointer;font-size:14px;font-weight:600;transition:all 0.2s;}
-    .tab-btn.active{background:rgba(0,212,255,0.15);color:#00d4ff;}
-    .tab-btn:hover:not(.active){color:#fff;background:rgba(255,255,255,0.06);}
+/* PROFILE HEADER */
+.profile-header{background:linear-gradient(135deg,var(--card),var(--bg3));border:1px solid var(--border);border-radius:20px;padding:28px 32px;margin-bottom:24px;display:flex;align-items:center;gap:24px;}
+.avatar-wrap{position:relative;flex-shrink:0;}
+.avatar{width:68px;height:68px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--accent));display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:800;color:#fff;}
+.avatar-ring{position:absolute;inset:-3px;border-radius:50%;border:2px solid var(--primary);opacity:0.5;}
+.profile-info{flex:1;}
+.profile-info h2{font-size:20px;font-weight:800;letter-spacing:-0.3px;margin-bottom:4px;}
+.profile-info .email-txt{font-size:13px;color:var(--muted);margin-bottom:8px;}
+.badges-row{display:flex;gap:8px;flex-wrap:wrap;}
+.badge{display:inline-flex;align-items:center;gap:5px;background:rgba(14,165,233,0.1);border:1px solid rgba(14,165,233,0.25);color:var(--primary);font-size:12px;font-weight:600;padding:4px 12px;border-radius:20px;}
+.badge.green{background:rgba(16,185,129,0.1);border-color:rgba(16,185,129,0.25);color:var(--success);}
+.btn-logout{background:none;border:1px solid rgba(255,255,255,0.12);color:var(--muted);padding:8px 16px;border-radius:8px;cursor:pointer;font-size:13px;font-family:inherit;transition:all 0.2s;margin-left:auto;flex-shrink:0;}
+.btn-logout:hover{border-color:var(--danger);color:var(--danger);}
 
-    /* TAB CONTENT */
-    .tab-content{display:none;}
-    .tab-content.active{display:block;}
+/* STATS STRIP */
+.stats-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px;}
+.stat-tile{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px 20px;text-align:center;transition:border-color 0.2s;}
+.stat-tile:hover{border-color:rgba(14,165,233,0.3);}
+.stat-num{font-size:28px;font-weight:800;background:linear-gradient(135deg,var(--primary),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.stat-label{font-size:12px;color:var(--muted);margin-top:4px;font-weight:500;}
 
-    /* ARTICLE CARDS */
-    .articles-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;}
-    .article-card{background:linear-gradient(135deg,#0d1a2e,#0a1628);border:1px solid rgba(0,212,255,0.12);border-radius:14px;padding:20px;transition:border-color 0.2s;}
-    .article-card:hover{border-color:rgba(0,212,255,0.3);}
-    .article-card .tag{font-size:11px;color:#00d4ff;text-transform:uppercase;font-weight:700;letter-spacing:0.5px;margin-bottom:8px;}
-    .article-card h3{font-size:15px;font-weight:700;line-height:1.5;margin-bottom:8px;color:#fff;}
-    .article-card .summary{font-size:13px;color:rgba(255,255,255,0.55);line-height:1.6;margin-bottom:14px;}
-    .article-card .meta{display:flex;align-items:center;justify-content:space-between;font-size:12px;color:rgba(255,255,255,0.35);}
-    .article-card .actions{display:flex;gap:8px;margin-top:12px;}
-    .btn-like{background:none;border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.5);padding:6px 12px;border-radius:6px;cursor:pointer;font-size:13px;transition:all 0.2s;}
-    .btn-like:hover,.btn-like.liked{background:rgba(255,100,100,0.1);border-color:#ff6b6b;color:#ff6b6b;}
-    .btn-pubmed{background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.2);color:#00d4ff;padding:6px 12px;border-radius:6px;cursor:pointer;font-size:13px;text-decoration:none;transition:all 0.2s;}
-    .btn-pubmed:hover{background:rgba(0,212,255,0.15);}
+/* TABS */
+.tabs-wrap{display:flex;gap:4px;background:var(--card);border:1px solid var(--border);padding:5px;border-radius:14px;width:fit-content;margin-bottom:24px;}
+.tab-btn{background:none;border:none;color:var(--muted);padding:10px 22px;border-radius:10px;cursor:pointer;font-size:14px;font-weight:600;transition:all 0.2s;display:flex;align-items:center;gap:7px;font-family:inherit;}
+.tab-btn.active{background:linear-gradient(135deg,rgba(14,165,233,0.2),rgba(6,182,212,0.15));color:var(--primary);border:1px solid rgba(14,165,233,0.25);}
+.tab-btn:hover:not(.active){color:var(--text);background:rgba(255,255,255,0.05);}
+.tab-badge{background:var(--primary);color:#fff;font-size:10px;font-weight:700;padding:2px 6px;border-radius:10px;min-width:18px;text-align:center;}
 
-    /* FRIENDS */
-    .friends-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;}
-    .friend-card{background:linear-gradient(135deg,#0d1a2e,#0a1628);border:1px solid rgba(0,212,255,0.12);border-radius:14px;padding:20px;display:flex;align-items:center;gap:16px;}
-    .friend-avatar{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#00d4ff,#0099cc);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:#000;flex-shrink:0;}
-    .friend-info h4{font-size:15px;font-weight:700;}
-    .friend-info p{font-size:13px;color:rgba(255,255,255,0.5);margin-top:2px;}
-    .friend-info .spec{font-size:12px;color:#00d4ff;margin-top:4px;}
+/* TAB CONTENT */
+.tab-content{display:none;}
+.tab-content.active{display:block;}
+.section-title{font-size:17px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+.section-title span{color:var(--muted);font-size:14px;font-weight:500;}
 
-    /* EMPTY STATE */
-    .empty{text-align:center;padding:60px 32px;color:rgba(255,255,255,0.4);}
-    .empty .icon{font-size:48px;margin-bottom:16px;}
-    .empty p{font-size:15px;line-height:1.6;}
+/* ARTICLE CARDS */
+.articles-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;}
+.article-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px;transition:all 0.25s;display:flex;flex-direction:column;}
+.article-card:hover{border-color:rgba(14,165,233,0.3);transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,0,0,0.3);}
+.article-meta-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.article-tag{font-size:11px;color:var(--primary);text-transform:uppercase;font-weight:700;letter-spacing:0.6px;background:rgba(14,165,233,0.1);padding:3px 9px;border-radius:6px;}
+.article-date{font-size:11px;color:var(--muted);}
+.article-card h3{font-size:15px;font-weight:700;line-height:1.5;margin-bottom:10px;color:var(--text);}
+.article-summary{font-size:13px;color:var(--muted);line-height:1.65;margin-bottom:16px;flex:1;}
+.article-actions{display:flex;gap:8px;margin-top:auto;}
+.btn-like{background:none;border:1px solid rgba(255,255,255,0.12);color:var(--muted);padding:7px 14px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;transition:all 0.2s;font-family:inherit;}
+.btn-like:hover{border-color:#f87171;color:#f87171;}
+.btn-like.liked{background:rgba(239,68,68,0.1);border-color:#ef4444;color:#ef4444;}
+.btn-pubmed{background:rgba(14,165,233,0.08);border:1px solid rgba(14,165,233,0.2);color:var(--primary);padding:7px 14px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;text-decoration:none;transition:all 0.2s;font-family:inherit;}
+.btn-pubmed:hover{background:rgba(14,165,233,0.15);}
 
-    /* STATS */
-    .stats-row{display:flex;gap:16px;margin-bottom:28px;flex-wrap:wrap;}
-    .stat-card{background:linear-gradient(135deg,#0d1a2e,#0a1628);border:1px solid rgba(0,212,255,0.12);border-radius:12px;padding:16px 24px;flex:1;min-width:140px;}
-    .stat-card .num{font-size:28px;font-weight:800;color:#00d4ff;}
-    .stat-card .label{font-size:13px;color:rgba(255,255,255,0.5);margin-top:4px;}
+/* SKELETON LOADING */
+.skeleton-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;}
+.skeleton-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px;}
+.skel{background:linear-gradient(90deg,var(--bg3) 25%,var(--border) 50%,var(--bg3) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:6px;}
+.skel-tag{height:20px;width:90px;margin-bottom:12px;}
+.skel-title{height:16px;width:100%;margin-bottom:8px;}
+.skel-title2{height:16px;width:75%;margin-bottom:14px;}
+.skel-line{height:13px;width:100%;margin-bottom:7px;}
+.skel-line-short{height:13px;width:60%;margin-bottom:18px;}
+.skel-actions{display:flex;gap:8px;margin-top:8px;}
+.skel-btn{height:32px;flex:1;border-radius:8px;}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
 
-    /* SECTION TITLE */
-    .section-title{font-size:18px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+/* EMPTY STATE */
+.empty-state{text-align:center;padding:72px 32px;}
+.empty-icon{width:80px;height:80px;background:var(--card);border:1px solid var(--border);border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto 20px;}
+.empty-state h3{font-size:18px;font-weight:700;margin-bottom:8px;}
+.empty-state p{font-size:14px;color:var(--muted);line-height:1.7;max-width:360px;margin:0 auto;}
 
-    /* LOGOUT BTN */
-    .btn-logout{background:none;border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.5);padding:8px 16px;border-radius:8px;cursor:pointer;font-size:13px;transition:all 0.2s;}
-    .btn-logout:hover{border-color:#ff6b6b;color:#ff6b6b;}
+/* FRIENDS */
+.friends-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;}
+.friend-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;display:flex;align-items:center;gap:14px;transition:all 0.2s;}
+.friend-card:hover{border-color:rgba(14,165,233,0.3);transform:translateY(-1px);}
+.friend-avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--accent));display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:800;color:#fff;flex-shrink:0;}
+.friend-name{font-size:14px;font-weight:700;margin-bottom:2px;}
+.friend-email{font-size:12px;color:var(--muted);}
+.friend-spec{font-size:11px;color:var(--primary);font-weight:600;margin-top:4px;}
 
-    /* LOADING */
-    .loading{text-align:center;padding:60px;color:rgba(255,255,255,0.4);font-size:15px;}
-    .spinner{display:inline-block;width:32px;height:32px;border:3px solid rgba(0,212,255,0.2);border-top-color:#00d4ff;border-radius:50%;animation:spin 0.8s linear infinite;margin-bottom:12px;}
-    @keyframes spin{to{transform:rotate(360deg);}}
+/* INVITE SECTION */
+.invite-card{background:linear-gradient(135deg,rgba(14,165,233,0.08),rgba(6,182,212,0.05));border:1px solid rgba(14,165,233,0.2);border-radius:16px;padding:24px 28px;margin-bottom:20px;display:flex;align-items:center;gap:20px;}
+.invite-icon{font-size:32px;flex-shrink:0;}
+.invite-text h4{font-size:16px;font-weight:700;margin-bottom:4px;}
+.invite-text p{font-size:13px;color:var(--muted);}
 
-    @media(max-width:600px){
-      #dashboardPage{padding:20px 16px;}
-      .tabs{width:100%;}
-      .tab-btn{flex:1;text-align:center;}
-      nav{padding:14px 16px;}
-    }
-  </style>
+/* RESPONSIVE */
+@media(max-width:700px){
+  #dashboardPage{padding:16px;}
+  .profile-header{flex-wrap:wrap;gap:16px;padding:20px;}
+  .btn-logout{margin-left:0;}
+  .stats-strip{grid-template-columns:repeat(2,1fr);}
+  .tabs-wrap{width:100%;}
+  .tab-btn{flex:1;justify-content:center;padding:9px 8px;font-size:12px;}
+  nav{padding:14px 16px;}
+}
+</style>
 </head>
 <body>
-
 <nav>
-  <a class="logo" href="/">Odonto<span>Feed</span></a>
+  <a class="logo" href="/">OdontoFeed</a>
   <div id="navRight">
-    <a class="btn-nav" href="/">Voltar ao início</a>
+    <a class="btn-nav" href="/">← Início</a>
   </div>
 </nav>
 
-<!-- LOGIN PAGE -->
+<!-- ========== LOGIN PAGE ========== -->
 <div id="loginPage">
   <div class="login-card">
-    <div style="font-size:40px;margin-bottom:16px;">🦷</div>
+    <div class="login-icon">🦷</div>
     <h1>Acessar minha conta</h1>
-    <p>Digite seu e-mail cadastrado para receber um link mágico de acesso. Sem senha!</p>
+    <p>Digite seu e-mail cadastrado e enviaremos um link mágico de acesso. Sem senha!</p>
     <input type="email" id="loginEmail" placeholder="seu@email.com" autocomplete="email"/>
     <button class="btn-primary" id="loginBtn" onclick="sendMagicLink()">Enviar link de acesso →</button>
     <div class="login-msg" id="loginMsg"></div>
-    <p style="margin-top:24px;font-size:13px;color:rgba(255,255,255,0.3);">Ainda não tem conta? <a href="/#cadastro" style="color:#00d4ff;">Cadastre-se grátis</a></p>
+    <div class="login-divider">Ainda não tem conta? <a href="/#cadastro" style="color:var(--primary);font-weight:600;">Cadastre-se grátis →</a></div>
   </div>
 </div>
 
-<!-- DASHBOARD PAGE -->
+<!-- ========== DASHBOARD PAGE ========== -->
 <div id="dashboardPage">
-  <div class="dash-header">
-    <div class="avatar" id="userAvatar">?</div>
-    <div class="dash-header-info">
-      <h2 id="userName">Carregando...</h2>
-      <p id="userEmail"></p>
-      <span class="badge" id="userSpec"></span>
+
+  <!-- PROFILE HEADER -->
+  <div class="profile-header">
+    <div class="avatar-wrap">
+      <div class="avatar" id="userAvatar">?</div>
+      <div class="avatar-ring"></div>
     </div>
-    <button class="btn-logout" onclick="logout()" style="margin-left:auto;">Sair</button>
+    <div class="profile-info">
+      <h2 id="userName">Carregando...</h2>
+      <div class="email-txt" id="userEmail"></div>
+      <div class="badges-row">
+        <span class="badge" id="userSpec"></span>
+        <span class="badge green">✓ Verificado</span>
+      </div>
+    </div>
+    <button class="btn-logout" onclick="logout()">Sair</button>
   </div>
 
-  <!-- STATS -->
-  <div class="stats-row">
-    <div class="stat-card"><div class="num" id="statRecebidos">0</div><div class="label">Artigos recebidos</div></div>
-    <div class="stat-card"><div class="num" id="statCurtidos">0</div><div class="label">Artigos curtidos</div></div>
-    <div class="stat-card"><div class="num" id="statAmigos">0</div><div class="label">Amigos na rede</div></div>
-    <div class="stat-card"><div class="num" id="statDiasCadastro">0</div><div class="label">Dias assinando</div></div>
+  <!-- STATS STRIP -->
+  <div class="stats-strip">
+    <div class="stat-tile"><div class="stat-num" id="statRecebidos">—</div><div class="stat-label">Artigos recebidos</div></div>
+    <div class="stat-tile"><div class="stat-num" id="statCurtidos">—</div><div class="stat-label">Artigos curtidos</div></div>
+    <div class="stat-tile"><div class="stat-num" id="statAmigos">—</div><div class="stat-label">Amigos na rede</div></div>
+    <div class="stat-tile"><div class="stat-num" id="statDias">—</div><div class="stat-label">Dias assinando</div></div>
   </div>
 
   <!-- TABS -->
-  <div class="tabs">
-    <button class="tab-btn active" onclick="switchTab('recebidos')">📰 Recebidos</button>
-    <button class="tab-btn" onclick="switchTab('curtidos')">❤️ Curtidos</button>
-    <button class="tab-btn" onclick="switchTab('amigos')">👥 Amigos</button>
+  <div class="tabs-wrap">
+    <button class="tab-btn active" id="tabBtn-recebidos" onclick="switchTab('recebidos',this)">
+      📰 Recebidos <span class="tab-badge" id="tbadge-recebidos">0</span>
+    </button>
+    <button class="tab-btn" id="tabBtn-curtidos" onclick="switchTab('curtidos',this)">
+      ❤️ Curtidos <span class="tab-badge" id="tbadge-curtidos">0</span>
+    </button>
+    <button class="tab-btn" id="tabBtn-amigos" onclick="switchTab('amigos',this)">
+      👥 Amigos <span class="tab-badge" id="tbadge-amigos">0</span>
+    </button>
   </div>
 
   <!-- TAB: RECEBIDOS -->
   <div class="tab-content active" id="tab-recebidos">
-    <div class="section-title">📰 Artigos Recebidos</div>
-    <div id="recebidosContent"><div class="loading"><div class="spinner"></div><br/>Carregando artigos...</div></div>
+    <div class="section-title">📰 Artigos Recebidos <span id="countRecebidos"></span></div>
+    <div id="recebidosContent"></div>
   </div>
 
   <!-- TAB: CURTIDOS -->
   <div class="tab-content" id="tab-curtidos">
-    <div class="section-title">❤️ Artigos Curtidos</div>
-    <div id="curtidosContent"><div class="loading"><div class="spinner"></div><br/>Carregando curtidos...</div></div>
+    <div class="section-title">❤️ Artigos Curtidos <span id="countCurtidos"></span></div>
+    <div id="curtidosContent"></div>
   </div>
 
   <!-- TAB: AMIGOS -->
   <div class="tab-content" id="tab-amigos">
-    <div class="section-title">👥 Sua Rede de Dentistas</div>
-    <div id="amigosContent"><div class="loading"><div class="spinner"></div><br/>Carregando amigos...</div></div>
+    <div class="section-title">👥 Sua Rede de Dentistas <span id="countAmigos"></span></div>
+    <div class="invite-card">
+      <div class="invite-icon">🔗</div>
+      <div class="invite-text">
+        <h4>Convide colegas para o OdontoFeed</h4>
+        <p>Compartilhe o link e ajude outros dentistas a se atualizarem com ciência diária.</p>
+      </div>
+    </div>
+    <div id="amigosContent"></div>
   </div>
+
 </div>
 
 <script>
-  // ========== AUTH ==========
-  let currentUser = null;
-  let userData = null;
+// ========== UTILS ==========
+let userData = null;
 
-  function getToken() { return localStorage.getItem('of_token'); }
-  function getEmail() { return localStorage.getItem('of_email'); }
-  function setSession(email, token) {
-    localStorage.setItem('of_token', token);
-    localStorage.setItem('of_email', email);
+function getToken(){ return localStorage.getItem('of_token'); }
+function getEmail(){ return localStorage.getItem('of_email'); }
+function setSession(e,t){ localStorage.setItem('of_token',t); localStorage.setItem('of_email',e); }
+
+function logout(){
+  localStorage.removeItem('of_token');
+  localStorage.removeItem('of_email');
+  document.getElementById('dashboardPage').style.display='none';
+  document.getElementById('loginPage').style.display='flex';
+  document.getElementById('loginEmail').value='';
+  const msg=document.getElementById('loginMsg');
+  msg.className='login-msg';
+  msg.textContent='Você saiu da conta.';
+}
+
+// ========== MAGIC LINK ==========
+async function sendMagicLink(){
+  const email=document.getElementById('loginEmail').value.trim();
+  const msg=document.getElementById('loginMsg');
+  const btn=document.getElementById('loginBtn');
+  if(!email||!email.includes('@')){
+    msg.className='login-msg error';
+    msg.textContent='Digite um e-mail válido.';
+    return;
   }
-  function logout() {
-    localStorage.removeItem('of_token');
-    localStorage.removeItem('of_email');
-    document.getElementById('loginPage').style.display = 'flex';
-    document.getElementById('dashboardPage').style.display = 'none';
-    document.getElementById('loginEmail').value = '';
-    document.getElementById('loginMsg').textContent = 'Você saiu da conta.';
-  }
-
-  // ========== MAGIC LINK LOGIN ==========
-  async function sendMagicLink() {
-    const email = document.getElementById('loginEmail').value.trim();
-    const msg = document.getElementById('loginMsg');
-    const btn = document.getElementById('loginBtn');
-    if (!email || !email.includes('@')) {
-      msg.className = 'login-msg error';
-      msg.textContent = 'Digite um e-mail válido.';
-      return;
-    }
-    btn.disabled = true;
-    btn.textContent = 'Enviando...';
-    msg.textContent = '';
-    try {
-      const res = await fetch('/.netlify/functions/magic-link', {
-        method: 'POST',
-        headers: {'Content-Type':'application/json'},
-        body: JSON.stringify({ email })
-      });
-      const data = await res.json();
-      if (res.ok && data.success) {
-        msg.className = 'login-msg success';
-        msg.textContent = '✓ Link enviado! Verifique sua caixa de entrada para acessar sua conta.';
-        btn.textContent = 'Link enviado ✓';
-      } else {
-        msg.className = 'login-msg error';
-        msg.textContent = data.error || 'E-mail não encontrado. Verifique ou cadastre-se.';
-        btn.disabled = false;
-        btn.textContent = 'Enviar link de acesso →';
-      }
-    } catch(e) {
-      msg.className = 'login-msg error';
-      msg.textContent = 'Erro de conexão. Tente novamente.';
-      btn.disabled = false;
-      btn.textContent = 'Enviar link de acesso →';
-    }
-  }
-
-  // ========== CHECK URL TOKEN (magic link callback) ==========
-  function checkUrlToken() {
-    const params = new URLSearchParams(window.location.search);
-    const token = params.get('token');
-    const email = params.get('email');
-    if (token && email) {
-      setSession(email, token);
-      window.history.replaceState({}, '', '/dashboard');
-      loadDashboard(email, token);
-      return true;
-    }
-    return false;
-  }
-
-  // ========== LOAD DASHBOARD ==========
-  async function loadDashboard(email, token) {
-    try {
-      const res = await fetch('/.netlify/functions/get-user-data?email=' + encodeURIComponent(email), {
-        headers: {'Authorization': 'Bearer ' + token}
-      });
-      if (!res.ok) {
-        logout();
-        return;
-      }
-      const data = await res.json();
-      userData = data;
-      showDashboard(data);
-    } catch(e) {
-      logout();
-    }
-  }
-
-  function showDashboard(data) {
-    document.getElementById('loginPage').style.display = 'none';
-    document.getElementById('dashboardPage').style.display = 'block';
-    const name = data.nome || 'Dentista';
-    document.getElementById('userName').textContent = name;
-    document.getElementById('userEmail').textContent = data.email || '';
-    document.getElementById('userAvatar').textContent = name.charAt(0).toUpperCase();
-    document.getElementById('userSpec').textContent = '🦷 ' + (data.especialidade || '');
-
-    // Stats
-    const artigos = data.artigos || [];
-    const curtidos = data.curtidos || [];
-    const amigos = data.amigos || [];
-    const diasCadastro = data.criadoEm ? Math.floor((Date.now() - new Date(data.criadoEm).getTime()) / 86400000) : 0;
-    document.getElementById('statRecebidos').textContent = artigos.length;
-    document.getElementById('statCurtidos').textContent = curtidos.length;
-    document.getElementById('statAmigos').textContent = amigos.length;
-    document.getElementById('statDiasCadastro').textContent = diasCadastro;
-
-    renderRecebidos(artigos, curtidos);
-    renderCurtidos(artigos, curtidos);
-    renderAmigos(amigos);
-  }
-
-  // ========== RENDER ARTICLES ==========
-  function articleCard(art, curtidos) {
-    const isCurtido = curtidos.includes(art.id);
-    return `<div class="article-card">
-      <div class="tag">${art.especialidade || ''} · ${art.tema || ''}</div>
-      <h3>${art.titulo || 'Sem título'}</h3>
-      <div class="summary">${art.resumo ? art.resumo.substring(0,180) + '...' : ''}</div>
-      <div class="meta"><span>📅 ${art.data ? new Date(art.data).toLocaleDateString('pt-BR') : ''}</span></div>
-      <div class="actions">
-        <button class="btn-like ${isCurtido ? 'liked' : ''}" onclick="toggleLike('${art.id}', this)">
-          ${isCurtido ? '❤️ Curtido' : '🤍 Curtir'}
-        </button>
-        ${art.pubmedUrl ? `<a class="btn-pubmed" href="${art.pubmedUrl}" target="_blank">Ver no PubMed ↗</a>` : ''}
-      </div>
-    </div>`;
-  }
-
-  function renderRecebidos(artigos, curtidos) {
-    const el = document.getElementById('recebidosContent');
-    if (!artigos.length) {
-      el.innerHTML = `<div class="empty"><div class="icon">📬</div><p>Você ainda não recebeu artigos.<br/>Seu primeiro artigo chegará amanhã às 7h!</p></div>`;
-      return;
-    }
-    el.innerHTML = `<div class="articles-grid">${artigos.map(a => articleCard(a, curtidos)).join('')}</div>`;
-  }
-
-  function renderCurtidos(artigos, curtidos) {
-    const el = document.getElementById('curtidosContent');
-    const curtidosList = artigos.filter(a => curtidos.includes(a.id));
-    if (!curtidosList.length) {
-      el.innerHTML = `<div class="empty"><div class="icon">❤️</div><p>Você ainda não curtiu nenhum artigo.<br/>Curta os artigos que mais te interessam para salvá-los aqui!</p></div>`;
-      return;
-    }
-    el.innerHTML = `<div class="articles-grid">${curtidosList.map(a => articleCard(a, curtidos)).join('')}</div>`;
-  }
-
-  function renderAmigos(amigos) {
-    const el = document.getElementById('amigosContent');
-    if (!amigos.length) {
-      el.innerHTML = `<div class="empty"><div class="icon">👥</div><p>Você ainda não tem amigos na rede.<br/>Convide outros dentistas para o OdontoFeed!</p></div>`;
-      return;
-    }
-    el.innerHTML = `<div class="friends-grid">${amigos.map(a => `
-      <div class="friend-card">
-        <div class="friend-avatar">${(a.nome || '?').charAt(0).toUpperCase()}</div>
-        <div class="friend-info">
-          <h4>${a.nome || ''}</h4>
-          <p>${a.email || ''}</p>
-          <div class="spec">🦷 ${a.especialidade || ''}</div>
-        </div>
-      </div>`).join('')}</div>`;
-  }
-
-  // ========== LIKE ==========
-  async function toggleLike(artigoId, btn) {
-    const email = getEmail();
-    const token = getToken();
-    if (!email || !token) return;
-    const isLiked = btn.classList.contains('liked');
-    btn.disabled = true;
-    try {
-      const res = await fetch('/.netlify/functions/like-article', {
-        method: 'POST',
-        headers: {'Content-Type':'application/json','Authorization':'Bearer ' + token},
-        body: JSON.stringify({ email, artigoId, action: isLiked ? 'unlike' : 'like' })
-      });
-      if (res.ok) {
-        btn.classList.toggle('liked');
-        btn.textContent = isLiked ? '🤍 Curtir' : '❤️ Curtido';
-        if (userData) {
-          if (isLiked) userData.curtidos = (userData.curtidos || []).filter(id => id !== artigoId);
-          else userData.curtidos = [...(userData.curtidos || []), artigoId];
-          document.getElementById('statCurtidos').textContent = (userData.curtidos || []).length;
-          renderCurtidos(userData.artigos || [], userData.curtidos || []);
-        }
-      }
-    } catch(e) {}
-    btn.disabled = false;
-  }
-
-  // ========== TABS ==========
-  function switchTab(name) {
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-    event.target.classList.add('active');
-    document.getElementById('tab-' + name).classList.add('active');
-  }
-
-  // ========== INIT ==========
-  window.addEventListener('DOMContentLoaded', () => {
-    if (checkUrlToken()) return;
-    const token = getToken();
-    const email = getEmail();
-    if (token && email) {
-      loadDashboard(email, token);
-    }
-    document.getElementById('loginEmail').addEventListener('keydown', e => {
-      if (e.key === 'Enter') sendMagicLink();
+  btn.disabled=true;
+  btn.textContent='Enviando...';
+  msg.textContent='';
+  try{
+    const res=await fetch('/.netlify/functions/magic-link',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({email})
     });
+    const data=await res.json();
+    if(res.ok&&data.success){
+      msg.className='login-msg success';
+      msg.textContent='✓ Link enviado! Verifique sua caixa de entrada (e o spam).';
+      btn.textContent='Link enviado ✓';
+    }else{
+      msg.className='login-msg error';
+      msg.textContent=data.error||'E-mail não encontrado. Verifique ou cadastre-se.';
+      btn.disabled=false;
+      btn.textContent='Enviar link de acesso →';
+    }
+  }catch(e){
+    msg.className='login-msg error';
+    msg.textContent='Erro de conexão. Tente novamente.';
+    btn.disabled=false;
+    btn.textContent='Enviar link de acesso →';
+  }
+}
+
+// ========== URL TOKEN CALLBACK ==========
+function checkUrlToken(){
+  const params=new URLSearchParams(window.location.search);
+  const token=params.get('token');
+  const email=params.get('email');
+  if(token&&email){
+    setSession(email,token);
+    window.history.replaceState({},'','/dashboard');
+    loadDashboard(email,token);
+    return true;
+  }
+  return false;
+}
+
+// ========== LOAD DASHBOARD ==========
+async function loadDashboard(email,token){
+  showSkeletons();
+  document.getElementById('loginPage').style.display='none';
+  document.getElementById('dashboardPage').style.display='block';
+  try{
+    const res=await fetch('/.netlify/functions/get-user-data?email='+encodeURIComponent(email),{
+      headers:{'Authorization':'Bearer '+token}
+    });
+    if(!res.ok){ logout(); return; }
+    const data=await res.json();
+    userData=data;
+    populateDashboard(data);
+  }catch(e){ logout(); }
+}
+
+// ========== SKELETON ==========
+function skeletonCard(){
+  return `<div class="skeleton-card">
+    <div class="skel skel-tag"></div>
+    <div class="skel skel-title"></div>
+    <div class="skel skel-title2"></div>
+    <div class="skel skel-line"></div>
+    <div class="skel skel-line"></div>
+    <div class="skel skel-line-short"></div>
+    <div class="skel-actions"><div class="skel skel-btn"></div><div class="skel skel-btn"></div></div>
+  </div>`;
+}
+function showSkeletons(){
+  const skels='<div class="skeleton-grid">'+skeletonCard()+skeletonCard()+skeletonCard()+'</div>';
+  document.getElementById('recebidosContent').innerHTML=skels;
+  document.getElementById('curtidosContent').innerHTML=skels;
+  document.getElementById('amigosContent').innerHTML='<div class="skeleton-grid">'+skeletonCard()+skeletonCard()+'</div>';
+}
+
+// ========== POPULATE ==========
+function populateDashboard(data){
+  const name=data.nome||'Dentista';
+  document.getElementById('userName').textContent=name;
+  document.getElementById('userEmail').textContent=data.email||'';
+  document.getElementById('userAvatar').textContent=name.charAt(0).toUpperCase();
+  const specs=Array.isArray(data.especialidade)?data.especialidade:[data.especialidade||''];
+  document.getElementById('userSpec').textContent='🦷 '+specs.join(', ');
+
+  const artigos=data.artigos||[];
+  const curtidos=data.curtidos||[];
+  const amigos=data.amigos||[];
+  const dias=data.criadoEm?Math.floor((Date.now()-new Date(data.criadoEm).getTime())/86400000):0;
+
+  document.getElementById('statRecebidos').textContent=artigos.length;
+  document.getElementById('statCurtidos').textContent=curtidos.length;
+  document.getElementById('statAmigos').textContent=amigos.length;
+  document.getElementById('statDias').textContent=dias;
+
+  document.getElementById('tbadge-recebidos').textContent=artigos.length;
+  document.getElementById('tbadge-curtidos').textContent=curtidos.length;
+  document.getElementById('tbadge-amigos').textContent=amigos.length;
+
+  document.getElementById('countRecebidos').textContent=artigos.length?'('+artigos.length+')':'';
+  document.getElementById('countCurtidos').textContent=curtidos.length?'('+curtidos.length+')':'';
+  document.getElementById('countAmigos').textContent=amigos.length?'('+amigos.length+')':'';
+
+  renderRecebidos(artigos,curtidos);
+  renderCurtidos(artigos,curtidos);
+  renderAmigos(amigos);
+}
+
+// ========== ARTICLE CARD ==========
+function articleCard(art,curtidos){
+  const liked=curtidos.includes(art.id);
+  const date=art.data?new Date(art.data).toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'numeric'}):'';
+  const summary=(art.resumo||'').substring(0,200)+(art.resumo&&art.resumo.length>200?'...':'');
+  return `<div class="article-card" data-id="${art.id}">
+    <div class="article-meta-top">
+      <span class="article-tag">${art.especialidade||art.tema||'Artigo'}</span>
+      <span class="article-date">${date}</span>
+    </div>
+    <h3>${art.titulo||'Sem título'}</h3>
+    <div class="article-summary">${summary}</div>
+    <div class="article-actions">
+      <button class="btn-like ${liked?'liked':''}" onclick="toggleLike('${art.id}',this)">
+        ${liked?'❤️ Curtido':'🤍 Curtir'}
+      </button>
+      ${art.pubmedUrl?`<a class="btn-pubmed" href="${art.pubmedUrl}" target="_blank" rel="noopener">PubMed ↗</a>`:''}
+    </div>
+  </div>`;
+}
+
+function renderRecebidos(artigos,curtidos){
+  const el=document.getElementById('recebidosContent');
+  if(!artigos.length){
+    el.innerHTML=`<div class="empty-state">
+      <div class="empty-icon">📬</div>
+      <h3>Ainda sem artigos recebidos</h3>
+      <p>Seu primeiro artigo chegará amanhã às 7h, curado especialmente para a sua especialidade!</p>
+    </div>`;
+    return;
+  }
+  el.innerHTML='<div class="articles-grid">'+artigos.map(a=>articleCard(a,curtidos)).join('')+'</div>';
+}
+
+function renderCurtidos(artigos,curtidos){
+  const el=document.getElementById('curtidosContent');
+  const list=artigos.filter(a=>curtidos.includes(a.id));
+  if(!list.length){
+    el.innerHTML=`<div class="empty-state">
+      <div class="empty-icon">❤️</div>
+      <h3>Nenhum artigo curtido ainda</h3>
+      <p>Curta os artigos que mais te interessam na aba "Recebidos" para salvá-los aqui como favoritos.</p>
+    </div>`;
+    return;
+  }
+  el.innerHTML='<div class="articles-grid">'+list.map(a=>articleCard(a,curtidos)).join('')+'</div>';
+}
+
+function renderAmigos(amigos){
+  const el=document.getElementById('amigosContent');
+  if(!amigos.length){
+    el.innerHTML=`<div class="empty-state">
+      <div class="empty-icon">👥</div>
+      <h3>Sua rede está vazia por enquanto</h3>
+      <p>Convide outros dentistas para o OdontoFeed e conecte-se com colegas que também usam a plataforma.</p>
+    </div>`;
+    return;
+  }
+  el.innerHTML='<div class="friends-grid">'+amigos.map(a=>`
+    <div class="friend-card">
+      <div class="friend-avatar">${(a.nome||'?').charAt(0).toUpperCase()}</div>
+      <div>
+        <div class="friend-name">${a.nome||''}</div>
+        <div class="friend-email">${a.email||''}</div>
+        <div class="friend-spec">🦷 ${Array.isArray(a.especialidade)?a.especialidade.join(', '):(a.especialidade||'')}</div>
+      </div>
+    </div>`).join('')+'</div>';
+}
+
+// ========== LIKE ==========
+async function toggleLike(artigoId,btn){
+  const email=getEmail();
+  const token=getToken();
+  if(!email||!token)return;
+  const liked=btn.classList.contains('liked');
+  btn.disabled=true;
+  try{
+    const res=await fetch('/.netlify/functions/like-article',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
+      body:JSON.stringify({email,artigoId,action:liked?'unlike':'like'})
+    });
+    if(res.ok){
+      btn.classList.toggle('liked');
+      btn.textContent=liked?'🤍 Curtir':'❤️ Curtido';
+      if(userData){
+        userData.curtidos=liked
+          ?(userData.curtidos||[]).filter(id=>id!==artigoId)
+          :[...(userData.curtidos||[]),artigoId];
+        document.getElementById('statCurtidos').textContent=(userData.curtidos||[]).length;
+        document.getElementById('tbadge-curtidos').textContent=(userData.curtidos||[]).length;
+        document.getElementById('countCurtidos').textContent='('+(userData.curtidos||[]).length+')';
+        renderCurtidos(userData.artigos||[],userData.curtidos||[]);
+      }
+    }
+  }catch(e){}
+  btn.disabled=false;
+}
+
+// ========== TABS ==========
+function switchTab(name,btnEl){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+  btnEl.classList.add('active');
+  document.getElementById('tab-'+name).classList.add('active');
+}
+
+// ========== INIT ==========
+window.addEventListener('DOMContentLoaded',()=>{
+  if(checkUrlToken())return;
+  const token=getToken();
+  const email=getEmail();
+  if(token&&email){
+    loadDashboard(email,token);
+  }
+  document.getElementById('loginEmail').addEventListener('keydown',e=>{
+    if(e.key==='Enter')sendMagicLink();
   });
+});
 </script>
 </body>
 </html>
