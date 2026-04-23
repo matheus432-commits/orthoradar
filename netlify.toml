@@ -2,7 +2,7 @@
   functions = "netlify/functions"
 
 [functions]
-  node_bundler = "esbuild"
+  node_bundler = "nft"
 
 [functions."daily-articles"]
   schedule = "0 10 * * *"
