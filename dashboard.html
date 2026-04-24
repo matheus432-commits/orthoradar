@@ -156,14 +156,15 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
 <!-- ========== LOGIN PAGE ========== -->
 <div id="loginPage">
   <div class="login-card">
-    <div class="login-icon">🦷</div>
-    <h1>Acessar minha conta</h1>
-    <p>Digite seu e-mail cadastrado e enviaremos um link mágico de acesso. Sem senha!</p>
-    <input type="email" id="loginEmail" placeholder="seu@email.com" autocomplete="email"/>
-    <button class="btn-primary" id="loginBtn" onclick="sendMagicLink()">Enviar link de acesso →</button>
-    <div class="login-msg" id="loginMsg"></div>
-    <div class="login-divider">Ainda não tem conta? <a href="/#cadastro" style="color:var(--primary);font-weight:600;">Cadastre-se grátis →</a></div>
-  </div>
+      <div class="login-icon">🦷</div>
+      <h1>Acessar minha conta</h1>
+      <p>Entre com seu e-mail e senha cadastrados.</p>
+      <input type="email" id="loginEmail" placeholder="seu@email.com" autocomplete="email"/>
+      <input type="password" id="loginSenha" placeholder="Senha" autocomplete="current-password" style="margin-top:0;"/>
+      <button class="btn-primary" id="loginBtn" onclick="loginComSenha()">Entrar →</button>
+      <div class="login-msg" id="loginMsg"></div>
+      <div class="login-divider">Ainda não tem conta? <a href="/#cadastro" style="color:var(--primary);font-weight:600;">Cadastre-se grátis →</a></div>
+    </div>
 </div>
 
 <!-- ========== DASHBOARD PAGE ========== -->
@@ -272,59 +273,43 @@ function logout(){
   msg.textContent='Você saiu da conta.';
 }
 
-// ========== MAGIC LINK ==========
-async function sendMagicLink(){
-  const email=document.getElementById('loginEmail').value.trim();
-  const msg=document.getElementById('loginMsg');
-  const btn=document.getElementById('loginBtn');
-  if(!email||!email.includes('@')){
-    msg.className='login-msg error';
-    msg.textContent='Digite um e-mail válido.';
-    return;
+// ========== LOGIN ==========
+  async function hashSHA256(str) {
+    const buf = new TextEncoder().encode(str);
+    const hashBuf = await crypto.subtle.digest('SHA-256', buf);
+    return Array.from(new Uint8Array(hashBuf)).map(b => b.toString(16).padStart(2,'0')).join('');
   }
-  btn.disabled=true;
-  btn.textContent='Enviando...';
-  msg.textContent='';
-  try{
-    const res=await fetch('/.netlify/functions/magic-link',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({email})
-    });
-    const data=await res.json();
-    if(res.ok&&data.success){
-      msg.className='login-msg success';
-      msg.textContent='✓ Link enviado! Verifique sua caixa de entrada (e o spam).';
-      btn.textContent='Link enviado ✓';
-    }else{
-      msg.className='login-msg error';
-      msg.textContent=data.error||'E-mail não encontrado. Verifique ou cadastre-se.';
-      btn.disabled=false;
-      btn.textContent='Enviar link de acesso →';
+  async function loginComSenha() {
+    const email = document.getElementById('loginEmail').value.trim();
+    const senha = document.getElementById('loginSenha').value;
+    const msg = document.getElementById('loginMsg');
+    const btn = document.getElementById('loginBtn');
+    if (!email || !email.includes('@')) { msg.className='login-msg error'; msg.textContent='Digite um e-mail válido.'; return; }
+    if (!senha) { msg.className='login-msg error'; msg.textContent='Digite sua senha.'; return; }
+    btn.disabled = true; btn.textContent = 'Entrando...';
+    msg.textContent = '';
+    try {
+      const senhaHash = await hashSHA256(senha);
+      const res = await fetch('/.netlify/functions/login', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ email, senhaHash })
+      });
+      const data = await res.json();
+      if (res.ok && data.token) {
+        setSession(email, data.token);
+        loadDashboard(email, data.token);
+      } else {
+        msg.className = 'login-msg error';
+        msg.textContent = data.error || 'E-mail ou senha incorretos.';
+        btn.disabled = false; btn.textContent = 'Entrar →';
+      }
+    } catch(e) {
+      msg.className = 'login-msg error'; msg.textContent = 'Erro de conexão. Tente novamente.';
+      btn.disabled = false; btn.textContent = 'Entrar →';
     }
-  }catch(e){
-    msg.className='login-msg error';
-    msg.textContent='Erro de conexão. Tente novamente.';
-    btn.disabled=false;
-    btn.textContent='Enviar link de acesso →';
   }
-}
-
-// ========== URL TOKEN CALLBACK ==========
-function checkUrlToken(){
-  const params=new URLSearchParams(window.location.search);
-  const token=params.get('token');
-  const email=params.get('email');
-  if(token&&email){
-    setSession(email,token);
-    window.history.replaceState({},'','/dashboard');
-    loadDashboard(email,token);
-    return true;
-  }
-  return false;
-}
-
-// ========== LOAD DASHBOARD ==========
+  // ========== LOAD DASHBOARD ==========
 async function loadDashboard(email,token){
   showSkeletons();
   document.getElementById('loginPage').style.display='none';
@@ -569,14 +554,18 @@ function switchTab(name,btnEl){
 
 // ========== INIT ==========
 window.addEventListener('DOMContentLoaded',()=>{
-  if(checkUrlToken())return;
+  // url token login removed
   const token=getToken();
   const email=getEmail();
   if(token&&email){
     loadDashboard(email,token);
   }
   document.getElementById('loginEmail').addEventListener('keydown',e=>{
-    if(e.key==='Enter')sendMagicLink();
+    if(e.key==='Enter')loginComSenha();
+  
+    document.getElementById('loginSenha').addEventListener('keydown',e=>{
+      if(e.key==='Enter')loginComSenha();
+    });
   });
 });
 </script>
