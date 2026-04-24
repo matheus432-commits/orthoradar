@@ -30,7 +30,7 @@ async function getUsers(projectId, apiKey) {
       temas: f.temas?.stringValue || "",
       ativo: f.ativo?.booleanValue !== false
     };
-  }).filter(u => u.email && u.ativo);
+  }).filter(u => u.email && u.ativo !== false);
 }
 
 // ─── PubMed: search article ────────────────────────────────────────────────
