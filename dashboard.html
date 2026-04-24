@@ -290,24 +290,11 @@ function logout(){
     msg.textContent = '';
     try {
       const senhaHash = await hashSHA256(senha);
-      const res = await fetch('/.netlify/functions/login', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ email, senhaHash })
-      });
+      const res = await fetch('/.netlify/functions/login', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ email, senhaHash }) });
       const data = await res.json();
-      if (res.ok && data.token) {
-        setSession(email, data.token);
-        loadDashboard(email, data.token);
-      } else {
-        msg.className = 'login-msg error';
-        msg.textContent = data.error || 'E-mail ou senha incorretos.';
-        btn.disabled = false; btn.textContent = 'Entrar →';
-      }
-    } catch(e) {
-      msg.className = 'login-msg error'; msg.textContent = 'Erro de conexão. Tente novamente.';
-      btn.disabled = false; btn.textContent = 'Entrar →';
-    }
+      if (res.ok && data.token) { setSession(email, data.token); loadDashboard(email, data.token); }
+      else { msg.className = 'login-msg error'; msg.textContent = data.error || 'E-mail ou senha incorretos.'; btn.disabled = false; btn.textContent = 'Entrar →'; }
+    } catch(e) { msg.className = 'login-msg error'; msg.textContent = 'Erro de conexão. Tente novamente.'; btn.disabled = false; btn.textContent = 'Entrar →'; }
   }
   // ========== LOAD DASHBOARD ==========
 async function loadDashboard(email,token){
@@ -554,7 +541,7 @@ function switchTab(name,btnEl){
 
 // ========== INIT ==========
 window.addEventListener('DOMContentLoaded',()=>{
-  // url token login removed
+  // url token removed
   const token=getToken();
   const email=getEmail();
   if(token&&email){
@@ -563,9 +550,7 @@ window.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('loginEmail').addEventListener('keydown',e=>{
     if(e.key==='Enter')loginComSenha();
   
-    document.getElementById('loginSenha').addEventListener('keydown',e=>{
-      if(e.key==='Enter')loginComSenha();
-    });
+    document.getElementById('loginSenha').addEventListener('keydown',e=>{ if(e.key==='Enter')loginComSenha(); });
   });
 });
 </script>
