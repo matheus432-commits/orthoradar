@@ -247,13 +247,19 @@ footer p{font-size:0.82rem;color:var(--text-muted);}
     <!-- STEP 3: DADOS PESSOAIS -->
     <div class="form-step" id="fstep3">
       <div class="form-section-title">Seus dados</div>
-      <div class="form-section-sub">Só precisamos do seu nome e e-mail para criar sua conta. Sem senha!</div>
+      <div class="form-section-sub">Preencha seus dados para criar a conta. Use email e senha para acessar.</div>
       <label class="form-label">Nome completo</label>
       <input class="form-input" type="text" id="inputName" placeholder="Dr. João Silva" oninput="validateName(this)" autocomplete="name"/>
       <div class="field-hint" id="hintName"></div>
       <label class="form-label">E-mail profissional</label>
       <input class="form-input" type="email" id="inputEmail" placeholder="joao@clinica.com.br" oninput="validateEmail(this)" autocomplete="email"/>
       <div class="field-hint" id="hintEmail"></div>
+<label class="form-label">Senha</label>
+<input class="form-input" type="password" id="inputSenha" placeholder="Mínimo 6 caracteres" oninput="validateSenha()" autocomplete="new-password"/>
+<div class="field-hint" id="hintSenha"></div>
+<label class="form-label">Confirmar senha</label>
+<input class="form-input" type="password" id="inputSenhaConf" placeholder="Repita a senha" oninput="validateSenhaConf()" autocomplete="new-password"/>
+<div class="field-hint" id="hintSenhaConf"></div>
       <button class="btn btn-grad" id="submitBtn" onclick="submitForm()" style="width:100%;padding:16px;margin-top:4px;">Criar conta e começar a receber →</button>
       <button class="btn btn-outline" onclick="goToStep(2)" style="width:100%;padding:12px;margin-top:10px;">← Voltar</button>
     </div>
@@ -393,35 +399,67 @@ function validateEmail(input) {
 }
 
 // ===== SUBMIT =====
-async function submitForm() {
-  const nameInput = document.getElementById('inputName');
-  const emailInput = document.getElementById('inputEmail');
-  const nameOk = validateName(nameInput);
-  const emailOk = validateEmail(emailInput);
-  if (!nameOk || !emailOk) { return; }
-  const name = nameInput.value.trim();
-  const email = emailInput.value.trim();
-  const btn = document.getElementById('submitBtn');
-  btn.disabled = true;
-  btn.textContent = 'Criando sua conta...';
-  try {
-    await fetch('/.netlify/functions/register', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({ name, email, especialidade: selectedSpecs, temas: selectedThemes })
-    });
-  } catch(e) {}
-  // Show success
-  document.getElementById('fstep3').style.display = 'none';
-  document.getElementById('successBox').style.display = 'block';
-  document.querySelector('.step-indicator').style.display = 'none';
-  document.getElementById('stepLabelTxt').style.display = 'none';
-  document.getElementById('successName').textContent = name.split(' ')[0];
-  document.getElementById('successEmail').textContent = email;
-  document.getElementById('successSpecs').textContent = selectedSpecs.join(', ');
-}
-
-// ===== PWA =====
+function validateSenha() {
+    const v = document.getElementById('inputSenha').value;
+    const hint = document.getElementById('hintSenha');
+    const inp = document.getElementById('inputSenha');
+    if (!v) { inp.className='form-input'; hint.textContent=''; hint.className='field-hint'; return false; }
+    if (v.length < 6) { inp.className='form-input invalid'; hint.textContent='Mínimo 6 caracteres.'; hint.className='field-hint err'; return false; }
+    inp.className='form-input valid'; hint.textContent='✓ Senha válida'; hint.className='field-hint ok';
+    validateSenhaConf(); return true;
+  }
+  function validateSenhaConf() {
+    const v = document.getElementById('inputSenhaConf').value;
+    const hint = document.getElementById('hintSenhaConf');
+    const inp = document.getElementById('inputSenhaConf');
+    const senha = document.getElementById('inputSenha').value;
+    if (!v) { inp.className='form-input'; hint.textContent=''; hint.className='field-hint'; return false; }
+    if (v !== senha) { inp.className='form-input invalid'; hint.textContent='Senhas não coincidem.'; hint.className='field-hint err'; return false; }
+    inp.className='form-input valid'; hint.textContent='✓ Senhas coincidem'; hint.className='field-hint ok'; return true;
+  }
+  async function hashSHA256(str) {
+    const buf = new TextEncoder().encode(str);
+    const hashBuf = await crypto.subtle.digest('SHA-256', buf);
+    return Array.from(new Uint8Array(hashBuf)).map(b => b.toString(16).padStart(2,'0')).join('');
+  }
+  async function submitForm() {
+    const nameInput = document.getElementById('inputName');
+    const emailInput = document.getElementById('inputEmail');
+    const nameOk = validateName(nameInput);
+    const emailOk = validateEmail(emailInput);
+    const senhaOk = validateSenha();
+    const senhaConfOk = validateSenhaConf();
+    if (!nameOk || !emailOk || !senhaOk || !senhaConfOk) return;
+    const name = nameInput.value.trim();
+    const email = emailInput.value.trim();
+    const senha = document.getElementById('inputSenha').value;
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true; btn.textContent = 'Criando sua conta...';
+    try {
+      const senhaHash = await hashSHA256(senha);
+      const res = await fetch('/.netlify/functions/register', {
+        method: 'POST', headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ nome: name, email, especialidade: selectedSpecs, temas: selectedThemes, senhaHash })
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        btn.disabled = false; btn.textContent = 'Criar conta e começar a receber →';
+        const hintEl = document.getElementById('hintEmail');
+        hintEl.textContent = data.message || data.error || 'Erro ao criar conta.';
+        hintEl.className = 'field-hint err';
+        document.getElementById('inputEmail').className = 'form-input invalid';
+        return;
+      }
+    } catch(e) {}
+    document.getElementById('fstep3').style.display = 'none';
+    document.getElementById('successBox').style.display = 'block';
+    document.querySelector('.step-indicator').style.display = 'none';
+    document.getElementById('stepLabelTxt').style.display = 'none';
+    document.getElementById('successName').textContent = name.split(' ')[0];
+    document.getElementById('successEmail').textContent = email;
+    document.getElementById('successSpecs').textContent = selectedSpecs.join(', ');
+  }
+  // ===== PWA =====
 let deferredPrompt = null;
 const isInstalled = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
 if (!isInstalled) {
