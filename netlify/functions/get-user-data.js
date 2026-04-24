@@ -1,6 +1,5 @@
 const https = require('https');
 
-// HTTP helper
 function request(options, body) {
   return new Promise((resolve, reject) => {
     const req = https.request(options, (res) => {
@@ -14,7 +13,6 @@ function request(options, body) {
   });
 }
 
-// Firestore: query collection by field value
 async function queryByField(projectId, apiKey, collectionId, field, value, limit) {
   const body = JSON.stringify({
     structuredQuery: {
@@ -51,57 +49,48 @@ exports.handler = async (event) => {
   if (event.httpMethod === 'OPTIONS') {
     return { statusCode: 200, headers: { ...headers, 'Access-Control-Allow-Headers': 'Content-Type, Authorization', 'Access-Control-Allow-Methods': 'GET, OPTIONS' }, body: '' };
   }
-  if (event.httpMethod !== 'GET') {
-    return { statusCode: 405, headers, body: JSON.stringify({ error: 'Method Not Allowed' }) };
-  }
+  if (event.httpMethod !== 'GET') return { statusCode: 405, headers, body: JSON.stringify({ error: 'Method Not Allowed' }) };
 
   const email = event.queryStringParameters && event.queryStringParameters.email;
   const authHeader = event.headers['authorization'] || event.headers['Authorization'];
   const token = authHeader && authHeader.startsWith('Bearer ') ? authHeader.substring(7) : null;
 
-  if (!email || !token) {
-    return { statusCode: 401, headers, body: JSON.stringify({ error: 'Email e token obrigatorios' }) };
-  }
+  if (!email || !token) return { statusCode: 401, headers, body: JSON.stringify({ error: 'Email e token obrigatorios' }) };
 
   const projectId = process.env.FIREBASE_PROJECT_ID || 'orthoradar';
   const apiKey = process.env.FIREBASE_API_KEY;
 
   try {
-    // Find user by email
     const users = await queryByField(projectId, apiKey, 'cadastros', 'email', email, 1);
-    if (!users.length) {
-      return { statusCode: 404, headers, body: JSON.stringify({ error: 'Usuario nao encontrado' }) };
-    }
+    if (!users.length) return { statusCode: 404, headers, body: JSON.stringify({ error: 'Usuario nao encontrado' }) };
     const user = users[0];
 
-    // Validate magic token
-    if (user.magicToken !== token) {
-      return { statusCode: 401, headers, body: JSON.stringify({ error: 'Token invalido' }) };
+    // Validate session token (from login.js)
+    if (user.sessionToken !== token) {
+      return { statusCode: 401, headers, body: JSON.stringify({ error: 'Sessao invalida. Faca login novamente.' }) };
     }
-    if (user.magicTokenExpiry && new Date(user.magicTokenExpiry) < new Date()) {
-      return { statusCode: 401, headers, body: JSON.stringify({ error: 'Sessao expirada. Solicite um novo link.' }) };
+    if (user.sessionExpiry && new Date(user.sessionExpiry) < new Date()) {
+      return { statusCode: 401, headers, body: JSON.stringify({ error: 'Sessao expirada. Faca login novamente.' }) };
     }
 
-    // Get articles sent to this user
     let artigos = [];
     try {
       artigos = await queryByField(projectId, apiKey, 'artigos_enviados', 'email', email, 200);
       artigos.sort((a, b) => new Date(b.data || 0) - new Date(a.data || 0));
-    } catch(e) {
-      console.warn('Could not fetch artigos:', e.message);
-    }
+    } catch(e) { console.warn('Could not fetch artigos:', e.message); }
 
-    // Get friends (users with same especialidade)
     let amigos = [];
     try {
-      const allSameSpec = await queryByField(projectId, apiKey, 'cadastros', 'especialidade', user.especialidade || '', 50);
+      const spec = Array.isArray(user.especialidade) ? user.especialidade[0] : (user.especialidade || '');
+      const allSameSpec = await queryByField(projectId, apiKey, 'cadastros', 'especialidade', spec, 50);
       amigos = allSameSpec
-        .filter(u => u.email !== email && u.verificado === true)
+        .filter(u => u.email !== email)
         .slice(0, 20)
         .map(u => ({ nome: u.nome || '', email: u.email || '', especialidade: u.especialidade || '' }));
-    } catch(e) {
-      console.warn('Could not fetch amigos:', e.message);
-    }
+    } catch(e) { console.warn('Could not fetch amigos:', e.message); }
+
+    const temas = user.temas ? (typeof user.temas === 'string' ? user.temas.split(',') : user.temas) : [];
+    const especialidade = user.especialidade ? (typeof user.especialidade === 'string' ? user.especialidade.split(',') : user.especialidade) : [];
 
     return {
       statusCode: 200,
@@ -109,11 +98,12 @@ exports.handler = async (event) => {
       body: JSON.stringify({
         nome: user.nome || '',
         email: user.email || '',
-        especialidade: user.especialidade || '',
-        temas: user.temas || '',
+        especialidade,
+        temas,
         criadoEm: user.criadoEm || '',
         artigos,
         curtidos: user.curtidos || [],
+        lidos: user.lidos || [],
         amigos
       })
     };
