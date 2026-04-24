@@ -134,6 +134,15 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
   .tab-btn{flex:1;justify-content:center;padding:9px 8px;font-size:12px;}
   nav{padding:14px 16px;}
 }
+
+  /* LIDOS & ESPECIALIDADES */
+  .tema-group{margin-bottom:28px;}
+  .tema-title{font-size:13px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px;padding:6px 12px;background:rgba(14,165,233,0.08);border-radius:8px;display:inline-flex;align-items:center;gap:6px;}
+  .tema-count{font-size:11px;color:var(--muted);font-weight:500;}
+  .esp-panel{animation:fadeIn 0.2s ease;}
+  .btn-lido{background:none;border:1px solid var(--border);color:var(--muted);font-size:12px;font-weight:600;padding:5px 12px;border-radius:8px;cursor:pointer;transition:all 0.2s;display:inline-flex;align-items:center;gap:5px;margin-top:8px;}
+  .btn-lido.lido{background:rgba(34,197,94,0.12);color:#22c55e;border-color:rgba(34,197,94,0.3);}
+  .btn-lido:hover{background:rgba(34,197,94,0.08);color:#22c55e;}
 </style>
 </head>
 <body>
@@ -196,6 +205,12 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
     <button class="tab-btn" id="tabBtn-amigos" onclick="switchTab('amigos',this)">
       👥 Amigos <span class="tab-badge" id="tbadge-amigos">0</span>
     </button>
+    <button class="tab-btn" id="tabBtn-lidos" onclick="switchTab('lidos',this)">
+      ✅ Lidos <span class="tab-badge" id="tbadge-lidos">0</span>
+    </button>
+    <button class="tab-btn" id="tabBtn-especialidades" onclick="switchTab('especialidades',this)">
+      🦷 Especialidades <span class="tab-badge" id="tbadge-especialidades">0</span>
+    </button>
   </div>
 
   <!-- TAB: RECEBIDOS -->
@@ -221,6 +236,19 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
       </div>
     </div>
     <div id="amigosContent"></div>
+
+  <!-- TAB: LIDOS -->
+  <div class="tab-content" id="tab-lidos">
+    <div class="section-title">✅ Artigos Lidos <span id="countLidos"></span></div>
+    <div id="lidosContent"><div class="empty-state"><div class="empty-icon">📖</div><h3>Nenhum artigo lido ainda</h3><p>Artigos marcados como lidos aparecerão aqui.</p></div></div>
+  </div>
+
+  <!-- TAB: ESPECIALIDADES -->
+  <div class="tab-content" id="tab-especialidades">
+    <div class="section-title">🦷 Por Especialidade e Categoria</div>
+    <div id="espTabsNav" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;"></div>
+    <div id="espTabsContent"></div>
+  </div>
   </div>
 
 </div>
@@ -361,11 +389,16 @@ function populateDashboard(data){
   renderRecebidos(artigos,curtidos);
   renderCurtidos(artigos,curtidos);
   renderAmigos(amigos);
+  const lidos = data.lidos || [];
+  const temas = data.temas || [];
+  renderLidos(artigos, lidos, curtidos);
+  renderEspecialidades(artigos, especialidades, temas, curtidos, lidos);
 }
 
 // ========== ARTICLE CARD ==========
-function articleCard(art,curtidos){
+function articleCard(art,curtidos,lidos){
   const liked=curtidos.includes(art.id);
+  const isLido = lidos && lidos.includes(art.id);
   const date=art.data?new Date(art.data).toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'numeric'}):'';
   const summary=(art.resumo||'').substring(0,200)+(art.resumo&&art.resumo.length>200?'...':'');
   return `<div class="article-card" data-id="${art.id}">
@@ -380,6 +413,9 @@ function articleCard(art,curtidos){
         ${liked?'❤️ Curtido':'🤍 Curtir'}
       </button>
       ${art.pubmedUrl?`<a class="btn-pubmed" href="${art.pubmedUrl}" target="_blank" rel="noopener">PubMed ↗</a>`:''}
+    <button class="btn-lido ${isLido?'lido':''}" onclick="toggleLido('${art.id}')">
+        ${isLido?'✅ Lido':'📝 Marcar como lido'}
+      </button>
     </div>
   </div>`;
 }
@@ -394,7 +430,7 @@ function renderRecebidos(artigos,curtidos){
     </div>`;
     return;
   }
-  el.innerHTML='<div class="articles-grid">'+artigos.map(a=>articleCard(a,curtidos)).join('')+'</div>';
+  el.innerHTML='<div class="articles-grid">'+artigos.map(a=>articleCard(a,curtidos,[])).join('')+'</div>';
 }
 
 function renderCurtidos(artigos,curtidos){
@@ -408,7 +444,7 @@ function renderCurtidos(artigos,curtidos){
     </div>`;
     return;
   }
-  el.innerHTML='<div class="articles-grid">'+list.map(a=>articleCard(a,curtidos)).join('')+'</div>';
+  el.innerHTML='<div class="articles-grid">'+list.map(a=>articleCard(a,curtidos,[])).join('')+'</div>';
 }
 
 function renderAmigos(amigos){
@@ -433,6 +469,67 @@ function renderAmigos(amigos){
 }
 
 // ========== LIKE ==========
+// ========== RENDER LIDOS ==========
+function renderLidos(artigos, lidos, curtidos) {
+  const el = document.getElementById('lidosContent');
+  const lidosArr = artigos.filter(a => lidos.includes(a.id));
+  document.getElementById('tbadge-lidos').textContent = lidosArr.length;
+  document.getElementById('countLidos').textContent = lidosArr.length ? '(' + lidosArr.length + ')' : '';
+  if (!lidosArr.length) {
+    el.innerHTML = '<div class="empty-state"><div class="empty-icon">📖</div><h3>Nenhum artigo lido ainda</h3><p>Artigos marcados como lidos aparecerão aqui.</p></div>';
+    return;
+  }
+  el.innerHTML = lidosArr.map(a => articleCard(a, curtidos, lidos)).join('');
+}
+
+// ========== RENDER ESPECIALIDADES ==========
+function renderEspecialidades(artigos, especialidades, temas, curtidos, lidos) {
+  const navEl = document.getElementById('espTabsNav');
+  const contentEl = document.getElementById('espTabsContent');
+  if (!especialidades || !especialidades.length) {
+    contentEl.innerHTML = '<div class="empty-state"><div class="empty-icon">🔬</div><h3>Nenhuma especialidade configurada</h3></div>';
+    navEl.innerHTML = '';
+    document.getElementById('tbadge-especialidades').textContent = 0;
+    return;
+  }
+  document.getElementById('tbadge-especialidades').textContent = artigos.length;
+  const temasSet = new Set(Array.isArray(temas) ? temas : []);
+  navEl.innerHTML = especialidades.map((esp, i) => {
+    return `<button class="tab-btn${i===0?' active':''}" onclick="switchEspTab(this,${i})">${esp}</button>`;
+  }).join('');
+  contentEl.innerHTML = especialidades.map((esp, i) => {
+    const espArts = artigos.filter(a => a.especialidade === esp);
+    const display = i === 0 ? 'block' : 'none';
+    if (!espArts.length) return `<div class="esp-panel" id="esp-panel-${i}" style="display:${display}"><div class="empty-state"><div class="empty-icon">📚</div><h3>Sem artigos de ${esp} ainda</h3><p>Novos artigos chegam diariamente!</p></div></div>`;
+    const byTema = {};
+    espArts.forEach(a => { const t = a.tema||'Geral'; if(!byTema[t]) byTema[t]=[]; byTema[t].push(a); });
+    const temaKeys = temasSet.size > 0 ? Object.keys(byTema).filter(t => temasSet.has(t)) : Object.keys(byTema);
+    const displayKeys = temaKeys.length ? temaKeys : Object.keys(byTema);
+    const html = displayKeys.map(tema =>
+      `<div class="tema-group"><div class="tema-title">🏷️ ${tema} <span class="tema-count">(${byTema[tema].length})</span></div>${byTema[tema].map(a => articleCard(a, curtidos, lidos)).join('')}</div>`
+    ).join('');
+    return `<div class="esp-panel" id="esp-panel-${i}" style="display:${display}">${html}</div>`;
+  }).join('');
+}
+
+function switchEspTab(btnEl, idx) {
+  document.querySelectorAll('#espTabsNav .tab-btn').forEach(b => b.classList.remove('active'));
+  btnEl.classList.add('active');
+  document.querySelectorAll('#espTabsContent .esp-panel').forEach(p => p.style.display = 'none');
+  const panel = document.getElementById('esp-panel-' + idx);
+  if (panel) panel.style.display = 'block';
+}
+
+async function toggleLido(artId) {
+  const email = getEmail(), token = getToken();
+  if (!email || !token) return;
+  try {
+    await fetch('/.netlify/functions/toggle-lido', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,token,artId})});
+    loadDashboard(email, token);
+  } catch(e) { console.error('Erro ao marcar lido:', e); }
+}
+
+
 async function toggleLike(artigoId,btn){
   const email=getEmail();
   const token=getToken();
