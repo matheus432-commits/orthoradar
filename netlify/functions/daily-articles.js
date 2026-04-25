@@ -1,6 +1,6 @@
 const https = require("https");
 
-// ─── HTTP helper ───────────────────────────────────────────────────────────
+// âââ HTTP helper âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 function request(options, body) {
   return new Promise((resolve, reject) => {
     const req = https.request(options, (res) => {
@@ -14,7 +14,7 @@ function request(options, body) {
   });
 }
 
-// ─── Firestore: list all users ─────────────────────────────────────────────
+// âââ Firestore: list all users âââââââââââââââââââââââââââââââââââââââââââââ
 async function getUsers(projectId, apiKey) {
   const path = "/v1/projects/" + projectId + "/databases/(default)/documents/cadastros?pageSize=200&key=" + apiKey;
   const res = await request({ hostname: "firestore.googleapis.com", path, method: "GET" }, null);
@@ -33,7 +33,7 @@ async function getUsers(projectId, apiKey) {
   }).filter(u => u.email && u.ativo !== false);
 }
 
-// ─── PubMed: search article ────────────────────────────────────────────────
+// âââ PubMed: search article ââââââââââââââââââââââââââââââââââââââââââââââââ
 async function searchPubMed(query) {
   const encoded = encodeURIComponent(query + " [tiab]");
   const searchPath = "/entrez/eutils/esearch.fcgi?db=pubmed&term=" + encoded + "&retmax=5&sort=date&retmode=json&datetype=pdat&reldate=365";
@@ -71,7 +71,7 @@ async function searchPubMed(query) {
   return { pmid, title, abstract: abstract.substring(0, 1200), journal, year, authors: authorStr };
 }
 
-// ─── Generate structured summary ──────────────────────────────────────────
+// âââ Generate structured summary ââââââââââââââââââââââââââââââââââââââââââ
 function generateSummary(article, especialidade, tema) {
   if (!article.abstract || article.abstract.length < 50) {
     return "Resumo detalhado nao disponivel para este artigo. Acesse o link abaixo para ler o artigo completo no PubMed.";
@@ -84,7 +84,7 @@ function generateSummary(article, especialidade, tema) {
   return intro + (body ? ". " + body : "") + (conclusion && conclusion !== intro ? ". " + conclusion : "") + ".";
 }
 
-// ─── Build email HTML ──────────────────────────────────────────────────────
+// âââ Build email HTML ââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 function buildEmail(user, article, tema) {
   const pubmedUrl = "https://pubmed.ncbi.nlm.nih.gov/" + article.pmid + "/";
   const summary = generateSummary(article, user.especialidade, tema);
@@ -99,7 +99,7 @@ function buildEmail(user, article, tema) {
   <!-- Header -->
   <div style="background:#0b1120;border-radius:16px 16px 0 0;padding:28px 32px;text-align:center;">
     <span style="font-size:1.4rem;font-weight:800;background:linear-gradient(135deg,#0ea5e9,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">OdontoFeed</span>
-    <p style="color:#94a3b8;font-size:0.78rem;margin:6px 0 0;letter-spacing:1px;text-transform:uppercase;">Artigo do Dia · ${new Date().toLocaleDateString("pt-BR",{weekday:"long",day:"numeric",month:"long"})}</p>
+    <p style="color:#94a3b8;font-size:0.78rem;margin:6px 0 0;letter-spacing:1px;text-transform:uppercase;">Artigo do Dia Â· ${new Date().toLocaleDateString("pt-BR",{weekday:"long",day:"numeric",month:"long"})}</p>
   </div>
 
   <!-- Body -->
@@ -145,9 +145,9 @@ function buildEmail(user, article, tema) {
 </html>`;
 }
 
-// ─── Send email ────────────────────────────────────────────────────────────
+// âââ Send email ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 
-// ── Save article to Firestore (REST API) ──────────────────────────────────────
+// ââ Save article to Firestore (REST API) ââââââââââââââââââââââââââââââââââââââ
 async function saveArticleToFirestore(projectId, apiKey, data) {
   const collectionId = 'artigos_enviados';
   const fields = {};
@@ -190,7 +190,7 @@ async function sendEmail(resendKey, to, subject, html) {
   }, payload);
 }
 
-// ─── Main handler (Netlify Scheduled Function) ─────────────────────────────
+// âââ Main handler (Netlify Scheduled Function) âââââââââââââââââââââââââââââ
 exports.handler = async function(event) {
   console.log("OdontoFeed daily dispatch started:", new Date().toISOString());
 
@@ -266,3 +266,8 @@ exports.handler = async function(event) {
   console.log("Daily dispatch complete:", result);
   return { statusCode: 200, body: JSON.stringify(result) };
 };
+
+// ─── Direct execution support (GitHub Actions) ──────────────────────────────
+if (require.main === module) {
+  exports.handler({}).then(r => { console.log('Done:', r.statusCode, r.body); process.exit(r.statusCode===200?0:1); }).catch(e => { console.error(e); process.exit(1); });
+}
