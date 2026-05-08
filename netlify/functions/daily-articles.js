@@ -85,16 +85,16 @@ async function searchPubMed(query, excludePmids = []) {
   const fetchRes = await request({ hostname: "eutils.ncbi.nlm.nih.gov", path: fetchPath, method: "GET" }, null);
   if (fetchRes.status !== 200) return null;
   const xml = fetchRes.body;
-  const titleMatch = xml.match(/<ArticleTitle[^>]*>([sS]*?)</ArticleTitle>/);
+  const titleMatch = xml.match(/<ArticleTitle[^>]*>([\s\S]*?)</ArticleTitle>/);
   const title = titleMatch ? titleMatch[1].replace(/<[^>]+>/g, "").trim() : "Artigo sem titulo";
-  const abstractMatch = xml.match(/<AbstractText[^>]*>([sS]*?)</AbstractText>/g);
+  const abstractMatch = xml.match(/<AbstractText[^>]*>([\s\S]*?)</AbstractText>/g);
   let abstract = "";
   if (abstractMatch) { abstract = abstractMatch.map(a => a.replace(/<[^>]+>/g, "").trim()).join(" "); }
-  const journalMatch = xml.match(/<Title>([sS]*?)</Title>/);
+  const journalMatch = xml.match(/<Title>([\s\S]*?)</Title>/);
   const journal = journalMatch ? journalMatch[1].trim() : "";
-  const yearMatch = xml.match(/<PubDate>[sS]*?<Year>(d{4})</Year>/);
+  const yearMatch = xml.match(/<PubDate>[\s\S]*? <Year>(\d{4})</Year>/);
   const year = yearMatch ? yearMatch[1] : new Date().getFullYear().toString();
-  const authorMatches = xml.match(/<LastName>([sS]*?)</LastName>/g) || [];
+  const authorMatches = xml.match(/<LastName>([\s\S]*?)</LastName>/g) || [];
   const authors = authorMatches.slice(0, 3).map(a => a.replace(/<[^>]+>/g, "").trim());
   const authorStr = authors.length > 0 ? authors.join(", ") + (authorMatches.length > 3 ? " et al." : "") : "Autores nao informados";
   return { pmid, title, abstract: abstract.substring(0, 1200), journal, year, authors: authorStr };
