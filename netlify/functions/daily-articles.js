@@ -27,7 +27,7 @@ async function getUsers(projectId, apiKey) {
       nome: f.nome?.stringValue || "",
       email: f.email?.stringValue || "",
       especialidade: f.especialidade?.stringValue || "",
-      temas: f.temas?.stringValue || "",
+      temas: (f.temas?.arrayValue?.values || []).map(v => v.stringValue || "").filter(Boolean),
       ativo: f.ativo?.booleanValue !== false
     };
   }).filter(u => u.email && u.ativo !== false);
@@ -72,7 +72,7 @@ async function getSentPmids(projectId, apiKey, email) {
 // PubMed: search article excluding already-sent PMIDs
 async function searchPubMed(query, excludePmids = []) {
   const encoded = encodeURIComponent(query + " [tiab]");
-  const searchPath = "/entrez/eutils/esearch.fcgi?db=pubmed&term=" + encoded + "&retmax=20&sort=date&retmode=json&datetype=pdat&reldate=365";
+  const searchPath = "/entrez/eutils/esearch.fcgi?db=pubmed&term=" + encoded + "&retmax=20&sort=date&retmode=json&datetype=pdat&reldate=1825";
   const searchRes = await request({ hostname: "eutils.ncbi.nlm.nih.gov", path: searchPath, method: "GET" }, null);
   if (searchRes.status !== 200) return null;
   const searchJson = JSON.parse(searchRes.body);
@@ -208,10 +208,10 @@ exports.handler = async function(event) {
   let sent = 0, errors = 0;
   for (const user of users) {
     try {
-      const temas = user.temas.split(",").map(t => t.trim()).filter(Boolean);
+      const temas = (Array.isArray(user.temas) ? user.temas : []).filter(Boolean);
       if (temas.length === 0) { console.log("No themes for", user.email); continue; }
       const tema = temas[Math.floor(Math.random() * temas.length)];
-      const query = tema + " " + user.especialidade + " dentistry";
+      const query = tema;
       const sentPmids = await getSentPmids(projectId, apiKey, user.email);
       console.log("Sent PMIDs for", user.email + ":", sentPmids.length);
       const article = await searchPubMed(query, sentPmids);
