@@ -73,11 +73,16 @@ async function getUsers(projectId, apiKey) {
   if (!json.documents) return [];
   return json.documents.map(doc => {
     const f = doc.fields || {};
+    const temas = f.temas?.stringValue
+      ? f.temas.stringValue.split(',').map(t => t.trim()).filter(Boolean)
+      : (f.temas?.arrayValue?.values || []).map(v => v.stringValue || '').filter(Boolean);
+    const especialidade = f.especialidade?.stringValue ||
+      (f.especialidade?.arrayValue?.values?.[0]?.stringValue) || '';
     return {
       nome: f.nome?.stringValue || "",
       email: f.email?.stringValue || "",
-      especialidade: f.especialidade?.stringValue || "",
-      temas: (f.temas?.arrayValue?.values || []).map(v => v.stringValue || "").filter(Boolean),
+      especialidade,
+      temas,
       ativo: f.ativo?.booleanValue !== false
     };
   }).filter(u => u.email && u.ativo !== false);

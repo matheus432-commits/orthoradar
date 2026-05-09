@@ -40,8 +40,8 @@ async function getUserByEmail(projectId, apiKey, email) {
     : [];
   return {
     docId: doc.name.split('/').pop(),
-    magicToken: (f.magicToken && f.magicToken.stringValue) || null,
-    magicTokenExpiry: (f.magicTokenExpiry && f.magicTokenExpiry.stringValue) || null,
+    sessionToken: (f.sessionToken && f.sessionToken.stringValue) || null,
+    sessionExpiry: (f.sessionExpiry && f.sessionExpiry.stringValue) || null,
     curtidos
   };
 }
@@ -89,8 +89,8 @@ exports.handler = async (event) => {
   try {
     const user = await getUserByEmail(projectId, apiKey, email);
     if (!user) return { statusCode: 404, headers, body: JSON.stringify({ error: 'Usuario nao encontrado' }) };
-    if (user.magicToken !== token) return { statusCode: 401, headers, body: JSON.stringify({ error: 'Token invalido' }) };
-    if (user.magicTokenExpiry && new Date(user.magicTokenExpiry) < new Date()) {
+    if (user.sessionToken !== token) return { statusCode: 401, headers, body: JSON.stringify({ error: 'Token invalido' }) };
+    if (user.sessionExpiry && new Date(user.sessionExpiry) < new Date()) {
       return { statusCode: 401, headers, body: JSON.stringify({ error: 'Sessao expirada.' }) };
     }
     let curtidos = user.curtidos || [];

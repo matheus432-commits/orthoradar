@@ -32,7 +32,7 @@ async function queryByField(projectId, apiKey, collectionId, field, value, limit
   const docs = JSON.parse(res.body);
   return docs.filter(d => d.document).map(d => {
     const f = d.document.fields || {};
-    const out = { _id: d.document.name.split('/').pop() };
+    const out = { id: d.document.name.split('/').pop() };
     for (const [k, v] of Object.entries(f)) {
       if (v.stringValue !== undefined) out[k] = v.stringValue;
       else if (v.booleanValue !== undefined) out[k] = v.booleanValue;
