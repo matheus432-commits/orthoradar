@@ -1,5 +1,51 @@
 const https = require("https");
 
+// Traducao tema PT->EN para PubMed
+const TEMA_EN = {
+  "Alinhadores invisíveis": "clear aligners",
+  "Biomecânica ortodôntica": "orthodontic biomechanics",
+  "Biomecanica ortodontica": "orthodontic biomechanics",
+  "Cefalometria": "cephalometry orthodontics",
+  "Mini-implantes/TADs": "temporary anchorage devices orthodontics",
+  "Expansão palatina": "palatal expansion",
+  "Aparelho fixo": "fixed orthodontic appliance",
+  "Osseointegração": "osseointegration",
+  "Carga imediata": "immediate loading dental implants",
+  "Enxertos ósseos autógenos": "autogenous bone graft dental",
+  "Enxertos com biomateriais": "bone graft biomaterial dental implant",
+  "Periimplantite": "peri-implantitis",
+  "Doença periodontal crônica": "chronic periodontitis",
+  "Periodontite agressiva": "aggressive periodontitis",
+  "Gengivite": "gingivitis",
+  "Regeneração tecidual guiada": "guided tissue regeneration",
+  "Resinas compostas nanoparticuladas": "nanocomposite resin dental",
+  "Clareamento dental": "tooth bleaching",
+  "Facetas de porcelana": "porcelain veneers",
+  "Laminados cerâmicos": "ceramic laminate veneers",
+  "Cirurgia ortognática": "orthognathic surgery",
+  "Trauma facial": "facial trauma",
+  "Fraturas mandibulares": "mandibular fractures",
+  "Fraturas do terço médio": "midface fractures",
+  "Prótese total convencional": "complete denture",
+  "Prótese parcial removível": "removable partial denture",
+  "Prótese fixa unitária": "single crown prosthesis",
+  "Prótese fixa de múltiplos elementos": "fixed dental prosthesis",
+  "Tratamento de canal convencional": "root canal treatment",
+  "Retratamento endodôntico": "endodontic retreatment",
+  "Cirurgia perirradicular": "periradicular surgery apicectomy",
+  "Cárie precoce na infância": "early childhood caries",
+  "Traumatismo dental em crianças": "dental trauma children",
+  "Pulpotomia em molares decíduos": "pulpotomy primary molars",
+  "Bruxismo do sono": "sleep bruxism",
+  "Bruxismo em vigília": "awake bruxism",
+  "Artralgia da ATM": "temporomandibular joint pain",
+  "Deslocamento de disco": "temporomandibular disc displacement",
+  "CBCT 3D em diagnóstico": "cone beam computed tomography dental diagnosis",
+  "Radiografia periapical digital": "digital periapical radiograph",
+  "Panorâmica e suas limitações": "panoramic radiography dental"
+};
+
+
 // HTTP helper
 function request(options, body) {
   return new Promise((resolve, reject) => {
@@ -211,7 +257,7 @@ exports.handler = async function(event) {
       const temas = (Array.isArray(user.temas) ? user.temas : []).filter(Boolean);
       if (temas.length === 0) { console.log("No themes for", user.email); continue; }
       const tema = temas[Math.floor(Math.random() * temas.length)];
-      const query = tema;
+      const query = TEMA_EN[tema] || tema;
       const sentPmids = await getSentPmids(projectId, apiKey, user.email);
       console.log("Sent PMIDs for", user.email + ":", sentPmids.length);
       const article = await searchPubMed(query, sentPmids);
