@@ -359,8 +359,8 @@ function populateDashboard(data){
   document.getElementById('countCurtidos').textContent=curtidos.length?'('+curtidos.length+')':'';
   document.getElementById('countAmigos').textContent=amigos.length?'('+amigos.length+')':'';
 
-  renderRecebidos(artigos,curtidos);
-  renderCurtidos(artigos,curtidos);
+  renderRecebidos(artigos,curtidos,lidos);
+  renderCurtidos(artigos,curtidos,lidos);
   renderAmigos(amigos);
   const lidos = data.lidos || [];
   const temas = data.temas || [];
@@ -393,7 +393,7 @@ function articleCard(art,curtidos,lidos){
   </div>`;
 }
 
-function renderRecebidos(artigos,curtidos){
+function renderRecebidos(artigos,curtidos,lidos){
   const el=document.getElementById('recebidosContent');
   if(!artigos.length){
     el.innerHTML=`<div class="empty-state">
@@ -403,10 +403,10 @@ function renderRecebidos(artigos,curtidos){
     </div>`;
     return;
   }
-  el.innerHTML='<div class="articles-grid">'+artigos.map(a=>articleCard(a,curtidos,[])).join('')+'</div>';
+  el.innerHTML='<div class="articles-grid">'+artigos.map(a=>articleCard(a,curtidos,lidos)).join('')+'</div>';
 }
 
-function renderCurtidos(artigos,curtidos){
+function renderCurtidos(artigos,curtidos,lidos){
   const el=document.getElementById('curtidosContent');
   const list=artigos.filter(a=>curtidos.includes(a.id));
   if(!list.length){
@@ -417,7 +417,7 @@ function renderCurtidos(artigos,curtidos){
     </div>`;
     return;
   }
-  el.innerHTML='<div class="articles-grid">'+list.map(a=>articleCard(a,curtidos,[])).join('')+'</div>';
+  el.innerHTML='<div class="articles-grid">'+list.map(a=>articleCard(a,curtidos,lidos)).join('')+'</div>';
 }
 
 function renderAmigos(amigos){
@@ -452,7 +452,7 @@ function renderLidos(artigos, lidos, curtidos) {
     el.innerHTML = '<div class="empty-state"><div class="empty-icon">📖</div><h3>Nenhum artigo lido ainda</h3><p>Artigos marcados como lidos aparecerão aqui.</p></div>';
     return;
   }
-  el.innerHTML = lidosArr.map(a => articleCard(a, curtidos, lidos)).join('');
+  el.innerHTML = '<div class="articles-grid">'+lidosArr.map(a => articleCard(a, curtidos, lidos)).join('')+'</div>';
 }
 
 // ========== RENDER ESPECIALIDADES ==========
@@ -496,6 +496,8 @@ function switchEspTab(btnEl, idx) {
 async function toggleLido(artId) {
   const email = getEmail(), token = getToken();
   if (!email || !token) return;
+  const btns = document.querySelectorAll(`.btn-lido[onclick="toggleLido('${artId}')"]`);
+  btns.forEach(b => { b.disabled = true; });
   try {
     const res = await fetch('/.netlify/functions/toggle-lido', {
       method: 'POST',
@@ -511,12 +513,13 @@ async function toggleLido(artId) {
     } else {
       userData.lidos = userData.lidos.filter(id => id !== artId);
     }
-    document.querySelectorAll(`.btn-lido[onclick="toggleLido('${artId}')"]`).forEach(btn => {
+    btns.forEach(btn => {
       btn.classList.toggle('lido', data.lido);
       btn.textContent = data.lido ? '✅ Lido' : '📝 Marcar como lido';
     });
     renderLidos(userData.artigos || [], userData.lidos, userData.curtidos || []);
   } catch(e) { console.error('Erro ao marcar lido:', e); }
+  finally { btns.forEach(b => { b.disabled = false; }); }
 }
 
 
@@ -542,7 +545,7 @@ async function toggleLike(artigoId,btn){
         document.getElementById('statCurtidos').textContent=(userData.curtidos||[]).length;
         document.getElementById('tbadge-curtidos').textContent=(userData.curtidos||[]).length;
         document.getElementById('countCurtidos').textContent='('+(userData.curtidos||[]).length+')';
-        renderCurtidos(userData.artigos||[],userData.curtidos||[]);
+        renderCurtidos(userData.artigos||[],userData.curtidos||[],userData.lidos||[]);
       }
     }
   }catch(e){}
@@ -551,7 +554,7 @@ async function toggleLike(artigoId,btn){
 
 // ========== TABS ==========
 function switchTab(name,btnEl){
-  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tabs-wrap .tab-btn').forEach(b=>b.classList.remove('active'));
   document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
   btnEl.classList.add('active');
   document.getElementById('tab-'+name).classList.add('active');
@@ -565,11 +568,8 @@ window.addEventListener('DOMContentLoaded',()=>{
   if(token&&email){
     loadDashboard(email,token);
   }
-  document.getElementById('loginEmail').addEventListener('keydown',e=>{
-    if(e.key==='Enter')loginComSenha();
-  
-    document.getElementById('loginSenha').addEventListener('keydown',e=>{ if(e.key==='Enter')loginComSenha(); });
-  });
+  document.getElementById('loginEmail').addEventListener('keydown',e=>{ if(e.key==='Enter')loginComSenha(); });
+  document.getElementById('loginSenha').addEventListener('keydown',e=>{ if(e.key==='Enter')loginComSenha(); });
 });
 </script>
 </body>

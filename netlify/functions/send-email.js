@@ -18,7 +18,7 @@ exports.handler = async function (event) {
   const apiKey = process.env.RESEND_API_KEY;
   const { to, subject, html } = JSON.parse(event.body);
   const data = JSON.stringify({
-    from: "Orthoradar <onboarding@resend.dev>",
+    from: "OdontoFeed <artigos@odontofeed.com>",
     to,
     subject,
     html,

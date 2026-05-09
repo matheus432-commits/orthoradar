@@ -64,12 +64,20 @@ function request(options, body) {
   });
 }
 
-// Firestore: list all users
+// Firestore: list all users (paginated)
 async function getUsers(projectId, apiKey) {
-  const path = "/v1/projects/" + projectId + "/databases/(default)/documents/cadastros?pageSize=200&key=" + apiKey;
-  const res = await request({ hostname: "firestore.googleapis.com", path, method: "GET" }, null);
-  if (res.status !== 200) { console.error("Firestore list error:", res.body); return []; }
-  const json = JSON.parse(res.body);
+  let allDocs = [];
+  let pageToken = null;
+  do {
+    const qs = "pageSize=300&key=" + apiKey + (pageToken ? "&pageToken=" + pageToken : "");
+    const path = "/v1/projects/" + projectId + "/databases/(default)/documents/cadastros?" + qs;
+    const res = await request({ hostname: "firestore.googleapis.com", path, method: "GET" }, null);
+    if (res.status !== 200) { console.error("Firestore list error:", res.body); break; }
+    const json = JSON.parse(res.body);
+    if (json.documents) allDocs = allDocs.concat(json.documents);
+    pageToken = json.nextPageToken || null;
+  } while (pageToken);
+  const json = { documents: allDocs };
   if (!json.documents) return [];
   return json.documents.map(doc => {
     const f = doc.fields || {};
@@ -161,7 +169,7 @@ function generateSummary(article, especialidade, tema) {
     return "Resumo detalhado nao disponivel para este artigo. Acesse o link abaixo para ler o artigo completo no PubMed.";
   }
   const abs = article.abstract;
-  const sentences = abs.split(/.s+/).filter(s => s.length > 20);
+  const sentences = abs.split(/\.\s+/).filter(s => s.length > 20);
   const intro = sentences[0] || abs.substring(0, 200);
   const body = sentences.slice(1, Math.min(sentences.length - 1, 5)).join(". ");
   const conclusion = sentences[sentences.length - 1] || "";
