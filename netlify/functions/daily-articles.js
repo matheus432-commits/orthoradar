@@ -7,6 +7,7 @@ const TEMA_EN = {
   "Biomecanica ortodontica": "orthodontic biomechanics",
   "Cefalometria": "cephalometry orthodontics",
   "Mini-implantes/TADs": "temporary anchorage devices orthodontics",
+    "Mini-implantes / TADs": "temporary anchorage devices orthodontics",
   "Expansão palatina": "palatal expansion",
   "Aparelho fixo": "fixed orthodontic appliance",
   "Osseointegração": "osseointegration",
