@@ -237,6 +237,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
       </div>
     </div>
     <div id="amigosContent"></div>
+  </div>
 
   <!-- TAB: LIDOS -->
   <div class="tab-content" id="tab-lidos">
@@ -364,7 +365,7 @@ function populateDashboard(data){
   const lidos = data.lidos || [];
   const temas = data.temas || [];
   renderLidos(artigos, lidos, curtidos);
-  renderEspecialidades(artigos, especialidades, temas, curtidos, lidos);
+  renderEspecialidades(artigos, specs, temas, curtidos, lidos);
 }
 
 // ========== ARTICLE CARD ==========
@@ -496,8 +497,25 @@ async function toggleLido(artId) {
   const email = getEmail(), token = getToken();
   if (!email || !token) return;
   try {
-    await fetch('/.netlify/functions/toggle-lido', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,token,artId})});
-    loadDashboard(email, token);
+    const res = await fetch('/.netlify/functions/toggle-lido', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, token, artId })
+    });
+    if (!res.ok) return;
+    const data = await res.json();
+    if (!userData) return;
+    userData.lidos = userData.lidos || [];
+    if (data.lido) {
+      if (!userData.lidos.includes(artId)) userData.lidos.push(artId);
+    } else {
+      userData.lidos = userData.lidos.filter(id => id !== artId);
+    }
+    document.querySelectorAll(`.btn-lido[onclick="toggleLido('${artId}')"]`).forEach(btn => {
+      btn.classList.toggle('lido', data.lido);
+      btn.textContent = data.lido ? '✅ Lido' : '📝 Marcar como lido';
+    });
+    renderLidos(userData.artigos || [], userData.lidos, userData.curtidos || []);
   } catch(e) { console.error('Erro ao marcar lido:', e); }
 }
 
