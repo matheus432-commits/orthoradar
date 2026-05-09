@@ -14,12 +14,15 @@ const TEMAS_DB = [
   { pt: "Biomecânica ortodontica", en: ["orthodontic biomechanics", "orthodontic forces biomechanics", "bracket mechanics orthodontics"] },
   { pt: "Cefalometria", en: ["cephalometry orthodontics", "cephalometric analysis", "cephalometric measurements"] },
   { pt: "Mini-implantes ortodonticos", en: ["temporary anchorage devices orthodontics", "mini-implants orthodontics", "skeletal anchorage orthodontics"] },
+  { pt: "Mini-implantes / TADs", en: ["temporary anchorage devices orthodontics", "mini-implants orthodontics", "skeletal anchorage orthodontics"] },
+  { pt: "Mini-implantes/TADs", en: ["temporary anchorage devices orthodontics", "mini-implants orthodontics", "skeletal anchorage orthodontics"] },
   { pt: "Aparelho fixo", en: ["fixed orthodontic appliance", "fixed braces orthodontics", "brackets fixed appliance"] },
   { pt: "Retencao ortodontica", en: ["orthodontic retention", "orthodontic retainer", "relapse orthodontics retention"] },
   { pt: "Mordida aberta", en: ["open bite malocclusion", "anterior open bite", "skeletal open bite orthodontics"] },
   { pt: "Mordida cruzada", en: ["crossbite orthodontics", "posterior crossbite", "anterior crossbite malocclusion"] },
   { pt: "Classe II ortodontica", en: ["Class II malocclusion orthodontics", "skeletal Class II treatment", "mandibular retrognathism orthodontics"] },
   { pt: "Classe III ortodontica", en: ["Class III malocclusion orthodontics", "skeletal Class III treatment", "mandibular prognathism orthodontics"] },
+  { pt: "Expansao palatina", en: ["palatal expansion", "rapid palatal expansion", "maxillary expansion appliance"] },
   // ---- IMPLANTODONTIA ----
   { pt: "Osseointegração", en: ["osseointegration dental implants", "osseointegration implant", "bone implant interface"] },
   { pt: "Carga imediata", en: ["immediate loading dental implants", "immediate implant loading", "same day implants"] },
@@ -32,42 +35,49 @@ const TEMAS_DB = [
   { pt: "Implante imediato", en: ["immediate implant placement", "post-extraction immediate implant", "fresh socket implant"] },
   // ---- PERIODONTIA ----
   { pt: "Doenca periodontal", en: ["periodontal disease", "periodontitis treatment", "chronic periodontitis"] },
+  { pt: "Doença periodontal crônica", en: ["chronic periodontitis", "periodontal disease treatment", "periodontitis management"] },
+  { pt: "Periodontite agressiva", en: ["aggressive periodontitis", "generalized aggressive periodontitis treatment", "early onset periodontitis"] },
   { pt: "Gengivite", en: ["gingivitis", "gingival inflammation", "gingivitis treatment"] },
   { pt: "Regeneracao tecidual guiada", en: ["guided tissue regeneration", "GTR periodontics", "membrane guided bone regeneration"] },
+  { pt: "Regeneração tecidual guiada", en: ["guided tissue regeneration", "GTR periodontics", "membrane guided bone regeneration"] },
   { pt: "Cirurgia periodontal", en: ["periodontal surgery", "flap surgery periodontitis", "periodontal surgical treatment"] },
   { pt: "Raspagem e alisamento radicular", en: ["scaling root planing", "non-surgical periodontal therapy", "subgingival debridement"] },
   { pt: "Recessao gengival", en: ["gingival recession", "gingival recession treatment", "recession coverage gingival graft"] },
   { pt: "Enxerto gengival", en: ["gingival graft", "connective tissue graft periodontics", "free gingival graft"] },
   { pt: "Mobilidade dentaria", en: ["tooth mobility periodontitis", "dental mobility periodontal disease", "mobile teeth periodontics"] },
-  { pt: "Periodontite agressiva", en: ["aggressive periodontitis", "generalized aggressive periodontitis treatment", "early onset periodontitis"] },
   // ---- ENDODONTIA ----
   { pt: "Tratamento de canal", en: ["root canal treatment", "endodontic treatment", "pulpectomy root canal"] },
+  { pt: "Tratamento de canal convencional", en: ["root canal treatment", "conventional endodontic treatment", "pulpectomy root canal"] },
   { pt: "Retratamento endodontico", en: ["endodontic retreatment", "root canal retreatment", "non-surgical retreatment endodontics"] },
+  { pt: "Retratamento endodôntico", en: ["endodontic retreatment", "root canal retreatment", "non-surgical retreatment endodontics"] },
   { pt: "Cirurgia apical", en: ["periapical surgery", "apicoectomy", "endodontic microsurgery"] },
+  { pt: "Cirurgia perirradicular", en: ["periradicular surgery apicectomy", "periapical surgery", "apicoectomy endodontics"] },
   { pt: "Pulpotomia", en: ["pulpotomy", "vital pulp therapy", "partial pulpotomy"] },
-  { pt: "Biopulpectomia", en: ["pulpectomy endodontics", "total pulp extirpation", "root canal pulpectomy"] },
   { pt: "Instrumentacao mecanica", en: ["rotary endodontics", "nickel titanium files endodontics", "mechanical instrumentation root canal"] },
   { pt: "Medicacao intracanal", en: ["intracanal medication endodontics", "calcium hydroxide endodontics", "antimicrobial intracanal dressing"] },
-  { pt: "Diagnostico endodontico", en: ["endodontic diagnosis", "pulp vitality testing", "periapical diagnosis"] },
   { pt: "Lesao perirradicular", en: ["periapical lesion", "periradicular lesion treatment", "apical periodontitis"] },
   // ---- DENTISTICA / ESTETICA ----
-  { pt: "Clareamento dental", en: ["tooth whitening", "dental bleaching", "teeth whitening clinical"], },
+  { pt: "Clareamento dental", en: ["tooth whitening", "dental bleaching", "teeth whitening clinical"] },
   { pt: "Facetas ceramicas", en: ["ceramic veneers", "porcelain veneers aesthetics", "dental veneers clinical"] },
+  { pt: "Facetas de porcelana", en: ["porcelain veneers", "ceramic veneers aesthetics", "dental veneers"] },
+  { pt: "Laminados ceramicos", en: ["ceramic laminate veneers", "dental laminates", "porcelain laminate veneers"] },
   { pt: "Resina composta", en: ["composite resin restoration", "direct composite restoration", "composite resin dental"] },
+  { pt: "Resinas compostas nanoparticuladas", en: ["nanocomposite resin dental", "nanofilled composite resin", "nanoparticle composite restoration"] },
   { pt: "Carie dentaria", en: ["dental caries", "tooth decay treatment", "caries prevention"] },
   { pt: "Adesivos dentarios", en: ["dental adhesive systems", "dentin bonding agents", "adhesive dentistry"] },
-  { pt: "Restauracao direta", en: ["direct dental restoration", "composite restoration anterior", "direct composite placement"] },
   { pt: "Selantes de fissura", en: ["dental sealants", "pit fissure sealants", "fissure sealant prevention"] },
   { pt: "Sensibilidade dentinaria", en: ["dentin hypersensitivity", "dentinal sensitivity treatment", "tooth sensitivity"] },
-  { pt: "Infiltrante resinoso", en: ["resin infiltration caries", "icon caries infiltration", "proximal caries infiltrant"] },
   // ---- PROTESE ----
   { pt: "Protese total", en: ["complete denture", "full denture prosthetics", "complete denture rehabilitation"] },
+  { pt: "Prótese total convencional", en: ["complete denture", "conventional complete denture", "full denture prosthetics"] },
   { pt: "Protese parcial removivel", en: ["removable partial denture", "partial denture prosthetics", "RPD prosthetics"] },
+  { pt: "Prótese parcial removível", en: ["removable partial denture", "partial denture prosthetics", "RPD prosthetics"] },
   { pt: "Coroa ceramica", en: ["all-ceramic crown", "zirconia crown", "porcelain crown dental"] },
   { pt: "Protese sobre implante", en: ["implant supported prosthesis", "implant prosthetics", "implant crown prosthesis"] },
-  { pt: "Overdenture", en: ["overdenture implant", "implant retained overdenture", "mandibular overdenture"] },
-  { pt: "Reabilitacao oral", en: ["full mouth rehabilitation", "oral rehabilitation prosthetics", "complete oral reconstruction"] },
   { pt: "Protese fixa", en: ["fixed partial denture", "dental bridge prosthetics", "fixed prosthesis dentistry"] },
+  { pt: "Prótese fixa unitária", en: ["single crown prosthesis", "fixed dental prosthesis", "single unit crown"] },
+  { pt: "Prótese fixa de múltiplos elementos", en: ["fixed dental prosthesis", "fixed partial denture", "dental bridge multiple units"] },
+  { pt: "Reabilitacao oral", en: ["full mouth rehabilitation", "oral rehabilitation prosthetics", "complete oral reconstruction"] },
   { pt: "Oclusao e ATM", en: ["occlusion temporomandibular joint", "TMJ occlusion treatment", "occlusal rehabilitation"] },
   { pt: "Zirconia", en: ["zirconia dental prosthetics", "zirconia ceramic restorations", "monolithic zirconia crown"] },
   // ---- CIRURGIA ----
@@ -76,15 +86,19 @@ const TEMAS_DB = [
   { pt: "Cirurgia ortognatica", en: ["orthognathic surgery", "corrective jaw surgery", "Le Fort osteotomy"] },
   { pt: "Fissura labiopalatina", en: ["cleft lip palate surgery", "cleft palate repair", "palatoplasty cleft"] },
   { pt: "Cistos e tumores", en: ["jaw cysts tumors", "odontogenic cysts treatment", "oral tumors surgery"] },
-  { pt: "Implante cirurgia", en: ["implant surgery technique", "surgical implant placement", "dental implant surgery protocol"] },
-  { pt: "Distratores osseos", en: ["bone distraction osteogenesis", "distraction osteogenesis jaw", "alveolar distraction"] },
+  { pt: "Trauma facial", en: ["facial trauma", "maxillofacial trauma treatment", "facial injury management"] },
+  { pt: "Fraturas mandibulares", en: ["mandibular fractures", "mandible fracture treatment", "jaw fracture surgery"] },
+  { pt: "Fraturas do terço médio", en: ["midface fractures", "zygoma fracture", "Le Fort fractures"] },
   { pt: "Trauma bucomaxilofacial", en: ["maxillofacial trauma", "facial fracture treatment", "mandible fracture surgery"] },
   // ---- ODONTOPEDIATRIA ----
   { pt: "Carie precoce na infancia", en: ["early childhood caries", "nursing bottle caries", "ECC early childhood caries"] },
+  { pt: "Cárie precoce na infância", en: ["early childhood caries", "nursing bottle caries", "ECC early childhood caries"] },
   { pt: "Selantes pediatricos", en: ["dental sealants children", "fissure sealants pediatric", "pit fissure sealant pediatric"] },
   { pt: "Pulpotomia pediatrica", en: ["pulpotomy primary teeth", "pediatric pulpotomy", "vital pulp therapy children"] },
+  { pt: "Pulpotomia em molares decíduos", en: ["pulpotomy primary molars", "deciduous molar pulpotomy", "vital pulp therapy primary teeth"] },
   { pt: "Fluorose", en: ["dental fluorosis", "fluorosis treatment", "enamel fluorosis"] },
   { pt: "Traumatismo dental infantil", en: ["dental trauma children", "tooth trauma pediatric", "traumatic dental injuries children"] },
+  { pt: "Traumatismo dental em crianças", en: ["dental trauma children", "tooth trauma pediatric", "traumatic dental injuries children"] },
   { pt: "Comportamento infantil na odontologia", en: ["child behavior dentistry", "pediatric dental anxiety", "behavior management children dentistry"] },
   { pt: "Dentição mista", en: ["mixed dentition", "primary permanent teeth transition", "mixed dentition orthodontics"] },
   { pt: "Habitos orais", en: ["oral habits children", "digit sucking habit", "pacifier oral habit"] },
@@ -95,7 +109,10 @@ const TEMAS_DB = [
   { pt: "Gengiva gums estetica", en: ["gummy smile treatment", "aesthetic crown lengthening", "gingival contouring aesthetics"] },
   { pt: "Lente de contato dental", en: ["ultra-thin veneers", "contact lens veneer dental", "minimal preparation veneers"] },
   { pt: "Bruxismo", en: ["bruxism treatment", "sleep bruxism management", "tooth grinding bruxism"] },
+  { pt: "Bruxismo do sono", en: ["sleep bruxism", "nocturnal bruxism treatment", "sleep bruxism management"] },
+  { pt: "Bruxismo em vigília", en: ["awake bruxism", "wakefulness bruxism", "diurnal bruxism treatment"] },
   { pt: "Disfuncao temporomandibular", en: ["temporomandibular disorders", "TMD treatment", "temporomandibular joint dysfunction"] },
+  { pt: "Artralgia da ATM", en: ["temporomandibular joint pain", "TMJ arthralgia", "temporomandibular joint disorder pain"] },
   // ---- SAUDE BUCAL / GERAL ----
   { pt: "Saude bucal e doencas sistemicas", en: ["oral health systemic disease", "periodontal systemic connection", "dental health cardiovascular"] },
   { pt: "Odontologia do esporte", en: ["sports dentistry", "dental injuries sports", "mouthguard sports dentistry"] },
@@ -107,16 +124,15 @@ const TEMAS_DB = [
 // Build lookup map for fast access: normalized PT -> entry
 const TEMA_MAP = new Map();
 TEMAS_DB.forEach(t => {
-  const key = t.pt.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").trim();
+  const key = t.pt.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
   TEMA_MAP.set(key, t);
 });
 
 function normalizePt(str) {
-  return str.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").trim();
+  return (str || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
 }
 
 // Get PubMed search terms for a Portuguese topic
-// Returns array of English search terms (with fallbacks)
 function getPubmedTerms(temaPt) {
   const key = normalizePt(temaPt);
   if (TEMA_MAP.has(key)) {
@@ -124,227 +140,236 @@ function getPubmedTerms(temaPt) {
   }
   // Partial match fallback
   for (const [k, entry] of TEMA_MAP.entries()) {
-    if (k.includes(key) || key.includes(k)) {
-      console.log("[TRANSLATION] Partial match for '" + temaPt + "' -> '" + entry.pt + "'");
+    if (key.length > 4 && (k.includes(key) || key.includes(k))) {
+      console.log("[TRANSLATION] Partial match: '" + temaPt + "' -> '" + entry.pt + "'");
       return entry.en;
     }
   }
-  // Last resort: use original term as-is (may fail on PubMed)
-  console.warn("[TRANSLATION] No translation found for: '" + temaPt + "'. Using original term.");
+  // Last resort: use original term
+  console.warn("[TRANSLATION] No translation for: '" + temaPt + "'. Using original.");
   return [temaPt];
 }
 
-// ---- FIREBASE ----
-function firestoreRequest(projectId, apiKey, path, method, body) {
+// ---- HTTP HELPER ----
+function request(opts, bodyStr) {
   return new Promise((resolve, reject) => {
-    const options = {
-      hostname: "firestore.googleapis.com",
-      path: "/v1/projects/" + projectId + "/databases/(default)/documents/" + path + "?key=" + apiKey,
-      method: method || "GET",
-      headers: { "Content-Type": "application/json" }
-    };
-    const req = https.request(options, res => {
+    const req = https.request(opts, res => {
       let data = "";
-      res.on("data", chunk => (data += chunk));
-      res.on("end", () => {
-        try { resolve(JSON.parse(data)); }
-        catch (e) { reject(new Error("JSON parse error: " + data.substring(0, 200))); }
-      });
+      res.on("data", c => (data += c));
+      res.on("end", () => resolve({ status: res.statusCode, body: data }));
     });
     req.on("error", reject);
-    if (body) req.write(JSON.stringify(body));
+    if (bodyStr) req.write(bodyStr);
     req.end();
   });
 }
 
-function parseFirestoreValue(val) {
-  if (!val) return null;
-  if (val.stringValue !== undefined) return val.stringValue;
-  if (val.integerValue !== undefined) return parseInt(val.integerValue);
-  if (val.booleanValue !== undefined) return val.booleanValue;
-  if (val.arrayValue) return (val.arrayValue.values || []).map(parseFirestoreValue);
-  if (val.mapValue) {
-    const obj = {};
-    Object.entries(val.mapValue.fields || {}).forEach(([k, v]) => (obj[k] = parseFirestoreValue(v)));
-    return obj;
-  }
-  return null;
-}
-
+// ---- FIREBASE ----
 async function getUsers(projectId, apiKey) {
-  const data = await firestoreRequest(projectId, apiKey, "users");
-  if (!data.documents) return [];
-  return data.documents.map(doc => {
-    const fields = doc.fields || {};
+  const path = "/v1/projects/" + projectId + "/databases/(default)/documents/cadastros?pageSize=200&key=" + apiKey;
+  const res = await request({ hostname: "firestore.googleapis.com", path, method: "GET" }, null);
+  if (res.status !== 200) {
+    console.error("Firestore list error:", res.body.substring(0, 300));
+    return [];
+  }
+  const json = JSON.parse(res.body);
+  if (!json.documents) return [];
+  return json.documents.map(doc => {
+    const f = doc.fields || {};
     return {
-      email: parseFirestoreValue(fields.email),
-      temas: parseFirestoreValue(fields.temas) || [],
-      name: parseFirestoreValue(fields.name) || "",
-      docId: doc.name.split("/").pop()
+      nome: f.nome?.stringValue || "",
+      email: f.email?.stringValue || "",
+      especialidade: f.especialidade?.stringValue || "",
+      temas: (f.temas?.arrayValue?.values || []).map(v => v.stringValue || "").filter(Boolean),
+      ativo: f.ativo?.booleanValue !== false
     };
-  }).filter(u => u.email);
+  }).filter(u => u.email && u.ativo !== false);
 }
 
 async function getSentPmids(projectId, apiKey, email) {
+  const path = "/v1/projects/" + projectId + "/databases/(default)/documents:runQuery?key=" + apiKey;
+  const body = JSON.stringify({
+    structuredQuery: {
+      from: [{ collectionId: "artigos_enviados" }],
+      where: {
+        fieldFilter: {
+          field: { fieldPath: "email" },
+          op: "EQUAL",
+          value: { stringValue: email }
+        }
+      },
+      select: { fields: [{ fieldPath: "pmid" }] },
+      limit: 500
+    }
+  });
   try {
-    const safeEmail = email.replace(/[^a-zA-Z0-9]/g, "_");
-    const data = await firestoreRequest(projectId, apiKey, "sent_articles/" + safeEmail);
-    if (data.error) return [];
-    const fields = data.fields || {};
-    return parseFirestoreValue(fields.pmids) || [];
+    const res = await request({
+      hostname: "firestore.googleapis.com",
+      path,
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Content-Length": Buffer.byteLength(body) }
+    }, body);
+    if (res.status !== 200) return [];
+    const results = JSON.parse(res.body);
+    return results
+      .filter(r => r.document?.fields?.pmid)
+      .map(r => r.document.fields.pmid.stringValue || r.document.fields.pmid.integerValue || "")
+      .filter(Boolean);
   } catch (e) {
+    console.warn("Could not fetch sent PMIDs:", e.message);
     return [];
   }
 }
 
-async function saveSentPmid(projectId, apiKey, email, pmid) {
+async function saveSentPmid(projectId, apiKey, email, pmid, tema) {
+  const path = "/v1/projects/" + projectId + "/databases/(default)/documents/artigos_enviados?key=" + apiKey;
+  const body = JSON.stringify({
+    fields: {
+      email: { stringValue: email },
+      pmid: { stringValue: String(pmid) },
+      tema: { stringValue: tema || "" },
+      data: { stringValue: new Date().toISOString() }
+    }
+  });
   try {
-    const safeEmail = email.replace(/[^a-zA-Z0-9]/g, "_");
-    const existing = await getSentPmids(projectId, apiKey, email);
-    const updated = [...new Set([...existing, String(pmid)])];
-    await firestoreRequest(projectId, apiKey, "sent_articles/" + safeEmail + "?updateMask.fieldPaths=pmids", "PATCH", {
-      fields: { pmids: { arrayValue: { values: updated.map(id => ({ stringValue: id })) } } }
-    });
+    await request({
+      hostname: "firestore.googleapis.com",
+      path,
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Content-Length": Buffer.byteLength(body) }
+    }, body);
   } catch (e) {
     console.error("[FIREBASE] Error saving PMID:", e.message);
   }
 }
 
 // ---- PUBMED SEARCH ----
-// Search PubMed with a single English query term
-// Returns first article not in sentPmids, or null
-function searchPubMedSingleTerm(query, sentPmids) {
-  return new Promise((resolve, reject) => {
-    const q = encodeURIComponent(query + "[Title/Abstract] AND hasabstract[text]");
-    const options = {
+async function searchPubMedSingleTerm(query, sentPmids) {
+  const q = encodeURIComponent(query + "[Title/Abstract] AND hasabstract[text]");
+  const path = "/entrez/eutils/esearch.fcgi?db=pubmed&term=" + q + "&retmax=20&sort=relevance&retmode=json";
+  try {
+    const res = await request({
       hostname: "eutils.ncbi.nlm.nih.gov",
-      path: "/entrez/eutils/esearch.fcgi?db=pubmed&term=" + q + "&retmax=20&sort=relevance&retmode=json",
+      path,
       method: "GET",
       headers: { "User-Agent": "OdontoFeed/1.0 (artigos@odontofeed.com)" }
-    };
-    const req = https.request(options, res => {
-      let data = "";
-      res.on("data", chunk => (data += chunk));
-      res.on("end", () => {
-        try {
-          const json = JSON.parse(data);
-          const ids = (json.esearchresult && json.esearchresult.idlist) ? json.esearchresult.idlist : [];
-          const available = ids.filter(id => !sentPmids.includes(String(id)));
-          resolve(available.length > 0 ? available[0] : null);
-        } catch (e) {
-          resolve(null);
-        }
-      });
-    });
-    req.on("error", () => resolve(null));
-    req.end();
-  });
+    }, null);
+    if (res.status !== 200) return null;
+    const json = JSON.parse(res.body);
+    const ids = json.esearchresult?.idlist || [];
+    const available = ids.filter(id => !sentPmids.includes(String(id)));
+    return available.length > 0 ? available[0] : null;
+  } catch (e) {
+    return null;
+  }
 }
 
-// Search with fallback: tries each EN term until finding a result
 async function searchPubMedWithFallback(temaPt, sentPmids) {
   const terms = getPubmedTerms(temaPt);
-  console.log("[PUBMED] Searching for '" + temaPt + "' with " + terms.length + " term(s):", terms.join("; "));
-  
+  console.log("[PUBMED] Searching '" + temaPt + "' with " + terms.length + " EN term(s)");
   for (let i = 0; i < terms.length; i++) {
     const term = terms[i];
-    console.log("[PUBMED] Attempt " + (i+1) + "/" + terms.length + ": '" + term + "'");
+    console.log("[PUBMED] Attempt " + (i + 1) + "/" + terms.length + ": " + term);
     const pmid = await searchPubMedSingleTerm(term, sentPmids);
     if (pmid) {
-      console.log("[PUBMED] Found PMID " + pmid + " using term: '" + term + "'");
+      console.log("[PUBMED] Found PMID " + pmid + " via: " + term);
       return { pmid, termUsed: term };
     }
-    console.log("[PUBMED] No result for term: '" + term + "'");
-    await new Promise(r => setTimeout(r, 400));
+    await new Promise(r => setTimeout(r, 350));
   }
-  
-  console.warn("[PUBMED] All " + terms.length + " terms exhausted for '" + temaPt + "' - no article found");
+  console.warn("[PUBMED] No article found for all terms of '" + temaPt + "'");
   return null;
 }
 
-function fetchArticleDetails(pmid) {
-  return new Promise((resolve, reject) => {
-    const options = {
-      hostname: "eutils.ncbi.nlm.nih.gov",
-      path: "/entrez/eutils/esummary.fcgi?db=pubmed&id=" + pmid + "&retmode=json",
-      method: "GET",
-      headers: { "User-Agent": "OdontoFeed/1.0 (artigos@odontofeed.com)" }
+async function fetchArticleDetails(projectId, apiKey, pmid) {
+  // esummary for metadata
+  const sumPath = "/entrez/eutils/esummary.fcgi?db=pubmed&id=" + pmid + "&retmode=json";
+  // efetch for abstract
+  const fetchPath = "/entrez/eutils/efetch.fcgi?db=pubmed&id=" + pmid + "&retmode=xml&rettype=abstract";
+  try {
+    const [sumRes, fetchRes] = await Promise.all([
+      request({ hostname: "eutils.ncbi.nlm.nih.gov", path: sumPath, method: "GET", headers: { "User-Agent": "OdontoFeed/1.0 (artigos@odontofeed.com)" } }, null),
+      request({ hostname: "eutils.ncbi.nlm.nih.gov", path: fetchPath, method: "GET", headers: { "User-Agent": "OdontoFeed/1.0 (artigos@odontofeed.com)" } }, null)
+    ]);
+    const json = JSON.parse(sumRes.body);
+    const result = json.result?.[pmid];
+    if (!result) return null;
+    const xml = fetchRes.body;
+    const titleMatch = xml.match(/<ArticleTitle[^>]*>([\s\S]*?)<\/ArticleTitle>/);
+    const title = titleMatch ? titleMatch[1].replace(/<[^>]+>/g, "").trim() : result.title || "Artigo sem titulo";
+    const abstractMatch = xml.match(/<AbstractText[^>]*>([\s\S]*?)<\/AbstractText>/g);
+    const abstract = abstractMatch ? abstractMatch.map(a => a.replace(/<[^>]+>/g, "").trim()).join(" ") : "";
+    return {
+      pmid,
+      title,
+      abstract: abstract.substring(0, 600),
+      authors: (result.authors || []).slice(0, 3).map(a => a.name).join(", "),
+      journal: result.fulljournalname || result.source || "",
+      year: result.pubdate ? result.pubdate.substring(0, 4) : "",
+      url: "https://pubmed.ncbi.nlm.nih.gov/" + pmid + "/"
     };
-    const req = https.request(options, res => {
-      let data = "";
-      res.on("data", chunk => (data += chunk));
-      res.on("end", () => {
-        try {
-          const json = JSON.parse(data);
-          const result = json.result && json.result[pmid];
-          if (!result) return resolve(null);
-          resolve({
-            pmid,
-            title: result.title || "Untitled",
-            authors: (result.authors || []).slice(0, 3).map(a => a.name).join(", "),
-            journal: result.fulljournalname || result.source || "",
-            year: result.pubdate ? result.pubdate.substring(0, 4) : "",
-            url: "https://pubmed.ncbi.nlm.nih.gov/" + pmid + "/"
-          });
-        } catch (e) {
-          resolve(null);
-        }
-      });
-    });
-    req.on("error", () => resolve(null));
-    req.end();
-  });
+  } catch (e) {
+    return null;
+  }
 }
 
 // ---- EMAIL (RESEND) ----
-function sendEmail(resendKey, toEmail, article, temaPt) {
-  return new Promise((resolve, reject) => {
-    const authorsText = article.authors ? "Autores: " + article.authors + "\n" : "";
-    const journalText = article.journal ? "Periódico: " + article.journal + (article.year ? " (" + article.year + ")" : "") + "\n" : "";
-    const htmlBody = [
-      "<div style='font-family:Arial,sans-serif;max-width:600px;margin:0 auto;'>",
-      "<div style='background:#2d6a4f;padding:20px;border-radius:8px 8px 0 0;'>",
-      "<h2 style='color:#fff;margin:0;'>OdontoFeed</h2>",
-      "<p style='color:#d8f3dc;margin:4px 0 0;'>Artigo científico do dia</p>",
-      "</div>",
-      "<div style='padding:24px;border:1px solid #e0e0e0;border-top:none;border-radius:0 0 8px 8px;'>",
-      "<p style='color:#555;'>Tema: <strong>" + temaPt + "</strong></p>",
-      "<h3 style='color:#1b4332;'>" + article.title + "</h3>",
-      article.authors ? "<p style='color:#666;font-size:14px;'>" + article.authors + "</p>" : "",
-      article.journal ? "<p style='color:#888;font-size:13px;'><em>" + article.journal + (article.year ? ", " + article.year : "") + "</em></p>" : "",
-      "<a href='" + article.url + "' style='display:inline-block;margin-top:16px;padding:12px 24px;background:#2d6a4f;color:#fff;text-decoration:none;border-radius:6px;font-weight:bold;'>Ler no PubMed</a>",
-      "<hr style='margin:24px 0;border:none;border-top:1px solid #eee;'>",
-      "<p style='font-size:12px;color:#aaa;'>OdontoFeed - Atualizações científicas para dentistas.<br>",
-      "<a href='https://odontofeed.com/unsubscribe' style='color:#aaa;'>Cancelar inscrição</a></p>",
-      "</div></div>"
-    ].join("");
+function buildMail(user, article, tema) {
+  const pubmedUrl = "https://pubmed.ncbi.nlm.nih.gov/" + article.pmid + "/";
+  const firstName = (user.nome || "").split(" ")[0] || "Dentista";
+  const summary = article.abstract ? article.abstract.substring(0, 400) + (article.abstract.length > 400 ? "..." : "") : "";
+  return `<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"></head>
+<body style="margin:0;padding:0;background:#f1f5f9;font-family:Inter,Helvetica,Arial,sans-serif;">
+<div style="max-width:600px;margin:0 auto;padding:24px 16px;">
+<div style="background:#0b1120;border-radius:16px 16px 0 0;padding:28px 32px;text-align:center;">
+<span style="font-size:1.4rem;font-weight:800;background:linear-gradient(135deg,#0ea5e9,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">OdontoFeed</span>
+<p style="color:#94a3b8;font-size:0.78rem;margin:6px 0 0;letter-spacing:1px;text-transform:uppercase;">Artigo Científico do Dia</p>
+</div>
+<div style="background:#ffffff;padding:32px;border-left:1px solid #e2e8f0;border-right:1px solid #e2e8f0;">
+<p style="color:#64748b;font-size:0.9rem;margin:0 0 20px;">Olá, <strong style="color:#0f172a;">${firstName}</strong>!</p>
+<div style="margin-bottom:20px;"><span style="background:#eff6ff;color:#0ea5e9;border:1px solid #bfdbfe;padding:4px 12px;border-radius:20px;font-size:0.78rem;font-weight:600;">${tema}</span></div>
+<h1 style="font-size:1.15rem;font-weight:800;color:#0f172a;line-height:1.4;margin:0 0 20px;">${article.title}</h1>
+<div style="background:#f8fafc;border-radius:10px;padding:14px 18px;margin-bottom:24px;font-size:0.82rem;">
+<span style="margin-right:16px;">📖 <strong>${article.journal}</strong></span>
+<span style="margin-right:16px;">📅 ${article.year}</span>
+<span>👥 ${article.authors}</span>
+</div>
+${summary ? `<div style="border-left:3px solid #0ea5e9;padding-left:18px;margin-bottom:28px;">
+<p style="font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#0ea5e9;margin:0 0 8px;">Resumo</p>
+<p style="color:#334155;font-size:0.9rem;line-height:1.75;margin:0;">${summary}</p>
+</div>` : ""}
+<a href="${pubmedUrl}" style="display:block;text-align:center;background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff;padding:14px;border-radius:10px;text-decoration:none;font-weight:700;font-size:0.95rem;">Leia o artigo completo no PubMed →</a>
+</div>
+<div style="background:#f8fafc;border-radius:0 0 16px 16px;padding:16px 32px;text-align:center;">
+<p style="font-size:0.75rem;color:#94a3b8;margin:0;">OdontoFeed · Atualizações científicas para dentistas<br>
+<a href="https://odontofeed.com/unsubscribe" style="color:#94a3b8;">Cancelar inscrição</a></p>
+</div>
+</div>
+</body>
+</html>`;
+}
 
-    const body = JSON.stringify({
-      from: "OdontoFeed <artigos@odontofeed.com>",
-      to: [toEmail],
-      subject: "Novo artigo: " + article.title.substring(0, 80) + (article.title.length > 80 ? "..." : ""),
-      html: htmlBody
-    });
-
-    const options = {
-      hostname: "api.resend.com",
-      path: "/emails",
-      method: "POST",
-      headers: {
-        "Authorization": "Bearer " + resendKey,
-        "Content-Type": "application/json",
-        "Content-Length": Buffer.byteLength(body)
-      }
-    };
-    const req = https.request(options, res => {
-      let data = "";
-      res.on("data", chunk => (data += chunk));
-      res.on("end", () => resolve({ status: res.statusCode, body: data }));
-    });
-    req.on("error", reject);
-    req.write(body);
-    req.end();
+async function sendEmail(resendKey, toEmail, article, user, tema) {
+  const html = buildMail(user, article, tema);
+  const subject = "Novo artigo: " + article.title.substring(0, 80) + (article.title.length > 80 ? "..." : "");
+  const body = JSON.stringify({
+    from: "OdontoFeed <artigos@odontofeed.com>",
+    to: [toEmail],
+    subject,
+    html
   });
+  return request({
+    hostname: "api.resend.com",
+    path: "/emails",
+    method: "POST",
+    headers: {
+      "Authorization": "Bearer " + resendKey,
+      "Content-Type": "application/json",
+      "Content-Length": Buffer.byteLength(body)
+    }
+  }, body);
 }
 
 // ---- MAIN HANDLER ----
@@ -379,57 +404,42 @@ exports.handler = async function(event) {
       const tema = temas[Math.floor(Math.random() * temas.length)];
       console.log("[USER]", user.email, "| Theme:", tema);
 
-      // Get already-sent PMIDs to avoid repeats
       const sentPmids = await getSentPmids(projectId, apiKey, user.email);
       console.log("[USER]", user.email, "| Sent PMIDs so far:", sentPmids.length);
 
-      // Search PubMed with EN terms + fallback
-      const searchResult = await searchPubMedWithFallback(tema, sentPmids);
+      // Try to find article for chosen theme, then try alternates
+      let searchResult = await searchPubMedWithFallback(tema, sentPmids);
+      let usedTema = tema;
 
       if (!searchResult) {
-        console.warn("[SKIP] No article found for theme '" + tema + "' (all synonyms tried) for", user.email);
-        // Try a different random theme if available
-        let found = false;
+        console.warn("[FALLBACK] Trying alternate themes for", user.email);
         for (const altTema of temas.filter(t => t !== tema)) {
-          console.log("[RETRY] Trying alternate theme '" + altTema + "' for", user.email);
-          const altResult = await searchPubMedWithFallback(altTema, sentPmids);
-          if (altResult) {
-            const article = await fetchArticleDetails(altResult.pmid);
-            if (article) {
-              const emailResult = await sendEmail(resendKey, user.email, article, altTema);
-              if (emailResult.status >= 200 && emailResult.status < 300) {
-                await saveSentPmid(projectId, apiKey, user.email, altResult.pmid);
-                console.log("[OK] Email sent to", user.email, "| Alt theme:", altTema, "| PMID:", altResult.pmid);
-                sent++;
-                found = true;
-                break;
-              }
-            }
-          }
-          await new Promise(r => setTimeout(r, 400));
+          searchResult = await searchPubMedWithFallback(altTema, sentPmids);
+          if (searchResult) { usedTema = altTema; break; }
+          await new Promise(r => setTimeout(r, 350));
         }
-        if (!found) {
-          console.warn("[SKIP] Skipping", user.email, "- no valid article found for any theme");
-          skipped++;
-        }
+      }
+
+      if (!searchResult) {
+        console.warn("[SKIP]", user.email, "- no article found for any theme. Skipping gracefully.");
+        skipped++;
         continue;
       }
 
-      // Fetch article details
-      const article = await fetchArticleDetails(searchResult.pmid);
+      const article = await fetchArticleDetails(projectId, apiKey, searchResult.pmid);
       if (!article) {
-        console.warn("[SKIP] Could not fetch details for PMID:", searchResult.pmid);
+        console.warn("[SKIP] Could not fetch article details for PMID:", searchResult.pmid);
         skipped++;
         continue;
       }
 
       console.log("[ARTICLE] Title:", article.title.substring(0, 80));
+      console.log("[ARTICLE] EN term used:", searchResult.termUsed);
 
-      // Send email
-      const emailResult = await sendEmail(resendKey, user.email, article, tema);
+      const emailResult = await sendEmail(resendKey, user.email, article, user, usedTema);
       if (emailResult.status >= 200 && emailResult.status < 300) {
-        await saveSentPmid(projectId, apiKey, user.email, searchResult.pmid);
-        console.log("[OK] Email sent to", user.email, "| PMID:", searchResult.pmid, "| Term used:", searchResult.termUsed);
+        await saveSentPmid(projectId, apiKey, user.email, searchResult.pmid, usedTema);
+        console.log("[OK] Email sent to", user.email, "| PMID:", searchResult.pmid, "| Term:", searchResult.termUsed);
         sent++;
       } else {
         console.error("[ERROR] Email failed for", user.email, "| Status:", emailResult.status, "| Body:", emailResult.body.substring(0, 200));
@@ -438,7 +448,7 @@ exports.handler = async function(event) {
 
       await new Promise(r => setTimeout(r, 500));
     } catch (err) {
-      console.error("[ERROR] Processing user", user.email, ":", err.message);
+      console.error("[ERROR] Processing", user.email, ":", err.message);
       errors++;
     }
   }
@@ -457,4 +467,4 @@ if (require.main === module) {
     console.error(e);
     process.exit(1);
   });
-                                                    }
+  }
