@@ -234,7 +234,7 @@ async function saveArticleToFirestore(projectId, apiKey, data) {
 
 // Send email
 async function sendEmail(resendKey, to, subject, html) {
-  const payload = JSON.stringify({ from: "OdontoFeed <onboarding@resend.dev>", to, subject, html });
+  const payload = JSON.stringify({ from: "OdontoFeed <artigos@odontofeed.com>", to, subject, html });
   return request({
     hostname: "api.resend.com",
     path: "/emails",
