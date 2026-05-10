@@ -493,12 +493,20 @@ async function searchPubMed(terms, excludePmids = [], context = "") {
   return null;
 }
 
+// Get fallback terms using the first matching specialty from the user's specialties array
+function getBestFallbackTerms(especialidades) {
+  for (const e of (Array.isArray(especialidades) ? especialidades : [especialidades])) {
+    if (ESPECIALIDADE_FALLBACK[e]) return ESPECIALIDADE_FALLBACK[e];
+  }
+  return ["dental research clinical", "oral health evidence"];
+}
+
 // Resolve English search terms for a given PT theme name
-function getSearchTerms(tema, especialidade) {
+function getSearchTerms(tema, especialidades) {
   if (TEMA_MAP[tema]) return TEMA_MAP[tema];
   if (TEMA_EN_LEGACY[tema]) return TEMA_EN_LEGACY[tema];
   console.log(`[Terms] Theme not in map: "${tema}" — using specialty fallback`);
-  return ESPECIALIDADE_FALLBACK[especialidade] || ["dental research clinical", "oral health evidence"];
+  return getBestFallbackTerms(especialidades);
 }
 
 // Generate structured summary
@@ -602,9 +610,9 @@ async function processUser(user, projectId, apiKey, resendKey) {
 
     if (temas.length === 0) {
       console.log(`[Skip] No themes for ${user.email} — specialty fallback`);
-      const fallbackTerms = ESPECIALIDADE_FALLBACK[user.especialidade] || ["dental research clinical evidence"];
+      const fallbackTerms = getBestFallbackTerms(user.especialidades);
       const sentPmids = await getSentPmids(projectId, apiKey, user.email);
-      const article = await searchPubMed(fallbackTerms, sentPmids, user.especialidade + " fallback");
+      const article = await searchPubMed(fallbackTerms, sentPmids, (user.especialidades[0] || user.especialidade) + " fallback");
       if (!article) { console.warn(`[Skip] No article for ${user.email}`); return 'skipped'; }
       const ft = await translateWithClaude(article.title, article.abstract, user.especialidade, user.especialidade).catch(() => null);
       if (ft) { article.tituloLocal = ft.titulo; article.resumoLocal = ft.resumo; }
@@ -633,7 +641,7 @@ async function processUser(user, projectId, apiKey, resendKey) {
 
     const dayNumber = Math.floor(Date.now() / 86400000);
     const tema = temaPool[dayNumber % temaPool.length];
-    const terms = getSearchTerms(tema, user.especialidade);
+    const terms = getSearchTerms(tema, user.especialidades);
     const sentPmids = await getSentPmids(projectId, apiKey, user.email);
     console.log(`[Dispatch] ${user.email} | tema: "${tema}" | sentPmids: ${sentPmids.length}`);
 
@@ -641,13 +649,13 @@ async function processUser(user, projectId, apiKey, resendKey) {
 
     if (!article && temaPool.length > 1) {
       for (const altTema of temaPool.filter(t => t !== tema)) {
-        article = await searchPubMed(getSearchTerms(altTema, user.especialidade), sentPmids, altTema);
+        article = await searchPubMed(getSearchTerms(altTema, user.especialidades), sentPmids, altTema);
         if (article) break;
       }
     }
     if (!article) {
-      const fallbackTerms = ESPECIALIDADE_FALLBACK[user.especialidade] || ["dental research clinical evidence"];
-      article = await searchPubMed(fallbackTerms, sentPmids, user.especialidade + " specialty fallback");
+      const fallbackTerms = getBestFallbackTerms(user.especialidades);
+      article = await searchPubMed(fallbackTerms, sentPmids, (user.especialidades[0] || user.especialidade) + " specialty fallback");
     }
     if (!article) { console.warn(`[Error] No article for ${user.email} after all fallbacks`); return 'error'; }
 
