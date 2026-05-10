@@ -425,8 +425,8 @@ async function getSentPmids(projectId, apiKey, email) {
           value: { stringValue: email }
         }
       },
-      select: { fields: [{ fieldPath: "pmid" }] },
-      limit: 500
+      select: { fields: [{ fieldPath: "pmid" }, { fieldPath: "data" }] },
+      limit: 200
     }
   });
   try {
@@ -437,9 +437,14 @@ async function getSentPmids(projectId, apiKey, email) {
       headers: { "Content-Type": "application/json", "Content-Length": Buffer.byteLength(body) }
     }, body);
     if (res.status !== 200) return [];
+    const cutoff = new Date(Date.now() - 180 * 24 * 60 * 60 * 1000).toISOString();
     const results = JSON.parse(res.body);
     return results
       .filter(r => r.document?.fields?.pmid)
+      .filter(r => {
+        const data = r.document.fields.data?.stringValue || '';
+        return !data || data >= cutoff;
+      })
       .map(r => r.document.fields.pmid.stringValue || r.document.fields.pmid.integerValue || "")
       .filter(Boolean);
   } catch (e) {
@@ -599,7 +604,93 @@ async function sendEmail(resendKey, to, subject, html) {
   }, payload);
 }
 
-// Main handler
+// Process a single user: fetch article, translate, email, save
+async function processUser(user, projectId, apiKey, resendKey) {
+  try {
+    const temas = (Array.isArray(user.temas) ? user.temas : []).filter(Boolean);
+
+    if (temas.length === 0) {
+      console.log(`[Skip] No themes for ${user.email} — specialty fallback`);
+      const fallbackTerms = ESPECIALIDADE_FALLBACK[user.especialidade] || ["dental research clinical evidence"];
+      const sentPmids = await getSentPmids(projectId, apiKey, user.email);
+      const article = await searchPubMed(fallbackTerms, sentPmids, user.especialidade + " fallback");
+      if (!article) { console.warn(`[Skip] No article for ${user.email}`); return 'skipped'; }
+      const ft = await translateWithClaude(article.title, article.abstract, user.especialidade, user.especialidade).catch(() => null);
+      if (ft) { article.tituloLocal = ft.titulo; article.resumoLocal = ft.resumo; }
+      const html = buildEmail(user, article, user.especialidade);
+      const tituloEmail = article.tituloLocal || article.title;
+      const emailRes = await sendEmail(resendKey, user.email, "🦷 " + tituloEmail.substring(0, 70) + (tituloEmail.length > 70 ? "..." : ""), html);
+      if (emailRes.status === 200 || emailRes.status === 201) {
+        await saveArticleToFirestore(projectId, apiKey, {
+          email: user.email, especialidade: user.especialidade, tema: user.especialidade,
+          titulo: article.tituloLocal || article.title || '',
+          resumo: article.resumoLocal || generateSummary(article, user.especialidade, user.especialidade),
+          pubmedUrl: 'https://pubmed.ncbi.nlm.nih.gov/' + article.pmid + '/',
+          pmid: String(article.pmid || ''), data: new Date().toISOString()
+        }).catch(e => console.warn('Could not save article:', e.message));
+        return 'sent';
+      }
+      return 'error';
+    }
+
+    const userSpecs = new Set(user.especialidades?.length ? user.especialidades : [user.especialidade]);
+    const validTemas = temas.filter(t => { const e = TEMA_TO_ESPECIALIDADE[t]; return !e || userSpecs.has(e); });
+    const temaPool = validTemas.length > 0 ? validTemas : temas;
+    if (validTemas.length < temas.length) {
+      console.log(`[Filter] ${user.email}: ${temas.length - validTemas.length} tema(s) wrong specialty`);
+    }
+
+    const dayNumber = Math.floor(Date.now() / 86400000);
+    const tema = temaPool[dayNumber % temaPool.length];
+    const terms = getSearchTerms(tema, user.especialidade);
+    const sentPmids = await getSentPmids(projectId, apiKey, user.email);
+    console.log(`[Dispatch] ${user.email} | tema: "${tema}" | sentPmids: ${sentPmids.length}`);
+
+    let article = await searchPubMed(terms, sentPmids, tema);
+
+    if (!article && temaPool.length > 1) {
+      for (const altTema of temaPool.filter(t => t !== tema)) {
+        article = await searchPubMed(getSearchTerms(altTema, user.especialidade), sentPmids, altTema);
+        if (article) break;
+      }
+    }
+    if (!article) {
+      const fallbackTerms = ESPECIALIDADE_FALLBACK[user.especialidade] || ["dental research clinical evidence"];
+      article = await searchPubMed(fallbackTerms, sentPmids, user.especialidade + " specialty fallback");
+    }
+    if (!article) { console.warn(`[Error] No article for ${user.email} after all fallbacks`); return 'error'; }
+
+    console.log(`[Found] "${article.title.substring(0, 55)}" for ${user.email}`);
+    const translation = await translateWithClaude(article.title, article.abstract, tema, user.especialidade).catch(() => null);
+    if (translation) {
+      article.tituloLocal = translation.titulo;
+      article.resumoLocal = translation.resumo;
+      console.log(`[Claude] ${user.email}: "${translation.titulo.substring(0, 50)}"`);
+    }
+
+    const html = buildEmail(user, article, tema);
+    const tituloEmail = article.tituloLocal || article.title;
+    const emailRes = await sendEmail(resendKey, user.email, "🦷 " + tituloEmail.substring(0, 70) + (tituloEmail.length > 70 ? "..." : ""), html);
+    if (emailRes.status === 200 || emailRes.status === 201) {
+      console.log(`[Sent] ${user.email}`);
+      await saveArticleToFirestore(projectId, apiKey, {
+        email: user.email, especialidade: user.especialidade, tema,
+        titulo: article.tituloLocal || article.title || '',
+        resumo: article.resumoLocal || generateSummary(article, user.especialidade, tema),
+        pubmedUrl: 'https://pubmed.ncbi.nlm.nih.gov/' + article.pmid + '/',
+        pmid: String(article.pmid || ''), data: new Date().toISOString()
+      }).catch(e => console.warn('Could not save article history:', e.message));
+      return 'sent';
+    }
+    console.error(`[Error] Email to ${user.email}: ${emailRes.status}`);
+    return 'error';
+  } catch (err) {
+    console.error(`[Error] ${user.email}: ${err.message}`);
+    return 'error';
+  }
+}
+
+// Main handler — processes users in parallel batches of 5
 exports.handler = async function(event) {
   console.log("OdontoFeed daily dispatch started:", new Date().toISOString());
   const projectId = process.env.FIREBASE_PROJECT_ID || "orthoradar";
@@ -609,119 +700,25 @@ exports.handler = async function(event) {
     console.error("Missing env vars: FIREBASE_API_KEY or RESEND_API_KEY");
     return { statusCode: 500, body: "Missing env vars" };
   }
+
   const users = await getUsers(projectId, apiKey);
   console.log("Users found:", users.length);
+
   let sent = 0, errors = 0, skipped = 0;
-  for (const user of users) {
-    try {
-      const temas = (Array.isArray(user.temas) ? user.temas : []).filter(Boolean);
-      if (temas.length === 0) {
-        console.log(`[Skip] No themes for ${user.email} — trying specialty fallback`);
-        const fallbackTerms = ESPECIALIDADE_FALLBACK[user.especialidade] || ["dental research clinical evidence"];
-        const sentPmids = await getSentPmids(projectId, apiKey, user.email);
-        const article = await searchPubMed(fallbackTerms, sentPmids, user.especialidade + " fallback");
-        if (!article) { console.warn(`[Skip] No article found for ${user.email} via fallback`); skipped++; continue; }
-        const fallbackTranslation = await translateWithClaude(article.title, article.abstract, user.especialidade, user.especialidade).catch(() => null);
-        if (fallbackTranslation) {
-          article.tituloLocal = fallbackTranslation.titulo;
-          article.resumoLocal = fallbackTranslation.resumo;
-          console.log(`[Claude] Translated fallback article for ${user.email}`);
-        }
-        const html = buildEmail(user, article, user.especialidade);
-        const tituloEmail = article.tituloLocal || article.title;
-        const subject = "🦷 " + tituloEmail.substring(0, 70) + (tituloEmail.length > 70 ? "..." : "");
-        const emailRes = await sendEmail(resendKey, user.email, subject, html);
-        if (emailRes.status === 200 || emailRes.status === 201) {
-          sent++;
-          await saveArticleToFirestore(projectId, apiKey, {
-            email: user.email, especialidade: user.especialidade, tema: user.especialidade,
-            titulo: article.tituloLocal || article.title || '',
-            resumo: article.resumoLocal || generateSummary(article, user.especialidade, user.especialidade),
-            pubmedUrl: 'https://pubmed.ncbi.nlm.nih.gov/' + article.pmid + '/',
-            pmid: String(article.pmid || ''), data: new Date().toISOString()
-          }).catch(e => console.warn('Could not save article:', e.message));
-        } else { errors++; }
-        await new Promise(r => setTimeout(r, 500));
-        continue;
-      }
+  const BATCH_SIZE = 5;
 
-      // Filter temas to only those belonging to the user's selected specialties
-      const userSpecs = new Set(
-        user.especialidades && user.especialidades.length ? user.especialidades : [user.especialidade]
-      );
-      const validTemas = temas.filter(t => {
-        const temaEsp = TEMA_TO_ESPECIALIDADE[t];
-        return !temaEsp || userSpecs.has(temaEsp);
-      });
-      const temaPool = validTemas.length > 0 ? validTemas : temas;
-      if (validTemas.length < temas.length) {
-        console.log(`[Filter] ${user.email}: ${temas.length - validTemas.length} tema(s) filtered out (wrong specialty). Pool: ${validTemas.length}`);
-      }
-
-      // Pick tema by day-based rotation so all themes are covered over time
-      const dayNumber = Math.floor(Date.now() / 86400000);
-      const tema = temaPool[dayNumber % temaPool.length];
-      const terms = getSearchTerms(tema, user.especialidade);
-      const sentPmids = await getSentPmids(projectId, apiKey, user.email);
-      console.log(`[Dispatch] ${user.email} | tema: "${tema}" | terms: ${terms.length} | sentPmids: ${sentPmids.length}`);
-
-      let article = await searchPubMed(terms, sentPmids, tema);
-
-      // If chosen theme failed, try other themes from user's valid list
-      if (!article && temaPool.length > 1) {
-        const otherTemas = temaPool.filter(t => t !== tema);
-        for (const altTema of otherTemas) {
-          const altTerms = getSearchTerms(altTema, user.especialidade);
-          console.log(`[Fallback] Trying alternate theme "${altTema}" for ${user.email}`);
-          article = await searchPubMed(altTerms, sentPmids, altTema);
-          if (article) break;
-        }
-      }
-
-      // Last resort: specialty-level fallback
-      if (!article) {
-        const fallbackTerms = ESPECIALIDADE_FALLBACK[user.especialidade] || ["dental research clinical evidence"];
-        console.log(`[Fallback] Using specialty fallback for ${user.email}: ${user.especialidade}`);
-        article = await searchPubMed(fallbackTerms, sentPmids, user.especialidade + " specialty fallback");
-      }
-
-      if (!article) {
-        console.warn(`[Error] No article found for ${user.email} after all fallbacks`);
-        errors++;
-        continue;
-      }
-
-      console.log(`[Found] "${article.title.substring(0, 60)}" for ${user.email}`);
-      const translation = await translateWithClaude(article.title, article.abstract, tema, user.especialidade).catch(() => null);
-      if (translation) {
-        article.tituloLocal = translation.titulo;
-        article.resumoLocal = translation.resumo;
-        console.log(`[Claude] Translated article for ${user.email}: "${translation.titulo.substring(0, 50)}"`);
-      }
-      const html = buildEmail(user, article, tema);
-      const tituloEmail = article.tituloLocal || article.title;
-      const subject = "🦷 " + tituloEmail.substring(0, 70) + (tituloEmail.length > 70 ? "..." : "");
-      const emailRes = await sendEmail(resendKey, user.email, subject, html);
-      if (emailRes.status === 200 || emailRes.status === 201) {
-        console.log(`[Sent] Email to ${user.email}`);
-        sent++;
-        await saveArticleToFirestore(projectId, apiKey, {
-          email: user.email, especialidade: user.especialidade, tema,
-          titulo: article.tituloLocal || article.title || '',
-          resumo: article.resumoLocal || generateSummary(article, user.especialidade, tema),
-          pubmedUrl: 'https://pubmed.ncbi.nlm.nih.gov/' + article.pmid + '/',
-          pmid: String(article.pmid || ''), data: new Date().toISOString()
-        }).catch(e => console.warn('Could not save article history:', e.message));
-      } else {
-        console.error(`[Error] Email to ${user.email}: ${emailRes.status} ${emailRes.body.substring(0, 100)}`);
-        errors++;
-      }
-      await new Promise(r => setTimeout(r, 500));
-    } catch (err) {
-      console.error(`[Error] Processing ${user.email}: ${err.message}`);
-      errors++;
+  for (let i = 0; i < users.length; i += BATCH_SIZE) {
+    const batch = users.slice(i, i + BATCH_SIZE);
+    const results = await Promise.all(batch.map(u => processUser(u, projectId, apiKey, resendKey)));
+    for (const r of results) {
+      if (r === 'sent') sent++;
+      else if (r === 'skipped') skipped++;
+      else errors++;
     }
+    // Small pause between batches to avoid overwhelming NCBI/Resend rate limits
+    if (i + BATCH_SIZE < users.length) await new Promise(r => setTimeout(r, 300));
   }
+
   const result = { sent, errors, skipped, total: users.length, timestamp: new Date().toISOString() };
   console.log("Daily dispatch complete:", result);
   return { statusCode: 200, body: JSON.stringify(result) };
