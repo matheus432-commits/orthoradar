@@ -155,16 +155,42 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
 
 <!-- ========== LOGIN PAGE ========== -->
 <div id="loginPage">
-  <div class="login-card">
-      <div class="login-icon">🦷</div>
-      <h1>Acessar minha conta</h1>
-      <p>Entre com seu e-mail e senha cadastrados.</p>
-      <input type="email" id="loginEmail" placeholder="seu@email.com" autocomplete="email"/>
-      <input type="password" id="loginSenha" placeholder="Senha" autocomplete="current-password" style="margin-top:0;"/>
-      <button class="btn-primary" id="loginBtn" onclick="loginComSenha()">Entrar →</button>
-      <div class="login-msg" id="loginMsg"></div>
-      <div class="login-divider">Ainda não tem conta? <a href="/#cadastro" style="color:var(--primary);font-weight:600;">Cadastre-se grátis →</a></div>
+  <!-- Login form -->
+  <div class="login-card" id="loginCard">
+    <div class="login-icon">🦷</div>
+    <h1>Acessar minha conta</h1>
+    <p>Entre com seu e-mail e senha cadastrados.</p>
+    <input type="email" id="loginEmail" placeholder="seu@email.com" autocomplete="email"/>
+    <input type="password" id="loginSenha" placeholder="Senha" autocomplete="current-password" style="margin-top:0;"/>
+    <button class="btn-primary" id="loginBtn" onclick="loginComSenha()">Entrar →</button>
+    <div class="login-msg" id="loginMsg"></div>
+    <div class="login-divider" style="margin-top:12px;">
+      <a href="#" onclick="showForgotForm();return false;" style="color:var(--muted);font-size:13px;">Esqueci minha senha</a>
     </div>
+    <div class="login-divider">Ainda não tem conta? <a href="/#cadastro" style="color:var(--primary);font-weight:600;">Cadastre-se grátis →</a></div>
+  </div>
+
+  <!-- Forgot password form -->
+  <div class="login-card" id="forgotCard" style="display:none;">
+    <div class="login-icon">🔑</div>
+    <h1>Recuperar senha</h1>
+    <p>Digite seu e-mail cadastrado. Se ele existir, enviaremos um link para redefinir sua senha.</p>
+    <input type="email" id="forgotEmail" placeholder="seu@email.com" autocomplete="email"/>
+    <button class="btn-primary" id="forgotBtn" onclick="enviarRecuperacao()">Enviar link →</button>
+    <div class="login-msg" id="forgotMsg"></div>
+    <div class="login-divider"><a href="#" onclick="showLoginForm();return false;" style="color:var(--muted);font-size:13px;">← Voltar para o login</a></div>
+  </div>
+
+  <!-- Reset password form (shown when ?reset=TOKEN in URL) -->
+  <div class="login-card" id="resetCard" style="display:none;">
+    <div class="login-icon">🔐</div>
+    <h1>Nova senha</h1>
+    <p>Crie uma nova senha para sua conta.</p>
+    <input type="password" id="novaSenha" placeholder="Nova senha (mín. 6 caracteres)" autocomplete="new-password"/>
+    <input type="password" id="novaSenhaConf" placeholder="Confirmar nova senha" autocomplete="new-password" style="margin-top:0;"/>
+    <button class="btn-primary" id="resetBtn" onclick="confirmarNovaSenha()">Salvar nova senha →</button>
+    <div class="login-msg" id="resetMsg"></div>
+  </div>
 </div>
 
 <!-- ========== DASHBOARD PAGE ========== -->
@@ -212,6 +238,9 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
     <button class="tab-btn" id="tabBtn-especialidades" onclick="switchTab('especialidades',this)">
       🦷 Especialidades <span class="tab-badge" id="tbadge-especialidades">0</span>
     </button>
+    <button class="tab-btn" id="tabBtn-preferencias" onclick="switchTab('preferencias',this)">
+      ⚙️ Preferências
+    </button>
   </div>
 
   <!-- TAB: RECEBIDOS -->
@@ -251,6 +280,24 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
     <div id="espTabsNav" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;"></div>
     <div id="espTabsContent"></div>
   </div>
+
+  <!-- TAB: PREFERÊNCIAS -->
+  <div class="tab-content" id="tab-preferencias">
+    <div class="section-title">⚙️ Preferências <span id="prefSaveMsg" style="font-size:13px;font-weight:500;margin-left:8px;"></span></div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px 32px;max-width:720px;">
+      <p style="color:var(--muted);font-size:14px;margin-bottom:24px;">Atualize suas especialidades e temas de interesse. As mudanças valem a partir do próximo envio diário.</p>
+      <div style="margin-bottom:24px;">
+        <div style="font-size:13px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px;">Especialidades</div>
+        <div id="prefSpecSelect" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;"></div>
+      </div>
+      <div id="prefTemasSection" style="display:none;">
+        <div style="font-size:13px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">Temas de interesse</div>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:12px;" id="prefTemasHint">Selecione quantos quiser</div>
+        <div id="prefTemasSelect" style="display:flex;flex-wrap:wrap;gap:8px;max-height:240px;overflow-y:auto;padding:2px;margin-bottom:20px;"></div>
+      </div>
+      <button class="btn-primary" id="prefSaveBtn" onclick="salvarPreferencias()" style="max-width:220px;" disabled>Salvar preferências</button>
+    </div>
+  </div>
   </div>
 
 </div>
@@ -275,8 +322,9 @@ function logout(){
 }
 
 // ========== LOGIN ==========
+const HASH_SALT = 'OF26_';
   async function hashSHA256(str) {
-    const buf = new TextEncoder().encode(str);
+    const buf = new TextEncoder().encode(HASH_SALT + str);
     const hashBuf = await crypto.subtle.digest('SHA-256', buf);
     return Array.from(new Uint8Array(hashBuf)).map(b => b.toString(16).padStart(2,'0')).join('');
   }
@@ -552,17 +600,224 @@ async function toggleLike(artigoId,btn){
   btn.disabled=false;
 }
 
+// ========== FORGOT / RESET PASSWORD ==========
+function showForgotForm() {
+  document.getElementById('loginCard').style.display = 'none';
+  document.getElementById('forgotCard').style.display = 'block';
+  document.getElementById('resetCard').style.display = 'none';
+  document.getElementById('forgotMsg').textContent = '';
+}
+
+function showLoginForm() {
+  document.getElementById('loginCard').style.display = 'block';
+  document.getElementById('forgotCard').style.display = 'none';
+  document.getElementById('resetCard').style.display = 'none';
+}
+
+async function enviarRecuperacao() {
+  const email = document.getElementById('forgotEmail').value.trim();
+  const msg = document.getElementById('forgotMsg');
+  const btn = document.getElementById('forgotBtn');
+  if (!email || !email.includes('@')) { msg.className='login-msg error'; msg.textContent='Digite um e-mail válido.'; return; }
+  btn.disabled = true; btn.textContent = 'Enviando...';
+  msg.textContent = '';
+  try {
+    const res = await fetch('/.netlify/functions/forgot-password', {
+      method: 'POST', headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ email })
+    });
+    const data = await res.json();
+    msg.className = 'login-msg success';
+    msg.textContent = data.message || 'Se o e-mail estiver cadastrado, você receberá o link em instantes.';
+  } catch(e) {
+    msg.className = 'login-msg error';
+    msg.textContent = 'Erro de conexão. Tente novamente.';
+  }
+  btn.disabled = false; btn.textContent = 'Enviar link →';
+}
+
+async function confirmarNovaSenha() {
+  const nova = document.getElementById('novaSenha').value;
+  const conf = document.getElementById('novaSenhaConf').value;
+  const msg = document.getElementById('resetMsg');
+  const btn = document.getElementById('resetBtn');
+  if (!nova || nova.length < 6) { msg.className='login-msg error'; msg.textContent='A senha deve ter ao menos 6 caracteres.'; return; }
+  if (nova !== conf) { msg.className='login-msg error'; msg.textContent='As senhas não coincidem.'; return; }
+  const params = new URLSearchParams(window.location.search);
+  const token = params.get('reset');
+  const email = params.get('resetEmail');
+  if (!token || !email) { msg.className='login-msg error'; msg.textContent='Link inválido.'; return; }
+  btn.disabled = true; btn.textContent = 'Salvando...';
+  msg.textContent = '';
+  try {
+    const novaSenhaHash = await hashSHA256(nova);
+    const res = await fetch('/.netlify/functions/reset-password', {
+      method: 'POST', headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ email, token, novaSenhaHash })
+    });
+    const data = await res.json();
+    if (res.ok && data.success) {
+      msg.className = 'login-msg success';
+      msg.textContent = 'Senha atualizada! Redirecionando para o login...';
+      setTimeout(() => {
+        window.history.replaceState({}, '', '/dashboard');
+        showLoginForm();
+        document.getElementById('loginEmail').value = email;
+      }, 2000);
+    } else {
+      msg.className = 'login-msg error';
+      msg.textContent = data.error || 'Erro ao redefinir senha.';
+      btn.disabled = false; btn.textContent = 'Salvar nova senha →';
+    }
+  } catch(e) {
+    msg.className = 'login-msg error';
+    msg.textContent = 'Erro de conexão. Tente novamente.';
+    btn.disabled = false; btn.textContent = 'Salvar nova senha →';
+  }
+}
+
+function initResetForm() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('reset') && params.get('resetEmail')) {
+    document.getElementById('loginCard').style.display = 'none';
+    document.getElementById('forgotCard').style.display = 'none';
+    document.getElementById('resetCard').style.display = 'block';
+  }
+}
+
+// ========== PREFERENCES ==========
+const THEMES = {
+  "Ortodontia": ["Alinhadores invisíveis","Biomecânica ortodôntica","Cefalometria","Mini-implantes/TADs","Expansão de maxila","Cirurgia ortognática","Ortodontia e ATM","Ancoragem esquelética","Contenção e recidiva","Ortodontia interceptiva","Aparelho fixo estético","Extração em ortodontia","Ortodontia lingual","Self-ligating","Torque e angulação","Crescimento e desenvolvimento facial","Ortodontia em adultos","Respiração oral e má-oclusão","Ortodontia e sono/apneia","Tratamento de Classe II","Tratamento de Classe III","Mordida aberta","Mordida cruzada posterior","Sobremordida profunda","Inteligência artificial em ortodontia"],
+  "Implantodontia": ["Osseointegração","Carga imediata","Enxertos ósseos autógenos","Enxertos com biomateriais","Implantes zigomáticos","Prótese sobre implante","Peri-implantite","Planejamento digital 3D","All-on-4 e All-on-X","Implantes em maxila posterior","Implantes em mandíbula posterior","Elevação de seio maxilar","Implantes estreitos (mini-implantes)","Implantes curtos","Tecido mole peri-implantar","Carga diferida","Reabilitação com implantes unitários","Implantes em pacientes sistêmicos","Complicações em implantes","Sobredentadura","Membranas e ROG","Biofilme peri-implantar","Impressão digital em implantes","Implantes imediatos pós-extração","Implantes em adolescentes"],
+  "Periodontia": ["Doença periodontal crônica","Periodontite agressiva","Gengivite","Regeneração tecidual guiada","Cirurgia mucogengival","Periodontia e diabetes","Periodontia e doenças cardiovasculares","Lasers em periodontia","Manutenção periodontal","Raspagem e alisamento radicular","Cirurgia ressectiva","Cirurgia regenerativa","Enxerto gengival livre","Retalho de reposicionamento","Tratamento de furca","Abscesso periodontal","Periodontia e tabagismo","Microbioma periodontal","Periodontia e gestação","Periodontia e osteoporose","Medicação de suporte periodontal","Terapia fotodinâmica","Ozônio em periodontia","Periodontia estética","Defeitos ósseos verticais"],
+  "Dentística": ["Resinas compostas nanoparticuladas","Clareamento dental","Facetas de porcelana","Laminados cerâmicos","Adesão dental","Estética digital (DSD)","Restaurações indiretas em cerâmica","Inlays e onlays","Cárie e mínima intervenção","Fluorose e tratamento","Erosão dental","Sensibilidade dentinária","Bruxismo e dentística","Mock-up digital","Pigmentações e manchamentos","Restaurações em dentes anteriores","Sistemas cerâmicos (zircônia, dissilicato)","Fotopolimerização e luz LED","Cor em dentística","Tratamento de cavidades classe IV","Restaurações cervicais","Dentística minimamente invasiva","Materiais provisórios estéticos","Técnica incremental em compósito","Polimento e acabamento"],
+  "Bucomaxilofacial": ["Cirurgia ortognática","Trauma facial","Fraturas mandibulares","Fraturas do terço médio facial","Patologia oral benigna","Cistos odontogênicos","Tumores benignos dos maxilares","Carcinoma espinocelular oral","Reconstrução mandibular","Distração osteogênica","Transplante de osso","Enxertos microvascularizados","Articulação temporomandibular cirúrgica","Cirurgia de terceiros molares","Doenças das glândulas salivares","Fissura labiopalatina","Cirurgia pré-protética","Complicações pós-operatórias","Anestesia local em BMF","Implantes zigomáticos em BMF","Medicina do sono e cirurgia","Bifosfonatos e osteonecrose","Cirurgia oncológica oral","Reconstrução com retalhos locais","Cirurgia minimamente invasiva"],
+  "Prótese": ["Prótese total convencional","Prótese parcial removível","Prótese fixa unitária","Prótese fixa de múltiplos elementos","Oclusão em prótese","Reabilitação oral completa","Materiais cerâmicos para prótese","Zircônia em prótese fixa","CAD/CAM em prótese","Prótese implanto-suportada","Prótese parcial imediata","Prótese provisória","Overdenture sobre implantes","Prótese bucomaxilofacial","Reembasamento de próteses","Prótese em pacientes geriátricos","Estética em prótese fixa","Cimentação adesiva","Prótese e bruxismo","Desordens oclusais","Impressão digital em prótese","Cera e moldagem funcional","Prótese e ATM","Sorrisos compostos","Prótese e estética facial"],
+  "Endodontia": ["Tratamento de canal convencional","Retratamento endodôntico","Cirurgia perirradicular (apicectomia)","Regeneração pulpar em dentes imaturos","Instrumentação rotatória NiTi","Instrumentação reciprocante","Irrigação com hipoclorito de sódio","EDTA e quelantes em endodontia","Obturação endodôntica","Diagnóstico diferencial de dor endodôntica","Perfuração radicular","Fratura de instrumento","Dente com rizogênese incompleta","Reabsorção radicular","Traumatismo dentário e endodontia","Cimentos endodônticos","Tomografia em endodontia","Endodontia em dentes com anatomia complexa","Lasers em endodontia","Medicação intracanal","Dente com câmara calcificada","Endodontia em dentes posteriores","Biopulpotomia em dentes permanentes","Dor pós-operatória em endodontia","Prognóstico endodôntico"],
+  "Odontopediatria": ["Cárie precoce na infância","Traumatismo dental em crianças","Pulpotomia em molares decíduos","Pulpectomia em decíduos","Odontologia para bebês","Fluoretação e prevenção","Selantes de fóssulas e fissuras","Ortopedia funcional dos maxilares","Respiração oral na infância","Hábitos orais deletérios","Ansiedade e medo em odontopediatria","Técnicas de manejo comportamental","Sedação em odontopediatria","Anestesia geral em odontopediatria","Traumatismo em dentes permanentes jovens","Erupção dentária e anomalias","Dentes supranumerários","Dentes neonatais","Nutrição e saúde bucal infantil","Fissura labiopalatina na infância","Doença periodontal em crianças","Atualização em cariologia pediátrica","Hipomineralização molar-incisivo (HMI)","Reabilitação oral pediátrica","Primeiro atendimento odontológico"],
+  "DTM e Dor Orofacial": ["Bruxismo do sono","Bruxismo em vigília","Artralgia da ATM","Deslocamento de disco com redução","Deslocamento de disco sem redução","Osteoartrite da ATM","Mialgia mastigatória","Dor miofascial","Placa oclusal estabilizadora","Placa oclusal de reposicionamento","Biofeedback em DTM","Toxina botulínica (Botox) em DTM","Fisioterapia orofacial","Diagnóstico por imagem da ATM (CBCT/RM)","Dor crônica orofacial","Neuralgia do trigêmeo","Cefaleia tensional e odontologia","Oclusão e DTM","Relação oclusal e postura","Diagnóstico diferencial de dores faciais","Dor neuropática orofacial","Impacto psicossocial das DTMs","Tratamento multidisciplinar em DTM","Laser de baixa intensidade em DTM","Qualidade de sono e DTM"],
+  "Radiologia": ["CBCT 3D em diagnóstico","Radiografia periapical digital","Panorâmica e suas limitações","Diagnóstico de cárie por imagem","Diagnóstico periodontal por radiografia","Planejamento de implantes com CBCT","CBCT em endodontia","CBCT em ortodontia","Redução de dose em radiologia odontológica","Inteligência artificial em radiologia","Detecção automática de cárie por IA","Radiologia em patologia oral","Imagem da ATM por RM","Sialografia","Radioprotecção em odontologia","Interpretação de achados incidentais","Diagnóstico de reabsorções radiculares","Lesões periapicais em imagem","CBCT em cirurgia guiada","Tomossíntese em odontologia","Fantomas e calibração em radiologia","Imagem em trauma facial","Princípios de proteção radiológica","Radiologia em pediatria","Teleradiologia e laudos remotos"]
+};
+
+let prefSelectedSpecs = [];
+let prefSelectedTemas = [];
+let _prefAllTemas = [];
+
+function renderPrefTab() {
+  if (!userData) return;
+  const currentSpecs = Array.isArray(userData.especialidade) ? userData.especialidade : (userData.especialidade ? [userData.especialidade] : []);
+  const currentTemas = Array.isArray(userData.temas) ? userData.temas : [];
+  prefSelectedSpecs = [...currentSpecs];
+  prefSelectedTemas = [...currentTemas];
+
+  const specEl = document.getElementById('prefSpecSelect');
+  specEl.innerHTML = Object.keys(THEMES).map(spec => {
+    const checked = currentSpecs.includes(spec);
+    const bg = checked ? 'rgba(14,165,233,0.1)' : 'var(--bg3)';
+    const border = checked ? 'rgba(14,165,233,0.3)' : 'var(--border)';
+    return `<label style="display:flex;align-items:center;gap:10px;background:${bg};border:1px solid ${border};border-radius:10px;padding:12px 14px;cursor:pointer;transition:all 0.2s;">
+      <input type="checkbox" ${checked ? 'checked' : ''} onchange="prefToggleSpec('${spec.replace(/'/g,"\\'")}',this)" style="width:16px;height:16px;accent-color:var(--primary);cursor:pointer;flex-shrink:0;"/>
+      <span style="font-size:14px;font-weight:600;">${spec}</span>
+    </label>`;
+  }).join('');
+
+  renderPrefTemas();
+  document.getElementById('prefSaveBtn').disabled = false;
+}
+
+function prefToggleSpec(spec, checkbox) {
+  const label = checkbox.closest('label');
+  if (checkbox.checked) {
+    if (!prefSelectedSpecs.includes(spec)) prefSelectedSpecs.push(spec);
+    label.style.background = 'rgba(14,165,233,0.1)';
+    label.style.borderColor = 'rgba(14,165,233,0.3)';
+  } else {
+    prefSelectedSpecs = prefSelectedSpecs.filter(s => s !== spec);
+    label.style.background = 'var(--bg3)';
+    label.style.borderColor = 'var(--border)';
+    const validTemas = new Set();
+    prefSelectedSpecs.forEach(s => (THEMES[s] || []).forEach(t => validTemas.add(t)));
+    prefSelectedTemas = prefSelectedTemas.filter(t => validTemas.has(t));
+  }
+  renderPrefTemas();
+}
+
+function renderPrefTemas() {
+  const section = document.getElementById('prefTemasSection');
+  const el = document.getElementById('prefTemasSelect');
+  if (!prefSelectedSpecs.length) { section.style.display = 'none'; return; }
+  section.style.display = 'block';
+  _prefAllTemas = [];
+  const seen = new Set();
+  prefSelectedSpecs.forEach(spec => {
+    (THEMES[spec] || []).forEach(t => { if (!seen.has(t)) { seen.add(t); _prefAllTemas.push(t); } });
+  });
+  el.innerHTML = _prefAllTemas.map((t, i) => {
+    const sel = prefSelectedTemas.includes(t);
+    return `<div onclick="prefToggleTema(${i},this)" style="padding:7px 14px;border-radius:20px;font-size:13px;font-weight:500;cursor:pointer;border:1px solid ${sel ? 'rgba(14,165,233,0.4)' : 'var(--border)'};background:${sel ? 'rgba(14,165,233,0.12)' : 'var(--bg3)'};color:${sel ? 'var(--primary)' : 'var(--muted)'};transition:all 0.15s;user-select:none;">${t}</div>`;
+  }).join('');
+  document.getElementById('prefTemasHint').textContent = prefSelectedTemas.length + ' tema(s) selecionado(s)';
+}
+
+function prefToggleTema(idx, el) {
+  const tema = _prefAllTemas[idx];
+  if (!tema) return;
+  if (prefSelectedTemas.includes(tema)) {
+    prefSelectedTemas = prefSelectedTemas.filter(t => t !== tema);
+    el.style.background = 'var(--bg3)'; el.style.borderColor = 'var(--border)'; el.style.color = 'var(--muted)';
+  } else {
+    prefSelectedTemas.push(tema);
+    el.style.background = 'rgba(14,165,233,0.12)'; el.style.borderColor = 'rgba(14,165,233,0.4)'; el.style.color = 'var(--primary)';
+  }
+  document.getElementById('prefTemasHint').textContent = prefSelectedTemas.length + ' tema(s) selecionado(s)';
+}
+
+async function salvarPreferencias() {
+  const email = getEmail(), token = getToken();
+  if (!email || !token) return;
+  const msg = document.getElementById('prefSaveMsg');
+  const btn = document.getElementById('prefSaveBtn');
+  if (!prefSelectedSpecs.length) { msg.style.color = 'var(--danger)'; msg.textContent = 'Selecione ao menos uma especialidade.'; return; }
+  if (!prefSelectedTemas.length) { msg.style.color = 'var(--danger)'; msg.textContent = 'Selecione ao menos um tema.'; return; }
+  btn.disabled = true; btn.textContent = 'Salvando...';
+  msg.textContent = '';
+  try {
+    const res = await fetch('/.netlify/functions/update-preferences', {
+      method: 'POST', headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ email, token, especialidade: prefSelectedSpecs, temas: prefSelectedTemas })
+    });
+    const data = await res.json();
+    if (res.ok && data.success) {
+      msg.style.color = 'var(--success)';
+      msg.textContent = '✓ Preferências salvas!';
+      if (userData) {
+        userData.especialidade = prefSelectedSpecs;
+        userData.temas = prefSelectedTemas;
+        document.getElementById('userSpec').textContent = '🦷 ' + prefSelectedSpecs.join(', ');
+      }
+    } else {
+      msg.style.color = 'var(--danger)';
+      msg.textContent = data.error || 'Erro ao salvar preferências.';
+    }
+  } catch(e) {
+    msg.style.color = 'var(--danger)';
+    msg.textContent = 'Erro de conexão.';
+  }
+  btn.disabled = false; btn.textContent = 'Salvar preferências';
+}
+
 // ========== TABS ==========
 function switchTab(name,btnEl){
   document.querySelectorAll('.tabs-wrap .tab-btn').forEach(b=>b.classList.remove('active'));
   document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
   btnEl.classList.add('active');
   document.getElementById('tab-'+name).classList.add('active');
+  if (name === 'preferencias') renderPrefTab();
 }
 
 // ========== INIT ==========
 window.addEventListener('DOMContentLoaded',()=>{
-  // url token removed
+  initResetForm();
   const token=getToken();
   const email=getEmail();
   if(token&&email){
@@ -570,6 +825,8 @@ window.addEventListener('DOMContentLoaded',()=>{
   }
   document.getElementById('loginEmail').addEventListener('keydown',e=>{ if(e.key==='Enter')loginComSenha(); });
   document.getElementById('loginSenha').addEventListener('keydown',e=>{ if(e.key==='Enter')loginComSenha(); });
+  document.getElementById('novaSenha').addEventListener('keydown',e=>{ if(e.key==='Enter')confirmarNovaSenha(); });
+  document.getElementById('forgotEmail').addEventListener('keydown',e=>{ if(e.key==='Enter')enviarRecuperacao(); });
 });
 </script>
 </body>
