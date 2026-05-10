@@ -359,11 +359,11 @@ function populateDashboard(data){
   document.getElementById('countCurtidos').textContent=curtidos.length?'('+curtidos.length+')':'';
   document.getElementById('countAmigos').textContent=amigos.length?'('+amigos.length+')':'';
 
+  const lidos = data.lidos || [];
+  const temas = data.temas || [];
   renderRecebidos(artigos,curtidos,lidos);
   renderCurtidos(artigos,curtidos,lidos);
   renderAmigos(amigos);
-  const lidos = data.lidos || [];
-  const temas = data.temas || [];
   renderLidos(artigos, lidos, curtidos);
   renderEspecialidades(artigos, specs, temas, curtidos, lidos);
 }
