@@ -273,6 +273,27 @@ const TEMA_MAP = {
   "Teleradiologia e laudos remotos": ["teleradiology dental remote reporting", "remote radiographic report dental", "digital radiograph teleconsultation"]
 };
 
+// Reverse lookup: tema PT name -> which specialty it belongs to
+// Built from the same THEMES structure in index.html
+const TEMA_TO_ESPECIALIDADE = {};
+(function() {
+  const THEMES_BY_SPEC = {
+    "Ortodontia": ["Alinhadores invisíveis","Biomecânica ortodôntica","Cefalometria","Mini-implantes / TADs","Expansão maxilar","Cirurgia ortognática","Ortodontia e ATM","Ancoragem esquelética","Contenção e recidiva","Ortodontia interceptiva","Aparelho fixo estético","Extração em ortodontia","Ortodontia lingual","Self-ligating","Torque e angulação","Crescimento e desenvolvimento facial","Ortodontia em adultos","Respiração oral e má-oclusão","Ortodontia e sono/apneia","Tratamento de Classe II","Tratamento de Classe III","Mordida aberta","Mordida cruzada posterior","Sobremordida profunda","Inteligência artificial em ortodontia"],
+    "Implantodontia": ["Osseointegração","Carga imediata","Enxertos ósseos autógenos","Enxertos com biomateriais","Implantes zigomáticos","Prótese sobre implante","Peri-implantite","Planejamento digital 3D","All-on-4 e All-on-X","Implantes em maxila posterior","Implantes em mandíbula posterior","Elevação de seio maxilar","Implantes estreitos (mini-implantes)","Implantes curtos","Tecido mole peri-implantar","Carga diferida","Reabilitação com implantes unitários","Implantes em pacientes sistêmicos","Complicações em implantes","Sobredentadura","Membranas e ROG","Biofilme peri-implantar","Impressão digital em implantes","Implantes imediatos pós-extração","Implantes em adolescentes"],
+    "Periodontia": ["Doença periodontal crônica","Periodontite agressiva","Gengivite","Regeneração tecidual guiada","Cirurgia mucogengival","Periodontia e diabetes","Periodontia e doenças cardiovasculares","Lasers em periodontia","Manutenção periodontal","Raspagem e alisamento radicular","Cirurgia ressectiva","Cirurgia regenerativa","Enxerto gengival livre","Retalho de reposicionamento","Tratamento de furca","Abscesso periodontal","Periodontia e tabagismo","Microbioma periodontal","Periodontia e gestação","Periodontia e osteoporose","Medicação de suporte periodontal","Terapia fotodinâmica","Ozônio em periodontia","Periodontia estética","Defeitos ósseos verticais"],
+    "Dentística": ["Resinas compostas nanoparticuladas","Clareamento dental","Facetas de porcelana","Laminados cerâmicos","Adesão dental","Estética digital (DSD)","Restaurações indiretas em cerâmica","Inlays e onlays","Cárie e mínima intervenção","Fluorose e tratamento","Erosão dental","Sensibilidade dentinária","Bruxismo e dentística","Mock-up digital","Pigmentações e manchamentos","Restaurações em dentes anteriores","Sistemas cerâmicos (zircônia, dissilicato)","Fotopolimerização e luz LED","Cor em dentística","Tratamento de cavidades classe IV","Restaurações cervicais","Dentística minimamente invasiva","Materiais provisórios estéticos","Técnica incremental em compósito","Polimento e acabamento"],
+    "Bucomaxilofacial": ["Cirurgia ortognática","Trauma facial","Fraturas mandibulares","Fraturas do terço médio","Patologia oral benigna","Cistos odontogênicos","Tumores benignos dos maxilares","Carcinoma espinocelular oral","Reconstrução mandibular","Distração osteogênica","Transplante de osso","Enxertos microvascularizados","Articulação temporomandibular cirúrgica","Cirurgia de terceiros molares","Doenças das glândulas salivares","Fissura labiopalatina","Cirurgia pré-protética","Complicações pós-operatórias","Anestesia local em BMF","Implantes zigomáticos em BMF","Medicina do sono e cirurgia","Bifosfonatos e osteonecrose","Cirurgia oncológica oral","Reconstrução com retalhos locais","Cirurgia minimamente invasiva"],
+    "Prótese": ["Prótese total convencional","Prótese parcial removível","Prótese fixa unitária","Prótese fixa de múltiplos elementos","Oclusão em prótese","Reabilitação oral completa","Materiais cerâmicos para prótese","Zircônia em prótese fixa","CAD/CAM em prótese","Prótese implanto-suportada","Prótese parcial imediata","Prótese provisória","Overdenture sobre implantes","Prótese bucomaxilofacial","Reembasamento de próteses","Prótese em pacientes geriátricos","Estética em prótese fixa","Cimentação adesiva","Prótese e bruxismo","Desordens oclusais","Impressão digital em prótese","Cera e moldagem funcional","Prótese e ATM","Sorrisos compostos","Prótese e estética facial"],
+    "Endodontia": ["Tratamento de canal convencional","Retratamento endodôntico","Cirurgia perirradicular (apicectomia)","Regeneração pulpar em dentes imaturos","Instrumentação rotatória NiTi","Instrumentação reciprocante","Irrigação com hipoclorito de sódio","EDTA e quelantes em endodontia","Obturação endodôntica","Diagnóstico diferencial de dor endodôntica","Perfuração radicular","Fratura de instrumento","Dente com rizogênese incompleta","Reabsorção radicular","Traumatismo dentário e endodontia","Cimentos endodônticos","Tomografia em endodontia","Endodontia em dentes com anatomia complexa","Lasers em endodontia","Medicação intracanal","Dente com câmara calcificada","Endodontia em dentes posteriores","Biopulpotomia em dentes permanentes","Dor pós-operatória em endodontia","Prognóstico endodôntico"],
+    "Odontopediatria": ["Cárie precoce na infância","Traumatismo dental em crianças","Pulpotomia em molares decíduos","Pulpectomia em decíduos","Odontologia para bebês","Fluoretação e prevenção","Selantes de fóssulas e fissuras","Ortopedia funcional dos maxilares","Respiração oral na infância","Hábitos orais deletérios","Ansiedade e medo em odontopediatria","Técnicas de manejo comportamental","Sedação em odontopediatria","Anestesia geral em odontopediatria","Traumatismo em dentes permanentes jovens","Erupção dentária e anomalias","Dentes supranumerários","Dentes neonatais","Nutrição e saúde bucal infantil","Fissura labiopalatina na infância","Doença periodontal em crianças","Atualização em cariologia pediátrica","Hipomineralização molar-incisivo (HMI)","Reabilitação oral pediátrica","Primeiro atendimento odontológico"],
+    "DTM e Dor Orofacial": ["Bruxismo do sono","Bruxismo em vigília","Artralgia da ATM","Deslocamento de disco com redução","Deslocamento de disco sem redução","Osteoartrite da ATM","Mialgia mastigatória","Dor miofascial","Placa oclusal estabilizadora","Placa oclusal de reposicionamento","Biofeedback em DTM","Toxina botulínica (Botox) em DTM","Fisioterapia orofacial","Diagnóstico por imagem da ATM (CBCT/RM)","Dor crônica orofacial","Neuralgia do trigêmeo","Cefaleia tensional e odontologia","Oclusão e DTM","Relação oclusal e postura","Diagnóstico diferencial de dores faciais","Dor neuropática orofacial","Impacto psicossocial das DTMs","Tratamento multidisciplinar em DTM","Laser de baixa intensidade em DTM","Qualidade de sono e DTM"],
+    "Radiologia": ["CBCT 3D em diagnóstico","Radiografia periapical digital","Panorâmica e suas limitações","Diagnóstico de cárie por imagem","Diagnóstico periodontal por radiografia","Planejamento de implantes com CBCT","CBCT em endodontia","CBCT em ortodontia","Redução de dose em radiologia odontológica","Inteligência artificial em radiologia","Detecção automática de cárie por IA","Radiologia em patologia oral","Imagem da ATM por RM","Sialografia","Radioprotecção em odontologia","Interpretação de achados incidentais","Diagnóstico de reabsorções radiculares","Lesões periapicais em imagem","CBCT em cirurgia guiada","Tomossíntese em odontologia","Fantomas e calibração em radiologia","Imagem em trauma facial","Princípios de proteção radiológica","Radiologia em pediatria","Teleradiologia e laudos remotos"]
+  };
+  for (const [esp, temas] of Object.entries(THEMES_BY_SPEC)) {
+    for (const t of temas) { TEMA_TO_ESPECIALIDADE[t] = esp; }
+  }
+})();
+
 // Legacy single-string fallback for themes not in TEMA_MAP
 const TEMA_EN_LEGACY = {
   "Expansão palatina": ["palatal expansion orthodontics", "rapid palatal expansion", "maxillary expansion RPE"],
@@ -329,12 +350,17 @@ async function getUsers(projectId, apiKey) {
     const temas = f.temas?.stringValue
       ? f.temas.stringValue.split(',').map(t => t.trim()).filter(Boolean)
       : (f.temas?.arrayValue?.values || []).map(v => v.stringValue || '').filter(Boolean);
-    const especialidade = f.especialidade?.stringValue ||
-      (f.especialidade?.arrayValue?.values?.[0]?.stringValue) || '';
+    const especialidades = f.especialidade?.arrayValue?.values
+      ? f.especialidade.arrayValue.values.map(v => v.stringValue || '').filter(Boolean)
+      : f.especialidade?.stringValue
+        ? [f.especialidade.stringValue]
+        : [];
+    const especialidade = especialidades[0] || '';
     return {
       nome: f.nome?.stringValue || "",
       email: f.email?.stringValue || "",
       especialidade,
+      especialidades,
       temas,
       ativo: f.ativo?.booleanValue !== false
     };
@@ -564,17 +590,30 @@ exports.handler = async function(event) {
         continue;
       }
 
+      // Filter temas to only those belonging to the user's selected specialties
+      const userSpecs = new Set(
+        user.especialidades && user.especialidades.length ? user.especialidades : [user.especialidade]
+      );
+      const validTemas = temas.filter(t => {
+        const temaEsp = TEMA_TO_ESPECIALIDADE[t];
+        return !temaEsp || userSpecs.has(temaEsp);
+      });
+      const temaPool = validTemas.length > 0 ? validTemas : temas;
+      if (validTemas.length < temas.length) {
+        console.log(`[Filter] ${user.email}: ${temas.length - validTemas.length} tema(s) filtered out (wrong specialty). Pool: ${validTemas.length}`);
+      }
+
       // Pick a random theme and resolve English search terms
-      const tema = temas[Math.floor(Math.random() * temas.length)];
+      const tema = temaPool[Math.floor(Math.random() * temaPool.length)];
       const terms = getSearchTerms(tema, user.especialidade);
       const sentPmids = await getSentPmids(projectId, apiKey, user.email);
       console.log(`[Dispatch] ${user.email} | tema: "${tema}" | terms: ${terms.length} | sentPmids: ${sentPmids.length}`);
 
       let article = await searchPubMed(terms, sentPmids, tema);
 
-      // If chosen theme failed, try other themes from user's list
-      if (!article && temas.length > 1) {
-        const otherTemas = temas.filter(t => t !== tema);
+      // If chosen theme failed, try other themes from user's valid list
+      if (!article && temaPool.length > 1) {
+        const otherTemas = temaPool.filter(t => t !== tema);
         for (const altTema of otherTemas) {
           const altTerms = getSearchTerms(altTema, user.especialidade);
           console.log(`[Fallback] Trying alternate theme "${altTema}" for ${user.email}`);
