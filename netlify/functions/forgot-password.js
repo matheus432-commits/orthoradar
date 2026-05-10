@@ -1,4 +1,5 @@
 const https = require('https');
+const crypto = require('crypto');
 
 function request(options, body) {
   return new Promise((resolve, reject) => {
@@ -104,7 +105,7 @@ exports.handler = async (event) => {
   try {
     const user = await getUserByEmail(projectId, apiKey, email);
     if (user) {
-      const token = Math.random().toString(36).substring(2) + Date.now().toString(36) + Math.random().toString(36).substring(2);
+      const token = crypto.randomBytes(32).toString('hex');
       const expiry = new Date(Date.now() + 3600000).toISOString();
       await saveResetToken(projectId, apiKey, user.docId, token, expiry);
       if (resendKey) await sendResetEmail(resendKey, user.nome, email, token);

@@ -354,7 +354,14 @@ async function loadDashboard(email,token){
     const res=await fetch('/.netlify/functions/get-user-data?email='+encodeURIComponent(email),{
       headers:{'Authorization':'Bearer '+token}
     });
-    if(!res.ok){ logout(); return; }
+    if(!res.ok){
+      let errMsg='Sessão expirada. Faça login novamente.';
+      try{ const d=await res.json(); errMsg=d.error||errMsg; }catch(e){}
+      logout();
+      const msgEl=document.getElementById('loginMsg');
+      if(msgEl){ msgEl.className='login-msg error'; msgEl.textContent=errMsg; }
+      return;
+    }
     const data=await res.json();
     userData=data;
     populateDashboard(data);

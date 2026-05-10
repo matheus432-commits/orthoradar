@@ -1,4 +1,5 @@
 const https = require('https');
+const crypto = require('crypto');
 
 // Must match HASH_SALT in index.html and dashboard.html
 const HASH_SALT = 'OF26_';
@@ -139,7 +140,7 @@ exports.handler = async (event) => {
     }
 
     // Success: generate session token and clear rate limit counters
-    const token = Math.random().toString(36).substring(2) + Date.now().toString(36) + Math.random().toString(36).substring(2);
+    const token = crypto.randomBytes(32).toString('hex');
     const expiry = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
 
     await patchFields(projectId, apiKey, user._id, {

@@ -451,7 +451,26 @@ function validateSenha() {
         document.getElementById('inputEmail').className = 'form-input invalid';
         return;
       }
-    } catch(e) {}
+      // Auto-login after successful registration
+      btn.textContent = 'Entrando na sua conta...';
+      try {
+        const loginRes = await fetch('/.netlify/functions/login', {
+          method: 'POST', headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ email, senhaHash })
+        });
+        const loginData = await loginRes.json();
+        if (loginRes.ok && loginData.token) {
+          localStorage.setItem('of_token', loginData.token);
+          localStorage.setItem('of_email', email);
+          window.location.href = '/dashboard';
+          return;
+        }
+      } catch(e) {}
+    } catch(e) {
+      btn.disabled = false; btn.textContent = 'Criar conta e começar a receber →';
+      return;
+    }
+    // Fallback: show success box if auto-login failed
     document.getElementById('fstep3').style.display = 'none';
     document.getElementById('successBox').style.display = 'block';
     document.querySelector('.step-indicator').style.display = 'none';
