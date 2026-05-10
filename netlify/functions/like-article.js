@@ -1,9 +1,6 @@
 const { request } = require('./_lib');
 
-// HTTP helper
-
-// Firestore: query user by email
-async function getUserByEmail(projectId, apiKey, email) {
+async function getUser(projectId, apiKey, email) {
   const body = JSON.stringify({
     structuredQuery: {
       from: [{ collectionId: 'cadastros' }],
@@ -23,29 +20,31 @@ async function getUserByEmail(projectId, apiKey, email) {
   if (!docs[0] || !docs[0].document) return null;
   const doc = docs[0].document;
   const f = doc.fields || {};
-  const curtidos = f.curtidos && f.curtidos.arrayValue && f.curtidos.arrayValue.values
-    ? f.curtidos.arrayValue.values.map(v => v.stringValue || '')
-    : [];
   return {
     docId: doc.name.split('/').pop(),
     sessionToken: (f.sessionToken && f.sessionToken.stringValue) || null,
-    sessionExpiry: (f.sessionExpiry && f.sessionExpiry.stringValue) || null,
-    curtidos
+    sessionExpiry: (f.sessionExpiry && f.sessionExpiry.stringValue) || null
   };
 }
 
-// Firestore: update curtidos array
-async function updateCurtidos(projectId, apiKey, docId, curtidos) {
-  const values = curtidos.map(id => ({ stringValue: id }));
+// Atomic Firestore array operation — no read-modify-write, no race condition
+async function atomicArrayOp(projectId, apiKey, docId, field, op, value) {
   const body = JSON.stringify({
-    fields: { curtidos: { arrayValue: { values } } }
+    writes: [{
+      transform: {
+        document: 'projects/' + projectId + '/databases/(default)/documents/cadastros/' + docId,
+        fieldTransforms: [{
+          fieldPath: field,
+          [op]: { values: [{ stringValue: value }] }
+        }]
+      }
+    }]
   });
   const buf = Buffer.from(body, 'utf8');
   const res = await request({
     hostname: 'firestore.googleapis.com',
-    path: '/v1/projects/' + projectId + '/databases/(default)/documents/cadastros/' + docId +
-          '?updateMask.fieldPaths=curtidos&key=' + apiKey,
-    method: 'PATCH',
+    path: '/v1/projects/' + projectId + '/databases/(default)/documents:commit?key=' + apiKey,
+    method: 'POST',
     headers: { 'Content-Type': 'application/json', 'Content-Length': buf.length }
   }, buf);
   return res.status === 200;
@@ -75,19 +74,15 @@ exports.handler = async (event) => {
   const projectId = process.env.FIREBASE_PROJECT_ID || 'orthoradar';
   const apiKey = process.env.FIREBASE_API_KEY;
   try {
-    const user = await getUserByEmail(projectId, apiKey, email);
+    const user = await getUser(projectId, apiKey, email);
     if (!user) return { statusCode: 404, headers, body: JSON.stringify({ error: 'Usuario nao encontrado' }) };
     if (user.sessionToken !== token) return { statusCode: 401, headers, body: JSON.stringify({ error: 'Token invalido' }) };
     if (user.sessionExpiry && new Date(user.sessionExpiry) < new Date()) {
       return { statusCode: 401, headers, body: JSON.stringify({ error: 'Sessao expirada.' }) };
     }
-    let curtidos = user.curtidos || [];
-    if (action === 'like') {
-      if (!curtidos.includes(artigoId)) curtidos.push(artigoId);
-    } else {
-      curtidos = curtidos.filter(id => id !== artigoId);
-    }
-    await updateCurtidos(projectId, apiKey, user.docId, curtidos);
+    // appendMissingElements = arrayUnion, removeAllFromArray = arrayRemove — both atomic
+    const op = action === 'like' ? 'appendMissingElements' : 'removeAllFromArray';
+    await atomicArrayOp(projectId, apiKey, user.docId, 'curtidos', op, artigoId);
     return { statusCode: 200, headers, body: JSON.stringify({ success: true, action, artigoId }) };
   } catch(err) {
     console.error('Like article error:', err);

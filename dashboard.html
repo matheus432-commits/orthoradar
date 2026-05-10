@@ -552,12 +552,14 @@ async function toggleLido(artId) {
   const email = getEmail(), token = getToken();
   if (!email || !token) return;
   const btns = document.querySelectorAll(`.btn-lido[onclick="toggleLido('${artId}')"]`);
+  const currentlyLido = btns[0]?.classList.contains('lido') ?? false;
+  const action = currentlyLido ? 'unmark' : 'mark';
   btns.forEach(b => { b.disabled = true; });
   try {
     const res = await fetch('/.netlify/functions/toggle-lido', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, token, artId })
+      body: JSON.stringify({ email, token, artId, action })
     });
     if (!res.ok) return;
     const data = await res.json();

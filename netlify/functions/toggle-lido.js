@@ -1,7 +1,6 @@
 const { request } = require('./_lib');
 
-
-async function getUserByEmail(projectId, apiKey, email) {
+async function getUser(projectId, apiKey, email) {
   const body = JSON.stringify({
     structuredQuery: {
       from: [{ collectionId: 'cadastros' }],
@@ -21,28 +20,31 @@ async function getUserByEmail(projectId, apiKey, email) {
   if (!docs[0] || !docs[0].document) return null;
   const doc = docs[0].document;
   const f = doc.fields || {};
-  const lidos = f.lidos && f.lidos.arrayValue && f.lidos.arrayValue.values
-    ? f.lidos.arrayValue.values.map(v => v.stringValue || '')
-    : [];
   return {
     docId: doc.name.split('/').pop(),
     sessionToken: (f.sessionToken && f.sessionToken.stringValue) || null,
-    sessionExpiry: (f.sessionExpiry && f.sessionExpiry.stringValue) || null,
-    lidos
+    sessionExpiry: (f.sessionExpiry && f.sessionExpiry.stringValue) || null
   };
 }
 
-async function updateLidos(projectId, apiKey, docId, lidos) {
-  const values = lidos.map(id => ({ stringValue: id }));
+// Atomic Firestore array operation — no read-modify-write, no race condition
+async function atomicArrayOp(projectId, apiKey, docId, field, op, value) {
   const body = JSON.stringify({
-    fields: { lidos: { arrayValue: { values } } }
+    writes: [{
+      transform: {
+        document: 'projects/' + projectId + '/databases/(default)/documents/cadastros/' + docId,
+        fieldTransforms: [{
+          fieldPath: field,
+          [op]: { values: [{ stringValue: value }] }
+        }]
+      }
+    }]
   });
   const buf = Buffer.from(body, 'utf8');
   const res = await request({
     hostname: 'firestore.googleapis.com',
-    path: '/v1/projects/' + projectId + '/databases/(default)/documents/cadastros/' + docId +
-          '?updateMask.fieldPaths=lidos&key=' + apiKey,
-    method: 'PATCH',
+    path: '/v1/projects/' + projectId + '/databases/(default)/documents:commit?key=' + apiKey,
+    method: 'POST',
     headers: { 'Content-Type': 'application/json', 'Content-Length': buf.length }
   }, buf);
   return res.status === 200;
@@ -60,28 +62,26 @@ exports.handler = async (event) => {
   try { body = JSON.parse(event.body); } catch(e) {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'JSON invalido' }) };
   }
-  const { email, token, artId } = body;
-  if (!email || !token || !artId) {
-    return { statusCode: 400, headers, body: JSON.stringify({ error: 'Campos obrigatorios: email, token, artId' }) };
+  const { email, token, artId, action } = body;
+  if (!email || !token || !artId || !action) {
+    return { statusCode: 400, headers, body: JSON.stringify({ error: 'Campos obrigatorios: email, token, artId, action' }) };
+  }
+  if (!['mark', 'unmark'].includes(action)) {
+    return { statusCode: 400, headers, body: JSON.stringify({ error: 'Action deve ser mark ou unmark' }) };
   }
   const projectId = process.env.FIREBASE_PROJECT_ID || 'orthoradar';
   const apiKey = process.env.FIREBASE_API_KEY;
   try {
-    const user = await getUserByEmail(projectId, apiKey, email);
+    const user = await getUser(projectId, apiKey, email);
     if (!user) return { statusCode: 404, headers, body: JSON.stringify({ error: 'Usuario nao encontrado' }) };
     if (user.sessionToken !== token) return { statusCode: 401, headers, body: JSON.stringify({ error: 'Token invalido' }) };
     if (user.sessionExpiry && new Date(user.sessionExpiry) < new Date()) {
       return { statusCode: 401, headers, body: JSON.stringify({ error: 'Sessao expirada' }) };
     }
-    let lidos = user.lidos || [];
-    const jaLido = lidos.includes(artId);
-    if (jaLido) {
-      lidos = lidos.filter(id => id !== artId);
-    } else {
-      lidos.push(artId);
-    }
-    await updateLidos(projectId, apiKey, user.docId, lidos);
-    return { statusCode: 200, headers, body: JSON.stringify({ success: true, artId, lido: !jaLido }) };
+    // appendMissingElements = arrayUnion, removeAllFromArray = arrayRemove — both atomic
+    const op = action === 'mark' ? 'appendMissingElements' : 'removeAllFromArray';
+    await atomicArrayOp(projectId, apiKey, user.docId, 'lidos', op, artId);
+    return { statusCode: 200, headers, body: JSON.stringify({ success: true, artId, lido: action === 'mark' }) };
   } catch(err) {
     console.error('Toggle lido error:', err);
     return { statusCode: 500, headers, body: JSON.stringify({ error: 'Erro interno: ' + err.message }) };
