@@ -331,6 +331,51 @@ function request(options, body) {
   });
 }
 
+// Translate title + summarize abstract in Portuguese using Claude Haiku
+async function translateWithClaude(title, abstract, tema, especialidade) {
+  const anthropicKey = process.env.ANTHROPIC_API_KEY;
+  if (!anthropicKey) return null;
+  if (!abstract || abstract.length < 50) return null;
+  const prompt = `Você é um editor científico de odontologia. Traduza o título e crie um resumo em português brasileiro claro e profissional para dentistas, baseado no abstract abaixo.
+
+Responda APENAS com JSON válido no formato: {"titulo": "título traduzido", "resumo": "resumo de 3 a 5 frases"}
+
+Tema: ${tema}
+Especialidade: ${especialidade}
+Título original: ${title}
+Abstract: ${abstract.substring(0, 1500)}`;
+  const payload = JSON.stringify({
+    model: 'claude-haiku-4-5-20251001',
+    max_tokens: 600,
+    messages: [{ role: 'user', content: prompt }]
+  });
+  const buf = Buffer.from(payload, 'utf8');
+  try {
+    const res = await request({
+      hostname: 'api.anthropic.com',
+      path: '/v1/messages',
+      method: 'POST',
+      headers: {
+        'x-api-key': anthropicKey,
+        'anthropic-version': '2023-06-01',
+        'content-type': 'application/json',
+        'content-length': buf.length
+      }
+    }, buf);
+    if (res.status !== 200) { console.warn('[Claude] HTTP', res.status, res.body.substring(0, 120)); return null; }
+    const data = JSON.parse(res.body);
+    const text = (data.content && data.content[0] && data.content[0].text) || '';
+    const m = text.match(/\{[\s\S]*\}/);
+    if (!m) return null;
+    const result = JSON.parse(m[0]);
+    if (!result.titulo || !result.resumo) return null;
+    return { titulo: result.titulo.trim(), resumo: result.resumo.trim() };
+  } catch(e) {
+    console.warn('[Claude] Translation error:', e.message);
+    return null;
+  }
+}
+
 // Firestore: list all users (paginated)
 async function getUsers(projectId, apiKey) {
   let allDocs = [];
@@ -476,8 +521,10 @@ function generateSummary(article, especialidade, tema) {
 // Build email HTML
 function buildEmail(user, article, tema) {
   const pubmedUrl = "https://pubmed.ncbi.nlm.nih.gov/" + article.pmid + "/";
-  const summary = generateSummary(article, user.especialidade, tema);
+  const titulo = article.tituloLocal || article.title;
+  const summary = article.resumoLocal || generateSummary(article, user.especialidade, tema);
   const firstName = user.nome.split(" ")[0];
+  const specs = Array.isArray(user.especialidade) ? user.especialidade.join(', ') : (user.especialidade || '');
   return `<!DOCTYPE html>
 <html lang="pt-BR">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"></head>
@@ -488,9 +535,9 @@ function buildEmail(user, article, tema) {
 <p style="color:#94a3b8;font-size:0.78rem;margin:6px 0 0;letter-spacing:1px;text-transform:uppercase;">Artigo do Dia · ${new Date().toLocaleDateString("pt-BR",{weekday:"long",day:"numeric",month:"long"})}</p>
 </div>
 <div style="background:#ffffff;padding:32px;border-left:1px solid #e2e8f0;border-right:1px solid #e2e8f0;">
-<p style="color:#64748b;font-size:0.9rem;margin:0 0 20px;">Olá, <strong style="color:#0f172a;">${firstName}</strong>! Seu artigo diário de <strong style="color:#0ea5e9;">${user.especialidade}</strong> chegou.</p>
+<p style="color:#64748b;font-size:0.9rem;margin:0 0 20px;">Olá, <strong style="color:#0f172a;">${firstName}</strong>! Seu artigo diário de <strong style="color:#0ea5e9;">${specs}</strong> chegou.</p>
 <div style="margin-bottom:20px;"><span style="background:#eff6ff;color:#0ea5e9;border:1px solid #bfdbfe;padding:5px 14px;border-radius:999px;font-size:0.78rem;font-weight:600;">${tema}</span></div>
-<h1 style="font-size:1.15rem;font-weight:800;color:#0f172a;line-height:1.4;margin:0 0 20px;">${article.title}</h1>
+<h1 style="font-size:1.15rem;font-weight:800;color:#0f172a;line-height:1.4;margin:0 0 20px;">${titulo}</h1>
 <div style="background:#f8fafc;border-radius:10px;padding:14px 18px;margin-bottom:24px;font-size:0.82rem;color:#64748b;">
 <span style="margin-right:16px;">📚 <strong>${article.journal}</strong></span>
 <span style="margin-right:16px;">📅 ${article.year}</span>
@@ -574,14 +621,22 @@ exports.handler = async function(event) {
         const sentPmids = await getSentPmids(projectId, apiKey, user.email);
         const article = await searchPubMed(fallbackTerms, sentPmids, user.especialidade + " fallback");
         if (!article) { console.warn(`[Skip] No article found for ${user.email} via fallback`); skipped++; continue; }
+        const fallbackTranslation = await translateWithClaude(article.title, article.abstract, user.especialidade, user.especialidade).catch(() => null);
+        if (fallbackTranslation) {
+          article.tituloLocal = fallbackTranslation.titulo;
+          article.resumoLocal = fallbackTranslation.resumo;
+          console.log(`[Claude] Translated fallback article for ${user.email}`);
+        }
         const html = buildEmail(user, article, user.especialidade);
-        const subject = "🧪 " + article.title.substring(0, 70) + (article.title.length > 70 ? "..." : "");
+        const tituloEmail = article.tituloLocal || article.title;
+        const subject = "🦷 " + tituloEmail.substring(0, 70) + (tituloEmail.length > 70 ? "..." : "");
         const emailRes = await sendEmail(resendKey, user.email, subject, html);
         if (emailRes.status === 200 || emailRes.status === 201) {
           sent++;
           await saveArticleToFirestore(projectId, apiKey, {
             email: user.email, especialidade: user.especialidade, tema: user.especialidade,
-            titulo: article.title || '', resumo: article.abstract || '',
+            titulo: article.tituloLocal || article.title || '',
+            resumo: article.resumoLocal || generateSummary(article, user.especialidade, user.especialidade),
             pubmedUrl: 'https://pubmed.ncbi.nlm.nih.gov/' + article.pmid + '/',
             pmid: String(article.pmid || ''), data: new Date().toISOString()
           }).catch(e => console.warn('Could not save article:', e.message));
@@ -637,15 +692,23 @@ exports.handler = async function(event) {
       }
 
       console.log(`[Found] "${article.title.substring(0, 60)}" for ${user.email}`);
+      const translation = await translateWithClaude(article.title, article.abstract, tema, user.especialidade).catch(() => null);
+      if (translation) {
+        article.tituloLocal = translation.titulo;
+        article.resumoLocal = translation.resumo;
+        console.log(`[Claude] Translated article for ${user.email}: "${translation.titulo.substring(0, 50)}"`);
+      }
       const html = buildEmail(user, article, tema);
-      const subject = "🧪 " + article.title.substring(0, 70) + (article.title.length > 70 ? "..." : "");
+      const tituloEmail = article.tituloLocal || article.title;
+      const subject = "🦷 " + tituloEmail.substring(0, 70) + (tituloEmail.length > 70 ? "..." : "");
       const emailRes = await sendEmail(resendKey, user.email, subject, html);
       if (emailRes.status === 200 || emailRes.status === 201) {
         console.log(`[Sent] Email to ${user.email}`);
         sent++;
         await saveArticleToFirestore(projectId, apiKey, {
           email: user.email, especialidade: user.especialidade, tema,
-          titulo: article.title || '', resumo: article.abstract || '',
+          titulo: article.tituloLocal || article.title || '',
+          resumo: article.resumoLocal || generateSummary(article, user.especialidade, tema),
           pubmedUrl: 'https://pubmed.ncbi.nlm.nih.gov/' + article.pmid + '/',
           pmid: String(article.pmid || ''), data: new Date().toISOString()
         }).catch(e => console.warn('Could not save article history:', e.message));
