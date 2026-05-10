@@ -121,7 +121,7 @@ exports.handler = async (event) => {
       nome,
       email,
       especialidade: Array.isArray(especialidade) ? especialidade : [especialidade],
-      temas: Array.isArray(temas) ? temas.join(',') : temas,
+      temas: Array.isArray(temas) ? temas : [temas],
       senhaHash,
       ativo: true,
       criadoEm: new Date().toISOString(),

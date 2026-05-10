@@ -507,7 +507,7 @@ function buildEmail(user, article, tema) {
 </div>
 <div style="background:#0b1120;border-radius:0 0 16px 16px;padding:20px 32px;text-align:center;">
 <p style="color:#475569;font-size:0.78rem;margin:0;">OdontoFeed — Ciência odontológica direto para você</p>
-<p style="color:#334155;font-size:0.72rem;margin:6px 0 0;">Para cancelar o recebimento, responda este email com "cancelar".</p>
+<p style="color:#334155;font-size:0.72rem;margin:8px 0 0;"><a href="https://odontofeed.com/.netlify/functions/unsubscribe?email=${encodeURIComponent(user.email)}" style="color:#475569;text-decoration:underline;">Cancelar recebimento</a></p>
 </div>
 </div>
 </body>
@@ -603,8 +603,9 @@ exports.handler = async function(event) {
         console.log(`[Filter] ${user.email}: ${temas.length - validTemas.length} tema(s) filtered out (wrong specialty). Pool: ${validTemas.length}`);
       }
 
-      // Pick a random theme and resolve English search terms
-      const tema = temaPool[Math.floor(Math.random() * temaPool.length)];
+      // Pick tema by day-based rotation so all themes are covered over time
+      const dayNumber = Math.floor(Date.now() / 86400000);
+      const tema = temaPool[dayNumber % temaPool.length];
       const terms = getSearchTerms(tema, user.especialidade);
       const sentPmids = await getSentPmids(projectId, apiKey, user.email);
       console.log(`[Dispatch] ${user.email} | tema: "${tema}" | terms: ${terms.length} | sentPmids: ${sentPmids.length}`);

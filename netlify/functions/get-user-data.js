@@ -82,11 +82,39 @@ exports.handler = async (event) => {
     let amigos = [];
     try {
       const spec = Array.isArray(user.especialidade) ? user.especialidade[0] : (user.especialidade || '');
-      const allSameSpec = await queryByField(projectId, apiKey, 'cadastros', 'especialidade', spec, 50);
-      amigos = allSameSpec
-        .filter(u => u.email !== email)
-        .slice(0, 20)
-        .map(u => ({ nome: u.nome || '', email: u.email || '', especialidade: u.especialidade || '' }));
+      if (spec) {
+        const body = JSON.stringify({
+          structuredQuery: {
+            from: [{ collectionId: 'cadastros' }],
+            where: { fieldFilter: { field: { fieldPath: 'especialidade' }, op: 'ARRAY_CONTAINS', value: { stringValue: spec } } },
+            limit: 50
+          }
+        });
+        const buf = Buffer.from(body, 'utf8');
+        const res = await request({
+          hostname: 'firestore.googleapis.com',
+          path: '/v1/projects/' + projectId + '/databases/(default)/documents:runQuery?key=' + apiKey,
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Content-Length': buf.length }
+        }, buf);
+        if (res.status === 200) {
+          const docs = JSON.parse(res.body);
+          amigos = docs
+            .filter(d => d.document)
+            .map(d => {
+              const f = d.document.fields || {};
+              return {
+                nome: f.nome?.stringValue || '',
+                email: f.email?.stringValue || '',
+                especialidade: f.especialidade?.arrayValue?.values
+                  ? f.especialidade.arrayValue.values.map(v => v.stringValue || '').filter(Boolean)
+                  : f.especialidade?.stringValue || ''
+              };
+            })
+            .filter(u => u.email && u.email !== email)
+            .slice(0, 20);
+        }
+      }
     } catch(e) { console.warn('Could not fetch amigos:', e.message); }
 
     const temas = user.temas ? (typeof user.temas === 'string' ? user.temas.split(',') : user.temas) : [];
