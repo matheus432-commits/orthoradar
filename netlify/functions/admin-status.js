@@ -1,16 +1,5 @@
 const https = require('https');
-
-function request(options) {
-  return new Promise((resolve, reject) => {
-    const req = https.request(options, (res) => {
-      let data = '';
-      res.on('data', c => data += c);
-      res.on('end', () => resolve({ status: res.statusCode, body: data }));
-    });
-    req.on('error', reject);
-    req.end();
-  });
-}
+const { request } = require('./_lib');
 
 async function firestoreQuery(projectId, apiKey, query) {
   const body = JSON.stringify({ structuredQuery: query });

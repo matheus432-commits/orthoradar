@@ -6,3 +6,6 @@
 
 [functions."daily-articles"]
   schedule = "0 10 * * *"
+
+[functions."cleanup-articles"]
+  schedule = "0 3 1 * *"

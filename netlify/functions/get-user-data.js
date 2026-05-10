@@ -1,18 +1,5 @@
-const https = require('https');
+const { request } = require('./_lib');
 
-function request(options, body) {
-  return new Promise((resolve, reject) => {
-    const req = https.request(options, (res) => {
-      let data = '';
-      res.on('data', c => data += c);
-      res.on('end', () => resolve({ status: res.statusCode, body: data }));
-    });
-    req.setTimeout(15000, () => { req.destroy(new Error('Request timeout')); });
-    req.on('error', reject);
-    if (body) req.write(body);
-    req.end();
-  });
-}
 
 async function queryByField(projectId, apiKey, collectionId, field, value, limit) {
   const body = JSON.stringify({
