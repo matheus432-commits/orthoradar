@@ -1,5 +1,7 @@
 const https = require("https");
 
+const NCBI_API_PARAM = process.env.NCBI_API_KEY ? '&api_key=' + process.env.NCBI_API_KEY : '';
+
 // PT theme name -> array of English PubMed search terms (tried in order as fallback)
 const TEMA_MAP = {
   // ===== ORTODONTIA =====
@@ -456,7 +458,7 @@ async function getSentPmids(projectId, apiKey, email) {
 // PubMed: search a single English term
 async function trySearchPubMed(query, excludePmids = []) {
   const encoded = encodeURIComponent(query);
-  const searchPath = "/entrez/eutils/esearch.fcgi?db=pubmed&term=" + encoded + "&retmax=20&sort=date&retmode=json&datetype=pdat&reldate=1825";
+  const searchPath = "/entrez/eutils/esearch.fcgi?db=pubmed&term=" + encoded + "&retmax=20&sort=date&retmode=json&datetype=pdat&reldate=1825" + NCBI_API_PARAM;
   const searchRes = await request({ hostname: "eutils.ncbi.nlm.nih.gov", path: searchPath, method: "GET" }, null);
   if (searchRes.status !== 200) return null;
   const searchJson = JSON.parse(searchRes.body);
@@ -465,7 +467,7 @@ async function trySearchPubMed(query, excludePmids = []) {
   const freshIds = ids.filter(id => !excludePmids.includes(id));
   const candidates = freshIds.length > 0 ? freshIds : ids;
   const pmid = candidates[Math.floor(Math.random() * candidates.length)];
-  const fetchPath = "/entrez/eutils/efetch.fcgi?db=pubmed&id=" + pmid + "&retmode=xml&rettype=abstract";
+  const fetchPath = "/entrez/eutils/efetch.fcgi?db=pubmed&id=" + pmid + "&retmode=xml&rettype=abstract" + NCBI_API_PARAM;
   const fetchRes = await request({ hostname: "eutils.ncbi.nlm.nih.gov", path: fetchPath, method: "GET" }, null);
   if (fetchRes.status !== 200) return null;
   const xml = fetchRes.body;

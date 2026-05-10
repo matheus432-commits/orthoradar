@@ -103,6 +103,10 @@ exports.handler = async (event) => {
   if (!nome || !email || !especialidade || !temas || !temas.length || !senhaHash) {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'Campos obrigatorios faltando' }) };
   }
+  const nomeTrimmed = nome.trim();
+  if (nomeTrimmed.length < 3 || !nomeTrimmed.includes(' ')) {
+    return { statusCode: 400, headers, body: JSON.stringify({ error: 'Informe seu nome completo (nome e sobrenome)' }) };
+  }
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'Email invalido' }) };
   }
@@ -118,14 +122,15 @@ exports.handler = async (event) => {
     }
 
     const docId = await createUser(projectId, apiKey, {
-      nome,
+      nome: nomeTrimmed,
       email,
       especialidade: Array.isArray(especialidade) ? especialidade : [especialidade],
       temas: Array.isArray(temas) ? temas : [temas],
       senhaHash,
       ativo: true,
       criadoEm: new Date().toISOString(),
-      ultimoArtigo: ''
+      curtidos: [],
+      lidos: []
     });
 
     console.log('Cadastro criado:', docId, email);
