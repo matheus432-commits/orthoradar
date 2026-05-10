@@ -319,13 +319,16 @@ const ESPECIALIDADE_FALLBACK = {
   "Radiologia": ["dental radiology diagnosis", "oral radiology imaging", "dental diagnostic imaging"]
 };
 
-// HTTP helper
+// HTTP helper with 15s timeout
 function request(options, body) {
   return new Promise((resolve, reject) => {
     const req = https.request(options, (res) => {
       let data = "";
       res.on("data", c => data += c);
       res.on("end", () => resolve({ status: res.statusCode, body: data }));
+    });
+    req.setTimeout(15000, () => {
+      req.destroy(new Error("Request timeout: " + (options.hostname || "") + (options.path || "").substring(0, 60)));
     });
     req.on("error", reject);
     if (body) req.write(body);
@@ -684,7 +687,7 @@ async function processUser(user, projectId, apiKey, resendKey) {
       }).catch(e => console.warn('Could not save article history:', e.message));
       return 'sent';
     }
-    console.error(`[Error] Email to ${user.email}: ${emailRes.status}`);
+    console.error(`[Error] Email to ${user.email}: ${emailRes.status} — ${emailRes.body.substring(0, 300)}`);
     return 'error';
   } catch (err) {
     console.error(`[Error] ${user.email}: ${err.message}`);
@@ -692,7 +695,7 @@ async function processUser(user, projectId, apiKey, resendKey) {
   }
 }
 
-// Main handler — processes users in parallel batches of 5
+// Main handler — processes users sequentially to respect NCBI rate limits (3 req/s without API key)
 exports.handler = async function(event) {
   console.log("OdontoFeed daily dispatch started:", new Date().toISOString());
   const projectId = process.env.FIREBASE_PROJECT_ID || "orthoradar";
@@ -703,22 +706,24 @@ exports.handler = async function(event) {
     return { statusCode: 500, body: "Missing env vars" };
   }
 
-  const users = await getUsers(projectId, apiKey);
+  let users;
+  try {
+    users = await getUsers(projectId, apiKey);
+  } catch (err) {
+    console.error("Failed to fetch users from Firestore:", err.message);
+    return { statusCode: 500, body: JSON.stringify({ error: 'getUsers failed: ' + err.message }) };
+  }
   console.log("Users found:", users.length);
 
   let sent = 0, errors = 0, skipped = 0;
-  const BATCH_SIZE = 5;
 
-  for (let i = 0; i < users.length; i += BATCH_SIZE) {
-    const batch = users.slice(i, i + BATCH_SIZE);
-    const results = await Promise.all(batch.map(u => processUser(u, projectId, apiKey, resendKey)));
-    for (const r of results) {
-      if (r === 'sent') sent++;
-      else if (r === 'skipped') skipped++;
-      else errors++;
-    }
-    // Small pause between batches to avoid overwhelming NCBI/Resend rate limits
-    if (i + BATCH_SIZE < users.length) await new Promise(r => setTimeout(r, 300));
+  for (const user of users) {
+    const result = await processUser(user, projectId, apiKey, resendKey);
+    if (result === 'sent') sent++;
+    else if (result === 'skipped') skipped++;
+    else errors++;
+    // Pause between users: NCBI allows 3 req/s without API key; each user makes 2+ calls
+    await new Promise(r => setTimeout(r, 400));
   }
 
   const result = { sent, errors, skipped, total: users.length, timestamp: new Date().toISOString() };
