@@ -8,6 +8,7 @@ function request(options, body) {
       res.on('data', c => data += c);
       res.on('end', () => resolve({ status: res.statusCode, body: data }));
     });
+    req.setTimeout(15000, () => { req.destroy(new Error('Request timeout')); });
     req.on('error', reject);
     if (body) req.write(body);
     req.end();

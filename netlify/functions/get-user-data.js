@@ -7,6 +7,7 @@ function request(options, body) {
       res.on('data', c => data += c);
       res.on('end', () => resolve({ status: res.statusCode, body: data }));
     });
+    req.setTimeout(15000, () => { req.destroy(new Error('Request timeout')); });
     req.on('error', reject);
     if (body) req.write(body);
     req.end();
@@ -77,6 +78,7 @@ exports.handler = async (event) => {
     try {
       artigos = await queryByField(projectId, apiKey, 'artigos_enviados', 'email', email, 200);
       artigos.sort((a, b) => new Date(b.data || 0) - new Date(a.data || 0));
+      artigos = artigos.slice(0, 50);
     } catch(e) { console.warn('Could not fetch artigos:', e.message); }
 
     let amigos = [];
@@ -105,13 +107,14 @@ exports.handler = async (event) => {
               const f = d.document.fields || {};
               return {
                 nome: f.nome?.stringValue || '',
-                email: f.email?.stringValue || '',
                 especialidade: f.especialidade?.arrayValue?.values
                   ? f.especialidade.arrayValue.values.map(v => v.stringValue || '').filter(Boolean)
-                  : f.especialidade?.stringValue || ''
+                  : f.especialidade?.stringValue || '',
+                _selfEmail: f.email?.stringValue || ''
               };
             })
-            .filter(u => u.email && u.email !== email)
+            .filter(u => u._selfEmail && u._selfEmail !== email)
+            .map(({ _selfEmail: _, ...rest }) => rest)
             .slice(0, 20);
         }
       }

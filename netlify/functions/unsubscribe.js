@@ -1,4 +1,5 @@
 const https = require('https');
+const crypto = require('crypto');
 
 // HTTP helper
 function request(options, body) {
@@ -61,9 +62,13 @@ async function updateUser(projectId, apiKey, docId, fields) {
 
 exports.handler = async (event) => {
   const headers = { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': 'Content-Type', 'Content-Type': 'text/html; charset=utf-8' };
-  const { email } = event.queryStringParameters || {};
-  if (!email) {
+  const { email, t } = event.queryStringParameters || {};
+  if (!email || !t) {
     return { statusCode: 400, headers, body: errorPage('Link invalido', 'O link de cancelamento esta incompleto ou expirado.') };
+  }
+  const expectedToken = crypto.createHmac('sha256', process.env.UNSUBSCRIBE_SECRET || 'unsub').update(email).digest('hex');
+  if (!crypto.timingSafeEqual(Buffer.from(t, 'hex'), Buffer.from(expectedToken, 'hex'))) {
+    return { statusCode: 403, headers, body: errorPage('Link invalido', 'Este link de cancelamento e invalido.') };
   }
   const projectId = process.env.FIREBASE_PROJECT_ID || 'orthoradar';
   const apiKey = process.env.FIREBASE_API_KEY;

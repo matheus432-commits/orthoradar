@@ -1,4 +1,5 @@
 const https = require("https");
+const crypto = require("crypto");
 
 const NCBI_API_PARAM = process.env.NCBI_API_KEY ? '&api_key=' + process.env.NCBI_API_KEY : '';
 
@@ -564,7 +565,7 @@ function buildEmail(user, article, tema) {
 </div>
 <div style="background:#0b1120;border-radius:0 0 16px 16px;padding:20px 32px;text-align:center;">
 <p style="color:#475569;font-size:0.78rem;margin:0;">OdontoFeed — Ciência odontológica direto para você</p>
-<p style="color:#334155;font-size:0.72rem;margin:8px 0 0;"><a href="https://odontofeed.com/.netlify/functions/unsubscribe?email=${encodeURIComponent(user.email)}" style="color:#475569;text-decoration:underline;">Cancelar recebimento</a></p>
+<p style="color:#334155;font-size:0.72rem;margin:8px 0 0;"><a href="https://odontofeed.com/.netlify/functions/unsubscribe?email=${encodeURIComponent(user.email)}&t=${crypto.createHmac('sha256', process.env.UNSUBSCRIBE_SECRET || 'unsub').update(user.email).digest('hex')}" style="color:#475569;text-decoration:underline;">Cancelar recebimento</a></p>
 </div>
 </div>
 </body>
