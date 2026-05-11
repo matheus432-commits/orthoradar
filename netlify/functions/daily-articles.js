@@ -484,8 +484,12 @@ async function trySearchPubMed(query, excludePmids = []) {
   if (fetchRes.status !== 200) return null;
   const xml = fetchRes.body;
   const titleMatch = xml.match(/<ArticleTitle[^>]*>([\s\S]*?)<\/ArticleTitle>/);
-  const title = titleMatch ? titleMatch[1].replace(/<[^>]+>/g, "").trim() : "Artigo sem titulo";
   const abstractMatch = xml.match(/<AbstractText[^>]*>([\s\S]*?)<\/AbstractText>/g);
+  if (!titleMatch && !abstractMatch) {
+    console.warn(`[PubMed] Unrecognized XML for PMID ${pmid}: ${xml.substring(0, 150)}`);
+    return null;
+  }
+  const title = titleMatch ? titleMatch[1].replace(/<[^>]+>/g, "").trim() : "Artigo sem titulo";
   let abstract = "";
   if (abstractMatch) { abstract = abstractMatch.map(a => a.replace(/<[^>]+>/g, "").trim()).join(" "); }
   const journalMatch = xml.match(/<Title>([\s\S]*?)<\/Title>/);
@@ -666,13 +670,14 @@ async function processUser(user, projectId, apiKey, resendKey) {
     }
 
     const dayNumber = Math.floor(Date.now() / 86400000);
+    const emailOffset = user.email.split('').reduce((a, c) => a + c.charCodeAt(0), 0);
     const sentPmids = await getSentPmids(projectId, apiKey, user.email);
     let article = null;
     let tema = user.especialidades[0] || user.especialidade;
 
     if (!allTemasInvalid) {
       const temaPool = validTemas.length > 0 ? validTemas : temas;
-      tema = temaPool[dayNumber % temaPool.length];
+      tema = temaPool[(dayNumber + emailOffset) % temaPool.length];
       const terms = getSearchTerms(tema, user.especialidades);
       console.log(`[Dispatch] ${user.email} | esp: ${user.especialidades.join('+')} | tema: "${tema}" | sentPmids: ${sentPmids.length}`);
       article = await searchPubMed(terms, sentPmids, tema);

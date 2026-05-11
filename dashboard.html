@@ -310,6 +310,32 @@ function getToken(){ return localStorage.getItem('of_token'); }
 function getEmail(){ return localStorage.getItem('of_email'); }
 function setSession(e,t){ localStorage.setItem('of_token',t); localStorage.setItem('of_email',e); }
 
+// Sync curtidos/lidos across open tabs
+const _bc = typeof BroadcastChannel !== 'undefined' ? new BroadcastChannel('odontofeed_sync') : null;
+if (_bc) _bc.onmessage = ({ data: d }) => {
+  if (!userData) return;
+  if (d.type === 'curtido') {
+    userData.curtidos = userData.curtidos || [];
+    if (d.liked) { if (!userData.curtidos.includes(d.id)) userData.curtidos.push(d.id); }
+    else { userData.curtidos = userData.curtidos.filter(x => x !== d.id); }
+    document.querySelectorAll(`.btn-like[onclick*="${d.id}"]`).forEach(b => {
+      b.classList.toggle('liked', d.liked); b.textContent = d.liked ? '❤️ Curtido' : '🤍 Curtir';
+    });
+    const n = (userData.curtidos||[]).length;
+    ['statCurtidos','tbadge-curtidos'].forEach(k => { const el=document.getElementById(k); if(el) el.textContent=n; });
+    const cc=document.getElementById('countCurtidos'); if(cc) cc.textContent='('+n+')';
+    renderCurtidos(userData.artigos||[], userData.curtidos||[], userData.lidos||[]);
+  } else if (d.type === 'lido') {
+    userData.lidos = userData.lidos || [];
+    if (d.lido) { if (!userData.lidos.includes(d.id)) userData.lidos.push(d.id); }
+    else { userData.lidos = userData.lidos.filter(x => x !== d.id); }
+    document.querySelectorAll(`.btn-lido[onclick*="${d.id}"]`).forEach(b => {
+      b.classList.toggle('lido', d.lido); b.textContent = d.lido ? '✅ Lido' : '📝 Marcar como lido';
+    });
+    renderLidos(userData.artigos||[], userData.lidos, userData.curtidos||[]);
+  }
+};
+
 function logout(){
   localStorage.removeItem('of_token');
   localStorage.removeItem('of_email');
@@ -592,6 +618,7 @@ async function toggleLido(artId) {
       btn.textContent = data.lido ? '✅ Lido' : '📝 Marcar como lido';
     });
     renderLidos(userData.artigos || [], userData.lidos, userData.curtidos || []);
+    if (_bc) _bc.postMessage({ type: 'lido', id: artId, lido: data.lido });
   } catch(e) { console.error('Erro ao marcar lido:', e); }
   finally { btns.forEach(b => { b.disabled = false; }); }
 }
@@ -620,6 +647,7 @@ async function toggleLike(artigoId,btn){
         document.getElementById('tbadge-curtidos').textContent=(userData.curtidos||[]).length;
         document.getElementById('countCurtidos').textContent='('+(userData.curtidos||[]).length+')';
         renderCurtidos(userData.artigos||[],userData.curtidos||[],userData.lidos||[]);
+        if (_bc) _bc.postMessage({ type: 'curtido', id: artigoId, liked: !liked });
       }
     }
   }catch(e){}
