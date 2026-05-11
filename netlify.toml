@@ -8,4 +8,4 @@
   schedule = "0 10 * * *"
 
 [functions."cleanup-articles"]
-  schedule = "0 3 1 * *"
+  schedule = "0 3 * * 0"

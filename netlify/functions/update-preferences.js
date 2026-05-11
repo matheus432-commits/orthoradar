@@ -1,5 +1,16 @@
 const { request } = require('./_lib');
+const crypto = require('crypto');
 
+const ALLOWED_SPECS = new Set([
+  'Ortodontia', 'Implantodontia', 'Periodontia', 'Dentística',
+  'Bucomaxilofacial', 'Prótese', 'Endodontia', 'Odontopediatria',
+  'DTM e Dor Orofacial', 'Radiologia'
+]);
+
+function tokenEqual(a, b) {
+  if (!a || !b || a.length !== b.length) return false;
+  try { return crypto.timingSafeEqual(Buffer.from(a), Buffer.from(b)); } catch { return false; }
+}
 
 async function getUserByEmail(projectId, apiKey, email) {
   const body = JSON.stringify({
@@ -63,8 +74,16 @@ exports.handler = async (event) => {
   if (!Array.isArray(especialidade) || especialidade.length === 0) {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'Selecione ao menos uma especialidade.' }) };
   }
+  const invalidSpec = especialidade.find(e => !ALLOWED_SPECS.has(e));
+  if (invalidSpec) {
+    return { statusCode: 400, headers, body: JSON.stringify({ error: 'Especialidade inválida: ' + invalidSpec }) };
+  }
   if (!Array.isArray(temas) || temas.length === 0) {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'Selecione ao menos um tema.' }) };
+  }
+  const invalidTema = temas.find(t => typeof t !== 'string' || t.length < 3 || t.length > 120);
+  if (invalidTema !== undefined) {
+    return { statusCode: 400, headers, body: JSON.stringify({ error: 'Tema inválido.' }) };
   }
 
   const projectId = process.env.FIREBASE_PROJECT_ID || 'orthoradar';
@@ -73,7 +92,7 @@ exports.handler = async (event) => {
   try {
     const user = await getUserByEmail(projectId, apiKey, email);
     if (!user) return { statusCode: 404, headers, body: JSON.stringify({ error: 'Usuário não encontrado.' }) };
-    if (user.sessionToken !== token) {
+    if (!tokenEqual(user.sessionToken, token)) {
       return { statusCode: 401, headers, body: JSON.stringify({ error: 'Sessão inválida.' }) };
     }
     if (user.sessionExpiry && new Date(user.sessionExpiry) < new Date()) {
