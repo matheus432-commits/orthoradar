@@ -448,7 +448,11 @@ function articleCard(art,curtidos,lidos){
   </div>`;
 }
 
+const RECEBIDOS_PAGE = 10;
+let recebidosShown = RECEBIDOS_PAGE;
+
 function renderRecebidos(artigos,curtidos,lidos){
+  recebidosShown = RECEBIDOS_PAGE;
   const el=document.getElementById('recebidosContent');
   if(!artigos.length){
     el.innerHTML=`<div class="empty-state">
@@ -458,7 +462,20 @@ function renderRecebidos(artigos,curtidos,lidos){
     </div>`;
     return;
   }
-  el.innerHTML='<div class="articles-grid">'+artigos.map(a=>articleCard(a,curtidos,lidos)).join('')+'</div>';
+  _paintRecebidos(artigos, curtidos, lidos, el);
+}
+
+function _paintRecebidos(artigos, curtidos, lidos, el) {
+  el = el || document.getElementById('recebidosContent');
+  const slice = artigos.slice(0, recebidosShown);
+  const hasMore = artigos.length > recebidosShown;
+  el.innerHTML = '<div class="articles-grid">' + slice.map(a=>articleCard(a,curtidos,lidos)).join('') + '</div>' +
+    (hasMore ? `<div style="text-align:center;margin:20px 0 8px"><button onclick="loadMoreRecebidos()" style="background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff;border:none;padding:10px 28px;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.9rem;">Carregar mais (${artigos.length - recebidosShown} restantes)</button></div>` : '');
+}
+
+function loadMoreRecebidos() {
+  recebidosShown = Math.min(recebidosShown + RECEBIDOS_PAGE, (userData.artigos||[]).length);
+  _paintRecebidos(userData.artigos||[], userData.curtidos||[], userData.lidos||[]);
 }
 
 function renderCurtidos(artigos,curtidos,lidos){

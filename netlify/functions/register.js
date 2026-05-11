@@ -1,5 +1,10 @@
 const { request } = require('./_lib');
 
+const ALLOWED_SPECS = new Set([
+  'Ortodontia', 'Implantodontia', 'Periodontia', 'Dentística',
+  'Bucomaxilofacial', 'Prótese', 'Endodontia', 'Odontopediatria',
+  'DTM e Dor Orofacial', 'Radiologia'
+]);
 
 async function getUserByEmail(projectId, apiKey, email) {
   const body = JSON.stringify({
@@ -97,6 +102,16 @@ exports.handler = async (event) => {
   }
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'Email invalido' }) };
+  }
+  const specs = Array.isArray(especialidade) ? especialidade : [especialidade];
+  const invalidSpec = specs.find(e => !ALLOWED_SPECS.has(e));
+  if (invalidSpec) {
+    return { statusCode: 400, headers, body: JSON.stringify({ error: 'Especialidade inválida: ' + invalidSpec }) };
+  }
+  const temasArr = Array.isArray(temas) ? temas : [temas];
+  const invalidTema = temasArr.find(t => typeof t !== 'string' || t.length < 3 || t.length > 120);
+  if (invalidTema !== undefined) {
+    return { statusCode: 400, headers, body: JSON.stringify({ error: 'Tema inválido.' }) };
   }
 
   const projectId = process.env.FIREBASE_PROJECT_ID || 'orthoradar';

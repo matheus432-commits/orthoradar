@@ -22,12 +22,13 @@ async function getUserByEmail(projectId, apiKey, email) {
   const f = docs[0].document.fields || {};
   return {
     docId: docs[0].document.name.split('/').pop(),
+    updateTime: docs[0].document.updateTime,
     resetToken: f.resetToken?.stringValue || null,
     resetTokenExpiry: f.resetTokenExpiry?.stringValue || null
   };
 }
 
-async function updatePassword(projectId, apiKey, docId, senhaHash) {
+async function updatePassword(projectId, apiKey, docId, senhaHash, updateTime) {
   const body = JSON.stringify({
     fields: {
       senhaHash: { stringValue: senhaHash },
@@ -39,9 +40,13 @@ async function updatePassword(projectId, apiKey, docId, senhaHash) {
   });
   const buf = Buffer.from(body, 'utf8');
   const masks = 'updateMask.fieldPaths=senhaHash&updateMask.fieldPaths=resetToken&updateMask.fieldPaths=resetTokenExpiry&updateMask.fieldPaths=loginAttempts&updateMask.fieldPaths=loginLockedUntil';
+  // currentDocument.updateTime precondition: Firestore returns 409 if document was
+  // modified since we read it, preventing a second concurrent request from resetting
+  // the password with the same token.
+  const precondition = updateTime ? '&currentDocument.updateTime=' + encodeURIComponent(updateTime) : '';
   return request({
     hostname: 'firestore.googleapis.com',
-    path: '/v1/projects/' + projectId + '/databases/(default)/documents/cadastros/' + docId + '?' + masks + '&key=' + apiKey,
+    path: '/v1/projects/' + projectId + '/databases/(default)/documents/cadastros/' + docId + '?' + masks + precondition + '&key=' + apiKey,
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json', 'Content-Length': buf.length }
   }, buf);
@@ -74,7 +79,11 @@ exports.handler = async (event) => {
     if (!user.resetTokenExpiry || new Date(user.resetTokenExpiry) < new Date()) {
       return { statusCode: 401, headers, body: JSON.stringify({ error: 'Link expirado. Solicite um novo.' }) };
     }
-    await updatePassword(projectId, apiKey, user.docId, novaSenhaHash);
+    const res = await updatePassword(projectId, apiKey, user.docId, novaSenhaHash, user.updateTime);
+    if (res.status === 409) {
+      return { statusCode: 409, headers, body: JSON.stringify({ error: 'Link já utilizado. Solicite um novo.' }) };
+    }
+    if (res.status !== 200) throw new Error('Firestore update failed: ' + res.status);
     console.log('Password reset successful for:', email);
     return { statusCode: 200, headers, body: JSON.stringify({ success: true, message: 'Senha atualizada com sucesso!' }) };
   } catch (err) {
