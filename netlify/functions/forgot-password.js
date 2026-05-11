@@ -96,8 +96,14 @@ exports.handler = async (event) => {
       const token = crypto.randomBytes(32).toString('hex');
       const expiry = new Date(Date.now() + 3600000).toISOString();
       await saveResetToken(projectId, apiKey, user.docId, token, expiry);
-      if (resendKey) await sendResetEmail(resendKey, user.nome, email, token);
-      console.log('Password reset sent to:', email);
+      if (resendKey) {
+        const emailRes = await sendResetEmail(resendKey, user.nome, email, token);
+        if (emailRes.status === 200 || emailRes.status === 201) {
+          console.log('[ForgotPw] Reset email sent to:', email);
+        } else {
+          console.error('[ForgotPw] Reset email failed:', emailRes.status, emailRes.body.substring(0, 100));
+        }
+      }
     }
   } catch (err) {
     console.error('Forgot password error:', err);
