@@ -332,6 +332,17 @@ const ESPECIALIDADE_FALLBACK = {
 
 const { request } = require("./_lib");
 
+// Cache translations for the duration of the execution (avoids duplicate Claude calls for same article)
+const translationCache = new Map();
+
+// PubMed rate limiter: NCBI allows 3 req/s without API key; enforce ~2.5 req/s
+let _lastPubMed = 0;
+async function pubmedThrottle() {
+  const gap = 400 - (Date.now() - _lastPubMed);
+  if (gap > 0) await new Promise(r => setTimeout(r, gap));
+  _lastPubMed = Date.now();
+}
+
 // Translate title + summarize abstract in Portuguese using Claude Haiku
 async function translateWithClaude(title, abstract, tema, especialidade) {
   const anthropicKey = process.env.ANTHROPIC_API_KEY;
@@ -458,6 +469,7 @@ async function getSentPmids(projectId, apiKey, email) {
 async function trySearchPubMed(query, excludePmids = []) {
   const encoded = encodeURIComponent(query);
   const searchPath = "/entrez/eutils/esearch.fcgi?db=pubmed&term=" + encoded + "&retmax=20&sort=date&retmode=json&datetype=pdat&reldate=1825" + NCBI_API_PARAM;
+  await pubmedThrottle();
   const searchRes = await request({ hostname: "eutils.ncbi.nlm.nih.gov", path: searchPath, method: "GET" }, null);
   if (searchRes.status !== 200) return null;
   const searchJson = JSON.parse(searchRes.body);
@@ -467,6 +479,7 @@ async function trySearchPubMed(query, excludePmids = []) {
   const candidates = freshIds.length > 0 ? freshIds : ids;
   const pmid = candidates[Math.floor(Math.random() * candidates.length)];
   const fetchPath = "/entrez/eutils/efetch.fcgi?db=pubmed&id=" + pmid + "&retmode=xml&rettype=abstract" + NCBI_API_PARAM;
+  await pubmedThrottle();
   const fetchRes = await request({ hostname: "eutils.ncbi.nlm.nih.gov", path: fetchPath, method: "GET" }, null);
   if (fetchRes.status !== 200) return null;
   const xml = fetchRes.body;
@@ -625,19 +638,21 @@ async function processUser(user, projectId, apiKey, resendKey) {
       const sentPmids = await getSentPmids(projectId, apiKey, user.email);
       const article = await searchPubMed(fallbackTerms, sentPmids, (user.especialidades[0] || user.especialidade) + " fallback");
       if (!article) { console.warn(`[Skip] No article for ${user.email}`); return 'skipped'; }
-      const ft = await translateWithClaude(article.title, article.abstract, user.especialidade, user.especialidade).catch(() => null);
+      const cachedFt = translationCache.get(article.pmid);
+      const ft = cachedFt || await translateWithClaude(article.title, article.abstract, user.especialidade, user.especialidade).catch(() => null);
+      if (ft && !cachedFt) translationCache.set(article.pmid, ft);
       if (ft) { article.tituloLocal = ft.titulo; article.resumoLocal = ft.resumo; }
+      await saveArticleToFirestore(projectId, apiKey, {
+        email: user.email, especialidade: user.especialidade, tema: user.especialidade,
+        titulo: article.tituloLocal || article.title || '',
+        resumo: article.resumoLocal || generateSummary(article, user.especialidade, user.especialidade),
+        pubmedUrl: 'https://pubmed.ncbi.nlm.nih.gov/' + article.pmid + '/',
+        pmid: String(article.pmid || ''), data: new Date().toISOString()
+      }).catch(e => console.warn('Could not save article:', e.message));
       const html = buildEmail(user, article, user.especialidade);
       const tituloEmail = article.tituloLocal || article.title;
       const emailRes = await sendEmail(resendKey, user.email, "🦷 " + tituloEmail.substring(0, 70) + (tituloEmail.length > 70 ? "..." : ""), html);
       if (emailRes.status === 200 || emailRes.status === 201) {
-        await saveArticleToFirestore(projectId, apiKey, {
-          email: user.email, especialidade: user.especialidade, tema: user.especialidade,
-          titulo: article.tituloLocal || article.title || '',
-          resumo: article.resumoLocal || generateSummary(article, user.especialidade, user.especialidade),
-          pubmedUrl: 'https://pubmed.ncbi.nlm.nih.gov/' + article.pmid + '/',
-          pmid: String(article.pmid || ''), data: new Date().toISOString()
-        }).catch(e => console.warn('Could not save article:', e.message));
         return 'sent';
       }
       return 'error';
@@ -679,25 +694,28 @@ async function processUser(user, projectId, apiKey, resendKey) {
     if (!article) { console.warn(`[Error] No article for ${user.email} after all fallbacks`); return 'error'; }
 
     console.log(`[Found] "${article.title.substring(0, 55)}" for ${user.email}`);
-    const translation = await translateWithClaude(article.title, article.abstract, tema, user.especialidade).catch(() => null);
+    const cachedTranslation = translationCache.get(article.pmid);
+    const translation = cachedTranslation || await translateWithClaude(article.title, article.abstract, tema, user.especialidade).catch(() => null);
+    if (translation && !cachedTranslation) translationCache.set(article.pmid, translation);
     if (translation) {
       article.tituloLocal = translation.titulo;
       article.resumoLocal = translation.resumo;
-      console.log(`[Claude] ${user.email}: "${translation.titulo.substring(0, 50)}"`);
+      console.log(`[Claude] ${user.email}: "${translation.titulo.substring(0, 50)}"${cachedTranslation ? ' (cached)' : ''}`);
     }
+
+    await saveArticleToFirestore(projectId, apiKey, {
+      email: user.email, especialidade: user.especialidade, tema,
+      titulo: article.tituloLocal || article.title || '',
+      resumo: article.resumoLocal || generateSummary(article, user.especialidade, tema),
+      pubmedUrl: 'https://pubmed.ncbi.nlm.nih.gov/' + article.pmid + '/',
+      pmid: String(article.pmid || ''), data: new Date().toISOString()
+    }).catch(e => console.warn('Could not save article history:', e.message));
 
     const html = buildEmail(user, article, tema);
     const tituloEmail = article.tituloLocal || article.title;
     const emailRes = await sendEmail(resendKey, user.email, "🦷 " + tituloEmail.substring(0, 70) + (tituloEmail.length > 70 ? "..." : ""), html);
     if (emailRes.status === 200 || emailRes.status === 201) {
       console.log(`[Sent] ${user.email}`);
-      await saveArticleToFirestore(projectId, apiKey, {
-        email: user.email, especialidade: user.especialidade, tema,
-        titulo: article.tituloLocal || article.title || '',
-        resumo: article.resumoLocal || generateSummary(article, user.especialidade, tema),
-        pubmedUrl: 'https://pubmed.ncbi.nlm.nih.gov/' + article.pmid + '/',
-        pmid: String(article.pmid || ''), data: new Date().toISOString()
-      }).catch(e => console.warn('Could not save article history:', e.message));
       return 'sent';
     }
     console.error(`[Error] Email to ${user.email}: ${emailRes.status} — ${emailRes.body.substring(0, 300)}`);
