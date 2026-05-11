@@ -75,7 +75,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
 .section-title span{color:var(--muted);font-size:14px;font-weight:500;}
 
 /* ARTICLE CARDS */
-.articles-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;}
+.articles-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(320px,100%),1fr));gap:16px;}
 .article-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px;transition:all 0.25s;display:flex;flex-direction:column;}
 .article-card:hover{border-color:rgba(14,165,233,0.3);transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,0,0,0.3);}
 .article-meta-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
@@ -91,7 +91,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
 .btn-pubmed:hover{background:rgba(14,165,233,0.15);}
 
 /* SKELETON LOADING */
-.skeleton-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;}
+.skeleton-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(320px,100%),1fr));gap:16px;}
 .skeleton-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px;}
 .skel{background:linear-gradient(90deg,var(--bg3) 25%,var(--border) 50%,var(--bg3) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:6px;}
 .skel-tag{height:20px;width:90px;margin-bottom:12px;}
@@ -527,14 +527,23 @@ function _paintRecebidos(artigos, curtidos, lidos, el) {
     (hasMore ? `<div style="text-align:center;margin:20px 0 8px"><button onclick="loadMoreRecebidos()" style="background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff;border:none;padding:10px 28px;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.9rem;">Carregar mais (${artigos.length - recebidosShown} restantes)</button></div>` : '');
 }
 
-function _getFilteredArtigos() {
-  const q = (document.getElementById('recebidosSearch')?.value || '').toLowerCase().trim();
-  const all = userData?.artigos || [];
-  if (!q) return all;
-  return all.filter(a => (a.titulo||'').toLowerCase().includes(q) || (a.resumo||'').toLowerCase().includes(q));
+function handleAuthError(status) {
+  if (status === 401) {
+    logout();
+    const msgEl = document.getElementById('loginMsg');
+    if (msgEl) { msgEl.className = 'login-msg error'; msgEl.textContent = 'Sessão expirada. Faça login novamente.'; }
+    return true;
+  }
+  return false;
 }
 
+let _searchTimer = null;
 function filtrarArtigos() {
+  clearTimeout(_searchTimer);
+  _searchTimer = setTimeout(_doFiltrarArtigos, 280);
+}
+
+function _doFiltrarArtigos() {
   if (!userData) return;
   recebidosShown = RECEBIDOS_PAGE;
   const artigos = _getFilteredArtigos();
@@ -547,6 +556,13 @@ function filtrarArtigos() {
     return;
   }
   _paintRecebidos(artigos, userData.curtidos||[], userData.lidos||[]);
+}
+
+function _getFilteredArtigos() {
+  const q = (document.getElementById('recebidosSearch')?.value || '').toLowerCase().trim();
+  const all = userData?.artigos || [];
+  if (!q) return all;
+  return all.filter(a => (a.titulo||'').toLowerCase().includes(q) || (a.resumo||'').toLowerCase().includes(q));
 }
 
 function loadMoreRecebidos() {
@@ -660,6 +676,7 @@ async function toggleLido(artId) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, token, artId, action })
     });
+    if (handleAuthError(res.status)) return;
     if (!res.ok) return;
     const data = await res.json();
     if (!userData) return;
@@ -692,6 +709,7 @@ async function toggleLike(artigoId,btn){
       headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
       body:JSON.stringify({email,artigoId,action:liked?'unlike':'like'})
     });
+    if(handleAuthError(res.status))return;
     if(res.ok){
       btn.classList.toggle('liked');
       btn.textContent=liked?'🤍 Curtir':'❤️ Curtido';
@@ -705,9 +723,16 @@ async function toggleLike(artigoId,btn){
         renderCurtidos(userData.artigos||[],userData.curtidos||[],userData.lidos||[]);
         if (_bc) _bc.postMessage({ type: 'curtido', id: artigoId, liked: !liked });
       }
+    } else {
+      btn.title='Erro ao curtir. Tente novamente.';
+      btn.style.opacity='0.5';
+      setTimeout(()=>{ btn.title=''; btn.style.opacity=''; }, 2500);
     }
-  }catch(e){}
-  btn.disabled=false;
+  }catch(e){
+    btn.title='Sem conexão. Tente novamente.';
+    btn.style.opacity='0.5';
+    setTimeout(()=>{ btn.title=''; btn.style.opacity=''; }, 2500);
+  } finally { btn.disabled=false; }
 }
 
 // ========== FORGOT / RESET PASSWORD ==========
@@ -920,6 +945,7 @@ function switchTab(name,btnEl){
   btnEl.classList.add('active');
   document.getElementById('tab-'+name).classList.add('active');
   if (name === 'preferencias') renderPrefTab();
+  window.scrollTo({top: document.getElementById('dashboardPage').offsetTop - 16, behavior: 'smooth'});
 }
 
 // ========== INIT ==========
