@@ -246,6 +246,9 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
   <!-- TAB: RECEBIDOS -->
   <div class="tab-content active" id="tab-recebidos">
     <div class="section-title">📰 Artigos Recebidos <span id="countRecebidos"></span></div>
+    <div style="margin-bottom:16px;">
+      <input type="search" id="recebidosSearch" placeholder="Buscar por título ou resumo..." oninput="filtrarArtigos()" style="width:100%;max-width:420px;padding:9px 14px;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:14px;outline:none;">
+    </div>
     <div id="recebidosContent"></div>
   </div>
 
@@ -285,7 +288,11 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
   <div class="tab-content" id="tab-preferencias">
     <div class="section-title">⚙️ Preferências <span id="prefSaveMsg" style="font-size:13px;font-weight:500;margin-left:8px;"></span></div>
     <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px 32px;max-width:720px;">
-      <p style="color:var(--muted);font-size:14px;margin-bottom:24px;">Atualize suas especialidades e temas de interesse. As mudanças valem a partir do próximo envio diário.</p>
+      <p style="color:var(--muted);font-size:14px;margin-bottom:24px;">Atualize seu nome, especialidades e temas de interesse. As mudanças valem a partir do próximo envio diário.</p>
+      <div style="margin-bottom:24px;">
+        <div style="font-size:13px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px;">Nome</div>
+        <input type="text" id="prefNome" placeholder="Seu nome completo" maxlength="80" oninput="document.getElementById('prefSaveBtn').disabled=false" style="width:100%;max-width:340px;padding:10px 14px;border-radius:8px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:14px;outline:none;">
+      </div>
       <div style="margin-bottom:24px;">
         <div style="font-size:13px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px;">Especialidades</div>
         <div id="prefSpecSelect" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;"></div>
@@ -302,6 +309,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
 
 </div>
 
+<script src="/themes.js"></script>
 <script>
 // ========== UTILS ==========
 let userData = null;
@@ -395,7 +403,23 @@ async function loadDashboard(email,token){
     const data=await res.json();
     userData=data;
     populateDashboard(data);
-  }catch(e){ logout(); }
+  }catch(e){
+    console.error('[loadDashboard] Network error:', e.message);
+    showLoadError();
+  }
+}
+
+function showLoadError() {
+  const html = `<div class="empty-state" style="padding:32px 20px;">
+    <div class="empty-icon">⚠️</div>
+    <h3>Erro ao carregar dados</h3>
+    <p style="margin-bottom:16px;">Verifique sua conexão e tente novamente.</p>
+    <button onclick="loadDashboard(getEmail(),getToken())" style="background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff;border:none;padding:10px 24px;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.9rem;">Tentar novamente</button>
+  </div>`;
+  ['recebidosContent','curtidosContent','amigosContent','lidosContent'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.innerHTML = html;
+  });
 }
 
 // ========== SKELETON ==========
@@ -503,9 +527,32 @@ function _paintRecebidos(artigos, curtidos, lidos, el) {
     (hasMore ? `<div style="text-align:center;margin:20px 0 8px"><button onclick="loadMoreRecebidos()" style="background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff;border:none;padding:10px 28px;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.9rem;">Carregar mais (${artigos.length - recebidosShown} restantes)</button></div>` : '');
 }
 
+function _getFilteredArtigos() {
+  const q = (document.getElementById('recebidosSearch')?.value || '').toLowerCase().trim();
+  const all = userData?.artigos || [];
+  if (!q) return all;
+  return all.filter(a => (a.titulo||'').toLowerCase().includes(q) || (a.resumo||'').toLowerCase().includes(q));
+}
+
+function filtrarArtigos() {
+  if (!userData) return;
+  recebidosShown = RECEBIDOS_PAGE;
+  const artigos = _getFilteredArtigos();
+  const el = document.getElementById('recebidosContent');
+  if (!artigos.length) {
+    const q = document.getElementById('recebidosSearch')?.value || '';
+    el.innerHTML = q
+      ? `<div class="empty-state"><div class="empty-icon">🔍</div><h3>Nenhum artigo encontrado</h3><p>Tente outros termos de busca.</p></div>`
+      : `<div class="empty-state"><div class="empty-icon">📬</div><h3>Ainda sem artigos recebidos</h3><p>Seu primeiro artigo chegará amanhã às 7h!</p></div>`;
+    return;
+  }
+  _paintRecebidos(artigos, userData.curtidos||[], userData.lidos||[]);
+}
+
 function loadMoreRecebidos() {
-  recebidosShown = Math.min(recebidosShown + RECEBIDOS_PAGE, (userData.artigos||[]).length);
-  _paintRecebidos(userData.artigos||[], userData.curtidos||[], userData.lidos||[]);
+  const artigos = _getFilteredArtigos();
+  recebidosShown = Math.min(recebidosShown + RECEBIDOS_PAGE, artigos.length);
+  _paintRecebidos(artigos, userData.curtidos||[], userData.lidos||[]);
 }
 
 function renderCurtidos(artigos,curtidos,lidos){
@@ -525,10 +572,15 @@ function renderCurtidos(artigos,curtidos,lidos){
 function renderAmigos(amigos){
   const el=document.getElementById('amigosContent');
   if(!amigos.length){
+    const inviteUrl = window.location.origin + '/';
     el.innerHTML=`<div class="empty-state">
       <div class="empty-icon">👥</div>
       <h3>Sua rede está vazia por enquanto</h3>
-      <p>Convide outros dentistas para o OdontoFeed e conecte-se com colegas que também usam a plataforma.</p>
+      <p style="margin-bottom:16px;">Compartilhe o link abaixo com colegas dentistas para conectar-se na plataforma.</p>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:center;">
+        <input readonly value="${inviteUrl}" id="inviteUrlInput" style="padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:13px;width:260px;outline:none;" onclick="this.select()">
+        <button onclick="navigator.clipboard.writeText('${inviteUrl}').then(()=>{this.textContent='✓ Copiado!';setTimeout(()=>this.textContent='Copiar link',2000)})" style="background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff;border:none;padding:8px 18px;border-radius:8px;font-weight:600;cursor:pointer;font-size:13px;white-space:nowrap;">Copiar link</button>
+      </div>
     </div>`;
     return;
   }
@@ -744,19 +796,6 @@ function initResetForm() {
 }
 
 // ========== PREFERENCES ==========
-const THEMES = {
-  "Ortodontia": ["Alinhadores invisíveis","Biomecânica ortodôntica","Cefalometria","Mini-implantes / TADs","Expansão maxilar","Cirurgia ortognática","Ortodontia e ATM","Ancoragem esquelética","Contenção e recidiva","Ortodontia interceptiva","Aparelho fixo estético","Extração em ortodontia","Ortodontia lingual","Self-ligating","Torque e angulação","Crescimento e desenvolvimento facial","Ortodontia em adultos","Respiração oral e má-oclusão","Ortodontia e sono/apneia","Tratamento de Classe II","Tratamento de Classe III","Mordida aberta","Mordida cruzada posterior","Sobremordida profunda","Inteligência artificial em ortodontia"],
-  "Implantodontia": ["Osseointegração","Carga imediata","Enxertos ósseos autógenos","Enxertos com biomateriais","Implantes zigomáticos","Prótese sobre implante","Peri-implantite","Planejamento digital 3D","All-on-4 e All-on-X","Implantes em maxila posterior","Implantes em mandíbula posterior","Elevação de seio maxilar","Implantes estreitos (mini-implantes)","Implantes curtos","Tecido mole peri-implantar","Carga diferida","Reabilitação com implantes unitários","Implantes em pacientes sistêmicos","Complicações em implantes","Sobredentadura","Membranas e ROG","Biofilme peri-implantar","Impressão digital em implantes","Implantes imediatos pós-extração","Implantes em adolescentes"],
-  "Periodontia": ["Doença periodontal crônica","Periodontite agressiva","Gengivite","Regeneração tecidual guiada","Cirurgia mucogengival","Periodontia e diabetes","Periodontia e doenças cardiovasculares","Lasers em periodontia","Manutenção periodontal","Raspagem e alisamento radicular","Cirurgia ressectiva","Cirurgia regenerativa","Enxerto gengival livre","Retalho de reposicionamento","Tratamento de furca","Abscesso periodontal","Periodontia e tabagismo","Microbioma periodontal","Periodontia e gestação","Periodontia e osteoporose","Medicação de suporte periodontal","Terapia fotodinâmica","Ozônio em periodontia","Periodontia estética","Defeitos ósseos verticais"],
-  "Dentística": ["Resinas compostas nanoparticuladas","Clareamento dental","Facetas de porcelana","Laminados cerâmicos","Adesão dental","Estética digital (DSD)","Restaurações indiretas em cerâmica","Inlays e onlays","Cárie e mínima intervenção","Fluorose e tratamento","Erosão dental","Sensibilidade dentinária","Bruxismo e dentística","Mock-up digital","Pigmentações e manchamentos","Restaurações em dentes anteriores","Sistemas cerâmicos (zircônia, dissilicato)","Fotopolimerização e luz LED","Cor em dentística","Tratamento de cavidades classe IV","Restaurações cervicais","Dentística minimamente invasiva","Materiais provisórios estéticos","Técnica incremental em compósito","Polimento e acabamento"],
-  "Bucomaxilofacial": ["Cirurgia ortognática","Trauma facial","Fraturas mandibulares","Fraturas do terço médio","Patologia oral benigna","Cistos odontogênicos","Tumores benignos dos maxilares","Carcinoma espinocelular oral","Reconstrução mandibular","Distração osteogênica","Transplante de osso","Enxertos microvascularizados","Articulação temporomandibular cirúrgica","Cirurgia de terceiros molares","Doenças das glândulas salivares","Fissura labiopalatina","Cirurgia pré-protética","Complicações pós-operatórias","Anestesia local em BMF","Implantes zigomáticos em BMF","Medicina do sono e cirurgia","Bifosfonatos e osteonecrose","Cirurgia oncológica oral","Reconstrução com retalhos locais","Cirurgia minimamente invasiva"],
-  "Prótese": ["Prótese total convencional","Prótese parcial removível","Prótese fixa unitária","Prótese fixa de múltiplos elementos","Oclusão em prótese","Reabilitação oral completa","Materiais cerâmicos para prótese","Zircônia em prótese fixa","CAD/CAM em prótese","Prótese implanto-suportada","Prótese parcial imediata","Prótese provisória","Overdenture sobre implantes","Prótese bucomaxilofacial","Reembasamento de próteses","Prótese em pacientes geriátricos","Estética em prótese fixa","Cimentação adesiva","Prótese e bruxismo","Desordens oclusais","Impressão digital em prótese","Cera e moldagem funcional","Prótese e ATM","Sorrisos compostos","Prótese e estética facial"],
-  "Endodontia": ["Tratamento de canal convencional","Retratamento endodôntico","Cirurgia perirradicular (apicectomia)","Regeneração pulpar em dentes imaturos","Instrumentação rotatória NiTi","Instrumentação reciprocante","Irrigação com hipoclorito de sódio","EDTA e quelantes em endodontia","Obturação endodôntica","Diagnóstico diferencial de dor endodôntica","Perfuração radicular","Fratura de instrumento","Dente com rizogênese incompleta","Reabsorção radicular","Traumatismo dentário e endodontia","Cimentos endodônticos","Tomografia em endodontia","Endodontia em dentes com anatomia complexa","Lasers em endodontia","Medicação intracanal","Dente com câmara calcificada","Endodontia em dentes posteriores","Biopulpotomia em dentes permanentes","Dor pós-operatória em endodontia","Prognóstico endodôntico"],
-  "Odontopediatria": ["Cárie precoce na infância","Traumatismo dental em crianças","Pulpotomia em molares decíduos","Pulpectomia em decíduos","Odontologia para bebês","Fluoretação e prevenção","Selantes de fóssulas e fissuras","Ortopedia funcional dos maxilares","Respiração oral na infância","Hábitos orais deletérios","Ansiedade e medo em odontopediatria","Técnicas de manejo comportamental","Sedação em odontopediatria","Anestesia geral em odontopediatria","Traumatismo em dentes permanentes jovens","Erupção dentária e anomalias","Dentes supranumerários","Dentes neonatais","Nutrição e saúde bucal infantil","Fissura labiopalatina na infância","Doença periodontal em crianças","Atualização em cariologia pediátrica","Hipomineralização molar-incisivo (HMI)","Reabilitação oral pediátrica","Primeiro atendimento odontológico"],
-  "DTM e Dor Orofacial": ["Bruxismo do sono","Bruxismo em vigília","Artralgia da ATM","Deslocamento de disco com redução","Deslocamento de disco sem redução","Osteoartrite da ATM","Mialgia mastigatória","Dor miofascial","Placa oclusal estabilizadora","Placa oclusal de reposicionamento","Biofeedback em DTM","Toxina botulínica (Botox) em DTM","Fisioterapia orofacial","Diagnóstico por imagem da ATM (CBCT/RM)","Dor crônica orofacial","Neuralgia do trigêmeo","Cefaleia tensional e odontologia","Oclusão e DTM","Relação oclusal e postura","Diagnóstico diferencial de dores faciais","Dor neuropática orofacial","Impacto psicossocial das DTMs","Tratamento multidisciplinar em DTM","Laser de baixa intensidade em DTM","Qualidade de sono e DTM"],
-  "Radiologia": ["CBCT 3D em diagnóstico","Radiografia periapical digital","Panorâmica e suas limitações","Diagnóstico de cárie por imagem","Diagnóstico periodontal por radiografia","Planejamento de implantes com CBCT","CBCT em endodontia","CBCT em ortodontia","Redução de dose em radiologia odontológica","Inteligência artificial em radiologia","Detecção automática de cárie por IA","Radiologia em patologia oral","Imagem da ATM por RM","Sialografia","Radioprotecção em odontologia","Interpretação de achados incidentais","Diagnóstico de reabsorções radiculares","Lesões periapicais em imagem","CBCT em cirurgia guiada","Tomossíntese em odontologia","Fantomas e calibração em radiologia","Imagem em trauma facial","Princípios de proteção radiológica","Radiologia em pediatria","Teleradiologia e laudos remotos"]
-};
-
 let prefSelectedSpecs = [];
 let prefSelectedTemas = [];
 let _prefAllTemas = [];
@@ -767,6 +806,8 @@ function renderPrefTab() {
   const currentTemas = Array.isArray(userData.temas) ? userData.temas : [];
   prefSelectedSpecs = [...currentSpecs];
   prefSelectedTemas = [...currentTemas];
+  const nomeEl = document.getElementById('prefNome');
+  if (nomeEl) nomeEl.value = userData.nome || '';
 
   const specEl = document.getElementById('prefSpecSelect');
   specEl.innerHTML = Object.keys(THEMES).map(spec => {
@@ -835,14 +876,17 @@ async function salvarPreferencias() {
   if (!email || !token) return;
   const msg = document.getElementById('prefSaveMsg');
   const btn = document.getElementById('prefSaveBtn');
+  const nomeVal = (document.getElementById('prefNome')?.value || '').trim();
   if (!prefSelectedSpecs.length) { msg.style.color = 'var(--danger)'; msg.textContent = 'Selecione ao menos uma especialidade.'; return; }
   if (!prefSelectedTemas.length) { msg.style.color = 'var(--danger)'; msg.textContent = 'Selecione ao menos um tema.'; return; }
   btn.disabled = true; btn.textContent = 'Salvando...';
   msg.textContent = '';
   try {
+    const payload = { email, token, especialidade: prefSelectedSpecs, temas: prefSelectedTemas };
+    if (nomeVal) payload.nome = nomeVal;
     const res = await fetch('/.netlify/functions/update-preferences', {
       method: 'POST', headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({ email, token, especialidade: prefSelectedSpecs, temas: prefSelectedTemas })
+      body: JSON.stringify(payload)
     });
     const data = await res.json();
     if (res.ok && data.success) {
@@ -851,6 +895,11 @@ async function salvarPreferencias() {
       if (userData) {
         userData.especialidade = prefSelectedSpecs;
         userData.temas = prefSelectedTemas;
+        if (nomeVal) {
+          userData.nome = nomeVal;
+          document.getElementById('userName').textContent = nomeVal;
+          document.getElementById('userAvatar').textContent = nomeVal.charAt(0).toUpperCase();
+        }
         document.getElementById('userSpec').textContent = '🦷 ' + prefSelectedSpecs.join(', ');
       }
     } else {
