@@ -3,7 +3,8 @@ const CACHE_NAME = 'odontofeed-v1';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
-  '/manifest.json'
+  '/manifest.json',
+  '/themes.js'
 ];
 
 // Install: cache static assets

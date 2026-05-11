@@ -461,6 +461,9 @@ function validateSenha() {
       } catch(e) {}
     } catch(e) {
       btn.disabled = false; btn.textContent = 'Criar conta e começar a receber →';
+      const hintEl = document.getElementById('hintEmail');
+      hintEl.textContent = 'Erro de conexão. Verifique sua internet e tente novamente.';
+      hintEl.className = 'field-hint err';
       return;
     }
     // Fallback: show success box if auto-login failed

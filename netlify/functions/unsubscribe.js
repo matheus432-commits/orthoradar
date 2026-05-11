@@ -55,7 +55,13 @@ exports.handler = async (event) => {
     return { statusCode: 400, headers, body: errorPage('Link invalido', 'O link de cancelamento esta incompleto ou expirado.') };
   }
   const expectedToken = crypto.createHmac('sha256', process.env.UNSUBSCRIBE_SECRET || 'unsub').update(email).digest('hex');
-  if (!crypto.timingSafeEqual(Buffer.from(t, 'hex'), Buffer.from(expectedToken, 'hex'))) {
+  let tokenValid = false;
+  try {
+    const tBuf = Buffer.from(t, 'hex');
+    const eBuf = Buffer.from(expectedToken, 'hex');
+    tokenValid = tBuf.length === eBuf.length && crypto.timingSafeEqual(tBuf, eBuf);
+  } catch { tokenValid = false; }
+  if (!tokenValid) {
     return { statusCode: 403, headers, body: errorPage('Link invalido', 'Este link de cancelamento e invalido.') };
   }
   const projectId = process.env.FIREBASE_PROJECT_ID || 'orthoradar';
