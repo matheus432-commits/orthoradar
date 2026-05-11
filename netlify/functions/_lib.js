@@ -1,5 +1,31 @@
 const https = require('https');
 
+const _SEC = {
+  'X-Content-Type-Options': 'nosniff',
+  'X-Frame-Options': 'DENY',
+  'Referrer-Policy': 'strict-origin-when-cross-origin'
+};
+
+function corsHeaders(extra) {
+  return {
+    'Access-Control-Allow-Origin': process.env.ALLOWED_ORIGIN || '*',
+    'Content-Type': 'application/json',
+    ..._SEC,
+    ...(extra || {})
+  };
+}
+
+function preflight(methods) {
+  return {
+    statusCode: 200,
+    headers: corsHeaders({
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+      'Access-Control-Allow-Methods': methods || 'POST, OPTIONS'
+    }),
+    body: ''
+  };
+}
+
 async function _doRequest(options, body) {
   return new Promise((resolve, reject) => {
     const req = https.request(options, (res) => {
@@ -32,4 +58,4 @@ async function request(options, body, _attempt = 0) {
   }
 }
 
-module.exports = { request };
+module.exports = { request, corsHeaders, preflight };

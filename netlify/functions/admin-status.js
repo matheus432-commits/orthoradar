@@ -1,5 +1,5 @@
 const https = require('https');
-const { request } = require('./_lib');
+const { request, corsHeaders, preflight } = require('./_lib');
 
 async function firestoreQuery(projectId, apiKey, query) {
   const body = JSON.stringify({ structuredQuery: query });
@@ -63,7 +63,7 @@ async function countDocs(projectId, apiKey, collection, whereClause) {
 }
 
 exports.handler = async (event) => {
-  const headers = { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' };
+  const headers = corsHeaders();
 
   const secret = (event.queryStringParameters || {}).secret;
   if (!secret || secret !== process.env.ADMIN_SECRET) {

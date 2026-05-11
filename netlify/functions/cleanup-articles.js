@@ -26,14 +26,21 @@ async function findOldDocuments(projectId, apiKey, cutoffISO) {
   return docs.filter(d => d.document).map(d => d.document.name);
 }
 
-async function deleteDocument(apiKey, docName) {
+async function batchDelete(projectId, apiKey, docNames) {
+  const writes = docNames.map(name => ({ delete: name }));
+  const body = JSON.stringify({ writes });
+  const buf = Buffer.from(body, 'utf8');
   const res = await request({
     hostname: 'firestore.googleapis.com',
-    path: '/v1/' + docName + '?key=' + apiKey,
-    method: 'DELETE'
-  }, null);
-  return res.status === 200;
+    path: '/v1/projects/' + projectId + '/databases/(default)/documents:batchWrite?key=' + apiKey,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Content-Length': buf.length }
+  }, buf);
+  if (res.status !== 200) throw new Error('batchWrite failed: ' + res.status);
+  return docNames.length;
 }
+
+const BATCH_SIZE = 200;
 
 exports.handler = async () => {
   const projectId = process.env.FIREBASE_PROJECT_ID || 'orthoradar';
@@ -51,17 +58,17 @@ exports.handler = async () => {
     const docNames = await findOldDocuments(projectId, apiKey, cutoffISO);
     console.log('Documents to delete:', docNames.length);
 
-    for (const name of docNames) {
+    for (let i = 0; i < docNames.length; i += BATCH_SIZE) {
+      const chunk = docNames.slice(i, i + BATCH_SIZE);
       try {
-        const ok = await deleteDocument(apiKey, name);
-        if (ok) deleted++;
-        else errors++;
+        deleted += await batchDelete(projectId, apiKey, chunk);
       } catch (e) {
-        console.warn('Delete failed:', name.split('/').pop(), e.message);
-        errors++;
+        console.warn('Batch delete failed:', e.message);
+        errors += chunk.length;
       }
-      // Stay under Firestore write rate limits
-      await new Promise(r => setTimeout(r, 50));
+      if (i + BATCH_SIZE < docNames.length) {
+        await new Promise(r => setTimeout(r, 300));
+      }
     }
   } catch (err) {
     console.error('Cleanup error:', err.message);

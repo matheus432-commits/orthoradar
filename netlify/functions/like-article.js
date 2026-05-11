@@ -1,4 +1,4 @@
-const { request } = require('./_lib');
+const { request, corsHeaders, preflight } = require('./_lib');
 const crypto = require('crypto');
 
 function tokenEqual(a, b) {
@@ -57,10 +57,8 @@ async function atomicArrayOp(projectId, apiKey, docId, field, op, value) {
 }
 
 exports.handler = async (event) => {
-  const headers = { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' };
-  if (event.httpMethod === 'OPTIONS') {
-    return { statusCode: 200, headers: { ...headers, 'Access-Control-Allow-Headers': 'Content-Type, Authorization', 'Access-Control-Allow-Methods': 'POST, OPTIONS' }, body: '' };
-  }
+  const headers = corsHeaders();
+  if (event.httpMethod === 'OPTIONS') return preflight();
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, headers, body: JSON.stringify({ error: 'Method Not Allowed' }) };
   }

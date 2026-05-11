@@ -1,4 +1,4 @@
-const { request } = require('./_lib');
+const { request, corsHeaders, preflight } = require('./_lib');
 
 const ALLOWED_SPECS = new Set([
   'Ortodontia', 'Implantodontia', 'Periodontia', 'Dentística',
@@ -81,12 +81,10 @@ async function createUser(projectId, apiKey, data) {
 }
 
 exports.handler = async (event) => {
-  if (event.httpMethod === 'OPTIONS') {
-    return { statusCode: 200, headers: { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': 'Content-Type', 'Access-Control-Allow-Methods': 'POST, OPTIONS' }, body: '' };
-  }
-  if (event.httpMethod !== 'POST') return { statusCode: 405, body: 'Method Not Allowed' };
+  if (event.httpMethod === 'OPTIONS') return preflight();
+  if (event.httpMethod !== 'POST') return { statusCode: 405, headers: corsHeaders(), body: JSON.stringify({ error: 'Method Not Allowed' }) };
 
-  const headers = { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' };
+  const headers = corsHeaders();
 
   let body;
   try { body = JSON.parse(event.body); } catch { return { statusCode: 400, headers, body: JSON.stringify({ error: 'JSON invalido' }) }; }

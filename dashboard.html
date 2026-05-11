@@ -211,7 +211,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
         <span class="badge green">✓ Verificado</span>
       </div>
     </div>
-    <button class="btn-logout" onclick="logout()">Sair</button>
+    <button class="btn-logout" onclick="confirmLogout()">Sair</button>
   </div>
 
   <!-- STATS STRIP -->
@@ -360,8 +360,12 @@ function logout(){
   msg.textContent='Você saiu da conta.';
 }
 
+function confirmLogout(){
+  if(confirm('Tem certeza que deseja sair da sua conta?')) logout();
+}
+
 // ========== LOGIN ==========
-const HASH_SALT = 'OF26_';
+const HASH_SALT = 'OF26_'; // must match index.html
   async function hashSHA256(str) {
     const buf = new TextEncoder().encode(HASH_SALT + str);
     const hashBuf = await crypto.subtle.digest('SHA-256', buf);
@@ -455,6 +459,8 @@ function populateDashboard(data){
   const curtidos=data.curtidos||[];
   const amigos=data.amigos||[];
   const dias=data.criadoEm?Math.floor((Date.now()-new Date(data.criadoEm).getTime())/86400000):0;
+  const searchEl=document.getElementById('recebidosSearch');
+  if(searchEl) searchEl.value='';
 
   document.getElementById('statRecebidos').textContent=artigos.length;
   document.getElementById('statCurtidos').textContent=curtidos.length;
@@ -492,11 +498,11 @@ function articleCard(art,curtidos,lidos){
     <h3>${escapeHtml(art.titulo||'Sem título')}</h3>
     <div class="article-summary">${summary}</div>
     <div class="article-actions">
-      <button class="btn-like ${liked?'liked':''}" onclick="toggleLike('${art.id}',this)">
+      <button class="btn-like ${liked?'liked':''}" onclick="toggleLike('${art.id}',this)" aria-label="${liked?'Descurtir':'Curtir'} artigo">
         ${liked?'❤️ Curtido':'🤍 Curtir'}
       </button>
-      ${art.pubmedUrl?`<a class="btn-pubmed" href="${art.pubmedUrl}" target="_blank" rel="noopener">PubMed ↗</a>`:''}
-    <button class="btn-lido ${isLido?'lido':''}" onclick="toggleLido('${art.id}')">
+      ${art.pubmedUrl?`<a class="btn-pubmed" href="${art.pubmedUrl}" target="_blank" rel="noopener" aria-label="Ver artigo no PubMed (abre nova aba)">PubMed ↗</a>`:''}
+      <button class="btn-lido ${isLido?'lido':''}" onclick="toggleLido('${art.id}')" aria-label="${isLido?'Desmarcar':'Marcar'} como lido">
         ${isLido?'✅ Lido':'📝 Marcar como lido'}
       </button>
     </div>

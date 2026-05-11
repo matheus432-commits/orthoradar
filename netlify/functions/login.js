@@ -1,8 +1,8 @@
-const { request } = require('./_lib');
+const { request, corsHeaders, preflight } = require('./_lib');
 const crypto = require('crypto');
 
 // Must match HASH_SALT in index.html and dashboard.html
-const HASH_SALT = 'OF26_';
+const HASH_SALT = 'OF26_'; // must match index.html and dashboard.html
 
 
 async function queryByEmail(projectId, apiKey, email) {
@@ -81,13 +81,8 @@ async function patchFields(projectId, apiKey, docId, fields) {
 // it won't match → they use "Esqueci minha senha" once. This is acceptable.
 
 exports.handler = async (event) => {
-  const headers = {
-    'Access-Control-Allow-Origin': '*',
-    'Content-Type': 'application/json'
-  };
-  if (event.httpMethod === 'OPTIONS') {
-    return { statusCode: 200, headers: { ...headers, 'Access-Control-Allow-Headers': 'Content-Type', 'Access-Control-Allow-Methods': 'POST, OPTIONS' }, body: '' };
-  }
+  const headers = corsHeaders();
+  if (event.httpMethod === 'OPTIONS') return preflight();
   if (event.httpMethod !== 'POST') return { statusCode: 405, headers, body: JSON.stringify({ error: 'Method Not Allowed' }) };
 
   let body;

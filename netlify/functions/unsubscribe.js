@@ -49,7 +49,12 @@ async function updateUser(projectId, apiKey, docId, fields) {
 }
 
 exports.handler = async (event) => {
-  const headers = { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': 'Content-Type', 'Content-Type': 'text/html; charset=utf-8' };
+  const headers = {
+    'Access-Control-Allow-Origin': process.env.ALLOWED_ORIGIN || '*',
+    'Content-Type': 'text/html; charset=utf-8',
+    'X-Content-Type-Options': 'nosniff',
+    'X-Frame-Options': 'DENY'
+  };
   const { email, t } = event.queryStringParameters || {};
   if (!email || !t) {
     return { statusCode: 400, headers, body: errorPage('Link invalido', 'O link de cancelamento esta incompleto ou expirado.') };
@@ -85,9 +90,9 @@ exports.handler = async (event) => {
 };
 
 function successPage(email) {
-  return '<!DOCTYPE html><html><head><meta charset="UTF-8"/><title>Cancelamento confirmado</title><style>body{font-family:Arial,sans-serif;background:#0a0a1a;color:#fff;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;margin:0}.card{background:#0d1a2e;border-radius:20px;padding:48px 40px;max-width:480px;width:100%;text-align:center}h1{font-size:24px;margin-bottom:12px}p{color:rgba(255,255,255,0.6);line-height:1.6}.email{color:rgba(255,255,255,0.4);font-size:14px;margin:16px 0;padding:10px 16px;background:rgba(255,255,255,0.05);border-radius:8px}.btn{display:inline-block;margin-top:28px;padding:14px 32px;background:#00d4ff;color:#000;font-weight:700;border-radius:100px;text-decoration:none}</style></head><body><div class="card"><div style="font-size:48px;margin-bottom:20px">Cancelamento confirmado</div><h1>Feito!</h1><p>Voce foi removido da lista de envios do OdontoFeed.</p><div class="email">' + email + '</div><a href="https://odontofeed.com" class="btn">Voltar ao site</a></div></body></html>';
+  return '<!DOCTYPE html><html><head><meta charset="UTF-8"/><title>Cancelamento confirmado</title><style>body{font-family:Arial,sans-serif;background:#0a0a1a;color:#fff;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;margin:0}.card{background:#0d1a2e;border-radius:20px;padding:48px 40px;max-width:480px;width:100%;text-align:center}h1{font-size:24px;margin-bottom:12px}p{color:rgba(255,255,255,0.6);line-height:1.6}.email{color:rgba(255,255,255,0.4);font-size:14px;margin:16px 0;padding:10px 16px;background:rgba(255,255,255,0.05);border-radius:8px}.btn{display:inline-block;margin-top:28px;padding:14px 32px;background:#00d4ff;color:#000;font-weight:700;border-radius:100px;text-decoration:none}</style></head><body><div class="card"><div style="font-size:48px;margin-bottom:20px">Cancelamento confirmado</div><h1>Feito!</h1><p>Voce foi removido da lista de envios do OdontoFeed.</p><div class="email">' + email + '</div><a href="' + (process.env.SITE_URL || 'https://odontofeed.com') + '" class="btn">Voltar ao site</a></div></body></html>';
 }
 
 function errorPage(titulo, mensagem) {
-  return '<!DOCTYPE html><html><head><meta charset="UTF-8"/><title>Erro</title><style>body{font-family:Arial,sans-serif;background:#0a0a1a;color:#fff;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;margin:0}.card{background:#0d1a2e;border-radius:20px;padding:48px 40px;max-width:480px;width:100%;text-align:center}h1{font-size:24px;margin-bottom:12px}p{color:rgba(255,255,255,0.6);line-height:1.6;margin-bottom:24px}.btn{display:inline-block;padding:14px 32px;background:#00d4ff;color:#000;font-weight:700;border-radius:100px;text-decoration:none}</style></head><body><div class="card"><h1>' + titulo + '</h1><p>' + mensagem + '</p><a href="https://odontofeed.com" class="btn">Voltar ao site</a></div></body></html>';
+  return '<!DOCTYPE html><html><head><meta charset="UTF-8"/><title>Erro</title><style>body{font-family:Arial,sans-serif;background:#0a0a1a;color:#fff;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;margin:0}.card{background:#0d1a2e;border-radius:20px;padding:48px 40px;max-width:480px;width:100%;text-align:center}h1{font-size:24px;margin-bottom:12px}p{color:rgba(255,255,255,0.6);line-height:1.6;margin-bottom:24px}.btn{display:inline-block;padding:14px 32px;background:#00d4ff;color:#000;font-weight:700;border-radius:100px;text-decoration:none}</style></head><body><div class="card"><h1>' + titulo + '</h1><p>' + mensagem + '</p><a href="' + (process.env.SITE_URL || 'https://odontofeed.com') + '" class="btn">Voltar ao site</a></div></body></html>';
 }
