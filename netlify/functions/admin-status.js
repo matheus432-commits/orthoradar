@@ -39,6 +39,29 @@ async function listAll(projectId, apiKey, collection, pageSize = 300) {
   return docs;
 }
 
+async function countDocs(projectId, apiKey, collection, whereClause) {
+  const query = {
+    structuredAggregationQuery: {
+      structuredQuery: {
+        from: [{ collectionId: collection }],
+        ...(whereClause ? { where: whereClause } : {})
+      },
+      aggregations: [{ alias: 'count', count: {} }]
+    }
+  };
+  const body = JSON.stringify(query);
+  const buf = Buffer.from(body, 'utf8');
+  const res = await request({
+    hostname: 'firestore.googleapis.com',
+    path: `/v1/projects/${projectId}/databases/(default)/documents:runAggregationQuery?key=${apiKey}`,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Content-Length': buf.length }
+  }, buf);
+  if (res.status !== 200) return null;
+  const result = JSON.parse(res.body);
+  return parseInt(result[0]?.result?.aggregateFields?.count?.integerValue || '0', 10);
+}
+
 exports.handler = async (event) => {
   const headers = { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' };
 
@@ -51,14 +74,18 @@ exports.handler = async (event) => {
   const apiKey = process.env.FIREBASE_API_KEY;
 
   try {
-    const [userDocs, artigoDocs] = await Promise.all([
-      listAll(projectId, apiKey, 'cadastros'),
-      listAll(projectId, apiKey, 'artigos_enviados')
-    ]);
-
     const todayMidnight = new Date();
     todayMidnight.setHours(0, 0, 0, 0);
     const todayISO = todayMidnight.toISOString();
+
+    // Fetch users (expected to be small) for specialty breakdown; use aggregation for article counts
+    const [userDocs, totalArticles, todayArticles] = await Promise.all([
+      listAll(projectId, apiKey, 'cadastros'),
+      countDocs(projectId, apiKey, 'artigos_enviados', null),
+      countDocs(projectId, apiKey, 'artigos_enviados', {
+        fieldFilter: { field: { fieldPath: 'data' }, op: 'GREATER_THAN_OR_EQUAL', value: { stringValue: todayISO } }
+      })
+    ]);
 
     let totalUsers = 0, activeUsers = 0, inactiveUsers = 0;
     const bySpec = {};
@@ -78,25 +105,13 @@ exports.handler = async (event) => {
       }
     }
 
-    let totalArticles = artigoDocs.length;
-    let todayArticles = 0;
-    const articlesBySpec = {};
-
-    for (const doc of artigoDocs) {
-      const f = doc.fields || {};
-      const data = f.data?.stringValue || '';
-      if (data >= todayISO) todayArticles++;
-      const spec = f.especialidade?.stringValue || 'Não informado';
-      articlesBySpec[spec] = (articlesBySpec[spec] || 0) + 1;
-    }
-
     return {
       statusCode: 200,
       headers,
       body: JSON.stringify({
         timestamp: new Date().toISOString(),
         users: { total: totalUsers, active: activeUsers, inactive: inactiveUsers, bySpecialty: bySpec },
-        articles: { total: totalArticles, today: todayArticles, bySpecialty: articlesBySpec }
+        articles: { total: totalArticles ?? 'n/a', today: todayArticles ?? 'n/a' }
       }, null, 2)
     };
   } catch (err) {

@@ -1,4 +1,10 @@
 const { request } = require('./_lib');
+const crypto = require('crypto');
+
+function tokenEqual(a, b) {
+  if (!a || !b || a.length !== b.length) return false;
+  try { return crypto.timingSafeEqual(Buffer.from(a), Buffer.from(b)); } catch { return false; }
+}
 
 async function getUser(projectId, apiKey, email) {
   const body = JSON.stringify({
@@ -74,7 +80,7 @@ exports.handler = async (event) => {
   try {
     const user = await getUser(projectId, apiKey, email);
     if (!user) return { statusCode: 404, headers, body: JSON.stringify({ error: 'Usuario nao encontrado' }) };
-    if (user.sessionToken !== token) return { statusCode: 401, headers, body: JSON.stringify({ error: 'Token invalido' }) };
+    if (!tokenEqual(user.sessionToken, token)) return { statusCode: 401, headers, body: JSON.stringify({ error: 'Token invalido' }) };
     if (user.sessionExpiry && new Date(user.sessionExpiry) < new Date()) {
       return { statusCode: 401, headers, body: JSON.stringify({ error: 'Sessao expirada' }) };
     }

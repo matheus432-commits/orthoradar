@@ -1,5 +1,10 @@
 const { request } = require('./_lib');
+const crypto = require('crypto');
 
+function tokenEqual(a, b) {
+  if (!a || !b || a.length !== b.length) return false;
+  try { return crypto.timingSafeEqual(Buffer.from(a), Buffer.from(b)); } catch { return false; }
+}
 
 async function queryByField(projectId, apiKey, collectionId, field, value, limit) {
   const body = JSON.stringify({
@@ -54,7 +59,7 @@ exports.handler = async (event) => {
     const user = users[0];
 
     // Validate session token (from login.js)
-    if (user.sessionToken !== token) {
+    if (!tokenEqual(user.sessionToken, token)) {
       return { statusCode: 401, headers, body: JSON.stringify({ error: 'Sessao invalida. Faca login novamente.' }) };
     }
     if (user.sessionExpiry && new Date(user.sessionExpiry) < new Date()) {
@@ -70,12 +75,15 @@ exports.handler = async (event) => {
 
     let amigos = [];
     try {
-      const spec = Array.isArray(user.especialidade) ? user.especialidade[0] : (user.especialidade || '');
-      if (spec) {
+      const specs = Array.isArray(user.especialidade) ? user.especialidade.filter(Boolean) : (user.especialidade ? [user.especialidade] : []);
+      if (specs.length) {
+        const whereClause = specs.length === 1
+          ? { fieldFilter: { field: { fieldPath: 'especialidade' }, op: 'ARRAY_CONTAINS', value: { stringValue: specs[0] } } }
+          : { fieldFilter: { field: { fieldPath: 'especialidade' }, op: 'ARRAY_CONTAINS_ANY', value: { arrayValue: { values: specs.map(s => ({ stringValue: s })) } } } };
         const body = JSON.stringify({
           structuredQuery: {
             from: [{ collectionId: 'cadastros' }],
-            where: { fieldFilter: { field: { fieldPath: 'especialidade' }, op: 'ARRAY_CONTAINS', value: { stringValue: spec } } },
+            where: whereClause,
             limit: 50
           }
         });

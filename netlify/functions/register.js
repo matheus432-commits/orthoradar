@@ -123,7 +123,9 @@ exports.handler = async (event) => {
 
     console.log('Cadastro criado:', docId, email);
     if (resendKey) {
-      sendWelcomeEmail(resendKey, nome, email, especialidade).catch(e => console.warn('Welcome email error:', e.message));
+      sendWelcomeEmail(resendKey, nome, email, especialidade)
+        .then(r => { if (r.status !== 200 && r.status !== 201) console.error('[Register] Welcome email failed:', r.status, r.body.substring(0, 100)); })
+        .catch(e => console.error('[Register] Welcome email error:', e.message));
     }
     return { statusCode: 200, headers, body: JSON.stringify({ success: true, message: 'Cadastro realizado com sucesso!', id: docId }) };
   } catch (err) {
