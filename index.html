@@ -300,6 +300,10 @@ const THEMES = {
 let selectedSpecs = [];
 let selectedThemes = [];
 
+function escapeHtml(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
 // ===== MULTI-SPEC TOGGLE =====
 function toggleSpec(el) {
   const val = el.dataset.value;
@@ -315,10 +319,10 @@ function toggleSpec(el) {
     hint.innerHTML = 'Selecione <strong>ao menos uma</strong> especialidade para continuar.';
     btn.disabled = true;
   } else if (selectedSpecs.length === 1) {
-    hint.innerHTML = '<strong style="color:var(--success)">✓ ' + selectedSpecs[0] + ' selecionada</strong> — pode adicionar mais!';
+    hint.innerHTML = '<strong style="color:var(--success)">✓ ' + escapeHtml(selectedSpecs[0]) + ' selecionada</strong> — pode adicionar mais!';
     btn.disabled = false;
   } else {
-    hint.innerHTML = '<strong style="color:var(--success)">✓ ' + selectedSpecs.length + ' especialidades selecionadas:</strong> ' + selectedSpecs.join(', ');
+    hint.innerHTML = '<strong style="color:var(--success)">✓ ' + selectedSpecs.length + ' especialidades selecionadas:</strong> ' + escapeHtml(selectedSpecs.join(', '));
     btn.disabled = false;
   }
 }

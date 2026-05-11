@@ -306,6 +306,10 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
 // ========== UTILS ==========
 let userData = null;
 
+function escapeHtml(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
 function getToken(){ return localStorage.getItem('of_token'); }
 function getEmail(){ return localStorage.getItem('of_email'); }
 function setSession(e,t){ localStorage.setItem('of_token',t); localStorage.setItem('of_email',e); }
@@ -454,13 +458,13 @@ function articleCard(art,curtidos,lidos){
   const liked=curtidos.includes(art.id);
   const isLido = lidos && lidos.includes(art.id);
   const date=art.data?new Date(art.data).toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'numeric'}):'';
-  const summary=(art.resumo||'').substring(0,200)+(art.resumo&&art.resumo.length>200?'...':'');
-  return `<div class="article-card" data-id="${art.id}">
+  const summary=escapeHtml((art.resumo||'').substring(0,200)+(art.resumo&&art.resumo.length>200?'...':''));
+  return `<div class="article-card" data-id="${escapeHtml(art.id)}">
     <div class="article-meta-top">
-      <span class="article-tag">${art.especialidade||art.tema||'Artigo'}</span>
+      <span class="article-tag">${escapeHtml(art.especialidade||art.tema||'Artigo')}</span>
       <span class="article-date">${date}</span>
     </div>
-    <h3>${art.titulo||'Sem título'}</h3>
+    <h3>${escapeHtml(art.titulo||'Sem título')}</h3>
     <div class="article-summary">${summary}</div>
     <div class="article-actions">
       <button class="btn-like ${liked?'liked':''}" onclick="toggleLike('${art.id}',this)">
@@ -530,11 +534,11 @@ function renderAmigos(amigos){
   }
   el.innerHTML='<div class="friends-grid">'+amigos.map(a=>`
     <div class="friend-card">
-      <div class="friend-avatar">${(a.nome||'?').charAt(0).toUpperCase()}</div>
+      <div class="friend-avatar">${escapeHtml((a.nome||'?').charAt(0).toUpperCase())}</div>
       <div>
-        <div class="friend-name">${a.nome||''}</div>
-        <div class="friend-email">${a.email||''}</div>
-        <div class="friend-spec">🦷 ${Array.isArray(a.especialidade)?a.especialidade.join(', '):(a.especialidade||'')}</div>
+        <div class="friend-name">${escapeHtml(a.nome||'')}</div>
+        <div class="friend-email">${escapeHtml(a.email||'')}</div>
+        <div class="friend-spec">🦷 ${escapeHtml(Array.isArray(a.especialidade)?a.especialidade.join(', '):(a.especialidade||''))}</div>
       </div>
     </div>`).join('')+'</div>';
 }
