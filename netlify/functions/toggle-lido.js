@@ -53,23 +53,21 @@ async function atomicArrayOp(projectId, apiKey, docId, field, op, value) {
 exports.handler = async (event) => {
   const headers = { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' };
   if (event.httpMethod === 'OPTIONS') {
-    return { statusCode: 200, headers: { ...headers, 'Access-Control-Allow-Headers': 'Content-Type, Authorization', 'Access-Control-Allow-Methods': 'POST, OPTIONS' }, body: '' };
+    return { statusCode: 200, headers: { ...headers, 'Access-Control-Allow-Headers': 'Content-Type', 'Access-Control-Allow-Methods': 'POST, OPTIONS' }, body: '' };
   }
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, headers, body: JSON.stringify({ error: 'Method Not Allowed' }) };
   }
-  const authHeader = event.headers['authorization'] || event.headers['Authorization'];
-  const token = authHeader && authHeader.startsWith('Bearer ') ? authHeader.substring(7) : null;
   let body;
   try { body = JSON.parse(event.body); } catch(e) {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'JSON invalido' }) };
   }
-  const { email, artigoId, action } = body;
-  if (!email || !artigoId || !action || !token) {
-    return { statusCode: 400, headers, body: JSON.stringify({ error: 'Campos obrigatorios: email, artigoId, action' }) };
+  const { email, token, artId, action } = body;
+  if (!email || !token || !artId || !action) {
+    return { statusCode: 400, headers, body: JSON.stringify({ error: 'Campos obrigatorios: email, token, artId, action' }) };
   }
-  if (!['like', 'unlike'].includes(action)) {
-    return { statusCode: 400, headers, body: JSON.stringify({ error: 'Action deve ser like ou unlike' }) };
+  if (!['mark', 'unmark'].includes(action)) {
+    return { statusCode: 400, headers, body: JSON.stringify({ error: 'Action deve ser mark ou unmark' }) };
   }
   const projectId = process.env.FIREBASE_PROJECT_ID || 'orthoradar';
   const apiKey = process.env.FIREBASE_API_KEY;
@@ -78,14 +76,14 @@ exports.handler = async (event) => {
     if (!user) return { statusCode: 404, headers, body: JSON.stringify({ error: 'Usuario nao encontrado' }) };
     if (user.sessionToken !== token) return { statusCode: 401, headers, body: JSON.stringify({ error: 'Token invalido' }) };
     if (user.sessionExpiry && new Date(user.sessionExpiry) < new Date()) {
-      return { statusCode: 401, headers, body: JSON.stringify({ error: 'Sessao expirada.' }) };
+      return { statusCode: 401, headers, body: JSON.stringify({ error: 'Sessao expirada' }) };
     }
     // appendMissingElements = arrayUnion, removeAllFromArray = arrayRemove — both atomic
-    const op = action === 'like' ? 'appendMissingElements' : 'removeAllFromArray';
-    await atomicArrayOp(projectId, apiKey, user.docId, 'curtidos', op, artigoId);
-    return { statusCode: 200, headers, body: JSON.stringify({ success: true, action, artigoId }) };
+    const op = action === 'mark' ? 'appendMissingElements' : 'removeAllFromArray';
+    await atomicArrayOp(projectId, apiKey, user.docId, 'lidos', op, artId);
+    return { statusCode: 200, headers, body: JSON.stringify({ success: true, artId, lido: action === 'mark' }) };
   } catch(err) {
-    console.error('Like article error:', err);
+    console.error('Toggle lido error:', err);
     return { statusCode: 500, headers, body: JSON.stringify({ error: 'Erro interno: ' + err.message }) };
   }
 };

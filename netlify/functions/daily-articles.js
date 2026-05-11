@@ -1,191 +1,419 @@
 const https = require("https");
+const crypto = require("crypto");
 
-// =============================================================
-// DICIONARIO COMPLETO PT -> EN PARA BUSCA NO PUBMED
-// Cada tema tem nome em PT (exibido ao dentista) e lista de
-// termos em ingles para busca cientifica no PubMed/MeSH.
-// A busca usa os termos em ordem, com fallback automatico.
-// =============================================================
-const TEMAS_DB = [
-  // ---- ORTODONTIA ----
-  { pt: "Alinhadores invisiveis", en: ["clear aligners", "invisible aligners orthodontics", "aligner orthodontic treatment"] },
-  { pt: "Expansao maxilar", en: ["rapid maxillary expansion", "maxillary expansion", "maxillary disjunction", "palatal expansion"] },
-  { pt: "Apinhamento dentario", en: ["dental crowding", "malocclusion crowding", "tooth crowding orthodontics"] },
-  { pt: "Biomecânica ortodontica", en: ["orthodontic biomechanics", "orthodontic forces biomechanics", "bracket mechanics orthodontics"] },
-  { pt: "Cefalometria", en: ["cephalometry orthodontics", "cephalometric analysis", "cephalometric measurements"] },
-  { pt: "Mini-implantes ortodonticos", en: ["temporary anchorage devices orthodontics", "mini-implants orthodontics", "skeletal anchorage orthodontics"] },
-  { pt: "Mini-implantes / TADs", en: ["temporary anchorage devices orthodontics", "mini-implants orthodontics", "skeletal anchorage orthodontics"] },
-  { pt: "Mini-implantes/TADs", en: ["temporary anchorage devices orthodontics", "mini-implants orthodontics", "skeletal anchorage orthodontics"] },
-  { pt: "Aparelho fixo", en: ["fixed orthodontic appliance", "fixed braces orthodontics", "brackets fixed appliance"] },
-  { pt: "Retencao ortodontica", en: ["orthodontic retention", "orthodontic retainer", "relapse orthodontics retention"] },
-  { pt: "Mordida aberta", en: ["open bite malocclusion", "anterior open bite", "skeletal open bite orthodontics"] },
-  { pt: "Mordida cruzada", en: ["crossbite orthodontics", "posterior crossbite", "anterior crossbite malocclusion"] },
-  { pt: "Classe II ortodontica", en: ["Class II malocclusion orthodontics", "skeletal Class II treatment", "mandibular retrognathism orthodontics"] },
-  { pt: "Classe III ortodontica", en: ["Class III malocclusion orthodontics", "skeletal Class III treatment", "mandibular prognathism orthodontics"] },
-  { pt: "Expansao palatina", en: ["palatal expansion", "rapid palatal expansion", "maxillary expansion appliance"] },
-  // ---- IMPLANTODONTIA ----
-  { pt: "Osseointegração", en: ["osseointegration dental implants", "osseointegration implant", "bone implant interface"] },
-  { pt: "Carga imediata", en: ["immediate loading dental implants", "immediate implant loading", "same day implants"] },
-  { pt: "Enxertos osseos autogenos", en: ["autogenous bone graft dental", "autologous bone graft implants", "autogenous bone transplant"] },
-  { pt: "Enxertos com biomateriais", en: ["bone graft biomaterial dental implant", "synthetic bone substitute implants", "xenograft bone implant"] },
-  { pt: "Periimplantite", en: ["peri-implantitis", "periimplant disease", "peri-implant infection treatment"] },
-  { pt: "Implante unitario", en: ["single tooth implant", "single unit dental implant", "implant supported crown"] },
-  { pt: "All-on-4", en: ["all-on-4 implants", "full arch implant rehabilitation", "implant supported full arch prosthesis"] },
-  { pt: "Elevacao do seio maxilar", en: ["sinus lift dental implants", "maxillary sinus augmentation", "sinus floor elevation"] },
-  { pt: "Implante imediato", en: ["immediate implant placement", "post-extraction immediate implant", "fresh socket implant"] },
-  // ---- PERIODONTIA ----
-  { pt: "Doenca periodontal", en: ["periodontal disease", "periodontitis treatment", "chronic periodontitis"] },
-  { pt: "Doença periodontal crônica", en: ["chronic periodontitis", "periodontal disease treatment", "periodontitis management"] },
-  { pt: "Periodontite agressiva", en: ["aggressive periodontitis", "generalized aggressive periodontitis treatment", "early onset periodontitis"] },
-  { pt: "Gengivite", en: ["gingivitis", "gingival inflammation", "gingivitis treatment"] },
-  { pt: "Regeneracao tecidual guiada", en: ["guided tissue regeneration", "GTR periodontics", "membrane guided bone regeneration"] },
-  { pt: "Regeneração tecidual guiada", en: ["guided tissue regeneration", "GTR periodontics", "membrane guided bone regeneration"] },
-  { pt: "Cirurgia periodontal", en: ["periodontal surgery", "flap surgery periodontitis", "periodontal surgical treatment"] },
-  { pt: "Raspagem e alisamento radicular", en: ["scaling root planing", "non-surgical periodontal therapy", "subgingival debridement"] },
-  { pt: "Recessao gengival", en: ["gingival recession", "gingival recession treatment", "recession coverage gingival graft"] },
-  { pt: "Enxerto gengival", en: ["gingival graft", "connective tissue graft periodontics", "free gingival graft"] },
-  { pt: "Mobilidade dentaria", en: ["tooth mobility periodontitis", "dental mobility periodontal disease", "mobile teeth periodontics"] },
-  // ---- ENDODONTIA ----
-  { pt: "Tratamento de canal", en: ["root canal treatment", "endodontic treatment", "pulpectomy root canal"] },
-  { pt: "Tratamento de canal convencional", en: ["root canal treatment", "conventional endodontic treatment", "pulpectomy root canal"] },
-  { pt: "Retratamento endodontico", en: ["endodontic retreatment", "root canal retreatment", "non-surgical retreatment endodontics"] },
-  { pt: "Retratamento endodôntico", en: ["endodontic retreatment", "root canal retreatment", "non-surgical retreatment endodontics"] },
-  { pt: "Cirurgia apical", en: ["periapical surgery", "apicoectomy", "endodontic microsurgery"] },
-  { pt: "Cirurgia perirradicular", en: ["periradicular surgery apicectomy", "periapical surgery", "apicoectomy endodontics"] },
-  { pt: "Pulpotomia", en: ["pulpotomy", "vital pulp therapy", "partial pulpotomy"] },
-  { pt: "Instrumentacao mecanica", en: ["rotary endodontics", "nickel titanium files endodontics", "mechanical instrumentation root canal"] },
-  { pt: "Medicacao intracanal", en: ["intracanal medication endodontics", "calcium hydroxide endodontics", "antimicrobial intracanal dressing"] },
-  { pt: "Lesao perirradicular", en: ["periapical lesion", "periradicular lesion treatment", "apical periodontitis"] },
-  // ---- DENTISTICA / ESTETICA ----
-  { pt: "Clareamento dental", en: ["tooth whitening", "dental bleaching", "teeth whitening clinical"] },
-  { pt: "Facetas ceramicas", en: ["ceramic veneers", "porcelain veneers aesthetics", "dental veneers clinical"] },
-  { pt: "Facetas de porcelana", en: ["porcelain veneers", "ceramic veneers aesthetics", "dental veneers"] },
-  { pt: "Laminados ceramicos", en: ["ceramic laminate veneers", "dental laminates", "porcelain laminate veneers"] },
-  { pt: "Resina composta", en: ["composite resin restoration", "direct composite restoration", "composite resin dental"] },
-  { pt: "Resinas compostas nanoparticuladas", en: ["nanocomposite resin dental", "nanofilled composite resin", "nanoparticle composite restoration"] },
-  { pt: "Carie dentaria", en: ["dental caries", "tooth decay treatment", "caries prevention"] },
-  { pt: "Adesivos dentarios", en: ["dental adhesive systems", "dentin bonding agents", "adhesive dentistry"] },
-  { pt: "Selantes de fissura", en: ["dental sealants", "pit fissure sealants", "fissure sealant prevention"] },
-  { pt: "Sensibilidade dentinaria", en: ["dentin hypersensitivity", "dentinal sensitivity treatment", "tooth sensitivity"] },
-  // ---- PROTESE ----
-  { pt: "Protese total", en: ["complete denture", "full denture prosthetics", "complete denture rehabilitation"] },
-  { pt: "Prótese total convencional", en: ["complete denture", "conventional complete denture", "full denture prosthetics"] },
-  { pt: "Protese parcial removivel", en: ["removable partial denture", "partial denture prosthetics", "RPD prosthetics"] },
-  { pt: "Prótese parcial removível", en: ["removable partial denture", "partial denture prosthetics", "RPD prosthetics"] },
-  { pt: "Coroa ceramica", en: ["all-ceramic crown", "zirconia crown", "porcelain crown dental"] },
-  { pt: "Protese sobre implante", en: ["implant supported prosthesis", "implant prosthetics", "implant crown prosthesis"] },
-  { pt: "Protese fixa", en: ["fixed partial denture", "dental bridge prosthetics", "fixed prosthesis dentistry"] },
-  { pt: "Prótese fixa unitária", en: ["single crown prosthesis", "fixed dental prosthesis", "single unit crown"] },
-  { pt: "Prótese fixa de múltiplos elementos", en: ["fixed dental prosthesis", "fixed partial denture", "dental bridge multiple units"] },
-  { pt: "Reabilitacao oral", en: ["full mouth rehabilitation", "oral rehabilitation prosthetics", "complete oral reconstruction"] },
-  { pt: "Oclusao e ATM", en: ["occlusion temporomandibular joint", "TMJ occlusion treatment", "occlusal rehabilitation"] },
-  { pt: "Zirconia", en: ["zirconia dental prosthetics", "zirconia ceramic restorations", "monolithic zirconia crown"] },
-  // ---- CIRURGIA ----
-  { pt: "Extracao dental", en: ["tooth extraction", "dental extraction technique", "atraumatic tooth extraction"] },
-  { pt: "Terceiro molar", en: ["third molar extraction", "wisdom tooth impacted", "mandibular third molar surgery"] },
-  { pt: "Cirurgia ortognatica", en: ["orthognathic surgery", "corrective jaw surgery", "Le Fort osteotomy"] },
-  { pt: "Fissura labiopalatina", en: ["cleft lip palate surgery", "cleft palate repair", "palatoplasty cleft"] },
-  { pt: "Cistos e tumores", en: ["jaw cysts tumors", "odontogenic cysts treatment", "oral tumors surgery"] },
-  { pt: "Trauma facial", en: ["facial trauma", "maxillofacial trauma treatment", "facial injury management"] },
-  { pt: "Fraturas mandibulares", en: ["mandibular fractures", "mandible fracture treatment", "jaw fracture surgery"] },
-  { pt: "Fraturas do terço médio", en: ["midface fractures", "zygoma fracture", "Le Fort fractures"] },
-  { pt: "Trauma bucomaxilofacial", en: ["maxillofacial trauma", "facial fracture treatment", "mandible fracture surgery"] },
-  // ---- ODONTOPEDIATRIA ----
-  { pt: "Carie precoce na infancia", en: ["early childhood caries", "nursing bottle caries", "ECC early childhood caries"] },
-  { pt: "Cárie precoce na infância", en: ["early childhood caries", "nursing bottle caries", "ECC early childhood caries"] },
-  { pt: "Selantes pediatricos", en: ["dental sealants children", "fissure sealants pediatric", "pit fissure sealant pediatric"] },
-  { pt: "Pulpotomia pediatrica", en: ["pulpotomy primary teeth", "pediatric pulpotomy", "vital pulp therapy children"] },
-  { pt: "Pulpotomia em molares decíduos", en: ["pulpotomy primary molars", "deciduous molar pulpotomy", "vital pulp therapy primary teeth"] },
-  { pt: "Fluorose", en: ["dental fluorosis", "fluorosis treatment", "enamel fluorosis"] },
-  { pt: "Traumatismo dental infantil", en: ["dental trauma children", "tooth trauma pediatric", "traumatic dental injuries children"] },
-  { pt: "Traumatismo dental em crianças", en: ["dental trauma children", "tooth trauma pediatric", "traumatic dental injuries children"] },
-  { pt: "Comportamento infantil na odontologia", en: ["child behavior dentistry", "pediatric dental anxiety", "behavior management children dentistry"] },
-  { pt: "Dentição mista", en: ["mixed dentition", "primary permanent teeth transition", "mixed dentition orthodontics"] },
-  { pt: "Habitos orais", en: ["oral habits children", "digit sucking habit", "pacifier oral habit"] },
-  // ---- HARMONIZACAO OROFACIAL ----
-  { pt: "Toxina botulinica", en: ["botulinum toxin dental", "botox orofacial aesthetic", "botulinum toxin facial aesthetics"] },
-  { pt: "Preenchimento facial", en: ["facial filler dentistry", "hyaluronic acid filler orofacial", "facial volume restoration"] },
-  { pt: "Design do sorriso", en: ["smile design digital", "digital smile design", "aesthetic smile planning"] },
-  { pt: "Gengiva gums estetica", en: ["gummy smile treatment", "aesthetic crown lengthening", "gingival contouring aesthetics"] },
-  { pt: "Lente de contato dental", en: ["ultra-thin veneers", "contact lens veneer dental", "minimal preparation veneers"] },
-  { pt: "Bruxismo", en: ["bruxism treatment", "sleep bruxism management", "tooth grinding bruxism"] },
-  { pt: "Bruxismo do sono", en: ["sleep bruxism", "nocturnal bruxism treatment", "sleep bruxism management"] },
-  { pt: "Bruxismo em vigília", en: ["awake bruxism", "wakefulness bruxism", "diurnal bruxism treatment"] },
-  { pt: "Disfuncao temporomandibular", en: ["temporomandibular disorders", "TMD treatment", "temporomandibular joint dysfunction"] },
-  { pt: "Artralgia da ATM", en: ["temporomandibular joint pain", "TMJ arthralgia", "temporomandibular joint disorder pain"] },
-  // ---- SAUDE BUCAL / GERAL ----
-  { pt: "Saude bucal e doencas sistemicas", en: ["oral health systemic disease", "periodontal systemic connection", "dental health cardiovascular"] },
-  { pt: "Odontologia do esporte", en: ["sports dentistry", "dental injuries sports", "mouthguard sports dentistry"] },
-  { pt: "Saude bucal do idoso", en: ["geriatric dentistry", "elderly oral health", "gerodontology"] },
-  { pt: "Sedacao consciente", en: ["conscious sedation dentistry", "dental sedation", "nitrous oxide dental sedation"] },
-  { pt: "Odontologia baseada em evidencias", en: ["evidence based dentistry", "clinical evidence dental treatment", "systematic review dentistry"] },  // ---- RADIOLOGIA ----  { pt: "CBCT 3D em diagnostico", en: ["cone beam computed tomography CBCT dental", "CBCT 3D dental diagnosis", "CBCT endodontics"] },  { pt: "Radiografia periapical digital", en: ["digital periapical radiography", "periapical radiograph diagnosis", "intraoral digital radiography"] },  { pt: "Panoramica e suas limitacoes", en: ["panoramic radiograph limitations", "dental panoramic radiography", "orthopantomogram diagnosis"] },  // ---- PATOLOGIA ORAL ----  { pt: "Patologia oral", en: ["oral pathology", "oral mucosal lesions", "oral cancer diagnosis"] },  { pt: "Lesoes cancerigenas", en: ["oral potentially malignant lesions", "oral leukoplakia", "oral cancer risk"] },  // ---- IMPLANTODONTIA EXTRA ----  { pt: "Implantes zigomaticos", en: ["zygomatic implants", "zygoma implants atrophic maxilla", "zygomatic anchorage implants"] },  { pt: "Implante zigomatico", en: ["zygomatic implants", "zygoma implants atrophic maxilla", "zygomatic anchorage implants"] },  // ---- PERIODONTIA EXTRA ----  { pt: "Cirurgia mucogengival", en: ["mucogingival surgery", "periodontal plastic surgery", "root coverage surgery"] },  // ---- DESLOCAMENTO DISCO ATM ----  { pt: "Deslocamento de disco", en: ["temporomandibular disc displacement", "TMJ disc displacement treatment", "articular disc TMJ"] },  { pt: "Deslocamento de disco com reducao", en: ["temporomandibular disc displacement reduction", "TMJ disc displacement", "articular disc reduction"] },  // ---- RADIOLOGIA ----  { pt: "CBCT 3D em diagnostico", en: ["cone beam computed tomography CBCT dental", "CBCT 3D dental diagnosis", "CBCT endodontics"] },  { pt: "Radiografia periapical digital", en: ["digital periapical radiography", "periapical radiograph diagnosis", "intraoral digital radiography"] },  { pt: "Panoramica e suas limitacoes", en: ["panoramic radiograph limitations", "dental panoramic radiography", "orthopantomogram diagnosis"] },  // ---- PATOLOGIA ORAL ----  { pt: "Patologia oral", en: ["oral pathology", "oral mucosal lesions", "oral cancer diagnosis"] },  { pt: "Lesoes cancerigenas", en: ["oral potentially malignant lesions", "oral leukoplakia", "oral cancer risk"] },  // ---- IMPLANTODONTIA EXTRA ----  { pt: "Implantes zigomaticos", en: ["zygomatic implants", "zygoma implants atrophic maxilla", "zygomatic anchorage implants"] },  { pt: "Implante zigomatico", en: ["zygomatic implants", "zygoma implants atrophic maxilla", "zygomatic anchorage implants"] },  // ---- PERIODONTIA EXTRA ----  { pt: "Cirurgia mucogengival", en: ["mucogingival surgery", "periodontal plastic surgery", "root coverage surgery"] },  // ---- DESLOCAMENTO DISCO ATM ----  { pt: "Deslocamento de disco", en: ["temporomandibular disc displacement", "TMJ disc displacement treatment", "articular disc TMJ"] },  { pt: "Deslocamento de disco com reducao", en: ["temporomandibular disc displacement reduction", "TMJ disc displacement", "articular disc reduction"] },  // ---- RADIOLOGIA ----  { pt: "CBCT 3D em diagnostico", en: ["cone beam computed tomography CBCT dental", "CBCT 3D dental diagnosis", "CBCT endodontics"] },  { pt: "Radiografia periapical digital", en: ["digital periapical radiography", "periapical radiograph diagnosis", "intraoral digital radiography"] },  { pt: "Panoramica e suas limitacoes", en: ["panoramic radiograph limitations", "dental panoramic radiography", "orthopantomogram diagnosis"] },  // ---- PATOLOGIA ORAL ----  { pt: "Patologia oral", en: ["oral pathology", "oral mucosal lesions", "oral cancer diagnosis"] },  { pt: "Lesoes cancerigenas", en: ["oral potentially malignant lesions", "oral leukoplakia", "oral cancer risk"] },  // ---- IMPLANTODONTIA EXTRA ----  { pt: "Implantes zigomaticos", en: ["zygomatic implants", "zygoma implants atrophic maxilla", "zygomatic anchorage implants"] },  { pt: "Implante zigomatico", en: ["zygomatic implants", "zygoma implants atrophic maxilla", "zygomatic anchorage implants"] },  // ---- PERIODONTIA EXTRA ----  { pt: "Cirurgia mucogengival", en: ["mucogingival surgery", "periodontal plastic surgery", "root coverage surgery"] },  // ---- DESLOCAMENTO DISCO ATM ----  // ---- RADIOLOGIA ----  { pt: "CBCT 3D em diagnostico", en: ["cone beam computed tomography CBCT dental", "CBCT 3D dental diagnosis", "CBCT endodontics"] },  { pt: "Radiografia periapical digital", en: ["digital periapical radiography", "periapical radiograph diagnosis", "intraoral digital radiography"] },  { pt: "Panoramica e suas limitacoes", en: ["panoramic radiograph limitations", "dental panoramic radiography", "orthopantomogram diagnosis"] },  // ---- PATOLOGIA ORAL ----  { pt: "Patologia oral", en: ["oral pathology", "oral mucosal lesions", "oral cancer diagnosis"] },  { pt: "Lesoes cancerigenas", en: ["oral potentially malignant lesions", "oral leukoplakia", "oral cancer risk"] },  // ---- IMPLANTODONTIA EXTRA ----  { pt: "Implantes zigomaticos", en: ["zygomatic implants", "zygoma implants atrophic maxilla", "zygomatic anchorage implants"] },  { pt: "Implante zigomatico", en: ["zygomatic implants", "zygoma implants atrophic maxilla", "zygomatic anchorage implants"] },  // ---- PERIODONTIA EXTRA ----  // ---- RADIOLOGIA ----  { pt: "CBCT 3D em diagnostico", en: ["cone beam computed tomography CBCT dental", "CBCT 3D dental diagnosis", "CBCT endodontics"] },  { pt: "Radiografia periapical digital", en: ["digital periapical radiography", "periapical radiograph diagnosis", "intraoral digital radiography"] },  { pt: "Panoramica e suas limitacoes", en: ["panoramic radiograph limitations", "dental panoramic radiography", "orthopantomogram diagnosis"] },  // ---- PATOLOGIA ORAL ----  { pt: "Patologia oral", en: ["oral pathology", "oral mucosal lesions", "oral cancer diagnosis"] },  { pt: "Lesoes cancerigenas", en: ["oral potentially malignant lesions", "oral leukoplakia", "oral cancer risk"] },  // ---- IMPLANTODONTIA EXTRA ----  { pt: "Implantes zigomaticos", en: ["zygomatic implants", "zygoma implants atrophic maxilla", "zygomatic anchorage implants"] },  // ---- RADIOLOGIA ----  { pt: "CBCT 3D em diagnostico", en: ["cone beam computed tomography CBCT dental", "CBCT 3D dental diagnosis", "CBCT endodontics"] },  { pt: "Radiografia periapical digital", en: ["digital periapical radiography", "periapical radiograph diagnosis", "intraoral digital radiography"] },  { pt: "Panoramica e suas limitacoes", en: ["panoramic radiograph limitations", "dental panoramic radiography", "orthopantomogram diagnosis"] },  // ---- PATOLOGIA ORAL ----  { pt: "Patologia oral", en: ["oral pathology", "oral mucosal lesions", "oral cancer diagnosis"] },  { pt: "Lesoes cancerigenas", en: ["oral potentially malignant lesions", "oral leukoplakia", "oral cancer risk"] },  // ---- RADIOLOGIA ----  { pt: "CBCT 3D em diagnostico", en: ["cone beam computed tomography CBCT dental", "CBCT 3D dental diagnosis", "CBCT endodontics"] },  { pt: "Radiografia periapical digital", en: ["digital periapical radiography", "periapical radiograph diagnosis", "intraoral digital radiography"] },  { pt: "Panoramica e suas limitacoes", en: ["panoramic radiograph limitations", "dental panoramic radiography", "orthopantomogram diagnosis"] },  // ---- PATOLOGIA ORAL ----  // ---- RADIOLOGIA ----  { pt: "CBCT 3D em diagnostico", en: ["cone beam computed tomography CBCT dental", "CBCT 3D dental diagnosis", "CBCT endodontics"] },  { pt: "Radiografia periapical digital", en: ["digital periapical radiography", "periapical radiograph diagnosis", "intraoral digital radiography"] },  // ---- RADIOLOGIA ----
-];
+const NCBI_API_PARAM = process.env.NCBI_API_KEY ? '&api_key=' + process.env.NCBI_API_KEY : '';
 
-// Build lookup map for fast access: normalized PT -> entry
-const TEMA_MAP = new Map();
-TEMAS_DB.forEach(t => {
-  const key = t.pt.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
-  TEMA_MAP.set(key, t);
-});
+// PT theme name -> array of English PubMed search terms (tried in order as fallback)
+const TEMA_MAP = {
+  // ===== ORTODONTIA =====
+  "Alinhadores invisíveis": ["clear aligners orthodontics", "invisible aligners treatment", "aligner orthodontic therapy"],
+  "Biomecânica ortodôntica": ["orthodontic biomechanics", "orthodontic force tooth movement", "biomechanics fixed appliance"],
+  "Cefalometria": ["cephalometric analysis orthodontics", "cephalometry craniofacial", "lateral cephalogram orthodontics"],
+  "Mini-implantes / TADs": ["temporary anchorage devices orthodontics", "mini-implant orthodontic anchorage", "skeletal anchorage TADs"],
+  "Mini-implantes/TADs": ["temporary anchorage devices orthodontics", "mini-implant orthodontic anchorage", "skeletal anchorage TADs"],
+  "Expansão maxilar": ["rapid maxillary expansion", "maxillary expansion orthodontics", "palatal expansion appliance"],
+  "Expansão de maxila": ["rapid maxillary expansion", "maxillary expansion orthodontics", "palatal expansion appliance"],
+  "Cirurgia ortognática": ["orthognathic surgery", "jaw surgery malocclusion", "bimaxillary osteotomy"],
+  "Ortodontia e ATM": ["temporomandibular disorder orthodontics", "orthodontic treatment TMJ", "malocclusion TMD"],
+  "Ancoragem esquelética": ["skeletal anchorage orthodontics", "orthodontic bone anchorage", "temporary anchorage devices"],
+  "Contenção e recidiva": ["orthodontic retention relapse", "retainer post-treatment", "orthodontic stability retention"],
+  "Ortodontia interceptiva": ["interceptive orthodontics", "early orthodontic treatment children", "preventive orthodontics"],
+  "Aparelho fixo estético": ["aesthetic orthodontic bracket", "ceramic bracket orthodontics", "cosmetic fixed appliance"],
+  "Extração em ortodontia": ["extraction orthodontics", "premolar extraction orthodontics", "tooth extraction orthodontic treatment"],
+  "Ortodontia lingual": ["lingual orthodontics", "lingual bracket system", "lingual braces treatment"],
+  "Self-ligating": ["self-ligating bracket", "passive self-ligating orthodontics", "self-ligating appliance"],
+  "Torque e angulação": ["torque angulation orthodontics", "bracket prescription torque", "root torque mechanics"],
+  "Crescimento e desenvolvimento facial": ["craniofacial growth development", "facial growth orthodontics", "dentofacial development children"],
+  "Ortodontia em adultos": ["adult orthodontics treatment", "orthodontic therapy adults", "malocclusion treatment adult patients"],
+  "Respiração oral e má-oclusão": ["mouth breathing malocclusion", "oral breathing dentofacial effects", "nasal breathing orthodontics"],
+  "Ortodontia e sono/apneia": ["obstructive sleep apnea orthodontics", "mandibular advancement orthodontic appliance", "sleep disordered breathing orthodontics"],
+  "Tratamento de Classe II": ["Class II malocclusion treatment", "Angle Class II orthodontics", "mandibular retrognathism treatment"],
+  "Tratamento de Classe III": ["Class III malocclusion treatment", "skeletal Class III orthopedics", "prognathism orthodontic treatment"],
+  "Mordida aberta": ["anterior open bite treatment", "open bite orthodontics", "vertical malocclusion open bite"],
+  "Mordida cruzada posterior": ["posterior crossbite correction", "unilateral crossbite treatment", "transverse maxillary deficiency"],
+  "Sobremordida profunda": ["deep overbite correction orthodontics", "deep bite treatment", "overbite intrusion mechanics"],
+  "Inteligência artificial em ortodontia": ["artificial intelligence orthodontics", "machine learning cephalometric analysis", "deep learning dental diagnosis orthodontics"],
 
-function normalizePt(str) {
-  return (str || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
-}
+  // ===== IMPLANTODONTIA =====
+  "Osseointegração": ["osseointegration dental implant", "implant bone integration", "bone implant interface biology"],
+  "Carga imediata": ["immediate loading dental implants", "immediate implant provisionalization", "same-day implant loading"],
+  "Enxertos ósseos autógenos": ["autogenous bone graft implant", "autologous bone graft dental", "iliac crest bone graft implant"],
+  "Enxertos com biomateriais": ["bone substitute implant", "xenograft dental augmentation", "synthetic bone substitute implant"],
+  "Implantes zigomáticos": ["zygomatic implants atrophic maxilla", "zygoma implants rehabilitation", "pterygoid zygomatic implant"],
+  "Prótese sobre implante": ["implant-supported prosthesis", "implant-retained restoration", "prosthetic implant rehabilitation"],
+  "Peri-implantite": ["peri-implantitis treatment", "peri-implant disease management", "periimplantitis therapy"],
+  "Planejamento digital 3D": ["digital implant planning 3D CBCT", "computer-guided implant surgery", "virtual implant planning"],
+  "All-on-4 e All-on-X": ["All-on-4 dental implant technique", "full arch implant rehabilitation", "tilted implants edentulous"],
+  "Implantes em maxila posterior": ["posterior maxillary implants", "sinus floor elevation implant", "maxillary sinus implant"],
+  "Implantes em mandíbula posterior": ["posterior mandibular implants", "mandibular implant placement", "posterior mandible implant"],
+  "Elevação de seio maxilar": ["sinus floor elevation implant", "maxillary sinus lift augmentation", "sinus augmentation dental implant"],
+  "Implantes estreitos (mini-implantes)": ["narrow diameter implants", "mini implants prosthetic use", "small diameter dental implants"],
+  "Implantes curtos": ["short dental implants", "short implants posterior region", "reduced height implants"],
+  "Tecido mole peri-implantar": ["peri-implant soft tissue management", "mucosal tissue around implant", "keratinized mucosa implant"],
+  "Carga diferida": ["delayed loading dental implants", "conventional implant loading protocol", "two-stage implant procedure"],
+  "Reabilitação com implantes unitários": ["single tooth implant restoration", "single implant crown", "single unit implant"],
+  "Implantes em pacientes sistêmicos": ["dental implants systemic disease", "implants diabetes patients", "medically compromised dental implants"],
+  "Complicações em implantes": ["dental implant complications", "implant failure risk factors", "peri-implant biological complications"],
+  "Sobredentadura": ["implant overdenture", "implant-retained complete denture", "mandibular overdenture implants"],
+  "Membranas e ROG": ["guided bone regeneration membrane", "barrier membrane GBR", "collagen membrane bone augmentation"],
+  "Biofilme peri-implantar": ["peri-implant biofilm bacteria", "implant surface bacterial biofilm", "microbial biofilm implant"],
+  "Impressão digital em implantes": ["digital impression implants intraoral scanner", "digital workflow implants", "intraoral scan implant restoration"],
+  "Implantes imediatos pós-extração": ["immediate implant post-extraction", "fresh socket immediate implant placement", "extraction socket implant"],
+  "Implantes em adolescentes": ["dental implants adolescents", "implants growing patients", "young patients dental implants"],
 
-// Get PubMed search terms for a Portuguese topic
-function getPubmedTerms(temaPt) {
-  const key = normalizePt(temaPt);
-  if (TEMA_MAP.has(key)) {
-    return TEMA_MAP.get(key).en;
+  // ===== PERIODONTIA =====
+  "Doença periodontal crônica": ["chronic periodontitis treatment", "generalized chronic periodontitis", "periodontal disease management"],
+  "Periodontite agressiva": ["aggressive periodontitis", "generalized aggressive periodontitis", "periodontal disease young adults"],
+  "Gengivite": ["gingivitis treatment", "plaque-induced gingivitis", "gingival inflammation management"],
+  "Regeneração tecidual guiada": ["guided tissue regeneration periodontal", "GTR periodontal regeneration", "membrane guided tissue regeneration"],
+  "Cirurgia mucogengival": ["mucogingival surgery gingival recession", "coronally advanced flap", "root coverage surgery"],
+  "Periodontia e diabetes": ["periodontal disease diabetes mellitus", "periodontitis glycemic control", "diabetic periodontitis treatment"],
+  "Periodontia e doenças cardiovasculares": ["periodontal disease cardiovascular risk", "periodontitis heart disease", "periodontal systemic cardiovascular"],
+  "Lasers em periodontia": ["laser periodontal treatment", "Er:YAG laser periodontitis", "photodynamic therapy periodontal"],
+  "Manutenção periodontal": ["periodontal maintenance supportive therapy", "supportive periodontal treatment recall", "periodontal recall therapy"],
+  "Raspagem e alisamento radicular": ["scaling root planing periodontal", "nonsurgical periodontal debridement", "subgingival scaling"],
+  "Cirurgia ressectiva": ["resective periodontal surgery", "osseous resection periodontitis", "periodontal osseous surgery"],
+  "Cirurgia regenerativa": ["regenerative periodontal surgery", "periodontal bone regeneration", "enamel matrix derivative periodontal"],
+  "Enxerto gengival livre": ["free gingival graft", "gingival autograft keratinized", "free gingival graft recession"],
+  "Retalho de reposicionamento": ["coronally advanced flap gingival", "periodontal flap repositioning", "pedicle flap root coverage"],
+  "Tratamento de furca": ["furcation involvement treatment periodontal", "furcation defect management", "molar furcation therapy"],
+  "Abscesso periodontal": ["periodontal abscess treatment", "acute periodontal abscess management", "periodontal abscess drainage"],
+  "Periodontia e tabagismo": ["smoking periodontal disease", "tobacco use periodontitis", "smokers periodontal therapy"],
+  "Microbioma periodontal": ["periodontal microbiome", "subgingival microbiota periodontitis", "oral microbiome periodontal disease"],
+  "Periodontia e gestação": ["periodontal disease pregnancy", "pregnancy gingivitis", "prenatal periodontal treatment"],
+  "Periodontia e osteoporose": ["osteoporosis periodontal disease", "bone density periodontal", "osteoporosis alveolar bone"],
+  "Medicação de suporte periodontal": ["systemic antibiotics periodontitis", "antimicrobial adjunct periodontal", "doxycycline periodontal adjunctive"],
+  "Terapia fotodinâmica": ["photodynamic therapy periodontitis", "antimicrobial photodynamic dental", "photosensitizer periodontal bacteria"],
+  "Ozônio em periodontia": ["ozone therapy periodontal disease", "ozone periodontal treatment", "ozonated oil periodontal"],
+  "Periodontia estética": ["aesthetic periodontal surgery", "gingival aesthetics treatment", "pink aesthetics periodontal"],
+  "Defeitos ósseos verticais": ["vertical bone defect periodontal", "intrabony defect treatment regeneration", "angular bone loss periodontal"],
+
+  // ===== DENTÍSTICA =====
+  "Resinas compostas nanoparticuladas": ["nanocomposite resin dental", "nanofiller composite restoration", "nanoparticle composite material dental"],
+  "Clareamento dental": ["tooth whitening bleaching", "carbamide peroxide dental bleaching", "tooth bleaching clinical effectiveness"],
+  "Facetas de porcelana": ["porcelain veneers aesthetic", "ceramic veneer preparation", "feldspathic porcelain veneer"],
+  "Laminados cerâmicos": ["ceramic laminate veneer", "minimal invasive ceramic restoration", "thin veneer ceramic tooth"],
+  "Adesão dental": ["dental adhesive bonding system", "dentin bonding agent", "enamel dentin adhesion"],
+  "Estética digital (DSD)": ["digital smile design", "smile design digital workflow", "DSD dental aesthetics planning"],
+  "Restaurações indiretas em cerâmica": ["indirect ceramic restoration", "ceramic inlay onlay indirect", "all-ceramic dental restoration"],
+  "Inlays e onlays": ["ceramic inlay onlay", "partial indirect restoration posterior", "composite inlay restoration"],
+  "Cárie e mínima intervenção": ["minimally invasive dentistry caries", "minimal intervention caries management", "conservative caries treatment"],
+  "Fluorose e tratamento": ["dental fluorosis treatment", "enamel fluorosis aesthetics", "fluorosis microabrasion bleaching"],
+  "Erosão dental": ["dental erosion acid wear", "tooth erosion treatment", "erosive tooth wear management"],
+  "Sensibilidade dentinária": ["dentin hypersensitivity treatment", "dentinal sensitivity desensitizing", "tooth sensitivity management"],
+  "Bruxismo e dentística": ["bruxism restorative dentistry", "parafunctional bruxism restoration failure", "bruxism ceramic restoration"],
+  "Mock-up digital": ["digital mock-up dentistry", "dental wax-up mock-up", "diagnostic mock-up aesthetic planning"],
+  "Pigmentações e manchamentos": ["tooth staining discoloration treatment", "intrinsic extrinsic tooth discoloration", "dental pigmentation management"],
+  "Restaurações em dentes anteriores": ["anterior composite restoration aesthetic", "direct anterior composite", "anterior tooth composite restoration"],
+  "Sistemas cerâmicos (zircônia, dissilicato)": ["lithium disilicate ceramic crown", "zirconia ceramic restoration", "glass ceramic dental crown"],
+  "Fotopolimerização e luz LED": ["LED light curing composite resin", "photo-polymerization dental composite", "curing light effectiveness composite"],
+  "Cor em dentística": ["tooth shade selection composite", "dental color matching", "VITA shade dental"],
+  "Tratamento de cavidades classe IV": ["Class IV composite restoration", "incisal angle composite", "anterior Class IV restoration"],
+  "Restaurações cervicais": ["cervical composite restoration Class V", "Class V abfraction restoration", "cervical erosion restoration"],
+  "Dentística minimamente invasiva": ["minimally invasive dentistry conservation", "conservative tooth preparation", "micro-invasive approach caries"],
+  "Materiais provisórios estéticos": ["provisional restoration aesthetics", "temporary crown material", "interim dental restoration"],
+  "Técnica incremental em compósito": ["incremental composite layering technique", "composite resin stratification", "layering composite posterior"],
+  "Polimento e acabamento": ["composite finishing polishing technique", "resin surface polishing", "surface finishing composite restoration"],
+
+  // ===== BUCOMAXILOFACIAL =====
+  "Trauma facial": ["facial trauma maxillofacial surgery", "maxillofacial injury treatment", "facial bone fracture management"],
+  "Fraturas mandibulares": ["mandibular fracture treatment ORIF", "jaw fracture fixation", "mandible fracture surgery"],
+  "Fraturas do terço médio": ["midface fracture treatment", "zygomatic fracture repair", "Le Fort fracture classification"],
+  "Fraturas do terço médio facial": ["midface fracture treatment", "zygomatic fracture repair", "Le Fort fracture classification"],
+  "Patologia oral benigna": ["oral benign pathology diagnosis", "benign oral lesion treatment", "oral soft tissue benign"],
+  "Cistos odontogênicos": ["odontogenic cyst treatment surgery", "dentigerous cyst removal", "odontogenic keratocyst management"],
+  "Tumores benignos dos maxilares": ["jaw benign tumor treatment", "ameloblastoma surgery", "odontogenic tumor maxillofacial"],
+  "Carcinoma espinocelular oral": ["oral squamous cell carcinoma treatment", "oral cancer surgery", "OSCC prognosis management"],
+  "Reconstrução mandibular": ["mandibular reconstruction fibula flap", "jaw reconstruction surgery", "mandible reconstruction plate"],
+  "Distração osteogênica": ["distraction osteogenesis jaw", "alveolar distraction osteogenesis", "mandibular distraction lengthening"],
+  "Transplante de osso": ["autologous bone graft oral surgery", "bone block graft jaw", "bone transplant maxillofacial"],
+  "Enxertos microvascularizados": ["microvascular free flap oral reconstruction", "fibula free flap mandible", "free flap maxillofacial reconstruction"],
+  "Articulação temporomandibular cirúrgica": ["temporomandibular joint surgery", "TMJ arthroplasty surgery", "total joint replacement TMJ"],
+  "Cirurgia de terceiros molares": ["third molar surgery extraction", "wisdom tooth surgical removal", "impacted third molar surgery"],
+  "Doenças das glândulas salivares": ["salivary gland disease treatment", "sialolithiasis calculi removal", "parotid gland pathology"],
+  "Fissura labiopalatina": ["cleft lip palate surgery", "palatoplasty cheiloplasty repair", "cleft palate treatment outcomes"],
+  "Cirurgia pré-protética": ["preprosthetic surgery oral", "alveoloplasty bone reduction", "vestibuloplasty oral preprosthetic"],
+  "Complicações pós-operatórias": ["postoperative complications oral surgery", "alveolar osteitis dry socket", "surgical site infection oral"],
+  "Anestesia local em BMF": ["local anesthesia oral surgery", "inferior alveolar nerve block", "regional anesthesia dental surgery"],
+  "Implantes zigomáticos em BMF": ["zygomatic implants severe atrophy", "zygoma implant surgery technique", "zygomatic fixture placement"],
+  "Medicina do sono e cirurgia": ["sleep apnea surgical treatment", "uvulopalatopharyngoplasty sleep apnea", "mandibular advancement surgery sleep"],
+  "Bifosfonatos e osteonecrose": ["medication-related osteonecrosis jaw MRONJ", "bisphosphonate osteonecrosis", "antiresorptive jaw osteonecrosis"],
+  "Cirurgia oncológica oral": ["oral cancer surgery resection", "neck dissection oncology oral", "oncological jaw surgery"],
+  "Reconstrução com retalhos locais": ["local flap oral reconstruction", "buccal fat pad flap closure", "palatal flap oral defect"],
+  "Cirurgia minimamente invasiva": ["minimally invasive oral surgery technique", "piezoelectric surgery bone", "flapless oral surgery"],
+
+  // ===== PRÓTESE =====
+  "Prótese total convencional": ["complete denture fabrication", "conventional full denture", "complete edentulous denture"],
+  "Prótese parcial removível": ["removable partial denture design", "cast partial denture RPD", "removable prosthesis partial"],
+  "Prótese fixa unitária": ["single unit dental crown", "full coverage crown prosthesis", "dental crown restoration"],
+  "Prótese fixa de múltiplos elementos": ["fixed partial denture bridge", "dental bridge multi-unit", "fixed prosthesis multiple units"],
+  "Oclusão em prótese": ["dental occlusion prosthodontics", "centric relation prosthodontics", "occlusal scheme prosthetics"],
+  "Reabilitação oral completa": ["full mouth rehabilitation prosthodontics", "complete oral rehabilitation", "full mouth reconstruction"],
+  "Materiais cerâmicos para prótese": ["dental ceramic material crown", "ceramic prosthetic material", "porcelain crown material"],
+  "Zircônia em prótese fixa": ["zirconia fixed prosthesis", "zirconia crown bridge", "monolithic zirconia restoration"],
+  "CAD/CAM em prótese": ["CAD CAM dental prosthesis", "computer aided dental restoration milling", "digital prosthetics CAD CAM"],
+  "Prótese implanto-suportada": ["implant-supported fixed prosthesis", "implant-retained crown", "implant prosthetic rehabilitation"],
+  "Prótese parcial imediata": ["immediate partial denture", "transitional partial denture", "interim partial denture post-extraction"],
+  "Prótese provisória": ["provisional dental restoration", "temporary crown prosthetics", "interim dental prosthesis"],
+  "Overdenture sobre implantes": ["implant overdenture mandibular", "implant-retained complete overdenture", "ball attachment implant overdenture"],
+  "Prótese bucomaxilofacial": ["maxillofacial prosthetics rehabilitation", "facial prosthesis auricular ocular", "prosthetic rehabilitation maxillofacial"],
+  "Reembasamento de próteses": ["denture relining rebasing", "chairside reline denture", "denture rebase technique"],
+  "Prótese em pacientes geriátricos": ["geriatric prosthodontics", "elderly edentulous denture", "dental prosthetics elderly patients"],
+  "Estética em prótese fixa": ["aesthetic fixed prosthodontics", "cosmetic crown veneer restoration", "anterior aesthetic prosthesis"],
+  "Cimentação adesiva": ["resin cement adhesive luting", "adhesive cementation dental crown", "luting agent ceramic bonding"],
+  "Prótese e bruxismo": ["bruxism prosthodontics management", "occlusal protection bruxism prosthesis", "parafunctional bruxism restoration"],
+  "Desordens oclusais": ["occlusal disorder treatment", "malocclusion prosthodontic management", "occlusal adjustment therapy"],
+  "Impressão digital em prótese": ["digital impression prosthodontics intraoral scanner", "digital workflow dental prosthetics", "intraoral scan prosthesis"],
+  "Cera e moldagem funcional": ["functional impression complete denture", "jaw relation records wax rim", "occlusal record denture"],
+  "Prótese e ATM": ["TMD prosthodontic management", "temporomandibular prosthetics occlusion", "oral rehabilitation TMD"],
+  "Sorrisos compostos": ["smile rehabilitation composite prosthetics", "anterior smile aesthetic restoration", "smile design fixed prosthetics"],
+  "Prótese e estética facial": ["facial aesthetic dental rehabilitation", "smile makeover prosthodontics", "cosmetic dental prosthetic facial"],
+
+  // ===== ENDODONTIA =====
+  "Tratamento de canal convencional": ["root canal treatment endodontics", "nonsurgical endodontic therapy", "root canal therapy outcome"],
+  "Retratamento endodôntico": ["endodontic retreatment nonsurgical", "root canal retreatment", "failed root canal retreatment"],
+  "Cirurgia perirradicular (apicectomia)": ["periradicular surgery apicectomy", "endodontic microsurgery apicoectomy", "root end surgery endodontics"],
+  "Regeneração pulpar em dentes imaturos": ["pulp revascularization immature teeth", "regenerative endodontics apexogenesis", "apexification immature tooth"],
+  "Instrumentação rotatória NiTi": ["NiTi rotary endodontic file", "nickel titanium rotary instrumentation", "rotary file root canal shaping"],
+  "Instrumentação reciprocante": ["reciprocating endodontic system", "WaveOne reciprocating file", "single file reciprocating endodontics"],
+  "Irrigação com hipoclorito de sódio": ["sodium hypochlorite root canal irrigation", "NaOCl endodontic irrigant", "endodontic irrigation efficacy"],
+  "EDTA e quelantes em endodontia": ["EDTA chelation root canal", "smear layer removal endodontics", "chelating agent endodontics"],
+  "Obturação endodôntica": ["root canal obturation gutta-percha", "warm vertical compaction endodontics", "root canal filling technique"],
+  "Diagnóstico diferencial de dor endodôntica": ["endodontic pain differential diagnosis", "pulp vitality testing", "irreversible pulpitis diagnosis"],
+  "Perfuração radicular": ["root perforation repair endodontics", "iatrogenic root perforation", "MTA repair perforation"],
+  "Fratura de instrumento": ["fractured instrument endodontics retrieval", "separated file root canal", "instrument separation endodontic management"],
+  "Dente com rizogênese incompleta": ["open apex endodontics apexification", "immature root canal MTA", "incomplete root formation endodontics"],
+  "Reabsorção radicular": ["root resorption endodontic treatment", "external internal root resorption", "inflammatory root resorption management"],
+  "Traumatismo dentário e endodontia": ["dental trauma endodontic sequelae", "traumatized tooth pulp necrosis", "avulsion replantation endodontics"],
+  "Cimentos endodônticos": ["root canal sealer biocompatibility", "endodontic sealer", "resin-based endodontic sealer"],
+  "Tomografia em endodontia": ["CBCT endodontic diagnosis", "cone beam CT root canal anatomy", "3D endodontic imaging"],
+  "Endodontia em dentes com anatomia complexa": ["complex root canal anatomy treatment", "C-shaped canal endodontics", "calcified root canal treatment"],
+  "Lasers em endodontia": ["laser endodontic disinfection", "Er:YAG laser root canal", "photobiomodulation endodontics"],
+  "Medicação intracanal": ["intracanal medication calcium hydroxide", "interappointment dressing endodontics", "calcium hydroxide root canal"],
+  "Dente com câmara calcificada": ["calcified pulp chamber endodontics", "pulp calcification root canal access", "calcified canal treatment"],
+  "Endodontia em dentes posteriores": ["molar root canal treatment endodontics", "posterior tooth endodontic", "mandibular molar root canal"],
+  "Biopulpotomia em dentes permanentes": ["vital pulp therapy permanent teeth", "partial pulpotomy MTA mineral trioxide", "direct pulp capping MTA"],
+  "Dor pós-operatória em endodontia": ["postoperative pain endodontic treatment", "post-endodontic flare-up", "endodontic pain management postoperative"],
+  "Prognóstico endodôntico": ["endodontic treatment prognosis outcome", "root canal success rate factors", "endodontic prognosis evidence"],
+
+  // ===== ODONTOPEDIATRIA =====
+  "Cárie precoce na infância": ["early childhood caries prevention treatment", "severe early childhood caries", "baby bottle caries management"],
+  "Traumatismo dental em crianças": ["dental trauma children management", "primary teeth trauma treatment", "tooth avulsion children replantation"],
+  "Pulpotomia em molares decíduos": ["pulpotomy primary molar deciduous", "MTA pulpotomy primary teeth", "formocresol pulpotomy deciduous"],
+  "Pulpectomia em decíduos": ["pulpectomy primary teeth", "root canal primary deciduous teeth", "radicular pulp treatment primary"],
+  "Odontologia para bebês": ["infant oral health dental care", "baby oral hygiene dental visit", "oral health infants toddlers"],
+  "Fluoretação e prevenção": ["fluoride prevention caries children", "fluoride varnish application caries", "water fluoridation dental caries"],
+  "Selantes de fóssulas e fissuras": ["pit fissure sealant caries prevention", "dental sealant effectiveness children", "resin sealant application"],
+  "Ortopedia funcional dos maxilares": ["functional jaw orthopedics children", "dentofacial orthopedics pediatric", "myofunctional appliance children"],
+  "Respiração oral na infância": ["mouth breathing children dentofacial effects", "oral breathing malocclusion children", "nasal obstruction dental development"],
+  "Hábitos orais deletérios": ["oral habits sucking children dental", "thumb sucking pacifier malocclusion", "digit sucking habit intervention"],
+  "Ansiedade e medo em odontopediatria": ["dental anxiety fear children management", "child dental phobia", "pediatric dental anxiety"],
+  "Técnicas de manejo comportamental": ["behavior management pediatric dentistry", "tell show do technique children", "child cooperation dental treatment"],
+  "Sedação em odontopediatria": ["pediatric dental sedation nitrous oxide", "conscious sedation children dentistry", "nitrous oxide sedation pediatric dental"],
+  "Anestesia geral em odontopediatria": ["general anesthesia pediatric dentistry", "dental treatment general anesthesia children", "pediatric dental GA outcome"],
+  "Traumatismo em dentes permanentes jovens": ["young permanent tooth trauma treatment", "complicated crown fracture permanent tooth", "avulsion young permanent tooth"],
+  "Erupção dentária e anomalias": ["tooth eruption anomaly children", "delayed tooth eruption causes", "ectopic eruption permanent teeth"],
+  "Dentes supranumerários": ["supernumerary teeth mesiodens treatment", "hyperdontia management", "supernumerary tooth extraction children"],
+  "Dentes neonatais": ["natal neonatal teeth management", "neonatal tooth treatment", "natal tooth oral findings"],
+  "Nutrição e saúde bucal infantil": ["nutrition child oral health caries", "dietary sugar consumption caries children", "diet dental caries pediatric"],
+  "Fissura labiopalatina na infância": ["cleft lip palate pediatric dental", "cleft palate feeding dental", "cleft palate dental development"],
+  "Doença periodontal em crianças": ["periodontal disease children pediatric", "pediatric periodontal treatment", "prepubertal periodontitis"],
+  "Atualização em cariologia pediátrica": ["pediatric caries management update", "silver diamine fluoride caries arrest", "caries risk assessment children"],
+  "Hipomineralização molar-incisivo (HMI)": ["molar incisor hypomineralization MIH", "MIH treatment management", "enamel hypomineralization molar"],
+  "Reabilitação oral pediátrica": ["pediatric oral rehabilitation stainless steel crown", "primary teeth full coverage crown", "full mouth rehabilitation children"],
+  "Primeiro atendimento odontológico": ["first dental visit child anticipatory guidance", "infant oral examination", "pediatric dental first visit"],
+
+  // ===== DTM E DOR OROFACIAL =====
+  "Bruxismo do sono": ["sleep bruxism management treatment", "nocturnal bruxism polysomnography", "sleep bruxism etiology"],
+  "Bruxismo em vigília": ["awake bruxism treatment", "daytime bruxism management", "waking bruxism biofeedback"],
+  "Artralgia da ATM": ["TMJ arthralgia treatment", "temporomandibular joint pain management", "articular TMJ pain"],
+  "Deslocamento de disco com redução": ["disc displacement reduction TMJ clicking", "anterior disc displacement clicking", "TMJ disc clicking treatment"],
+  "Deslocamento de disco sem redução": ["disc displacement without reduction TMJ", "closed lock temporomandibular", "non-reducing disc displacement"],
+  "Osteoartrite da ATM": ["temporomandibular joint osteoarthritis treatment", "TMJ osteoarthrosis management", "degenerative TMJ disease"],
+  "Mialgia mastigatória": ["masticatory muscle pain myalgia treatment", "jaw muscle pain", "masseter myofascial pain"],
+  "Dor miofascial": ["myofascial pain orofacial trigger point", "masticatory myofascial pain syndrome", "facial myofascial pain treatment"],
+  "Placa oclusal estabilizadora": ["occlusal stabilization splint TMD", "flat plane occlusal splint", "Michigan splint temporomandibular"],
+  "Placa oclusal de reposicionamento": ["mandibular repositioning appliance TMJ", "anterior repositioning splint disc", "disc recapture splint TMJ"],
+  "Biofeedback em DTM": ["biofeedback TMD treatment", "EMG biofeedback bruxism jaw", "biofeedback orofacial pain"],
+  "Toxina botulínica (Botox) em DTM": ["botulinum toxin TMD bruxism", "botox masseter injection bruxism", "botulinum toxin jaw pain"],
+  "Fisioterapia orofacial": ["physical therapy TMD orofacial", "physiotherapy temporomandibular jaw", "jaw exercises physical therapy TMD"],
+  "Diagnóstico por imagem da ATM (CBCT/RM)": ["TMJ imaging CBCT MRI diagnosis", "cone beam CT temporomandibular joint", "MRI disc displacement TMJ diagnosis"],
+  "Dor crônica orofacial": ["chronic orofacial pain management", "persistent facial pain treatment", "chronic orofacial pain syndrome"],
+  "Neuralgia do trigêmeo": ["trigeminal neuralgia treatment", "facial neuralgia management therapy", "trigeminal pain carbamazepine"],
+  "Cefaleia tensional e odontologia": ["tension-type headache dentistry", "dental occlusion headache", "temporomandibular headache"],
+  "Oclusão e DTM": ["dental occlusion temporomandibular disorder", "occlusal factors TMD", "malocclusion TMJ pain"],
+  "Relação oclusal e postura": ["dental occlusion body posture", "mandibular position cervical posture", "occlusion postural relationship"],
+  "Diagnóstico diferencial de dores faciais": ["differential diagnosis facial pain orofacial", "orofacial pain classification diagnosis", "facial pain differential diagnosis"],
+  "Dor neuropática orofacial": ["orofacial neuropathic pain", "atypical facial pain neuropathy", "burning mouth syndrome neuropathic"],
+  "Impacto psicossocial das DTMs": ["psychosocial impact temporomandibular disorder", "quality of life TMD", "anxiety depression temporomandibular"],
+  "Tratamento multidisciplinar em DTM": ["multidisciplinary TMD treatment approach", "interdisciplinary orofacial pain management", "team-based temporomandibular treatment"],
+  "Laser de baixa intensidade em DTM": ["low-level laser therapy TMD", "LLLT temporomandibular pain", "photobiomodulation TMJ pain laser"],
+  "Qualidade de sono e DTM": ["sleep quality temporomandibular disorder", "sleep disturbance TMD orofacial pain", "insomnia orofacial pain"],
+
+  // ===== RADIOLOGIA =====
+  "CBCT 3D em diagnóstico": ["cone beam computed tomography dental diagnosis", "CBCT oral diagnosis", "3D imaging dental CBCT"],
+  "Radiografia periapical digital": ["digital periapical radiograph", "digital periapical X-ray technique", "intraoral digital radiography"],
+  "Panorâmica e suas limitações": ["panoramic radiography limitations dental", "orthopantomogram diagnostic accuracy", "panoramic X-ray dental"],
+  "Diagnóstico de cárie por imagem": ["radiographic caries detection bitewing", "interproximal caries radiograph", "bitewing radiograph caries diagnosis"],
+  "Diagnóstico periodontal por radiografia": ["periodontal bone loss radiographic assessment", "alveolar bone level radiograph", "radiographic periodontal diagnosis"],
+  "Planejamento de implantes com CBCT": ["CBCT implant planning", "implant site assessment 3D CBCT", "3D planning dental implant placement"],
+  "CBCT em endodontia": ["CBCT endodontic diagnosis root canal", "cone beam CT root canal anatomy", "3D endodontic imaging"],
+  "CBCT em ortodontia": ["CBCT orthodontic diagnosis airway", "cone beam CT cephalometric orthodontics", "3D imaging orthodontics CBCT"],
+  "Redução de dose em radiologia odontológica": ["radiation dose reduction dental radiology", "low dose dental X-ray technique", "dose optimization dental imaging"],
+  "Inteligência artificial em radiologia": ["artificial intelligence dental radiology diagnosis", "deep learning radiograph detection", "AI dental X-ray diagnosis"],
+  "Detecção automática de cárie por IA": ["AI automated caries detection radiograph", "machine learning dental caries radiograph", "neural network caries detection"],
+  "Radiologia em patologia oral": ["radiographic oral pathology diagnosis", "jaw lesion radiographic", "oral pathology dental imaging"],
+  "Imagem da ATM por RM": ["MRI temporomandibular joint disc", "TMJ magnetic resonance imaging", "MRI disc displacement TMJ"],
+  "Sialografia": ["sialography salivary gland imaging", "salivary duct sialography", "sialoendoscopy salivary imaging"],
+  "Radioprotecção em odontologia": ["radiation protection dentistry ALARA", "dental X-ray patient safety", "radiation dose dental protection"],
+  "Interpretação de achados incidentais": ["incidental findings CBCT dental", "cone beam CT unexpected pathology", "CBCT incidental oral findings"],
+  "Diagnóstico de reabsorções radiculares": ["root resorption radiographic diagnosis", "external root resorption imaging", "root resorption CBCT detection"],
+  "Lesões periapicais em imagem": ["periapical lesion radiographic imaging", "apical periodontitis CBCT", "periapical pathology diagnosis imaging"],
+  "CBCT em cirurgia guiada": ["CBCT guided implant surgery", "computer guided surgery 3D planning", "surgical guide 3D printing implant"],
+  "Tomossíntese em odontologia": ["dental tomosynthesis imaging", "digital tomosynthesis oral", "tomosynthesis caries detection"],
+  "Fantomas e calibração em radiologia": ["dental phantom calibration radiology", "image quality dental radiography", "radiographic phantom calibration dental"],
+  "Imagem em trauma facial": ["facial trauma radiographic CT", "CT scan facial fracture assessment", "maxillofacial trauma imaging"],
+  "Princípios de proteção radiológica": ["radiological protection principles dental", "ionizing radiation safety dental", "radiation dose patient dental"],
+  "Radiologia em pediatria": ["pediatric dental radiology", "children dental X-ray technique", "pediatric radiographic technique dental"],
+  "Teleradiologia e laudos remotos": ["teleradiology dental remote reporting", "remote radiographic report dental", "digital radiograph teleconsultation"]
+};
+
+// Reverse lookup: tema PT name -> which specialty it belongs to
+// Built from the same THEMES structure in index.html
+const TEMA_TO_ESPECIALIDADE = {};
+(function() {
+  const THEMES_BY_SPEC = {
+    // "Cirurgia ortognática" omitted here (cross-specialty) so it never gets filtered out for either specialty
+    "Ortodontia": ["Alinhadores invisíveis","Biomecânica ortodôntica","Cefalometria","Mini-implantes / TADs","Expansão maxilar","Ortodontia e ATM","Ancoragem esquelética","Contenção e recidiva","Ortodontia interceptiva","Aparelho fixo estético","Extração em ortodontia","Ortodontia lingual","Self-ligating","Torque e angulação","Crescimento e desenvolvimento facial","Ortodontia em adultos","Respiração oral e má-oclusão","Ortodontia e sono/apneia","Tratamento de Classe II","Tratamento de Classe III","Mordida aberta","Mordida cruzada posterior","Sobremordida profunda","Inteligência artificial em ortodontia"],
+    "Implantodontia": ["Osseointegração","Carga imediata","Enxertos ósseos autógenos","Enxertos com biomateriais","Implantes zigomáticos","Prótese sobre implante","Peri-implantite","Planejamento digital 3D","All-on-4 e All-on-X","Implantes em maxila posterior","Implantes em mandíbula posterior","Elevação de seio maxilar","Implantes estreitos (mini-implantes)","Implantes curtos","Tecido mole peri-implantar","Carga diferida","Reabilitação com implantes unitários","Implantes em pacientes sistêmicos","Complicações em implantes","Sobredentadura","Membranas e ROG","Biofilme peri-implantar","Impressão digital em implantes","Implantes imediatos pós-extração","Implantes em adolescentes"],
+    "Periodontia": ["Doença periodontal crônica","Periodontite agressiva","Gengivite","Regeneração tecidual guiada","Cirurgia mucogengival","Periodontia e diabetes","Periodontia e doenças cardiovasculares","Lasers em periodontia","Manutenção periodontal","Raspagem e alisamento radicular","Cirurgia ressectiva","Cirurgia regenerativa","Enxerto gengival livre","Retalho de reposicionamento","Tratamento de furca","Abscesso periodontal","Periodontia e tabagismo","Microbioma periodontal","Periodontia e gestação","Periodontia e osteoporose","Medicação de suporte periodontal","Terapia fotodinâmica","Ozônio em periodontia","Periodontia estética","Defeitos ósseos verticais"],
+    "Dentística": ["Resinas compostas nanoparticuladas","Clareamento dental","Facetas de porcelana","Laminados cerâmicos","Adesão dental","Estética digital (DSD)","Restaurações indiretas em cerâmica","Inlays e onlays","Cárie e mínima intervenção","Fluorose e tratamento","Erosão dental","Sensibilidade dentinária","Bruxismo e dentística","Mock-up digital","Pigmentações e manchamentos","Restaurações em dentes anteriores","Sistemas cerâmicos (zircônia, dissilicato)","Fotopolimerização e luz LED","Cor em dentística","Tratamento de cavidades classe IV","Restaurações cervicais","Dentística minimamente invasiva","Materiais provisórios estéticos","Técnica incremental em compósito","Polimento e acabamento"],
+    "Bucomaxilofacial": ["Trauma facial","Fraturas mandibulares","Fraturas do terço médio","Patologia oral benigna","Cistos odontogênicos","Tumores benignos dos maxilares","Carcinoma espinocelular oral","Reconstrução mandibular","Distração osteogênica","Transplante de osso","Enxertos microvascularizados","Articulação temporomandibular cirúrgica","Cirurgia de terceiros molares","Doenças das glândulas salivares","Fissura labiopalatina","Cirurgia pré-protética","Complicações pós-operatórias","Anestesia local em BMF","Implantes zigomáticos em BMF","Medicina do sono e cirurgia","Bifosfonatos e osteonecrose","Cirurgia oncológica oral","Reconstrução com retalhos locais","Cirurgia minimamente invasiva"],
+    "Prótese": ["Prótese total convencional","Prótese parcial removível","Prótese fixa unitária","Prótese fixa de múltiplos elementos","Oclusão em prótese","Reabilitação oral completa","Materiais cerâmicos para prótese","Zircônia em prótese fixa","CAD/CAM em prótese","Prótese implanto-suportada","Prótese parcial imediata","Prótese provisória","Overdenture sobre implantes","Prótese bucomaxilofacial","Reembasamento de próteses","Prótese em pacientes geriátricos","Estética em prótese fixa","Cimentação adesiva","Prótese e bruxismo","Desordens oclusais","Impressão digital em prótese","Cera e moldagem funcional","Prótese e ATM","Sorrisos compostos","Prótese e estética facial"],
+    "Endodontia": ["Tratamento de canal convencional","Retratamento endodôntico","Cirurgia perirradicular (apicectomia)","Regeneração pulpar em dentes imaturos","Instrumentação rotatória NiTi","Instrumentação reciprocante","Irrigação com hipoclorito de sódio","EDTA e quelantes em endodontia","Obturação endodôntica","Diagnóstico diferencial de dor endodôntica","Perfuração radicular","Fratura de instrumento","Dente com rizogênese incompleta","Reabsorção radicular","Traumatismo dentário e endodontia","Cimentos endodônticos","Tomografia em endodontia","Endodontia em dentes com anatomia complexa","Lasers em endodontia","Medicação intracanal","Dente com câmara calcificada","Endodontia em dentes posteriores","Biopulpotomia em dentes permanentes","Dor pós-operatória em endodontia","Prognóstico endodôntico"],
+    "Odontopediatria": ["Cárie precoce na infância","Traumatismo dental em crianças","Pulpotomia em molares decíduos","Pulpectomia em decíduos","Odontologia para bebês","Fluoretação e prevenção","Selantes de fóssulas e fissuras","Ortopedia funcional dos maxilares","Respiração oral na infância","Hábitos orais deletérios","Ansiedade e medo em odontopediatria","Técnicas de manejo comportamental","Sedação em odontopediatria","Anestesia geral em odontopediatria","Traumatismo em dentes permanentes jovens","Erupção dentária e anomalias","Dentes supranumerários","Dentes neonatais","Nutrição e saúde bucal infantil","Fissura labiopalatina na infância","Doença periodontal em crianças","Atualização em cariologia pediátrica","Hipomineralização molar-incisivo (HMI)","Reabilitação oral pediátrica","Primeiro atendimento odontológico"],
+    "DTM e Dor Orofacial": ["Bruxismo do sono","Bruxismo em vigília","Artralgia da ATM","Deslocamento de disco com redução","Deslocamento de disco sem redução","Osteoartrite da ATM","Mialgia mastigatória","Dor miofascial","Placa oclusal estabilizadora","Placa oclusal de reposicionamento","Biofeedback em DTM","Toxina botulínica (Botox) em DTM","Fisioterapia orofacial","Diagnóstico por imagem da ATM (CBCT/RM)","Dor crônica orofacial","Neuralgia do trigêmeo","Cefaleia tensional e odontologia","Oclusão e DTM","Relação oclusal e postura","Diagnóstico diferencial de dores faciais","Dor neuropática orofacial","Impacto psicossocial das DTMs","Tratamento multidisciplinar em DTM","Laser de baixa intensidade em DTM","Qualidade de sono e DTM"],
+    "Radiologia": ["CBCT 3D em diagnóstico","Radiografia periapical digital","Panorâmica e suas limitações","Diagnóstico de cárie por imagem","Diagnóstico periodontal por radiografia","Planejamento de implantes com CBCT","CBCT em endodontia","CBCT em ortodontia","Redução de dose em radiologia odontológica","Inteligência artificial em radiologia","Detecção automática de cárie por IA","Radiologia em patologia oral","Imagem da ATM por RM","Sialografia","Radioprotecção em odontologia","Interpretação de achados incidentais","Diagnóstico de reabsorções radiculares","Lesões periapicais em imagem","CBCT em cirurgia guiada","Tomossíntese em odontologia","Fantomas e calibração em radiologia","Imagem em trauma facial","Princípios de proteção radiológica","Radiologia em pediatria","Teleradiologia e laudos remotos"]
+  };
+  for (const [esp, temas] of Object.entries(THEMES_BY_SPEC)) {
+    for (const t of temas) { TEMA_TO_ESPECIALIDADE[t] = esp; }
   }
-  // Partial match fallback
-  for (const [k, entry] of TEMA_MAP.entries()) {
-    if (key.length > 4 && (k.includes(key) || key.includes(k))) {
-      console.log("[TRANSLATION] Partial match: '" + temaPt + "' -> '" + entry.pt + "'");
-      return entry.en;
-    }
-  }
-  // Last resort: use original term
-  console.warn("[TRANSLATION] No translation for: '" + temaPt + "'. Using original.");
-  return [temaPt];
-}
+  // Legacy theme name aliases (old form values stored in Firestore before name fixes)
+  const LEGACY_ALIASES = {
+    "Mini-implantes/TADs": "Ortodontia",
+    "Expansão de maxila": "Ortodontia",
+    "Fraturas do terço médio facial": "Bucomaxilofacial"
+  };
+  for (const [t, esp] of Object.entries(LEGACY_ALIASES)) { TEMA_TO_ESPECIALIDADE[t] = esp; }
+})();
 
-// ---- HTTP HELPER ----
-function request(opts, bodyStr) {
-  return new Promise((resolve, reject) => {
-    const req = https.request(opts, res => {
-      let data = "";
-      res.on("data", c => (data += c));
-      res.on("end", () => resolve({ status: res.statusCode, body: data }));
-    });
-    req.on("error", reject);
-    if (bodyStr) req.write(bodyStr);
-    req.end();
+// Legacy single-string fallback for themes not in TEMA_MAP
+const TEMA_EN_LEGACY = {
+  "Expansão palatina": ["palatal expansion orthodontics", "rapid palatal expansion", "maxillary expansion RPE"],
+  "Periimplantite": ["peri-implantitis", "periimplantitis treatment", "peri-implant disease"],
+  "Disfunção temporomandibular": ["temporomandibular disorder treatment", "TMD management", "temporomandibular dysfunction"],
+  "DTM e dor orofacial": ["temporomandibular disorder orofacial pain", "TMD orofacial pain management", "jaw pain temporomandibular"],
+  "Ortodontia & ATM": ["orthodontics temporomandibular joint", "orthodontic treatment TMD", "malocclusion TMJ relationship"]
+};
+
+// Specialty-level fallback terms (used if no theme matches)
+const ESPECIALIDADE_FALLBACK = {
+  "Ortodontia": ["orthodontics malocclusion treatment", "orthodontic therapy", "dental malocclusion orthodontic"],
+  "Implantodontia": ["dental implants osseointegration", "implant dentistry", "dental implant therapy"],
+  "Periodontia": ["periodontal disease treatment", "periodontology clinical", "periodontal therapy"],
+  "Endodontia": ["root canal treatment endodontics", "endodontic therapy", "pulp disease treatment"],
+  "Dentística": ["restorative dentistry", "dental restoration composite", "esthetic dentistry"],
+  "Prótese": ["prosthodontics dental prosthesis", "prosthetic dentistry", "dental rehabilitation"],
+  "Bucomaxilofacial": ["oral maxillofacial surgery", "maxillofacial surgical treatment", "oral surgery"],
+  "Odontopediatria": ["pediatric dentistry", "children dental treatment", "pediatric oral health"],
+  "DTM e Dor Orofacial": ["temporomandibular disorder treatment", "orofacial pain management", "jaw pain TMD"],
+  "Radiologia": ["dental radiology diagnosis", "oral radiology imaging", "dental diagnostic imaging"]
+};
+
+const { request } = require("./_lib");
+
+// Translate title + summarize abstract in Portuguese using Claude Haiku
+async function translateWithClaude(title, abstract, tema, especialidade) {
+  const anthropicKey = process.env.ANTHROPIC_API_KEY;
+  if (!anthropicKey) return null;
+  if (!abstract || abstract.length < 50) return null;
+  const prompt = `Você é um editor científico de odontologia. Traduza o título e crie um resumo em português brasileiro claro e profissional para dentistas, baseado no abstract abaixo.
+
+Responda APENAS com JSON válido no formato: {"titulo": "título traduzido", "resumo": "resumo de 3 a 5 frases"}
+
+Tema: ${tema}
+Especialidade: ${especialidade}
+Título original: ${title}
+Abstract: ${abstract.substring(0, 1500)}`;
+  const payload = JSON.stringify({
+    model: 'claude-haiku-4-5-20251001',
+    max_tokens: 600,
+    messages: [{ role: 'user', content: prompt }]
   });
+  const buf = Buffer.from(payload, 'utf8');
+  try {
+    const res = await request({
+      hostname: 'api.anthropic.com',
+      path: '/v1/messages',
+      method: 'POST',
+      headers: {
+        'x-api-key': anthropicKey,
+        'anthropic-version': '2023-06-01',
+        'content-type': 'application/json',
+        'content-length': buf.length
+      }
+    }, buf);
+    if (res.status !== 200) { console.warn('[Claude] HTTP', res.status, res.body.substring(0, 120)); return null; }
+    const data = JSON.parse(res.body);
+    const text = (data.content && data.content[0] && data.content[0].text) || '';
+    const m = text.match(/\{[\s\S]*\}/);
+    if (!m) return null;
+    const result = JSON.parse(m[0]);
+    if (!result.titulo || !result.resumo) return null;
+    return { titulo: result.titulo.trim(), resumo: result.resumo.trim() };
+  } catch(e) {
+    console.warn('[Claude] Translation error:', e.message);
+    return null;
+  }
 }
 
-// ---- FIREBASE ----
+// Firestore: list all users (paginated)
 async function getUsers(projectId, apiKey) {
-  const path = "/v1/projects/" + projectId + "/databases/(default)/documents/cadastros?pageSize=200&key=" + apiKey;
-  const res = await request({ hostname: "firestore.googleapis.com", path, method: "GET" }, null);
-  if (res.status !== 200) {
-    console.error("Firestore list error:", res.body.substring(0, 300));
-    return [];
-  }
-  const json = JSON.parse(res.body);
-  if (!json.documents) return [];
-  return json.documents.map(doc => {
+  let allDocs = [];
+  let pageToken = null;
+  do {
+    const qs = "pageSize=300&key=" + apiKey + (pageToken ? "&pageToken=" + pageToken : "");
+    const path = "/v1/projects/" + projectId + "/databases/(default)/documents/cadastros?" + qs;
+    const res = await request({ hostname: "firestore.googleapis.com", path, method: "GET" }, null);
+    if (res.status !== 200) { console.error("Firestore list error:", res.body); break; }
+    const json = JSON.parse(res.body);
+    if (json.documents) allDocs = allDocs.concat(json.documents);
+    pageToken = json.nextPageToken || null;
+  } while (pageToken);
+  if (!allDocs.length) return [];
+  return allDocs.map(doc => {
     const f = doc.fields || {};
+    const temas = f.temas?.stringValue
+      ? f.temas.stringValue.split(',').map(t => t.trim()).filter(Boolean)
+      : (f.temas?.arrayValue?.values || []).map(v => v.stringValue || '').filter(Boolean);
+    const especialidades = f.especialidade?.arrayValue?.values
+      ? f.especialidade.arrayValue.values.map(v => v.stringValue || '').filter(Boolean)
+      : f.especialidade?.stringValue
+        ? [f.especialidade.stringValue]
+        : [];
+    const especialidade = especialidades[0] || '';
     return {
       nome: f.nome?.stringValue || "",
       email: f.email?.stringValue || "",
-      especialidade: f.especialidade?.stringValue || "",
-      temas: (f.temas?.arrayValue?.values || []).map(v => v.stringValue || "").filter(Boolean),
+      especialidade,
+      especialidades,
+      temas,
       ativo: f.ativo?.booleanValue !== false
     };
   }).filter(u => u.email && u.ativo !== false);
 }
 
+// Firestore: get sent PMIDs for a user (anti-repeat)
 async function getSentPmids(projectId, apiKey, email) {
   const path = "/v1/projects/" + projectId + "/databases/(default)/documents:runQuery?key=" + apiKey;
   const body = JSON.stringify({
@@ -198,8 +426,8 @@ async function getSentPmids(projectId, apiKey, email) {
           value: { stringValue: email }
         }
       },
-      select: { fields: [{ fieldPath: "pmid" }] },
-      limit: 500
+      select: { fields: [{ fieldPath: "pmid" }, { fieldPath: "data" }] },
+      limit: 200
     }
   });
   try {
@@ -210,9 +438,14 @@ async function getSentPmids(projectId, apiKey, email) {
       headers: { "Content-Type": "application/json", "Content-Length": Buffer.byteLength(body) }
     }, body);
     if (res.status !== 200) return [];
+    const cutoff = new Date(Date.now() - 180 * 24 * 60 * 60 * 1000).toISOString();
     const results = JSON.parse(res.body);
     return results
       .filter(r => r.document?.fields?.pmid)
+      .filter(r => {
+        const data = r.document.fields.data?.stringValue || '';
+        return !data || data >= cutoff;
+      })
       .map(r => r.document.fields.pmid.stringValue || r.document.fields.pmid.integerValue || "")
       .filter(Boolean);
   } catch (e) {
@@ -221,103 +454,91 @@ async function getSentPmids(projectId, apiKey, email) {
   }
 }
 
-async function saveSentPmid(projectId, apiKey, email, pmid, tema) {
-  const path = "/v1/projects/" + projectId + "/databases/(default)/documents/artigos_enviados?key=" + apiKey;
-  const body = JSON.stringify({
-    fields: {
-      email: { stringValue: email },
-      pmid: { stringValue: String(pmid) },
-      tema: { stringValue: tema || "" },
-      data: { stringValue: new Date().toISOString() }
-    }
-  });
-  try {
-    await request({
-      hostname: "firestore.googleapis.com",
-      path,
-      method: "POST",
-      headers: { "Content-Type": "application/json", "Content-Length": Buffer.byteLength(body) }
-    }, body);
-  } catch (e) {
-    console.error("[FIREBASE] Error saving PMID:", e.message);
-  }
+// PubMed: search a single English term
+async function trySearchPubMed(query, excludePmids = []) {
+  const encoded = encodeURIComponent(query);
+  const searchPath = "/entrez/eutils/esearch.fcgi?db=pubmed&term=" + encoded + "&retmax=20&sort=date&retmode=json&datetype=pdat&reldate=1825" + NCBI_API_PARAM;
+  const searchRes = await request({ hostname: "eutils.ncbi.nlm.nih.gov", path: searchPath, method: "GET" }, null);
+  if (searchRes.status !== 200) return null;
+  const searchJson = JSON.parse(searchRes.body);
+  const ids = searchJson.esearchresult?.idlist || [];
+  if (ids.length === 0) return null;
+  const freshIds = ids.filter(id => !excludePmids.includes(id));
+  const candidates = freshIds.length > 0 ? freshIds : ids;
+  const pmid = candidates[Math.floor(Math.random() * candidates.length)];
+  const fetchPath = "/entrez/eutils/efetch.fcgi?db=pubmed&id=" + pmid + "&retmode=xml&rettype=abstract" + NCBI_API_PARAM;
+  const fetchRes = await request({ hostname: "eutils.ncbi.nlm.nih.gov", path: fetchPath, method: "GET" }, null);
+  if (fetchRes.status !== 200) return null;
+  const xml = fetchRes.body;
+  const titleMatch = xml.match(/<ArticleTitle[^>]*>([\s\S]*?)<\/ArticleTitle>/);
+  const title = titleMatch ? titleMatch[1].replace(/<[^>]+>/g, "").trim() : "Artigo sem titulo";
+  const abstractMatch = xml.match(/<AbstractText[^>]*>([\s\S]*?)<\/AbstractText>/g);
+  let abstract = "";
+  if (abstractMatch) { abstract = abstractMatch.map(a => a.replace(/<[^>]+>/g, "").trim()).join(" "); }
+  const journalMatch = xml.match(/<Title>([\s\S]*?)<\/Title>/);
+  const journal = journalMatch ? journalMatch[1].trim() : "";
+  const yearMatch = xml.match(/<Year>(\d{4})<\/Year>/);
+  const year = yearMatch ? yearMatch[1] : new Date().getFullYear().toString();
+  const authorMatches = xml.match(/<LastName>([\s\S]*?)<\/LastName>/g) || [];
+  const authors = authorMatches.slice(0, 3).map(a => a.replace(/<[^>]+>/g, "").trim());
+  const authorStr = authors.length > 0 ? authors.join(", ") + (authorMatches.length > 3 ? " et al." : "") : "Autores nao informados";
+  return { pmid, title, abstract: abstract.substring(0, 1200), journal, year, authors: authorStr };
 }
 
-// ---- PUBMED SEARCH ----
-async function searchPubMedSingleTerm(query, sentPmids) {
-  const q = encodeURIComponent(query + "[Title/Abstract] AND hasabstract[text]");
-  const path = "/entrez/eutils/esearch.fcgi?db=pubmed&term=" + q + "&retmax=20&sort=relevance&retmode=json";
-  try {
-    const res = await request({
-      hostname: "eutils.ncbi.nlm.nih.gov",
-      path,
-      method: "GET",
-      headers: { "User-Agent": "OdontoFeed/1.0 (artigos@odontofeed.com)" }
-    }, null);
-    if (res.status !== 200) return null;
-    const json = JSON.parse(res.body);
-    const ids = json.esearchresult?.idlist || [];
-    const available = ids.filter(id => !sentPmids.includes(String(id)));
-    return available.length > 0 ? available[0] : null;
-  } catch (e) {
-    return null;
-  }
-}
-
-async function searchPubMedWithFallback(temaPt, sentPmids) {
-  const terms = getPubmedTerms(temaPt);
-  console.log("[PUBMED] Searching '" + temaPt + "' with " + terms.length + " EN term(s)");
-  for (let i = 0; i < terms.length; i++) {
-    const term = terms[i];
-    console.log("[PUBMED] Attempt " + (i + 1) + "/" + terms.length + ": " + term);
-    const pmid = await searchPubMedSingleTerm(term, sentPmids);
-    if (pmid) {
-      console.log("[PUBMED] Found PMID " + pmid + " via: " + term);
-      return { pmid, termUsed: term };
+// PubMed: try each term in array with fallback, log failures
+async function searchPubMed(terms, excludePmids = [], context = "") {
+  for (const term of terms) {
+    try {
+      const result = await trySearchPubMed(term, excludePmids);
+      if (result) {
+        console.log(`[PubMed] Found article for "${term}"${context ? " (" + context + ")" : ""}`);
+        return result;
+      }
+      console.log(`[PubMed] No results for term: "${term}"${context ? " (" + context + ")" : ""}`);
+    } catch (e) {
+      console.warn(`[PubMed] Error searching "${term}": ${e.message}`);
     }
-    await new Promise(r => setTimeout(r, 350));
   }
-  console.warn("[PUBMED] No article found for all terms of '" + temaPt + "'");
+  console.warn(`[PubMed] All terms exhausted for: ${context || terms[0]}`);
   return null;
 }
 
-async function fetchArticleDetails(projectId, apiKey, pmid) {
-  // esummary for metadata
-  const sumPath = "/entrez/eutils/esummary.fcgi?db=pubmed&id=" + pmid + "&retmode=json";
-  // efetch for abstract
-  const fetchPath = "/entrez/eutils/efetch.fcgi?db=pubmed&id=" + pmid + "&retmode=xml&rettype=abstract";
-  try {
-    const [sumRes, fetchRes] = await Promise.all([
-      request({ hostname: "eutils.ncbi.nlm.nih.gov", path: sumPath, method: "GET", headers: { "User-Agent": "OdontoFeed/1.0 (artigos@odontofeed.com)" } }, null),
-      request({ hostname: "eutils.ncbi.nlm.nih.gov", path: fetchPath, method: "GET", headers: { "User-Agent": "OdontoFeed/1.0 (artigos@odontofeed.com)" } }, null)
-    ]);
-    const json = JSON.parse(sumRes.body);
-    const result = json.result?.[pmid];
-    if (!result) return null;
-    const xml = fetchRes.body;
-    const titleMatch = xml.match(/<ArticleTitle[^>]*>([\s\S]*?)<\/ArticleTitle>/);
-    const title = titleMatch ? titleMatch[1].replace(/<[^>]+>/g, "").trim() : result.title || "Artigo sem titulo";
-    const abstractMatch = xml.match(/<AbstractText[^>]*>([\s\S]*?)<\/AbstractText>/g);
-    const abstract = abstractMatch ? abstractMatch.map(a => a.replace(/<[^>]+>/g, "").trim()).join(" ") : "";
-    return {
-      pmid,
-      title,
-      abstract: abstract.substring(0, 600),
-      authors: (result.authors || []).slice(0, 3).map(a => a.name).join(", "),
-      journal: result.fulljournalname || result.source || "",
-      year: result.pubdate ? result.pubdate.substring(0, 4) : "",
-      url: "https://pubmed.ncbi.nlm.nih.gov/" + pmid + "/"
-    };
-  } catch (e) {
-    return null;
+// Get fallback terms using the first matching specialty from the user's specialties array
+function getBestFallbackTerms(especialidades) {
+  for (const e of (Array.isArray(especialidades) ? especialidades : [especialidades])) {
+    if (ESPECIALIDADE_FALLBACK[e]) return ESPECIALIDADE_FALLBACK[e];
   }
+  return ["dental research clinical", "oral health evidence"];
 }
 
-// ---- EMAIL (RESEND) ----
-function buildMail(user, article, tema) {
+// Resolve English search terms for a given PT theme name
+function getSearchTerms(tema, especialidades) {
+  if (TEMA_MAP[tema]) return TEMA_MAP[tema];
+  if (TEMA_EN_LEGACY[tema]) return TEMA_EN_LEGACY[tema];
+  console.log(`[Terms] Theme not in map: "${tema}" — using specialty fallback`);
+  return getBestFallbackTerms(especialidades);
+}
+
+// Generate structured summary
+function generateSummary(article, especialidade, tema) {
+  if (!article.abstract || article.abstract.length < 50) {
+    return "Resumo detalhado nao disponivel para este artigo. Acesse o link abaixo para ler o artigo completo no PubMed.";
+  }
+  const abs = article.abstract;
+  const sentences = abs.split(/\.\s+/).filter(s => s.length > 20);
+  const intro = sentences[0] || abs.substring(0, 200);
+  const body = sentences.slice(1, Math.min(sentences.length - 1, 5)).join(". ");
+  const conclusion = sentences[sentences.length - 1] || "";
+  return intro + (body ? ". " + body : "") + (conclusion && conclusion !== intro ? ". " + conclusion : "") + ".";
+}
+
+// Build email HTML
+function buildEmail(user, article, tema) {
   const pubmedUrl = "https://pubmed.ncbi.nlm.nih.gov/" + article.pmid + "/";
-  const firstName = (user.nome || "").split(" ")[0] || "Dentista";
-  const summary = article.abstract ? article.abstract.substring(0, 400) + (article.abstract.length > 400 ? "..." : "") : "";
+  const titulo = article.tituloLocal || article.title;
+  const summary = article.resumoLocal || generateSummary(article, user.especialidade, tema);
+  const firstName = user.nome.split(" ")[0];
+  const specs = Array.isArray(user.especialidade) ? user.especialidade.join(', ') : (user.especialidade || '');
   return `<!DOCTYPE html>
 <html lang="pt-BR">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"></head>
@@ -325,132 +546,197 @@ function buildMail(user, article, tema) {
 <div style="max-width:600px;margin:0 auto;padding:24px 16px;">
 <div style="background:#0b1120;border-radius:16px 16px 0 0;padding:28px 32px;text-align:center;">
 <span style="font-size:1.4rem;font-weight:800;background:linear-gradient(135deg,#0ea5e9,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">OdontoFeed</span>
-<p style="color:#94a3b8;font-size:0.78rem;margin:6px 0 0;letter-spacing:1px;text-transform:uppercase;">Artigo Científico do Dia</p>
+<p style="color:#94a3b8;font-size:0.78rem;margin:6px 0 0;letter-spacing:1px;text-transform:uppercase;">Artigo do Dia · ${new Date().toLocaleDateString("pt-BR",{weekday:"long",day:"numeric",month:"long"})}</p>
 </div>
 <div style="background:#ffffff;padding:32px;border-left:1px solid #e2e8f0;border-right:1px solid #e2e8f0;">
-<p style="color:#64748b;font-size:0.9rem;margin:0 0 20px;">Olá, <strong style="color:#0f172a;">${firstName}</strong>!</p>
-<div style="margin-bottom:20px;"><span style="background:#eff6ff;color:#0ea5e9;border:1px solid #bfdbfe;padding:4px 12px;border-radius:20px;font-size:0.78rem;font-weight:600;">${tema}</span></div>
-<h1 style="font-size:1.15rem;font-weight:800;color:#0f172a;line-height:1.4;margin:0 0 20px;">${article.title}</h1>
-<div style="background:#f8fafc;border-radius:10px;padding:14px 18px;margin-bottom:24px;font-size:0.82rem;">
-<span style="margin-right:16px;">📖 <strong>${article.journal}</strong></span>
+<p style="color:#64748b;font-size:0.9rem;margin:0 0 20px;">Olá, <strong style="color:#0f172a;">${firstName}</strong>! Seu artigo diário de <strong style="color:#0ea5e9;">${specs}</strong> chegou.</p>
+<div style="margin-bottom:20px;"><span style="background:#eff6ff;color:#0ea5e9;border:1px solid #bfdbfe;padding:5px 14px;border-radius:999px;font-size:0.78rem;font-weight:600;">${tema}</span></div>
+<h1 style="font-size:1.15rem;font-weight:800;color:#0f172a;line-height:1.4;margin:0 0 20px;">${titulo}</h1>
+<div style="background:#f8fafc;border-radius:10px;padding:14px 18px;margin-bottom:24px;font-size:0.82rem;color:#64748b;">
+<span style="margin-right:16px;">📚 <strong>${article.journal}</strong></span>
 <span style="margin-right:16px;">📅 ${article.year}</span>
 <span>👥 ${article.authors}</span>
 </div>
-${summary ? `<div style="border-left:3px solid #0ea5e9;padding-left:18px;margin-bottom:28px;">
-<p style="font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#0ea5e9;margin:0 0 8px;">Resumo</p>
+<div style="border-left:3px solid #0ea5e9;padding-left:18px;margin-bottom:28px;">
+<p style="font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#0ea5e9;margin:0 0 10px;">Resumo</p>
 <p style="color:#334155;font-size:0.9rem;line-height:1.75;margin:0;">${summary}</p>
-</div>` : ""}
-<a href="${pubmedUrl}" style="display:block;text-align:center;background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff;padding:14px;border-radius:10px;text-decoration:none;font-weight:700;font-size:0.95rem;">Leia o artigo completo no PubMed →</a>
 </div>
-<div style="background:#f8fafc;border-radius:0 0 16px 16px;padding:16px 32px;text-align:center;">
-<p style="font-size:0.75rem;color:#94a3b8;margin:0;">OdontoFeed · Atualizações científicas para dentistas<br>
-<a href="https://odontofeed.com/unsubscribe" style="color:#94a3b8;">Cancelar inscrição</a></p>
+<div style="text-align:center;margin-bottom:8px;">
+<a href="${pubmedUrl}" style="display:inline-block;background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff;text-decoration:none;padding:14px 32px;border-radius:10px;font-weight:700;font-size:0.95rem;">Ler artigo completo no PubMed →</a>
+</div>
+<p style="text-align:center;color:#94a3b8;font-size:0.78rem;margin-top:12px;">PMID: ${article.pmid}</p>
+</div>
+<div style="background:#0b1120;border-radius:0 0 16px 16px;padding:20px 32px;text-align:center;">
+<p style="color:#475569;font-size:0.78rem;margin:0;">OdontoFeed — Ciência odontológica direto para você</p>
+<p style="color:#334155;font-size:0.72rem;margin:8px 0 0;"><a href="https://odontofeed.com/.netlify/functions/unsubscribe?email=${encodeURIComponent(user.email)}&t=${crypto.createHmac('sha256', process.env.UNSUBSCRIBE_SECRET || 'unsub').update(user.email).digest('hex')}" style="color:#475569;text-decoration:underline;">Cancelar recebimento</a></p>
 </div>
 </div>
 </body>
 </html>`;
 }
 
-async function sendEmail(resendKey, toEmail, article, user, tema) {
-  const html = buildMail(user, article, tema);
-  const subject = "Novo artigo: " + article.title.substring(0, 80) + (article.title.length > 80 ? "..." : "");
-  const body = JSON.stringify({
-    from: "OdontoFeed <artigos@odontofeed.com>",
-    to: [toEmail],
-    subject,
-    html
+// Save article to Firestore
+async function saveArticleToFirestore(projectId, apiKey, data) {
+  const fields = {};
+  for (const [key, val] of Object.entries(data)) {
+    if (typeof val === 'string') fields[key] = { stringValue: val };
+    else if (typeof val === 'number') fields[key] = { integerValue: String(val) };
+    else if (typeof val === 'boolean') fields[key] = { booleanValue: val };
+    else fields[key] = { stringValue: String(val) };
+  }
+  const body = JSON.stringify({ fields });
+  return new Promise((resolve, reject) => {
+    const bodyBuffer = Buffer.from(body, 'utf8');
+    const options = {
+      hostname: 'firestore.googleapis.com',
+      path: '/v1/projects/' + projectId + '/databases/(default)/documents/artigos_enviados?key=' + apiKey,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Content-Length': bodyBuffer.length }
+    };
+    const req = https.request(options, res => {
+      let d = ''; res.on('data', c => d += c); res.on('end', () => resolve({ status: res.statusCode, body: d }));
+    });
+    req.on('error', reject);
+    req.write(bodyBuffer);
+    req.end();
   });
+}
+
+// Send email via Resend
+async function sendEmail(resendKey, to, subject, html) {
+  const payload = JSON.stringify({ from: "OdontoFeed <artigos@odontofeed.com>", to, subject, html });
   return request({
     hostname: "api.resend.com",
     path: "/emails",
     method: "POST",
-    headers: {
-      "Authorization": "Bearer " + resendKey,
-      "Content-Type": "application/json",
-      "Content-Length": Buffer.byteLength(body)
-    }
-  }, body);
+    headers: { "Authorization": "Bearer " + resendKey, "Content-Type": "application/json", "Content-Length": Buffer.byteLength(payload) }
+  }, payload);
 }
 
-// ---- MAIN HANDLER ----
+// Process a single user: fetch article, translate, email, save
+async function processUser(user, projectId, apiKey, resendKey) {
+  try {
+    const temas = (Array.isArray(user.temas) ? user.temas : []).filter(Boolean);
+    console.log(`[User] ${user.email} | esp: [${user.especialidades.join(', ')}] | temas: ${temas.length}`);
+
+    if (temas.length === 0) {
+      console.log(`[Skip] No themes for ${user.email} — specialty fallback`);
+      const fallbackTerms = getBestFallbackTerms(user.especialidades);
+      const sentPmids = await getSentPmids(projectId, apiKey, user.email);
+      const article = await searchPubMed(fallbackTerms, sentPmids, (user.especialidades[0] || user.especialidade) + " fallback");
+      if (!article) { console.warn(`[Skip] No article for ${user.email}`); return 'skipped'; }
+      const ft = await translateWithClaude(article.title, article.abstract, user.especialidade, user.especialidade).catch(() => null);
+      if (ft) { article.tituloLocal = ft.titulo; article.resumoLocal = ft.resumo; }
+      const html = buildEmail(user, article, user.especialidade);
+      const tituloEmail = article.tituloLocal || article.title;
+      const emailRes = await sendEmail(resendKey, user.email, "🦷 " + tituloEmail.substring(0, 70) + (tituloEmail.length > 70 ? "..." : ""), html);
+      if (emailRes.status === 200 || emailRes.status === 201) {
+        await saveArticleToFirestore(projectId, apiKey, {
+          email: user.email, especialidade: user.especialidade, tema: user.especialidade,
+          titulo: article.tituloLocal || article.title || '',
+          resumo: article.resumoLocal || generateSummary(article, user.especialidade, user.especialidade),
+          pubmedUrl: 'https://pubmed.ncbi.nlm.nih.gov/' + article.pmid + '/',
+          pmid: String(article.pmid || ''), data: new Date().toISOString()
+        }).catch(e => console.warn('Could not save article:', e.message));
+        return 'sent';
+      }
+      return 'error';
+    }
+
+    const userSpecs = new Set(user.especialidades?.length ? user.especialidades : [user.especialidade]);
+    const validTemas = temas.filter(t => { const e = TEMA_TO_ESPECIALIDADE[t]; return !e || userSpecs.has(e); });
+    const allTemasInvalid = validTemas.length === 0 && temas.length > 0;
+    if (validTemas.length < temas.length) {
+      console.log(`[Filter] ${user.email}: ${temas.length - validTemas.length}/${temas.length} tema(s) especialidade errada${allTemasInvalid ? ' — TODOS inválidos, usando fallback de especialidade' : ''}`);
+    }
+
+    const dayNumber = Math.floor(Date.now() / 86400000);
+    const sentPmids = await getSentPmids(projectId, apiKey, user.email);
+    let article = null;
+    let tema = user.especialidades[0] || user.especialidade;
+
+    if (!allTemasInvalid) {
+      const temaPool = validTemas.length > 0 ? validTemas : temas;
+      tema = temaPool[dayNumber % temaPool.length];
+      const terms = getSearchTerms(tema, user.especialidades);
+      console.log(`[Dispatch] ${user.email} | esp: ${user.especialidades.join('+')} | tema: "${tema}" | sentPmids: ${sentPmids.length}`);
+      article = await searchPubMed(terms, sentPmids, tema);
+
+      if (!article && temaPool.length > 1) {
+        for (const altTema of temaPool.filter(t => t !== tema)) {
+          article = await searchPubMed(getSearchTerms(altTema, user.especialidades), sentPmids, altTema);
+          if (article) break;
+        }
+      }
+    } else {
+      console.log(`[Dispatch] ${user.email} | esp: ${user.especialidades.join('+')} | todos temas inválidos → fallback direto`);
+    }
+
+    if (!article) {
+      const fallbackTerms = getBestFallbackTerms(user.especialidades);
+      article = await searchPubMed(fallbackTerms, sentPmids, tema + " specialty fallback");
+    }
+    if (!article) { console.warn(`[Error] No article for ${user.email} after all fallbacks`); return 'error'; }
+
+    console.log(`[Found] "${article.title.substring(0, 55)}" for ${user.email}`);
+    const translation = await translateWithClaude(article.title, article.abstract, tema, user.especialidade).catch(() => null);
+    if (translation) {
+      article.tituloLocal = translation.titulo;
+      article.resumoLocal = translation.resumo;
+      console.log(`[Claude] ${user.email}: "${translation.titulo.substring(0, 50)}"`);
+    }
+
+    const html = buildEmail(user, article, tema);
+    const tituloEmail = article.tituloLocal || article.title;
+    const emailRes = await sendEmail(resendKey, user.email, "🦷 " + tituloEmail.substring(0, 70) + (tituloEmail.length > 70 ? "..." : ""), html);
+    if (emailRes.status === 200 || emailRes.status === 201) {
+      console.log(`[Sent] ${user.email}`);
+      await saveArticleToFirestore(projectId, apiKey, {
+        email: user.email, especialidade: user.especialidade, tema,
+        titulo: article.tituloLocal || article.title || '',
+        resumo: article.resumoLocal || generateSummary(article, user.especialidade, tema),
+        pubmedUrl: 'https://pubmed.ncbi.nlm.nih.gov/' + article.pmid + '/',
+        pmid: String(article.pmid || ''), data: new Date().toISOString()
+      }).catch(e => console.warn('Could not save article history:', e.message));
+      return 'sent';
+    }
+    console.error(`[Error] Email to ${user.email}: ${emailRes.status} — ${emailRes.body.substring(0, 300)}`);
+    return 'error';
+  } catch (err) {
+    console.error(`[Error] ${user.email}: ${err.message}`);
+    return 'error';
+  }
+}
+
+// Main handler — processes users sequentially to respect NCBI rate limits (3 req/s without API key)
 exports.handler = async function(event) {
   console.log("OdontoFeed daily dispatch started:", new Date().toISOString());
-
   const projectId = process.env.FIREBASE_PROJECT_ID || "orthoradar";
   const apiKey = process.env.FIREBASE_API_KEY;
   const resendKey = process.env.RESEND_API_KEY;
-
   if (!apiKey || !resendKey) {
     console.error("Missing env vars: FIREBASE_API_KEY or RESEND_API_KEY");
     return { statusCode: 500, body: "Missing env vars" };
   }
 
-  const users = await getUsers(projectId, apiKey);
+  let users;
+  try {
+    users = await getUsers(projectId, apiKey);
+  } catch (err) {
+    console.error("Failed to fetch users from Firestore:", err.message);
+    return { statusCode: 500, body: JSON.stringify({ error: 'getUsers failed: ' + err.message }) };
+  }
   console.log("Users found:", users.length);
 
   let sent = 0, errors = 0, skipped = 0;
 
   for (const user of users) {
-    try {
-      const temas = (Array.isArray(user.temas) ? user.temas : []).filter(Boolean);
-
-      if (temas.length === 0) {
-        console.log("[SKIP] No themes for", user.email);
-        skipped++;
-        continue;
-      }
-
-      // Pick a random theme
-      const tema = temas[Math.floor(Math.random() * temas.length)];
-      console.log("[USER]", user.email, "| Theme:", tema);
-
-      const sentPmids = await getSentPmids(projectId, apiKey, user.email);
-      console.log("[USER]", user.email, "| Sent PMIDs so far:", sentPmids.length);
-
-      // Try to find article for chosen theme, then try alternates
-      let searchResult = await searchPubMedWithFallback(tema, sentPmids);
-      let usedTema = tema;
-
-      if (!searchResult) {
-        console.warn("[FALLBACK] Trying alternate themes for", user.email);
-        for (const altTema of temas.filter(t => t !== tema)) {
-          searchResult = await searchPubMedWithFallback(altTema, sentPmids);
-          if (searchResult) { usedTema = altTema; break; }
-          await new Promise(r => setTimeout(r, 350));
-        }
-      }
-
-      if (!searchResult) {
-        console.warn("[SKIP]", user.email, "- no article found for any theme. Skipping gracefully.");
-        skipped++;
-        continue;
-      }
-
-      const article = await fetchArticleDetails(projectId, apiKey, searchResult.pmid);
-      if (!article) {
-        console.warn("[SKIP] Could not fetch article details for PMID:", searchResult.pmid);
-        skipped++;
-        continue;
-      }
-
-      console.log("[ARTICLE] Title:", article.title.substring(0, 80));
-      console.log("[ARTICLE] EN term used:", searchResult.termUsed);
-
-      const emailResult = await sendEmail(resendKey, user.email, article, user, usedTema);
-      if (emailResult.status >= 200 && emailResult.status < 300) {
-        await saveSentPmid(projectId, apiKey, user.email, searchResult.pmid, usedTema);
-        console.log("[OK] Email sent to", user.email, "| PMID:", searchResult.pmid, "| Term:", searchResult.termUsed);
-        sent++;
-      } else {
-        console.error("[ERROR] Email failed for", user.email, "| Status:", emailResult.status, "| Body:", emailResult.body.substring(0, 200));
-        errors++;
-      }
-
-      await new Promise(r => setTimeout(r, 500));
-    } catch (err) {
-      console.error("[ERROR] Processing", user.email, ":", err.message);
-      errors++;
-    }
+    const result = await processUser(user, projectId, apiKey, resendKey);
+    if (result === 'sent') sent++;
+    else if (result === 'skipped') skipped++;
+    else errors++;
+    // Pause between users: NCBI allows 3 req/s without API key; each user makes 2+ calls
+    await new Promise(r => setTimeout(r, 400));
   }
 
   const result = { sent, errors, skipped, total: users.length, timestamp: new Date().toISOString() };
@@ -458,13 +744,13 @@ exports.handler = async function(event) {
   return { statusCode: 200, body: JSON.stringify(result) };
 };
 
-// Direct execution support (GitHub Actions)
+// Direct execution support
 if (require.main === module) {
   exports.handler({}).then(r => {
-    console.log("Done:", r.statusCode, r.body);
+    console.log('Done:', r.statusCode, r.body);
     process.exit(r.statusCode === 200 ? 0 : 1);
   }).catch(e => {
     console.error(e);
     process.exit(1);
   });
-  }
+}

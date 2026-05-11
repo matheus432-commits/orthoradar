@@ -44,6 +44,9 @@ self.addEventListener('fetch', event => {
   // Skip external requests (APIs, PubMed, etc.)
   if (!event.request.url.startsWith(self.location.origin)) return;
 
+  // Skip Netlify function calls — never cache API responses (privacy)
+  if (event.request.url.includes('/.netlify/functions/')) return;
+
   event.respondWith(
     fetch(event.request)
       .then(response => {

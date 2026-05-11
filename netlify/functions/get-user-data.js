@@ -1,17 +1,5 @@
-const https = require('https');
+const { request } = require('./_lib');
 
-function request(options, body) {
-  return new Promise((resolve, reject) => {
-    const req = https.request(options, (res) => {
-      let data = '';
-      res.on('data', c => data += c);
-      res.on('end', () => resolve({ status: res.statusCode, body: data }));
-    });
-    req.on('error', reject);
-    if (body) req.write(body);
-    req.end();
-  });
-}
 
 async function queryByField(projectId, apiKey, collectionId, field, value, limit) {
   const body = JSON.stringify({
@@ -32,7 +20,7 @@ async function queryByField(projectId, apiKey, collectionId, field, value, limit
   const docs = JSON.parse(res.body);
   return docs.filter(d => d.document).map(d => {
     const f = d.document.fields || {};
-    const out = { _id: d.document.name.split('/').pop() };
+    const out = { id: d.document.name.split('/').pop() };
     for (const [k, v] of Object.entries(f)) {
       if (v.stringValue !== undefined) out[k] = v.stringValue;
       else if (v.booleanValue !== undefined) out[k] = v.booleanValue;
@@ -77,16 +65,46 @@ exports.handler = async (event) => {
     try {
       artigos = await queryByField(projectId, apiKey, 'artigos_enviados', 'email', email, 200);
       artigos.sort((a, b) => new Date(b.data || 0) - new Date(a.data || 0));
+      artigos = artigos.slice(0, 50);
     } catch(e) { console.warn('Could not fetch artigos:', e.message); }
 
     let amigos = [];
     try {
       const spec = Array.isArray(user.especialidade) ? user.especialidade[0] : (user.especialidade || '');
-      const allSameSpec = await queryByField(projectId, apiKey, 'cadastros', 'especialidade', spec, 50);
-      amigos = allSameSpec
-        .filter(u => u.email !== email)
-        .slice(0, 20)
-        .map(u => ({ nome: u.nome || '', email: u.email || '', especialidade: u.especialidade || '' }));
+      if (spec) {
+        const body = JSON.stringify({
+          structuredQuery: {
+            from: [{ collectionId: 'cadastros' }],
+            where: { fieldFilter: { field: { fieldPath: 'especialidade' }, op: 'ARRAY_CONTAINS', value: { stringValue: spec } } },
+            limit: 50
+          }
+        });
+        const buf = Buffer.from(body, 'utf8');
+        const res = await request({
+          hostname: 'firestore.googleapis.com',
+          path: '/v1/projects/' + projectId + '/databases/(default)/documents:runQuery?key=' + apiKey,
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Content-Length': buf.length }
+        }, buf);
+        if (res.status === 200) {
+          const docs = JSON.parse(res.body);
+          amigos = docs
+            .filter(d => d.document)
+            .map(d => {
+              const f = d.document.fields || {};
+              return {
+                nome: f.nome?.stringValue || '',
+                especialidade: f.especialidade?.arrayValue?.values
+                  ? f.especialidade.arrayValue.values.map(v => v.stringValue || '').filter(Boolean)
+                  : f.especialidade?.stringValue || '',
+                _selfEmail: f.email?.stringValue || ''
+              };
+            })
+            .filter(u => u._selfEmail && u._selfEmail !== email)
+            .map(({ _selfEmail: _, ...rest }) => rest)
+            .slice(0, 20);
+        }
+      }
     } catch(e) { console.warn('Could not fetch amigos:', e.message); }
 
     const temas = user.temas ? (typeof user.temas === 'string' ? user.temas.split(',') : user.temas) : [];

@@ -1,18 +1,7 @@
-const https = require('https');
+const { request } = require('./_lib');
+const crypto = require('crypto');
 
 // HTTP helper
-function request(options, body) {
-  return new Promise((resolve, reject) => {
-    const req = https.request(options, (res) => {
-      let data = '';
-      res.on('data', c => data += c);
-      res.on('end', () => resolve({ status: res.statusCode, body: data }));
-    });
-    req.on('error', reject);
-    if (body) req.write(body);
-    req.end();
-  });
-}
 
 // Firestore: query user by email
 async function getUserByEmail(projectId, apiKey, email) {
@@ -61,9 +50,13 @@ async function updateUser(projectId, apiKey, docId, fields) {
 
 exports.handler = async (event) => {
   const headers = { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': 'Content-Type', 'Content-Type': 'text/html; charset=utf-8' };
-  const { email } = event.queryStringParameters || {};
-  if (!email) {
+  const { email, t } = event.queryStringParameters || {};
+  if (!email || !t) {
     return { statusCode: 400, headers, body: errorPage('Link invalido', 'O link de cancelamento esta incompleto ou expirado.') };
+  }
+  const expectedToken = crypto.createHmac('sha256', process.env.UNSUBSCRIBE_SECRET || 'unsub').update(email).digest('hex');
+  if (!crypto.timingSafeEqual(Buffer.from(t, 'hex'), Buffer.from(expectedToken, 'hex'))) {
+    return { statusCode: 403, headers, body: errorPage('Link invalido', 'Este link de cancelamento e invalido.') };
   }
   const projectId = process.env.FIREBASE_PROJECT_ID || 'orthoradar';
   const apiKey = process.env.FIREBASE_API_KEY;
