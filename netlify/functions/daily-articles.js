@@ -274,7 +274,14 @@ const TEMA_MAP = {
   "Imagem em trauma facial": ["facial trauma radiographic CT", "CT scan facial fracture assessment", "maxillofacial trauma imaging"],
   "Princípios de proteção radiológica": ["radiological protection principles dental", "ionizing radiation safety dental", "radiation dose patient dental"],
   "Radiologia em pediatria": ["pediatric dental radiology", "children dental X-ray technique", "pediatric radiographic technique dental"],
-  "Teleradiologia e laudos remotos": ["teleradiology dental remote reporting", "remote radiographic report dental", "digital radiograph teleconsultation"]
+  "Teleradiologia e laudos remotos": ["teleradiology dental remote reporting", "remote radiographic report dental", "digital radiograph teleconsultation"],
+
+  // Legacy theme names stored in Firestore before standardisation
+  "Expansão palatina": ["palatal expansion orthodontics", "rapid palatal expansion", "maxillary expansion RPE"],
+  "Periimplantite": ["peri-implantitis", "periimplantitis treatment", "peri-implant disease"],
+  "Disfunção temporomandibular": ["temporomandibular disorder treatment", "TMD management", "temporomandibular dysfunction"],
+  "DTM e dor orofacial": ["temporomandibular disorder orofacial pain", "TMD orofacial pain management", "jaw pain temporomandibular"],
+  "Ortodontia & ATM": ["orthodontics temporomandibular joint", "orthodontic treatment TMD", "malocclusion TMJ relationship"]
 };
 
 // Reverse lookup: tema PT name -> which specialty it belongs to
@@ -306,14 +313,6 @@ const TEMA_TO_ESPECIALIDADE = {};
   for (const [t, esp] of Object.entries(LEGACY_ALIASES)) { TEMA_TO_ESPECIALIDADE[t] = esp; }
 })();
 
-// Legacy single-string fallback for themes not in TEMA_MAP
-const TEMA_EN_LEGACY = {
-  "Expansão palatina": ["palatal expansion orthodontics", "rapid palatal expansion", "maxillary expansion RPE"],
-  "Periimplantite": ["peri-implantitis", "periimplantitis treatment", "peri-implant disease"],
-  "Disfunção temporomandibular": ["temporomandibular disorder treatment", "TMD management", "temporomandibular dysfunction"],
-  "DTM e dor orofacial": ["temporomandibular disorder orofacial pain", "TMD orofacial pain management", "jaw pain temporomandibular"],
-  "Ortodontia & ATM": ["orthodontics temporomandibular joint", "orthodontic treatment TMD", "malocclusion TMJ relationship"]
-};
 
 // Specialty-level fallback terms (used if no theme matches)
 const ESPECIALIDADE_FALLBACK = {
@@ -411,11 +410,9 @@ async function getUsers(projectId, apiKey) {
       : f.especialidade?.stringValue
         ? [f.especialidade.stringValue]
         : [];
-    const especialidade = especialidades[0] || '';
     return {
       nome: f.nome?.stringValue || "",
       email: f.email?.stringValue || "",
-      especialidade,
       especialidades,
       temas,
       ativo: f.ativo?.booleanValue !== false
@@ -530,7 +527,6 @@ function getBestFallbackTerms(especialidades) {
 // Resolve English search terms for a given PT theme name
 function getSearchTerms(tema, especialidades) {
   if (TEMA_MAP[tema]) return TEMA_MAP[tema];
-  if (TEMA_EN_LEGACY[tema]) return TEMA_EN_LEGACY[tema];
   console.log(`[Terms] Theme not in map: "${tema}" — using specialty fallback`);
   return getBestFallbackTerms(especialidades);
 }
@@ -552,7 +548,7 @@ function generateSummary(article, especialidade, tema) {
 function buildEmail(user, article, tema) {
   const pubmedUrl = "https://pubmed.ncbi.nlm.nih.gov/" + article.pmid + "/";
   const titulo = article.tituloLocal || article.title;
-  const summary = article.resumoLocal || generateSummary(article, user.especialidade, tema);
+  const summary = article.resumoLocal || generateSummary(article, user.especialidades[0] || '', tema);
   const firstName = user.nome.split(" ")[0];
   const specs = user.especialidades.join(', ');
   return `<!DOCTYPE html>
@@ -627,7 +623,7 @@ async function processUser(user, projectId, apiKey, resendKey) {
     const temas = (Array.isArray(user.temas) ? user.temas : []).filter(Boolean);
     console.log(`[User] ${user.email} | esp: [${user.especialidades.join(', ')}] | temas: ${temas.length}`);
 
-    const userSpecs = new Set(user.especialidades?.length ? user.especialidades : [user.especialidade]);
+    const userSpecs = new Set(user.especialidades.length ? user.especialidades : []);
     const validTemas = temas.filter(t => { const e = TEMA_TO_ESPECIALIDADE[t]; return !e || userSpecs.has(e); });
     const allTemasInvalid = validTemas.length === 0 && temas.length > 0;
     if (validTemas.length < temas.length) {
@@ -638,7 +634,7 @@ async function processUser(user, projectId, apiKey, resendKey) {
     const emailOffset = user.email.split('').reduce((a, c) => a + c.charCodeAt(0), 0);
     const sentPmids = await getSentPmids(projectId, apiKey, user.email);
     let article = null;
-    let tema = user.especialidades[0] || user.especialidade;
+    let tema = user.especialidades[0] || '';
 
     if (temas.length > 0 && !allTemasInvalid) {
       const temaPool = validTemas.length > 0 ? validTemas : temas;
@@ -665,7 +661,7 @@ async function processUser(user, projectId, apiKey, resendKey) {
 
     console.log(`[Found] "${article.title.substring(0, 55)}" for ${user.email}`);
     const cachedTranslation = translationCache.get(article.pmid);
-    const translation = cachedTranslation || await translateWithClaude(article.title, article.abstract, tema, user.especialidade).catch(() => null);
+    const translation = cachedTranslation || await translateWithClaude(article.title, article.abstract, tema, user.especialidades[0] || '').catch(() => null);
     if (translation && !cachedTranslation) translationCache.set(article.pmid, translation);
     if (translation) {
       article.tituloLocal = translation.titulo;
@@ -674,9 +670,9 @@ async function processUser(user, projectId, apiKey, resendKey) {
     }
 
     await saveArticleToFirestore(projectId, apiKey, {
-      email: user.email, especialidade: user.especialidade, tema,
+      email: user.email, especialidade: user.especialidades[0] || '', tema,
       titulo: article.tituloLocal || article.title || '',
-      resumo: article.resumoLocal || generateSummary(article, user.especialidade, tema),
+      resumo: article.resumoLocal || generateSummary(article, user.especialidades[0] || '', tema),
       pubmedUrl: 'https://pubmed.ncbi.nlm.nih.gov/' + article.pmid + '/',
       pmid: String(article.pmid || ''), data: new Date().toISOString()
     }).catch(e => console.warn('Could not save article history:', e.message));
