@@ -25,19 +25,25 @@ async function getUserByEmail(projectId, apiKey, email) {
   const f = docs[0].document.fields || {};
   return {
     docId: docs[0].document.name.split('/').pop(),
-    nome: f.nome?.stringValue || ''
+    nome: f.nome?.stringValue || '',
+    ultimoResetSolicitado: f.ultimoResetSolicitado?.stringValue || ''
   };
 }
 
 async function saveResetToken(projectId, apiKey, docId, token, expiry) {
+  const now = new Date().toISOString();
   const body = JSON.stringify({
-    fields: { resetToken: { stringValue: token }, resetTokenExpiry: { stringValue: expiry } }
+    fields: {
+      resetToken: { stringValue: token },
+      resetTokenExpiry: { stringValue: expiry },
+      ultimoResetSolicitado: { stringValue: now }
+    }
   });
   const buf = Buffer.from(body, 'utf8');
   return request({
     hostname: 'firestore.googleapis.com',
     path: '/v1/projects/' + projectId + '/databases/(default)/documents/cadastros/' + docId +
-      '?updateMask.fieldPaths=resetToken&updateMask.fieldPaths=resetTokenExpiry&key=' + apiKey,
+      '?updateMask.fieldPaths=resetToken&updateMask.fieldPaths=resetTokenExpiry&updateMask.fieldPaths=ultimoResetSolicitado&key=' + apiKey,
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json', 'Content-Length': buf.length }
   }, buf);
@@ -89,19 +95,25 @@ exports.handler = async (event) => {
   const apiKey = process.env.FIREBASE_API_KEY;
   const resendKey = process.env.RESEND_API_KEY;
 
+  const COOLDOWN_MS = 2 * 60 * 1000;
+
   // Always return 200 to avoid leaking whether the email is registered
   try {
     const user = await getUserByEmail(projectId, apiKey, email);
     if (user) {
-      const token = crypto.randomBytes(32).toString('hex');
-      const expiry = new Date(Date.now() + RESET_TOKEN_EXPIRY_MS).toISOString();
-      await saveResetToken(projectId, apiKey, user.docId, token, expiry);
-      if (resendKey) {
-        const emailRes = await sendResetEmail(resendKey, user.nome, email, token);
-        if (emailRes.status === 200 || emailRes.status === 201) {
-          console.log('[ForgotPw] Reset email sent to:', email);
-        } else {
-          console.error('[ForgotPw] Reset email failed:', emailRes.status, emailRes.body.substring(0, 100));
+      if (user.ultimoResetSolicitado && (Date.now() - new Date(user.ultimoResetSolicitado).getTime()) < COOLDOWN_MS) {
+        console.log('[ForgotPw] Cooldown active for:', email);
+      } else {
+        const token = crypto.randomBytes(32).toString('hex');
+        const expiry = new Date(Date.now() + RESET_TOKEN_EXPIRY_MS).toISOString();
+        await saveResetToken(projectId, apiKey, user.docId, token, expiry);
+        if (resendKey) {
+          const emailRes = await sendResetEmail(resendKey, user.nome, email, token);
+          if (emailRes.status === 200 || emailRes.status === 201) {
+            console.log('[ForgotPw] Reset email sent to:', email);
+          } else {
+            console.error('[ForgotPw] Reset email failed:', emailRes.status, emailRes.body.substring(0, 100));
+          }
         }
       }
     }

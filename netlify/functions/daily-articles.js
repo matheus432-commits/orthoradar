@@ -788,7 +788,7 @@ exports.handler = async function(event) {
         sent: { integerValue: String(sent) },
         errors: { integerValue: String(errors) },
         skipped: { integerValue: String(skipped) },
-        total: { integerValue: String(users.length) },
+        total: { integerValue: String(usersThisHour.length) },
         timestamp: { stringValue: result.timestamp }
       }
     });

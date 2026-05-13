@@ -31,16 +31,21 @@ async function getUserByEmail(projectId, apiKey, email) {
     nome: f.nome?.stringValue || '',
     sessionToken: f.sessionToken?.stringValue || '',
     sessionExpiry: f.sessionExpiry?.stringValue || '',
-    emailVerificado: f.emailVerificado?.booleanValue
+    emailVerificado: f.emailVerificado?.booleanValue,
+    ultimoReenvio: f.ultimoReenvioConfirmacao?.stringValue || ''
   };
 }
 
 async function patchToken(projectId, apiKey, docId, token) {
-  const body = JSON.stringify({ fields: { emailConfirmToken: { stringValue: token } } });
+  const now = new Date().toISOString();
+  const body = JSON.stringify({ fields: {
+    emailConfirmToken: { stringValue: token },
+    ultimoReenvioConfirmacao: { stringValue: now }
+  }});
   const buf = Buffer.from(body, 'utf8');
   return request({
     hostname: 'firestore.googleapis.com',
-    path: '/v1/projects/' + projectId + '/databases/(default)/documents/cadastros/' + docId + '?updateMask.fieldPaths=emailConfirmToken&key=' + apiKey,
+    path: '/v1/projects/' + projectId + '/databases/(default)/documents/cadastros/' + docId + '?updateMask.fieldPaths=emailConfirmToken&updateMask.fieldPaths=ultimoReenvioConfirmacao&key=' + apiKey,
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json', 'Content-Length': buf.length }
   }, buf);
@@ -105,6 +110,12 @@ exports.handler = async (event) => {
     }
     if (user.emailVerificado === true) {
       return { statusCode: 200, headers, body: JSON.stringify({ success: true, message: 'Email ja confirmado.' }) };
+    }
+
+    const COOLDOWN_MS = 2 * 60 * 1000;
+    if (user.ultimoReenvio && (Date.now() - new Date(user.ultimoReenvio).getTime()) < COOLDOWN_MS) {
+      const secsLeft = Math.ceil((COOLDOWN_MS - (Date.now() - new Date(user.ultimoReenvio).getTime())) / 1000);
+      return { statusCode: 429, headers, body: JSON.stringify({ error: `Aguarde ${secsLeft}s antes de solicitar um novo email.` }) };
     }
 
     const newToken = crypto.randomBytes(32).toString('hex');
