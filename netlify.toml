@@ -5,7 +5,7 @@
   node_bundler = "nft"
 
 [functions."daily-articles"]
-  schedule = "0 10 * * *"
+  schedule = "0 * * * *"
 
 [functions."cleanup-articles"]
   schedule = "0 3 * * 0"

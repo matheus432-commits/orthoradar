@@ -63,14 +63,34 @@ exports.handler = async (event) => {
     todayMidnight.setHours(0, 0, 0, 0);
     const todayISO = todayMidnight.toISOString();
 
-    // Fetch users (expected to be small) for specialty breakdown; use aggregation for article counts
-    const [userDocs, totalArticles, todayArticles] = await Promise.all([
+    // Fetch users, article counts and last dispatch log in parallel
+    const [userDocs, totalArticles, todayArticles, dispatchLogRes] = await Promise.all([
       listAll(projectId, apiKey, 'cadastros'),
       countDocs(projectId, apiKey, 'artigos_enviados', null),
       countDocs(projectId, apiKey, 'artigos_enviados', {
         fieldFilter: { field: { fieldPath: 'data' }, op: 'GREATER_THAN_OR_EQUAL', value: { stringValue: todayISO } }
+      }),
+      request({
+        hostname: 'firestore.googleapis.com',
+        path: `/v1/projects/${projectId}/databases/(default)/documents/dispatch_logs/latest?key=${apiKey}`,
+        method: 'GET'
       })
     ]);
+
+    // Parse last dispatch log
+    let lastDispatch = null;
+    if (dispatchLogRes.status === 200) {
+      try {
+        const lf = JSON.parse(dispatchLogRes.body).fields || {};
+        lastDispatch = {
+          sent: parseInt(lf.sent?.integerValue || '0', 10),
+          errors: parseInt(lf.errors?.integerValue || '0', 10),
+          skipped: parseInt(lf.skipped?.integerValue || '0', 10),
+          total: parseInt(lf.total?.integerValue || '0', 10),
+          timestamp: lf.timestamp?.stringValue || null
+        };
+      } catch(e) { /* ignore parse errors */ }
+    }
 
     let totalUsers = 0, activeUsers = 0, inactiveUsers = 0;
     const bySpec = {};
@@ -96,7 +116,8 @@ exports.handler = async (event) => {
       body: JSON.stringify({
         timestamp: new Date().toISOString(),
         users: { total: totalUsers, active: activeUsers, inactive: inactiveUsers, bySpecialty: bySpec },
-        articles: { total: totalArticles ?? 'n/a', today: todayArticles ?? 'n/a' }
+        articles: { total: totalArticles ?? 'n/a', today: todayArticles ?? 'n/a' },
+        lastDispatch
       }, null, 2)
     };
   } catch (err) {

@@ -421,7 +421,8 @@ async function getUsers(projectId, apiKey) {
       plano: f.plano?.stringValue || 'free',
       ultimoEnvio: f.ultimoEnvio?.stringValue || '',
       ativo: f.ativo?.booleanValue !== false,
-      emailVerificado: f.emailVerificado?.booleanValue !== false
+      emailVerificado: f.emailVerificado?.booleanValue !== false,
+      horarioEnvio: parseInt(f.horarioEnvio?.stringValue || f.horarioEnvio?.integerValue || '10', 10)
     };
   }).filter(u => u.email && u.ativo !== false && u.emailVerificado !== false);
 }
@@ -754,13 +755,18 @@ exports.handler = async function(event) {
   }
   console.log("Users found:", users.length);
 
+  // Filter to users whose preferred send hour matches the current UTC hour
+  const currentHour = new Date().getUTCHours();
+  const usersThisHour = users.filter(u => u.horarioEnvio === currentHour);
+  console.log(`Current UTC hour: ${currentHour} — users to process this hour: ${usersThisHour.length}/${users.length}`);
+
   let sent = 0, errors = 0, skipped = 0;
 
   // Process users in batches of 3 — skipped users resolve instantly,
   // PubMed calls are serialized via pubmedThrottle (shared global state)
   const BATCH_SIZE = 3;
-  for (let i = 0; i < users.length; i += BATCH_SIZE) {
-    const batch = users.slice(i, i + BATCH_SIZE);
+  for (let i = 0; i < usersThisHour.length; i += BATCH_SIZE) {
+    const batch = usersThisHour.slice(i, i + BATCH_SIZE);
     const results = await Promise.allSettled(
       batch.map(user => processUser(user, projectId, apiKey, resendKey))
     );
@@ -772,8 +778,37 @@ exports.handler = async function(event) {
     }
   }
 
-  const result = { sent, errors, skipped, total: users.length, timestamp: new Date().toISOString() };
+  const result = { sent, errors, skipped, total: usersThisHour.length, totalUsers: users.length, hour: currentHour, timestamp: new Date().toISOString() };
   console.log("Daily dispatch complete:", result);
+
+  // Persist dispatch log to Firestore for admin monitoring
+  try {
+    const logBody = JSON.stringify({
+      fields: {
+        sent: { integerValue: String(sent) },
+        errors: { integerValue: String(errors) },
+        skipped: { integerValue: String(skipped) },
+        total: { integerValue: String(users.length) },
+        timestamp: { stringValue: result.timestamp }
+      }
+    });
+    const logBuf = Buffer.from(logBody, 'utf8');
+    await request({
+      hostname: 'firestore.googleapis.com',
+      path: '/v1/projects/' + projectId + '/databases/(default)/documents/dispatch_logs?documentId=latest&key=' + apiKey,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Content-Length': logBuf.length }
+    }, logBuf).catch(() => {
+      // Overwrite if already exists via PATCH
+      return request({
+        hostname: 'firestore.googleapis.com',
+        path: '/v1/projects/' + projectId + '/databases/(default)/documents/dispatch_logs/latest?updateMask.fieldPaths=sent&updateMask.fieldPaths=errors&updateMask.fieldPaths=skipped&updateMask.fieldPaths=total&updateMask.fieldPaths=timestamp&key=' + apiKey,
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json', 'Content-Length': logBuf.length }
+      }, logBuf);
+    });
+  } catch(e) { console.warn('[DispatchLog] Could not save log:', e.message); }
+
   return { statusCode: 200, body: JSON.stringify(result) };
 };
 

@@ -66,9 +66,11 @@ exports.handler = async (event) => {
   try { body = JSON.parse(event.body); } catch(e) {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'JSON invalido' }) };
   }
-  const { email, token, artId, action } = body;
+  const { email, artId, action } = body;
+  const authHeader = event.headers['authorization'] || event.headers['Authorization'];
+  const token = authHeader?.startsWith('Bearer ') ? authHeader.slice(7) : null;
   if (!email || !token || !artId || !action) {
-    return { statusCode: 400, headers, body: JSON.stringify({ error: 'Campos obrigatorios: email, token, artId, action' }) };
+    return { statusCode: 400, headers, body: JSON.stringify({ error: 'Campos obrigatorios: email, artId, action + Authorization header' }) };
   }
   if (!['mark', 'unmark'].includes(action)) {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'Action deve ser mark ou unmark' }) };

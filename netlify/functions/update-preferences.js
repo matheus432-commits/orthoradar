@@ -38,7 +38,7 @@ async function getUserByEmail(projectId, apiKey, email) {
   };
 }
 
-async function updatePreferences(projectId, apiKey, docId, especialidade, temas, nome) {
+async function updatePreferences(projectId, apiKey, docId, especialidade, temas, nome, horarioEnvio) {
   const espValues = especialidade.map(e => ({ stringValue: e }));
   const temasValues = temas.map(t => ({ stringValue: t }));
   const fields = {
@@ -49,6 +49,10 @@ async function updatePreferences(projectId, apiKey, docId, especialidade, temas,
   if (nome) {
     fields.nome = { stringValue: nome };
     masks += '&updateMask.fieldPaths=nome';
+  }
+  if (horarioEnvio !== undefined) {
+    fields.horarioEnvio = { stringValue: String(horarioEnvio) };
+    masks += '&updateMask.fieldPaths=horarioEnvio';
   }
   const body = JSON.stringify({ fields });
   const buf = Buffer.from(body, 'utf8');
@@ -68,9 +72,15 @@ exports.handler = async (event) => {
   let body;
   try { body = JSON.parse(event.body); } catch { return { statusCode: 400, headers, body: JSON.stringify({ error: 'JSON invalido' }) }; }
 
-  const { email, token, especialidade, temas, nome } = body;
+  const { email, token, especialidade, temas, nome, horarioEnvio } = body;
   if (!email || !token || !especialidade || !temas) {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'Campos obrigatorios faltando' }) };
+  }
+  if (horarioEnvio !== undefined) {
+    const h = parseInt(horarioEnvio, 10);
+    if (isNaN(h) || h < 0 || h > 23) {
+      return { statusCode: 400, headers, body: JSON.stringify({ error: 'Horário de envio inválido (0-23).' }) };
+    }
   }
   if (nome !== undefined && (typeof nome !== 'string' || nome.trim().length < 2 || nome.trim().length > 80)) {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'Nome inválido (2-80 caracteres).' }) };
@@ -103,9 +113,10 @@ exports.handler = async (event) => {
     if (user.sessionExpiry && new Date(user.sessionExpiry) < new Date()) {
       return { statusCode: 401, headers, body: JSON.stringify({ error: 'Sessão expirada.' }) };
     }
-    const res = await updatePreferences(projectId, apiKey, user.docId, especialidade, temas, nomeTrimmed);
+    const horario = horarioEnvio !== undefined ? parseInt(horarioEnvio, 10) : undefined;
+    const res = await updatePreferences(projectId, apiKey, user.docId, especialidade, temas, nomeTrimmed, horario);
     if (res.status !== 200) throw new Error('Firestore update failed: ' + res.body);
-    console.log('Preferences updated for:', email, '| specs:', especialidade.join(','), '| temas:', temas.length, nomeTrimmed ? '| nome: updated' : '');
+    console.log('Preferences updated for:', email, '| specs:', especialidade.join(','), '| temas:', temas.length, nomeTrimmed ? '| nome: updated' : '', horario !== undefined ? '| horario:' + horario : '');
     return { statusCode: 200, headers, body: JSON.stringify({ success: true, message: 'Preferências atualizadas com sucesso!' }) };
   } catch (err) {
     console.error('Update preferences error:', err);
