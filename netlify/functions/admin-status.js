@@ -63,8 +63,8 @@ exports.handler = async (event) => {
     todayMidnight.setHours(0, 0, 0, 0);
     const todayISO = todayMidnight.toISOString();
 
-    // Fetch users, article counts and last dispatch log in parallel
-    const [userDocs, totalArticles, todayArticles, dispatchLogRes] = await Promise.all([
+    // Fetch users, article counts, last dispatch log, and dispatch history in parallel
+    const [userDocs, totalArticles, todayArticles, dispatchLogRes, historyDocs] = await Promise.all([
       listAll(projectId, apiKey, 'cadastros'),
       countDocs(projectId, apiKey, 'artigos_enviados', null),
       countDocs(projectId, apiKey, 'artigos_enviados', {
@@ -74,7 +74,8 @@ exports.handler = async (event) => {
         hostname: 'firestore.googleapis.com',
         path: `/v1/projects/${projectId}/databases/(default)/documents/dispatch_logs/latest?key=${apiKey}`,
         method: 'GET'
-      })
+      }),
+      listAll(projectId, apiKey, 'dispatch_logs', 300)
     ]);
 
     // Parse last dispatch log
@@ -91,6 +92,23 @@ exports.handler = async (event) => {
         };
       } catch(e) { /* ignore parse errors */ }
     }
+
+    // Parse dispatch history (exclude "latest" doc, sort desc, keep last 48 entries)
+    const dispatchHistory = historyDocs
+      .filter(d => !d.name.endsWith('/latest'))
+      .map(d => {
+        const f = d.fields || {};
+        return {
+          sent: parseInt(f.sent?.integerValue || '0', 10),
+          errors: parseInt(f.errors?.integerValue || '0', 10),
+          skipped: parseInt(f.skipped?.integerValue || '0', 10),
+          total: parseInt(f.total?.integerValue || '0', 10),
+          timestamp: f.timestamp?.stringValue || null
+        };
+      })
+      .filter(e => e.timestamp)
+      .sort((a, b) => b.timestamp.localeCompare(a.timestamp))
+      .slice(0, 48);
 
     let totalUsers = 0, activeUsers = 0, inactiveUsers = 0;
     const bySpec = {};
@@ -117,7 +135,8 @@ exports.handler = async (event) => {
         timestamp: new Date().toISOString(),
         users: { total: totalUsers, active: activeUsers, inactive: inactiveUsers, bySpecialty: bySpec },
         articles: { total: totalArticles ?? 'n/a', today: todayArticles ?? 'n/a' },
-        lastDispatch
+        lastDispatch,
+        dispatchHistory
       }, null, 2)
     };
   } catch (err) {

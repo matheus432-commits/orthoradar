@@ -456,7 +456,8 @@ async function getUsers(projectId, apiKey) {
       ativo: f.ativo?.booleanValue !== false,
       emailVerificado: f.emailVerificado?.booleanValue !== false,
       horarioEnvio: parseInt(f.horarioEnvio?.stringValue || f.horarioEnvio?.integerValue || '10', 10),
-      pushSubscription: (() => { try { return f.pushSubscription?.stringValue ? JSON.parse(f.pushSubscription.stringValue) : null; } catch { return null; } })()
+      pushSubscription: (() => { try { return f.pushSubscription?.stringValue ? JSON.parse(f.pushSubscription.stringValue) : null; } catch { return null; } })(),
+      pendingRetry: (() => { try { return f.pendingRetry?.stringValue ? JSON.parse(f.pendingRetry.stringValue) : null; } catch { return null; } })()
     };
   }).filter(u => u.email && u.ativo !== false && u.emailVerificado !== false);
 }
@@ -565,6 +566,29 @@ function shouldSendToday(plano, ultimoEnvio) {
     : Infinity;
   if (plano === 'convencional') return daysSinceLast >= 7;
   return daysSinceLast >= 30; // free
+}
+
+async function savePendingRetry(projectId, apiKey, docId, article, tema) {
+  const payload = JSON.stringify({ pmid: article.pmid, title: article.title, abstract: article.abstract, journal: article.journal, year: article.year, authors: article.authors, tituloLocal: article.tituloLocal || '', resumoLocal: article.resumoLocal || '', tema, savedAt: new Date().toISOString() });
+  const body = JSON.stringify({ fields: { pendingRetry: { stringValue: payload } } });
+  const buf = Buffer.from(body, 'utf8');
+  return request({
+    hostname: 'firestore.googleapis.com',
+    path: '/v1/projects/' + projectId + '/databases/(default)/documents/cadastros/' + docId + '?updateMask.fieldPaths=pendingRetry&key=' + apiKey,
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', 'Content-Length': buf.length }
+  }, buf).catch(e => console.warn('[Retry] savePendingRetry failed:', e.message));
+}
+
+async function clearPendingRetry(projectId, apiKey, docId) {
+  const body = JSON.stringify({ fields: { pendingRetry: { nullValue: null } } });
+  const buf = Buffer.from(body, 'utf8');
+  return request({
+    hostname: 'firestore.googleapis.com',
+    path: '/v1/projects/' + projectId + '/databases/(default)/documents/cadastros/' + docId + '?updateMask.fieldPaths=pendingRetry&key=' + apiKey,
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', 'Content-Length': buf.length }
+  }, buf).catch(e => console.warn('[Retry] clearPendingRetry failed:', e.message));
 }
 
 async function updateUltimoEnvio(projectId, apiKey, docId) {
@@ -712,7 +736,14 @@ async function processUser(user, projectId, apiKey, resendKey) {
     let article = null;
     let tema = user.especialidades[0] || '';
 
-    if (temas.length > 0 && !allTemasInvalid) {
+    // Use pending retry article if available (from a previous failed send)
+    if (user.pendingRetry && user.pendingRetry.pmid) {
+      article = user.pendingRetry;
+      tema = user.pendingRetry.tema || tema;
+      console.log(`[Retry] ${user.email}: retrying article PMID ${article.pmid} | tema: "${tema}"`);
+    }
+
+    if (!article && temas.length > 0 && !allTemasInvalid) {
       const temaPool = validTemas.length > 0 ? validTemas : temas;
       tema = temaPool[(dayNumber + emailOffset) % temaPool.length];
       const terms = getSearchTerms(tema, user.especialidades);
@@ -734,6 +765,7 @@ async function processUser(user, projectId, apiKey, resendKey) {
       article = await searchPubMed(fallbackTerms, sentPmids, tema + " specialty fallback");
     }
     if (!article) { console.warn(`[Error] No article for ${user.email} after all fallbacks`); return 'error'; }
+
 
     console.log(`[Found] "${article.title.substring(0, 55)}" for ${user.email}`);
     const cachedTranslation = translationCache.get(article.pmid);
@@ -759,6 +791,10 @@ async function processUser(user, projectId, apiKey, resendKey) {
     if (emailRes.status === 200 || emailRes.status === 201) {
       console.log(`[Sent] ${user.email}`);
       await updateUltimoEnvio(projectId, apiKey, user._docId).catch(e => console.warn('[ultimoEnvio] update failed:', e.message));
+      if (user.pendingRetry) {
+        await clearPendingRetry(projectId, apiKey, user._docId);
+        console.log(`[Retry] Cleared retry for ${user.email}`);
+      }
 
       // Fire push notification if user subscribed (non-blocking)
       const vapidPub = process.env.VAPID_PUBLIC_KEY;
@@ -787,6 +823,9 @@ async function processUser(user, projectId, apiKey, resendKey) {
       return 'sent';
     }
     console.error(`[Error] Email to ${user.email}: ${emailRes.status} — ${emailRes.body.substring(0, 300)}`);
+    // Save article for retry on next dispatch
+    await savePendingRetry(projectId, apiKey, user._docId, article, tema);
+    console.log(`[Retry] Saved article PMID ${article.pmid} for retry: ${user.email}`);
     return 'error';
   } catch (err) {
     console.error(`[Error] ${user.email}: ${err.message}`);
@@ -842,30 +881,40 @@ exports.handler = async function(event) {
 
   // Persist dispatch log to Firestore for admin monitoring
   try {
-    const logBody = JSON.stringify({
-      fields: {
-        sent: { integerValue: String(sent) },
-        errors: { integerValue: String(errors) },
-        skipped: { integerValue: String(skipped) },
-        total: { integerValue: String(usersThisHour.length) },
-        timestamp: { stringValue: result.timestamp }
-      }
-    });
+    const logFields = {
+      sent: { integerValue: String(sent) },
+      errors: { integerValue: String(errors) },
+      skipped: { integerValue: String(skipped) },
+      total: { integerValue: String(usersThisHour.length) },
+      timestamp: { stringValue: result.timestamp }
+    };
+    const logBody = JSON.stringify({ fields: logFields });
     const logBuf = Buffer.from(logBody, 'utf8');
+    // Save/overwrite "latest" entry
     await request({
       hostname: 'firestore.googleapis.com',
       path: '/v1/projects/' + projectId + '/databases/(default)/documents/dispatch_logs?documentId=latest&key=' + apiKey,
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Content-Length': logBuf.length }
-    }, logBuf).catch(() => {
-      // Overwrite if already exists via PATCH
-      return request({
-        hostname: 'firestore.googleapis.com',
-        path: '/v1/projects/' + projectId + '/databases/(default)/documents/dispatch_logs/latest?updateMask.fieldPaths=sent&updateMask.fieldPaths=errors&updateMask.fieldPaths=skipped&updateMask.fieldPaths=total&updateMask.fieldPaths=timestamp&key=' + apiKey,
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json', 'Content-Length': logBuf.length }
-      }, logBuf);
-    });
+    }, logBuf).catch(() => request({
+      hostname: 'firestore.googleapis.com',
+      path: '/v1/projects/' + projectId + '/databases/(default)/documents/dispatch_logs/latest?updateMask.fieldPaths=sent&updateMask.fieldPaths=errors&updateMask.fieldPaths=skipped&updateMask.fieldPaths=total&updateMask.fieldPaths=timestamp&key=' + apiKey,
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json', 'Content-Length': logBuf.length }
+    }, logBuf));
+    // Save timestamped history entry (YYYY-MM-DD-HH)
+    const histId = result.timestamp.substring(0, 13).replace('T', '-'); // e.g. "2025-05-13-14"
+    await request({
+      hostname: 'firestore.googleapis.com',
+      path: '/v1/projects/' + projectId + '/databases/(default)/documents/dispatch_logs?documentId=' + histId + '&key=' + apiKey,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Content-Length': logBuf.length }
+    }, logBuf).catch(() => request({
+      hostname: 'firestore.googleapis.com',
+      path: '/v1/projects/' + projectId + '/databases/(default)/documents/dispatch_logs/' + histId + '?updateMask.fieldPaths=sent&updateMask.fieldPaths=errors&updateMask.fieldPaths=skipped&updateMask.fieldPaths=total&updateMask.fieldPaths=timestamp&key=' + apiKey,
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json', 'Content-Length': logBuf.length }
+    }, logBuf));
   } catch(e) { console.warn('[DispatchLog] Could not save log:', e.message); }
 
   return { statusCode: 200, body: JSON.stringify(result) };

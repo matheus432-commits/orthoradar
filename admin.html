@@ -69,6 +69,15 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .bar-wrap{background:var(--bg3);border-radius:4px;height:6px;overflow:hidden;margin-top:2px;}
 .bar{height:6px;background:linear-gradient(90deg,var(--primary),var(--accent));border-radius:4px;transition:width 0.5s;}
 
+/* HISTORY TABLE */
+.hist-table{width:100%;border-collapse:collapse;}
+.hist-table th,.hist-table td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);font-size:12px;}
+.hist-table th{font-weight:700;color:var(--muted);text-transform:uppercase;font-size:11px;letter-spacing:0.5px;}
+.hist-table tr:last-child td{border-bottom:none;}
+.num-ok{color:var(--success);font-weight:700;}
+.num-err{color:var(--danger);font-weight:700;}
+.num-skip{color:var(--muted);}
+
 /* ERROR STATE */
 .err-state{text-align:center;padding:40px;color:var(--danger);}
 
@@ -114,6 +123,11 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
     <div class="section" id="specSection">
       <div class="section-title">Usuários ativos por especialidade</div>
       <div id="specContent"></div>
+    </div>
+
+    <div class="section" id="histSection">
+      <div class="section-title">Histórico de dispatches (últimas 48h)</div>
+      <div id="histContent"></div>
     </div>
   </div>
 </div>
@@ -179,6 +193,27 @@ function renderDashboard(data) {
       </div>`;
   } else {
     document.getElementById('dispatchContent').innerHTML = '<p style="color:var(--muted);font-size:13px;">Nenhum dispatch registrado ainda.</p>';
+  }
+
+  // Dispatch history
+  const history = data.dispatchHistory || [];
+  if (history.length) {
+    document.getElementById('histContent').innerHTML = `
+      <table class="hist-table">
+        <thead><tr><th>Data/Hora</th><th>Enviados</th><th>Erros</th><th>Ignorados</th><th>Total slot</th></tr></thead>
+        <tbody>${history.map(h => {
+          const dt = h.timestamp ? new Date(h.timestamp).toLocaleString('pt-BR') : '—';
+          return `<tr>
+            <td>${escHtml(dt)}</td>
+            <td class="num-ok">${h.sent}</td>
+            <td class="${h.errors > 0 ? 'num-err' : 'num-skip'}">${h.errors}</td>
+            <td class="num-skip">${h.skipped}</td>
+            <td>${h.total}</td>
+          </tr>`;
+        }).join('')}</tbody>
+      </table>`;
+  } else {
+    document.getElementById('histContent').innerHTML = '<p style="color:var(--muted);font-size:13px;">Nenhum histórico disponível ainda.</p>';
   }
 
   // Specialty breakdown

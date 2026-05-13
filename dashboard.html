@@ -74,6 +74,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
 .stat-tile:hover{border-color:rgba(14,165,233,0.3);}
 .stat-num{font-size:28px;font-weight:800;background:linear-gradient(135deg,var(--primary),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
 .stat-label{font-size:12px;color:var(--muted);margin-top:4px;font-weight:500;}
+.stat-sub{font-size:11px;color:rgba(148,163,184,0.6);margin-top:2px;}
 
 /* TABS */
 .tabs-wrap{display:flex;gap:4px;background:var(--card);border:1px solid var(--border);padding:5px;border-radius:14px;width:fit-content;margin-bottom:24px;}
@@ -273,7 +274,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
     <div class="stat-tile"><div class="stat-num" id="statRecebidos">—</div><div class="stat-label">Artigos recebidos</div></div>
     <div class="stat-tile"><div class="stat-num" id="statCurtidos">—</div><div class="stat-label">Artigos curtidos</div></div>
     <div class="stat-tile"><div class="stat-num" id="statAmigos">—</div><div class="stat-label">Amigos na rede</div></div>
-    <div class="stat-tile"><div class="stat-num" id="statStreak">—</div><div class="stat-label">🔥 Streak de leitura</div></div>
+    <div class="stat-tile"><div class="stat-num" id="statStreak">—</div><div class="stat-label">🔥 Streak de leitura</div><div class="stat-sub" id="statLidosTotal"></div></div>
     <div class="stat-tile"><div class="stat-num" id="statDias">—</div><div class="stat-label">Dias assinando</div></div>
   </div>
 
@@ -576,7 +577,7 @@ function populateDashboard(data){
   document.getElementById('userSpec').textContent='🦷 '+specs.join(', ');
   updatePlanUI(data.plano||'free', data.planoValidoAte||'');
   updateVerifyBanner(data.emailVerificado);
-  renderUpsellBanner(data.plano||'free', data.artigos||[], data.horarioEnvio);
+  renderUpsellBanner(data.plano||'free', data.artigos||[], data.horarioEnvio, data.ultimoEnvio||'');
 
   const artigos=data.artigos||[];
   const curtidos=data.curtidos||[];
@@ -586,10 +587,12 @@ function populateDashboard(data){
   if(searchEl) searchEl.value='';
 
   const streak = data.streakDias || 0;
+  const totalLidos = (data.lidos || []).length;
   document.getElementById('statRecebidos').textContent=artigos.length;
   document.getElementById('statCurtidos').textContent=curtidos.length;
   document.getElementById('statAmigos').textContent=amigos.length;
   document.getElementById('statStreak').textContent=streak > 0 ? streak + (streak === 1 ? ' dia' : ' dias') : '—';
+  document.getElementById('statLidosTotal').textContent=totalLidos > 0 ? totalLidos + ' lido' + (totalLidos !== 1 ? 's' : '') + ' no total' : '';
   document.getElementById('statDias').textContent=dias;
 
   document.getElementById('tbadge-recebidos').textContent=artigos.length;
@@ -611,14 +614,14 @@ function populateDashboard(data){
 }
 
 // ========== UPSELL / PLAN INFO ==========
-function renderUpsellBanner(plano, artigos, horarioEnvio) {
+function renderUpsellBanner(plano, artigos, horarioEnvio, ultimoEnvio) {
   const banner = document.getElementById('upsellBanner');
   const nextEl = document.getElementById('nextArticleInfo');
   const textEl = document.getElementById('upsellText');
   const btnEl  = document.getElementById('upsellBtn');
   if (!banner || !nextEl || !textEl || !btnEl) return;
 
-  // "Próximo artigo" info
+  // Calculates "próximo artigo" countdown string for premium (slot-based)
   const hora = horarioEnvio !== undefined ? horarioEnvio : 10;
   const horaBrasilia = ((hora - 3) + 24) % 24;
   const now = new Date();
@@ -627,20 +630,35 @@ function renderUpsellBanner(plano, artigos, horarioEnvio) {
   const minsUntil = ((slotUTC - nowUTC) + 1440) % 1440;
   const hUntil = Math.floor(minsUntil / 60);
   const mUntil = minsUntil % 60;
-  const whenStr = minsUntil < 90
+  const premiumWhenStr = minsUntil < 90
     ? (minsUntil < 5 ? 'em instantes' : `em ${hUntil > 0 ? hUntil + 'h ' : ''}${mUntil}min`)
     : `às ${horaBrasilia}h (Brasília)`;
 
+  // Calculates countdown for plans with longer intervals
+  function daysUntilNext(intervalDays) {
+    if (!ultimoEnvio) return null;
+    const msLeft = (new Date(ultimoEnvio).getTime() + intervalDays * 86400000) - Date.now();
+    if (msLeft <= 0) return 0;
+    const d = Math.ceil(msLeft / 86400000);
+    return d;
+  }
+
   if (plano === 'premium') {
-    nextEl.textContent = `⏰ Próximo artigo ${whenStr}`;
+    nextEl.textContent = `⏰ Próximo artigo ${premiumWhenStr}`;
     nextEl.style.display = artigos.length > 0 ? 'inline-block' : 'none';
     banner.style.display = 'none';
     return;
   }
 
   if (plano === 'convencional') {
-    nextEl.style.display = 'none';
-    textEl.innerHTML = `Você está no plano <strong>Convencional</strong> — 1 artigo por semana. Faça upgrade para <strong>Premium</strong> e receba ciência odontológica <strong>todos os dias</strong>.`;
+    const daysLeft = daysUntilNext(7);
+    if (daysLeft !== null) {
+      nextEl.textContent = daysLeft <= 0 ? '⏰ Artigo disponível hoje!' : `⏰ Próximo artigo em ${daysLeft} dia${daysLeft !== 1 ? 's' : ''}`;
+      nextEl.style.display = 'inline-block';
+    } else {
+      nextEl.style.display = 'none';
+    }
+    textEl.innerHTML = `Plano <strong>Convencional</strong> — 1 artigo por semana. Faça upgrade para <strong>Premium</strong> e receba ciência odontológica <strong>todos os dias</strong>.`;
     btnEl.textContent = 'Upgrade para Premium';
     btnEl.onclick = () => abrirCheckout('premium');
     banner.style.display = 'flex';
@@ -648,8 +666,14 @@ function renderUpsellBanner(plano, artigos, horarioEnvio) {
   }
 
   // free
-  nextEl.style.display = 'none';
-  textEl.innerHTML = `Você está no plano <strong>Free</strong> — 1 artigo por mês. Faça upgrade e receba artigos <strong>toda semana</strong> ou <strong>todos os dias</strong>.`;
+  const daysLeft = daysUntilNext(30);
+  if (daysLeft !== null) {
+    nextEl.textContent = daysLeft <= 0 ? '⏰ Artigo disponível hoje!' : `⏰ Próximo artigo em ${daysLeft} dia${daysLeft !== 1 ? 's' : ''}`;
+    nextEl.style.display = 'inline-block';
+  } else {
+    nextEl.style.display = 'none';
+  }
+  textEl.innerHTML = `Plano <strong>Free</strong> — 1 artigo por mês. Faça upgrade e receba artigos <strong>toda semana</strong> ou <strong>todos os dias</strong>.`;
   btnEl.textContent = 'Ver planos';
   btnEl.onclick = () => {
     switchTab('preferencias', document.getElementById('tabBtn-preferencias'));
