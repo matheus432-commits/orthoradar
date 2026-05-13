@@ -1,5 +1,39 @@
 const crypto = require('crypto');
-const { request, corsHeaders, preflight } = require('./_lib');
+const { request, corsHeaders, preflight, stripeRequest } = require('./_lib');
+
+async function fetchMRR() {
+  const stripeKey = process.env.STRIPE_SECRET_KEY;
+  if (!stripeKey) return null;
+  try {
+    // Fetch active subscriptions (up to 100; enough for early-stage)
+    const res = await stripeRequest('/v1/subscriptions?status=active&limit=100&expand[]=data.items', 'GET', null);
+    if (res.status !== 200) return null;
+    const { data: subs } = JSON.parse(res.body);
+    let mrr = 0, byPlan = { convencional: 0, premium: 0 };
+    const priceConv = process.env.STRIPE_PRICE_CONVENCIONAL || '';
+    const pricePrem = process.env.STRIPE_PRICE_PREMIUM || '';
+    for (const sub of subs) {
+      const item = sub.items?.data?.[0];
+      if (!item) continue;
+      const unitAmount = item.price?.unit_amount || 0;   // centavos
+      const interval = item.price?.recurring?.interval;  // 'month' | 'year'
+      const monthly = interval === 'year' ? Math.round(unitAmount / 12) : unitAmount;
+      mrr += monthly;
+      const priceId = item.price?.id || '';
+      if (priceId === pricePrem) byPlan.premium += monthly;
+      else if (priceId === priceConv) byPlan.convencional += monthly;
+    }
+    return {
+      mrr: mrr / 100,  // reais
+      arr: mrr * 12 / 100,
+      subscribers: subs.length,
+      byPlan: { convencional: byPlan.convencional / 100, premium: byPlan.premium / 100 }
+    };
+  } catch(e) {
+    console.warn('[Admin] MRR fetch error:', e.message);
+    return null;
+  }
+}
 
 async function listAll(projectId, apiKey, collection, pageSize = 300) {
   const docs = [];
@@ -63,8 +97,8 @@ exports.handler = async (event) => {
     todayMidnight.setHours(0, 0, 0, 0);
     const todayISO = todayMidnight.toISOString();
 
-    // Fetch users, article counts, last dispatch log, and dispatch history in parallel
-    const [userDocs, totalArticles, todayArticles, dispatchLogRes, historyDocs] = await Promise.all([
+    // Fetch users, article counts, last dispatch log, dispatch history, and MRR in parallel
+    const [userDocs, totalArticles, todayArticles, dispatchLogRes, historyDocs, mrrData] = await Promise.all([
       listAll(projectId, apiKey, 'cadastros'),
       countDocs(projectId, apiKey, 'artigos_enviados', null),
       countDocs(projectId, apiKey, 'artigos_enviados', {
@@ -75,7 +109,8 @@ exports.handler = async (event) => {
         path: `/v1/projects/${projectId}/databases/(default)/documents/dispatch_logs/latest?key=${apiKey}`,
         method: 'GET'
       }),
-      listAll(projectId, apiKey, 'dispatch_logs', 300)
+      listAll(projectId, apiKey, 'dispatch_logs', 300),
+      fetchMRR()
     ]);
 
     // Parse last dispatch log
@@ -136,7 +171,8 @@ exports.handler = async (event) => {
         users: { total: totalUsers, active: activeUsers, inactive: inactiveUsers, bySpecialty: bySpec },
         articles: { total: totalArticles ?? 'n/a', today: todayArticles ?? 'n/a' },
         lastDispatch,
-        dispatchHistory
+        dispatchHistory,
+        financeiro: mrrData
       }, null, 2)
     };
   } catch (err) {

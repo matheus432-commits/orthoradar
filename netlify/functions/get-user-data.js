@@ -130,6 +130,7 @@ exports.handler = async (event) => {
         planoValidoAte: user.planoValidoAte || '',
         criadoEm: user.criadoEm || '',
         emailVerificado: user.emailVerificado !== false,
+        emailConfirmFalhou: user.emailConfirmFalhou === true,
         artigos,
         curtidos: user.curtidos || [],
         lidos: user.lidos || [],

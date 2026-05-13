@@ -145,8 +145,31 @@ exports.handler = async (event) => {
     console.log('Cadastro criado:', docId, email);
     if (resendKey) {
       sendConfirmationEmail(resendKey, nomeTrimmed, email, emailConfirmToken)
-        .then(r => { if (r.status !== 200 && r.status !== 201) console.error('[Register] Confirmation email failed:', r.status, r.body.substring(0, 100)); })
-        .catch(e => console.error('[Register] Confirmation email error:', e.message));
+        .then(r => {
+          if (r.status !== 200 && r.status !== 201) {
+            console.error('[Register] Confirmation email failed:', r.status, r.body.substring(0, 100));
+            // Mark send failure so dashboard can warn user
+            const fb = JSON.stringify({ fields: { emailConfirmFalhou: { booleanValue: true } } });
+            const fbuf = Buffer.from(fb, 'utf8');
+            request({
+              hostname: 'firestore.googleapis.com',
+              path: '/v1/projects/' + projectId + '/databases/(default)/documents/cadastros/' + docId + '?updateMask.fieldPaths=emailConfirmFalhou&key=' + apiKey,
+              method: 'PATCH',
+              headers: { 'Content-Type': 'application/json', 'Content-Length': fbuf.length }
+            }, fbuf).catch(() => {});
+          }
+        })
+        .catch(e => {
+          console.error('[Register] Confirmation email error:', e.message);
+          const fb = JSON.stringify({ fields: { emailConfirmFalhou: { booleanValue: true } } });
+          const fbuf = Buffer.from(fb, 'utf8');
+          request({
+            hostname: 'firestore.googleapis.com',
+            path: '/v1/projects/' + projectId + '/databases/(default)/documents/cadastros/' + docId + '?updateMask.fieldPaths=emailConfirmFalhou&key=' + apiKey,
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json', 'Content-Length': fbuf.length }
+          }, fbuf).catch(() => {});
+        });
     }
     return { statusCode: 200, headers, body: JSON.stringify({ success: true, message: 'Cadastro realizado! Verifique seu email para confirmar a conta.', id: docId }) };
   } catch (err) {

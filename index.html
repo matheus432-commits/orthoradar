@@ -255,7 +255,7 @@ footer p{font-size:0.82rem;color:var(--text-muted);}
     <div class="pricing-card plan-featured">
       <div class="plan-popular">Mais popular</div>
       <div class="plan-name">Convencional</div>
-      <div class="plan-price"><span class="price-val">Em breve</span></div>
+      <div class="plan-price"><span class="price-val">R$&nbsp;19,90</span><span class="price-period">/mês</span></div>
       <div class="plan-sub">1 artigo por semana, toda semana</div>
       <ul class="plan-features">
         <li>1 artigo científico por semana</li>
@@ -264,12 +264,12 @@ footer p{font-size:0.82rem;color:var(--text-muted);}
         <li>Link para o original no PubMed</li>
         <li>Cancelamento a qualquer momento</li>
       </ul>
-      <button class="plan-btn plan-btn-grad" disabled>Em breve</button>
+      <button class="plan-btn plan-btn-grad" onclick="escolherPlano('convencional')">Assinar agora</button>
     </div>
 
     <div class="pricing-card">
       <div class="plan-name">Premium</div>
-      <div class="plan-price"><span class="price-val">Em breve</span></div>
+      <div class="plan-price"><span class="price-val">R$&nbsp;39,90</span><span class="price-period">/mês</span></div>
       <div class="plan-sub">1 artigo por dia, todos os dias</div>
       <ul class="plan-features">
         <li>1 artigo científico por dia</li>
@@ -279,7 +279,7 @@ footer p{font-size:0.82rem;color:var(--text-muted);}
         <li>Cancelamento a qualquer momento</li>
         <li>Prioridade em novos recursos</li>
       </ul>
-      <button class="plan-btn plan-btn-grad" disabled>Em breve</button>
+      <button class="plan-btn plan-btn-grad" onclick="escolherPlano('premium')">Assinar agora</button>
     </div>
 
   </div>
@@ -374,6 +374,11 @@ footer p{font-size:0.82rem;color:var(--text-muted);}
 
 let selectedSpecs = [];
 let selectedThemes = [];
+
+function escolherPlano(plano) {
+  sessionStorage.setItem('of_desired_plan', plano);
+  document.getElementById('cadastro').scrollIntoView({ behavior: 'smooth' });
+}
 
 function escapeHtml(s) {
   return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
@@ -541,7 +546,9 @@ function validateSenha() {
         if (loginRes.ok && loginData.token) {
           localStorage.setItem('of_token', loginData.token);
           localStorage.setItem('of_email', email);
-          window.location.href = '/dashboard';
+          const desiredPlan = sessionStorage.getItem('of_desired_plan');
+          sessionStorage.removeItem('of_desired_plan');
+          window.location.href = desiredPlan ? '/dashboard?upgrade=' + desiredPlan : '/dashboard';
           return;
         }
       } catch(e) {}

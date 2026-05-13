@@ -115,6 +115,11 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 
     <div class="stats" id="statsGrid"></div>
 
+    <div class="section" id="financeiroSection" style="display:none;">
+      <div class="section-title">Financeiro (Stripe)</div>
+      <div class="stats" id="financeiroGrid" style="margin-bottom:0;"></div>
+    </div>
+
     <div class="section" id="dispatchSection">
       <div class="section-title">Último dispatch</div>
       <div id="dispatchContent"></div>
@@ -178,6 +183,25 @@ function renderDashboard(data) {
   document.getElementById('statsGrid').innerHTML = stats.map(s =>
     `<div class="stat"><div class="stat-n ${s.cls}">${escHtml(String(s.n))}</div><div class="stat-l">${escHtml(s.l)}</div></div>`
   ).join('');
+
+  // Financeiro (Stripe MRR)
+  const fin = data.financeiro;
+  if (fin) {
+    const fmt = n => 'R$ ' + Number(n).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const fStats = [
+      { n: fmt(fin.mrr), l: 'MRR', cls: 'success' },
+      { n: fmt(fin.arr), l: 'ARR (projeção)', cls: '' },
+      { n: fin.subscribers, l: 'Assinantes ativos', cls: '' },
+      { n: fmt(fin.byPlan?.convencional ?? 0), l: 'MRR Convencional', cls: '' },
+      { n: fmt(fin.byPlan?.premium ?? 0), l: 'MRR Premium', cls: '' },
+    ];
+    document.getElementById('financeiroGrid').innerHTML = fStats.map(s =>
+      `<div class="stat"><div class="stat-n ${s.cls}" style="font-size:20px;">${escHtml(String(s.n))}</div><div class="stat-l">${escHtml(s.l)}</div></div>`
+    ).join('');
+    document.getElementById('financeiroSection').style.display = '';
+  } else {
+    document.getElementById('financeiroSection').style.display = 'none';
+  }
 
   // Dispatch log
   const d = data.lastDispatch;

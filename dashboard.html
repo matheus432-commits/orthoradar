@@ -75,6 +75,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
 .stat-num{font-size:28px;font-weight:800;background:linear-gradient(135deg,var(--primary),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
 .stat-label{font-size:12px;color:var(--muted);margin-top:4px;font-weight:500;}
 .stat-sub{font-size:11px;color:rgba(148,163,184,0.6);margin-top:2px;}
+.conquista-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.3);color:#fbbf24;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;white-space:nowrap;}
 
 /* TABS */
 .tabs-wrap{display:flex;gap:4px;background:var(--card);border:1px solid var(--border);padding:5px;border-radius:14px;width:fit-content;margin-bottom:24px;}
@@ -261,9 +262,8 @@ body.light .btn-theme{color:#64748b;}
   <!-- EMAIL VERIFICATION BANNER -->
   <div class="verify-banner hidden" id="verifyBanner">
     <div style="font-size:20px;">⚠️</div>
-    <div class="verify-banner-text">
-      Confirme seu email para receber artigos
-      <span>Enviamos um link de confirmação para o seu email. Verifique a caixa de entrada (e o spam).</span>
+    <div class="verify-banner-text" id="verifyBannerText">
+      📬 <strong>Confirme seu email para ativar a conta.</strong> <span>Verifique sua caixa de entrada (e o spam).</span>
     </div>
     <button class="btn-verify" id="btnResendConfirm" onclick="reenviarConfirmacao()">Reenviar email</button>
   </div>
@@ -293,6 +293,12 @@ body.light .btn-theme{color:#64748b;}
     <div class="stat-tile"><div class="stat-num" id="statAmigos">—</div><div class="stat-label">Amigos na rede</div></div>
     <div class="stat-tile"><div class="stat-num" id="statStreak">—</div><div class="stat-label">🔥 Streak de leitura</div><div class="stat-sub" id="statLidosTotal"></div></div>
     <div class="stat-tile"><div class="stat-num" id="statDias">—</div><div class="stat-label">Dias assinando</div></div>
+  </div>
+
+  <!-- CONQUISTAS -->
+  <div id="conquistasWrap" style="display:none;margin-bottom:20px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;">
+    <span style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-right:4px;">Conquistas</span>
+    <span id="conquistasList"></span>
   </div>
 
   <!-- TABS -->
@@ -608,7 +614,7 @@ function populateDashboard(data){
   const specs=Array.isArray(data.especialidade)?data.especialidade:[data.especialidade||''];
   document.getElementById('userSpec').textContent='🦷 '+specs.join(', ');
   updatePlanUI(data.plano||'free', data.planoValidoAte||'');
-  updateVerifyBanner(data.emailVerificado);
+  updateVerifyBanner(data.emailVerificado, data.emailConfirmFalhou);
   renderUpsellBanner(data.plano||'free', data.artigos||[], data.horarioEnvio, data.ultimoEnvio||'');
 
   const artigos=data.artigos||[];
@@ -642,7 +648,29 @@ function populateDashboard(data){
   renderAmigos(amigos);
   renderLidos(artigos, lidos, curtidos);
   renderEspecialidades(artigos, specs, temas, curtidos, lidos);
+  renderConquistas(streak, totalLidos, dias);
   initPush();
+}
+
+function renderConquistas(streak, totalLidos, dias) {
+  const milestones = [
+    { cond: streak >= 7,   icon: '🔥', label: '7 dias seguidos' },
+    { cond: streak >= 30,  icon: '🔥🔥', label: '30 dias seguidos' },
+    { cond: streak >= 100, icon: '🏆', label: '100 dias seguidos' },
+    { cond: totalLidos >= 10,  icon: '📚', label: '10 leituras' },
+    { cond: totalLidos >= 50,  icon: '📚', label: '50 leituras' },
+    { cond: totalLidos >= 100, icon: '🎓', label: '100 leituras' },
+    { cond: dias >= 30,   icon: '📅', label: '1 mês assinando' },
+    { cond: dias >= 180,  icon: '🌟', label: '6 meses assinando' },
+    { cond: dias >= 365,  icon: '👑', label: '1 ano assinando' },
+  ];
+  const earned = milestones.filter(m => m.cond);
+  const wrap = document.getElementById('conquistasWrap');
+  const list = document.getElementById('conquistasList');
+  if (!wrap || !list) return;
+  if (!earned.length) { wrap.style.display = 'none'; return; }
+  list.innerHTML = earned.map(m => `<span class="conquista-badge">${m.icon} ${m.label}</span>`).join(' ');
+  wrap.style.display = 'flex';
 }
 
 // ========== UPSELL / PLAN INFO ==========
@@ -1316,12 +1344,23 @@ function switchTab(name,btnEl){
 }
 
 // ========== EMAIL VERIFICATION ==========
-function updateVerifyBanner(emailVerificado) {
+function updateVerifyBanner(emailVerificado, emailConfirmFalhou) {
   const banner = document.getElementById('verifyBanner');
   const badge = document.getElementById('badgeVerificado');
+  const textEl = document.getElementById('verifyBannerText');
   if (banner) {
-    if (emailVerificado === false) banner.classList.remove('hidden');
-    else banner.classList.add('hidden');
+    if (emailVerificado === false) {
+      banner.classList.remove('hidden');
+      if (textEl) {
+        if (emailConfirmFalhou) {
+          textEl.innerHTML = '⚠ <strong>Tivemos um problema ao enviar seu email de confirmação.</strong> <span>Clique em "Reenviar email" para tentar novamente.</span>';
+        } else {
+          textEl.innerHTML = '📬 <strong>Confirme seu email para ativar a conta.</strong> <span>Verifique sua caixa de entrada (e o spam).</span>';
+        }
+      }
+    } else {
+      banner.classList.add('hidden');
+    }
   }
   if (badge) {
     if (emailVerificado === false) {
@@ -1531,6 +1570,11 @@ window.addEventListener('DOMContentLoaded',()=>{
   } else if (params.get('checkout') === 'cancelled') {
     showToast('Checkout cancelado. Nenhuma cobrança foi feita.', 'info');
     history.replaceState(null, '', window.location.pathname);
+  } else if (['convencional','premium'].includes(params.get('upgrade'))) {
+    const upgradePlano = params.get('upgrade');
+    history.replaceState(null, '', window.location.pathname);
+    // Trigger checkout after dashboard loads (token may just have been set)
+    setTimeout(() => abrirCheckout(upgradePlano), 1800);
   }
   const token=getToken();
   const email=getEmail();
