@@ -1,4 +1,3 @@
-const https = require("https");
 const crypto = require("crypto");
 
 const NCBI_API_PARAM = process.env.NCBI_API_KEY ? '&api_key=' + process.env.NCBI_API_KEY : '';
@@ -555,7 +554,7 @@ function buildEmail(user, article, tema) {
   const titulo = article.tituloLocal || article.title;
   const summary = article.resumoLocal || generateSummary(article, user.especialidade, tema);
   const firstName = user.nome.split(" ")[0];
-  const specs = Array.isArray(user.especialidade) ? user.especialidade.join(', ') : (user.especialidade || '');
+  const specs = user.especialidades.join(', ');
   return `<!DOCTYPE html>
 <html lang="pt-BR">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"></head>
@@ -585,7 +584,7 @@ function buildEmail(user, article, tema) {
 </div>
 <div style="background:#0b1120;border-radius:0 0 16px 16px;padding:20px 32px;text-align:center;">
 <p style="color:#475569;font-size:0.78rem;margin:0;">OdontoFeed — Ciência odontológica direto para você</p>
-<p style="color:#334155;font-size:0.72rem;margin:8px 0 0;"><a href="https://odontofeed.com/.netlify/functions/unsubscribe?email=${encodeURIComponent(user.email)}&t=${crypto.createHmac('sha256', process.env.UNSUBSCRIBE_SECRET || 'unsub').update(user.email).digest('hex')}" style="color:#475569;text-decoration:underline;">Cancelar recebimento</a></p>
+<p style="color:#334155;font-size:0.72rem;margin:8px 0 0;"><a href="${process.env.SITE_URL || 'https://odontofeed.com'}/.netlify/functions/unsubscribe?email=${encodeURIComponent(user.email)}&t=${crypto.createHmac('sha256', process.env.UNSUBSCRIBE_SECRET || 'unsub').update(user.email).digest('hex')}" style="color:#475569;text-decoration:underline;">Cancelar recebimento</a></p>
 </div>
 </div>
 </body>
@@ -602,21 +601,13 @@ async function saveArticleToFirestore(projectId, apiKey, data) {
     else fields[key] = { stringValue: String(val) };
   }
   const body = JSON.stringify({ fields });
-  return new Promise((resolve, reject) => {
-    const bodyBuffer = Buffer.from(body, 'utf8');
-    const options = {
-      hostname: 'firestore.googleapis.com',
-      path: '/v1/projects/' + projectId + '/databases/(default)/documents/artigos_enviados?key=' + apiKey,
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Content-Length': bodyBuffer.length }
-    };
-    const req = https.request(options, res => {
-      let d = ''; res.on('data', c => d += c); res.on('end', () => resolve({ status: res.statusCode, body: d }));
-    });
-    req.on('error', reject);
-    req.write(bodyBuffer);
-    req.end();
-  });
+  const buf = Buffer.from(body, 'utf8');
+  return request({
+    hostname: 'firestore.googleapis.com',
+    path: '/v1/projects/' + projectId + '/databases/(default)/documents/artigos_enviados?key=' + apiKey,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Content-Length': buf.length }
+  }, buf);
 }
 
 // Send email via Resend
@@ -636,32 +627,6 @@ async function processUser(user, projectId, apiKey, resendKey) {
     const temas = (Array.isArray(user.temas) ? user.temas : []).filter(Boolean);
     console.log(`[User] ${user.email} | esp: [${user.especialidades.join(', ')}] | temas: ${temas.length}`);
 
-    if (temas.length === 0) {
-      console.log(`[Skip] No themes for ${user.email} — specialty fallback`);
-      const fallbackTerms = getBestFallbackTerms(user.especialidades);
-      const sentPmids = await getSentPmids(projectId, apiKey, user.email);
-      const article = await searchPubMed(fallbackTerms, sentPmids, (user.especialidades[0] || user.especialidade) + " fallback");
-      if (!article) { console.warn(`[Skip] No article for ${user.email}`); return 'skipped'; }
-      const cachedFt = translationCache.get(article.pmid);
-      const ft = cachedFt || await translateWithClaude(article.title, article.abstract, user.especialidade, user.especialidade).catch(() => null);
-      if (ft && !cachedFt) translationCache.set(article.pmid, ft);
-      if (ft) { article.tituloLocal = ft.titulo; article.resumoLocal = ft.resumo; }
-      await saveArticleToFirestore(projectId, apiKey, {
-        email: user.email, especialidade: user.especialidade, tema: user.especialidade,
-        titulo: article.tituloLocal || article.title || '',
-        resumo: article.resumoLocal || generateSummary(article, user.especialidade, user.especialidade),
-        pubmedUrl: 'https://pubmed.ncbi.nlm.nih.gov/' + article.pmid + '/',
-        pmid: String(article.pmid || ''), data: new Date().toISOString()
-      }).catch(e => console.warn('Could not save article:', e.message));
-      const html = buildEmail(user, article, user.especialidade);
-      const tituloEmail = article.tituloLocal || article.title;
-      const emailRes = await sendEmail(resendKey, user.email, "🦷 " + tituloEmail.substring(0, 70) + (tituloEmail.length > 70 ? "..." : ""), html);
-      if (emailRes.status === 200 || emailRes.status === 201) {
-        return 'sent';
-      }
-      return 'error';
-    }
-
     const userSpecs = new Set(user.especialidades?.length ? user.especialidades : [user.especialidade]);
     const validTemas = temas.filter(t => { const e = TEMA_TO_ESPECIALIDADE[t]; return !e || userSpecs.has(e); });
     const allTemasInvalid = validTemas.length === 0 && temas.length > 0;
@@ -675,7 +640,7 @@ async function processUser(user, projectId, apiKey, resendKey) {
     let article = null;
     let tema = user.especialidades[0] || user.especialidade;
 
-    if (!allTemasInvalid) {
+    if (temas.length > 0 && !allTemasInvalid) {
       const temaPool = validTemas.length > 0 ? validTemas : temas;
       tema = temaPool[(dayNumber + emailOffset) % temaPool.length];
       const terms = getSearchTerms(tema, user.especialidades);
@@ -689,7 +654,7 @@ async function processUser(user, projectId, apiKey, resendKey) {
         }
       }
     } else {
-      console.log(`[Dispatch] ${user.email} | esp: ${user.especialidades.join('+')} | todos temas inválidos → fallback direto`);
+      console.log(`[Dispatch] ${user.email} | esp: ${user.especialidades.join('+')} | ${temas.length === 0 ? 'sem temas → fallback' : 'todos temas inválidos → fallback direto'}`);
     }
 
     if (!article) {
