@@ -1,4 +1,5 @@
 const { request, corsHeaders, preflight } = require('./_lib');
+const crypto = require('crypto');
 
 const ALLOWED_SPECS = new Set([
   'Ortodontia', 'Implantodontia', 'Periodontia', 'Dentística',
@@ -27,30 +28,31 @@ async function getUserByEmail(projectId, apiKey, email) {
   return { exists: true };
 }
 
-async function sendWelcomeEmail(resendKey, nome, email, especialidade) {
+async function sendConfirmationEmail(resendKey, nome, email, token) {
   const firstName = nome.split(' ')[0];
-  const esp = Array.isArray(especialidade) ? especialidade.join(', ') : especialidade;
+  const siteUrl = process.env.SITE_URL || 'https://odontofeed.com';
+  const confirmUrl = siteUrl + '/.netlify/functions/confirm-email?token=' + token + '&email=' + encodeURIComponent(email);
   const html = `<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"/></head>
 <body style="margin:0;padding:0;background:#f1f5f9;font-family:Inter,Helvetica,Arial,sans-serif;">
 <div style="max-width:600px;margin:0 auto;padding:24px 16px;">
 <div style="background:#0b1120;border-radius:16px 16px 0 0;padding:28px 32px;text-align:center;">
 <span style="font-size:1.4rem;font-weight:800;color:#0ea5e9;">OdontoFeed</span>
-<p style="color:#94a3b8;font-size:0.78rem;margin:6px 0 0;letter-spacing:1px;text-transform:uppercase;">Bem-vindo(a)!</p>
+<p style="color:#94a3b8;font-size:0.78rem;margin:6px 0 0;letter-spacing:1px;text-transform:uppercase;">Confirme seu email</p>
 </div>
 <div style="background:#ffffff;padding:32px;border-left:1px solid #e2e8f0;border-right:1px solid #e2e8f0;">
 <p style="color:#0f172a;font-size:1rem;">Olá, <strong>${firstName}</strong>! 🦷</p>
-<p style="color:#334155;line-height:1.7;">Seu cadastro no <strong style="color:#0ea5e9;">OdontoFeed</strong> foi realizado com sucesso. A partir de amanhã às <strong>7h</strong>, você receberá um artigo científico de <strong style="color:#0ea5e9;">${esp}</strong> diretamente no seu email.</p>
-<p style="color:#334155;line-height:1.7;">Os artigos são selecionados do PubMed e resumidos para facilitar a leitura — ciência odontológica atualizada, todos os dias, sem esforço.</p>
+<p style="color:#334155;line-height:1.7;">Obrigado por se cadastrar no <strong style="color:#0ea5e9;">OdontoFeed</strong>! Para ativar sua conta e começar a receber artigos científicos, confirme seu email clicando no botão abaixo.</p>
 <div style="text-align:center;margin:28px 0;">
-<a href="https://odontofeed.com/dashboard" style="display:inline-block;background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff;text-decoration:none;padding:14px 32px;border-radius:10px;font-weight:700;font-size:0.95rem;">Acessar minha conta →</a>
+<a href="${confirmUrl}" style="display:inline-block;background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff;text-decoration:none;padding:14px 32px;border-radius:10px;font-weight:700;font-size:0.95rem;">Confirmar meu email →</a>
 </div>
+<p style="color:#94a3b8;font-size:12px;text-align:center;">O link expira em 24 horas. Se você não criou uma conta, ignore este email.</p>
 </div>
 <div style="background:#0b1120;border-radius:0 0 16px 16px;padding:20px 32px;text-align:center;">
 <p style="color:#475569;font-size:0.78rem;margin:0;">OdontoFeed — Ciência odontológica direto para você</p>
 </div>
 </div>
 </body></html>`;
-  const payload = JSON.stringify({ from: 'OdontoFeed <artigos@odontofeed.com>', to: [email], subject: 'Bem-vindo(a) ao OdontoFeed! Seu primeiro artigo chega amanhã 🦷', html });
+  const payload = JSON.stringify({ from: 'OdontoFeed <artigos@odontofeed.com>', to: [email], subject: 'Confirme seu email no OdontoFeed 🦷', html });
   const buf = Buffer.from(payload, 'utf8');
   return request({
     hostname: 'api.resend.com', path: '/emails', method: 'POST',
@@ -122,6 +124,8 @@ exports.handler = async (event) => {
       return { statusCode: 409, headers, body: JSON.stringify({ error: 'duplicado', message: 'Este email ja esta cadastrado!' }) };
     }
 
+    const emailConfirmToken = crypto.randomBytes(32).toString('hex');
+
     const docId = await createUser(projectId, apiKey, {
       nome: nomeTrimmed,
       email,
@@ -131,6 +135,8 @@ exports.handler = async (event) => {
       plano: 'free',
       ultimoEnvio: '',
       ativo: true,
+      emailVerificado: false,
+      emailConfirmToken,
       criadoEm: new Date().toISOString(),
       curtidos: [],
       lidos: []
@@ -138,11 +144,11 @@ exports.handler = async (event) => {
 
     console.log('Cadastro criado:', docId, email);
     if (resendKey) {
-      sendWelcomeEmail(resendKey, nome, email, especialidade)
-        .then(r => { if (r.status !== 200 && r.status !== 201) console.error('[Register] Welcome email failed:', r.status, r.body.substring(0, 100)); })
-        .catch(e => console.error('[Register] Welcome email error:', e.message));
+      sendConfirmationEmail(resendKey, nomeTrimmed, email, emailConfirmToken)
+        .then(r => { if (r.status !== 200 && r.status !== 201) console.error('[Register] Confirmation email failed:', r.status, r.body.substring(0, 100)); })
+        .catch(e => console.error('[Register] Confirmation email error:', e.message));
     }
-    return { statusCode: 200, headers, body: JSON.stringify({ success: true, message: 'Cadastro realizado com sucesso!', id: docId }) };
+    return { statusCode: 200, headers, body: JSON.stringify({ success: true, message: 'Cadastro realizado! Verifique seu email para confirmar a conta.', id: docId }) };
   } catch (err) {
     console.error('Register error:', err);
     return { statusCode: 500, headers, body: JSON.stringify({ error: 'Erro interno: ' + err.message }) };

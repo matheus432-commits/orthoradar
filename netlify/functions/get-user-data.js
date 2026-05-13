@@ -127,6 +127,7 @@ exports.handler = async (event) => {
         plano: user.plano || 'free',
         planoValidoAte: user.planoValidoAte || '',
         criadoEm: user.criadoEm || '',
+        emailVerificado: user.emailVerificado !== false,
         artigos,
         curtidos: user.curtidos || [],
         lidos: user.lidos || [],

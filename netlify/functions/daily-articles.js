@@ -420,9 +420,10 @@ async function getUsers(projectId, apiKey) {
       temas,
       plano: f.plano?.stringValue || 'free',
       ultimoEnvio: f.ultimoEnvio?.stringValue || '',
-      ativo: f.ativo?.booleanValue !== false
+      ativo: f.ativo?.booleanValue !== false,
+      emailVerificado: f.emailVerificado?.booleanValue !== false
     };
-  }).filter(u => u.email && u.ativo !== false);
+  }).filter(u => u.email && u.ativo !== false && u.emailVerificado !== false);
 }
 
 // Firestore: get sent PMIDs for a user (anti-repeat)
@@ -755,13 +756,20 @@ exports.handler = async function(event) {
 
   let sent = 0, errors = 0, skipped = 0;
 
-  for (const user of users) {
-    const result = await processUser(user, projectId, apiKey, resendKey);
-    if (result === 'sent') sent++;
-    else if (result === 'skipped') skipped++;
-    else errors++;
-    // Pause between users: NCBI allows 3 req/s without API key; each user makes 2+ calls
-    await new Promise(r => setTimeout(r, 400));
+  // Process users in batches of 3 — skipped users resolve instantly,
+  // PubMed calls are serialized via pubmedThrottle (shared global state)
+  const BATCH_SIZE = 3;
+  for (let i = 0; i < users.length; i += BATCH_SIZE) {
+    const batch = users.slice(i, i + BATCH_SIZE);
+    const results = await Promise.allSettled(
+      batch.map(user => processUser(user, projectId, apiKey, resendKey))
+    );
+    for (const r of results) {
+      const val = r.status === 'fulfilled' ? r.value : 'error';
+      if (val === 'sent') sent++;
+      else if (val === 'skipped') skipped++;
+      else errors++;
+    }
   }
 
   const result = { sent, errors, skipped, total: users.length, timestamp: new Date().toISOString() };
