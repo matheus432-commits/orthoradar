@@ -61,7 +61,7 @@ h1{font-size:clamp(1.3rem,3vw,1.9rem);font-weight:800;line-height:1.35;letter-sp
 <script>
 function getToken(){ return localStorage.getItem('of_token'); }
 function getEmail(){ return localStorage.getItem('of_email'); }
-function escHtml(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function escHtml(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
 
 function formatDate(iso) {
   if (!iso) return '';
@@ -109,8 +109,10 @@ async function loadArticle() {
   }
 
   try {
-    const res = await fetch('/.netlify/functions/get-article?id=' + encodeURIComponent(id) + '&email=' + encodeURIComponent(email), {
-      headers: { 'Authorization': 'Bearer ' + token }
+    const res = await fetch('/.netlify/functions/get-article', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      body: JSON.stringify({ email, id })
     });
     if (res.status === 401) { window.location.href = '/dashboard'; return; }
     if (!res.ok) { renderError('Este artigo não está disponível ou não pertence à sua conta.'); return; }

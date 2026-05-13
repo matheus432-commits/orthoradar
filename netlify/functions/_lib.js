@@ -8,7 +8,7 @@ const _SEC = {
 
 function corsHeaders(extra) {
   return {
-    'Access-Control-Allow-Origin': process.env.ALLOWED_ORIGIN || '*',
+    'Access-Control-Allow-Origin': process.env.ALLOWED_ORIGIN || 'https://odontofeed.com',
     'Content-Type': 'application/json',
     ..._SEC,
     ...(extra || {})

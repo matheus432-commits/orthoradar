@@ -1,12 +1,12 @@
-const { request, corsHeaders, preflight } = require('./_lib');
 const crypto = require('crypto');
+const { request, corsHeaders, preflight } = require('./_lib');
 
 function tokenEqual(a, b) {
   if (!a || !b || a.length !== b.length) return false;
   try { return crypto.timingSafeEqual(Buffer.from(a), Buffer.from(b)); } catch { return false; }
 }
 
-async function getSessionUser(projectId, apiKey, email, token) {
+async function getUser(projectId, apiKey, email) {
   const body = JSON.stringify({
     structuredQuery: {
       from: [{ collectionId: 'cadastros' }],
@@ -25,30 +25,29 @@ async function getSessionUser(projectId, apiKey, email, token) {
   const docs = JSON.parse(res.body);
   if (!docs[0] || !docs[0].document) return null;
   const f = docs[0].document.fields || {};
-  const user = { sessionToken: f.sessionToken?.stringValue || '', sessionExpiry: f.sessionExpiry?.stringValue || '' };
-  if (!tokenEqual(user.sessionToken, token)) return null;
-  if (user.sessionExpiry && new Date(user.sessionExpiry).getTime() < Date.now()) return null;
-  return user;
+  return {
+    sessionToken: f.sessionToken?.stringValue || '',
+    sessionExpiry: f.sessionExpiry?.stringValue || ''
+  };
 }
 
-async function getArticle(projectId, apiKey, articleId, email) {
+async function getArticle(projectId, apiKey, id) {
   const res = await request({
     hostname: 'firestore.googleapis.com',
-    path: '/v1/projects/' + projectId + '/databases/(default)/documents/artigos_enviados/' + articleId + '?key=' + apiKey,
+    path: '/v1/projects/' + projectId + '/databases/(default)/documents/artigos_enviados/' + encodeURIComponent(id) + '?key=' + apiKey,
     method: 'GET'
   }, null);
   if (res.status !== 200) return null;
   const doc = JSON.parse(res.body);
   const f = doc.fields || {};
-  // Only return article if it belongs to this user
-  if (f.email?.stringValue !== email) return null;
   return {
-    id: doc.name.split('/').pop(),
+    id,
+    email: f.email?.stringValue || '',
     titulo: f.titulo?.stringValue || '',
     resumo: f.resumo?.stringValue || '',
-    pubmedUrl: f.pubmedUrl?.stringValue || '',
     especialidade: f.especialidade?.stringValue || '',
     tema: f.tema?.stringValue || '',
+    pubmedUrl: f.pubmedUrl?.stringValue || '',
     pmid: f.pmid?.stringValue || '',
     data: f.data?.stringValue || ''
   };
@@ -57,25 +56,36 @@ async function getArticle(projectId, apiKey, articleId, email) {
 exports.handler = async (event) => {
   const headers = corsHeaders();
   if (event.httpMethod === 'OPTIONS') return preflight();
-  if (event.httpMethod !== 'GET') return { statusCode: 405, headers, body: JSON.stringify({ error: 'Method Not Allowed' }) };
+  if (event.httpMethod !== 'POST') return { statusCode: 405, headers, body: JSON.stringify({ error: 'Method Not Allowed' }) };
 
-  const { id, email } = event.queryStringParameters || {};
+  let body;
+  try { body = JSON.parse(event.body); } catch { return { statusCode: 400, headers, body: JSON.stringify({ error: 'JSON invalido' }) }; }
+
+  const { email, id } = body;
   const authHeader = event.headers['authorization'] || event.headers['Authorization'];
   const token = authHeader?.startsWith('Bearer ') ? authHeader.slice(7) : null;
 
-  if (!id || !email || !token) return { statusCode: 400, headers, body: JSON.stringify({ error: 'Parametros obrigatorios: id, email + Authorization header' }) };
+  if (!email || !id || !token) return { statusCode: 400, headers, body: JSON.stringify({ error: 'Campos obrigatorios faltando' }) };
 
   const projectId = process.env.FIREBASE_PROJECT_ID || 'orthoradar';
   const apiKey = process.env.FIREBASE_API_KEY;
 
   try {
-    const user = await getSessionUser(projectId, apiKey, email, token);
-    if (!user) return { statusCode: 401, headers, body: JSON.stringify({ error: 'Sessao invalida' }) };
+    const user = await getUser(projectId, apiKey, email);
+    if (!user) return { statusCode: 401, headers, body: JSON.stringify({ error: 'Nao autorizado' }) };
+    if (!tokenEqual(user.sessionToken, token)) return { statusCode: 401, headers, body: JSON.stringify({ error: 'Sessao invalida' }) };
+    if (user.sessionExpiry && new Date(user.sessionExpiry).getTime() < Date.now()) {
+      return { statusCode: 401, headers, body: JSON.stringify({ error: 'Sessao expirada' }) };
+    }
 
-    const article = await getArticle(projectId, apiKey, id, email);
+    const article = await getArticle(projectId, apiKey, id);
     if (!article) return { statusCode: 404, headers, body: JSON.stringify({ error: 'Artigo nao encontrado' }) };
 
-    return { statusCode: 200, headers, body: JSON.stringify(article) };
+    // Ensure article belongs to the authenticated user
+    if (article.email !== email) return { statusCode: 403, headers, body: JSON.stringify({ error: 'Acesso negado' }) };
+
+    const { email: _e, ...safeArticle } = article;
+    return { statusCode: 200, headers, body: JSON.stringify(safeArticle) };
   } catch (err) {
     console.error('[GetArticle] Error:', err.message);
     return { statusCode: 500, headers, body: JSON.stringify({ error: 'Erro interno' }) };
