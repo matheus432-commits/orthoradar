@@ -1,5 +1,10 @@
 const { request, corsHeaders, preflight } = require('./_lib');
+const crypto = require('crypto');
 
+function tokenEqual(a, b) {
+  if (!a || !b || a.length !== b.length) return false;
+  try { return crypto.timingSafeEqual(Buffer.from(a), Buffer.from(b)); } catch { return false; }
+}
 
 async function getUserByEmail(projectId, apiKey, email) {
   const body = JSON.stringify({
@@ -92,7 +97,7 @@ exports.handler = async (event) => {
     if (user.resetAttempts >= RESET_MAX_ATTEMPTS) {
       return { statusCode: 429, headers, body: JSON.stringify({ error: 'Muitas tentativas. Solicite um novo link de redefinição.' }) };
     }
-    if (user.resetToken !== token) {
+    if (!tokenEqual(user.resetToken, token)) {
       await incrementResetAttempts(projectId, apiKey, user.docId, user.resetAttempts).catch(() => {});
       return { statusCode: 401, headers, body: JSON.stringify({ error: 'Link inválido ou já utilizado.' }) };
     }

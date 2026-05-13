@@ -104,7 +104,11 @@ exports.handler = async (event) => {
       return { statusCode: 429, headers, body: JSON.stringify({ error: `Conta bloqueada por tentativas excessivas. Tente novamente em ${minutesLeft} minuto(s) ou redefina sua senha.` }) };
     }
 
-    const passwordMatch = user.senhaHash === senhaHash;
+    const storedHash = user.senhaHash || '';
+    let passwordMatch = false;
+    if (storedHash.length === senhaHash.length) {
+      try { passwordMatch = crypto.timingSafeEqual(Buffer.from(storedHash), Buffer.from(senhaHash)); } catch { passwordMatch = false; }
+    }
 
     if (!passwordMatch) {
       // Increment failed attempts and possibly lock account
