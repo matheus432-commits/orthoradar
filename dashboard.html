@@ -188,12 +188,29 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
   .security-msg{font-size:13px;margin-top:8px;font-weight:500;}
   .security-msg.ok{color:var(--success);}
   .security-msg.err{color:var(--danger);}
+
+/* LIGHT MODE */
+body.light{
+  --bg:#f0f4f8;--bg2:#e8edf3;--bg3:#dde4ed;
+  --card:#ffffff;--border:#cbd5e1;
+  --text:#0f172a;--muted:#64748b;
+}
+body.light nav{background:rgba(240,244,248,0.95);}
+body.light .tabs-wrap{background:var(--bg2);}
+body.light .article-card{box-shadow:0 1px 4px rgba(0,0,0,0.08);}
+body.light .btn-theme{color:#64748b;}
+
+/* THEME TOGGLE */
+.btn-theme{background:none;border:1px solid var(--border);color:var(--muted);width:34px;height:34px;border-radius:8px;cursor:pointer;font-size:15px;display:inline-flex;align-items:center;justify-content:center;transition:border-color 0.2s,color 0.2s;flex-shrink:0;}
+.btn-theme:hover{border-color:var(--primary);color:var(--primary);}
+#navRight{display:flex;align-items:center;gap:10px;}
 </style>
 </head>
 <body>
 <nav>
   <a class="logo" href="/">OdontoFeed</a>
   <div id="navRight">
+    <button class="btn-theme" id="themeToggleBtn" onclick="toggleTheme()" aria-label="Alternar tema" title="Alternar claro/escuro">🌙</button>
     <a class="btn-nav" href="/">← Início</a>
   </div>
 </nav>
@@ -483,6 +500,21 @@ function logout(){
 
 function confirmLogout(){
   if(confirm('Tem certeza que deseja sair da sua conta?')) logout();
+}
+
+// ========== THEME TOGGLE ==========
+(function initTheme() {
+  const stored = localStorage.getItem('of_theme');
+  if (stored === 'light') {
+    document.body.classList.add('light');
+    const btn = document.getElementById('themeToggleBtn');
+    if (btn) btn.textContent = '☀️';
+  }
+})();
+function toggleTheme() {
+  const isLight = document.body.classList.toggle('light');
+  localStorage.setItem('of_theme', isLight ? 'light' : 'dark');
+  document.getElementById('themeToggleBtn').textContent = isLight ? '☀️' : '🌙';
 }
 
 // ========== LOGIN ==========
@@ -988,6 +1020,9 @@ async function toggleLido(artId) {
   const btns = document.querySelectorAll(`.btn-lido[onclick="toggleLido('${artId}')"]`);
   const currentlyLido = btns[0]?.classList.contains('lido') ?? false;
   const action = currentlyLido ? 'unmark' : 'mark';
+  if (action === 'unmark' && userData?.streakDias > 0) {
+    if (!confirm('Desmarcar este artigo pode quebrar seu streak de leitura. Continuar?')) return;
+  }
   btns.forEach(b => { b.disabled = true; });
   try {
     const res = await fetch('/.netlify/functions/toggle-lido', {

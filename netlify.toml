@@ -13,3 +13,8 @@
 # stripe-webhook precisa receber o body raw para verificar a assinatura HMAC
 [functions."stripe-webhook"]
   included_files = []
+
+[[redirects]]
+  from = "/*"
+  to = "/404.html"
+  status = 404
