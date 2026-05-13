@@ -126,6 +126,17 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
 .empty-state h3{font-size:18px;font-weight:700;margin-bottom:8px;}
 .empty-state p{font-size:14px;color:var(--muted);line-height:1.7;max-width:360px;margin:0 auto;}
 
+/* PUSH CARD */
+#pushCard{display:none;}
+
+/* UPSELL BANNER */
+.upsell-banner{display:none;background:linear-gradient(135deg,rgba(14,165,233,0.08),rgba(6,182,212,0.05));border:1px solid rgba(14,165,233,0.25);border-radius:12px;padding:16px 20px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+.upsell-banner p{font-size:13px;color:var(--muted);line-height:1.6;margin:0;}
+.upsell-banner p strong{color:var(--text);}
+.upsell-banner .btn-up{background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;border:none;padding:9px 20px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;font-family:inherit;}
+.upsell-banner .btn-up:hover{opacity:0.88;}
+.next-article-info{font-size:12px;color:var(--muted);margin-bottom:16px;padding:8px 14px;background:var(--card);border:1px solid var(--border);border-radius:8px;display:inline-block;}
+
 /* FRIENDS */
 .friends-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;}
 .friend-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;display:flex;align-items:center;gap:14px;transition:all 0.2s;}
@@ -291,6 +302,11 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
   <!-- TAB: RECEBIDOS -->
   <div class="tab-content active" id="tab-recebidos">
     <div class="section-title">📰 Artigos Recebidos <span id="countRecebidos"></span></div>
+    <div id="upsellBanner" class="upsell-banner" style="display:none;">
+      <p id="upsellText"></p>
+      <button class="btn-up" id="upsellBtn"></button>
+    </div>
+    <div id="nextArticleInfo" class="next-article-info" style="display:none;"></div>
     <div style="margin-bottom:16px;">
       <input type="search" id="recebidosSearch" placeholder="Buscar por título ou resumo..." oninput="filtrarArtigos()" style="width:100%;max-width:420px;padding:9px 14px;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:14px;outline:none;">
     </div>
@@ -398,6 +414,16 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
         <button class="btn-primary" id="btnTrocarSenha" onclick="trocarSenha()" style="max-width:200px;">Alterar senha</button>
       </div>
       <div class="security-msg" id="securityMsg"></div>
+    </div>
+
+    <!-- PUSH NOTIFICATIONS CARD -->
+    <div class="security-card" style="margin-top:24px;" id="pushCard">
+      <h3>🔔 Notificações push</h3>
+      <p>Receba uma notificação no navegador quando seu artigo diário chegar, mesmo com o site fechado.</p>
+      <div style="margin-top:16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+        <button id="btnPush" onclick="togglePush()" style="background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff;border:none;padding:10px 22px;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:opacity 0.2s;">Ativar notificações</button>
+        <span id="pushStatus" style="font-size:13px;color:var(--muted);"></span>
+      </div>
     </div>
   </div>
   </div>
@@ -550,6 +576,7 @@ function populateDashboard(data){
   document.getElementById('userSpec').textContent='🦷 '+specs.join(', ');
   updatePlanUI(data.plano||'free', data.planoValidoAte||'');
   updateVerifyBanner(data.emailVerificado);
+  renderUpsellBanner(data.plano||'free', data.artigos||[], data.horarioEnvio);
 
   const artigos=data.artigos||[];
   const curtidos=data.curtidos||[];
@@ -580,6 +607,55 @@ function populateDashboard(data){
   renderAmigos(amigos);
   renderLidos(artigos, lidos, curtidos);
   renderEspecialidades(artigos, specs, temas, curtidos, lidos);
+  initPush();
+}
+
+// ========== UPSELL / PLAN INFO ==========
+function renderUpsellBanner(plano, artigos, horarioEnvio) {
+  const banner = document.getElementById('upsellBanner');
+  const nextEl = document.getElementById('nextArticleInfo');
+  const textEl = document.getElementById('upsellText');
+  const btnEl  = document.getElementById('upsellBtn');
+  if (!banner || !nextEl || !textEl || !btnEl) return;
+
+  // "Próximo artigo" info
+  const hora = horarioEnvio !== undefined ? horarioEnvio : 10;
+  const horaBrasilia = ((hora - 3) + 24) % 24;
+  const now = new Date();
+  const nowUTC = now.getUTCHours() * 60 + now.getUTCMinutes();
+  const slotUTC = hora * 60;
+  const minsUntil = ((slotUTC - nowUTC) + 1440) % 1440;
+  const hUntil = Math.floor(minsUntil / 60);
+  const mUntil = minsUntil % 60;
+  const whenStr = minsUntil < 90
+    ? (minsUntil < 5 ? 'em instantes' : `em ${hUntil > 0 ? hUntil + 'h ' : ''}${mUntil}min`)
+    : `às ${horaBrasilia}h (Brasília)`;
+
+  if (plano === 'premium') {
+    nextEl.textContent = `⏰ Próximo artigo ${whenStr}`;
+    nextEl.style.display = artigos.length > 0 ? 'inline-block' : 'none';
+    banner.style.display = 'none';
+    return;
+  }
+
+  if (plano === 'convencional') {
+    nextEl.style.display = 'none';
+    textEl.innerHTML = `Você está no plano <strong>Convencional</strong> — 1 artigo por semana. Faça upgrade para <strong>Premium</strong> e receba ciência odontológica <strong>todos os dias</strong>.`;
+    btnEl.textContent = 'Upgrade para Premium';
+    btnEl.onclick = () => abrirCheckout('premium');
+    banner.style.display = 'flex';
+    return;
+  }
+
+  // free
+  nextEl.style.display = 'none';
+  textEl.innerHTML = `Você está no plano <strong>Free</strong> — 1 artigo por mês. Faça upgrade e receba artigos <strong>toda semana</strong> ou <strong>todos os dias</strong>.`;
+  btnEl.textContent = 'Ver planos';
+  btnEl.onclick = () => {
+    switchTab('preferencias', document.getElementById('tabBtn-preferencias'));
+    setTimeout(() => document.getElementById('subCard')?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 200);
+  };
+  banner.style.display = 'flex';
 }
 
 // ========== SUBSCRIPTION UI ==========
@@ -1271,6 +1347,109 @@ async function trocarSenha() {
     msgEl.className = 'security-msg err'; msgEl.textContent = 'Erro de conexão. Tente novamente.';
   }
   btn.disabled = false; btn.textContent = 'Alterar senha';
+}
+
+// ========== PUSH NOTIFICATIONS ==========
+function urlB64ToUint8Array(b64u) {
+  const pad = '='.repeat((4 - b64u.length % 4) % 4);
+  const b64 = (b64u + pad).replace(/-/g, '+').replace(/_/g, '/');
+  const raw = atob(b64);
+  return Uint8Array.from([...raw].map(c => c.charCodeAt(0)));
+}
+
+async function initPush() {
+  const card = document.getElementById('pushCard');
+  const btn = document.getElementById('btnPush');
+  const status = document.getElementById('pushStatus');
+  if (!card || !btn || !status) return;
+  if (!('serviceWorker' in navigator) || !('PushManager' in window)) return;
+  card.style.display = 'block';
+
+  const reg = await navigator.serviceWorker.ready;
+  const existing = await reg.pushManager.getSubscription();
+  if (existing) {
+    btn.textContent = 'Desativar notificações';
+    btn.style.background = 'none';
+    btn.style.border = '1px solid var(--border)';
+    btn.style.color = 'var(--muted)';
+    status.textContent = '✓ Notificações ativas';
+    status.style.color = 'var(--success)';
+  } else {
+    btn.textContent = Notification.permission === 'denied' ? 'Notificações bloqueadas' : 'Ativar notificações';
+    if (Notification.permission === 'denied') btn.disabled = true;
+    status.textContent = '';
+  }
+}
+
+async function togglePush() {
+  const btn = document.getElementById('btnPush');
+  const status = document.getElementById('pushStatus');
+  const email = getEmail(), token = getToken();
+  if (!email || !token) return;
+
+  btn.disabled = true;
+  btn.textContent = 'Aguarde...';
+  status.textContent = '';
+
+  try {
+    const reg = await navigator.serviceWorker.ready;
+    const existing = await reg.pushManager.getSubscription();
+
+    if (existing) {
+      // Unsubscribe
+      await existing.unsubscribe();
+      await fetch('/.netlify/functions/save-push-sub', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+        body: JSON.stringify({ email, subscription: null })
+      });
+      btn.textContent = 'Ativar notificações';
+      btn.style.background = 'linear-gradient(135deg,#0ea5e9,#06b6d4)';
+      btn.style.border = 'none';
+      btn.style.color = '#fff';
+      status.textContent = 'Notificações desativadas';
+      status.style.color = 'var(--muted)';
+    } else {
+      // Subscribe
+      const keyRes = await fetch('/.netlify/functions/get-vapid-key');
+      if (!keyRes.ok) { status.textContent = 'Serviço de notificações indisponível.'; btn.disabled = false; btn.textContent = 'Ativar notificações'; return; }
+      const { publicKey } = await keyRes.json();
+
+      const permission = await Notification.requestPermission();
+      if (permission !== 'granted') {
+        status.textContent = permission === 'denied' ? 'Permissão negada pelo navegador.' : 'Permissão não concedida.';
+        btn.disabled = permission === 'denied';
+        btn.textContent = permission === 'denied' ? 'Notificações bloqueadas' : 'Ativar notificações';
+        return;
+      }
+
+      const sub = await reg.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlB64ToUint8Array(publicKey)
+      });
+
+      const saveRes = await fetch('/.netlify/functions/save-push-sub', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+        body: JSON.stringify({ email, subscription: sub.toJSON() })
+      });
+      if (!saveRes.ok) throw new Error('Failed to save subscription');
+
+      btn.textContent = 'Desativar notificações';
+      btn.style.background = 'none';
+      btn.style.border = '1px solid var(--border)';
+      btn.style.color = 'var(--muted)';
+      status.textContent = '✓ Notificações ativas';
+      status.style.color = 'var(--success)';
+      showToast('Notificações ativadas! Você receberá um aviso quando seu artigo chegar.', 'success');
+    }
+  } catch (e) {
+    console.error('[Push]', e);
+    status.textContent = 'Erro ao configurar notificações.';
+    status.style.color = 'var(--danger)';
+    btn.textContent = 'Ativar notificações';
+  }
+  btn.disabled = false;
 }
 
 // ========== TOAST ==========

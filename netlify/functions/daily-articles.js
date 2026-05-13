@@ -1,5 +1,38 @@
 const crypto = require("crypto");
 
+// VAPID JWT for Web Push — Node.js built-in ECDSA, no npm needed
+function _b64u(buf) { return Buffer.from(buf).toString('base64url'); }
+
+function vapidJWT(endpoint, privKeyDerBuf) {
+  const { protocol, host } = new URL(endpoint);
+  const header = _b64u(JSON.stringify({ typ: 'JWT', alg: 'ES256' }));
+  const payload = _b64u(JSON.stringify({
+    aud: protocol + '//' + host,
+    exp: Math.floor(Date.now() / 1000) + 43200,
+    sub: process.env.VAPID_SUBJECT || 'mailto:admin@odontofeed.com'
+  }));
+  const input = header + '.' + payload;
+  const privKey = crypto.createPrivateKey({ key: privKeyDerBuf, format: 'der', type: 'pkcs8' });
+  const sig = crypto.sign('SHA256', Buffer.from(input), { key: privKey, dsaEncoding: 'ieee-p1363' });
+  return input + '.' + _b64u(sig);
+}
+
+async function sendPushNotification(sub, vapidPubB64u, vapidPrivDerB64u, request) {
+  const jwt = vapidJWT(sub.endpoint, Buffer.from(vapidPrivDerB64u, 'base64url'));
+  const { hostname, pathname, search } = new URL(sub.endpoint);
+  const res = await request({
+    hostname,
+    path: pathname + (search || ''),
+    method: 'POST',
+    headers: {
+      'Authorization': 'vapid t=' + jwt + ',k=' + vapidPubB64u,
+      'TTL': '86400',
+      'Content-Length': '0'
+    }
+  }, null);
+  return res.status;
+}
+
 const NCBI_API_PARAM = process.env.NCBI_API_KEY ? '&api_key=' + process.env.NCBI_API_KEY : '';
 
 // PT theme name -> array of English PubMed search terms (tried in order as fallback)
@@ -422,7 +455,8 @@ async function getUsers(projectId, apiKey) {
       ultimoEnvio: f.ultimoEnvio?.stringValue || '',
       ativo: f.ativo?.booleanValue !== false,
       emailVerificado: f.emailVerificado?.booleanValue !== false,
-      horarioEnvio: parseInt(f.horarioEnvio?.stringValue || f.horarioEnvio?.integerValue || '10', 10)
+      horarioEnvio: parseInt(f.horarioEnvio?.stringValue || f.horarioEnvio?.integerValue || '10', 10),
+      pushSubscription: (() => { try { return f.pushSubscription?.stringValue ? JSON.parse(f.pushSubscription.stringValue) : null; } catch { return null; } })()
     };
   }).filter(u => u.email && u.ativo !== false && u.emailVerificado !== false);
 }
@@ -725,6 +759,31 @@ async function processUser(user, projectId, apiKey, resendKey) {
     if (emailRes.status === 200 || emailRes.status === 201) {
       console.log(`[Sent] ${user.email}`);
       await updateUltimoEnvio(projectId, apiKey, user._docId).catch(e => console.warn('[ultimoEnvio] update failed:', e.message));
+
+      // Fire push notification if user subscribed (non-blocking)
+      const vapidPub = process.env.VAPID_PUBLIC_KEY;
+      const vapidPriv = process.env.VAPID_PRIVATE_KEY;
+      if (user.pushSubscription && vapidPub && vapidPriv) {
+        sendPushNotification(user.pushSubscription, vapidPub, vapidPriv, request)
+          .then(status => {
+            if (status === 410 || status === 404) {
+              // Subscription expired — clear it silently
+              const body = JSON.stringify({ fields: { pushSubscription: { nullValue: null } } });
+              const buf = Buffer.from(body, 'utf8');
+              request({
+                hostname: 'firestore.googleapis.com',
+                path: '/v1/projects/' + projectId + '/databases/(default)/documents/cadastros/' + user._docId + '?updateMask.fieldPaths=pushSubscription&key=' + apiKey,
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json', 'Content-Length': buf.length }
+              }, buf).catch(() => {});
+              console.log(`[Push] Expired subscription cleared for ${user.email}`);
+            } else {
+              console.log(`[Push] Status ${status} for ${user.email}`);
+            }
+          })
+          .catch(e => console.warn(`[Push] Failed for ${user.email}:`, e.message));
+      }
+
       return 'sent';
     }
     console.error(`[Error] Email to ${user.email}: ${emailRes.status} — ${emailRes.body.substring(0, 300)}`);

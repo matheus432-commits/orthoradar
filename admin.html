@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Admin — OdontoFeed</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --primary:#0ea5e9;--accent:#06b6d4;
+  --bg:#0b1120;--bg2:#111827;--bg3:#1a2336;--card:#1e2d45;
+  --border:#2a3f5f;--text:#f1f5f9;--muted:#94a3b8;
+  --success:#10b981;--danger:#ef4444;--warn:#f59e0b;--radius:14px;
+}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;}
+.wrap{width:100%;max-width:860px;}
+.logo{font-size:1.5rem;font-weight:800;background:linear-gradient(135deg,var(--primary),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:block;text-align:center;margin-bottom:8px;}
+.subtitle{text-align:center;font-size:13px;color:var(--muted);margin-bottom:32px;}
+
+/* LOGIN CARD */
+.login-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:36px 40px;max-width:380px;margin:0 auto;}
+.login-card h2{font-size:1.1rem;font-weight:700;margin-bottom:20px;text-align:center;}
+.form-group{margin-bottom:16px;}
+.form-group label{display:block;font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;}
+.form-group input{width:100%;padding:10px 14px;border-radius:8px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:14px;outline:none;font-family:inherit;transition:border-color 0.2s;}
+.form-group input:focus{border-color:var(--primary);}
+.btn{width:100%;padding:12px;border-radius:9px;border:none;background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;font-weight:700;font-size:14px;cursor:pointer;font-family:inherit;transition:opacity 0.2s;}
+.btn:hover{opacity:0.88;}
+.btn:disabled{opacity:0.5;cursor:not-allowed;}
+.login-err{font-size:13px;color:var(--danger);margin-top:12px;text-align:center;display:none;}
+
+/* DASHBOARD */
+#dashboard{display:none;}
+.header{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;flex-wrap:wrap;gap:12px;}
+.header-title{font-size:1.2rem;font-weight:800;}
+.header-right{display:flex;align-items:center;gap:12px;}
+.ts{font-size:12px;color:var(--muted);}
+.btn-sm{background:none;border:1px solid var(--border);color:var(--muted);padding:7px 16px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.2s;}
+.btn-sm:hover{border-color:var(--primary);color:var(--primary);}
+.btn-sm:disabled{opacity:0.4;cursor:not-allowed;}
+.btn-logout-sm{border-color:rgba(239,68,68,0.3);color:var(--danger);}
+.btn-logout-sm:hover{border-color:var(--danger);background:rgba(239,68,68,0.08);}
+
+/* STATS GRID */
+.stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px;margin-bottom:28px;}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;text-align:center;}
+.stat-n{font-size:32px;font-weight:800;background:linear-gradient(135deg,var(--primary),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.stat-n.danger{background:none;-webkit-text-fill-color:var(--danger);}
+.stat-n.warn{background:none;-webkit-text-fill-color:var(--warn);}
+.stat-n.success{background:none;-webkit-text-fill-color:var(--success);}
+.stat-l{font-size:12px;color:var(--muted);margin-top:4px;font-weight:500;}
+
+/* SECTIONS */
+.section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:20px;}
+.section-title{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--muted);margin-bottom:16px;}
+.dispatch-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.pill{display:inline-flex;align-items:center;gap:5px;background:var(--bg3);border:1px solid var(--border);border-radius:999px;padding:5px 14px;font-size:13px;font-weight:600;}
+.pill.ok{border-color:rgba(16,185,129,0.4);color:var(--success);background:rgba(16,185,129,0.08);}
+.pill.err{border-color:rgba(239,68,68,0.4);color:var(--danger);background:rgba(239,68,68,0.08);}
+.pill.skip{border-color:rgba(148,163,184,0.3);color:var(--muted);}
+.pill.info{border-color:rgba(14,165,233,0.3);color:var(--primary);background:rgba(14,165,233,0.07);}
+
+/* SPECIALTY TABLE */
+.spec-table{width:100%;border-collapse:collapse;}
+.spec-table th,.spec-table td{padding:9px 14px;text-align:left;border-bottom:1px solid var(--border);font-size:13px;}
+.spec-table th{font-weight:700;color:var(--muted);text-transform:uppercase;font-size:11px;letter-spacing:0.5px;}
+.spec-table tr:last-child td{border-bottom:none;}
+.bar-wrap{background:var(--bg3);border-radius:4px;height:6px;overflow:hidden;margin-top:2px;}
+.bar{height:6px;background:linear-gradient(90deg,var(--primary),var(--accent));border-radius:4px;transition:width 0.5s;}
+
+/* ERROR STATE */
+.err-state{text-align:center;padding:40px;color:var(--danger);}
+
+@media(max-width:600px){.login-card{padding:28px 20px;}.section{padding:18px;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="logo">OdontoFeed</span>
+  <div class="subtitle">Painel Administrativo</div>
+
+  <!-- LOGIN -->
+  <div id="loginSection">
+    <div class="login-card">
+      <h2>🔐 Acesso restrito</h2>
+      <div class="form-group">
+        <label>Senha de administrador</label>
+        <input type="password" id="secretInput" placeholder="Admin secret" onkeydown="if(event.key==='Enter')doLogin()"/>
+      </div>
+      <button class="btn" id="loginBtn" onclick="doLogin()">Entrar</button>
+      <div class="login-err" id="loginErr">Senha incorreta ou serviço indisponível.</div>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div id="dashboard">
+    <div class="header">
+      <div class="header-title">📊 Status do sistema</div>
+      <div class="header-right">
+        <span class="ts" id="tsLabel"></span>
+        <button class="btn-sm" id="refreshBtn" onclick="loadStatus()">↻ Atualizar</button>
+        <button class="btn-sm btn-logout-sm" onclick="doLogout()">Sair</button>
+      </div>
+    </div>
+
+    <div class="stats" id="statsGrid"></div>
+
+    <div class="section" id="dispatchSection">
+      <div class="section-title">Último dispatch</div>
+      <div id="dispatchContent"></div>
+    </div>
+
+    <div class="section" id="specSection">
+      <div class="section-title">Usuários ativos por especialidade</div>
+      <div id="specContent"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const SESSION_KEY = 'of_admin_secret';
+
+function getSecret() { return sessionStorage.getItem(SESSION_KEY) || ''; }
+function setSecret(s) { sessionStorage.setItem(SESSION_KEY, s); }
+function clearSecret() { sessionStorage.removeItem(SESSION_KEY); }
+
+async function loadStatus() {
+  const secret = getSecret();
+  if (!secret) return;
+  const btn = document.getElementById('refreshBtn');
+  btn.disabled = true; btn.textContent = 'Carregando...';
+  try {
+    const res = await fetch('/.netlify/functions/admin-status?secret=' + encodeURIComponent(secret));
+    if (res.status === 403) { doLogout(); return; }
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    renderDashboard(data);
+  } catch(e) {
+    document.getElementById('statsGrid').innerHTML = '<div class="err-state">Erro ao carregar: ' + escHtml(e.message) + '</div>';
+  }
+  btn.disabled = false; btn.textContent = '↻ Atualizar';
+}
+
+function escHtml(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function renderDashboard(data) {
+  // Timestamp
+  const ts = new Date(data.timestamp);
+  document.getElementById('tsLabel').textContent = 'Atualizado: ' + ts.toLocaleString('pt-BR');
+
+  // Stats
+  const u = data.users || {};
+  const a = data.articles || {};
+  const stats = [
+    { n: u.total ?? '—', l: 'Total de usuários', cls: '' },
+    { n: u.active ?? '—', l: 'Usuários ativos', cls: 'success' },
+    { n: u.inactive ?? '—', l: 'Cancelados / inativos', cls: u.inactive > 0 ? 'warn' : '' },
+    { n: a.today ?? '—', l: 'Artigos enviados hoje', cls: '' },
+    { n: a.total ?? '—', l: 'Artigos no histórico', cls: '' },
+  ];
+  document.getElementById('statsGrid').innerHTML = stats.map(s =>
+    `<div class="stat"><div class="stat-n ${s.cls}">${escHtml(String(s.n))}</div><div class="stat-l">${escHtml(s.l)}</div></div>`
+  ).join('');
+
+  // Dispatch log
+  const d = data.lastDispatch;
+  if (d && d.timestamp) {
+    const dt = new Date(d.timestamp).toLocaleString('pt-BR');
+    document.getElementById('dispatchContent').innerHTML = `
+      <div class="dispatch-row">
+        <span class="pill info">📅 ${escHtml(dt)}</span>
+        <span class="pill ok">✓ ${escHtml(String(d.sent))} enviados</span>
+        ${d.errors > 0 ? `<span class="pill err">✕ ${escHtml(String(d.errors))} erros</span>` : ''}
+        ${d.skipped > 0 ? `<span class="pill skip">↷ ${escHtml(String(d.skipped))} ignorados</span>` : ''}
+        <span class="pill">${escHtml(String(d.total))} no slot</span>
+      </div>`;
+  } else {
+    document.getElementById('dispatchContent').innerHTML = '<p style="color:var(--muted);font-size:13px;">Nenhum dispatch registrado ainda.</p>';
+  }
+
+  // Specialty breakdown
+  const bySpec = u.bySpecialty || {};
+  const sorted = Object.entries(bySpec).sort((a,b) => b[1] - a[1]);
+  const maxVal = sorted[0]?.[1] || 1;
+  if (sorted.length) {
+    document.getElementById('specContent').innerHTML = `
+      <table class="spec-table">
+        <thead><tr><th>Especialidade</th><th>Usuários</th><th style="min-width:140px;">Distribuição</th></tr></thead>
+        <tbody>${sorted.map(([spec, count]) => `
+          <tr>
+            <td>${escHtml(spec)}</td>
+            <td style="font-weight:700;">${count}</td>
+            <td><div class="bar-wrap"><div class="bar" style="width:${Math.round(count/maxVal*100)}%"></div></div></td>
+          </tr>`).join('')}
+        </tbody>
+      </table>`;
+  } else {
+    document.getElementById('specContent').innerHTML = '<p style="color:var(--muted);font-size:13px;">Sem dados de especialidade.</p>';
+  }
+}
+
+async function doLogin() {
+  const input = document.getElementById('secretInput');
+  const btn = document.getElementById('loginBtn');
+  const err = document.getElementById('loginErr');
+  const secret = input.value.trim();
+  if (!secret) return;
+  btn.disabled = true; btn.textContent = 'Verificando...'; err.style.display = 'none';
+  try {
+    const res = await fetch('/.netlify/functions/admin-status?secret=' + encodeURIComponent(secret));
+    if (res.status === 403) { err.style.display = 'block'; btn.disabled = false; btn.textContent = 'Entrar'; return; }
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    setSecret(secret);
+    document.getElementById('loginSection').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+    renderDashboard(data);
+  } catch(e) {
+    err.textContent = 'Erro de conexão: ' + e.message;
+    err.style.display = 'block';
+    btn.disabled = false; btn.textContent = 'Entrar';
+  }
+}
+
+function doLogout() {
+  clearSecret();
+  document.getElementById('loginSection').style.display = 'block';
+  document.getElementById('dashboard').style.display = 'none';
+  document.getElementById('secretInput').value = '';
+}
+
+// Auto-login if secret in sessionStorage
+(async () => {
+  if (getSecret()) {
+    document.getElementById('loginSection').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+    await loadStatus();
+    // Auto-refresh every 60s
+    setInterval(loadStatus, 60000);
+  }
+})();
+</script>
+</body>
+</html>
