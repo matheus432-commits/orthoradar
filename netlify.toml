@@ -9,3 +9,7 @@
 
 [functions."cleanup-articles"]
   schedule = "0 3 * * 0"
+
+# stripe-webhook precisa receber o body raw para verificar a assinatura HMAC
+[functions."stripe-webhook"]
+  included_files = []

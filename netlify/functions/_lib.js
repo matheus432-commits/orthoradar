@@ -58,4 +58,21 @@ async function request(options, body, _attempt = 0) {
   }
 }
 
-module.exports = { request, corsHeaders, preflight };
+function stripeEncode(params) {
+  return Object.entries(params)
+    .map(([k, v]) => encodeURIComponent(k) + '=' + encodeURIComponent(String(v)))
+    .join('&');
+}
+
+async function stripeRequest(path, method, params) {
+  const body = params ? stripeEncode(params) : null;
+  const buf = body ? Buffer.from(body, 'utf8') : null;
+  const headers = { 'Authorization': 'Bearer ' + (process.env.STRIPE_SECRET_KEY || '') };
+  if (buf) {
+    headers['Content-Type'] = 'application/x-www-form-urlencoded';
+    headers['Content-Length'] = buf.length;
+  }
+  return request({ hostname: 'api.stripe.com', path, method: method || 'GET', headers }, buf);
+}
+
+module.exports = { request, corsHeaders, preflight, stripeRequest };

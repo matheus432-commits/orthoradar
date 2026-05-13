@@ -413,10 +413,13 @@ async function getUsers(projectId, apiKey) {
         ? [f.especialidade.stringValue]
         : [];
     return {
+      _docId: doc.name.split('/').pop(),
       nome: f.nome?.stringValue || "",
       email: f.email?.stringValue || "",
       especialidades,
       temas,
+      plano: f.plano?.stringValue || 'free',
+      ultimoEnvio: f.ultimoEnvio?.stringValue || '',
       ativo: f.ativo?.booleanValue !== false
     };
   }).filter(u => u.email && u.ativo !== false);
@@ -516,6 +519,28 @@ async function searchPubMed(terms, excludePmids = [], context = "") {
   }
   console.warn(`[PubMed] All terms exhausted for: ${context || terms[0]}`);
   return null;
+}
+
+// Returns true if this user should receive an article today based on their plan
+function shouldSendToday(plano, ultimoEnvio) {
+  if (plano === 'premium') return true;
+  const daysSinceLast = ultimoEnvio
+    ? (Date.now() - new Date(ultimoEnvio).getTime()) / 86400000
+    : Infinity;
+  if (plano === 'convencional') return daysSinceLast >= 7;
+  return daysSinceLast >= 30; // free
+}
+
+async function updateUltimoEnvio(projectId, apiKey, docId) {
+  const iso = new Date().toISOString();
+  const body = JSON.stringify({ fields: { ultimoEnvio: { stringValue: iso } } });
+  const buf = Buffer.from(body, 'utf8');
+  return request({
+    hostname: 'firestore.googleapis.com',
+    path: '/v1/projects/' + projectId + '/databases/(default)/documents/cadastros/' + docId + '?updateMask.fieldPaths=ultimoEnvio&key=' + apiKey,
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', 'Content-Length': buf.length }
+  }, buf);
 }
 
 // Get fallback terms using the first matching specialty from the user's specialties array
@@ -630,7 +655,13 @@ async function sendEmail(resendKey, to, subject, html) {
 async function processUser(user, projectId, apiKey, resendKey) {
   try {
     const temas = (Array.isArray(user.temas) ? user.temas : []).filter(Boolean);
-    console.log(`[User] ${user.email} | esp: [${user.especialidades.join(', ')}] | temas: ${temas.length}`);
+    const plano = user.plano || 'free';
+    console.log(`[User] ${user.email} | plano: ${plano} | esp: [${user.especialidades.join(', ')}] | temas: ${temas.length}`);
+
+    if (!shouldSendToday(plano, user.ultimoEnvio)) {
+      console.log(`[Skip] ${user.email} | plano ${plano} | último envio: ${user.ultimoEnvio || 'nunca'}`);
+      return 'skipped';
+    }
 
     const userSpecs = new Set(user.especialidades.length ? user.especialidades : []);
     const validTemas = temas.filter(t => { const e = TEMA_TO_ESPECIALIDADE[t]; return !e || userSpecs.has(e); });
@@ -691,6 +722,7 @@ async function processUser(user, projectId, apiKey, resendKey) {
     const emailRes = await sendEmail(resendKey, user.email, "🦷 " + tituloEmail.substring(0, 70) + (tituloEmail.length > 70 ? "..." : ""), html);
     if (emailRes.status === 200 || emailRes.status === 201) {
       console.log(`[Sent] ${user.email}`);
+      await updateUltimoEnvio(projectId, apiKey, user._docId).catch(e => console.warn('[ultimoEnvio] update failed:', e.message));
       return 'sent';
     }
     console.error(`[Error] Email to ${user.email}: ${emailRes.status} — ${emailRes.body.substring(0, 300)}`);

@@ -128,6 +128,8 @@ exports.handler = async (event) => {
       especialidade: Array.isArray(especialidade) ? especialidade : [especialidade],
       temas: Array.isArray(temas) ? temas : [temas],
       senhaHash,
+      plano: 'free',
+      ultimoEnvio: '',
       ativo: true,
       criadoEm: new Date().toISOString(),
       curtidos: [],
