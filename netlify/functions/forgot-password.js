@@ -51,7 +51,8 @@ async function saveResetToken(projectId, apiKey, docId, token, expiry) {
 
 async function sendResetEmail(resendKey, nome, email, token) {
   const firstName = nome.split(' ')[0] || 'Dentista';
-  const resetUrl = 'https://odontofeed.com/dashboard?reset=' + token + '&resetEmail=' + encodeURIComponent(email);
+  const siteUrl = process.env.SITE_URL || 'https://odontofeed.com';
+  const resetUrl = siteUrl + '/dashboard?reset=' + token + '&resetEmail=' + encodeURIComponent(email);
   const html = `<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"/></head>
 <body style="margin:0;padding:0;background:#f1f5f9;font-family:Inter,Helvetica,Arial,sans-serif;">
 <div style="max-width:600px;margin:0 auto;padding:24px 16px;">
