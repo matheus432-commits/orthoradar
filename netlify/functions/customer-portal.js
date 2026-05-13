@@ -62,7 +62,7 @@ exports.handler = async (event) => {
     const siteUrl = process.env.SITE_URL || 'https://odontofeed.com';
     const portalRes = await stripeRequest('/v1/billing_portal/sessions', 'POST', {
       customer: user.stripeCustomerId,
-      return_url: siteUrl + '/dashboard.html'
+      return_url: siteUrl + '/dashboard'
     });
 
     if (portalRes.status !== 200) throw new Error('Stripe portal creation failed: ' + portalRes.status);
