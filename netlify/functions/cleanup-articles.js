@@ -50,7 +50,8 @@ exports.handler = async () => {
     return { statusCode: 500, body: 'Missing env vars' };
   }
 
-  const cutoffISO = new Date(Date.now() - 180 * 24 * 60 * 60 * 1000).toISOString();
+  const retentionDays = parseInt(process.env.ARTICLE_RETENTION_DAYS || '180', 10);
+  const cutoffISO = new Date(Date.now() - retentionDays * 24 * 60 * 60 * 1000).toISOString();
   console.log('Cleanup: deleting artigos_enviados older than', cutoffISO);
 
   let deleted = 0, errors = 0;

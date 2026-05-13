@@ -98,7 +98,7 @@ exports.handler = async (event) => {
   if (nomeTrimmed.length < 3 || !nomeTrimmed.includes(' ')) {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'Informe seu nome completo (nome e sobrenome)' }) };
   }
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+  if (!/^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/.test(email)) {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'Email invalido' }) };
   }
   const specs = Array.isArray(especialidade) ? especialidade : [especialidade];

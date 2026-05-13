@@ -1,25 +1,5 @@
-const https = require('https');
+const crypto = require('crypto');
 const { request, corsHeaders, preflight } = require('./_lib');
-
-async function firestoreQuery(projectId, apiKey, query) {
-  const body = JSON.stringify({ structuredQuery: query });
-  return new Promise((resolve, reject) => {
-    const buf = Buffer.from(body, 'utf8');
-    const req = https.request({
-      hostname: 'firestore.googleapis.com',
-      path: '/v1/projects/' + projectId + '/databases/(default)/documents:runQuery?key=' + apiKey,
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Content-Length': buf.length }
-    }, (res) => {
-      let data = '';
-      res.on('data', c => data += c);
-      res.on('end', () => resolve({ status: res.statusCode, body: data }));
-    });
-    req.on('error', reject);
-    req.write(buf);
-    req.end();
-  });
-}
 
 async function listAll(projectId, apiKey, collection, pageSize = 300) {
   const docs = [];
@@ -31,7 +11,7 @@ async function listAll(projectId, apiKey, collection, pageSize = 300) {
       path: `/v1/projects/${projectId}/databases/(default)/documents/${collection}?${qs}`,
       method: 'GET'
     });
-    if (res.status !== 200) break;
+    if (res.status !== 200) { console.warn('[Admin] Firestore list error:', collection, 'status:', res.status); break; }
     const json = JSON.parse(res.body);
     if (json.documents) docs.push(...json.documents);
     pageToken = json.nextPageToken || null;
@@ -65,8 +45,13 @@ async function countDocs(projectId, apiKey, collection, whereClause) {
 exports.handler = async (event) => {
   const headers = corsHeaders();
 
-  const secret = (event.queryStringParameters || {}).secret;
-  if (!secret || secret !== process.env.ADMIN_SECRET) {
+  const secret = (event.queryStringParameters || {}).secret || '';
+  const adminSecret = process.env.ADMIN_SECRET || '';
+  let authorized = false;
+  if (secret.length > 0 && secret.length === adminSecret.length) {
+    try { authorized = crypto.timingSafeEqual(Buffer.from(secret), Buffer.from(adminSecret)); } catch { authorized = false; }
+  }
+  if (!authorized) {
     return { statusCode: 403, headers, body: JSON.stringify({ error: 'Forbidden' }) };
   }
 

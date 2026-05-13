@@ -1,6 +1,8 @@
 const { request, corsHeaders, preflight } = require('./_lib');
 const crypto = require('crypto');
 
+const RESET_TOKEN_EXPIRY_MS = parseInt(process.env.RESET_TOKEN_EXPIRY_MS || '3600000', 10);
+
 
 async function getUserByEmail(projectId, apiKey, email) {
   const body = JSON.stringify({
@@ -92,7 +94,7 @@ exports.handler = async (event) => {
     const user = await getUserByEmail(projectId, apiKey, email);
     if (user) {
       const token = crypto.randomBytes(32).toString('hex');
-      const expiry = new Date(Date.now() + 3600000).toISOString();
+      const expiry = new Date(Date.now() + RESET_TOKEN_EXPIRY_MS).toISOString();
       await saveResetToken(projectId, apiKey, user.docId, token, expiry);
       if (resendKey) {
         const emailRes = await sendResetEmail(resendKey, user.nome, email, token);

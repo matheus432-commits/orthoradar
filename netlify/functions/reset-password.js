@@ -24,8 +24,22 @@ async function getUserByEmail(projectId, apiKey, email) {
     docId: docs[0].document.name.split('/').pop(),
     updateTime: docs[0].document.updateTime,
     resetToken: f.resetToken?.stringValue || null,
-    resetTokenExpiry: f.resetTokenExpiry?.stringValue || null
+    resetTokenExpiry: f.resetTokenExpiry?.stringValue || null,
+    resetAttempts: parseInt(f.resetAttempts?.integerValue || f.resetAttempts?.stringValue || '0', 10)
   };
+}
+
+const RESET_MAX_ATTEMPTS = 5;
+
+async function incrementResetAttempts(projectId, apiKey, docId, attempts) {
+  const body = JSON.stringify({ fields: { resetAttempts: { stringValue: String(attempts + 1) } } });
+  const buf = Buffer.from(body, 'utf8');
+  return request({
+    hostname: 'firestore.googleapis.com',
+    path: '/v1/projects/' + projectId + '/databases/(default)/documents/cadastros/' + docId + '?updateMask.fieldPaths=resetAttempts&key=' + apiKey,
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', 'Content-Length': buf.length }
+  }, buf);
 }
 
 async function updatePassword(projectId, apiKey, docId, senhaHash, updateTime) {
@@ -34,12 +48,13 @@ async function updatePassword(projectId, apiKey, docId, senhaHash, updateTime) {
       senhaHash: { stringValue: senhaHash },
       resetToken: { stringValue: '' },
       resetTokenExpiry: { stringValue: '' },
+      resetAttempts: { stringValue: '0' },
       loginAttempts: { stringValue: '0' },
       loginLockedUntil: { stringValue: '' }
     }
   });
   const buf = Buffer.from(body, 'utf8');
-  const masks = 'updateMask.fieldPaths=senhaHash&updateMask.fieldPaths=resetToken&updateMask.fieldPaths=resetTokenExpiry&updateMask.fieldPaths=loginAttempts&updateMask.fieldPaths=loginLockedUntil';
+  const masks = 'updateMask.fieldPaths=senhaHash&updateMask.fieldPaths=resetToken&updateMask.fieldPaths=resetTokenExpiry&updateMask.fieldPaths=resetAttempts&updateMask.fieldPaths=loginAttempts&updateMask.fieldPaths=loginLockedUntil';
   // currentDocument.updateTime precondition: Firestore returns 409 if document was
   // modified since we read it, preventing a second concurrent request from resetting
   // the password with the same token.
@@ -71,10 +86,17 @@ exports.handler = async (event) => {
   try {
     const user = await getUserByEmail(projectId, apiKey, email);
     if (!user) return { statusCode: 404, headers, body: JSON.stringify({ error: 'Usuário não encontrado.' }) };
-    if (!user.resetToken || user.resetToken !== token) {
+    if (!user.resetToken) {
       return { statusCode: 401, headers, body: JSON.stringify({ error: 'Link inválido ou já utilizado.' }) };
     }
-    if (!user.resetTokenExpiry || new Date(user.resetTokenExpiry) < new Date()) {
+    if (user.resetAttempts >= RESET_MAX_ATTEMPTS) {
+      return { statusCode: 429, headers, body: JSON.stringify({ error: 'Muitas tentativas. Solicite um novo link de redefinição.' }) };
+    }
+    if (user.resetToken !== token) {
+      await incrementResetAttempts(projectId, apiKey, user.docId, user.resetAttempts).catch(() => {});
+      return { statusCode: 401, headers, body: JSON.stringify({ error: 'Link inválido ou já utilizado.' }) };
+    }
+    if (!user.resetTokenExpiry || new Date(user.resetTokenExpiry).getTime() < Date.now()) {
       return { statusCode: 401, headers, body: JSON.stringify({ error: 'Link expirado. Solicite um novo.' }) };
     }
     const res = await updatePassword(projectId, apiKey, user.docId, novaSenhaHash, user.updateTime);

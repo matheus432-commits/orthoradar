@@ -330,6 +330,8 @@ const ESPECIALIDADE_FALLBACK = {
 
 const { request } = require("./_lib");
 
+const RETENTION_DAYS = parseInt(process.env.ARTICLE_RETENTION_DAYS || '180', 10);
+
 // Cache translations for the duration of the execution (avoids duplicate Claude calls for same article)
 const translationCache = new Map();
 
@@ -445,7 +447,7 @@ async function getSentPmids(projectId, apiKey, email) {
       headers: { "Content-Type": "application/json", "Content-Length": Buffer.byteLength(body) }
     }, body);
     if (res.status !== 200) return [];
-    const cutoff = new Date(Date.now() - 180 * 24 * 60 * 60 * 1000).toISOString();
+    const cutoff = new Date(Date.now() - RETENTION_DAYS * 24 * 60 * 60 * 1000).toISOString();
     const results = JSON.parse(res.body);
     return results
       .filter(r => r.document?.fields?.pmid)
@@ -472,8 +474,8 @@ async function trySearchPubMed(query, excludePmids = []) {
   const ids = searchJson.esearchresult?.idlist || [];
   if (ids.length === 0) return null;
   const freshIds = ids.filter(id => !excludePmids.includes(id));
-  const candidates = freshIds.length > 0 ? freshIds : ids;
-  const pmid = candidates[Math.floor(Math.random() * candidates.length)];
+  if (freshIds.length === 0) return null;
+  const pmid = freshIds[Math.floor(Math.random() * freshIds.length)];
   const fetchPath = "/entrez/eutils/efetch.fcgi?db=pubmed&id=" + pmid + "&retmode=xml&rettype=abstract" + NCBI_API_PARAM;
   await pubmedThrottle();
   const fetchRes = await request({ hostname: "eutils.ncbi.nlm.nih.gov", path: fetchPath, method: "GET" }, null);
@@ -531,6 +533,10 @@ function getSearchTerms(tema, especialidades) {
   return getBestFallbackTerms(especialidades);
 }
 
+function escHtml(str) {
+  return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
 // Generate structured summary
 function generateSummary(article, especialidade, tema) {
   if (!article.abstract || article.abstract.length < 50) {
@@ -547,10 +553,13 @@ function generateSummary(article, especialidade, tema) {
 // Build email HTML
 function buildEmail(user, article, tema) {
   const pubmedUrl = "https://pubmed.ncbi.nlm.nih.gov/" + article.pmid + "/";
-  const titulo = article.tituloLocal || article.title;
-  const summary = article.resumoLocal || generateSummary(article, user.especialidades[0] || '', tema);
-  const firstName = user.nome.split(" ")[0];
-  const specs = user.especialidades.join(', ');
+  const titulo = escHtml(article.tituloLocal || article.title);
+  const summary = escHtml(article.resumoLocal || generateSummary(article, user.especialidades[0] || '', tema));
+  const firstName = escHtml(user.nome.split(" ")[0]);
+  const specs = escHtml(user.especialidades.join(', '));
+  const temaEsc = escHtml(tema);
+  const journal = escHtml(article.journal);
+  const authors = escHtml(article.authors);
   return `<!DOCTYPE html>
 <html lang="pt-BR">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"></head>
@@ -562,12 +571,12 @@ function buildEmail(user, article, tema) {
 </div>
 <div style="background:#ffffff;padding:32px;border-left:1px solid #e2e8f0;border-right:1px solid #e2e8f0;">
 <p style="color:#64748b;font-size:0.9rem;margin:0 0 20px;">Olá, <strong style="color:#0f172a;">${firstName}</strong>! Seu artigo diário de <strong style="color:#0ea5e9;">${specs}</strong> chegou.</p>
-<div style="margin-bottom:20px;"><span style="background:#eff6ff;color:#0ea5e9;border:1px solid #bfdbfe;padding:5px 14px;border-radius:999px;font-size:0.78rem;font-weight:600;">${tema}</span></div>
+<div style="margin-bottom:20px;"><span style="background:#eff6ff;color:#0ea5e9;border:1px solid #bfdbfe;padding:5px 14px;border-radius:999px;font-size:0.78rem;font-weight:600;">${temaEsc}</span></div>
 <h1 style="font-size:1.15rem;font-weight:800;color:#0f172a;line-height:1.4;margin:0 0 20px;">${titulo}</h1>
 <div style="background:#f8fafc;border-radius:10px;padding:14px 18px;margin-bottom:24px;font-size:0.82rem;color:#64748b;">
-<span style="margin-right:16px;">📚 <strong>${article.journal}</strong></span>
+<span style="margin-right:16px;">📚 <strong>${journal}</strong></span>
 <span style="margin-right:16px;">📅 ${article.year}</span>
-<span>👥 ${article.authors}</span>
+<span>👥 ${authors}</span>
 </div>
 <div style="border-left:3px solid #0ea5e9;padding-left:18px;margin-bottom:28px;">
 <p style="font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#0ea5e9;margin:0 0 10px;">Resumo</p>
@@ -661,7 +670,7 @@ async function processUser(user, projectId, apiKey, resendKey) {
 
     console.log(`[Found] "${article.title.substring(0, 55)}" for ${user.email}`);
     const cachedTranslation = translationCache.get(article.pmid);
-    const translation = cachedTranslation || await translateWithClaude(article.title, article.abstract, tema, user.especialidades[0] || '').catch(() => null);
+    const translation = cachedTranslation || await translateWithClaude(article.title, article.abstract, tema, user.especialidades[0] || '').catch(e => { console.warn(`[Claude] Translation failed for ${user.email}:`, e.message); return null; });
     if (translation && !cachedTranslation) translationCache.set(article.pmid, translation);
     if (translation) {
       article.tituloLocal = translation.titulo;
