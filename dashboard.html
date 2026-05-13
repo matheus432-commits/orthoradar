@@ -51,6 +51,20 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
 .badges-row{display:flex;gap:8px;flex-wrap:wrap;}
 .badge{display:inline-flex;align-items:center;gap:5px;background:rgba(14,165,233,0.1);border:1px solid rgba(14,165,233,0.25);color:var(--primary);font-size:12px;font-weight:600;padding:4px 12px;border-radius:20px;}
 .badge.green{background:rgba(16,185,129,0.1);border-color:rgba(16,185,129,0.25);color:var(--success);}
+.badge.plan-free{background:rgba(100,116,139,0.12);border-color:rgba(100,116,139,0.3);color:#94a3b8;}
+.badge.plan-convencional{background:rgba(14,165,233,0.1);border-color:rgba(14,165,233,0.3);color:#38bdf8;}
+.badge.plan-premium{background:rgba(251,191,36,0.1);border-color:rgba(251,191,36,0.35);color:#fbbf24;}
+.sub-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px 28px;max-width:720px;margin-bottom:24px;}
+.sub-card-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+.sub-card-title{font-size:15px;font-weight:700;}
+.sub-card-plan{font-size:13px;color:var(--muted);}
+.sub-card-btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;}
+.btn-upgrade{display:inline-block;padding:10px 22px;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;border:none;font-family:inherit;transition:opacity 0.2s;}
+.btn-upgrade.grad{background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff;}
+.btn-upgrade.outline{background:none;border:1px solid var(--border);color:var(--muted);}
+.btn-upgrade:disabled{opacity:0.5;cursor:not-allowed;}
+.btn-upgrade.grad:not(:disabled):hover{opacity:0.88;}
+.btn-upgrade.outline:not(:disabled):hover{border-color:var(--primary);color:var(--primary);}
 .btn-logout{background:none;border:1px solid rgba(255,255,255,0.12);color:var(--muted);padding:8px 16px;border-radius:8px;cursor:pointer;font-size:13px;font-family:inherit;transition:all 0.2s;margin-left:auto;flex-shrink:0;}
 .btn-logout:hover{border-color:var(--danger);color:var(--danger);}
 
@@ -209,6 +223,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
       <div class="badges-row">
         <span class="badge" id="userSpec"></span>
         <span class="badge green">✓ Verificado</span>
+        <span class="badge plan-free" id="planBadge">Free</span>
       </div>
     </div>
     <button class="btn-logout" onclick="confirmLogout()">Sair</button>
@@ -288,6 +303,20 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
   <!-- TAB: PREFERÊNCIAS -->
   <div class="tab-content" id="tab-preferencias">
     <div class="section-title">⚙️ Preferências <span id="prefSaveMsg" style="font-size:13px;font-weight:500;margin-left:8px;"></span></div>
+
+    <!-- SUBSCRIPTION CARD -->
+    <div class="sub-card" id="subCard">
+      <div class="sub-card-header">
+        <div>
+          <div class="sub-card-title">Sua assinatura</div>
+          <div class="sub-card-plan" id="subCardDesc">Carregando...</div>
+        </div>
+        <span class="badge plan-free" id="subPlanBadge" style="margin-left:auto;">Free</span>
+      </div>
+      <div style="font-size:13px;color:var(--muted);line-height:1.6;" id="subCardInfo"></div>
+      <div class="sub-card-btns" id="subCardBtns"></div>
+    </div>
+
     <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px 32px;max-width:720px;">
       <p style="color:var(--muted);font-size:14px;margin-bottom:24px;">Atualize seu nome, especialidades e temas de interesse. As mudanças valem a partir do próximo envio diário.</p>
       <div style="margin-bottom:24px;">
@@ -454,6 +483,7 @@ function populateDashboard(data){
   document.getElementById('userAvatar').textContent=name.charAt(0).toUpperCase();
   const specs=Array.isArray(data.especialidade)?data.especialidade:[data.especialidade||''];
   document.getElementById('userSpec').textContent='🦷 '+specs.join(', ');
+  updatePlanUI(data.plano||'free', data.planoValidoAte||'');
 
   const artigos=data.artigos||[];
   const curtidos=data.curtidos||[];
@@ -482,6 +512,84 @@ function populateDashboard(data){
   renderAmigos(amigos);
   renderLidos(artigos, lidos, curtidos);
   renderEspecialidades(artigos, specs, temas, curtidos, lidos);
+}
+
+// ========== SUBSCRIPTION UI ==========
+const PLAN_LABELS = { free: 'Free', convencional: 'Convencional', premium: 'Premium' };
+const PLAN_FREQ = { free: '1 artigo por mês', convencional: '1 artigo por semana', premium: '1 artigo por dia' };
+
+function updatePlanUI(plano, planoValidoAte) {
+  const label = PLAN_LABELS[plano] || 'Free';
+  const cls = 'plan-' + (plano || 'free');
+  ['planBadge','subPlanBadge'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.textContent = label;
+    el.className = 'badge ' + cls;
+  });
+
+  const descEl = document.getElementById('subCardDesc');
+  const infoEl = document.getElementById('subCardInfo');
+  const btnsEl = document.getElementById('subCardBtns');
+  if (!descEl || !infoEl || !btnsEl) return;
+
+  descEl.textContent = PLAN_FREQ[plano] || PLAN_FREQ.free;
+
+  let infoHtml = '';
+  if (planoValidoAte) {
+    const d = new Date(planoValidoAte).toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' });
+    infoHtml = 'Acesso ativo até <strong>' + d + '</strong>.';
+  } else if (plano === 'free') {
+    infoHtml = 'Você está no plano gratuito. Faça upgrade para receber artigos com mais frequência.';
+  }
+  infoEl.innerHTML = infoHtml;
+
+  let btnsHtml = '';
+  if (plano === 'free') {
+    btnsHtml = `<button class="btn-upgrade grad" onclick="abrirCheckout('convencional')">Upgrade para Convencional</button>
+                <button class="btn-upgrade grad" onclick="abrirCheckout('premium')" style="background:linear-gradient(135deg,#f59e0b,#fbbf24);color:#1a1000;">Upgrade para Premium</button>`;
+  } else {
+    btnsHtml = `<button class="btn-upgrade outline" onclick="abrirPortal()">Gerenciar assinatura</button>`;
+  }
+  btnsEl.innerHTML = btnsHtml;
+}
+
+async function abrirCheckout(plano) {
+  const email = getEmail();
+  const token = getToken();
+  if (!email || !token) { alert('Sessão expirada. Faça login novamente.'); return; }
+  const btn = event && event.target;
+  if (btn) { btn.disabled = true; btn.textContent = 'Aguarde...'; }
+  try {
+    const res = await fetch('/.netlify/functions/create-checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      body: JSON.stringify({ email, plano })
+    });
+    const data = await res.json();
+    if (data.url) { window.location.href = data.url; return; }
+    alert(data.error || 'Não foi possível iniciar o checkout.');
+  } catch(e) { alert('Erro de conexão. Tente novamente.'); }
+  if (btn) { btn.disabled = false; btn.textContent = 'Upgrade para ' + plano.charAt(0).toUpperCase() + plano.slice(1); }
+}
+
+async function abrirPortal() {
+  const email = getEmail();
+  const token = getToken();
+  if (!email || !token) { alert('Sessão expirada. Faça login novamente.'); return; }
+  const btn = event && event.target;
+  if (btn) { btn.disabled = true; btn.textContent = 'Aguarde...'; }
+  try {
+    const res = await fetch('/.netlify/functions/customer-portal', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      body: JSON.stringify({ email })
+    });
+    const data = await res.json();
+    if (data.url) { window.location.href = data.url; return; }
+    alert(data.error || 'Não foi possível abrir o portal.');
+  } catch(e) { alert('Erro de conexão. Tente novamente.'); }
+  if (btn) { btn.disabled = false; btn.textContent = 'Gerenciar assinatura'; }
 }
 
 // ========== ARTICLE CARD ==========
@@ -954,9 +1062,27 @@ function switchTab(name,btnEl){
   window.scrollTo({top: document.getElementById('dashboardPage').offsetTop - 16, behavior: 'smooth'});
 }
 
+// ========== TOAST ==========
+function showToast(msg, type) {
+  const t = document.createElement('div');
+  const bg = type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#0ea5e9';
+  t.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:'+bg+';color:#fff;padding:12px 24px;border-radius:10px;font-size:14px;font-weight:600;z-index:9999;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:opacity 0.4s;';
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => { t.style.opacity = '0'; setTimeout(() => t.remove(), 400); }, 4000);
+}
+
 // ========== INIT ==========
 window.addEventListener('DOMContentLoaded',()=>{
   initResetForm();
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('checkout') === 'success') {
+    showToast('Assinatura ativada com sucesso! Bem-vindo(a) ao novo plano.', 'success');
+    history.replaceState(null, '', window.location.pathname);
+  } else if (params.get('checkout') === 'cancelled') {
+    showToast('Checkout cancelado. Nenhuma cobrança foi feita.', 'info');
+    history.replaceState(null, '', window.location.pathname);
+  }
   const token=getToken();
   const email=getEmail();
   if(token&&email){

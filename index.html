@@ -131,6 +131,27 @@ footer p{font-size:0.82rem;color:var(--text-muted);}
   .specialties-select{grid-template-columns:1fr;}
   footer{flex-direction:column;gap:12px;text-align:center;}
 }
+/* ===== PRICING ===== */
+.pricing-section{padding:80px 24px;max-width:1100px;margin:0 auto;}
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;margin-top:48px;align-items:start;}
+.pricing-card{background:#131f35;border:1px solid #2a3f5f;border-radius:20px;padding:36px 32px;display:flex;flex-direction:column;position:relative;transition:border-color 0.2s;}
+.pricing-card.plan-featured{border-color:#0ea5e9;background:linear-gradient(135deg,rgba(14,165,233,0.07),#131f35);}
+.plan-popular{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff;font-size:11px;font-weight:700;padding:4px 16px;border-radius:999px;letter-spacing:0.5px;white-space:nowrap;}
+.plan-name{font-size:20px;font-weight:800;margin-bottom:16px;}
+.plan-price{margin-bottom:6px;}
+.price-val{font-size:38px;font-weight:800;color:#0ea5e9;}
+.price-period{font-size:14px;color:#64748b;margin-left:4px;}
+.plan-sub{color:#64748b;font-size:13px;margin-bottom:24px;line-height:1.5;}
+.plan-features{list-style:none;padding:0;margin:0 0 28px;flex:1;}
+.plan-features li{font-size:14px;padding:8px 0;border-bottom:1px solid #1e2d45;display:flex;align-items:center;gap:8px;}
+.plan-features li:last-child{border-bottom:none;}
+.plan-features .feat-check{color:#0ea5e9;font-weight:700;flex-shrink:0;}
+.plan-btn-wrap{margin-top:auto;}
+.plan-btn{display:block;text-align:center;padding:13px 24px;border-radius:10px;font-weight:700;font-size:15px;text-decoration:none;cursor:pointer;transition:opacity 0.2s,transform 0.15s;font-family:inherit;border:none;}
+.plan-btn:hover{opacity:0.88;transform:translateY(-1px);}
+.plan-btn-grad{background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff;}
+.plan-btn-outline{background:transparent;color:#0ea5e9;border:2px solid #0ea5e9;}
+@media(max-width:640px){.pricing-grid{grid-template-columns:1fr;}.pricing-card.plan-featured{order:-1;}}
 </style>
 </head>
 <body>
@@ -150,7 +171,7 @@ footer p{font-size:0.82rem;color:var(--text-muted);}
   <div class="hero-stats">
     <div class="stat"><div class="stat-num">+10</div><div class="stat-label">Especialidades</div></div>
     <div class="stat"><div class="stat-num">1/dia</div><div class="stat-label">Artigo curado</div></div>
-    <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Gratuito</div></div>
+    <div class="stat"><div class="stat-num">Free</div><div class="stat-label">Plano inicial</div></div>
     <div class="stat"><div class="stat-num">PT-BR</div><div class="stat-label">Resumos em português</div></div>
   </div>
 </section>
@@ -195,7 +216,59 @@ footer p{font-size:0.82rem;color:var(--text-muted);}
     <div class="feature-card"><div class="feature-icon">⏱️</div><h3>5 minutos por dia</h3><p>Um artigo por dia, no horário que você escolher. Sem sobrecarga de informação — apenas o essencial para sua prática.</p></div>
     <div class="feature-card"><div class="feature-icon">🎯</div><h3>Múltiplas especialidades</h3><p>Você pode selecionar mais de uma especialidade e combinar temas de diferentes áreas para uma curadoria ainda mais personalizada.</p></div>
     <div class="feature-card"><div class="feature-icon">🔗</div><h3>Link para o original</h3><p>Cada email inclui o link direto para o artigo completo no PubMed para você aprofundar quando quiser.</p></div>
-    <div class="feature-card"><div class="feature-icon">🆓</div><h3>Grátis para sempre</h3><p>O plano básico com 1 artigo por dia é completamente gratuito. Atualização científica deve ser acessível a todos.</p></div>
+    <div class="feature-card"><div class="feature-icon">🆓</div><h3>Plano gratuito</h3><p>Comece sem pagar nada e receba 1 artigo por mês. Faça upgrade quando quiser para receber 1 por semana ou 1 por dia.</p></div>
+  </div>
+</section>
+
+<section id="planos" class="pricing-section">
+  <div class="section-label">Planos</div>
+  <h2 class="section-title">Simples e transparente</h2>
+  <p class="section-sub">Comece grátis. Faça upgrade quando quiser mais ciência no seu dia a dia.</p>
+  <div class="pricing-grid">
+
+    <div class="pricing-card">
+      <div class="plan-name">Free</div>
+      <div class="plan-price"><span class="price-val">R$&nbsp;0</span><span class="price-period">/mês</span></div>
+      <div class="plan-sub">Para começar sem compromisso</div>
+      <ul class="plan-features">
+        <li>1 artigo científico por mês</li>
+        <li>Resumo em português</li>
+        <li>Todas as especialidades</li>
+        <li>Link para o original no PubMed</li>
+      </ul>
+      <a href="#cadastro" class="plan-btn plan-btn-outline">Começar grátis</a>
+    </div>
+
+    <div class="pricing-card plan-featured">
+      <div class="plan-popular">Mais popular</div>
+      <div class="plan-name">Convencional</div>
+      <div class="plan-price"><span class="price-val">Em breve</span></div>
+      <div class="plan-sub">1 artigo por semana, toda semana</div>
+      <ul class="plan-features">
+        <li>1 artigo científico por semana</li>
+        <li>Resumo em português</li>
+        <li>Todas as especialidades</li>
+        <li>Link para o original no PubMed</li>
+        <li>Cancelamento a qualquer momento</li>
+      </ul>
+      <button class="plan-btn plan-btn-grad" disabled>Em breve</button>
+    </div>
+
+    <div class="pricing-card">
+      <div class="plan-name">Premium</div>
+      <div class="plan-price"><span class="price-val">Em breve</span></div>
+      <div class="plan-sub">1 artigo por dia, todos os dias</div>
+      <ul class="plan-features">
+        <li>1 artigo científico por dia</li>
+        <li>Resumo em português</li>
+        <li>Todas as especialidades</li>
+        <li>Link para o original no PubMed</li>
+        <li>Cancelamento a qualquer momento</li>
+        <li>Prioridade em novos recursos</li>
+      </ul>
+      <button class="plan-btn plan-btn-grad" disabled>Em breve</button>
+    </div>
+
   </div>
 </section>
 

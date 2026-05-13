@@ -102,8 +102,8 @@ exports.handler = async (event) => {
       mode: 'subscription',
       'line_items[0][price]': priceId,
       'line_items[0][quantity]': '1',
-      success_url: siteUrl + '/dashboard.html?checkout=success',
-      cancel_url: siteUrl + '/dashboard.html?checkout=cancelled',
+      success_url: siteUrl + '/dashboard?checkout=success',
+      cancel_url: siteUrl + '/dashboard?checkout=cancelled',
       'metadata[plano]': plano,
       'metadata[email]': user.email
     });
