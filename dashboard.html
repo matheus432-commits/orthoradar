@@ -69,7 +69,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
 .btn-logout:hover{border-color:var(--danger);color:var(--danger);}
 
 /* STATS STRIP */
-.stats-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px;}
+.stats-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:24px;}
 .stat-tile{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px 20px;text-align:center;transition:border-color 0.2s;}
 .stat-tile:hover{border-color:rgba(14,165,233,0.3);}
 .stat-num{font-size:28px;font-weight:800;background:linear-gradient(135deg,var(--primary),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
@@ -103,6 +103,8 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
 .btn-like.liked{background:rgba(239,68,68,0.1);border-color:#ef4444;color:#ef4444;}
 .btn-pubmed{background:rgba(14,165,233,0.08);border:1px solid rgba(14,165,233,0.2);color:var(--primary);padding:7px 14px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;text-decoration:none;transition:all 0.2s;font-family:inherit;}
 .btn-pubmed:hover{background:rgba(14,165,233,0.15);}
+.btn-share{background:none;border:1px solid rgba(255,255,255,0.1);color:var(--muted);padding:7px 12px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;transition:all 0.2s;font-family:inherit;display:inline-flex;align-items:center;gap:5px;}
+.btn-share:hover{border-color:rgba(14,165,233,0.35);color:var(--primary);}
 
 /* SKELETON LOADING */
 .skeleton-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(320px,100%),1fr));gap:16px;}
@@ -260,6 +262,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
     <div class="stat-tile"><div class="stat-num" id="statRecebidos">—</div><div class="stat-label">Artigos recebidos</div></div>
     <div class="stat-tile"><div class="stat-num" id="statCurtidos">—</div><div class="stat-label">Artigos curtidos</div></div>
     <div class="stat-tile"><div class="stat-num" id="statAmigos">—</div><div class="stat-label">Amigos na rede</div></div>
+    <div class="stat-tile"><div class="stat-num" id="statStreak">—</div><div class="stat-label">🔥 Streak de leitura</div></div>
     <div class="stat-tile"><div class="stat-num" id="statDias">—</div><div class="stat-label">Dias assinando</div></div>
   </div>
 
@@ -555,9 +558,11 @@ function populateDashboard(data){
   const searchEl=document.getElementById('recebidosSearch');
   if(searchEl) searchEl.value='';
 
+  const streak = data.streakDias || 0;
   document.getElementById('statRecebidos').textContent=artigos.length;
   document.getElementById('statCurtidos').textContent=curtidos.length;
   document.getElementById('statAmigos').textContent=amigos.length;
+  document.getElementById('statStreak').textContent=streak > 0 ? streak + (streak === 1 ? ' dia' : ' dias') : '—';
   document.getElementById('statDias').textContent=dias;
 
   document.getElementById('tbadge-recebidos').textContent=artigos.length;
@@ -673,6 +678,7 @@ function articleCard(art,curtidos,lidos){
         ${liked?'❤️ Curtido':'🤍 Curtir'}
       </button>
       <a class="btn-pubmed" href="/artigo?id=${art.id}" aria-label="Ver resumo completo do artigo">Ver completo</a>
+      <button class="btn-share" onclick="compartilharArtigo('${art.id}','${escapeHtml(art.titulo||'').replace(/'/g,"\\'")}')" aria-label="Compartilhar artigo">🔗 Compartilhar</button>
       ${art.pubmedUrl?`<a class="btn-pubmed" href="${art.pubmedUrl}" target="_blank" rel="noopener" aria-label="Ver artigo no PubMed (abre nova aba)">PubMed ↗</a>`:''}
       <button class="btn-lido ${isLido?'lido':''}" onclick="toggleLido('${art.id}')" aria-label="${isLido?'Desmarcar':'Marcar'} como lido">
         ${isLido?'✅ Lido':'📝 Marcar como lido'}
@@ -688,10 +694,31 @@ function renderRecebidos(artigos,curtidos,lidos){
   recebidosShown = RECEBIDOS_PAGE;
   const el=document.getElementById('recebidosContent');
   if(!artigos.length){
-    el.innerHTML=`<div class="empty-state">
+    const verified = userData && userData.emailVerificado !== false;
+    const hora = userData && userData.horarioEnvio !== undefined ? userData.horarioEnvio : 10;
+    const horaBrasilia = hora - 3;
+    const horaStr = (horaBrasilia < 0 ? horaBrasilia + 24 : horaBrasilia) + 'h (Brasília)';
+    el.innerHTML = `<div class="empty-state">
       <div class="empty-icon">📬</div>
-      <h3>Ainda sem artigos recebidos</h3>
-      <p>Seu primeiro artigo chegará amanhã às 7h, curado especialmente para a sua especialidade!</p>
+      <h3>${verified ? 'Tudo pronto!' : 'Confirme seu email para começar'}</h3>
+      <p>${verified
+        ? 'Seu primeiro artigo chegará amanhã às <strong style="color:var(--primary)">${horaStr}</strong>, curado especialmente para a sua especialidade. Você receberá um email.'
+        : 'Verifique sua caixa de entrada e clique no link de confirmação. Após confirmar, você começará a receber artigos científicos diariamente.'
+      }</p>
+      ${verified ? `
+      <div style="margin-top:28px;display:flex;flex-wrap:wrap;justify-content:center;gap:20px;">
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 20px;min-width:140px;">
+          <div style="font-size:24px;font-weight:800;color:var(--primary);">${(userData.temas||[]).length}</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:4px;">Temas selecionados</div>
+        </div>
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 20px;min-width:140px;">
+          <div style="font-size:24px;font-weight:800;color:var(--primary);">${(userData.especialidade||[]).length}</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:4px;">Especialidades</div>
+        </div>
+      </div>` : `
+      <div style="margin-top:20px;">
+        <button onclick="reenviarConfirmacao()" style="background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff;border:none;padding:10px 24px;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.9rem;font-family:inherit;">Reenviar email de confirmação</button>
+      </div>`}
     </div>`;
     return;
   }
@@ -841,6 +868,20 @@ function switchEspTab(btnEl, idx) {
   if (panel) panel.style.display = 'block';
 }
 
+// ========== SHARE ==========
+async function compartilharArtigo(id, titulo) {
+  const url = window.location.origin + '/artigo?id=' + encodeURIComponent(id);
+  if (navigator.share) {
+    try { await navigator.share({ title: titulo, text: 'Artigo científico odontológico no OdontoFeed', url }); return; } catch(e) { /* user cancelled or not supported */ }
+  }
+  try {
+    await navigator.clipboard.writeText(url);
+    showToast('Link copiado para a área de transferência!', 'success');
+  } catch(e) {
+    showToast('Não foi possível copiar. Acesse: ' + url, 'info');
+  }
+}
+
 async function toggleLido(artId) {
   const email = getEmail(), token = getToken();
   if (!email || !token) return;
@@ -870,6 +911,11 @@ async function toggleLido(artId) {
     });
     renderLidos(userData.artigos || [], userData.lidos, userData.curtidos || []);
     if (_bc) _bc.postMessage({ type: 'lido', id: artId, lido: data.lido });
+    if (data.lido && data.streak > 0) {
+      userData.streakDias = data.streak;
+      const streakEl = document.getElementById('statStreak');
+      if (streakEl) streakEl.textContent = data.streak + (data.streak === 1 ? ' dia' : ' dias');
+    }
   } catch(e) { console.error('Erro ao marcar lido:', e); }
   finally { btns.forEach(b => { b.disabled = false; }); }
 }

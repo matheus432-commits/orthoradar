@@ -89,11 +89,10 @@ function renderArticle(art) {
       <div class="divider"></div>
       <div class="section-label">Resumo em português</div>
       <div class="resumo">${escHtml(art.resumo)}</div>
-      ${art.pubmedUrl ? `
-      <div class="pubmed-box">
-        <p><strong style="color:var(--text);">Artigo original no PubMed</strong><br>Acesse o artigo completo, incluindo metodologia, resultados e conclusões dos autores.</p>
-        <a href="${escHtml(art.pubmedUrl)}" target="_blank" rel="noopener" class="btn-pubmed">Ler no PubMed →</a>
-      </div>` : ''}
+      <div style="margin-top:28px;display:flex;gap:12px;flex-wrap:wrap;">
+        <button onclick="compartilhar('${escHtml(art.titulo)}')" style="background:none;border:1px solid var(--border);color:var(--muted);padding:10px 20px;border-radius:9px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:7px;transition:all 0.2s;" onmouseover="this.style.borderColor='#0ea5e9';this.style.color='#0ea5e9'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">🔗 Compartilhar</button>
+        ${art.pubmedUrl ? `<a href="${escHtml(art.pubmedUrl)}" target="_blank" rel="noopener" class="btn-pubmed">Ler no PubMed →</a>` : ''}
+      </div>
     </div>`;
 }
 
@@ -120,6 +119,21 @@ async function loadArticle() {
   } catch(e) {
     renderError('Erro de conexão. Tente novamente.');
   }
+}
+
+async function compartilhar(titulo) {
+  const url = window.location.href;
+  if (navigator.share) {
+    try { await navigator.share({ title: titulo, text: 'Artigo científico odontológico no OdontoFeed', url }); return; } catch(e) {}
+  }
+  try {
+    await navigator.clipboard.writeText(url);
+    const t = document.createElement('div');
+    t.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#10b981;color:#fff;padding:12px 24px;border-radius:10px;font-size:14px;font-weight:600;z-index:9999;';
+    t.textContent = 'Link copiado!';
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 3000);
+  } catch(e) {}
 }
 
 loadArticle();

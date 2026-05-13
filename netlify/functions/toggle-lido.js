@@ -29,8 +29,27 @@ async function getUser(projectId, apiKey, email) {
   return {
     docId: doc.name.split('/').pop(),
     sessionToken: (f.sessionToken && f.sessionToken.stringValue) || null,
-    sessionExpiry: (f.sessionExpiry && f.sessionExpiry.stringValue) || null
+    sessionExpiry: (f.sessionExpiry && f.sessionExpiry.stringValue) || null,
+    streakDias: parseInt(f.streakDias?.integerValue || f.streakDias?.stringValue || '0', 10),
+    ultimaLeitura: (f.ultimaLeitura && f.ultimaLeitura.stringValue) || ''
   };
+}
+
+async function updateStreak(projectId, apiKey, docId, streakDias, ultimaLeitura) {
+  const body = JSON.stringify({
+    fields: {
+      streakDias: { integerValue: String(streakDias) },
+      ultimaLeitura: { stringValue: ultimaLeitura }
+    }
+  });
+  const buf = Buffer.from(body, 'utf8');
+  return request({
+    hostname: 'firestore.googleapis.com',
+    path: '/v1/projects/' + projectId + '/databases/(default)/documents/cadastros/' + docId +
+      '?updateMask.fieldPaths=streakDias&updateMask.fieldPaths=ultimaLeitura&key=' + apiKey,
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', 'Content-Length': buf.length }
+  }, buf);
 }
 
 // Atomic Firestore array operation — no read-modify-write, no race condition
@@ -87,7 +106,27 @@ exports.handler = async (event) => {
     // appendMissingElements = arrayUnion, removeAllFromArray = arrayRemove — both atomic
     const op = action === 'mark' ? 'appendMissingElements' : 'removeAllFromArray';
     await atomicArrayOp(projectId, apiKey, user.docId, 'lidos', op, artId);
-    return { statusCode: 200, headers, body: JSON.stringify({ success: true, artId, lido: action === 'mark' }) };
+
+    // Update reading streak when marking as read
+    let newStreak = user.streakDias || 0;
+    let newUltimaLeitura = user.ultimaLeitura || '';
+    if (action === 'mark') {
+      const todayUTC = new Date().toISOString().split('T')[0];
+      const yesterdayUTC = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+      if (newUltimaLeitura === todayUTC) {
+        // Already read today, streak unchanged
+      } else if (newUltimaLeitura === yesterdayUTC) {
+        newStreak += 1;
+        newUltimaLeitura = todayUTC;
+      } else {
+        newStreak = 1;
+        newUltimaLeitura = todayUTC;
+      }
+      updateStreak(projectId, apiKey, user.docId, newStreak, newUltimaLeitura)
+        .catch(e => console.warn('[Streak] Update failed:', e.message));
+    }
+
+    return { statusCode: 200, headers, body: JSON.stringify({ success: true, artId, lido: action === 'mark', streak: newStreak }) };
   } catch(err) {
     console.error('Toggle lido error:', err);
     return { statusCode: 500, headers, body: JSON.stringify({ error: 'Erro interno: ' + err.message }) };
