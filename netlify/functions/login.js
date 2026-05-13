@@ -113,15 +113,17 @@ exports.handler = async (event) => {
     if (!passwordMatch) {
       // Increment failed attempts and possibly lock account
       const attempts = parseInt(user.loginAttempts || '0', 10) + 1;
+      const LOCK_DURATION_MS = 15 * 60 * 1000;
       const updates = { loginAttempts: String(attempts) };
       if (attempts >= 5) {
-        updates.loginLockedUntil = new Date(Date.now() + 15 * 60 * 1000).toISOString();
+        updates.loginLockedUntil = new Date(Date.now() + LOCK_DURATION_MS).toISOString();
         console.warn(`[Login] Account locked after ${attempts} attempts: ${email}`);
       }
       await patchFields(projectId, apiKey, user._id, updates).catch(() => {});
       const remaining = Math.max(0, 5 - attempts);
+      const lockMins = Math.ceil(LOCK_DURATION_MS / 60000);
       const msg = attempts >= 5
-        ? 'Conta bloqueada por 15 minutos. Use "Esqueci minha senha" para recuperar o acesso.'
+        ? `Conta bloqueada por ${lockMins} minutos. Use "Esqueci minha senha" para recuperar o acesso.`
         : `E-mail ou senha incorretos.${remaining > 0 ? ` (${remaining} tentativa(s) restante(s))` : ''}`;
       return { statusCode: 401, headers, body: JSON.stringify({ error: msg }) };
     }

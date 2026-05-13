@@ -75,41 +75,43 @@ exports.handler = async (event) => {
     try {
       const specs = Array.isArray(user.especialidade) ? user.especialidade.filter(Boolean) : (user.especialidade ? [user.especialidade] : []);
       if (specs.length) {
-        const whereClause = specs.length === 1
-          ? { fieldFilter: { field: { fieldPath: 'especialidade' }, op: 'ARRAY_CONTAINS', value: { stringValue: specs[0] } } }
-          : { fieldFilter: { field: { fieldPath: 'especialidade' }, op: 'ARRAY_CONTAINS_ANY', value: { arrayValue: { values: specs.map(s => ({ stringValue: s })) } } } };
-        const body = JSON.stringify({
-          structuredQuery: {
-            from: [{ collectionId: 'cadastros' }],
-            where: whereClause,
-            limit: 50
+        // Firestore REST does not support ARRAY_CONTAINS_ANY — run one query per specialty and merge
+        const queryForSpec = (spec) => {
+          const body = JSON.stringify({
+            structuredQuery: {
+              from: [{ collectionId: 'cadastros' }],
+              where: { fieldFilter: { field: { fieldPath: 'especialidade' }, op: 'ARRAY_CONTAINS', value: { stringValue: spec } } },
+              limit: 50
+            }
+          });
+          const buf = Buffer.from(body, 'utf8');
+          return request({
+            hostname: 'firestore.googleapis.com',
+            path: '/v1/projects/' + projectId + '/databases/(default)/documents:runQuery?key=' + apiKey,
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Content-Length': buf.length }
+          }, buf);
+        };
+        const responses = await Promise.allSettled(specs.map(queryForSpec));
+        const seen = new Set();
+        for (const r of responses) {
+          if (r.status !== 'fulfilled' || r.value.status !== 200) continue;
+          const docs = JSON.parse(r.value.body);
+          for (const d of docs) {
+            if (!d.document) continue;
+            const f = d.document.fields || {};
+            const docEmail = f.email?.stringValue || '';
+            if (!docEmail || docEmail === email || seen.has(docEmail)) continue;
+            seen.add(docEmail);
+            amigos.push({
+              nome: f.nome?.stringValue || '',
+              especialidade: f.especialidade?.arrayValue?.values
+                ? f.especialidade.arrayValue.values.map(v => v.stringValue || '').filter(Boolean)
+                : f.especialidade?.stringValue ? [f.especialidade.stringValue] : []
+            });
           }
-        });
-        const buf = Buffer.from(body, 'utf8');
-        const res = await request({
-          hostname: 'firestore.googleapis.com',
-          path: '/v1/projects/' + projectId + '/databases/(default)/documents:runQuery?key=' + apiKey,
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Content-Length': buf.length }
-        }, buf);
-        if (res.status === 200) {
-          const docs = JSON.parse(res.body);
-          amigos = docs
-            .filter(d => d.document)
-            .map(d => {
-              const f = d.document.fields || {};
-              return {
-                nome: f.nome?.stringValue || '',
-                especialidade: f.especialidade?.arrayValue?.values
-                  ? f.especialidade.arrayValue.values.map(v => v.stringValue || '').filter(Boolean)
-                  : f.especialidade?.stringValue || '',
-                _selfEmail: f.email?.stringValue || ''
-              };
-            })
-            .filter(u => u._selfEmail && u._selfEmail !== email)
-            .map(({ _selfEmail: _, ...rest }) => rest)
-            .slice(0, 20);
         }
+        amigos = amigos.slice(0, 20);
       }
     } catch(e) { console.warn('Could not fetch amigos:', e.message); }
 

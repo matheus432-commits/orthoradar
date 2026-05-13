@@ -84,9 +84,9 @@ exports.handler = async (event) => {
 
     if (!user) {
       return {
-        statusCode: 404,
+        statusCode: 400,
         headers: { 'Content-Type': 'text/html; charset=utf-8' },
-        body: htmlPage('Conta não encontrada', '<p>Não encontramos uma conta associada a este email.</p><a href="' + siteUrl + '">Voltar ao site</a>', true)
+        body: htmlPage('Link inválido', '<p>O link de confirmação é inválido ou já expirou.</p><a href="' + siteUrl + '">Voltar ao site</a>', true)
       };
     }
 
