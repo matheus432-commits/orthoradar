@@ -134,6 +134,7 @@ exports.handler = async (event) => {
       senhaHash,
       plano: 'free',
       ultimoEnvio: '',
+      horarioEnvio: '10',
       ativo: true,
       emailVerificado: false,
       emailConfirmToken,
