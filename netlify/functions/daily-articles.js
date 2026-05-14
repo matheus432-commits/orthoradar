@@ -777,13 +777,15 @@ async function processUser(user, projectId, apiKey, resendKey) {
       console.log(`[Claude] ${user.email}: "${translation.titulo.substring(0, 50)}"${cachedTranslation ? ' (cached)' : ''}`);
     }
 
-    await saveArticleToFirestore(projectId, apiKey, {
-      email: user.email, especialidade: user.especialidades[0] || '', tema,
-      titulo: article.tituloLocal || article.title || '',
-      resumo: article.resumoLocal || generateSummary(article, user.especialidades[0] || '', tema),
-      pubmedUrl: 'https://pubmed.ncbi.nlm.nih.gov/' + article.pmid + '/',
-      pmid: String(article.pmid || ''), data: new Date().toISOString()
-    }).catch(e => console.warn('Could not save article history:', e.message));
+    if (!user.pendingRetry) {
+      await saveArticleToFirestore(projectId, apiKey, {
+        email: user.email, especialidade: user.especialidades[0] || '', tema,
+        titulo: article.tituloLocal || article.title || '',
+        resumo: article.resumoLocal || generateSummary(article, user.especialidades[0] || '', tema),
+        pubmedUrl: 'https://pubmed.ncbi.nlm.nih.gov/' + article.pmid + '/',
+        pmid: String(article.pmid || ''), data: new Date().toISOString()
+      }).catch(e => console.warn('Could not save article history:', e.message));
+    }
 
     const html = buildEmail(user, article, tema);
     const tituloEmail = article.tituloLocal || article.title;
