@@ -49,6 +49,7 @@ exports.handler = async (event) => {
   const apiKey = process.env.FIREBASE_API_KEY;
 
   try {
+    const dry = (event.queryStringParameters || {}).dry === '1';
     const docs = await listAllUsers(projectId, apiKey);
     let updated = 0, skipped = 0, errors = 0;
     const log = [];
@@ -58,16 +59,24 @@ exports.handler = async (event) => {
       const docId = doc.name.split('/').pop();
       const email = f.email?.stringValue || docId;
       const currentHorario = f.horarioEnvio?.stringValue || f.horarioEnvio?.integerValue || null;
+      const utcVal = currentHorario != null ? parseInt(currentHorario, 10) : null;
+      const brtVal = utcVal != null ? ((utcVal - 3 + 24) % 24) + 'h Brasília' : '(padrão 7h)';
 
-      if (currentHorario === '10' || currentHorario === 10) {
+      if (!dry && (currentHorario === '10' || currentHorario === 10)) {
         skipped++;
+        log.push({ email, horario: '7h Brasília (já correto)' });
+        continue;
+      }
+
+      if (dry) {
+        log.push({ email, horario_atual: brtVal, utc_atual: utcVal ?? 10 });
         continue;
       }
 
       const status = await patchHorario(projectId, apiKey, docId);
       if (status === 200) {
         updated++;
-        log.push({ email, de: currentHorario ?? '(não definido)', para: '10' });
+        log.push({ email, de: brtVal, para: '7h Brasília' });
       } else {
         errors++;
         log.push({ email, erro: 'status ' + status });
@@ -77,7 +86,7 @@ exports.handler = async (event) => {
     return {
       statusCode: 200,
       headers,
-      body: JSON.stringify({ total: docs.length, updated, skipped, errors, log }, null, 2)
+      body: JSON.stringify({ modo: dry ? 'consulta (sem alterações)' : 'migração', total: docs.length, updated, skipped, errors, log }, null, 2)
     };
   } catch (err) {
     return { statusCode: 500, headers, body: JSON.stringify({ error: err.message }) };
