@@ -368,10 +368,11 @@ const RETENTION_DAYS = parseInt(process.env.ARTICLE_RETENTION_DAYS || '180', 10)
 // Cache translations for the duration of the execution (avoids duplicate Claude calls for same article)
 const translationCache = new Map();
 
-// PubMed rate limiter: NCBI allows 3 req/s without API key; enforce ~2.5 req/s
+// PubMed rate limiter: 3 req/s without NCBI key, 10 req/s with free key
+const PUBMED_GAP_MS = process.env.NCBI_API_KEY ? 100 : 400;
 let _lastPubMed = 0;
 async function pubmedThrottle() {
-  const gap = 400 - (Date.now() - _lastPubMed);
+  const gap = PUBMED_GAP_MS - (Date.now() - _lastPubMed);
   if (gap > 0) await new Promise(r => setTimeout(r, gap));
   _lastPubMed = Date.now();
 }
@@ -457,7 +458,8 @@ async function getUsers(projectId, apiKey) {
       emailVerificado: f.emailVerificado?.booleanValue !== false,
       horarioEnvio: parseInt(f.horarioEnvio?.stringValue || f.horarioEnvio?.integerValue || '10', 10),
       pushSubscription: (() => { try { return f.pushSubscription?.stringValue ? JSON.parse(f.pushSubscription.stringValue) : null; } catch { return null; } })(),
-      pendingRetry: (() => { try { return f.pendingRetry?.stringValue ? JSON.parse(f.pendingRetry.stringValue) : null; } catch { return null; } })()
+      pendingRetry: (() => { try { return f.pendingRetry?.stringValue ? JSON.parse(f.pendingRetry.stringValue) : null; } catch { return null; } })(),
+      sendLockAt: f.sendLockAt?.stringValue || ''
     };
   }).filter(u => u.email && u.ativo !== false && u.emailVerificado !== false);
 }
@@ -591,6 +593,17 @@ async function clearPendingRetry(projectId, apiKey, docId) {
   }, buf).catch(e => console.warn('[Retry] clearPendingRetry failed:', e.message));
 }
 
+async function writeSendLock(projectId, apiKey, docId) {
+  const body = JSON.stringify({ fields: { sendLockAt: { stringValue: new Date().toISOString() } } });
+  const buf = Buffer.from(body, 'utf8');
+  return request({
+    hostname: 'firestore.googleapis.com',
+    path: '/v1/projects/' + projectId + '/databases/(default)/documents/cadastros/' + docId + '?updateMask.fieldPaths=sendLockAt&key=' + apiKey,
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', 'Content-Length': buf.length }
+  }, buf).catch(e => console.warn('[sendLock] write failed:', e.message));
+}
+
 async function updateUltimoEnvio(projectId, apiKey, docId) {
   const iso = new Date().toISOString();
   const body = JSON.stringify({ fields: { ultimoEnvio: { stringValue: iso } } });
@@ -722,6 +735,13 @@ async function processUser(user, projectId, apiKey, resendKey) {
       console.log(`[Skip] ${user.email} | plano ${plano} | último envio: ${user.ultimoEnvio || 'nunca'}`);
       return 'skipped';
     }
+
+    // Anti-double-send: if another invocation claimed this user in the last 10 min, skip
+    if (user.sendLockAt && (Date.now() - new Date(user.sendLockAt).getTime()) < 10 * 60 * 1000) {
+      console.log(`[Skip] ${user.email} | sendLock ativo`);
+      return 'skipped';
+    }
+    await writeSendLock(projectId, apiKey, user._docId);
 
     const userSpecs = new Set(user.especialidades.length ? user.especialidades : []);
     const validTemas = temas.filter(t => { const e = TEMA_TO_ESPECIALIDADE[t]; return !e || userSpecs.has(e); });

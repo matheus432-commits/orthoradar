@@ -35,11 +35,12 @@ async function fetchMRR() {
   }
 }
 
-async function listAll(projectId, apiKey, collection, pageSize = 300) {
+async function listAll(projectId, apiKey, collection, pageSize = 300, fieldMasks = []) {
   const docs = [];
   let pageToken = null;
+  const mask = fieldMasks.map(f => `mask.fieldPaths=${encodeURIComponent(f)}`).join('&');
   do {
-    const qs = `pageSize=${pageSize}&key=${apiKey}` + (pageToken ? `&pageToken=${pageToken}` : '');
+    const qs = `pageSize=${pageSize}&key=${apiKey}` + (pageToken ? `&pageToken=${pageToken}` : '') + (mask ? `&${mask}` : '');
     const res = await request({
       hostname: 'firestore.googleapis.com',
       path: `/v1/projects/${projectId}/databases/(default)/documents/${collection}?${qs}`,
@@ -99,7 +100,7 @@ exports.handler = async (event) => {
 
     // Fetch users, article counts, last dispatch log, dispatch history, and MRR in parallel
     const [userDocs, totalArticles, todayArticles, dispatchLogRes, historyDocs, mrrData] = await Promise.all([
-      listAll(projectId, apiKey, 'cadastros'),
+      listAll(projectId, apiKey, 'cadastros', 300, ['ativo', 'especialidade']),
       countDocs(projectId, apiKey, 'artigos_enviados', null),
       countDocs(projectId, apiKey, 'artigos_enviados', {
         fieldFilter: { field: { fieldPath: 'data' }, op: 'GREATER_THAN_OR_EQUAL', value: { stringValue: todayISO } }
