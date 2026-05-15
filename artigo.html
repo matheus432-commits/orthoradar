@@ -13,9 +13,18 @@
   --border:#2a3f5f;--text:#f1f5f9;--muted:#94a3b8;
   --success:#10b981;--danger:#ef4444;--radius:14px;
 }
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
-nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:16px 40px;background:rgba(11,17,32,0.95);backdrop-filter:blur(16px);border-bottom:1px solid rgba(42,63,95,0.5);}
+body.light{
+  --bg:#f0f4f8;--bg2:#e8edf3;--bg3:#dde4ed;
+  --card:#ffffff;--border:#cbd5e1;
+  --text:#0f172a;--muted:#64748b;
+}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;transition:background 0.25s,color 0.25s;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:16px 40px;background:rgba(11,17,32,0.95);backdrop-filter:blur(16px);border-bottom:1px solid rgba(42,63,95,0.5);transition:background 0.25s;}
+body.light nav{background:rgba(240,244,248,0.95);}
 .logo{font-size:1.3rem;font-weight:800;background:linear-gradient(135deg,var(--primary),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none;}
+.nav-right{display:flex;align-items:center;gap:10px;}
+.btn-theme{background:none;border:1px solid var(--border);color:var(--muted);width:34px;height:34px;border-radius:8px;cursor:pointer;font-size:15px;display:inline-flex;align-items:center;justify-content:center;transition:border-color 0.2s,color 0.2s,background 0.2s;}
+.btn-theme:hover{border-color:var(--primary);color:var(--primary);}
 .btn-back{background:none;border:1px solid var(--border);color:var(--muted);padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;text-decoration:none;transition:all 0.2s;display:inline-flex;align-items:center;gap:6px;}
 .btn-back:hover{border-color:var(--primary);color:var(--primary);}
 .page{max-width:800px;margin:0 auto;padding:100px 24px 60px;}
@@ -25,31 +34,54 @@ h1{font-size:clamp(1.3rem,3vw,1.9rem);font-weight:800;line-height:1.35;letter-sp
 .divider{height:1px;background:var(--border);margin:24px 0;}
 .section-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:10px;}
 .resumo{font-size:1rem;line-height:1.8;color:#cbd5e1;}
+body.light .resumo{color:#334155;}
 .pubmed-box{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px 24px;margin-top:32px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+body.light .pubmed-box{box-shadow:0 1px 6px rgba(0,0,0,0.06);}
 .pubmed-box p{font-size:13px;color:var(--muted);line-height:1.5;}
-.btn-pubmed{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;text-decoration:none;padding:10px 22px;border-radius:9px;font-weight:700;font-size:13px;white-space:nowrap;transition:opacity 0.2s;}
-.btn-pubmed:hover{opacity:0.88;}
+.btn-pubmed{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;text-decoration:none;padding:10px 22px;border-radius:9px;font-weight:700;font-size:13px;white-space:nowrap;transition:opacity 0.2s,transform 0.15s;}
+.btn-pubmed:hover{opacity:0.88;transform:translateY(-1px);}
+.btn-share{background:none;border:1px solid var(--border);color:var(--muted);padding:10px 20px;border-radius:9px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:7px;transition:border-color 0.2s,color 0.2s,transform 0.15s;}
+.btn-share:hover{border-color:var(--primary);color:var(--primary);transform:translateY(-1px);}
+/* Skeleton */
 .skeleton{background:linear-gradient(90deg,var(--card) 25%,var(--bg3) 50%,var(--card) 75%);background-size:200% 100%;animation:shimmer 1.4s infinite;border-radius:8px;}
-@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
-.error-state{text-align:center;padding:80px 24px;}
+#skelWrap{transition:opacity 0.22s ease;}
+#skelWrap.hiding{opacity:0;pointer-events:none;}
+/* Article content */
+.article-content{animation:fadeIn 0.35s ease;}
+/* Error state */
+.error-state{text-align:center;padding:80px 24px;animation:fadeIn 0.35s ease;}
+.error-icon{width:72px;height:72px;background:var(--card);border:1px solid var(--border);border-radius:18px;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;}
+body.light .error-icon{box-shadow:0 1px 6px rgba(0,0,0,0.06);}
 .error-state h2{font-size:1.3rem;font-weight:700;margin-bottom:8px;}
-.error-state p{color:var(--muted);margin-bottom:24px;}
-@media(max-width:600px){nav{padding:14px 20px;}.page{padding:80px 16px 40px;}}
+.error-state p{color:var(--muted);margin-bottom:24px;line-height:1.6;}
+/* Toast */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--success);color:#fff;padding:12px 24px;border-radius:10px;font-size:14px;font-weight:600;z-index:9999;white-space:nowrap;box-shadow:0 4px 20px rgba(16,185,129,0.3);animation:toastIn 0.25s ease,toastOut 0.3s ease 2.7s forwards;}
+/* Animations */
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes toastIn{from{opacity:0;transform:translateX(-50%) translateY(12px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+@keyframes toastOut{to{opacity:0;transform:translateX(-50%) translateY(8px)}}
+@media(max-width:600px){nav{padding:14px 20px;}.page{padding:80px 16px 40px;}.pubmed-box{flex-direction:column;align-items:flex-start;}}
 </style>
 </head>
 <body>
+<script>(function(){if(localStorage.getItem('of_theme')==='light')document.body.classList.add('light');})();</script>
 <nav>
   <a class="logo" href="/">OdontoFeed</a>
-  <a class="btn-back" href="/dashboard">← Voltar ao dashboard</a>
+  <div class="nav-right">
+    <button class="btn-theme" id="themeToggleBtn" onclick="toggleTheme()" aria-label="Alternar tema" title="Claro/Escuro">🌙</button>
+    <a class="btn-back" href="/dashboard">← Voltar ao dashboard</a>
+  </div>
 </nav>
 
 <div class="page" id="pageContent">
-  <div style="margin-top:40px;">
+  <div id="skelWrap" style="margin-top:40px;">
     <div class="skeleton" style="height:22px;width:120px;margin-bottom:16px;"></div>
     <div class="skeleton" style="height:14px;width:160px;margin-bottom:12px;"></div>
     <div class="skeleton" style="height:36px;width:100%;margin-bottom:8px;"></div>
     <div class="skeleton" style="height:36px;width:75%;margin-bottom:24px;"></div>
     <div class="skeleton" style="height:1px;margin-bottom:24px;"></div>
+    <div class="skeleton" style="height:14px;width:80px;margin-bottom:10px;"></div>
     <div class="skeleton" style="height:16px;width:100%;margin-bottom:8px;"></div>
     <div class="skeleton" style="height:16px;width:100%;margin-bottom:8px;"></div>
     <div class="skeleton" style="height:16px;width:90%;margin-bottom:8px;"></div>
@@ -59,83 +91,113 @@ h1{font-size:clamp(1.3rem,3vw,1.9rem);font-weight:800;line-height:1.35;letter-sp
 </div>
 
 <script>
-function getToken(){ return localStorage.getItem('of_token'); }
-function getEmail(){ return localStorage.getItem('of_email'); }
-function escHtml(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+(function(){const b=document.getElementById('themeToggleBtn');if(b&&localStorage.getItem('of_theme')==='light')b.textContent='☀️';})();
 
-function formatDate(iso) {
-  if (!iso) return '';
-  return new Date(iso).toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' });
+function toggleTheme(){
+  const isLight=document.body.classList.toggle('light');
+  localStorage.setItem('of_theme',isLight?'light':'dark');
+  document.getElementById('themeToggleBtn').textContent=isLight?'☀️':'🌙';
 }
 
-function renderError(msg) {
-  document.getElementById('pageContent').innerHTML = `
-    <div class="error-state">
-      <div style="font-size:48px;margin-bottom:16px;">📄</div>
-      <h2>Artigo não encontrado</h2>
-      <p>${escHtml(msg)}</p>
-      <a class="btn-back" href="/dashboard">← Voltar ao dashboard</a>
-    </div>`;
+function getToken(){return localStorage.getItem('of_token');}
+function getEmail(){return localStorage.getItem('of_email');}
+function escHtml(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+
+function formatDate(iso){
+  if(!iso)return '';
+  return new Date(iso).toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'});
 }
 
-function renderArticle(art) {
-  document.title = escHtml(art.titulo) + ' — OdontoFeed';
-  document.getElementById('pageContent').innerHTML = `
-    <div>
-      <div class="article-tag">🦷 ${escHtml(art.especialidade || art.tema || 'Artigo')}</div>
-      ${art.tema && art.tema !== art.especialidade ? `<div style="font-size:12px;color:var(--muted);margin-bottom:10px;">Tema: ${escHtml(art.tema)}</div>` : ''}
-      <div class="article-date">${formatDate(art.data)}</div>
-      <h1>${escHtml(art.titulo)}</h1>
-      <div class="divider"></div>
-      <div class="section-label">Resumo em português</div>
-      <div class="resumo">${escHtml(art.resumo)}</div>
-      <div style="margin-top:28px;display:flex;gap:12px;flex-wrap:wrap;">
-        <button onclick="compartilhar('${escHtml(art.titulo)}')" style="background:none;border:1px solid var(--border);color:var(--muted);padding:10px 20px;border-radius:9px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:7px;transition:all 0.2s;" onmouseover="this.style.borderColor='#0ea5e9';this.style.color='#0ea5e9'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">🔗 Compartilhar</button>
-        ${art.pubmedUrl ? `<a href="${escHtml(art.pubmedUrl)}" target="_blank" rel="noopener" class="btn-pubmed">Ler no PubMed →</a>` : ''}
-      </div>
-    </div>`;
+function showToast(msg,color){
+  const old=document.querySelector('.toast');
+  if(old)old.remove();
+  const t=document.createElement('div');
+  t.className='toast';
+  if(color)t.style.background=color;
+  t.textContent=msg;
+  document.body.appendChild(t);
+  setTimeout(()=>t.remove(),3000);
 }
 
-async function loadArticle() {
-  const params = new URLSearchParams(window.location.search);
-  const id = params.get('id');
-  const email = getEmail();
-  const token = getToken();
+function fadeOutSkeleton(cb){
+  const skel=document.getElementById('skelWrap');
+  if(!skel){cb();return;}
+  skel.classList.add('hiding');
+  setTimeout(()=>{cb();},230);
+}
 
-  if (!id) { renderError('Nenhum artigo especificado.'); return; }
-  if (!email || !token) {
-    window.location.href = '/dashboard';
-    return;
-  }
+function renderError(msg){
+  fadeOutSkeleton(()=>{
+    document.getElementById('pageContent').innerHTML=`
+      <div class="error-state">
+        <div class="error-icon">
+          <svg width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="var(--muted)" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+          </svg>
+        </div>
+        <h2>Artigo não encontrado</h2>
+        <p>${escHtml(msg)}</p>
+        <a class="btn-back" href="/dashboard">← Voltar ao dashboard</a>
+      </div>`;
+  });
+}
 
-  try {
-    const res = await fetch('/.netlify/functions/get-article', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
-      body: JSON.stringify({ email, id })
+function renderArticle(art){
+  document.title=(art.titulo||'Artigo')+' — OdontoFeed';
+  fadeOutSkeleton(()=>{
+    document.getElementById('pageContent').innerHTML=`
+      <div class="article-content">
+        <div class="article-tag">🦷 ${escHtml(art.especialidade||art.tema||'Artigo')}</div>
+        ${art.tema&&art.tema!==art.especialidade?`<div style="font-size:12px;color:var(--muted);margin-bottom:10px;">Tema: ${escHtml(art.tema)}</div>`:''}
+        <div class="article-date">${formatDate(art.data)}</div>
+        <h1>${escHtml(art.titulo)}</h1>
+        <div class="divider"></div>
+        <div class="section-label">Resumo em português</div>
+        <div class="resumo">${escHtml(art.resumo)}</div>
+        <div style="margin-top:28px;display:flex;gap:12px;flex-wrap:wrap;">
+          <button class="btn-share" onclick="compartilhar(this)">🔗 Compartilhar</button>
+          ${art.pubmedUrl?`<a href="${escHtml(art.pubmedUrl)}" target="_blank" rel="noopener" class="btn-pubmed">Ler no PubMed →</a>`:''}
+        </div>
+      </div>`;
+  });
+}
+
+async function loadArticle(){
+  const params=new URLSearchParams(window.location.search);
+  const id=params.get('id');
+  const email=getEmail();
+  const token=getToken();
+  if(!id){renderError('Nenhum artigo especificado.');return;}
+  if(!email||!token){window.location.href='/dashboard';return;}
+  try{
+    const res=await fetch('/.netlify/functions/get-article',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
+      body:JSON.stringify({email,id})
     });
-    if (res.status === 401) { window.location.href = '/dashboard'; return; }
-    if (!res.ok) { renderError('Este artigo não está disponível ou não pertence à sua conta.'); return; }
-    const art = await res.json();
+    if(res.status===401){window.location.href='/dashboard';return;}
+    if(!res.ok){renderError('Este artigo não está disponível ou não pertence à sua conta.');return;}
+    const art=await res.json();
     renderArticle(art);
-  } catch(e) {
+  }catch(e){
     renderError('Erro de conexão. Tente novamente.');
   }
 }
 
-async function compartilhar(titulo) {
-  const url = window.location.href;
-  if (navigator.share) {
-    try { await navigator.share({ title: titulo, text: 'Artigo científico odontológico no OdontoFeed', url }); return; } catch(e) {}
+async function compartilhar(btn){
+  const url=window.location.href;
+  const titulo=document.querySelector('h1')?.textContent||'Artigo OdontoFeed';
+  if(navigator.share){
+    try{await navigator.share({title:titulo,text:'Artigo científico odontológico no OdontoFeed',url});return;}catch(e){}
   }
-  try {
+  try{
     await navigator.clipboard.writeText(url);
-    const t = document.createElement('div');
-    t.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#10b981;color:#fff;padding:12px 24px;border-radius:10px;font-size:14px;font-weight:600;z-index:9999;';
-    t.textContent = 'Link copiado!';
-    document.body.appendChild(t);
-    setTimeout(() => t.remove(), 3000);
-  } catch(e) {}
+    const orig=btn.innerHTML;
+    btn.innerHTML='✓ Copiado!';
+    btn.style.borderColor='var(--success)';
+    btn.style.color='var(--success)';
+    setTimeout(()=>{btn.innerHTML=orig;btn.style.borderColor='';btn.style.color='';},2000);
+  }catch(e){}
 }
 
 loadArticle();

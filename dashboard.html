@@ -121,6 +121,9 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
 .skel-btn{height:32px;flex:1;border-radius:8px;}
 @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
 @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeOut{from{opacity:1}to{opacity:0}}
+.article-card{animation:fadeIn 0.3s ease;}
+.friend-card{animation:fadeIn 0.3s ease;}
 
 /* EMPTY STATE */
 .empty-state{text-align:center;padding:72px 32px;}
@@ -200,6 +203,22 @@ body.light nav{background:rgba(240,244,248,0.95);}
 body.light .tabs-wrap{background:var(--bg2);}
 body.light .article-card{box-shadow:0 1px 4px rgba(0,0,0,0.08);}
 body.light .btn-theme{color:#64748b;}
+body.light .login-card{box-shadow:0 2px 16px rgba(0,0,0,0.08);}
+body.light .stat-tile{box-shadow:0 1px 4px rgba(0,0,0,0.06);}
+body.light .profile-header{box-shadow:0 1px 6px rgba(0,0,0,0.06);}
+body.light .sub-card{box-shadow:0 1px 6px rgba(0,0,0,0.06);}
+body.light .security-card{box-shadow:0 1px 6px rgba(0,0,0,0.06);}
+body.light .friend-card{box-shadow:0 1px 4px rgba(0,0,0,0.06);}
+body.light .invite-card{box-shadow:0 1px 4px rgba(0,0,0,0.05);}
+body.light .verify-banner{background:rgba(251,191,36,0.06);}
+body.light .upsell-banner{background:rgba(14,165,233,0.05);}
+body.light .btn-like{border-color:#cbd5e1;color:#64748b;}
+body.light .btn-share{border-color:#cbd5e1;color:#64748b;}
+body.light .btn-pubmed{background:rgba(14,165,233,0.06);}
+body.light .conquista-badge{background:rgba(251,191,36,0.08);}
+body.light .skel{background:linear-gradient(90deg,#e8edf3 25%,#dde4ed 50%,#e8edf3 75%);background-size:200% 100%;}
+body.light .skeleton-card{background:#fff;border-color:#cbd5e1;}
+body.light .recebidosSearch,body.light #prefNome,body.light .security-fields input{background:#f8fafc;border-color:#cbd5e1;color:#0f172a;}
 
 /* THEME TOGGLE */
 .btn-theme{background:none;border:1px solid var(--border);color:var(--muted);width:34px;height:34px;border-radius:8px;cursor:pointer;font-size:15px;display:inline-flex;align-items:center;justify-content:center;transition:border-color 0.2s,color 0.2s;flex-shrink:0;}
@@ -496,8 +515,16 @@ if (_bc) _bc.onmessage = ({ data: d }) => {
 function logout(){
   localStorage.removeItem('of_token');
   localStorage.removeItem('of_email');
-  document.getElementById('dashboardPage').style.display='none';
-  document.getElementById('loginPage').style.display='flex';
+  const dash=document.getElementById('dashboardPage');
+  dash.style.animation='fadeOut 0.2s ease forwards';
+  setTimeout(()=>{
+    dash.style.display='none';
+    dash.style.animation='';
+    const lp=document.getElementById('loginPage');
+    lp.style.display='flex';
+    lp.style.animation='fadeIn 0.3s ease';
+    setTimeout(()=>{ lp.style.animation=''; },300);
+  },200);
   document.getElementById('loginEmail').value='';
   const msg=document.getElementById('loginMsg');
   msg.className='login-msg';
@@ -550,8 +577,13 @@ const HASH_SALT = 'OF26_'; // must match index.html
   // ========== LOAD DASHBOARD ==========
 async function loadDashboard(email,token){
   showSkeletons();
-  document.getElementById('loginPage').style.display='none';
-  document.getElementById('dashboardPage').style.display='block';
+  const lp=document.getElementById('loginPage');
+  lp.style.animation='fadeOut 0.2s ease forwards';
+  setTimeout(()=>{ lp.style.display='none'; lp.style.animation=''; },200);
+  const dp=document.getElementById('dashboardPage');
+  dp.style.display='block';
+  dp.style.animation='fadeIn 0.3s ease';
+  setTimeout(()=>{ dp.style.animation=''; },300);
   try{
     const res=await fetch('/.netlify/functions/get-user-data?email='+encodeURIComponent(email),{
       headers:{'Authorization':'Bearer '+token}
@@ -574,7 +606,7 @@ async function loadDashboard(email,token){
 }
 
 function showLoadError() {
-  const html = `<div class="empty-state" style="padding:32px 20px;">
+  const html = `<div class="empty-state">
     <div class="empty-icon">⚠️</div>
     <h3>Erro ao carregar dados</h3>
     <p style="margin-bottom:16px;">Verifique sua conexão e tente novamente.</p>
@@ -966,14 +998,18 @@ function renderAmigos(amigos){
     </div>`;
     return;
   }
-  el.innerHTML='<div class="friends-grid">'+amigos.map(a=>`
-    <div class="friend-card">
+  el.innerHTML='<div class="friends-grid">'+amigos.map(a=>{
+    const specs=Array.isArray(a.especialidade)?a.especialidade:(a.especialidade?[a.especialidade]:[]);
+    const specLabel=specs.length?specs[0]+(specs.length>1?' +'+( specs.length-1):''):'';
+    return `<div class="friend-card">
       <div class="friend-avatar">${escapeHtml((a.nome||'?').charAt(0).toUpperCase())}</div>
-      <div>
+      <div style="flex:1;min-width:0;">
         <div class="friend-name">${escapeHtml(a.nome||'')}</div>
-        <div class="friend-spec">🦷 ${escapeHtml(Array.isArray(a.especialidade)?a.especialidade.join(', '):(a.especialidade||''))}</div>
+        <div class="friend-spec">🦷 ${escapeHtml(specLabel)}</div>
       </div>
-    </div>`).join('')+'</div>';
+      <span class="badge" style="font-size:10px;padding:3px 8px;flex-shrink:0;">Colega</span>
+    </div>`;
+  }).join('')+'</div>';
 }
 
 // ========== LIKE ==========
