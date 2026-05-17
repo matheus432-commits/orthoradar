@@ -224,6 +224,11 @@ body.light .recebidosSearch,body.light #prefNome,body.light .security-fields inp
 .btn-theme{background:none;border:1px solid var(--border);color:var(--muted);width:34px;height:34px;border-radius:8px;cursor:pointer;font-size:15px;display:inline-flex;align-items:center;justify-content:center;transition:border-color 0.2s,color 0.2s;flex-shrink:0;}
 .btn-theme:hover{border-color:var(--primary);color:var(--primary);}
 #navRight{display:flex;align-items:center;gap:10px;}
+
+/* EDITION MANCHETES */
+.edition-manchetes{margin:12px 0 16px;display:flex;flex-direction:column;gap:6px;}
+.manchete-item{font-size:13px;color:var(--text);line-height:1.5;padding-left:16px;position:relative;}
+.manchete-item::before{content:"→";position:absolute;left:0;color:var(--primary);font-weight:700;}
 </style>
 </head>
 <body>
@@ -307,7 +312,7 @@ body.light .recebidosSearch,body.light #prefNome,body.light .security-fields inp
 
   <!-- STATS STRIP -->
   <div class="stats-strip">
-    <div class="stat-tile"><div class="stat-num" id="statRecebidos">—</div><div class="stat-label">Artigos recebidos</div></div>
+    <div class="stat-tile"><div class="stat-num" id="statRecebidos">—</div><div class="stat-label">Descobertas recebidas</div></div>
     <div class="stat-tile"><div class="stat-num" id="statCurtidos">—</div><div class="stat-label">Artigos curtidos</div></div>
     <div class="stat-tile"><div class="stat-num" id="statAmigos">—</div><div class="stat-label">Amigos na rede</div></div>
     <div class="stat-tile"><div class="stat-num" id="statStreak">—</div><div class="stat-label">🔥 Streak de leitura</div><div class="stat-sub" id="statLidosTotal"></div></div>
@@ -344,21 +349,21 @@ body.light .recebidosSearch,body.light #prefNome,body.light .security-fields inp
 
   <!-- TAB: RECEBIDOS -->
   <div class="tab-content active" id="tab-recebidos">
-    <div class="section-title">📰 Artigos Recebidos <span id="countRecebidos"></span></div>
+    <div class="section-title">📰 Edições Recebidas <span id="countRecebidos"></span></div>
     <div id="upsellBanner" class="upsell-banner" style="display:none;">
       <p id="upsellText"></p>
       <button class="btn-up" id="upsellBtn"></button>
     </div>
     <div id="nextArticleInfo" class="next-article-info" style="display:none;"></div>
     <div style="margin-bottom:16px;">
-      <input type="search" id="recebidosSearch" placeholder="Buscar por título ou resumo..." oninput="filtrarArtigos()" style="width:100%;max-width:420px;padding:9px 14px;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:14px;outline:none;">
+      <input type="search" id="recebidosSearch" placeholder="Buscar por manchete..." oninput="filtrarArtigos()" style="width:100%;max-width:420px;padding:9px 14px;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:14px;outline:none;">
     </div>
     <div id="recebidosContent"></div>
   </div>
 
   <!-- TAB: CURTIDOS -->
   <div class="tab-content" id="tab-curtidos">
-    <div class="section-title">❤️ Artigos Curtidos <span id="countCurtidos"></span></div>
+    <div class="section-title">❤️ Edições Curtidas <span id="countCurtidos"></span></div>
     <div id="curtidosContent"></div>
   </div>
 
@@ -377,8 +382,8 @@ body.light .recebidosSearch,body.light #prefNome,body.light .security-fields inp
 
   <!-- TAB: LIDOS -->
   <div class="tab-content" id="tab-lidos">
-    <div class="section-title">✅ Artigos Lidos <span id="countLidos"></span></div>
-    <div id="lidosContent"><div class="empty-state"><div class="empty-icon">📖</div><h3>Nenhum artigo lido ainda</h3><p>Artigos marcados como lidos aparecerão aqui.</p></div></div>
+    <div class="section-title">✅ Edições Lidas <span id="countLidos"></span></div>
+    <div id="lidosContent"><div class="empty-state"><div class="empty-icon">📖</div><h3>Nenhuma edição lida ainda</h3><p>Edições marcadas como lidas aparecerão aqui.</p></div></div>
   </div>
 
   <!-- TAB: ESPECIALIDADES -->
@@ -497,10 +502,11 @@ if (_bc) _bc.onmessage = ({ data: d }) => {
     document.querySelectorAll(`.btn-like[onclick*="${d.id}"]`).forEach(b => {
       b.classList.toggle('liked', d.liked); b.textContent = d.liked ? '❤️ Curtido' : '🤍 Curtir';
     });
+
     const n = (userData.curtidos||[]).length;
     ['statCurtidos','tbadge-curtidos'].forEach(k => { const el=document.getElementById(k); if(el) el.textContent=n; });
     const cc=document.getElementById('countCurtidos'); if(cc) cc.textContent='('+n+')';
-    renderCurtidos(userData.artigos||[], userData.curtidos||[], userData.lidos||[]);
+    renderCurtidos(userData.edicoes||[], userData.curtidos||[], userData.lidos||[]);
   } else if (d.type === 'lido') {
     userData.lidos = userData.lidos || [];
     if (d.lido) { if (!userData.lidos.includes(d.id)) userData.lidos.push(d.id); }
@@ -508,7 +514,7 @@ if (_bc) _bc.onmessage = ({ data: d }) => {
     document.querySelectorAll(`.btn-lido[onclick*="${d.id}"]`).forEach(b => {
       b.classList.toggle('lido', d.lido); b.textContent = d.lido ? '✅ Lido' : '📝 Marcar como lido';
     });
-    renderLidos(userData.artigos||[], userData.lidos, userData.curtidos||[]);
+    renderLidos(userData.edicoes||[], userData.lidos, userData.curtidos||[]);
   }
 };
 
@@ -647,9 +653,9 @@ function populateDashboard(data){
   document.getElementById('userSpec').textContent='🦷 '+specs.join(', ');
   updatePlanUI(data.plano||'free', data.planoValidoAte||'');
   updateVerifyBanner(data.emailVerificado, data.emailConfirmFalhou);
-  renderUpsellBanner(data.plano||'free', data.artigos||[], data.horarioEnvio, data.ultimoEnvio||'');
+  renderUpsellBanner(data.plano||'free', data.edicoes||[], data.horarioEnvio, data.ultimoEnvio||'');
 
-  const artigos=data.artigos||[];
+  const edicoes=data.edicoes||[];
   const curtidos=data.curtidos||[];
   const amigos=data.amigos||[];
   const dias=data.criadoEm?Math.floor((Date.now()-new Date(data.criadoEm).getTime())/86400000):0;
@@ -658,28 +664,28 @@ function populateDashboard(data){
 
   const streak = data.streakDias || 0;
   const totalLidos = (data.lidos || []).length;
-  document.getElementById('statRecebidos').textContent=artigos.length;
+  document.getElementById('statRecebidos').textContent=edicoes.length;
   document.getElementById('statCurtidos').textContent=curtidos.length;
   document.getElementById('statAmigos').textContent=amigos.length;
   document.getElementById('statStreak').textContent=streak > 0 ? streak + (streak === 1 ? ' dia' : ' dias') : '—';
   document.getElementById('statLidosTotal').textContent=totalLidos > 0 ? totalLidos + ' lido' + (totalLidos !== 1 ? 's' : '') + ' no total' : '';
   document.getElementById('statDias').textContent=dias;
 
-  document.getElementById('tbadge-recebidos').textContent=artigos.length;
+  document.getElementById('tbadge-recebidos').textContent=edicoes.length;
   document.getElementById('tbadge-curtidos').textContent=curtidos.length;
   document.getElementById('tbadge-amigos').textContent=amigos.length;
 
-  document.getElementById('countRecebidos').textContent=artigos.length?'('+artigos.length+')':'';
+  document.getElementById('countRecebidos').textContent=edicoes.length?'('+edicoes.length+')':'';
   document.getElementById('countCurtidos').textContent=curtidos.length?'('+curtidos.length+')':'';
   document.getElementById('countAmigos').textContent=amigos.length?'('+amigos.length+')':'';
 
   const lidos = data.lidos || [];
   const temas = data.temas || [];
-  renderRecebidos(artigos,curtidos,lidos);
-  renderCurtidos(artigos,curtidos,lidos);
+  renderRecebidos(edicoes,curtidos,lidos);
+  renderCurtidos(edicoes,curtidos,lidos);
   renderAmigos(amigos);
-  renderLidos(artigos, lidos, curtidos);
-  renderEspecialidades(artigos, specs, temas, curtidos, lidos);
+  renderLidos(edicoes, lidos, curtidos);
+  renderEspecialidades(edicoes, specs, temas, curtidos, lidos);
   renderConquistas(streak, totalLidos, dias);
   initPush();
 }
@@ -706,7 +712,7 @@ function renderConquistas(streak, totalLidos, dias) {
 }
 
 // ========== UPSELL / PLAN INFO ==========
-function renderUpsellBanner(plano, artigos, horarioEnvio, ultimoEnvio) {
+function renderUpsellBanner(plano, edicoes, horarioEnvio, ultimoEnvio) {
   const banner = document.getElementById('upsellBanner');
   const nextEl = document.getElementById('nextArticleInfo');
   const textEl = document.getElementById('upsellText');
@@ -736,8 +742,8 @@ function renderUpsellBanner(plano, artigos, horarioEnvio, ultimoEnvio) {
   }
 
   if (plano === 'premium') {
-    nextEl.textContent = `⏰ Próximo artigo ${premiumWhenStr}`;
-    nextEl.style.display = artigos.length > 0 ? 'inline-block' : 'none';
+    nextEl.textContent = `⏰ Próxima edição ${premiumWhenStr}`;
+    nextEl.style.display = edicoes.length > 0 ? 'inline-block' : 'none';
     banner.style.display = 'none';
     return;
   }
@@ -745,12 +751,12 @@ function renderUpsellBanner(plano, artigos, horarioEnvio, ultimoEnvio) {
   if (plano === 'convencional') {
     const daysLeft = daysUntilNext(7);
     if (daysLeft !== null) {
-      nextEl.textContent = daysLeft <= 0 ? '⏰ Artigo disponível hoje!' : `⏰ Próximo artigo em ${daysLeft} dia${daysLeft !== 1 ? 's' : ''}`;
+      nextEl.textContent = daysLeft <= 0 ? '⏰ Edição disponível hoje!' : `⏰ Próxima edição em ${daysLeft} dia${daysLeft !== 1 ? 's' : ''}`;
       nextEl.style.display = 'inline-block';
     } else {
       nextEl.style.display = 'none';
     }
-    textEl.innerHTML = `Plano <strong>Convencional</strong> — 1 artigo por semana. Faça upgrade para <strong>Premium</strong> e receba ciência odontológica <strong>todos os dias</strong>.`;
+    textEl.innerHTML = `Plano <strong>Convencional</strong> — 1 edição por semana. Faça upgrade para <strong>Premium</strong> e receba descobertas odontológicas <strong>todos os dias</strong>.`;
     btnEl.textContent = 'Upgrade para Premium';
     btnEl.onclick = () => abrirCheckout('premium');
     banner.style.display = 'flex';
@@ -760,12 +766,12 @@ function renderUpsellBanner(plano, artigos, horarioEnvio, ultimoEnvio) {
   // free
   const daysLeft = daysUntilNext(30);
   if (daysLeft !== null) {
-    nextEl.textContent = daysLeft <= 0 ? '⏰ Artigo disponível hoje!' : `⏰ Próximo artigo em ${daysLeft} dia${daysLeft !== 1 ? 's' : ''}`;
+    nextEl.textContent = daysLeft <= 0 ? '⏰ Edição disponível hoje!' : `⏰ Próxima edição em ${daysLeft} dia${daysLeft !== 1 ? 's' : ''}`;
     nextEl.style.display = 'inline-block';
   } else {
     nextEl.style.display = 'none';
   }
-  textEl.innerHTML = `Plano <strong>Free</strong> — 1 artigo por mês. Faça upgrade e receba artigos <strong>toda semana</strong> ou <strong>todos os dias</strong>.`;
+  textEl.innerHTML = `Plano <strong>Free</strong> — 1 edição por mês. Faça upgrade e receba edições <strong>toda semana</strong> ou <strong>todos os dias</strong>.`;
   btnEl.textContent = 'Ver planos';
   btnEl.onclick = () => {
     switchTab('preferencias', document.getElementById('tabBtn-preferencias'));
@@ -776,7 +782,7 @@ function renderUpsellBanner(plano, artigos, horarioEnvio, ultimoEnvio) {
 
 // ========== SUBSCRIPTION UI ==========
 const PLAN_LABELS = { free: 'Free', convencional: 'Convencional', premium: 'Premium' };
-const PLAN_FREQ = { free: '1 artigo por mês', convencional: '1 artigo por semana', premium: '1 artigo por dia' };
+const PLAN_FREQ = { free: '1 edição por mês', convencional: '1 edição por semana', premium: '1 edição por dia' };
 
 function updatePlanUI(plano, planoValidoAte) {
   const label = PLAN_LABELS[plano] || 'Free';
@@ -852,27 +858,28 @@ async function abrirPortal() {
   if (btn) { btn.disabled = false; btn.textContent = 'Gerenciar assinatura'; }
 }
 
-// ========== ARTICLE CARD ==========
-function articleCard(art,curtidos,lidos){
-  const liked=curtidos.includes(art.id);
-  const isLido = lidos && lidos.includes(art.id);
-  const date=art.data?new Date(art.data).toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'numeric'}):'';
-  const summary=escapeHtml((art.resumo||'').substring(0,200)+(art.resumo&&art.resumo.length>200?'...':''));
-  return `<div class="article-card" data-id="${escapeHtml(art.id)}">
+// ========== EDITION CARD ==========
+function editionCard(edicao,curtidos,lidos){
+  const liked=curtidos.includes(edicao.id);
+  const isLido = lidos && lidos.includes(edicao.id);
+  const date=edicao.data?new Date(edicao.data).toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'numeric'}):'';
+  const descobertas = Array.isArray(edicao.descobertas) ? edicao.descobertas : [];
+  const manchetesHtml = descobertas.length
+    ? '<div class="edition-manchetes">'+descobertas.map(d=>`<div class="manchete-item">${escapeHtml(d.manchete||'')}</div>`).join('')+'</div>'
+    : '';
+  return `<div class="article-card" data-id="${escapeHtml(edicao.id)}">
     <div class="article-meta-top">
-      <span class="article-tag">${escapeHtml(art.especialidade||art.tema||'Artigo')}</span>
+      <span class="article-tag">${escapeHtml(edicao.especialidade||edicao.tema||'Edição')}</span>
       <span class="article-date">${date}</span>
     </div>
-    <h3>${escapeHtml(art.titulo||'Sem título')}</h3>
-    <div class="article-summary">${summary}</div>
+    <h3>${escapeHtml(edicao.tema||edicao.especialidade||'Edição sem tema')}</h3>
+    ${manchetesHtml}
     <div class="article-actions">
-      <button class="btn-like ${liked?'liked':''}" onclick="toggleLike('${art.id}',this)" aria-label="${liked?'Descurtir':'Curtir'} artigo">
+      <button class="btn-like ${liked?'liked':''}" onclick="toggleLike('${edicao.id}',this)" aria-label="${liked?'Descurtir':'Curtir'} edição">
         ${liked?'❤️ Curtido':'🤍 Curtir'}
       </button>
-      <a class="btn-pubmed" href="/artigo?id=${art.id}" aria-label="Ver resumo completo do artigo">Ver completo</a>
-      <button class="btn-share" onclick="compartilharArtigo('${art.id}','${escapeHtml(art.titulo||'').replace(/'/g,"\\'")}')" aria-label="Compartilhar artigo">🔗 Compartilhar</button>
-      ${art.pubmedUrl?`<a class="btn-pubmed" href="${art.pubmedUrl}" target="_blank" rel="noopener" aria-label="Ver artigo no PubMed (abre nova aba)">PubMed ↗</a>`:''}
-      <button class="btn-lido ${isLido?'lido':''}" onclick="toggleLido('${art.id}')" aria-label="${isLido?'Desmarcar':'Marcar'} como lido">
+      <a class="btn-pubmed" href="/artigo?id=${edicao.id}" aria-label="Ver descobertas completas">Ver descobertas →</a>
+      <button class="btn-lido ${isLido?'lido':''}" onclick="toggleLido('${edicao.id}')" aria-label="${isLido?'Desmarcar':'Marcar'} como lido">
         ${isLido?'✅ Lido':'📝 Marcar como lido'}
       </button>
     </div>
@@ -882,10 +889,10 @@ function articleCard(art,curtidos,lidos){
 const RECEBIDOS_PAGE = 10;
 let recebidosShown = RECEBIDOS_PAGE;
 
-function renderRecebidos(artigos,curtidos,lidos){
+function renderRecebidos(edicoes,curtidos,lidos){
   recebidosShown = RECEBIDOS_PAGE;
   const el=document.getElementById('recebidosContent');
-  if(!artigos.length){
+  if(!edicoes.length){
     const verified = userData && userData.emailVerificado !== false;
     const hora = userData && userData.horarioEnvio !== undefined ? userData.horarioEnvio : 10;
     const horaBrasilia = hora - 3;
@@ -894,8 +901,8 @@ function renderRecebidos(artigos,curtidos,lidos){
       <div class="empty-icon">📬</div>
       <h3>${verified ? 'Tudo pronto!' : 'Confirme seu email para começar'}</h3>
       <p>${verified
-        ? 'Seu primeiro artigo chegará amanhã às <strong style="color:var(--primary)">${horaStr}</strong>, curado especialmente para a sua especialidade. Você receberá um email.'
-        : 'Verifique sua caixa de entrada e clique no link de confirmação. Após confirmar, você começará a receber artigos científicos diariamente.'
+        ? 'Sua primeira edição chegará amanhã às <strong style="color:var(--primary)">${horaStr}</strong>, curada especialmente para a sua especialidade. Você receberá um email.'
+        : 'Verifique sua caixa de entrada e clique no link de confirmação. Após confirmar, você começará a receber descobertas científicas diariamente.'
       }</p>
       ${verified ? `
       <div style="margin-top:28px;display:flex;flex-wrap:wrap;justify-content:center;gap:20px;">
@@ -914,15 +921,15 @@ function renderRecebidos(artigos,curtidos,lidos){
     </div>`;
     return;
   }
-  _paintRecebidos(artigos, curtidos, lidos, el);
+  _paintRecebidos(edicoes, curtidos, lidos, el);
 }
 
-function _paintRecebidos(artigos, curtidos, lidos, el) {
+function _paintRecebidos(edicoes, curtidos, lidos, el) {
   el = el || document.getElementById('recebidosContent');
-  const slice = artigos.slice(0, recebidosShown);
-  const hasMore = artigos.length > recebidosShown;
-  el.innerHTML = '<div class="articles-grid">' + slice.map(a=>articleCard(a,curtidos,lidos)).join('') + '</div>' +
-    (hasMore ? `<div style="text-align:center;margin:20px 0 8px"><button onclick="loadMoreRecebidos()" style="background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff;border:none;padding:10px 28px;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.9rem;">Carregar mais (${artigos.length - recebidosShown} restantes)</button></div>` : '');
+  const slice = edicoes.slice(0, recebidosShown);
+  const hasMore = edicoes.length > recebidosShown;
+  el.innerHTML = '<div class="articles-grid">' + slice.map(e=>editionCard(e,curtidos,lidos)).join('') + '</div>' +
+    (hasMore ? `<div style="text-align:center;margin:20px 0 8px"><button onclick="loadMoreRecebidos()" style="background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff;border:none;padding:10px 28px;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.9rem;">Carregar mais (${edicoes.length - recebidosShown} restantes)</button></div>` : '');
 }
 
 function handleAuthError(status) {
@@ -944,43 +951,50 @@ function filtrarArtigos() {
 function _doFiltrarArtigos() {
   if (!userData) return;
   recebidosShown = RECEBIDOS_PAGE;
-  const artigos = _getFilteredArtigos();
+  const edicoes = _getFilteredEdicoes();
   const el = document.getElementById('recebidosContent');
-  if (!artigos.length) {
+  if (!edicoes.length) {
     const q = document.getElementById('recebidosSearch')?.value || '';
     el.innerHTML = q
-      ? `<div class="empty-state"><div class="empty-icon">🔍</div><h3>Nenhum artigo encontrado</h3><p>Tente outros termos de busca.</p></div>`
-      : `<div class="empty-state"><div class="empty-icon">📬</div><h3>Ainda sem artigos recebidos</h3><p>Seu primeiro artigo chegará amanhã às 7h!</p></div>`;
+      ? `<div class="empty-state"><div class="empty-icon">🔍</div><h3>Nenhuma edição encontrada</h3><p>Tente outros termos de busca.</p></div>`
+      : `<div class="empty-state"><div class="empty-icon">📬</div><h3>Ainda sem edições recebidas</h3><p>Sua primeira edição chegará amanhã às 7h!</p></div>`;
     return;
   }
-  _paintRecebidos(artigos, userData.curtidos||[], userData.lidos||[]);
+  _paintRecebidos(edicoes, userData.curtidos||[], userData.lidos||[]);
 }
 
-function _getFilteredArtigos() {
+function _getFilteredEdicoes() {
   const q = (document.getElementById('recebidosSearch')?.value || '').toLowerCase().trim();
-  const all = userData?.artigos || [];
+  const all = userData?.edicoes || [];
   if (!q) return all;
-  return all.filter(a => (a.titulo||'').toLowerCase().includes(q) || (a.resumo||'').toLowerCase().includes(q));
+  return all.filter(e => {
+    if ((e.tema||'').toLowerCase().includes(q)) return true;
+    if ((e.especialidade||'').toLowerCase().includes(q)) return true;
+    if (Array.isArray(e.descobertas)) {
+      return e.descobertas.some(d => (d.manchete||'').toLowerCase().includes(q) || (d.descoberta||'').toLowerCase().includes(q));
+    }
+    return false;
+  });
 }
 
 function loadMoreRecebidos() {
-  const artigos = _getFilteredArtigos();
-  recebidosShown = Math.min(recebidosShown + RECEBIDOS_PAGE, artigos.length);
-  _paintRecebidos(artigos, userData.curtidos||[], userData.lidos||[]);
+  const edicoes = _getFilteredEdicoes();
+  recebidosShown = Math.min(recebidosShown + RECEBIDOS_PAGE, edicoes.length);
+  _paintRecebidos(edicoes, userData.curtidos||[], userData.lidos||[]);
 }
 
-function renderCurtidos(artigos,curtidos,lidos){
+function renderCurtidos(edicoes,curtidos,lidos){
   const el=document.getElementById('curtidosContent');
-  const list=artigos.filter(a=>curtidos.includes(a.id));
+  const list=edicoes.filter(e=>curtidos.includes(e.id));
   if(!list.length){
     el.innerHTML=`<div class="empty-state">
       <div class="empty-icon">❤️</div>
-      <h3>Nenhum artigo curtido ainda</h3>
-      <p>Curta os artigos que mais te interessam na aba "Recebidos" para salvá-los aqui como favoritos.</p>
+      <h3>Nenhuma edição curtida ainda</h3>
+      <p>Curta as edições que mais te interessam na aba "Recebidos" para salvá-las aqui como favoritos.</p>
     </div>`;
     return;
   }
-  el.innerHTML='<div class="articles-grid">'+list.map(a=>articleCard(a,curtidos,lidos)).join('')+'</div>';
+  el.innerHTML='<div class="articles-grid">'+list.map(e=>editionCard(e,curtidos,lidos)).join('')+'</div>';
 }
 
 function renderAmigos(amigos){
@@ -1014,20 +1028,20 @@ function renderAmigos(amigos){
 
 // ========== LIKE ==========
 // ========== RENDER LIDOS ==========
-function renderLidos(artigos, lidos, curtidos) {
+function renderLidos(edicoes, lidos, curtidos) {
   const el = document.getElementById('lidosContent');
-  const lidosArr = artigos.filter(a => lidos.includes(a.id));
+  const lidosArr = edicoes.filter(e => lidos.includes(e.id));
   document.getElementById('tbadge-lidos').textContent = lidosArr.length;
   document.getElementById('countLidos').textContent = lidosArr.length ? '(' + lidosArr.length + ')' : '';
   if (!lidosArr.length) {
-    el.innerHTML = '<div class="empty-state"><div class="empty-icon">📖</div><h3>Nenhum artigo lido ainda</h3><p>Artigos marcados como lidos aparecerão aqui.</p></div>';
+    el.innerHTML = '<div class="empty-state"><div class="empty-icon">📖</div><h3>Nenhuma edição lida ainda</h3><p>Edições marcadas como lidas aparecerão aqui.</p></div>';
     return;
   }
-  el.innerHTML = '<div class="articles-grid">'+lidosArr.map(a => articleCard(a, curtidos, lidos)).join('')+'</div>';
+  el.innerHTML = '<div class="articles-grid">'+lidosArr.map(e => editionCard(e, curtidos, lidos)).join('')+'</div>';
 }
 
 // ========== RENDER ESPECIALIDADES ==========
-function renderEspecialidades(artigos, especialidades, temas, curtidos, lidos) {
+function renderEspecialidades(edicoes, especialidades, temas, curtidos, lidos) {
   const navEl = document.getElementById('espTabsNav');
   const contentEl = document.getElementById('espTabsContent');
   if (!especialidades || !especialidades.length) {
@@ -1036,21 +1050,21 @@ function renderEspecialidades(artigos, especialidades, temas, curtidos, lidos) {
     document.getElementById('tbadge-especialidades').textContent = 0;
     return;
   }
-  document.getElementById('tbadge-especialidades').textContent = artigos.length;
+  document.getElementById('tbadge-especialidades').textContent = edicoes.length;
   const temasSet = new Set(Array.isArray(temas) ? temas : []);
   navEl.innerHTML = especialidades.map((esp, i) => {
     return `<button class="tab-btn${i===0?' active':''}" onclick="switchEspTab(this,${i})">${esp}</button>`;
   }).join('');
   contentEl.innerHTML = especialidades.map((esp, i) => {
-    const espArts = artigos.filter(a => a.especialidade === esp);
+    const espEdicoes = edicoes.filter(e => e.especialidade === esp);
     const display = i === 0 ? 'block' : 'none';
-    if (!espArts.length) return `<div class="esp-panel" id="esp-panel-${i}" style="display:${display}"><div class="empty-state"><div class="empty-icon">📚</div><h3>Sem artigos de ${esp} ainda</h3><p>Novos artigos chegam diariamente!</p></div></div>`;
+    if (!espEdicoes.length) return `<div class="esp-panel" id="esp-panel-${i}" style="display:${display}"><div class="empty-state"><div class="empty-icon">📚</div><h3>Sem edições de ${esp} ainda</h3><p>Novas descobertas chegam diariamente!</p></div></div>`;
     const byTema = {};
-    espArts.forEach(a => { const t = a.tema||'Geral'; if(!byTema[t]) byTema[t]=[]; byTema[t].push(a); });
+    espEdicoes.forEach(e => { const t = e.tema||'Geral'; if(!byTema[t]) byTema[t]=[]; byTema[t].push(e); });
     const temaKeys = temasSet.size > 0 ? Object.keys(byTema).filter(t => temasSet.has(t)) : Object.keys(byTema);
     const displayKeys = temaKeys.length ? temaKeys : Object.keys(byTema);
     const html = displayKeys.map(tema =>
-      `<div class="tema-group"><div class="tema-title">🏷️ ${tema} <span class="tema-count">(${byTema[tema].length})</span></div>${byTema[tema].map(a => articleCard(a, curtidos, lidos)).join('')}</div>`
+      `<div class="tema-group"><div class="tema-title">🏷️ ${tema} <span class="tema-count">(${byTema[tema].length})</span></div>${byTema[tema].map(e => editionCard(e, curtidos, lidos)).join('')}</div>`
     ).join('');
     return `<div class="esp-panel" id="esp-panel-${i}" style="display:${display}">${html}</div>`;
   }).join('');
@@ -1108,7 +1122,7 @@ async function toggleLido(artId) {
       btn.classList.toggle('lido', data.lido);
       btn.textContent = data.lido ? '✅ Lido' : '📝 Marcar como lido';
     });
-    renderLidos(userData.artigos || [], userData.lidos, userData.curtidos || []);
+    renderLidos(userData.edicoes || [], userData.lidos, userData.curtidos || []);
     if (_bc) _bc.postMessage({ type: 'lido', id: artId, lido: data.lido });
     if (data.lido && data.streak > 0) {
       userData.streakDias = data.streak;
@@ -1143,7 +1157,7 @@ async function toggleLike(artigoId,btn){
         document.getElementById('statCurtidos').textContent=(userData.curtidos||[]).length;
         document.getElementById('tbadge-curtidos').textContent=(userData.curtidos||[]).length;
         document.getElementById('countCurtidos').textContent='('+(userData.curtidos||[]).length+')';
-        renderCurtidos(userData.artigos||[],userData.curtidos||[],userData.lidos||[]);
+        renderCurtidos(userData.edicoes||[],userData.curtidos||[],userData.lidos||[]);
         if (_bc) _bc.postMessage({ type: 'curtido', id: artigoId, liked: !liked });
       }
     } else {

@@ -135,28 +135,40 @@ function renderError(msg){
             <path stroke-linecap="round" stroke-linejoin="round" d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
           </svg>
         </div>
-        <h2>Artigo não encontrado</h2>
+        <h2>Edição não encontrada</h2>
         <p>${escHtml(msg)}</p>
         <a class="btn-back" href="/dashboard">← Voltar ao dashboard</a>
       </div>`;
   });
 }
 
-function renderArticle(art){
-  document.title=(art.titulo||'Artigo')+' — OdontoFeed';
+function renderEdition(art){
+  document.title='Descobertas em '+(art.tema||art.especialidade||'Odontologia')+' — OdontoFeed';
+  const descobertas = Array.isArray(art.descobertas) ? art.descobertas : [];
+  const descobertasHtml = descobertas.map((d, i) => {
+    const separator = i < descobertas.length - 1 ? '<div class="divider"></div>' : '';
+    const pubmedUrl = d.pubmedUrl || (d.pmid ? 'https://pubmed.ncbi.nlm.nih.gov/'+d.pmid+'/' : '');
+    return `<div>
+      <div style="margin-bottom:10px;"><span style="background:var(--primary);color:#fff;font-size:11px;font-weight:700;padding:4px 12px;border-radius:999px;text-transform:uppercase;letter-spacing:0.5px;">Descoberta ${i+1}</span></div>
+      <h2 style="font-size:clamp(1.05rem,2.5vw,1.4rem);font-weight:800;line-height:1.35;letter-spacing:-0.2px;margin:0 0 16px;">${escHtml(d.manchete||'')}</h2>
+      <div class="resumo" style="margin-bottom:16px;">${escHtml(d.descoberta||'').replace(/\n/g,'<br>')}</div>
+      <div style="background:rgba(16,185,129,0.08);border-left:3px solid var(--success);padding:12px 16px;border-radius:0 8px 8px 0;margin-bottom:12px;">
+        <p style="color:var(--success);font-size:0.88rem;line-height:1.65;margin:0;">💡 <strong>Na prática:</strong> ${escHtml(d.relevancia||'')}</p>
+      </div>
+      <p style="font-size:0.8rem;color:var(--muted);margin:0 0 4px;">📚 ${escHtml(d.referencia||'')}${pubmedUrl?' · <a href="'+escHtml(pubmedUrl)+'" target="_blank" rel="noopener" class="btn-pubmed" style="display:inline;padding:3px 10px;font-size:11px;">Ver no PubMed →</a>':''}</p>
+      ${separator}
+    </div>`;
+  }).join('');
   fadeOutSkeleton(()=>{
     document.getElementById('pageContent').innerHTML=`
       <div class="article-content">
-        <div class="article-tag">🦷 ${escHtml(art.especialidade||art.tema||'Artigo')}</div>
-        ${art.tema&&art.tema!==art.especialidade?`<div style="font-size:12px;color:var(--muted);margin-bottom:10px;">Tema: ${escHtml(art.tema)}</div>`:''}
+        <div class="article-tag">🦷 ${escHtml(art.especialidade||'Odontologia')}</div>
         <div class="article-date">${formatDate(art.data)}</div>
-        <h1>${escHtml(art.titulo)}</h1>
+        <h1>Descobertas em ${escHtml(art.tema||art.especialidade||'Odontologia')}</h1>
         <div class="divider"></div>
-        <div class="section-label">Resumo em português</div>
-        <div class="resumo">${escHtml(art.resumo)}</div>
-        <div style="margin-top:28px;display:flex;gap:12px;flex-wrap:wrap;">
+        ${descobertasHtml}
+        <div style="margin-top:32px;">
           <button class="btn-share" onclick="compartilhar(this)">🔗 Compartilhar</button>
-          ${art.pubmedUrl?`<a href="${escHtml(art.pubmedUrl)}" target="_blank" rel="noopener" class="btn-pubmed">Ler no PubMed →</a>`:''}
         </div>
       </div>`;
   });
@@ -167,7 +179,7 @@ async function loadArticle(){
   const id=params.get('id');
   const email=getEmail();
   const token=getToken();
-  if(!id){renderError('Nenhum artigo especificado.');return;}
+  if(!id){renderError('Nenhuma edição especificada.');return;}
   if(!email||!token){window.location.href='/dashboard';return;}
   try{
     const res=await fetch('/.netlify/functions/get-article',{
@@ -176,9 +188,9 @@ async function loadArticle(){
       body:JSON.stringify({email,id})
     });
     if(res.status===401){window.location.href='/dashboard';return;}
-    if(!res.ok){renderError('Este artigo não está disponível ou não pertence à sua conta.');return;}
+    if(!res.ok){renderError('Esta edição não está disponível ou não pertence à sua conta.');return;}
     const art=await res.json();
-    renderArticle(art);
+    renderEdition(art);
   }catch(e){
     renderError('Erro de conexão. Tente novamente.');
   }

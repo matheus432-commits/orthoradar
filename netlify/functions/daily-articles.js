@@ -365,8 +365,8 @@ const { request } = require("./_lib");
 
 const RETENTION_DAYS = parseInt(process.env.ARTICLE_RETENTION_DAYS || '180', 10);
 
-// Cache translations for the duration of the execution (avoids duplicate Claude calls for same article)
-const translationCache = new Map();
+// Cache editions for the duration of the execution (avoids duplicate Claude calls for same articles)
+const editionCache = new Map();
 
 // PubMed rate limiter: 3 req/s without NCBI key, 10 req/s with free key
 const PUBMED_GAP_MS = process.env.NCBI_API_KEY ? 100 : 400;
@@ -377,22 +377,41 @@ async function pubmedThrottle() {
   _lastPubMed = Date.now();
 }
 
-// Translate title + summarize abstract in Portuguese using Claude Haiku
-async function translateWithClaude(title, abstract, tema, especialidade) {
+// Generate 3 journalistic "descobertas" from an array of articles using Claude Sonnet
+async function generateDiscoveries(articles, tema, especialidade) {
   const anthropicKey = process.env.ANTHROPIC_API_KEY;
   if (!anthropicKey) return null;
-  if (!abstract || abstract.length < 50) return null;
-  const prompt = `Você é um editor científico de odontologia. Traduza o título e crie um resumo em português brasileiro claro e profissional para dentistas, baseado no abstract abaixo.
+  if (!articles || !articles.length) return null;
 
-Responda APENAS com JSON válido no formato: {"titulo": "título traduzido", "resumo": "resumo de 3 a 5 frases"}
+  const articlesJson = articles.map(a => ({
+    pmid: a.pmid,
+    title: a.title,
+    abstract: a.abstract.substring(0, 1500),
+    journal: a.journal,
+    year: a.year,
+    authors: a.authors
+  }));
+
+  const prompt = `Você é um jornalista científico especializado em odontologia. Para cada artigo abaixo, crie uma "descoberta" jornalística em português brasileiro para dentistas.
 
 Tema: ${tema}
 Especialidade: ${especialidade}
-Título original: ${title}
-Abstract: ${abstract.substring(0, 1500)}`;
+
+Artigos (JSON):
+${JSON.stringify(articlesJson, null, 2)}
+
+Para cada artigo, retorne um objeto com:
+- pmid: o PMID do artigo
+- manchete: título impactante com no máximo 15 palavras, estilo primeira página de jornal
+- descoberta: 3 a 5 frases narrando os achados jornalisticamente, incluindo números do estudo. Comece com frases como "Pesquisadores descobriram que...", "Um estudo com X participantes revelou...", "Uma nova pesquisa demonstrou que..." etc.
+- relevancia: 1 a 2 frases sobre o impacto clínico direto para o dentista da especialidade
+- referencia: "PrimeiroSobrenome et al. — Nome da Revista, Ano" (use apenas o último nome do primeiro autor)
+
+Responda APENAS com JSON válido: array de objetos com os campos acima. Sem texto fora do JSON.`;
+
   const payload = JSON.stringify({
-    model: 'claude-haiku-4-5-20251001',
-    max_tokens: 600,
+    model: 'claude-sonnet-4-6',
+    max_tokens: 2000,
     messages: [{ role: 'user', content: prompt }]
   });
   const buf = Buffer.from(payload, 'utf8');
@@ -411,13 +430,13 @@ Abstract: ${abstract.substring(0, 1500)}`;
     if (res.status !== 200) { console.warn('[Claude] HTTP', res.status, res.body.substring(0, 120)); return null; }
     const data = JSON.parse(res.body);
     const text = (data.content && data.content[0] && data.content[0].text) || '';
-    const m = text.match(/\{[\s\S]*\}/);
+    const m = text.match(/\[[\s\S]*\]/);
     if (!m) return null;
     const result = JSON.parse(m[0]);
-    if (!result.titulo || !result.resumo) return null;
-    return { titulo: result.titulo.trim(), resumo: result.resumo.trim() };
+    if (!Array.isArray(result) || !result.length) return null;
+    return result.filter(d => d.pmid && d.manchete && d.descoberta && d.relevancia && d.referencia);
   } catch(e) {
-    console.warn('[Claude] Translation error:', e.message);
+    console.warn('[Claude] generateDiscoveries error:', e.message);
     return null;
   }
 }
@@ -464,7 +483,7 @@ async function getUsers(projectId, apiKey) {
   }).filter(u => u.email && u.ativo !== false && u.emailVerificado !== false);
 }
 
-// Firestore: get sent PMIDs for a user (anti-repeat)
+// Firestore: get sent PMIDs for a user (anti-repeat) — handles both old single pmid and new pmids array format
 async function getSentPmids(projectId, apiKey, email) {
   const path = "/v1/projects/" + projectId + "/databases/(default)/documents:runQuery?key=" + apiKey;
   const body = JSON.stringify({
@@ -477,7 +496,7 @@ async function getSentPmids(projectId, apiKey, email) {
           value: { stringValue: email }
         }
       },
-      select: { fields: [{ fieldPath: "pmid" }, { fieldPath: "data" }] },
+      select: { fields: [{ fieldPath: "pmid" }, { fieldPath: "pmids" }, { fieldPath: "data" }] },
       limit: 200
     }
   });
@@ -492,12 +511,21 @@ async function getSentPmids(projectId, apiKey, email) {
     const cutoff = new Date(Date.now() - RETENTION_DAYS * 24 * 60 * 60 * 1000).toISOString();
     const results = JSON.parse(res.body);
     return results
-      .filter(r => r.document?.fields?.pmid)
+      .filter(r => r.document?.fields)
       .filter(r => {
         const data = r.document.fields.data?.stringValue || '';
         return !data || data >= cutoff;
       })
-      .map(r => r.document.fields.pmid.stringValue || r.document.fields.pmid.integerValue || "")
+      .flatMap(r => {
+        const fields = r.document.fields;
+        if (fields.pmids?.arrayValue) {
+          return (fields.pmids.arrayValue.values || []).map(v => v.stringValue || '').filter(Boolean);
+        } else if (fields.pmid) {
+          const val = fields.pmid.stringValue || fields.pmid.integerValue || '';
+          return val ? [val] : [];
+        }
+        return [];
+      })
       .filter(Boolean);
   } catch (e) {
     console.warn("Could not fetch sent PMIDs:", e.message);
@@ -505,19 +533,20 @@ async function getSentPmids(projectId, apiKey, email) {
   }
 }
 
-// PubMed: search a single English term
-async function trySearchPubMed(query, excludePmids = []) {
+// PubMed: search for PMIDs using esearch, filtered by excludePmids
+async function esearchIds(query, excludePmids = []) {
   const encoded = encodeURIComponent(query);
   const searchPath = "/entrez/eutils/esearch.fcgi?db=pubmed&term=" + encoded + "&retmax=20&sort=date&retmode=json&datetype=pdat&reldate=1825" + NCBI_API_PARAM;
   await pubmedThrottle();
   const searchRes = await request({ hostname: "eutils.ncbi.nlm.nih.gov", path: searchPath, method: "GET" }, null);
-  if (searchRes.status !== 200) return null;
+  if (searchRes.status !== 200) return [];
   const searchJson = JSON.parse(searchRes.body);
   const ids = searchJson.esearchresult?.idlist || [];
-  if (ids.length === 0) return null;
-  const freshIds = ids.filter(id => !excludePmids.includes(id));
-  if (freshIds.length === 0) return null;
-  const pmid = freshIds[Math.floor(Math.random() * freshIds.length)];
+  return ids.filter(id => !excludePmids.includes(id));
+}
+
+// PubMed: fetch a single article by PMID and parse its fields
+async function efetchArticle(pmid) {
   const fetchPath = "/entrez/eutils/efetch.fcgi?db=pubmed&id=" + pmid + "&retmode=xml&rettype=abstract" + NCBI_API_PARAM;
   await pubmedThrottle();
   const fetchRes = await request({ hostname: "eutils.ncbi.nlm.nih.gov", path: fetchPath, method: "GET" }, null);
@@ -532,6 +561,7 @@ async function trySearchPubMed(query, excludePmids = []) {
   const title = titleMatch ? titleMatch[1].replace(/<[^>]+>/g, "").trim() : "Artigo sem titulo";
   let abstract = "";
   if (abstractMatch) { abstract = abstractMatch.map(a => a.replace(/<[^>]+>/g, "").trim()).join(" "); }
+  if (abstract.length < 50) return null;
   const journalMatch = xml.match(/<Title>([\s\S]*?)<\/Title>/);
   const journal = journalMatch ? journalMatch[1].trim() : "";
   const yearMatch = xml.match(/<Year>(\d{4})<\/Year>/);
@@ -539,25 +569,39 @@ async function trySearchPubMed(query, excludePmids = []) {
   const authorMatches = xml.match(/<LastName>([\s\S]*?)<\/LastName>/g) || [];
   const authors = authorMatches.slice(0, 3).map(a => a.replace(/<[^>]+>/g, "").trim());
   const authorStr = authors.length > 0 ? authors.join(", ") + (authorMatches.length > 3 ? " et al." : "") : "Autores nao informados";
-  return { pmid, title, abstract: abstract.substring(0, 1200), journal, year, authors: authorStr };
+  return { pmid, title, abstract: abstract.substring(0, 1500), journal, year, authors: authorStr };
 }
 
-// PubMed: try each term in array with fallback, log failures
-async function searchPubMed(terms, excludePmids = [], context = "") {
+// Find count articles for one edition by trying multiple search terms
+async function findArticlesForEdition(terms, excludePmids, count = 3, context = '') {
+  const candidatePmids = [];
+  const seen = new Set(excludePmids);
+
   for (const term of terms) {
+    if (candidatePmids.length >= count * 3) break;
     try {
-      const result = await trySearchPubMed(term, excludePmids);
-      if (result) {
-        console.log(`[PubMed] Found article for "${term}"${context ? " (" + context + ")" : ""}`);
-        return result;
+      const ids = await esearchIds(term, Array.from(seen));
+      for (const id of ids) {
+        if (!seen.has(id)) { seen.add(id); candidatePmids.push(id); }
       }
-      console.log(`[PubMed] No results for term: "${term}"${context ? " (" + context + ")" : ""}`);
     } catch (e) {
-      console.warn(`[PubMed] Error searching "${term}": ${e.message}`);
+      console.warn(`[PubMed] esearch error for "${term}": ${e.message}`);
     }
   }
-  console.warn(`[PubMed] All terms exhausted for: ${context || terms[0]}`);
-  return null;
+
+  const articles = [];
+  for (const pmid of candidatePmids) {
+    if (articles.length >= count) break;
+    try {
+      const art = await efetchArticle(pmid);
+      if (art) articles.push(art);
+    } catch (e) {
+      console.warn(`[PubMed] efetch error for PMID ${pmid}: ${e.message}`);
+    }
+  }
+
+  console.log(`[PubMed] findArticlesForEdition${context ? ' (' + context + ')' : ''}: found ${articles.length}/${count}`);
+  return articles;
 }
 
 // Returns true if this user should receive an article today based on their plan
@@ -570,8 +614,8 @@ function shouldSendToday(plano, ultimoEnvio) {
   return daysSinceLast >= 30; // free
 }
 
-async function savePendingRetry(projectId, apiKey, docId, article, tema) {
-  const payload = JSON.stringify({ pmid: article.pmid, title: article.title, abstract: article.abstract, journal: article.journal, year: article.year, authors: article.authors, tituloLocal: article.tituloLocal || '', resumoLocal: article.resumoLocal || '', tema, savedAt: new Date().toISOString() });
+async function savePendingRetry(projectId, apiKey, docId, descobertas, tema, pmids) {
+  const payload = JSON.stringify({ descobertas, tema, pmids, savedAt: new Date().toISOString() });
   const body = JSON.stringify({ fields: { pendingRetry: { stringValue: payload } } });
   const buf = Buffer.from(body, 'utf8');
   return request({
@@ -635,74 +679,17 @@ function escHtml(str) {
   return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
-// Generate structured summary
-function generateSummary(article, especialidade, tema) {
-  if (!article.abstract || article.abstract.length < 50) {
-    return "Resumo detalhado nao disponivel para este artigo. Acesse o link abaixo para ler o artigo completo no PubMed.";
-  }
-  const abs = article.abstract;
-  const sentences = abs.split(/\.\s+/).filter(s => s.length > 20);
-  const intro = sentences[0] || abs.substring(0, 200);
-  const body = sentences.slice(1, Math.min(sentences.length - 1, 5)).join(". ");
-  const conclusion = sentences[sentences.length - 1] || "";
-  return intro + (body ? ". " + body : "") + (conclusion && conclusion !== intro ? ". " + conclusion : "") + ".";
-}
-
-// Build email HTML
-function buildEmail(user, article, tema) {
-  const pubmedUrl = "https://pubmed.ncbi.nlm.nih.gov/" + article.pmid + "/";
-  const titulo = escHtml(article.tituloLocal || article.title);
-  const summary = escHtml(article.resumoLocal || generateSummary(article, user.especialidades[0] || '', tema));
-  const firstName = escHtml(user.nome.split(" ")[0]);
-  const specs = escHtml(user.especialidades.join(', '));
-  const temaEsc = escHtml(tema);
-  const journal = escHtml(article.journal);
-  const authors = escHtml(article.authors);
-  return `<!DOCTYPE html>
-<html lang="pt-BR">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"></head>
-<body style="margin:0;padding:0;background:#f1f5f9;font-family:Inter,Helvetica,Arial,sans-serif;">
-<div style="max-width:600px;margin:0 auto;padding:24px 16px;">
-<div style="background:#0b1120;border-radius:16px 16px 0 0;padding:28px 32px;text-align:center;">
-<span style="font-size:1.4rem;font-weight:800;background:linear-gradient(135deg,#0ea5e9,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">OdontoFeed</span>
-<p style="color:#94a3b8;font-size:0.78rem;margin:6px 0 0;letter-spacing:1px;text-transform:uppercase;">Artigo do Dia · ${new Date().toLocaleDateString("pt-BR",{weekday:"long",day:"numeric",month:"long"})}</p>
-</div>
-<div style="background:#ffffff;padding:32px;border-left:1px solid #e2e8f0;border-right:1px solid #e2e8f0;">
-<p style="color:#64748b;font-size:0.9rem;margin:0 0 20px;">Olá, <strong style="color:#0f172a;">${firstName}</strong>! Seu artigo diário de <strong style="color:#0ea5e9;">${specs}</strong> chegou.</p>
-<div style="margin-bottom:20px;"><span style="background:#eff6ff;color:#0ea5e9;border:1px solid #bfdbfe;padding:5px 14px;border-radius:999px;font-size:0.78rem;font-weight:600;">${temaEsc}</span></div>
-<h1 style="font-size:1.15rem;font-weight:800;color:#0f172a;line-height:1.4;margin:0 0 20px;">${titulo}</h1>
-<div style="background:#f8fafc;border-radius:10px;padding:14px 18px;margin-bottom:24px;font-size:0.82rem;color:#64748b;">
-<span style="margin-right:16px;">📚 <strong>${journal}</strong></span>
-<span style="margin-right:16px;">📅 ${article.year}</span>
-<span>👥 ${authors}</span>
-</div>
-<div style="border-left:3px solid #0ea5e9;padding-left:18px;margin-bottom:28px;">
-<p style="font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#0ea5e9;margin:0 0 10px;">Resumo</p>
-<p style="color:#334155;font-size:0.9rem;line-height:1.75;margin:0;">${summary}</p>
-</div>
-<div style="text-align:center;margin-bottom:8px;">
-<a href="${pubmedUrl}" style="display:inline-block;background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff;text-decoration:none;padding:14px 32px;border-radius:10px;font-weight:700;font-size:0.95rem;">Ler artigo completo no PubMed →</a>
-</div>
-<p style="text-align:center;color:#94a3b8;font-size:0.78rem;margin-top:12px;">PMID: ${article.pmid}</p>
-</div>
-<div style="background:#0b1120;border-radius:0 0 16px 16px;padding:20px 32px;text-align:center;">
-<p style="color:#475569;font-size:0.78rem;margin:0;">OdontoFeed — Ciência odontológica direto para você</p>
-<p style="color:#334155;font-size:0.72rem;margin:8px 0 0;"><a href="${process.env.SITE_URL || 'https://odontofeed.com'}/.netlify/functions/unsubscribe?email=${encodeURIComponent(user.email)}&t=${crypto.createHmac('sha256', process.env.UNSUBSCRIBE_SECRET || 'unsub').update(user.email).digest('hex')}" style="color:#475569;text-decoration:underline;">Cancelar recebimento</a></p>
-</div>
-</div>
-</body>
-</html>`;
-}
-
-// Save article to Firestore
-async function saveArticleToFirestore(projectId, apiKey, data) {
-  const fields = {};
-  for (const [key, val] of Object.entries(data)) {
-    if (typeof val === 'string') fields[key] = { stringValue: val };
-    else if (typeof val === 'number') fields[key] = { integerValue: String(val) };
-    else if (typeof val === 'boolean') fields[key] = { booleanValue: val };
-    else fields[key] = { stringValue: String(val) };
-  }
+// Save edition to Firestore (artigos_enviados collection)
+async function saveEditionToFirestore(projectId, apiKey, data) {
+  // data: { email, especialidade, tema, data (ISO string), pmids (array), descobertas (array) }
+  const fields = {
+    email: { stringValue: data.email },
+    especialidade: { stringValue: data.especialidade },
+    tema: { stringValue: data.tema },
+    data: { stringValue: data.data },
+    pmids: { arrayValue: { values: data.pmids.map(p => ({ stringValue: p })) } },
+    descobertas: { stringValue: JSON.stringify(data.descobertas) }
+  };
   const body = JSON.stringify({ fields });
   const buf = Buffer.from(body, 'utf8');
   return request({
@@ -711,6 +698,60 @@ async function saveArticleToFirestore(projectId, apiKey, data) {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'Content-Length': buf.length }
   }, buf);
+}
+
+// Build email HTML for edition with 3 descobertas
+function buildEmail(user, descobertas, tema, especialidade) {
+  const firstName = escHtml(user.nome.split(" ")[0]);
+  const especialidadeEsc = escHtml(especialidade);
+  const temaEsc = escHtml(tema);
+  const dateStr = new Date().toLocaleDateString("pt-BR", { weekday: "long", day: "numeric", month: "long" });
+
+  const descobertasHtml = descobertas.map((d, i) => {
+    const manchete = escHtml(d.manchete || '');
+    const descoberta = escHtml(d.descoberta || '').replace(/\n/g, '<br>');
+    const relevancia = escHtml(d.relevancia || '');
+    const referencia = escHtml(d.referencia || '');
+    const pubmedUrl = d.pubmedUrl || (d.pmid ? 'https://pubmed.ncbi.nlm.nih.gov/' + d.pmid + '/' : '');
+    const separator = i < descobertas.length - 1 ? '<div style="border-bottom:1px solid #e2e8f0;margin:28px 0;"></div>' : '';
+    return `<div>
+<div style="margin-bottom:12px;"><span style="background:#0ea5e9;color:#fff;font-size:0.72rem;font-weight:700;padding:4px 12px;border-radius:999px;text-transform:uppercase;letter-spacing:0.5px;">Descoberta ${i + 1}</span></div>
+<h2 style="font-size:1.05rem;font-weight:800;color:#0f172a;line-height:1.4;margin:0 0 14px;">${manchete}</h2>
+<p style="color:#334155;font-size:0.9rem;line-height:1.75;margin:0 0 16px;">${descoberta}</p>
+<div style="background:#f0fdf4;border-left:3px solid #10b981;padding:12px 16px;border-radius:0 8px 8px 0;margin-bottom:14px;">
+<p style="color:#166534;font-size:0.85rem;line-height:1.6;margin:0;">💡 <strong>Na prática:</strong> ${relevancia}</p>
+</div>
+<p style="font-size:0.78rem;color:#94a3b8;margin:0;">📚 ${referencia}${pubmedUrl ? ' · <a href="' + escHtml(pubmedUrl) + '" style="color:#0ea5e9;text-decoration:none;">Ver no PubMed →</a>' : ''}</p>
+${separator}
+</div>`;
+  }).join('');
+
+  const siteUrl = process.env.SITE_URL || 'https://odontofeed.com';
+  const unsubToken = crypto.createHmac('sha256', process.env.UNSUBSCRIBE_SECRET || 'unsub').update(user.email).digest('hex');
+
+  return `<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"></head>
+<body style="margin:0;padding:0;background:#f1f5f9;font-family:Inter,Helvetica,Arial,sans-serif;">
+<div style="max-width:600px;margin:0 auto;padding:24px 16px;">
+<div style="background:#0b1120;border-radius:16px 16px 0 0;padding:28px 32px;text-align:center;">
+<span style="font-size:1.4rem;font-weight:800;background:linear-gradient(135deg,#0ea5e9,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">OdontoFeed</span>
+<p style="color:#94a3b8;font-size:0.78rem;margin:6px 0 0;letter-spacing:1px;text-transform:uppercase;">${especialidadeEsc} · ${dateStr}</p>
+</div>
+<div style="background:#ffffff;padding:32px;border-left:1px solid #e2e8f0;border-right:1px solid #e2e8f0;">
+<p style="color:#64748b;font-size:0.9rem;margin:0 0 20px;">Olá, <strong style="color:#0f172a;">${firstName}</strong>! Suas descobertas de hoje em <strong style="color:#0ea5e9;">${temaEsc}</strong>:</p>
+${descobertasHtml}
+<div style="text-align:center;margin-top:28px;">
+<a href="${siteUrl}/dashboard" style="display:inline-block;background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff;text-decoration:none;padding:14px 32px;border-radius:10px;font-weight:700;font-size:0.95rem;">Ver no meu painel →</a>
+</div>
+</div>
+<div style="background:#0b1120;border-radius:0 0 16px 16px;padding:20px 32px;text-align:center;">
+<p style="color:#475569;font-size:0.78rem;margin:0;">OdontoFeed — Ciência odontológica direto para você</p>
+<p style="color:#334155;font-size:0.72rem;margin:8px 0 0;"><a href="${siteUrl}/.netlify/functions/unsubscribe?email=${encodeURIComponent(user.email)}&t=${unsubToken}" style="color:#475569;text-decoration:underline;">Cancelar recebimento</a></p>
+</div>
+</div>
+</body>
+</html>`;
 }
 
 // Send email via Resend
@@ -724,7 +765,7 @@ async function sendEmail(resendKey, to, subject, html) {
   }, payload);
 }
 
-// Process a single user: fetch article, translate, email, save
+// Process a single user: find 3 articles, generate discoveries, email, save
 async function processUser(user, projectId, apiKey, resendKey) {
   try {
     const temas = (Array.isArray(user.temas) ? user.temas : []).filter(Boolean);
@@ -753,63 +794,74 @@ async function processUser(user, projectId, apiKey, resendKey) {
     const dayNumber = Math.floor(Date.now() / 86400000);
     const emailOffset = user.email.split('').reduce((a, c) => a + c.charCodeAt(0), 0);
     const sentPmids = await getSentPmids(projectId, apiKey, user.email);
-    let article = null;
     let tema = user.especialidades[0] || '';
 
-    // Use pending retry article if available (from a previous failed send)
-    if (user.pendingRetry && user.pendingRetry.pmid) {
-      article = user.pendingRetry;
+    // Check pendingRetry (now stores edition data)
+    let descobertas = null;
+    let pmids = [];
+    if (user.pendingRetry && user.pendingRetry.descobertas) {
+      descobertas = user.pendingRetry.descobertas;
+      pmids = user.pendingRetry.pmids || [];
       tema = user.pendingRetry.tema || tema;
-      console.log(`[Retry] ${user.email}: retrying article PMID ${article.pmid} | tema: "${tema}"`);
+      console.log(`[Retry] ${user.email}: retrying edition with ${descobertas.length} discoveries`);
     }
 
-    if (!article && temas.length > 0 && !allTemasInvalid) {
-      const temaPool = validTemas.length > 0 ? validTemas : temas;
-      tema = temaPool[(dayNumber + emailOffset) % temaPool.length];
-      const terms = getSearchTerms(tema, user.especialidades);
-      console.log(`[Dispatch] ${user.email} | esp: ${user.especialidades.join('+')} | tema: "${tema}" | sentPmids: ${sentPmids.length}`);
-      article = await searchPubMed(terms, sentPmids, tema);
-
-      if (!article && temaPool.length > 1) {
-        for (const altTema of temaPool.filter(t => t !== tema)) {
-          article = await searchPubMed(getSearchTerms(altTema, user.especialidades), sentPmids, altTema);
-          if (article) break;
-        }
+    if (!descobertas) {
+      // Determine tema and search terms
+      if (temas.length > 0 && !allTemasInvalid) {
+        const temaPool = validTemas.length > 0 ? validTemas : temas;
+        tema = temaPool[(dayNumber + emailOffset) % temaPool.length];
       }
-    } else {
-      console.log(`[Dispatch] ${user.email} | esp: ${user.especialidades.join('+')} | ${temas.length === 0 ? 'sem temas → fallback' : 'todos temas inválidos → fallback direto'}`);
+      console.log(`[Dispatch] ${user.email} | esp: ${user.especialidades.join('+')} | tema: "${tema}" | sentPmids: ${sentPmids.length}`);
+
+      const terms = (tema && !allTemasInvalid) ? getSearchTerms(tema, user.especialidades) : getBestFallbackTerms(user.especialidades);
+      let articles = await findArticlesForEdition(terms, sentPmids, 3, `${user.email} | ${tema}`);
+
+      if (!articles.length) {
+        // Fallback to specialty terms
+        const fallbackArticles = await findArticlesForEdition(getBestFallbackTerms(user.especialidades), sentPmids, 3, `${user.email} | fallback`);
+        if (!fallbackArticles.length) { console.warn(`[Error] No articles for ${user.email}`); return 'error'; }
+        articles = fallbackArticles;
+      }
+
+      pmids = articles.map(a => a.pmid);
+      const cacheKey = [...pmids].sort().join(',');
+      descobertas = editionCache.get(cacheKey) || await generateDiscoveries(articles, tema, user.especialidades[0] || '').catch(e => { console.warn(`[Claude] generateDiscoveries failed for ${user.email}:`, e.message); return null; });
+      if (descobertas && !editionCache.has(cacheKey)) editionCache.set(cacheKey, descobertas);
+
+      if (!descobertas || !descobertas.length) {
+        // Fallback to simple text from abstracts
+        descobertas = articles.map(a => ({
+          pmid: a.pmid,
+          manchete: a.title.substring(0, 100),
+          descoberta: a.abstract.substring(0, 400),
+          relevancia: 'Consulte o artigo completo para mais detalhes clínicos.',
+          referencia: `${a.authors} — ${a.journal}, ${a.year}`
+        }));
+      }
+
+      // Add pubmedUrl to each descoberta
+      descobertas = descobertas.map(d => ({
+        ...d,
+        pubmedUrl: `https://pubmed.ncbi.nlm.nih.gov/${d.pmid || pmids[0]}/`
+      }));
+
+      // Save edition
+      await saveEditionToFirestore(projectId, apiKey, {
+        email: user.email,
+        especialidade: user.especialidades[0] || '',
+        tema,
+        data: new Date().toISOString(),
+        pmids,
+        descobertas
+      }).catch(e => console.warn('Could not save edition:', e.message));
     }
 
-    if (!article) {
-      const fallbackTerms = getBestFallbackTerms(user.especialidades);
-      article = await searchPubMed(fallbackTerms, sentPmids, tema + " specialty fallback");
-    }
-    if (!article) { console.warn(`[Error] No article for ${user.email} after all fallbacks`); return 'error'; }
+    const especialidade = user.especialidades[0] || 'Odontologia';
+    const html = buildEmail(user, descobertas, tema, especialidade);
+    const emailSubject = `🦷 ${descobertas.length} descobertas em ${tema} — OdontoFeed`;
 
-
-    console.log(`[Found] "${article.title.substring(0, 55)}" for ${user.email}`);
-    const cachedTranslation = translationCache.get(article.pmid);
-    const translation = cachedTranslation || await translateWithClaude(article.title, article.abstract, tema, user.especialidades[0] || '').catch(e => { console.warn(`[Claude] Translation failed for ${user.email}:`, e.message); return null; });
-    if (translation && !cachedTranslation) translationCache.set(article.pmid, translation);
-    if (translation) {
-      article.tituloLocal = translation.titulo;
-      article.resumoLocal = translation.resumo;
-      console.log(`[Claude] ${user.email}: "${translation.titulo.substring(0, 50)}"${cachedTranslation ? ' (cached)' : ''}`);
-    }
-
-    if (!user.pendingRetry) {
-      await saveArticleToFirestore(projectId, apiKey, {
-        email: user.email, especialidade: user.especialidades[0] || '', tema,
-        titulo: article.tituloLocal || article.title || '',
-        resumo: article.resumoLocal || generateSummary(article, user.especialidades[0] || '', tema),
-        pubmedUrl: 'https://pubmed.ncbi.nlm.nih.gov/' + article.pmid + '/',
-        pmid: String(article.pmid || ''), data: new Date().toISOString()
-      }).catch(e => console.warn('Could not save article history:', e.message));
-    }
-
-    const html = buildEmail(user, article, tema);
-    const tituloEmail = article.tituloLocal || article.title;
-    const emailRes = await sendEmail(resendKey, user.email, "🦷 " + tituloEmail.substring(0, 70) + (tituloEmail.length > 70 ? "..." : ""), html);
+    const emailRes = await sendEmail(resendKey, user.email, emailSubject, html);
     if (emailRes.status === 200 || emailRes.status === 201) {
       console.log(`[Sent] ${user.email}`);
       await updateUltimoEnvio(projectId, apiKey, user._docId).catch(e => console.warn('[ultimoEnvio] update failed:', e.message));
@@ -845,9 +897,9 @@ async function processUser(user, projectId, apiKey, resendKey) {
       return 'sent';
     }
     console.error(`[Error] Email to ${user.email}: ${emailRes.status} — ${emailRes.body.substring(0, 300)}`);
-    // Save article for retry on next dispatch
-    await savePendingRetry(projectId, apiKey, user._docId, article, tema);
-    console.log(`[Retry] Saved article PMID ${article.pmid} for retry: ${user.email}`);
+    // Save edition for retry on next dispatch
+    await savePendingRetry(projectId, apiKey, user._docId, descobertas, tema, pmids);
+    console.log(`[Retry] Saved edition (${pmids.length} articles) for retry: ${user.email}`);
     return 'error';
   } catch (err) {
     console.error(`[Error] ${user.email}: ${err.message}`);

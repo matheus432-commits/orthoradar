@@ -64,12 +64,16 @@ exports.handler = async (event) => {
       return { statusCode: 401, headers, body: JSON.stringify({ error: 'Sessao expirada. Faca login novamente.' }) };
     }
 
-    let artigos = [];
+    let edicoes = [];
     try {
-      artigos = await queryByField(projectId, apiKey, 'artigos_enviados', 'email', email, 200);
-      artigos.sort((a, b) => new Date(b.data || 0) - new Date(a.data || 0));
-      artigos = artigos.slice(0, 50);
-    } catch(e) { console.warn('Could not fetch artigos:', e.message); }
+      edicoes = await queryByField(projectId, apiKey, 'artigos_enviados', 'email', email, 200);
+      edicoes.sort((a, b) => new Date(b.data || 0) - new Date(a.data || 0));
+      edicoes = edicoes.slice(0, 50);
+      edicoes = edicoes.map(e => ({
+        ...e,
+        descobertas: (() => { try { return JSON.parse(e.descobertas || '[]'); } catch { return []; } })()
+      }));
+    } catch(e) { console.warn('Could not fetch edicoes:', e.message); }
 
     let amigos = [];
     try {
@@ -134,7 +138,7 @@ exports.handler = async (event) => {
         streakDias: typeof user.streakDias === 'number' ? user.streakDias : parseInt(user.streakDias || '0', 10),
         emailVerificado: user.emailVerificado !== false,
         emailConfirmFalhou: user.emailConfirmFalhou === true,
-        artigos,
+        edicoes,
         curtidos: user.curtidos || [],
         lidos: user.lidos || [],
         amigos

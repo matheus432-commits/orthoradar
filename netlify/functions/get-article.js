@@ -40,16 +40,17 @@ async function getArticle(projectId, apiKey, id) {
   if (res.status !== 200) return null;
   const doc = JSON.parse(res.body);
   const f = doc.fields || {};
+  let descobertas = [];
+  try { descobertas = JSON.parse(f.descobertas?.stringValue || '[]'); } catch {}
+  const pmids = (f.pmids?.arrayValue?.values || []).map(v => v.stringValue || '').filter(Boolean);
   return {
     id,
     email: f.email?.stringValue || '',
-    titulo: f.titulo?.stringValue || '',
-    resumo: f.resumo?.stringValue || '',
     especialidade: f.especialidade?.stringValue || '',
     tema: f.tema?.stringValue || '',
-    pubmedUrl: f.pubmedUrl?.stringValue || '',
-    pmid: f.pmid?.stringValue || '',
-    data: f.data?.stringValue || ''
+    data: f.data?.stringValue || '',
+    pmids,
+    descobertas
   };
 }
 
@@ -79,13 +80,13 @@ exports.handler = async (event) => {
     }
 
     const article = await getArticle(projectId, apiKey, id);
-    if (!article) return { statusCode: 404, headers, body: JSON.stringify({ error: 'Artigo nao encontrado' }) };
+    if (!article) return { statusCode: 404, headers, body: JSON.stringify({ error: 'Edição não encontrada' }) };
 
     // Ensure article belongs to the authenticated user
     if (article.email !== email) return { statusCode: 403, headers, body: JSON.stringify({ error: 'Acesso negado' }) };
 
-    const { email: _e, ...safeArticle } = article;
-    return { statusCode: 200, headers, body: JSON.stringify(safeArticle) };
+    const { email: _e, ...safeEdition } = article;
+    return { statusCode: 200, headers, body: JSON.stringify(safeEdition) };
   } catch (err) {
     console.error('[GetArticle] Error:', err.message);
     return { statusCode: 500, headers, body: JSON.stringify({ error: 'Erro interno' }) };
