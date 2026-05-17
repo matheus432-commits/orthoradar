@@ -745,6 +745,9 @@ ${descobertasHtml}
 <a href="${siteUrl}/dashboard" style="display:inline-block;background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff;text-decoration:none;padding:14px 32px;border-radius:10px;font-weight:700;font-size:0.95rem;">Ver no meu painel →</a>
 </div>
 </div>
+<div style="background:#1e293b;border-left:1px solid #e2e8f0;border-right:1px solid #e2e8f0;padding:16px 32px;">
+<p style="color:#64748b;font-size:0.72rem;line-height:1.6;margin:0;text-align:center;">⚠️ <strong style="color:#94a3b8;">Aviso importante:</strong> Este conteúdo é gerado por inteligência artificial com base nos abstracts originais disponíveis no PubMed. Não substitui a leitura do artigo completo nem a orientação de especialistas. Sempre consulte a publicação original antes de modificar protocolos clínicos.</p>
+</div>
 <div style="background:#0b1120;border-radius:0 0 16px 16px;padding:20px 32px;text-align:center;">
 <p style="color:#475569;font-size:0.78rem;margin:0;">OdontoFeed — Ciência odontológica direto para você</p>
 <p style="color:#334155;font-size:0.72rem;margin:8px 0 0;"><a href="${siteUrl}/.netlify/functions/unsubscribe?email=${encodeURIComponent(user.email)}&t=${unsubToken}" style="color:#475569;text-decoration:underline;">Cancelar recebimento</a></p>

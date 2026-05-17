@@ -62,6 +62,8 @@ body.light .error-icon{box-shadow:0 1px 6px rgba(0,0,0,0.06);}
 @keyframes toastIn{from{opacity:0;transform:translateX(-50%) translateY(12px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
 @keyframes toastOut{to{opacity:0;transform:translateX(-50%) translateY(8px)}}
 @media(max-width:600px){nav{padding:14px 20px;}.page{padding:80px 16px 40px;}.pubmed-box{flex-direction:column;align-items:flex-start;}}
+.disclaimer{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 18px;margin-top:32px;font-size:12px;color:var(--muted);line-height:1.65;}
+.disclaimer strong{color:var(--text);}
 </style>
 </head>
 <body>
@@ -169,6 +171,8 @@ function renderEdition(art){
         ${descobertasHtml}
         <div style="margin-top:32px;">
           <button class="btn-share" onclick="compartilhar(this)">🔗 Compartilhar</button>
+        </div>
+        <div class="disclaimer">⚠️ <strong>Aviso:</strong> Este conteúdo é gerado por inteligência artificial com base nos abstracts originais disponíveis no PubMed. Não substitui a leitura do artigo completo nem a orientação de especialistas. Sempre consulte a publicação original antes de modificar protocolos clínicos.
         </div>
       </div>`;
   });
