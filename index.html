@@ -6,7 +6,7 @@
 <title>OdontoFeed – Ciência odontológica direto para você</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
 <link rel="manifest" href="/manifest.json" />
-<meta name="theme-color" content="#0ea5e9" />h
+<meta name="theme-color" content="#0ea5e9" />
 <meta name="mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -122,6 +122,13 @@ section{padding:96px 24px;}
 .sii-icon{font-size:18px;flex-shrink:0;margin-top:1px;}
 .sii-txt{font-size:0.88rem;color:var(--text-muted);line-height:1.5;}
 .sii-txt strong{color:var(--text);}
+.pub-section{background:var(--bg2);}
+.pub-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;max-width:960px;margin:0 auto;}
+.pub-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;transition:all 0.2s;}
+.pub-card:hover{border-color:var(--primary);transform:translateY(-3px);box-shadow:0 8px 28px rgba(0,0,0,0.3);}
+.pub-card-tag{font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--primary);background:rgba(14,165,233,0.1);padding:3px 9px;border-radius:6px;display:inline-block;margin-bottom:12px;}
+.pub-card h4{font-size:0.9rem;font-weight:700;line-height:1.5;color:var(--text);margin-bottom:8px;}
+.pub-card-meta{font-size:0.76rem;color:var(--text-muted);}
 footer{background:var(--bg2);border-top:1px solid var(--border);padding:40px 48px;display:flex;align-items:center;justify-content:space-between;}
 footer p{font-size:0.82rem;color:var(--text-muted);}
 @media(max-width:600px){
@@ -182,6 +189,15 @@ footer p{font-size:0.82rem;color:var(--text-muted);}
     <div class="spec-card"><div class="spec-icon">👶</div><h4>Odontopediatria</h4><p>Saúde bucal infantil e adolescente</p></div>
     <div class="spec-card"><div class="spec-icon">🧠</div><h4>DTM e Dor</h4><p>ATM, dor orofacial, bruxismo</p></div>
     <div class="spec-card"><div class="spec-icon">📷</div><h4>Radiologia</h4><p>CBCT, diagnóstico por imagem</p></div>
+  </div>
+</section>
+
+<section class="pub-section">
+  <div class="section-label">Publicações Recentes</div>
+  <h2 class="section-title">Artigos da comunidade</h2>
+  <p class="section-sub">Veja exemplos reais dos artigos científicos que nossos assinantes recebem todos os dias.</p>
+  <div class="pub-grid" id="pubGrid">
+    <div class="pub-card" style="opacity:0.5;"><div class="pub-card-tag">Carregando...</div><h4 style="color:var(--text-muted);">Buscando artigos recentes</h4></div>
   </div>
 </section>
 
@@ -284,6 +300,27 @@ footer p{font-size:0.82rem;color:var(--text-muted);}
 </footer>
 
 <script>
+(async function loadPublicArticles() {
+  try {
+    const res = await fetch('/.netlify/functions/get-public-articles');
+    if (!res.ok) return;
+    const { artigos } = await res.json();
+    if (!artigos || !artigos.length) return;
+    const grid = document.getElementById('pubGrid');
+    if (!grid) return;
+    grid.innerHTML = artigos.map(a => {
+      const date = a.data ? new Date(a.data).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' }) : '';
+      const label = a.tema || a.especialidade || 'Artigo';
+      const meta = [a.journal, a.year].filter(Boolean).join(' · ');
+      return `<div class="pub-card">
+        <span class="pub-card-tag">${label.replace(/</g,'&lt;')}</span>
+        <h4>${(a.titulo||'').replace(/</g,'&lt;').substring(0,120)}</h4>
+        <div class="pub-card-meta">${meta ? meta.replace(/</g,'&lt;') + (date ? ' &nbsp;·&nbsp; ' + date : '') : date}</div>
+      </div>`;
+    }).join('');
+  } catch(e) {}
+})();
+
 const THEMES = {
   "Ortodontia": ["Alinhadores invisíveis","Biomecânica ortodôntica","Cefalometria","Mini-implantes / TADs","Expansão maxilar","Cirurgia ortognática","Ortodontia e ATM","Ancoragem esquelética","Contenção e recidiva","Ortodontia interceptiva","Aparelho fixo estético","Extração em ortodontia","Ortodontia lingual","Self-ligating","Torque e angulação","Crescimento e desenvolvimento facial","Ortodontia em adultos","Respiração oral e má-oclusão","Ortodontia e sono/apneia","Tratamento de Classe II","Tratamento de Classe III","Mordida aberta","Mordida cruzada posterior","Sobremordida profunda","Inteligência artificial em ortodontia"],
   "Implantodontia": ["Osseointegração","Carga imediata","Enxertos ósseos autógenos","Enxertos com biomateriais","Implantes zigomáticos","Prótese sobre implante","Peri-implantite","Planejamento digital 3D","All-on-4 e All-on-X","Implantes em maxila posterior","Implantes em mandíbula posterior","Elevação de seio maxilar","Implantes estreitos (mini-implantes)","Implantes curtos","Tecido mole peri-implantar","Carga diferida","Reabilitação com implantes unitários","Implantes em pacientes sistêmicos","Complicações em implantes","Sobredentadura","Membranas e ROG","Biofilme peri-implantar","Impressão digital em implantes","Implantes imediatos pós-extração","Implantes em adolescentes"],

@@ -332,60 +332,12 @@ const ESPECIALIDADE_FALLBACK = {
 
 const { request } = require("./_lib");
 
-// Cache translations for the duration of the execution (avoids duplicate Claude calls for same article)
-const translationCache = new Map();
-
 // PubMed rate limiter: NCBI allows 3 req/s without API key; enforce ~2.5 req/s
 let _lastPubMed = 0;
 async function pubmedThrottle() {
   const gap = 400 - (Date.now() - _lastPubMed);
   if (gap > 0) await new Promise(r => setTimeout(r, gap));
   _lastPubMed = Date.now();
-}
-
-// Translate title + summarize abstract in Portuguese using Claude Haiku
-async function translateWithClaude(title, abstract, tema, especialidade) {
-  const anthropicKey = process.env.ANTHROPIC_API_KEY;
-  if (!anthropicKey) return null;
-  if (!abstract || abstract.length < 50) return null;
-  const prompt = `Você é um editor científico de odontologia. Traduza o título e crie um resumo em português brasileiro claro e profissional para dentistas, baseado no abstract abaixo.
-
-Responda APENAS com JSON válido no formato: {"titulo": "título traduzido", "resumo": "resumo de 3 a 5 frases"}
-
-Tema: ${tema}
-Especialidade: ${especialidade}
-Título original: ${title}
-Abstract: ${abstract.substring(0, 1500)}`;
-  const payload = JSON.stringify({
-    model: 'claude-haiku-4-5-20251001',
-    max_tokens: 600,
-    messages: [{ role: 'user', content: prompt }]
-  });
-  const buf = Buffer.from(payload, 'utf8');
-  try {
-    const res = await request({
-      hostname: 'api.anthropic.com',
-      path: '/v1/messages',
-      method: 'POST',
-      headers: {
-        'x-api-key': anthropicKey,
-        'anthropic-version': '2023-06-01',
-        'content-type': 'application/json',
-        'content-length': buf.length
-      }
-    }, buf);
-    if (res.status !== 200) { console.warn('[Claude] HTTP', res.status, res.body.substring(0, 120)); return null; }
-    const data = JSON.parse(res.body);
-    const text = (data.content && data.content[0] && data.content[0].text) || '';
-    const m = text.match(/\{[\s\S]*\}/);
-    if (!m) return null;
-    const result = JSON.parse(m[0]);
-    if (!result.titulo || !result.resumo) return null;
-    return { titulo: result.titulo.trim(), resumo: result.resumo.trim() };
-  } catch(e) {
-    console.warn('[Claude] Translation error:', e.message);
-    return null;
-  }
 }
 
 // Firestore: list all users (paginated)
@@ -427,17 +379,20 @@ async function getUsers(projectId, apiKey) {
 // Firestore: get sent PMIDs for a user (anti-repeat)
 async function getSentPmids(projectId, apiKey, email) {
   const path = "/v1/projects/" + projectId + "/databases/(default)/documents:runQuery?key=" + apiKey;
+  const cutoff = new Date(Date.now() - 180 * 24 * 60 * 60 * 1000).toISOString();
   const body = JSON.stringify({
     structuredQuery: {
       from: [{ collectionId: "artigos_enviados" }],
       where: {
-        fieldFilter: {
-          field: { fieldPath: "email" },
-          op: "EQUAL",
-          value: { stringValue: email }
+        compositeFilter: {
+          op: "AND",
+          filters: [
+            { fieldFilter: { field: { fieldPath: "email" }, op: "EQUAL", value: { stringValue: email } } },
+            { fieldFilter: { field: { fieldPath: "data" }, op: "GREATER_THAN_OR_EQUAL", value: { stringValue: cutoff } } }
+          ]
         }
       },
-      select: { fields: [{ fieldPath: "pmid" }, { fieldPath: "data" }] },
+      select: { fields: [{ fieldPath: "pmid" }] },
       limit: 200
     }
   });
@@ -449,14 +404,9 @@ async function getSentPmids(projectId, apiKey, email) {
       headers: { "Content-Type": "application/json", "Content-Length": Buffer.byteLength(body) }
     }, body);
     if (res.status !== 200) return [];
-    const cutoff = new Date(Date.now() - 180 * 24 * 60 * 60 * 1000).toISOString();
     const results = JSON.parse(res.body);
     return results
       .filter(r => r.document?.fields?.pmid)
-      .filter(r => {
-        const data = r.document.fields.data?.stringValue || '';
-        return !data || data >= cutoff;
-      })
       .map(r => r.document.fields.pmid.stringValue || r.document.fields.pmid.integerValue || "")
       .filter(Boolean);
   } catch (e) {
@@ -592,8 +542,35 @@ function buildEmail(user, article, tema) {
 </html>`;
 }
 
-// Save article to Firestore
-async function saveArticleToFirestore(projectId, apiKey, data) {
+// Save article metadata to shared artigos collection (PMID as doc ID, idempotent PATCH)
+async function saveSharedArticle(projectId, apiKey, article, tema, especialidade) {
+  const pmid = String(article.pmid || '');
+  if (!pmid) return;
+  const fields = {
+    titulo: { stringValue: article.title || '' },
+    resumo: { stringValue: generateSummary(article, especialidade, tema) },
+    journal: { stringValue: article.journal || '' },
+    year: { stringValue: article.year || '' },
+    authors: { stringValue: article.authors || '' },
+    tema: { stringValue: tema || '' },
+    especialidade: { stringValue: especialidade || '' },
+    pubmedUrl: { stringValue: 'https://pubmed.ncbi.nlm.nih.gov/' + pmid + '/' },
+    pmid: { stringValue: pmid },
+    data: { stringValue: new Date().toISOString() }
+  };
+  const body = JSON.stringify({ fields });
+  const buf = Buffer.from(body, 'utf8');
+  const updateMask = Object.keys(fields).map(k => 'updateMask.fieldPaths=' + k).join('&');
+  return request({
+    hostname: 'firestore.googleapis.com',
+    path: '/v1/projects/' + projectId + '/databases/(default)/documents/artigos/' + pmid + '?key=' + apiKey + '&' + updateMask,
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', 'Content-Length': buf.length }
+  }, buf).catch(e => console.warn('Could not save shared article:', e.message));
+}
+
+// Save per-user sent log to artigos_enviados
+async function saveToSentLog(projectId, apiKey, data) {
   const fields = {};
   for (const [key, val] of Object.entries(data)) {
     if (typeof val === 'string') fields[key] = { stringValue: val };
@@ -630,7 +607,7 @@ async function sendEmail(resendKey, to, subject, html) {
   }, payload);
 }
 
-// Process a single user: fetch article, translate, email, save
+// Process a single user: fetch article, email, save
 async function processUser(user, projectId, apiKey, resendKey) {
   try {
     const temas = (Array.isArray(user.temas) ? user.temas : []).filter(Boolean);
@@ -642,23 +619,17 @@ async function processUser(user, projectId, apiKey, resendKey) {
       const sentPmids = await getSentPmids(projectId, apiKey, user.email);
       const article = await searchPubMed(fallbackTerms, sentPmids, (user.especialidades[0] || user.especialidade) + " fallback");
       if (!article) { console.warn(`[Skip] No article for ${user.email}`); return 'skipped'; }
-      const cachedFt = translationCache.get(article.pmid);
-      const ft = cachedFt || await translateWithClaude(article.title, article.abstract, user.especialidade, user.especialidade).catch(() => null);
-      if (ft && !cachedFt) translationCache.set(article.pmid, ft);
-      if (ft) { article.tituloLocal = ft.titulo; article.resumoLocal = ft.resumo; }
-      await saveArticleToFirestore(projectId, apiKey, {
-        email: user.email, especialidade: user.especialidade, tema: user.especialidade,
-        titulo: article.tituloLocal || article.title || '',
-        resumo: article.resumoLocal || generateSummary(article, user.especialidade, user.especialidade),
-        pubmedUrl: 'https://pubmed.ncbi.nlm.nih.gov/' + article.pmid + '/',
-        pmid: String(article.pmid || ''), data: new Date().toISOString()
-      }).catch(e => console.warn('Could not save article:', e.message));
-      const html = buildEmail(user, article, user.especialidade);
-      const tituloEmail = article.tituloLocal || article.title;
-      const emailRes = await sendEmail(resendKey, user.email, "🦷 " + tituloEmail.substring(0, 70) + (tituloEmail.length > 70 ? "..." : ""), html);
-      if (emailRes.status === 200 || emailRes.status === 201) {
-        return 'sent';
-      }
+      const tema = user.especialidades[0] || user.especialidade;
+      await Promise.all([
+        saveSharedArticle(projectId, apiKey, article, tema, user.especialidade),
+        saveToSentLog(projectId, apiKey, {
+          email: user.email, especialidade: user.especialidade, tema,
+          titulo: article.title || '', pmid: String(article.pmid || ''), data: new Date().toISOString()
+        }).catch(e => console.warn('Could not save sent log:', e.message))
+      ]);
+      const html = buildEmail(user, article, tema);
+      const emailRes = await sendEmail(resendKey, user.email, "🦷 " + article.title.substring(0, 70) + (article.title.length > 70 ? "..." : ""), html);
+      if (emailRes.status === 200 || emailRes.status === 201) return 'sent';
       return 'error';
     }
 
@@ -699,26 +670,17 @@ async function processUser(user, projectId, apiKey, resendKey) {
     if (!article) { console.warn(`[Error] No article for ${user.email} after all fallbacks`); return 'error'; }
 
     console.log(`[Found] "${article.title.substring(0, 55)}" for ${user.email}`);
-    const cachedTranslation = translationCache.get(article.pmid);
-    const translation = cachedTranslation || await translateWithClaude(article.title, article.abstract, tema, user.especialidade).catch(() => null);
-    if (translation && !cachedTranslation) translationCache.set(article.pmid, translation);
-    if (translation) {
-      article.tituloLocal = translation.titulo;
-      article.resumoLocal = translation.resumo;
-      console.log(`[Claude] ${user.email}: "${translation.titulo.substring(0, 50)}"${cachedTranslation ? ' (cached)' : ''}`);
-    }
 
-    await saveArticleToFirestore(projectId, apiKey, {
-      email: user.email, especialidade: user.especialidade, tema,
-      titulo: article.tituloLocal || article.title || '',
-      resumo: article.resumoLocal || generateSummary(article, user.especialidade, tema),
-      pubmedUrl: 'https://pubmed.ncbi.nlm.nih.gov/' + article.pmid + '/',
-      pmid: String(article.pmid || ''), data: new Date().toISOString()
-    }).catch(e => console.warn('Could not save article history:', e.message));
+    await Promise.all([
+      saveSharedArticle(projectId, apiKey, article, tema, user.especialidade),
+      saveToSentLog(projectId, apiKey, {
+        email: user.email, especialidade: user.especialidade, tema,
+        titulo: article.title || '', pmid: String(article.pmid || ''), data: new Date().toISOString()
+      }).catch(e => console.warn('Could not save sent log:', e.message))
+    ]);
 
     const html = buildEmail(user, article, tema);
-    const tituloEmail = article.tituloLocal || article.title;
-    const emailRes = await sendEmail(resendKey, user.email, "🦷 " + tituloEmail.substring(0, 70) + (tituloEmail.length > 70 ? "..." : ""), html);
+    const emailRes = await sendEmail(resendKey, user.email, "🦷 " + article.title.substring(0, 70) + (article.title.length > 70 ? "..." : ""), html);
     if (emailRes.status === 200 || emailRes.status === 201) {
       console.log(`[Sent] ${user.email}`);
       return 'sent';

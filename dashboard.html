@@ -458,13 +458,15 @@ function articleCard(art,curtidos,lidos){
   const liked=curtidos.includes(art.id);
   const isLido = lidos && lidos.includes(art.id);
   const date=art.data?new Date(art.data).toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'numeric'}):'';
-  const summary=escapeHtml((art.resumo||'').substring(0,200)+(art.resumo&&art.resumo.length>200?'...':''));
+  const summary=escapeHtml((art.resumo||'').substring(0,300)+(art.resumo&&art.resumo.length>300?'...':''));
+  const meta=[art.journal,art.year,art.authors].filter(Boolean).map(escapeHtml).join(' · ');
   return `<div class="article-card" data-id="${escapeHtml(art.id)}">
     <div class="article-meta-top">
       <span class="article-tag">${escapeHtml(art.especialidade||art.tema||'Artigo')}</span>
       <span class="article-date">${date}</span>
     </div>
     <h3>${escapeHtml(art.titulo||'Sem título')}</h3>
+    ${meta?`<div style="font-size:11px;color:var(--muted);margin-bottom:8px;line-height:1.4;">${meta}</div>`:''}
     <div class="article-summary">${summary}</div>
     <div class="article-actions">
       <button class="btn-like ${liked?'liked':''}" onclick="toggleLike('${art.id}',this)">

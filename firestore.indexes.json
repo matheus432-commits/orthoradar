@@ -1,0 +1,21 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "artigos",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "especialidade", "order": "ASCENDING" },
+        { "fieldPath": "data", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "artigos_enviados",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "email", "order": "ASCENDING" },
+        { "fieldPath": "data", "order": "DESCENDING" }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}

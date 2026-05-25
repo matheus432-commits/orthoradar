@@ -68,9 +68,41 @@ exports.handler = async (event) => {
 
     let artigos = [];
     try {
-      artigos = await queryByField(projectId, apiKey, 'artigos_enviados', 'email', email, 200);
-      artigos.sort((a, b) => new Date(b.data || 0) - new Date(a.data || 0));
-      artigos = artigos.slice(0, 50);
+      const specs = Array.isArray(user.especialidade) ? user.especialidade.filter(Boolean) : (user.especialidade ? [user.especialidade] : []);
+      if (specs.length) {
+        const whereClause = specs.length === 1
+          ? { fieldFilter: { field: { fieldPath: 'especialidade' }, op: 'EQUAL', value: { stringValue: specs[0] } } }
+          : { fieldFilter: { field: { fieldPath: 'especialidade' }, op: 'IN', value: { arrayValue: { values: specs.slice(0, 10).map(s => ({ stringValue: s })) } } } };
+        const body = JSON.stringify({
+          structuredQuery: {
+            from: [{ collectionId: 'artigos' }],
+            where: whereClause,
+            orderBy: [{ field: { fieldPath: 'data' }, direction: 'DESCENDING' }],
+            limit: 50
+          }
+        });
+        const buf = Buffer.from(body, 'utf8');
+        const res = await request({
+          hostname: 'firestore.googleapis.com',
+          path: '/v1/projects/' + projectId + '/databases/(default)/documents:runQuery?key=' + apiKey,
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Content-Length': buf.length }
+        }, buf);
+        if (res.status === 200) {
+          const docs = JSON.parse(res.body);
+          artigos = docs.filter(d => d.document).map(d => {
+            const f = d.document.fields || {};
+            const out = { id: d.document.name.split('/').pop() };
+            for (const [k, v] of Object.entries(f)) {
+              if (v.stringValue !== undefined) out[k] = v.stringValue;
+              else if (v.booleanValue !== undefined) out[k] = v.booleanValue;
+              else if (v.integerValue !== undefined) out[k] = parseInt(v.integerValue);
+              else out[k] = '';
+            }
+            return out;
+          });
+        }
+      }
     } catch(e) { console.warn('Could not fetch artigos:', e.message); }
 
     let amigos = [];
