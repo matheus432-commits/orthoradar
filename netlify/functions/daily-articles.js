@@ -380,7 +380,9 @@ async function getUsers(projectId, apiKey) {
 async function getSentPmids(projectId, apiKey, email) {
   const path = "/v1/projects/" + projectId + "/databases/(default)/documents:runQuery?key=" + apiKey;
   const cutoff = new Date(Date.now() - 180 * 24 * 60 * 60 * 1000).toISOString();
-  const body = JSON.stringify({
+
+  // Primary: compositeFilter with server-side date cutoff (requires composite index)
+  const bodyComposite = JSON.stringify({
     structuredQuery: {
       from: [{ collectionId: "artigos_enviados" }],
       where: {
@@ -401,16 +403,45 @@ async function getSentPmids(projectId, apiKey, email) {
       hostname: "firestore.googleapis.com",
       path,
       method: "POST",
-      headers: { "Content-Type": "application/json", "Content-Length": Buffer.byteLength(body) }
-    }, body);
+      headers: { "Content-Type": "application/json", "Content-Length": Buffer.byteLength(bodyComposite) }
+    }, bodyComposite);
+    if (res.status === 200) {
+      const results = JSON.parse(res.body);
+      return results
+        .filter(r => r.document?.fields?.pmid)
+        .map(r => r.document.fields.pmid.stringValue || r.document.fields.pmid.integerValue || "")
+        .filter(Boolean);
+    }
+    console.warn("[getSentPmids] Composite index not ready (status " + res.status + "), falling back to email-only query");
+  } catch (e) {
+    console.warn("Could not fetch sent PMIDs (composite):", e.message);
+  }
+
+  // Fallback: email-only query + client-side date filter (no composite index needed)
+  const bodySimple = JSON.stringify({
+    structuredQuery: {
+      from: [{ collectionId: "artigos_enviados" }],
+      where: { fieldFilter: { field: { fieldPath: "email" }, op: "EQUAL", value: { stringValue: email } } },
+      select: { fields: [{ fieldPath: "pmid" }, { fieldPath: "data" }] },
+      limit: 200
+    }
+  });
+  try {
+    const res = await request({
+      hostname: "firestore.googleapis.com",
+      path,
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Content-Length": Buffer.byteLength(bodySimple) }
+    }, bodySimple);
     if (res.status !== 200) return [];
     const results = JSON.parse(res.body);
     return results
       .filter(r => r.document?.fields?.pmid)
+      .filter(r => { const d = r.document.fields.data?.stringValue || ''; return !d || d >= cutoff; })
       .map(r => r.document.fields.pmid.stringValue || r.document.fields.pmid.integerValue || "")
       .filter(Boolean);
   } catch (e) {
-    console.warn("Could not fetch sent PMIDs:", e.message);
+    console.warn("Could not fetch sent PMIDs (fallback):", e.message);
     return [];
   }
 }
@@ -542,11 +573,13 @@ function buildEmail(user, article, tema) {
 </html>`;
 }
 
-// Save article metadata to shared artigos collection (PMID as doc ID, idempotent PATCH)
+// Save article metadata to shared artigos collection (PMID as doc ID)
+// Create-only on first insert (preserves original data timestamp); update metadata only on subsequent sends
 async function saveSharedArticle(projectId, apiKey, article, tema, especialidade) {
   const pmid = String(article.pmid || '');
   if (!pmid) return;
-  const fields = {
+  const basePath = '/v1/projects/' + projectId + '/databases/(default)/documents/artigos/' + pmid + '?key=' + apiKey;
+  const allFields = {
     titulo: { stringValue: article.title || '' },
     resumo: { stringValue: generateSummary(article, especialidade, tema) },
     journal: { stringValue: article.journal || '' },
@@ -558,15 +591,29 @@ async function saveSharedArticle(projectId, apiKey, article, tema, especialidade
     pmid: { stringValue: pmid },
     data: { stringValue: new Date().toISOString() }
   };
-  const body = JSON.stringify({ fields });
-  const buf = Buffer.from(body, 'utf8');
-  const updateMask = Object.keys(fields).map(k => 'updateMask.fieldPaths=' + k).join('&');
+
+  // Try create-only (currentDocument.exists=false): sets data timestamp only on first insert
+  const createBuf = Buffer.from(JSON.stringify({ fields: allFields }), 'utf8');
+  const createRes = await request({
+    hostname: 'firestore.googleapis.com',
+    path: basePath + '&currentDocument.exists=false',
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', 'Content-Length': createBuf.length }
+  }, createBuf).catch(e => ({ status: 0, body: e.message }));
+
+  if (createRes.status === 200 || createRes.status === 201) return;
+
+  // Document exists (412) or network error — update metadata without touching data
+  const updateFields = { ...allFields };
+  delete updateFields.data;
+  const updateMask = Object.keys(updateFields).map(k => 'updateMask.fieldPaths=' + k).join('&');
+  const updateBuf = Buffer.from(JSON.stringify({ fields: updateFields }), 'utf8');
   return request({
     hostname: 'firestore.googleapis.com',
-    path: '/v1/projects/' + projectId + '/databases/(default)/documents/artigos/' + pmid + '?key=' + apiKey + '&' + updateMask,
+    path: basePath + '&' + updateMask,
     method: 'PATCH',
-    headers: { 'Content-Type': 'application/json', 'Content-Length': buf.length }
-  }, buf).catch(e => console.warn('Could not save shared article:', e.message));
+    headers: { 'Content-Type': 'application/json', 'Content-Length': updateBuf.length }
+  }, updateBuf).catch(e => console.warn('Could not save shared article:', e.message));
 }
 
 // Save per-user sent log to artigos_enviados

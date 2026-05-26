@@ -72,22 +72,24 @@ exports.handler = async (event) => {
       if (specs.length) {
         const whereClause = specs.length === 1
           ? { fieldFilter: { field: { fieldPath: 'especialidade' }, op: 'EQUAL', value: { stringValue: specs[0] } } }
-          : { fieldFilter: { field: { fieldPath: 'especialidade' }, op: 'IN', value: { arrayValue: { values: specs.slice(0, 10).map(s => ({ stringValue: s })) } } } };
-        const body = JSON.stringify({
-          structuredQuery: {
-            from: [{ collectionId: 'artigos' }],
-            where: whereClause,
-            orderBy: [{ field: { fieldPath: 'data' }, direction: 'DESCENDING' }],
-            limit: 50
-          }
-        });
-        const buf = Buffer.from(body, 'utf8');
-        const res = await request({
-          hostname: 'firestore.googleapis.com',
-          path: '/v1/projects/' + projectId + '/databases/(default)/documents:runQuery?key=' + apiKey,
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Content-Length': buf.length }
-        }, buf);
+          : { fieldFilter: { field: { fieldPath: 'especialidade' }, op: 'IN', value: { arrayValue: { values: specs.slice(0, 30).map(s => ({ stringValue: s })) } } } };
+        const runQuery = async (withOrder) => {
+          const q = { from: [{ collectionId: 'artigos' }], where: whereClause, limit: 50 };
+          if (withOrder) q.orderBy = [{ field: { fieldPath: 'data' }, direction: 'DESCENDING' }];
+          const body = JSON.stringify({ structuredQuery: q });
+          const buf = Buffer.from(body, 'utf8');
+          return request({
+            hostname: 'firestore.googleapis.com',
+            path: '/v1/projects/' + projectId + '/databases/(default)/documents:runQuery?key=' + apiKey,
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Content-Length': buf.length }
+          }, buf);
+        };
+        let res = await runQuery(true);
+        if (res.status !== 200) {
+          console.warn('[get-user-data] Ordered artigos query failed (' + res.status + '), retrying without orderBy');
+          res = await runQuery(false);
+        }
         if (res.status === 200) {
           const docs = JSON.parse(res.body);
           artigos = docs.filter(d => d.document).map(d => {
@@ -101,6 +103,7 @@ exports.handler = async (event) => {
             }
             return out;
           });
+          artigos.sort((a, b) => (b.data || '') > (a.data || '') ? 1 : -1);
         }
       }
     } catch(e) { console.warn('Could not fetch artigos:', e.message); }

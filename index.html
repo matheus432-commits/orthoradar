@@ -301,6 +301,9 @@ footer p{font-size:0.82rem;color:var(--text-muted);}
 
 <script>
 (async function loadPublicArticles() {
+  function esc(s) {
+    return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  }
   try {
     const res = await fetch('/.netlify/functions/get-public-articles');
     if (!res.ok) return;
@@ -310,12 +313,12 @@ footer p{font-size:0.82rem;color:var(--text-muted);}
     if (!grid) return;
     grid.innerHTML = artigos.map(a => {
       const date = a.data ? new Date(a.data).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' }) : '';
-      const label = a.tema || a.especialidade || 'Artigo';
-      const meta = [a.journal, a.year].filter(Boolean).join(' · ');
+      const label = esc(a.tema || a.especialidade || 'Artigo');
+      const meta = [a.journal, a.year].filter(Boolean).map(esc).join(' · ');
       return `<div class="pub-card">
-        <span class="pub-card-tag">${label.replace(/</g,'&lt;')}</span>
-        <h4>${(a.titulo||'').replace(/</g,'&lt;').substring(0,120)}</h4>
-        <div class="pub-card-meta">${meta ? meta.replace(/</g,'&lt;') + (date ? ' &nbsp;·&nbsp; ' + date : '') : date}</div>
+        <span class="pub-card-tag">${label}</span>
+        <h4>${esc(a.titulo).substring(0,120)}</h4>
+        <div class="pub-card-meta">${meta ? meta + (date ? ' &nbsp;·&nbsp; ' + date : '') : date}</div>
       </div>`;
     }).join('');
   } catch(e) {}
