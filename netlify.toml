@@ -10,6 +10,16 @@
 [functions."cleanup-articles"]
   schedule = "0 3 * * 0"
 
+# Tracking endpoints — must respond in < 10s (well within budget)
+[functions."track-open"]
+  node_bundler = "nft"
+
+[functions."track-click"]
+  node_bundler = "nft"
+
+[functions."get-trending"]
+  node_bundler = "nft"
+
 # Ingestion pipeline runs via GitHub Actions (daily-ingest.yml) rather than
 # Netlify scheduled functions because the pipeline needs > 10s timeout.
 # The functions below can still be triggered manually via HTTP if needed.

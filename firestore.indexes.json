@@ -5,6 +5,39 @@
       "queryScope": "COLLECTION",
       "fields": [
         { "fieldPath": "especialidade", "order": "ASCENDING" },
+        { "fieldPath": "data",          "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "artigos",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "especialidade",  "order": "ASCENDING" },
+        { "fieldPath": "relevanceScore", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "artigos",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "status",   "order": "ASCENDING" },
+        { "fieldPath": "criadoEm", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "artigos",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "status",        "order": "ASCENDING" },
+        { "fieldPath": "especialidade", "order": "ASCENDING" },
+        { "fieldPath": "data",          "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "artigos",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "tema", "order": "ASCENDING" },
         { "fieldPath": "data", "order": "DESCENDING" }
       ]
     },
@@ -13,7 +46,31 @@
       "queryScope": "COLLECTION",
       "fields": [
         { "fieldPath": "email", "order": "ASCENDING" },
-        { "fieldPath": "data", "order": "DESCENDING" }
+        { "fieldPath": "data",  "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "artigos_enviados",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "email", "order": "ASCENDING" },
+        { "fieldPath": "pmid",  "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "digests",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "email",     "order": "ASCENDING" },
+        { "fieldPath": "enviadoEm", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "digest_metrics",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "digestId", "order": "ASCENDING" },
+        { "fieldPath": "ts",       "order": "ASCENDING" }
       ]
     }
   ],
