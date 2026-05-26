@@ -9,3 +9,25 @@
 
 [functions."cleanup-articles"]
   schedule = "0 3 * * 0"
+
+# Ingestion pipeline runs via GitHub Actions (daily-ingest.yml) rather than
+# Netlify scheduled functions because the pipeline needs > 10s timeout.
+# The functions below can still be triggered manually via HTTP if needed.
+[functions."ingest-pubmed"]
+  node_bundler = "nft"
+
+[functions."ingest-europepmc"]
+  node_bundler = "nft"
+
+[functions."ingest-openalex"]
+  node_bundler = "nft"
+
+[functions."process-article"]
+  node_bundler = "nft"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options      = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy      = "strict-origin-when-cross-origin"

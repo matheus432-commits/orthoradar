@@ -1,0 +1,59 @@
+name: Daily Article Ingestion
+
+on:
+  schedule:
+    # 02:00 UTC — runs before daily-articles.js (10:00 UTC)
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+    inputs:
+      skip_ai:
+        description: 'Skip AI enrichment (ingest only)'
+        required: false
+        default: 'false'
+        type: boolean
+
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      # ── Step 1: PubMed ──────────────────────────────────────────────────────
+      - name: Ingest PubMed
+        env:
+          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+          FIREBASE_API_KEY:    ${{ secrets.FIREBASE_API_KEY }}
+          NCBI_API_KEY:        ${{ secrets.NCBI_API_KEY }}
+        run: node netlify/functions/ingest-pubmed.js
+
+      # ── Step 2: Europe PMC ─────────────────────────────────────────────────
+      - name: Ingest Europe PMC
+        env:
+          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+          FIREBASE_API_KEY:    ${{ secrets.FIREBASE_API_KEY }}
+        run: node netlify/functions/ingest-europepmc.js
+
+      # ── Step 3: OpenAlex ───────────────────────────────────────────────────
+      - name: Ingest OpenAlex
+        env:
+          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+          FIREBASE_API_KEY:    ${{ secrets.FIREBASE_API_KEY }}
+        run: node netlify/functions/ingest-openalex.js
+
+      # ── Step 4: AI Enrichment ──────────────────────────────────────────────
+      - name: Process articles with Claude Haiku
+        if: ${{ inputs.skip_ai != 'true' }}
+        env:
+          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+          FIREBASE_API_KEY:    ${{ secrets.FIREBASE_API_KEY }}
+          ANTHROPIC_API_KEY:   ${{ secrets.ANTHROPIC_API_KEY }}
+          AI_BATCH_SIZE:       '20'
+        run: node netlify/functions/process-article.js
