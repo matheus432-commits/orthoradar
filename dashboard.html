@@ -143,6 +143,113 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
   .btn-lido{background:none;border:1px solid var(--border);color:var(--muted);font-size:12px;font-weight:600;padding:5px 12px;border-radius:8px;cursor:pointer;transition:all 0.2s;display:inline-flex;align-items:center;gap:5px;margin-top:8px;}
   .btn-lido.lido{background:rgba(34,197,94,0.12);color:#22c55e;border-color:rgba(34,197,94,0.3);}
   .btn-lido:hover{background:rgba(34,197,94,0.08);color:#22c55e;}
+
+  /* ── SCIENTIFIC INTELLIGENCE (FASE 3) ── */
+
+  /* Score card */
+  .sci-score-card{background:linear-gradient(135deg,rgba(14,165,233,0.10),rgba(6,182,212,0.06));border:1px solid rgba(14,165,233,0.22);border-radius:20px;padding:28px 32px;margin-bottom:24px;display:grid;grid-template-columns:auto 1fr;gap:32px;align-items:center;}
+  .sci-score-num{font-size:64px;font-weight:900;line-height:1;background:linear-gradient(135deg,#0ea5e9,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-3px;}
+  .sci-score-label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:4px;}
+  .sci-score-meta{display:flex;flex-direction:column;gap:6px;}
+  .sci-score-meta h3{font-size:18px;font-weight:800;letter-spacing:-0.3px;}
+  .sci-score-meta p{font-size:13px;color:var(--muted);line-height:1.6;max-width:480px;}
+  .sci-breakdown{display:flex;gap:16px;margin-top:12px;flex-wrap:wrap;}
+  .sci-dim{display:flex;flex-direction:column;align-items:flex-start;gap:3px;}
+  .sci-dim-label{font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;}
+  .sci-dim-bar{width:80px;height:5px;background:var(--border);border-radius:3px;overflow:hidden;}
+  .sci-dim-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--primary),var(--accent));transition:width 0.8s ease;}
+  .sci-dim-val{font-size:12px;font-weight:700;color:var(--text);}
+
+  /* Reading streak */
+  .streak-pill{display:inline-flex;align-items:center;gap:6px;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.25);color:#f59e0b;font-size:12px;font-weight:700;padding:5px 12px;border-radius:20px;margin-top:8px;}
+
+  /* Two-column layout for intelligence panels */
+  .intel-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px;}
+  @media(max-width:860px){.intel-grid{grid-template-columns:1fr;} .sci-score-card{grid-template-columns:1fr;gap:16px;}}
+
+  /* Intelligence panel */
+  .intel-panel{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:22px 24px;}
+  .intel-panel-title{font-size:13px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.7px;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+  .intel-panel-title svg{opacity:0.6;}
+
+  /* Theme bar chart */
+  .theme-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+  .theme-row:last-child{margin-bottom:0;}
+  .theme-name{font-size:13px;font-weight:500;color:var(--text);width:160px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .theme-track{flex:1;height:6px;background:var(--border);border-radius:3px;overflow:hidden;}
+  .theme-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--primary),var(--accent));transition:width 0.9s ease;}
+  .theme-pct{font-size:11px;color:var(--muted);font-weight:600;width:32px;text-align:right;}
+
+  /* Evidence distribution dots */
+  .ev-row{display:flex;align-items:center;gap:10px;margin-bottom:9px;}
+  .ev-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+  .ev-name{font-size:13px;color:var(--text);flex:1;}
+  .ev-pct{font-size:12px;font-weight:700;color:var(--muted);}
+
+  /* Radar Científico */
+  .radar-section{margin-bottom:24px;}
+  .radar-signals{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;}
+  .signal-chip{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px 16px;cursor:pointer;transition:all 0.2s;}
+  .signal-chip:hover,.signal-chip.active{border-color:var(--signal-color);background:rgba(var(--signal-rgb),0.06);}
+  .signal-chip-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;}
+  .signal-label{font-size:12px;font-weight:700;color:var(--signal-color);}
+  .signal-count{font-size:11px;font-weight:700;background:rgba(var(--signal-rgb),0.15);color:var(--signal-color);padding:2px 7px;border-radius:10px;}
+  .signal-desc{font-size:11px;color:var(--muted);line-height:1.5;}
+  .signal-articles{display:none;margin-top:16px;}
+  .signal-articles.visible{display:block;}
+
+  /* Radar article card (compact) */
+  .radar-card{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:10px;transition:border-color 0.2s;}
+  .radar-card:hover{border-color:rgba(14,165,233,0.3);}
+  .radar-card:last-child{margin-bottom:0;}
+  .radar-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:6px;}
+  .radar-card-title{font-size:13px;font-weight:600;line-height:1.45;color:var(--text);flex:1;}
+  .radar-card-ev{font-size:10px;font-weight:700;padding:2px 7px;border-radius:6px;flex-shrink:0;margin-top:2px;}
+  .radar-card-meta{font-size:11px;color:var(--muted);margin-bottom:6px;}
+  .radar-card-resumo{font-size:12px;color:var(--muted);line-height:1.55;}
+  .radar-card-footer{display:flex;align-items:center;justify-content:space-between;margin-top:8px;}
+  .radar-card-eng{font-size:11px;color:var(--muted);}
+  .radar-card-link{font-size:11px;font-weight:600;color:var(--primary);text-decoration:none;opacity:0.8;}
+  .radar-card-link:hover{opacity:1;}
+
+  /* Trilhas Inteligentes */
+  .paths-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;}
+  .path-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px;transition:all 0.25s;display:flex;flex-direction:column;}
+  .path-card:hover{border-color:rgba(14,165,233,0.3);transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,0,0,0.25);}
+  .path-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px;}
+  .path-title{font-size:15px;font-weight:700;color:var(--text);line-height:1.4;}
+  .path-subtitle{font-size:12px;color:var(--muted);margin-top:2px;}
+  .path-progress-wrap{flex-shrink:0;text-align:center;}
+  .path-progress-num{font-size:18px;font-weight:800;color:var(--primary);}
+  .path-progress-label{font-size:10px;color:var(--muted);font-weight:600;}
+  .path-bar-track{height:4px;background:var(--border);border-radius:2px;overflow:hidden;margin-bottom:14px;}
+  .path-bar-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--primary),var(--accent));transition:width 0.9s ease;}
+  .path-articles{display:flex;flex-direction:column;gap:6px;flex:1;}
+  .path-art-item{display:flex;align-items:flex-start;gap:8px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.04);}
+  .path-art-item:last-child{border-bottom:none;}
+  .path-art-step{font-size:10px;font-weight:800;color:var(--primary);background:rgba(14,165,233,0.1);border:1px solid rgba(14,165,233,0.2);width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+  .path-art-step.done{background:rgba(16,185,129,0.15);border-color:rgba(16,185,129,0.3);color:#10b981;}
+  .path-art-info{flex:1;min-width:0;}
+  .path-art-title{font-size:12px;font-weight:600;color:var(--text);line-height:1.4;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;}
+  .path-art-ev{font-size:10px;color:var(--muted);margin-top:2px;}
+  .path-art-link{font-size:11px;font-weight:600;color:var(--primary);text-decoration:none;flex-shrink:0;margin-top:2px;}
+  .path-art-link:hover{text-decoration:underline;}
+
+  /* Weekly report */
+  .weekly-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:24px 28px;margin-bottom:24px;}
+  .weekly-highlight{font-size:14px;color:var(--text);line-height:1.7;padding:14px 18px;background:rgba(14,165,233,0.06);border-left:3px solid var(--primary);border-radius:8px;margin-bottom:16px;}
+  .weekly-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+  @media(max-width:600px){.weekly-stats{grid-template-columns:repeat(2,1fr);}}
+  .weekly-stat{text-align:center;padding:12px;}
+  .weekly-stat-num{font-size:24px;font-weight:800;color:var(--primary);}
+  .weekly-stat-label{font-size:11px;color:var(--muted);margin-top:2px;}
+
+  /* Evidence color helpers */
+  .ev-meta{background:rgba(16,185,129,0.12);color:#10b981;}
+  .ev-rs{background:rgba(14,165,233,0.12);color:#0ea5e9;}
+  .ev-rct{background:rgba(99,102,241,0.12);color:#818cf8;}
+  .ev-coorte{background:rgba(245,158,11,0.12);color:#f59e0b;}
+  .ev-other{background:rgba(100,116,139,0.12);color:#94a3b8;}
 </style>
 </head>
 <body>
@@ -238,6 +345,9 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
     <button class="tab-btn" id="tabBtn-especialidades" onclick="switchTab('especialidades',this)">
       🦷 Especialidades <span class="tab-badge" id="tbadge-especialidades">0</span>
     </button>
+    <button class="tab-btn" id="tabBtn-inteligencia" onclick="switchTab('inteligencia',this)">
+      Inteligência
+    </button>
     <button class="tab-btn" id="tabBtn-preferencias" onclick="switchTab('preferencias',this)">
       ⚙️ Preferências
     </button>
@@ -279,6 +389,17 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
     <div class="section-title">🦷 Por Especialidade e Categoria</div>
     <div id="espTabsNav" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;"></div>
     <div id="espTabsContent"></div>
+  </div>
+
+  <!-- TAB: INTELIGÊNCIA -->
+  <div class="tab-content" id="tab-inteligencia">
+    <div id="intelContent">
+      <!-- filled by loadIntelligenceTab() -->
+      <div class="empty-state" style="padding:48px 32px;">
+        <div class="empty-icon" style="font-size:28px;">&#9679;</div>
+        <h3>Carregando Inteligência Científica…</h3>
+      </div>
+    </div>
   </div>
 
   <!-- TAB: PREFERÊNCIAS -->
@@ -873,6 +994,323 @@ function switchTab(name,btnEl){
   btnEl.classList.add('active');
   document.getElementById('tab-'+name).classList.add('active');
   if (name === 'preferencias') renderPrefTab();
+  if (name === 'inteligencia') loadIntelligenceTab();
+}
+
+// ========== INTELLIGENCE TAB ==========
+let _intelLoaded = false;
+
+async function loadIntelligenceTab() {
+  if (_intelLoaded) return;
+  _intelLoaded = true;
+
+  const email = getEmail(), token = getToken();
+  const spec  = (userData?.especialidade && (Array.isArray(userData.especialidade) ? userData.especialidade[0] : userData.especialidade)) || null;
+  const el    = document.getElementById('intelContent');
+
+  el.innerHTML = intelSkeleton();
+
+  try {
+    const headers = { Authorization: 'Bearer ' + token };
+    const qs      = 'email=' + encodeURIComponent(email);
+    const specQs  = spec ? '&specialty=' + encodeURIComponent(spec) : '';
+
+    const [profileRes, trendRes, weekRes, pathsRes] = await Promise.allSettled([
+      fetch('/.netlify/functions/get-scientific-profile?' + qs, { headers }).then(r => r.json()),
+      fetch('/.netlify/functions/get-trend-intelligence?limit=4' + specQs).then(r => r.json()),
+      fetch('/.netlify/functions/get-weekly-report?' + qs, { headers }).then(r => r.json()),
+      fetch('/.netlify/functions/get-learning-paths?' + qs + specQs, { headers }).then(r => r.json()),
+    ]);
+
+    const prof  = profileRes.status  === 'fulfilled' ? profileRes.value  : null;
+    const trend = trendRes.status    === 'fulfilled' ? trendRes.value    : null;
+    const week  = weekRes.status     === 'fulfilled' ? weekRes.value     : null;
+    const paths = pathsRes.status    === 'fulfilled' ? pathsRes.value    : null;
+
+    el.innerHTML =
+      renderScientificScore(prof, week) +
+      renderWeeklyReport(week) +
+      renderRadar(trend, spec) +
+      renderThemeEvidence(prof) +
+      renderLearningPaths(paths);
+
+    // Animate bars after paint
+    requestAnimationFrame(() => {
+      document.querySelectorAll('[data-width]').forEach(bar => {
+        bar.style.width = bar.dataset.width;
+      });
+    });
+
+  } catch(err) {
+    console.error('[intel]', err);
+    el.innerHTML = `<div class="empty-state"><div class="empty-icon">&#9888;</div><h3>Erro ao carregar dados</h3><p>${escapeHtml(err.message)}</p></div>`;
+  }
+}
+
+function intelSkeleton() {
+  const s = (w,h) => `<div class="skel" style="height:${h}px;width:${w};border-radius:8px;margin-bottom:10px;"></div>`;
+  return `<div style="animation:fadeIn 0.3s">
+    <div class="skeleton-card" style="margin-bottom:20px;padding:28px 32px;">${s('60%',56)}${s('40%',14)}${s('80%',14)}</div>
+    <div class="intel-grid">
+      <div class="skeleton-card">${s('50%',14)}${s('100%',8)}${s('90%',8)}${s('75%',8)}${s('60%',8)}</div>
+      <div class="skeleton-card">${s('50%',14)}${s('100%',8)}${s('90%',8)}${s('75%',8)}${s('60%',8)}</div>
+    </div>
+  </div>`;
+}
+
+// Scientific Score card
+function renderScientificScore(prof, week) {
+  if (!prof) return '';
+  const score  = prof.scientificScore || 0;
+  const streak = prof.readingStreak   || 0;
+  const br     = prof.scoreBreakdown  || {};
+  const dims   = [
+    { key: 'volume',      label: 'Volume',      val: br.volume      || 0 },
+    { key: 'consistency', label: 'Consistência', val: br.consistency || 0 },
+    { key: 'diversity',   label: 'Diversidade',  val: br.diversity   || 0 },
+    { key: 'quality',     label: 'Evidência',    val: br.quality     || 0 },
+  ];
+  const streakHtml = streak > 0
+    ? `<div class="streak-pill">&#9733; ${streak} semana${streak > 1 ? 's' : ''} consecutiva${streak > 1 ? 's' : ''} de leitura</div>`
+    : '';
+  const dimsHtml = dims.map(d => `
+    <div class="sci-dim">
+      <div class="sci-dim-label">${escapeHtml(d.label)}</div>
+      <div style="display:flex;align-items:center;gap:6px;">
+        <div class="sci-dim-bar"><div class="sci-dim-fill" data-width="${d.val * 4}%" style="width:0%"></div></div>
+        <div class="sci-dim-val">${d.val}</div>
+      </div>
+    </div>`).join('');
+  const openRatePct = Math.round((prof.openRate || 0) * 100);
+  return `<div class="sci-score-card">
+    <div>
+      <div class="sci-score-num">${score}</div>
+      <div class="sci-score-label">Score Científico</div>
+      ${streakHtml}
+    </div>
+    <div class="sci-score-meta">
+      <h3>Seu Perfil Científico</h3>
+      <p>${prof.totalInteractions || 0} interações registradas &middot; ${prof.totalDigestsSent || 0} digests recebidos &middot; Taxa de abertura ${openRatePct}%</p>
+      <div class="sci-breakdown">${dimsHtml}</div>
+    </div>
+  </div>`;
+}
+
+// Weekly report
+function renderWeeklyReport(week) {
+  if (!week || week.error) return '';
+  const highlight = escapeHtml(week.highlight || '');
+  return `<div class="weekly-card">
+    <div class="section-title" style="margin-bottom:14px;">Relatório Semanal</div>
+    ${highlight ? `<div class="weekly-highlight">${highlight}</div>` : ''}
+    <div class="weekly-stats">
+      <div class="weekly-stat"><div class="weekly-stat-num">${week.newArticlesThisWeek || 0}</div><div class="weekly-stat-label">Novos artigos</div></div>
+      <div class="weekly-stat"><div class="weekly-stat-num">${week.digestsSentThisWeek || 0}</div><div class="weekly-stat-label">Digests enviados</div></div>
+      <div class="weekly-stat"><div class="weekly-stat-num">${week.digestsOpenedThisWeek || 0}</div><div class="weekly-stat-label">Digests abertos</div></div>
+      <div class="weekly-stat"><div class="weekly-stat-num">${week.scientificScore || 0}</div><div class="weekly-stat-label">Score científico</div></div>
+    </div>
+    ${week.topTrendingArticle ? renderTopArticleBlock(week.topTrendingArticle) : ''}
+  </div>`;
+}
+
+function renderTopArticleBlock(a) {
+  return `<div style="margin-top:16px;padding:14px 16px;background:var(--bg3);border:1px solid var(--border);border-radius:12px;">
+    <div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:6px;">Destaque da semana</div>
+    <div style="font-size:13px;font-weight:700;color:var(--text);line-height:1.45;margin-bottom:4px;">${escapeHtml(a.titulo || '')}</div>
+    <div style="font-size:11px;color:var(--muted);margin-bottom:6px;">${escapeHtml(a.journal || '')} &middot; ${escapeHtml(a.nivel_evidencia || '')}</div>
+    <div style="font-size:12px;color:var(--primary);font-style:italic;">${escapeHtml(a.reason || '')}</div>
+    ${a.pubmedUrl ? `<a href="${escapeHtml(a.pubmedUrl)}" target="_blank" rel="noopener" style="display:inline-block;margin-top:8px;font-size:12px;font-weight:600;color:var(--primary);">Ver no PubMed &#8599;</a>` : ''}
+  </div>`;
+}
+
+// Radar Científico
+const SIGNAL_CONFIG = {
+  emAlta:            { label: 'Em Alta',            desc: 'Alto engajamento recente',               color: '#0ea5e9', rgb: '14,165,233' },
+  crescimentoRapido: { label: 'Crescimento Rápido', desc: 'Ganhando tração rapidamente',            color: '#10b981', rgb: '16,185,129' },
+  emergente:         { label: 'Emergente',           desc: 'Recente com alto potencial',             color: '#8b5cf6', rgb: '139,92,246' },
+  consensoClinico:   { label: 'Consenso Clínico',   desc: 'Alta evidência, amplamente citado',      color: '#f59e0b', rgb: '245,158,11' },
+  debateCientifico:  { label: 'Debate Científico',  desc: 'Gerando discussão na comunidade',        color: '#ef4444', rgb: '239,68,68'  },
+};
+
+let _activeSignal = null;
+
+function renderRadar(trend, spec) {
+  if (!trend || trend.error) return '';
+  const specLabel = spec ? ` — ${escapeHtml(spec)}` : '';
+  const chips = Object.entries(SIGNAL_CONFIG).map(([key, cfg]) => {
+    const articles = trend.signals?.[key] || [];
+    return `<div class="signal-chip" id="chip-${key}"
+      style="--signal-color:${cfg.color};--signal-rgb:${cfg.rgb}"
+      onclick="toggleSignal('${key}')">
+      <div class="signal-chip-top">
+        <span class="signal-label">${cfg.label}</span>
+        <span class="signal-count">${articles.length}</span>
+      </div>
+      <div class="signal-desc">${cfg.desc}</div>
+    </div>`;
+  }).join('');
+
+  const panels = Object.entries(SIGNAL_CONFIG).map(([key]) => {
+    const articles = trend.signals?.[key] || [];
+    const cards = articles.length
+      ? articles.map(a => radarArticleCard(a)).join('')
+      : `<div style="color:var(--muted);font-size:13px;padding:8px 0;">Nenhum artigo nesta categoria no momento.</div>`;
+    return `<div class="signal-articles" id="panel-${key}">${cards}</div>`;
+  }).join('');
+
+  return `<div class="radar-section">
+    <div class="section-title">Radar Científico<span>${specLabel}</span></div>
+    <div class="radar-signals">${chips}</div>
+    <div id="radarPanels" style="margin-top:16px;">${panels}</div>
+  </div>`;
+}
+
+function toggleSignal(key) {
+  const chip  = document.getElementById('chip-' + key);
+  const panel = document.getElementById('panel-' + key);
+  if (!chip || !panel) return;
+
+  const isActive = _activeSignal === key;
+  // Hide all
+  document.querySelectorAll('.signal-chip').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('.signal-articles').forEach(p => p.classList.remove('visible'));
+  if (!isActive) {
+    chip.classList.add('active');
+    panel.classList.add('visible');
+    _activeSignal = key;
+  } else {
+    _activeSignal = null;
+  }
+}
+
+function evBadgeClass(level) {
+  if (level === 'Meta-análise')        return 'ev-meta';
+  if (level === 'Revisão Sistemática') return 'ev-rs';
+  if (level === 'RCT')                 return 'ev-rct';
+  if (level === 'Estudo Coorte')       return 'ev-coorte';
+  return 'ev-other';
+}
+
+function radarArticleCard(a) {
+  const title   = escapeHtml(a.titulo || '');
+  const journal = escapeHtml(a.journal || '');
+  const date    = a.data ? new Date(a.data).toLocaleDateString('pt-BR', { month:'short', year:'numeric' }) : '';
+  const ev      = escapeHtml(a.nivel_evidencia || '');
+  const resumo  = escapeHtml((a.resumo || '').substring(0, 200));
+  const eng     = (a.curtidas || 0) + (a.cliques || 0);
+  return `<div class="radar-card">
+    <div class="radar-card-top">
+      <div class="radar-card-title">${title}</div>
+      ${ev ? `<span class="radar-card-ev ${evBadgeClass(a.nivel_evidencia)}">${ev}</span>` : ''}
+    </div>
+    <div class="radar-card-meta">${[journal, date].filter(Boolean).join(' &middot; ')}</div>
+    ${resumo ? `<div class="radar-card-resumo">${resumo}${a.resumo && a.resumo.length > 200 ? '…' : ''}</div>` : ''}
+    <div class="radar-card-footer">
+      <span class="radar-card-eng">${eng > 0 ? eng + ' interações' : ''}</span>
+      ${a.pubmedUrl ? `<a class="radar-card-link" href="${escapeHtml(a.pubmedUrl)}" target="_blank" rel="noopener">PubMed &#8599;</a>` : ''}
+    </div>
+  </div>`;
+}
+
+// Theme & Evidence intelligence panels
+function renderThemeEvidence(prof) {
+  if (!prof) return '';
+  const themes   = prof.favoriteThemes   || [];
+  const evidence = prof.evidenceProfile  || [];
+
+  const maxThemeW = themes.length   ? themes[0].weight   : 1;
+  const maxEvW    = evidence.length ? evidence[0].weight : 1;
+
+  const themeRows = themes.slice(0, 7).map(t => {
+    const pct = Math.round((t.weight / maxThemeW) * 100);
+    return `<div class="theme-row">
+      <div class="theme-name" title="${escapeHtml(t.label)}">${escapeHtml(t.label)}</div>
+      <div class="theme-track"><div class="theme-fill" data-width="${pct}%" style="width:0%"></div></div>
+      <div class="theme-pct">${Math.round(t.weight * 100)}%</div>
+    </div>`;
+  }).join('') || '<div style="color:var(--muted);font-size:13px;">Sem dados suficientes ainda.</div>';
+
+  const EV_COLORS = {
+    'Meta-análise':'#10b981','Revisão Sistemática':'#0ea5e9','RCT':'#818cf8',
+    'Estudo Coorte':'#f59e0b','Revisão Narrativa':'#94a3b8','Caso Clínico':'#64748b',
+    'In Vitro':'#475569','Estudo Animal':'#334155',
+  };
+  const evRows = evidence.slice(0, 6).map(e => {
+    const color = EV_COLORS[e.label] || '#94a3b8';
+    const pct   = Math.round((e.weight / maxEvW) * 100);
+    return `<div class="ev-row">
+      <div class="ev-dot" style="background:${color}"></div>
+      <div class="ev-name">${escapeHtml(e.label)}</div>
+      <div class="ev-pct">${Math.round(e.weight * 100)}%</div>
+    </div>`;
+  }).join('') || '<div style="color:var(--muted);font-size:13px;">Sem dados suficientes ainda.</div>';
+
+  const journalRows = (prof.topJournals || []).slice(0, 4).map(j =>
+    `<div style="font-size:12px;color:var(--muted);padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.04);">${escapeHtml(j.label)}</div>`
+  ).join('') || '<div style="color:var(--muted);font-size:13px;">Sem dados suficientes ainda.</div>';
+
+  return `<div class="intel-grid">
+    <div class="intel-panel">
+      <div class="intel-panel-title">Temas mais lidos</div>
+      ${themeRows}
+    </div>
+    <div class="intel-panel">
+      <div class="intel-panel-title">Perfil de evidência</div>
+      ${evRows}
+      ${journalRows ? `<div style="margin-top:14px;">
+        <div class="intel-panel-title" style="margin-bottom:10px;">Periódicos frequentes</div>
+        ${journalRows}
+      </div>` : ''}
+    </div>
+  </div>`;
+}
+
+// Learning Paths
+function renderLearningPaths(data) {
+  if (!data || !data.paths || !data.paths.length) {
+    return `<div class="section-title" style="margin-top:8px;">Trilhas Inteligentes</div>
+      <div class="empty-state" style="padding:40px 20px;">
+        <div class="empty-icon" style="font-size:28px;">&#128218;</div>
+        <h3>Trilhas indisponíveis</h3>
+        <p>Trilhas são geradas quando há artigos suficientes na sua especialidade. Verifique novamente em breve.</p>
+      </div>`;
+  }
+
+  const cards = data.paths.map(path => {
+    const pct  = path.total > 0 ? Math.round((path.progress / path.total) * 100) : 0;
+    const arts = path.articles.map((a, i) => {
+      const done   = i < (path.progress || 0);
+      const pmidId = escapeHtml(a.pmid || '');
+      return `<div class="path-art-item">
+        <div class="path-art-step ${done ? 'done' : ''}">${done ? '&#10003;' : i + 1}</div>
+        <div class="path-art-info">
+          <div class="path-art-title">${escapeHtml(a.titulo || 'Sem título')}</div>
+          <div class="path-art-ev">${escapeHtml(a.nivel_evidencia || '')} ${a.journal ? '&middot; ' + escapeHtml(a.journal) : ''}</div>
+        </div>
+        ${a.pubmedUrl ? `<a class="path-art-link" href="${escapeHtml(a.pubmedUrl)}" target="_blank" rel="noopener">&#8599;</a>` : ''}
+      </div>`;
+    }).join('');
+
+    return `<div class="path-card">
+      <div class="path-header">
+        <div>
+          <div class="path-title">${escapeHtml(path.title)}</div>
+          <div class="path-subtitle">${escapeHtml(path.subtitle || '')}</div>
+        </div>
+        <div class="path-progress-wrap">
+          <div class="path-progress-num">${path.progress}/${path.total}</div>
+          <div class="path-progress-label">Lidos</div>
+        </div>
+      </div>
+      <div class="path-bar-track">
+        <div class="path-bar-fill" data-width="${pct}%" style="width:0%"></div>
+      </div>
+      <div class="path-articles">${arts}</div>
+    </div>`;
+  }).join('');
+
+  return `<div class="section-title" style="margin-top:8px;">Trilhas Inteligentes <span>${escapeHtml(data.specialty || '')}</span></div>
+    <div class="paths-grid">${cards}</div>`;
 }
 
 // ========== INIT ==========

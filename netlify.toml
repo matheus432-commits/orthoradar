@@ -27,6 +27,19 @@
 [functions."get-trending-personalized"]
   node_bundler = "nft"
 
+# Scientific Intelligence Dashboard (FASE 3)
+[functions."get-scientific-profile"]
+  node_bundler = "nft"
+
+[functions."get-trend-intelligence"]
+  node_bundler = "nft"
+
+[functions."get-weekly-report"]
+  node_bundler = "nft"
+
+[functions."get-learning-paths"]
+  node_bundler = "nft"
+
 # Ingestion pipeline runs via GitHub Actions (daily-ingest.yml) rather than
 # Netlify scheduled functions because the pipeline needs > 10s timeout.
 # The functions below can still be triggered manually via HTTP if needed.

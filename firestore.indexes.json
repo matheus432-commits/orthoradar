@@ -74,11 +74,21 @@
       ]
     },
     {
-      "collectionGroup": "digests",
+      "collectionGroup": "artigos",
       "queryScope": "COLLECTION",
       "fields": [
-        { "fieldPath": "email",     "order": "ASCENDING" },
-        { "fieldPath": "enviadoEm", "order": "DESCENDING" }
+        { "fieldPath": "status",        "order": "ASCENDING" },
+        { "fieldPath": "especialidade", "order": "ASCENDING" },
+        { "fieldPath": "criadoEm",      "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "artigos",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "status",         "order": "ASCENDING" },
+        { "fieldPath": "especialidade",  "order": "ASCENDING" },
+        { "fieldPath": "relevanceScore", "order": "DESCENDING" }
       ]
     }
   ],
