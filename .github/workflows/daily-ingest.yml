@@ -57,3 +57,12 @@ jobs:
           ANTHROPIC_API_KEY:   ${{ secrets.ANTHROPIC_API_KEY }}
           AI_BATCH_SIZE:       '20'
         run: node netlify/functions/process-article.js
+
+      # ── Step 5: Update behavioral profiles ────────────────────────────────
+      # Runs after enrichment so new articles are included in profile computation.
+      # Profile data is consumed by daily-digest.js at 10:00 UTC.
+      - name: Update user behavioral profiles
+        env:
+          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+          FIREBASE_API_KEY:    ${{ secrets.FIREBASE_API_KEY }}
+        run: node netlify/functions/update-user-profile.js

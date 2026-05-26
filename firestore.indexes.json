@@ -72,6 +72,14 @@
         { "fieldPath": "digestId", "order": "ASCENDING" },
         { "fieldPath": "ts",       "order": "ASCENDING" }
       ]
+    },
+    {
+      "collectionGroup": "digests",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "email",     "order": "ASCENDING" },
+        { "fieldPath": "enviadoEm", "order": "DESCENDING" }
+      ]
     }
   ],
   "fieldOverrides": []

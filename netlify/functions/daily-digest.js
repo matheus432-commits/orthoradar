@@ -7,18 +7,20 @@
 // Run: node netlify/functions/daily-digest.js
 // Schedule: GitHub Actions daily-emails.yml at 10:00 UTC
 
-const crypto                             = require('crypto');
-const { Firestore }                      = require('./_lib/firestore');
-const { curateDigest, computeCuratedScore } = require('./_lib/digest-ranking');
-const { buildDigestEmail }               = require('./_lib/email-template');
-const log                                = require('./_lib/logger');
-const { request }                        = require('./_lib');
+const crypto                                = require('crypto');
+const { Firestore }                         = require('./_lib/firestore');
+const { buildDigestEmail }                  = require('./_lib/email-template');
+const { getProfile }                        = require('./_lib/user-profile');
+const { recommendArticles }                 = require('./_lib/recommendation-engine');
+const { shouldSendToday, getOptimalDigestSize } = require('./_lib/fatigue-detection');
+const log                                   = require('./_lib/logger');
+const { request }                           = require('./_lib');
 
-const BASE_URL     = process.env.SITE_URL || 'https://odontofeed.com.br';
-const MIN_ARTICLES = 3;
-const MAX_ARTICLES = 5;
-const LOOKBACK_DAYS = 180; // how far back to check for already-sent articles
-const CANDIDATE_LIMIT = 100; // max articles to fetch per user before curation
+const BASE_URL        = process.env.SITE_URL || 'https://odontofeed.com.br';
+const MIN_ARTICLES    = 3;
+const MAX_ARTICLES    = 5;
+const LOOKBACK_DAYS   = 180;
+const CANDIDATE_LIMIT = 120;
 
 // ── Firestore helpers ─────────────────────────────────────────────────────────
 
@@ -239,10 +241,27 @@ async function processUser(user, db, resendKey) {
     return 'skipped';
   }
 
-  // 4. Curate selection
-  const selected = curateDigest(candidates, MAX_ARTICLES, MIN_ARTICLES);
+  // 4. Load behavioral profile and check fatigue
+  const profile = await getProfile(email, db).catch(() => null);
+
+  if (profile && !shouldSendToday(profile)) {
+    log.info('[digest] skipping — fatigue/schedule', {
+      email,
+      action:  profile.fatigueAction,
+      ignored: profile.consecutiveIgnored,
+    });
+    return 'skipped';
+  }
+
+  // 5. Personalized curated selection
+  const digestSize = profile ? getOptimalDigestSize(profile) : MAX_ARTICLES;
+  const selected   = recommendArticles(candidates, profile, {
+    maxArticles: digestSize,
+    minArticles: MIN_ARTICLES,
+  });
+
   if (!selected.length) {
-    log.warn('[digest] curation returned empty', { email });
+    log.warn('[digest] recommendation returned empty', { email });
     return 'skipped';
   }
 
