@@ -27,6 +27,22 @@
 [functions."get-trending-personalized"]
   node_bundler = "nft"
 
+# Knowledge Memory System (FASE 5)
+[functions."save-note"]
+  node_bundler = "nft"
+
+[functions."search-knowledge"]
+  node_bundler = "nft"
+
+[functions."get-knowledge-graph"]
+  node_bundler = "nft"
+
+[functions."get-memory-review"]
+  node_bundler = "nft"
+
+[functions."create-collection"]
+  node_bundler = "nft"
+
 # Clinical Intelligence Layer (FASE 4)
 [functions."get-consensus"]
   node_bundler = "nft"

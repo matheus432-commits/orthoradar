@@ -462,6 +462,9 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
     <button class="tab-btn" id="tabBtn-inteligencia" onclick="switchTab('inteligencia',this)">
       Inteligência
     </button>
+    <button class="tab-btn" id="tabBtn-memoria" onclick="switchTab('memoria',this)">
+      Memória
+    </button>
     <button class="tab-btn" id="tabBtn-preferencias" onclick="switchTab('preferencias',this)">
       ⚙️ Preferências
     </button>
@@ -522,6 +525,16 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
       <div class="empty-state" style="padding:48px 32px;">
         <div class="empty-icon" style="font-size:28px;">&#9679;</div>
         <h3>Carregando Inteligência Científica…</h3>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: MEMÓRIA -->
+  <div class="tab-content" id="tab-memoria">
+    <div id="memoriaContent">
+      <div class="empty-state" style="padding:48px 32px;">
+        <div class="empty-icon" style="font-size:28px;">&#9679;</div>
+        <h3>Carregando Memória Científica…</h3>
       </div>
     </div>
   </div>
@@ -1120,6 +1133,7 @@ function switchTab(name,btnEl){
   if (name === 'preferencias') renderPrefTab();
   if (name === 'inteligencia') loadIntelligenceTab();
   if (name === 'clinica')      { loadClinicaTab(); showCompareBtns(false); }
+  if (name === 'memoria')      { loadMemoriaTab(); }
   // Show compare buttons on article tabs when clinica was last visited
   const clinicaActive = name === 'recebidos' || name === 'curtidos' || name === 'lidos';
   if (clinicaActive) showCompareBtns(_clinicaLoaded);
@@ -1882,6 +1896,308 @@ function renderLearningPaths(data) {
 
   return `<div class="section-title" style="margin-top:8px;">Trilhas Inteligentes <span>${escapeHtml(data.specialty || '')}</span></div>
     <div class="paths-grid">${cards}</div>`;
+}
+
+// ========== KNOWLEDGE MEMORY TAB (FASE 5) ==========
+let _memoriaLoaded = false;
+let _memoriaCollections = [];
+
+async function loadMemoriaTab() {
+  if (_memoriaLoaded) return;
+  _memoriaLoaded = true;
+
+  const email = getEmail(), token = getToken();
+  const el    = document.getElementById('memoriaContent');
+
+  el.innerHTML = memoriaSkeleton();
+
+  try {
+    const qs = 'email=' + encodeURIComponent(email) + '&token=' + encodeURIComponent(token);
+
+    const [reviewRes, graphRes, colRes] = await Promise.allSettled([
+      fetch('/.netlify/functions/get-memory-review?' + qs + '&limit=5').then(r => r.json()),
+      fetch('/.netlify/functions/get-knowledge-graph?' + qs).then(r => r.json()),
+      fetch('/.netlify/functions/create-collection', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ action: 'list', email, token }),
+      }).then(r => r.json()),
+    ]);
+
+    const review = reviewRes.status === 'fulfilled' ? reviewRes.value : null;
+    const graph  = graphRes.status  === 'fulfilled' ? graphRes.value  : null;
+    const cols   = colRes.status    === 'fulfilled' ? colRes.value    : null;
+
+    _memoriaCollections = cols?.collections || [];
+
+    el.innerHTML =
+      renderMemoriaSearch() +
+      '<div id="memoriaSearchResult"></div>' +
+      renderMemoriaReview(review) +
+      renderKnowledgeGraph(graph) +
+      renderCollectionSection(_memoriaCollections);
+
+    // Animate progress bars (reuse existing pattern)
+    setTimeout(() => {
+      el.querySelectorAll('[data-width]').forEach(bar => {
+        bar.style.width = bar.dataset.width || '0%';
+      });
+    }, 100);
+
+  } catch(err) {
+    el.innerHTML = `<div class="empty-state"><div class="empty-icon">⚠</div><h3>Erro ao carregar</h3><p>${escapeHtml(err.message)}</p></div>`;
+  }
+}
+
+function memoriaSkeleton() {
+  const pulse = `<div class="skeleton" style="height:20px;margin-bottom:10px;border-radius:6px;"></div>`;
+  return `<div style="padding:8px 0;">
+    ${[1,2,3].map(() => `<div class="skeleton" style="height:120px;border-radius:16px;margin-bottom:16px;"></div>`).join('')}
+  </div>`;
+}
+
+// ── Search ─────────────────────────────────────────────────────────────────────
+function renderMemoriaSearch() {
+  return `<div class="clinical-search-wrap" style="margin-bottom:24px;">
+    <div class="clinical-search-title">Buscar no Conhecimento Pessoal</div>
+    <div style="font-size:13px;color:var(--muted);margin-bottom:14px;">Pesquise em notas, artigos salvos e coleções.</div>
+    <div class="clinical-search-row">
+      <select id="memoriaFilterSel" style="background:var(--card);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:0 14px;height:44px;font-size:14px;font-family:inherit;cursor:pointer;">
+        <option value="all">Todos</option>
+        <option value="notes">Notas</option>
+        <option value="articles">Artigos</option>
+        <option value="collections">Coleções</option>
+      </select>
+      <input class="clinical-search-input" id="memoriaSearchInput" placeholder="Ex: osseointegração, fumantes, carga imediata…" maxlength="200" style="flex:1;"/>
+      <button class="btn-search" id="memoriaSearchBtn" onclick="runMemoriaSearch()">Buscar</button>
+    </div>
+  </div>`;
+}
+
+async function runMemoriaSearch() {
+  const q      = (document.getElementById('memoriaSearchInput')?.value || '').trim();
+  const filter = document.getElementById('memoriaFilterSel')?.value || 'all';
+  if (!q) return;
+
+  const resultEl = document.getElementById('memoriaSearchResult');
+  const btn      = document.getElementById('memoriaSearchBtn');
+  if (!resultEl) return;
+
+  btn.disabled    = true;
+  btn.textContent = 'Buscando…';
+  resultEl.innerHTML = `<div style="color:var(--muted);font-size:13px;padding:12px 0;">Pesquisando…</div>`;
+
+  const email = getEmail(), token = getToken();
+  try {
+    const qs  = `email=${encodeURIComponent(email)}&token=${encodeURIComponent(token)}&q=${encodeURIComponent(q)}&filter=${filter}&limit=15`;
+    const res = await fetch('/.netlify/functions/search-knowledge?' + qs);
+    const data = await res.json();
+    resultEl.innerHTML = renderMemoriaResults(data, q);
+  } catch(err) {
+    resultEl.innerHTML = `<div style="color:var(--danger);font-size:13px;padding:12px 0;">Erro ao buscar. Tente novamente.</div>`;
+  }
+  btn.disabled    = false;
+  btn.textContent = 'Buscar';
+}
+
+function renderMemoriaResults(data, q) {
+  if (data.error) return `<div style="color:var(--danger);font-size:13px;padding:12px 0;">${escapeHtml(data.error)}</div>`;
+  if (!data.results?.length) return `<div class="empty-state" style="padding:32px;"><div class="empty-icon">🔍</div><h3>Nenhum resultado para "${escapeHtml(q)}"</h3><p>Tente outros termos ou salve mais artigos.</p></div>`;
+
+  const typeIcon = { note: '📝', article: '📄', collection: '📁' };
+  const rows = data.results.map(r => {
+    const icon = typeIcon[r.type] || '•';
+    const link = r.pmid && r.type === 'article'
+      ? `<a href="${r.pubmedUrl ? escapeHtml(r.pubmedUrl) : '#'}" target="_blank" rel="noopener" style="color:var(--primary);font-size:13px;text-decoration:none;white-space:nowrap;">PubMed ↗</a>`
+      : '';
+    return `<div style="display:flex;gap:12px;align-items:flex-start;padding:14px 18px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin-bottom:10px;">
+      <span style="font-size:18px;line-height:1;padding-top:2px;">${icon}</span>
+      <div style="flex:1;min-width:0;">
+        <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px;">${escapeHtml(r.titulo || '')}</div>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:6px;">${escapeHtml(r.meta || '')}</div>
+        ${r.resumo ? `<div style="font-size:13px;color:var(--text-dim,#94a3b8);">${escapeHtml(r.resumo.slice(0,160))}…</div>` : ''}
+        ${r.tags?.length ? `<div style="margin-top:6px;">${r.tags.map(t => `<span style="background:rgba(14,165,233,0.1);color:var(--primary);border-radius:6px;padding:2px 8px;font-size:11px;margin-right:4px;">${escapeHtml(t)}</span>`).join('')}</div>` : ''}
+      </div>
+      ${link}
+    </div>`;
+  }).join('');
+
+  return `<div style="margin-bottom:28px;">
+    <div style="font-size:13px;color:var(--muted);margin-bottom:12px;">${data.total} resultado${data.total !== 1 ? 's' : ''} para "<strong>${escapeHtml(q)}</strong>"</div>
+    ${rows}
+  </div>`;
+}
+
+// ── Memory Review (Spaced Repetition) ─────────────────────────────────────────
+function renderMemoriaReview(data) {
+  if (!data?.candidates?.length) {
+    return `<div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px 24px;margin-bottom:28px;">
+      <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:8px;">Revisão Inteligente</div>
+      <div style="font-size:13px;color:var(--muted);">${data?.message || 'Salve artigos para ativar a revisão por espaçamento.'}</div>
+    </div>`;
+  }
+
+  const cards = data.candidates.map(c => {
+    const score = c.resurfaceScore || 0;
+    const bar   = Math.round(score);
+    const evCls = evBadgeClass(c.nivel_evidencia);
+    return `<div style="display:flex;flex-direction:column;gap:10px;padding:18px;background:var(--card-alt,rgba(255,255,255,0.03));border:1px solid var(--border);border-radius:14px;">
+      <div style="display:flex;gap:10px;align-items:flex-start;">
+        <span class="ev-badge ${evCls}" style="white-space:nowrap;flex-shrink:0;">${escapeHtml(c.nivel_evidencia || '?')}</span>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escapeHtml((c.titulo_pt || c.titulo || '').slice(0,80))}</div>
+          <div style="font-size:11px;color:var(--muted);">${escapeHtml(c.ageLabel || '')}</div>
+        </div>
+        ${c.pubmedUrl ? `<a href="${escapeHtml(c.pubmedUrl)}" target="_blank" rel="noopener" style="color:var(--primary);font-size:12px;flex-shrink:0;">↗</a>` : ''}
+      </div>
+      <div style="font-size:12px;color:var(--primary);background:rgba(14,165,233,0.08);border-radius:8px;padding:6px 10px;">${escapeHtml(c.resurfaceReason || '')}</div>
+      <div style="height:4px;background:rgba(255,255,255,0.07);border-radius:4px;overflow:hidden;">
+        <div style="height:100%;width:${bar}%;background:linear-gradient(90deg,var(--primary),var(--accent));border-radius:4px;transition:width 0.6s ease;"></div>
+      </div>
+    </div>`;
+  }).join('');
+
+  return `<div style="margin-bottom:28px;">
+    <div class="section-title" style="margin-bottom:16px;">Revisão Inteligente <span style="font-size:13px;font-weight:500;color:var(--muted);">${data.candidates.length} artigos para revisitar</span></div>
+    <div style="display:grid;gap:12px;">${cards}</div>
+  </div>`;
+}
+
+// ── Knowledge Graph ────────────────────────────────────────────────────────────
+function renderKnowledgeGraph(data) {
+  if (!data?.tree?.length) {
+    return `<div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px 24px;margin-bottom:28px;">
+      <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:8px;">Mapa do Conhecimento</div>
+      <div style="font-size:13px;color:var(--muted);">Interaja com artigos para construir seu mapa científico pessoal.</div>
+    </div>`;
+  }
+
+  const stats = data.stats || {};
+  const statPills = [
+    { label: 'Especialidades', val: stats.specialties || 0 },
+    { label: 'Temas', val: stats.themes || 0 },
+    { label: 'Artigos', val: stats.articles || 0 },
+    { label: 'Notas', val: stats.notes || 0 },
+    { label: 'Coleções', val: stats.collections || 0 },
+  ].map(s => `<div style="text-align:center;background:rgba(14,165,233,0.07);border-radius:10px;padding:10px 16px;">
+    <div style="font-size:20px;font-weight:800;color:var(--primary);">${s.val}</div>
+    <div style="font-size:11px;color:var(--muted);margin-top:2px;">${s.label}</div>
+  </div>`).join('');
+
+  const tree = data.tree.slice(0, 6).map(spec => {
+    const temas = (spec.temas || []).slice(0, 4).map(tema => {
+      const arts = (tema.articles || []).slice(0, 3).map(a => {
+        const noteIndicator = a.hasNote ? `<span title="${a.noteCount} nota(s)" style="color:var(--primary);font-size:10px;margin-left:4px;">📝</span>` : '';
+        return `<div style="display:flex;align-items:center;gap:6px;padding:5px 10px;border-radius:8px;font-size:12px;color:var(--text);background:rgba(255,255,255,0.03);margin-bottom:3px;">
+          <span style="width:5px;height:5px;border-radius:50%;background:var(--muted);flex-shrink:0;"></span>
+          <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;">${escapeHtml(a.label || '')}</span>
+          ${noteIndicator}
+          ${a.pubmedUrl ? `<a href="${escapeHtml(a.pubmedUrl)}" target="_blank" rel="noopener" style="color:var(--primary);font-size:11px;flex-shrink:0;text-decoration:none;">↗</a>` : ''}
+        </div>`;
+      }).join('');
+      return `<div style="margin-left:16px;margin-bottom:10px;">
+        <div style="font-size:12px;font-weight:600;color:var(--muted);margin-bottom:5px;display:flex;align-items:center;gap:6px;">
+          <span style="color:var(--accent);">▸</span>${escapeHtml(tema.label)} <span style="font-weight:400;">(${tema.count})</span>
+        </div>
+        ${arts}
+      </div>`;
+    }).join('');
+    return `<div style="background:var(--card-alt,rgba(255,255,255,0.03));border:1px solid var(--border);border-radius:14px;padding:16px 18px;margin-bottom:12px;">
+      <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;">
+        <span>${escapeHtml(spec.label)}</span>
+        <span style="font-size:12px;font-weight:500;color:var(--muted);">${spec.count} artigos</span>
+      </div>
+      ${temas}
+    </div>`;
+  }).join('');
+
+  const relatedSection = (data.relatedPairs || []).slice(0,3).map(p =>
+    `<div style="font-size:12px;color:var(--muted);padding:8px 12px;background:rgba(255,255,255,0.03);border-radius:8px;margin-bottom:6px;">
+      <strong style="color:var(--text);">${escapeHtml(p.tema)}</strong>: ${escapeHtml(p.tituloA.slice(0,50))} … e ${escapeHtml(p.tituloB.slice(0,50))}
+    </div>`
+  ).join('');
+
+  return `<div style="margin-bottom:28px;">
+    <div class="section-title" style="margin-bottom:16px;">Mapa do Conhecimento</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:10px;margin-bottom:20px;">${statPills}</div>
+    ${tree}
+    ${relatedSection ? `<div style="margin-top:4px;"><div style="font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Artigos Relacionados</div>${relatedSection}</div>` : ''}
+  </div>`;
+}
+
+// ── Collections ────────────────────────────────────────────────────────────────
+function renderCollectionSection(collections) {
+  const cards = collections.length
+    ? collections.map(c => `<div style="background:var(--card-alt,rgba(255,255,255,0.03));border:1px solid var(--border);border-radius:12px;padding:16px 18px;display:flex;align-items:center;gap:14px;">
+        <span style="font-size:24px;">📁</span>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:14px;font-weight:600;color:var(--text);">${escapeHtml(c.nome)}</div>
+          ${c.descricao ? `<div style="font-size:12px;color:var(--muted);">${escapeHtml(c.descricao.slice(0,80))}</div>` : ''}
+          <div style="font-size:11px;color:var(--muted);margin-top:3px;">${(c.pmids || []).length} artigos</div>
+        </div>
+        <button onclick="deleteCollectionUI('${escapeHtml(c.collectionId)}')" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:18px;padding:4px;" title="Apagar coleção">×</button>
+      </div>`).join('')
+    : `<div style="font-size:13px;color:var(--muted);padding:16px 0;">Nenhuma coleção ainda. Crie sua primeira coleção abaixo.</div>`;
+
+  return `<div style="margin-bottom:28px;">
+    <div class="section-title" style="margin-bottom:16px;">Coleções Clínicas</div>
+    <div style="display:grid;gap:10px;margin-bottom:18px;">${cards}</div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px 22px;">
+      <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:14px;">Nova Coleção</div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <input id="newColNome" placeholder="Nome (ex: Implantes em Diabéticos)" maxlength="80"
+          style="background:rgba(255,255,255,0.05);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:10px 14px;font-size:14px;font-family:inherit;"/>
+        <input id="newColDesc" placeholder="Descrição opcional" maxlength="300"
+          style="background:rgba(255,255,255,0.05);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:10px 14px;font-size:14px;font-family:inherit;"/>
+        <button onclick="createCollectionUI()" class="btn-search" style="align-self:flex-start;">Criar coleção</button>
+        <span id="newColMsg" style="font-size:12px;color:var(--muted);"></span>
+      </div>
+    </div>
+  </div>`;
+}
+
+async function createCollectionUI() {
+  const nome = (document.getElementById('newColNome')?.value || '').trim();
+  const desc = (document.getElementById('newColDesc')?.value || '').trim();
+  const msg  = document.getElementById('newColMsg');
+  if (!nome) { if (msg) msg.textContent = 'Informe um nome.'; return; }
+
+  const email = getEmail(), token = getToken();
+  if (msg) msg.textContent = 'Criando…';
+  try {
+    const res  = await fetch('/.netlify/functions/create-collection', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ action: 'create', email, token, nome, descricao: desc }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Erro ao criar');
+    if (msg) msg.textContent = 'Coleção criada!';
+    document.getElementById('newColNome').value = '';
+    document.getElementById('newColDesc').value = '';
+    // Refresh collection list
+    _memoriaLoaded = false;
+    await loadMemoriaTab();
+  } catch(err) {
+    if (msg) msg.textContent = escapeHtml(err.message);
+  }
+}
+
+async function deleteCollectionUI(collectionId) {
+  if (!confirm('Apagar esta coleção?')) return;
+  const email = getEmail(), token = getToken();
+  try {
+    const res = await fetch('/.netlify/functions/create-collection', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ action: 'delete', email, token, collectionId }),
+    });
+    if (!res.ok) { const d = await res.json(); throw new Error(d.error || 'Erro'); }
+    _memoriaLoaded = false;
+    await loadMemoriaTab();
+  } catch(err) {
+    alert(err.message);
+  }
 }
 
 // ========== INIT ==========
