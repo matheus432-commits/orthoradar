@@ -144,6 +144,117 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
   .btn-lido.lido{background:rgba(34,197,94,0.12);color:#22c55e;border-color:rgba(34,197,94,0.3);}
   .btn-lido:hover{background:rgba(34,197,94,0.08);color:#22c55e;}
 
+  /* ── CLINICAL INTELLIGENCE (FASE 4) ── */
+
+  /* Disclaimer banner */
+  .disclaimer-banner{background:rgba(14,165,233,0.05);border:1px solid rgba(14,165,233,0.15);border-radius:12px;padding:11px 16px;font-size:12px;color:var(--muted);line-height:1.55;margin-bottom:20px;display:flex;align-items:flex-start;gap:8px;}
+  .disclaimer-banner svg{flex-shrink:0;margin-top:1px;}
+
+  /* Clinical query search */
+  .clinical-search-wrap{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px 24px;margin-bottom:24px;}
+  .clinical-search-title{font-size:14px;font-weight:700;margin-bottom:12px;color:var(--text);}
+  .clinical-search-row{display:flex;gap:10px;}
+  .clinical-search-input{flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text);font-size:14px;font-family:inherit;outline:none;transition:border 0.2s;}
+  .clinical-search-input:focus{border-color:var(--primary);}
+  .clinical-search-input::placeholder{color:#475569;}
+  .btn-search{background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;border:none;border-radius:10px;padding:12px 22px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;transition:opacity 0.2s;}
+  .btn-search:hover{opacity:0.9;}
+  .btn-search:disabled{opacity:0.5;cursor:not-allowed;}
+  .clinical-examples{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
+  .clinical-example{background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:4px 12px;font-size:12px;color:var(--muted);cursor:pointer;transition:all 0.15s;}
+  .clinical-example:hover{border-color:var(--primary);color:var(--primary);}
+
+  /* Clinical query result */
+  .clinical-result{background:var(--card);border:1px solid rgba(14,165,233,0.3);border-radius:16px;padding:22px 24px;margin-bottom:24px;animation:fadeIn 0.3s;}
+  .clinical-result-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:14px;}
+  .clinical-result-question{font-size:14px;font-weight:700;color:var(--text);flex:1;}
+  .clinical-result-strength{font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;}
+  .strength-forte{background:rgba(16,185,129,0.15);color:#10b981;}
+  .strength-moderada{background:rgba(245,158,11,0.15);color:#f59e0b;}
+  .strength-fraca,.strength-insuficiente{background:rgba(100,116,139,0.15);color:#94a3b8;}
+  .clinical-result-summary{font-size:13px;color:var(--text);line-height:1.7;margin-bottom:10px;padding:12px 14px;background:rgba(14,165,233,0.05);border-radius:8px;}
+  .clinical-result-divergence{font-size:12px;color:#f59e0b;margin-bottom:10px;padding:8px 12px;background:rgba(245,158,11,0.07);border-radius:8px;}
+  .clinical-result-articles{display:flex;flex-direction:column;gap:8px;margin-top:12px;}
+  .clinical-art-row{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;background:var(--bg3);border-radius:10px;border:1px solid var(--border);}
+  .clinical-art-ev{flex-shrink:0;font-size:10px;font-weight:700;padding:2px 7px;border-radius:6px;margin-top:1px;}
+  .clinical-art-body{flex:1;min-width:0;}
+  .clinical-art-titulo{font-size:12px;font-weight:600;color:var(--text);line-height:1.4;margin-bottom:3px;}
+  .clinical-art-meta{font-size:11px;color:var(--muted);}
+  .clinical-art-impact{font-size:12px;color:var(--primary);margin-top:4px;}
+  .clinical-art-link{font-size:11px;font-weight:600;color:var(--primary);text-decoration:none;flex-shrink:0;}
+
+  /* Guideline alerts */
+  .alerts-scroll{display:flex;gap:14px;overflow-x:auto;padding-bottom:8px;margin-bottom:24px;}
+  .alerts-scroll::-webkit-scrollbar{height:4px;}
+  .alerts-scroll::-webkit-scrollbar-track{background:var(--bg3);}
+  .alerts-scroll::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+  .alert-card{flex-shrink:0;width:300px;background:var(--card);border-radius:14px;padding:16px 18px;transition:border-color 0.2s;}
+  .alert-card.severity-high{border:1px solid rgba(16,185,129,0.35);}
+  .alert-card.severity-medium{border:1px solid rgba(14,165,233,0.25);}
+  .alert-card:hover{transform:translateY(-1px);}
+  .alert-card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+  .alert-ev-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:6px;}
+  .alert-age{font-size:11px;color:var(--muted);}
+  .alert-text{font-size:12px;color:var(--primary);font-weight:600;margin-bottom:6px;line-height:1.45;}
+  .alert-titulo{font-size:12px;color:var(--text);line-height:1.4;margin-bottom:4px;}
+  .alert-meta{font-size:11px;color:var(--muted);}
+  .alert-link{font-size:11px;font-weight:600;color:var(--primary);text-decoration:none;display:inline-block;margin-top:6px;}
+
+  /* Consensus cards */
+  .consensus-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-bottom:24px;}
+  .consensus-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px 20px;cursor:pointer;transition:all 0.2s;}
+  .consensus-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,0.2);}
+  .consensus-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px;}
+  .consensus-tema{font-size:14px;font-weight:700;color:var(--text);flex:1;line-height:1.4;}
+  .consensus-level-badge{font-size:10px;font-weight:700;padding:3px 9px;border-radius:10px;white-space:nowrap;flex-shrink:0;}
+  .consensus-summary{font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:10px;}
+  .consensus-footer{display:flex;align-items:center;justify-content:space-between;}
+  .consensus-count{font-size:11px;color:var(--muted);}
+  .consensus-ev-pills{display:flex;gap:4px;flex-wrap:wrap;}
+  .ev-mini-pill{font-size:9px;font-weight:700;padding:2px 6px;border-radius:6px;}
+  .consensus-articles{display:none;margin-top:12px;border-top:1px solid var(--border);padding-top:12px;}
+  .consensus-articles.open{display:block;}
+
+  /* Evidence snapshot card (inline expandable) */
+  .snapshot-toggle{background:none;border:none;color:var(--primary);font-size:11px;font-weight:700;cursor:pointer;padding:0;font-family:inherit;margin-top:8px;display:flex;align-items:center;gap:4px;}
+  .snapshot-panel{display:none;margin-top:10px;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px 16px;font-size:12px;animation:fadeIn 0.2s;}
+  .snapshot-panel.open{display:block;}
+  .snapshot-row{display:flex;gap:8px;margin-bottom:7px;align-items:flex-start;}
+  .snapshot-row:last-child{margin-bottom:0;}
+  .snapshot-label{font-size:10px;font-weight:800;color:var(--primary);text-transform:uppercase;letter-spacing:0.5px;width:120px;flex-shrink:0;padding-top:1px;}
+  .snapshot-val{color:var(--text);line-height:1.55;flex:1;}
+  .snapshot-force-tag{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;padding:2px 8px;border-radius:6px;}
+  .force-A{background:rgba(16,185,129,0.15);color:#10b981;}
+  .force-B{background:rgba(99,102,241,0.15);color:#818cf8;}
+  .force-C{background:rgba(245,158,11,0.15);color:#f59e0b;}
+  .force-D,.force-E{background:rgba(100,116,139,0.15);color:#94a3b8;}
+  .snapshot-disclaimer{font-size:10px;color:var(--muted);margin-top:10px;padding-top:8px;border-top:1px solid var(--border);font-style:italic;}
+
+  /* Comparator */
+  .comparator-section{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px 24px;margin-bottom:24px;}
+  .comparator-empty{text-align:center;padding:28px;color:var(--muted);font-size:13px;}
+  .comparator-selected{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;}
+  .comp-chip{display:flex;align-items:center;gap:6px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:6px 12px;font-size:12px;font-weight:500;max-width:220px;}
+  .comp-chip-title{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;}
+  .comp-chip-remove{background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px;padding:0;line-height:1;flex-shrink:0;}
+  .comp-chip-remove:hover{color:var(--danger);}
+  .btn-compare{background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;border:none;border-radius:10px;padding:10px 22px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:opacity 0.2s;}
+  .btn-compare:disabled{opacity:0.5;cursor:not-allowed;}
+  .btn-compare:hover:not(:disabled){opacity:0.9;}
+
+  /* Comparison table */
+  .comp-table-wrap{overflow-x:auto;margin-top:14px;}
+  .comp-table{width:100%;border-collapse:collapse;font-size:12px;}
+  .comp-table th{background:var(--bg3);color:var(--muted);text-transform:uppercase;font-size:10px;font-weight:700;letter-spacing:0.6px;padding:10px 12px;border:1px solid var(--border);text-align:left;}
+  .comp-table td{padding:10px 12px;border:1px solid var(--border);vertical-align:top;line-height:1.55;}
+  .comp-table tr:nth-child(even) td{background:rgba(255,255,255,0.015);}
+  .comp-table .dim-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted);white-space:nowrap;}
+  .comp-table .strongest{background:rgba(16,185,129,0.06)!important;border-color:rgba(16,185,129,0.2)!important;}
+  .comp-divergence-note{font-size:12px;color:#f59e0b;margin-top:8px;padding:8px 12px;background:rgba(245,158,11,0.07);border-radius:8px;}
+
+  /* fadeIn */
+  @keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+
   /* ── SCIENTIFIC INTELLIGENCE (FASE 3) ── */
 
   /* Score card */
@@ -345,6 +456,9 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
     <button class="tab-btn" id="tabBtn-especialidades" onclick="switchTab('especialidades',this)">
       🦷 Especialidades <span class="tab-badge" id="tbadge-especialidades">0</span>
     </button>
+    <button class="tab-btn" id="tabBtn-clinica" onclick="switchTab('clinica',this)">
+      Clínica
+    </button>
     <button class="tab-btn" id="tabBtn-inteligencia" onclick="switchTab('inteligencia',this)">
       Inteligência
     </button>
@@ -389,6 +503,16 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
     <div class="section-title">🦷 Por Especialidade e Categoria</div>
     <div id="espTabsNav" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;"></div>
     <div id="espTabsContent"></div>
+  </div>
+
+  <!-- TAB: CLÍNICA -->
+  <div class="tab-content" id="tab-clinica">
+    <div id="clinicaContent">
+      <div class="empty-state" style="padding:48px 32px;">
+        <div class="empty-icon" style="font-size:28px;">&#9679;</div>
+        <h3>Carregando Inteligência Clínica…</h3>
+      </div>
+    </div>
   </div>
 
   <!-- TAB: INTELIGÊNCIA -->
@@ -995,6 +1119,453 @@ function switchTab(name,btnEl){
   document.getElementById('tab-'+name).classList.add('active');
   if (name === 'preferencias') renderPrefTab();
   if (name === 'inteligencia') loadIntelligenceTab();
+  if (name === 'clinica')      { loadClinicaTab(); showCompareBtns(false); }
+  // Show compare buttons on article tabs when clinica was last visited
+  const clinicaActive = name === 'recebidos' || name === 'curtidos' || name === 'lidos';
+  if (clinicaActive) showCompareBtns(_clinicaLoaded);
+}
+
+// ========== CLINICAL INTELLIGENCE TAB (FASE 4) ==========
+let _clinicaLoaded  = false;
+let _comparatorSet  = new Map(); // pmid → article meta
+
+// ── Tab loader ────────────────────────────────────────────────────────────────
+async function loadClinicaTab() {
+  if (_clinicaLoaded) return;
+  _clinicaLoaded = true;
+
+  const el   = document.getElementById('clinicaContent');
+  const spec = (userData?.especialidade && (Array.isArray(userData.especialidade) ? userData.especialidade[0] : userData.especialidade)) || null;
+  el.innerHTML = clinicaSkeleton();
+
+  try {
+    const specQs = spec ? '&specialty=' + encodeURIComponent(spec) : '';
+    const [guidelineRes, consensusRes] = await Promise.allSettled([
+      fetch('/.netlify/functions/get-guideline-alerts?limit=8' + specQs).then(r => r.json()),
+      fetch('/.netlify/functions/get-consensus?nocache=0' + specQs).then(r => r.json()),
+    ]);
+
+    const guideData  = guidelineRes.status  === 'fulfilled' ? guidelineRes.value  : null;
+    const consData   = consensusRes.status  === 'fulfilled' ? consensusRes.value  : null;
+
+    el.innerHTML =
+      renderDisclaimer() +
+      renderClinicalSearch(spec) +
+      '<div id="clinicaQueryResult"></div>' +
+      renderGuidelineAlerts(guideData, spec) +
+      renderConsensusSection(consData, spec) +
+      renderComparatorSection();
+
+  } catch(err) {
+    el.innerHTML = `<div class="empty-state"><div class="empty-icon">⚠</div><h3>Erro ao carregar</h3><p>${escapeHtml(err.message)}</p></div>`;
+  }
+}
+
+// ── Disclaimer ───────────────────────────────────────────────────────────────
+function renderDisclaimer() {
+  return `<div class="disclaimer-banner">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" style="color:var(--primary)"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm0 3a.75.75 0 110 1.5A.75.75 0 018 4zm-.25 3h.5v4.5h-.5V7z"/></svg>
+    Este conteúdo é destinado à <strong>atualização científica</strong> e não substitui avaliação clínica individualizada nem recomendação profissional.
+  </div>`;
+}
+
+// ── Clinical search ───────────────────────────────────────────────────────────
+const CLINICAL_EXAMPLES = [
+  'Carga imediata aumenta falha em fumantes?',
+  'Alinhadores são eficazes em mordida aberta?',
+  'Qual superfície de implante tem melhor osseointegração?',
+  'Regeneração óssea guiada funciona em defeitos amplos?',
+];
+
+function renderClinicalSearch(spec) {
+  const examples = CLINICAL_EXAMPLES.map(q =>
+    `<span class="clinical-example" onclick="setClinicalQuery(this)">${escapeHtml(q)}</span>`
+  ).join('');
+  return `<div class="clinical-search-wrap">
+    <div class="clinical-search-title">Perguntar à evidência</div>
+    <div class="clinical-search-row">
+      <input class="clinical-search-input" id="clinicaQueryInput" placeholder="Ex: Carga imediata aumenta taxa de falha em fumantes?" maxlength="300"/>
+      <button class="btn-search" id="clinicaSearchBtn" onclick="runClinicalQuery()">Buscar evidência</button>
+    </div>
+    <div class="clinical-examples">${examples}</div>
+  </div>`;
+}
+
+function setClinicalQuery(el) {
+  const inp = document.getElementById('clinicaQueryInput');
+  if (inp) inp.value = el.textContent;
+  inp && inp.focus();
+}
+
+async function runClinicalQuery() {
+  const q   = (document.getElementById('clinicaQueryInput')?.value || '').trim();
+  if (!q) return;
+
+  const resultEl = document.getElementById('clinicaQueryResult');
+  const btn      = document.getElementById('clinicaSearchBtn');
+  if (!resultEl) return;
+
+  btn.disabled   = true;
+  btn.textContent = 'Buscando…';
+  resultEl.innerHTML = `<div style="color:var(--muted);font-size:13px;padding:16px 0;">Analisando evidências…</div>`;
+
+  const spec = (userData?.especialidade && (Array.isArray(userData.especialidade) ? userData.especialidade[0] : userData.especialidade)) || undefined;
+  try {
+    const res  = await fetch('/.netlify/functions/ask-clinical-question', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ question: q, specialty: spec, email: getEmail() }),
+    });
+    const data = await res.json();
+    resultEl.innerHTML = renderClinicalResult(data);
+  } catch(err) {
+    resultEl.innerHTML = `<div class="clinical-result" style="border-color:var(--danger);"><div style="color:var(--danger);font-size:13px;">Erro ao buscar evidências. Tente novamente.</div></div>`;
+  }
+  btn.disabled   = false;
+  btn.textContent = 'Buscar evidência';
+}
+
+function renderClinicalResult(data) {
+  if (data.error) return `<div class="clinical-result"><div style="color:var(--danger);font-size:13px;">${escapeHtml(data.error)}</div></div>`;
+
+  const strengthClass = {
+    'Forte': 'strength-forte',
+    'Moderada': 'strength-moderada',
+    'Fraca': 'strength-fraca',
+    'Insuficiente': 'strength-insuficiente',
+  }[data.strength] || 'strength-insuficiente';
+
+  const artRows = (data.articles || []).slice(0, 5).map(a => {
+    const ev = escapeHtml(a.nivel_evidencia || '');
+    return `<div class="clinical-art-row">
+      <span class="clinical-art-ev ${evBadgeClass(a.nivel_evidencia)}">${ev || '?'}</span>
+      <div class="clinical-art-body">
+        <div class="clinical-art-titulo">${escapeHtml(a.titulo || '')}</div>
+        <div class="clinical-art-meta">${escapeHtml(a.journal || '')}${a.data ? ' · ' + new Date(a.data).getFullYear() : ''}</div>
+        ${a.impacto ? `<div class="clinical-art-impact">${escapeHtml(a.impacto)}</div>` : ''}
+      </div>
+      ${a.pubmedUrl ? `<a class="clinical-art-link" href="${escapeHtml(a.pubmedUrl)}" target="_blank" rel="noopener">↗</a>` : ''}
+    </div>`;
+  }).join('');
+
+  const aiNote = data.aiEnhanced ? `<div style="font-size:10px;color:var(--muted);margin-top:6px;">Síntese assistida por IA · ${data.articleCount} artigos analisados</div>` : `<div style="font-size:10px;color:var(--muted);margin-top:6px;">${data.articleCount || 0} artigos analisados</div>`;
+
+  return `<div class="clinical-result">
+    <div class="clinical-result-header">
+      <div class="clinical-result-question">"${escapeHtml(data.question || '')}"</div>
+      <span class="clinical-result-strength ${strengthClass}">${escapeHtml(data.strength || '')}</span>
+    </div>
+    <div class="clinical-result-summary">${escapeHtml(data.summary || '')}</div>
+    ${data.divergences ? `<div class="clinical-result-divergence">⚠ ${escapeHtml(data.divergences)}</div>` : ''}
+    ${aiNote}
+    ${artRows ? `<div class="clinical-result-articles">${artRows}</div>` : ''}
+    <div style="font-size:10px;color:var(--muted);margin-top:10px;font-style:italic;">${escapeHtml(data.disclaimer || '')}</div>
+  </div>`;
+}
+
+// ── Guideline alerts ──────────────────────────────────────────────────────────
+function renderGuidelineAlerts(data, spec) {
+  if (!data || data.error || !data.alerts || !data.alerts.length) {
+    return `<div class="section-title">Alertas de Diretrizes <span>${spec ? escapeHtml(spec) : 'todos'}</span></div>
+      <div style="color:var(--muted);font-size:13px;margin-bottom:24px;">Nenhum alerta de alta evidência nos últimos 90 dias.</div>`;
+  }
+
+  const cards = data.alerts.map(a => {
+    return `<div class="alert-card severity-${escapeHtml(a.severity || 'medium')}" onclick="if(event.target.tagName!=='A')window.open('${escapeHtml(a.pubmedUrl || '#')}','_blank')" style="cursor:${a.pubmedUrl ? 'pointer' : 'default'}">
+      <div class="alert-card-top">
+        <span class="alert-ev-badge ${evBadgeClass(a.nivel_evidencia)}">${escapeHtml(a.nivel_evidencia || '')}</span>
+        <span class="alert-age">${escapeHtml(a.ageText || '')}</span>
+      </div>
+      <div class="alert-text">${escapeHtml(a.alertText || '')}</div>
+      <div class="alert-titulo">${escapeHtml(a.titulo || '')}</div>
+      <div class="alert-meta">${escapeHtml(a.journal || '')}${a.especialidade ? ' · ' + escapeHtml(a.especialidade) : ''}</div>
+      ${a.pubmedUrl ? `<a class="alert-link" href="${escapeHtml(a.pubmedUrl)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Ver no PubMed ↗</a>` : ''}
+    </div>`;
+  }).join('');
+
+  return `<div class="section-title">Alertas de Diretrizes <span>${data.total} publicações</span></div>
+    <div class="alerts-scroll">${cards}</div>`;
+}
+
+// ── Consensus section ─────────────────────────────────────────────────────────
+function renderConsensusSection(data, spec) {
+  const specLabel = spec ? escapeHtml(spec) : 'todos';
+  if (!data || data.error || !data.temas || !data.temas.length) {
+    return `<div class="section-title">Consenso Científico <span>${specLabel}</span></div>
+      <div style="color:var(--muted);font-size:13px;margin-bottom:24px;">Dados insuficientes para gerar consenso. O sistema precisa de ao menos 2 artigos por tema.</div>`;
+  }
+
+  const cards = data.temas.slice(0, 8).map((c, idx) => {
+    const badgeStyle = `background:${c.color}22;color:${c.color};`;
+    const evPills = Object.entries(c.evBreakdown || {}).slice(0, 3).map(([ev, n]) =>
+      `<span class="ev-mini-pill ${evBadgeClass(ev)}">${n} ${ev.split(' ')[0]}</span>`
+    ).join('');
+
+    const artCards = (c.topArticles || []).slice(0, 3).map(a => {
+      const snapshotId = `snap-cons-${idx}-${(a.pmid || a.id || '').replace(/[^a-z0-9]/gi,'')}`;
+      return `<div style="padding:8px 0;border-bottom:1px solid var(--border);">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;">
+          <div style="flex:1;">
+            <div style="font-size:12px;font-weight:600;color:var(--text);line-height:1.4;">${escapeHtml(a.titulo || '')}</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:2px;">${escapeHtml(a.journal || '')}${a.nivel_evidencia ? ' · ' + escapeHtml(a.nivel_evidencia) : ''}</div>
+            ${a.impacto ? `<div style="font-size:11px;color:var(--primary);margin-top:3px;">${escapeHtml(a.impacto)}</div>` : ''}
+          </div>
+          ${a.pubmedUrl ? `<a style="font-size:11px;font-weight:600;color:var(--primary);text-decoration:none;flex-shrink:0;" href="${escapeHtml(a.pubmedUrl)}" target="_blank" rel="noopener">↗</a>` : ''}
+        </div>
+        ${renderSnapshotToggle(snapshotId, a.snapshot)}
+      </div>`;
+    }).join('');
+
+    const articleCount = c.articleCount || 0;
+    return `<div class="consensus-card" id="consensus-card-${idx}" onclick="toggleConsensus(${idx})">
+      <div class="consensus-card-top">
+        <div class="consensus-tema">${escapeHtml(c.tema || '')}</div>
+        <span class="consensus-level-badge" style="${badgeStyle}">${escapeHtml(c.label || '')}</span>
+      </div>
+      <div class="consensus-summary">${escapeHtml(c.summary || '')}</div>
+      <div class="consensus-footer">
+        <span class="consensus-count">${articleCount} estudo${articleCount !== 1 ? 's' : ''}</span>
+        <div class="consensus-ev-pills">${evPills}</div>
+      </div>
+      <div class="consensus-articles" id="consensus-arts-${idx}">${artCards}</div>
+    </div>`;
+  }).join('');
+
+  const note = data.fromCache ? ' (cache)' : '';
+  return `<div class="section-title">Consenso Científico <span>${specLabel}${note}</span></div>
+    <div class="consensus-grid">${cards}</div>`;
+}
+
+function toggleConsensus(idx) {
+  const arts = document.getElementById('consensus-arts-' + idx);
+  if (arts) arts.classList.toggle('open');
+}
+
+// ── Evidence snapshot toggle ──────────────────────────────────────────────────
+function renderSnapshotToggle(id, snapshot) {
+  if (!snapshot) return '';
+  const lines = [];
+  if (snapshot.tipoEstudo)         lines.push(['Tipo de estudo', escapeHtml(snapshot.tipoEstudo)]);
+  if (snapshot.populacao)          lines.push(['População', escapeHtml(snapshot.populacao)]);
+  if (snapshot.followUp)           lines.push(['Follow-up', escapeHtml(snapshot.followUp)]);
+  if (snapshot.desfechoPrincipal)  lines.push(['Desfecho', escapeHtml(snapshot.desfechoPrincipal)]);
+  if (snapshot.takeawayClinico)    lines.push(['Takeaway clínico', escapeHtml(snapshot.takeawayClinico)]);
+  if (snapshot.quandoAplicar)      lines.push(['Quando aplicar', escapeHtml(snapshot.quandoAplicar)]);
+  if (snapshot.quandoNaoExtrapolar) lines.push(['Não extrapolar', escapeHtml(snapshot.quandoNaoExtrapolar)]);
+
+  const forceTag = snapshot.forcaTag || '?';
+  const force    = snapshot.forcaEvidencia || '';
+  const rows = lines.map(([lbl, val]) =>
+    `<div class="snapshot-row"><span class="snapshot-label">${lbl}</span><span class="snapshot-val">${val}</span></div>`
+  ).join('');
+
+  const html = `<div class="snapshot-panel" id="${id}">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+      <span class="snapshot-force-tag force-${forceTag}">Evidência ${forceTag} — ${force}</span>
+      ${snapshot.isOpenAccess ? '<span style="font-size:10px;color:#10b981;font-weight:700;">Acesso Aberto</span>' : ''}
+    </div>
+    ${rows}
+    <div class="snapshot-disclaimer">${escapeHtml(snapshot.disclaimer || '')}</div>
+  </div>`;
+
+  return `<button class="snapshot-toggle" onclick="toggleSnapshot('${id}');event.stopPropagation()">
+    ⊕ Snapshot Clínico
+  </button>${html}`;
+}
+
+function toggleSnapshot(id) {
+  const el = document.getElementById(id);
+  if (el) {
+    el.classList.toggle('open');
+    const btn = el.previousElementSibling;
+    if (btn) btn.textContent = el.classList.contains('open') ? '⊖ Fechar snapshot' : '⊕ Snapshot Clínico';
+    if (el.classList.contains('open')) {
+      logClinicalEvent('evidence_snapshot_opened');
+    }
+  }
+}
+
+// ── Comparator ────────────────────────────────────────────────────────────────
+function renderComparatorSection() {
+  return `<div class="section-title">Comparador de Estudos</div>
+    <div class="comparator-section" id="comparatorSection">
+      <div class="comparator-empty" id="compEmpty">
+        Selecione artigos na aba <strong>Recebidos</strong> para comparar lado a lado.<br>
+        <span style="font-size:11px;margin-top:4px;display:block;">Os botões "Comparar" aparecem em cada card quando esta aba está ativa.</span>
+      </div>
+      <div id="compSelected" style="display:none;">
+        <div id="compChips" class="comparator-selected"></div>
+        <button class="btn-compare" id="compRunBtn" onclick="runComparison()" disabled>Comparar estudos</button>
+      </div>
+      <div id="compTable"></div>
+    </div>`;
+}
+
+// Called when a "Comparar" button is clicked on an article card
+function addToComparator(pmid, titulo) {
+  if (_comparatorSet.has(pmid)) {
+    _comparatorSet.delete(pmid);
+  } else if (_comparatorSet.size >= 4) {
+    alert('Máximo de 4 estudos para comparação simultânea.');
+    return;
+  } else {
+    _comparatorSet.set(pmid, titulo);
+  }
+  updateComparatorUI();
+  updateCompareButtonsUI();
+}
+
+function updateComparatorUI() {
+  const empty    = document.getElementById('compEmpty');
+  const selected = document.getElementById('compSelected');
+  const chips    = document.getElementById('compChips');
+  const runBtn   = document.getElementById('compRunBtn');
+
+  if (!empty) return;
+
+  if (_comparatorSet.size === 0) {
+    empty.style.display    = '';
+    selected.style.display = 'none';
+    return;
+  }
+  empty.style.display    = 'none';
+  selected.style.display = '';
+  chips.innerHTML = [..._comparatorSet.entries()].map(([pmid, titulo]) =>
+    `<div class="comp-chip">
+      <span class="comp-chip-title">${escapeHtml(titulo || pmid)}</span>
+      <button class="comp-chip-remove" onclick="addToComparator('${pmid}','')">×</button>
+    </div>`
+  ).join('');
+  runBtn.disabled = _comparatorSet.size < 2;
+  document.getElementById('compTable').innerHTML = '';
+}
+
+function updateCompareButtonsUI() {
+  document.querySelectorAll('.btn-comparar').forEach(btn => {
+    const pmid = btn.dataset.pmid;
+    const inSet = _comparatorSet.has(pmid);
+    btn.textContent = inSet ? '✓ Comparando' : '⊕ Comparar';
+    btn.classList.toggle('in-comparator', inSet);
+  });
+}
+
+async function runComparison() {
+  if (_comparatorSet.size < 2) return;
+  const runBtn   = document.getElementById('compRunBtn');
+  const tableEl  = document.getElementById('compTable');
+  runBtn.disabled   = true;
+  runBtn.textContent = 'Comparando…';
+  tableEl.innerHTML = '';
+
+  try {
+    const res  = await fetch('/.netlify/functions/compare-studies', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ pmids: [..._comparatorSet.keys()], email: getEmail() }),
+    });
+    const data = await res.json();
+    if (data.error) throw new Error(data.error);
+    tableEl.innerHTML = renderComparisonTable(data);
+    logClinicalEvent('comparator_used');
+    tableEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } catch(err) {
+    tableEl.innerHTML = `<div style="color:var(--danger);font-size:13px;margin-top:12px;">${escapeHtml(err.message)}</div>`;
+  }
+  runBtn.disabled   = false;
+  runBtn.textContent = 'Comparar estudos';
+}
+
+const DIM_LABELS = {
+  tipoEstudo: 'Tipo de estudo', populacao: 'População', followUp: 'Follow-up',
+  intervencao: 'Intervenção / Tema', desfecho: 'Desfecho principal',
+  impacto: 'Impacto clínico', limitacoes: 'Limitações', evidenceRank: 'Nível de evidência',
+};
+
+function renderComparisonTable(data) {
+  const arts  = data.articles || [];
+  const dims  = data.dimensions || {};
+  const si    = data.strongestIdx ?? -1;
+
+  const colClass = (i) => i === si ? 'strongest' : '';
+  const ths = arts.map((a, i) =>
+    `<th class="${colClass(i)}" style="min-width:180px;">
+      ${escapeHtml(a.titulo || '')}
+      <div style="font-size:10px;font-weight:400;margin-top:3px;">${escapeHtml(a.journal || '')} ${a.year ? '· ' + a.year : ''}</div>
+      ${a.pubmedUrl ? `<a style="font-size:10px;color:var(--primary);text-decoration:none;" href="${escapeHtml(a.pubmedUrl)}" target="_blank" rel="noopener">PubMed ↗</a>` : ''}
+    </th>`
+  ).join('');
+
+  const showDims = ['tipoEstudo','populacao','followUp','desfecho','impacto','limitacoes'];
+  const rows = showDims.map(key => {
+    const vals = dims[key] || [];
+    const tds  = vals.map((v, i) =>
+      `<td class="${colClass(i)}">${escapeHtml(String(v || '—'))}</td>`
+    ).join('');
+    return `<tr><td class="dim-label">${DIM_LABELS[key] || key}</td>${tds}</tr>`;
+  }).join('');
+
+  const divNote = data.hasDivergence
+    ? `<div class="comp-divergence-note">⚠ Os estudos selecionados apresentam direções de evidência divergentes. Analise criticamente antes de aplicar.</div>`
+    : '';
+
+  return `<div class="comp-table-wrap">
+    <table class="comp-table">
+      <thead><tr><th>Dimensão</th>${ths}</tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+  </div>
+  ${divNote}
+  <div style="font-size:10px;color:var(--muted);margin-top:8px;font-style:italic;">${escapeHtml(data.disclaimer || '')}</div>`;
+}
+
+// ── Add "Comparar" button to existing article cards ───────────────────────────
+// Override articleCard to inject comparar button when clinica tab is active
+const _origArticleCard = articleCard;
+function articleCard(art, curtidos, lidos) {
+  const base  = _origArticleCard(art, curtidos, lidos);
+  const pmid  = art.id || art.pmid || '';
+  const inSet = _comparatorSet.has(String(pmid));
+  const btn   = `<button class="btn-like btn-comparar${inSet ? ' in-comparator' : ''}" data-pmid="${escapeHtml(String(pmid))}" onclick="addToComparator('${escapeHtml(String(pmid))}',${JSON.stringify(art.titulo || art.titulo_pt || '')});event.stopPropagation();" style="display:none;" id="comp-btn-${escapeHtml(String(pmid))}">
+    ${inSet ? '✓ Comparando' : '⊕ Comparar'}
+  </button>`;
+  return base.replace('</div>\n  </div>', btn + '\n  </div>\n</div>').replace('</div></div>', btn + '</div></div>');
+}
+
+function showCompareBtns(show) {
+  document.querySelectorAll('.btn-comparar').forEach(b => b.style.display = show ? '' : 'none');
+}
+
+// ── Skeleton ─────────────────────────────────────────────────────────────────
+function clinicaSkeleton() {
+  const s = (w,h) => `<div class="skel" style="height:${h}px;width:${w};border-radius:8px;margin-bottom:10px;"></div>`;
+  return `<div style="animation:none;">
+    <div class="skeleton-card" style="margin-bottom:20px;">${s('70%',14)}${s('100%',40)}${s('60%',20)}</div>
+    <div style="display:flex;gap:14px;overflow:hidden;margin-bottom:24px;">
+      <div class="skeleton-card" style="min-width:280px;">${s('80%',14)}${s('100%',12)}${s('90%',12)}</div>
+      <div class="skeleton-card" style="min-width:280px;">${s('80%',14)}${s('100%',12)}${s('90%',12)}</div>
+      <div class="skeleton-card" style="min-width:280px;">${s('80%',14)}${s('100%',12)}${s('90%',12)}</div>
+    </div>
+    <div class="intel-grid">
+      <div class="skeleton-card">${s('60%',14)}${s('100%',12)}${s('80%',12)}${s('70%',12)}</div>
+      <div class="skeleton-card">${s('60%',14)}${s('100%',12)}${s('80%',12)}${s('70%',12)}</div>
+    </div>
+  </div>`;
+}
+
+// ── Analytics helper ──────────────────────────────────────────────────────────
+// Server-side events: clinical_query_searched, comparator_used, consensus_viewed,
+// guideline_alert_clicked, evidence_snapshot_opened, discussion_mode_exported
+function logClinicalEvent(eventType) {
+  const projectId = 'orthoradar';
+  fetch('/.netlify/functions/track-open', { method: 'GET' }).catch(() => {});
+  // Simple fire-and-forget to existing event logger
+  const email = getEmail();
+  if (!email) return;
+  fetch('/.netlify/functions/compare-studies', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({ pmids: [], email, _event: eventType }),
+  }).catch(() => {});
 }
 
 // ========== INTELLIGENCE TAB ==========

@@ -27,6 +27,19 @@
 [functions."get-trending-personalized"]
   node_bundler = "nft"
 
+# Clinical Intelligence Layer (FASE 4)
+[functions."get-consensus"]
+  node_bundler = "nft"
+
+[functions."compare-studies"]
+  node_bundler = "nft"
+
+[functions."ask-clinical-question"]
+  node_bundler = "nft"
+
+[functions."get-guideline-alerts"]
+  node_bundler = "nft"
+
 # Scientific Intelligence Dashboard (FASE 3)
 [functions."get-scientific-profile"]
   node_bundler = "nft"
