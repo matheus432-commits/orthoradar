@@ -4,45 +4,46 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>OdontoFeed — Copiloto Científico para Dentistas</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet"/>
 <style>
 /* ═══════════════════════════════════════════════════════
-   DESIGN SYSTEM — OdontoFeed Premium
-   Referências: Linear, Vercel, Perplexity, Stripe, OpenAI
-   Paleta: Near-black zinc + sky accent minimal
+   DESIGN SYSTEM — OdontoFeed Editorial
+   Referências: Bloomberg, Nature, NEJM, Stripe Docs
+   Paleta: Bege/areia/off-white · Cognac accent
    ═══════════════════════════════════════════════════════ */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
-  /* Base surfaces */
-  --bg:        #09090b;
-  --bg-1:      #0f0f12;
-  --bg-2:      #141417;
-  --card:      #18181b;
-  --card-2:    #1c1c20;
+  /* Surfaces */
+  --bg:        #F6F1E8;
+  --bg-1:      #FFFDF9;
+  --bg-2:      #EDE8DF;
+  --bg-3:      #E5DED4;
+  --card:      #FFFDF9;
+  --card-2:    #F9F4EC;
   /* Borders */
-  --b:         rgba(255,255,255,0.06);
-  --b-2:       rgba(255,255,255,0.10);
-  --b-3:       rgba(255,255,255,0.16);
+  --b:         #E7DED1;
+  --b-2:       #D9D0C2;
+  --b-3:       #C6BBAA;
   /* Text */
-  --t:         #f4f4f5;
-  --t-2:       #a1a1aa;
-  --t-3:       #52525b;
-  /* Accent — sky-500, used sparingly */
-  --a:         #0ea5e9;
-  --a-dim:     rgba(14,165,233,0.10);
-  --a-glow:    rgba(14,165,233,0.18);
+  --t:         #1E1E1B;
+  --t-2:       #6B665E;
+  --t-3:       #9E988E;
+  /* Accent — cognac/warm brown */
+  --a:         #B08968;
+  --a-h:       #A17657;
+  --a-dim:     rgba(176,137,104,0.10);
+  --a-dim-2:   rgba(176,137,104,0.16);
   /* Semantic */
-  --green:     #22c55e;
-  --green-dim: rgba(34,197,94,0.10);
-  --amber:     #f59e0b;
-  --amber-dim: rgba(245,158,11,0.09);
-  --violet:    #8b5cf6;
-  --violet-dim:rgba(139,92,246,0.10);
-  --blue-dim:  rgba(59,130,246,0.12);
+  --green:     #5F8A5C;
+  --green-dim: rgba(95,138,92,0.11);
+  --amber:     #B07C2A;
+  --amber-dim: rgba(176,124,42,0.10);
+  --terra:     #A85C46;
+  --terra-dim: rgba(168,92,70,0.10);
   /* Shape */
-  --r:  10px;
-  --r2: 14px;
-  --r3: 20px;
+  --r:  8px;
+  --r2: 12px;
+  --r3: 18px;
 }
 html{scroll-behavior:smooth;}
 body{
@@ -52,267 +53,255 @@ body{
   min-height:100vh;
   -webkit-font-smoothing:antialiased;
   font-size:15px;
-  line-height:1.6;
+  line-height:1.65;
 }
 
 /* ── PREVIEW BANNER ───────────────────────────────── */
-.pb{position:fixed;top:0;left:0;right:0;z-index:9999;height:36px;background:#5b21b6;display:flex;align-items:center;justify-content:center;gap:10px;font-size:12px;font-weight:600;color:#fff;letter-spacing:0.2px;}
-.pb em{background:rgba(255,255,255,0.18);border-radius:4px;padding:1px 8px;font-style:normal;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;}
+.pb{
+  position:fixed;top:0;left:0;right:0;z-index:9999;height:34px;
+  background:#1E1E1B;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  font-size:12px;font-weight:500;color:rgba(255,253,249,0.7);
+  letter-spacing:0.1px;
+}
+.pb strong{color:#F6F1E8;font-weight:600;}
+.pb em{
+  background:var(--a);color:#fff;
+  border-radius:4px;padding:1px 9px;
+  font-style:normal;font-size:10px;font-weight:700;
+  letter-spacing:0.8px;text-transform:uppercase;
+}
 
 /* ── NAV ──────────────────────────────────────────── */
 nav{
-  position:sticky;top:36px;z-index:100;
-  display:flex;align-items:center;gap:0;
-  padding:0 32px;height:56px;
-  background:rgba(9,9,11,0.82);
-  backdrop-filter:blur(24px) saturate(180%);
+  position:sticky;top:34px;z-index:100;
+  display:flex;align-items:center;
+  padding:0 48px;height:60px;
+  background:rgba(255,253,249,0.92);
+  backdrop-filter:blur(20px) saturate(140%);
   border-bottom:1px solid var(--b);
 }
-.nav-logo{font-size:15px;font-weight:700;letter-spacing:-0.4px;color:var(--t);text-decoration:none;margin-right:40px;}
-.nav-logo span{color:var(--a);}
+.nav-logo{
+  font-size:16px;font-weight:700;letter-spacing:-0.5px;
+  color:var(--t);text-decoration:none;margin-right:44px;
+  display:flex;align-items:center;gap:1px;
+}
+.nav-logo-dot{color:var(--a);}
 .nav-links{display:flex;gap:2px;flex:1;}
-.nav-links a{color:var(--t-2);font-size:13.5px;font-weight:500;text-decoration:none;padding:6px 12px;border-radius:7px;transition:color 0.15s,background 0.15s;}
-.nav-links a:hover{color:var(--t);background:rgba(255,255,255,0.05);}
+.nav-links a{
+  color:var(--t-2);font-size:13.5px;font-weight:500;
+  text-decoration:none;padding:6px 13px;border-radius:6px;
+  transition:color 0.2s,background 0.2s;
+}
+.nav-links a:hover{color:var(--t);background:var(--bg-2);}
 .nav-end{display:flex;align-items:center;gap:8px;margin-left:auto;}
-.nav-btn-ghost{color:var(--t-2);font-size:13.5px;font-weight:500;padding:7px 14px;border-radius:7px;border:none;background:none;cursor:pointer;font-family:inherit;transition:color 0.15s;}
-.nav-btn-ghost:hover{color:var(--t);}
-.nav-btn-cta{font-size:13px;font-weight:600;padding:7px 16px;border-radius:7px;background:var(--t);color:var(--bg);border:none;cursor:pointer;font-family:inherit;transition:opacity 0.15s,transform 0.15s;letter-spacing:-0.2px;}
-.nav-btn-cta:hover{opacity:0.88;transform:translateY(-1px);}
+.nav-ghost{
+  color:var(--t-2);font-size:13.5px;font-weight:500;
+  padding:7px 14px;border-radius:7px;border:none;
+  background:none;cursor:pointer;font-family:inherit;
+  transition:color 0.2s;
+}
+.nav-ghost:hover{color:var(--t);}
+.nav-cta{
+  font-size:13px;font-weight:600;padding:8px 18px;
+  border-radius:7px;background:var(--t);color:#FFFDF9;
+  border:none;cursor:pointer;font-family:inherit;
+  transition:background 0.2s,transform 0.2s;
+  letter-spacing:-0.2px;
+}
+.nav-cta:hover{background:#302F2C;transform:translateY(-1px);}
 
 /* ── HERO ─────────────────────────────────────────── */
 .hero{
-  min-height: calc(100vh - 92px);
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:64px;
-  align-items:center;
-  padding:80px 80px 80px 80px;
-  position:relative;
-  overflow:hidden;
+  min-height:calc(100vh - 94px);
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:72px;align-items:center;
+  padding:80px 48px 80px 48px;
+  position:relative;overflow:hidden;
+  background:var(--bg);
 }
-/* Grid background */
-.hero::before{
-  content:'';position:absolute;inset:0;
-  background-image:
-    linear-gradient(rgba(255,255,255,0.022) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(255,255,255,0.022) 1px,transparent 1px);
-  background-size:56px 56px;
-  pointer-events:none;
-}
-/* Glow */
-.hero::after{
-  content:'';position:absolute;
-  width:600px;height:400px;
-  background:radial-gradient(ellipse,rgba(14,165,233,0.08) 0%,transparent 70%);
-  top:-100px;left:-100px;
-  pointer-events:none;
-}
-.hero-left{position:relative;z-index:1;}
+.hero-left{position:relative;z-index:1;max-width:520px;}
 .hero-eyebrow{
   display:inline-flex;align-items:center;gap:8px;
   font-size:11px;font-weight:600;
-  letter-spacing:1.5px;text-transform:uppercase;
-  color:var(--a);margin-bottom:28px;
+  letter-spacing:1.8px;text-transform:uppercase;
+  color:var(--a);margin-bottom:26px;
 }
-.hero-eyebrow::before{
-  content:'';width:6px;height:6px;border-radius:50%;
-  background:var(--a);
-  box-shadow:0 0 8px var(--a-glow);
-  animation:blink 2.5s ease-in-out infinite;
+.hero-eyebrow-dot{
+  width:5px;height:5px;border-radius:50%;
+  background:var(--a);display:inline-block;
+  animation:pulse-dot 3s ease-in-out infinite;
 }
-@keyframes blink{0%,100%{opacity:1}50%{opacity:0.4}}
+@keyframes pulse-dot{
+  0%,100%{opacity:1;transform:scale(1);}
+  50%{opacity:0.5;transform:scale(0.85);}
+}
 .hero h1{
-  font-size:clamp(2.2rem,3.5vw,3.1rem);
+  font-family:'Playfair Display',Georgia,serif;
+  font-size:clamp(2.4rem,4vw,3.4rem);
   font-weight:700;
-  line-height:1.12;
-  letter-spacing:-0.04em;
+  line-height:1.1;
+  letter-spacing:-0.01em;
   color:var(--t);
-  margin-bottom:20px;
+  margin-bottom:22px;
 }
-.hero h1 strong{
-  font-weight:800;
-  background:linear-gradient(135deg,#f4f4f5 30%,#a1a1aa);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-}
+.hero h1 em{font-style:italic;color:var(--a);}
 .hero-sub{
-  font-size:15px;
-  color:var(--t-2);
-  line-height:1.72;
-  max-width:420px;
-  margin-bottom:36px;
+  font-size:15.5px;color:var(--t-2);
+  line-height:1.75;max-width:420px;
+  margin-bottom:38px;font-weight:400;
 }
-.hero-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:48px;}
-.btn-hero-primary{
+.hero-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:44px;}
+.btn-primary{
   font-size:14px;font-weight:600;
   padding:11px 22px;border-radius:8px;
-  background:var(--a);color:#fff;
+  background:var(--t);color:#FFFDF9;
   border:none;cursor:pointer;font-family:inherit;
-  transition:all 0.2s;letter-spacing:-0.2px;
-  box-shadow:0 1px 2px rgba(0,0,0,0.3),0 0 0 1px rgba(14,165,233,0.3);
+  transition:background 0.25s,transform 0.25s;
+  letter-spacing:-0.2px;
 }
-.btn-hero-primary:hover{background:#38bdf8;transform:translateY(-1px);box-shadow:0 4px 16px rgba(14,165,233,0.3);}
-.btn-hero-secondary{
+.btn-primary:hover{background:#302F2C;transform:translateY(-1px);}
+.btn-secondary{
   font-size:14px;font-weight:500;
   padding:11px 22px;border-radius:8px;
-  background:rgba(255,255,255,0.05);
-  color:var(--t-2);
+  background:transparent;color:var(--t-2);
   border:1px solid var(--b-2);
   cursor:pointer;font-family:inherit;
-  transition:all 0.2s;
+  transition:all 0.25s;
 }
-.btn-hero-secondary:hover{background:rgba(255,255,255,0.08);color:var(--t);border-color:var(--b-3);}
-.hero-trust{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--t-3);}
+.btn-secondary:hover{background:var(--bg-2);color:var(--t);border-color:var(--b-3);}
+.hero-trust{
+  display:flex;align-items:center;gap:10px;
+  font-size:12.5px;color:var(--t-3);
+}
 .hero-trust-avatars{display:flex;}
-.hero-trust-avatar{
-  width:26px;height:26px;border-radius:50%;
+.hero-trust-av{
+  width:27px;height:27px;border-radius:50%;
   border:2px solid var(--bg);
-  background:linear-gradient(135deg,#374151,#1f2937);
+  background:linear-gradient(135deg,var(--bg-3),var(--bg-2));
   display:flex;align-items:center;justify-content:center;
-  font-size:10px;font-weight:700;color:#9ca3af;
-  margin-left:-6px;
+  font-size:9px;font-weight:700;color:var(--t-2);
+  margin-left:-7px;
 }
-.hero-trust-avatar:first-child{margin-left:0;}
+.hero-trust-av:first-child{margin-left:0;}
 
-/* ── HERO PRODUCT MOCKUP ─────────────────────────── */
+/* ── HERO PRODUCT MOCKUP (warm) ─────────────────────── */
 .hero-right{position:relative;z-index:1;}
 .mockup-wrap{
-  position:relative;
   border-radius:16px;
   border:1px solid var(--b-2);
-  background:var(--bg-1);
+  background:var(--bg-2);
   overflow:hidden;
   box-shadow:
-    0 0 0 1px rgba(255,255,255,0.04),
-    0 24px 64px rgba(0,0,0,0.5),
-    0 0 80px rgba(14,165,233,0.06);
+    0 2px 8px rgba(30,30,27,0.06),
+    0 24px 64px rgba(30,30,27,0.12),
+    0 0 0 1px rgba(30,30,27,0.04);
 }
-/* Window chrome */
 .mock-chrome{
   display:flex;align-items:center;gap:6px;
-  padding:11px 14px;
-  background:var(--bg-2);
+  padding:11px 14px;background:var(--bg-3);
   border-bottom:1px solid var(--b);
 }
 .mock-dot{width:10px;height:10px;border-radius:50%;}
-.mock-dot.r{background:#ef4444;}
-.mock-dot.y{background:#f59e0b;}
-.mock-dot.g{background:#22c55e;}
+.mock-dot.r{background:#D96C6C;}
+.mock-dot.y{background:#D4A04A;}
+.mock-dot.g{background:#6FA86D;}
 .mock-url{
-  margin:0 auto;
-  font-size:11px;color:var(--t-3);
-  background:rgba(255,255,255,0.04);
-  border:1px solid var(--b);
-  border-radius:5px;padding:3px 12px;
-  letter-spacing:0.2px;
+  margin:0 auto;font-size:11px;color:var(--t-3);
+  background:var(--bg);border:1px solid var(--b);
+  border-radius:5px;padding:3px 12px;letter-spacing:0.2px;
 }
-/* Mock dashboard layout */
 .mock-body{display:flex;height:400px;}
 .mock-sidebar{
-  width:52px;
-  background:var(--bg-2);
+  width:52px;background:var(--bg-3);
   border-right:1px solid var(--b);
   display:flex;flex-direction:column;
-  align-items:center;
-  padding:16px 0;
-  gap:4px;
+  align-items:center;padding:16px 0;gap:4px;
 }
 .mock-si{
   width:36px;height:36px;border-radius:8px;
   display:flex;align-items:center;justify-content:center;
-  font-size:15px;cursor:default;
-  transition:background 0.15s;
-  color:var(--t-3);
+  font-size:15px;cursor:default;color:var(--t-3);
+  transition:background 0.2s;
 }
-.mock-si.on{background:rgba(14,165,233,0.12);color:var(--a);}
-.mock-si:hover{background:rgba(255,255,255,0.05);color:var(--t-2);}
-.mock-main{flex:1;overflow:hidden;display:flex;flex-direction:column;}
+.mock-si.on{background:var(--a-dim-2);color:var(--a);}
+.mock-si:not(.on):hover{background:var(--bg-2);}
+.mock-main{flex:1;overflow:hidden;display:flex;flex-direction:column;background:var(--bg-1);}
 .mock-header{
   display:flex;align-items:center;justify-content:space-between;
-  padding:14px 16px;
-  border-bottom:1px solid var(--b);
-  flex-shrink:0;
+  padding:14px 16px;border-bottom:1px solid var(--b);flex-shrink:0;
 }
 .mock-h-title{font-size:13px;font-weight:600;color:var(--t);letter-spacing:-0.2px;}
 .mock-h-meta{font-size:11px;color:var(--t-3);}
-.mock-articles{flex:1;overflow:hidden;display:flex;flex-direction:column;gap:0;padding:12px;}
+.mock-articles{flex:1;overflow:hidden;padding:10px;display:flex;flex-direction:column;gap:8px;}
 .mock-art{
-  background:var(--card);
-  border:1px solid var(--b);
-  border-radius:8px;
-  padding:12px 14px;
-  margin-bottom:8px;
-  flex-shrink:0;
+  background:var(--bg);border:1px solid var(--b);
+  border-radius:8px;padding:11px 13px;
 }
-.mock-art-top{display:flex;align-items:center;gap:6px;margin-bottom:7px;}
+.mock-art-top{display:flex;align-items:center;gap:6px;margin-bottom:6px;}
 .mock-tag{
   font-size:10px;font-weight:600;letter-spacing:0.3px;
   color:var(--a);background:var(--a-dim);
   padding:2px 7px;border-radius:4px;text-transform:uppercase;
 }
-.mock-ev{
-  font-size:10px;font-weight:700;
-  padding:2px 7px;border-radius:4px;
-}
+.mock-ev{font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;}
 .mock-ev.g{background:var(--green-dim);color:var(--green);}
-.mock-ev.b{background:var(--blue-dim);color:#60a5fa;}
+.mock-ev.b{background:var(--terra-dim);color:var(--terra);}
 .mock-ev.a{background:var(--amber-dim);color:var(--amber);}
-.mock-art-title{font-size:12px;font-weight:600;color:var(--t);line-height:1.4;margin-bottom:5px;}
+.mock-art-title{font-size:12px;font-weight:600;color:var(--t);line-height:1.4;margin-bottom:4px;}
 .mock-art-sum{font-size:11px;color:var(--t-3);line-height:1.5;}
 .mock-ai{
-  margin:4px 12px 12px;
-  border:1px solid var(--b-2);
-  border-radius:8px;
-  padding:10px 14px;
+  margin:0 10px 10px;border:1px solid var(--a-dim-2);
+  border-radius:8px;padding:9px 13px;
   display:flex;align-items:center;gap:8px;
-  background:rgba(14,165,233,0.04);
-  flex-shrink:0;
+  background:var(--a-dim);flex-shrink:0;
 }
-.mock-ai-icon{font-size:13px;color:var(--a);}
-.mock-ai-text{font-size:11.5px;color:var(--t-3);}
-.mock-ai-text span{color:var(--a-dim);
-  background:var(--a-dim);
-  border-radius:3px;padding:0 4px;
-  animation:cursor 1.2s step-end infinite;
+.mock-ai-icon{font-size:12px;color:var(--a);}
+.mock-ai-text{font-size:11px;color:var(--t-2);}
+.mock-ai-text span{
+  border-left:1px solid var(--a);margin-left:1px;
+  animation:cursor 1.1s step-end infinite;
 }
 @keyframes cursor{0%,100%{opacity:1}50%{opacity:0}}
 
-/* ── TRUST STRIP ─────────────────────────────────── */
-.trust{
-  border-top:1px solid var(--b);
-  border-bottom:1px solid var(--b);
-  padding:20px 80px;
-  display:flex;align-items:center;gap:0;
+/* ── PROOF STRIP ──────────────────────────────────── */
+.proof{
+  border-top:1px solid var(--b);border-bottom:1px solid var(--b);
+  padding:22px 48px;
+  display:flex;align-items:center;
   background:var(--bg-1);
 }
-.trust-label{font-size:11px;font-weight:500;color:var(--t-3);white-space:nowrap;margin-right:32px;letter-spacing:0.5px;text-transform:uppercase;}
-.trust-items{display:flex;align-items:center;gap:28px;flex-wrap:wrap;}
-.trust-item{
-  display:flex;align-items:center;gap:7px;
-  font-size:12px;font-weight:500;color:var(--t-3);
+.proof-label{
+  font-size:10.5px;font-weight:600;color:var(--t-3);
+  white-space:nowrap;margin-right:36px;
+  letter-spacing:1.2px;text-transform:uppercase;
 }
-.trust-item svg,.trust-icon{font-size:14px;opacity:0.5;}
+.proof-items{display:flex;align-items:center;gap:32px;flex-wrap:wrap;}
+.proof-item{
+  display:flex;align-items:center;gap:7px;
+  font-size:12.5px;font-weight:500;color:var(--t-2);
+}
+.proof-icon{font-size:14px;opacity:0.7;}
 
 /* ── SECTIONS ─────────────────────────────────────── */
-.section{padding:96px 80px;}
+.section{padding:100px 48px;}
 .section.alt{background:var(--bg-1);}
-.section.dark{background:var(--bg-2);}
+.section.warm{background:var(--bg-2);}
 .section-kicker{
-  font-size:11px;font-weight:600;letter-spacing:1.8px;
-  text-transform:uppercase;color:var(--t-3);
+  font-size:10.5px;font-weight:700;letter-spacing:2px;
+  text-transform:uppercase;color:var(--a);
   margin-bottom:16px;
 }
 .section-h2{
-  font-size:clamp(1.7rem,2.8vw,2.4rem);
-  font-weight:700;
-  letter-spacing:-0.04em;
-  line-height:1.15;
-  color:var(--t);
+  font-family:'Playfair Display',Georgia,serif;
+  font-size:clamp(1.8rem,3vw,2.6rem);
+  font-weight:700;letter-spacing:-0.01em;
+  line-height:1.15;color:var(--t);
   margin-bottom:14px;
 }
 .section-sub{
   font-size:15px;color:var(--t-2);
-  line-height:1.72;
-  max-width:480px;
+  line-height:1.75;max-width:480px;
 }
 .section-header{margin-bottom:56px;}
 .section-header.center{text-align:center;}
@@ -320,71 +309,137 @@ nav{
 
 /* ── HOW IT WORKS ─────────────────────────────────── */
 .how-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:1px;
-  background:var(--b);
-  border:1px solid var(--b);
-  border-radius:var(--r2);
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1px;background:var(--b);
+  border:1px solid var(--b);border-radius:var(--r2);
   overflow:hidden;
 }
 .how-step{
-  background:var(--bg);
-  padding:36px 32px;
-  position:relative;
-  transition:background 0.2s;
+  background:var(--bg);padding:40px 32px;
+  position:relative;transition:background 0.25s;
 }
 .how-step:hover{background:var(--bg-1);}
 .how-num{
-  font-size:11px;font-weight:700;letter-spacing:1px;
-  color:var(--t-3);margin-bottom:20px;
+  font-size:10.5px;font-weight:700;letter-spacing:1.5px;
+  color:var(--a);margin-bottom:22px;
   font-variant-numeric:tabular-nums;
 }
 .how-step h3{
   font-size:16px;font-weight:600;
-  letter-spacing:-0.02em;
-  color:var(--t);margin-bottom:10px;
+  letter-spacing:-0.02em;color:var(--t);margin-bottom:10px;
 }
-.how-step p{font-size:13.5px;color:var(--t-2);line-height:1.65;}
+.how-step p{font-size:13.5px;color:var(--t-2);line-height:1.7;}
+
+/* ── CURADORIA SHOWCASE ───────────────────────────── */
+.digest-showcase{
+  max-width:800px;margin:0 auto;
+  background:var(--card);
+  border:1px solid var(--b);
+  border-radius:var(--r2);overflow:hidden;
+  box-shadow:0 4px 24px rgba(30,30,27,0.06);
+}
+.digest-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px 24px;border-bottom:1px solid var(--b);
+  background:var(--bg-2);
+}
+.digest-h-left{display:flex;align-items:center;gap:10px;}
+.digest-badge{
+  font-size:10px;font-weight:700;letter-spacing:0.8px;
+  text-transform:uppercase;color:var(--a);
+  background:var(--a-dim);padding:3px 9px;border-radius:4px;
+}
+.digest-h-title{font-size:13.5px;font-weight:600;color:var(--t);letter-spacing:-0.2px;}
+.digest-h-meta{font-size:11.5px;color:var(--t-3);}
+.digest-articles{padding:8px;}
+.digest-art{
+  display:flex;gap:14px;padding:16px;
+  border-radius:8px;border:1px solid transparent;
+  transition:all 0.25s;cursor:default;
+}
+.digest-art:hover{background:var(--bg);border-color:var(--b);}
+.digest-art-num{
+  font-size:11px;font-weight:700;color:var(--t-3);
+  min-width:18px;margin-top:2px;
+  font-variant-numeric:tabular-nums;
+}
+.digest-art-body{flex:1;min-width:0;}
+.digest-art-tags{display:flex;align-items:center;gap:6px;margin-bottom:8px;flex-wrap:wrap;}
+.dart-tag{
+  font-size:10px;font-weight:600;letter-spacing:0.3px;
+  color:var(--a);background:var(--a-dim);
+  padding:2px 7px;border-radius:4px;text-transform:uppercase;
+}
+.dart-ev{font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;}
+.dart-ev.g{background:var(--green-dim);color:var(--green);}
+.dart-ev.b{background:var(--terra-dim);color:var(--terra);}
+.dart-ev.a{background:var(--amber-dim);color:var(--amber);}
+.digest-art-title{
+  font-size:13.5px;font-weight:600;color:var(--t);
+  line-height:1.45;margin-bottom:7px;letter-spacing:-0.01em;
+}
+.digest-art-summary{font-size:12.5px;color:var(--t-2);line-height:1.65;}
+.digest-art-summary strong{color:var(--t);font-weight:600;}
+.digest-art-actions{display:flex;gap:6px;margin-top:11px;}
+.dart-btn{
+  font-size:11.5px;font-weight:500;color:var(--t-3);
+  background:none;border:1px solid var(--b);
+  padding:4px 10px;border-radius:5px;
+  cursor:pointer;font-family:inherit;transition:all 0.2s;
+}
+.dart-btn:hover{color:var(--t-2);border-color:var(--b-2);}
+.dart-btn.primary{
+  color:var(--a);border-color:var(--a-dim-2);background:var(--a-dim);
+}
+.dart-btn.primary:hover{background:var(--a-dim-2);}
+.digest-ai{
+  margin:4px 12px 12px;
+  border:1px solid var(--a-dim-2);
+  border-radius:8px;padding:12px 16px;
+  display:flex;align-items:flex-start;gap:10px;
+  background:var(--a-dim);
+}
+.dai-icon{font-size:14px;color:var(--a);margin-top:1px;}
+.dai-text{flex:1;font-size:12.5px;color:var(--t-2);line-height:1.6;}
+.dai-text strong{color:var(--a);font-weight:600;}
 
 /* ── PLATFORM LAYERS ──────────────────────────────── */
 .layers-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:16px;
+  display:grid;grid-template-columns:repeat(2,1fr);gap:16px;
 }
 .layer-card{
-  background:var(--card);
-  border:1px solid var(--b);
-  border-radius:var(--r2);
-  padding:28px;
-  position:relative;
-  overflow:hidden;
-  transition:border-color 0.2s,background 0.2s;
+  background:var(--card);border:1px solid var(--b);
+  border-radius:var(--r2);padding:30px;
+  position:relative;overflow:hidden;
+  transition:border-color 0.25s,box-shadow 0.25s;
 }
-.layer-card:hover{background:var(--card-2);border-color:var(--b-2);}
+.layer-card:hover{
+  border-color:var(--b-2);
+  box-shadow:0 8px 32px rgba(30,30,27,0.07);
+}
 .layer-card::before{
   content:'';position:absolute;top:0;left:0;right:0;
-  height:1px;background:var(--lc-grad,linear-gradient(90deg,transparent,rgba(14,165,233,0.4),transparent));
+  height:2px;background:var(--lc-line,var(--b-2));
+  opacity:0.5;transition:opacity 0.25s;
 }
+.layer-card:hover::before{opacity:1;}
 .layer-pill{
   display:inline-flex;align-items:center;gap:5px;
-  font-size:10.5px;font-weight:600;letter-spacing:0.4px;
+  font-size:10px;font-weight:700;letter-spacing:0.8px;
   text-transform:uppercase;color:var(--lc,var(--a));
   background:var(--lc-bg,var(--a-dim));
   padding:3px 10px;border-radius:20px;margin-bottom:20px;
 }
-.layer-icon{font-size:26px;margin-bottom:14px;display:block;}
+.layer-icon{font-size:28px;margin-bottom:14px;display:block;}
 .layer-card h3{
   font-size:16px;font-weight:600;
-  letter-spacing:-0.02em;color:var(--t);
-  margin-bottom:12px;
+  letter-spacing:-0.02em;color:var(--t);margin-bottom:10px;
 }
-.layer-card p{font-size:13.5px;color:var(--t-2);line-height:1.65;margin-bottom:18px;}
-.layer-features{display:flex;flex-direction:column;gap:7px;}
+.layer-card p{font-size:13.5px;color:var(--t-2);line-height:1.7;margin-bottom:18px;}
+.layer-features{display:flex;flex-direction:column;gap:8px;}
 .layer-feature{
-  display:flex;align-items:center;gap:8px;
-  font-size:12.5px;color:var(--t-2);
+  display:flex;align-items:center;gap:9px;
+  font-size:13px;color:var(--t-2);
 }
 .layer-feature::before{
   content:'';width:4px;height:4px;border-radius:50%;
@@ -393,130 +448,53 @@ nav{
 
 /* ── SPECIALTIES ──────────────────────────────────── */
 .spec-pills{
-  display:flex;flex-wrap:wrap;gap:8px;
-  justify-content:center;
+  display:flex;flex-wrap:wrap;gap:8px;justify-content:center;
 }
 .spec-pill{
   display:inline-flex;align-items:center;gap:7px;
-  background:var(--card);
-  border:1px solid var(--b);
-  border-radius:8px;
-  padding:10px 16px;
+  background:var(--card);border:1px solid var(--b);
+  border-radius:8px;padding:10px 17px;
   font-size:13px;font-weight:500;color:var(--t-2);
-  transition:all 0.2s;cursor:default;
+  transition:all 0.25s;cursor:default;
 }
 .spec-pill:hover{
-  background:var(--card-2);
-  border-color:var(--b-2);
-  color:var(--t);
+  background:var(--bg-2);border-color:var(--b-2);color:var(--t);
 }
 .spec-pill-icon{font-size:16px;}
 
-/* ── DIGEST PREVIEW ───────────────────────────────── */
-.digest-showcase{
-  max-width:800px;margin:0 auto;
-  background:var(--card);
-  border:1px solid var(--b);
-  border-radius:var(--r2);
-  overflow:hidden;
-}
-.digest-header{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:18px 24px;
-  border-bottom:1px solid var(--b);
-  background:var(--bg-2);
-}
-.digest-h-left{display:flex;align-items:center;gap:10px;}
-.digest-badge{
-  font-size:10px;font-weight:700;letter-spacing:1px;
-  text-transform:uppercase;color:var(--a);
-  background:var(--a-dim);
-  padding:3px 9px;border-radius:4px;
-}
-.digest-h-title{font-size:13.5px;font-weight:600;color:var(--t);letter-spacing:-0.2px;}
-.digest-h-meta{font-size:11.5px;color:var(--t-3);}
-.digest-articles{padding:12px;}
-.digest-art{
-  display:flex;gap:14px;
-  padding:14px;
-  border-radius:8px;
-  border:1px solid transparent;
-  transition:all 0.2s;
-  cursor:default;
-}
-.digest-art:hover{background:var(--bg-1);border-color:var(--b);}
-.digest-art-num{
-  font-size:11px;font-weight:700;color:var(--t-3);
-  min-width:16px;margin-top:2px;
-  font-variant-numeric:tabular-nums;
-}
-.digest-art-body{flex:1;min-width:0;}
-.digest-art-tags{display:flex;align-items:center;gap:6px;margin-bottom:7px;flex-wrap:wrap;}
-.dart-tag{font-size:10px;font-weight:600;letter-spacing:0.3px;color:var(--a);background:var(--a-dim);padding:2px 7px;border-radius:4px;text-transform:uppercase;}
-.dart-ev{font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;}
-.dart-ev.g{background:var(--green-dim);color:var(--green);}
-.dart-ev.b{background:var(--blue-dim);color:#60a5fa;}
-.dart-ev.a{background:var(--amber-dim);color:var(--amber);}
-.dart-ev.v{background:var(--violet-dim);color:var(--violet);}
-.digest-art-title{font-size:13.5px;font-weight:600;color:var(--t);line-height:1.45;margin-bottom:6px;letter-spacing:-0.01em;}
-.digest-art-summary{font-size:12.5px;color:var(--t-2);line-height:1.6;}
-.digest-art-actions{display:flex;gap:6px;margin-top:10px;}
-.dart-btn{
-  font-size:11.5px;font-weight:500;color:var(--t-3);
-  background:none;border:1px solid var(--b);
-  padding:4px 10px;border-radius:5px;
-  cursor:pointer;font-family:inherit;transition:all 0.15s;
-}
-.dart-btn:hover{color:var(--t-2);border-color:var(--b-2);}
-.dart-btn.primary{color:var(--a);border-color:rgba(14,165,233,0.25);background:var(--a-dim);}
-.digest-ai{
-  margin:4px 12px 12px;
-  border:1px solid rgba(14,165,233,0.18);
-  border-radius:8px;padding:12px 16px;
-  display:flex;align-items:center;gap:10px;
-  background:rgba(14,165,233,0.04);
-}
-.dai-icon{font-size:14px;color:var(--a);}
-.dai-text{flex:1;font-size:12.5px;color:var(--t-3);}
-.dai-text strong{color:var(--a);font-weight:600;}
-
 /* ── TESTIMONIALS ─────────────────────────────────── */
 .testi-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:16px;
+  display:grid;grid-template-columns:repeat(3,1fr);gap:16px;
 }
 .testi-card{
-  background:var(--card);
-  border:1px solid var(--b);
-  border-radius:var(--r2);
-  padding:28px;
-  display:flex;flex-direction:column;
-  gap:20px;
-  transition:border-color 0.2s;
+  background:var(--card);border:1px solid var(--b);
+  border-radius:var(--r2);padding:28px;
+  display:flex;flex-direction:column;gap:20px;
+  transition:border-color 0.25s,box-shadow 0.25s;
 }
-.testi-card:hover{border-color:var(--b-2);}
+.testi-card:hover{
+  border-color:var(--b-2);
+  box-shadow:0 6px 24px rgba(30,30,27,0.06);
+}
 .testi-stars{display:flex;gap:2px;}
-.testi-star{color:var(--amber);font-size:12px;}
+.testi-star{color:var(--amber);font-size:13px;}
 .testi-quote{
   font-size:14px;color:var(--t-2);
-  line-height:1.75;flex:1;
-  letter-spacing:0.01em;
+  line-height:1.8;flex:1;
 }
-.testi-quote em{color:var(--t);font-style:normal;font-weight:500;}
+.testi-quote em{color:var(--t);font-style:italic;font-weight:400;}
 .testi-author{display:flex;align-items:center;gap:12px;margin-top:auto;}
 .testi-av{
   width:38px;height:38px;border-radius:50%;
   background:var(--bg-2);border:1px solid var(--b-2);
   display:flex;align-items:center;justify-content:center;
-  font-size:13px;font-weight:700;color:var(--t-2);
-  flex-shrink:0;
+  font-size:12px;font-weight:700;color:var(--t-2);flex-shrink:0;
 }
 .testi-name{font-size:13px;font-weight:600;color:var(--t);letter-spacing:-0.01em;}
 .testi-role{font-size:11.5px;color:var(--t-3);margin-top:1px;}
 
 /* ── FAQ ──────────────────────────────────────────── */
-.faq-list{max-width:680px;margin:0 auto;display:flex;flex-direction:column;gap:0;}
+.faq-list{max-width:680px;margin:0 auto;display:flex;flex-direction:column;}
 .faq-item{border-bottom:1px solid var(--b);}
 .faq-item:first-child{border-top:1px solid var(--b);}
 .faq-q{
@@ -524,115 +502,166 @@ nav{
   padding:20px 0;cursor:pointer;
   font-size:14.5px;font-weight:500;color:var(--t);
   letter-spacing:-0.01em;gap:16px;
+  transition:color 0.2s;
 }
-.faq-q:hover{color:var(--t);}
-.faq-chevron{color:var(--t-3);font-size:16px;flex-shrink:0;transition:transform 0.2s;}
-.faq-item.open .faq-chevron{transform:rotate(45deg);}
+.faq-q:hover{color:var(--a);}
+.faq-chevron{color:var(--t-3);font-size:18px;flex-shrink:0;transition:transform 0.2s;}
+.faq-item.open .faq-chevron{transform:rotate(45deg);color:var(--a);}
 .faq-a{
   display:none;font-size:13.5px;color:var(--t-2);
-  line-height:1.7;padding-bottom:20px;
+  line-height:1.75;padding-bottom:20px;
 }
 .faq-item.open .faq-a{display:block;}
 
 /* ── PRICING ──────────────────────────────────────── */
 .pricing-card{
   max-width:480px;margin:0 auto;
-  background:var(--card);
-  border:1px solid var(--b);
-  border-radius:var(--r2);
-  padding:40px;
-  position:relative;
-  overflow:hidden;
+  background:var(--card);border:1px solid var(--b);
+  border-radius:var(--r2);padding:44px;
+  box-shadow:0 8px 40px rgba(30,30,27,0.08);
 }
-.pricing-card::before{
-  content:'';position:absolute;top:0;left:0;right:0;
-  height:1px;
-  background:linear-gradient(90deg,transparent,rgba(14,165,233,0.5),transparent);
+.pricing-plan{
+  font-size:10.5px;font-weight:700;letter-spacing:1.8px;
+  text-transform:uppercase;color:var(--a);margin-bottom:20px;
 }
-.pricing-plan{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--a);margin-bottom:20px;}
-.pricing-price{font-size:3rem;font-weight:800;letter-spacing:-0.05em;color:var(--t);margin-bottom:6px;}
+.pricing-price{
+  font-size:3.2rem;font-weight:800;letter-spacing:-0.05em;
+  color:var(--t);margin-bottom:6px;line-height:1;
+}
 .pricing-price span{font-size:1rem;font-weight:500;color:var(--t-3);letter-spacing:0;}
-.pricing-desc{font-size:13.5px;color:var(--t-2);line-height:1.6;margin-bottom:32px;}
-.pricing-features{display:flex;flex-direction:column;gap:10px;margin-bottom:32px;}
-.pricing-feat{display:flex;align-items:center;gap:10px;font-size:13.5px;color:var(--t-2);}
-.pricing-feat-icon{color:var(--green);font-size:13px;}
+.pricing-desc{font-size:13.5px;color:var(--t-2);line-height:1.65;margin:12px 0 32px;}
+.pricing-div{height:1px;background:var(--b);margin-bottom:24px;}
+.pricing-features{display:flex;flex-direction:column;gap:11px;margin-bottom:32px;}
+.pricing-feat{
+  display:flex;align-items:center;gap:10px;
+  font-size:13.5px;color:var(--t-2);
+}
+.pricing-feat-icon{
+  color:var(--green);font-size:13px;font-weight:700;flex-shrink:0;
+}
 .btn-pricing{
   width:100%;font-size:14px;font-weight:600;
-  padding:13px;border-radius:8px;
-  background:var(--t);color:var(--bg);
+  padding:14px;border-radius:8px;
+  background:var(--t);color:#FFFDF9;
   border:none;cursor:pointer;font-family:inherit;
-  transition:opacity 0.15s;letter-spacing:-0.2px;
+  transition:background 0.2s;letter-spacing:-0.2px;
 }
-.btn-pricing:hover{opacity:0.88;}
+.btn-pricing:hover{background:#302F2C;}
 
-/* ── CTA FINAL ─────────────────────────────────────── */
+/* ── STATS BAR ────────────────────────────────────── */
+.stats-bar{
+  display:flex;gap:0;border-top:1px solid var(--b);
+  border-bottom:1px solid var(--b);background:var(--bg-1);
+}
+.stat-item{
+  flex:1;padding:32px 24px;text-align:center;
+  border-right:1px solid var(--b);
+}
+.stat-item:last-child{border-right:none;}
+.stat-n{
+  font-size:2.4rem;font-weight:800;color:var(--t);
+  letter-spacing:-0.05em;line-height:1;margin-bottom:6px;
+  font-variant-numeric:tabular-nums;
+}
+.stat-n span{color:var(--a);}
+.stat-l{font-size:12px;font-weight:500;color:var(--t-3);}
+
+/* ── CTA FINAL (dark inverse) ──────────────────────── */
 .cta-section{
-  padding:120px 80px;text-align:center;
-  background:var(--bg-2);
-  border-top:1px solid var(--b);
+  padding:120px 48px;text-align:center;
+  background:var(--t);
   position:relative;overflow:hidden;
 }
 .cta-section::before{
   content:'';position:absolute;
-  width:800px;height:400px;
-  background:radial-gradient(ellipse,rgba(14,165,233,0.07) 0%,transparent 65%);
-  bottom:-100px;left:50%;transform:translateX(-50%);
+  width:700px;height:350px;
+  background:radial-gradient(ellipse,rgba(176,137,104,0.12) 0%,transparent 65%);
+  bottom:-80px;left:50%;transform:translateX(-50%);
   pointer-events:none;
 }
-.cta-section h2{
-  font-size:clamp(2rem,4vw,3rem);
-  font-weight:700;letter-spacing:-0.05em;
-  line-height:1.1;color:var(--t);
-  margin-bottom:18px;
+.cta-kicker{
+  font-size:10.5px;font-weight:700;letter-spacing:2px;
+  text-transform:uppercase;color:var(--a);margin-bottom:22px;
 }
+.cta-section h2{
+  font-family:'Playfair Display',Georgia,serif;
+  font-size:clamp(2rem,4vw,3.2rem);
+  font-weight:700;letter-spacing:-0.01em;
+  line-height:1.12;color:#F6F1E8;margin-bottom:18px;
+}
+.cta-section h2 em{font-style:italic;color:var(--a);}
 .cta-section p{
-  font-size:15px;color:var(--t-2);
-  max-width:440px;margin:0 auto 40px;
-  line-height:1.72;
+  font-size:15px;color:rgba(246,241,232,0.55);
+  max-width:420px;margin:0 auto 42px;line-height:1.75;
 }
 .cta-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
-.cta-note{font-size:12px;color:var(--t-3);margin-top:20px;}
-.cta-note strong{color:var(--t-2);}
+.btn-cta-primary{
+  font-size:14px;font-weight:600;padding:13px 28px;
+  border-radius:8px;background:var(--a);color:#fff;
+  border:none;cursor:pointer;font-family:inherit;
+  transition:background 0.25s,transform 0.25s;letter-spacing:-0.2px;
+}
+.btn-cta-primary:hover{background:var(--a-h);transform:translateY(-1px);}
+.btn-cta-secondary{
+  font-size:14px;font-weight:500;padding:13px 28px;
+  border-radius:8px;background:transparent;
+  color:rgba(246,241,232,0.6);
+  border:1px solid rgba(246,241,232,0.16);
+  cursor:pointer;font-family:inherit;transition:all 0.25s;
+}
+.btn-cta-secondary:hover{
+  background:rgba(246,241,232,0.06);
+  color:rgba(246,241,232,0.85);
+  border-color:rgba(246,241,232,0.28);
+}
+.cta-note{font-size:12px;color:rgba(246,241,232,0.3);margin-top:22px;}
+.cta-note strong{color:rgba(246,241,232,0.5);}
 
 /* ── FOOTER ───────────────────────────────────────── */
 footer{
-  padding:40px 80px;
-  border-top:1px solid var(--b);
+  padding:40px 48px;background:var(--t);
+  border-top:1px solid rgba(246,241,232,0.07);
   display:flex;align-items:center;justify-content:space-between;
   flex-wrap:wrap;gap:16px;
 }
-.footer-logo{font-size:14px;font-weight:700;color:var(--t);letter-spacing:-0.3px;}
-.footer-logo span{color:var(--a);}
+.footer-logo{
+  font-size:14.5px;font-weight:700;color:#F6F1E8;
+  letter-spacing:-0.3px;
+}
+.footer-logo-dot{color:var(--a);}
 .footer-links{display:flex;gap:20px;flex-wrap:wrap;}
-.footer-links a{font-size:12.5px;color:var(--t-3);text-decoration:none;transition:color 0.15s;}
-.footer-links a:hover{color:var(--t-2);}
-footer p{font-size:12px;color:var(--t-3);}
-
-/* ── DIVIDER ──────────────────────────────────────── */
-.divider{height:1px;background:var(--b);margin:0;}
+.footer-links a{
+  font-size:12.5px;color:rgba(246,241,232,0.35);
+  text-decoration:none;transition:color 0.2s;
+}
+.footer-links a:hover{color:rgba(246,241,232,0.6);}
+footer p{font-size:12px;color:rgba(246,241,232,0.25);}
 
 /* ── RESPONSIVE ───────────────────────────────────── */
-@media(max-width:1024px){
-  .hero{grid-template-columns:1fr;padding:64px 40px;min-height:auto;gap:48px;}
-  .hero::after{width:400px;height:300px;}
-  .hero-right{max-width:560px;margin:0 auto;}
-  .trust{padding:20px 40px;}
-  .section{padding:72px 40px;}
-  .cta-section{padding:80px 40px;}
+@media(max-width:1100px){
+  .hero{grid-template-columns:1fr;padding:64px 40px;min-height:auto;gap:52px;}
+  .hero-left{max-width:100%;}
+  .hero-right{max-width:580px;margin:0 auto;}
+  .proof{padding:20px 40px;}
+  .section{padding:76px 40px;}
+  .cta-section{padding:88px 40px;}
   footer{padding:32px 40px;}
   .testi-grid{grid-template-columns:1fr;}
   .layers-grid{grid-template-columns:1fr;}
   .how-grid{grid-template-columns:1fr;}
+  .stats-bar{flex-wrap:wrap;}
+  .stat-item{min-width:50%;border-right:none;border-bottom:1px solid var(--b);}
 }
 @media(max-width:680px){
   nav{padding:0 20px;}
   .nav-links{display:none;}
   .hero{padding:48px 24px;}
-  .trust{padding:16px 24px;flex-direction:column;align-items:flex-start;gap:12px;}
-  .section{padding:56px 24px;}
-  .cta-section{padding:64px 24px;}
+  .proof{padding:16px 24px;flex-direction:column;align-items:flex-start;gap:10px;}
+  .section{padding:60px 24px;}
+  .cta-section{padding:68px 24px;}
   footer{padding:28px 24px;flex-direction:column;text-align:center;}
   .footer-links{justify-content:center;}
+  .stat-item{min-width:100%;}
 }
 </style>
 </head>
@@ -640,7 +669,7 @@ footer p{font-size:12px;color:var(--t-3);}
 
 <!-- PREVIEW BAR -->
 <div class="pb">
-  Proposta de redesign premium — OdontoFeed
+  <strong>OdontoFeed</strong> — Proposta de layout bege/editorial
   <em>Preview · Aguardando aprovação</em>
 </div>
 
@@ -648,7 +677,7 @@ footer p{font-size:12px;color:var(--t-3);}
      NAV
 ══════════════════════════════════════ -->
 <nav>
-  <a class="nav-logo" href="#">Odonto<span>Feed</span></a>
+  <a class="nav-logo" href="#">OdontoFeed<span class="nav-logo-dot">.</span></a>
   <div class="nav-links">
     <a href="#">Plataforma</a>
     <a href="#">Especialidades</a>
@@ -656,49 +685,50 @@ footer p{font-size:12px;color:var(--t-3);}
     <a href="#">Sobre</a>
   </div>
   <div class="nav-end">
-    <button class="nav-btn-ghost">Entrar</button>
-    <button class="nav-btn-cta">Começar grátis →</button>
+    <button class="nav-ghost">Entrar</button>
+    <button class="nav-cta">Começar grátis →</button>
   </div>
 </nav>
 
 <!-- ══════════════════════════════════════
-     HERO — Split layout
+     HERO
 ══════════════════════════════════════ -->
 <section class="hero">
   <div class="hero-left">
-    <div class="hero-eyebrow">Copiloto científico para dentistas</div>
+    <div class="hero-eyebrow">
+      <span class="hero-eyebrow-dot"></span>
+      Copiloto científico para dentistas
+    </div>
     <h1>
-      <strong>Inteligência clínica</strong><br>
-      no ritmo da<br>sua prática.
+      A ciência certa,<br>
+      no momento <em>certo.</em>
     </h1>
     <p class="hero-sub">
-      Curadoria científica personalizada do PubMed, resumos com IA, consultas por evidência e memória clínica — integrados ao seu fluxo de trabalho diário.
+      Curadoria personalizada do PubMed direto na sua caixa de entrada às 7h — resumos em português com IA, nível de evidência, consulta clínica e memória científica permanente.
     </p>
     <div class="hero-actions">
-      <button class="btn-hero-primary">Começar grátis →</button>
-      <button class="btn-hero-secondary">Ver a plataforma</button>
+      <button class="btn-primary">Começar grátis →</button>
+      <button class="btn-secondary">Ver a plataforma</button>
     </div>
     <div class="hero-trust">
       <div class="hero-trust-avatars">
-        <div class="hero-trust-avatar">MA</div>
-        <div class="hero-trust-avatar">CF</div>
-        <div class="hero-trust-avatar">RP</div>
-        <div class="hero-trust-avatar">LB</div>
+        <div class="hero-trust-av">MA</div>
+        <div class="hero-trust-av">CF</div>
+        <div class="hero-trust-av">RP</div>
+        <div class="hero-trust-av">LB</div>
       </div>
-      Usado por especialistas em +8 estados · Gratuito para começar
+      Usado por especialistas em +8 estados · 100% gratuito
     </div>
   </div>
 
   <div class="hero-right">
     <div class="mockup-wrap">
-      <!-- Window chrome -->
       <div class="mock-chrome">
         <div class="mock-dot r"></div>
         <div class="mock-dot y"></div>
         <div class="mock-dot g"></div>
         <div class="mock-url">odontofeed.com/dashboard</div>
       </div>
-      <!-- Dashboard UI -->
       <div class="mock-body">
         <div class="mock-sidebar">
           <div class="mock-si on" title="Curadoria">📬</div>
@@ -709,7 +739,7 @@ footer p{font-size:12px;color:var(--t-3);}
         <div class="mock-main">
           <div class="mock-header">
             <span class="mock-h-title">Curadoria de hoje</span>
-            <span class="mock-h-meta">27 mai 2026 · 7h00 · 4 artigos</span>
+            <span class="mock-h-meta">27 mai · 4 artigos</span>
           </div>
           <div class="mock-articles">
             <div class="mock-art">
@@ -718,7 +748,7 @@ footer p{font-size:12px;color:var(--t-3);}
                 <span class="mock-ev g">Meta-análise</span>
               </div>
               <div class="mock-art-title">Eficácia dos alinhadores no tratamento de Classe II: revisão de 12 RCTs</div>
-              <div class="mock-art-sum">Equivalência clínica confirmada. Vantagem estética em adultos motivados...</div>
+              <div class="mock-art-sum">Equivalência clínica confirmada. Vantagem estética em adultos...</div>
             </div>
             <div class="mock-art">
               <div class="mock-art-top">
@@ -726,12 +756,12 @@ footer p{font-size:12px;color:var(--t-3);}
                 <span class="mock-ev b">RCT</span>
               </div>
               <div class="mock-art-title">Carga imediata em implantes posteriores: 5 anos de follow-up</div>
-              <div class="mock-art-sum">Sobrevida de 97,6%. Sem diferença significativa na perda óssea...</div>
+              <div class="mock-art-sum">Sobrevida de 97,6%. Sem diferença na perda óssea marginal...</div>
             </div>
           </div>
           <div class="mock-ai">
             <span class="mock-ai-icon">✦</span>
-            <span class="mock-ai-text">Pergunte ao Copiloto Clínico... <span>|</span></span>
+            <span class="mock-ai-text">Pergunte ao Copiloto Clínico...<span></span></span>
           </div>
         </div>
       </div>
@@ -740,16 +770,38 @@ footer p{font-size:12px;color:var(--t-3);}
 </section>
 
 <!-- ══════════════════════════════════════
-     TRUST STRIP
+     PROOF STRIP
 ══════════════════════════════════════ -->
-<div class="trust">
-  <span class="trust-label">Fontes científicas</span>
-  <div class="trust-items">
-    <div class="trust-item"><span>🔬</span> PubMed / MEDLINE</div>
-    <div class="trust-item"><span>📊</span> Europe PMC</div>
-    <div class="trust-item"><span>🏛️</span> CFO reconhecido</div>
-    <div class="trust-item"><span>🤖</span> IA com Claude (Anthropic)</div>
-    <div class="trust-item"><span>🔒</span> Dados protegidos (LGPD)</div>
+<div class="proof">
+  <span class="proof-label">Fontes científicas</span>
+  <div class="proof-items">
+    <div class="proof-item"><span class="proof-icon">🔬</span> PubMed / MEDLINE</div>
+    <div class="proof-item"><span class="proof-icon">📊</span> Europe PMC</div>
+    <div class="proof-item"><span class="proof-icon">🏛️</span> CFO reconhecido</div>
+    <div class="proof-item"><span class="proof-icon">🤖</span> IA com Claude (Anthropic)</div>
+    <div class="proof-item"><span class="proof-icon">🔒</span> LGPD compliant</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     STATS
+══════════════════════════════════════ -->
+<div class="stats-bar">
+  <div class="stat-item">
+    <div class="stat-n">3–5<span>·</span></div>
+    <div class="stat-l">Artigos por curadoria</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-n">7<span>h</span></div>
+    <div class="stat-l">Entrega toda manhã</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-n">10<span>+</span></div>
+    <div class="stat-l">Especialidades cobertas</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-n">R$<span>0</span></div>
+    <div class="stat-l">Para começar</div>
   </div>
 </div>
 
@@ -759,36 +811,36 @@ footer p{font-size:12px;color:var(--t-3);}
 <section class="section">
   <div class="section-header">
     <div class="section-kicker">Como funciona</div>
-    <h2 class="section-h2">Configurado em 2 minutos.<br>Funcionando para sempre.</h2>
-    <p class="section-sub">Você faz o setup uma vez e a plataforma trabalha por você — todo dia, automaticamente.</p>
+    <h2 class="section-h2">Configurado em 2 minutos.<br>Funcionando todo dia.</h2>
+    <p class="section-sub">Você faz o setup uma vez e a plataforma trabalha por você — automaticamente, toda manhã.</p>
   </div>
   <div class="how-grid">
     <div class="how-step">
-      <div class="how-num">01</div>
+      <div class="how-num">01 — Configuração</div>
       <h3>Escolha sua especialidade</h3>
-      <p>Selecione entre 10+ especialidades reconhecidas pelo CFO. Pode escolher mais de uma. A plataforma aprende seus temas ao longo do tempo.</p>
+      <p>Selecione entre 10+ especialidades reconhecidas pelo CFO. Pode escolher mais de uma. A plataforma aprende com o que você lê, curte e salva.</p>
     </div>
     <div class="how-step">
-      <div class="how-num">02</div>
-      <h3>Receba sua curadoria às 7h</h3>
-      <p>Toda manhã você recebe 3 a 5 artigos curados do PubMed, com resumo estruturado em português gerado por IA — objetivo, metodologia, resultado e aplicação clínica.</p>
+      <div class="how-num">02 — Curadoria</div>
+      <h3>Receba 3–5 artigos às 7h</h3>
+      <p>Toda manhã, uma curadoria do PubMed com resumo estruturado em português — objetivo, metodologia, resultado e aplicação clínica — com nível de evidência visível.</p>
     </div>
     <div class="how-step">
-      <div class="how-num">03</div>
-      <h3>Acesse a inteligência clínica</h3>
-      <p>No dashboard, faça consultas baseadas nos seus artigos, acesse mapas de consenso, compare estudos e salve sua memória científica permanente.</p>
+      <div class="how-num">03 — Inteligência</div>
+      <h3>Consulte, compare, salve</h3>
+      <p>No dashboard, faça consultas clínicas por evidência, acesse mapas de consenso, compare estudos e construa sua memória científica permanente.</p>
     </div>
   </div>
 </section>
 
 <!-- ══════════════════════════════════════
-     DIGEST PREVIEW
+     CURADORIA PREVIEW
 ══════════════════════════════════════ -->
 <section class="section alt">
   <div class="section-header center">
     <div class="section-kicker">A curadoria</div>
-    <h2 class="section-h2">Science delivered.</h2>
-    <p class="section-sub">Veja exatamente o que chega na sua caixa de entrada todo dia às 7h.</p>
+    <h2 class="section-h2">O que chega toda manhã.</h2>
+    <p class="section-sub">Artigos do PubMed com resumo pronto para a prática clínica — não é um feed genérico, é ciência filtrada para você.</p>
   </div>
   <div class="digest-showcase">
     <div class="digest-header">
@@ -808,7 +860,7 @@ footer p{font-size:12px;color:var(--t-3);}
             <span class="dart-ev g">Meta-análise</span>
           </div>
           <div class="digest-art-title">Eficácia dos alinhadores invisíveis no tratamento de Classe II: revisão sistemática e meta-análise de 12 RCTs</div>
-          <div class="digest-art-summary">Equivalência clínica confirmada na correção de sobressaliência. Vantagem estética e de higiene para alinhadores em adultos motivados. <strong style="color:var(--t);font-weight:500;">Aplicação clínica:</strong> considere alinhadores em adultos com boa adesão prevista.</div>
+          <div class="digest-art-summary">Equivalência clínica confirmada na correção de sobressaliência. Vantagem estética e de higiene para alinhadores em adultos motivados. <strong>Aplicação clínica:</strong> considere alinhadores em adultos com boa adesão prevista.</div>
           <div class="digest-art-actions">
             <button class="dart-btn primary">PubMed ↗</button>
             <button class="dart-btn">❤️ Curtir</button>
@@ -825,7 +877,7 @@ footer p{font-size:12px;color:var(--t-3);}
             <span class="dart-ev b">RCT</span>
           </div>
           <div class="digest-art-title">Carga imediata em implantes unitários na região posterior: resultados clínicos e radiográficos em 5 anos</div>
-          <div class="digest-art-summary">Taxa de sobrevida de 97,6% em ambos os grupos. Sem diferença estatística na perda óssea marginal após 5 anos. <strong style="color:var(--t);font-weight:500;">Aplicação clínica:</strong> carga imediata é viável em implantes unitários posteriores com torque ≥ 35 Ncm.</div>
+          <div class="digest-art-summary">Taxa de sobrevida de 97,6%. Sem diferença estatística na perda óssea marginal após 5 anos. <strong>Aplicação clínica:</strong> carga imediata é viável em implantes unitários posteriores com torque ≥ 35 Ncm.</div>
           <div class="digest-art-actions">
             <button class="dart-btn primary">PubMed ↗</button>
             <button class="dart-btn">❤️ Curtir</button>
@@ -842,7 +894,7 @@ footer p{font-size:12px;color:var(--t-3);}
             <span class="dart-ev a">Coorte</span>
           </div>
           <div class="digest-art-title">Terapia fotodinâmica como adjuvante à raspagem em periodontite Estágio III: seguimento de 12 meses</div>
-          <div class="digest-art-summary">Redução significativa na profundidade de sondagem (p=0,03) e índice de sangramento. <strong style="color:var(--t);font-weight:500;">Aplicação clínica:</strong> TFD adjuvante pode ser considerada em casos moderados a graves com resposta subótima à terapia convencional.</div>
+          <div class="digest-art-summary">Redução significativa na profundidade de sondagem (p=0,03) e índice de sangramento. <strong>Aplicação clínica:</strong> TFD adjuvante pode ser considerada em casos moderados a graves com resposta subótima.</div>
           <div class="digest-art-actions">
             <button class="dart-btn primary">PubMed ↗</button>
             <button class="dart-btn">❤️ Curtir</button>
@@ -854,7 +906,7 @@ footer p{font-size:12px;color:var(--t-3);}
     </div>
     <div class="digest-ai">
       <span class="dai-icon">✦</span>
-      <span class="dai-text"><strong>Copiloto Clínico:</strong> "Com base nos artigos recebidos esta semana, qual é o consenso atual sobre carga imediata em implantes posteriores?"</span>
+      <span class="dai-text"><strong>Copiloto Clínico:</strong> "Com base nos artigos desta semana, qual é o consenso atual sobre carga imediata em implantes posteriores?"</span>
     </div>
   </div>
 </section>
@@ -866,14 +918,14 @@ footer p{font-size:12px;color:var(--t-3);}
   <div class="section-header">
     <div class="section-kicker">A plataforma</div>
     <h2 class="section-h2">Muito além da curadoria.<br>Um copiloto científico completo.</h2>
-    <p class="section-sub">Quatro camadas de inteligência integradas no dashboard — cada uma construída sobre a anterior.</p>
+    <p class="section-sub">Quatro camadas de inteligência integradas — cada uma construída sobre a anterior.</p>
   </div>
   <div class="layers-grid">
-    <div class="layer-card" style="--lc:#0ea5e9;--lc-bg:rgba(14,165,233,0.08);--lc-grad:linear-gradient(90deg,transparent,rgba(14,165,233,0.35),transparent);">
+    <div class="layer-card" style="--lc:#B08968;--lc-bg:rgba(176,137,104,0.09);--lc-line:#B08968;">
       <span class="layer-pill">Core</span>
       <span class="layer-icon">📬</span>
       <h3>Curadoria Personalizada</h3>
-      <p>3 a 5 artigos curados diariamente do PubMed, com resumo estruturado por IA — objetivos, metodologia, resultados e aplicação clínica em português.</p>
+      <p>3 a 5 artigos curados diariamente do PubMed, com resumo estruturado por IA em português — objetivos, metodologia, resultados e aplicação clínica.</p>
       <div class="layer-features">
         <div class="layer-feature">Curadoria por especialidade e temas</div>
         <div class="layer-feature">Nível de evidência visível por artigo</div>
@@ -881,40 +933,40 @@ footer p{font-size:12px;color:var(--t-3);}
         <div class="layer-feature">Marcação de lidos e favoritos</div>
       </div>
     </div>
-    <div class="layer-card" style="--lc:#8b5cf6;--lc-bg:rgba(139,92,246,0.08);--lc-grad:linear-gradient(90deg,transparent,rgba(139,92,246,0.35),transparent);">
-      <span class="layer-pill" style="color:#a78bfa;background:rgba(139,92,246,0.1);">Inteligência Clínica</span>
+    <div class="layer-card" style="--lc:#5F8A5C;--lc-bg:rgba(95,138,92,0.09);--lc-line:#5F8A5C;">
+      <span class="layer-pill" style="color:#5F8A5C;background:rgba(95,138,92,0.09);">Inteligência Clínica</span>
       <span class="layer-icon">🔬</span>
       <h3>Consultas por Evidência</h3>
       <p>Faça perguntas clínicas reais e receba respostas baseadas nos artigos do seu feed, com mapa de consenso e nível de evidência por afirmação.</p>
       <div class="layer-features">
-        <div class="layer-feature" style="--lc:#8b5cf6;">Respostas contextualizadas nos seus artigos</div>
-        <div class="layer-feature" style="--lc:#8b5cf6;">Mapa de consenso científico por tema</div>
-        <div class="layer-feature" style="--lc:#8b5cf6;">Alertas de diretrizes atualizadas</div>
-        <div class="layer-feature" style="--lc:#8b5cf6;">Comparação direta entre estudos</div>
+        <div class="layer-feature" style="--lc:#5F8A5C;">Respostas contextualizadas nos seus artigos</div>
+        <div class="layer-feature" style="--lc:#5F8A5C;">Mapa de consenso científico por tema</div>
+        <div class="layer-feature" style="--lc:#5F8A5C;">Alertas de diretrizes atualizadas</div>
+        <div class="layer-feature" style="--lc:#5F8A5C;">Comparação direta entre estudos</div>
       </div>
     </div>
-    <div class="layer-card" style="--lc:#22c55e;--lc-bg:rgba(34,197,94,0.07);--lc-grad:linear-gradient(90deg,transparent,rgba(34,197,94,0.3),transparent);">
-      <span class="layer-pill" style="color:#4ade80;background:rgba(34,197,94,0.08);">Memória Científica</span>
+    <div class="layer-card" style="--lc:#A85C46;--lc-bg:rgba(168,92,70,0.09);--lc-line:#A85C46;">
+      <span class="layer-pill" style="color:#A85C46;background:rgba(168,92,70,0.09);">Memória Científica</span>
       <span class="layer-icon">🧠</span>
       <h3>Conhecimento Permanente</h3>
-      <p>Anote insights vinculados aos artigos, organize em coleções e construa um grafo de conhecimento pessoal que cresce com você.</p>
+      <p>Anote insights vinculados aos artigos, organize em coleções e construa um grafo de conhecimento pessoal que cresce com você ao longo do tempo.</p>
       <div class="layer-features">
-        <div class="layer-feature" style="--lc:#22c55e;">Notas vinculadas a artigos específicos</div>
-        <div class="layer-feature" style="--lc:#22c55e;">Coleções temáticas organizadas</div>
-        <div class="layer-feature" style="--lc:#22c55e;">Busca semântica no seu acervo</div>
-        <div class="layer-feature" style="--lc:#22c55e;">Grafo visual de conexões entre temas</div>
+        <div class="layer-feature" style="--lc:#A85C46;">Notas vinculadas a artigos específicos</div>
+        <div class="layer-feature" style="--lc:#A85C46;">Coleções temáticas organizadas</div>
+        <div class="layer-feature" style="--lc:#A85C46;">Busca semântica no seu acervo</div>
+        <div class="layer-feature" style="--lc:#A85C46;">Grafo visual de conexões entre temas</div>
       </div>
     </div>
-    <div class="layer-card" style="--lc:#f59e0b;--lc-bg:rgba(245,158,11,0.07);--lc-grad:linear-gradient(90deg,transparent,rgba(245,158,11,0.3),transparent);">
-      <span class="layer-pill" style="color:#fbbf24;background:rgba(245,158,11,0.09);">Workspace Contextual</span>
+    <div class="layer-card" style="--lc:#B07C2A;--lc-bg:rgba(176,124,42,0.09);--lc-line:#B07C2A;">
+      <span class="layer-pill" style="color:#B07C2A;background:rgba(176,124,42,0.09);">Workspace Contextual</span>
       <span class="layer-icon">⚡</span>
       <h3>Contexto Inteligente</h3>
-      <p>Painel de contexto que relaciona artigos, notas e histórico automaticamente — com briefing científico diário e timeline da sua jornada.</p>
+      <p>Painel que relaciona artigos, notas e histórico automaticamente — com briefing científico diário e timeline da sua jornada de aprendizado.</p>
       <div class="layer-features">
-        <div class="layer-feature" style="--lc:#f59e0b;">Artigos e notas relacionadas em contexto</div>
-        <div class="layer-feature" style="--lc:#f59e0b;">Highlights e anotações rápidas por artigo</div>
-        <div class="layer-feature" style="--lc:#f59e0b;">Timeline da sua jornada científica</div>
-        <div class="layer-feature" style="--lc:#f59e0b;">Briefing personalizado todo dia</div>
+        <div class="layer-feature" style="--lc:#B07C2A;">Artigos e notas relacionadas em contexto</div>
+        <div class="layer-feature" style="--lc:#B07C2A;">Highlights e anotações rápidas por artigo</div>
+        <div class="layer-feature" style="--lc:#B07C2A;">Timeline da sua jornada científica</div>
+        <div class="layer-feature" style="--lc:#B07C2A;">Briefing personalizado todo dia</div>
       </div>
     </div>
   </div>
@@ -923,7 +975,7 @@ footer p{font-size:12px;color:var(--t-3);}
 <!-- ══════════════════════════════════════
      ESPECIALIDADES
 ══════════════════════════════════════ -->
-<section class="section alt">
+<section class="section warm">
   <div class="section-header center">
     <div class="section-kicker">Especialidades</div>
     <h2 class="section-h2">Para toda a Odontologia.</h2>
@@ -946,17 +998,17 @@ footer p{font-size:12px;color:var(--t-3);}
 <!-- ══════════════════════════════════════
      TESTIMONIALS
 ══════════════════════════════════════ -->
-<section class="section">
+<section class="section alt">
   <div class="section-header center">
     <div class="section-kicker">Depoimentos</div>
-    <h2 class="section-h2">Dentistas na fronteira da ciência.</h2>
+    <h2 class="section-h2">Dentistas na fronteira<br>da ciência.</h2>
   </div>
   <div class="testi-grid">
     <div class="testi-card">
       <div class="testi-stars">
         <span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span>
       </div>
-      <p class="testi-quote">"Em 10 minutos por dia eu me mantenho atualizado em ortodontia sem perder tempo garimpando literatura. <em>O nível de evidência visível em cada artigo mudou como eu avalio o que leio.</em>"</p>
+      <p class="testi-quote">"Em 10 minutos por dia me mantenho atualizado em ortodontia sem garimpar literatura. <em>O nível de evidência visível em cada artigo mudou como eu avalio o que leio.</em>"</p>
       <div class="testi-author">
         <div class="testi-av">MA</div>
         <div>
@@ -982,7 +1034,7 @@ footer p{font-size:12px;color:var(--t-3);}
       <div class="testi-stars">
         <span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span>
       </div>
-      <p class="testi-quote">"A consulta clínica por evidência é o que eu precisava. Fiz uma pergunta sobre bruxismo e recebi <em>uma síntese dos artigos com nível de consenso. É um copiloto de verdade.</em>"</p>
+      <p class="testi-quote">"A consulta por evidência é o que eu precisava. Fiz uma pergunta sobre bruxismo e recebi <em>uma síntese dos artigos com nível de consenso — é um copiloto de verdade.</em>"</p>
       <div class="testi-author">
         <div class="testi-av">RP</div>
         <div>
@@ -997,7 +1049,7 @@ footer p{font-size:12px;color:var(--t-3);}
 <!-- ══════════════════════════════════════
      FAQ
 ══════════════════════════════════════ -->
-<section class="section dark">
+<section class="section">
   <div class="section-header center">
     <div class="section-kicker">Dúvidas</div>
     <h2 class="section-h2">Perguntas frequentes.</h2>
@@ -1015,7 +1067,7 @@ footer p{font-size:12px;color:var(--t-3);}
         Como funciona a curadoria dos artigos?
         <span class="faq-chevron">+</span>
       </div>
-      <div class="faq-a">Buscamos artigos diariamente no PubMed, Europe PMC e OpenAlex. Um algoritmo de relevância com IA seleciona os mais recentes e pertinentes para as suas especialidades e temas de interesse. Os resumos são gerados por Claude (Anthropic) com estrutura padronizada: objetivo, método, resultado e aplicação clínica.</div>
+      <div class="faq-a">Buscamos artigos diariamente no PubMed, Europe PMC e OpenAlex. Um algoritmo de relevância com IA seleciona os mais recentes e pertinentes para as suas especialidades. Os resumos são gerados por Claude (Anthropic) com estrutura padronizada: objetivo, método, resultado e aplicação clínica.</div>
     </div>
     <div class="faq-item">
       <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
@@ -1029,7 +1081,14 @@ footer p{font-size:12px;color:var(--t-3);}
         Posso usar em mais de uma especialidade?
         <span class="faq-chevron">+</span>
       </div>
-      <div class="faq-a">Sim. Você pode selecionar múltiplas especialidades e combiná-las com temas específicos. A curadoria vai misturar artigos das áreas escolhidas de acordo com a sua relevância individual.</div>
+      <div class="faq-a">Sim. Você pode selecionar múltiplas especialidades e combiná-las com temas específicos. A curadoria vai misturar artigos das áreas escolhidas de acordo com a relevância individual.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+        Os resumos são confiáveis clinicamente?
+        <span class="faq-chevron">+</span>
+      </div>
+      <div class="faq-a">Os resumos são gerados com base no texto original do artigo e seguem estrutura padronizada. O nível de evidência de cada estudo é sempre exibido. Recomendamos consultar o artigo original para decisões clínicas importantes — o OdontoFeed é uma ferramenta de atualização, não um substituto para julgamento clínico.</div>
     </div>
   </div>
 </section>
@@ -1037,7 +1096,7 @@ footer p{font-size:12px;color:var(--t-3);}
 <!-- ══════════════════════════════════════
      PRICING
 ══════════════════════════════════════ -->
-<section class="section alt">
+<section class="section warm">
   <div class="section-header center">
     <div class="section-kicker">Plano</div>
     <h2 class="section-h2">Simples. Sem surpresas.</h2>
@@ -1046,7 +1105,8 @@ footer p{font-size:12px;color:var(--t-3);}
   <div class="pricing-card">
     <div class="pricing-plan">Plano Gratuito</div>
     <div class="pricing-price">R$0<span>/mês</span></div>
-    <div class="pricing-desc">Tudo que você precisa para começar a se atualizar cientificamente todos os dias. Sem cartão de crédito.</div>
+    <p class="pricing-desc">Tudo que você precisa para se atualizar cientificamente todos os dias. Sem cartão de crédito, sem limite de tempo.</p>
+    <div class="pricing-div"></div>
     <div class="pricing-features">
       <div class="pricing-feat"><span class="pricing-feat-icon">✓</span> Curadoria diária com 3–5 artigos do PubMed</div>
       <div class="pricing-feat"><span class="pricing-feat-icon">✓</span> Resumos com IA em português</div>
@@ -1054,7 +1114,7 @@ footer p{font-size:12px;color:var(--t-3);}
       <div class="pricing-feat"><span class="pricing-feat-icon">✓</span> Inteligência clínica e consultas por evidência</div>
       <div class="pricing-feat"><span class="pricing-feat-icon">✓</span> Memória científica e coleções</div>
       <div class="pricing-feat"><span class="pricing-feat-icon">✓</span> Workspace contextual</div>
-      <div class="pricing-feat"><span class="pricing-feat-icon">✓</span> 10+ especialidades</div>
+      <div class="pricing-feat"><span class="pricing-feat-icon">✓</span> 10+ especialidades reconhecidas pelo CFO</div>
     </div>
     <button class="btn-pricing">Criar conta grátis →</button>
   </div>
@@ -1064,12 +1124,12 @@ footer p{font-size:12px;color:var(--t-3);}
      CTA FINAL
 ══════════════════════════════════════ -->
 <section class="cta-section">
-  <div class="section-kicker" style="color:var(--a);margin-bottom:20px;">Comece hoje</div>
-  <h2>A ciência não para.<br>Você também não deveria.</h2>
+  <div class="cta-kicker">Comece hoje</div>
+  <h2>A ciência não para.<br><em>Você também não deveria.</em></h2>
   <p>Configure em 2 minutos. Receba sua primeira curadoria amanhã às 7h. Grátis para sempre.</p>
   <div class="cta-actions">
-    <button class="btn-hero-primary" style="font-size:15px;padding:13px 28px;">Criar minha conta grátis →</button>
-    <button class="btn-hero-secondary" style="font-size:15px;padding:13px 28px;">Ver o dashboard</button>
+    <button class="btn-cta-primary">Criar minha conta grátis →</button>
+    <button class="btn-cta-secondary">Ver o dashboard</button>
   </div>
   <p class="cta-note">Sem cartão de crédito · <strong>100% gratuito</strong> · Cancele quando quiser</p>
 </section>
@@ -1078,7 +1138,7 @@ footer p{font-size:12px;color:var(--t-3);}
      FOOTER
 ══════════════════════════════════════ -->
 <footer>
-  <div class="footer-logo">Odonto<span>Feed</span></div>
+  <div class="footer-logo">OdontoFeed<span class="footer-logo-dot">.</span></div>
   <div class="footer-links">
     <a href="#">Plataforma</a>
     <a href="#">Especialidades</a>
@@ -1090,7 +1150,6 @@ footer p{font-size:12px;color:var(--t-3);}
 </footer>
 
 <script>
-// FAQ toggle
 document.querySelectorAll('.faq-q').forEach(q=>{
   q.addEventListener('click',()=>{
     const item=q.parentElement;
