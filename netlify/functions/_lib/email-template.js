@@ -1,20 +1,21 @@
-// Premium responsive HTML email template for OdontoFeed daily digest.
-// Multi-article layout with evidence badges, clinical impact highlights, and tracking.
+// Editorial HTML email template for OdontoFeed daily digest.
+// Design: warm bege/off-white, newspaper-style, editorial tone.
+// Referências: MIT Technology Review, Nature Briefing, Morning Brew.
 // Compatible with Gmail, Outlook, Apple Mail, and mobile clients.
 
 const crypto = require('crypto');
 
-// ── Evidence badge colors ────────────────────────────────────────────────────
+// ── Evidence badge colors (warm editorial palette) ───────────────────────────
 
 const BADGE_STYLE = {
-  'Meta-análise':        { bg: '#dcfce7', color: '#15803d', border: '#86efac' },
-  'Revisão Sistemática': { bg: '#dcfce7', color: '#15803d', border: '#86efac' },
-  'RCT':                 { bg: '#dbeafe', color: '#1d4ed8', border: '#93c5fd' },
-  'Estudo Coorte':       { bg: '#fef3c7', color: '#92400e', border: '#fcd34d' },
-  'Caso Clínico':        { bg: '#ede9fe', color: '#5b21b6', border: '#c4b5fd' },
-  'In Vitro':            { bg: '#f1f5f9', color: '#475569', border: '#cbd5e1' },
-  'Estudo Animal':       { bg: '#f1f5f9', color: '#475569', border: '#cbd5e1' },
-  'Revisão Narrativa':   { bg: '#f8fafc', color: '#64748b', border: '#e2e8f0' },
+  'Meta-análise':        { bg: '#E8F0E7', color: '#3A6A38', border: '#AECAAC' },
+  'Revisão Sistemática': { bg: '#E8F0E7', color: '#3A6A38', border: '#AECAAC' },
+  'RCT':                 { bg: '#EAE4F4', color: '#5A3B96', border: '#C2B5E2' },
+  'Estudo Coorte':       { bg: '#F5EDD8', color: '#875A18', border: '#D4B87A' },
+  'Caso Clínico':        { bg: '#F0E8E5', color: '#7A3A28', border: '#CDA094' },
+  'In Vitro':            { bg: '#EDEBE7', color: '#6B665E', border: '#C8C2B8' },
+  'Estudo Animal':       { bg: '#EDEBE7', color: '#6B665E', border: '#C8C2B8' },
+  'Revisão Narrativa':   { bg: '#F2EFEB', color: '#9E988E', border: '#D5CEC4' },
 };
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
@@ -54,65 +55,113 @@ function trackClick(baseUrl, digestId, pmid, email, targetUrl) {
   return `${baseUrl}/.netlify/functions/track-click?d=${digestId}&p=${encodeURIComponent(pmid || '')}&e=${e}&t=${t}`;
 }
 
-// ── Article card HTML ─────────────────────────────────────────────────────────
+// ── Editorial intro generator ─────────────────────────────────────────────────
+// Produces a 1–2 sentence editorial note based on the evidence profile of
+// the curated articles. Tone: journalistic, not product/marketing.
 
-function articleCard(article, index, opts) {
+function generateEditorialIntro(articles, esp, firstName) {
+  const evs       = articles.map(a => (a.nivel_evidencia || '').toLowerCase());
+  const hasMeta   = evs.some(e => /meta|sistem/i.test(e));
+  const hasRCT    = evs.some(e => /rct|randomizado|randomized/i.test(e));
+  const hasCohort = evs.some(e => /coorte|cohort/i.test(e));
+  const greeting  = firstName ? `Dr.&nbsp;${esc(firstName)}, os` : 'Os';
+
+  if (hasMeta && hasRCT) {
+    return `${greeting} estudos desta edi&ccedil;&atilde;o em ${esc(esp)} incluem meta-an&aacute;lise e ensaios cl&iacute;nicos randomizados. Os achados convergem para avan&ccedil;os com aplica&ccedil;&atilde;o direta na pr&aacute;tica cl&iacute;nica.`;
+  }
+  if (hasMeta) {
+    return `${greeting} estudos desta edi&ccedil;&atilde;o em ${esc(esp)} incluem uma revis&atilde;o sistem&aacute;tica recente &mdash; s&iacute;ntese que consolida o estado atual do conhecimento em t&oacute;picos de alta relev&acirc;ncia cl&iacute;nica.`;
+  }
+  if (hasRCT) {
+    return `${greeting} estudos desta edi&ccedil;&atilde;o em ${esc(esp)} apresentam dados de ensaios cl&iacute;nicos randomizados, ampliando a base de evid&ecirc;ncias dispon&iacute;vel para a tomada de decis&atilde;o cl&iacute;nica.`;
+  }
+  if (hasCohort) {
+    return `${greeting} estudos desta edi&ccedil;&atilde;o em ${esc(esp)} exploram dados longitudinais de coorte com implica&ccedil;&otilde;es relevantes para protocolos cl&iacute;nicos contempor&acirc;neos.`;
+  }
+  return `${greeting} estudos selecionados nesta edi&ccedil;&atilde;o em ${esc(esp)} trazem evid&ecirc;ncias recentes com aplica&ccedil;&atilde;o direta para a pr&aacute;tica odontol&oacute;gica.`;
+}
+
+// ── Article block (editorial newspaper style) ─────────────────────────────────
+
+function articleCard(article, index, total, opts) {
   const { baseUrl, dashboardUrl, digestId, email } = opts;
-  const pmid          = article.pmid || article.id || '';
-  const badge         = BADGE_STYLE[article.nivel_evidencia] || BADGE_STYLE['Revisão Narrativa'];
-  const titulo        = esc(truncate(article.titulo_pt || article.titulo || article.title || 'Sem título', 120));
-  const impacto       = esc(truncate(article.impacto_pratico || '', 280));
-  const resumo        = esc(truncate(article.resumo_pt || '', 220));
-  const journal       = esc(article.journal || '');
-  const year          = esc(String(article.year || ''));
-  const tempoLeitura  = article.tempo_leitura || 3;
-  const nivel         = esc(article.nivel_evidencia || 'Revisão Narrativa');
-  const isOA          = article.isOpenAccess ? '🔓 Acesso Aberto · ' : '';
+  const pmid         = article.pmid || article.id || '';
+  const badge        = BADGE_STYLE[article.nivel_evidencia] || BADGE_STYLE['Revisão Narrativa'];
+  const titulo       = esc(truncate(article.titulo_pt || article.titulo || article.title || 'Sem título', 120));
+  const impacto      = esc(truncate(article.impacto_pratico || '', 280));
+  const resumo       = esc(truncate(article.resumo_pt || '', 220));
+  const journal      = esc(article.journal || '');
+  const year         = esc(String(article.year || ''));
+  const tempoLeitura = article.tempo_leitura || 3;
+  const nivel        = esc(article.nivel_evidencia || 'Revisão Narrativa');
+  const isOA         = article.isOpenAccess ? '&#x1F513;&nbsp;' : '';
+  const espTag       = esc(article.especialidade || article.tema || '');
+  const isLast       = index === total - 1;
 
-  // Dashboard link with tracking and UTM
-  const artDashUrl  = `${dashboardUrl}?pmid=${pmid}&utm_source=email&utm_medium=digest&utm_content=${pmid}`;
-  const trackedUrl  = trackClick(baseUrl, digestId, pmid, email, artDashUrl);
-  const border      = index < 2 ? 'border-bottom:1px solid #e2e8f0;' : '';
+  const artDashUrl = `${dashboardUrl}?pmid=${pmid}&utm_source=email&utm_medium=digest&utm_content=${pmid}`;
+  const trackedUrl = trackClick(baseUrl, digestId, pmid, email, artDashUrl);
 
   return `
-<tr><td style="${border}padding:0 40px;">
-<div style="padding:28px 0;">
+<tr><td style="padding:0 36px;${isLast ? '' : 'border-bottom:1px solid #E8E0D0;'}">
+<div style="padding:30px 0;">
 
-  <!-- Evidence badge + reading time -->
-  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:12px;">
+  <!-- Meta row: specialty tag + evidence badge + reading time -->
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+         style="margin-bottom:14px;">
     <tr>
-      <td>
-        <span style="display:inline-block;background:${badge.bg};color:${badge.color};border:1px solid ${badge.border};font-size:11px;font-weight:700;padding:3px 10px;border-radius:100px;letter-spacing:0.6px;text-transform:uppercase;">${nivel}</span>
+      <td style="vertical-align:middle;">
+        ${espTag
+          ? `<span style="font-size:10px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:#B08968;margin-right:10px;">${espTag}</span>`
+          : ''}
+        <span style="display:inline-block;background:${badge.bg};color:${badge.color};border:1px solid ${badge.border};font-size:10px;font-weight:600;padding:2px 9px;border-radius:100px;letter-spacing:0.4px;">${nivel}</span>
       </td>
-      <td align="right" style="color:#94a3b8;font-size:12px;">${isOA}${tempoLeitura} min</td>
+      <td align="right" style="font-size:11px;color:#9E988E;white-space:nowrap;">
+        ${isOA}${tempoLeitura}&nbsp;min
+      </td>
     </tr>
   </table>
 
-  <!-- Title -->
-  <h2 style="margin:0 0 14px;font-size:18px;font-weight:700;color:#0f172a;line-height:1.4;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
-    <a href="${trackedUrl}" style="color:#0f172a;text-decoration:none;">${titulo}</a>
+  <!-- Headline — primary clickable element -->
+  <h2 style="margin:0 0 14px;font-size:19px;font-weight:700;color:#1A1A18;line-height:1.35;
+             font-family:Georgia,'Times New Roman',serif;">
+    <a href="${trackedUrl}"
+       style="color:#1A1A18;text-decoration:none;">${titulo}</a>
   </h2>
 
-  ${impacto ? `<!-- Clinical impact highlight -->
-  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:14px;">
+  ${impacto ? `<!-- Clinical relevance (left-border editorial callout) -->
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+         style="margin-bottom:14px;">
     <tr>
-      <td style="background:#f0f9ff;border-left:3px solid #0ea5e9;border-radius:0 6px 6px 0;padding:10px 14px;">
-        <div style="font-size:11px;font-weight:700;color:#0284c7;letter-spacing:0.5px;margin-bottom:5px;text-transform:uppercase;">💡 Impacto Clínico</div>
-        <div style="font-size:14px;color:#0c4a6e;line-height:1.55;">${impacto}</div>
+      <td style="border-left:2px solid #B08968;padding:8px 14px;">
+        <div style="font-size:10px;font-weight:700;color:#B08968;letter-spacing:1px;
+                    text-transform:uppercase;margin-bottom:5px;">Relev&acirc;ncia Cl&iacute;nica</div>
+        <div style="font-size:13.5px;color:#4A4540;line-height:1.65;
+                    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">${impacto}</div>
       </td>
     </tr>
   </table>` : ''}
 
-  ${resumo ? `<!-- Summary excerpt -->
-  <p style="margin:0 0 14px;font-size:14px;color:#475569;line-height:1.75;">${resumo}</p>` : ''}
+  ${resumo
+    ? `<p style="margin:0 0 14px;font-size:13.5px;color:#6B665E;line-height:1.8;
+               font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">${resumo}</p>`
+    : ''}
 
-  <!-- Journal meta -->
-  <p style="margin:0 0 16px;font-size:12px;color:#94a3b8;">
-    ${journal ? `<strong style="color:#64748b;">${journal}</strong>&nbsp;·&nbsp;` : ''}${year}
-  </p>
-
-  <!-- CTA -->
-  <a href="${trackedUrl}" style="display:inline-block;background:#0f172a;color:#ffffff;text-decoration:none;padding:10px 22px;border-radius:7px;font-size:13px;font-weight:600;letter-spacing:0.2px;">Ler análise completa →</a>
+  <!-- Journal meta + discrete article link -->
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+    <tr>
+      <td style="font-size:12px;color:#9E988E;">
+        ${journal
+          ? `<span style="color:#6B665E;font-weight:500;">${journal}</span>&nbsp;&middot;&nbsp;`
+          : ''}${year}
+      </td>
+      <td align="right">
+        <a href="${trackedUrl}"
+           style="font-size:12px;color:#B08968;text-decoration:none;font-weight:500;">
+          Abrir artigo&nbsp;&rarr;
+        </a>
+      </td>
+    </tr>
+  </table>
 
 </div>
 </td></tr>`;
@@ -131,30 +180,30 @@ function articleCard(article, index, opts) {
 function buildDigestEmail(user, articles, opts) {
   const {
     digestId,
-    baseUrl       = 'https://odontofeed.com.br',
+    baseUrl          = 'https://odontofeed.com.br',
     unsubscribeToken = '',
   } = opts;
 
   const siteUrl      = baseUrl;
   const dashboardUrl = `${siteUrl}/dashboard.html`;
-  const firstName    = String(user.nome || 'Doutor(a)').split(' ')[0];
+  const firstName    = String(user.nome || '').split(' ')[0] || '';
   const esp          = Array.isArray(user.especialidade)
     ? user.especialidade[0] || 'Odontologia'
     : user.especialidade || 'Odontologia';
 
-  const n       = articles.length;
-  const plural  = n === 1 ? '' : 's';
-  const ehash   = emailHash(user.email);
+  const n      = articles.length;
+  const plural = n === 1 ? '' : 's';
+  const ehash  = emailHash(user.email);
 
-  const prefsUrl       = `${siteUrl}/dashboard.html?tab=preferences&utm_source=email&utm_medium=digest&utm_content=prefs`;
-  const unsubUrl       = `${siteUrl}/.netlify/functions/unsubscribe?email=${encodeURIComponent(user.email)}&t=${unsubscribeToken}`;
-  const dashCTA        = trackClick(baseUrl, digestId, '', user.email, `${dashboardUrl}?utm_source=email&utm_medium=digest&utm_content=header_cta`);
-  const pixelUrl       = `${baseUrl}/.netlify/functions/track-open?d=${digestId}&e=${ehash}`;
+  const prefsUrl   = `${siteUrl}/dashboard.html?tab=preferences&utm_source=email&utm_medium=digest&utm_content=prefs`;
+  const unsubUrl   = `${siteUrl}/.netlify/functions/unsubscribe?email=${encodeURIComponent(user.email)}&t=${unsubscribeToken}`;
+  const pixelUrl   = `${baseUrl}/.netlify/functions/track-open?d=${digestId}&e=${ehash}`;
 
-  const subject = `${n} novidade${plural} em ${esp} — OdontoFeed`;
+  const subject    = `${n} estudo${plural} em ${esp} — OdontoFeed`;
+  const editorial  = generateEditorialIntro(articles, esp, firstName);
 
   const cardsHtml = articles
-    .map((art, i) => articleCard(art, i, { baseUrl, dashboardUrl, digestId, email: user.email }))
+    .map((art, i) => articleCard(art, i, articles.length, { baseUrl, dashboardUrl, digestId, email: user.email }))
     .join('\n');
 
   const html = `<!DOCTYPE html>
@@ -165,62 +214,79 @@ function buildDigestEmail(user, articles, opts) {
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>${esc(subject)}</title>
 </head>
-<body style="margin:0;padding:0;background:#f0f4f8;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;">
+<body style="margin:0;padding:0;background:#EDE8DF;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;">
 
-<!-- Email container -->
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f0f4f8;min-height:100vh;">
-<tr><td align="center" style="padding:24px 16px;">
+<!-- ── Outer container ── -->
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"
+       style="background:#EDE8DF;min-height:100vh;">
+<tr><td align="center" style="padding:32px 16px 48px;">
 
-  <!-- Card wrapper -->
+  <!-- ── Email card (warm off-white) ── -->
   <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0"
-         style="max-width:600px;width:100%;background:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.08);">
+         style="max-width:600px;width:100%;background:#FDFAF5;border:1px solid #E0D8CC;border-radius:4px;">
 
-    <!-- ── Header ── -->
-    <tr><td style="background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 100%);padding:28px 40px;">
+    <!-- ══ HEADER ══ -->
+    <tr><td style="padding:26px 36px 22px;border-bottom:1px solid #E8E0D0;">
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
         <tr>
-          <td>
-            <div style="font-size:22px;font-weight:800;color:#0ea5e9;letter-spacing:-0.5px;">OdontoFeed</div>
-            <div style="font-size:12px;color:#64748b;margin-top:3px;letter-spacing:0.5px;text-transform:uppercase;">Atualização Científica · Odontologia</div>
+          <td style="vertical-align:top;">
+            <div style="font-size:18px;font-weight:700;color:#1A1A18;letter-spacing:-0.3px;
+                        font-family:Georgia,'Times New Roman',serif;line-height:1;">
+              OdontoFeed<span style="color:#B08968;">.</span>
+            </div>
+            <div style="font-size:10px;color:#9E988E;margin-top:5px;letter-spacing:1.2px;
+                        text-transform:uppercase;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">
+              Curadoria Cient&iacute;fica &middot; ${esc(esp)}
+            </div>
           </td>
-          <td align="right" style="font-size:12px;color:#475569;white-space:nowrap;">${formatDate()}</td>
+          <td align="right" style="vertical-align:top;font-size:11.5px;color:#9E988E;
+                                   white-space:nowrap;padding-top:2px;
+                                   font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">
+            ${formatDate()}
+          </td>
         </tr>
       </table>
     </td></tr>
 
-    <!-- ── Greeting ── -->
-    <tr><td style="padding:28px 40px 20px;border-bottom:2px solid #f1f5f9;">
-      <h1 style="margin:0 0 8px;font-size:21px;font-weight:700;color:#0f172a;line-height:1.3;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
-        Bom dia, ${esc(firstName)}!
-      </h1>
-      <p style="margin:0;font-size:15px;color:#475569;line-height:1.6;">
-        <strong style="color:#0ea5e9;">${n} novidade${plural} importante${plural}</strong> selecionada${plural} para você em <strong style="color:#0f172a;">${esc(esp)}</strong>.
+    <!-- ══ EDITORIAL INTRO ══ -->
+    <tr><td style="padding:22px 36px;border-bottom:1px solid #E8E0D0;background:#F8F3EA;">
+      <p style="margin:0 0 5px;font-size:9.5px;font-weight:700;letter-spacing:1.4px;
+                text-transform:uppercase;color:#B08968;
+                font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">
+        Nota Editorial
+      </p>
+      <p style="margin:0;font-size:14px;color:#4A4540;line-height:1.8;font-style:italic;
+                font-family:Georgia,'Times New Roman',serif;">
+        ${editorial}
       </p>
     </td></tr>
 
-    <!-- ── Article cards ── -->
+    <!-- ══ ARTICLES ══ -->
     ${cardsHtml}
 
-    <!-- ── Dashboard CTA ── -->
-    <tr><td style="padding:24px 40px;background:#f8fafc;border-top:1px solid #e2e8f0;text-align:center;">
-      <p style="margin:0 0 14px;font-size:14px;color:#64748b;">Quer ver mais artigos ou filtrar por tema?</p>
-      <a href="${dashCTA}"
-         style="display:inline-block;background:#0ea5e9;color:#ffffff;text-decoration:none;padding:12px 28px;border-radius:8px;font-size:14px;font-weight:600;letter-spacing:0.2px;">
-        Abrir painel completo
-      </a>
-    </td></tr>
-
-    <!-- ── Footer ── -->
-    <tr><td style="padding:20px 40px;background:#0f172a;">
+    <!-- ══ FOOTER ══ -->
+    <tr><td style="padding:22px 36px 26px;border-top:1px solid #E8E0D0;background:#F2EDE3;">
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
         <tr>
-          <td style="font-size:12px;color:#475569;line-height:1.8;">
-            <div style="font-weight:700;color:#64748b;margin-bottom:6px;">OdontoFeed</div>
-            <div>Você recebe este email porque se inscreveu em <a href="${siteUrl}" style="color:#0ea5e9;text-decoration:none;">${siteUrl.replace('https://', '')}</a></div>
-            <div style="margin-top:8px;">
-              <a href="${esc(prefsUrl)}"   style="color:#0ea5e9;text-decoration:none;">Atualizar preferências</a>
+          <td>
+            <div style="font-size:13px;font-weight:700;color:#1A1A18;margin-bottom:5px;
+                        font-family:Georgia,'Times New Roman',serif;letter-spacing:-0.2px;">
+              OdontoFeed<span style="color:#B08968;">.</span>
+            </div>
+            <div style="font-size:11.5px;color:#9E988E;line-height:1.75;
+                        font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">
+              Curadoria cient&iacute;fica para dentistas brasileiros.<br>
+              Voc&ecirc; recebe porque se inscreveu em
+              <a href="${siteUrl}"
+                 style="color:#B08968;text-decoration:none;">${siteUrl.replace('https://', '')}</a>
+            </div>
+            <div style="margin-top:12px;font-size:11px;color:#B5B0A8;
+                        font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">
+              <a href="${esc(prefsUrl)}"
+                 style="color:#9E988E;text-decoration:underline;">Atualizar prefer&ecirc;ncias</a>
               &nbsp;&middot;&nbsp;
-              <a href="${esc(unsubUrl)}"   style="color:#0ea5e9;text-decoration:none;">Cancelar recebimento</a>
+              <a href="${esc(unsubUrl)}"
+                 style="color:#9E988E;text-decoration:underline;">Cancelar recebimento</a>
             </div>
           </td>
         </tr>
@@ -228,6 +294,7 @@ function buildDigestEmail(user, articles, opts) {
     </td></tr>
 
   </table>
+
   <!-- Tracking pixel — 1×1 transparent GIF -->
   <img src="${pixelUrl}" width="1" height="1" alt="" border="0"
        style="display:block;width:1px;height:1px;border:none;opacity:0;">
