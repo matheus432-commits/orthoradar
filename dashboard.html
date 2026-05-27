@@ -89,6 +89,16 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
 .btn-like.liked{background:rgba(239,68,68,0.1);border-color:#ef4444;color:#ef4444;}
 .btn-pubmed{background:rgba(14,165,233,0.08);border:1px solid rgba(14,165,233,0.2);color:var(--primary);padding:7px 14px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;text-decoration:none;transition:all 0.2s;font-family:inherit;}
 .btn-pubmed:hover{background:rgba(14,165,233,0.15);}
+.article-tags-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.ev-chip{font-size:10px;font-weight:700;padding:2px 7px;border-radius:5px;white-space:nowrap;}
+.ev-chip.ev-a{background:rgba(16,185,129,0.15);color:#10b981;}
+.ev-chip.ev-b{background:rgba(14,165,233,0.15);color:#0ea5e9;}
+.ev-chip.ev-c{background:rgba(245,158,11,0.12);color:#f59e0b;}
+.ev-chip.ev-d{background:rgba(100,116,139,0.12);color:#94a3b8;}
+.article-tema-tag{font-size:10px;color:var(--muted);background:var(--bg3);border:1px solid var(--border);padding:2px 8px;border-radius:5px;font-weight:500;display:inline-block;margin-bottom:6px;}
+.article-journal{font-size:11px;color:var(--muted);margin-bottom:10px;line-height:1.4;}
+.article-card.card-lido{opacity:0.68;}
+.article-card.card-lido:hover{opacity:1;}
 
 /* SKELETON LOADING */
 .skeleton-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;}
@@ -778,26 +788,33 @@ function populateDashboard(data){
 // ========== ARTICLE CARD ==========
 function articleCard(art,curtidos,lidos){
   const liked=curtidos.includes(art.id);
-  const isLido = lidos && lidos.includes(art.id);
+  const isLido=lidos&&lidos.includes(art.id);
   const date=art.data?new Date(art.data).toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'numeric'}):'';
-  const summary=escapeHtml((art.resumo||'').substring(0,300)+(art.resumo&&art.resumo.length>300?'...':''));
-  const meta=[art.journal,art.year,art.authors].filter(Boolean).map(escapeHtml).join(' · ');
-  return `<div class="article-card" data-id="${escapeHtml(art.id)}">
+  const summary=escapeHtml((art.resumo||'').substring(0,280)+(art.resumo&&art.resumo.length>280?'…':''));
+  const journal=[art.journal,art.year].filter(Boolean).map(escapeHtml).join(' · ');
+  const ev=art.nivel_evidencia||'';
+  let evCls='ev-d';
+  if(/meta|sist/i.test(ev))evCls='ev-a';
+  else if(/rct|random/i.test(ev))evCls='ev-b';
+  else if(/coorte|caso.controle|transversal|cross/i.test(ev))evCls='ev-c';
+  const evBadge=ev?`<span class="ev-chip ${evCls}">${escapeHtml(ev.split(' ')[0])}</span>`:'';
+  const temaTag=(art.tema&&art.tema!==art.especialidade)?`<span class="article-tema-tag">${escapeHtml(art.tema)}</span>`:'';
+  return `<div class="article-card${isLido?' card-lido':''}" data-id="${escapeHtml(art.id)}">
     <div class="article-meta-top">
-      <span class="article-tag">${escapeHtml(art.especialidade||art.tema||'Artigo')}</span>
+      <div class="article-tags-row">
+        <span class="article-tag">${escapeHtml(art.especialidade||art.tema||'Artigo')}</span>
+        ${evBadge}
+      </div>
       <span class="article-date">${date}</span>
     </div>
+    ${temaTag}
     <h3>${escapeHtml(art.titulo||'Sem título')}</h3>
-    ${meta?`<div style="font-size:11px;color:var(--muted);margin-bottom:8px;line-height:1.4;">${meta}</div>`:''}
+    ${journal?`<div class="article-journal">${journal}</div>`:''}
     <div class="article-summary">${summary}</div>
     <div class="article-actions">
-      <button class="btn-like ${liked?'liked':''}" onclick="toggleLike('${art.id}',this)">
-        ${liked?'❤️ Curtido':'🤍 Curtir'}
-      </button>
+      <button class="btn-like ${liked?'liked':''}" onclick="toggleLike('${art.id}',this)">${liked?'❤️ Curtido':'🤍 Curtir'}</button>
       ${art.pubmedUrl?`<a class="btn-pubmed" href="${art.pubmedUrl}" target="_blank" rel="noopener">PubMed ↗</a>`:''}
-    <button class="btn-lido ${isLido?'lido':''}" onclick="toggleLido('${art.id}')">
-        ${isLido?'✅ Lido':'📝 Marcar como lido'}
-      </button>
+      <button class="btn-lido ${isLido?'lido':''}" onclick="toggleLido('${art.id}')">${isLido?'✅ Lido':'📝 Lido'}</button>
     </div>
   </div>`;
 }

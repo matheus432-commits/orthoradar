@@ -131,6 +131,15 @@ section{padding:96px 24px;}
 .pub-card-meta{font-size:0.76rem;color:var(--text-muted);}
 footer{background:var(--bg2);border-top:1px solid var(--border);padding:40px 48px;display:flex;align-items:center;justify-content:space-between;}
 footer p{font-size:0.82rem;color:var(--text-muted);}
+.platform-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:20px;max-width:960px;margin:0 auto;}
+.pf-block{background:var(--bg);border:1px solid var(--border);border-top:3px solid var(--pf,var(--primary));border-radius:var(--radius);padding:26px 22px;transition:transform 0.2s,box-shadow 0.2s;}
+.pf-block:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(0,0,0,0.3);}
+.pf-label{font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--pf,var(--primary));margin-bottom:14px;}
+.pf-icon-big{font-size:1.9rem;margin-bottom:10px;}
+.pf-block h3{font-size:0.95rem;font-weight:700;margin-bottom:12px;}
+.pf-items{list-style:none;display:flex;flex-direction:column;gap:7px;}
+.pf-items li{font-size:0.82rem;color:var(--text-muted);padding-left:14px;position:relative;line-height:1.5;}
+.pf-items li::before{content:'·';position:absolute;left:0;color:var(--pf,var(--primary));font-size:1.1rem;top:-3px;}
 @media(max-width:600px){
   nav{padding:16px 20px;}
   .hero-stats{gap:24px;flex-wrap:wrap;}
@@ -174,6 +183,58 @@ footer p{font-size:0.82rem;color:var(--text-muted);}
   </div>
 </section>
 
+<section style="background:var(--bg2);">
+  <div class="section-label">Plataforma</div>
+  <h2 class="section-title">Da leitura ao conhecimento permanente</h2>
+  <p class="section-sub">Quatro camadas integradas que transformam artigos científicos em inteligência clínica real — acessíveis no dashboard após o cadastro.</p>
+  <div class="platform-grid">
+    <div class="pf-block" style="--pf:#0ea5e9;">
+      <div class="pf-label">Digest · Core</div>
+      <div class="pf-icon-big">📬</div>
+      <h3>Curadoria Diária</h3>
+      <ul class="pf-items">
+        <li>1 artigo curado por dia do PubMed</li>
+        <li>Resumo estruturado em português</li>
+        <li>Personalizado por especialidade e tema</li>
+        <li>Histórico completo com filtros</li>
+      </ul>
+    </div>
+    <div class="pf-block" style="--pf:#8b5cf6;">
+      <div class="pf-label">Inteligência Clínica</div>
+      <div class="pf-icon-big">🔬</div>
+      <h3>Consultas por Evidência</h3>
+      <ul class="pf-items">
+        <li>Respostas baseadas nos seus artigos</li>
+        <li>Mapa de consenso científico por tema</li>
+        <li>Alertas de diretrizes atualizadas</li>
+        <li>Comparação direta entre estudos</li>
+      </ul>
+    </div>
+    <div class="pf-block" style="--pf:#10b981;">
+      <div class="pf-label">Memória Científica</div>
+      <div class="pf-icon-big">🧠</div>
+      <h3>Notas e Coleções</h3>
+      <ul class="pf-items">
+        <li>Anote insights vinculados a artigos</li>
+        <li>Organize em coleções temáticas</li>
+        <li>Busca semântica no seu acervo</li>
+        <li>Grafo visual de conexões entre temas</li>
+      </ul>
+    </div>
+    <div class="pf-block" style="--pf:#f59e0b;">
+      <div class="pf-label">Workspace Contextual</div>
+      <div class="pf-icon-big">⚡</div>
+      <h3>Contexto Inteligente</h3>
+      <ul class="pf-items">
+        <li>Painel com artigos e notas relacionadas</li>
+        <li>Highlights e anotações rápidas por artigo</li>
+        <li>Timeline da sua jornada de leitura</li>
+        <li>Briefing científico personalizado</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
 <section class="specialties-section">
   <div class="section-label">Especialidades</div>
   <h2 class="section-title">Para toda a Odontologia</h2>
@@ -202,16 +263,16 @@ footer p{font-size:0.82rem;color:var(--text-muted);}
 </section>
 
 <section>
-  <div class="section-label">Diferenciais</div>
-  <h2 class="section-title">Mais do que um newsletter</h2>
-  <p class="section-sub">Tecnologia e curadoria a serviço da sua atualização profissional.</p>
+  <div class="section-label">Por que o OdontoFeed</div>
+  <h2 class="section-title">Feito para dentistas, por dentistas</h2>
+  <p class="section-sub">Cada detalhe foi pensado para encaixar na rotina clínica — sem sobrecarga, sem jargão, com ciência de verdade.</p>
   <div class="features-grid">
     <div class="feature-card"><div class="feature-icon">🤖</div><h3>Curadoria com IA</h3><p>Artigos selecionados automaticamente do PubMed com base nos seus temas, priorizando publicações recentes e de alta relevância clínica.</p></div>
-    <div class="feature-card"><div class="feature-icon">📝</div><h3>Resumos em português</h3><p>Cada artigo vem acompanhado de um resumo estruturado: objetivos, metodologia, resultados e aplicação clínica prática.</p></div>
+    <div class="feature-card"><div class="feature-icon">📝</div><h3>Resumos em português</h3><p>Cada artigo vem com resumo estruturado: objetivos, metodologia, resultados e aplicação clínica prática — tudo em PT-BR.</p></div>
     <div class="feature-card"><div class="feature-icon">⏱️</div><h3>5 minutos por dia</h3><p>Um artigo por dia, no horário que você escolher. Sem sobrecarga de informação — apenas o essencial para sua prática.</p></div>
-    <div class="feature-card"><div class="feature-icon">🎯</div><h3>Múltiplas especialidades</h3><p>Você pode selecionar mais de uma especialidade e combinar temas de diferentes áreas para uma curadoria ainda mais personalizada.</p></div>
-    <div class="feature-card"><div class="feature-icon">🔗</div><h3>Link para o original</h3><p>Cada email inclui o link direto para o artigo completo no PubMed para você aprofundar quando quiser.</p></div>
-    <div class="feature-card"><div class="feature-icon">🆓</div><h3>Grátis para sempre</h3><p>O plano básico com 1 artigo por dia é completamente gratuito. Atualização científica deve ser acessível a todos.</p></div>
+    <div class="feature-card"><div class="feature-icon">🧬</div><h3>Nível de evidência visível</h3><p>Cada artigo exibe o tipo de estudo (Meta-análise, RCT, Coorte…) para você avaliar o peso clínico antes de ler.</p></div>
+    <div class="feature-card"><div class="feature-icon">🔗</div><h3>Link direto para o PubMed</h3><p>Acesse o artigo completo com um clique. Curta, salve em coleções e retome com contexto inteligente quando precisar.</p></div>
+    <div class="feature-card"><div class="feature-icon">🆓</div><h3>Grátis para sempre</h3><p>O plano base com 1 artigo por dia é completamente gratuito. Atualização científica deve ser acessível a todos.</p></div>
   </div>
 </section>
 
