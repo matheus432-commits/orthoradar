@@ -56,55 +56,70 @@ function trackClick(baseUrl, digestId, pmid, email, targetUrl) {
 }
 
 // ── Editorial intro generator ─────────────────────────────────────────────────
-// Builds a journalistic hook using real article data (impacto_pratico,
-// achados_principais, nivel_evidencia) from the highest-scored article.
-// Tone: editorial/scientific provocation — never prescriptive.
+// Synthesises ALL articles into a 3-paragraph editorial overview.
+// Structure: (1) edition quality/theme, (2) specific findings from top-2+
+// articles using real impacto_pratico, (3) convergent takeaway.
+// Tone: journalistic scientific editor — never a mechanical list.
 
-function generateEditorialIntro(articles, esp, firstName) {
-  // Lead article = highest relevanceScore; fallback to first
-  const sorted  = [...articles].sort((a, b) => (b.relevanceScore || 0) - (a.relevanceScore || 0));
-  const lead    = sorted[0];
+function generateEditorialIntro(articles, esp) {
+  const n = articles.length;
 
-  // Extract best available hook text from lead article
-  const rawHook = (lead.impacto_pratico || lead.achados_principais || lead.resumo_pt || '').trim();
+  // Sort by relevanceScore — lead article anchors the narrative
+  const sorted = [...articles].sort((a, b) => (b.relevanceScore || 0) - (a.relevanceScore || 0));
 
   // Evidence profile of the full edition
-  const evs      = articles.map(a => (a.nivel_evidencia || '').toLowerCase());
-  const hasMeta  = evs.some(e => /meta|sistem/i.test(e));
-  const hasRCT   = evs.some(e => /rct|randomizado|randomized/i.test(e));
-  const hasCohort = evs.some(e => /coorte|cohort/i.test(e));
-  const n        = articles.length;
-  const estudos  = n === 1 ? 'O estudo' : 'Os estudos';
+  const evs         = articles.map(a => (a.nivel_evidencia || '').toLowerCase());
+  const hasMeta     = evs.some(e => /meta|sistem/i.test(e));
+  const hasRCT      = evs.some(e => /rct|randomizado|randomized/i.test(e));
+  const hasCohort   = evs.some(e => /coorte|cohort/i.test(e));
+  const highEvCount = articles.filter(a => /meta|sistem|rct|randomizado/i.test(a.nivel_evidencia || '')).length;
 
-  // Evidence qualifier for closing sentence
-  let evQual = 'com evid&ecirc;ncias recentes aplic&aacute;veis &agrave; pr&aacute;tica';
-  if (hasMeta && hasRCT) evQual = 'com meta-an&aacute;lise e ensaios cl&iacute;nicos randomizados';
-  else if (hasMeta)      evQual = 'com destaque para revis&atilde;o sistem&aacute;tica recente';
-  else if (hasRCT)       evQual = 'com dados de ensaios cl&iacute;nicos randomizados';
-  else if (hasCohort)    evQual = 'com dados longitudinais de coorte';
-
-  // Build hook from real impact text
-  if (rawHook && rawHook.length > 30) {
-    // First sentence only, stripped of trailing period
-    const match   = rawHook.match(/^[^.!?]+[.!?]?/);
-    let hook      = (match ? match[0] : truncate(rawHook, 160)).trim().replace(/[.!?]$/, '');
-    // Lowercase first char for smooth sentence integration
-    hook = hook.charAt(0).toLowerCase() + hook.slice(1);
-
-    return `As evid&ecirc;ncias recentes sugerem que ${esc(hook)}. ${estudos} desta edi&ccedil;&atilde;o em ${esc(esp)} &mdash; ${evQual} &mdash; exploram essa e outras implica&ccedil;&otilde;es cl&iacute;nicas. Vale observar os achados &agrave; luz do seu protocolo atual.`;
+  // Extract the first meaningful sentence from an article's practical impact
+  function firstSentence(article) {
+    const raw = (article.impacto_pratico || article.achados_principais || '').trim();
+    if (raw.length < 20) return '';
+    const m = raw.match(/^[^.!?]+[.!?]?/);
+    let s = (m ? m[0] : raw.slice(0, 155)).trim().replace(/[.!?]$/, '');
+    return s.charAt(0).toLowerCase() + s.slice(1);
   }
 
-  // Fallback: structured generic by evidence type
-  if (hasMeta && hasRCT) {
-    return `${estudos} desta edi&ccedil;&atilde;o em ${esc(esp)} incluem meta-an&aacute;lise e ensaios cl&iacute;nicos randomizados. As evid&ecirc;ncias sugerem tend&ecirc;ncias que podem representar implica&ccedil;&otilde;es relevantes para protocolos cl&iacute;nicos contempor&acirc;neos &mdash; vale observar os achados.`;
+  // Human-readable evidence type name for each article
+  function evRef(article) {
+    const ev = (article.nivel_evidencia || '').toLowerCase();
+    if (/meta/i.test(ev))            return 'uma meta-an&aacute;lise';
+    if (/sistem/i.test(ev))          return 'uma revis&atilde;o sistem&aacute;tica';
+    if (/rct|randomizado/i.test(ev)) return 'um ensaio cl&iacute;nico randomizado';
+    if (/coorte/i.test(ev))          return 'um estudo de coorte';
+    if (/caso/i.test(ev))            return 'um relato de caso';
+    return 'um estudo recente';
   }
-  if (hasMeta) {
-    return `${estudos} desta edi&ccedil;&atilde;o em ${esc(esp)} incluem uma revis&atilde;o sistem&aacute;tica recente. As evid&ecirc;ncias indicam tend&ecirc;ncias que vale considerar na perspectiva do seu protocolo atual.`;
+
+  const hooks = sorted.map(firstSentence).filter(Boolean);
+
+  // ── § 1 — Edition quality overview ───────────────────────────────────────
+  let p1;
+  if (highEvCount >= 2) {
+    p1 = `Apoiada por evid&ecirc;ncias metodologicamente s&oacute;lidas, a edi&ccedil;&atilde;o de hoje em ${esc(esp)} re&uacute;ne ${n} estudo${n > 1 ? 's' : ''} com implica&ccedil;&otilde;es diretas para a pr&aacute;tica cl&iacute;nica. Os achados exploram &acirc;ngulos complementares e convergem para tend&ecirc;ncias relevantes na literatura recente.`;
+  } else if (hasMeta || hasRCT) {
+    p1 = `Com evid&ecirc;ncias de n&iacute;vel elevado, a edi&ccedil;&atilde;o de hoje em ${esc(esp)} re&uacute;ne ${n} estudo${n > 1 ? 's' : ''} sobre t&oacute;picos de alta relev&acirc;ncia para a pr&aacute;tica. Os resultados exploram &acirc;ngulos distintos em torno de uma mesma busca: maior previsibilidade e suporte cient&iacute;fico nas decis&otilde;es cl&iacute;nicas.`;
+  } else {
+    p1 = `A edi&ccedil;&atilde;o de hoje em ${esc(esp)} re&uacute;ne ${n} estudo${n > 1 ? 's' : ''} com achados relevantes para a pr&aacute;tica cl&iacute;nica contempor&acirc;nea. Os resultados exploram &acirc;ngulos complementares que vale observar &agrave; luz do protocolo atual.`;
   }
-  if (hasRCT) {
-    return `${estudos} desta edi&ccedil;&atilde;o em ${esc(esp)} apresentam dados prim&aacute;rios de ensaios cl&iacute;nicos. As evid&ecirc;ncias recentes indicam achados que podem ser relevantes para a tomada de decis&atilde;o cl&iacute;nica.`;
+
+  // ── § 2 — Specific findings using real article content ────────────────────
+  let p2 = '';
+  if (hooks.length >= 3) {
+    p2 = `Enquanto ${evRef(sorted[0])} sugere que ${esc(hooks[0])}, ${evRef(sorted[1])} indica que ${esc(hooks[1])}. Um terceiro estudo aponta que ${esc(hooks[2])}.`;
+  } else if (hooks.length === 2) {
+    p2 = `Enquanto ${evRef(sorted[0])} sugere que ${esc(hooks[0])}, ${evRef(sorted[1])} indica que ${esc(hooks[1])}.`;
+  } else if (hooks.length === 1) {
+    p2 = `O estudo de maior destaque desta edi&ccedil;&atilde;o sugere que ${esc(hooks[0])}.`;
   }
-  return `${estudos} selecionados nesta edi&ccedil;&atilde;o em ${esc(esp)} trazem evid&ecirc;ncias recentes com poss&iacute;veis implica&ccedil;&otilde;es para a pr&aacute;tica odontol&oacute;gica. Vale observar os achados &agrave; luz do contexto cl&iacute;nico de cada caso.`;
+
+  // ── § 3 — Convergent editorial takeaway ──────────────────────────────────
+  const p3 = `Em conjunto, os achados refor&ccedil;am a import&acirc;ncia de crit&eacute;rios rigorosos de indica&ccedil;&atilde;o cl&iacute;nica &mdash; e sugerem que a literatura em ${esc(esp)} segue avan&ccedil;ando em dire&ccedil;&atilde;o a protocolos com maior previsibilidade e suporte cient&iacute;fico.`;
+
+  return [p1, p2, p3].filter(Boolean).join('<br><br>');
 }
 
 // ── Article block (editorial newspaper style) ─────────────────────────────────
@@ -114,8 +129,8 @@ function articleCard(article, index, total, opts) {
   const pmid         = article.pmid || article.id || '';
   const badge        = BADGE_STYLE[article.nivel_evidencia] || BADGE_STYLE['Revisão Narrativa'];
   const titulo       = esc(truncate(article.titulo_pt || article.titulo || article.title || 'Sem título', 120));
-  const impacto      = esc(truncate(article.impacto_pratico || '', 280));
-  const resumo       = esc(truncate(article.resumo_pt || '', 220));
+  const impacto      = esc(truncate(article.impacto_pratico || '', 300));
+  const resumo       = esc(truncate(article.resumo_pt || '', 340));
   const journal      = esc(article.journal || '');
   const year         = esc(String(article.year || ''));
   const tempoLeitura = article.tempo_leitura || 3;
@@ -226,7 +241,7 @@ function buildDigestEmail(user, articles, opts) {
   const pixelUrl   = `${baseUrl}/.netlify/functions/track-open?d=${digestId}&e=${ehash}`;
 
   const subject    = `${n} estudo${plural} em ${esp} — OdontoFeed`;
-  const editorial  = generateEditorialIntro(articles, esp, firstName);
+  const editorial  = generateEditorialIntro(articles, esp);
 
   const cardsHtml = articles
     .map((art, i) => articleCard(art, i, articles.length, { baseUrl, dashboardUrl, digestId, email: user.email }))
