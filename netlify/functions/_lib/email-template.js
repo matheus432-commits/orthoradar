@@ -56,29 +56,55 @@ function trackClick(baseUrl, digestId, pmid, email, targetUrl) {
 }
 
 // ── Editorial intro generator ─────────────────────────────────────────────────
-// Produces a 1–2 sentence editorial note based on the evidence profile of
-// the curated articles. Tone: journalistic, not product/marketing.
+// Builds a journalistic hook using real article data (impacto_pratico,
+// achados_principais, nivel_evidencia) from the highest-scored article.
+// Tone: editorial/scientific provocation — never prescriptive.
 
 function generateEditorialIntro(articles, esp, firstName) {
-  const evs       = articles.map(a => (a.nivel_evidencia || '').toLowerCase());
-  const hasMeta   = evs.some(e => /meta|sistem/i.test(e));
-  const hasRCT    = evs.some(e => /rct|randomizado|randomized/i.test(e));
-  const hasCohort = evs.some(e => /coorte|cohort/i.test(e));
-  const greeting  = firstName ? `Dr.&nbsp;${esc(firstName)}, os` : 'Os';
+  // Lead article = highest relevanceScore; fallback to first
+  const sorted  = [...articles].sort((a, b) => (b.relevanceScore || 0) - (a.relevanceScore || 0));
+  const lead    = sorted[0];
 
+  // Extract best available hook text from lead article
+  const rawHook = (lead.impacto_pratico || lead.achados_principais || lead.resumo_pt || '').trim();
+
+  // Evidence profile of the full edition
+  const evs      = articles.map(a => (a.nivel_evidencia || '').toLowerCase());
+  const hasMeta  = evs.some(e => /meta|sistem/i.test(e));
+  const hasRCT   = evs.some(e => /rct|randomizado|randomized/i.test(e));
+  const hasCohort = evs.some(e => /coorte|cohort/i.test(e));
+  const n        = articles.length;
+  const estudos  = n === 1 ? 'O estudo' : 'Os estudos';
+
+  // Evidence qualifier for closing sentence
+  let evQual = 'com evid&ecirc;ncias recentes aplic&aacute;veis &agrave; pr&aacute;tica';
+  if (hasMeta && hasRCT) evQual = 'com meta-an&aacute;lise e ensaios cl&iacute;nicos randomizados';
+  else if (hasMeta)      evQual = 'com destaque para revis&atilde;o sistem&aacute;tica recente';
+  else if (hasRCT)       evQual = 'com dados de ensaios cl&iacute;nicos randomizados';
+  else if (hasCohort)    evQual = 'com dados longitudinais de coorte';
+
+  // Build hook from real impact text
+  if (rawHook && rawHook.length > 30) {
+    // First sentence only, stripped of trailing period
+    const match   = rawHook.match(/^[^.!?]+[.!?]?/);
+    let hook      = (match ? match[0] : truncate(rawHook, 160)).trim().replace(/[.!?]$/, '');
+    // Lowercase first char for smooth sentence integration
+    hook = hook.charAt(0).toLowerCase() + hook.slice(1);
+
+    return `As evid&ecirc;ncias recentes sugerem que ${esc(hook)}. ${estudos} desta edi&ccedil;&atilde;o em ${esc(esp)} &mdash; ${evQual} &mdash; exploram essa e outras implica&ccedil;&otilde;es cl&iacute;nicas. Vale observar os achados &agrave; luz do seu protocolo atual.`;
+  }
+
+  // Fallback: structured generic by evidence type
   if (hasMeta && hasRCT) {
-    return `${greeting} estudos desta edi&ccedil;&atilde;o em ${esc(esp)} incluem meta-an&aacute;lise e ensaios cl&iacute;nicos randomizados. Os achados convergem para avan&ccedil;os com aplica&ccedil;&atilde;o direta na pr&aacute;tica cl&iacute;nica.`;
+    return `${estudos} desta edi&ccedil;&atilde;o em ${esc(esp)} incluem meta-an&aacute;lise e ensaios cl&iacute;nicos randomizados. As evid&ecirc;ncias sugerem tend&ecirc;ncias que podem representar implica&ccedil;&otilde;es relevantes para protocolos cl&iacute;nicos contempor&acirc;neos &mdash; vale observar os achados.`;
   }
   if (hasMeta) {
-    return `${greeting} estudos desta edi&ccedil;&atilde;o em ${esc(esp)} incluem uma revis&atilde;o sistem&aacute;tica recente &mdash; s&iacute;ntese que consolida o estado atual do conhecimento em t&oacute;picos de alta relev&acirc;ncia cl&iacute;nica.`;
+    return `${estudos} desta edi&ccedil;&atilde;o em ${esc(esp)} incluem uma revis&atilde;o sistem&aacute;tica recente. As evid&ecirc;ncias indicam tend&ecirc;ncias que vale considerar na perspectiva do seu protocolo atual.`;
   }
   if (hasRCT) {
-    return `${greeting} estudos desta edi&ccedil;&atilde;o em ${esc(esp)} apresentam dados de ensaios cl&iacute;nicos randomizados, ampliando a base de evid&ecirc;ncias dispon&iacute;vel para a tomada de decis&atilde;o cl&iacute;nica.`;
+    return `${estudos} desta edi&ccedil;&atilde;o em ${esc(esp)} apresentam dados prim&aacute;rios de ensaios cl&iacute;nicos. As evid&ecirc;ncias recentes indicam achados que podem ser relevantes para a tomada de decis&atilde;o cl&iacute;nica.`;
   }
-  if (hasCohort) {
-    return `${greeting} estudos desta edi&ccedil;&atilde;o em ${esc(esp)} exploram dados longitudinais de coorte com implica&ccedil;&otilde;es relevantes para protocolos cl&iacute;nicos contempor&acirc;neos.`;
-  }
-  return `${greeting} estudos selecionados nesta edi&ccedil;&atilde;o em ${esc(esp)} trazem evid&ecirc;ncias recentes com aplica&ccedil;&atilde;o direta para a pr&aacute;tica odontol&oacute;gica.`;
+  return `${estudos} selecionados nesta edi&ccedil;&atilde;o em ${esc(esp)} trazem evid&ecirc;ncias recentes com poss&iacute;veis implica&ccedil;&otilde;es para a pr&aacute;tica odontol&oacute;gica. Vale observar os achados &agrave; luz do contexto cl&iacute;nico de cada caso.`;
 }
 
 // ── Article block (editorial newspaper style) ─────────────────────────────────
@@ -287,6 +313,20 @@ function buildDigestEmail(user, articles, opts) {
               &nbsp;&middot;&nbsp;
               <a href="${esc(unsubUrl)}"
                  style="color:#9E988E;text-decoration:underline;">Cancelar recebimento</a>
+            </div>
+
+            <!-- Disclaimer jurídico -->
+            <div style="margin-top:18px;padding-top:14px;border-top:1px solid #E0D8CC;">
+              <p style="margin:0;font-size:10px;color:#B5B0A8;line-height:1.75;
+                        font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">
+                O OdontoFeed tem como objetivo facilitar a atualiza&ccedil;&atilde;o cient&iacute;fica do
+                cirurgi&atilde;o-dentista por meio de curadoria editorial de artigos recentes indexados em
+                bases cient&iacute;ficas. As s&iacute;nteses apresentadas n&atilde;o substituem a leitura
+                integral dos estudos originais, nem devem ser interpretadas como recomenda&ccedil;&atilde;o
+                cl&iacute;nica definitiva ou altera&ccedil;&atilde;o obrigat&oacute;ria de protocolo
+                profissional. Decis&otilde;es cl&iacute;nicas devem considerar o contexto individual de cada
+                paciente e o julgamento do profissional respons&aacute;vel.
+              </p>
             </div>
           </td>
         </tr>
