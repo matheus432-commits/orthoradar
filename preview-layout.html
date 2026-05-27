@@ -514,39 +514,78 @@ nav{
 .faq-item.open .faq-a{display:block;}
 
 /* ── PRICING ──────────────────────────────────────── */
+.pricing-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:16px;max-width:860px;margin:0 auto;
+}
 .pricing-card{
-  max-width:480px;margin:0 auto;
   background:var(--card);border:1px solid var(--b);
-  border-radius:var(--r2);padding:44px;
-  box-shadow:0 8px 40px rgba(30,30,27,0.08);
+  border-radius:var(--r2);padding:40px;
+  position:relative;overflow:hidden;
+  display:flex;flex-direction:column;
+}
+.pricing-card.pro{
+  background:var(--t);border-color:var(--t);
+}
+.pricing-card.pro::before{
+  content:'';position:absolute;top:0;left:0;right:0;
+  height:2px;background:var(--a);
+}
+.pricing-badge{
+  position:absolute;top:20px;right:20px;
+  font-size:10px;font-weight:700;letter-spacing:0.8px;
+  text-transform:uppercase;color:#fff;
+  background:var(--a);padding:3px 9px;border-radius:20px;
 }
 .pricing-plan{
   font-size:10.5px;font-weight:700;letter-spacing:1.8px;
   text-transform:uppercase;color:var(--a);margin-bottom:20px;
 }
+.pricing-card.pro .pricing-plan{color:rgba(246,241,232,0.45);}
 .pricing-price{
-  font-size:3.2rem;font-weight:800;letter-spacing:-0.05em;
-  color:var(--t);margin-bottom:6px;line-height:1;
+  font-size:3rem;font-weight:800;letter-spacing:-0.05em;
+  color:var(--t);margin-bottom:4px;line-height:1;
 }
+.pricing-card.pro .pricing-price{color:#F6F1E8;}
 .pricing-price span{font-size:1rem;font-weight:500;color:var(--t-3);letter-spacing:0;}
-.pricing-desc{font-size:13.5px;color:var(--t-2);line-height:1.65;margin:12px 0 32px;}
-.pricing-div{height:1px;background:var(--b);margin-bottom:24px;}
-.pricing-features{display:flex;flex-direction:column;gap:11px;margin-bottom:32px;}
+.pricing-card.pro .pricing-price span{color:rgba(246,241,232,0.35);}
+.pricing-desc{font-size:13px;color:var(--t-2);line-height:1.65;margin:12px 0 28px;}
+.pricing-card.pro .pricing-desc{color:rgba(246,241,232,0.5);}
+.pricing-div{height:1px;background:var(--b);margin-bottom:22px;}
+.pricing-card.pro .pricing-div{background:rgba(246,241,232,0.08);}
+.pricing-features{display:flex;flex-direction:column;gap:10px;margin-bottom:32px;flex:1;}
 .pricing-feat{
-  display:flex;align-items:center;gap:10px;
-  font-size:13.5px;color:var(--t-2);
+  display:flex;align-items:flex-start;gap:10px;
+  font-size:13px;color:var(--t-2);line-height:1.5;
 }
+.pricing-card.pro .pricing-feat{color:rgba(246,241,232,0.65);}
 .pricing-feat-icon{
-  color:var(--green);font-size:13px;font-weight:700;flex-shrink:0;
+  color:var(--green);font-size:12px;font-weight:700;
+  flex-shrink:0;margin-top:2px;
 }
+.pricing-card.pro .pricing-feat-icon{color:#7EAF7B;}
+.pricing-feat-dim{color:var(--t-3);font-size:13px;}
+.pricing-card.pro .pricing-feat-dim{color:rgba(246,241,232,0.25);}
 .btn-pricing{
   width:100%;font-size:14px;font-weight:600;
-  padding:14px;border-radius:8px;
+  padding:13px;border-radius:8px;
   background:var(--t);color:#FFFDF9;
   border:none;cursor:pointer;font-family:inherit;
-  transition:background 0.2s;letter-spacing:-0.2px;
+  transition:background 0.2s;letter-spacing:-0.2px;margin-top:auto;
 }
 .btn-pricing:hover{background:#302F2C;}
+.btn-pricing.pro{
+  background:var(--a);color:#fff;
+}
+.btn-pricing.pro:hover{background:var(--a-h);}
+.pricing-note{
+  font-size:11.5px;color:var(--t-3);text-align:center;
+  margin-top:16px;
+}
+.pricing-card.pro .pricing-note{color:rgba(246,241,232,0.25);}
+@media(max-width:680px){
+  .pricing-grid{grid-template-columns:1fr;}
+}
 
 /* ── STATS BAR ────────────────────────────────────── */
 .stats-bar{
@@ -1098,25 +1137,53 @@ footer p{font-size:12px;color:rgba(246,241,232,0.25);}
 ══════════════════════════════════════ -->
 <section class="section warm">
   <div class="section-header center">
-    <div class="section-kicker">Plano</div>
+    <div class="section-kicker">Planos</div>
     <h2 class="section-h2">Simples. Sem surpresas.</h2>
-    <p class="section-sub">Um plano gratuito completo para começar. Funcionalidades avançadas em breve.</p>
+    <p class="section-sub">Comece grátis e evolua quando quiser receber ciência todos os dias.</p>
   </div>
-  <div class="pricing-card">
-    <div class="pricing-plan">Plano Gratuito</div>
-    <div class="pricing-price">R$0<span>/mês</span></div>
-    <p class="pricing-desc">Tudo que você precisa para se atualizar cientificamente todos os dias. Sem cartão de crédito, sem limite de tempo.</p>
-    <div class="pricing-div"></div>
-    <div class="pricing-features">
-      <div class="pricing-feat"><span class="pricing-feat-icon">✓</span> Curadoria diária com 3–5 artigos do PubMed</div>
-      <div class="pricing-feat"><span class="pricing-feat-icon">✓</span> Resumos com IA em português</div>
-      <div class="pricing-feat"><span class="pricing-feat-icon">✓</span> Dashboard com histórico completo</div>
-      <div class="pricing-feat"><span class="pricing-feat-icon">✓</span> Inteligência clínica e consultas por evidência</div>
-      <div class="pricing-feat"><span class="pricing-feat-icon">✓</span> Memória científica e coleções</div>
-      <div class="pricing-feat"><span class="pricing-feat-icon">✓</span> Workspace contextual</div>
-      <div class="pricing-feat"><span class="pricing-feat-icon">✓</span> 10+ especialidades reconhecidas pelo CFO</div>
+  <div class="pricing-grid">
+
+    <!-- FREE -->
+    <div class="pricing-card">
+      <div class="pricing-plan">Gratuito</div>
+      <div class="pricing-price">R$0<span>/mês</span></div>
+      <p class="pricing-desc">Para conhecer a plataforma e experimentar uma curadoria do PubMed. Sem cartão de crédito.</p>
+      <div class="pricing-div"></div>
+      <div class="pricing-features">
+        <div class="pricing-feat"><span class="pricing-feat-icon">✓</span> 1 curadoria por mês com 3–5 artigos</div>
+        <div class="pricing-feat"><span class="pricing-feat-icon">✓</span> Resumos com IA em português</div>
+        <div class="pricing-feat"><span class="pricing-feat-icon">✓</span> Dashboard com histórico</div>
+        <div class="pricing-feat"><span class="pricing-feat-icon">✓</span> 10+ especialidades</div>
+        <div class="pricing-feat"><span class="pricing-feat-dim">—</span> <span class="pricing-feat-dim">Frequência personalizável</span></div>
+        <div class="pricing-feat"><span class="pricing-feat-dim">—</span> <span class="pricing-feat-dim">Inteligência clínica e consultas</span></div>
+        <div class="pricing-feat"><span class="pricing-feat-dim">—</span> <span class="pricing-feat-dim">Memória científica e coleções</span></div>
+        <div class="pricing-feat"><span class="pricing-feat-dim">—</span> <span class="pricing-feat-dim">Workspace contextual</span></div>
+      </div>
+      <button class="btn-pricing">Criar conta grátis →</button>
+      <p class="pricing-note">Sem cartão · Para sempre gratuito</p>
     </div>
-    <button class="btn-pricing">Criar conta grátis →</button>
+
+    <!-- PRO -->
+    <div class="pricing-card pro">
+      <div class="pricing-badge">Mais popular</div>
+      <div class="pricing-plan">Pro</div>
+      <div class="pricing-price">R$49<span style="font-size:1.4rem;font-weight:800;">,90</span><span>/mês</span></div>
+      <p class="pricing-desc">Curadoria no ritmo que você escolher — diária ou semanal — com todas as funcionalidades da plataforma.</p>
+      <div class="pricing-div"></div>
+      <div class="pricing-features">
+        <div class="pricing-feat"><span class="pricing-feat-icon">✓</span> Curadoria diária ou semanal (você escolhe)</div>
+        <div class="pricing-feat"><span class="pricing-feat-icon">✓</span> 3–5 artigos por envio do PubMed</div>
+        <div class="pricing-feat"><span class="pricing-feat-icon">✓</span> Resumos com IA em português</div>
+        <div class="pricing-feat"><span class="pricing-feat-icon">✓</span> Dashboard com histórico completo</div>
+        <div class="pricing-feat"><span class="pricing-feat-icon">✓</span> Inteligência clínica e consultas por evidência</div>
+        <div class="pricing-feat"><span class="pricing-feat-icon">✓</span> Memória científica e coleções</div>
+        <div class="pricing-feat"><span class="pricing-feat-icon">✓</span> Workspace contextual</div>
+        <div class="pricing-feat"><span class="pricing-feat-icon">✓</span> 10+ especialidades reconhecidas pelo CFO</div>
+      </div>
+      <button class="btn-pricing pro">Assinar Pro →</button>
+      <p class="pricing-note">Cancele quando quiser</p>
+    </div>
+
   </div>
 </section>
 
