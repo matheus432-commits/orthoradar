@@ -149,6 +149,31 @@
         { "fieldPath": "deletedAt", "order": "ASCENDING" },
         { "fieldPath": "criadoEm",  "order": "DESCENDING" }
       ]
+    },
+    {
+      "collectionGroup": "digest_metrics",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "email", "order": "ASCENDING" },
+        { "fieldPath": "ts",    "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "article_workspace",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "email",     "order": "ASCENDING" },
+        { "fieldPath": "updatedAt", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "artigos",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "status",        "order": "ASCENDING" },
+        { "fieldPath": "especialidade", "order": "ASCENDING" },
+        { "fieldPath": "data",          "order": "DESCENDING" }
+      ]
     }
   ],
   "fieldOverrides": []

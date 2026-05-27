@@ -27,6 +27,22 @@
 [functions."get-trending-personalized"]
   node_bundler = "nft"
 
+# Contextual Intelligence Layer (FASE 6)
+[functions."get-article-context"]
+  node_bundler = "nft"
+
+[functions."save-workspace-item"]
+  node_bundler = "nft"
+
+[functions."get-workspace"]
+  node_bundler = "nft"
+
+[functions."get-learning-timeline"]
+  node_bundler = "nft"
+
+[functions."get-daily-briefing"]
+  node_bundler = "nft"
+
 # Knowledge Memory System (FASE 5)
 [functions."save-note"]
   node_bundler = "nft"

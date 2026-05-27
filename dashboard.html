@@ -361,6 +361,57 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
   .ev-rct{background:rgba(99,102,241,0.12);color:#818cf8;}
   .ev-coorte{background:rgba(245,158,11,0.12);color:#f59e0b;}
   .ev-other{background:rgba(100,116,139,0.12);color:#94a3b8;}
+
+  /* ========== FASE 6: CONTEXT DRAWER ========== */
+  .ctx-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:998;display:none;backdrop-filter:blur(2px);}
+  .ctx-overlay.active{display:block;}
+  .ctx-drawer{position:fixed;top:0;right:-440px;width:420px;height:100vh;background:var(--bg2);border-left:1px solid var(--border);z-index:999;transition:right 0.3s cubic-bezier(0.4,0,0.2,1);display:flex;flex-direction:column;overflow:hidden;}
+  .ctx-drawer.open{right:0;}
+  .ctx-drawer-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border);flex-shrink:0;}
+  .ctx-drawer-title{font-size:14px;font-weight:700;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;}
+  .ctx-close-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:22px;padding:4px;line-height:1;flex-shrink:0;}
+  .ctx-close-btn:hover{color:var(--text);}
+  .ctx-tabs{display:flex;border-bottom:1px solid var(--border);flex-shrink:0;overflow-x:auto;}
+  .ctx-tab-btn{background:none;border:none;color:var(--muted);padding:10px 14px;cursor:pointer;font-size:12px;font-weight:600;white-space:nowrap;font-family:inherit;border-bottom:2px solid transparent;transition:all 0.15s;}
+  .ctx-tab-btn.active{color:var(--primary);border-bottom-color:var(--primary);}
+  .ctx-tab-btn:hover:not(.active){color:var(--text);}
+  .ctx-body{flex:1;overflow-y:auto;padding:16px 18px;}
+  .ctx-section-title{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.6px;margin:14px 0 8px;}
+  .ctx-item{background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:8px;}
+  .ctx-item-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:4px;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;}
+  .ctx-item-meta{font-size:11px;color:var(--muted);}
+  .ctx-empty{font-size:13px;color:var(--muted);padding:24px 0;text-align:center;}
+  .ctx-note-input{width:100%;background:rgba(255,255,255,0.05);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:10px 12px;font-size:13px;font-family:inherit;resize:vertical;min-height:72px;outline:none;}
+  .ctx-note-input:focus{border-color:var(--primary);}
+  .ctx-save-btn{background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;border:none;border-radius:8px;padding:8px 18px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;margin-top:8px;}
+  .ctx-conf-badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--muted);margin-left:8px;}
+  @media(max-width:640px){
+    .ctx-drawer{top:auto;right:0;bottom:-100vh;left:0;width:100%;height:85vh;border-left:none;border-top:1px solid var(--border);border-radius:20px 20px 0 0;transition:bottom 0.3s cubic-bezier(0.4,0,0.2,1);}
+    .ctx-drawer.open{bottom:0;right:0;}
+  }
+
+  /* ========== FASE 6: WORKSPACE TAB ========== */
+  .briefing-card{background:linear-gradient(135deg,rgba(14,165,233,0.1),rgba(6,182,212,0.07));border:1px solid rgba(14,165,233,0.2);border-radius:18px;padding:24px 26px;margin-bottom:24px;}
+  .briefing-greeting{font-size:13px;color:var(--muted);margin-bottom:6px;}
+  .briefing-title{font-size:17px;font-weight:800;color:var(--text);margin-bottom:14px;}
+  .briefing-bullet{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--text);margin-bottom:6px;}
+  .briefing-bullet::before{content:"·";color:var(--primary);flex-shrink:0;font-weight:800;font-size:16px;line-height:1.2;}
+  .briefing-personal{font-size:12px;color:var(--primary);margin-top:12px;padding-top:10px;border-top:1px solid rgba(14,165,233,0.15);}
+  .briefing-stat-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:8px;margin-bottom:16px;}
+  .briefing-stat{text-align:center;background:rgba(255,255,255,0.04);border-radius:10px;padding:8px 10px;}
+  .briefing-stat-num{font-size:20px;font-weight:800;color:var(--primary);}
+  .briefing-stat-lbl{font-size:10px;color:var(--muted);margin-top:1px;}
+  .timeline-week{margin-bottom:20px;}
+  .timeline-week-label{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.4px;margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+  .timeline-week-label::after{content:"";flex:1;height:1px;background:var(--border);}
+  .timeline-event{display:flex;gap:10px;align-items:flex-start;padding:8px 12px;border-radius:8px;transition:background 0.15s;}
+  .timeline-event:hover{background:rgba(255,255,255,0.04);}
+  .timeline-event-icon{font-size:14px;flex-shrink:0;padding-top:1px;}
+  .timeline-event-label{font-size:13px;color:var(--text);line-height:1.4;}
+  .timeline-event-date{font-size:10px;color:var(--muted);margin-top:2px;}
+  .theme-pill{display:inline-flex;align-items:center;gap:4px;background:rgba(14,165,233,0.1);color:var(--primary);border:1px solid rgba(14,165,233,0.2);border-radius:20px;padding:4px 12px;font-size:12px;font-weight:600;margin:3px;}
+  .ws-highlight{background:rgba(245,158,11,0.08);border-left:3px solid #f59e0b;border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:8px;}
+  .ws-quicknote{background:rgba(99,102,241,0.08);border-left:3px solid #818cf8;border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:8px;}
 </style>
 </head>
 <body>
@@ -462,6 +513,9 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
     <button class="tab-btn" id="tabBtn-inteligencia" onclick="switchTab('inteligencia',this)">
       Inteligência
     </button>
+    <button class="tab-btn" id="tabBtn-workspace" onclick="switchTab('workspace',this)">
+      Workspace
+    </button>
     <button class="tab-btn" id="tabBtn-memoria" onclick="switchTab('memoria',this)">
       Memória
     </button>
@@ -525,6 +579,16 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 3
       <div class="empty-state" style="padding:48px 32px;">
         <div class="empty-icon" style="font-size:28px;">&#9679;</div>
         <h3>Carregando Inteligência Científica…</h3>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: WORKSPACE -->
+  <div class="tab-content" id="tab-workspace">
+    <div id="workspaceContent">
+      <div class="empty-state" style="padding:48px 32px;">
+        <div class="empty-icon" style="font-size:28px;">&#9679;</div>
+        <h3>Carregando Workspace…</h3>
       </div>
     </div>
   </div>
@@ -1134,6 +1198,7 @@ function switchTab(name,btnEl){
   if (name === 'inteligencia') loadIntelligenceTab();
   if (name === 'clinica')      { loadClinicaTab(); showCompareBtns(false); }
   if (name === 'memoria')      { loadMemoriaTab(); }
+  if (name === 'workspace')    { loadWorkspaceTab(); }
   // Show compare buttons on article tabs when clinica was last visited
   const clinicaActive = name === 'recebidos' || name === 'curtidos' || name === 'lidos';
   if (clinicaActive) showCompareBtns(_clinicaLoaded);
@@ -1898,6 +1963,380 @@ function renderLearningPaths(data) {
     <div class="paths-grid">${cards}</div>`;
 }
 
+// ========== CONTEXTUAL INTELLIGENCE (FASE 6) ==========
+
+// ── Article card override: inject "Contexto" button ──────────────────────────
+// Wraps the existing articleCard (already overridden once for comparator)
+const _prevArticleCard = articleCard;
+function articleCard(art, curtidos, lidos) {
+  const base = _prevArticleCard(art, curtidos, lidos);
+  const pmid = String(art.id || art.pmid || '');
+  if (!pmid) return base;
+  const titleEsc = escapeHtml((art.titulo || art.titulo_pt || '').slice(0, 80));
+  const btn = `<button class="btn-like" data-pmid="${pmid}" onclick="openContextDrawer('${pmid}',${JSON.stringify(art.titulo||art.titulo_pt||'')});event.stopPropagation();" style="background:rgba(14,165,233,0.1);border:1px solid rgba(14,165,233,0.25);color:var(--primary);" title="Ver contexto clínico">🔎 Contexto</button>`;
+  return base.replace('</div>\n  </div>', `${btn}\n</div>\n  </div>`);
+}
+
+// ── Context Drawer ────────────────────────────────────────────────────────────
+let _ctxCurrentPmid    = null;
+let _ctxCurrentData    = null;
+let _ctxCurrentTab     = 'contexto';
+let _ctxWorkspace      = null;
+
+function openContextDrawer(pmid, titulo) {
+  _ctxCurrentPmid = pmid;
+  _ctxCurrentData = null;
+  _ctxWorkspace   = null;
+  _ctxCurrentTab  = 'contexto';
+
+  document.getElementById('ctxDrawerTitle').textContent = (titulo || 'Contexto').slice(0, 60);
+  document.getElementById('ctxBody').innerHTML = '<div class="ctx-empty">Carregando contexto…</div>';
+  document.querySelectorAll('.ctx-tab-btn').forEach((b, i) => b.classList.toggle('active', i === 0));
+  document.getElementById('ctxDrawer').classList.add('open');
+  document.getElementById('ctxOverlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+
+  loadContextDrawerData(pmid);
+}
+
+function closeContextDrawer() {
+  document.getElementById('ctxDrawer').classList.remove('open');
+  document.getElementById('ctxOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function switchCtxTab(name, btnEl) {
+  _ctxCurrentTab = name;
+  document.querySelectorAll('.ctx-tab-btn').forEach(b => b.classList.remove('active'));
+  btnEl.classList.add('active');
+  if (_ctxCurrentData) renderCtxTab(name, _ctxCurrentData, _ctxWorkspace);
+  else document.getElementById('ctxBody').innerHTML = '<div class="ctx-empty">Carregando…</div>';
+}
+
+async function loadContextDrawerData(pmid) {
+  const email = getEmail(), token = getToken();
+  try {
+    const qs = `pmid=${encodeURIComponent(pmid)}&email=${encodeURIComponent(email)}&token=${encodeURIComponent(token)}`;
+    const [ctxRes, wsRes] = await Promise.allSettled([
+      fetch(`/.netlify/functions/get-article-context?${qs}`).then(r => r.json()),
+      fetch(`/.netlify/functions/get-workspace?${qs}`).then(r => r.json()),
+    ]);
+
+    _ctxCurrentData = ctxRes.status === 'fulfilled' ? ctxRes.value : null;
+    _ctxWorkspace   = wsRes.status  === 'fulfilled' ? wsRes.value?.workspace : null;
+
+    if (_ctxCurrentData && !_ctxCurrentData.error) {
+      renderCtxTab(_ctxCurrentTab, _ctxCurrentData, _ctxWorkspace);
+    } else {
+      document.getElementById('ctxBody').innerHTML = `<div class="ctx-empty">Não foi possível carregar o contexto.</div>`;
+    }
+  } catch {
+    document.getElementById('ctxBody').innerHTML = `<div class="ctx-empty">Erro ao carregar. Tente novamente.</div>`;
+  }
+}
+
+function renderCtxTab(tab, data, workspace) {
+  const body = document.getElementById('ctxBody');
+  switch (tab) {
+    case 'contexto':    body.innerHTML = renderCtxContextoTab(data, workspace);   break;
+    case 'notas':       body.innerHTML = renderCtxNotasTab(workspace);            break;
+    case 'relacionados':body.innerHTML = renderCtxRelacionadosTab(data);          break;
+    case 'consenso':    body.innerHTML = renderCtxConsensoTab(data);              break;
+    case 'diretrizes':  body.innerHTML = renderCtxDiretrizesTab(data);            break;
+    default: body.innerHTML = '';
+  }
+}
+
+function renderCtxContextoTab(data, workspace) {
+  const art = data.article || {};
+  const rc  = data.readingContext || {};
+  const conf = data.confidence || 0;
+
+  const fields = (rc.fields || []).map(f =>
+    `<div style="margin-bottom:10px;">
+      <div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.4px;margin-bottom:3px;">${escapeHtml(f.label)}</div>
+      <div style="font-size:13px;color:var(--text);line-height:1.5;">${escapeHtml(f.value.slice(0,250))}</div>
+    </div>`
+  ).join('');
+
+  const highlightCount = (workspace?.highlights || []).length;
+  const noteCount      = (workspace?.quickNotes  || []).length;
+
+  return `
+    ${art.nivel_evidencia ? `<div style="margin-bottom:14px;"><span class="ev-badge ${evBadgeClass(art.nivel_evidencia)}">${escapeHtml(art.nivel_evidencia)}</span>
+      <span class="ctx-conf-badge">Confiança: ${Math.round(conf * 100)}%</span></div>` : ''}
+    ${rc.tip ? `<div style="font-size:12px;color:var(--primary);background:rgba(14,165,233,0.08);border-radius:8px;padding:8px 12px;margin-bottom:14px;">${escapeHtml(rc.tip)}</div>` : ''}
+    ${fields || '<div class="ctx-empty">Resumo contextual não disponível.</div>'}
+    <div style="display:flex;gap:8px;margin-top:16px;padding-top:14px;border-top:1px solid var(--border);">
+      <div style="text-align:center;flex:1;background:rgba(255,255,255,0.03);border-radius:8px;padding:8px;">
+        <div style="font-size:16px;font-weight:800;color:var(--primary);">${highlightCount}</div>
+        <div style="font-size:10px;color:var(--muted);">Highlights</div>
+      </div>
+      <div style="text-align:center;flex:1;background:rgba(255,255,255,0.03);border-radius:8px;padding:8px;">
+        <div style="font-size:16px;font-weight:800;color:var(--primary);">${noteCount}</div>
+        <div style="font-size:10px;color:var(--muted);">Notas</div>
+      </div>
+      <div style="text-align:center;flex:1;background:rgba(255,255,255,0.03);border-radius:8px;padding:8px;">
+        <div style="font-size:16px;font-weight:800;color:var(--primary);">${(data.relatedArticles||[]).length}</div>
+        <div style="font-size:10px;color:var(--muted);">Relacionados</div>
+      </div>
+    </div>`;
+}
+
+function renderCtxNotasTab(workspace) {
+  const pmid       = _ctxCurrentPmid;
+  const highlights = (workspace?.highlights || []).slice().reverse();
+  const notes      = (workspace?.quickNotes  || []).slice().reverse();
+
+  const hlItems = highlights.map(h =>
+    `<div class="ws-highlight">
+      <div style="font-size:13px;color:var(--text);margin-bottom:3px;">"${escapeHtml(h.text)}"</div>
+      <div style="font-size:10px;color:var(--muted);">${new Date(h.createdAt).toLocaleDateString('pt-BR')}</div>
+    </div>`
+  ).join('');
+
+  const noteItems = notes.map(n =>
+    `<div class="ws-quicknote">
+      <div style="font-size:11px;font-weight:600;color:#818cf8;margin-bottom:3px;text-transform:uppercase;">${escapeHtml(n.tipo)}</div>
+      <div style="font-size:13px;color:var(--text);line-height:1.4;">${escapeHtml(n.text)}</div>
+      <div style="font-size:10px;color:var(--muted);margin-top:4px;">${new Date(n.createdAt).toLocaleDateString('pt-BR')}</div>
+    </div>`
+  ).join('');
+
+  return `
+    <div class="ctx-section-title">Adicionar nota rápida</div>
+    <div>
+      <select id="ctxNoteType" style="background:var(--bg3);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:7px 10px;font-size:12px;font-family:inherit;margin-bottom:6px;width:100%;">
+        <option value="nota">Nota</option>
+        <option value="insight">Insight</option>
+        <option value="dúvida">Dúvida</option>
+        <option value="aplicar">Aplicar</option>
+      </select>
+      <textarea id="ctxNoteText" class="ctx-note-input" placeholder="Escreva uma nota rápida sobre este artigo…" maxlength="1000"></textarea>
+      <button class="ctx-save-btn" onclick="saveCtxNote()">Salvar nota</button>
+      <span id="ctxNoteSaveMsg" style="font-size:11px;color:var(--muted);margin-left:8px;"></span>
+    </div>
+    ${notes.length ? `<div class="ctx-section-title">Notas (${notes.length})</div>${noteItems}` : ''}
+    ${highlights.length ? `<div class="ctx-section-title">Highlights (${highlights.length})</div>${hlItems}` : ''}
+    ${!notes.length && !highlights.length ? '<div class="ctx-empty" style="margin-top:16px;">Nenhuma nota ou highlight ainda.</div>' : ''}`;
+}
+
+async function saveCtxNote() {
+  const text = (document.getElementById('ctxNoteText')?.value || '').trim();
+  const tipo = document.getElementById('ctxNoteType')?.value || 'nota';
+  const msg  = document.getElementById('ctxNoteSaveMsg');
+  if (!text) { if (msg) msg.textContent = 'Escreva algo primeiro.'; return; }
+
+  const email = getEmail(), token = getToken();
+  if (msg) msg.textContent = 'Salvando…';
+  try {
+    const res = await fetch('/.netlify/functions/save-workspace-item', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ action: 'save_quick_note', email, token, pmid: _ctxCurrentPmid, text, tipo }),
+    });
+    const d = await res.json();
+    if (!res.ok) throw new Error(d.error || 'Erro');
+    if (msg) msg.textContent = 'Salvo!';
+    document.getElementById('ctxNoteText').value = '';
+    // Refresh workspace data
+    const wsRes = await fetch(`/.netlify/functions/get-workspace?pmid=${encodeURIComponent(_ctxCurrentPmid)}&email=${encodeURIComponent(email)}&token=${encodeURIComponent(token)}`).then(r => r.json());
+    _ctxWorkspace = wsRes.workspace || _ctxWorkspace;
+    renderCtxTab('notas', _ctxCurrentData, _ctxWorkspace);
+  } catch(err) {
+    if (msg) msg.textContent = escapeHtml(err.message);
+  }
+}
+
+function renderCtxRelacionadosTab(data) {
+  const arts = data.relatedArticles || [];
+  const notes = data.relatedNotes  || [];
+  if (!arts.length && !notes.length) return '<div class="ctx-empty">Nenhum conteúdo relacionado encontrado.</div>';
+
+  const artItems = arts.map(a =>
+    `<div class="ctx-item">
+      <div class="ctx-item-title">${escapeHtml(a.titulo_pt || a.titulo || '')}</div>
+      <div class="ctx-item-meta">${escapeHtml([a.nivel_evidencia, a.tema, a.data ? new Date(a.data).getFullYear() : ''].filter(Boolean).join(' · '))}</div>
+      <div style="font-size:11px;color:var(--primary);margin-top:4px;">${escapeHtml(a.relatedness?.reason || '')}</div>
+      ${a.pubmedUrl ? `<a href="${escapeHtml(a.pubmedUrl)}" target="_blank" rel="noopener" style="font-size:11px;color:var(--primary);text-decoration:none;display:inline-block;margin-top:4px;" onclick="logRelatedClick('${escapeHtml(String(a.pmid||a.id||''))}')">PubMed ↗</a>` : ''}
+    </div>`
+  ).join('');
+
+  const noteItems = notes.map(n =>
+    `<div class="ctx-item">
+      <div style="font-size:11px;font-weight:600;color:var(--muted);margin-bottom:3px;">Nota relacionada</div>
+      <div class="ctx-item-title">${escapeHtml((n.tituloArtigo || n.texto || '').slice(0, 80))}</div>
+      <div class="ctx-item-meta">${escapeHtml(n.tema || '')} · ${new Date(n.criadoEm || '').toLocaleDateString('pt-BR')}</div>
+    </div>`
+  ).join('');
+
+  return `
+    ${arts.length ? `<div class="ctx-section-title">Artigos relacionados (${arts.length})</div>${artItems}` : ''}
+    ${notes.length ? `<div class="ctx-section-title">Notas relacionadas (${notes.length})</div>${noteItems}` : ''}`;
+}
+
+async function logRelatedClick(pmid) {
+  const email = getEmail();
+  if (!email || !pmid) return;
+  fetch('/.netlify/functions/save-workspace-item', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({ action: 'save_bookmark', email, token: getToken(), pmid, label: 'related_click' }),
+  }).catch(() => {});
+}
+
+function renderCtxConsensoTab(data) {
+  const items = data.relatedConsensus || [];
+  if (!items.length) return '<div class="ctx-empty">Nenhum consenso encontrado para este tema.</div>';
+  return items.map(c =>
+    `<div class="ctx-item">
+      <div class="ctx-item-title">${escapeHtml(c.tema || c.title || '')}</div>
+      <div style="font-size:12px;color:var(--text);margin:6px 0;line-height:1.5;">${escapeHtml(c.summary || c.resumo || '')}</div>
+      <div class="ctx-item-meta">${escapeHtml(c.classification || c.nivel || '')} · ${c.articleCount || 0} artigos</div>
+    </div>`
+  ).join('');
+}
+
+function renderCtxDiretrizesTab(data) {
+  const items = data.relatedGuidelines || [];
+  if (!items.length) return '<div class="ctx-empty">Nenhuma diretriz recente encontrada para esta área.</div>';
+  return items.map(g =>
+    `<div class="ctx-item">
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
+        <span style="font-size:10px;font-weight:700;background:rgba(16,185,129,0.12);color:#10b981;border-radius:6px;padding:2px 8px;">${escapeHtml(g.severity || 'medium').toUpperCase()}</span>
+        <span style="font-size:10px;color:var(--muted);">${escapeHtml(g.ageText || '')}</span>
+      </div>
+      <div class="ctx-item-title">${escapeHtml(g.titulo || g.titulo_pt || '')}</div>
+      <div class="ctx-item-meta">${escapeHtml([g.nivel_evidencia, g.journal].filter(Boolean).join(' · '))}</div>
+      ${g.alertText ? `<div style="font-size:12px;color:var(--primary);margin-top:5px;">${escapeHtml(g.alertText)}</div>` : ''}
+      ${g.pubmedUrl ? `<a href="${escapeHtml(g.pubmedUrl)}" target="_blank" rel="noopener" style="font-size:11px;color:var(--primary);text-decoration:none;display:inline-block;margin-top:4px;">PubMed ↗</a>` : ''}
+    </div>`
+  ).join('');
+}
+
+// ── Workspace Tab ─────────────────────────────────────────────────────────────
+let _workspaceLoaded = false;
+
+async function loadWorkspaceTab() {
+  if (_workspaceLoaded) return;
+  _workspaceLoaded = true;
+
+  const email = getEmail(), token = getToken();
+  const el    = document.getElementById('workspaceContent');
+  const spec  = (userData?.especialidade && (Array.isArray(userData.especialidade) ? userData.especialidade[0] : userData.especialidade)) || null;
+
+  el.innerHTML = `<div style="padding:8px 0;">${[1,2,3].map(() => `<div class="skeleton" style="height:120px;border-radius:16px;margin-bottom:16px;"></div>`).join('')}</div>`;
+
+  try {
+    const qs = `email=${encodeURIComponent(email)}&token=${encodeURIComponent(token)}`;
+    const [briefRes, tlRes] = await Promise.allSettled([
+      fetch(`/.netlify/functions/get-daily-briefing?${qs}${spec ? '&specialty='+encodeURIComponent(spec) : ''}`).then(r => r.json()),
+      fetch(`/.netlify/functions/get-learning-timeline?${qs}&days=60`).then(r => r.json()),
+    ]);
+
+    const briefing  = briefRes.status === 'fulfilled' ? briefRes.value  : null;
+    const timeline  = tlRes.status    === 'fulfilled' ? tlRes.value     : null;
+
+    el.innerHTML =
+      renderDailyBriefing(briefing) +
+      renderActiveThemes(timeline) +
+      renderTimeline(timeline);
+
+  } catch(err) {
+    el.innerHTML = `<div class="empty-state"><div class="empty-icon">⚠</div><h3>Erro ao carregar</h3><p>${escapeHtml(err.message)}</p></div>`;
+  }
+}
+
+function renderDailyBriefing(data) {
+  if (!data || data.error) {
+    return `<div class="briefing-card">
+      <div class="briefing-title">Briefing Clínico Diário</div>
+      <div style="font-size:13px;color:var(--muted);">Nenhum dado disponível ainda.</div>
+    </div>`;
+  }
+
+  const bullets = (data.bullets || []).map(b =>
+    `<div class="briefing-bullet">${escapeHtml(b)}</div>`
+  ).join('');
+
+  const stats = data.stats || {};
+  const statPills = [
+    { n: stats.total    || 0, l: 'Artigos' },
+    { n: stats.highEv   || 0, l: 'Alta evidência' },
+    { n: stats.rcts     || 0, l: 'RCTs' },
+    { n: stats.guidelines|| 0, l: 'Diretrizes' },
+  ].map(s => `<div class="briefing-stat"><div class="briefing-stat-num">${s.n}</div><div class="briefing-stat-lbl">${s.l}</div></div>`).join('');
+
+  const highlights = (data.highlights || []).slice(0, 2).map(a =>
+    `<div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(255,255,255,0.03);border-radius:8px;margin-top:8px;">
+      <span class="ev-badge ${evBadgeClass(a.nivel_evidencia)}" style="flex-shrink:0;">${escapeHtml(a.nivel_evidencia||'?')}</span>
+      <div style="flex:1;min-width:0;">
+        <div style="font-size:12px;font-weight:600;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escapeHtml((a.titulo_pt||a.titulo||'').slice(0,65))}</div>
+        <div style="font-size:10px;color:var(--muted);">${escapeHtml([a.journal, a.data ? new Date(a.data).getFullYear() : ''].filter(Boolean).join(' · '))}</div>
+      </div>
+      ${a.pubmedUrl ? `<a href="${escapeHtml(a.pubmedUrl)}" target="_blank" rel="noopener" style="color:var(--primary);font-size:12px;text-decoration:none;flex-shrink:0;">↗</a>` : ''}
+    </div>`
+  ).join('');
+
+  return `<div class="briefing-card">
+    <div class="briefing-greeting">${escapeHtml(data.greeting || 'Bom dia.')} ${escapeHtml(data.periodLabel || '')}</div>
+    <div class="briefing-title">Briefing Clínico ${data.specialty ? '— ' + escapeHtml(data.specialty) : ''}</div>
+    <div class="briefing-stat-row">${statPills}</div>
+    <div style="margin-bottom:12px;">${bullets || '<div style="color:var(--muted);font-size:13px;">Sem novidades recentes.</div>'}</div>
+    ${highlights}
+    ${data.personalNote ? `<div class="briefing-personal">${escapeHtml(data.personalNote)}</div>` : ''}
+  </div>`;
+}
+
+function renderActiveThemes(timeline) {
+  const themes = (timeline?.topThemes || []).slice(0, 6);
+  if (!themes.length) return '';
+  const pills = themes.map(t =>
+    `<span class="theme-pill">${escapeHtml(t.tema)} <span style="opacity:0.6;font-size:10px;">${t.count}</span></span>`
+  ).join('');
+  return `<div style="margin-bottom:24px;">
+    <div class="section-title" style="margin-bottom:12px;">Temas Ativos</div>
+    <div>${pills}</div>
+  </div>`;
+}
+
+function renderTimeline(timeline) {
+  if (!timeline || !timeline.totalEvents) {
+    return `<div class="empty-state" style="padding:32px;">
+      <div class="empty-icon">📅</div>
+      <h3>Timeline vazia</h3>
+      <p>Suas interações científicas aparecerão aqui.</p>
+    </div>`;
+  }
+
+  const streak = timeline.streak || 0;
+  const streakBadge = streak > 1
+    ? `<div style="display:inline-flex;align-items:center;gap:6px;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.25);border-radius:20px;padding:4px 14px;font-size:12px;font-weight:700;color:#f59e0b;margin-bottom:16px;">${streak} dias consecutivos</div>`
+    : '';
+
+  const weeks = (timeline.weeks || []).map(week => {
+    const events = week.events.slice(0, 12).map(ev =>
+      `<div class="timeline-event">
+        <span class="timeline-event-icon">${ev.icon}</span>
+        <div>
+          <div class="timeline-event-label">${escapeHtml(ev.label)}</div>
+          <div class="timeline-event-date">${ev.date ? new Date(ev.date).toLocaleDateString('pt-BR', {day:'2-digit',month:'short'}) : ''}</div>
+        </div>
+      </div>`
+    ).join('');
+    return `<div class="timeline-week">
+      <div class="timeline-week-label">${escapeHtml(week.label)}</div>
+      ${events}
+    </div>`;
+  }).join('');
+
+  return `<div style="margin-bottom:24px;">
+    <div class="section-title" style="margin-bottom:12px;">Timeline de Aprendizado <span style="font-size:12px;font-weight:500;color:var(--muted);">${timeline.totalEvents} eventos</span></div>
+    ${streakBadge}
+    ${weeks || '<div class="ctx-empty">Nenhum evento nos últimos 60 dias.</div>'}
+  </div>`;
+}
+
 // ========== KNOWLEDGE MEMORY TAB (FASE 5) ==========
 let _memoriaLoaded = false;
 let _memoriaCollections = [];
@@ -2214,5 +2653,24 @@ window.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('forgotEmail').addEventListener('keydown',e=>{ if(e.key==='Enter')enviarRecuperacao(); });
 });
 </script>
+
+<!-- ========== CONTEXT DRAWER (FASE 6) ========== -->
+<div class="ctx-overlay" id="ctxOverlay" onclick="closeContextDrawer()"></div>
+<div class="ctx-drawer" id="ctxDrawer">
+  <div class="ctx-drawer-header">
+    <div class="ctx-drawer-title" id="ctxDrawerTitle">Contexto</div>
+    <button class="ctx-close-btn" onclick="closeContextDrawer()" title="Fechar">×</button>
+  </div>
+  <div class="ctx-tabs" id="ctxTabsNav">
+    <button class="ctx-tab-btn active" onclick="switchCtxTab('contexto',this)">Contexto</button>
+    <button class="ctx-tab-btn" onclick="switchCtxTab('notas',this)">Notas</button>
+    <button class="ctx-tab-btn" onclick="switchCtxTab('relacionados',this)">Relacionados</button>
+    <button class="ctx-tab-btn" onclick="switchCtxTab('consenso',this)">Consenso</button>
+    <button class="ctx-tab-btn" onclick="switchCtxTab('diretrizes',this)">Diretrizes</button>
+  </div>
+  <div class="ctx-body" id="ctxBody">
+    <div class="ctx-empty">Carregando…</div>
+  </div>
+</div>
 </body>
 </html>

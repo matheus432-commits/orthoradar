@@ -120,4 +120,63 @@ function explainScore(article, profile) {
   };
 }
 
-module.exports = { recommendArticles, scoreArticleForUser, behaviorMatch, explainScore };
+// ── FASE 6: Session Context Engine ────────────────────────────────────────────
+
+/**
+ * Builds a transient session context from recently viewed PMIDs.
+ * Call with article metadata so we can extract active themes.
+ *
+ * @param {Array}  recentPmids — PMIDs viewed in this session (up to 10)
+ * @param {Object} articleMeta — pmid → article object
+ * @returns {Object} sessionContext
+ */
+function buildSessionContext(recentPmids, articleMeta = {}) {
+  const recent = (recentPmids || []).slice(0, 10).map(String);
+  const sessionThemes = {};
+  for (const pmid of recent) {
+    const a = articleMeta[pmid];
+    if (a?.tema) sessionThemes[a.tema] = (sessionThemes[a.tema] || 0) + 1;
+  }
+  const sorted   = Object.entries(sessionThemes).sort(([, a], [, b]) => b - a);
+  const topTheme = sorted[0]?.[0] || null;
+  return {
+    recentPmids:   new Set(recent),
+    sessionThemes,
+    topTheme,
+    momentum:      Math.min(1, recent.length / 5), // 0–1
+  };
+}
+
+/**
+ * Context score (0–100) for one article given the current session.
+ * Suppresses already-viewed articles; boosts theme alignment.
+ */
+function computeContextScore(article, sessionContext) {
+  if (!sessionContext) return 50; // neutral default
+  const pmid = String(article.pmid || article.id || '');
+  if (sessionContext.recentPmids.has(pmid)) return 10; // already seen
+  let score = 0;
+  if (sessionContext.topTheme && article.tema === sessionContext.topTheme) score += 50;
+  else if (sessionContext.sessionThemes[article.tema])                     score += 28;
+  score += sessionContext.momentum * 30;
+  return Math.min(100, Math.round(score));
+}
+
+/**
+ * V2 scoring with fixed weights and optional session context.
+ *   final = baseScore × 0.45 + behaviorScore × 0.30 + contextScore × 0.25
+ *
+ * Falls back to contextScore=50 (neutral) when no session context is provided,
+ * so the formula degrades gracefully for the digest pipeline.
+ */
+function scoreArticleWithContext(article, profile, sessionContext = null) {
+  const base    = computeCuratedScore(article);
+  const bm      = behaviorMatch(article, profile);
+  const ctx     = computeContextScore(article, sessionContext);
+  return parseFloat((base * 0.45 + bm * 100 * 0.30 + ctx * 0.25).toFixed(1));
+}
+
+module.exports = {
+  recommendArticles, scoreArticleForUser, behaviorMatch, explainScore,
+  buildSessionContext, computeContextScore, scoreArticleWithContext,
+};
