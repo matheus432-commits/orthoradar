@@ -72,6 +72,10 @@
 [functions."get-guideline-alerts"]
   node_bundler = "nft"
 
+# Analytics & Admin endpoints
+[functions."get-feature-analytics"]
+  node_bundler = "nft"
+
 # Scientific Intelligence Dashboard (FASE 3)
 [functions."get-scientific-profile"]
   node_bundler = "nft"

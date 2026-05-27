@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Analytics — OdontoFeed</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --primary:#0ea5e9;--accent:#06b6d4;--success:#10b981;--warn:#f59e0b;--danger:#ef4444;
+  --bg:#0b1120;--bg2:#111827;--card:#1e2d45;--border:#2a3f5f;--text:#f1f5f9;--muted:#94a3b8;
+}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;padding:32px 24px;}
+h1{font-size:22px;font-weight:800;margin-bottom:6px;}
+.sub{color:var(--muted);font-size:13px;margin-bottom:32px;}
+/* Auth */
+#authWrap{max-width:380px;margin:80px auto 0;}
+#authWrap h2{font-size:18px;font-weight:700;margin-bottom:20px;text-align:center;}
+input[type=password]{width:100%;background:var(--bg2);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:13px 16px;font-size:14px;font-family:inherit;outline:none;margin-bottom:12px;}
+input[type=password]:focus{border-color:var(--primary);}
+.btn{background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;border:none;border-radius:10px;padding:12px 28px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;width:100%;}
+.err{color:var(--danger);font-size:13px;margin-top:8px;}
+/* Layout */
+#dashboard{display:none;}
+.grid2{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;margin-bottom:28px;}
+.grid4{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-bottom:28px;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px 24px;}
+.card-title{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:16px;}
+/* KPI */
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px 20px;text-align:center;}
+.kpi-num{font-size:28px;font-weight:800;color:var(--primary);margin-bottom:4px;}
+.kpi-label{font-size:11px;color:var(--muted);}
+.kpi-sub{font-size:11px;color:var(--success);margin-top:3px;}
+/* Funnel */
+.funnel-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.06);}
+.funnel-row:last-child{border-bottom:none;}
+.funnel-label{font-size:13px;color:var(--text);flex:1;}
+.funnel-val{font-size:14px;font-weight:700;color:var(--primary);min-width:50px;text-align:right;}
+.funnel-bar-track{flex:1;height:6px;background:rgba(255,255,255,0.06);border-radius:4px;overflow:hidden;}
+.funnel-bar-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--accent));transition:width 0.8s ease;}
+/* Phase table */
+.phase-section{margin-bottom:24px;}
+.phase-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border);}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+th{text-align:left;color:var(--muted);font-weight:600;padding:6px 10px;font-size:11px;text-transform:uppercase;letter-spacing:0.4px;}
+td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,0.05);color:var(--text);}
+tr:last-child td{border-bottom:none;}
+td.num{text-align:right;font-weight:700;color:var(--primary);}
+td.num-muted{text-align:right;color:var(--muted);}
+.zero{opacity:0.4;}
+/* Trend chart */
+.trend-wrap{display:flex;align-items:flex-end;gap:4px;height:80px;padding-top:8px;}
+.trend-bar-group{flex:1;display:flex;align-items:flex-end;gap:2px;height:100%;}
+.trend-bar{flex:1;border-radius:3px 3px 0 0;min-height:2px;transition:height 0.5s ease;}
+.trend-labels{display:flex;gap:4px;margin-top:6px;}
+.trend-lbl{flex:1;font-size:9px;color:var(--muted);text-align:center;overflow:hidden;}
+.legend{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:10px;}
+.legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted);}
+.legend-dot{width:8px;height:8px;border-radius:50%;}
+/* Quality */
+.quality-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.05);}
+.quality-row:last-child{border-bottom:none;}
+.quality-label{font-size:13px;color:var(--text);}
+.quality-val{font-size:13px;font-weight:700;}
+.good{color:var(--success);}
+.warn{color:var(--warn);}
+.bad{color:var(--danger);}
+/* Days selector */
+.days-sel{display:flex;gap:8px;margin-bottom:24px;}
+.day-btn{background:none;border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.15s;}
+.day-btn.active{background:rgba(14,165,233,0.15);border-color:var(--primary);color:var(--primary);}
+.refresh-btn{background:none;border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:6px 14px;font-size:12px;cursor:pointer;font-family:inherit;margin-left:auto;}
+.refresh-btn:hover{color:var(--text);}
+.ts{font-size:11px;color:var(--muted);margin-left:12px;}
+#loadingMsg{color:var(--muted);font-size:14px;padding:40px 0;}
+</style>
+</head>
+<body>
+
+<!-- AUTH -->
+<div id="authWrap">
+  <h2>🔐 Analytics OdontoFeed</h2>
+  <input type="password" id="secretInput" placeholder="Admin secret" autocomplete="off"/>
+  <button class="btn" onclick="login()">Entrar</button>
+  <div class="err" id="authErr"></div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard">
+  <h1>📊 Analytics OdontoFeed</h1>
+  <div class="sub" id="lastUpdated">Carregando…</div>
+
+  <div style="display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:24px;">
+    <div class="days-sel">
+      <button class="day-btn active" onclick="setDays(7,this)">7 dias</button>
+      <button class="day-btn" onclick="setDays(30,this)">30 dias</button>
+      <button class="day-btn" onclick="setDays(60,this)">60 dias</button>
+      <button class="day-btn" onclick="setDays(90,this)">90 dias</button>
+    </div>
+    <button class="refresh-btn" onclick="loadData()">↻ Atualizar</button>
+    <span class="ts" id="genAt"></span>
+  </div>
+
+  <div id="loadingMsg">Carregando dados…</div>
+  <div id="content" style="display:none;">
+
+    <!-- KPIs -->
+    <div class="grid4" id="kpiRow"></div>
+
+    <!-- Funnel + Trend -->
+    <div class="grid2">
+      <div class="card">
+        <div class="card-title">Funil de Adoção</div>
+        <div id="funnelBody"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Tendência 14 dias</div>
+        <div class="legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#0ea5e9;"></div>Digest</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#f59e0b;"></div>Clínica</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#10b981;"></div>Memória</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#818cf8;"></div>Workspace</div>
+        </div>
+        <div class="trend-wrap" id="trendChart"></div>
+        <div class="trend-labels" id="trendLabels"></div>
+      </div>
+    </div>
+
+    <!-- Phase breakdown -->
+    <div class="card" style="margin-bottom:20px;">
+      <div class="card-title">Eventos por Feature</div>
+      <div id="phaseBody"></div>
+    </div>
+
+    <!-- Storage + Quality -->
+    <div class="grid2">
+      <div class="card">
+        <div class="card-title">Armazenamento</div>
+        <div id="storageBody"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Qualidade dos Dados</div>
+        <div id="qualityBody"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+let _secret = '';
+let _days   = 7;
+
+function login() {
+  const s = document.getElementById('secretInput').value.trim();
+  if (!s) { document.getElementById('authErr').textContent = 'Digite o secret.'; return; }
+  _secret = s;
+  document.getElementById('authWrap').style.display = 'none';
+  document.getElementById('dashboard').style.display = 'block';
+  loadData();
+}
+document.getElementById('secretInput').addEventListener('keydown', e => { if (e.key === 'Enter') login(); });
+
+function setDays(d, btn) {
+  _days = d;
+  document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  loadData();
+}
+
+async function loadData() {
+  document.getElementById('loadingMsg').style.display = 'block';
+  document.getElementById('content').style.display    = 'none';
+  document.getElementById('lastUpdated').textContent  = 'Atualizando…';
+
+  try {
+    const res  = await fetch(`/.netlify/functions/get-feature-analytics?secret=${encodeURIComponent(_secret)}&days=${_days}`);
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Erro');
+    render(data);
+  } catch(err) {
+    document.getElementById('loadingMsg').textContent = '⚠ ' + err.message;
+  }
+}
+
+function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function render(data) {
+  document.getElementById('loadingMsg').style.display = 'none';
+  document.getElementById('content').style.display    = 'block';
+
+  const ts = data.generatedAt ? new Date(data.generatedAt).toLocaleString('pt-BR') : '';
+  document.getElementById('lastUpdated').textContent = `Dados dos últimos ${data.windowDays} dias`;
+  document.getElementById('genAt').textContent       = 'Gerado em ' + ts;
+
+  renderKPIs(data.funnel, data.storage);
+  renderFunnel(data.funnel);
+  renderTrend(data.trend || []);
+  renderPhases(data.phases || {});
+  renderStorage(data.storage || {});
+  renderQuality(data.dataQuality || {}, data.funnel || {});
+}
+
+function renderKPIs(funnel, storage) {
+  const f = funnel || {};
+  document.getElementById('kpiRow').innerHTML = [
+    { n: f.totalUsers      || 0,  l: 'Usuários totais',       s: null },
+    { n: f.advancedFeatureUsers || 0, l: 'Usuários features avançadas', s: f.totalUsers ? `${f.adoptionRate}% adoção` : null },
+    { n: f.digestOpens     || 0,  l: `Digest opens (${_days}d)`, s: f.ctrDigest ? `CTR ${f.ctrDigest}%` : null },
+    { n: (f.fase4FeatureUses||0) + (f.fase5FeatureUses||0) + (f.fase6FeatureUses||0), l: 'Usos features FASE 4–6', s: null },
+    { n: (storage?.notes?.total || 0),       l: 'Notas ativas',   s: `+${storage?.notes?.last7days||0} (7d)` },
+    { n: (storage?.collections?.total || 0), l: 'Coleções ativas',s: `+${storage?.collections?.last7days||0} (7d)` },
+    { n: storage?.workspaces || 0,  l: 'Workspaces criados', s: null },
+    { n: storage?.userProfiles || 0,l: 'Perfis comportamentais', s: null },
+  ].map(k => `<div class="kpi">
+    <div class="kpi-num">${k.n}</div>
+    <div class="kpi-label">${esc(k.l)}</div>
+    ${k.s ? `<div class="kpi-sub">${esc(k.s)}</div>` : ''}
+  </div>`).join('');
+}
+
+function renderFunnel(f) {
+  if (!f) return;
+  const rows = [
+    { label: 'Digest opens',          val: f.digestOpens    || 0, max: f.digestOpens || 1 },
+    { label: 'Digest clicks',         val: f.digestClicks   || 0, max: f.digestOpens || 1 },
+    { label: 'Usos FASE 4 — Clínica', val: f.fase4FeatureUses || 0, max: f.digestOpens || 1 },
+    { label: 'Usos FASE 5 — Memória', val: f.fase5FeatureUses || 0, max: f.digestOpens || 1 },
+    { label: 'Usos FASE 6 — Workspace',val: f.fase6FeatureUses || 0, max: f.digestOpens || 1 },
+  ];
+  const maxVal = Math.max(...rows.map(r => r.val), 1);
+  document.getElementById('funnelBody').innerHTML = rows.map(r => `
+    <div class="funnel-row">
+      <div class="funnel-label">${esc(r.label)}</div>
+      <div class="funnel-bar-track"><div class="funnel-bar-fill" style="width:${Math.round(r.val/maxVal*100)}%"></div></div>
+      <div class="funnel-val">${r.val}</div>
+    </div>`).join('');
+}
+
+function renderTrend(trend) {
+  if (!trend.length) return;
+  const keys   = ['opens','fase4','fase5','fase6'];
+  const colors = ['#0ea5e9','#f59e0b','#10b981','#818cf8'];
+  const maxVal = Math.max(...trend.map(d => keys.reduce((s,k) => s + (d[k]||0), 0)), 1);
+
+  document.getElementById('trendChart').innerHTML = trend.map(d => {
+    const bars = keys.map((k, i) => {
+      const pct = Math.round((d[k]||0) / maxVal * 100);
+      return `<div class="trend-bar" style="background:${colors[i]};height:${Math.max(pct,2)}%;opacity:0.85;"></div>`;
+    }).join('');
+    return `<div class="trend-bar-group">${bars}</div>`;
+  }).join('');
+
+  // Show every 3rd label
+  document.getElementById('trendLabels').innerHTML = trend.map((d, i) => {
+    const lbl = i % 3 === 0 ? d.date.slice(5) : '';
+    return `<div class="trend-lbl">${lbl}</div>`;
+  }).join('');
+}
+
+function renderPhases(phases) {
+  const PHASE_COLORS = {
+    'Core — Digest':                    '#0ea5e9',
+    'FASE 4 — Inteligência Clínica':    '#f59e0b',
+    'FASE 5 — Memória Científica':      '#10b981',
+    'FASE 6 — Workspace Contextual':    '#818cf8',
+  };
+
+  const EVENT_LABELS = {
+    open: 'Digest aberto', click: 'Clique no digest',
+    clinical_query_searched: 'Pergunta clínica', comparator_used: 'Comparador de estudos',
+    consensus_viewed: 'Consenso visualizado', guideline_alert_clicked: 'Alerta de diretriz',
+    evidence_snapshot_opened: 'Snapshot de evidência',
+    note_created: 'Nota criada', knowledge_search: 'Busca no conhecimento',
+    graph_opened: 'Mapa do conhecimento', collection_created: 'Coleção criada',
+    context_opened: 'Painel contextual', workspace_note_created: 'Nota de workspace',
+    highlight_created: 'Highlight criado', briefing_opened: 'Briefing diário',
+    timeline_opened: 'Timeline aberta', related_article_clicked: 'Artigo relacionado clicado',
+  };
+
+  document.getElementById('phaseBody').innerHTML = Object.entries(phases).map(([phase, events]) => {
+    const color  = PHASE_COLORS[phase] || '#94a3b8';
+    const total  = events.reduce((s, e) => s + e.total, 0);
+    const rows   = events.map(e => `
+      <tr class="${e.total === 0 ? 'zero' : ''}">
+        <td>${esc(EVENT_LABELS[e.event] || e.event)}</td>
+        <td class="num">${e.total}</td>
+        <td class="num-muted">${e.last7days}</td>
+        <td class="num-muted">${e.uniqueUsers}</td>
+      </tr>`).join('');
+    return `<div class="phase-section">
+      <div class="phase-title" style="color:${color};">${esc(phase)} <span style="color:var(--muted);font-weight:500;font-size:12px;margin-left:6px;">${total} eventos totais</span></div>
+      <table>
+        <thead><tr><th>Evento</th><th style="text-align:right;">Total</th><th style="text-align:right;">Últimos 7d</th><th style="text-align:right;">Usuários únicos</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>`;
+  }).join('');
+}
+
+function renderStorage(s) {
+  if (!s) return;
+  document.getElementById('storageBody').innerHTML = [
+    { l: 'Notas ativas',          v: s.notes?.total        ?? 0, s: `+${s.notes?.last7days||0} esta semana` },
+    { l: 'Coleções ativas',       v: s.collections?.total  ?? 0, s: `+${s.collections?.last7days||0} esta semana` },
+    { l: 'Article workspaces',    v: s.workspaces           ?? 0, s: null },
+    { l: 'Perfis comportamentais',v: s.userProfiles         ?? 0, s: null },
+  ].map(r => `
+    <div class="quality-row">
+      <div class="quality-label">${esc(r.l)}</div>
+      <div>
+        <span class="quality-val good">${r.v}</span>
+        ${r.s ? `<div style="font-size:10px;color:var(--muted);text-align:right;">${esc(r.s)}</div>` : ''}
+      </div>
+    </div>`).join('');
+}
+
+function renderQuality(q, funnel) {
+  const noEv   = q.articlesWithoutEvidenceLevel;
+  const noEvOk = noEv === 0 || noEv === 'n/a';
+  const cov    = q.userProfileCoverage || 'n/a';
+
+  document.getElementById('qualityBody').innerHTML = [
+    { l: 'Artigos sem nível de evidência', v: noEv ?? 'n/a', cls: noEvOk ? 'good' : 'warn' },
+    { l: 'Cobertura de perfil behavioral', v: cov, cls: 'good' },
+    { l: 'Taxa de adoção features avançadas', v: (funnel.adoptionRate || 0) + '%', cls: (funnel.adoptionRate||0) >= 20 ? 'good' : 'warn' },
+    { l: 'CTR médio digest', v: (funnel.ctrDigest || 0) + '%', cls: (funnel.ctrDigest||0) >= 5 ? 'good' : 'warn' },
+  ].map(r => `
+    <div class="quality-row">
+      <div class="quality-label">${esc(r.l)}</div>
+      <span class="quality-val ${r.cls}">${esc(String(r.v))}</span>
+    </div>`).join('');
+}
+</script>
+</body>
+</html>
