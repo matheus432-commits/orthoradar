@@ -307,7 +307,7 @@ function articleCard(article, index, total, opts) {
  *
  * @param {Object} user      - { nome, email, especialidade }
  * @param {Array}  articles  - curated article list (3–5)
- * @param {Object} opts      - { digestId, baseUrl, siteUrl, unsubscribeToken }
+ * @param {Object} opts      - { digestId, baseUrl, siteUrl, unsubscribeToken, editorial? }
  * @returns {{ html: string, subject: string }}
  */
 function buildDigestEmail(user, articles, opts) {
@@ -315,6 +315,7 @@ function buildDigestEmail(user, articles, opts) {
     digestId,
     baseUrl          = 'https://odontofeed.com.br',
     unsubscribeToken = '',
+    editorial:       editorialOverride = null,
   } = opts;
 
   const siteUrl      = baseUrl;
@@ -333,7 +334,15 @@ function buildDigestEmail(user, articles, opts) {
   const pixelUrl   = `${baseUrl}/.netlify/functions/track-open?d=${digestId}&e=${ehash}`;
 
   const subject    = `${n} estudo${plural} em ${esp} — OdontoFeed`;
-  const editorial  = generateEditorialIntro(articles, esp);
+
+  // Use Claude-generated editorial if provided; fall back to deterministic generator.
+  const editorial  = editorialOverride
+    ? editorialOverride
+        .split(/\n\n+/)
+        .map(p => esc(p.trim()))
+        .filter(Boolean)
+        .join('<br><br>')
+    : generateEditorialIntro(articles, esp);
 
   const cardsHtml = articles
     .map((art, i) => articleCard(art, i, articles.length, { baseUrl, dashboardUrl, digestId, email: user.email }))

@@ -10,6 +10,7 @@
 const crypto                                = require('crypto');
 const { Firestore }                         = require('./_lib/firestore');
 const { buildDigestEmail }                  = require('./_lib/email-template');
+const { generateEditorial }                 = require('./_lib/editorial-generator');
 const { getProfile }                        = require('./_lib/user-profile');
 const { recommendArticles }                 = require('./_lib/recommendation-engine');
 const { shouldSendToday, getOptimalDigestSize } = require('./_lib/fatigue-detection');
@@ -266,12 +267,17 @@ async function processUser(user, db, resendKey) {
   }
 
   // 5. Build email
-  const digestId        = crypto.randomUUID();
-  const unsubToken      = buildUnsubscribeToken(email);
+  const digestId   = crypto.randomUUID();
+  const unsubToken = buildUnsubscribeToken(email);
+
+  // Generate editorial via Claude (falls back to deterministic generator on failure)
+  const editorial = await generateEditorial(selected, especialidade)
+    .catch(err => { log.warn('[digest] generateEditorial threw', { err: err.message }); return null; });
+
   const { html, subject } = buildDigestEmail(
     { nome, email, especialidade },
     selected,
-    { digestId, baseUrl: BASE_URL, unsubscribeToken: unsubToken }
+    { digestId, baseUrl: BASE_URL, unsubscribeToken: unsubToken, editorial }
   );
 
   // 6. Send via Resend
