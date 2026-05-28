@@ -56,25 +56,58 @@ function trackClick(baseUrl, digestId, pmid, email, targetUrl) {
 }
 
 // ── Editorial intro generator ─────────────────────────────────────────────────
-// Synthesises ALL articles into a 3-paragraph editorial overview.
-// Structure: (1) edition quality/theme, (2) specific findings from top-2+
-// articles using real impacto_pratico, (3) convergent takeaway.
-// Tone: journalistic scientific editor — never a mechanical list.
+// STEP 1 — classify article relationship (convergent / coexistent)
+// STEP 2 — detect invisible editorial theme from content signals
+// STEP 3 — write editorial based on relationship type, never forcing connections
+//
+// Convergent  → multiple articles on same tema; show evidence consolidation
+// Coexistent  → independent articles; use panorama approach, vary openers,
+//               reference top-2 explicitly + remaining implicitly by tema name
+// Never: sequential list, forced "Enquanto X, Y" across unrelated topics
 
 function generateEditorialIntro(articles, esp) {
   const n = articles.length;
-
-  // Sort by relevanceScore — lead article anchors the narrative
   const sorted = [...articles].sort((a, b) => (b.relevanceScore || 0) - (a.relevanceScore || 0));
 
-  // Evidence profile of the full edition
-  const evs         = articles.map(a => (a.nivel_evidencia || '').toLowerCase());
-  const hasMeta     = evs.some(e => /meta|sistem/i.test(e));
-  const hasRCT      = evs.some(e => /rct|randomizado|randomized/i.test(e));
-  const hasCohort   = evs.some(e => /coorte|cohort/i.test(e));
-  const highEvCount = articles.filter(a => /meta|sistem|rct|randomizado/i.test(a.nivel_evidencia || '')).length;
+  // ── STEP 1: Classify article relationship ─────────────────────────────────
 
-  // Extract the first meaningful sentence from an article's practical impact
+  const temaCounts = {};
+  articles.forEach(a => {
+    const t = (a.tema || '').toLowerCase().trim();
+    if (t) temaCounts[t] = (temaCounts[t] || 0) + 1;
+  });
+  const maxThemeCount = Math.max(0, ...Object.values(temaCounts));
+  // Convergent when majority share a tema
+  const convergent = maxThemeCount >= Math.ceil(n / 2);
+
+  // ── STEP 2: Detect invisible editorial theme from content signals ──────────
+
+  const allText = articles
+    .map(a => (a.impacto_pratico || a.achados_principais || a.resumo_pt || ''))
+    .join(' ');
+
+  const sig = {
+    estabilidade:     /estabilidade|recidiva|longo prazo|retent|conten/i.test(allText),
+    previsibilidade:  /previsib|sobrevida|taxa de sucesso|consist/i.test(allText),
+    adesao:           /ades[ãa]o|satisfa|higiene|motiva/i.test(allText),
+    biomecanica:      /ancoragem|torque|retra[çc][ãa]o|biomec|estabilidade prim/i.test(allText),
+    tecnologia:       /alinhador|digital|cbct|laser|isq/i.test(allText),
+    protocolo:        /protocolo|abordagem|alternativa|associa[çc][ãa]o|combina[çc][ãa]o/i.test(allText),
+    individualizacao: /indica[çc][ãa]o|sele[çc][ãa]o|individual|caso a caso|crit[eé]rio/i.test(allText),
+  };
+
+  let invisibleTheme = 'panorama';
+  if      (sig.estabilidade && sig.previsibilidade) invisibleTheme = 'previsibilidade_estabilidade';
+  else if (sig.adesao        && sig.estabilidade)   invisibleTheme = 'adesao_estabilidade';
+  else if (sig.biomecanica   && sig.tecnologia)     invisibleTheme = 'precisao_tecnica';
+  else if (sig.previsibilidade)                     invisibleTheme = 'previsibilidade';
+  else if (sig.estabilidade)                        invisibleTheme = 'estabilidade';
+  else if (sig.adesao)                              invisibleTheme = 'adesao';
+  else if (sig.biomecanica)                         invisibleTheme = 'biomecanica';
+  else if (sig.protocolo)                           invisibleTheme = 'protocolo';
+
+  // ── STEP 3: Build editorial ───────────────────────────────────────────────
+
   function firstSentence(article) {
     const raw = (article.impacto_pratico || article.achados_principais || '').trim();
     if (raw.length < 20) return '';
@@ -83,41 +116,100 @@ function generateEditorialIntro(articles, esp) {
     return s.charAt(0).toLowerCase() + s.slice(1);
   }
 
-  // Human-readable evidence type name for each article
   function evRef(article) {
     const ev = (article.nivel_evidencia || '').toLowerCase();
-    if (/meta/i.test(ev))            return 'uma meta-an&aacute;lise';
-    if (/sistem/i.test(ev))          return 'uma revis&atilde;o sistem&aacute;tica';
-    if (/rct|randomizado/i.test(ev)) return 'um ensaio cl&iacute;nico randomizado';
-    if (/coorte/i.test(ev))          return 'um estudo de coorte';
-    if (/caso/i.test(ev))            return 'um relato de caso';
-    return 'um estudo recente';
+    if (/meta/i.test(ev))            return 'meta-an&aacute;lise';
+    if (/sistem/i.test(ev))          return 'revis&atilde;o sistem&aacute;tica';
+    if (/rct|randomizado/i.test(ev)) return 'ensaio cl&iacute;nico randomizado';
+    if (/coorte/i.test(ev))          return 'coorte prospectiva';
+    return 'estudo recente';
   }
 
-  const hooks = sorted.map(firstSentence).filter(Boolean);
+  const hooks      = sorted.map(firstSentence).filter(Boolean);
+  const hasMeta    = articles.some(a => /meta|sistem/i.test(a.nivel_evidencia || ''));
+  const hasRCT     = articles.some(a => /rct|randomizado/i.test(a.nivel_evidencia || ''));
+  const highEvN    = articles.filter(a => /meta|sistem|rct|randomizado/i.test(a.nivel_evidencia || '')).length;
+  const evLabel    = highEvN >= 2 ? 'evid&ecirc;ncias de alto n&iacute;vel'
+                   : (hasMeta || hasRCT) ? 'evid&ecirc;ncia de n&iacute;vel elevado'
+                   : 'estudos recentes';
 
-  // ── § 1 — Edition quality overview ───────────────────────────────────────
-  let p1;
-  if (highEvCount >= 2) {
-    p1 = `Apoiada por evid&ecirc;ncias metodologicamente s&oacute;lidas, a edi&ccedil;&atilde;o de hoje em ${esc(esp)} re&uacute;ne ${n} estudo${n > 1 ? 's' : ''} com implica&ccedil;&otilde;es diretas para a pr&aacute;tica cl&iacute;nica. Os achados exploram &acirc;ngulos complementares e convergem para tend&ecirc;ncias relevantes na literatura recente.`;
-  } else if (hasMeta || hasRCT) {
-    p1 = `Com evid&ecirc;ncias de n&iacute;vel elevado, a edi&ccedil;&atilde;o de hoje em ${esc(esp)} re&uacute;ne ${n} estudo${n > 1 ? 's' : ''} sobre t&oacute;picos de alta relev&acirc;ncia para a pr&aacute;tica. Os resultados exploram &acirc;ngulos distintos em torno de uma mesma busca: maior previsibilidade e suporte cient&iacute;fico nas decis&otilde;es cl&iacute;nicas.`;
-  } else {
-    p1 = `A edi&ccedil;&atilde;o de hoje em ${esc(esp)} re&uacute;ne ${n} estudo${n > 1 ? 's' : ''} com achados relevantes para a pr&aacute;tica cl&iacute;nica contempor&acirc;nea. Os resultados exploram &acirc;ngulos complementares que vale observar &agrave; luz do protocolo atual.`;
+  // Ordered tema names for implicit reference
+  const temaNames = [...new Set(sorted.map(a => (a.tema || '').trim()).filter(Boolean))];
+
+  // ── CONVERGENT: multiple articles on same clinical topic ──────────────────
+  if (convergent) {
+    const domTema = Object.entries(temaCounts).sort((a,b) => b[1]-a[1])[0]?.[0] || esp;
+
+    const p1 = `Uma tend&ecirc;ncia se consolida nesta edi&ccedil;&atilde;o em ${esc(esp)}: ${esc(domTema)} ocupa o centro da literatura recente com ${n > 2 ? 'm&uacute;ltiplos estudos' : 'mais de um estudo'} explorando suas implica&ccedil;&otilde;es cl&iacute;nicas sob &acirc;ngulos distintos. Quando desenhos metodol&oacute;gicos diferentes convergem sobre o mesmo problema, a base de evid&ecirc;ncias se torna mais s&oacute;lida &mdash; e as reflex&otilde;es, mais pertinentes.`;
+
+    let p2 = '';
+    if (hooks.length >= 2) {
+      const e0 = evRef(sorted[0]); const E0 = e0.charAt(0).toUpperCase() + e0.slice(1);
+      p2 = `${E0} sugere que ${esc(hooks[0])}, enquanto ${evRef(sorted[1])} aponta que ${esc(hooks[1])}.${hooks[2] ? `<br>Um terceiro estudo acrescenta que ${esc(hooks[2])}.` : ''}`;
+    } else if (hooks.length === 1) {
+      const e0 = evRef(sorted[0]); const E0 = e0.charAt(0).toUpperCase() + e0.slice(1);
+      p2 = `${E0} sugere que ${esc(hooks[0])}.`;
+    }
+
+    const p3 = `Vale observar os achados &agrave; luz do protocolo atual &mdash; n&atilde;o como altera&ccedil;&atilde;o obrigat&oacute;ria de conduta, mas como insumo para reflex&atilde;o sobre indica&ccedil;&otilde;es, limites e vari&aacute;veis cl&iacute;nicas determinantes em ${esc(esp)}.`;
+
+    return [p1, p2, p3].filter(Boolean).join('<br><br>');
   }
 
-  // ── § 2 — Specific findings using real article content ────────────────────
+  // ── COEXISTENT: independent articles — panorama approach ─────────────────
+  // Vary opener deterministically (no Math.random) and never use the same
+  // "A edição de hoje reúne..." formula.
+
+  const openers = [
+    `A pr&aacute;tica cl&iacute;nica em ${esc(esp)} avan&ccedil;a em m&uacute;ltiplas frentes simultaneamente. Os estudos desta edi&ccedil;&atilde;o &mdash; apoiados em ${evLabel} &mdash; abordam diferentes dimens&otilde;es da tomada de decis&atilde;o na especialidade, cada um trazendo evid&ecirc;ncias sobre quest&otilde;es relevantes para o cotidiano cl&iacute;nico.`,
+
+    `Nem sempre a literatura converge em um &uacute;nico tema &mdash; e isso n&atilde;o &eacute; fraqueza. &Eacute; reflexo de uma especialidade que evolui em paralelo, sobre quest&otilde;es igualmente urgentes. Os estudos desta edi&ccedil;&atilde;o em ${esc(esp)} s&atilde;o representativos desse movimento: distintos em foco, relevantes em aplicabilidade cl&iacute;nica.`,
+
+    `A tomada de decis&atilde;o cl&iacute;nica em ${esc(esp)} raramente envolve apenas uma vari&aacute;vel. Os estudos desta edi&ccedil;&atilde;o exploram, sob perspectivas distintas, diferentes camadas dessa complexidade &mdash; da biomecanica ao comportamento do paciente, dos resultados imediatos &agrave; estabilidade de longo prazo.`,
+  ];
+  const p1 = openers[n % openers.length];
+
+  // § 2: top-2 articles referenced explicitly; remaining by tema (implicit)
   let p2 = '';
-  if (hooks.length >= 3) {
-    p2 = `Enquanto ${evRef(sorted[0])} sugere que ${esc(hooks[0])}, ${evRef(sorted[1])} indica que ${esc(hooks[1])}. Um terceiro estudo aponta que ${esc(hooks[2])}.`;
-  } else if (hooks.length === 2) {
-    p2 = `Enquanto ${evRef(sorted[0])} sugere que ${esc(hooks[0])}, ${evRef(sorted[1])} indica que ${esc(hooks[1])}.`;
+  if (hooks.length >= 2) {
+    const explicit =
+      `A literatura recente indica que ${esc(hooks[0])}. ` +
+      `Em outro aspecto da pr&aacute;tica, os dados sugerem que ${esc(hooks[1])}.`;
+
+    // Implicit reference to remaining articles via tema names
+    const implicitTemas = temaNames.slice(2, 5).filter(Boolean);
+    const implicitStr = implicitTemas.length > 0
+      ? ` Os achados sobre ${esc(implicitTemas.join(' e '))} complementam esse panorama com evid&ecirc;ncias adicionais sobre previsibilidade e limites dos procedimentos envolvidos.`
+      : '';
+
+    p2 = explicit + implicitStr;
   } else if (hooks.length === 1) {
-    p2 = `O estudo de maior destaque desta edi&ccedil;&atilde;o sugere que ${esc(hooks[0])}.`;
+    p2 = `A literatura recente indica que ${esc(hooks[0])}.`;
   }
 
-  // ── § 3 — Convergent editorial takeaway ──────────────────────────────────
-  const p3 = `Em conjunto, os achados refor&ccedil;am a import&acirc;ncia de crit&eacute;rios rigorosos de indica&ccedil;&atilde;o cl&iacute;nica &mdash; e sugerem que a literatura em ${esc(esp)} segue avan&ccedil;ando em dire&ccedil;&atilde;o a protocolos com maior previsibilidade e suporte cient&iacute;fico.`;
+  // § 3: closing tied to invisible theme
+  const closings = {
+    previsibilidade_estabilidade:
+      `O conjunto da edi&ccedil;&atilde;o refor&ccedil;a uma tend&ecirc;ncia recorrente: previsibilidade e estabilidade em ${esc(esp)} dependem cada vez mais de indica&ccedil;&atilde;o criteriosa, acompanhamento rigoroso e controle das vari&aacute;veis que determinam o sucesso a longo prazo.`,
+    adesao_estabilidade:
+      `O conjunto da edi&ccedil;&atilde;o refor&ccedil;a que a estabilidade dos resultados em ${esc(esp)} est&aacute; intimamente ligada &agrave; ades&atilde;o do paciente ao longo do tratamento &mdash; uma vari&aacute;vel t&atilde;o determinante quanto a t&eacute;cnica empregada.`,
+    precisao_tecnica:
+      `O conjunto da edi&ccedil;&atilde;o refor&ccedil;a que precis&atilde;o t&eacute;cnica em ${esc(esp)} &eacute; necess&aacute;ria, mas n&atilde;o suficiente: a qualidade da indica&ccedil;&atilde;o e o controle das vari&aacute;veis cl&iacute;nicas s&atilde;o igualmente determinantes para o resultado final.`,
+    previsibilidade:
+      `O conjunto da edi&ccedil;&atilde;o refor&ccedil;a que previsibilidade cl&iacute;nica em ${esc(esp)} n&atilde;o decorre apenas da t&eacute;cnica &mdash; mas da qualidade da indica&ccedil;&atilde;o e do controle rigoroso das vari&aacute;veis ao longo do tratamento.`,
+    estabilidade:
+      `O conjunto da edi&ccedil;&atilde;o sugere que estabilidade em ${esc(esp)} depende de decis&otilde;es que antecedem e seguem o procedimento principal &mdash; n&atilde;o apenas da t&eacute;cnica empregada.`,
+    adesao:
+      `O conjunto da edi&ccedil;&atilde;o refor&ccedil;a que a ades&atilde;o do paciente &eacute; uma vari&aacute;vel cr&iacute;tica em ${esc(esp)} &mdash; frequentemente mais determinante para o resultado do que a pr&oacute;pria t&eacute;cnica escolhida.`,
+    biomecanica:
+      `O conjunto da edi&ccedil;&atilde;o refor&ccedil;a que o dom&iacute;nio biomec&acirc;nico em ${esc(esp)} exige compreens&atilde;o das limita&ccedil;&otilde;es biol&oacute;gicas de cada protocolo e sele&ccedil;&atilde;o criteriosa dos casos &mdash; n&atilde;o apenas t&eacute;cnica de execu&ccedil;&atilde;o.`,
+    protocolo:
+      `O conjunto da edi&ccedil;&atilde;o refor&ccedil;a que a evolu&ccedil;&atilde;o dos protocolos em ${esc(esp)} demanda leitura cr&iacute;tica da literatura &mdash; avaliando n&atilde;o apenas efic&aacute;cia, mas limites e condi&ccedil;&otilde;es necess&aacute;rias para a reprodutibilidade cl&iacute;nica.`,
+    panorama:
+      `O conjunto da edi&ccedil;&atilde;o refor&ccedil;a uma tend&ecirc;ncia recorrente na literatura contempor&acirc;nea de ${esc(esp)}: previsibilidade cl&iacute;nica depende cada vez mais de individualiza&ccedil;&atilde;o terap&ecirc;utica, ades&atilde;o do paciente e controle rigoroso das vari&aacute;veis envolvidas.`,
+  };
+
+  const p3 = closings[invisibleTheme] || closings.panorama;
 
   return [p1, p2, p3].filter(Boolean).join('<br><br>');
 }
