@@ -14,6 +14,7 @@ const { generateEditorial }                 = require('./_lib/editorial-generato
 const { getProfile }                        = require('./_lib/user-profile');
 const { recommendArticles }                 = require('./_lib/recommendation-engine');
 const { shouldSendToday, getOptimalDigestSize } = require('./_lib/fatigue-detection');
+const { pubmedFallbackArticles }            = require('./_lib/pubmed');
 const log                                   = require('./_lib/logger');
 const { request }                           = require('./_lib');
 
@@ -156,7 +157,7 @@ async function getTrendingArticles(db, limit = 20) {
 
 async function sendEmail(resendKey, to, subject, html) {
   const payload = JSON.stringify({
-    from:    'OdontoFeed <artigos@odontofeed.com.br>',
+    from:    'OdontoFeed <artigos@odontofeed.com>',
     to,
     subject,
     html,
@@ -226,19 +227,32 @@ async function processUser(user, db, resendKey) {
   let candidates = await getCandidates(db, especialidades);
   candidates = candidates.filter(a => !sentPmids.has(String(a.pmid || a.id || '')));
 
-  // 3. Trending fallback if candidates too few
+  // 3. Trending Firestore fallback if candidates too few
   if (candidates.length < MIN_ARTICLES) {
-    log.info('[digest] insufficient candidates, using trending fallback', { email, found: candidates.length });
+    log.info('[digest] insufficient Firestore candidates, trying trending', { email, found: candidates.length });
     const trending = await getTrendingArticles(db, 30);
     const trendNew = trending.filter(a => !sentPmids.has(String(a.pmid || a.id || '')));
-    // Merge, dedup
-    const allIds  = new Set(candidates.map(a => a.pmid || a.id));
-    const merged  = [...candidates, ...trendNew.filter(a => !allIds.has(a.pmid || a.id))];
-    candidates    = merged;
+    const allIds   = new Set(candidates.map(a => a.pmid || a.id));
+    candidates     = [...candidates, ...trendNew.filter(a => !allIds.has(a.pmid || a.id))];
+  }
+
+  // 4. PubMed direct fallback — when Firestore artigos collection is sparse/empty
+  if (candidates.length < MIN_ARTICLES) {
+    log.info('[digest] Firestore artigos sparse, falling back to PubMed direct', { email, found: candidates.length });
+    try {
+      const needed   = MAX_ARTICLES - candidates.length;
+      const fbArts   = await pubmedFallbackArticles(user, sentPmids, needed + 1);
+      const allIds   = new Set(candidates.map(a => String(a.pmid || a.id)));
+      const newArts  = fbArts.filter(a => !allIds.has(String(a.pmid)));
+      candidates     = [...candidates, ...newArts];
+      log.info('[digest] PubMed fallback added', { email, added: newArts.length, total: candidates.length });
+    } catch (err) {
+      log.warn('[digest] PubMed fallback failed', { email, err: err.message });
+    }
   }
 
   if (!candidates.length) {
-    log.warn('[digest] no articles available', { email });
+    log.warn('[digest] no articles available after all fallbacks', { email });
     return 'skipped';
   }
 
