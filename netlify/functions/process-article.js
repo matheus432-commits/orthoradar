@@ -39,12 +39,16 @@ async function processOne(db, article) {
   });
 
   if (!enriched) {
-    // Mark as error so we don't retry endlessly for cost control
+    // Enrichment unavailable — activate with basic scoring so digest can still run
+    const basicScore = scoreRelevance({ ...article, nivel_evidencia: null, qualidadeIA: 0.5 });
     await db.updateDoc('artigos', pmid, {
-      status:        'enrichment_error',
-      enrichedAt:    new Date().toISOString(),
-      enrichErrors:  (article.enrichErrors || 0) + 1,
-    }).catch(err => log.warn('[process] updateDoc error status failed', { id: pmid, err: err.message }));
+      status:         'active',
+      qualidadeIA:    0.5,
+      relevanceScore: basicScore,
+      enrichedAt:     new Date().toISOString(),
+      enrichErrors:   (article.enrichErrors || 0) + 1,
+      enrichSkipped:  true,
+    }).catch(err => log.warn('[process] updateDoc fallback-active failed', { id: pmid, err: err.message }));
     return false;
   }
 
