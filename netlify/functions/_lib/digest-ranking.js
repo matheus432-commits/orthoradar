@@ -88,21 +88,25 @@ function curateDigest(candidates, maxArticles = 5, minArticles = 3) {
     return selected;
   }
 
-  // Try strictest constraints first; relax if we can't reach minArticles
+  // Try strictest constraints first; relax progressively if minArticles not reached.
+  // NOTE: indexOf() with object literals always returns -1 (reference equality),
+  // so the last-attempt check must use an index-based loop.
   const attempts = [
     { maxPerTema: 2, maxPerJournal: 1 },
     { maxPerTema: 3, maxPerJournal: 2 },
     { maxPerTema: 5, maxPerJournal: 5 },
   ];
 
-  for (const { maxPerTema, maxPerJournal } of attempts) {
+  for (let i = 0; i < attempts.length; i++) {
+    const { maxPerTema, maxPerJournal } = attempts[i];
     const result = pickWithConstraints(scored, maxPerTema, maxPerJournal);
-    if (result.length >= minArticles || attempts.indexOf({ maxPerTema, maxPerJournal }) === attempts.length - 1) {
+    // Return when we have enough articles OR on the last attempt (accept whatever we have)
+    if (result.length >= minArticles || i === attempts.length - 1) {
       return result;
     }
   }
 
-  // Final fallback: just return top N by score, no diversity
+  // Final fallback: top N by score, no diversity constraints
   return scored.slice(0, maxArticles);
 }
 
