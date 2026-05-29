@@ -517,26 +517,72 @@ function getSearchTerms(tema, especialidades) {
   return getBestFallbackTerms(especialidades);
 }
 
-// Generate structured summary
-function generateSummary(article, especialidade, tema) {
-  if (!article.abstract || article.abstract.length < 50) {
-    return "Resumo detalhado nao disponivel para este artigo. Acesse o link abaixo para ler o artigo completo no PubMed.";
+// AI editorial analysis via Claude API
+async function generateAIEditorial(article, especialidade, tema, anthropicKey) {
+  if (!anthropicKey || !article.abstract || article.abstract.length < 50) {
+    return { resumo: article.abstract || "Resumo não disponível.", nota_editorial: null };
   }
-  const abs = article.abstract;
-  const sentences = abs.split(/\.\s+/).filter(s => s.length > 20);
-  const intro = sentences[0] || abs.substring(0, 200);
-  const body = sentences.slice(1, Math.min(sentences.length - 1, 5)).join(". ");
-  const conclusion = sentences[sentences.length - 1] || "";
-  return intro + (body ? ". " + body : "") + (conclusion && conclusion !== intro ? ". " + conclusion : "") + ".";
+  const prompt = `Você é um editor científico odontológico brasileiro. Analise este artigo científico (em inglês) e responda SOMENTE com um JSON válido, sem markdown, sem explicações extras.
+
+Título: ${article.title}
+Especialidade: ${especialidade}
+Tema: ${tema}
+Abstract: ${article.abstract}
+
+JSON esperado:
+{
+  "resumo": "Resumo em português claro, 3 a 4 frases, explicando o que foi estudado e os principais achados.",
+  "nota_editorial": "Nota de 2 a 3 frases sobre a relevância clínica prática para dentistas brasileiros."
+}`;
+
+  const payload = JSON.stringify({
+    model: "claude-haiku-4-5-20251001",
+    max_tokens: 600,
+    messages: [{ role: "user", content: prompt }]
+  });
+
+  try {
+    const res = await request({
+      hostname: "api.anthropic.com",
+      path: "/v1/messages",
+      method: "POST",
+      headers: {
+        "x-api-key": anthropicKey,
+        "anthropic-version": "2023-06-01",
+        "content-type": "application/json",
+        "content-length": Buffer.byteLength(payload)
+      }
+    }, payload);
+
+    if (res.status !== 200) {
+      console.warn("Claude API error:", res.status, res.body.substring(0, 200));
+      return { resumo: article.abstract, nota_editorial: null };
+    }
+    const json = JSON.parse(res.body);
+    const text = (json.content?.[0]?.text || "").trim();
+    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) return { resumo: article.abstract, nota_editorial: null };
+    const parsed = JSON.parse(jsonMatch[0]);
+    return { resumo: parsed.resumo || article.abstract, nota_editorial: parsed.nota_editorial || null };
+  } catch (e) {
+    console.warn("AI editorial generation failed:", e.message);
+    return { resumo: article.abstract, nota_editorial: null };
+  }
 }
 
 // Build email HTML
-function buildEmail(user, article, tema) {
+async function buildEmail(user, article, tema, anthropicKey) {
   const pubmedUrl = "https://pubmed.ncbi.nlm.nih.gov/" + article.pmid + "/";
   const titulo = article.tituloLocal || article.title;
-  const summary = article.resumoLocal || generateSummary(article, user.especialidade, tema);
   const firstName = user.nome.split(" ")[0];
+  const { resumo, nota_editorial } = await generateAIEditorial(article, user.especialidade, tema, anthropicKey);
   const specs = Array.isArray(user.especialidade) ? user.especialidade.join(', ') : (user.especialidade || '');
+  const notaEditorialBlock = nota_editorial ? `
+<div style="background:#f0fdf4;border-left:3px solid #22c55e;border-radius:0 8px 8px 0;padding:14px 18px;margin-bottom:28px;">
+<p style="font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#16a34a;margin:0 0 10px;">✦ Nota Editorial</p>
+<p style="color:#166534;font-size:0.88rem;line-height:1.7;margin:0;">${nota_editorial}</p>
+</div>` : "";
+
   return `<!DOCTYPE html>
 <html lang="pt-BR">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"></head>
@@ -555,10 +601,11 @@ function buildEmail(user, article, tema) {
 <span style="margin-right:16px;">📅 ${article.year}</span>
 <span>👥 ${article.authors}</span>
 </div>
-<div style="border-left:3px solid #0ea5e9;padding-left:18px;margin-bottom:28px;">
+<div style="border-left:3px solid #0ea5e9;padding-left:18px;margin-bottom:${nota_editorial ? "20px" : "28px"};">
 <p style="font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#0ea5e9;margin:0 0 10px;">Resumo</p>
-<p style="color:#334155;font-size:0.9rem;line-height:1.75;margin:0;">${summary}</p>
+<p style="color:#334155;font-size:0.9rem;line-height:1.75;margin:0;">${resumo}</p>
 </div>
+${notaEditorialBlock}
 <div style="text-align:center;margin-bottom:8px;">
 <a href="${pubmedUrl}" style="display:inline-block;background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff;text-decoration:none;padding:14px 32px;border-radius:10px;font-weight:700;font-size:0.95rem;">Ler artigo completo no PubMed →</a>
 </div>
@@ -655,7 +702,7 @@ async function sendEmail(resendKey, to, subject, html) {
 }
 
 // Process a single user: fetch article, email, save
-async function processUser(user, projectId, apiKey, resendKey) {
+async function processUser(user, projectId, apiKey, resendKey, anthropicKey) {
   try {
     const temas = (Array.isArray(user.temas) ? user.temas : []).filter(Boolean);
     console.log(`[User] ${user.email} | esp: [${user.especialidades.join(', ')}] | temas: ${temas.length}`);
@@ -674,7 +721,7 @@ async function processUser(user, projectId, apiKey, resendKey) {
           titulo: article.title || '', pmid: String(article.pmid || ''), data: new Date().toISOString()
         }).catch(e => console.warn('Could not save sent log:', e.message))
       ]);
-      const html = buildEmail(user, article, tema);
+      const html = await buildEmail(user, article, tema, anthropicKey);
       const emailRes = await sendEmail(resendKey, user.email, "🦷 " + article.title.substring(0, 70) + (article.title.length > 70 ? "..." : ""), html);
       if (emailRes.status === 200 || emailRes.status === 201) return 'sent';
       return 'error';
@@ -726,7 +773,7 @@ async function processUser(user, projectId, apiKey, resendKey) {
       }).catch(e => console.warn('Could not save sent log:', e.message))
     ]);
 
-    const html = buildEmail(user, article, tema);
+    const html = await buildEmail(user, article, tema, anthropicKey);
     const emailRes = await sendEmail(resendKey, user.email, "🦷 " + article.title.substring(0, 70) + (article.title.length > 70 ? "..." : ""), html);
     if (emailRes.status === 200 || emailRes.status === 201) {
       console.log(`[Sent] ${user.email}`);
@@ -743,13 +790,15 @@ async function processUser(user, projectId, apiKey, resendKey) {
 // Main handler — processes users sequentially to respect NCBI rate limits (3 req/s without API key)
 exports.handler = async function(event) {
   console.log("OdontoFeed daily dispatch started:", new Date().toISOString());
-  const projectId = process.env.FIREBASE_PROJECT_ID || "orthoradar";
-  const apiKey = process.env.FIREBASE_API_KEY;
-  const resendKey = process.env.RESEND_API_KEY;
+  const projectId    = process.env.FIREBASE_PROJECT_ID || "orthoradar";
+  const apiKey       = process.env.FIREBASE_API_KEY;
+  const resendKey    = process.env.RESEND_API_KEY;
+  const anthropicKey = process.env.ANTHROPIC_API_KEY || null;
   if (!apiKey || !resendKey) {
     console.error("Missing env vars: FIREBASE_API_KEY or RESEND_API_KEY");
     return { statusCode: 500, body: "Missing env vars" };
   }
+  if (!anthropicKey) console.warn("[dispatch] ANTHROPIC_API_KEY not set — editorial notes disabled");
 
   let users;
   try {
@@ -763,7 +812,7 @@ exports.handler = async function(event) {
   let sent = 0, errors = 0, skipped = 0;
 
   for (const user of users) {
-    const result = await processUser(user, projectId, apiKey, resendKey);
+    const result = await processUser(user, projectId, apiKey, resendKey, anthropicKey);
     if (result === 'sent') sent++;
     else if (result === 'skipped') skipped++;
     else errors++;
