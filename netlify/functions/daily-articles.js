@@ -279,11 +279,9 @@ const TEMA_MAP = {
 };
 
 // Reverse lookup: tema PT name -> which specialty it belongs to
-// Built from the same THEMES structure in index.html
 const TEMA_TO_ESPECIALIDADE = {};
 (function() {
   const THEMES_BY_SPEC = {
-    // "Cirurgia ortognática" omitted here (cross-specialty) so it never gets filtered out for either specialty
     "Ortodontia": ["Alinhadores invisíveis","Biomecânica ortodôntica","Cefalometria","Mini-implantes / TADs","Expansão maxilar","Ortodontia e ATM","Ancoragem esquelética","Contenção e recidiva","Ortodontia interceptiva","Aparelho fixo estético","Extração em ortodontia","Ortodontia lingual","Self-ligating","Torque e angulação","Crescimento e desenvolvimento facial","Ortodontia em adultos","Respiração oral e má-oclusão","Ortodontia e sono/apneia","Tratamento de Classe II","Tratamento de Classe III","Mordida aberta","Mordida cruzada posterior","Sobremordida profunda","Inteligência artificial em ortodontia"],
     "Implantodontia": ["Osseointegração","Carga imediata","Enxertos ósseos autógenos","Enxertos com biomateriais","Implantes zigomáticos","Prótese sobre implante","Peri-implantite","Planejamento digital 3D","All-on-4 e All-on-X","Implantes em maxila posterior","Implantes em mandíbula posterior","Elevação de seio maxilar","Implantes estreitos (mini-implantes)","Implantes curtos","Tecido mole peri-implantar","Carga diferida","Reabilitação com implantes unitários","Implantes em pacientes sistêmicos","Complicações em implantes","Sobredentadura","Membranas e ROG","Biofilme peri-implantar","Impressão digital em implantes","Implantes imediatos pós-extração","Implantes em adolescentes"],
     "Periodontia": ["Doença periodontal crônica","Periodontite agressiva","Gengivite","Regeneração tecidual guiada","Cirurgia mucogengival","Periodontia e diabetes","Periodontia e doenças cardiovasculares","Lasers em periodontia","Manutenção periodontal","Raspagem e alisamento radicular","Cirurgia ressectiva","Cirurgia regenerativa","Enxerto gengival livre","Retalho de reposicionamento","Tratamento de furca","Abscesso periodontal","Periodontia e tabagismo","Microbioma periodontal","Periodontia e gestação","Periodontia e osteoporose","Medicação de suporte periodontal","Terapia fotodinâmica","Ozônio em periodontia","Periodontia estética","Defeitos ósseos verticais"],
@@ -298,7 +296,6 @@ const TEMA_TO_ESPECIALIDADE = {};
   for (const [esp, temas] of Object.entries(THEMES_BY_SPEC)) {
     for (const t of temas) { TEMA_TO_ESPECIALIDADE[t] = esp; }
   }
-  // Legacy theme name aliases (old form values stored in Firestore before name fixes)
   const LEGACY_ALIASES = {
     "Mini-implantes/TADs": "Ortodontia",
     "Expansão de maxila": "Ortodontia",
@@ -576,7 +573,10 @@ async function buildEmail(user, article, tema, anthropicKey) {
   const titulo = article.tituloLocal || article.title;
   const firstName = user.nome.split(" ")[0];
   const { resumo, nota_editorial } = await generateAIEditorial(article, user.especialidade, tema, anthropicKey);
-  const specs = Array.isArray(user.especialidade) ? user.especialidade.join(', ') : (user.especialidade || '');
+  const specs = Array.isArray(user.especialidades) && user.especialidades.length
+    ? user.especialidades.join(', ')
+    : (user.especialidade || '');
+
   const notaEditorialBlock = nota_editorial ? `
 <div style="background:#f0fdf4;border-left:3px solid #22c55e;border-radius:0 8px 8px 0;padding:14px 18px;margin-bottom:28px;">
 <p style="font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#16a34a;margin:0 0 10px;">✦ Nota Editorial</p>
@@ -621,14 +621,13 @@ ${notaEditorialBlock}
 }
 
 // Save article metadata to shared artigos collection (PMID as doc ID)
-// Create-only on first insert (preserves original data timestamp); update metadata only on subsequent sends
 async function saveSharedArticle(projectId, apiKey, article, tema, especialidade) {
   const pmid = String(article.pmid || '');
   if (!pmid) return;
   const basePath = '/v1/projects/' + projectId + '/databases/(default)/documents/artigos/' + pmid + '?key=' + apiKey;
   const allFields = {
     titulo: { stringValue: article.title || '' },
-    resumo: { stringValue: generateSummary(article, especialidade, tema) },
+    resumo: { stringValue: article.abstract || '' },
     journal: { stringValue: article.journal || '' },
     year: { stringValue: article.year || '' },
     authors: { stringValue: article.authors || '' },
@@ -787,7 +786,7 @@ async function processUser(user, projectId, apiKey, resendKey, anthropicKey) {
   }
 }
 
-// Main handler — processes users sequentially to respect NCBI rate limits (3 req/s without API key)
+// Main handler — processes users sequentially to respect NCBI rate limits
 exports.handler = async function(event) {
   console.log("OdontoFeed daily dispatch started:", new Date().toISOString());
   const projectId    = process.env.FIREBASE_PROJECT_ID || "orthoradar";
@@ -816,7 +815,6 @@ exports.handler = async function(event) {
     if (result === 'sent') sent++;
     else if (result === 'skipped') skipped++;
     else errors++;
-    // Pause between users: NCBI allows 3 req/s without API key; each user makes 2+ calls
     await new Promise(r => setTimeout(r, 400));
   }
 
