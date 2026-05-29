@@ -216,7 +216,7 @@ function buildUnsubscribeToken(email) {
   return crypto.createHmac('sha256', secret).update(email).digest('hex');
 }
 
-async function processUser(user, db, resendKey) {
+async function processUser(user, db, resendKey, anthropicKey) {
   const { email, nome, especialidades, especialidade } = user;
   log.info('[digest] processing user', { email, specialties: especialidades });
 
@@ -240,23 +240,27 @@ async function processUser(user, db, resendKey) {
   if (candidates.length < MIN_ARTICLES) {
     log.info('[digest] Firestore artigos sparse, falling back to PubMed direct', { email, found: candidates.length });
     try {
-      const needed   = MAX_ARTICLES - candidates.length;
-      const fbArts   = await pubmedFallbackArticles(user, sentPmids, needed + 1);
-      const allIds   = new Set(candidates.map(a => String(a.pmid || a.id)));
-      const newArts  = fbArts.filter(a => !allIds.has(String(a.pmid)));
-      candidates     = [...candidates, ...newArts];
+      const needed  = MAX_ARTICLES + 2; // fetch extra for curation headroom
+      const fbArts  = await pubmedFallbackArticles(user, sentPmids, needed, anthropicKey);
+      const allIds  = new Set(candidates.map(a => String(a.pmid || a.id)));
+      const newArts = fbArts.filter(a => !allIds.has(String(a.pmid)));
+      candidates    = [...candidates, ...newArts];
       log.info('[digest] PubMed fallback added', { email, added: newArts.length, total: candidates.length });
     } catch (err) {
       log.warn('[digest] PubMed fallback failed', { email, err: err.message });
     }
   }
 
-  if (!candidates.length) {
-    log.warn('[digest] no articles available after all fallbacks', { email });
+  // ── GATE 1: minimum articles ──────────────────────────────────────────────
+  // Never send fewer than MIN_ARTICLES — better to skip than send a poor digest.
+  if (candidates.length < MIN_ARTICLES) {
+    log.warn('[digest] BLOCKED — insufficient articles after all fallbacks', {
+      email, found: candidates.length, minimum: MIN_ARTICLES,
+    });
     return 'skipped';
   }
 
-  // 4. Load behavioral profile and check fatigue
+  // 5. Load behavioral profile and check fatigue
   const profile = await getProfile(email, db).catch(() => null);
 
   if (profile && !shouldSendToday(profile)) {
@@ -268,15 +272,29 @@ async function processUser(user, db, resendKey) {
     return 'skipped';
   }
 
-  // 5. Personalized curated selection
+  // 6. Personalized curated selection
   const digestSize = profile ? getOptimalDigestSize(profile) : MAX_ARTICLES;
   const selected   = recommendArticles(candidates, profile, {
     maxArticles: digestSize,
     minArticles: MIN_ARTICLES,
   });
 
-  if (!selected.length) {
-    log.warn('[digest] recommendation returned empty', { email });
+  // ── GATE 2: hard minimum after curation ──────────────────────────────────
+  if (selected.length < MIN_ARTICLES) {
+    log.warn('[digest] BLOCKED — curation returned fewer than minimum', {
+      email, selected: selected.length, minimum: MIN_ARTICLES,
+    });
+    return 'skipped';
+  }
+
+  // ── GATE 3: specialty coherence ───────────────────────────────────────────
+  // Reject digest if majority of articles belong to a different specialty.
+  const artEspecialidades = selected.map(a => a.especialidade).filter(Boolean);
+  const wrongEsp = artEspecialidades.filter(e => e !== especialidade && e);
+  if (wrongEsp.length === selected.length && selected.length > 0) {
+    log.warn('[digest] BLOCKED — all articles have wrong specialty', {
+      email, userEsp: especialidade, artEsp: [...new Set(wrongEsp)],
+    });
     return 'skipped';
   }
 
@@ -333,10 +351,13 @@ async function main() {
   if (!apiKey)    { log.error('[digest] FIREBASE_API_KEY not set'); process.exit(1); }
   if (!resendKey) { log.error('[digest] RESEND_API_KEY not set');   process.exit(1); }
 
+  const anthropicKey = process.env.ANTHROPIC_API_KEY || null;
+  if (!anthropicKey) log.warn('[digest] ANTHROPIC_API_KEY not set — Claude enrichment and editorial disabled');
+
   const db    = new Firestore(projectId, apiKey);
   const start = Date.now();
 
-  log.info('[digest] starting daily dispatch', { ts: new Date().toISOString() });
+  log.info('[digest] starting daily dispatch', { ts: new Date().toISOString(), claude: !!anthropicKey });
 
   let users;
   try {
@@ -351,7 +372,7 @@ async function main() {
 
   for (const user of users) {
     try {
-      const result = await processUser(user, db, resendKey);
+      const result = await processUser(user, db, resendKey, anthropicKey);
       if      (result === 'sent')    sent++;
       else if (result === 'skipped') skipped++;
       else                           errors++;
