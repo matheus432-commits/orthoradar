@@ -1,6 +1,9 @@
 name: Daily Article Ingestion
 
 on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/daily-ingest.yml']
   schedule:
     # 02:00 UTC — runs before daily-articles.js (10:00 UTC)
     - cron: '0 2 * * *'
