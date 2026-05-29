@@ -29,3 +29,4 @@ jobs:
           UNSUBSCRIBE_SECRET:   ${{ secrets.UNSUBSCRIBE_SECRET }}
           SITE_URL:             https://odontofeed.com.br
         run: node netlify/functions/daily-digest.js
+
