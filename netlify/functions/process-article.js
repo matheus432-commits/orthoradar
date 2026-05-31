@@ -16,11 +16,14 @@ const MAX_ARTICLES_PER_RUN = parseInt(process.env.AI_BATCH_SIZE || '20', 10);
 // ── Fetch articles awaiting enrichment ────────────────────────────────────────
 
 async function getPendingArticles(db, limit) {
-  return db.query('artigos', {
-    where:   { fieldFilter: { field: { fieldPath: 'status' }, op: 'EQUAL', value: { stringValue: 'pending_enrichment' } } },
-    orderBy: [{ field: { fieldPath: 'criadoEm' }, direction: 'ASCENDING' }], // FIFO
-    limit,
+  // No orderBy — combining where+orderBy on different fields needs a composite index.
+  // Fetch a larger batch and sort client-side (FIFO by criadoEm).
+  const docs = await db.query('artigos', {
+    where: { fieldFilter: { field: { fieldPath: 'status' }, op: 'EQUAL', value: { stringValue: 'pending_enrichment' } } },
+    limit: Math.min(limit * 3, 60), // fetch extra to sort, then trim
   });
+  docs.sort((a, b) => (a.criadoEm || '') < (b.criadoEm || '') ? -1 : 1);
+  return docs.slice(0, limit);
 }
 
 // ── Process one article ────────────────────────────────────────────────────────
@@ -94,13 +97,23 @@ async function processOne(db, article) {
 async function main() {
   const projectId = process.env.FIREBASE_PROJECT_ID || 'orthoradar';
   const apiKey    = process.env.FIREBASE_API_KEY;
-  if (!apiKey)                    { log.error('[process] FIREBASE_API_KEY not set'); process.exit(1); }
-  if (!process.env.ANTHROPIC_API_KEY) { log.error('[process] ANTHROPIC_API_KEY not set'); process.exit(1); }
+  if (!apiKey) { log.error('[process] FIREBASE_API_KEY not set'); process.exit(1); }
+
+  if (!process.env.ANTHROPIC_API_KEY) {
+    log.warn('[process] ANTHROPIC_API_KEY not set — will activate articles with basic scoring only');
+  }
 
   resetCost();
 
-  const db      = new Firestore(projectId, apiKey);
-  const pending = await getPendingArticles(db, MAX_ARTICLES_PER_RUN);
+  const db = new Firestore(projectId, apiKey);
+
+  let pending;
+  try {
+    pending = await getPendingArticles(db, MAX_ARTICLES_PER_RUN);
+  } catch (err) {
+    log.error('[process] getPendingArticles failed', { err: err.message });
+    return { processed: 0, errors: 0, cost_usd: 0, skipped_reason: 'firestore_query_failed' };
+  }
 
   if (!pending.length) {
     log.info('[process] no pending articles');
