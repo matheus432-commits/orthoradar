@@ -326,7 +326,7 @@ JSON:
 
   const payload = JSON.stringify({
     model:      'claude-haiku-4-5-20251001',
-    max_tokens: 500,
+    max_tokens: 800,
     messages:   [{ role: 'user', content: prompt }],
   });
   const buf = Buffer.from(payload, 'utf8');
@@ -351,8 +351,23 @@ JSON:
 
     const text = JSON.parse(res.body).content?.[0]?.text || '';
     const m    = text.match(/\{[\s\S]*\}/);
-    if (!m) return null;
-    const parsed = JSON.parse(m[0]);
+    if (!m) {
+      log.warn('[pubmed] enrichWithClaude: no JSON in response', { pmid: article.pmid, preview: text.slice(0, 100) });
+      return null;
+    }
+    let parsed;
+    try {
+      parsed = JSON.parse(m[0]);
+    } catch (parseErr) {
+      log.warn('[pubmed] enrichWithClaude: JSON parse failed', { pmid: article.pmid, err: parseErr.message, preview: m[0].slice(0, 100) });
+      return null;
+    }
+
+    log.info('[pubmed] enrichWithClaude ok', {
+      pmid: article.pmid,
+      has_resumo: !!parsed.resumo_pt,
+      has_impacto: !!parsed.impacto_pratico,
+    });
 
     return {
       impacto_pratico:  parsed.impacto_pratico  || null,

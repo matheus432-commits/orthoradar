@@ -222,7 +222,8 @@ function articleCard(article, index, total, opts) {
   const badge        = BADGE_STYLE[article.nivel_evidencia] || BADGE_STYLE['Revisão Narrativa'];
   const titulo       = esc(truncate(article.titulo_pt || article.titulo || article.title || 'Sem título', 120));
   const impacto      = esc(truncate(article.impacto_pratico || '', 300));
-  const resumo       = esc(truncate(article.resumo_pt || '', 340));
+  // resumo: prefer PT → raw English abstract → empty
+  const resumo       = esc(truncate(article.resumo_pt || article._rawAbstract || article.abstract || '', 500));
   const journal      = esc(article.journal || '');
   const year         = esc(String(article.year || ''));
   const tempoLeitura = article.tempo_leitura || 3;
