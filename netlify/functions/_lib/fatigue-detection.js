@@ -5,9 +5,9 @@
 // ── Thresholds ────────────────────────────────────────────────────────────────
 
 const THRESHOLDS = {
-  IGNORE_WEEKLY:   3,   // consecutive ignored → switch to weekly
-  IGNORE_PAUSE:    7,   // consecutive ignored → pause sending
-  MIN_OPEN_RATE:   0.15, // below this → reduce frequency
+  IGNORE_WEEKLY:   7,   // consecutive ignored → switch to weekly
+  IGNORE_PAUSE:    14,  // consecutive ignored → pause sending
+  MIN_OPEN_RATE:   0.05, // below this → reduce frequency
   HIGH_OPEN_RATE:  0.50, // above this → user is engaged
   LOW_CTR:         0.10, // below this → reduce digest size
   HIGH_CTR:        0.35, // above this → increase digest size
