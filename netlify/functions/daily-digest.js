@@ -261,15 +261,19 @@ async function processUser(user, db, resendKey, anthropicKey) {
   }
 
   // 5. Load behavioral profile and check fatigue
-  const profile = await getProfile(email, db).catch(() => null);
+  const profile    = await getProfile(email, db).catch(() => null);
+  const forceSend  = process.env.FORCE_SEND === 'true';
 
-  if (profile && !shouldSendToday(profile)) {
+  if (!forceSend && profile && !shouldSendToday(profile)) {
     log.info('[digest] skipping — fatigue/schedule', {
       email,
       action:  profile.fatigueAction,
       ignored: profile.consecutiveIgnored,
     });
     return 'skipped';
+  }
+  if (forceSend && profile && !shouldSendToday(profile)) {
+    log.info('[digest] FORCE_SEND — overriding fatigue block', { email, action: profile.fatigueAction });
   }
 
   // 6. Personalized curated selection
