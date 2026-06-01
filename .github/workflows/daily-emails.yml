@@ -37,5 +37,5 @@ jobs:
           NCBI_API_KEY:         ${{ secrets.NCBI_API_KEY }}
           UNSUBSCRIBE_SECRET:   ${{ secrets.UNSUBSCRIBE_SECRET }}
           SITE_URL:             https://odontofeed.com.br
-          FORCE_SEND:           'true'
+          FORCE_SEND:           'true' # disparo manual com nova API key
         run: node netlify/functions/daily-digest.js
