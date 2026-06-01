@@ -49,33 +49,21 @@ async function getActiveUsers(db) {
         ? [u.especialidade]
         : [];
     return { ...u, especialidades, especialidade: especialidades[0] || '' };
-  }).filter(u => u.especialidades.length > 0);
+  });
+
+  const noSpecialty = mapped.filter(u => u.especialidades.length === 0);
+  if (noSpecialty.length) {
+    log.warn('[digest] users skipped — no specialty set', {
+      count:  noSpecialty.length,
+      emails: noSpecialty.map(u => u.email),
+    });
+  }
+  return mapped.filter(u => u.especialidades.length > 0);
 }
 
 async function getSentPmids(db, email) {
   const cutoff = new Date(Date.now() - LOOKBACK_DAYS * 24 * 3600 * 1000).toISOString();
-
-  // Primary: composite filter (requires index — see firestore.indexes.json)
-  try {
-    const docs = await db.query('artigos_enviados', {
-      where: {
-        compositeFilter: {
-          op: 'AND',
-          filters: [
-            { fieldFilter: { field: { fieldPath: 'email' }, op: 'EQUAL', value: { stringValue: email } } },
-            { fieldFilter: { field: { fieldPath: 'data'  }, op: 'GREATER_THAN_OR_EQUAL', value: { stringValue: cutoff } } },
-          ],
-        },
-      },
-      select: { fields: [{ fieldPath: 'pmid' }] },
-      limit: 300,
-    });
-    return new Set(docs.map(d => String(d.pmid || '')).filter(Boolean));
-  } catch (err) {
-    log.warn('[digest] composite sentPmids failed, using fallback', { email, err: err.message });
-  }
-
-  // Fallback: email-only + client-side date filter
+  // Email-only query + client-side date filter (no composite index required)
   try {
     const docs = await db.query('artigos_enviados', {
       where: { fieldFilter: { field: { fieldPath: 'email' }, op: 'EQUAL', value: { stringValue: email } } },
@@ -89,7 +77,7 @@ async function getSentPmids(db, email) {
         .filter(Boolean)
     );
   } catch (err) {
-    log.warn('[digest] sentPmids fallback failed', { email, err: err.message });
+    log.warn('[digest] getSentPmids failed', { email, err: err.message });
     return new Set();
   }
 }

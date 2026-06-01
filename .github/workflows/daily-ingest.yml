@@ -74,12 +74,5 @@ jobs:
           FIREBASE_API_KEY:    ${{ secrets.FIREBASE_API_KEY }}
         run: node netlify/functions/update-user-profile.js
 
-      # ── Step 6: Chain to email dispatch ───────────────────────────────────
-      - name: Trigger daily email dispatch
-        run: |
-          curl -s -X POST \
-            -H "Authorization: Bearer ${{ github.token }}" \
-            -H "Accept: application/vnd.github.v3+json" \
-            "https://api.github.com/repos/${{ github.repository }}/actions/workflows/daily-emails.yml/dispatches" \
-            -d '{"ref":"main"}'
-          echo "Email dispatch triggered."
+      # Email dispatch removido: daily-emails.yml roda no schedule 10:00 UTC
+      # Ingest (02:00 UTC) popula Firestore; email (10:00 UTC) consome os artigos frescos.

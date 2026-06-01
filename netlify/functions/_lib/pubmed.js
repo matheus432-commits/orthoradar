@@ -296,6 +296,7 @@ function toDigestArticle(raw, tema, especialidade) {
     status:            'active',
     _source:           'pubmed_fallback',
     _rawAbstract:      raw.abstract,  // kept for Claude enrichment
+    data:              raw.year ? new Date(parseInt(raw.year, 10), 0, 1).toISOString() : new Date().toISOString(),
   };
 }
 
@@ -317,12 +318,13 @@ Especialidade: ${article.especialidade}
 Abstract: ${abstract}
 
 Regras obrigatórias:
+- "titulo_pt": título traduzido para português, conciso e fiel ao original. Máximo 120 caracteres.
 - "impacto_pratico": 2-3 frases com resultado principal + direção do efeito + magnitude numérica (quando disponível) + implicação clínica objetiva. Formato: "Pacientes tratados com X apresentaram Y% de Z em comparação a W — achado que sugere/suporta/questiona [conduta clínica]."
 - "resumo_pt": 3-4 frases em português descrevendo o que foi estudado, como foi estudado, principal achado com dado numérico, e conclusão clínica. NÃO ser genérico. Incluir números específicos do abstract quando disponíveis.
 - "nivel_evidencia": um de: Meta-análise, Revisão Sistemática, RCT, Estudo Coorte, Caso Clínico, In Vitro, Estudo Animal, Revisão Narrativa, Estudo
 
 JSON:
-{"impacto_pratico":"...","resumo_pt":"...","nivel_evidencia":"..."}`;
+{"titulo_pt":"...","impacto_pratico":"...","resumo_pt":"...","nivel_evidencia":"..."}`;
 
   const payload = JSON.stringify({
     model:      'claude-haiku-4-5-20251001',
@@ -364,15 +366,17 @@ JSON:
     }
 
     log.info('[pubmed] enrichWithClaude ok', {
-      pmid: article.pmid,
-      has_resumo: !!parsed.resumo_pt,
-      has_impacto: !!parsed.impacto_pratico,
+      pmid:          article.pmid,
+      has_titulo_pt: !!parsed.titulo_pt,
+      has_resumo:    !!parsed.resumo_pt,
+      has_impacto:   !!parsed.impacto_pratico,
     });
 
     return {
-      impacto_pratico:  parsed.impacto_pratico  || null,
-      resumo_pt:        parsed.resumo_pt         || null,
-      nivel_evidencia:  parsed.nivel_evidencia   || article.nivel_evidencia,
+      titulo_pt:        parsed.titulo_pt         || null,
+      impacto_pratico:  parsed.impacto_pratico   || null,
+      resumo_pt:        parsed.resumo_pt          || null,
+      nivel_evidencia:  parsed.nivel_evidencia    || article.nivel_evidencia,
     };
   } catch (err) {
     log.warn('[pubmed] enrichWithClaude failed', { pmid: article.pmid, err: err.message });
