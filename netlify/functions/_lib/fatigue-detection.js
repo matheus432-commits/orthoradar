@@ -23,12 +23,13 @@ const THRESHOLDS = {
 function analyzeDigestHistory(recentDigests) {
   if (!recentDigests.length) {
     return {
-      openRate:          0.5,
-      ctr:               0.2,
-      consecutiveIgnored: 0,
-      totalSent:         0,
+      openRate:             0.5,
+      ctr:                  0.2,
+      consecutiveIgnored:   0,
+      totalSent:            0,
       avgArticlesPerDigest: 4,
-      bestOpenHour:      7,
+      bestOpenHour:         7,
+      lastOpenAt:           null,
     };
   }
 
@@ -37,6 +38,7 @@ function analyzeDigestHistory(recentDigests) {
   let totalSent   = recentDigests.length;
   let consecutive = 0;         // unopened from the most recent
   let hitOpened   = false;
+  let lastOpenAt  = null;
   const hourCounts = new Array(24).fill(0);
 
   for (const digest of recentDigests) {
@@ -52,8 +54,9 @@ function analyzeDigestHistory(recentDigests) {
       else         hitOpened = true;
     }
 
-    // Best open hour heuristic from enviadoEm (not ideal but available)
+    // Track most recent open timestamp
     if (opened && digest.enviadoEm) {
+      if (!lastOpenAt || digest.enviadoEm > lastOpenAt) lastOpenAt = digest.enviadoEm;
       const h = new Date(digest.enviadoEm).getUTCHours();
       hourCounts[h]++;
     }
@@ -67,12 +70,13 @@ function analyzeDigestHistory(recentDigests) {
   const bestOpenHour = hourCounts.indexOf(Math.max(...hourCounts));
 
   return {
-    openRate:            parseFloat(openRate.toFixed(3)),
-    ctr:                 parseFloat(ctr.toFixed(3)),
-    consecutiveIgnored:  consecutive,
+    openRate:             parseFloat(openRate.toFixed(3)),
+    ctr:                  parseFloat(ctr.toFixed(3)),
+    consecutiveIgnored:   consecutive,
     totalSent,
     avgArticlesPerDigest: parseFloat(avgArticles.toFixed(1)),
-    bestOpenHour:        bestOpenHour >= 0 ? bestOpenHour : 7,
+    bestOpenHour:         bestOpenHour >= 0 ? bestOpenHour : 7,
+    lastOpenAt,
   };
 }
 
@@ -84,7 +88,16 @@ function analyzeDigestHistory(recentDigests) {
  *   action: 'send_daily' | 'send_daily_reduced' | 'send_weekly' | 'pause'
  */
 function detectFatigue(profile) {
-  const { consecutiveIgnored = 0, openRate = 0.5, engagementScore = 0.5 } = profile;
+  const { consecutiveIgnored = 0, openRate = 0.5, engagementScore = 0.5, lastOpenAt } = profile;
+
+  // Re-engagement recovery: if user opened recently, lift the pause/weekly state.
+  // Prevents users from being permanently stuck after a period of inactivity.
+  if (lastOpenAt && consecutiveIgnored >= THRESHOLDS.IGNORE_WEEKLY) {
+    const daysSinceOpen = (Date.now() - new Date(lastOpenAt).getTime()) / (24 * 3600 * 1000);
+    if (daysSinceOpen < 7) {
+      return { action: 'send_daily', fatigueScore: 0.2, reason: 're-engaged (opened within last 7 days)' };
+    }
+  }
 
   if (consecutiveIgnored >= THRESHOLDS.IGNORE_PAUSE || engagementScore < 0.05) {
     return {

@@ -14,6 +14,7 @@ const { generateEditorial }                 = require('./_lib/editorial-generato
 const { getProfile }                        = require('./_lib/user-profile');
 const { recommendArticles }                 = require('./_lib/recommendation-engine');
 const { shouldSendToday, getOptimalDigestSize } = require('./_lib/fatigue-detection');
+const { runValidation }                     = require('./_lib/digest-validator');
 const { pubmedFallbackArticles }            = require('./_lib/pubmed');
 const log                                   = require('./_lib/logger');
 const { request }                           = require('./_lib');
@@ -36,7 +37,7 @@ async function getActiveUsers(db) {
     pageToken = nextPageToken;
   } while (pageToken);
 
-  return users.filter(u => {
+  const mapped = users.filter(u => {
     if (!u.email) return false;
     if (u.ativo === false) return false;
     if (u.emailFrequencia === 'nunca') return false;
@@ -136,7 +137,8 @@ async function getTrendingArticles(db, limit = 20) {
       limit,
     });
     return docs.sort((a, b) => (b.relevanceScore || 0) - (a.relevanceScore || 0));
-  } catch {
+  } catch (err) {
+    log.warn('[digest] getTrendingArticles failed', { err: err.message });
     return [];
   }
 }
@@ -206,14 +208,19 @@ function buildUnsubscribeToken(email) {
 
 async function processUser(user, db, resendKey, anthropicKey) {
   const { email, nome, especialidades, especialidade } = user;
+  const processStart = Date.now();
   log.info('[digest] processing user', { email, specialties: especialidades });
 
   // 1. Sent PMIDs anti-repeat
+  let t = Date.now();
   const sentPmids = await getSentPmids(db, email);
+  log.info('[digest][STAGE antirepeat]', { email, sentCount: sentPmids.size, ms: Date.now() - t });
 
   // 2. Candidate articles from shared collection
+  t = Date.now();
   let candidates = await getCandidates(db, especialidades);
   candidates = candidates.filter(a => !sentPmids.has(String(a.pmid || a.id || '')));
+  log.info('[digest][STAGE candidates]', { email, count: candidates.length, ms: Date.now() - t });
 
   // 3. Trending Firestore fallback if candidates too few
   if (candidates.length < MIN_ARTICLES) {
@@ -249,8 +256,15 @@ async function processUser(user, db, resendKey, anthropicKey) {
   }
 
   // 5. Load behavioral profile and check fatigue
-  const profile    = await getProfile(email, db).catch(() => null);
+  t = Date.now();
+  const profile    = await getProfile(email, db).catch(err => {
+    log.warn('[digest] getProfile failed, proceeding without profile', { email, err: err.message });
+    return null;
+  });
   const forceSend  = process.env.FORCE_SEND === 'true';
+  log.info('[digest][STAGE profile]', {
+    email, hasProfile: !!profile, fatigueAction: profile?.fatigueAction ?? 'n/a', ms: Date.now() - t,
+  });
 
   if (!forceSend && profile && !shouldSendToday(profile)) {
     log.info('[digest] skipping — fatigue/schedule', {
@@ -265,10 +279,14 @@ async function processUser(user, db, resendKey, anthropicKey) {
   }
 
   // 6. Personalized curated selection
+  t = Date.now();
   const digestSize = profile ? getOptimalDigestSize(profile) : MAX_ARTICLES;
   const selected   = recommendArticles(candidates, profile, {
     maxArticles: digestSize,
     minArticles: MIN_ARTICLES,
+  });
+  log.info('[digest][STAGE curation]', {
+    email, selected: selected.length, candidatesIn: candidates.length, ms: Date.now() - t,
   });
 
   // ── GATE 2: hard minimum after curation ──────────────────────────────────
@@ -280,12 +298,12 @@ async function processUser(user, db, resendKey, anthropicKey) {
   }
 
   // ── GATE 3: specialty coherence ───────────────────────────────────────────
-  // Reject digest if majority of articles belong to a different specialty.
+  // Reject digest if ALL articles belong to a specialty the user never selected.
   const artEspecialidades = selected.map(a => a.especialidade).filter(Boolean);
-  const wrongEsp = artEspecialidades.filter(e => e !== especialidade && e);
+  const wrongEsp = artEspecialidades.filter(e => !especialidades.includes(e));
   if (wrongEsp.length === selected.length && selected.length > 0) {
     log.warn('[digest] BLOCKED — all articles have wrong specialty', {
-      email, userEsp: especialidade, artEsp: [...new Set(wrongEsp)],
+      email, userEsps: especialidades, artEsp: [...new Set(wrongEsp)],
     });
     return 'skipped';
   }
@@ -295,34 +313,56 @@ async function processUser(user, db, resendKey, anthropicKey) {
   const unsubToken = buildUnsubscribeToken(email);
 
   // Generate editorial via Claude (falls back to deterministic generator on failure)
+  t = Date.now();
   const editorial = await generateEditorial(selected, especialidade)
     .catch(err => { log.warn('[digest] generateEditorial threw', { err: err.message }); return null; });
+  log.info('[digest][STAGE editorial]', {
+    email, generated: !!editorial, chars: editorial?.length ?? 0, ms: Date.now() - t,
+  });
 
+  t = Date.now();
   const { html, subject } = buildDigestEmail(
     { nome, email, especialidade },
     selected,
     { digestId, baseUrl: BASE_URL, unsubscribeToken: unsubToken, editorial }
   );
+  log.info('[digest][STAGE render]', { email, htmlBytes: html?.length ?? 0, ms: Date.now() - t });
+
+  // ── PRE-SEND VALIDATION ───────────────────────────────────────────────────
+  // Last gate before send. Any structural or consistency failure blocks the email.
+  const validationPassed = runValidation(
+    { user, articles: selected, editorial, html },
+    digestId
+  );
+  if (!validationPassed) {
+    return 'blocked';
+  }
 
   // 6. Send via Resend
+  t = Date.now();
   const emailRes = await sendEmail(resendKey, email, subject, html);
   if (emailRes.status !== 200 && emailRes.status !== 201) {
-    log.error('[digest] send failed', { email, status: emailRes.status, body: emailRes.body.slice(0, 200) });
+    log.error('[digest][STAGE send] FAILED', {
+      email, status: emailRes.status, body: emailRes.body.slice(0, 400),
+    });
     return 'error';
   }
 
   let resendMessageId = null;
-  try { resendMessageId = JSON.parse(emailRes.body).id || null; } catch {}
+  try {
+    resendMessageId = JSON.parse(emailRes.body).id || null;
+  } catch (parseErr) {
+    log.warn('[digest] could not parse Resend response body', { email, err: parseErr.message });
+  }
 
-  log.info('[digest] sent', {
-    email,
-    n:        selected.length,
-    digestId,
-    subject:  subject.slice(0, 80),
+  log.info('[digest][STAGE send] OK', {
+    email, n: selected.length, digestId,
+    subject: subject.slice(0, 80), msgId: resendMessageId, ms: Date.now() - t,
   });
 
-  // 7. Persist digest + sent log (non-blocking)
-  await Promise.allSettled([
+  // 7. Persist digest + sent log
+  t = Date.now();
+  const [digestResult, sentLogResult] = await Promise.allSettled([
     saveDigest(db, digestId, {
       email, especialidade, subject,
       pmids:           selected.map(a => a.pmid || a.id || ''),
@@ -330,6 +370,21 @@ async function processUser(user, db, resendKey, anthropicKey) {
     }),
     saveSentLog(db, email, selected, especialidade),
   ]);
+
+  if (digestResult.status === 'rejected') {
+    log.error('[digest][STAGE audit] saveDigest failed', {
+      email, digestId, err: digestResult.reason?.message,
+    });
+  }
+  if (sentLogResult.status === 'rejected') {
+    log.error('[digest][STAGE audit] saveSentLog failed', {
+      email, digestId, err: sentLogResult.reason?.message,
+    });
+  }
+  log.info('[digest][STAGE audit]', { email, digestId, ms: Date.now() - t });
+
+  const totalMs = Date.now() - processStart;
+  log.info('[digest] COMPLETE', { email, result: 'sent', totalMs });
 
   return 'sent';
 }
@@ -367,6 +422,7 @@ async function main() {
       const result = await processUser(user, db, resendKey, anthropicKey);
       if      (result === 'sent')    sent++;
       else if (result === 'skipped') skipped++;
+      else if (result === 'blocked') skipped++;
       else                           errors++;
     } catch (err) {
       log.error('[digest] processUser threw', { email: user.email, err: err.message });

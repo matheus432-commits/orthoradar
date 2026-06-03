@@ -1,0 +1,8 @@
+{
+  "name": "odontofeed",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "node --test netlify/functions/_lib/__tests__/*.test.js"
+  }
+}

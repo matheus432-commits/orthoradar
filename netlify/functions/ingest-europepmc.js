@@ -114,6 +114,15 @@ async function saveArticle(db, article) {
     return false;
   }
 
+  if (!article.title || !article.abstract || article.abstract.length < 50) {
+    log.warn('[europepmc] skipping — insufficient content', {
+      id,
+      hasTitle:    !!article.title,
+      abstractLen: article.abstract?.length ?? 0,
+    });
+    return false;
+  }
+
   const nivel_evidencia = detectEvidenceLevel(article.title, article.abstract);
   const especialidade   = article._specialty || classifySpecialty(article.title, article.abstract) || 'Odontologia Geral';
 
