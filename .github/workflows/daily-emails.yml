@@ -1,12 +1,12 @@
 name: Daily Articles Email
 
+# Envio isolado — use apenas para disparar emails manualmente sem ingestão.
+# O pipeline completo (ingestão + email) é gerenciado por daily-pipeline.yml.
 on:
-  schedule:
-    - cron: '0 10 * * *'
   workflow_dispatch:
     inputs:
       force_send:
-        description: 'Ignorar anti-fadiga e forcar envio para todos'
+        description: 'Ignorar anti-fadiga e forçar envio para todos'
         required: false
         default: 'false'
         type: boolean

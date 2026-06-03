@@ -1,13 +1,9 @@
 name: Daily Article Ingestion
 # last triggered: 2026-06-01
 
+# Ingestão isolada — use apenas para reprocessar artigos manualmente.
+# O pipeline completo (ingestão + email) é gerenciado por daily-pipeline.yml.
 on:
-  push:
-    branches: [main]
-    paths: ['.github/workflows/daily-ingest.yml']
-  schedule:
-    # 02:00 UTC — runs before daily-articles.js (10:00 UTC)
-    - cron: '0 2 * * *'
   workflow_dispatch:
     inputs:
       skip_ai:
