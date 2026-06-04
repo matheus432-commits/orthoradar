@@ -1,29 +1,54 @@
 // OdontoFeed Smart Digest — daily email dispatch with curated article selection.
 //
-// Replaces daily-articles.js as the active digest sender.
-// Reads pre-enriched articles from the shared `artigos` Firestore collection,
-// applies the curation algorithm, and sends a 3–5 article digest per user.
-//
 // Run: node netlify/functions/daily-digest.js
-// Schedule: GitHub Actions daily-emails.yml at 10:00 UTC
+// Schedule: GitHub Actions daily-pipeline.yml at 10:00 UTC
+//
+// Reliability architecture:
+//   - Execution lock (digest_lock)     → prevents concurrent duplicate runs
+//   - Per-user idempotency (digest_logs) → prevents double-send on crash/recovery
+//   - Concurrent batch processing      → throughput with controlled parallelism
+//   - Per-user timeout (90s)           → a hanging user never stalls the full run
+//   - Resend retry on 429              → handles rate limits transparently
+//   - Run audit record (digest_runs)   → full observability of every execution
 
-const crypto                                = require('crypto');
-const { Firestore }                         = require('./_lib/firestore');
-const { buildDigestEmail }                  = require('./_lib/email-template');
-const { generateEditorial }                 = require('./_lib/editorial-generator');
-const { getProfile }                        = require('./_lib/user-profile');
-const { recommendArticles }                 = require('./_lib/recommendation-engine');
-const { shouldSendToday, getOptimalDigestSize } = require('./_lib/fatigue-detection');
-const { runValidation }                     = require('./_lib/digest-validator');
-const { pubmedFallbackArticles }            = require('./_lib/pubmed');
-const log                                   = require('./_lib/logger');
-const { request }                           = require('./_lib');
+const crypto   = require('crypto');
+const { Firestore }                                = require('./_lib/firestore');
+const { buildDigestEmail }                         = require('./_lib/email-template');
+const { generateEditorial }                        = require('./_lib/editorial-generator');
+const { getProfile }                               = require('./_lib/user-profile');
+const { recommendArticles }                        = require('./_lib/recommendation-engine');
+const { shouldSendToday, getOptimalDigestSize }    = require('./_lib/fatigue-detection');
+const { runValidation }                            = require('./_lib/digest-validator');
+const { pubmedFallbackArticles }                   = require('./_lib/pubmed');
+const { acquireLock, releaseLock }                 = require('./_lib/pipeline-lock');
+const { withTimeout }                              = require('./_lib/retry-utils');
+const log                                          = require('./_lib/logger');
+const { request }                                  = require('./_lib');
 
 const BASE_URL        = process.env.SITE_URL || 'https://odontofeed.com.br';
 const MIN_ARTICLES    = 3;
 const MAX_ARTICLES    = 5;
 const LOOKBACK_DAYS   = 180;
 const CANDIDATE_LIMIT = 120;
+
+// Reliability constants
+const BATCH_SIZE      = 5;     // users processed concurrently per batch
+const BATCH_PAUSE_MS  = 500;   // pause between batches (ms)
+const USER_TIMEOUT_MS = 90000; // max time per user before hard abort (ms)
+const RESEND_RETRIES  = 3;     // max attempts for Resend 429 rate limit
+
+// ── Date helpers ──────────────────────────────────────────────────────────────
+
+function getDateStr() {
+  return new Date().toISOString().slice(0, 10); // YYYY-MM-DD UTC
+}
+
+// Stable document ID for a user's log entry on a given day.
+// Used for both idempotency (skip if already sent) and crash recovery.
+function getUserLogKey(email, dateStr) {
+  const hash = crypto.createHash('sha256').update(email).digest('hex').slice(0, 16);
+  return `${hash}_${dateStr}`;
+}
 
 // ── Firestore helpers ─────────────────────────────────────────────────────────
 
@@ -64,7 +89,6 @@ async function getActiveUsers(db) {
 
 async function getSentPmids(db, email) {
   const cutoff = new Date(Date.now() - LOOKBACK_DAYS * 24 * 3600 * 1000).toISOString();
-  // Email-only query + client-side date filter (no composite index required)
   try {
     const docs = await db.query('artigos_enviados', {
       where: { fieldFilter: { field: { fieldPath: 'email' }, op: 'EQUAL', value: { stringValue: email } } },
@@ -83,8 +107,6 @@ async function getSentPmids(db, email) {
   }
 }
 
-// Get active, enriched articles for a user's specialties.
-// Tries ordered query first (needs composite index); falls back to client-side sort.
 async function getCandidates(db, specialties) {
   const whereClause = specialties.length === 1
     ? {
@@ -106,7 +128,6 @@ async function getCandidates(db, specialties) {
         },
       };
 
-  // Try with orderBy data DESC (uses existing index)
   try {
     const docs = await db.query('artigos', {
       where:   whereClause,
@@ -118,7 +139,6 @@ async function getCandidates(db, specialties) {
     log.warn('[digest] ordered query failed, retrying without orderBy', { err: err.message });
   }
 
-  // Retry without orderBy — client-side sort below
   try {
     const docs = await db.query('artigos', { where: whereClause, limit: CANDIDATE_LIMIT });
     return docs.sort((a, b) => (b.data || '') > (a.data || '') ? 1 : -1);
@@ -128,7 +148,6 @@ async function getCandidates(db, specialties) {
   }
 }
 
-// Trending fallback: fetch top-scoring active articles regardless of specialty
 async function getTrendingArticles(db, limit = 20) {
   try {
     const docs = await db.query('artigos', {
@@ -162,14 +181,34 @@ async function sendEmail(resendKey, to, subject, html) {
     path:     '/emails',
     method:   'POST',
     headers:  {
-      Authorization:  'Bearer ' + resendKey,
-      'Content-Type': 'application/json',
+      Authorization:    'Bearer ' + resendKey,
+      'Content-Type':   'application/json',
       'Content-Length': Buffer.byteLength(payload),
     },
   }, payload);
 }
 
-// ── Save digest metadata ──────────────────────────────────────────────────────
+// Wraps sendEmail with retry on HTTP 429 (Resend rate limit).
+// Does NOT retry on other HTTP errors (400, 422, 500) to avoid duplicate sends.
+async function sendEmailWithRetry(resendKey, to, subject, html) {
+  for (let attempt = 0; attempt < RESEND_RETRIES; attempt++) {
+    const res = await sendEmail(resendKey, to, subject, html);
+    if (res.status === 200 || res.status === 201) return res;
+
+    if (res.status === 429 && attempt < RESEND_RETRIES - 1) {
+      const delay = 8000 * Math.pow(2, attempt); // 8s, 16s
+      log.warn('[digest] Resend rate limited, retrying', { to, attempt: attempt + 1, delay_ms: delay });
+      console.log(`[RETRY ${attempt + 1}] Resend 429 — waiting ${delay}ms before retry`);
+      await new Promise(r => setTimeout(r, delay));
+      continue;
+    }
+
+    return res; // non-429 errors or exhausted retries
+  }
+  return sendEmail(resendKey, to, subject, html);
+}
+
+// ── Persist digest metadata ───────────────────────────────────────────────────
 
 async function saveDigest(db, digestId, data) {
   await db.setDoc('digests', digestId, {
@@ -187,26 +226,27 @@ async function saveDigest(db, digestId, data) {
 
 async function saveSentLog(db, email, articles, especialidade) {
   const now = new Date().toISOString();
-  // Sequential to avoid hammering Firestore
   for (const art of articles) {
     await db.addDoc('artigos_enviados', {
       email,
-      pmid:         art.pmid || art.id || '',
+      pmid:          art.pmid || art.id || '',
       especialidade: especialidade || '',
-      data:         now,
-      canal:        'email',
-    }).catch(e => log.warn('[digest] saveSentLog failed', { err: e.message }));
+      data:          now,
+      canal:         'email',
+    }).catch(e => log.warn('[digest] saveSentLog failed for article', { email, err: e.message }));
   }
 }
 
-// ── Per-user processing ───────────────────────────────────────────────────────
+// ── Per-user editorial pipeline (logic unchanged) ─────────────────────────────
 
 function buildUnsubscribeToken(email) {
   const secret = process.env.UNSUBSCRIBE_SECRET || 'unsub-default';
   return crypto.createHmac('sha256', secret).update(email).digest('hex');
 }
 
-async function processUser(user, db, resendKey, anthropicKey) {
+// Internal pipeline — responsible for the editorial logic only.
+// Does NOT handle idempotency or logging; those are in processUser() below.
+async function _runUserDigest(user, db, resendKey, anthropicKey) {
   const { email, nome, especialidades, especialidade } = user;
   const processStart = Date.now();
   log.info('[digest] processing user', { email, specialties: especialidades });
@@ -222,20 +262,20 @@ async function processUser(user, db, resendKey, anthropicKey) {
   candidates = candidates.filter(a => !sentPmids.has(String(a.pmid || a.id || '')));
   log.info('[digest][STAGE candidates]', { email, count: candidates.length, ms: Date.now() - t });
 
-  // 3. Trending Firestore fallback if candidates too few
+  // 3. Trending Firestore fallback
   if (candidates.length < MIN_ARTICLES) {
-    log.info('[digest] insufficient Firestore candidates, trying trending', { email, found: candidates.length });
+    log.info('[digest] insufficient candidates, trying trending', { email, found: candidates.length });
     const trending = await getTrendingArticles(db, 30);
     const trendNew = trending.filter(a => !sentPmids.has(String(a.pmid || a.id || '')));
     const allIds   = new Set(candidates.map(a => a.pmid || a.id));
     candidates     = [...candidates, ...trendNew.filter(a => !allIds.has(a.pmid || a.id))];
   }
 
-  // 4. PubMed direct fallback — when Firestore artigos collection is sparse/empty
+  // 4. PubMed direct fallback
   if (candidates.length < MIN_ARTICLES) {
-    log.info('[digest] Firestore artigos sparse, falling back to PubMed direct', { email, found: candidates.length });
+    log.info('[digest] Firestore sparse, falling back to PubMed direct', { email, found: candidates.length });
     try {
-      const needed  = MAX_ARTICLES + 2; // fetch extra for curation headroom
+      const needed  = MAX_ARTICLES + 2;
       const fbArts  = await pubmedFallbackArticles(user, sentPmids, needed, anthropicKey);
       const allIds  = new Set(candidates.map(a => String(a.pmid || a.id)));
       const newArts = fbArts.filter(a => !allIds.has(String(a.pmid)));
@@ -246,8 +286,7 @@ async function processUser(user, db, resendKey, anthropicKey) {
     }
   }
 
-  // ── GATE 1: minimum articles ──────────────────────────────────────────────
-  // Never send fewer than MIN_ARTICLES — better to skip than send a poor digest.
+  // ── GATE 1: minimum articles ────────────────────────────────────────────────
   if (candidates.length < MIN_ARTICLES) {
     log.warn('[digest] BLOCKED — insufficient articles after all fallbacks', {
       email, found: candidates.length, minimum: MIN_ARTICLES,
@@ -257,20 +296,18 @@ async function processUser(user, db, resendKey, anthropicKey) {
 
   // 5. Load behavioral profile and check fatigue
   t = Date.now();
-  const profile    = await getProfile(email, db).catch(err => {
+  const profile   = await getProfile(email, db).catch(err => {
     log.warn('[digest] getProfile failed, proceeding without profile', { email, err: err.message });
     return null;
   });
-  const forceSend  = process.env.FORCE_SEND === 'true';
+  const forceSend = process.env.FORCE_SEND === 'true';
   log.info('[digest][STAGE profile]', {
     email, hasProfile: !!profile, fatigueAction: profile?.fatigueAction ?? 'n/a', ms: Date.now() - t,
   });
 
   if (!forceSend && profile && !shouldSendToday(profile)) {
     log.info('[digest] skipping — fatigue/schedule', {
-      email,
-      action:  profile.fatigueAction,
-      ignored: profile.consecutiveIgnored,
+      email, action: profile.fatigueAction, ignored: profile.consecutiveIgnored,
     });
     return 'skipped';
   }
@@ -289,7 +326,7 @@ async function processUser(user, db, resendKey, anthropicKey) {
     email, selected: selected.length, candidatesIn: candidates.length, ms: Date.now() - t,
   });
 
-  // ── GATE 2: hard minimum after curation ──────────────────────────────────
+  // ── GATE 2: hard minimum after curation ─────────────────────────────────────
   if (selected.length < MIN_ARTICLES) {
     log.warn('[digest] BLOCKED — curation returned fewer than minimum', {
       email, selected: selected.length, minimum: MIN_ARTICLES,
@@ -297,8 +334,7 @@ async function processUser(user, db, resendKey, anthropicKey) {
     return 'skipped';
   }
 
-  // ── GATE 3: specialty coherence ───────────────────────────────────────────
-  // Reject digest if ALL articles belong to a specialty the user never selected.
+  // ── GATE 3: specialty coherence ─────────────────────────────────────────────
   const artEspecialidades = selected.map(a => a.especialidade).filter(Boolean);
   const wrongEsp = artEspecialidades.filter(e => !especialidades.includes(e));
   if (wrongEsp.length === selected.length && selected.length > 0) {
@@ -308,11 +344,11 @@ async function processUser(user, db, resendKey, anthropicKey) {
     return 'skipped';
   }
 
-  // 5. Build email
+  // 7. Build email
   const digestId   = crypto.randomUUID();
   const unsubToken = buildUnsubscribeToken(email);
 
-  // Generate editorial via Claude (falls back to deterministic generator on failure)
+  // Generate editorial via Claude (falls back to deterministic on failure)
   t = Date.now();
   const editorial = await generateEditorial(selected, especialidade)
     .catch(err => { log.warn('[digest] generateEditorial threw', { err: err.message }); return null; });
@@ -328,8 +364,7 @@ async function processUser(user, db, resendKey, anthropicKey) {
   );
   log.info('[digest][STAGE render]', { email, htmlBytes: html?.length ?? 0, ms: Date.now() - t });
 
-  // ── PRE-SEND VALIDATION ───────────────────────────────────────────────────
-  // Last gate before send. Any structural or consistency failure blocks the email.
+  // ── PRE-SEND VALIDATION ─────────────────────────────────────────────────────
   const validationPassed = runValidation(
     { user, articles: selected, editorial, html },
     digestId
@@ -338,9 +373,9 @@ async function processUser(user, db, resendKey, anthropicKey) {
     return 'blocked';
   }
 
-  // 6. Send via Resend
+  // 8. Send via Resend (with retry on 429)
   t = Date.now();
-  const emailRes = await sendEmail(resendKey, email, subject, html);
+  const emailRes = await sendEmailWithRetry(resendKey, email, subject, html);
   if (emailRes.status !== 200 && emailRes.status !== 201) {
     log.error('[digest][STAGE send] FAILED', {
       email, status: emailRes.status, body: emailRes.body.slice(0, 400),
@@ -351,8 +386,8 @@ async function processUser(user, db, resendKey, anthropicKey) {
   let resendMessageId = null;
   try {
     resendMessageId = JSON.parse(emailRes.body).id || null;
-  } catch (parseErr) {
-    log.warn('[digest] could not parse Resend response body', { email, err: parseErr.message });
+  } catch {
+    log.warn('[digest] could not parse Resend response body', { email });
   }
 
   log.info('[digest][STAGE send] OK', {
@@ -360,7 +395,7 @@ async function processUser(user, db, resendKey, anthropicKey) {
     subject: subject.slice(0, 80), msgId: resendMessageId, ms: Date.now() - t,
   });
 
-  // 7. Persist digest + sent log
+  // 9. Persist digest + sent log
   t = Date.now();
   const [digestResult, sentLogResult] = await Promise.allSettled([
     saveDigest(db, digestId, {
@@ -371,71 +406,217 @@ async function processUser(user, db, resendKey, anthropicKey) {
     saveSentLog(db, email, selected, especialidade),
   ]);
 
-  if (digestResult.status === 'rejected') {
-    log.error('[digest][STAGE audit] saveDigest failed', {
-      email, digestId, err: digestResult.reason?.message,
-    });
-  }
-  if (sentLogResult.status === 'rejected') {
-    log.error('[digest][STAGE audit] saveSentLog failed', {
-      email, digestId, err: sentLogResult.reason?.message,
-    });
-  }
+  if (digestResult.status  === 'rejected') log.error('[digest][STAGE audit] saveDigest failed', { email, digestId, err: digestResult.reason?.message });
+  if (sentLogResult.status === 'rejected') log.error('[digest][STAGE audit] saveSentLog failed', { email, digestId, err: sentLogResult.reason?.message });
   log.info('[digest][STAGE audit]', { email, digestId, ms: Date.now() - t });
 
   const totalMs = Date.now() - processStart;
-  log.info('[digest] COMPLETE', { email, result: 'sent', totalMs });
+  log.info('[digest] COMPLETE', { email, result: 'sent', digestId, totalMs });
 
   return 'sent';
+}
+
+// ── Reliability wrapper ───────────────────────────────────────────────────────
+
+// Wraps _runUserDigest with:
+//   1. Idempotency check  — skip if already sent today (crash recovery)
+//   2. Processing marker  — update digest_logs before and after
+//   3. Per-user timeout   — 90s hard limit; hanging user never stalls the run
+async function processUser(user, db, resendKey, anthropicKey, runId, dateStr) {
+  const { email, especialidade } = user;
+  const logKey = getUserLogKey(email, dateStr);
+
+  // ── IDEMPOTENCY: skip if already successfully sent today ──────────────────
+  let existingLog;
+  try {
+    existingLog = await db.getDoc('digest_logs', logKey);
+  } catch (err) {
+    log.warn('[digest] digest_logs check failed, proceeding', { email, err: err.message });
+  }
+
+  if (existingLog?.status === 'sent') {
+    log.info('[digest] SKIP (idempotent) — already sent today', { email, logKey });
+    console.log(`[SKIP IDEMPOTENT] ${email}`);
+    return 'skipped';
+  }
+
+  // ── MARK PROCESSING ────────────────────────────────────────────────────────
+  await db.setDoc('digest_logs', logKey, {
+    email,
+    date:       dateStr,
+    runId,
+    specialty:  especialidade || '',
+    status:     'processing',
+    startedAt:  new Date().toISOString(),
+    retryCount: existingLog?.retryCount ? (existingLog.retryCount + 1) : 0,
+    failReason: null,
+    duration:   null,
+  }).catch(e => log.warn('[digest] markProcessing failed', { email, err: e.message }));
+
+  const t0 = Date.now();
+
+  try {
+    // ── PER-USER TIMEOUT ─────────────────────────────────────────────────────
+    const result = await withTimeout(
+      _runUserDigest(user, db, resendKey, anthropicKey),
+      USER_TIMEOUT_MS,
+      email
+    );
+
+    const duration = Date.now() - t0;
+
+    await db.updateDoc('digest_logs', logKey, {
+      status:      result,
+      completedAt: new Date().toISOString(),
+      duration,
+    }).catch(e => log.warn('[digest] finalizeLog failed', { email, err: e.message }));
+
+    return result;
+  } catch (err) {
+    const duration = Date.now() - t0;
+    await db.updateDoc('digest_logs', logKey, {
+      status:      'error',
+      completedAt: new Date().toISOString(),
+      duration,
+      failReason:  err.message.slice(0, 500),
+    }).catch(() => {});
+    throw err;
+  }
+}
+
+// ── Run record helpers ────────────────────────────────────────────────────────
+
+async function createRunRecord(db, runId, dateStr, totalUsers) {
+  await db.setDoc('digest_runs', runId, {
+    runId, dateStr,
+    startedAt:  new Date().toISOString(),
+    completedAt: null,
+    status:     'running',
+    totalUsers,
+    sent:       0,
+    failed:     0,
+    skipped:    0,
+    elapsed_s:  null,
+  }).catch(e => log.warn('[digest] createRunRecord failed', { err: e.message }));
+}
+
+async function finalizeRunRecord(db, runId, summary) {
+  await db.updateDoc('digest_runs', runId, {
+    status:      'completed',
+    completedAt: new Date().toISOString(),
+    ...summary,
+  }).catch(e => log.warn('[digest] finalizeRunRecord failed', { err: e.message }));
 }
 
 // ── Main ──────────────────────────────────────────────────────────────────────
 
 async function main() {
-  const projectId = process.env.FIREBASE_PROJECT_ID || 'orthoradar';
-  const apiKey    = process.env.FIREBASE_API_KEY;
-  const resendKey = process.env.RESEND_API_KEY;
+  const projectId   = process.env.FIREBASE_PROJECT_ID || 'orthoradar';
+  const apiKey      = process.env.FIREBASE_API_KEY;
+  const resendKey   = process.env.RESEND_API_KEY;
   if (!apiKey)    { log.error('[digest] FIREBASE_API_KEY not set'); process.exit(1); }
   if (!resendKey) { log.error('[digest] RESEND_API_KEY not set');   process.exit(1); }
 
   const anthropicKey = process.env.ANTHROPIC_API_KEY || null;
-  if (!anthropicKey) log.warn('[digest] ANTHROPIC_API_KEY not set — Claude enrichment and editorial disabled');
+  if (!anthropicKey) log.warn('[digest] ANTHROPIC_API_KEY not set — editorial uses deterministic fallback');
 
-  const db    = new Firestore(projectId, apiKey);
-  const start = Date.now();
+  const db      = new Firestore(projectId, apiKey);
+  const runId   = crypto.randomUUID();
+  const dateStr = getDateStr();
+  const start   = Date.now();
 
-  log.info('[digest] starting daily dispatch', { ts: new Date().toISOString(), claude: !!anthropicKey });
+  console.log(`\n[START RUN] runId=${runId} date=${dateStr} ts=${new Date().toISOString()}`);
+  log.info('[digest] starting daily dispatch', { runId, dateStr, claude: !!anthropicKey });
 
-  let users;
-  try {
-    users = await getActiveUsers(db);
-  } catch (err) {
-    log.error('[digest] getActiveUsers failed', { err: err.message });
-    return { error: err.message };
+  // ── LOCK ACQUISITION ────────────────────────────────────────────────────────
+  const locked = await acquireLock(db, runId);
+  if (!locked) {
+    log.error('[digest] run aborted — lock not acquired');
+    console.log('[ABORT] Another run is already in progress. Exiting safely.\n');
+    return { aborted: true, reason: 'lock_active' };
   }
-  log.info('[digest] users found', { count: users.length });
 
   let sent = 0, errors = 0, skipped = 0;
 
-  for (const user of users) {
+  try {
+    // ── LOAD USERS ─────────────────────────────────────────────────────────────
+    let users;
     try {
-      const result = await processUser(user, db, resendKey, anthropicKey);
-      if      (result === 'sent')    sent++;
-      else if (result === 'skipped') skipped++;
-      else if (result === 'blocked') skipped++;
-      else                           errors++;
+      users = await getActiveUsers(db);
     } catch (err) {
-      log.error('[digest] processUser threw', { email: user.email, err: err.message });
-      errors++;
+      log.error('[digest] getActiveUsers failed — aborting', { runId, err: err.message });
+      throw err;
     }
-    // Pause between users to avoid Firestore write bursts
-    await new Promise(r => setTimeout(r, 300));
+
+    console.log(`[USERS] ${users.length} active users found`);
+    log.info('[digest] users found', { runId, count: users.length });
+
+    await createRunRecord(db, runId, dateStr, users.length);
+
+    // ── BATCH PROCESSING ─────────────────────────────────────────────────────
+    const batches = [];
+    for (let i = 0; i < users.length; i += BATCH_SIZE) {
+      batches.push(users.slice(i, i + BATCH_SIZE));
+    }
+
+    for (let bIdx = 0; bIdx < batches.length; bIdx++) {
+      const batch    = batches[bIdx];
+      const batchNum = bIdx + 1;
+      const processed = sent + errors + skipped;
+      console.log(`\n[BATCH ${batchNum}/${batches.length}] users ${processed + 1}-${processed + batch.length} of ${users.length}`);
+
+      // Process batch users concurrently — each isolated from the others
+      const results = await Promise.allSettled(
+        batch.map(user => processUser(user, db, resendKey, anthropicKey, runId, dateStr))
+      );
+
+      for (let i = 0; i < results.length; i++) {
+        const r     = results[i];
+        const email = batch[i].email;
+
+        if (r.status === 'rejected') {
+          log.error('[digest] user threw uncaught error', { email, err: r.reason?.message });
+          console.log(`[FAILED] ${email} — ${r.reason?.message?.slice(0, 100)}`);
+          errors++;
+        } else if (r.value === 'sent') {
+          console.log(`[SEND OK] ${email}`);
+          sent++;
+        } else if (r.value === 'skipped' || r.value === 'blocked') {
+          console.log(`[SKIP] ${email} (${r.value})`);
+          skipped++;
+        } else {
+          console.log(`[FAILED] ${email} — result=${r.value}`);
+          errors++;
+        }
+      }
+
+      // Snapshot progress into run record
+      await db.updateDoc('digest_runs', runId, { sent, failed: errors, skipped })
+        .catch(() => {});
+
+      // Pause between batches (not after the last one)
+      if (bIdx < batches.length - 1) {
+        await new Promise(r => setTimeout(r, BATCH_PAUSE_MS));
+      }
+    }
+  } finally {
+    // ── FINALIZE — always runs, even on exception ─────────────────────────────
+    const elapsed = ((Date.now() - start) / 1000).toFixed(1);
+    const summary = {
+      sent, failed: errors, skipped,
+      total:     sent + errors + skipped,
+      elapsed_s: Number(elapsed),
+    };
+
+    await finalizeRunRecord(db, runId, summary);
+    await releaseLock(db, runId);
+
+    console.log(`\n[RUN COMPLETE] runId=${runId}`);
+    console.log(`[STATS] sent=${sent} failed=${errors} skipped=${skipped} elapsed=${elapsed}s`);
+    log.info('[digest] dispatch complete', { runId, ...summary });
   }
 
-  const elapsed = ((Date.now() - start) / 1000).toFixed(1);
-  const result  = { sent, errors, skipped, total: users.length, elapsed_s: elapsed };
-  log.info('[digest] dispatch complete', result);
-  return result;
+  return { sent, failed: errors, skipped, total: sent + errors + skipped };
 }
 
 // ── Netlify Function handler ──────────────────────────────────────────────────
@@ -452,6 +633,6 @@ exports.handler = async () => {
 
 if (require.main === module) {
   main()
-    .then(r => { console.log('Done:', JSON.stringify(r)); process.exit(0); })
+    .then(r => { console.log('\nDone:', JSON.stringify(r)); process.exit(0); })
     .catch(e => { console.error(e.message); process.exit(1); });
 }
