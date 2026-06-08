@@ -9,6 +9,9 @@ name: OdontoFeed Daily Pipeline
 #                frescos sem risco de duplo envio.
 #   workflow_dispatch — disparo manual com opções force_send / skip_ai / email_only.
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 on:
   schedule:
     - cron: '0 10 * * *'
@@ -50,10 +53,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Node.js 18
+      - name: Node.js 20
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
 
       - name: Ingest PubMed
         env:
@@ -118,10 +121,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Node.js 18
+      - name: Node.js 20
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
 
       - name: Disparar digests
         env:
