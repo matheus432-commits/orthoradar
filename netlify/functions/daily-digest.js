@@ -17,7 +17,7 @@ const { buildDigestEmail }                         = require('./_lib/email-templ
 const { generateEditorial }                        = require('./_lib/editorial-generator');
 const { getProfile }                               = require('./_lib/user-profile');
 const { recommendArticles }                        = require('./_lib/recommendation-engine');
-const { shouldSendToday, getOptimalDigestSize }    = require('./_lib/fatigue-detection');
+const { getOptimalDigestSize }                     = require('./_lib/fatigue-detection');
 const { runValidation }                            = require('./_lib/digest-validator');
 const { pubmedFallbackArticles }                   = require('./_lib/pubmed');
 const { acquireLock, releaseLock }                 = require('./_lib/pipeline-lock');
@@ -294,26 +294,13 @@ async function _runUserDigest(user, db, resendKey, anthropicKey) {
     return 'skipped';
   }
 
-  // 5. Load behavioral profile and check fatigue
+  // 5. Load behavioral profile (usado apenas para personalização do digest size)
   t = Date.now();
-  const profile   = await getProfile(email, db).catch(err => {
+  const profile = await getProfile(email, db).catch(err => {
     log.warn('[digest] getProfile failed, proceeding without profile', { email, err: err.message });
     return null;
   });
-  const forceSend = process.env.FORCE_SEND === 'true';
-  log.info('[digest][STAGE profile]', {
-    email, hasProfile: !!profile, fatigueAction: profile?.fatigueAction ?? 'n/a', ms: Date.now() - t,
-  });
-
-  if (!forceSend && profile && !shouldSendToday(profile)) {
-    log.info('[digest] skipping — fatigue/schedule', {
-      email, action: profile.fatigueAction, ignored: profile.consecutiveIgnored,
-    });
-    return 'skipped';
-  }
-  if (forceSend && profile && !shouldSendToday(profile)) {
-    log.info('[digest] FORCE_SEND — overriding fatigue block', { email, action: profile.fatigueAction });
-  }
+  log.info('[digest][STAGE profile]', { email, hasProfile: !!profile, ms: Date.now() - t });
 
   // 6. Personalized curated selection
   t = Date.now();
