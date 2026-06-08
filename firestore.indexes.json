@@ -100,13 +100,6 @@
       ]
     },
     {
-      "collectionGroup": "digest_runs",
-      "queryScope": "COLLECTION",
-      "fields": [
-        { "fieldPath": "startedAt", "order": "DESCENDING" }
-      ]
-    },
-    {
       "collectionGroup": "digest_metrics",
       "queryScope": "COLLECTION",
       "fields": [

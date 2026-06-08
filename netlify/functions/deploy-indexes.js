@@ -8,7 +8,7 @@ const fs    = require('fs');
 const path  = require('path');
 
 const PROJECT_ID     = process.env.FIREBASE_PROJECT_ID || 'orthoradar';
-const REFRESH_TOKEN  = process.env.FIREBASE_TOKEN;
+const REFRESH_TOKEN  = (process.env.FIREBASE_TOKEN || '').trim();
 const CLIENT_ID      = '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com';
 const CLIENT_SECRET  = 'j9iVZfS8kkCEFUPaAeJV0sAi';
 
