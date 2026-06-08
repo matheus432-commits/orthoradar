@@ -85,6 +85,13 @@ jobs:
           AI_BATCH_SIZE:       '20'
         run: node netlify/functions/process-article.js
 
+      - name: Corrigir artigos sem journal
+        continue-on-error: true
+        env:
+          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+          FIREBASE_API_KEY:    ${{ secrets.FIREBASE_API_KEY }}
+        run: node netlify/functions/fix-missing-journals.js
+
       - name: Atualizar perfis comportamentais
         env:
           FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}

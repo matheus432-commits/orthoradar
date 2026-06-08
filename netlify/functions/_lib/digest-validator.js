@@ -92,8 +92,8 @@ function validateDigest({ user, articles, editorial, html }) {
       errors.push(`${tag}: missing nivel_evidencia`);
     }
 
-    // Journal
-    if (!a.journal) errors.push(`${tag}: missing journal`);
+    // Journal — warn only (cosmetic metadata, not critical for email rendering)
+    if (!a.journal) warnings.push(`${tag}: missing journal`);
 
     // Specialty
     if (!a.especialidade) errors.push(`${tag}: missing especialidade`);

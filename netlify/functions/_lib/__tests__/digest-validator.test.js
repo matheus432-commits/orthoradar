@@ -147,12 +147,12 @@ describe('STRUCTURE — per article fields', () => {
     assert.ok(r.errors.some(e => e.includes('nivel_evidencia')));
   });
 
-  test('missing journal fails', () => {
+  test('missing journal is a warning (not a blocking error)', () => {
     const articles = makeArticles(3);
     delete articles[0].journal;
     const r = validateDigest({ user: makeUser(), articles, html: VALID_HTML });
-    assert.equal(r.valid, false);
-    assert.ok(r.errors.some(e => e.includes('journal')));
+    assert.equal(r.valid, true);
+    assert.ok(r.warnings.some(w => w.includes('journal')));
   });
 
   test('missing especialidade fails', () => {
