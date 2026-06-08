@@ -226,25 +226,24 @@ describe('pipeline-lock', () => {
     assert.equal(acquired, true, 'should replace released lock');
   });
 
-  test('releaseLock writes status=released when runId matches', async () => {
-    let written;
+  test('releaseLock deletes the document when runId matches', async () => {
+    let deleted = false;
     const db = {
-      getDoc: async () => ({ runId: 'run-005', status: 'active' }),
-      setDoc: async (col, id, data) => { written = data; },
+      getDoc:    async () => ({ runId: 'run-005', status: 'active' }),
+      deleteDoc: async () => { deleted = true; },
     };
     await releaseLock(db, 'run-005');
-    assert.equal(written?.status, 'released');
-    assert.equal(written?.runId,  'run-005');
+    assert.equal(deleted, true, 'lock document must be deleted on release');
   });
 
-  test('releaseLock does NOT write when runId does not match', async () => {
-    let setDocCalled = false;
+  test('releaseLock does NOT delete when runId does not match', async () => {
+    let deleteCalled = false;
     const db = {
-      getDoc: async () => ({ runId: 'other-run', status: 'active' }),
-      setDoc: async () => { setDocCalled = true; },
+      getDoc:    async () => ({ runId: 'other-run', status: 'active' }),
+      deleteDoc: async () => { deleteCalled = true; },
     };
     await releaseLock(db, 'my-run');
-    assert.equal(setDocCalled, false, 'must not release a lock we do not own');
+    assert.equal(deleteCalled, false, 'must not release a lock we do not own');
   });
 
   test('simultaneous lock acquisition: only one wins', async () => {

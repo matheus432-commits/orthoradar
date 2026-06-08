@@ -80,12 +80,8 @@ async function releaseLock(db, runId) {
   try {
     const existing = await db.getDoc('digest_lock', LOCK_DOC_ID);
     if (existing && existing.runId === runId) {
-      await db.setDoc('digest_lock', LOCK_DOC_ID, {
-        runId,
-        releasedAt: new Date().toISOString(),
-        status:     'released',
-      });
-      log.info('[lock] released', { runId });
+      await db.deleteDoc('digest_lock', LOCK_DOC_ID);
+      log.info('[lock] released (deleted)', { runId });
       console.log(`[LOCK RELEASED] runId=${runId}`);
     } else {
       log.warn('[lock] skipping release — lock owned by different run', {
