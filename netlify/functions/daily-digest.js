@@ -136,7 +136,7 @@ async function getCandidates(db, specialties) {
     });
     return docs;
   } catch (err) {
-    log.warn('[digest] ordered query failed, retrying without orderBy', { err: err.message });
+    log.debug('[digest] ordered query failed, retrying without orderBy', { err: err.message });
   }
 
   try {

@@ -37,6 +37,32 @@
       "collectionGroup": "artigos",
       "queryScope": "COLLECTION",
       "fields": [
+        { "fieldPath": "status",        "order": "ASCENDING" },
+        { "fieldPath": "especialidade", "order": "ASCENDING" },
+        { "fieldPath": "criadoEm",      "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "artigos",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "status",         "order": "ASCENDING" },
+        { "fieldPath": "especialidade",  "order": "ASCENDING" },
+        { "fieldPath": "relevanceScore", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "artigos",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "status", "order": "ASCENDING" },
+        { "fieldPath": "data",   "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "artigos",
+      "queryScope": "COLLECTION",
+      "fields": [
         { "fieldPath": "tema", "order": "ASCENDING" },
         { "fieldPath": "data", "order": "DESCENDING" }
       ]
@@ -66,6 +92,21 @@
       ]
     },
     {
+      "collectionGroup": "digest_logs",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "date",      "order": "ASCENDING" },
+        { "fieldPath": "startedAt", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "digest_runs",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "startedAt", "order": "DESCENDING" }
+      ]
+    },
+    {
       "collectionGroup": "digest_metrics",
       "queryScope": "COLLECTION",
       "fields": [
@@ -74,38 +115,11 @@
       ]
     },
     {
-      "collectionGroup": "artigos",
+      "collectionGroup": "digest_metrics",
       "queryScope": "COLLECTION",
       "fields": [
-        { "fieldPath": "status",        "order": "ASCENDING" },
-        { "fieldPath": "especialidade", "order": "ASCENDING" },
-        { "fieldPath": "criadoEm",      "order": "ASCENDING" }
-      ]
-    },
-    {
-      "collectionGroup": "artigos",
-      "queryScope": "COLLECTION",
-      "fields": [
-        { "fieldPath": "status",         "order": "ASCENDING" },
-        { "fieldPath": "especialidade",  "order": "ASCENDING" },
-        { "fieldPath": "relevanceScore", "order": "DESCENDING" }
-      ]
-    },
-    {
-      "collectionGroup": "artigos",
-      "queryScope": "COLLECTION",
-      "fields": [
-        { "fieldPath": "status",        "order": "ASCENDING" },
-        { "fieldPath": "especialidade", "order": "ASCENDING" },
-        { "fieldPath": "data",          "order": "DESCENDING" }
-      ]
-    },
-    {
-      "collectionGroup": "artigos",
-      "queryScope": "COLLECTION",
-      "fields": [
-        { "fieldPath": "status", "order": "ASCENDING" },
-        { "fieldPath": "data",   "order": "DESCENDING" }
+        { "fieldPath": "email", "order": "ASCENDING" },
+        { "fieldPath": "ts",    "order": "DESCENDING" }
       ]
     },
     {
@@ -151,28 +165,11 @@
       ]
     },
     {
-      "collectionGroup": "digest_metrics",
-      "queryScope": "COLLECTION",
-      "fields": [
-        { "fieldPath": "email", "order": "ASCENDING" },
-        { "fieldPath": "ts",    "order": "DESCENDING" }
-      ]
-    },
-    {
       "collectionGroup": "article_workspace",
       "queryScope": "COLLECTION",
       "fields": [
         { "fieldPath": "email",     "order": "ASCENDING" },
         { "fieldPath": "updatedAt", "order": "DESCENDING" }
-      ]
-    },
-    {
-      "collectionGroup": "artigos",
-      "queryScope": "COLLECTION",
-      "fields": [
-        { "fieldPath": "status",        "order": "ASCENDING" },
-        { "fieldPath": "especialidade", "order": "ASCENDING" },
-        { "fieldPath": "data",          "order": "DESCENDING" }
       ]
     }
   ],

@@ -66,7 +66,7 @@ async function loadRecentDigests(db, email, limitDays = 90) {
       limit: 60,
     });
   } catch (err) {
-    log.warn('[user-profile] loadRecentDigests fallback', { email, err: err.message });
+    log.debug('[user-profile] loadRecentDigests fallback (index missing)', { email, err: err.message.slice(0, 80) });
     // Fallback: no orderBy
     try {
       const docs = await db.query('digests', {
