@@ -2,6 +2,7 @@ FROM node:22-alpine AS builder
 
 WORKDIR /app
 
+# Copia manifests
 COPY package*.json ./
 COPY packages/shared/package.json  packages/shared/
 COPY packages/ca/package.json      packages/ca/
@@ -16,9 +17,16 @@ RUN npm install --ignore-scripts
 COPY tsconfig.base.json ./
 COPY packages/ packages/
 
-RUN npm run build --workspaces
+# Build em ordem de dependencia
+RUN npm run build --workspace=packages/shared
+RUN npm run build --workspace=packages/ca
+RUN npm run build --workspace=packages/math
+RUN npm run build --workspace=packages/knw
+RUN npm run build --workspace=packages/wf
+RUN npm run build --workspace=packages/pcf
+RUN npm run build --workspace=packages/api
 
-# ── Runtime ─────────────────────────────────────────────────────────────────
+# Runtime
 FROM node:22-alpine
 
 RUN apk add --no-cache postgresql-client
