@@ -1,0 +1,31 @@
+{
+  "name": "@orthofollow/api",
+  "version": "0.1.0",
+  "private": true,
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "dev": "node --watch dist/server.js",
+    "test": "node --test dist/__tests__/**/*.test.js"
+  },
+  "dependencies": {
+    "@orthofollow/shared": "*",
+    "@orthofollow/ca": "*",
+    "@orthofollow/math": "*",
+    "@orthofollow/knw": "*",
+    "@orthofollow/wf": "*",
+    "@orthofollow/pcf": "*",
+    "fastify": "^5.8.5",
+    "@fastify/formbody": "^8.0.2",
+    "zod": "^4.4.3",
+    "pg": "^8.11.0",
+    "decimal.js": "^10.4.3"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "@types/node": "^20.0.0",
+    "@types/pg": "^8.11.0"
+  }
+}
