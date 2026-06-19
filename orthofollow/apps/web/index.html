@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OrthoFollow — Avaliação Facial</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #f4f6f9;
+      --surface:  #ffffff;
+      --border:   #dde2ea;
+      --primary:  #1a56db;
+      --primary-h:#1648c0;
+      --danger:   #e02424;
+      --success:  #057a55;
+      --warn:     #b45309;
+      --text:     #111928;
+      --muted:    #6b7280;
+      --radius:   8px;
+      --shadow:   0 1px 4px rgba(0,0,0,.08);
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 32px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    header .logo { font-weight: 700; font-size: 18px; color: var(--primary); letter-spacing: -.3px; }
+    header .sep  { color: var(--border); }
+    header .subtitle { color: var(--muted); font-size: 13px; }
+
+    main {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 32px 16px 64px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 24px;
+    }
+    .card-title {
+      font-size: 15px; font-weight: 600; margin-bottom: 20px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .card-title .step {
+      background: var(--primary); color: #fff;
+      width: 22px; height: 22px; border-radius: 50%;
+      font-size: 11px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+    @media(max-width: 600px) { .grid2, .grid3 { grid-template-columns: 1fr; } }
+
+    .field { display: flex; flex-direction: column; gap: 4px; }
+    .field label { font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .4px; }
+    .field input, .field select {
+      height: 38px; border: 1px solid var(--border); border-radius: 6px;
+      padding: 0 10px; font-size: 14px; color: var(--text); background: #fff;
+      outline: none; transition: border-color .15s;
+    }
+    .field input:focus, .field select:focus { border-color: var(--primary); }
+    .field .hint { font-size: 11px; color: var(--muted); }
+
+    .meas-list { display: flex; flex-direction: column; gap: 10px; }
+    .meas-row {
+      display: grid; grid-template-columns: 1fr 200px; gap: 12px;
+      align-items: center; padding: 10px 14px;
+      border: 1px solid var(--border); border-radius: 6px; background: #fafbfc;
+    }
+    @media(max-width: 600px) { .meas-row { grid-template-columns: 1fr; } }
+    .meas-label { font-size: 13px; font-weight: 500; }
+    .meas-label .id { font-size: 11px; color: var(--muted); font-weight: 400; }
+    .meas-input input, .meas-input select {
+      width: 100%; height: 36px; border: 1px solid var(--border);
+      border-radius: 6px; padding: 0 10px; font-size: 13px; background: #fff; outline: none;
+    }
+    .meas-input input:focus, .meas-input select:focus { border-color: var(--primary); }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 0 20px; height: 40px; border: none; border-radius: 6px;
+      font-size: 14px; font-weight: 600; cursor: pointer;
+      transition: background .15s, opacity .15s;
+    }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-primary:hover { background: var(--primary-h); }
+    .btn-primary:disabled { opacity: .5; cursor: not-allowed; }
+    .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
+    .btn-outline:hover { background: var(--bg); }
+
+    .alert { padding: 12px 16px; border-radius: 6px; font-size: 13px; display: none; }
+    .alert.show { display: block; }
+    .alert-danger  { background: #fdf2f2; border: 1px solid #f8b4b4; color: var(--danger); }
+    .alert-success { background: #f0fdf4; border: 1px solid #86efac; color: var(--success); }
+    .alert-info    { background: #eff6ff; border: 1px solid #93c5fd; color: #1d4ed8; }
+
+    #report-section { display: none; }
+    #report-section.show { display: block; }
+
+    .report-meta { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
+    .meta-chip {
+      display: flex; flex-direction: column;
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 6px; padding: 8px 14px; min-width: 110px;
+    }
+    .meta-chip .label { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .4px; }
+    .meta-chip .value { font-size: 20px; font-weight: 700; color: var(--text); }
+    .meta-chip .value.danger  { color: var(--danger); }
+    .meta-chip .value.warn    { color: var(--warn); }
+    .meta-chip .value.success { color: var(--success); }
+
+    .findings-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+    .finding-card {
+      display: grid; grid-template-columns: 90px 1fr; gap: 12px;
+      align-items: start; padding: 12px 14px;
+      border-radius: 6px; border: 1px solid var(--border);
+    }
+    .badge {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .3px;
+    }
+    .badge-NORMAL     { background: #dcfce7; color: #14532d; }
+    .badge-BORDERLINE { background: #fef9c3; color: #713f12; }
+    .badge-MILD       { background: #fef3c7; color: #92400e; }
+    .badge-MODERATE   { background: #fed7aa; color: #7c2d12; }
+    .badge-SEVERE     { background: #fee2e2; color: #7f1d1d; }
+    .badge-CRITICAL   { background: #7f1d1d; color: #fff; }
+
+    .finding-text  { font-size: 13px; line-height: 1.5; }
+    .finding-ref   { font-size: 11px; color: var(--danger); font-weight: 600; margin-top: 3px; }
+
+    .report-pre {
+      background: #1e1e1e; color: #d4d4d4;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 12px; line-height: 1.6; padding: 20px;
+      border-radius: 6px; overflow-x: auto; white-space: pre;
+    }
+
+    .tabs { display: flex; gap: 2px; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
+    .tab {
+      padding: 8px 16px; font-size: 13px; font-weight: 500; cursor: pointer;
+      border-bottom: 2px solid transparent; color: var(--muted);
+      background: none; border-top: none; border-left: none; border-right: none;
+    }
+    .tab.active { color: var(--primary); border-bottom-color: var(--primary); }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    .spinner {
+      display: inline-block; width: 16px; height: 16px;
+      border: 2px solid rgba(255,255,255,.4); border-top-color: #fff;
+      border-radius: 50%; animation: spin .6s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .actions { display: flex; gap: 10px; align-items: center; }
+  </style>
+</head>
+<body>
+
+<header>
+  <span class="logo">OrthoFollow</span>
+  <span class="sep">|</span>
+  <span class="subtitle">Análise Facial — Protocolo P01</span>
+</header>
+
+<main>
+
+  <div class="card">
+    <div class="card-title"><span class="step">1</span> Identificação do Caso</div>
+    <div class="grid2" style="margin-bottom:16px">
+      <div class="field">
+        <label>ID do Caso</label>
+        <input id="caseId" type="text" placeholder="ex: case-001" value="case-demo-001">
+      </div>
+      <div class="field">
+        <label>Sessão</label>
+        <input id="sessionLabel" type="text" placeholder="ex: T0" value="T0">
+      </div>
+    </div>
+    <div class="grid3">
+      <div class="field">
+        <label>Nome do Paciente</label>
+        <input id="patientName" type="text" placeholder="Nome completo" value="Maria Silva">
+      </div>
+      <div class="field">
+        <label>Data de Nascimento</label>
+        <input id="birthDate" type="date" value="1998-06-15">
+      </div>
+      <div class="field">
+        <label>Sexo</label>
+        <select id="sex">
+          <option value="F">Feminino</option>
+          <option value="M">Masculino</option>
+          <option value="UNSPECIFIED">Não informado</option>
+        </select>
+      </div>
+    </div>
+    <div style="margin-top:16px" class="grid2">
+      <div class="field">
+        <label>Ortodontista (UUID)</label>
+        <input id="orthodontistId" type="text" value="00000000-0000-0000-0000-000000000001">
+        <span class="hint">UUID do usuário no sistema</span>
+      </div>
+      <div class="field">
+        <label>Nome do Ortodontista</label>
+        <input id="orthodontistName" type="text" value="Dr. João Souza">
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="step">2</span> Medições — Análise Facial Frontal e de Perfil</div>
+    <div class="meas-list" id="meas-list"></div>
+  </div>
+
+  <div id="alert" class="alert"></div>
+
+  <div class="actions">
+    <button class="btn btn-primary" id="btn-run" onclick="runPipeline()">Gerar Relatório</button>
+    <button class="btn btn-outline" onclick="resetForm()">Limpar</button>
+  </div>
+
+  <div id="report-section">
+    <div class="card">
+      <div class="card-title"><span class="step">3</span> Resultado da Avaliação</div>
+      <div class="report-meta" id="report-meta"></div>
+      <div class="tabs">
+        <button class="tab active" onclick="showTab('tab-findings', this)">Achados</button>
+        <button class="tab" onclick="showTab('tab-report', this)">Relatório Completo</button>
+      </div>
+      <div class="tab-panel active" id="tab-findings">
+        <div class="findings-list" id="findings-list"></div>
+      </div>
+      <div class="tab-panel" id="tab-report">
+        <pre class="report-pre" id="report-pre"></pre>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+const ANALYSES = [
+  { id: 'P01.A01', label: 'Simetria Facial Vertical',
+    type: 'CLASSIFICATION', unit: 'NONE',
+    options: ['SYMMETRIC','MILD_ASYMMETRY','MODERATE_ASYMMETRY','SEVERE_ASYMMETRY'],
+    labels:  ['Simétrica','Assimetria Leve','Assimetria Moderada','Assimetria Grave'] },
+  { id: 'P01.A02', label: 'Desvio Linha Média Facial',
+    type: 'SCALAR_MM', unit: 'MM', min: -30, max: 30, step: 0.5, placeholder: 'mm (−30 a 30)' },
+  { id: 'P01.A03', label: 'Proporção Terço Superior',
+    type: 'SCALAR_PERCENT', unit: 'PERCENT', min: 0, max: 100, step: 0.1, placeholder: '% (0 a 100)' },
+  { id: 'P01.A04', label: 'Proporção Terço Médio',
+    type: 'SCALAR_PERCENT', unit: 'PERCENT', min: 0, max: 100, step: 0.1, placeholder: '% (0 a 100)' },
+  { id: 'P01.A05', label: 'Proporção Terço Inferior',
+    type: 'SCALAR_PERCENT', unit: 'PERCENT', min: 0, max: 100, step: 0.1, placeholder: '% (0 a 100)' },
+  { id: 'P01.A06', label: 'Tipo de Perfil Facial',
+    type: 'CLASSIFICATION', unit: 'NONE',
+    options: ['STRAIGHT','CONVEX','CONCAVE'],
+    labels:  ['Reto','Convexo','Côncavo'] },
+  { id: 'P01.A07', label: 'Ângulo Nasolabial',
+    type: 'SCALAR_DEGREES', unit: 'DEGREES', min: 70, max: 145, step: 0.5, placeholder: '° (70 a 145)' },
+  { id: 'P01.A08', label: 'Posição do Mento',
+    type: 'CLASSIFICATION', unit: 'NONE',
+    options: ['NORMAL','RETRUDED','PROTRUDED'],
+    labels:  ['Normal','Retraído','Protruído'] },
+  { id: 'P01.A09', label: 'Sulco Labiomental',
+    type: 'CLASSIFICATION', unit: 'NONE',
+    options: ['NORMAL','SHALLOW','DEEP','ABSENT'],
+    labels:  ['Normal','Raso','Profundo','Ausente'] },
+  { id: 'P01.A10', label: 'Proporção Lábio Superior/Inferior',
+    type: 'SCALAR_RATIO', unit: 'RATIO', min: 0.3, max: 2.5, step: 0.01, placeholder: 'ratio (0.3 a 2.5)' },
+  { id: 'P01.A11', label: 'Competência Labial em Repouso',
+    type: 'CLASSIFICATION', unit: 'NONE',
+    options: ['COMPETENT','INCOMPETENT','POTENTIALLY_INCOMPETENT'],
+    labels:  ['Competente','Incompetente','Potencialmente Incompetente'] },
+  { id: 'P01.A12', label: 'Exposição Dentária em Repouso',
+    type: 'SCALAR_MM', unit: 'MM', min: -5, max: 10, step: 0.5, placeholder: 'mm (−5 a 10)' },
+]
+
+function renderMeasurements() {
+  const list = document.getElementById('meas-list')
+  list.innerHTML = ANALYSES.map(a => {
+    const isClass = a.type === 'CLASSIFICATION'
+    const input = isClass
+      ? `<select id="meas-${a.id}">${a.options.map((o,i) => `<option value="${o}">${a.labels[i]}</option>`).join('')}</select>`
+      : `<input id="meas-${a.id}" type="number" min="${a.min}" max="${a.max}" step="${a.step}" placeholder="${a.placeholder}">`
+    return `<div class="meas-row">
+      <div class="meas-label">${a.label}<div class="id">${a.id}</div></div>
+      <div class="meas-input">${input}</div>
+    </div>`
+  }).join('')
+}
+
+function collectMeasurements() {
+  const measurements = []
+  const errors = []
+  for (const a of ANALYSES) {
+    const el = document.getElementById(`meas-${a.id}`)
+    const raw = el.value.trim()
+    if (raw === '') { errors.push(`${a.label}: campo obrigatório`); continue }
+    if (a.type === 'CLASSIFICATION') {
+      measurements.push({ analysisId: a.id, value: { type: 'CLASSIFICATION', classification: raw, unit: 'NONE' } })
+    } else {
+      const num = parseFloat(raw)
+      if (isNaN(num)) { errors.push(`${a.label}: valor inválido`); continue }
+      if (num < a.min || num > a.max) { errors.push(`${a.label}: valor fora do intervalo [${a.min}, ${a.max}]`); continue }
+      measurements.push({ analysisId: a.id, value: { type: a.type, numericValue: String(num), unit: a.unit } })
+    }
+  }
+  return { measurements, errors }
+}
+
+const API = '/api/v1'
+
+async function postMeasurement(caseId, session, m, recordedBy) {
+  const r = await fetch(`${API}/cases/${encodeURIComponent(caseId)}/sessions/${encodeURIComponent(session)}/measurements`, {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ analysisId: m.analysisId, value: m.value, recordedBy })
+  })
+  return r.json()
+}
+
+async function postExecute(caseId, session, birthDate, sex, recordedBy) {
+  const r = await fetch(`${API}/cases/${encodeURIComponent(caseId)}/sessions/${encodeURIComponent(session)}/execute`, {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ protocolId: 'P01', patientBirthDate: birthDate, patientSex: sex, startedBy: recordedBy })
+  })
+  return { ok: r.ok, status: r.status, data: await r.json() }
+}
+
+async function getReportText(caseId, session, birthDate, sex) {
+  const params = new URLSearchParams({ protocolId: 'P01', patientBirthDate: birthDate, patientSex: sex })
+  const r = await fetch(`${API}/cases/${encodeURIComponent(caseId)}/sessions/${encodeURIComponent(session)}/report/text?${params}`)
+  if (!r.ok) return null
+  return r.text()
+}
+
+async function runPipeline() {
+  const btn = document.getElementById('btn-run')
+  const reportSection = document.getElementById('report-section')
+  const caseId    = document.getElementById('caseId').value.trim()
+  const session   = document.getElementById('sessionLabel').value.trim()
+  const birthDate = document.getElementById('birthDate').value
+  const sex       = document.getElementById('sex').value
+  const recordedBy = document.getElementById('orthodontistId').value.trim()
+
+  if (!caseId || !session || !birthDate || !recordedBy) {
+    showAlert('danger', 'Preencha todos os campos de identificação do caso.'); return
+  }
+  const { measurements, errors } = collectMeasurements()
+  if (errors.length) { showAlert('danger', 'Corrija os campos:<br>' + errors.map(e => `• ${e}`).join('<br>')); return }
+
+  btn.disabled = true
+  btn.innerHTML = '<span class="spinner"></span> Processando…'
+  reportSection.classList.remove('show')
+  showAlert('info', 'Enviando medições…')
+
+  try {
+    for (const m of measurements) {
+      const res = await postMeasurement(caseId, session, m, recordedBy)
+      if (res.validation && !res.validation.passed) {
+        throw new Error(`${m.analysisId}: ${res.validation.errors.map(e => e.message).join(', ')}`)
+      }
+    }
+    showAlert('info', 'Medições registradas. Executando análise…')
+    const { ok, data } = await postExecute(caseId, session, birthDate, sex, recordedBy)
+    if (!ok) throw new Error(data.error?.message ?? 'Erro desconhecido')
+    const text = await getReportText(caseId, session, birthDate, sex)
+    renderReport(data, text)
+    showAlert('success', `✓ Relatório gerado — ${data.findings.length} achados identificados.`)
+    reportSection.classList.add('show')
+    reportSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  } catch (err) {
+    showAlert('danger', `Erro: ${err.message}`)
+  } finally {
+    btn.disabled = false
+    btn.innerHTML = 'Gerar Relatório'
+  }
+}
+
+function renderReport(data, text) {
+  const { findings, report } = data
+  document.getElementById('report-meta').innerHTML = `
+    <div class="meta-chip"><span class="label">Total de Achados</span><span class="value">${report.totalFindings}</span></div>
+    <div class="meta-chip"><span class="label">Graves / Críticos</span><span class="value ${report.criticalCount > 0 ? 'danger' : 'success'}">${report.criticalCount}</span></div>
+    <div class="meta-chip"><span class="label">Encaminhamentos</span><span class="value ${report.referralCount > 0 ? 'warn' : 'success'}">${report.referralCount}</span></div>
+    <div class="meta-chip"><span class="label">Seções</span><span class="value">${report.sections.length}</span></div>`
+  const findingsEl = document.getElementById('findings-list')
+  findingsEl.innerHTML = findings.length === 0
+    ? '<p style="color:var(--muted);font-size:13px">Nenhum achado clínico encontrado.</p>'
+    : findings.map(f => `<div class="finding-card">
+        <div><span class="badge badge-${f.severity}">${severityLabel(f.severity)}</span></div>
+        <div>
+          <div class="finding-text">${f.text}</div>
+          ${f.referral ? '<div class="finding-ref">⚑ Encaminhamento especializado indicado</div>' : ''}
+        </div>
+      </div>`).join('')
+  if (text) document.getElementById('report-pre').textContent = text
+}
+
+function severityLabel(s) {
+  return { NORMAL:'Normal', BORDERLINE:'Limítrofe', MILD:'Leve', MODERATE:'Moderado', SEVERE:'Grave', CRITICAL:'Crítico' }[s] ?? s
+}
+
+function showAlert(type, msg) {
+  const el = document.getElementById('alert')
+  el.className = `alert alert-${type} show`
+  el.innerHTML = msg
+}
+
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'))
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'))
+  document.getElementById(id).classList.add('active')
+  btn.classList.add('active')
+}
+
+function resetForm() {
+  ANALYSES.forEach(a => { const el = document.getElementById(`meas-${a.id}`); if (el) el.value = '' })
+  document.getElementById('alert').className = 'alert'
+  document.getElementById('report-section').classList.remove('show')
+}
+
+renderMeasurements()
+</script>
+</body>
+</html>

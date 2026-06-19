@@ -1,4 +1,6 @@
 import Fastify from 'fastify'
+import fastifyStatic from '@fastify/static'
+import path from 'node:path'
 import { healthRoutes }      from './routes/health'
 import { measurementsRoutes } from './routes/measurements'
 import { executionRoutes }    from './routes/execution'
@@ -16,6 +18,10 @@ export async function buildApp() {
 
   // Plugins
   await app.register(enginesPlugin)
+
+  // Serve frontend static files
+  const webRoot = process.env['WEB_ROOT'] ?? path.join(__dirname, '../../../../apps/web')
+  await app.register(fastifyStatic, { root: webRoot, prefix: '/' })
 
   // Error handler
   app.setErrorHandler(errorHandler as Parameters<typeof app.setErrorHandler>[0])
