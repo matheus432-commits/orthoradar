@@ -1017,21 +1017,20 @@ function renderMeasurements() {
    PIPELINE
 ═══════════════════════════════ */
 function collectMeasurements() {
-  const out = [], errs = [];
+  const out = [];
   for (const a of ANALYSES) {
     const el  = document.getElementById('meas-' + a.id);
     const raw = el.value.trim();
-    if (a.type !== 'CLASSIFICATION' && raw === '') { errs.push(`${a.label}: obrigatório`); continue; }
     if (a.type === 'CLASSIFICATION') {
-      out.push({ analysisId:a.id, value:{ type:'CLASSIFICATION', classification:raw, unit:'NONE' } });
+      out.push({ analysisId:a.id, value:{ type:'CLASSIFICATION', classification:raw||a.options[0], unit:'NONE' } });
     } else {
+      if (raw === '') continue;
       const n = parseFloat(raw);
-      if (isNaN(n)) { errs.push(`${a.label}: valor inválido`); continue; }
-      if (n < a.min || n > a.max) { errs.push(`${a.label}: fora do intervalo [${a.min}, ${a.max}]`); continue; }
+      if (isNaN(n)) continue;
       out.push({ analysisId:a.id, value:{ type:a.type, numericValue:String(n), unit:a.unit } });
     }
   }
-  return { measurements:out, errors:errs };
+  return { measurements:out };
 }
 
 async function runPipeline() {
@@ -1046,8 +1045,7 @@ async function runPipeline() {
   if (!birthDate){ showAlert('alert-av','danger','Data de nascimento é obrigatória.'); return; }
   if (!isUUID(orthId)){ showAlert('alert-av','danger','ID do ortodontista deve ser um UUID válido.'); return; }
 
-  const { measurements, errors } = collectMeasurements();
-  if (errors.length) { showAlert('alert-av','danger','Corrija: ' + errors.join(' · ')); return; }
+  const { measurements } = collectMeasurements();
 
   btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Processando…';
   document.getElementById('report-section').classList.remove('show');
