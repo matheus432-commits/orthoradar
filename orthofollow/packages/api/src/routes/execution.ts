@@ -28,6 +28,8 @@ export async function executionRoutes(app: FastifyInstance): Promise<void> {
     const { caseId, sessionLabel } = req.params
     const body = parsed.data
 
+    try {
+
     const patientContext = makePatientContext(
       body.patientSex as BiologicalSex,
       body.patientBirthDate,
@@ -105,6 +107,12 @@ export async function executionRoutes(app: FastifyInstance): Promise<void> {
         }))
       }
     })
+
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : String(err)
+      app.log.error({ err }, 'execute route error')
+      return reply.status(500).send({ error: { code: 'INTERNAL_ERROR', message: msg } })
+    }
   })
 
   // GET /cases/:caseId/sessions/:sessionLabel/report/text

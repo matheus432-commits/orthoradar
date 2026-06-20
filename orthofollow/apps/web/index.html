@@ -1054,7 +1054,8 @@ async function runPipeline() {
         body:JSON.stringify({ analysisId:m.analysisId, value:m.value, recordedBy:orthId })
       });
       const b = await r.json();
-      if (b.validation && !b.validation.passed) throw new Error(`${m.analysisId}: ${b.validation.errors.map(e=>e.message).join(', ')}`);
+      if (!r.ok) throw new Error(`${m.analysisId}: ${b.error?.message || r.statusText}`);
+      if (b.validation && !b.validation.passed) throw new Error(`${m.analysisId}: ${b.validation.errors.map((e: {message:string})=>e.message).join(', ')}`);
     }
     showAlert('alert-av','info','Executando análise clínica…');
     const ex = await fetch(`${API}/cases/${enc(caseId)}/sessions/${enc(session)}/execute`, {
