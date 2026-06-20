@@ -1039,12 +1039,11 @@ async function runPipeline() {
   const session   = document.getElementById('av-session').value;
   const birthDate = document.getElementById('av-birth-date').value;
   const sex       = document.getElementById('av-sex').value;
-  const orthId    = document.getElementById('av-orth-id').value.trim();
+  let orthId      = document.getElementById('av-orth-id').value.trim();
 
   if (!caseId)   { showAlert('alert-av','danger','ID do caso é obrigatório.'); return; }
   if (!birthDate){ showAlert('alert-av','danger','Data de nascimento é obrigatória.'); return; }
-  if (!orthId) orthId = '00000000-0000-0000-0000-000000000001';
-  if (!isUUID(orthId)) orthId = '00000000-0000-0000-0000-000000000001';
+  if (!orthId || !isUUID(orthId)) orthId = '00000000-0000-0000-0000-000000000001';
 
   const { measurements } = collectMeasurements();
 
