@@ -85,7 +85,7 @@ CREATE TYPE math.execution_status AS ENUM (
 );
 
 CREATE TABLE math.execution_logs (
-  id                  UUID                    PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id                  UUID                    NOT NULL DEFAULT uuid_generate_v4(),
   formula_slug        TEXT                    NOT NULL,
   formula_version     TEXT                    NOT NULL,
   case_id             UUID                    NOT NULL,
@@ -99,6 +99,7 @@ CREATE TABLE math.execution_logs (
   result_payload      JSONB                   NOT NULL,
   cache_hit           BOOLEAN                 NOT NULL DEFAULT FALSE,
   executed_at         TIMESTAMPTZ             NOT NULL DEFAULT now(),
+  CONSTRAINT pk_execution_logs PRIMARY KEY (id, executed_at),
   CONSTRAINT chk_inputs_hash CHECK (inputs_hash ~ '^[0-9a-f]{64}$'),
   CONSTRAINT chk_output_hash CHECK (output_hash IS NULL OR output_hash ~ '^[0-9a-f]{64}$')
 ) PARTITION BY RANGE (executed_at);

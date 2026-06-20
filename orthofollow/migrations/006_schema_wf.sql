@@ -65,7 +65,7 @@ CREATE INDEX idx_wf_case   ON wf.workflow_states (case_id);
 CREATE INDEX idx_wf_status ON wf.workflow_states (status);
 
 CREATE TABLE wf.audit_logs (
-  id          UUID        PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id          UUID        NOT NULL DEFAULT uuid_generate_v4(),
   actor_id    UUID        NOT NULL,
   actor_type  TEXT        NOT NULL,
   action      TEXT        NOT NULL,
@@ -74,7 +74,8 @@ CREATE TABLE wf.audit_logs (
   before_hash CHAR(64),
   after_hash  CHAR(64),
   metadata    JSONB       NOT NULL DEFAULT '{}',
-  occurred_at TIMESTAMPTZ NOT NULL DEFAULT now()
+  occurred_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  CONSTRAINT pk_audit_logs PRIMARY KEY (id, occurred_at)
 ) PARTITION BY RANGE (occurred_at);
 
 CREATE TABLE wf.audit_logs_2026_h1 PARTITION OF wf.audit_logs FOR VALUES FROM ('2026-01-01') TO ('2026-07-01');
