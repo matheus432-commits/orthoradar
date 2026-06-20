@@ -20,20 +20,20 @@ export async function buildApp() {
   // Plugins
   await app.register(enginesPlugin)
 
-  // Serve frontend static files
-  const webRoot = process.env['WEB_ROOT'] ?? path.join(__dirname, '../../../../apps/web')
-  await app.register(fastifyStatic, { root: webRoot, prefix: '/' })
-
   // Error handler
   app.setErrorHandler(errorHandler as Parameters<typeof app.setErrorHandler>[0])
 
-  // Routes
+  // Routes (must be registered before static so they take precedence)
   const prefix = '/api/v1'
   await app.register(healthRoutes)
   await app.register(measurementsRoutes, { prefix })
   await app.register(executionRoutes,    { prefix })
   await app.register(workflowRoutes,     { prefix })
   await app.register(casesRoutes,        { prefix })
+
+  // Serve frontend static files (registered last so API routes take precedence)
+  const webRoot = process.env['WEB_ROOT'] ?? path.join(__dirname, '../../../../apps/web')
+  await app.register(fastifyStatic, { root: webRoot, prefix: '/', wildcard: false })
 
   return app
 }
