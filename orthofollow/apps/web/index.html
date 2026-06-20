@@ -561,9 +561,12 @@ function switchPhotoTab(key, btn) {
 ═══════════════════════════════ */
 async function loadDashboard() {
   const tbody = document.getElementById('cases-tbody');
-  tbody.innerHTML = '<tr><td colspan="7"><div class="empty"><div class="emoji">⏳</div><p>Carregando…</p></div></td></tr>';
+  tbody.innerHTML = '<tr><td colspan="7"><div class="empty"><div class="emoji">⏳</div><p>Carregando… <a href="/api/v1/cases" target="_blank" style="font-size:11px">[testar API]</a></p></div></td></tr>';
   try {
-    const r = await fetch(API + '/cases');
+    const ctrl = new AbortController();
+    const tid = setTimeout(() => ctrl.abort(), 8000);
+    const r = await fetch(API + '/cases', { signal: ctrl.signal });
+    clearTimeout(tid);
     if (!r.ok) throw new Error(await r.text());
     const { cases } = await r.json();
     document.getElementById('stat-total').textContent     = cases.length;
