@@ -1043,7 +1043,7 @@ async function runPipeline() {
 
   if (!caseId)   { showAlert('alert-av','danger','ID do caso é obrigatório.'); return; }
   if (!birthDate){ showAlert('alert-av','danger','Data de nascimento é obrigatória.'); return; }
-  if (!orthId || !isUUID(orthId)) orthId = '00000000-0000-0000-0000-000000000001';
+  if (!orthId || !isUUID(orthId)) orthId = 'a0000000-0000-4000-8000-000000000001';
 
   const { measurements } = collectMeasurements();
 
