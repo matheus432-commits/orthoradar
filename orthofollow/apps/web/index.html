@@ -1043,7 +1043,8 @@ async function runPipeline() {
 
   if (!caseId)   { showAlert('alert-av','danger','ID do caso é obrigatório.'); return; }
   if (!birthDate){ showAlert('alert-av','danger','Data de nascimento é obrigatória.'); return; }
-  if (!isUUID(orthId)){ showAlert('alert-av','danger','ID do ortodontista deve ser um UUID válido.'); return; }
+  if (!orthId) orthId = '00000000-0000-0000-0000-000000000001';
+  if (!isUUID(orthId)) orthId = '00000000-0000-0000-0000-000000000001';
 
   const { measurements } = collectMeasurements();
 
