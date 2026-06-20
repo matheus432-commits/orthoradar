@@ -4,929 +4,1179 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>OrthoFollow — Intranet</title>
+  <script type="importmap">
+  {"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.166.0/build/three.module.min.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.166.0/examples/jsm/"}}
+  </script>
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg:         #f0f4f8;
-      --surface:    #ffffff;
-      --border:     #dde2ea;
-      --primary:    #1a56db;
-      --primary-d:  #1648c0;
-      --primary-bg: #eff6ff;
-      --danger:     #dc2626;
-      --danger-bg:  #fef2f2;
-      --success:    #16a34a;
-      --success-bg: #f0fdf4;
-      --warn:       #d97706;
-      --warn-bg:    #fffbeb;
-      --text:       #111928;
-      --muted:      #6b7280;
-      --sidebar-w:  220px;
-      --header-h:   56px;
-      --radius:     8px;
-      --shadow:     0 1px 4px rgba(0,0,0,.08);
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#f0f4f8;--surface:#fff;--border:#dde2ea;
+      --primary:#1a56db;--primary-d:#1648c0;--primary-bg:#eff6ff;
+      --danger:#dc2626;--danger-bg:#fef2f2;
+      --success:#16a34a;--success-bg:#f0fdf4;
+      --warn:#d97706;--warn-bg:#fffbeb;
+      --text:#111928;--muted:#6b7280;
+      --sidebar-w:220px;--header-h:56px;--radius:8px;--shadow:0 1px 4px rgba(0,0,0,.08)
     }
+    body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
 
-    body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; }
+    /* Topbar */
+    .topbar{position:fixed;top:0;left:0;right:0;height:var(--header-h);background:var(--primary);color:#fff;display:flex;align-items:center;gap:14px;padding:0 20px;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+    .topbar .logo{font-size:18px;font-weight:800;letter-spacing:-.4px}
+    .topbar .logo span{opacity:.7;font-weight:400;font-size:13px;margin-left:6px}
+    .topbar .spacer{flex:1}
 
-    /* ── Header ── */
-    .topbar {
-      position: fixed; top: 0; left: 0; right: 0; height: var(--header-h);
-      background: var(--primary); color: #fff;
-      display: flex; align-items: center; gap: 14px; padding: 0 20px;
-      z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,.2);
-    }
-    .topbar .logo { font-size: 18px; font-weight: 800; letter-spacing: -.4px; }
-    .topbar .logo span { opacity: .7; font-weight: 400; font-size: 13px; margin-left: 6px; }
-    .topbar .spacer { flex: 1; }
-    .topbar .user-chip {
-      background: rgba(255,255,255,.15); border-radius: 6px;
-      padding: 4px 12px; font-size: 13px; cursor: pointer; border: none; color: #fff;
-    }
-    .topbar .user-chip:hover { background: rgba(255,255,255,.25); }
+    /* Sidebar */
+    .sidebar{position:fixed;top:var(--header-h);left:0;bottom:0;width:var(--sidebar-w);background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;z-index:50;overflow-y:auto}
+    .sidebar nav{padding:12px 8px;flex:1}
+    .nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:6px;margin-bottom:2px;font-size:14px;font-weight:500;color:var(--muted);cursor:pointer;border:none;background:none;width:100%;text-align:left;transition:background .12s,color .12s}
+    .nav-item .icon{font-size:17px;width:20px;text-align:center}
+    .nav-item:hover{background:var(--bg);color:var(--text)}
+    .nav-item.active{background:var(--primary-bg);color:var(--primary);font-weight:600}
+    .sidebar-footer{padding:12px 16px;font-size:11px;color:var(--muted);border-top:1px solid var(--border)}
 
-    /* ── Sidebar ── */
-    .sidebar {
-      position: fixed; top: var(--header-h); left: 0; bottom: 0;
-      width: var(--sidebar-w); background: var(--surface);
-      border-right: 1px solid var(--border);
-      display: flex; flex-direction: column; z-index: 50; overflow-y: auto;
-    }
-    .sidebar nav { padding: 12px 8px; flex: 1; }
-    .nav-item {
-      display: flex; align-items: center; gap: 10px;
-      padding: 9px 12px; border-radius: 6px; margin-bottom: 2px;
-      font-size: 14px; font-weight: 500; color: var(--muted);
-      cursor: pointer; border: none; background: none; width: 100%; text-align: left;
-      transition: background .12s, color .12s;
-    }
-    .nav-item .icon { font-size: 17px; width: 20px; text-align: center; }
-    .nav-item:hover { background: var(--bg); color: var(--text); }
-    .nav-item.active { background: var(--primary-bg); color: var(--primary); font-weight: 600; }
-    .sidebar-footer { padding: 12px 16px; font-size: 11px; color: var(--muted); border-top: 1px solid var(--border); }
+    /* Content */
+    .content{margin-top:var(--header-h);margin-left:var(--sidebar-w);padding:28px 24px 64px;min-height:calc(100vh - var(--header-h))}
+    .page{display:none}.page.active{display:block}
 
-    /* ── Main content ── */
-    .content {
-      margin-top: var(--header-h);
-      margin-left: var(--sidebar-w);
-      min-height: calc(100vh - var(--header-h));
-      padding: 28px 24px 64px;
-    }
+    /* Cards */
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px;margin-bottom:20px}
+    .card-title{font-size:15px;font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:8px}
+    .card-title .step{background:var(--primary);color:#fff;width:24px;height:24px;border-radius:50%;font-size:11px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
 
-    .page { display: none; }
-    .page.active { display: block; }
+    /* Page header */
+    .page-header{margin-bottom:24px}
+    .page-header h1{font-size:22px;font-weight:700}
+    .page-header p{color:var(--muted);font-size:14px;margin-top:4px}
 
-    /* ── Cards ── */
-    .card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--radius); box-shadow: var(--shadow); padding: 24px;
-      margin-bottom: 20px;
-    }
-    .card-title {
-      font-size: 15px; font-weight: 700; margin-bottom: 20px;
-      display: flex; align-items: center; gap: 8px;
-    }
-    .card-title .step {
-      background: var(--primary); color: #fff;
-      width: 24px; height: 24px; border-radius: 50%;
-      font-size: 11px; font-weight: 800;
-      display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
-    }
+    /* Stats */
+    .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px}
+    .stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow)}
+    .stat-card .sl{font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
+    .stat-card .sv{font-size:28px;font-weight:800;margin-top:4px;color:var(--text)}
+    .stat-card.primary .sv{color:var(--primary)}
 
-    /* ── Page headings ── */
-    .page-header { margin-bottom: 24px; }
-    .page-header h1 { font-size: 22px; font-weight: 700; }
-    .page-header p  { color: var(--muted); font-size: 14px; margin-top: 4px; }
+    /* Table */
+    .table-wrap{overflow-x:auto}
+    table{width:100%;border-collapse:collapse;font-size:13px}
+    thead th{background:var(--bg);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);padding:10px 14px;text-align:left;border-bottom:1px solid var(--border)}
+    tbody tr{border-bottom:1px solid var(--border)}
+    tbody tr:last-child{border-bottom:none}
+    tbody tr:hover{background:var(--bg)}
+    tbody td{padding:11px 14px;vertical-align:middle}
+    .badge-status{display:inline-flex;align-items:center;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:700;text-transform:uppercase}
+    .status-ACTIVE{background:#dcfce7;color:#14532d}
+    .status-TREATMENT{background:#dbeafe;color:#1e3a5f}
+    .status-COMPLETED{background:#f3f4f6;color:#374151}
 
-    /* ── Stats row ── */
-    .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 20px; }
-    .stat-card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 18px 20px; box-shadow: var(--shadow);
-    }
-    .stat-card .stat-label { font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .4px; }
-    .stat-card .stat-value { font-size: 28px; font-weight: 800; margin-top: 4px; color: var(--text); }
-    .stat-card.primary .stat-value { color: var(--primary); }
+    /* Forms */
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+    @media(max-width:700px){.grid2,.grid3,.stats-row{grid-template-columns:1fr}}
+    .field{display:flex;flex-direction:column;gap:5px}
+    .field label{font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
+    .field input,.field select{height:38px;border:1px solid var(--border);border-radius:6px;padding:0 10px;font-size:14px;color:var(--text);background:#fff;outline:none;transition:border-color .15s,box-shadow .15s}
+    .field input:focus,.field select:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(26,86,219,.12)}
+    .field .hint{font-size:11px;color:var(--muted)}
 
-    /* ── Table ── */
-    .table-wrap { overflow-x: auto; }
-    table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    thead th { background: var(--bg); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .4px; color: var(--muted); padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); }
-    tbody tr { border-bottom: 1px solid var(--border); transition: background .1s; }
-    tbody tr:last-child { border-bottom: none; }
-    tbody tr:hover { background: var(--bg); }
-    tbody td { padding: 11px 14px; vertical-align: middle; }
-    .badge-status {
-      display: inline-flex; align-items: center;
-      padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: uppercase;
-    }
-    .status-ACTIVE    { background: #dcfce7; color: #14532d; }
-    .status-TREATMENT { background: #dbeafe; color: #1e3a5f; }
-    .status-COMPLETED { background: #f3f4f6; color: #374151; }
+    /* Upload grid */
+    .upload-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+    @media(max-width:800px){.upload-grid{grid-template-columns:repeat(2,1fr)}}
+    .upload-zone{border:2px dashed var(--border);border-radius:8px;padding:16px 10px;text-align:center;cursor:pointer;transition:all .15s;position:relative;user-select:none}
+    .upload-zone:hover{border-color:var(--primary);background:var(--primary-bg)}
+    .upload-zone.has-file{border-color:var(--success);border-style:solid;background:var(--success-bg)}
+    .upload-zone.drag-over{border-color:var(--primary);background:var(--primary-bg);transform:scale(1.02)}
+    .upload-icon{font-size:28px;margin-bottom:6px}
+    .upload-label{font-size:13px;font-weight:600;margin-bottom:4px}
+    .upload-hint{font-size:11px;color:var(--muted);line-height:1.4}
+    .upload-preview{margin-top:8px}
+    .upload-preview img{width:100%;max-height:70px;object-fit:cover;border-radius:4px}
+    .upload-fname{font-size:10px;color:var(--success);font-weight:600;margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
-    /* ── Forms ── */
-    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
-    @media(max-width: 700px) { .grid2, .grid3, .stats-row { grid-template-columns: 1fr; } }
-    .form-row { margin-bottom: 16px; }
-    .field { display: flex; flex-direction: column; gap: 5px; }
-    .field label { font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .4px; }
-    .field input, .field select, .field textarea {
-      height: 38px; border: 1px solid var(--border); border-radius: 6px;
-      padding: 0 10px; font-size: 14px; color: var(--text); background: #fff;
-      outline: none; transition: border-color .15s, box-shadow .15s;
-    }
-    .field textarea { height: auto; padding: 8px 10px; resize: vertical; min-height: 72px; }
-    .field input:focus, .field select:focus, .field textarea:focus {
-      border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26,86,219,.12);
-    }
-    .field .hint { font-size: 11px; color: var(--muted); }
-    .field-group { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-bottom: 16px; }
-    .field-group-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); margin-bottom: 12px; }
+    /* Avaliação layout */
+    .av-layout{display:grid;grid-template-columns:1.3fr 1fr;gap:20px;align-items:start}
+    @media(max-width:1000px){.av-layout{grid-template-columns:1fr}}
 
-    /* ── Measurement list ── */
-    .meas-list { display: flex; flex-direction: column; gap: 8px; }
-    .meas-row {
-      display: grid; grid-template-columns: 1fr 200px; gap: 12px;
-      align-items: center; padding: 10px 14px;
-      border: 1px solid var(--border); border-radius: 6px; background: #fafbfc;
-    }
-    @media(max-width:600px) { .meas-row { grid-template-columns: 1fr; } }
-    .meas-label { font-size: 13px; font-weight: 500; line-height: 1.4; }
-    .meas-label .mid { font-size: 11px; color: var(--muted); font-weight: 400; }
-    .meas-input input, .meas-input select {
-      width: 100%; height: 36px; border: 1px solid var(--border);
-      border-radius: 6px; padding: 0 10px; font-size: 13px; background: #fff; outline: none;
-      transition: border-color .15s;
-    }
-    .meas-input input:focus, .meas-input select:focus { border-color: var(--primary); }
+    /* Photo tabs */
+    .photo-tabs{display:flex;gap:0;border-bottom:1px solid var(--border);background:var(--surface);border-radius:8px 8px 0 0;padding:0 4px}
+    .photo-tab{padding:8px 14px;border:none;background:none;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .12s}
+    .photo-tab.active{color:var(--primary);border-bottom-color:var(--primary);font-weight:600}
+    .photo-panel{display:none}
+    .photo-panel.active{display:block}
 
-    /* ── Buttons ── */
-    .btn {
-      display: inline-flex; align-items: center; justify-content: center; gap: 7px;
-      padding: 0 20px; height: 40px; border: none; border-radius: 6px;
-      font-size: 14px; font-weight: 600; cursor: pointer;
-      transition: background .15s, opacity .15s, box-shadow .15s;
-    }
-    .btn-primary  { background: var(--primary); color: #fff; }
-    .btn-primary:hover  { background: var(--primary-d); box-shadow: 0 2px 8px rgba(26,86,219,.3); }
-    .btn-primary:disabled { opacity: .5; cursor: not-allowed; }
-    .btn-outline  { background: transparent; border: 1px solid var(--border); color: var(--text); }
-    .btn-outline:hover  { background: var(--bg); }
-    .btn-sm { height: 32px; padding: 0 14px; font-size: 13px; }
-    .btn-danger { background: var(--danger); color: #fff; }
-    .btn-danger:hover { background: #b91c1c; }
-    .actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    /* Photo box */
+    .photo-box{background:#0f172a;border-radius:0 0 8px 8px;min-height:300px;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
+    .photo-box .empty-photo{color:#475569;text-align:center;padding:40px 20px}
+    .photo-box .empty-photo .ep-icon{font-size:36px;margin-bottom:8px}
+    .photo-box .empty-photo p{font-size:13px}
+    .photo-wrap{position:relative;display:inline-block;line-height:0;max-width:100%}
+    .photo-img{display:block;max-width:100%;max-height:460px;object-fit:contain}
+    .photo-canvas{position:absolute;top:0;left:0;cursor:crosshair}
 
-    /* ── Alerts ── */
-    .alert { padding: 12px 16px; border-radius: 6px; font-size: 13px; display: none; margin-bottom: 16px; line-height: 1.5; }
-    .alert.show { display: block; }
-    .alert-danger  { background: var(--danger-bg);  border: 1px solid #fca5a5; color: var(--danger); }
-    .alert-success { background: var(--success-bg); border: 1px solid #86efac; color: var(--success); }
-    .alert-info    { background: var(--primary-bg); border: 1px solid #93c5fd; color: #1d4ed8; }
-    .alert-warn    { background: var(--warn-bg);    border: 1px solid #fcd34d; color: var(--warn); }
+    /* Point hints */
+    .pt-area{background:var(--surface);border:1px solid var(--border);border-top:none;border-radius:0 0 8px 8px;padding:10px 12px}
+    .hint-text{font-size:12px;padding:6px 10px;background:var(--primary-bg);border-radius:4px;color:#1d4ed8;margin-bottom:8px;line-height:1.4}
+    .pt-list{display:flex;flex-direction:column;gap:2px;margin-bottom:8px;max-height:120px;overflow-y:auto}
+    .pt-item{display:flex;align-items:center;gap:8px;padding:3px 8px;border-radius:4px;font-size:12px;color:var(--muted)}
+    .pt-item.active{background:var(--primary-bg);color:var(--primary)}
+    .pt-item.placed{color:var(--success)}
+    .pt-key{font-weight:700;font-family:monospace;min-width:34px}
+    .pt-label{flex:1}
+    .pt-check{font-size:13px}
+    .hint-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:4px}
+    .ipd-wrap{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
+    .ipd-wrap input{width:56px;height:28px;border:1px solid var(--border);border-radius:4px;padding:0 6px;font-size:12px;text-align:center}
 
-    /* ── Case info banner ── */
-    .case-banner {
-      background: var(--primary-bg); border: 1px solid #93c5fd; border-radius: var(--radius);
-      padding: 12px 16px; margin-bottom: 20px;
-      display: none; gap: 20px; flex-wrap: wrap; align-items: center;
-    }
-    .case-banner.show { display: flex; }
-    .case-banner .cb-item { display: flex; flex-direction: column; }
-    .case-banner .cb-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .4px; color: #1d4ed8; }
-    .case-banner .cb-value { font-size: 14px; font-weight: 600; color: #1e3a5f; }
+    /* Measurements panel */
+    .av-measurements{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;position:sticky;top:calc(var(--header-h) + 16px);max-height:calc(100vh - var(--header-h) - 32px);overflow-y:auto}
+    .meas-list{display:flex;flex-direction:column;gap:6px}
+    .meas-row{display:grid;grid-template-columns:1fr 160px;gap:10px;align-items:center;padding:8px 10px;border:1px solid var(--border);border-radius:6px;background:#fafbfc}
+    .meas-label{font-size:12px;font-weight:500;line-height:1.4}
+    .meas-mid{font-size:10px;color:var(--muted);font-weight:400}
+    .meas-input input,.meas-input select{width:100%;height:34px;border:1px solid var(--border);border-radius:6px;padding:0 8px;font-size:13px;background:#fff;outline:none}
+    .meas-input input:focus,.meas-input select:focus{border-color:var(--primary)}
+    .meas-input input.auto-filled{background:#f0fdf4;border-color:#86efac}
 
-    /* ── Report section ── */
-    #report-section { display: none; }
-    #report-section.show { display: block; }
+    /* STL viewer */
+    #stl-canvas-wrap{width:100%;height:420px;background:#0f172a;border-radius:0 0 8px 8px;overflow:hidden}
 
-    .report-meta { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
-    .meta-chip {
-      display: flex; flex-direction: column;
-      background: var(--bg); border: 1px solid var(--border);
-      border-radius: 6px; padding: 10px 16px; min-width: 110px;
-    }
-    .meta-chip .ml { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .4px; }
-    .meta-chip .mv { font-size: 26px; font-weight: 800; color: var(--text); }
-    .meta-chip .mv.danger  { color: var(--danger); }
-    .meta-chip .mv.warn    { color: var(--warn); }
-    .meta-chip .mv.success { color: var(--success); }
+    /* Buttons */
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:0 20px;height:40px;border:none;border-radius:6px;font-size:14px;font-weight:600;cursor:pointer;transition:background .15s,opacity .15s}
+    .btn-primary{background:var(--primary);color:#fff}
+    .btn-primary:hover{background:var(--primary-d)}
+    .btn-primary:disabled{opacity:.5;cursor:not-allowed}
+    .btn-outline{background:transparent;border:1px solid var(--border);color:var(--text)}
+    .btn-outline:hover{background:var(--bg)}
+    .btn-sm{height:30px;padding:0 12px;font-size:12px}
+    .actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 
-    .findings-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
-    .finding-card {
-      display: grid; grid-template-columns: 100px 1fr; gap: 12px;
-      align-items: start; padding: 12px 14px;
-      border-radius: 6px; border: 1px solid var(--border);
-    }
-    .badge {
-      display: inline-flex; align-items: center; justify-content: center;
-      padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: 700;
-      text-transform: uppercase; letter-spacing: .3px; white-space: nowrap;
-    }
-    .badge-NORMAL     { background: #dcfce7; color: #14532d; }
-    .badge-MILD       { background: #fef3c7; color: #92400e; }
-    .badge-MODERATE   { background: #fed7aa; color: #7c2d12; }
-    .badge-SEVERE     { background: #fee2e2; color: #7f1d1d; }
-    .badge-CRITICAL   { background: #7f1d1d; color: #fff; }
-    .finding-text  { font-size: 13px; line-height: 1.6; }
-    .finding-ref   { font-size: 11px; color: var(--danger); font-weight: 600; margin-top: 4px; }
+    /* Alert */
+    .alert{padding:12px 16px;border-radius:6px;font-size:13px;display:none;margin-bottom:16px;line-height:1.5}
+    .alert.show{display:block}
+    .alert-danger{background:var(--danger-bg);border:1px solid #fca5a5;color:var(--danger)}
+    .alert-success{background:var(--success-bg);border:1px solid #86efac;color:var(--success)}
+    .alert-info{background:var(--primary-bg);border:1px solid #93c5fd;color:#1d4ed8}
+    .alert-warn{background:var(--warn-bg);border:1px solid #fcd34d;color:var(--warn)}
 
-    .report-pre {
-      background: #1e1e2e; color: #cdd6f4;
-      font-family: 'Consolas', 'Courier New', monospace;
-      font-size: 12px; line-height: 1.7; padding: 20px;
-      border-radius: 6px; overflow-x: auto; white-space: pre;
-    }
+    /* Case banner */
+    .case-banner{background:var(--primary-bg);border:1px solid #93c5fd;border-radius:var(--radius);padding:10px 16px;margin-bottom:16px;display:none;gap:20px;flex-wrap:wrap;align-items:center}
+    .case-banner.show{display:flex}
+    .cb-item{display:flex;flex-direction:column}
+    .cb-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:#1d4ed8}
+    .cb-value{font-size:14px;font-weight:600;color:#1e3a5f}
 
-    .tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
-    .tab {
-      padding: 8px 18px; font-size: 13px; font-weight: 500; cursor: pointer;
-      border: none; background: none; color: var(--muted);
-      border-bottom: 2px solid transparent; margin-bottom: -1px;
-    }
-    .tab.active { color: var(--primary); border-bottom-color: var(--primary); font-weight: 600; }
+    /* Report */
+    #report-section{display:none}
+    #report-section.show{display:block}
+    .report-meta{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+    .meta-chip{display:flex;flex-direction:column;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:10px 16px;min-width:100px}
+    .meta-chip .ml{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
+    .meta-chip .mv{font-size:26px;font-weight:800;color:var(--text)}
+    .meta-chip .mv.danger{color:var(--danger)}.meta-chip .mv.warn{color:var(--warn)}.meta-chip .mv.success{color:var(--success)}
+    .findings-list{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}
+    .finding-card{display:grid;grid-template-columns:100px 1fr;gap:12px;align-items:start;padding:12px 14px;border-radius:6px;border:1px solid var(--border)}
+    .badge{display:inline-flex;align-items:center;justify-content:center;padding:3px 8px;border-radius:4px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;white-space:nowrap}
+    .badge-NORMAL{background:#dcfce7;color:#14532d}.badge-MILD{background:#fef3c7;color:#92400e}
+    .badge-MODERATE{background:#fed7aa;color:#7c2d12}.badge-SEVERE{background:#fee2e2;color:#7f1d1d}.badge-CRITICAL{background:#7f1d1d;color:#fff}
+    .finding-text{font-size:13px;line-height:1.6}
+    .finding-ref{font-size:11px;color:var(--danger);font-weight:600;margin-top:4px}
+    .report-pre{background:#1e1e2e;color:#cdd6f4;font-family:'Consolas','Courier New',monospace;font-size:12px;line-height:1.7;padding:20px;border-radius:6px;overflow-x:auto;white-space:pre}
+    .tabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:20px}
+    .tab{padding:8px 18px;font-size:13px;font-weight:500;cursor:pointer;border:none;background:none;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-1px}
+    .tab.active{color:var(--primary);border-bottom-color:var(--primary);font-weight:600}
+    .tab-panel{display:none}.tab-panel.active{display:block}
 
-    .tab-panel { display: none; }
-    .tab-panel.active { display: block; }
-
-    /* ── Spinner ── */
-    .spinner {
-      display: inline-block; width: 15px; height: 15px;
-      border: 2px solid rgba(255,255,255,.3); border-top-color: #fff;
-      border-radius: 50%; animation: spin .6s linear infinite;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* ── Empty state ── */
-    .empty { text-align: center; padding: 48px 20px; color: var(--muted); }
-    .empty .emoji { font-size: 40px; margin-bottom: 12px; }
-    .empty p { font-size: 14px; }
-
-    /* ── Divider ── */
-    .divider { height: 1px; background: var(--border); margin: 24px 0; }
-
-    /* ── Separator label ── */
-    .section-label {
-      font-size: 11px; font-weight: 700; text-transform: uppercase;
-      letter-spacing: .5px; color: var(--muted); margin-bottom: 12px;
-    }
-
-    /* ── Session tabs for Avaliação ── */
-    .session-picker { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
-    .session-btn {
-      padding: 5px 14px; border-radius: 20px; border: 1px solid var(--border);
-      background: #fff; font-size: 13px; font-weight: 600; color: var(--muted);
-      cursor: pointer; transition: all .12s;
-    }
-    .session-btn:hover { border-color: var(--primary); color: var(--primary); }
-    .session-btn.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+    .spinner{display:inline-block;width:15px;height:15px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .empty{text-align:center;padding:40px 20px;color:var(--muted)}
+    .empty .emoji{font-size:36px;margin-bottom:10px}
+    .divider{height:1px;background:var(--border);margin:24px 0}
+    .section-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:10px}
   </style>
 </head>
 <body>
 
-<!-- ── Topbar ── -->
 <div class="topbar">
   <div class="logo">OrthoFollow <span>Análise Facial P01</span></div>
   <div class="spacer"></div>
   <div id="topbar-ortho" style="font-size:13px;opacity:.8">Intranet Clínica</div>
 </div>
 
-<!-- ── Sidebar ── -->
 <aside class="sidebar">
   <nav>
-    <button class="nav-item active" onclick="navigate('dashboard')">
-      <span class="icon">🏠</span> Dashboard
-    </button>
-    <button class="nav-item" onclick="navigate('novo-caso')">
-      <span class="icon">➕</span> Novo Caso
-    </button>
-    <button class="nav-item" onclick="navigate('avaliacao')">
-      <span class="icon">📋</span> Avaliação P01
-    </button>
+    <button class="nav-item active" onclick="navigate('dashboard')"><span class="icon">🏠</span> Dashboard</button>
+    <button class="nav-item" onclick="navigate('novo-caso')"><span class="icon">➕</span> Novo Caso</button>
+    <button class="nav-item" onclick="navigate('avaliacao')"><span class="icon">📋</span> Avaliação P01</button>
   </nav>
   <div class="sidebar-footer">v1.0 · Protocolo P01<br>Análise Facial Ortodôntica</div>
 </aside>
 
-<!-- ── Content ── -->
 <main class="content">
 
-  <!-- ══════════════════════════════
-       PAGE: DASHBOARD
-  ══════════════════════════════ -->
-  <div class="page active" id="page-dashboard">
-    <div class="page-header">
-      <h1>Dashboard</h1>
-      <p>Visão geral dos casos clínicos</p>
+<!-- ══ DASHBOARD ══ -->
+<div class="page active" id="page-dashboard">
+  <div class="page-header"><h1>Dashboard</h1><p>Visão geral dos casos clínicos</p></div>
+  <div class="stats-row">
+    <div class="stat-card primary"><div class="sl">Total de Casos</div><div class="sv" id="stat-total">—</div></div>
+    <div class="stat-card"><div class="sl">Casos Ativos</div><div class="sv" id="stat-active">—</div></div>
+    <div class="stat-card"><div class="sl">Em Tratamento</div><div class="sv" id="stat-treatment">—</div></div>
+    <div class="stat-card"><div class="sl">Concluídos</div><div class="sv" id="stat-completed">—</div></div>
+  </div>
+  <div class="card">
+    <div class="card-title" style="justify-content:space-between">
+      <span>Casos Recentes</span>
+      <button class="btn btn-primary btn-sm" onclick="navigate('novo-caso')">+ Novo Caso</button>
     </div>
+    <div class="table-wrap">
+      <table><thead><tr><th>Paciente</th><th>Nasc./Sexo</th><th>Ortodontista</th><th>Status</th><th>Sessões</th><th>Abertura</th><th></th></tr></thead>
+      <tbody id="cases-tbody"><tr><td colspan="7"><div class="empty"><div class="emoji">⏳</div><p>Carregando…</p></div></td></tr></tbody></table>
+    </div>
+  </div>
+</div>
 
-    <div class="stats-row">
-      <div class="stat-card primary">
-        <div class="stat-label">Total de Casos</div>
-        <div class="stat-value" id="stat-total">—</div>
+<!-- ══ NOVO CASO ══ -->
+<div class="page" id="page-novo-caso">
+  <div class="page-header"><h1>Novo Caso</h1><p>Cadastre o paciente, carregue as fotografias e o modelo STL</p></div>
+  <div id="alert-novo" class="alert"></div>
+
+  <div class="card">
+    <div class="card-title"><span class="step">1</span> Dados do Ortodontista</div>
+    <div class="grid2">
+      <div class="field">
+        <label>ID do Ortodontista (UUID)</label>
+        <input id="nc-orth-id" type="text" placeholder="Gerado automaticamente se vazio">
+        <span class="hint">UUID único por profissional</span>
       </div>
-      <div class="stat-card">
-        <div class="stat-label">Casos Ativos</div>
-        <div class="stat-value" id="stat-active">—</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Em Tratamento</div>
-        <div class="stat-value" id="stat-treatment">—</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Concluídos</div>
-        <div class="stat-value" id="stat-completed">—</div>
+      <div class="field"><label>Nome Completo</label><input id="nc-orth-name" type="text" placeholder="Dr. Nome Sobrenome"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="step">2</span> Dados do Paciente</div>
+    <div class="grid3" style="margin-bottom:16px">
+      <div class="field"><label>Nome</label><input id="nc-pat-given" type="text" placeholder="Nome"></div>
+      <div class="field"><label>Sobrenome</label><input id="nc-pat-family" type="text" placeholder="Sobrenome"></div>
+      <div class="field"><label>Sexo Biológico</label>
+        <select id="nc-pat-sex"><option value="F">Feminino</option><option value="M">Masculino</option><option value="UNSPECIFIED">Não informado</option></select>
       </div>
     </div>
+    <div class="grid2">
+      <div class="field"><label>Data de Nascimento</label><input id="nc-pat-birth" type="date"></div>
+      <div class="field"><label>Queixa Principal</label><input id="nc-complaint" type="text" placeholder="Opcional"></div>
+    </div>
+  </div>
 
-    <div class="card">
-      <div class="card-title" style="justify-content:space-between">
-        <span>Casos Recentes</span>
-        <button class="btn btn-primary btn-sm" onclick="navigate('novo-caso')">+ Novo Caso</button>
-      </div>
-      <div class="table-wrap">
-        <table id="cases-table">
-          <thead>
-            <tr>
-              <th>Paciente</th>
-              <th>Nascimento / Sexo</th>
-              <th>Ortodontista</th>
-              <th>Status</th>
-              <th>Sessões</th>
-              <th>Abertura</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody id="cases-tbody">
-            <tr><td colspan="7"><div class="empty"><div class="emoji">⏳</div><p>Carregando casos…</p></div></td></tr>
-          </tbody>
-        </table>
+  <div class="card">
+    <div class="card-title"><span class="step">3</span> Sessão Inicial</div>
+    <div class="grid2">
+      <div class="field"><label>Rótulo da Sessão</label>
+        <select id="nc-session">
+          <option value="T0">T0 — Inicial / Pré-tratamento</option>
+          <option value="T1">T1</option><option value="T2">T2</option><option value="T3">T3</option>
+          <option value="TN">TN — Final / Alta</option>
+        </select>
       </div>
     </div>
   </div>
 
-  <!-- ══════════════════════════════
-       PAGE: NOVO CASO
-  ══════════════════════════════ -->
-  <div class="page" id="page-novo-caso">
-    <div class="page-header">
-      <h1>Novo Caso</h1>
-      <p>Cadastre o paciente e inicie a avaliação</p>
-    </div>
-
-    <div id="alert-novo" class="alert"></div>
-
-    <div class="card">
-      <div class="card-title"><span class="step">1</span> Dados do Ortodontista</div>
-      <div class="grid2">
-        <div class="field">
-          <label>ID do Ortodontista (UUID)</label>
-          <input id="nc-orth-id" type="text" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx">
-          <span class="hint">UUID único por profissional. Gera automaticamente se em branco.</span>
-        </div>
-        <div class="field">
-          <label>Nome Completo</label>
-          <input id="nc-orth-name" type="text" placeholder="Dr. Nome Sobrenome">
-        </div>
+  <div class="card">
+    <div class="card-title"><span class="step">4</span> Fotografias e Modelo 3D</div>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:16px">Carregue as fotografias clínicas e o arquivo STL. Você marcará os pontos anatômicos na etapa seguinte.</p>
+    <div class="upload-grid">
+      <div class="upload-zone" id="uz-frontal" onclick="triggerUpload('frontal')" ondragover="dzOver(event,'uz-frontal')" ondragleave="dzLeave('uz-frontal')" ondrop="dzDrop(event,'frontal','uz-frontal')">
+        <div class="upload-icon">📷</div>
+        <div class="upload-label">Foto Frontal</div>
+        <div class="upload-hint">Frente, olhos abertos, posição natural de repouso</div>
+        <div class="upload-preview" id="up-frontal"></div>
+      </div>
+      <div class="upload-zone" id="uz-perfil" onclick="triggerUpload('perfil')" ondragover="dzOver(event,'uz-perfil')" ondragleave="dzLeave('uz-perfil')" ondrop="dzDrop(event,'perfil','uz-perfil')">
+        <div class="upload-icon">📷</div>
+        <div class="upload-label">Foto de Perfil</div>
+        <div class="upload-hint">Perfil direito, lábios em repouso natural</div>
+        <div class="upload-preview" id="up-perfil"></div>
+      </div>
+      <div class="upload-zone" id="uz-sorriso" onclick="triggerUpload('sorriso')" ondragover="dzOver(event,'uz-sorriso')" ondragleave="dzLeave('uz-sorriso')" ondrop="dzDrop(event,'sorriso','uz-sorriso')">
+        <div class="upload-icon">😊</div>
+        <div class="upload-label">Foto de Sorriso</div>
+        <div class="upload-hint">Sorriso aberto mostrando os dentes frontais</div>
+        <div class="upload-preview" id="up-sorriso"></div>
+      </div>
+      <div class="upload-zone" id="uz-stl" onclick="triggerUpload('stl')" ondragover="dzOver(event,'uz-stl')" ondragleave="dzLeave('uz-stl')" ondrop="dzDrop(event,'stl','uz-stl')">
+        <div class="upload-icon">🦷</div>
+        <div class="upload-label">Modelo STL</div>
+        <div class="upload-hint">Arquivo .stl da mordida ou modelo de gesso</div>
+        <div class="upload-preview" id="up-stl"></div>
       </div>
     </div>
-
-    <div class="card">
-      <div class="card-title"><span class="step">2</span> Dados do Paciente</div>
-      <div class="grid3" style="margin-bottom:16px">
-        <div class="field">
-          <label>Nome</label>
-          <input id="nc-pat-given" type="text" placeholder="Nome">
-        </div>
-        <div class="field">
-          <label>Sobrenome</label>
-          <input id="nc-pat-family" type="text" placeholder="Sobrenome">
-        </div>
-        <div class="field">
-          <label>Sexo Biológico</label>
-          <select id="nc-pat-sex">
-            <option value="F">Feminino</option>
-            <option value="M">Masculino</option>
-            <option value="UNSPECIFIED">Não informado</option>
-          </select>
-        </div>
-      </div>
-      <div class="grid2">
-        <div class="field">
-          <label>Data de Nascimento</label>
-          <input id="nc-pat-birth" type="date">
-        </div>
-        <div class="field">
-          <label>Queixa Principal</label>
-          <input id="nc-complaint" type="text" placeholder="Opcional">
-        </div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-title"><span class="step">3</span> Sessão Inicial</div>
-      <div class="grid2">
-        <div class="field">
-          <label>Rótulo da Sessão</label>
-          <select id="nc-session">
-            <option value="T0">T0 — Inicial / Pré-tratamento</option>
-            <option value="T1">T1</option>
-            <option value="T2">T2</option>
-            <option value="T3">T3</option>
-            <option value="TN">TN — Final / Alta</option>
-          </select>
-        </div>
-      </div>
-    </div>
-
-    <div class="actions">
-      <button class="btn btn-primary" id="btn-register" onclick="registerCase()">Cadastrar e Iniciar Avaliação</button>
-      <button class="btn btn-outline" onclick="resetNovoCaso()">Limpar</button>
-    </div>
+    <input type="file" id="file-frontal" accept="image/*" hidden onchange="handleUpload('frontal',this)">
+    <input type="file" id="file-perfil" accept="image/*" hidden onchange="handleUpload('perfil',this)">
+    <input type="file" id="file-sorriso" accept="image/*" hidden onchange="handleUpload('sorriso',this)">
+    <input type="file" id="file-stl" accept=".stl" hidden onchange="handleUpload('stl',this)">
   </div>
 
-  <!-- ══════════════════════════════
-       PAGE: AVALIAÇÃO P01
-  ══════════════════════════════ -->
-  <div class="page" id="page-avaliacao">
-    <div class="page-header">
-      <h1>Avaliação Facial — Protocolo P01</h1>
-      <p>Registre as 12 medições da análise facial e gere o relatório</p>
-    </div>
+  <div class="actions">
+    <button class="btn btn-primary" id="btn-register" onclick="registerCase()">Cadastrar e Iniciar Avaliação</button>
+    <button class="btn btn-outline" onclick="resetNovoCaso()">Limpar</button>
+  </div>
+</div>
 
-    <!-- Case identification -->
-    <div class="card">
-      <div class="card-title"><span class="step">1</span> Identificação do Caso</div>
-      <div class="grid3" style="margin-bottom:16px">
-        <div class="field">
-          <label>ID do Caso (UUID)</label>
-          <input id="av-case-id" type="text" placeholder="UUID do caso">
+<!-- ══ AVALIAÇÃO ══ -->
+<div class="page" id="page-avaliacao">
+  <div class="page-header"><h1>Avaliação Facial — Protocolo P01</h1><p>Marque os pontos anatômicos nas fotos para calcular as medições automaticamente</p></div>
+
+  <div id="av-banner" class="case-banner"></div>
+  <div id="alert-av" class="alert"></div>
+
+  <div class="av-layout">
+
+    <!-- Left: Photos + annotation -->
+    <div>
+      <div class="card" style="padding:0;overflow:hidden">
+        <div class="photo-tabs" id="photo-tabs">
+          <button class="photo-tab active" onclick="switchPhotoTab('frontal',this)">📷 Frontal</button>
+          <button class="photo-tab" onclick="switchPhotoTab('perfil',this)">📷 Perfil</button>
+          <button class="photo-tab" onclick="switchPhotoTab('sorriso',this)">😊 Sorriso</button>
+          <button class="photo-tab" onclick="switchPhotoTab('stl3d',this)">🦷 Modelo 3D</button>
         </div>
-        <div class="field">
-          <label>Sessão</label>
-          <select id="av-session">
-            <option value="T0">T0</option>
-            <option value="T1">T1</option>
-            <option value="T2">T2</option>
-            <option value="T3">T3</option>
-            <option value="TN">TN</option>
-          </select>
+
+        <!-- Frontal -->
+        <div class="photo-panel active" id="pp-frontal">
+          <div class="photo-box" id="pb-frontal">
+            <div class="empty-photo"><div class="ep-icon">📷</div><p>Carregue a foto frontal<br><button class="btn btn-outline btn-sm" style="margin-top:10px" onclick="triggerUpload('frontal')">Selecionar foto</button></p></div>
+          </div>
+          <div class="pt-area">
+            <div class="hint-text" id="hint-frontal">Carregue a foto frontal para iniciar a marcação de pontos</div>
+            <div class="pt-list" id="ptl-frontal"></div>
+            <div class="hint-row">
+              <div class="ipd-wrap">DIP: <input type="number" id="ipd-input" value="62" min="50" max="75" title="Distância Interpupilar em mm (padrão: 62 mm)"> mm</div>
+              <button class="btn btn-outline btn-sm" onclick="annotators.frontal&&annotators.frontal.undo()">↩ Desfazer</button>
+              <button class="btn btn-outline btn-sm" onclick="annotators.frontal&&annotators.frontal.reset()">✕ Resetar</button>
+              <button class="btn btn-outline btn-sm" onclick="triggerUpload('frontal')">📷 Trocar foto</button>
+            </div>
+          </div>
         </div>
-        <div class="field">
-          <label>ID do Ortodontista (UUID)</label>
-          <input id="av-orth-id" type="text" placeholder="UUID">
+
+        <!-- Perfil -->
+        <div class="photo-panel" id="pp-perfil">
+          <div class="photo-box" id="pb-perfil">
+            <div class="empty-photo"><div class="ep-icon">📷</div><p>Carregue a foto de perfil<br><button class="btn btn-outline btn-sm" style="margin-top:10px" onclick="triggerUpload('perfil')">Selecionar foto</button></p></div>
+          </div>
+          <div class="pt-area">
+            <div class="hint-text" id="hint-perfil">Carregue a foto de perfil para iniciar a marcação de pontos</div>
+            <div class="pt-list" id="ptl-perfil"></div>
+            <div class="hint-row">
+              <button class="btn btn-outline btn-sm" onclick="annotators.perfil&&annotators.perfil.undo()">↩ Desfazer</button>
+              <button class="btn btn-outline btn-sm" onclick="annotators.perfil&&annotators.perfil.reset()">✕ Resetar</button>
+              <button class="btn btn-outline btn-sm" onclick="triggerUpload('perfil')">📷 Trocar foto</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sorriso -->
+        <div class="photo-panel" id="pp-sorriso">
+          <div class="photo-box" id="pb-sorriso">
+            <div class="empty-photo"><div class="ep-icon">😊</div><p>Carregue a foto de sorriso<br><button class="btn btn-outline btn-sm" style="margin-top:10px" onclick="triggerUpload('sorriso')">Selecionar foto</button></p></div>
+          </div>
+          <div class="pt-area">
+            <div class="hint-text" id="hint-sorriso">Carregue a foto de sorriso para iniciar a marcação de pontos</div>
+            <div class="pt-list" id="ptl-sorriso"></div>
+            <div class="hint-row">
+              <button class="btn btn-outline btn-sm" onclick="annotators.sorriso&&annotators.sorriso.undo()">↩ Desfazer</button>
+              <button class="btn btn-outline btn-sm" onclick="annotators.sorriso&&annotators.sorriso.reset()">✕ Resetar</button>
+              <button class="btn btn-outline btn-sm" onclick="triggerUpload('sorriso')">📷 Trocar foto</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- STL 3D -->
+        <div class="photo-panel" id="pp-stl3d">
+          <div id="stl-canvas-wrap">
+            <div class="empty-photo" id="stl-empty" style="padding:60px 20px"><div class="ep-icon">🦷</div><p>Carregue o arquivo STL para visualizar o modelo 3D<br><button class="btn btn-outline btn-sm" style="margin-top:10px" onclick="triggerUpload('stl')">Selecionar STL</button></p></div>
+          </div>
+          <div class="pt-area">
+            <div class="hint-text">Use o mouse para rotacionar (botão esquerdo), zoom (scroll) e mover (botão direito) o modelo 3D.</div>
+            <div class="hint-row"><button class="btn btn-outline btn-sm" onclick="triggerUpload('stl')">🦷 Trocar arquivo STL</button></div>
+          </div>
         </div>
       </div>
-      <div class="grid3">
-        <div class="field">
-          <label>Nome do Paciente</label>
-          <input id="av-patient-name" type="text" placeholder="Nome completo">
-        </div>
-        <div class="field">
-          <label>Data de Nascimento</label>
-          <input id="av-birth-date" type="date">
-        </div>
-        <div class="field">
-          <label>Sexo Biológico</label>
-          <select id="av-sex">
-            <option value="F">Feminino</option>
-            <option value="M">Masculino</option>
-            <option value="UNSPECIFIED">Não informado</option>
-          </select>
-        </div>
-      </div>
     </div>
 
-    <!-- Measurements -->
-    <div class="card">
-      <div class="card-title"><span class="step">2</span> Medições Clínicas</div>
+    <!-- Right: Measurements -->
+    <div class="av-measurements">
+      <div class="section-label">Identificação do Caso</div>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px">
+        <div class="field"><label>ID do Caso (UUID)</label><input id="av-case-id" type="text" placeholder="UUID do caso"></div>
+        <div class="grid2">
+          <div class="field"><label>Sessão</label>
+            <select id="av-session"><option value="T0">T0</option><option value="T1">T1</option><option value="T2">T2</option><option value="T3">T3</option><option value="TN">TN</option></select>
+          </div>
+          <div class="field"><label>Sexo</label>
+            <select id="av-sex"><option value="F">Feminino</option><option value="M">Masculino</option><option value="UNSPECIFIED">N/I</option></select>
+          </div>
+        </div>
+        <div class="field"><label>Data de Nascimento</label><input id="av-birth-date" type="date"></div>
+        <div class="field"><label>ID do Ortodontista (UUID)</label><input id="av-orth-id" type="text" placeholder="UUID"></div>
+      </div>
+      <div class="divider" style="margin:12px 0"></div>
+      <div class="section-label">Medições P01 <span id="auto-badge" style="font-size:10px;font-weight:400;color:var(--success);display:none"> · ✓ calculado automaticamente</span></div>
       <div class="meas-list" id="meas-list"></div>
-    </div>
-
-    <div id="alert-av" class="alert"></div>
-
-    <div class="actions">
-      <button class="btn btn-primary" id="btn-run" onclick="runPipeline()">Gerar Relatório</button>
-      <button class="btn btn-outline" onclick="clearMeasurements()">Limpar Medições</button>
-    </div>
-
-    <!-- Report -->
-    <div id="report-section">
-      <div class="divider"></div>
-      <div class="card">
-        <div class="card-title"><span class="step">3</span> Resultado da Avaliação</div>
-        <div class="report-meta" id="report-meta"></div>
-        <div class="tabs">
-          <button class="tab active" onclick="showTab('tab-findings', this)">Achados Clínicos</button>
-          <button class="tab" onclick="showTab('tab-report', this)">Relatório Completo</button>
-        </div>
-        <div class="tab-panel active" id="tab-findings">
-          <div class="findings-list" id="findings-list"></div>
-        </div>
-        <div class="tab-panel" id="tab-report">
-          <pre class="report-pre" id="report-pre"></pre>
-        </div>
+      <div style="margin-top:16px">
+        <button class="btn btn-primary" id="btn-run" style="width:100%" onclick="runPipeline()">Gerar Relatório</button>
       </div>
     </div>
+  </div>
 
-  </div><!-- /page-avaliacao -->
+  <!-- Report -->
+  <div id="report-section">
+    <div class="divider"></div>
+    <div class="card">
+      <div class="card-title"><span class="step">3</span> Resultado da Avaliação</div>
+      <div class="report-meta" id="report-meta"></div>
+      <div class="tabs">
+        <button class="tab active" onclick="showTab('tab-findings',this)">Achados Clínicos</button>
+        <button class="tab" onclick="showTab('tab-report',this)">Relatório Completo</button>
+      </div>
+      <div class="tab-panel active" id="tab-findings"><div class="findings-list" id="findings-list"></div></div>
+      <div class="tab-panel" id="tab-report"><pre class="report-pre" id="report-pre"></pre></div>
+    </div>
+  </div>
+</div><!-- /page-avaliacao -->
 
-</main><!-- /content -->
+</main>
+
+<!-- Three.js -->
+<script type="module">
+import * as THREE from 'three';
+import { STLLoader } from 'three/addons/loaders/STLLoader.js';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+window.__LIBS = { THREE, STLLoader, OrbitControls };
+document.dispatchEvent(new Event('libs-ready'));
+</script>
 
 <script>
-/* ─────────────────────────────────────────────
-   DATA: Analyses (corrected to match backend P01)
-───────────────────────────────────────────────*/
+/* ═══════════════════════════════
+   LANDMARK DEFINITIONS
+═══════════════════════════════ */
+const PHOTO_DEFS = {
+  frontal: {
+    color: '#1a56db',
+    points: [
+      { key:'Tr',  label:'Tríquio',        hint:'Ponto mais alto da linha do cabelo (centro)' },
+      { key:'G',   label:'Glabela',         hint:'Ponto entre as sobrancelhas' },
+      { key:'Sn',  label:'Subnasal',        hint:'Onde a base do nariz encontra o lábio superior' },
+      { key:'Me',  label:'Mentoniana',      hint:'Ponto mais inferior do mento' },
+      { key:'Pd',  label:'Pupila Direita',  hint:'Centro da pupila direita do paciente' },
+      { key:'Pe',  label:'Pupila Esq.',     hint:'Centro da pupila esquerda do paciente' },
+      { key:'Lm',  label:'Linha Média',     hint:'Centro da linha média dental superior' },
+    ]
+  },
+  perfil: {
+    color: '#7e3af2',
+    points: [
+      { key:'G',   label:'Glabela',         hint:'Ponto mais proeminente da fronte' },
+      { key:'Prn', label:'Pronasal',        hint:'Ponta do nariz' },
+      { key:'Sn',  label:'Subnasal',        hint:'Junção nariz/lábio superior' },
+      { key:'Ls',  label:'Lábio Superior',  hint:'Ponto mais anterior do lábio superior' },
+      { key:'Pg',  label:'Pogônio',         hint:'Ponto mais anterior do mento' },
+    ]
+  },
+  sorriso: {
+    color: '#057a55',
+    points: [
+      { key:'StS', label:'Estômio Sup.',    hint:'Borda inferior do lábio superior em repouso' },
+      { key:'StI', label:'Estômio Inf.',    hint:'Borda superior do lábio inferior em repouso' },
+      { key:'U1r', label:'Incisivo Dir.',   hint:'Borda do incisivo central superior direito' },
+      { key:'U1l', label:'Incisivo Esq.',   hint:'Borda do incisivo central superior esquerdo' },
+    ]
+  }
+};
+
+/* ═══════════════════════════════
+   ANALYSES
+═══════════════════════════════ */
 const ANALYSES = [
-  { id: 'P01.A01', label: 'Simetria Facial Vertical',
-    type: 'CLASSIFICATION', unit: 'NONE',
-    options: ['SYMMETRIC','ASYMMETRIC_MILD','ASYMMETRIC_MODERATE','ASYMMETRIC_SEVERE'],
-    labels:  ['Simétrica','Assimetria Leve','Assimetria Moderada','Assimetria Grave'] },
+  { id:'P01.A01', label:'Simetria Facial Vertical',        type:'CLASSIFICATION', unit:'NONE',
+    options:['SYMMETRIC','ASYMMETRIC_MILD','ASYMMETRIC_MODERATE','ASYMMETRIC_SEVERE'],
+    labels: ['Simétrica','Assimetria Leve','Assimetria Moderada','Assimetria Grave'] },
+  { id:'P01.A02', label:'Desvio de Linha Média (mm)',       type:'SCALAR_MM',      unit:'MM',      min:-10, max:10,  step:.5,  placeholder:'mm (−10 a 10)' },
+  { id:'P01.A03', label:'Proporção Terço Superior (%)',     type:'SCALAR_PERCENT', unit:'PERCENT', min:0,   max:100, step:.1,  placeholder:'% (0 a 100)' },
+  { id:'P01.A04', label:'Proporção Terço Médio (%)',        type:'SCALAR_PERCENT', unit:'PERCENT', min:0,   max:100, step:.1,  placeholder:'% (0 a 100)' },
+  { id:'P01.A05', label:'Proporção Terço Inferior (%)',     type:'SCALAR_PERCENT', unit:'PERCENT', min:0,   max:100, step:.1,  placeholder:'% (0 a 100)' },
+  { id:'P01.A06', label:'Perfil Facial',                   type:'CLASSIFICATION', unit:'NONE',
+    options:['CONVEX','STRAIGHT','CONCAVE'], labels:['Convexo','Reto','Côncavo'] },
+  { id:'P01.A07', label:'Ângulo Nasolabial (°)',            type:'SCALAR_DEGREES', unit:'DEGREES', min:70,  max:145, step:.5,  placeholder:'° (70 a 145)' },
+  { id:'P01.A08', label:'Projeção do Mento',               type:'CLASSIFICATION', unit:'NONE',
+    options:['NORMAL','RETRUDED','PROTRUDED'], labels:['Normal','Retraído','Protruído'] },
+  { id:'P01.A09', label:'Simetria Nasal',                  type:'CLASSIFICATION', unit:'NONE',
+    options:['NORMAL','DEVIATED_LEFT','DEVIATED_RIGHT'], labels:['Normal','Desvio Esq.','Desvio Dir.'] },
+  { id:'P01.A10', label:'Razão Labial Superior/Inferior',  type:'SCALAR_RATIO',   unit:'RATIO',   min:0,   max:3,   step:.01, placeholder:'ratio (0 a 3)' },
+  { id:'P01.A11', label:'Competência Labial',              type:'CLASSIFICATION', unit:'NONE',
+    options:['COMPETENT','INCOMPETENT','POTENTIALLY_INCOMPETENT'], labels:['Competente','Incompetente','Pot. Incompetente'] },
+  { id:'P01.A12', label:'Exposição Dentária no Sorriso (mm)', type:'SCALAR_MM',   unit:'MM',      min:0,   max:10,  step:.5,  placeholder:'mm (0 a 10)' },
+];
 
-  { id: 'P01.A02', label: 'Desvio de Linha Média (mm)',
-    type: 'SCALAR_MM', unit: 'MM', min: -10, max: 10, step: 0.5,
-    placeholder: 'mm  (−10 a 10)' },
+const API = '/api/v1';
 
-  { id: 'P01.A03', label: 'Proporção Terço Superior (%)',
-    type: 'SCALAR_PERCENT', unit: 'PERCENT', min: 0, max: 100, step: 0.1,
-    placeholder: '%  (0 a 100)' },
+/* ═══════════════════════════════
+   STATE
+═══════════════════════════════ */
+const state = {
+  files: {},
+  points: { frontal:{}, perfil:{}, sorriso:{} },
+  imgNat: { frontal:null, perfil:null, sorriso:null }  // {w,h}
+};
+const annotators = { frontal:null, perfil:null, sorriso:null };
+let stlViewer = null;
+let libsReady = false;
 
-  { id: 'P01.A04', label: 'Proporção Terço Médio (%)',
-    type: 'SCALAR_PERCENT', unit: 'PERCENT', min: 0, max: 100, step: 0.1,
-    placeholder: '%  (0 a 100)' },
+document.addEventListener('libs-ready', () => { libsReady = true; });
 
-  { id: 'P01.A05', label: 'Proporção Terço Inferior (%)',
-    type: 'SCALAR_PERCENT', unit: 'PERCENT', min: 0, max: 100, step: 0.1,
-    placeholder: '%  (0 a 100)' },
-
-  { id: 'P01.A06', label: 'Perfil Facial',
-    type: 'CLASSIFICATION', unit: 'NONE',
-    options: ['CONVEX','STRAIGHT','CONCAVE'],
-    labels:  ['Convexo','Reto','Côncavo'] },
-
-  { id: 'P01.A07', label: 'Ângulo Nasolabial (°)',
-    type: 'SCALAR_DEGREES', unit: 'DEGREES', min: 70, max: 145, step: 0.5,
-    placeholder: '°  (70 a 145)' },
-
-  { id: 'P01.A08', label: 'Projeção do Mento',
-    type: 'CLASSIFICATION', unit: 'NONE',
-    options: ['NORMAL','RETRUDED','PROTRUDED'],
-    labels:  ['Normal','Retraído','Protruído'] },
-
-  { id: 'P01.A09', label: 'Simetria Nasal',
-    type: 'CLASSIFICATION', unit: 'NONE',
-    options: ['NORMAL','DEVIATED_LEFT','DEVIATED_RIGHT'],
-    labels:  ['Normal','Desvio à Esquerda','Desvio à Direita'] },
-
-  { id: 'P01.A10', label: 'Razão Labial Superior/Inferior',
-    type: 'SCALAR_RATIO', unit: 'RATIO', min: 0, max: 3, step: 0.01,
-    placeholder: 'ratio  (0 a 3)' },
-
-  { id: 'P01.A11', label: 'Competência Labial',
-    type: 'CLASSIFICATION', unit: 'NONE',
-    options: ['COMPETENT','INCOMPETENT','POTENTIALLY_INCOMPETENT'],
-    labels:  ['Competente','Incompetente','Potencialmente Incompetente'] },
-
-  { id: 'P01.A12', label: 'Exposição Dentária no Sorriso (mm)',
-    type: 'SCALAR_MM', unit: 'MM', min: 0, max: 10, step: 0.5,
-    placeholder: 'mm  (0 a 10)' },
-]
-
-const API = '/api/v1'
-
-/* ─────────────────────────────────────────────
+/* ═══════════════════════════════
    NAVIGATION
-───────────────────────────────────────────────*/
-const PAGES = ['dashboard', 'novo-caso', 'avaliacao']
-
-function navigate(pageId) {
-  PAGES.forEach(p => {
-    document.getElementById(`page-${p}`)?.classList.remove('active')
-  })
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'))
-  document.getElementById(`page-${pageId}`)?.classList.add('active')
-  document.querySelectorAll('.nav-item').forEach(n => {
-    if (n.textContent.trim().toLowerCase().includes(pageId.replace('-',' '))) n.classList.add('active')
-  })
-  // Fix nav active (by onclick attr)
-  document.querySelectorAll('.nav-item').forEach(n => {
-    const fn = n.getAttribute('onclick') || ''
-    if (fn.includes(`'${pageId}'`)) n.classList.add('active')
-    else n.classList.remove('active')
-  })
-  if (pageId === 'dashboard') loadDashboard()
+═══════════════════════════════ */
+function navigate(p) {
+  document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+  document.getElementById('page-' + p).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(el => {
+    if ((el.getAttribute('onclick')||'').includes("'"+p+"'")) el.classList.add('active');
+  });
+  if (p === 'dashboard') loadDashboard();
+  if (p === 'avaliacao') initAnnotators();
 }
 
-/* ─────────────────────────────────────────────
+/* ═══════════════════════════════
+   PHOTO TABS
+═══════════════════════════════ */
+function switchPhotoTab(key, btn) {
+  document.querySelectorAll('.photo-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.photo-tab').forEach(b => b.classList.remove('active'));
+  document.getElementById('pp-' + key).classList.add('active');
+  btn.classList.add('active');
+  if (key === 'stl3d') tryInitSTL();
+}
+
+/* ═══════════════════════════════
    DASHBOARD
-───────────────────────────────────────────────*/
+═══════════════════════════════ */
 async function loadDashboard() {
-  const tbody = document.getElementById('cases-tbody')
-  tbody.innerHTML = '<tr><td colspan="7"><div class="empty"><div class="emoji">⏳</div><p>Carregando…</p></div></td></tr>'
+  const tbody = document.getElementById('cases-tbody');
+  tbody.innerHTML = '<tr><td colspan="7"><div class="empty"><div class="emoji">⏳</div><p>Carregando…</p></div></td></tr>';
   try {
-    const r = await fetch(`${API}/cases`)
-    if (!r.ok) throw new Error(await r.text())
-    const { cases } = await r.json()
-
-    document.getElementById('stat-total').textContent     = cases.length
-    document.getElementById('stat-active').textContent    = cases.filter(c => c.status === 'ACTIVE').length
-    document.getElementById('stat-treatment').textContent = cases.filter(c => c.status === 'TREATMENT').length
-    document.getElementById('stat-completed').textContent = cases.filter(c => c.status === 'COMPLETED').length
-
-    if (cases.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="7"><div class="empty">
-        <div class="emoji">📂</div>
-        <p>Nenhum caso cadastrado ainda.<br>
-           <button class="btn btn-primary btn-sm" style="margin-top:12px" onclick="navigate('novo-caso')">+ Cadastrar primeiro caso</button>
-        </p></div></td></tr>`
-      return
+    const r = await fetch(API + '/cases');
+    if (!r.ok) throw new Error(await r.text());
+    const { cases } = await r.json();
+    document.getElementById('stat-total').textContent     = cases.length;
+    document.getElementById('stat-active').textContent    = cases.filter(c => c.status==='ACTIVE').length;
+    document.getElementById('stat-treatment').textContent = cases.filter(c => c.status==='TREATMENT').length;
+    document.getElementById('stat-completed').textContent = cases.filter(c => c.status==='COMPLETED').length;
+    if (!cases.length) {
+      tbody.innerHTML = '<tr><td colspan="7"><div class="empty"><div class="emoji">📂</div><p>Nenhum caso cadastrado.<br><button class="btn btn-primary btn-sm" style="margin-top:10px" onclick="navigate(\'novo-caso\')">+ Cadastrar primeiro caso</button></p></div></td></tr>';
+      return;
     }
-
-    tbody.innerHTML = cases.map(c => `
-      <tr>
-        <td><strong>${esc(c.patientName)}</strong></td>
-        <td>${fmtDate(c.birthDate)} · ${sexLabel(c.sex)}</td>
-        <td>${esc(c.orthodontistName)}</td>
-        <td><span class="badge-status status-${c.status}">${statusLabel(c.status)}</span></td>
-        <td>${c.sessionCount}</td>
-        <td>${fmtDate(c.openedAt)}</td>
-        <td><button class="btn btn-outline btn-sm" onclick="goToCase('${esc(c.caseId)}')">Avaliar</button></td>
-      </tr>`).join('')
-  } catch (e) {
-    tbody.innerHTML = `<tr><td colspan="7"><div class="empty"><div class="emoji">⚠️</div><p>Erro: ${esc(String(e))}</p></div></td></tr>`
+    tbody.innerHTML = cases.map(c => `<tr>
+      <td><strong>${esc(c.patientName)}</strong></td>
+      <td>${fmtDate(c.birthDate)} · ${sexLbl(c.sex)}</td>
+      <td>${esc(c.orthodontistName)}</td>
+      <td><span class="badge-status status-${c.status}">${statusLbl(c.status)}</span></td>
+      <td>${c.sessionCount}</td>
+      <td>${fmtDate(c.openedAt)}</td>
+      <td><button class="btn btn-outline btn-sm" onclick="goToCase('${esc(c.caseId)}','${esc(c.birthDate)}','${esc(c.sex)}')">Avaliar</button></td>
+    </tr>`).join('');
+  } catch(e) {
+    tbody.innerHTML = `<tr><td colspan="7"><div class="empty"><div class="emoji">⚠️</div><p>Erro: ${esc(String(e))}</p></div></td></tr>`;
   }
 }
 
-function goToCase(caseId) {
-  document.getElementById('av-case-id').value = caseId
-  navigate('avaliacao')
+function goToCase(caseId, birth, sex) {
+  document.getElementById('av-case-id').value   = caseId;
+  document.getElementById('av-birth-date').value = birth ? birth.substring(0,10) : '';
+  document.getElementById('av-sex').value       = sex || 'UNSPECIFIED';
+  navigate('avaliacao');
 }
 
-/* ─────────────────────────────────────────────
-   NOVO CASO
-───────────────────────────────────────────────*/
-function resetNovoCaso() {
-  ['nc-orth-id','nc-orth-name','nc-pat-given','nc-pat-family','nc-complaint'].forEach(id => {
-    const el = document.getElementById(id); if (el) el.value = ''
-  })
-  document.getElementById('nc-pat-birth').value = ''
-  document.getElementById('nc-pat-sex').value   = 'F'
-  document.getElementById('nc-session').value   = 'T0'
-  showAlert('alert-novo', null)
+/* ═══════════════════════════════
+   FILE UPLOADS
+═══════════════════════════════ */
+function triggerUpload(key) {
+  const map = { frontal:'file-frontal', perfil:'file-perfil', sorriso:'file-sorriso', stl:'file-stl' };
+  document.getElementById(map[key]).click();
 }
 
-async function registerCase() {
-  const btn = document.getElementById('btn-register')
-  let orthId = document.getElementById('nc-orth-id').value.trim()
-  const orthName  = document.getElementById('nc-orth-name').value.trim()
-  const given     = document.getElementById('nc-pat-given').value.trim()
-  const family    = document.getElementById('nc-pat-family').value.trim()
-  const birth     = document.getElementById('nc-pat-birth').value
-  const sex       = document.getElementById('nc-pat-sex').value
-  const complaint = document.getElementById('nc-complaint').value.trim()
-  const session   = document.getElementById('nc-session').value
+function handleUpload(key, input) {
+  const file = input.files[0]; if (!file) return;
+  storeFile(key, file);
+}
 
-  if (!orthName)  { showAlert('alert-novo','danger','Nome do ortodontista é obrigatório.'); return }
-  if (!given || !family) { showAlert('alert-novo','danger','Nome e sobrenome do paciente são obrigatórios.'); return }
-  if (!birth)     { showAlert('alert-novo','danger','Data de nascimento é obrigatória.'); return }
-
-  // Generate UUID if not provided
-  if (!orthId) {
-    orthId = crypto.randomUUID()
-    document.getElementById('nc-orth-id').value = orthId
-  }
-
-  btn.disabled = true
-  btn.innerHTML = '<span class="spinner"></span> Cadastrando…'
-  showAlert('alert-novo','info','Registrando caso…')
-
-  try {
-    const body = {
-      orthodontistId:   orthId,
-      orthodontistName: orthName,
-      patientGivenName:  given,
-      patientFamilyName: family,
-      patientBirthDate:  birth,
-      patientSex:        sex,
-      sessionLabel:      session,
+function storeFile(key, file) {
+  state.files[key] = file;
+  if (key !== 'stl') {
+    updateUploadPreview(key, file);
+    if (annotators[key]) annotators[key].loadImage(file);
+    else if (document.getElementById('page-avaliacao').classList.contains('active')) {
+      initAnnotators();
     }
-    if (complaint) body.chiefComplaint = complaint
-
-    const r = await fetch(`${API}/cases/register`, {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
-    })
-    const data = await r.json()
-    if (!r.ok) throw new Error(data.error?.message ?? JSON.stringify(data))
-
-    showAlert('alert-novo','success',`✓ Caso cadastrado com sucesso! ID: ${data.caseId}`)
-
-    // Pre-fill avaliação and navigate
-    document.getElementById('av-case-id').value    = data.caseId
-    document.getElementById('av-session').value    = data.sessionLabel
-    document.getElementById('av-orth-id').value    = orthId
-    document.getElementById('av-patient-name').value = `${given} ${family}`
-    document.getElementById('av-birth-date').value = birth
-    document.getElementById('av-sex').value        = sex
-
-    setTimeout(() => navigate('avaliacao'), 800)
-  } catch (e) {
-    showAlert('alert-novo','danger',`Erro: ${e.message}`)
-  } finally {
-    btn.disabled = false
-    btn.innerHTML = 'Cadastrar e Iniciar Avaliação'
+  } else {
+    updateUploadPreview('stl', file);
+    if (stlViewer) stlViewer.loadSTL(file);
   }
 }
 
-/* ─────────────────────────────────────────────
-   MEASUREMENTS RENDER
-───────────────────────────────────────────────*/
-function renderMeasurements() {
-  const list = document.getElementById('meas-list')
-  list.innerHTML = ANALYSES.map(a => {
-    const isClass = a.type === 'CLASSIFICATION'
-    const inp = isClass
-      ? `<select id="meas-${a.id}">${a.options.map((o,i) => `<option value="${o}">${a.labels[i]}</option>`).join('')}</select>`
-      : `<input id="meas-${a.id}" type="number" min="${a.min}" max="${a.max}" step="${a.step}" placeholder="${a.placeholder}">`
-    return `<div class="meas-row">
-      <div class="meas-label">${a.label}<div class="mid">${a.id}</div></div>
-      <div class="meas-input">${inp}</div>
-    </div>`
-  }).join('')
+function updateUploadPreview(key, file) {
+  const uzMap = { frontal:'uz-frontal', perfil:'uz-perfil', sorriso:'uz-sorriso', stl:'uz-stl' };
+  const upMap = { frontal:'up-frontal', perfil:'up-perfil', sorriso:'up-sorriso', stl:'up-stl' };
+  const uz = document.getElementById(uzMap[key]);
+  const up = document.getElementById(upMap[key]);
+  if (!uz || !up) return;
+  uz.classList.add('has-file');
+  if (key !== 'stl') {
+    const url = URL.createObjectURL(file);
+    up.innerHTML = `<img src="${url}" alt="preview"><div class="upload-fname">${esc(file.name)}</div>`;
+  } else {
+    up.innerHTML = `<div class="upload-fname">✓ ${esc(file.name)}</div>`;
+  }
 }
 
-function clearMeasurements() {
-  ANALYSES.forEach(a => {
-    const el = document.getElementById(`meas-${a.id}`)
-    if (!el) return
-    if (a.type === 'CLASSIFICATION') el.selectedIndex = 0
-    else el.value = ''
-  })
-  document.getElementById('report-section').classList.remove('show')
-  showAlert('alert-av', null)
+function dzOver(e, id)    { e.preventDefault(); document.getElementById(id).classList.add('drag-over'); }
+function dzLeave(id)      { document.getElementById(id).classList.remove('drag-over'); }
+function dzDrop(e, key, id) {
+  e.preventDefault(); dzLeave(id);
+  const file = e.dataTransfer.files[0]; if (file) storeFile(key, file);
 }
 
-function collectMeasurements() {
-  const measurements = [], errors = []
-  for (const a of ANALYSES) {
-    const el  = document.getElementById(`meas-${a.id}`)
-    const raw = el.value.trim()
-    if (a.type !== 'CLASSIFICATION' && raw === '') {
-      errors.push(`${a.label}: campo obrigatório`); continue
+/* ═══════════════════════════════
+   PHOTO ANNOTATOR CLASS
+═══════════════════════════════ */
+class PhotoAnnotator {
+  constructor(key) {
+    this.key    = key;
+    this.def    = PHOTO_DEFS[key];
+    this.pts    = {};   // { key: {x,y} } normalized 0-1
+    this.idx    = 0;    // current point index
+    this.imgEl  = null;
+    this.canvas = null;
+    this.ctx    = null;
+    this.ro     = null;
+  }
+
+  mount(pbId) {
+    const pb = document.getElementById(pbId);
+    pb.innerHTML = '';
+    const wrap = document.createElement('div');
+    wrap.className = 'photo-wrap';
+    this.imgEl  = document.createElement('img');
+    this.imgEl.className = 'photo-img';
+    this.canvas = document.createElement('canvas');
+    this.canvas.className = 'photo-canvas';
+    this.ctx    = this.canvas.getContext('2d');
+    wrap.append(this.imgEl, this.canvas);
+    pb.appendChild(wrap);
+    this.canvas.addEventListener('click', e => this._click(e));
+    this.ro = new ResizeObserver(() => this.sync());
+    this.ro.observe(this.imgEl);
+    this.updateUI();
+  }
+
+  loadImage(file) {
+    const url = URL.createObjectURL(file);
+    this.imgEl.onload = () => {
+      state.imgNat[this.key] = { w: this.imgEl.naturalWidth, h: this.imgEl.naturalHeight };
+      this.sync(); this.redraw(); this.updateUI();
+    };
+    this.imgEl.src = url;
+  }
+
+  sync() {
+    if (!this.imgEl.naturalWidth) return;
+    const dpr = window.devicePixelRatio || 1;
+    const w   = this.imgEl.offsetWidth;
+    const h   = this.imgEl.offsetHeight;
+    this.canvas.style.width  = w + 'px';
+    this.canvas.style.height = h + 'px';
+    this.canvas.width        = Math.round(w * dpr);
+    this.canvas.height       = Math.round(h * dpr);
+    this.redraw();
+  }
+
+  _click(e) {
+    if (this.idx >= this.def.points.length) return;
+    const rect = this.imgEl.getBoundingClientRect();
+    const x    = (e.clientX - rect.left) / rect.width;
+    const y    = (e.clientY - rect.top)  / rect.height;
+    const pkey = this.def.points[this.idx].key;
+    this.pts[pkey] = { x, y };
+    this.idx++;
+    state.points[this.key] = this.pts;
+    this.redraw();
+    this.updateUI();
+    calculateMeasurements();
+  }
+
+  undo() {
+    if (this.idx <= 0) return;
+    this.idx--;
+    delete this.pts[this.def.points[this.idx].key];
+    state.points[this.key] = this.pts;
+    this.redraw(); this.updateUI(); calculateMeasurements();
+  }
+
+  reset() {
+    this.pts = {}; this.idx = 0;
+    state.points[this.key] = {};
+    this.redraw(); this.updateUI(); calculateMeasurements();
+  }
+
+  redraw() {
+    const dpr = window.devicePixelRatio || 1;
+    const w   = this.imgEl.offsetWidth;
+    const h   = this.imgEl.offsetHeight;
+    const cw  = this.canvas.width;
+    const ch  = this.canvas.height;
+    this.ctx.clearRect(0, 0, cw, ch);
+    this.ctx.save();
+    this.ctx.scale(dpr, dpr);
+    // Connection lines
+    this._drawLines(w, h);
+    // Points
+    for (const pd of this.def.points) {
+      const pt = this.pts[pd.key]; if (!pt) continue;
+      const px = pt.x * w, py = pt.y * h;
+      this.ctx.beginPath();
+      this.ctx.arc(px, py, 6, 0, Math.PI * 2);
+      this.ctx.fillStyle   = this.def.color;
+      this.ctx.fill();
+      this.ctx.strokeStyle = '#fff';
+      this.ctx.lineWidth   = 2;
+      this.ctx.stroke();
+      // Label shadow
+      this.ctx.font = 'bold 11px system-ui';
+      this.ctx.fillStyle = 'rgba(0,0,0,.7)';
+      this.ctx.fillText(pd.key, px + 10, py - 2);
+      this.ctx.fillStyle = '#fff';
+      this.ctx.fillText(pd.key, px + 9, py - 3);
     }
-    if (a.type === 'CLASSIFICATION') {
-      measurements.push({ analysisId: a.id, value: { type: 'CLASSIFICATION', classification: raw, unit: 'NONE' } })
-    } else {
-      const num = parseFloat(raw)
-      if (isNaN(num)) { errors.push(`${a.label}: valor inválido`); continue }
-      if (num < a.min || num > a.max) { errors.push(`${a.label}: valor fora do intervalo [${a.min}, ${a.max}]`); continue }
-      measurements.push({ analysisId: a.id, value: { type: a.type, numericValue: String(num), unit: a.unit } })
+    this.ctx.restore();
+  }
+
+  _drawLines(w, h) {
+    const lineMap = {
+      frontal: [['Tr','G','Sn','Me'], ['Pd','Pe']],
+      perfil:  [['G','Prn','Sn','Ls','Pg']],
+      sorriso: [['U1r','U1l'],['StS','StI']]
+    };
+    const groups = lineMap[this.key] || [];
+    for (const grp of groups) {
+      const coords = grp.map(k => this.pts[k]).filter(Boolean);
+      if (coords.length < 2) continue;
+      this.ctx.beginPath();
+      this.ctx.strokeStyle = this.def.color + 'aa';
+      this.ctx.lineWidth   = 1.5;
+      this.ctx.setLineDash([4,3]);
+      this.ctx.moveTo(coords[0].x * w, coords[0].y * h);
+      for (let i=1;i<coords.length;i++) this.ctx.lineTo(coords[i].x * w, coords[i].y * h);
+      this.ctx.stroke();
+      this.ctx.setLineDash([]);
     }
   }
-  return { measurements, errors }
-}
 
-/* ─────────────────────────────────────────────
-   PIPELINE
-───────────────────────────────────────────────*/
-async function runPipeline() {
-  const btn = document.getElementById('btn-run')
-  const caseId    = document.getElementById('av-case-id').value.trim()
-  const session   = document.getElementById('av-session').value
-  const birthDate = document.getElementById('av-birth-date').value
-  const sex       = document.getElementById('av-sex').value
-  const orthId    = document.getElementById('av-orth-id').value.trim()
-
-  if (!caseId)    { showAlert('alert-av','danger','ID do caso é obrigatório.'); return }
-  if (!birthDate) { showAlert('alert-av','danger','Data de nascimento é obrigatória.'); return }
-  if (!orthId || !isUUID(orthId)) { showAlert('alert-av','danger','ID do ortodontista deve ser um UUID válido.'); return }
-
-  const { measurements, errors } = collectMeasurements()
-  if (errors.length) {
-    showAlert('alert-av','danger','Corrija os campos:<br>' + errors.map(e => `• ${e}`).join('<br>')); return
-  }
-
-  btn.disabled = true
-  btn.innerHTML = '<span class="spinner"></span> Processando…'
-  document.getElementById('report-section').classList.remove('show')
-  showAlert('alert-av','info','Enviando medições…')
-
-  try {
-    // 1. Record measurements
-    for (const m of measurements) {
-      const r = await fetch(`${API}/cases/${enc(caseId)}/sessions/${enc(session)}/measurements`, {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ analysisId: m.analysisId, value: m.value, recordedBy: orthId })
-      })
-      const body = await r.json()
-      if (body.validation && !body.validation.passed) {
-        const msgs = body.validation.errors.map(e => e.message).join(', ')
-        throw new Error(`${m.analysisId}: ${msgs}`)
+  updateUI() {
+    const hint = document.getElementById('hint-' + this.key);
+    const list = document.getElementById('ptl-' + this.key);
+    if (hint) {
+      if (!this.imgEl || !this.imgEl.src) {
+        hint.textContent = 'Carregue a foto para iniciar a marcação de pontos';
+      } else if (this.idx >= this.def.points.length) {
+        hint.textContent = '✓ Todos os pontos marcados! Medições calculadas automaticamente.';
+      } else {
+        const pd = this.def.points[this.idx];
+        hint.textContent = `Clique na foto → ${pd.label}: ${pd.hint}`;
       }
     }
+    if (list) {
+      list.innerHTML = this.def.points.map((pd, i) => {
+        const placed = !!this.pts[pd.key];
+        const active = i === this.idx;
+        return `<div class="pt-item ${placed?'placed':''} ${active?'active':''}">
+          <span class="pt-key">${pd.key}</span>
+          <span class="pt-label">${pd.label}</span>
+          <span class="pt-check">${placed ? '✓' : (active ? '◎' : '○')}</span>
+        </div>`;
+      }).join('');
+    }
+  }
+}
 
-    showAlert('alert-av','info','Medições registradas. Executando análise clínica…')
+/* ═══════════════════════════════
+   STL VIEWER
+═══════════════════════════════ */
+function tryInitSTL() {
+  if (stlViewer || !libsReady) return;
+  const wrap = document.getElementById('stl-canvas-wrap');
+  const empty = document.getElementById('stl-empty');
+  if (empty) empty.remove();
+  stlViewer = new STLViewer(wrap);
+  if (state.files['stl']) stlViewer.loadSTL(state.files['stl']);
+}
 
-    // 2. Execute pipeline
-    const exR = await fetch(`${API}/cases/${enc(caseId)}/sessions/${enc(session)}/execute`, {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        protocolId: 'P01',
-        patientBirthDate: birthDate,
-        patientSex: sex,
-        startedBy: orthId
-      })
-    })
-    const exData = await exR.json()
-    if (!exR.ok) throw new Error(exData.error?.message ?? 'Erro na execução')
+class STLViewer {
+  constructor(container) {
+    const { THREE, OrbitControls } = window.__LIBS;
+    const w = container.clientWidth || 600;
+    const h = container.clientHeight || 420;
+    this.renderer = new THREE.WebGLRenderer({ antialias:true });
+    this.renderer.setSize(w, h);
+    this.renderer.setPixelRatio(window.devicePixelRatio);
+    this.renderer.setClearColor(0x0f172a);
+    container.appendChild(this.renderer.domElement);
+    this.scene  = new THREE.Scene();
+    this.camera = new THREE.PerspectiveCamera(45, w/h, 0.01, 10000);
+    this.camera.position.set(0, 0, 150);
+    this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+    this.controls.enableDamping = true;
+    const a = new THREE.AmbientLight(0xffffff, 0.7);
+    const d1 = new THREE.DirectionalLight(0xffffff, 0.8); d1.position.set(1,1,1);
+    const d2 = new THREE.DirectionalLight(0xffffff, 0.4); d2.position.set(-1,-1,-1);
+    this.scene.add(a, d1, d2);
+    this.THREE = THREE;
+    this._animate();
+  }
 
-    // 3. Get text report
-    const params = new URLSearchParams({ protocolId: 'P01', patientBirthDate: birthDate, patientSex: sex })
-    const txtR = await fetch(`${API}/cases/${enc(caseId)}/sessions/${enc(session)}/report/text?${params}`)
-    const txt  = txtR.ok ? await txtR.text() : null
+  loadSTL(file) {
+    const { STLLoader, THREE } = window.__LIBS;
+    const url = URL.createObjectURL(file);
+    new STLLoader().load(url, geo => {
+      const old = this.scene.getObjectByName('m'); if (old) this.scene.remove(old);
+      geo.computeBoundingBox();
+      const c = new THREE.Vector3();
+      geo.boundingBox.getCenter(c);
+      geo.translate(-c.x, -c.y, -c.z);
+      const sz = new THREE.Vector3();
+      geo.boundingBox.getSize(sz);
+      const mx = Math.max(sz.x, sz.y, sz.z);
+      this.camera.position.set(0, 0, mx * 1.8);
+      this.controls.target.set(0,0,0);
+      const mat = new THREE.MeshPhongMaterial({ color:0xe8d5b7, specular:0x222222, shininess:30, side:THREE.DoubleSide });
+      const mesh = new THREE.Mesh(geo, mat); mesh.name = 'm';
+      this.scene.add(mesh);
+    });
+  }
 
-    renderReport(exData, txt)
-    showAlert('alert-av','success',`✓ Relatório gerado com sucesso — ${exData.findings.length} achado(s) identificado(s).`)
-    document.getElementById('report-section').classList.add('show')
-    document.getElementById('report-section').scrollIntoView({ behavior: 'smooth', block: 'start' })
-  } catch (e) {
-    showAlert('alert-av','danger',`Erro: ${e.message}`)
+  _animate() {
+    requestAnimationFrame(() => this._animate());
+    this.controls.update();
+    this.renderer.render(this.scene, this.camera);
+  }
+}
+
+/* ═══════════════════════════════
+   INIT ANNOTATORS
+═══════════════════════════════ */
+function initAnnotators() {
+  if (!annotators.frontal) {
+    annotators.frontal = new PhotoAnnotator('frontal');
+    annotators.frontal.mount('pb-frontal');
+    if (state.files['frontal']) annotators.frontal.loadImage(state.files['frontal']);
+  }
+  if (!annotators.perfil) {
+    annotators.perfil = new PhotoAnnotator('perfil');
+    annotators.perfil.mount('pb-perfil');
+    if (state.files['perfil']) annotators.perfil.loadImage(state.files['perfil']);
+  }
+  if (!annotators.sorriso) {
+    annotators.sorriso = new PhotoAnnotator('sorriso');
+    annotators.sorriso.mount('pb-sorriso');
+    if (state.files['sorriso']) annotators.sorriso.loadImage(state.files['sorriso']);
+  }
+}
+
+/* ═══════════════════════════════
+   AUTO-CALCULATE MEASUREMENTS
+═══════════════════════════════ */
+function calculateMeasurements() {
+  const fp = state.points.frontal;
+  const pp = state.points.perfil;
+  const sp = state.points.sorriso;
+  let anyAuto = false;
+
+  // Face thirds from frontal (y-only ratios, aspect-ratio independent)
+  if (fp.Tr && fp.G && fp.Sn && fp.Me) {
+    const total = fp.Me.y - fp.Tr.y;
+    if (total > 0.01) {
+      setAuto('P01.A03', ((fp.G.y  - fp.Tr.y) / total * 100).toFixed(1));
+      setAuto('P01.A04', ((fp.Sn.y - fp.G.y)  / total * 100).toFixed(1));
+      setAuto('P01.A05', ((fp.Me.y - fp.Sn.y) / total * 100).toFixed(1));
+      anyAuto = true;
+    }
+  }
+
+  // Midline deviation from frontal
+  if (fp.Pd && fp.Pe && fp.Lm) {
+    const nat = state.imgNat.frontal;
+    if (nat) {
+      const ipdPx = dist2d(fp.Pd, fp.Pe, nat.w, nat.h);
+      const ipd   = parseFloat(document.getElementById('ipd-input').value) || 62;
+      const pxMm  = ipdPx / ipd;
+      const midX  = (fp.Pd.x + fp.Pe.x) / 2;
+      const devMm = ((fp.Lm.x - midX) * nat.w / pxMm).toFixed(1);
+      setAuto('P01.A02', devMm);
+      anyAuto = true;
+    }
+  }
+
+  // Nasolabial angle from profile
+  if (pp.Prn && pp.Sn && pp.Ls) {
+    const nat = state.imgNat.perfil;
+    if (nat) {
+      const va = { x:(pp.Prn.x - pp.Sn.x)*nat.w, y:(pp.Prn.y - pp.Sn.y)*nat.h };
+      const vb = { x:(pp.Ls.x  - pp.Sn.x)*nat.w, y:(pp.Ls.y  - pp.Sn.y)*nat.h };
+      const dot  = va.x*vb.x + va.y*vb.y;
+      const magA = Math.sqrt(va.x*va.x + va.y*va.y);
+      const magB = Math.sqrt(vb.x*vb.x + vb.y*vb.y);
+      const ang  = Math.acos(Math.max(-1, Math.min(1, dot/(magA*magB))));
+      setAuto('P01.A07', (ang * 180 / Math.PI).toFixed(1));
+      anyAuto = true;
+    }
+  }
+
+  // Lip ratio from smile photo
+  if (sp.StS && sp.StI && sp.U1r && sp.U1l) {
+    const nat = state.imgNat.sorriso;
+    if (nat) {
+      // Midpoint of upper incisors (reference)
+      const midY = (sp.U1r.y + sp.U1l.y) / 2;
+      const upperH = Math.abs(sp.StS.y - midY) * nat.h;
+      const lowerH = Math.abs(sp.StI.y - midY) * nat.h;
+      if (lowerH > 0) {
+        setAuto('P01.A10', (upperH / lowerH).toFixed(2));
+        anyAuto = true;
+      }
+      // Dental exposure: distance StS to U1 tips
+      const expH = (sp.U1r.y - sp.StS.y) * nat.h;
+      // Need calibration for mm; skip if no frontal calibration
+      const nat2 = state.imgNat.frontal;
+      const fp2  = state.points.frontal;
+      if (nat2 && fp2.Pd && fp2.Pe) {
+        const ipd   = parseFloat(document.getElementById('ipd-input').value) || 62;
+        const pxMm  = dist2d(fp2.Pd, fp2.Pe, nat2.w, nat2.h) / ipd;
+        if (pxMm > 0) {
+          // Scale for smile photo using incisor-width ratio
+          const incW = dist2d(sp.U1r, sp.U1l, nat.w, nat.h);
+          // Assume upper incisor width ~8mm each = 16mm for pair
+          const smilePxMm = incW / 16;
+          setAuto('P01.A12', Math.max(0, (expH / smilePxMm)).toFixed(1));
+          anyAuto = true;
+        }
+      }
+    }
+  }
+
+  if (anyAuto) {
+    const badge = document.getElementById('auto-badge');
+    if (badge) badge.style.display = 'inline';
+  }
+}
+
+function dist2d(a, b, natW, natH) {
+  const dx = (a.x - b.x) * natW;
+  const dy = (a.y - b.y) * natH;
+  return Math.sqrt(dx*dx + dy*dy);
+}
+
+function setAuto(id, val) {
+  const el = document.getElementById('meas-' + id);
+  if (el && el.tagName === 'INPUT') {
+    el.value = val;
+    el.classList.add('auto-filled');
+  }
+}
+
+/* ═══════════════════════════════
+   RENDER MEASUREMENTS
+═══════════════════════════════ */
+function renderMeasurements() {
+  const list = document.getElementById('meas-list');
+  list.innerHTML = ANALYSES.map(a => {
+    const isClass = a.type === 'CLASSIFICATION';
+    const inp = isClass
+      ? `<select id="meas-${a.id}">${a.options.map((o,i) => `<option value="${o}">${a.labels[i]}</option>`).join('')}</select>`
+      : `<input id="meas-${a.id}" type="number" min="${a.min}" max="${a.max}" step="${a.step}" placeholder="${a.placeholder}">`;
+    return `<div class="meas-row">
+      <div class="meas-label">${a.label}<div class="meas-mid">${a.id}</div></div>
+      <div class="meas-input">${inp}</div>
+    </div>`;
+  }).join('');
+}
+
+/* ═══════════════════════════════
+   PIPELINE
+═══════════════════════════════ */
+function collectMeasurements() {
+  const out = [], errs = [];
+  for (const a of ANALYSES) {
+    const el  = document.getElementById('meas-' + a.id);
+    const raw = el.value.trim();
+    if (a.type !== 'CLASSIFICATION' && raw === '') { errs.push(`${a.label}: obrigatório`); continue; }
+    if (a.type === 'CLASSIFICATION') {
+      out.push({ analysisId:a.id, value:{ type:'CLASSIFICATION', classification:raw, unit:'NONE' } });
+    } else {
+      const n = parseFloat(raw);
+      if (isNaN(n)) { errs.push(`${a.label}: valor inválido`); continue; }
+      if (n < a.min || n > a.max) { errs.push(`${a.label}: fora do intervalo [${a.min}, ${a.max}]`); continue; }
+      out.push({ analysisId:a.id, value:{ type:a.type, numericValue:String(n), unit:a.unit } });
+    }
+  }
+  return { measurements:out, errors:errs };
+}
+
+async function runPipeline() {
+  const btn       = document.getElementById('btn-run');
+  const caseId    = document.getElementById('av-case-id').value.trim();
+  const session   = document.getElementById('av-session').value;
+  const birthDate = document.getElementById('av-birth-date').value;
+  const sex       = document.getElementById('av-sex').value;
+  const orthId    = document.getElementById('av-orth-id').value.trim();
+
+  if (!caseId)   { showAlert('alert-av','danger','ID do caso é obrigatório.'); return; }
+  if (!birthDate){ showAlert('alert-av','danger','Data de nascimento é obrigatória.'); return; }
+  if (!isUUID(orthId)){ showAlert('alert-av','danger','ID do ortodontista deve ser um UUID válido.'); return; }
+
+  const { measurements, errors } = collectMeasurements();
+  if (errors.length) { showAlert('alert-av','danger','Corrija: ' + errors.join(' · ')); return; }
+
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Processando…';
+  document.getElementById('report-section').classList.remove('show');
+  showAlert('alert-av','info','Registrando medições…');
+
+  try {
+    for (const m of measurements) {
+      const r = await fetch(`${API}/cases/${enc(caseId)}/sessions/${enc(session)}/measurements`, {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({ analysisId:m.analysisId, value:m.value, recordedBy:orthId })
+      });
+      const b = await r.json();
+      if (b.validation && !b.validation.passed) throw new Error(`${m.analysisId}: ${b.validation.errors.map(e=>e.message).join(', ')}`);
+    }
+    showAlert('alert-av','info','Executando análise clínica…');
+    const ex = await fetch(`${API}/cases/${enc(caseId)}/sessions/${enc(session)}/execute`, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({ protocolId:'P01', patientBirthDate:birthDate, patientSex:sex, startedBy:orthId })
+    });
+    const exD = await ex.json();
+    if (!ex.ok) throw new Error(exD.error?.message || 'Erro na execução');
+    const params = new URLSearchParams({ protocolId:'P01', patientBirthDate:birthDate, patientSex:sex });
+    const txR = await fetch(`${API}/cases/${enc(caseId)}/sessions/${enc(session)}/report/text?${params}`);
+    const txt = txR.ok ? await txR.text() : null;
+    renderReport(exD, txt);
+    showAlert('alert-av','success',`✓ Relatório gerado — ${exD.findings.length} achado(s).`);
+    document.getElementById('report-section').classList.add('show');
+    document.getElementById('report-section').scrollIntoView({ behavior:'smooth', block:'start' });
+  } catch(e) {
+    showAlert('alert-av','danger','Erro: ' + e.message);
   } finally {
-    btn.disabled = false
-    btn.innerHTML = 'Gerar Relatório'
+    btn.disabled = false; btn.innerHTML = 'Gerar Relatório';
   }
 }
 
 function renderReport(data, text) {
-  const { findings, report } = data
+  const { findings, report } = data;
   document.getElementById('report-meta').innerHTML = `
-    <div class="meta-chip"><span class="ml">Total de Achados</span><span class="mv">${report.totalFindings}</span></div>
-    <div class="meta-chip"><span class="ml">Graves / Críticos</span><span class="mv ${report.criticalCount > 0 ? 'danger' : 'success'}">${report.criticalCount}</span></div>
-    <div class="meta-chip"><span class="ml">Encaminhamentos</span><span class="mv ${report.referralCount > 0 ? 'warn' : 'success'}">${report.referralCount}</span></div>
-    <div class="meta-chip"><span class="ml">Seções</span><span class="mv">${report.sections.length}</span></div>`
-
-  const fEl = document.getElementById('findings-list')
-  fEl.innerHTML = findings.length === 0
-    ? '<div class="empty"><div class="emoji">✅</div><p>Nenhum achado clínico identificado.</p></div>'
-    : findings.map(f => `
-      <div class="finding-card">
-        <div><span class="badge badge-${f.severity}">${sevLabel(f.severity)}</span></div>
+    <div class="meta-chip"><span class="ml">Achados</span><span class="mv">${report.totalFindings}</span></div>
+    <div class="meta-chip"><span class="ml">Graves/Críticos</span><span class="mv ${report.criticalCount>0?'danger':'success'}">${report.criticalCount}</span></div>
+    <div class="meta-chip"><span class="ml">Encaminhamentos</span><span class="mv ${report.referralCount>0?'warn':'success'}">${report.referralCount}</span></div>
+    <div class="meta-chip"><span class="ml">Seções</span><span class="mv">${report.sections.length}</span></div>`;
+  document.getElementById('findings-list').innerHTML = findings.length===0
+    ? '<div class="empty"><div class="emoji">✅</div><p>Nenhum achado clínico.</p></div>'
+    : findings.map(f => `<div class="finding-card">
+        <div><span class="badge badge-${f.severity}">${sevLbl(f.severity)}</span></div>
         <div>
           <div class="finding-text">${esc(f.text)}</div>
-          ${f.referral ? '<div class="finding-ref">⚑ Encaminhamento especializado indicado</div>' : ''}
+          ${f.referral ? '<div class="finding-ref">⚑ Encaminhamento indicado</div>' : ''}
         </div>
-      </div>`).join('')
-
-  if (text) document.getElementById('report-pre').textContent = text
+      </div>`).join('');
+  if (text) document.getElementById('report-pre').textContent = text;
 }
 
-/* ─────────────────────────────────────────────
-   TABS
-───────────────────────────────────────────────*/
-function showTab(id, btn) {
-  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'))
-  document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'))
-  document.getElementById(id).classList.add('active')
-  btn.classList.add('active')
+/* ═══════════════════════════════
+   NOVO CASO
+═══════════════════════════════ */
+function resetNovoCaso() {
+  ['nc-orth-id','nc-orth-name','nc-pat-given','nc-pat-family','nc-complaint'].forEach(id => {
+    const el = document.getElementById(id); if(el) el.value = '';
+  });
+  document.getElementById('nc-pat-birth').value = '';
+  document.getElementById('nc-pat-sex').value   = 'F';
+  document.getElementById('nc-session').value   = 'T0';
+  showAlert('alert-novo', null);
 }
 
-/* ─────────────────────────────────────────────
-   ALERTS
-───────────────────────────────────────────────*/
-function showAlert(containerId, type, msg) {
-  const el = document.getElementById(containerId)
-  if (!el) return
-  if (!type) { el.className = 'alert'; el.innerHTML = ''; return }
-  el.className = `alert alert-${type} show`
-  el.innerHTML = msg
+async function registerCase() {
+  const btn = document.getElementById('btn-register');
+  let orthId    = document.getElementById('nc-orth-id').value.trim();
+  const orthName  = document.getElementById('nc-orth-name').value.trim();
+  const given     = document.getElementById('nc-pat-given').value.trim();
+  const family    = document.getElementById('nc-pat-family').value.trim();
+  const birth     = document.getElementById('nc-pat-birth').value;
+  const sex       = document.getElementById('nc-pat-sex').value;
+  const complaint = document.getElementById('nc-complaint').value.trim();
+  const session   = document.getElementById('nc-session').value;
+
+  if (!orthName)        { showAlert('alert-novo','danger','Nome do ortodontista é obrigatório.'); return; }
+  if (!given || !family){ showAlert('alert-novo','danger','Nome e sobrenome do paciente são obrigatórios.'); return; }
+  if (!birth)           { showAlert('alert-novo','danger','Data de nascimento é obrigatória.'); return; }
+  if (!orthId) { orthId = crypto.randomUUID(); document.getElementById('nc-orth-id').value = orthId; }
+
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Cadastrando…';
+  showAlert('alert-novo','info','Registrando caso…');
+
+  try {
+    const body = { orthodontistId:orthId, orthodontistName:orthName, patientGivenName:given, patientFamilyName:family, patientBirthDate:birth, patientSex:sex, sessionLabel:session };
+    if (complaint) body.chiefComplaint = complaint;
+    const r = await fetch(API + '/cases/register', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body) });
+    const d = await r.json();
+    if (!r.ok) throw new Error(d.error?.message || JSON.stringify(d));
+    showAlert('alert-novo','success',`✓ Caso cadastrado! ID: ${d.caseId}`);
+    document.getElementById('av-case-id').value    = d.caseId;
+    document.getElementById('av-session').value    = d.sessionLabel;
+    document.getElementById('av-orth-id').value    = orthId;
+    document.getElementById('av-birth-date').value = birth;
+    document.getElementById('av-sex').value        = sex;
+    const banner = document.getElementById('av-banner');
+    banner.innerHTML = `<div class="cb-item"><span class="cb-label">Case ID</span><span class="cb-value">${esc(d.caseId.substring(0,8))}…</span></div><div class="cb-item"><span class="cb-label">Paciente</span><span class="cb-value">${esc(given)} ${esc(family)}</span></div><div class="cb-item"><span class="cb-label">Sessão</span><span class="cb-value">${esc(session)}</span></div>`;
+    banner.classList.add('show');
+    setTimeout(() => navigate('avaliacao'), 600);
+  } catch(e) {
+    showAlert('alert-novo','danger','Erro: ' + e.message);
+  } finally {
+    btn.disabled = false; btn.innerHTML = 'Cadastrar e Iniciar Avaliação';
+  }
 }
 
-/* ─────────────────────────────────────────────
+/* ═══════════════════════════════
    HELPERS
-───────────────────────────────────────────────*/
-function esc(s) {
-  return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')
+═══════════════════════════════ */
+function showAlert(id, type, msg) {
+  const el = document.getElementById(id); if(!el) return;
+  if (!type) { el.className='alert'; el.innerHTML=''; return; }
+  el.className = `alert alert-${type} show`; el.innerHTML = msg;
 }
-function enc(s) { return encodeURIComponent(s) }
-function isUUID(s) { return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(s) }
-
-function fmtDate(d) {
-  if (!d) return '—'
-  const dt = new Date(d)
-  if (isNaN(dt)) return String(d)
-  return dt.toLocaleDateString('pt-BR')
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active'); btn.classList.add('active');
 }
+function esc(s){ return String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;') }
+function enc(s){ return encodeURIComponent(s) }
+function isUUID(s){ return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(s) }
+function fmtDate(d){ if(!d) return '—'; const dt=new Date(d); return isNaN(dt)?String(d):dt.toLocaleDateString('pt-BR') }
+function sexLbl(s){ return {M:'Masc.',F:'Fem.',UNSPECIFIED:'N/I'}[s]??s }
+function statusLbl(s){ return {ACTIVE:'Ativo',TREATMENT:'Tratamento',RETENTION:'Contenção',COMPLETED:'Concluído',ARCHIVED:'Arquivado',SUSPENDED:'Suspenso'}[s]??s }
+function sevLbl(s){ return {NORMAL:'Normal',MILD:'Leve',MODERATE:'Moderado',SEVERE:'Grave',CRITICAL:'Crítico'}[s]??s }
 
-function sexLabel(s) { return { M:'Masc.', F:'Fem.', UNSPECIFIED:'N/I' }[s] ?? s }
-function statusLabel(s) { return { ACTIVE:'Ativo', TREATMENT:'Tratamento', RETENTION:'Contenção', COMPLETED:'Concluído', ARCHIVED:'Arquivado', SUSPENDED:'Suspenso' }[s] ?? s }
-function sevLabel(s) { return { NORMAL:'Normal', MILD:'Leve', MODERATE:'Moderado', SEVERE:'Grave', CRITICAL:'Crítico' }[s] ?? s }
-
-/* ─────────────────────────────────────────────
+/* ═══════════════════════════════
    INIT
-───────────────────────────────────────────────*/
-renderMeasurements()
-loadDashboard()
+═══════════════════════════════ */
+renderMeasurements();
+loadDashboard();
 </script>
 </body>
 </html>
