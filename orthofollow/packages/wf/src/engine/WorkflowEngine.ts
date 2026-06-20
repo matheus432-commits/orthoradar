@@ -4,6 +4,23 @@ import type { ClinicalCaseId, SessionLabel } from '@orthofollow/shared'
 export class WorkflowEngine {
   constructor(private repo: WorkflowRepository) {}
 
+  async requestRecalculation(params: {
+    caseId:       string
+    protocolId:   string
+    sessionLabel: string
+    requestedBy:  string
+    reason:       string
+  }): Promise<void> {
+    await this.repo.insertAuditLog({
+      actorId:    params.requestedBy,
+      actorType:  'ORTHODONTIST',
+      action:     'REQUEST_RECALCULATION',
+      targetType: 'WORKFLOW_STATE',
+      targetId:   params.caseId,
+      metadata:   { protocolId: params.protocolId, sessionLabel: params.sessionLabel, reason: params.reason }
+    })
+  }
+
   async startProtocol(params: {
     caseId:       string
     protocolId:   string

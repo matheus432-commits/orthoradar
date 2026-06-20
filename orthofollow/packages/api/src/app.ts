@@ -5,6 +5,7 @@ import { healthRoutes }      from './routes/health'
 import { measurementsRoutes } from './routes/measurements'
 import { executionRoutes }    from './routes/execution'
 import { workflowRoutes }     from './routes/workflow'
+import { casesRoutes }        from './routes/cases'
 import { errorHandler }       from './middleware/errorHandler'
 import enginesPlugin          from './plugins/engines'
 
@@ -32,6 +33,7 @@ export async function buildApp() {
   await app.register(measurementsRoutes, { prefix })
   await app.register(executionRoutes,    { prefix })
   await app.register(workflowRoutes,     { prefix })
+  await app.register(casesRoutes,        { prefix })
 
   return app
 }
