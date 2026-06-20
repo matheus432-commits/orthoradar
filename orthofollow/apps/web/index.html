@@ -430,7 +430,10 @@
   <div id="report-section">
     <div class="divider"></div>
     <div class="card">
-      <div class="card-title"><span class="step">3</span> Resultado da Avaliação</div>
+      <div class="card-title" style="justify-content:space-between">
+        <span><span class="step">3</span> Resultado da Avaliação</span>
+        <button class="btn btn-primary btn-sm" onclick="generatePDF()" id="btn-pdf">⬇ Gerar PDF</button>
+      </div>
       <div class="report-meta" id="report-meta"></div>
       <div class="tabs">
         <button class="tab active" onclick="showTab('tab-findings',this)">Achados Clínicos</button>
@@ -1070,6 +1073,24 @@ async function runPipeline() {
     const params = new URLSearchParams({ protocolId:'P01', patientBirthDate:birthDate, patientSex:sex });
     const txR = await fetch(`${API}/cases/${enc(caseId)}/sessions/${enc(session)}/report/text?${params}`);
     const txt = txR.ok ? await txR.text() : null;
+    window._lastPipelineData = {
+      exD, txt,
+      caseId, session, birthDate, sex,
+      patName: (() => {
+        const banner = document.getElementById('av-banner');
+        if (!banner) return caseId.substring(0,8);
+        const chips = banner.querySelectorAll('.cb-item');
+        for (const chip of chips) {
+          const lbl = chip.querySelector('.cb-label');
+          if (lbl && lbl.textContent.trim() === 'Paciente') {
+            const v = chip.querySelector('.cb-value');
+            if (v) return v.textContent.trim();
+          }
+        }
+        return caseId.substring(0,8);
+      })(),
+      measurements: collectMeasurementsSnapshot()
+    };
     renderReport(exD, txt);
     showAlert('alert-av','success',`✓ Relatório gerado — ${exD.findings.length} achado(s).`);
     document.getElementById('report-section').classList.add('show');
@@ -1153,6 +1174,314 @@ async function registerCase() {
   } finally {
     btn.disabled = false; btn.innerHTML = 'Cadastrar e Iniciar Avaliação';
   }
+}
+
+/* ═══════════════════════════════
+   PDF GENERATION
+═══════════════════════════════ */
+function collectMeasurementsSnapshot() {
+  const snap = {};
+  for (const a of ANALYSES) {
+    const el = document.getElementById('meas-' + a.id);
+    if (el) snap[a.id] = el.value;
+  }
+  return snap;
+}
+
+function getAnnotatedImage(key) {
+  const ann = annotators[key];
+  if (!ann || !ann.imgEl || !ann.imgEl.src || !ann.imgEl.naturalWidth) return null;
+  const w = ann.imgEl.naturalWidth;
+  const h = ann.imgEl.naturalHeight;
+  const offscreen = document.createElement('canvas');
+  offscreen.width  = w;
+  offscreen.height = h;
+  const ctx = offscreen.getContext('2d');
+  ctx.drawImage(ann.imgEl, 0, 0, w, h);
+  // Re-draw landmarks at native resolution
+  const def = ann.def;
+  const pts = ann.pts;
+  const lineMap = {
+    frontal: [['Tr','G','Sn','Me'],['Pd','Pe']],
+    perfil:  [['G','Prn','Sn','Ls','Pg']],
+    sorriso: [['U1r','U1l'],['StS','StI']]
+  };
+  for (const grp of (lineMap[key]||[])) {
+    const coords = grp.map(k=>pts[k]).filter(Boolean);
+    if (coords.length<2) continue;
+    ctx.beginPath();
+    ctx.strokeStyle = def.color + 'cc';
+    ctx.lineWidth   = Math.max(2, w/400);
+    ctx.setLineDash([8,5]);
+    ctx.moveTo(coords[0].x*w, coords[0].y*h);
+    for (let i=1;i<coords.length;i++) ctx.lineTo(coords[i].x*w, coords[i].y*h);
+    ctx.stroke();
+    ctx.setLineDash([]);
+  }
+  const r = Math.max(8, w/80);
+  for (const pd of def.points) {
+    const pt = pts[pd.key]; if (!pt) continue;
+    const px = pt.x*w, py = pt.y*h;
+    ctx.beginPath(); ctx.arc(px,py,r,0,Math.PI*2);
+    ctx.fillStyle = def.color; ctx.fill();
+    ctx.strokeStyle='#fff'; ctx.lineWidth=2; ctx.stroke();
+    const fs = Math.max(14, w/50);
+    ctx.font = `bold ${fs}px system-ui`;
+    ctx.fillStyle='rgba(0,0,0,.75)';
+    ctx.fillText(pd.key, px+r+3, py-2);
+    ctx.fillStyle='#fff';
+    ctx.fillText(pd.key, px+r+2, py-3);
+  }
+  return offscreen.toDataURL('image/jpeg', 0.88);
+}
+
+function measLabel(id) {
+  const a = ANALYSES.find(x=>x.id===id); return a?a.label:id;
+}
+function measDisplayVal(id, val) {
+  const a = ANALYSES.find(x=>x.id===id);
+  if (!a) return val||'—';
+  if (a.type==='CLASSIFICATION') {
+    const i = a.options.indexOf(val);
+    return i>=0 ? a.labels[i] : (val||'—');
+  }
+  if (val===''||val==null) return '—';
+  const u = {MM:'mm',DEGREES:'°',PERCENT:'%',RATIO:''}[a.unit]||'';
+  return val+u;
+}
+
+function sevLabel(s){ return {NORMAL:'Normal',MILD:'Leve',MODERATE:'Moderado',SEVERE:'Grave',CRITICAL:'Crítico'}[s]??s }
+function sevColor(s){ return {NORMAL:'#22c55e',MILD:'#eab308',MODERATE:'#f97316',SEVERE:'#ef4444',CRITICAL:'#7f1d1d'}[s]??'#9ca3af' }
+
+function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, measurements, findings, patName, caseId, session, birthDate, sex, reportText }) {
+  const today = new Date().toLocaleDateString('pt-BR');
+  const sexLblMap = {M:'Masculino',F:'Feminino',UNSPECIFIED:'Não informado'};
+
+  // Group findings by area hint (key-words in text) or just split evenly
+  const synthItems = findings.map(f => ({
+    sev: f.severity, text: f.text, referral: f.referral
+  }));
+
+  function photoPanel(title, imgData, color, analyses, pointList) {
+    const photoHtml = imgData
+      ? `<img src="${imgData}" style="width:100%;height:100%;object-fit:contain;display:block;" />`
+      : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#555;font-size:13px;">Foto não carregada</div>`;
+
+    const measCards = analyses.map((id, i) => {
+      const val = measurements[id]||'—';
+      const disp = measDisplayVal(id, val);
+      const lbl  = measLabel(id);
+      return `<div style="background:#111;border:1px solid #2a2a2a;border-radius:8px;padding:10px 14px;display:flex;align-items:center;gap:12px;">
+        <div style="background:${color};color:#0a0a0a;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;flex-shrink:0;">${i+1}</div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:10px;color:#888;text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">${id}</div>
+          <div style="font-size:12px;color:#d4d4d4;line-height:1.3;">${lbl}</div>
+        </div>
+        <div style="font-size:15px;font-weight:700;color:${color};white-space:nowrap;">${disp}</div>
+      </div>`;
+    }).join('');
+
+    const ptList = pointList.map(p => `<span style="background:#1a1a1a;border:1px solid #333;border-radius:4px;padding:2px 8px;font-size:10px;color:#aaa;">${p}</span>`).join('');
+
+    return `<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start;margin-bottom:24px;">
+      <div>
+        <div style="background:#111;border-radius:8px;overflow:hidden;height:320px;position:relative;">
+          ${photoHtml}
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:8px;">${ptList}</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        ${measCards}
+      </div>
+    </div>`;
+  }
+
+  function pageHeader(subtitle, color) {
+    return `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid #1e1e1e;">
+      <div>
+        <div style="font-size:10px;color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">ANÁLISE FACIAL ORTODÔNTICA</div>
+        <div style="font-size:20px;font-weight:700;color:#c9a843;">${subtitle}</div>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-size:11px;color:#888;">OrthoFollow by</div>
+        <div style="font-size:13px;font-weight:700;color:#c9a843;">Dr Matheus Tadao</div>
+        <div style="font-size:10px;color:#555;margin-top:2px;">${today}</div>
+      </div>
+    </div>
+    <div style="background:#111;border-radius:6px;padding:8px 14px;margin-bottom:16px;display:flex;gap:20px;flex-wrap:wrap;">
+      <span style="font-size:11px;color:#888;">Paciente: <b style="color:#e5e5e5;">${esc(patName)}</b></span>
+      <span style="font-size:11px;color:#888;">Caso: <b style="color:#e5e5e5;">${esc(caseId.substring(0,8))}…</b></span>
+      <span style="font-size:11px;color:#888;">Sessão: <b style="color:#e5e5e5;">${esc(session)}</b></span>
+      <span style="font-size:11px;color:#888;">Nasc.: <b style="color:#e5e5e5;">${birthDate?new Date(birthDate).toLocaleDateString('pt-BR'):'—'}</b></span>
+      <span style="font-size:11px;color:#888;">Sexo: <b style="color:#e5e5e5;">${sexLblMap[sex]||sex}</b></span>
+    </div>`;
+  }
+
+  function synthesisSection(filterFn) {
+    const items = synthItems.filter(filterFn||Boolean);
+    if (!items.length) return `<div style="padding:10px 0;font-size:12px;color:#555;font-style:italic;">Nenhum achado registrado.</div>`;
+    return items.map(f => `<div style="display:flex;align-items:start;gap:10px;padding:8px 0;border-bottom:1px solid #1a1a1a;">
+      <div style="width:8px;height:8px;border-radius:50%;background:${sevColor(f.sev)};flex-shrink:0;margin-top:4px;"></div>
+      <div style="flex:1;">
+        <span style="font-size:10px;font-weight:700;color:${sevColor(f.sev)};text-transform:uppercase;letter-spacing:.3px;">${sevLabel(f.sev)}</span>
+        <div style="font-size:12px;color:#ccc;margin-top:2px;line-height:1.5;">${esc(f.text)}</div>
+        ${f.referral?'<div style="font-size:10px;color:#f97316;margin-top:2px;">⚑ Encaminhamento indicado</div>':''}
+      </div>
+    </div>`).join('');
+  }
+
+  function footer() {
+    return `<div style="margin-top:auto;padding-top:14px;border-top:1px solid #1a1a1a;font-size:9px;color:#555;line-height:1.5;text-align:center;">
+      Este relatório foi gerado automaticamente pelo sistema OrthoFollow e destina-se exclusivamente ao uso clínico interno.<br>
+      As medições baseiam-se nos pontos anatômicos marcados pelo profissional responsável. OrthoFollow by Dr Matheus Tadao · ${today}
+    </div>`;
+  }
+
+  const pageStyle = `background:#0a0a0a;color:#e5e5e5;font-family:'Segoe UI',system-ui,sans-serif;min-height:297mm;padding:20mm 18mm;box-sizing:border-box;display:flex;flex-direction:column;`;
+
+  // ── Page 1: Cover ──
+  const coverPhoto = frontalImg
+    ? `<img src="${frontalImg}" style="max-width:320px;max-height:380px;object-fit:contain;border-radius:12px;border:2px solid #c9a843;" />`
+    : `<div style="width:280px;height:320px;border:2px dashed #333;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#444;font-size:14px;">Foto Frontal</div>`;
+
+  const page1 = `<div style="${pageStyle}page-break-after:always;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:40px;">
+      <div>
+        <div style="font-size:10px;color:#888;text-transform:uppercase;letter-spacing:2px;margin-bottom:6px;">ANÁLISE FACIAL ORTODÔNTICA</div>
+        <div style="font-size:32px;font-weight:800;color:#c9a843;letter-spacing:-1px;">OrthoFollow</div>
+        <div style="font-size:14px;color:#888;margin-top:4px;">Protocolo P01 · Análise Facial Completa</div>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-size:11px;color:#777;">by</div>
+        <div style="font-size:18px;font-weight:700;color:#c9a843;">Dr Matheus Tadao</div>
+        <div style="font-size:10px;color:#555;margin-top:2px;">${today}</div>
+      </div>
+    </div>
+    <div style="flex:1;display:flex;align-items:center;gap:48px;">
+      <div>${coverPhoto}</div>
+      <div style="flex:1;">
+        <div style="font-size:10px;color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Paciente</div>
+        <div style="font-size:28px;font-weight:700;color:#e5e5e5;margin-bottom:20px;">${esc(patName)}</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div><span style="font-size:10px;color:#666;text-transform:uppercase;letter-spacing:.5px;display:block;">Caso ID</span><span style="font-size:14px;font-weight:600;color:#c9a843;">${esc(caseId.substring(0,8))}…</span></div>
+          <div><span style="font-size:10px;color:#666;text-transform:uppercase;letter-spacing:.5px;display:block;">Sessão</span><span style="font-size:14px;font-weight:600;color:#c9a843;">${esc(session)}</span></div>
+          <div><span style="font-size:10px;color:#666;text-transform:uppercase;letter-spacing:.5px;display:block;">Data de Nascimento</span><span style="font-size:14px;font-weight:600;color:#e5e5e5;">${birthDate?new Date(birthDate).toLocaleDateString('pt-BR'):'—'}</span></div>
+          <div><span style="font-size:10px;color:#666;text-transform:uppercase;letter-spacing:.5px;display:block;">Sexo Biológico</span><span style="font-size:14px;font-weight:600;color:#e5e5e5;">${sexLblMap[sex]||sex}</span></div>
+        </div>
+        <div style="margin-top:24px;padding:12px 16px;background:#111;border-left:3px solid #c9a843;border-radius:0 6px 6px 0;">
+          <div style="font-size:10px;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Total de Achados</div>
+          <div style="font-size:24px;font-weight:800;color:#c9a843;">${findings.length}</div>
+        </div>
+      </div>
+    </div>
+    ${footer()}
+  </div>`;
+
+  // ── Page 2: Frontal ──
+  const page2 = `<div style="${pageStyle}page-break-after:always;">
+    ${pageHeader('Análise Frontal','#1a56db')}
+    ${photoPanel('Análise Frontal', frontalImg, '#c9a843',
+      ['P01.A01','P01.A02','P01.A03','P01.A04','P01.A05'],
+      ['Tr','G','Sn','Me','Pd','Pe','Lm'])}
+    <div style="background:#111;border-radius:8px;padding:14px 16px;">
+      <div style="font-size:10px;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;">Síntese Diagnóstica — Análise Frontal</div>
+      ${synthesisSection(f => /sim[eé]tri|linha m[eé]di|ter[cç]o|simetria/i.test(f.text))}
+    </div>
+    ${footer()}
+  </div>`;
+
+  // ── Page 3: Sorriso ──
+  const page3 = `<div style="${pageStyle}page-break-after:always;">
+    ${pageHeader('Análise do Sorriso','#057a55')}
+    ${photoPanel('Análise do Sorriso', sorrisoImg, '#c9a843',
+      ['P01.A09','P01.A10','P01.A11','P01.A12'],
+      ['StS','StI','U1r','U1l'])}
+    <div style="background:#111;border-radius:8px;padding:14px 16px;">
+      <div style="font-size:10px;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;">Síntese Diagnóstica — Análise do Sorriso</div>
+      ${synthesisSection(f => /labial|nasal|sorriso|dent[aá]ri|incisiv/i.test(f.text))}
+    </div>
+    ${footer()}
+  </div>`;
+
+  // ── Page 4: Perfil ──
+  const page4 = `<div style="${pageStyle}page-break-after:always;">
+    ${pageHeader('Análise de Perfil','#7e3af2')}
+    ${photoPanel('Análise de Perfil', perfilImg, '#c9a843',
+      ['P01.A06','P01.A07','P01.A08'],
+      ['G','Prn','Sn','Ls','Pg'])}
+    <div style="background:#111;border-radius:8px;padding:14px 16px;margin-bottom:16px;">
+      <div style="font-size:10px;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;">Síntese Diagnóstica — Análise de Perfil</div>
+      ${synthesisSection(f => /perfil|nasolabial|mento|pogônio/i.test(f.text))}
+    </div>
+    ${reportText ? `<div style="background:#111;border-radius:8px;padding:14px 16px;">
+      <div style="font-size:10px;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">Interpretação Clínica</div>
+      <div style="font-size:11px;color:#aaa;line-height:1.7;white-space:pre-wrap;max-height:200px;overflow:hidden;">${esc(reportText.substring(0,1200))}</div>
+    </div>` : ''}
+    ${footer()}
+  </div>`;
+
+  // ── Page 5: Modelo STL ──
+  const page5 = `<div style="${pageStyle}">
+    ${pageHeader('Modelo Digital 3D — STL','#d97706')}
+    <div style="flex:1;background:#111;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;min-height:300px;">
+      <div style="font-size:48px;">🦷</div>
+      <div style="font-size:16px;color:#888;">Modelo STL não exportável para PDF</div>
+      <div style="font-size:12px;color:#555;text-align:center;max-width:320px;line-height:1.5;">O modelo digital 3D pode ser visualizado no sistema OrthoFollow. Para análise do modelo, consulte diretamente a interface de visualização 3D.</div>
+    </div>
+    <div style="margin-top:20px;background:#111;border-radius:8px;padding:14px 16px;">
+      <div style="font-size:10px;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;">Síntese Diagnóstica Geral</div>
+      ${synthesisSection()}
+    </div>
+    ${footer()}
+  </div>`;
+
+  return `<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>OrthoFollow — Relatório ${esc(patName)}</title>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0a0a0a;color:#e5e5e5;font-family:'Segoe UI',system-ui,sans-serif;}
+  @page{size:A4;margin:0}
+  @media print{
+    body{background:#0a0a0a !important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;}
+  }
+  .page-break{page-break-after:always}
+</style>
+</head>
+<body>
+${page1}${page2}${page3}${page4}${page5}
+</body>
+</html>`;
+}
+
+function generatePDF() {
+  const d = window._lastPipelineData;
+  if (!d) { alert('Execute a análise primeiro para gerar o relatório.'); return; }
+
+  const frontalImg  = getAnnotatedImage('frontal');
+  const perfilImg   = getAnnotatedImage('perfil');
+  const sorrisoImg  = getAnnotatedImage('sorriso');
+
+  const html = buildPDFHTML({
+    frontalImg, perfilImg, sorrisoImg,
+    measurements: d.measurements || collectMeasurementsSnapshot(),
+    findings:     d.exD.findings || [],
+    patName:      d.patName || d.caseId,
+    caseId:       d.caseId,
+    session:      d.session,
+    birthDate:    d.birthDate,
+    sex:          d.sex,
+    reportText:   d.txt
+  });
+
+  const win = window.open('', '_blank');
+  if (!win) { alert('Pop-up bloqueado. Permita pop-ups para este site e tente novamente.'); return; }
+  win.document.write(html);
+  win.document.close();
+  win.onload = () => { win.focus(); win.print(); };
 }
 
 /* ═══════════════════════════════
