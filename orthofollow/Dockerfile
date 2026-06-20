@@ -46,4 +46,4 @@ ENV WEB_ROOT=/app/apps/web
 
 EXPOSE 3000
 
-CMD ["./start.sh"]
+CMD ["sh", "./start.sh"]
