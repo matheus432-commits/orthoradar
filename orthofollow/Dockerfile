@@ -37,13 +37,10 @@ COPY --from=builder /app/node_modules        ./node_modules
 COPY --from=builder /app/packages            ./packages
 COPY apps/web                                ./apps/web
 COPY migrations                              ./migrations
-COPY start.sh                                ./start.sh
-RUN chmod +x ./start.sh
-
 ENV NODE_ENV=production
 ENV PORT=3000
 ENV WEB_ROOT=/app/apps/web
 
 EXPOSE 3000
 
-CMD ["sh", "./start.sh"]
+CMD ["node", "/app/packages/api/dist/server.js"]
