@@ -1176,7 +1176,14 @@ function sevLbl(s){ return {NORMAL:'Normal',MILD:'Leve',MODERATE:'Moderado',SEVE
 /* ═══════════════════════════════
    INIT
 ═══════════════════════════════ */
-renderMeasurements();
+window.onerror = function(msg, src, line, col, err) {
+  const el = document.getElementById('cases-tbody');
+  if (el) el.innerHTML = `<tr><td colspan="7"><div class="empty"><div class="emoji">🐛</div><p><b>JS Error:</b> ${msg}<br>${src}:${line}:${col}</p></div></td></tr>`;
+};
+try { renderMeasurements(); } catch(e) {
+  const el = document.getElementById('cases-tbody');
+  if (el) el.innerHTML = `<tr><td colspan="7"><div class="empty"><div class="emoji">🐛</div><p><b>renderMeasurements erro:</b> ${e.message}</p></div></td></tr>`;
+}
 loadDashboard();
 </script>
 </body>
