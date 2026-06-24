@@ -21,11 +21,14 @@ exports.handler = async (event) => {
         from: [{ collectionId: 'artigos' }],
         orderBy: [{ field: { fieldPath: 'data' }, direction: 'DESCENDING' }],
         select: { fields: [
-          { fieldPath: 'titulo' }, { fieldPath: 'tema' },
-          { fieldPath: 'especialidade' }, { fieldPath: 'data' },
-          { fieldPath: 'journal' }, { fieldPath: 'year' }
+          { fieldPath: 'titulo' }, { fieldPath: 'titulo_pt' },
+          { fieldPath: 'tema' }, { fieldPath: 'especialidade' },
+          { fieldPath: 'data' }, { fieldPath: 'journal' },
+          { fieldPath: 'year' }, { fieldPath: 'nivel_evidencia' },
+          { fieldPath: 'resumo_pt' }, { fieldPath: 'impacto_pratico' },
+          { fieldPath: 'pubmedUrl' }
         ]},
-        limit: 6
+        limit: 8
       }
     });
     const buf = Buffer.from(body, 'utf8');
@@ -46,11 +49,16 @@ exports.handler = async (event) => {
         return {
           id: d.document.name.split('/').pop(),
           titulo: f.titulo?.stringValue || '',
+          titulo_pt: f.titulo_pt?.stringValue || '',
           tema: f.tema?.stringValue || '',
           especialidade: f.especialidade?.stringValue || '',
           data: f.data?.stringValue || '',
           journal: f.journal?.stringValue || '',
-          year: f.year?.stringValue || ''
+          year: f.year?.stringValue || f.year?.integerValue || '',
+          nivel_evidencia: f.nivel_evidencia?.stringValue || '',
+          resumo_pt: f.resumo_pt?.stringValue || '',
+          impacto_pratico: f.impacto_pratico?.stringValue || '',
+          pubmedUrl: f.pubmedUrl?.stringValue || ''
         };
       });
 

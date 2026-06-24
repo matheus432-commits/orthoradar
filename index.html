@@ -421,8 +421,8 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:44px 52p
       <button class="btn-hero-ghost" onclick="document.getElementById('email-preview').scrollIntoView({behavior:'smooth'})">Ver exemplo de digest</button>
     </div>
     <div class="hero-proof">
-      <div class="hero-proof-item"><span class="hp-num">7.432</span><span class="hp-lbl">Dentistas assinantes</span></div>
-      <div class="hero-proof-item"><span class="hp-num">2.318</span><span class="hp-lbl">Artigos resumidos</span></div>
+      <div class="hero-proof-item"><span class="hp-num" id="statAssinantes">—</span><span class="hp-lbl">Dentistas assinantes</span></div>
+      <div class="hero-proof-item"><span class="hp-num" id="statArtigos">—</span><span class="hp-lbl">Artigos resumidos</span></div>
       <div class="hero-proof-item"><span class="hp-num">10</span><span class="hp-lbl">Especialidades CFO</span></div>
       <div class="hero-proof-item"><span class="hp-num">R$0</span><span class="hp-lbl">Para começar</span></div>
     </div>
@@ -452,7 +452,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:44px 52p
         <div class="dw-art-meta">Journal of Orthodontics · 2024 · 3 min leitura</div>
       </div>
       <div class="dw-footer">
-        <div class="dw-footer-l">✉ Enviado para 7.432 dentistas hoje às 7h</div>
+        <div class="dw-footer-l">✉ Enviado para <span id="statAssinantes2">—</span> dentistas hoje às 7h</div>
         <div class="dw-footer-r" onclick="document.getElementById('cadastro').scrollIntoView({behavior:'smooth'})">Receber o meu →</div>
       </div>
     </div>
@@ -504,25 +504,25 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:44px 52p
       <div class="fg-kicker"><span class="fg-ev ev-meta">Meta-análise</span><span class="fg-spec">Ortodontia</span></div>
       <div class="fg-title">Mini-implantes aumentaram retração anterior em 1,8 mm vs ancoragem convencional</div>
       <div class="fg-meta"><span>Am J Orthod</span><span>·</span><span>2025</span></div>
-      <div class="fg-read">Ler resumo →</div>
+      <div class="fg-read">Ler artigo na íntegra →</div>
     </div>
     <div class="fg-card">
       <div class="fg-kicker"><span class="fg-ev ev-rct">RCT</span><span class="fg-spec">Odontopediatria</span></div>
       <div class="fg-title">Caseína fosopeptídea superou fluoreto no tratamento de hipomineralização molar-incisivo</div>
       <div class="fg-meta"><span>Pediatr Dent</span><span>·</span><span>2025</span></div>
-      <div class="fg-read">Ler resumo →</div>
+      <div class="fg-read">Ler artigo na íntegra →</div>
     </div>
     <div class="fg-card">
       <div class="fg-kicker"><span class="fg-ev ev-rs">Rev. Sistemática</span><span class="fg-spec">DTM e Dor</span></div>
       <div class="fg-title">Toxina botulínica reduziu dor miofascial em 68% após 3 meses em pacientes com bruxismo</div>
       <div class="fg-meta"><span>J Oral Rehabil</span><span>·</span><span>2025</span></div>
-      <div class="fg-read">Ler resumo →</div>
+      <div class="fg-read">Ler artigo na íntegra →</div>
     </div>
     <div class="fg-card">
       <div class="fg-kicker"><span class="fg-ev ev-cc">Coorte</span><span class="fg-spec">Bucomaxilofacial</span></div>
       <div class="fg-title">Distração osteogênica mandibular: estabilidade de 87% ao longo de 7 anos pós-operatórios</div>
       <div class="fg-meta"><span>J Oral Maxillofac Surg</span><span>·</span><span>2024</span></div>
-      <div class="fg-read">Ler resumo →</div>
+      <div class="fg-read">Ler artigo na íntegra →</div>
     </div>
   </div>
 </div>
@@ -822,7 +822,7 @@ document.getElementById('feedDate').textContent = new Date().toLocaleDateString(
     const grEl = document.getElementById('feedGrid');
     if(grEl && grid.length) {
       grEl.innerHTML = grid.map(a=>{
-        const lk = a.pubmedUrl?`<a href="${esc(a.pubmedUrl)}" target="_blank" rel="noopener" style="color:var(--primary);">Ler resumo →</a>`:'<span style="color:var(--primary);">Ler resumo →</span>';
+        const lk = a.pubmedUrl?`<a href="${esc(a.pubmedUrl)}" target="_blank" rel="noopener" style="color:var(--primary);">Ler artigo na íntegra →</a>`:'<span style="color:var(--primary);">Ler artigo na íntegra →</span>';
         return `<div class="fg-card"><div class="fg-kicker"><span class="fg-ev ${evCls(a.nivel_evidencia)}">${esc(a.nivel_evidencia||'Artigo')}</span><span class="fg-spec">${esc(a.especialidade||a.tema||'')}</span></div><div class="fg-title">${esc((a.titulo_pt||a.titulo||'').substring(0,100))}</div><div class="fg-meta"><span>${esc(a.journal||'')}</span>${a.year?'<span>·</span><span>'+esc(String(a.year))+'</span>':''}</div><div class="fg-read">${lk}</div></div>`;
       }).join('');
     }
@@ -968,6 +968,19 @@ async function submitForm(){
   document.getElementById('successEmail').textContent=email;
   document.getElementById('successSpecs').textContent=selectedSpecs.join(', ');
 }
+
+// ── Stats ────────────────────────────────────────────
+(async function loadStats() {
+  try {
+    const res = await fetch('/.netlify/functions/get-stats');
+    if (!res.ok) return;
+    const { assinantes, artigos } = await res.json();
+    const fmt = n => n ? new Intl.NumberFormat('pt-BR').format(n) : null;
+    const a = fmt(assinantes), b = fmt(artigos);
+    if (a) { document.getElementById('statAssinantes').textContent = a; document.getElementById('statAssinantes2').textContent = a; }
+    if (b) document.getElementById('statArtigos').textContent = b;
+  } catch(e) {}
+})();
 
 // ── PWA ─────────────────────────────────────────────
 let deferredPrompt=null;
