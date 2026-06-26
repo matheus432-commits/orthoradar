@@ -3,8 +3,7 @@ name: OdontoFeed Daily Pipeline
 # Pipeline completo: ingestão → enriquecimento → perfis → envio de emails.
 #
 # Triggers:
-#   schedule   — 04:00 UTC (01:00 BRT): GitHub Actions atrasa 2-4h; 04:00 UTC
-#                garante execução antes das 08:00 BRT mesmo com atraso máximo.
+#   schedule   — 10:00 UTC (07:00 BRT): entrega no inbox às 7h Brasília.
 #   push       — qualquer push em netlify/functions/** para main:
 #                executa apenas ingestão (nunca email), garantindo artigos
 #                frescos sem risco de duplo envio.
@@ -15,7 +14,7 @@ env:
 
 on:
   schedule:
-    - cron: '0 4 * * *'
+    - cron: '0 10 * * *'
 
   push:
     branches: [main]
