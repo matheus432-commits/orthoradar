@@ -44,11 +44,11 @@ const EVIDENCE_PATTERNS = [
 // Specialty keyword map
 const SPECIALTY_KEYWORDS = {
   'Ortodontia':      ['orthodonti', 'malocclusion', 'aligner', 'bracket', 'cephalometric', 'molar rotation'],
-  'Implantodontia':  ['implant', 'osseointegration', 'peri-implant', 'sinus lift', 'bone graft', 'overdenture'],
+  'Implantodontia':  ['implant', 'osseointegration', 'peri-implant', 'sinus lift', 'bone graft'],
   'Periodontia':     ['periodon', 'gingivitis', 'gingival', 'alveolar bone', 'scaling root planing', 'furcation'],
   'Endodontia':      ['endodon', 'root canal', 'pulp', 'apical', 'retreatment', 'irrigation'],
   'Dentística':      ['composite', 'resin', 'bonding', 'caries', 'restoration', 'bleaching', 'whitening'],
-  'Prótese':         ['prosthes', 'denture', 'crown', 'fixed partial', 'zirconia', 'ceramic'],
+  'Prótese':         ['prosthodon', 'prosthes', 'denture', 'crown', 'fixed partial', 'removable partial', 'complete denture', 'zirconia', 'ceramic', 'pontic', 'dental bridge', 'overdenture'],
   'Cirurgia':        ['surgery', 'surgical', 'extraction', 'orthognathic', 'osteotomy', 'flap'],
   'Odontopediatria': ['pediatric dent', 'children', 'deciduous', 'primary teeth', 'child oral'],
   'Saúde Pública':   ['epidemiology', 'prevalence', 'public health', 'socioeconomic', 'community dent'],

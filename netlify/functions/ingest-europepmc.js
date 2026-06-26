@@ -20,7 +20,7 @@ const SPECIALTY_QUERIES = [
   { specialty: 'Periodontia',     query: 'periodontics OR periodontitis OR "periodontal disease"' },
   { specialty: 'Endodontia',      query: 'endodontics OR "root canal treatment" OR "pulp therapy"' },
   { specialty: 'Dentística',      query: '"dental caries" OR "composite resin" OR "tooth bleaching"' },
-  { specialty: 'Prótese',         query: '"dental prosthesis" OR "fixed partial denture" OR zirconia' },
+  { specialty: 'Prótese',         query: 'prosthodontics OR "dental prosthesis" OR "fixed partial denture" OR "complete denture" OR "removable partial denture" OR "dental crown" OR zirconia' },
   { specialty: 'Cirurgia',        query: '"oral surgery" OR "orthognathic surgery" OR "tooth extraction"' },
   { specialty: 'Odontopediatria', query: '"pediatric dentistry" OR "child oral health"' },
   { specialty: 'Saúde Pública',   query: '"oral health" AND (epidemiology OR "public health")' },

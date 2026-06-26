@@ -30,7 +30,7 @@ const SPECIALTY_QUERIES = [
   { specialty: 'Periodontia',     query: 'periodontics[MeSH Major Topic]' },
   { specialty: 'Endodontia',      query: 'endodontics[MeSH Major Topic]' },
   { specialty: 'Dentística',      query: 'dental caries[MeSH Major Topic] OR dental restoration permanent[MeSH Major Topic]' },
-  { specialty: 'Prótese',         query: 'dental prosthesis[MeSH Major Topic]' },
+  { specialty: 'Prótese',         query: 'prosthodontics[MeSH Major Topic] OR "denture, partial, fixed"[MeSH Major Topic] OR "denture, complete"[MeSH Major Topic]' },
   { specialty: 'Cirurgia',        query: 'oral surgical procedures[MeSH Major Topic]' },
   { specialty: 'Odontopediatria', query: 'pediatric dentistry[MeSH Major Topic]' },
   { specialty: 'Saúde Pública',   query: 'public health dentistry[MeSH Major Topic]' },
