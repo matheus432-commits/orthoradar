@@ -2,6 +2,7 @@
 // Profiles are stored in Firestore collection `user_profiles/{email}`.
 // Recomputed daily by update-user-profile.js.
 
+const crypto                                    = require('crypto');
 const { computePreferences }                   = require('./behavior-scoring');
 const { analyzeDigestHistory, detectFatigue, getOptimalDigestSize } = require('./fatigue-detection');
 const log                                       = require('./logger');
@@ -110,6 +111,23 @@ async function buildProfile(user, db) {
   addInteractions(savedos,  'save');
   addInteractions(lidos,    'read');
 
+  // Bridge email click signals: read clicksByTheme from user_engagement
+  const ehash   = crypto.createHash('sha256').update(String(email)).digest('hex').slice(0, 16);
+  let   engDoc  = null;
+  try { engDoc = await db.getDoc('user_engagement', ehash); } catch {}
+
+  const emailClicks     = engDoc?.clicksByTheme || {};
+  const clickDateStr    = engDoc?.updatedAt     || null;
+  const emailClickTotal = Object.values(emailClicks).reduce((s, n) => s + (n || 0), 0);
+
+  // Inject email click records (capped at 10 per tema to stay bounded)
+  for (const [tema, count] of Object.entries(emailClicks)) {
+    const records = Math.min(Number(count) || 0, 10);
+    for (let i = 0; i < records; i++) {
+      interactions.push({ eventType: 'click', article: { tema }, dateStr: clickDateStr });
+    }
+  }
+
   const { themes, evidence, journals } = computePreferences(interactions);
 
   // 3. Load digest history for engagement metrics
@@ -153,7 +171,7 @@ async function buildProfile(user, db) {
     shouldSend:         fatigue.action !== 'pause',
     emailFrequency:     fatigue.action === 'send_weekly' ? 'weekly' : 'daily',
     anchorDow,
-    totalInteractions:  allPmids.length,
+    totalInteractions:  allPmids.length + emailClickTotal,
     totalDigestsSent:   engagement.totalSent,
     updatedAt:          new Date().toISOString(),
   };

@@ -86,12 +86,16 @@ FORMATO DE SAÍDA: responda APENAS com o texto da nota editorial em parágrafos 
 
 // ── User message builder ──────────────────────────────────────────────────────
 
-function buildUserMessage(articles, especialidade) {
+function buildUserMessage(articles, especialidade, topThemes = []) {
   const lines = [
     `Especialidade: ${especialidade}`,
     '',
-    `ARTIGOS DESTA EDIÇÃO (${articles.length} no total — TODOS devem ser cobertos):`,
   ];
+  if (topThemes.length > 0) {
+    lines.push(`Temas de maior interesse deste leitor: ${topThemes.join(', ')}`);
+    lines.push('');
+  }
+  lines.push(`ARTIGOS DESTA EDIÇÃO (${articles.length} no total — TODOS devem ser cobertos):`);
 
   articles.forEach((art, i) => {
     lines.push('');
@@ -111,14 +115,14 @@ function buildUserMessage(articles, especialidade) {
 
 // ── API call ──────────────────────────────────────────────────────────────────
 
-async function generateEditorial(articles, especialidade, attempt = 0) {
+async function generateEditorial(articles, especialidade, topThemes = [], attempt = 0) {
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
     log.warn('[editorial] ANTHROPIC_API_KEY not set — using fallback');
     return null;
   }
 
-  const userContent = buildUserMessage(articles, especialidade);
+  const userContent = buildUserMessage(articles, especialidade, topThemes);
 
   const payload = JSON.stringify({
     model:      MODEL,

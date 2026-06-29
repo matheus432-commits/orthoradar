@@ -584,6 +584,10 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 36px
   <!-- TAB: PREFERÊNCIAS -->
   <div class="tab-content" id="tab-preferencias">
     <div class="section-title">⚙️ Preferências <span id="prefSaveMsg" style="font-size:13px;font-weight:500;margin-left:8px;"></span></div>
+
+    <!-- SEU PERFIL CIENTÍFICO (aprendizado por comportamento) -->
+    <div id="engagementProfileCard" style="max-width:720px;margin-bottom:18px;"></div>
+
     <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px 32px;max-width:720px;">
       <p style="color:var(--muted);font-size:14px;margin-bottom:24px;">Atualize suas especialidades e temas de interesse. As mudanças valem a partir do próximo envio diário.</p>
       <div style="margin-bottom:24px;">
@@ -1070,12 +1074,101 @@ let prefSelectedSpecs = [];
 let prefSelectedTemas = [];
 let _prefAllTemas = [];
 
+// ========== PERSONALIZATION PROFILE CARD ==========
+
+async function computeEhash(email) {
+  const buf  = new TextEncoder().encode(String(email));
+  const hash = await crypto.subtle.digest('SHA-256', buf);
+  return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2,'0')).join('').slice(0, 16);
+}
+
+async function loadEngagementProfile() {
+  const el = document.getElementById('engagementProfileCard');
+  if (!el) return;
+  const email = getEmail();
+  if (!email) return;
+  try {
+    const ehash = await computeEhash(email);
+    const res   = await fetch('/.netlify/functions/get-engagement?e=' + ehash);
+    const data  = await res.json();
+    el.innerHTML = renderEngagementProfileCard(data);
+  } catch { el.innerHTML = ''; }
+}
+
+function renderEngagementProfileCard(data) {
+  const themes = data.topThemes || [];
+  const total  = data.totalArticlesRead || 0;
+
+  if (!themes.length && total === 0) {
+    return `<div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px 28px;">
+      <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px;">&#x1F4CA; Seu Perfil Cient&iacute;fico</div>
+      <p style="font-size:13px;color:var(--muted);margin:0;line-height:1.65;">
+        O OdontoFeed ainda est&aacute; aprendendo seus interesses.
+        Abra artigos nos pr&oacute;ximos digests e o sistema ajustar&aacute; a curadoria progressivamente.
+      </p>
+    </div>`;
+  }
+
+  const themeRows = themes.slice(0, 5).map(({ tema, count }) => `
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:7px;">
+      <div style="flex:1;font-size:13px;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escapeHtml(tema)}</div>
+      <div style="font-size:12px;color:var(--muted);white-space:nowrap;">${count} artigo${count !== 1 ? 's' : ''}</div>
+      <div style="width:80px;height:4px;background:var(--border);border-radius:3px;overflow:hidden;flex-shrink:0;">
+        <div style="height:100%;background:var(--primary);border-radius:3px;width:${Math.round(Math.min(100, (count / (themes[0]?.count || 1)) * 100))}%;"></div>
+      </div>
+    </div>`).join('');
+
+  const topMsg = themes[0]
+    ? `<p style="font-size:12.5px;color:var(--muted);margin:10px 0 0;line-height:1.6;">
+        Voc&ecirc; explorou <strong>${themes[0].count} artigo${themes[0].count !== 1 ? 's' : ''}</strong> sobre
+        <strong>${escapeHtml(themes[0].tema)}</strong> — seu pr&oacute;ximo digest priorizar&aacute; esse tema.
+       </p>`
+    : '';
+
+  return `<div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px 28px;">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:14px;">
+      <div>
+        <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px;">&#x1F4CA; Seu Perfil Cient&iacute;fico</div>
+        <div style="font-size:12px;color:var(--muted);">${total} artigo${total !== 1 ? 's' : ''} explorado${total !== 1 ? 's' : ''} &mdash; curadoria personalizada ativa</div>
+      </div>
+      <button onclick="resetInterests()" style="flex-shrink:0;background:none;border:1.5px solid var(--border-2);color:var(--muted);padding:6px 13px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.18s;"
+              onmouseover="this.style.borderColor='var(--danger)';this.style.color='var(--danger)'"
+              onmouseout="this.style.borderColor='var(--border-2)';this.style.color='var(--muted)'">
+        Redefinir interesses
+      </button>
+    </div>
+    <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:10px;">Temas mais explorados</div>
+    ${themeRows}
+    ${topMsg}
+  </div>`;
+}
+
+async function resetInterests() {
+  const email = getEmail(), token = getToken();
+  if (!email || !token) return;
+  if (!confirm('Isso apagará o histórico de temas aprendidos pelo OdontoFeed. As especialidades e temas manuais permanecem. Continuar?')) return;
+  try {
+    const res = await fetch('/.netlify/functions/reset-interests', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, token }),
+    });
+    if (res.ok) {
+      document.getElementById('engagementProfileCard').innerHTML = '';
+      loadEngagementProfile();
+    } else {
+      alert('Não foi possível redefinir os interesses. Tente novamente.');
+    }
+  } catch { alert('Erro de conexão. Tente novamente.'); }
+}
+
 function renderPrefTab() {
   if (!userData) return;
   const currentSpecs = Array.isArray(userData.especialidade) ? userData.especialidade : (userData.especialidade ? [userData.especialidade] : []);
   const currentTemas = Array.isArray(userData.temas) ? userData.temas : [];
   prefSelectedSpecs = [...currentSpecs];
   prefSelectedTemas = [...currentTemas];
+  loadEngagementProfile();
 
   const specEl = document.getElementById('prefSpecSelect');
   specEl.innerHTML = Object.keys(THEMES).map(spec => {
