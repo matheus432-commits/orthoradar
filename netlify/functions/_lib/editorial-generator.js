@@ -162,7 +162,7 @@ async function generateEditorial(articles, especialidade, topThemes = [], attemp
       const delay = 2000 * Math.pow(2, attempt);
       log.warn('[editorial] rate limited, retrying', { attempt, delay_ms: delay });
       await new Promise(r => setTimeout(r, delay));
-      return generateEditorial(articles, especialidade, attempt + 1);
+      return generateEditorial(articles, especialidade, topThemes, attempt + 1);
     }
     log.warn('[editorial] rate limit after retries, using fallback');
     return null;
