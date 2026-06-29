@@ -360,11 +360,16 @@ async function _runUserDigest(user, db, resendKey, anthropicKey) {
     .catch(err => { log.warn('[digest] engagement load failed', { email, err: err.message }); return null; });
   const streakCount = engagement?.streak || 0;
   const newBadges   = engagement?.newBadgesThisWeek || [];
-  log.info('[digest][STAGE engagement]', { email, streak: streakCount, newBadges: newBadges.length, ms: Date.now() - t });
+  // Top 3 email-click themes — fed to editorial prompt for thematic awareness
+  const topThemes   = Object.entries(engagement?.clicksByTheme || {})
+    .sort(([, a], [, b]) => b - a)
+    .slice(0, 3)
+    .map(([tema]) => tema);
+  log.info('[digest][STAGE engagement]', { email, streak: streakCount, newBadges: newBadges.length, topThemes, ms: Date.now() - t });
 
   // Generate editorial via Claude (falls back to deterministic on failure)
   t = Date.now();
-  const editorial = await generateEditorial(selected, especialidade)
+  const editorial = await generateEditorial(selected, especialidade, topThemes)
     .catch(err => { log.warn('[digest] generateEditorial threw', { err: err.message }); return null; });
   log.info('[digest][STAGE editorial]', {
     email, generated: !!editorial, chars: editorial?.length ?? 0, ms: Date.now() - t,

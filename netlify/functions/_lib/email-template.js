@@ -587,6 +587,10 @@ function buildDigestEmail(user, articles, opts) {
               <a href="${esc(unsubUrl)}"
                  style="color:#9E988E;text-decoration:underline;">Cancelar recebimento</a>
             </div>
+            <div style="margin-top:8px;font-size:10.5px;color:#B5B0A8;
+                        font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">
+              &#x1F4CA;&nbsp; Sua curadoria &eacute; personalizada com base nos artigos que voc&ecirc; explora.
+            </div>
             ${streakLineHtml}
 
             <!-- Disclaimer jurídico -->
