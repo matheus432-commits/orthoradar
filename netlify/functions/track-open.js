@@ -1,7 +1,7 @@
 // Email open tracker — returns a 1×1 transparent GIF while logging the open event.
 // Endpoint: GET /.netlify/functions/track-open?d={digestId}&e={emailHash}
 
-const { recordOpen, logEvent } = require('./_lib/engagement');
+const { recordOpen, logEvent, updateStreak } = require('./_lib/engagement');
 const log                      = require('./_lib/logger');
 
 // 1×1 transparent GIF (35 bytes)
@@ -30,6 +30,7 @@ exports.handler = async (event) => {
       ? Promise.allSettled([
           recordOpen(projectId, apiKey, digestId),
           logEvent(projectId, apiKey, { digestId, email: null, eventType: 'open', ip }),
+          ehash ? updateStreak(projectId, apiKey, ehash, digestId) : Promise.resolve(),
         ])
       : Promise.resolve();
 
