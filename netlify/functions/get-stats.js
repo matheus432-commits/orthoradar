@@ -4,7 +4,7 @@ exports.handler = async (event) => {
   const headers = {
     'Access-Control-Allow-Origin': '*',
     'Content-Type': 'application/json',
-    'Cache-Control': 'public, max-age=1800'
+    'Cache-Control': 'private, max-age=3600'
   };
 
   if (event.httpMethod === 'OPTIONS') {
