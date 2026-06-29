@@ -234,7 +234,8 @@ function articleCard(article, index, total, opts) {
 
   const rawPubmedUrl = (article.pubmedUrl ?? '').trim();
   const pubmedDirect = rawPubmedUrl ||
-    (pmid ? `https://pubmed.ncbi.nlm.nih.gov/${pmid}/` : baseUrl);
+    (pmid ? `https://pubmed.ncbi.nlm.nih.gov/${pmid}/`
+          : (article.url || article.oaUrl || baseUrl));
   const trackedUrl = trackClick(baseUrl, digestId, pmid, email, pubmedDirect);
 
   return `
