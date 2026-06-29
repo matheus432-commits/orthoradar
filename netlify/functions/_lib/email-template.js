@@ -233,9 +233,13 @@ function articleCard(article, index, total, opts) {
   const isLast       = index === total - 1;
 
   const rawPubmedUrl = (article.pubmedUrl ?? '').trim();
+  const articleUrl   = article.url || article.oaUrl || '';
   const pubmedDirect = rawPubmedUrl ||
     (pmid ? `https://pubmed.ncbi.nlm.nih.gov/${pmid}/`
-          : (article.url || article.oaUrl || baseUrl));
+          : (articleUrl || baseUrl));
+  if (!rawPubmedUrl && !pmid && !articleUrl) {
+    console.warn('[email-template] no article URL for card, falling back to baseUrl', { id: article.id, title: (article.titulo || '').slice(0, 60) });
+  }
   const trackedUrl = trackClick(baseUrl, digestId, pmid, email, pubmedDirect);
 
   return `

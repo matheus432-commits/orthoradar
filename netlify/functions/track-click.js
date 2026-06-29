@@ -6,22 +6,27 @@ const log                       = require('./_lib/logger');
 
 const FALLBACK_URL = process.env.SITE_URL || 'https://odontofeed.com.br';
 
+// Hostname-based allowlist — immune to prefix-bypass attacks (e.g. evil.pubmed.com, //evil.com)
+const ALLOWED_HOSTS = new Set([
+  'odontofeed.com.br',
+  'pubmed.ncbi.nlm.nih.gov',
+  'europepmc.org',
+  'doi.org',
+]);
+try { ALLOWED_HOSTS.add(new URL(FALLBACK_URL).hostname); } catch {}
+
 function safeDecodeTarget(t) {
   if (!t) return FALLBACK_URL;
   try {
-    const url = Buffer.from(t, 'base64url').toString('utf8');
-    const allowed = [
-      FALLBACK_URL,
-      'https://odontofeed.com.br',
-      'http://localhost',
-      'https://pubmed.ncbi.nlm.nih.gov',
-      'https://www.pubmed.ncbi.nlm.nih.gov',
-      'https://europepmc.org',
-      'https://doi.org',
-    ];
-    if (url.startsWith('/') || allowed.some(base => url.startsWith(base))) {
-      return url;
-    }
+    // Strip CRLF before the URL reaches the Location header (header injection defence)
+    const url = Buffer.from(t, 'base64url').toString('utf8').replace(/[\r\n]/g, '');
+    // Site-relative path — explicitly reject protocol-relative //host URLs
+    if (url.startsWith('/') && !url.startsWith('//')) return url;
+    // Parse and validate the absolute URL by hostname
+    const parsed = new URL(url);
+    if (parsed.protocol === 'https:' && ALLOWED_HOSTS.has(parsed.hostname)) return url;
+    if (parsed.protocol === 'http:' && parsed.hostname === 'localhost'
+        && process.env.NODE_ENV !== 'production') return url;
     log.warn('[track-click] blocked redirect to external URL', { url: url.slice(0, 100) });
     return FALLBACK_URL;
   } catch (err) {
