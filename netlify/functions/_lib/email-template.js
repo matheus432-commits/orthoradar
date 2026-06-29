@@ -218,7 +218,7 @@ function generateEditorialIntro(articles, esp) {
 
 function articleCard(article, index, total, opts) {
   const { baseUrl, dashboardUrl, digestId, email } = opts;
-  const pmid         = article.pmid || article.id || '';
+  const pmid         = String(article.pmid || article.id || '').trim();
   const badge        = BADGE_STYLE[article.nivel_evidencia] || BADGE_STYLE['Revisão Narrativa'];
   const titulo       = esc(truncate(article.titulo_pt || article.titulo || article.title || 'Sem título', 120));
   const impacto      = esc(truncate(article.impacto_pratico || '', 300));
@@ -232,8 +232,9 @@ function articleCard(article, index, total, opts) {
   const espTag       = esc(article.especialidade || article.tema || '');
   const isLast       = index === total - 1;
 
-  const pubmedDirect = article.pubmedUrl ||
-    (pmid ? `https://pubmed.ncbi.nlm.nih.gov/${pmid}/` : `${dashboardUrl}?pmid=${pmid}&utm_source=email`);
+  const rawPubmedUrl = (article.pubmedUrl ?? '').trim();
+  const pubmedDirect = rawPubmedUrl ||
+    (pmid ? `https://pubmed.ncbi.nlm.nih.gov/${pmid}/` : baseUrl);
   const trackedUrl = trackClick(baseUrl, digestId, pmid, email, pubmedDirect);
 
   return `
