@@ -306,7 +306,7 @@ async function _runUserDigest(user, db, resendKey, anthropicKey) {
   // 6. Personalized curated selection
   t = Date.now();
   const digestSize = profile ? getOptimalDigestSize(profile) : MAX_ARTICLES;
-  const selected   = recommendArticles(candidates, profile, {
+  let selected     = recommendArticles(candidates, profile, {
     maxArticles: digestSize,
     minArticles: MIN_ARTICLES,
   });
@@ -346,6 +346,12 @@ async function _runUserDigest(user, db, resendKey, anthropicKey) {
     id: achadoSemana?.pmid || achadoSemana?.articleId || null,
     ms: Date.now() - t,
   });
+
+  // Prevent achado article from appearing as a duplicate regular card
+  if (achadoSemana) {
+    const achadoKey = String(achadoSemana.pmid || achadoSemana.articleId || '');
+    if (achadoKey) selected = selected.filter(a => String(a.pmid || a.id || '') !== achadoKey);
+  }
 
   // Generate editorial via Claude (falls back to deterministic on failure)
   t = Date.now();
@@ -399,10 +405,13 @@ async function _runUserDigest(user, db, resendKey, anthropicKey) {
   const [digestResult, sentLogResult] = await Promise.allSettled([
     saveDigest(db, digestId, {
       email, especialidade, subject,
-      pmids:           selected.map(a => a.pmid || a.id || ''),
+      pmids: [
+        ...selected.map(a => a.pmid || a.id || ''),
+        ...(achadoSemana ? [achadoSemana.pmid || achadoSemana.articleId || ''] : []),
+      ].filter(Boolean),
       resendMessageId,
     }),
-    saveSentLog(db, email, selected, especialidade),
+    saveSentLog(db, email, achadoSemana ? [...selected, achadoSemana] : selected, especialidade),
   ]);
 
   if (digestResult.status  === 'rejected') log.error('[digest][STAGE audit] saveDigest failed', { email, digestId, err: digestResult.reason?.message });
