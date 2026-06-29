@@ -13,13 +13,13 @@ const ALLOWED_HOSTS = new Set([
   'europepmc.org',
   'doi.org',
 ]);
-try { ALLOWED_HOSTS.add(new URL(FALLBACK_URL).hostname); } catch {}
+try { ALLOWED_HOSTS.add(new URL(FALLBACK_URL).hostname); } catch { log.warn('[track-click] SITE_URL is not a valid URL, ignoring', { SITE_URL: process.env.SITE_URL }); }
 
 function safeDecodeTarget(t) {
   if (!t) return FALLBACK_URL;
   try {
-    // Strip CRLF before the URL reaches the Location header (header injection defence)
-    const url = Buffer.from(t, 'base64url').toString('utf8').replace(/[\r\n]/g, '');
+    // Strip control characters before the URL reaches the Location header (header injection defence)
+    const url = Buffer.from(t, 'base64url').toString('utf8').replace(/[\x00-\x1f]/g, '');
     // Site-relative path — explicitly reject protocol-relative //host URLs
     if (url.startsWith('/') && !url.startsWith('//')) return url;
     // Parse and validate the absolute URL by hostname

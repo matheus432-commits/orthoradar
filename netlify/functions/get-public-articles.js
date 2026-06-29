@@ -22,12 +22,12 @@ exports.handler = async (event) => {
         where: { fieldFilter: { field: { fieldPath: 'status' }, op: 'EQUAL', value: { stringValue: 'active' } } },
         orderBy: [{ field: { fieldPath: 'data' }, direction: 'DESCENDING' }],
         select: { fields: [
-          { fieldPath: 'titulo' }, { fieldPath: 'titulo_pt' },
+          { fieldPath: 'pmid' }, { fieldPath: 'titulo' }, { fieldPath: 'titulo_pt' },
           { fieldPath: 'tema' }, { fieldPath: 'especialidade' },
           { fieldPath: 'data' }, { fieldPath: 'journal' },
           { fieldPath: 'year' }, { fieldPath: 'nivel_evidencia' },
           { fieldPath: 'resumo_pt' }, { fieldPath: 'impacto_pratico' },
-          { fieldPath: 'pubmedUrl' }
+          { fieldPath: 'pubmedUrl' }, { fieldPath: 'url' }
         ]},
         limit: 8
       }
@@ -49,6 +49,7 @@ exports.handler = async (event) => {
         const f = d.document.fields || {};
         return {
           id: d.document.name.split('/').pop(),
+          pmid: f.pmid?.stringValue || f.pmid?.integerValue || '',
           titulo: f.titulo?.stringValue || '',
           titulo_pt: f.titulo_pt?.stringValue || '',
           tema: f.tema?.stringValue || '',
@@ -59,7 +60,8 @@ exports.handler = async (event) => {
           nivel_evidencia: f.nivel_evidencia?.stringValue || '',
           resumo_pt: f.resumo_pt?.stringValue || '',
           impacto_pratico: f.impacto_pratico?.stringValue || '',
-          pubmedUrl: f.pubmedUrl?.stringValue || ''
+          pubmedUrl: f.pubmedUrl?.stringValue || '',
+          url: f.url?.stringValue || '',
         };
       });
 
