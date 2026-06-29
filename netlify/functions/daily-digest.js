@@ -22,6 +22,7 @@ const { runValidation }                            = require('./_lib/digest-vali
 const { pubmedFallbackArticles }                   = require('./_lib/pubmed');
 const { acquireLock, releaseLock }                 = require('./_lib/pipeline-lock');
 const { withTimeout }                              = require('./_lib/retry-utils');
+const { getOrCreateAchadoSemana }                  = require('./_lib/achado-semana');
 const log                                          = require('./_lib/logger');
 const { request }                                  = require('./_lib');
 
@@ -335,6 +336,17 @@ async function _runUserDigest(user, db, resendKey, anthropicKey) {
   const digestId   = crypto.randomUUID();
   const unsubToken = buildUnsubscribeToken(email);
 
+  // Achado da Semana — gerado uma vez por especialidade por semana, cacheado no Firestore
+  t = Date.now();
+  const achadoSemana = await getOrCreateAchadoSemana(db, candidates, especialidade, anthropicKey)
+    .catch(err => { log.warn('[digest] getOrCreateAchadoSemana threw', { err: err.message }); return null; });
+  log.info('[digest][STAGE achado]', {
+    email,
+    hasAchado: !!achadoSemana,
+    id: achadoSemana?.pmid || achadoSemana?.articleId || null,
+    ms: Date.now() - t,
+  });
+
   // Generate editorial via Claude (falls back to deterministic on failure)
   t = Date.now();
   const editorial = await generateEditorial(selected, especialidade)
@@ -347,7 +359,7 @@ async function _runUserDigest(user, db, resendKey, anthropicKey) {
   const { html, subject } = buildDigestEmail(
     { nome, email, especialidade },
     selected,
-    { digestId, baseUrl: BASE_URL, unsubscribeToken: unsubToken, editorial }
+    { digestId, baseUrl: BASE_URL, unsubscribeToken: unsubToken, editorial, achadoSemana }
   );
   log.info('[digest][STAGE render]', { email, htmlBytes: html?.length ?? 0, ms: Date.now() - t });
 

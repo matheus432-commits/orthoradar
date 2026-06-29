@@ -318,12 +318,120 @@ function articleCard(article, index, total, opts) {
  * @param {Object} opts      - { digestId, baseUrl, siteUrl, unsubscribeToken, editorial? }
  * @returns {{ html: string, subject: string }}
  */
+// ── Achado da Semana card ─────────────────────────────────────────────────────
+
+function achadoSemanaCard(achado, opts) {
+  const { baseUrl, digestId, email } = opts;
+
+  const pmid        = String(achado.pmid || achado.articleId || '').trim();
+  const titulo      = esc(truncate(achado.titulo_pt || achado.titulo || 'Sem título', 160));
+  const journal     = esc(achado.journal || '');
+  const year        = esc(String(achado.year || ''));
+  const nivel       = esc(achado.nivel_evidencia || '');
+  const isOA        = achado.isOpenAccess ? '<span style="color:#B08968;">&#x1F513;</span>&nbsp;' : '';
+
+  // Format nota editorial: convert double-newlines to <br><br>
+  const nota = (achado.notaEditorial || '')
+    .split(/\n\n+/)
+    .map(p => esc(p.trim()))
+    .filter(Boolean)
+    .join('<br><br>');
+
+  const rawUrl      = (achado.pubmedUrl ?? '').trim();
+  const articleUrl  = rawUrl ||
+    (pmid ? `https://pubmed.ncbi.nlm.nih.gov/${pmid}/` : baseUrl);
+  const trackedUrl  = trackClick(baseUrl, digestId, pmid, email, articleUrl);
+
+  return `
+<!-- ══ ACHADO DA SEMANA ══ -->
+<tr><td style="padding:0;background:#FFF8E6;border-top:3px solid #C9A227;border-bottom:3px solid #C9A227;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+  <tr><td style="padding:26px 36px 28px;">
+
+    <!-- Badge -->
+    <table role="presentation" cellpadding="0" cellspacing="0" style="margin-bottom:14px;">
+      <tr>
+        <td style="background:#C9A227;border-radius:3px;padding:4px 13px;">
+          <span style="font-size:10px;font-weight:700;color:#FFFFFF;letter-spacing:1.5px;
+                       text-transform:uppercase;
+                       font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">
+            &#11088;&nbsp; Achado da Semana
+          </span>
+        </td>
+      </tr>
+    </table>
+
+    <!-- Nível de evidência -->
+    <div style="margin-bottom:12px;">
+      <span style="display:inline-block;font-size:10px;font-weight:700;color:#875A18;
+                   background:#F5EDD8;border:1px solid #D4B87A;border-radius:2px;
+                   padding:2px 9px;
+                   font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">
+        ${nivel}
+      </span>
+    </div>
+
+    <!-- Título -->
+    <div style="font-size:20px;font-weight:700;color:#1A1A18;line-height:1.33;
+                font-family:Georgia,'Times New Roman',serif;letter-spacing:-0.4px;
+                margin-bottom:6px;">
+      ${titulo}
+    </div>
+
+    <!-- Journal + ano -->
+    <div style="font-size:11.5px;color:#9E988E;margin-bottom:18px;
+                font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">
+      ${isOA}${journal}${journal && year ? '&nbsp;&middot;&nbsp;' : ''}${year}
+    </div>
+
+    <!-- Nota editorial com borda dourada -->
+    <table role="presentation" cellpadding="0" cellspacing="0" width="100%"
+           style="margin-bottom:20px;">
+      <tr>
+        <td style="border-left:3px solid #C9A227;padding-left:16px;">
+          <p style="margin:0;font-size:14.5px;color:#3A3530;line-height:1.85;
+                    font-family:Georgia,'Times New Roman',serif;font-style:italic;">
+            ${nota}
+          </p>
+        </td>
+      </tr>
+    </table>
+
+    <!-- Botão CTA dourado -->
+    <table role="presentation" cellpadding="0" cellspacing="0">
+      <tr>
+        <td style="background:#C9A227;border-radius:3px;">
+          <a href="${trackedUrl}" target="_blank" rel="noopener noreferrer"
+             style="display:inline-block;padding:10px 22px;color:#FFFFFF;
+                    text-decoration:none;font-size:12.5px;font-weight:700;
+                    letter-spacing:0.4px;
+                    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">
+            Ler artigo completo &rarr;
+          </a>
+        </td>
+      </tr>
+    </table>
+
+  </td></tr>
+  </table>
+</td></tr>`;
+}
+
+/**
+ * Builds the full digest HTML email.
+ *
+ * @param {Object} user      - { nome, email, especialidade }
+ * @param {Array}  articles  - curated article list (3–5)
+ * @param {Object} opts      - { digestId, baseUrl, unsubscribeToken, editorial?, achadoSemana? }
+ * @returns {{ html: string, subject: string }}
+ */
 function buildDigestEmail(user, articles, opts) {
   const {
     digestId,
     baseUrl          = 'https://odontofeed.com.br',
     unsubscribeToken = '',
     editorial:       editorialOverride = null,
+    achadoSemana:    achado            = null,
   } = opts;
 
   const siteUrl      = baseUrl;
@@ -341,7 +449,9 @@ function buildDigestEmail(user, articles, opts) {
   const unsubUrl   = `${siteUrl}/.netlify/functions/unsubscribe?email=${encodeURIComponent(user.email)}&t=${unsubscribeToken}`;
   const pixelUrl   = `${baseUrl}/.netlify/functions/track-open?d=${digestId}&e=${ehash}`;
 
-  const subject    = `${n} estudo${plural} em ${esp} — OdontoFeed`;
+  const subject    = achado
+    ? `⭐ Achado da Semana + ${n} estudo${plural} em ${esp} — OdontoFeed`
+    : `${n} estudo${plural} em ${esp} — OdontoFeed`;
 
   // Use Claude-generated editorial if provided; fall back to deterministic generator.
   const editorial  = editorialOverride
@@ -351,6 +461,10 @@ function buildDigestEmail(user, articles, opts) {
         .filter(Boolean)
         .join('<br><br>')
     : generateEditorialIntro(articles, esp);
+
+  const achadoHtml = achado
+    ? achadoSemanaCard(achado, { baseUrl, digestId, email: user.email })
+    : '';
 
   const cardsHtml = articles
     .map((art, i) => articleCard(art, i, articles.length, { baseUrl, dashboardUrl, digestId, email: user.email }))
@@ -410,6 +524,9 @@ function buildDigestEmail(user, articles, opts) {
         ${editorial}
       </p>
     </td></tr>
+
+    <!-- ══ ACHADO DA SEMANA ══ -->
+    ${achadoHtml}
 
     <!-- ══ ARTICLES ══ -->
     ${cardsHtml}
@@ -472,4 +589,4 @@ function buildDigestEmail(user, articles, opts) {
   return { html, subject };
 }
 
-module.exports = { buildDigestEmail, emailHash, trackClick };
+module.exports = { buildDigestEmail, achadoSemanaCard, emailHash, trackClick };
