@@ -7,6 +7,15 @@
 [functions."cleanup-articles"]
   schedule = "0 3 * * 0"
 
+# "O Que Ficou" — weekly top-articles recap (Saturday 11h UTC = 8h BRT).
+# NOTE: for > 50 users, move this to a GitHub Actions cron (same as daily-digest)
+# to avoid Netlify's function timeout limit.
+[functions."weekly-digest"]
+  schedule = "0 11 * * 6"
+
+[functions."weekly-unsubscribe"]
+  node_bundler = "nft"
+
 # Tracking endpoints — must respond in < 10s (well within budget)
 [functions."track-open"]
   node_bundler = "nft"
