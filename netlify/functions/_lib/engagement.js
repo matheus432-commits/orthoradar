@@ -169,13 +169,11 @@ async function updateStreak(projectId, apiKey, ehash, digestId) {
   const today = todayUTC();
 
   try {
-    const eng = (await db.getDoc('user_engagement', ehash).catch(() => null)) || {};
+    const eng = await db.getDoc('user_engagement', ehash).catch(() => null);
 
-    // Resolve email from digest on first encounter
-    const email = eng.email || (await _resolveEmail(db, digestId)) || '';
-
-    const lastOpen = eng.lastOpenDate;
-    let streak     = eng.streak || 0;
+    const email    = eng?.email || (await _resolveEmail(db, digestId)) || '';
+    const lastOpen = eng?.lastOpenDate;
+    let streak     = eng?.streak || 0;
 
     if (!lastOpen) {
       streak = 1;
@@ -187,13 +185,11 @@ async function updateStreak(projectId, apiKey, ehash, digestId) {
     }
     // lastOpen === today: no-op (already counted)
 
-    await db.setDoc('user_engagement', ehash, {
-      ...eng,
-      email,
-      streak,
-      lastOpenDate: today,
-      updatedAt:    new Date().toISOString(),
-    });
+    // updateDoc for existing docs (partial write avoids overwriting badge data)
+    const update = { email, streak, lastOpenDate: today, updatedAt: new Date().toISOString() };
+    if (!eng) await db.setDoc('user_engagement', ehash, update);
+    else      await db.updateDoc('user_engagement', ehash, update);
+
     log.debug('[engagement] streak updated', { ehash, streak });
   } catch (err) {
     log.warn('[engagement] updateStreak failed', { ehash, err: err.message });
@@ -205,52 +201,56 @@ async function updateStreak(projectId, apiKey, ehash, digestId) {
  * Also tracks monthly and all-time article read counts.
  */
 async function updateBadges(projectId, apiKey, ehash, tema, digestId) {
-  if (!ehash || !tema || !apiKey) return;
+  const safeTema = String(tema || '').trim();
+  if (!ehash || !safeTema || !apiKey) return;
   const db    = new Firestore(projectId, apiKey);
   const month = monthUTC();
 
   try {
-    const eng = (await db.getDoc('user_engagement', ehash).catch(() => null)) || {};
+    const eng = await db.getDoc('user_engagement', ehash).catch(() => null);
 
-    const email = eng.email || (await _resolveEmail(db, digestId)) || '';
+    const email = eng?.email || (await _resolveEmail(db, digestId)) || '';
 
     // Reset monthly counters on month rollover
-    const monthChanged             = eng.currentMonth && eng.currentMonth !== month;
-    const clicksByTheme            = { ...(eng.clicksByTheme || {}) };
-    const clicksByThemeThisMonth   = monthChanged ? {} : { ...(eng.clicksByThemeThisMonth || {}) };
-    const totalArticlesThisMonth   = monthChanged ? 0  : (eng.totalArticlesThisMonth || 0);
-    const newBadgesThisMonth       = monthChanged ? [] : [...(eng.newBadgesThisMonth || [])];
+    const monthChanged             = eng?.currentMonth && eng.currentMonth !== month;
+    const clicksByTheme            = { ...(eng?.clicksByTheme || {}) };
+    const clicksByThemeThisMonth   = monthChanged ? {} : { ...(eng?.clicksByThemeThisMonth || {}) };
+    const totalArticlesThisMonth   = monthChanged ? 0  : (eng?.totalArticlesThisMonth || 0);
+    const newBadgesThisMonth       = monthChanged ? [] : [...(eng?.newBadgesThisMonth || [])];
 
-    clicksByTheme[tema]          = (clicksByTheme[tema] || 0) + 1;
-    clicksByThemeThisMonth[tema] = (clicksByThemeThisMonth[tema] || 0) + 1;
+    clicksByTheme[safeTema]          = (clicksByTheme[safeTema] || 0) + 1;
+    clicksByThemeThisMonth[safeTema] = (clicksByThemeThisMonth[safeTema] || 0) + 1;
 
-    // Badge check
-    const badgesEarned      = [...(eng.badgesEarned || [])];
-    const newBadgesThisWeek = [...(eng.newBadgesThisWeek || [])];
-    const badge             = badgeName(tema);
-    if (clicksByTheme[tema] >= BADGE_THRESHOLD && !badgesEarned.includes(badge)) {
+    // Badge check — deduplicate earned badges with Set
+    const badgesEarned      = [...new Set(eng?.badgesEarned || [])];
+    const newBadgesThisWeek = [...(eng?.newBadgesThisWeek || [])];
+    const badge             = badgeName(safeTema);
+    if (clicksByTheme[safeTema] >= BADGE_THRESHOLD && !badgesEarned.includes(badge)) {
       badgesEarned.push(badge);
       newBadgesThisWeek.push(badge);
       newBadgesThisMonth.push(badge);
       log.info('[engagement] badge earned', { ehash, badge });
     }
 
-    await db.setDoc('user_engagement', ehash, {
-      ...eng,
+    const update = {
       email,
       clicksByTheme,
       clicksByThemeThisMonth,
-      totalArticlesRead:      (eng.totalArticlesRead || 0) + 1,
+      totalArticlesRead:      (eng?.totalArticlesRead || 0) + 1,
       totalArticlesThisMonth: totalArticlesThisMonth + 1,
       currentMonth:           month,
       badgesEarned,
       newBadgesThisWeek,
       newBadgesThisMonth,
       updatedAt:              new Date().toISOString(),
-    });
-    log.debug('[engagement] badges updated', { ehash, tema, clicks: clicksByTheme[tema] });
+    };
+
+    if (!eng) await db.setDoc('user_engagement', ehash, update);
+    else      await db.updateDoc('user_engagement', ehash, update);
+
+    log.debug('[engagement] badges updated', { ehash, tema: safeTema, clicks: clicksByTheme[safeTema] });
   } catch (err) {
-    log.warn('[engagement] updateBadges failed', { ehash, tema, err: err.message });
+    log.warn('[engagement] updateBadges failed', { ehash, tema: safeTema, err: err.message });
   }
 }
 
@@ -262,8 +262,6 @@ async function clearNewBadgesThisWeek(projectId, apiKey, ehash) {
   if (!ehash || !apiKey) return;
   const db = new Firestore(projectId, apiKey);
   try {
-    const eng = await db.getDoc('user_engagement', ehash).catch(() => null);
-    if (!eng?.newBadgesThisWeek?.length) return;
     await db.updateDoc('user_engagement', ehash, { newBadgesThisWeek: [] });
   } catch (err) {
     log.warn('[engagement] clearNewBadgesThisWeek failed', { ehash, err: err.message });

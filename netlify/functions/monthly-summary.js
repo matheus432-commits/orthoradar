@@ -225,8 +225,9 @@ async function runMonthlySummary() {
   if (!apiKey)    { log.error('[monthly-summary] FIREBASE_API_KEY not set'); return { error: 'no_firebase_key' }; }
   if (!resendKey) { log.error('[monthly-summary] RESEND_API_KEY not set');   return { error: 'no_resend_key' }; }
 
-  const db    = new Firestore(projectId, apiKey);
-  const month = monthLabel();
+  const db               = new Firestore(projectId, apiKey);
+  const month            = monthLabel();
+  const currentMonthStr  = new Date().toISOString().slice(0, 7);
 
   // ── Load all active users from cadastros ─────────────────────────────────
   const userMap = {};  // email → user doc
@@ -238,8 +239,8 @@ async function runMonthlySummary() {
           .forEach(u => { userMap[u.email] = u; });
       pageToken = nextPageToken;
     } catch (err) {
-      log.error('[monthly-summary] failed loading cadastros', { err: err.message });
-      break;
+      log.error('[monthly-summary] failed loading cadastros — aborting', { err: err.message });
+      return { error: 'cadastros_load_failed' };
     }
   } while (pageToken);
 
@@ -254,14 +255,18 @@ async function runMonthlySummary() {
       engDocs.push(...docs);
       pageToken = nextPageToken;
     } catch (err) {
-      log.error('[monthly-summary] failed loading user_engagement', { err: err.message });
-      break;
+      log.error('[monthly-summary] failed loading user_engagement — aborting', { err: err.message });
+      return { error: 'engagement_load_failed' };
     }
   } while (pageToken);
 
-  // ── Filter eligible: has email, active user, read ≥1 article this month ──
+  // ── Filter eligible: has email, active user, read ≥1 article this month,
+  //    and not already sent this month (idempotency) ────────────────────────
   const eligible = engDocs.filter(eng =>
-    eng.email && userMap[eng.email] && (eng.totalArticlesThisMonth || 0) > 0
+    eng.email &&
+    userMap[eng.email] &&
+    (eng.totalArticlesThisMonth || 0) > 0 &&
+    eng.monthlySummarySentAt !== currentMonthStr
   );
   log.info('[monthly-summary] eligible users', { count: eligible.length, month });
 
@@ -280,12 +285,14 @@ async function runMonthlySummary() {
 
       if (res.status === 200 || res.status === 201) {
         sent++;
-        // Reset monthly counters after successful send
+        // Reset monthly counters after successful send (idempotency stamp prevents double-send)
         const ehash = crypto.createHash('sha256').update(String(eng.email)).digest('hex').slice(0, 16);
         db.updateDoc('user_engagement', ehash, {
+          monthlySummarySentAt:   currentMonthStr,
           totalArticlesThisMonth: 0,
           clicksByThemeThisMonth: {},
           newBadgesThisMonth:     [],
+          currentMonth:           currentMonthStr,
         }).catch(e => log.warn('[monthly-summary] reset monthly counters failed', { email: eng.email, err: e.message }));
 
         log.info('[monthly-summary] sent', { email: eng.email });
