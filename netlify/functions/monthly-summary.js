@@ -287,7 +287,7 @@ async function runMonthlySummary() {
         sent++;
         // Reset monthly counters after successful send (idempotency stamp prevents double-send)
         const ehash = crypto.createHash('sha256').update(String(eng.email)).digest('hex').slice(0, 16);
-        db.updateDoc('user_engagement', ehash, {
+        await db.updateDoc('user_engagement', ehash, {
           monthlySummarySentAt:   currentMonthStr,
           totalArticlesThisMonth: 0,
           clicksByThemeThisMonth: {},
