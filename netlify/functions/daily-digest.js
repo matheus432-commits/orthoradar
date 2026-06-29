@@ -13,7 +13,7 @@
 
 const crypto   = require('crypto');
 const { Firestore }                                = require('./_lib/firestore');
-const { buildDigestEmail }                         = require('./_lib/email-template');
+const { buildDigestEmail, emailHash }              = require('./_lib/email-template');
 const { generateEditorial }                        = require('./_lib/editorial-generator');
 const { getProfile }                               = require('./_lib/user-profile');
 const { recommendArticles }                        = require('./_lib/recommendation-engine');
@@ -23,7 +23,6 @@ const { pubmedFallbackArticles }                   = require('./_lib/pubmed');
 const { acquireLock, releaseLock }                 = require('./_lib/pipeline-lock');
 const { withTimeout }                              = require('./_lib/retry-utils');
 const { getOrCreateAchadoSemana }                  = require('./_lib/achado-semana');
-const { clearNewBadgesThisWeek }                   = require('./_lib/engagement');
 const log                                          = require('./_lib/logger');
 const { request }                                  = require('./_lib');
 
@@ -356,8 +355,9 @@ async function _runUserDigest(user, db, resendKey, anthropicKey) {
 
   // Load engagement for streak/badge display in email (best-effort — never blocks send)
   t = Date.now();
-  const ehash       = crypto.createHash('sha256').update(String(email)).digest('hex').slice(0, 16);
-  const engagement  = await db.getDoc('user_engagement', ehash).catch(() => null);
+  const ehash       = emailHash(email);
+  const engagement  = await db.getDoc('user_engagement', ehash)
+    .catch(err => { log.warn('[digest] engagement load failed', { email, err: err.message }); return null; });
   const streakCount = engagement?.streak || 0;
   const newBadges   = engagement?.newBadgesThisWeek || [];
   log.info('[digest][STAGE engagement]', { email, streak: streakCount, newBadges: newBadges.length, ms: Date.now() - t });
@@ -410,9 +410,9 @@ async function _runUserDigest(user, db, resendKey, anthropicKey) {
     subject: subject.slice(0, 80), msgId: resendMessageId, ms: Date.now() - t,
   });
 
-  // Fire-and-forget: clear newBadgesThisWeek so the notification isn't shown twice
+  // Clear newBadgesThisWeek so the badge notification isn't shown again next send
   if (newBadges.length > 0) {
-    clearNewBadgesThisWeek(process.env.FIREBASE_PROJECT_ID || 'orthoradar', process.env.FIREBASE_API_KEY, ehash)
+    await db.updateDoc('user_engagement', ehash, { newBadgesThisWeek: [] })
       .catch(err => log.warn('[digest] clearNewBadgesThisWeek failed', { email, err: err.message }));
   }
 
