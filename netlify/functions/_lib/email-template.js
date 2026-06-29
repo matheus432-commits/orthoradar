@@ -232,8 +232,9 @@ function articleCard(article, index, total, opts) {
   const espTag       = esc(article.especialidade || article.tema || '');
   const isLast       = index === total - 1;
 
-  const artDashUrl = `${dashboardUrl}?pmid=${pmid}&utm_source=email&utm_medium=digest&utm_content=${pmid}`;
-  const trackedUrl = trackClick(baseUrl, digestId, pmid, email, artDashUrl);
+  const pubmedDirect = article.pubmedUrl ||
+    (pmid ? `https://pubmed.ncbi.nlm.nih.gov/${pmid}/` : `${dashboardUrl}?pmid=${pmid}&utm_source=email`);
+  const trackedUrl = trackClick(baseUrl, digestId, pmid, email, pubmedDirect);
 
   return `
 <tr><td style="padding:0 36px;${isLast ? '' : 'border-bottom:1px solid #E8E0D0;'}">

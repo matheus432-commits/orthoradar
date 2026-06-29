@@ -11,7 +11,14 @@ function safeDecodeTarget(t) {
   try {
     const url = Buffer.from(t, 'base64url').toString('utf8');
     // Only allow relative paths or same-origin URLs to prevent open redirect
-    const allowed = [FALLBACK_URL, 'https://odontofeed.com.br', 'http://localhost'];
+    const allowed = [
+      FALLBACK_URL,
+      'https://odontofeed.com.br',
+      'http://localhost',
+      'https://pubmed.ncbi.nlm.nih.gov',
+      'https://europepmc.org',
+      'https://doi.org',
+    ];
     if (url.startsWith('/') || allowed.some(base => url.startsWith(base))) {
       return url;
     }
