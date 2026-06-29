@@ -10,12 +10,12 @@ function safeDecodeTarget(t) {
   if (!t) return FALLBACK_URL;
   try {
     const url = Buffer.from(t, 'base64url').toString('utf8');
-    // Only allow relative paths or same-origin URLs to prevent open redirect
     const allowed = [
       FALLBACK_URL,
       'https://odontofeed.com.br',
       'http://localhost',
       'https://pubmed.ncbi.nlm.nih.gov',
+      'https://www.pubmed.ncbi.nlm.nih.gov',
       'https://europepmc.org',
       'https://doi.org',
     ];
@@ -24,7 +24,8 @@ function safeDecodeTarget(t) {
     }
     log.warn('[track-click] blocked redirect to external URL', { url: url.slice(0, 100) });
     return FALLBACK_URL;
-  } catch {
+  } catch (err) {
+    log.warn('[track-click] failed to decode target param', { len: t?.length, err: err.message });
     return FALLBACK_URL;
   }
 }
@@ -41,7 +42,7 @@ exports.handler = async (event) => {
     const apiKey    = process.env.FIREBASE_API_KEY;
 
     if (apiKey) {
-      const timeout  = new Promise(resolve => setTimeout(resolve, 1500));
+      const timeout  = new Promise(resolve => setTimeout(resolve, 3500));
       const tracking = Promise.allSettled([
         recordClick(projectId, apiKey, digestId, pmid),
         logEvent(projectId, apiKey, { digestId, pmid, eventType: 'click', ip }),

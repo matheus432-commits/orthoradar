@@ -136,7 +136,8 @@ async function saveArticle(db, article, specialty) {
     isOpenAccess: true,
     fonte:        'openalex',
     url:          article.oaUrl || article.url || '',
-    pubmedUrl:    article.pmid ? `https://pubmed.ncbi.nlm.nih.gov/${article.pmid}/` : '',
+    pubmedUrl:    article.pmid ? `https://pubmed.ncbi.nlm.nih.gov/${article.pmid}/`
+                              : (article.doi ? `https://doi.org/${article.doi}` : (article.oaUrl || article.url || null)),
     especialidade,
     nivel_evidencia,
     status:       'pending_enrichment',
