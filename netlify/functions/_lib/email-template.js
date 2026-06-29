@@ -48,11 +48,13 @@ function emailHash(email) {
   return crypto.createHash('sha256').update(String(email)).digest('hex').slice(0, 16);
 }
 
-// Build the tracked click URL (base64 encodes the destination)
-function trackClick(baseUrl, digestId, pmid, email, targetUrl) {
-  const t = Buffer.from(targetUrl, 'utf8').toString('base64url');
-  const e = emailHash(email);
-  return `${baseUrl}/.netlify/functions/track-click?d=${digestId}&p=${encodeURIComponent(pmid || '')}&e=${e}&t=${t}`;
+// Build the tracked click URL (base64url-encodes destination + optional tema for badge tracking)
+function trackClick(baseUrl, digestId, pmid, email, targetUrl, tema) {
+  const t  = Buffer.from(targetUrl, 'utf8').toString('base64url');
+  const e  = emailHash(email);
+  const th = tema ? Buffer.from(String(tema), 'utf8').toString('base64url') : '';
+  const base = `${baseUrl}/.netlify/functions/track-click?d=${digestId}&p=${encodeURIComponent(pmid || '')}&e=${e}&t=${t}`;
+  return th ? `${base}&th=${th}` : base;
 }
 
 // ── Editorial intro generator ─────────────────────────────────────────────────
@@ -240,7 +242,7 @@ function articleCard(article, index, total, opts) {
   if (!rawPubmedUrl && !pmid && !articleUrl) {
     console.warn('[email-template] no article URL for card, falling back to baseUrl', { id: article.id, title: (article.titulo || '').slice(0, 60) });
   }
-  const trackedUrl = trackClick(baseUrl, digestId, pmid, email, pubmedDirect);
+  const trackedUrl = trackClick(baseUrl, digestId, pmid, email, pubmedDirect, article.tema || article.especialidade);
 
   return `
 <tr><td style="padding:0 36px;${isLast ? '' : 'border-bottom:1px solid #E8E0D0;'}">
@@ -340,7 +342,7 @@ function achadoSemanaCard(achado, opts) {
   const rawUrl      = (achado.pubmedUrl ?? '').trim();
   const articleUrl  = rawUrl ||
     (pmid ? `https://pubmed.ncbi.nlm.nih.gov/${pmid}/` : baseUrl);
-  const trackedUrl  = trackClick(baseUrl, digestId, pmid, email, articleUrl);
+  const trackedUrl  = trackClick(baseUrl, digestId, pmid, email, articleUrl, achado.especialidade || achado.tema);
 
   return `
 <!-- ══ ACHADO DA SEMANA ══ -->
@@ -432,6 +434,8 @@ function buildDigestEmail(user, articles, opts) {
     unsubscribeToken = '',
     editorial:       editorialOverride = null,
     achadoSemana:    achado            = null,
+    streak:          streakCount       = 0,
+    newBadges:       newBadgesList     = [],
   } = opts;
 
   const siteUrl      = baseUrl;
@@ -464,6 +468,30 @@ function buildDigestEmail(user, articles, opts) {
 
   const achadoHtml = achado
     ? achadoSemanaCard(achado, { baseUrl, digestId, email: user.email })
+    : '';
+
+  // Badge notification — shown when the user earned a new badge since last digest
+  const newTopics  = newBadgesList.map(b => b.replace(/^Pesquisador em /, '')).filter(Boolean);
+  const badgeRowHtml = newTopics.length > 0
+    ? `
+    <!-- ══ BADGE NOTIFICATION ══ -->
+    <tr><td style="padding:12px 36px;background:#E8F0E7;border-bottom:1px solid #AECAAC;">
+      <p style="margin:0;font-size:13px;color:#3A6A38;line-height:1.6;
+                font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">
+        &#x1F4D6;&nbsp; Esta semana voc&ecirc; completou seu perfil em
+        <strong>${esc(newTopics.join(' e '))}</strong>.
+      </p>
+    </td></tr>`
+    : '';
+
+  // Streak line for footer — only shown at 3+ consecutive days
+  const streakLineHtml = streakCount >= 3
+    ? `<div style="margin-top:10px;font-size:11.5px;color:#9E988E;
+                   font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">
+        &#x1F525;&nbsp; Voc&ecirc; est&aacute; h&aacute;
+        <strong style="color:#6B665E;">${streakCount} dias</strong>
+        acompanhando a literatura.
+      </div>`
     : '';
 
   const cardsHtml = articles
@@ -525,6 +553,7 @@ function buildDigestEmail(user, articles, opts) {
       </p>
     </td></tr>
 
+    ${badgeRowHtml}
     ${achadoHtml}
 
     <!-- ══ ARTICLES ══ -->
@@ -554,6 +583,7 @@ function buildDigestEmail(user, articles, opts) {
               <a href="${esc(unsubUrl)}"
                  style="color:#9E988E;text-decoration:underline;">Cancelar recebimento</a>
             </div>
+            ${streakLineHtml}
 
             <!-- Disclaimer jurídico -->
             <div style="margin-top:18px;padding-top:14px;border-top:1px solid #E0D8CC;">

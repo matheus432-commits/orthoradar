@@ -116,4 +116,161 @@ async function recordClick(projectId, apiKey, digestId, pmid) {
   await Promise.allSettled(tasks);
 }
 
-module.exports = { incrementField, incrementFields, logEvent, recordOpen, recordClick };
+// ── Gamification: streak and badge tracking ───────────────────────────────────
+//
+// Firestore collection: `user_engagement`
+// Document ID: sha256(email).slice(0, 16) — same as emailHash() in email-template
+//
+// Schema:
+//   email                  string
+//   streak                 number   — consecutive days with at least one open/click
+//   lastOpenDate           string   — YYYY-MM-DD UTC (last day streak was updated)
+//   clicksByTheme          object   — { [tema]: count } all-time
+//   clicksByThemeThisMonth object   — { [tema]: count } current month (reset on rollover)
+//   currentMonth           string   — YYYY-MM (used to detect month rollover)
+//   totalArticlesRead      number   — all-time click count
+//   totalArticlesThisMonth number   — current month click count
+//   badgesEarned           string[] — all-time badges
+//   newBadgesThisWeek      string[] — cleared by digest after each send
+//   newBadgesThisMonth     string[] — cleared by monthly summary send
+//   updatedAt              string   — ISO timestamp
+
+const BADGE_THRESHOLD = 3; // unique clicks per tema to earn a badge
+
+function todayUTC() { return new Date().toISOString().slice(0, 10); }
+function monthUTC()  { return new Date().toISOString().slice(0, 7);  }
+
+function badgeName(tema) {
+  return `Pesquisador em ${String(tema).trim()}`;
+}
+
+// Reads user_engagement doc — returns null if not found or on error
+async function getEngagement(projectId, apiKey, ehash) {
+  const db = new Firestore(projectId, apiKey);
+  try { return await db.getDoc('user_engagement', ehash); } catch { return null; }
+}
+
+// Tries to resolve the user email from a digest document (best-effort, first open)
+async function _resolveEmail(db, digestId) {
+  if (!digestId) return null;
+  try { return (await db.getDoc('digests', digestId))?.email || null; } catch { return null; }
+}
+
+/**
+ * Called by track-open: bumps streak for the user identified by ehash.
+ * Streak rules:
+ *   - gap 0 days  (already opened today): no change
+ *   - gap 1–2 days (today or 1-day tolerance): streak++
+ *   - gap ≥3 days: reset to 1
+ */
+async function updateStreak(projectId, apiKey, ehash, digestId) {
+  if (!ehash || !apiKey) return;
+  const db    = new Firestore(projectId, apiKey);
+  const today = todayUTC();
+
+  try {
+    const eng = (await db.getDoc('user_engagement', ehash).catch(() => null)) || {};
+
+    // Resolve email from digest on first encounter
+    const email = eng.email || (await _resolveEmail(db, digestId)) || '';
+
+    const lastOpen = eng.lastOpenDate;
+    let streak     = eng.streak || 0;
+
+    if (!lastOpen) {
+      streak = 1;
+    } else if (lastOpen !== today) {
+      const gapDays = Math.round(
+        (new Date(today + 'T00:00:00Z') - new Date(lastOpen + 'T00:00:00Z')) / 86400000
+      );
+      streak = gapDays <= 2 ? streak + 1 : 1;
+    }
+    // lastOpen === today: no-op (already counted)
+
+    await db.setDoc('user_engagement', ehash, {
+      ...eng,
+      email,
+      streak,
+      lastOpenDate: today,
+      updatedAt:    new Date().toISOString(),
+    });
+    log.debug('[engagement] streak updated', { ehash, streak });
+  } catch (err) {
+    log.warn('[engagement] updateStreak failed', { ehash, err: err.message });
+  }
+}
+
+/**
+ * Called by track-click: increments clicksByTheme and awards badge when BADGE_THRESHOLD met.
+ * Also tracks monthly and all-time article read counts.
+ */
+async function updateBadges(projectId, apiKey, ehash, tema, digestId) {
+  if (!ehash || !tema || !apiKey) return;
+  const db    = new Firestore(projectId, apiKey);
+  const month = monthUTC();
+
+  try {
+    const eng = (await db.getDoc('user_engagement', ehash).catch(() => null)) || {};
+
+    const email = eng.email || (await _resolveEmail(db, digestId)) || '';
+
+    // Reset monthly counters on month rollover
+    const monthChanged             = eng.currentMonth && eng.currentMonth !== month;
+    const clicksByTheme            = { ...(eng.clicksByTheme || {}) };
+    const clicksByThemeThisMonth   = monthChanged ? {} : { ...(eng.clicksByThemeThisMonth || {}) };
+    const totalArticlesThisMonth   = monthChanged ? 0  : (eng.totalArticlesThisMonth || 0);
+    const newBadgesThisMonth       = monthChanged ? [] : [...(eng.newBadgesThisMonth || [])];
+
+    clicksByTheme[tema]          = (clicksByTheme[tema] || 0) + 1;
+    clicksByThemeThisMonth[tema] = (clicksByThemeThisMonth[tema] || 0) + 1;
+
+    // Badge check
+    const badgesEarned      = [...(eng.badgesEarned || [])];
+    const newBadgesThisWeek = [...(eng.newBadgesThisWeek || [])];
+    const badge             = badgeName(tema);
+    if (clicksByTheme[tema] >= BADGE_THRESHOLD && !badgesEarned.includes(badge)) {
+      badgesEarned.push(badge);
+      newBadgesThisWeek.push(badge);
+      newBadgesThisMonth.push(badge);
+      log.info('[engagement] badge earned', { ehash, badge });
+    }
+
+    await db.setDoc('user_engagement', ehash, {
+      ...eng,
+      email,
+      clicksByTheme,
+      clicksByThemeThisMonth,
+      totalArticlesRead:      (eng.totalArticlesRead || 0) + 1,
+      totalArticlesThisMonth: totalArticlesThisMonth + 1,
+      currentMonth:           month,
+      badgesEarned,
+      newBadgesThisWeek,
+      newBadgesThisMonth,
+      updatedAt:              new Date().toISOString(),
+    });
+    log.debug('[engagement] badges updated', { ehash, tema, clicks: clicksByTheme[tema] });
+  } catch (err) {
+    log.warn('[engagement] updateBadges failed', { ehash, tema, err: err.message });
+  }
+}
+
+/**
+ * Called by daily-digest after a successful send: clears newBadgesThisWeek.
+ * Uses updateDoc (partial) to avoid overwriting streak updated by concurrent opens.
+ */
+async function clearNewBadgesThisWeek(projectId, apiKey, ehash) {
+  if (!ehash || !apiKey) return;
+  const db = new Firestore(projectId, apiKey);
+  try {
+    const eng = await db.getDoc('user_engagement', ehash).catch(() => null);
+    if (!eng?.newBadgesThisWeek?.length) return;
+    await db.updateDoc('user_engagement', ehash, { newBadgesThisWeek: [] });
+  } catch (err) {
+    log.warn('[engagement] clearNewBadgesThisWeek failed', { ehash, err: err.message });
+  }
+}
+
+module.exports = {
+  incrementField, incrementFields, logEvent, recordOpen, recordClick,
+  getEngagement, updateStreak, updateBadges, clearNewBadgesThisWeek,
+};
