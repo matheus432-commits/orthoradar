@@ -4,7 +4,7 @@
 const { recordOpen, logEvent, updateStreak } = require('./_lib/engagement');
 const log                      = require('./_lib/logger');
 
-// 1×1 transparent GIF (35 bytes)
+// 1×1 transparent GIF (42 bytes)
 const PIXEL = Buffer.from('R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7', 'base64');
 
 const HEADERS = {
