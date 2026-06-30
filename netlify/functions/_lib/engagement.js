@@ -112,8 +112,60 @@ async function recordClick(projectId, apiKey, digestId, pmid) {
       incrementField(projectId, apiKey, 'artigos', pmid, 'emailCliques')
         .catch(e => log.warn('[engagement] recordClick article failed', { pmid, err: e.message }))
     );
+    tasks.push(
+      incrementWeeklyClicks(projectId, apiKey, getWeekId(), pmid)
+        .catch(e => log.warn('[engagement] incrementWeeklyClicks failed', { pmid, err: e.message }))
+    );
   }
   await Promise.allSettled(tasks);
+}
+
+// ── Weekly click aggregation ──────────────────────────────────────────────────
+//
+// Firestore collection: `article_week_clicks`
+// Document ID: `{YYYY-WW}_{pmid}`  (e.g. 2026-W26_12345678)
+// Schema: { weekId: string, pmid: string, count: number }
+//
+// Requires a composite index on (weekId ASC, count DESC).
+// weekly-digest.js falls back to in-memory sorting if the index is not ready.
+
+function getWeekId(date = new Date()) {
+  const d = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
+  const dayNum = d.getUTCDay() || 7; // Mon=1 … Sun=7
+  d.setUTCDate(d.getUTCDate() + 4 - dayNum); // Shift to week's Thursday for ISO week calc
+  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+  const week = Math.ceil(((d - yearStart) / 86400000 + 1) / 7);
+  return `${d.getUTCFullYear()}-W${String(week).padStart(2, '0')}`;
+}
+
+async function incrementWeeklyClicks(projectId, apiKey, weekId, pmid) {
+  const docPath = `projects/${projectId}/databases/(default)/documents/article_week_clicks/${weekId}_${pmid}`;
+  const body = JSON.stringify({
+    writes: [
+      {
+        // Set weekId + pmid fields; updateMask ensures count is not overwritten
+        update:     { name: docPath, fields: { weekId: { stringValue: weekId }, pmid: { stringValue: pmid } } },
+        updateMask: { fieldPaths: ['weekId', 'pmid'] },
+      },
+      {
+        // Server-side increment — creates count=1 if doc is new, else count+1
+        transform: {
+          document:        docPath,
+          fieldTransforms: [{ fieldPath: 'count', increment: { integerValue: '1' } }],
+        },
+      },
+    ],
+  });
+  const buf = Buffer.from(body, 'utf8');
+  const res = await request({
+    hostname: HOST,
+    path:     `/v1/projects/${projectId}/databases/(default)/documents:commit?key=${apiKey}`,
+    method:   'POST',
+    headers:  { 'Content-Type': 'application/json', 'Content-Length': buf.length },
+  }, buf);
+  if (res.status !== 200) {
+    throw new Error(`incrementWeeklyClicks ${weekId}_${pmid}: ${res.status} ${res.body.slice(0, 120)}`);
+  }
 }
 
 // ── Gamification: streak and badge tracking ───────────────────────────────────
@@ -271,4 +323,5 @@ async function clearNewBadgesThisWeek(projectId, apiKey, ehash) {
 module.exports = {
   incrementField, incrementFields, logEvent, recordOpen, recordClick,
   getEngagement, updateStreak, updateBadges, clearNewBadgesThisWeek,
+  getWeekId,
 };
