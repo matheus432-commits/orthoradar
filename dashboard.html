@@ -780,7 +780,7 @@ function populateDashboard(data){
 function articleCard(art,curtidos,lidos){
   const liked=curtidos.includes(art.id);
   const isLido=lidos&&lidos.includes(art.id);
-  const date=art.data?new Date(art.data).toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'numeric'}):'';
+  let date='';if(art.data){try{const _d=new Date(art.data);if(!isNaN(_d.getTime()))date=_d.toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'numeric'});}catch(e){}}
   const summary=escapeHtml((art.resumo||'').substring(0,280)+(art.resumo&&art.resumo.length>280?'…':''));
   const journal=[art.journal,art.year].filter(Boolean).map(escapeHtml).join(' · ');
   const ev=art.nivel_evidencia||'';

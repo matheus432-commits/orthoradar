@@ -99,6 +99,7 @@ exports.handler = async (event) => {
               if (v.stringValue !== undefined) out[k] = v.stringValue;
               else if (v.booleanValue !== undefined) out[k] = v.booleanValue;
               else if (v.integerValue !== undefined) out[k] = parseInt(v.integerValue);
+              else if (v.timestampValue !== undefined) out[k] = v.timestampValue;
               else out[k] = '';
             }
             return out;
