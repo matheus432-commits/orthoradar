@@ -32,10 +32,11 @@ const EVIDENCE_PRIORITY = {
 
 // Retorna o número da semana ISO e ano: ex. "2025-W26"
 function getWeekId(date) {
+  const now = date || new Date();
   const d = new Date(Date.UTC(
-    (date || new Date()).getUTCFullYear(),
-    (date || new Date()).getUTCMonth(),
-    (date || new Date()).getUTCDate()
+    now.getUTCFullYear(),
+    now.getUTCMonth(),
+    now.getUTCDate()
   ));
   d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
   const yearStart  = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
@@ -53,7 +54,7 @@ function selectBestArticle(candidates) {
   // Elegíveis: evidência ≥ Coorte, clínicos (não lab/animal), publicados há ≤ 4 semanas
   const eligible = candidates.filter(a => {
     if ((EVIDENCE_PRIORITY[a.nivel_evidencia] || 0) < 2) return false;
-    if (a.data && a.data < fourWeeksAgo) return false;
+    if (!a.data || a.data < fourWeeksAgo) return false;
     if (/vitro|animal/i.test(a.nivel_evidencia || '')) return false;
     return true;
   });
@@ -82,7 +83,7 @@ async function generateNotaEditorial(article, especialidade, anthropicKey) {
   const impacto  = article.impacto_pratico || '';
   const nivel    = article.nivel_evidencia || 'estudo recente';
   const achados  = Array.isArray(article.achados_principais)
-    ? article.achados_principais.join('; ')
+    ? article.achados_principais.map(x => (typeof x === 'string' ? x : '')).filter(Boolean).join('; ')
     : (article.achados_principais || impacto);
 
   const systemPrompt =
@@ -129,16 +130,20 @@ ${abstract.length > 400 ? `Resumo: ${abstract}` : ''}`;
       },
     }, buf);
 
+    if (res.status === 429 || res.status === 529) {
+      log.warn('[achado-semana] Claude rate limited', { status: res.status });
+      return { text: null, rateLimited: true };
+    }
     if (res.status !== 200) {
       log.warn('[achado-semana] Claude API error', { status: res.status });
-      return null;
+      return { text: null, rateLimited: false };
     }
 
     const json = JSON.parse(res.body);
-    return json.content?.[0]?.text?.trim() || null;
+    return { text: json.content?.[0]?.text?.trim() || null, rateLimited: false };
   } catch (err) {
     log.warn('[achado-semana] generateNotaEditorial threw', { err: err.message });
-    return null;
+    return { text: null, rateLimited: false };
   }
 }
 
@@ -166,7 +171,7 @@ function buildFallbackNota(article, especialidade) {
  */
 async function getOrCreateAchadoSemana(db, candidates, especialidade, anthropicKey) {
   const semana  = getWeekId();
-  const safeEsp = especialidade.replace(/[^a-zA-Z0-9À-ú]/g, '_');
+  const safeEsp = especialidade.replace(/[^a-zA-Z0-9À-ÖØ-öø-ú]/g, '_');
   const docId   = `${semana}_${safeEsp}`;
 
   // 1. Tentar cache Firestore
@@ -196,7 +201,9 @@ async function getOrCreateAchadoSemana(db, candidates, especialidade, anthropicK
   });
 
   // 3. Gerar nota editorial
-  const notaRaw      = await generateNotaEditorial(best, especialidade, anthropicKey);
+  const notaResult    = await generateNotaEditorial(best, especialidade, anthropicKey);
+  const notaRaw       = notaResult?.text || null;
+  const rateLimited   = notaResult?.rateLimited || false;
   const notaEditorial = notaRaw || buildFallbackNota(best, especialidade);
 
   const doc = {
@@ -217,12 +224,16 @@ async function getOrCreateAchadoSemana(db, candidates, especialidade, anthropicK
     criadoEm: new Date().toISOString(),
   };
 
-  // 4. Persistir (best-effort — falha não bloqueia o envio)
-  try {
-    await db.setDoc('achado_semana', docId, doc);
-    log.info('[achado-semana] persisted', { docId });
-  } catch (err) {
-    log.warn('[achado-semana] persist failed', { docId, err: err.message });
+  // 4. Persistir (best-effort; skipped when Claude rate-limited to avoid caching the fallback nota)
+  if (!rateLimited) {
+    try {
+      await db.setDoc('achado_semana', docId, doc);
+      log.info('[achado-semana] persisted', { docId });
+    } catch (err) {
+      log.warn('[achado-semana] persist failed', { docId, err: err.message });
+    }
+  } else {
+    log.warn('[achado-semana] skipping persist — Claude rate limited', { docId });
   }
 
   return doc;

@@ -361,7 +361,7 @@ function achadoSemanaCard(achado, opts) {
       </tr>
     </table>
 
-    <!-- Nível de evidência -->
+    ${nivel ? `<!-- Nível de evidência -->
     <div style="margin-bottom:12px;">
       <span style="display:inline-block;font-size:10px;font-weight:700;color:#875A18;
                    background:#F5EDD8;border:1px solid #D4B87A;border-radius:2px;
@@ -369,7 +369,7 @@ function achadoSemanaCard(achado, opts) {
                    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">
         ${nivel}
       </span>
-    </div>
+    </div>` : ''}
 
     <!-- Título -->
     <div style="font-size:20px;font-weight:700;color:#1A1A18;line-height:1.33;
@@ -525,7 +525,6 @@ function buildDigestEmail(user, articles, opts) {
       </p>
     </td></tr>
 
-    <!-- ══ ACHADO DA SEMANA ══ -->
     ${achadoHtml}
 
     <!-- ══ ARTICLES ══ -->
