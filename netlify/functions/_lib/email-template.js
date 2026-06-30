@@ -471,7 +471,10 @@ function buildDigestEmail(user, articles, opts) {
     : '';
 
   // Badge notification — shown when the user earned a new badge since last digest
-  const newTopics  = newBadgesList.map(b => b.replace(/^Pesquisador em /, '')).filter(Boolean);
+  const newTopics  = newBadgesList
+    .filter(b => /^Pesquisador em /.test(b))
+    .map(b => b.replace(/^Pesquisador em /, ''))
+    .filter(Boolean);
   const badgeRowHtml = newTopics.length > 0
     ? `
     <!-- ══ BADGE NOTIFICATION ══ -->
@@ -485,11 +488,12 @@ function buildDigestEmail(user, articles, opts) {
     : '';
 
   // Streak line for footer — only shown at 3+ consecutive days
-  const streakLineHtml = streakCount >= 3
+  const streakInt      = Math.max(0, Math.floor(Number(streakCount) || 0));
+  const streakLineHtml = streakInt >= 3
     ? `<div style="margin-top:10px;font-size:11.5px;color:#9E988E;
                    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">
         &#x1F525;&nbsp; Voc&ecirc; est&aacute; h&aacute;
-        <strong style="color:#6B665E;">${streakCount} dias</strong>
+        <strong style="color:#6B665E;">${streakInt} dias</strong>
         acompanhando a literatura.
       </div>`
     : '';
@@ -553,8 +557,8 @@ function buildDigestEmail(user, articles, opts) {
       </p>
     </td></tr>
 
-    ${badgeRowHtml}
     ${achadoHtml}
+    ${badgeRowHtml}
 
     <!-- ══ ARTICLES ══ -->
     ${cardsHtml}

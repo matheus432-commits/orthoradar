@@ -5,6 +5,7 @@ const { recordClick, logEvent, updateBadges } = require('./_lib/engagement');
 const log                       = require('./_lib/logger');
 
 const FALLBACK_URL = process.env.SITE_URL || 'https://odontofeed.com.br';
+const EHASH_RE     = /^[a-f0-9]{16}$/;
 
 // Hostname-based allowlist — immune to prefix-bypass attacks (e.g. evil.pubmed.com, //evil.com)
 const ALLOWED_HOSTS = new Set([
@@ -39,15 +40,19 @@ exports.handler = async (event) => {
   const qs       = event.queryStringParameters || {};
   const digestId = qs.d || null;
   const pmid     = qs.p || null;
-  const ehash    = qs.e || null;
+  const rawEhash = (qs.e || '').toLowerCase().trim();
+  const ehash    = EHASH_RE.test(rawEhash) ? rawEhash : null;
   const target   = safeDecodeTarget(qs.t);
   const ip       = event.headers?.['x-forwarded-for']?.split(',')[0]?.trim() || null;
 
-  // Decode tema from base64url (th param) — used for badge tracking
+  // Decode tema from base64url (th param) — strip control chars and replacement chars
   let tema = null;
   if (qs.th) {
-    try { tema = Buffer.from(qs.th, 'base64url').toString('utf8') || null; }
-    catch { /* ignore malformed */ }
+    try {
+      const decoded = Buffer.from(qs.th, 'base64url').toString('utf8')
+        .replace(/[\x00-\x1f�]/g, '').trim();
+      tema = decoded || null;
+    } catch { /* ignore malformed */ }
   }
 
   if (digestId || pmid) {
@@ -55,13 +60,20 @@ exports.handler = async (event) => {
     const apiKey    = process.env.FIREBASE_API_KEY;
 
     if (apiKey) {
-      const timeout  = new Promise(resolve => setTimeout(resolve, 1500));
-      const tracking = Promise.allSettled([
+      // Core tracking: fire-and-wait with timeout — redirect must not stall
+      const timerId = setTimeout(() => {}, 1500);
+      const coreTracking = Promise.allSettled([
         recordClick(projectId, apiKey, digestId, pmid),
         logEvent(projectId, apiKey, { digestId, pmid, eventType: 'click', ip }),
-        ehash && tema ? updateBadges(projectId, apiKey, ehash, tema, digestId) : Promise.resolve(),
       ]);
-      await Promise.race([tracking, timeout]);
+      await Promise.race([coreTracking, new Promise(r => setTimeout(r, 1500))]);
+      clearTimeout(timerId);
+
+      // Badge update is best-effort — runs after redirect, never delays response
+      if (ehash && tema) {
+        updateBadges(projectId, apiKey, ehash, tema, digestId)
+          .catch(err => log.warn('[track-click] updateBadges failed', { ehash, err: err.message }));
+      }
     }
     log.debug('[track-click] click recorded', { digestId, pmid, tema });
   }

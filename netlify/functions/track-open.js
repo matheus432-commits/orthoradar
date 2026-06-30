@@ -14,27 +14,35 @@ const HEADERS = {
   'Expires':       '0',
 };
 
+const EHASH_RE = /^[a-f0-9]{16}$/;
+
 exports.handler = async (event) => {
   const qs       = event.queryStringParameters || {};
   const digestId = qs.d || null;
-  const ehash    = qs.e || null;
+  const rawEhash = (qs.e || '').toLowerCase().trim();
+  const ehash    = EHASH_RE.test(rawEhash) ? rawEhash : null;
   const ip       = event.headers?.['x-forwarded-for']?.split(',')[0]?.trim() || null;
 
   if (digestId) {
     const projectId = process.env.FIREBASE_PROJECT_ID || 'orthoradar';
     const apiKey    = process.env.FIREBASE_API_KEY;
 
-    // Fire-and-wait with timeout — we can't drop the Lambda prematurely
-    const timeout = new Promise(resolve => setTimeout(resolve, 1500));
-    const tracking = apiKey
-      ? Promise.allSettled([
-          recordOpen(projectId, apiKey, digestId),
-          logEvent(projectId, apiKey, { digestId, email: null, eventType: 'open', ip }),
-          ehash ? updateStreak(projectId, apiKey, ehash, digestId) : Promise.resolve(),
-        ])
-      : Promise.resolve();
+    if (apiKey) {
+      // Core tracking: fire-and-wait with timeout — pixel response must not stall
+      const timerId = setTimeout(() => {}, 1500);
+      const coreTracking = Promise.allSettled([
+        recordOpen(projectId, apiKey, digestId),
+        logEvent(projectId, apiKey, { digestId, email: null, eventType: 'open', ip }),
+      ]);
+      await Promise.race([coreTracking, new Promise(r => setTimeout(r, 1500))]);
+      clearTimeout(timerId);
 
-    await Promise.race([tracking, timeout]);
+      // Streak update is best-effort — runs after pixel is returned, never delays response
+      if (ehash) {
+        updateStreak(projectId, apiKey, ehash, digestId)
+          .catch(err => log.warn('[track-open] updateStreak failed', { ehash, err: err.message }));
+      }
+    }
     log.debug('[track-open] open recorded', { digestId, ehash });
   }
 

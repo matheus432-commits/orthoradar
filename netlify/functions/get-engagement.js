@@ -12,7 +12,7 @@ const CORS_HEADERS = {
   'Access-Control-Allow-Origin':  '*',
   'Access-Control-Allow-Methods': 'GET, OPTIONS',
   'Content-Type':                 'application/json',
-  'Cache-Control':                'private, max-age=60',
+  'Cache-Control':                'no-store',
 };
 
 exports.handler = async (event) => {
@@ -45,7 +45,7 @@ exports.handler = async (event) => {
       return {
         statusCode: 200,
         headers:    CORS_HEADERS,
-        body:       JSON.stringify({ streak: 0, badgesEarned: [], topThemes: [], totalArticlesRead: 0 }),
+        body:       JSON.stringify({ streak: 0, badgesEarned: [], topThemes: [], totalArticlesRead: 0, totalArticlesThisMonth: 0 }),
       };
     }
 
