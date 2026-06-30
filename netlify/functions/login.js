@@ -131,12 +131,17 @@ exports.handler = async (event) => {
     const token = crypto.randomBytes(32).toString('hex');
     const expiry = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
 
-    await patchFields(projectId, apiKey, user._id, {
+    const patchResult = await patchFields(projectId, apiKey, user._id, {
       sessionToken: token,
       sessionExpiry: expiry,
       loginAttempts: '0',
       loginLockedUntil: ''
     });
+
+    if (!patchResult || patchResult.status < 200 || patchResult.status >= 300) {
+      console.error('[login] patchFields failed', patchResult?.status, (patchResult?.body || '').substring(0, 200));
+      return { statusCode: 500, headers, body: JSON.stringify({ error: 'Erro ao salvar sessão. Tente novamente.' }) };
+    }
 
     return { statusCode: 200, headers, body: JSON.stringify({ success: true, token }) };
   } catch (err) {
