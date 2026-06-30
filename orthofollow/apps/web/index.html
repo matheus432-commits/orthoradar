@@ -299,6 +299,7 @@
     <input type="file" id="file-frontal" accept="image/*" hidden onchange="handleUpload('frontal',this)">
     <input type="file" id="file-perfil" accept="image/*" hidden onchange="handleUpload('perfil',this)">
     <input type="file" id="file-sorriso" accept="image/*" hidden onchange="handleUpload('sorriso',this)">
+    <input type="file" id="file-intrabucal" accept="image/*" hidden onchange="handleUpload('intrabucal',this)">
     <input type="file" id="file-stl" accept=".stl" hidden onchange="handleUpload('stl',this)">
   </div>
 
@@ -324,6 +325,7 @@
           <button class="photo-tab active" onclick="switchPhotoTab('frontal',this)">📷 Frontal</button>
           <button class="photo-tab" onclick="switchPhotoTab('perfil',this)">📷 Perfil</button>
           <button class="photo-tab" onclick="switchPhotoTab('sorriso',this)">😊 Sorriso</button>
+          <button class="photo-tab" onclick="switchPhotoTab('intrabucal',this)">🦷 Intrabucal</button>
           <button class="photo-tab" onclick="switchPhotoTab('stl3d',this)">🦷 Modelo 3D</button>
         </div>
 
@@ -372,6 +374,22 @@
               <button class="btn btn-outline btn-sm" onclick="annotators.sorriso&&annotators.sorriso.undo()">↩ Desfazer</button>
               <button class="btn btn-outline btn-sm" onclick="annotators.sorriso&&annotators.sorriso.reset()">✕ Resetar</button>
               <button class="btn btn-outline btn-sm" onclick="triggerUpload('sorriso')">📷 Trocar foto</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Intrabucal -->
+        <div class="photo-panel" id="pp-intrabucal">
+          <div class="photo-box" id="pb-intrabucal">
+            <div class="empty-photo"><div class="ep-icon">🦷</div><p>Carregue a foto intrabucal de frente<br><button class="btn btn-outline btn-sm" style="margin-top:10px" onclick="triggerUpload('intrabucal')">Selecionar foto</button></p></div>
+          </div>
+          <div class="pt-area">
+            <div class="hint-text" id="hint-intrabucal">Carregue a foto intrabucal para marcar as linhas médias</div>
+            <div class="pt-list" id="ptl-intrabucal"></div>
+            <div class="hint-row">
+              <button class="btn btn-outline btn-sm" onclick="annotators.intrabucal&&annotators.intrabucal.undo()">↩ Desfazer</button>
+              <button class="btn btn-outline btn-sm" onclick="annotators.intrabucal&&annotators.intrabucal.reset()">✕ Resetar</button>
+              <button class="btn btn-outline btn-sm" onclick="triggerUpload('intrabucal')">📷 Trocar foto</button>
             </div>
           </div>
         </div>
@@ -483,15 +501,21 @@ const PHOTO_DEFS = {
   sorriso: {
     color: '#057a55',
     points: [
-      { key:'FmT', label:'Linha Média — Superior', hint:'Filtro nasal superior (ponto de cima da linha média facial)' },
-      { key:'FmB', label:'Linha Média — Inferior', hint:'Centro do vermelhão do lábio superior (ponto de baixo da linha média)' },
-      { key:'U1r', label:'Incisivo Central Dir.',  hint:'Borda incisal do incisivo central superior direito' },
-      { key:'U1l', label:'Incisivo Central Esq.',  hint:'Borda incisal do incisivo central superior esquerdo' },
-      { key:'PMd', label:'Último Dente Dir.',      hint:'Borda do último dente visível à direita (corredor bucal)' },
-      { key:'PMe', label:'Último Dente Esq.',      hint:'Borda do último dente visível à esquerda (corredor bucal)' },
-      { key:'CoD', label:'Comissura Dir.',         hint:'Canto direito da boca (comissura labial direita)' },
-      { key:'CoE', label:'Comissura Esq.',         hint:'Canto esquerdo da boca (comissura labial esquerda)' },
-      { key:'StI', label:'Borda Lábio Inf.',       hint:'Borda superior do lábio inferior (referência linha do sorriso)' },
+      { key:'Tr',  label:'Tríquio (linha média facial)',      hint:'Ponto mais alto visível no centro da testa — define o eixo vertical facial' },
+      { key:'Me',  label:'Mentoniana (linha média facial)',   hint:'Ponto mais inferior do mento, centro — fecha o eixo vertical facial' },
+      { key:'U1',  label:'Linha Média Dental Superior',      hint:'Ponto entre os dois incisivos centrais superiores' },
+      { key:'CoD', label:'Comissura Dir.',                   hint:'Canto direito da boca (comissura labial direita)' },
+      { key:'CoE', label:'Comissura Esq.',                   hint:'Canto esquerdo da boca (comissura labial esquerda)' },
+      { key:'PMd', label:'Último Dente Dir.',                hint:'Borda do último dente visível à direita (corredor bucal)' },
+      { key:'PMe', label:'Último Dente Esq.',                hint:'Borda do último dente visível à esquerda (corredor bucal)' },
+      { key:'StI', label:'Borda Lábio Inf.',                 hint:'Borda superior do lábio inferior (referência linha do sorriso)' },
+    ]
+  },
+  intrabucal: {
+    color: '#e3a008',
+    points: [
+      { key:'U1s', label:'Linha Média Superior', hint:'Ponto entre os incisivos centrais superiores' },
+      { key:'L1i', label:'Linha Média Inferior', hint:'Ponto entre os incisivos centrais inferiores' },
     ]
   }
 };
@@ -500,52 +524,33 @@ const PHOTO_DEFS = {
    ANALYSES
 ═══════════════════════════════ */
 const ANALYSES = [
-  // ── Análise Frontal — Simetria dos Terços ──
-  { id:'P01.A01', group:'Frontal', label:'Proporção Terço Superior (%)', type:'SCALAR_PERCENT', unit:'PERCENT', min:0, max:100, step:.1, placeholder:'% calculado automaticamente' },
-  { id:'P01.A02', group:'Frontal', label:'Proporção Terço Médio (%)',    type:'SCALAR_PERCENT', unit:'PERCENT', min:0, max:100, step:.1, placeholder:'% calculado automaticamente' },
-  { id:'P01.A03', group:'Frontal', label:'Proporção Terço Inferior (%)', type:'SCALAR_PERCENT', unit:'PERCENT', min:0, max:100, step:.1, placeholder:'% calculado automaticamente' },
-  { id:'P01.A04', group:'Frontal', label:'Simetria Facial', type:'CLASSIFICATION', unit:'NONE',
-    options:['SIMETRICA','ASSIMETRIA_LEVE','ASSIMETRIA_MODERADA','ASSIMETRIA_GRAVE'],
+  // ── Frontal ──
+  { id:'P01.A01', group:'Frontal', label:'Simetria Facial Vertical', type:'CLASSIFICATION', unit:'NONE',
+    options:['SYMMETRIC','ASYMMETRIC_MILD','ASYMMETRIC_MODERATE','ASYMMETRIC_SEVERE'],
     labels:['Simétrica','Assimetria Leve','Assimetria Moderada','Assimetria Grave'] },
+  { id:'P01.A03', group:'Frontal', label:'Terço Superior (%)', type:'SCALAR_PERCENT', unit:'PERCENT', min:0, max:100, step:.1, placeholder:'% auto' },
+  { id:'P01.A04', group:'Frontal', label:'Terço Médio (%)',    type:'SCALAR_PERCENT', unit:'PERCENT', min:0, max:100, step:.1, placeholder:'% auto' },
+  { id:'P01.A05', group:'Frontal', label:'Terço Inferior (%)', type:'SCALAR_PERCENT', unit:'PERCENT', min:0, max:100, step:.1, placeholder:'% auto' },
+  { id:'P01.A09', group:'Frontal', label:'Simetria Nasal', type:'CLASSIFICATION', unit:'NONE',
+    options:['NORMAL','DEVIATED_LEFT','DEVIATED_RIGHT'],
+    labels:['Normal','Desviada à Esquerda','Desviada à Direita'] },
 
-  // ── Análise do Sorriso ──
-  { id:'P01.A06', group:'Sorriso', label:'Linha Média Dental', type:'CLASSIFICATION', unit:'NONE',
-    options:['ALINHADA','DESVIO_DIREITA','DESVIO_ESQUERDA'],
-    labels:['Alinhada','Desvio à Direita','Desvio à Esquerda'] },
-  { id:'P01.A07', group:'Sorriso', label:'Desvio Linha Média Dental (mm)', type:'SCALAR_MM', unit:'MM', min:-10, max:10, step:.1, placeholder:'mm calculado automaticamente' },
-  { id:'P01.A08', group:'Sorriso', label:'Corredor Bucal', type:'CLASSIFICATION', unit:'NONE',
-    options:['ADEQUADO','AMPLO','ESTREITO'],
-    labels:['Adequado','Amplo','Estreito'] },
-  { id:'P01.A09', group:'Sorriso', label:'Proporção Corredor Bucal (%)', type:'SCALAR_PERCENT', unit:'PERCENT', min:0, max:60, step:.1, placeholder:'% calculado automaticamente' },
-  { id:'P01.A10', group:'Sorriso', label:'Linha do Sorriso', type:'CLASSIFICATION', unit:'NONE',
-    options:['CONSONANTE','PLANA','INVERTIDA'],
-    labels:['Consonante (ideal)','Plana','Invertida'] },
-  { id:'P01.A11', group:'Sorriso', label:'Simetria do Sorriso', type:'CLASSIFICATION', unit:'NONE',
-    options:['SIMETRICO','ASSIMETRICO_LEVE','ASSIMETRICO_MODERADO'],
-    labels:['Simétrico','Assimétrico Leve','Assimétrico Moderado'] },
+  // ── Sorriso ──
+  { id:'P01.A02', group:'Sorriso', label:'Desvio Linha Média (mm)', type:'SCALAR_MM', unit:'MM', min:-10, max:10, step:.1, placeholder:'mm auto' },
+  { id:'P01.A10', group:'Sorriso', label:'Razão Labial Sup/Inf', type:'SCALAR_RATIO', unit:'RATIO', min:0, max:3, step:.01, placeholder:'auto' },
+  { id:'P01.A11', group:'Sorriso', label:'Competência Labial', type:'CLASSIFICATION', unit:'NONE',
+    options:['COMPETENT','INCOMPETENT','POTENTIALLY_INCOMPETENT'],
+    labels:['Competente','Incompetente','Potencialmente Incompetente'] },
+  { id:'P01.A12', group:'Sorriso', label:'Exposição Dentária (mm)', type:'SCALAR_MM', unit:'MM', min:0, max:10, step:.1, placeholder:'mm auto' },
 
-  // ── Análise de Perfil ──
-  { id:'P01.A12', group:'Perfil', label:'Convexidade do Perfil', type:'CLASSIFICATION', unit:'NONE',
-    options:['RETO','CONVEXO','CONCAVO'],
-    labels:['Reto (ideal)','Convexo','Côncavo'] },
-  { id:'P01.A13', group:'Perfil', label:'Ângulo de Convexidade (°)', type:'SCALAR_DEGREES', unit:'DEGREES', min:120, max:200, step:.5, placeholder:'° calculado automaticamente' },
-  { id:'P01.A14', group:'Perfil', label:'Proporção Terço Superior Perfil (%)', type:'SCALAR_PERCENT', unit:'PERCENT', min:0, max:100, step:.1, placeholder:'% calculado automaticamente' },
-  { id:'P01.A15', group:'Perfil', label:'Proporção Terço Médio Perfil (%)',    type:'SCALAR_PERCENT', unit:'PERCENT', min:0, max:100, step:.1, placeholder:'% calculado automaticamente' },
-  { id:'P01.A16', group:'Perfil', label:'Proporção Terço Inferior Perfil (%)', type:'SCALAR_PERCENT', unit:'PERCENT', min:0, max:100, step:.1, placeholder:'% calculado automaticamente' },
-
-  // ── Análise Oclusal (Modelo 3D) ──
-  { id:'P01.A17', group:'Oclusal', label:'Classe Esquelética', type:'CLASSIFICATION', unit:'NONE',
-    options:['CLASSE_I','CLASSE_II','CLASSE_III'],
-    labels:['Classe I (normal)','Classe II (distal)','Classe III (mesial)'] },
-  { id:'P01.A18', group:'Oclusal', label:'Mordida Cruzada', type:'CLASSIFICATION', unit:'NONE',
-    options:['AUSENTE','ANTERIOR','POSTERIOR_UNILATERAL','POSTERIOR_BILATERAL'],
-    labels:['Ausente','Anterior','Posterior Unilateral','Posterior Bilateral'] },
-  { id:'P01.A19', group:'Oclusal', label:'Mordida Aberta', type:'CLASSIFICATION', unit:'NONE',
-    options:['AUSENTE','ANTERIOR','POSTERIOR'],
-    labels:['Ausente','Anterior','Posterior'] },
-  { id:'P01.A20', group:'Oclusal', label:'Mordida Profunda', type:'CLASSIFICATION', unit:'NONE',
-    options:['NORMAL','AUMENTADA','DIMINUIDA'],
-    labels:['Normal','Aumentada (sobremordida)','Diminuída'] },
+  // ── Perfil ──
+  { id:'P01.A06', group:'Perfil', label:'Perfil Facial', type:'CLASSIFICATION', unit:'NONE',
+    options:['CONVEX','STRAIGHT','CONCAVE'],
+    labels:['Convexo','Reto (ideal)','Côncavo'] },
+  { id:'P01.A07', group:'Perfil', label:'Ângulo Nasolabial (°)', type:'SCALAR_DEGREES', unit:'DEGREES', min:70, max:145, step:.5, placeholder:'° auto' },
+  { id:'P01.A08', group:'Perfil', label:'Projeção do Mento', type:'CLASSIFICATION', unit:'NONE',
+    options:['NORMAL','RETRUDED','PROTRUDED'],
+    labels:['Normal','Retruso','Protruso'] },
 ];
 
 const API = '/api/v1';
@@ -555,10 +560,10 @@ const API = '/api/v1';
 ═══════════════════════════════ */
 const state = {
   files: {},
-  points: { frontal:{}, perfil:{}, sorriso:{} },
-  imgNat: { frontal:null, perfil:null, sorriso:null }  // {w,h}
+  points: { frontal:{}, perfil:{}, sorriso:{}, intrabucal:{} },
+  imgNat: { frontal:null, perfil:null, sorriso:null, intrabucal:null }
 };
-const annotators = { frontal:null, perfil:null, sorriso:null };
+const annotators = { frontal:null, perfil:null, sorriso:null, intrabucal:null };
 let stlViewer = null;
 let libsReady = false;
 
@@ -635,7 +640,7 @@ function goToCase(caseId, birth, sex) {
    FILE UPLOADS
 ═══════════════════════════════ */
 function triggerUpload(key) {
-  const map = { frontal:'file-frontal', perfil:'file-perfil', sorriso:'file-sorriso', stl:'file-stl' };
+  const map = { frontal:'file-frontal', perfil:'file-perfil', sorriso:'file-sorriso', intrabucal:'file-intrabucal', stl:'file-stl' };
   document.getElementById(map[key]).click();
 }
 
@@ -659,8 +664,8 @@ function storeFile(key, file) {
 }
 
 function updateUploadPreview(key, file) {
-  const uzMap = { frontal:'uz-frontal', perfil:'uz-perfil', sorriso:'uz-sorriso', stl:'uz-stl' };
-  const upMap = { frontal:'up-frontal', perfil:'up-perfil', sorriso:'up-sorriso', stl:'up-stl' };
+  const uzMap = { frontal:'uz-frontal', perfil:'uz-perfil', sorriso:'uz-sorriso', intrabucal:'uz-intrabucal', stl:'uz-stl' };
+  const upMap = { frontal:'up-frontal', perfil:'up-perfil', sorriso:'up-sorriso', intrabucal:'up-intrabucal', stl:'up-stl' };
   const uz = document.getElementById(uzMap[key]);
   const up = document.getElementById(upMap[key]);
   if (!uz || !up) return;
@@ -782,14 +787,8 @@ class PhotoAnnotator {
       this.ctx.fillStyle   = this.def.color;
       this.ctx.fill();
       this.ctx.strokeStyle = '#fff';
-      this.ctx.lineWidth   = 2;
+      this.ctx.lineWidth   = 1.5;
       this.ctx.stroke();
-      // Label shadow
-      this.ctx.font = 'bold 11px system-ui';
-      this.ctx.fillStyle = 'rgba(0,0,0,.7)';
-      this.ctx.fillText(pd.key, px + 10, py - 2);
-      this.ctx.fillStyle = '#fff';
-      this.ctx.fillText(pd.key, px + 9, py - 3);
     }
     this.ctx.restore();
   }
@@ -798,7 +797,7 @@ class PhotoAnnotator {
     const lineMap = {
       frontal: [['Tr','G','Sn','Me'], ['Pd','Pe']],
       perfil:  [['Tr','G','Prn','Sn','Ls','Pg','Me']],
-      sorriso: [['FmT','FmB'],['CoD','CoE'],['U1r','U1l'],['PMd','PMe']]
+      sorriso: [['Tr','Me'],['CoD','CoE'],['PMd','PMe']]
     };
     const groups = lineMap[this.key] || [];
     for (const grp of groups) {
@@ -923,6 +922,11 @@ function initAnnotators() {
     annotators.sorriso.mount('pb-sorriso');
     if (state.files['sorriso']) annotators.sorriso.loadImage(state.files['sorriso']);
   }
+  if (!annotators.intrabucal) {
+    annotators.intrabucal = new PhotoAnnotator('intrabucal');
+    annotators.intrabucal.mount('pb-intrabucal');
+    if (state.files['intrabucal']) annotators.intrabucal.loadImage(state.files['intrabucal']);
+  }
 }
 
 /* ═══════════════════════════════
@@ -935,71 +939,64 @@ function calculateMeasurements() {
   let anyAuto = false;
 
   // ── Frontal: Terços faciais ──
+  // ── Frontal: Terços faciais → P01.A03/A04/A05 ──
   if (fp.Tr && fp.G && fp.Sn && fp.Me) {
     const total = fp.Me.y - fp.Tr.y;
     if (total > 0.01) {
-      setAuto('P01.A01', ((fp.G.y  - fp.Tr.y) / total * 100).toFixed(1));
-      setAuto('P01.A02', ((fp.Sn.y - fp.G.y)  / total * 100).toFixed(1));
-      setAuto('P01.A03', ((fp.Me.y - fp.Sn.y) / total * 100).toFixed(1));
+      setAuto('P01.A03', ((fp.G.y  - fp.Tr.y) / total * 100).toFixed(1));
+      setAuto('P01.A04', ((fp.Sn.y - fp.G.y)  / total * 100).toFixed(1));
+      setAuto('P01.A05', ((fp.Me.y - fp.Sn.y) / total * 100).toFixed(1));
       anyAuto = true;
     }
   }
 
-  // ── Sorriso: Desvio linha média dental (FmT+FmB define facial midline) ──
-  if (sp.FmT && sp.FmB && sp.U1r && sp.U1l) {
+  // ── Sorriso: Desvio linha média dental → P01.A02 ──
+  // Facial midline = vertical line through Tr and Me; dental midline = U1
+  if (sp.Tr && sp.Me && sp.U1 && sp.CoD && sp.CoE) {
     const nat = state.imgNat.sorriso;
     if (nat) {
-      const facialMidX = (sp.FmT.x + sp.FmB.x) / 2;
-      const dentalMidX = (sp.U1r.x + sp.U1l.x) / 2;
-      const incWpx = dist2d(sp.U1r, sp.U1l, nat.w, nat.h);
-      if (incWpx > 0) {
-        const pxMm = incWpx / 16;
-        const devMm = ((dentalMidX - facialMidX) * nat.w / pxMm).toFixed(1);
-        setAuto('P01.A07', devMm);
+      // Intercept of Tr-Me vertical at U1.y
+      const dx = sp.Me.x - sp.Tr.x, dy = sp.Me.y - sp.Tr.y;
+      const facialMidAtU1 = dy !== 0 ? sp.Tr.x + dx * ((sp.U1.y - sp.Tr.y) / dy) : (sp.Tr.x + sp.Me.x) / 2;
+      // Scale: use commissure width ≈ 50 mm average
+      const comPx = Math.abs(sp.CoD.x - sp.CoE.x) * nat.w;
+      if (comPx > 0) {
+        const pxMm = comPx / 50;
+        const devMm = ((sp.U1.x - facialMidAtU1) * nat.w / pxMm).toFixed(1);
+        setAuto('P01.A02', devMm);
         anyAuto = true;
       }
     }
   }
 
-  // ── Sorriso: Corredor bucal ──
-  if (sp.CoD && sp.CoE && sp.PMd && sp.PMe) {
+  // ── Sorriso: Exposição dentária → P01.A12 (StI - borda incisivos sup) ──
+  if (sp.U1 && sp.StI) {
     const nat = state.imgNat.sorriso;
-    if (nat) {
-      const smileW = Math.abs(sp.CoD.x - sp.CoE.x) * nat.w;
-      const toothW = Math.abs(sp.PMd.x - sp.PMe.x) * nat.w;
-      if (smileW > 0) {
-        const corridorPct = ((smileW - toothW) / smileW * 100).toFixed(1);
-        setAuto('P01.A09', corridorPct);
+    if (nat && sp.CoD && sp.CoE) {
+      const comPx = Math.abs(sp.CoD.x - sp.CoE.x) * nat.w;
+      if (comPx > 0) {
+        const pxMm = comPx / 50;
+        const expPx = Math.abs(sp.StI.y - sp.U1.y) * nat.h;
+        setAuto('P01.A12', (expPx / pxMm).toFixed(1));
         anyAuto = true;
       }
     }
   }
 
-  // ── Perfil: Convexidade (ângulo em Sn entre G e Pg) ──
-  if (pp.G && pp.Sn && pp.Pg) {
+  // ── Perfil: Ângulo Nasolabial → P01.A07 (Prn–Sn–Ls) ──
+  if (pp.Prn && pp.Sn && pp.Ls) {
     const nat = state.imgNat.perfil;
     if (nat) {
-      const va = { x:(pp.G.x  - pp.Sn.x)*nat.w, y:(pp.G.y  - pp.Sn.y)*nat.h };
-      const vb = { x:(pp.Pg.x - pp.Sn.x)*nat.w, y:(pp.Pg.y - pp.Sn.y)*nat.h };
+      const va = { x:(pp.Prn.x - pp.Sn.x)*nat.w, y:(pp.Prn.y - pp.Sn.y)*nat.h };
+      const vb = { x:(pp.Ls.x  - pp.Sn.x)*nat.w, y:(pp.Ls.y  - pp.Sn.y)*nat.h };
       const dot  = va.x*vb.x + va.y*vb.y;
       const magA = Math.sqrt(va.x*va.x + va.y*va.y);
       const magB = Math.sqrt(vb.x*vb.x + vb.y*vb.y);
       if (magA > 0 && magB > 0) {
         const ang = Math.acos(Math.max(-1, Math.min(1, dot/(magA*magB)))) * 180 / Math.PI;
-        setAuto('P01.A13', ang.toFixed(1));
+        setAuto('P01.A07', ang.toFixed(1));
         anyAuto = true;
       }
-    }
-  }
-
-  // ── Perfil: Terços ──
-  if (pp.Tr && pp.G && pp.Sn && pp.Me) {
-    const total = pp.Me.y - pp.Tr.y;
-    if (total > 0.01) {
-      setAuto('P01.A14', ((pp.G.y  - pp.Tr.y) / total * 100).toFixed(1));
-      setAuto('P01.A15', ((pp.Sn.y - pp.G.y)  / total * 100).toFixed(1));
-      setAuto('P01.A16', ((pp.Me.y - pp.Sn.y) / total * 100).toFixed(1));
-      anyAuto = true;
     }
   }
 
@@ -1028,7 +1025,7 @@ function setAuto(id, val) {
 ═══════════════════════════════ */
 function renderMeasurements() {
   const list = document.getElementById('meas-list');
-  const groupLabels = { Frontal:'📷 Frontal — Simetria dos Terços', Sorriso:'😊 Sorriso — Linha Média, Corredor e Simetria', Perfil:'📐 Perfil — Convexidade e Terços', Oclusal:'🦷 Oclusal — Alterações de Oclusão' };
+  const groupLabels = { Frontal:'📷 Frontal — Simetria dos Terços', Sorriso:'😊 Sorriso — Linha Média e Exposição', Perfil:'📐 Perfil — Convexidade e Ângulo Nasolabial' };
   let html = '';
   let lastGroup = null;
   for (const a of ANALYSES) {
@@ -1238,7 +1235,7 @@ function getAnnotatedImage(key) {
   const lineMap = {
     frontal: [['Tr','G','Sn','Me'],['Pd','Pe']],
     perfil:  [['Tr','G','Prn','Sn','Ls','Pg','Me']],
-    sorriso: [['FmT','FmB'],['CoD','CoE'],['U1r','U1l'],['PMd','PMe']]
+    sorriso: [['Tr','Me'],['CoD','CoE'],['PMd','PMe']]
   };
   for (const grp of (lineMap[key]||[])) {
     const coords = grp.map(k=>pts[k]).filter(Boolean);
@@ -1252,19 +1249,13 @@ function getAnnotatedImage(key) {
     ctx.stroke();
     ctx.setLineDash([]);
   }
-  const r = Math.max(4, w/120);
+  const r = Math.max(4, w/150);
   for (const pd of def.points) {
     const pt = pts[pd.key]; if (!pt) continue;
     const px = pt.x*w, py = pt.y*h;
     ctx.beginPath(); ctx.arc(px,py,r,0,Math.PI*2);
     ctx.fillStyle = def.color; ctx.fill();
-    ctx.strokeStyle='#fff'; ctx.lineWidth=2; ctx.stroke();
-    const fs = Math.max(14, w/50);
-    ctx.font = `bold ${fs}px system-ui`;
-    ctx.fillStyle='rgba(0,0,0,.75)';
-    ctx.fillText(pd.key, px+r+3, py-2);
-    ctx.fillStyle='#fff';
-    ctx.fillText(pd.key, px+r+2, py-3);
+    ctx.strokeStyle='#fff'; ctx.lineWidth=Math.max(1,w/600); ctx.stroke();
   }
   return offscreen.toDataURL('image/jpeg', 0.88);
 }
@@ -1287,7 +1278,7 @@ function measDisplayVal(id, val) {
 function sevLabel(s){ return {NORMAL:'Normal',MILD:'Leve',MODERATE:'Moderado',SEVERE:'Grave',CRITICAL:'Crítico'}[s]??s }
 function sevColor(s){ return {NORMAL:'#22c55e',MILD:'#eab308',MODERATE:'#f97316',SEVERE:'#ef4444',CRITICAL:'#7f1d1d'}[s]??'#9ca3af' }
 
-function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, measurements, findings, patName, caseId, session, birthDate, sex, reportText, treatmentNotes }) {
+function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, measurements, findings, patName, caseId, session, birthDate, sex, reportText, treatmentNotes }) {
   const today = new Date().toLocaleDateString('pt-BR');
   const sexLblMap = {M:'Masculino',F:'Feminino',UNSPECIFIED:'Não informado'};
 
@@ -1416,7 +1407,7 @@ function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, measurements, finding
   // ── Page 2: Frontal ──
   const page2 = `<div style="${pageStyle}page-break-after:always;">
     ${pageHeader('Análise Frontal — Simetria dos Terços','#1a56db')}
-    ${photoPanel('Análise Frontal', frontalImg, '#c9a843', byGroup('Frontal'), ['Tr','G','Sn','Me','Pd','Pe','Lm'])}
+    ${photoPanel('Análise Frontal', frontalImg, '#c9a843', byGroup('Frontal'), ['Tr','G','Sn','Me','Pd','Pe'])}
     <div style="background:#111;border-radius:8px;padding:14px 16px;">
       <div style="font-size:10px;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;">Síntese — Análise Frontal</div>
       ${synthesisSection()}
@@ -1427,7 +1418,7 @@ function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, measurements, finding
   // ── Page 3: Sorriso ──
   const page3 = `<div style="${pageStyle}page-break-after:always;">
     ${pageHeader('Análise do Sorriso — Linha Média · Corredor · Simetria','#057a55')}
-    ${photoPanel('Análise do Sorriso', sorrisoImg, '#c9a843', byGroup('Sorriso'), ['Lmf','U1r','U1l','PMd','PMe','CoD','CoE','StI'])}
+    ${photoPanel('Análise do Sorriso', sorrisoImg, '#c9a843', byGroup('Sorriso'), ['Tr','Me','U1','CoD','CoE','PMd','PMe','StI'])}
     <div style="background:#111;border-radius:8px;padding:14px 16px;">
       <div style="font-size:10px;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;">Síntese — Análise do Sorriso</div>
       ${synthesisSection()}
@@ -1446,30 +1437,36 @@ function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, measurements, finding
     ${footer()}
   </div>`;
 
-  // ── Page 5: Modelo STL + Oclusão ──
-  const oclusalCards = byGroup('Oclusal').map((id,i) => {
-    const val = measurements[id]||'—';
-    const disp = measDisplayVal(id, val);
-    const lbl  = measLabel(id);
-    return `<div style="background:#111;border:1px solid #2a2a2a;border-radius:8px;padding:10px 14px;display:flex;align-items:center;gap:12px;">
-      <div style="background:#d97706;color:#0a0a0a;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;flex-shrink:0;">${i+1}</div>
-      <div style="flex:1;"><div style="font-size:11px;color:#888;margin-bottom:2px;">${id}</div><div style="font-size:12px;color:#d4d4d4;">${lbl}</div></div>
-      <div style="font-size:14px;font-weight:700;color:#c9a843;white-space:nowrap;">${disp}</div>
-    </div>`;
-  }).join('');
+  // ── Page 5: Intrabucal ──
+  const intrabucalPhotoHtml = intrabucalImg
+    ? `<img src="${intrabucalImg}" style="width:100%;height:100%;object-fit:contain;display:block;" />`
+    : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#555;font-size:13px;">Foto intrabucal não carregada</div>`;
 
   const page5 = `<div style="${pageStyle}page-break-after:always;">
-    ${pageHeader('Análise Oclusal — Modelo 3D','#d97706')}
+    ${pageHeader('Análise Intrabucal — Linhas Médias','#e3a008')}
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;">
-      <div style="background:#111;border-radius:8px;overflow:hidden;height:240px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;">
-        <div style="font-size:40px;">🦷</div>
-        <div style="font-size:12px;color:#555;text-align:center;padding:0 16px;">Modelo STL visualizável no sistema OrthoFollow</div>
+      <div style="background:#111;border-radius:8px;overflow:hidden;height:280px;">${intrabucalPhotoHtml}</div>
+      <div style="display:flex;flex-direction:column;gap:10px;justify-content:center;">
+        <div style="background:#111;border:1px solid #2a2a2a;border-radius:8px;padding:14px 16px;">
+          <div style="font-size:10px;color:#e3a008;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">Linha Média Superior</div>
+          <div style="font-size:12px;color:#d4d4d4;">Marcação entre os incisivos centrais superiores (U1s)</div>
+        </div>
+        <div style="background:#111;border:1px solid #2a2a2a;border-radius:8px;padding:14px 16px;">
+          <div style="font-size:10px;color:#e3a008;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">Linha Média Inferior</div>
+          <div style="font-size:12px;color:#d4d4d4;">Marcação entre os incisivos centrais inferiores (L1i)</div>
+        </div>
+        <div style="background:#111;border:1px solid #2a2a2a;border-radius:8px;padding:14px 16px;">
+          <div style="font-size:10px;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Desvio Linha Média (mm)</div>
+          <div style="font-size:22px;font-weight:800;color:#c9a843;">${measDisplayVal('P01.A02', measurements['P01.A02']||'—')}</div>
+        </div>
       </div>
-      <div style="display:flex;flex-direction:column;gap:8px;">${oclusalCards}</div>
     </div>
     <div style="background:#111;border-radius:8px;padding:14px 16px;">
-      <div style="font-size:10px;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;">Síntese Diagnóstica Geral</div>
-      ${synthesisSection()}
+      <div style="font-size:10px;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;">Modelo 3D — visualizável no sistema OrthoFollow</div>
+      <div style="display:flex;align-items:center;gap:16px;padding:8px 0;">
+        <div style="font-size:32px;">🦷</div>
+        <div style="font-size:12px;color:#555;">Arquivo STL carregado na sessão de avaliação. Consulte o sistema para visualização interativa do modelo oclusal.</div>
+      </div>
     </div>
     ${footer()}
   </div>`;
@@ -1528,12 +1525,13 @@ function generatePDF() {
   const d = window._lastPipelineData;
   if (!d) { alert('Execute a análise primeiro para gerar o relatório.'); return; }
 
-  const frontalImg  = getAnnotatedImage('frontal');
-  const perfilImg   = getAnnotatedImage('perfil');
-  const sorrisoImg  = getAnnotatedImage('sorriso');
+  const frontalImg    = getAnnotatedImage('frontal');
+  const perfilImg     = getAnnotatedImage('perfil');
+  const sorrisoImg    = getAnnotatedImage('sorriso');
+  const intrabucalImg = getAnnotatedImage('intrabucal');
 
   const html = buildPDFHTML({
-    frontalImg, perfilImg, sorrisoImg,
+    frontalImg, perfilImg, sorrisoImg, intrabucalImg,
     measurements:   d.measurements || collectMeasurementsSnapshot(),
     findings:       d.exD.findings || [],
     patName:        d.patName || d.caseId,
