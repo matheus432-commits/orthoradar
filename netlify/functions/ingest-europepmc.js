@@ -138,7 +138,7 @@ async function saveArticle(db, article) {
     isOpenAccess: article.isOpenAccess || false,
     fonte:        'europepmc',
     url:          article.url     || '',
-    pubmedUrl:    article.pmid ? `https://pubmed.ncbi.nlm.nih.gov/${article.pmid}/` : (article.url || ''),
+    pubmedUrl:    article.pmid ? `https://pubmed.ncbi.nlm.nih.gov/${article.pmid}/` : (article.url || null),
     especialidade,
     nivel_evidencia,
     status:       'pending_enrichment',
