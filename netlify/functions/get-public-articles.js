@@ -19,6 +19,7 @@ exports.handler = async (event) => {
     const body = JSON.stringify({
       structuredQuery: {
         from: [{ collectionId: 'artigos' }],
+        where: { fieldFilter: { field: { fieldPath: 'status' }, op: 'EQUAL', value: { stringValue: 'active' } } },
         orderBy: [{ field: { fieldPath: 'data' }, direction: 'DESCENDING' }],
         select: { fields: [
           { fieldPath: 'titulo' }, { fieldPath: 'titulo_pt' },

@@ -42,7 +42,7 @@ exports.handler = async (event) => {
     const apiKey    = process.env.FIREBASE_API_KEY;
 
     if (apiKey) {
-      const timeout  = new Promise(resolve => setTimeout(resolve, 3500));
+      const timeout  = new Promise(resolve => setTimeout(resolve, 1500));
       const tracking = Promise.allSettled([
         recordClick(projectId, apiKey, digestId, pmid),
         logEvent(projectId, apiKey, { digestId, pmid, eventType: 'click', ip }),
