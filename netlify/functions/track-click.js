@@ -1,7 +1,7 @@
 // Email click tracker — logs the click event then immediately redirects.
 // Endpoint: GET /.netlify/functions/track-click?d={digestId}&p={pmid}&e={ehash}&t={base64url(targetUrl)}
 
-const { recordClick, logEvent } = require('./_lib/engagement');
+const { recordClick, logEvent, updateBadges } = require('./_lib/engagement');
 const log                       = require('./_lib/logger');
 
 const FALLBACK_URL = process.env.SITE_URL || 'https://odontofeed.com.br';
@@ -39,8 +39,16 @@ exports.handler = async (event) => {
   const qs       = event.queryStringParameters || {};
   const digestId = qs.d || null;
   const pmid     = qs.p || null;
+  const ehash    = qs.e || null;
   const target   = safeDecodeTarget(qs.t);
   const ip       = event.headers?.['x-forwarded-for']?.split(',')[0]?.trim() || null;
+
+  // Decode tema from base64url (th param) — used for badge tracking
+  let tema = null;
+  if (qs.th) {
+    try { tema = Buffer.from(qs.th, 'base64url').toString('utf8') || null; }
+    catch { /* ignore malformed */ }
+  }
 
   if (digestId || pmid) {
     const projectId = process.env.FIREBASE_PROJECT_ID || 'orthoradar';
@@ -51,10 +59,11 @@ exports.handler = async (event) => {
       const tracking = Promise.allSettled([
         recordClick(projectId, apiKey, digestId, pmid),
         logEvent(projectId, apiKey, { digestId, pmid, eventType: 'click', ip }),
+        ehash && tema ? updateBadges(projectId, apiKey, ehash, tema, digestId) : Promise.resolve(),
       ]);
       await Promise.race([tracking, timeout]);
     }
-    log.debug('[track-click] click recorded', { digestId, pmid });
+    log.debug('[track-click] click recorded', { digestId, pmid, tema });
   }
 
   return {
