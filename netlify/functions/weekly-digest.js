@@ -216,7 +216,7 @@ function buildTopArticleCard(art, rank, digestId, ehash, isLast) {
   const esp      = esc(art.especialidade || '');
   const nivel    = esc(art.nivel_evidencia || '');
   const clicks   = Number(art.weeklyClicks) || 0;
-  const clickUrl = buildClickUrl(digestId, art.pmid, ehash, art.tema);
+  const clickUrl = buildClickUrl(digestId, art.pmid || art.id, ehash, art.tema);
   const rankColor = RANK_COLORS[rank - 1] || '#B5B0A8';
   const rankLabel = RANK_LABELS[rank - 1] || `#${rank}`;
   const border    = isLast ? '' : 'border-bottom:1px solid #EEE8DE;';
@@ -265,7 +265,7 @@ function buildSpecialtyCard(art, digestId, ehash) {
   const summary  = esc((art.impacto_pratico || art.resumo || '').slice(0, 240));
   const nivel    = esc(art.nivel_evidencia || '');
   const clicks   = Number(art.weeklyClicks) || 0;
-  const clickUrl = buildClickUrl(digestId, art.pmid, ehash, art.tema);
+  const clickUrl = buildClickUrl(digestId, art.pmid || art.id, ehash, art.tema);
 
   return `
     <div style="background:#F8F3EA;border:1px solid #D4C9B8;border-radius:3px;padding:18px 20px;">
@@ -493,7 +493,7 @@ async function runWeeklyDigest() {
   console.log(`[USERS] ${users.length} eligible users`);
 
   let sent = 0, errors = 0, skipped = 0;
-  const top3Pmids = new Set(top3.map(a => a.pmid));
+  const top3Pmids = new Set(top3.map(a => String(a.pmid || a.id)));
 
   for (const user of users) {
     const { email, nome, especialidade } = user;
@@ -512,7 +512,7 @@ async function runWeeklyDigest() {
 
     // ── Specialty highlight: first article in user's specialty not in top 3 ──
     const specialtyArt = especialidade
-      ? (topArticles.find(a => a.especialidade === especialidade && !top3Pmids.has(a.pmid)) || null)
+      ? (topArticles.find(a => a.especialidade === especialidade && !top3Pmids.has(String(a.pmid || a.id))) || null)
       : null;
 
     // ── Build and send ───────────────────────────────────────────────────────
