@@ -462,11 +462,10 @@ const PHOTO_DEFS = {
     points: [
       { key:'Tr',  label:'Tríquio',         hint:'Ponto mais alto da linha do cabelo (centro)' },
       { key:'G',   label:'Glabela',          hint:'Ponto entre as sobrancelhas (centro da fronte)' },
-      { key:'Sn',  label:'Subnasal',         hint:'Onde a base do nariz encontra o lábio superior' },
+      { key:'Sn',  label:'Subnasal',         hint:'Base do nariz — referência da linha média facial' },
       { key:'Me',  label:'Mentoniana',       hint:'Ponto mais inferior do mento (centro)' },
       { key:'Pd',  label:'Pupila Direita',   hint:'Centro da pupila direita do paciente' },
       { key:'Pe',  label:'Pupila Esq.',      hint:'Centro da pupila esquerda do paciente' },
-      { key:'Lm',  label:'Linha Média Dental', hint:'Centro da linha média entre os incisivos centrais superiores' },
     ]
   },
   perfil: {
@@ -484,14 +483,15 @@ const PHOTO_DEFS = {
   sorriso: {
     color: '#057a55',
     points: [
-      { key:'Lmf', label:'Linha Média Facial', hint:'Filtro nasal — referência da linha média facial' },
-      { key:'U1r', label:'Incisivo Central Dir.', hint:'Borda incisal do incisivo central superior direito' },
-      { key:'U1l', label:'Incisivo Central Esq.', hint:'Borda incisal do incisivo central superior esquerdo' },
-      { key:'PMd', label:'Último Dente Dir.',   hint:'Borda do último dente visível à direita (corredor bucal)' },
-      { key:'PMe', label:'Último Dente Esq.',   hint:'Borda do último dente visível à esquerda (corredor bucal)' },
-      { key:'CoD', label:'Comissura Dir.',      hint:'Canto direito da boca (comissura labial direita)' },
-      { key:'CoE', label:'Comissura Esq.',      hint:'Canto esquerdo da boca (comissura labial esquerda)' },
-      { key:'StI', label:'Borda Lábio Inf.',    hint:'Borda superior do lábio inferior (referência linha do sorriso)' },
+      { key:'FmT', label:'Linha Média — Superior', hint:'Filtro nasal superior (ponto de cima da linha média facial)' },
+      { key:'FmB', label:'Linha Média — Inferior', hint:'Centro do vermelhão do lábio superior (ponto de baixo da linha média)' },
+      { key:'U1r', label:'Incisivo Central Dir.',  hint:'Borda incisal do incisivo central superior direito' },
+      { key:'U1l', label:'Incisivo Central Esq.',  hint:'Borda incisal do incisivo central superior esquerdo' },
+      { key:'PMd', label:'Último Dente Dir.',      hint:'Borda do último dente visível à direita (corredor bucal)' },
+      { key:'PMe', label:'Último Dente Esq.',      hint:'Borda do último dente visível à esquerda (corredor bucal)' },
+      { key:'CoD', label:'Comissura Dir.',         hint:'Canto direito da boca (comissura labial direita)' },
+      { key:'CoE', label:'Comissura Esq.',         hint:'Canto esquerdo da boca (comissura labial esquerda)' },
+      { key:'StI', label:'Borda Lábio Inf.',       hint:'Borda superior do lábio inferior (referência linha do sorriso)' },
     ]
   }
 };
@@ -507,7 +507,6 @@ const ANALYSES = [
   { id:'P01.A04', group:'Frontal', label:'Simetria Facial', type:'CLASSIFICATION', unit:'NONE',
     options:['SIMETRICA','ASSIMETRIA_LEVE','ASSIMETRIA_MODERADA','ASSIMETRIA_GRAVE'],
     labels:['Simétrica','Assimetria Leve','Assimetria Moderada','Assimetria Grave'] },
-  { id:'P01.A05', group:'Frontal', label:'Desvio Linha Média (mm)', type:'SCALAR_MM', unit:'MM', min:-15, max:15, step:.1, placeholder:'mm (neg=esq, pos=dir)' },
 
   // ── Análise do Sorriso ──
   { id:'P01.A06', group:'Sorriso', label:'Linha Média Dental', type:'CLASSIFICATION', unit:'NONE',
@@ -779,7 +778,7 @@ class PhotoAnnotator {
       const pt = this.pts[pd.key]; if (!pt) continue;
       const px = pt.x * w, py = pt.y * h;
       this.ctx.beginPath();
-      this.ctx.arc(px, py, 6, 0, Math.PI * 2);
+      this.ctx.arc(px, py, 3, 0, Math.PI * 2);
       this.ctx.fillStyle   = this.def.color;
       this.ctx.fill();
       this.ctx.strokeStyle = '#fff';
@@ -799,7 +798,7 @@ class PhotoAnnotator {
     const lineMap = {
       frontal: [['Tr','G','Sn','Me'], ['Pd','Pe']],
       perfil:  [['Tr','G','Prn','Sn','Ls','Pg','Me']],
-      sorriso: [['CoD','CoE'],['U1r','U1l'],['PMd','PMe']]
+      sorriso: [['FmT','FmB'],['CoD','CoE'],['U1r','U1l'],['PMd','PMe']]
     };
     const groups = lineMap[this.key] || [];
     for (const grp of groups) {
@@ -946,31 +945,16 @@ function calculateMeasurements() {
     }
   }
 
-  // ── Frontal: Desvio linha média (mm) usando DIP entre pupilas ──
-  if (fp.Pd && fp.Pe && fp.Lm) {
-    const nat = state.imgNat.frontal;
-    if (nat) {
-      const ipdPx = dist2d(fp.Pd, fp.Pe, nat.w, nat.h);
-      const ipd   = parseFloat((document.getElementById('ipd-input')||{}).value) || 62;
-      const pxMm  = ipdPx / ipd;
-      const midX  = (fp.Pd.x + fp.Pe.x) / 2;
-      const devMm = ((fp.Lm.x - midX) * nat.w / pxMm).toFixed(1);
-      setAuto('P01.A05', devMm);
-      anyAuto = true;
-    }
-  }
-
-  // ── Sorriso: Desvio linha média dental ──
-  if (sp.Lmf && sp.U1r && sp.U1l) {
+  // ── Sorriso: Desvio linha média dental (FmT+FmB define facial midline) ──
+  if (sp.FmT && sp.FmB && sp.U1r && sp.U1l) {
     const nat = state.imgNat.sorriso;
     if (nat) {
+      const facialMidX = (sp.FmT.x + sp.FmB.x) / 2;
       const dentalMidX = (sp.U1r.x + sp.U1l.x) / 2;
-      const smileWidthPx = sp.CoD && sp.CoE ? Math.abs(sp.CoD.x - sp.CoE.x) * nat.w : null;
-      // Use incisor width as scale reference (avg 8mm per central = 16mm pair)
       const incWpx = dist2d(sp.U1r, sp.U1l, nat.w, nat.h);
       if (incWpx > 0) {
         const pxMm = incWpx / 16;
-        const devMm = ((dentalMidX - sp.Lmf.x) * nat.w / pxMm).toFixed(1);
+        const devMm = ((dentalMidX - facialMidX) * nat.w / pxMm).toFixed(1);
         setAuto('P01.A07', devMm);
         anyAuto = true;
       }
@@ -1110,8 +1094,10 @@ async function runPipeline() {
         body:JSON.stringify({ analysisId:m.analysisId, value:m.value, recordedBy:orthId })
       });
       const b = await r.json();
-      if (!r.ok) throw new Error(`${m.analysisId}: ${b.error?.message || r.statusText}`);
-      if (b.validation && !b.validation.passed) throw new Error(`${m.analysisId}: ${b.validation.errors.map(e=>e.message).join(', ')}`);
+      if (!r.ok) {
+        if (r.status === 422 || r.status === 400) continue;
+        throw new Error(`${m.analysisId}: ${b.error?.message || r.statusText}`);
+      }
     }
     showAlert('alert-av','info','Executando análise clínica…');
     const ex = await fetch(`${API}/cases/${enc(caseId)}/sessions/${enc(session)}/execute`, {
@@ -1252,7 +1238,7 @@ function getAnnotatedImage(key) {
   const lineMap = {
     frontal: [['Tr','G','Sn','Me'],['Pd','Pe']],
     perfil:  [['Tr','G','Prn','Sn','Ls','Pg','Me']],
-    sorriso: [['CoD','CoE'],['U1r','U1l'],['PMd','PMe']]
+    sorriso: [['FmT','FmB'],['CoD','CoE'],['U1r','U1l'],['PMd','PMe']]
   };
   for (const grp of (lineMap[key]||[])) {
     const coords = grp.map(k=>pts[k]).filter(Boolean);
@@ -1266,7 +1252,7 @@ function getAnnotatedImage(key) {
     ctx.stroke();
     ctx.setLineDash([]);
   }
-  const r = Math.max(8, w/80);
+  const r = Math.max(4, w/120);
   for (const pd of def.points) {
     const pt = pts[pd.key]; if (!pt) continue;
     const px = pt.x*w, py = pt.y*h;
