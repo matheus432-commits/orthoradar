@@ -80,7 +80,7 @@
     .field .hint{font-size:11px;color:var(--muted)}
 
     /* Upload grid */
-    .upload-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+    .upload-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
     @media(max-width:800px){.upload-grid{grid-template-columns:repeat(2,1fr)}}
     .upload-zone{border:2px dashed var(--border);border-radius:8px;padding:16px 10px;text-align:center;cursor:pointer;transition:all .15s;position:relative;user-select:none}
     .upload-zone:hover{border-color:var(--primary);background:var(--primary-bg)}
@@ -289,8 +289,14 @@
         <div class="upload-hint">Sorriso aberto mostrando os dentes frontais</div>
         <div class="upload-preview" id="up-sorriso"></div>
       </div>
-      <div class="upload-zone" id="uz-stl" onclick="triggerUpload('stl')" ondragover="dzOver(event,'uz-stl')" ondragleave="dzLeave('uz-stl')" ondrop="dzDrop(event,'stl','uz-stl')">
+      <div class="upload-zone" id="uz-intrabucal" onclick="triggerUpload('intrabucal')" ondragover="dzOver(event,'uz-intrabucal')" ondragleave="dzLeave('uz-intrabucal')" ondrop="dzDrop(event,'intrabucal','uz-intrabucal')">
         <div class="upload-icon">🦷</div>
+        <div class="upload-label">Foto Intrabucal</div>
+        <div class="upload-hint">Foto intrabucal frontal — linhas médias dental superior e inferior</div>
+        <div class="upload-preview" id="up-intrabucal"></div>
+      </div>
+      <div class="upload-zone" id="uz-stl" onclick="triggerUpload('stl')" ondragover="dzOver(event,'uz-stl')" ondragleave="dzLeave('uz-stl')" ondrop="dzDrop(event,'stl','uz-stl')">
+        <div class="upload-icon">🗂️</div>
         <div class="upload-label">Modelo STL</div>
         <div class="upload-hint">Arquivo .stl da mordida ou modelo de gesso</div>
         <div class="upload-preview" id="up-stl"></div>
@@ -1279,463 +1285,513 @@ function sevLabel(s){ return {NORMAL:'Normal',MILD:'Leve',MODERATE:'Moderado',SE
 function sevColor(s){ return {NORMAL:'#22c55e',MILD:'#eab308',MODERATE:'#f97316',SEVERE:'#ef4444',CRITICAL:'#7f1d1d'}[s]??'#9ca3af' }
 
 function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, measurements, findings, patName, caseId, session, birthDate, sex, reportText, treatmentNotes }) {
-  const today = new Date().toLocaleDateString('pt-BR');
-  const sexLblMap = {M:'Masculino',F:'Feminino',UNSPECIFIED:'Não informado'};
+  const todayFull = new Date().toLocaleDateString('pt-BR', {day:'2-digit',month:'long',year:'numeric'});
+  const todayShort = new Date().toLocaleDateString('pt-BR');
   const m = measurements || {};
 
   let ageStr = '';
   if (birthDate) {
     try {
-      const bd = new Date(birthDate), now = new Date();
+      const bd = new Date(birthDate + 'T12:00:00'), now = new Date();
       let a = now.getFullYear() - bd.getFullYear();
-      if (now.getMonth() < bd.getMonth() || (now.getMonth() === bd.getMonth() && now.getDate() < bd.getDate())) a--;
+      if (now.getMonth() < bd.getMonth() || (now.getMonth()===bd.getMonth()&&now.getDate()<bd.getDate())) a--;
       ageStr = ' · ' + a + ' anos';
     } catch(e) {}
   }
 
-  const totalMeas = ANALYSES.length;
-  const fCnt = findings.length;
-  const normCnt = findings.filter(f => f.severity === 'NORMAL').length;
-  const attnCnt = findings.filter(f => f.severity !== 'NORMAL').length;
-  const complexity = attnCnt === 0 ? 'Baixa' : attnCnt <= 2 ? 'Leve' : attnCnt <= 4 ? 'Moderada' : 'Alta';
+  const normItems = findings.filter(f => f.severity==='NORMAL');
+  const attnItems = findings.filter(f => f.severity!=='NORMAL');
+  const complexity = attnItems.length===0?'Baixa':attnItems.length<=2?'Leve':attnItems.length<=4?'Moderada':'Alta';
+  const sevDot = {NORMAL:'#2A5C3A',MILD:'#B08D57',MODERATE:'#c2410c',SEVERE:'#7A2828',CRITICAL:'#5c0a0a'};
+  const sevTxt = {NORMAL:'Normal',MILD:'Leve',MODERATE:'Moderado',SEVERE:'Grave',CRITICAL:'Crítico'};
 
-  const dotMap = {NORMAL:'#22c55e',MILD:'#eab308',MODERATE:'#f97316',SEVERE:'#ef4444',CRITICAL:'#7f1d1d'};
-  const sevTxtMap = {NORMAL:'Normal',MILD:'Leve',MODERATE:'Moderado',SEVERE:'Grave',CRITICAL:'Crítico'};
-
-  const valStyleMap = {
-    SYMMETRIC:'#f0fdf4|#14532d', NORMAL:'#f0fdf4|#14532d', COMPETENT:'#f0fdf4|#14532d', STRAIGHT:'#f0fdf4|#14532d',
-    ASYMMETRIC_MILD:'#fff7ed|#78350f', DEVIATED_LEFT:'#fff7ed|#78350f', DEVIATED_RIGHT:'#fff7ed|#78350f',
-    POTENTIALLY_INCOMPETENT:'#fff7ed|#78350f', CONVEX:'#fff7ed|#78350f', CONCAVE:'#fff7ed|#78350f',
-    RETRUDED:'#fff7ed|#78350f', PROTRUDED:'#fff7ed|#78350f',
-    ASYMMETRIC_MODERATE:'#fff7ed|#c2410c',
-    ASYMMETRIC_SEVERE:'#fef2f2|#7f1d1d', INCOMPETENT:'#fef2f2|#7f1d1d'
-  };
+  function e(s){ return String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;') }
 
   function blbl(id, val) {
     if (!val) return '—';
-    const a = ANALYSES.find(x => x.id === id);
-    if (a && a.options) { const i = a.options.indexOf(val); if (i >= 0) return a.labels[i]; }
+    const a = ANALYSES.find(x=>x.id===id);
+    if (a&&a.options){ const i=a.options.indexOf(val); if(i>=0) return a.labels[i]; }
     return val;
   }
 
-  function bdg(id, val) {
+  const chipCls = {
+    SYMMETRIC:'cn',NORMAL:'cn',COMPETENT:'cn',STRAIGHT:'cn',
+    ASYMMETRIC_MILD:'ca',DEVIATED_LEFT:'ca',DEVIATED_RIGHT:'ca',
+    POTENTIALLY_INCOMPETENT:'ca',CONVEX:'ca',CONCAVE:'ca',RETRUDED:'ca',PROTRUDED:'ca',
+    ASYMMETRIC_MODERATE:'ca',ASYMMETRIC_SEVERE:'cr',INCOMPETENT:'cr'
+  };
+  function chip(id, val) {
     const lbl = blbl(id, val);
-    if (!val || val === '—') return '<span style="display:inline-flex;padding:3px 9px;border-radius:20px;font-size:10px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;white-space:nowrap;background:#e0f2fe;color:#0e7490">—</span>';
-    const parts = (valStyleMap[val] || '#e0f2fe|#0e7490').split('|');
-    return '<span style="display:inline-flex;padding:3px 9px;border-radius:20px;font-size:10px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;white-space:nowrap;background:' + parts[0] + ';color:' + parts[1] + '">' + esc(lbl) + '</span>';
+    const cls = val?(chipCls[val]||'cx'):'cx';
+    return '<span class="chip '+cls+'">'+(val?e(lbl):'—')+'</span>';
   }
 
   function numVal(id) {
     const v = m[id];
-    if (v === null || v === undefined || v === '' || v === '—') return null;
-    const n = parseFloat(v);
-    return isNaN(n) ? null : n;
+    if (v===null||v===undefined||v==='') return null;
+    const n = parseFloat(v); return isNaN(n)?null:n;
   }
 
-  function rbar(val, minV, maxV, nMin, nMax) {
-    const v = parseFloat(val);
-    if (isNaN(v)) return '';
-    const range = maxV - minV;
-    const pct = Math.max(2, Math.min(98, ((v - minV) / range) * 100)).toFixed(1);
-    const nL = (((nMin - minV) / range) * 100).toFixed(1);
-    const nW = (((nMax - nMin) / range) * 100).toFixed(1);
-    return '<div style="position:relative;height:6px;background:#f1f5f9;border-radius:99px;margin:8px 0 4px;overflow:visible">' +
-      '<div style="position:absolute;top:0;height:6px;left:' + nL + '%;width:' + nW + '%;background:#dcfce7;border-radius:99px"></div>' +
-      '<div style="position:absolute;top:50%;left:' + pct + '%;transform:translate(-50%,-50%);width:13px;height:13px;border-radius:50%;background:#0c1f3f;border:2.5px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.15)"></div>' +
-      '</div>';
+  function rbar(val, minV, maxV, nMin, nMax, unit) {
+    if (val===null||val===undefined) return '';
+    const range = maxV-minV;
+    const pct = Math.max(1,Math.min(99,((val-minV)/range)*100)).toFixed(1);
+    const nL = (((nMin-minV)/range)*100).toFixed(1);
+    const nW = (((nMax-nMin)/range)*100).toFixed(1);
+    return '<div class="rb-track">'+
+      '<div class="rb-normal" style="left:'+nL+'%;width:'+nW+'%"></div>'+
+      '<div class="rb-marker" style="left:'+pct+'%"></div></div>'+
+      '<div class="rb-labels"><span>'+minV+(unit||'')+'</span>'+
+      '<span style="color:#2A5C3A;font-size:7px">Normal '+nMin+'–'+nMax+(unit||'')+'</span>'+
+      '<span>'+maxV+(unit||'')+'</span></div>';
   }
 
   function photoEl(src, label, h) {
-    if (src) return '<img src="' + src + '" style="width:100%;height:' + h + 'px;object-fit:contain;object-position:center top;display:block;" />';
-    return '<div style="width:100%;height:' + h + 'px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;background:#f8fafc"><div style="font-size:9px;color:#cbd5e1;letter-spacing:.5px;text-transform:uppercase">' + label + '</div></div>';
+    if (src) return '<img src="'+src+'" style="width:100%;height:'+h+'px;object-fit:cover;object-position:center top;display:block;">';
+    return '<div style="height:'+h+'px;display:flex;align-items:center;justify-content:center">'+
+      '<span style="font-size:7px;color:rgba(255,255,255,.18);letter-spacing:2px;text-transform:uppercase">'+e(label)+'</span></div>';
   }
 
-  function findHtml(sev, txt) {
-    const dot = dotMap[sev] || '#9ca3af';
-    const lbl = sevTxtMap[sev] || sev;
-    return '<div style="display:flex;gap:12px;padding:12px 14px;border-radius:6px;border:1px solid #e2e8f0;background:#fff;margin-bottom:6px">' +
-      '<div style="width:8px;height:8px;border-radius:50%;background:' + dot + ';flex-shrink:0;margin-top:4px"></div>' +
-      '<div><div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#94a3b8;margin-bottom:3px">' + lbl + '</div>' +
-      '<div style="font-size:12px;color:#475569;line-height:1.55">' + esc(txt) + '</div></div></div>';
+  function findRow(f) {
+    const dot = sevDot[f.severity]||'#9ca3af';
+    const sv = sevTxt[f.severity]||f.severity;
+    return '<div class="find-row"><div class="find-dot" style="background:'+dot+'"></div>'+
+      '<div><div class="find-sev">'+sv+'</div>'+
+      '<div class="find-txt">'+e(f.text)+'</div></div></div>';
   }
 
-  function allFindings() {
-    if (!findings.length) return '<div style="font-size:12px;color:#94a3b8;font-style:italic;padding:10px 0">Nenhum achado registrado.</div>';
-    return findings.map(f => findHtml(f.severity, f.text)).join('');
+  function ph(section, pg) {
+    return '<div style="height:1px;background:linear-gradient(90deg,#B08D57 0%,rgba(176,141,87,.1) 100%)"></div>'+
+      '<div class="ph"><div style="display:flex;align-items:center;gap:10px">'+
+      '<div class="ph-mono">T</div>'+
+      '<div><div class="ph-name">Dr. Matheus Tadao Wakasugui</div>'+
+      '<div class="ph-proto">Protocolo Tadao</div></div></div>'+
+      '<div style="text-align:right"><div class="ph-section">'+section+'</div>'+
+      '<div class="ph-page">'+todayShort+' · Página '+pg+' de 6</div></div></div>';
   }
 
-  function pStrip(sub) {
-    return '<div style="padding:16px 40px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #e2e8f0">' +
-      '<div><div style="font-size:15px;font-weight:800;color:#0c1f3f;letter-spacing:-.3px">Dr. Matheus Tadao Wakasugui</div>' +
-      '<div style="font-size:10px;color:#94a3b8;margin-top:1px">Protocolo Tadao — P01</div></div>' +
-      '<div style="text-align:right;font-size:10px;color:#94a3b8">Avaliação Facial Ortodôntica<br><strong style="color:#475569">' + sub + '</strong></div></div>';
+  function pf(pg) {
+    return '<div class="pf"><div class="pf-line"></div>'+
+      '<div class="pf-text">Protocolo Tadao · Confidencial</div>'+
+      '<div class="pf-text">Página '+pg+' de 6</div></div>';
   }
 
-  function pFoot(pg, tot) {
-    return '<div style="padding:12px 40px;border-top:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between">' +
-      '<div style="font-size:11px;font-weight:800;letter-spacing:.5px;color:#0c1f3f">PROTOCOLO TADAO</div>' +
-      '<div style="font-size:10px;color:#94a3b8">' + today + ' · Página ' + pg + ' de ' + tot + '</div></div>';
+  function insight(title, text) {
+    return '<div class="insight"><div class="insight-lbl">'+title+'</div>'+
+      '<div class="insight-txt">'+text+'</div></div>';
   }
 
-  function synthBox(title, content) {
-    return '<div style="background:linear-gradient(135deg,#f8fafc 0%,#f0f4ff 100%);border:1px solid #dde5f5;border-radius:10px;padding:16px 18px">' +
-      '<div style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#1a3461;margin-bottom:10px">' + title + '</div>' +
-      content + '</div>';
-  }
+  // Numeric values
+  const t3=numVal('P01.A03'), t4=numVal('P01.A04'), t5=numVal('P01.A05');
+  const midline=numVal('P01.A02');
+  const dentalExp=numVal('P01.A12');
+  const lipRatio=numVal('P01.A10');
+  const nasoAngle=numVal('P01.A07');
 
-  function card(content) {
-    return '<div style="background:#fff;border:1px solid #e2e8f0;border-radius:10px;box-shadow:0 1px 3px rgba(15,23,42,.06);overflow:hidden"><div style="padding:16px 18px">' + content + '</div></div>';
-  }
+  const thirdsHtml = (t3!==null&&t4!==null&&t5!==null)
+    ? '<div class="g3" style="margin-bottom:10px">'+
+      '<div style="text-align:center;padding:8px 6px;border:1px solid #EDEAE6;border-radius:2px">'+
+        '<div style="font-size:7px;letter-spacing:1px;text-transform:uppercase;color:#6F737A;margin-bottom:3px">Superior</div>'+
+        '<div style="font-family:\'Cormorant Garamond\',serif;font-size:20px;font-weight:300;color:#0F2537">'+t3.toFixed(1)+'</div>'+
+        '<div style="font-size:8px;color:#6F737A">%</div></div>'+
+      '<div style="text-align:center;padding:8px 6px;border:1px solid #EDEAE6;border-radius:2px">'+
+        '<div style="font-size:7px;letter-spacing:1px;text-transform:uppercase;color:#6F737A;margin-bottom:3px">Médio</div>'+
+        '<div style="font-family:\'Cormorant Garamond\',serif;font-size:20px;font-weight:300;color:#0F2537">'+t4.toFixed(1)+'</div>'+
+        '<div style="font-size:8px;color:#6F737A">%</div></div>'+
+      '<div style="text-align:center;padding:8px 6px;border:1px solid '+(t5>35?'rgba(122,90,26,.25)':'#EDEAE6')+';border-radius:2px;background:'+(t5>35?'#F8F3E8':'#FCFBF9')+'">'+
+        '<div style="font-size:7px;letter-spacing:1px;text-transform:uppercase;color:'+(t5>35?'#7A5A1A':'#6F737A')+';margin-bottom:3px">Inferior'+(t5>35?' ↑':'')+'</div>'+
+        '<div style="font-family:\'Cormorant Garamond\',serif;font-size:20px;font-weight:300;color:'+(t5>35?'#7A5A1A':'#0F2537')+'">'+t5.toFixed(1)+'</div>'+
+        '<div style="font-size:8px;color:'+(t5>35?'#7A5A1A':'#6F737A')+'">%</div></div></div>'+
+      '<div style="display:flex;height:4px;border-radius:2px;overflow:hidden;gap:1px;margin-bottom:4px">'+
+        '<div style="width:'+t3.toFixed(1)+'%;background:#0F2537;opacity:.3;border-radius:1px 0 0 1px"></div>'+
+        '<div style="width:'+t4.toFixed(1)+'%;background:#0F2537;opacity:.18"></div>'+
+        '<div style="flex:1;background:'+(t5>35?'#7A5A1A':'#0F2537')+';opacity:'+(t5>35?'.45':'.12')+';border-radius:0 1px 1px 0"></div></div>'+
+      '<div style="display:flex;justify-content:space-between;font-size:7.5px;color:#6F737A">'+
+        '<span>Sup '+t3.toFixed(1)+'%</span><span>Méd '+t4.toFixed(1)+'%</span>'+
+        '<span style="color:'+(t5>35?'#7A5A1A':'#6F737A')+';font-weight:'+(t5>35?'500':'400')+'">Inf '+t5.toFixed(1)+'%'+(t5>35?' · ideal 33,3%':'')+'</span></div>'
+    : '<div style="font-size:9px;color:#6F737A;font-style:italic;padding:6px 0">Marque Tr, G, Sn, Me na foto frontal para calcular automaticamente.</div>';
 
-  const favItems = findings.filter(f => f.severity === 'NORMAL');
-  const attnItems = findings.filter(f => f.severity !== 'NORMAL');
+  const diagText = reportText ||
+    'Avaliação facial completa realizada pelo Protocolo Tadao. '+
+    (findings.length?findings.slice(0,3).map(f=>f.text).join('. ')+'.':'Análise sem achados registrados.');
 
-  const favListHtml = favItems.length
-    ? favItems.map(f => '<div style="display:flex;align-items:center;gap:7px;font-size:11px;color:#475569;margin-bottom:4px"><span style="width:5px;height:5px;border-radius:50%;background:#22c55e;flex-shrink:0"></span>' + esc(f.text) + '</div>').join('')
-    : '<div style="font-size:11px;color:#94a3b8">Nenhum achado normal registrado.</div>';
+  // ── CSS ──
+  const CSS = "@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap');\n"+
+    ":root{--ink:#0F2537;--ink-mid:#2B2F36;--gold:#B08D57;--gold-pale:rgba(176,141,87,.09);--warm-white:#FCFBF9;--gray:#6F737A;--gray-light:#F2F2F0;--border:#E5E1DA;--border-lt:#EDEAE6;--green:#2A5C3A;--green-bg:#EEF4F0;--amber:#7A5A1A;--amber-bg:#F8F3E8;--red:#7A2828;--red-bg:#F8EEEE}\n"+
+    "*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}\nhtml{font-size:11px}\n"+
+    "body{background:#E9E7E3;color:var(--ink);font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased}\n"+
+    ".pbar{position:fixed;top:0;left:0;right:0;z-index:999;background:var(--ink);padding:9px 32px;display:flex;align-items:center;justify-content:space-between}\n"+
+    ".pbar span{font-size:10px;color:rgba(255,255,255,.45);letter-spacing:.3px}\n"+
+    ".pbar button{background:var(--gold);color:var(--warm-white);border:none;padding:6px 18px;font-size:9.5px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;cursor:pointer;border-radius:2px;font-family:'Inter',sans-serif}\n"+
+    "body{padding-top:44px}\n"+
+    "@media print{.pbar{display:none}body{padding-top:0;background:var(--warm-white)}}\n"+
+    ".page{width:210mm;min-height:297mm;background:var(--warm-white);margin:20px auto;display:flex;flex-direction:column;page-break-after:always;overflow:hidden}\n"+
+    ".page:last-child{page-break-after:auto}\n"+
+    "@media print{body{background:var(--warm-white)}.page{margin:0}*{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}}\n"+
+    ".ph{padding:13px 44px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}\n"+
+    ".ph-mono{width:24px;height:24px;border-radius:50%;border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:11px;color:var(--gold);flex-shrink:0}\n"+
+    ".ph-name{font-family:'Cormorant Garamond',serif;font-size:12.5px;font-weight:600;color:var(--ink);letter-spacing:.2px}\n"+
+    ".ph-proto{font-size:8px;color:var(--gray);letter-spacing:.6px;margin-top:1px}\n"+
+    ".ph-section{font-size:8px;font-weight:500;letter-spacing:1.2px;text-transform:uppercase;color:var(--gray)}\n"+
+    ".ph-page{font-size:8px;color:var(--border);margin-top:2px}\n"+
+    ".pf{padding:9px 44px;border-top:1px solid var(--border-lt);display:flex;align-items:center;justify-content:space-between}\n"+
+    ".pf-line{width:16px;height:1px;background:var(--gold)}\n"+
+    ".pf-text{font-size:7.5px;color:var(--gray);letter-spacing:.6px;text-transform:uppercase}\n"+
+    ".pb{padding:22px 44px;flex:1;display:flex;flex-direction:column;gap:14px}\n"+
+    ".sec-eyebrow{font-size:7.5px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:4px}\n"+
+    ".sec-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;color:var(--ink);line-height:1.15}\n"+
+    ".sec-sub{font-size:9px;color:var(--gray);margin-top:3px;line-height:1.6}\n"+
+    ".lbl{font-size:7.5px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray);margin-bottom:2px}\n"+
+    ".caption{font-size:9px;color:var(--gray);line-height:1.6;margin-top:3px}\n"+
+    ".chip{display:inline-flex;align-items:center;padding:2px 7px;border-radius:2px;font-size:7.5px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;border:1px solid;white-space:nowrap}\n"+
+    ".cn{background:var(--green-bg);color:var(--green);border-color:rgba(42,92,58,.15)}\n"+
+    ".ca{background:var(--amber-bg);color:var(--amber);border-color:rgba(122,90,26,.15)}\n"+
+    ".cr{background:var(--red-bg);color:var(--red);border-color:rgba(122,40,40,.15)}\n"+
+    ".cx{background:var(--gray-light);color:var(--ink-mid);border-color:var(--border)}\n"+
+    ".panel{border:1px solid var(--border);border-radius:2px;padding:12px 16px}\n"+
+    ".insight{border-left:2px solid var(--gold);background:var(--gold-pale);padding:12px 18px}\n"+
+    ".insight-lbl{font-size:7.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:5px}\n"+
+    ".insight-txt{font-size:9.5px;color:var(--ink-mid);line-height:1.75}\n"+
+    ".rb-track{position:relative;height:1px;background:var(--border);margin:9px 0}\n"+
+    ".rb-normal{position:absolute;top:-1px;height:3px;background:rgba(42,92,58,.18);border-radius:1px}\n"+
+    ".rb-marker{position:absolute;top:50%;transform:translate(-50%,-50%);width:8px;height:8px;border-radius:50%;background:var(--ink);border:2px solid var(--warm-white);box-shadow:0 0 0 1px var(--ink)}\n"+
+    ".rb-labels{display:flex;justify-content:space-between;font-size:7.5px;color:var(--gray);margin-top:3px}\n"+
+    ".g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}\n"+
+    ".g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}\n"+
+    ".find-row{display:flex;align-items:flex-start;gap:8px;padding:6px 0;border-bottom:1px solid var(--border-lt)}\n"+
+    ".find-row:last-child{border-bottom:none}\n"+
+    ".find-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;margin-top:3px}\n"+
+    ".find-sev{font-size:7px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--gray);margin-bottom:1px}\n"+
+    ".find-txt{font-size:9.5px;color:var(--ink-mid);line-height:1.55}\n"+
+    ".ref-table{width:100%;border-collapse:collapse;font-size:9px}\n"+
+    ".ref-table th{text-align:left;font-size:7px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:var(--gray);padding:0 4px 5px;border-bottom:1px solid var(--border)}\n"+
+    ".ref-table td{padding:5px 4px;border-bottom:1px solid var(--border-lt);color:var(--ink-mid);vertical-align:middle}\n"+
+    ".ref-table tr:last-child td{border-bottom:none}\n"+
+    ".tl-item{display:flex;gap:12px}\n"+
+    ".tl-dot{width:7px;height:7px;border-radius:50%;border:1px solid var(--gold);background:var(--warm-white);flex-shrink:0;margin-top:3px}\n"+
+    ".tl-dot-f{background:var(--gold)}\n"+
+    ".tl-con{flex:1;width:1px;background:var(--border);margin:3px auto}\n"+
+    ".tl-phase{font-size:7.5px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:2px}\n"+
+    ".tl-title{font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:500;color:var(--ink)}\n"+
+    ".tl-desc{font-size:9px;color:var(--gray);margin-top:2px;line-height:1.6}\n"+
+    ".tl-dur{font-size:8px;color:#C8C2B8;margin-top:3px;letter-spacing:.3px}";
 
-  const attnListHtml = attnItems.length
-    ? attnItems.map(f => '<div style="display:flex;align-items:center;gap:7px;font-size:11px;color:#475569;margin-bottom:4px"><span style="width:5px;height:5px;border-radius:50%;background:' + (dotMap[f.severity]||'#f97316') + ';flex-shrink:0"></span>' + esc(f.text) + '</div>').join('')
-    : '<div style="font-size:11px;color:#94a3b8">Nenhum ponto de atenção.</div>';
-
-  // ── Numeric values ──
-  const t3 = numVal('P01.A03'), t4 = numVal('P01.A04'), t5 = numVal('P01.A05');
-  const midline = numVal('P01.A02');
-  const dentalExp = numVal('P01.A12');
-  const lipRatio = numVal('P01.A10');
-  const nasoAngle = numVal('P01.A07');
-
-  const thirdsHtml = (t3 !== null && t4 !== null && t5 !== null)
-    ? '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px">' +
-      '<div style="text-align:center;padding:10px 8px;background:#e0f2fe;border-radius:6px"><div style="font-size:20px;font-weight:900;color:#0e7490">' + t3.toFixed(1) + '<span style="font-size:11px;font-weight:600">%</span></div><div style="font-size:9px;color:#0e7490;font-weight:600;text-transform:uppercase;letter-spacing:.4px;margin-top:2px">Superior</div></div>' +
-      '<div style="text-align:center;padding:10px 8px;background:#e0f2fe;border-radius:6px"><div style="font-size:20px;font-weight:900;color:#0e7490">' + t4.toFixed(1) + '<span style="font-size:11px;font-weight:600">%</span></div><div style="font-size:9px;color:#0e7490;font-weight:600;text-transform:uppercase;letter-spacing:.4px;margin-top:2px">Médio</div></div>' +
-      '<div style="text-align:center;padding:10px 8px;background:' + (t5>35?'#fff7ed':'#e0f2fe') + ';border-radius:6px' + (t5>35?';border:1px solid #fed7aa':'') + '"><div style="font-size:20px;font-weight:900;color:' + (t5>35?'#c2410c':'#0e7490') + '">' + t5.toFixed(1) + '<span style="font-size:11px;font-weight:600">%</span></div><div style="font-size:9px;color:' + (t5>35?'#c2410c':'#0e7490') + ';font-weight:600;text-transform:uppercase;letter-spacing:.4px;margin-top:2px">Inferior' + (t5>35?' ↑':'') + '</div></div>' +
-      '</div>' +
-      '<div style="height:8px;border-radius:6px;overflow:hidden;display:flex;gap:2px">' +
-      '<div style="width:' + t3.toFixed(1) + '%;background:#0e7490;border-radius:4px 0 0 4px"></div>' +
-      '<div style="width:' + t4.toFixed(1) + '%;background:#0e7490;opacity:.6"></div>' +
-      '<div style="width:' + t5.toFixed(1) + '%;background:' + (t5>35?'#c2410c':'#0e7490') + ';border-radius:0 4px 4px 0"></div>' +
-      '</div>' +
-      '<div style="display:flex;justify-content:space-between;font-size:9px;color:#94a3b8;margin-top:4px"><span>Sup ' + t3.toFixed(1) + '%</span>' +
-      '<span style="color:' + (t5>35?'#c2410c':'#94a3b8') + ';font-weight:' + (t5>35?700:400) + '">' + (t5>35?'↑ Inf ' + t5.toFixed(1) + '% · ideal 33,3%':'Inf ' + t5.toFixed(1) + '%') + '</span></div>'
-    : '<div style="font-size:11px;color:#94a3b8;font-style:italic;padding:8px 0">Marque Tr, G, Sn, Me na foto frontal para calcular automaticamente.</div>';
-
-  const midlineHtml = midline !== null
-    ? '<div style="display:flex;align-items:baseline;gap:4px;margin-bottom:10px">' +
-      '<div style="font-size:32px;font-weight:800;color:' + (Math.abs(midline)>2?'#c2410c':'#0c1f3f') + '">' + (midline>0?'+':'') + midline.toFixed(1) + '</div>' +
-      '<div style="font-size:14px;font-weight:600;color:#475569">mm</div></div>' +
-      rbar(midline,-10,10,-2,2) +
-      '<div style="display:flex;justify-content:space-between;font-size:9px;color:#94a3b8;margin-top:4px">' +
-      '<span>−10 mm</span><span style="color:' + (Math.abs(midline)>2?'#c2410c':'#0e7490') + ';font-weight:700">' +
-      (midline>0?'+':'') + midline.toFixed(1) + ' mm (limite: ±2 mm)</span><span>+10 mm</span></div>'
-    : '<div style="font-size:11px;color:#94a3b8;font-style:italic">Marque Tr, Me, U1 na foto de sorriso para calcular.</div>';
-
-  const dentalExpHtml = dentalExp !== null
-    ? '<div style="font-size:22px;font-weight:900;color:#0c1f3f">' + dentalExp.toFixed(1) + '<span style="font-size:12px;font-weight:600;color:#475569"> mm</span></div>' +
-      '<div style="font-size:9px;color:#94a3b8;margin-top:3px">Normal: 2 – 4 mm</div>' +
-      rbar(dentalExp,0,10,2,4) +
-      '<span style="display:inline-flex;padding:3px 9px;border-radius:20px;font-size:10px;font-weight:700;text-transform:uppercase;background:' + (dentalExp>=2&&dentalExp<=4?'#f0fdf4':'#fff7ed') + ';color:' + (dentalExp>=2&&dentalExp<=4?'#14532d':'#78350f') + '">' + (dentalExp>=2&&dentalExp<=4?'Normal':'Alterado') + '</span>'
-    : '<div style="font-size:11px;color:#94a3b8;font-style:italic">Não calculado</div>';
-
-  const lipRatioHtml = lipRatio !== null
-    ? '<div style="font-size:22px;font-weight:900;color:#0c1f3f">' + lipRatio.toFixed(2) + '</div>' +
-      '<div style="font-size:9px;color:#94a3b8;margin-top:3px">Ideal: 0,45 – 0,55</div>' +
-      '<span style="display:inline-flex;margin-top:6px;padding:3px 9px;border-radius:20px;font-size:10px;font-weight:700;text-transform:uppercase;background:' + (lipRatio>=0.4&&lipRatio<=0.6?'#f0fdf4':'#fff7ed') + ';color:' + (lipRatio>=0.4&&lipRatio<=0.6?'#14532d':'#78350f') + '">' + (lipRatio>=0.4&&lipRatio<=0.6?'Equilibrada':'Alterada') + '</span>'
-    : '<div style="font-size:11px;color:#94a3b8;font-style:italic">Não calculado</div>';
-
-  const nasoAngleHtml = nasoAngle !== null
-    ? '<div style="display:flex;align-items:baseline;gap:4px;margin-bottom:12px">' +
-      '<div style="font-size:32px;font-weight:800;color:#0c1f3f">' + nasoAngle.toFixed(0) + '</div>' +
-      '<div style="font-size:14px;font-weight:600;color:#475569">graus</div>' +
-      '<span style="display:inline-flex;margin-left:8px;padding:3px 9px;border-radius:20px;font-size:10px;font-weight:700;text-transform:uppercase;background:' + (nasoAngle>=90&&nasoAngle<=110?'#f0fdf4':'#fff7ed') + ';color:' + (nasoAngle>=90&&nasoAngle<=110?'#14532d':'#78350f') + '">' + (nasoAngle>=90&&nasoAngle<=110?'Normal':'Alterado') + '</span></div>' +
-      rbar(nasoAngle,70,145,90,110) +
-      '<div style="display:flex;justify-content:space-between;font-size:9px;color:#94a3b8;margin-top:4px"><span>70°</span><span style="color:#14532d;font-weight:700">Normal 90°–110°</span><span>145°</span></div>' +
-      '<div style="text-align:center;font-size:10px;font-weight:700;color:#0c1f3f;margin-top:4px">Paciente: ' + nasoAngle.toFixed(0) + '°</div>'
-    : '<div style="font-size:11px;color:#94a3b8;font-style:italic">Marque Prn, Sn, Ls na foto de perfil para calcular.</div>';
-
-  // ─── Pages ───
-  const PAGE = 'width:210mm;min-height:297mm;background:#fff;margin:0;padding:0;display:flex;flex-direction:column;overflow:hidden;page-break-after:always;position:relative;';
-
-  // Cover photo column
-  const coverCol = frontalImg
-    ? '<img src="' + frontalImg + '" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;" />'
-    : '<div style="width:100%;height:100%;background:linear-gradient(160deg,#0f1624 0%,#1a2a45 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:20px">' +
-      '<div style="width:80px;height:80px;border-radius:50%;background:#1e3461;border:2px solid rgba(212,168,67,.3);display:flex;align-items:center;justify-content:center">' +
-      '<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(212,168,67,.4)" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>' +
-      '</div><div style="font-size:9px;color:rgba(255,255,255,.25);letter-spacing:.5px;text-align:center">FOTOGRAFIA<br>DO PACIENTE</div></div>';
-
-  const page1 = '<div style="' + PAGE + '">' +
-    '<div style="height:3px;background:linear-gradient(90deg,#d4a843 0%,#0e7490 60%,transparent 100%)"></div>' +
-    pStrip('Avaliação Inicial · T0') +
-    // Hero
-    '<div style="display:grid;grid-template-columns:200px 1fr;min-height:260px;border-bottom:1px solid #e2e8f0">' +
-      '<div style="background:#0f0f14;overflow:hidden">' + coverCol + '</div>' +
-      '<div style="padding:24px 28px;display:flex;flex-direction:column;justify-content:space-between">' +
-        '<div>' +
-          '<div style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#0e7490;margin-bottom:4px">Paciente</div>' +
-          '<div style="font-size:26px;font-weight:900;color:#0c1f3f;letter-spacing:-.5px;line-height:1.1;margin-bottom:14px">' + esc(patName) + '</div>' +
-          '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">' +
-            '<div><div style="font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#94a3b8;margin-bottom:3px">Data de Nascimento</div><div style="font-size:12px;font-weight:600;color:#0f172a">' + (birthDate ? new Date(birthDate).toLocaleDateString('pt-BR') + ageStr : '—') + '</div></div>' +
-            '<div><div style="font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#94a3b8;margin-bottom:3px">Sexo Biológico</div><div style="font-size:12px;font-weight:600;color:#0f172a">' + (sexLblMap[sex]||sex||'—') + '</div></div>' +
-            '<div><div style="font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#94a3b8;margin-bottom:3px">Protocolo</div><div style="font-size:12px;font-weight:600;color:#0c1f3f">Protocolo Tadao — P01</div></div>' +
-            '<div><div style="font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#94a3b8;margin-bottom:3px">Sessão</div><div style="font-size:12px;font-weight:600;color:#0f172a">' + esc(session||'—') + '</div></div>' +
-          '</div>' +
-        '</div>' +
-        '<div style="background:linear-gradient(135deg,#0c1f3f 0%,#1a3461 100%);border-radius:10px;padding:12px 16px">' +
-          '<div style="font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:4px">Ortodontista Responsável</div>' +
-          '<div style="font-size:14px;font-weight:800;color:#d4a843;letter-spacing:-.2px">Dr. Matheus Tadao Wakasugui</div>' +
-          '<div style="font-size:10px;color:rgba(255,255,255,.4);margin-top:2px">Avaliação Ortodôntica · Protocolo Tadao</div>' +
-        '</div>' +
-      '</div>' +
-    '</div>' +
-    // Stats row
-    '<div style="display:grid;grid-template-columns:repeat(5,1fr);border-bottom:1px solid #e2e8f0">' +
-      '<div style="padding:14px 18px;border-right:1px solid #e2e8f0;text-align:center"><div style="font-size:24px;font-weight:900;color:#0c1f3f">' + totalMeas + '</div><div style="font-size:9px;text-transform:uppercase;letter-spacing:.8px;color:#94a3b8;margin-top:3px">Medições</div></div>' +
-      '<div style="padding:14px 18px;border-right:1px solid #e2e8f0;text-align:center"><div style="font-size:24px;font-weight:900;color:#c2410c">' + fCnt + '</div><div style="font-size:9px;text-transform:uppercase;letter-spacing:.8px;color:#94a3b8;margin-top:3px">Achados</div></div>' +
-      '<div style="padding:14px 18px;border-right:1px solid #e2e8f0;text-align:center"><div style="font-size:24px;font-weight:900;color:#14532d">' + normCnt + '</div><div style="font-size:9px;text-transform:uppercase;letter-spacing:.8px;color:#94a3b8;margin-top:3px">Normais</div></div>' +
-      '<div style="padding:14px 18px;border-right:1px solid #e2e8f0;text-align:center"><div style="font-size:24px;font-weight:900;color:#78350f">' + attnCnt + '</div><div style="font-size:9px;text-transform:uppercase;letter-spacing:.8px;color:#94a3b8;margin-top:3px">Atenção</div></div>' +
-      '<div style="padding:14px 18px;text-align:center"><div style="font-size:20px;font-weight:900;color:#0e7490">' + complexity + '</div><div style="font-size:9px;text-transform:uppercase;letter-spacing:.8px;color:#94a3b8;margin-top:3px">Complexidade</div></div>' +
-    '</div>' +
-    // Executive summary
-    '<div style="padding:20px 28px 16px;flex:1">' +
-      '<div style="font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#94a3b8;margin-bottom:12px">Resumo Executivo</div>' +
-      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">' +
-        '<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:14px 16px">' +
-          '<div style="font-size:10px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:#14532d;margin-bottom:8px">✓ Pontos Favoráveis</div>' +
-          favListHtml + '</div>' +
-        '<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:14px 16px">' +
-          '<div style="font-size:10px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:#c2410c;margin-bottom:8px">⚠ Pontos de Atenção</div>' +
-          attnListHtml + '</div>' +
-      '</div>' +
-      (reportText
-        ? '<div style="background:linear-gradient(135deg,#0c1f3f 0%,#1a3461 100%);border-radius:10px;padding:14px 18px">' +
-          '<div style="font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:6px">Diagnóstico Principal</div>' +
-          '<div style="font-size:12px;color:rgba(255,255,255,.85);line-height:1.6">' + esc(reportText) + '</div></div>'
-        : '') +
-    '</div>' +
-    pFoot(1,6) + '</div>';
+  // ── Page 1: Capa ──
+  const page1 = '<div class="page">'+
+    '<div style="height:2px;background:linear-gradient(90deg,#B08D57 0%,rgba(176,141,87,.15) 100%)"></div>'+
+    '<div style="padding:18px 44px 16px;border-bottom:1px solid #E5E1DA;display:flex;align-items:center;justify-content:space-between">'+
+      '<div style="display:flex;align-items:center;gap:12px">'+
+        '<div class="ph-mono">T</div>'+
+        '<div><div style="font-family:\'Cormorant Garamond\',serif;font-size:13px;font-weight:600;color:#0F2537;letter-spacing:.3px">Dr. Matheus Tadao Wakasugui</div>'+
+        '<div style="font-size:8px;color:#6F737A;letter-spacing:.7px;margin-top:1px">AVALIAÇÃO ORTODÔNTICA · PROTOCOLO TADAO</div></div></div>'+
+      '<div style="text-align:right"><div style="font-size:8.5px;color:#6F737A;letter-spacing:.5px">'+todayFull+'</div>'+
+      '<div style="font-size:8px;color:#E5E1DA;margin-top:2px;letter-spacing:.3px">Sessão '+e(session||'T0')+' · Avaliação</div></div></div>'+
+    '<div style="flex:1;display:flex;flex-direction:column;padding:36px 44px 0">'+
+      '<div style="display:grid;grid-template-columns:1fr 196px;gap:36px;flex:1;min-height:0">'+
+        '<div style="display:flex;flex-direction:column;justify-content:space-between">'+
+          '<div>'+
+            '<div style="font-size:7.5px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:#B08D57;margin-bottom:12px">Paciente</div>'+
+            '<div style="font-family:\'Cormorant Garamond\',serif;font-size:36px;font-weight:300;color:#0F2537;letter-spacing:-1px;line-height:1.05;margin-bottom:6px">'+e(patName)+'</div>'+
+            '<div style="height:1px;background:#B08D57;width:32px;margin:14px 0;opacity:.6"></div>'+
+            '<div style="display:flex;flex-direction:column;gap:11px">'+
+              (birthDate?'<div><div style="font-size:7.5px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:#6F737A;margin-bottom:2px">Data de Nascimento</div><div style="font-size:11px;font-weight:400;color:#0F2537">'+new Date(birthDate+'T12:00:00').toLocaleDateString('pt-BR')+ageStr+'</div></div>':'')+
+              '<div><div style="font-size:7.5px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:#6F737A;margin-bottom:2px">Protocolo de Análise</div><div style="font-family:\'Cormorant Garamond\',serif;font-size:13px;font-weight:500;color:#0F2537">Protocolo Tadao</div></div>'+
+              '<div><div style="font-size:7.5px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:#6F737A;margin-bottom:2px">Sessão</div><div style="font-size:11px;font-weight:400;color:#0F2537">'+e(session||'T0')+' · Avaliação Inicial</div></div>'+
+            '</div>'+
+          '</div>'+
+          '<div style="display:flex;gap:0;border:1px solid #E5E1DA;border-radius:2px;margin-top:22px;overflow:hidden">'+
+            '<div style="flex:1;padding:11px 12px;border-right:1px solid #E5E1DA;text-align:center">'+
+              '<div style="font-family:\'Cormorant Garamond\',serif;font-size:24px;font-weight:300;color:#0F2537">'+ANALYSES.length+'</div>'+
+              '<div style="font-size:7px;letter-spacing:.8px;text-transform:uppercase;color:#6F737A;margin-top:2px">Medições</div></div>'+
+            '<div style="flex:1;padding:11px 12px;border-right:1px solid #E5E1DA;text-align:center">'+
+              '<div style="font-family:\'Cormorant Garamond\',serif;font-size:24px;font-weight:300;color:#7A5A1A">'+attnItems.length+'</div>'+
+              '<div style="font-size:7px;letter-spacing:.8px;text-transform:uppercase;color:#6F737A;margin-top:2px">Atenção</div></div>'+
+            '<div style="flex:1;padding:11px 12px;border-right:1px solid #E5E1DA;text-align:center">'+
+              '<div style="font-family:\'Cormorant Garamond\',serif;font-size:24px;font-weight:300;color:#2A5C3A">'+normItems.length+'</div>'+
+              '<div style="font-size:7px;letter-spacing:.8px;text-transform:uppercase;color:#6F737A;margin-top:2px">Normais</div></div>'+
+            '<div style="flex:1;padding:11px 12px;text-align:center">'+
+              '<div style="font-family:\'Cormorant Garamond\',serif;font-size:14px;font-weight:400;color:'+(attnItems.length>3?'#7A2828':attnItems.length>0?'#7A5A1A':'#2A5C3A')+';margin-top:4px">'+complexity+'</div>'+
+              '<div style="font-size:7px;letter-spacing:.8px;text-transform:uppercase;color:#6F737A;margin-top:2px">Complexidade</div></div>'+
+          '</div>'+
+        '</div>'+
+        '<div style="display:flex;flex-direction:column;gap:12px">'+
+          '<div style="background:#0A0C10;border-radius:2px;flex:1;min-height:240px;overflow:hidden">'+
+            (frontalImg?'<img src="'+frontalImg+'" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;">':
+              '<div style="height:100%;min-height:240px;display:flex;align-items:center;justify-content:center"><span style="font-size:7px;color:rgba(255,255,255,.15);letter-spacing:2px;text-transform:uppercase">FOTO FRONTAL</span></div>')+
+          '</div>'+
+          '<div style="border:1px solid #E5E1DA;border-radius:2px;padding:12px 14px">'+
+            '<div style="font-size:7.5px;letter-spacing:1.5px;text-transform:uppercase;color:#6F737A;margin-bottom:4px">Ortodontista Responsável</div>'+
+            '<div style="font-family:\'Cormorant Garamond\',serif;font-size:12px;font-weight:500;color:#0F2537">Dr. Matheus Tadao Wakasugui</div>'+
+            '<div style="height:1px;background:#B08D57;width:22px;margin-top:7px;opacity:.5"></div>'+
+          '</div>'+
+        '</div>'+
+      '</div>'+
+      '<div style="margin-top:20px;padding:15px 20px;background:#0F2537;border-radius:2px">'+
+        '<div style="font-size:7.5px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:6px">Síntese Diagnóstica</div>'+
+        '<div style="font-family:\'Cormorant Garamond\',serif;font-size:12.5px;font-weight:300;color:rgba(255,255,255,.85);line-height:1.75;font-style:italic">"'+e(diagText)+'"</div>'+
+      '</div>'+
+      '<div style="height:24px"></div>'+
+    '</div>'+
+    pf(1)+'</div>';
 
   // ── Page 2: Frontal ──
-  const page2 = '<div style="' + PAGE + '">' +
-    '<div style="height:3px;background:linear-gradient(90deg,#d4a843 0%,#0e7490 60%,transparent 100%)"></div>' +
-    pStrip('Análise Frontal') +
-    '<div style="padding:24px 36px;flex:1;display:flex;flex-direction:column;gap:14px">' +
-      '<div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:6px">' +
-        '<div style="font-size:22px;line-height:1">👤</div>' +
-        '<div><div style="font-size:20px;font-weight:800;color:#0c1f3f;letter-spacing:-.4px">Análise Frontal</div>' +
-        '<div style="font-size:11px;color:#94a3b8;margin-top:2px">Simetria dos Terços Faciais · Proporção Vertical · Simetria Nasal</div></div>' +
-      '</div>' +
-      '<div style="display:grid;grid-template-columns:180px 1fr;gap:18px;flex:1">' +
-        '<div>' +
-          '<div style="background:#0f0f14;border-radius:10px;overflow:hidden;height:240px">' + photoEl(frontalImg,'FOTO FRONTAL',240) + '</div>' +
-          '<div style="font-size:10px;color:#94a3b8;text-align:center;padding-top:5px">Vista frontal · pontos anotados</div>' +
-        '</div>' +
-        '<div style="display:flex;flex-direction:column;gap:10px">' +
-          card('<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">' +
-            '<div><div style="font-size:9px;color:#94a3b8;font-weight:600;letter-spacing:.4px">P01.A01</div>' +
-            '<div style="font-size:12px;font-weight:600;color:#0f172a">Simetria Facial Vertical</div></div>' +
-            bdg('P01.A01', m['P01.A01']) + '</div>') +
-          card('<div style="font-size:9px;color:#94a3b8;font-weight:600;letter-spacing:.4px;margin-bottom:3px">P01.A03 · P01.A04 · P01.A05</div>' +
-            '<div style="font-size:12px;font-weight:600;color:#0f172a;margin-bottom:10px">Proporção dos Terços Faciais</div>' +
-            thirdsHtml) +
-          card('<div style="display:flex;align-items:center;justify-content:space-between">' +
-            '<div><div style="font-size:9px;color:#94a3b8;font-weight:600;letter-spacing:.4px">P01.A09</div>' +
-            '<div style="font-size:12px;font-weight:600;color:#0f172a">Simetria Nasal</div></div>' +
-            bdg('P01.A09', m['P01.A09']) + '</div>') +
-        '</div>' +
-      '</div>' +
-      synthBox('Síntese — Análise Frontal', allFindings()) +
-    '</div>' +
-    pFoot(2,6) + '</div>';
+  const page2 = '<div class="page">'+ph('Análise Frontal',2)+
+    '<div class="pb">'+
+      '<div><div class="sec-eyebrow">Avaliação Facial</div>'+
+        '<div class="sec-title">Análise Frontal</div>'+
+        '<div class="sec-sub">Simetria dos Terços Faciais · Proporção Vertical · Simetria Nasal</div></div>'+
+      '<div style="display:grid;grid-template-columns:150px 1fr;gap:18px;flex:1">'+
+        '<div>'+
+          '<div style="background:#0A0C10;border-radius:2px;overflow:hidden;height:220px">'+photoEl(frontalImg,'FRONTAL',220)+'</div>'+
+          '<div style="font-size:7.5px;color:#6F737A;text-align:center;margin-top:5px;letter-spacing:.3px">Vista frontal · pontos anatômicos</div>'+
+        '</div>'+
+        '<div style="display:flex;flex-direction:column;gap:10px">'+
+          '<div class="panel" style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">'+
+            '<div><div class="lbl">P01.A01 · Simetria Facial Vertical</div>'+
+            '<div style="font-family:\'Cormorant Garamond\',serif;font-size:16px;font-weight:400;color:#0F2537;margin-top:2px">'+e(blbl('P01.A01',m['P01.A01'])||'—')+'</div>'+
+            '<div class="caption">Proporção entre hemifácios.</div></div>'+
+            chip('P01.A01',m['P01.A01'])+'</div>'+
+          '<div class="panel"><div class="lbl" style="margin-bottom:10px">P01.A03 – A05 · Proporção dos Terços Faciais</div>'+thirdsHtml+'</div>'+
+          '<div class="panel" style="display:flex;align-items:center;justify-content:space-between">'+
+            '<div><div class="lbl">P01.A09 · Simetria Nasal</div>'+
+            '<div style="font-family:\'Cormorant Garamond\',serif;font-size:16px;font-weight:400;color:#0F2537;margin-top:2px">'+e(blbl('P01.A09',m['P01.A09'])||'—')+'</div></div>'+
+            chip('P01.A09',m['P01.A09'])+'</div>'+
+          '<div class="panel"><div class="lbl" style="margin-bottom:8px">Resumo · Medições vs. Referência</div>'+
+            '<table class="ref-table">'+
+              '<thead><tr><th>Parâmetro</th><th style="text-align:center">Paciente</th><th style="text-align:center">Referência</th><th style="text-align:right">Status</th></tr></thead>'+
+              '<tbody>'+
+                '<tr><td>Simetria Facial</td><td style="text-align:center;font-family:\'Cormorant Garamond\',serif;font-size:11px">'+e(blbl('P01.A01',m['P01.A01'])||'—')+'</td><td style="text-align:center;color:#6F737A">Simétrica</td><td style="text-align:right">'+chip('P01.A01',m['P01.A01'])+'</td></tr>'+
+                '<tr><td>Terço Superior</td><td style="text-align:center;font-family:\'Cormorant Garamond\',serif;font-size:11px">'+(t3!==null?t3.toFixed(1)+'%':'—')+'</td><td style="text-align:center;color:#6F737A">~33,3%</td><td style="text-align:right"><span class="chip '+(t3!==null&&t3>=28&&t3<=38?'cn':'ca')+'">'+(t3!==null&&t3>=28&&t3<=38?'Normal':'Verificar')+'</span></td></tr>'+
+                '<tr><td>Terço Médio</td><td style="text-align:center;font-family:\'Cormorant Garamond\',serif;font-size:11px">'+(t4!==null?t4.toFixed(1)+'%':'—')+'</td><td style="text-align:center;color:#6F737A">~33,3%</td><td style="text-align:right"><span class="chip '+(t4!==null&&t4>=28&&t4<=38?'cn':'ca')+'">'+(t4!==null&&t4>=28&&t4<=38?'Normal':'Verificar')+'</span></td></tr>'+
+                '<tr><td>Terço Inferior</td><td style="text-align:center;font-family:\'Cormorant Garamond\',serif;font-size:11px;color:'+(t5!==null&&t5>35?'#7A5A1A':'#0F2537')+'">'+(t5!==null?t5.toFixed(1)+'%':'—')+'</td><td style="text-align:center;color:#6F737A">~33,3%</td><td style="text-align:right"><span class="chip '+(t5!==null&&t5>35?'ca':'cn')+'">'+(t5!==null&&t5>35?'Atenção':'Normal')+'</span></td></tr>'+
+                '<tr><td>Simetria Nasal</td><td style="text-align:center;font-family:\'Cormorant Garamond\',serif;font-size:11px">'+e(blbl('P01.A09',m['P01.A09'])||'—')+'</td><td style="text-align:center;color:#6F737A">Normal</td><td style="text-align:right">'+chip('P01.A09',m['P01.A09'])+'</td></tr>'+
+              '</tbody></table></div>'+
+        '</div>'+
+      '</div>'+
+      insight('Interpretação Clínica · Análise Frontal',
+        (t5!==null&&t5>35?'O terço inferior aumentado ('+t5.toFixed(1)+'%) indica padrão de crescimento vertical hiperdivergente, frequentemente associado a mordida aberta esquelética ou Classe II com rotação horária da mandíbula. ':'')+
+        'A avaliação frontal fornece dados fundamentais sobre a harmonia vertical e a simetria facial, orientando as decisões de ancoragem e mecânica do tratamento.')+
+    '</div>'+pf(2)+'</div>';
 
   // ── Page 3: Sorriso ──
-  const page3 = '<div style="' + PAGE + '">' +
-    '<div style="height:3px;background:linear-gradient(90deg,#d4a843 0%,#0e7490 60%,transparent 100%)"></div>' +
-    pStrip('Análise do Sorriso') +
-    '<div style="padding:24px 36px;flex:1;display:flex;flex-direction:column;gap:14px">' +
-      '<div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:6px">' +
-        '<div style="font-size:22px;line-height:1">😁</div>' +
-        '<div><div style="font-size:20px;font-weight:800;color:#0c1f3f;letter-spacing:-.4px">Análise do Sorriso</div>' +
-        '<div style="font-size:11px;color:#94a3b8;margin-top:2px">Linha Média · Exposição Dentária e Gengival · Razão Labial · Competência</div></div>' +
-      '</div>' +
-      '<div style="display:grid;grid-template-columns:180px 1fr;gap:18px">' +
-        '<div>' +
-          '<div style="background:#0f0f14;border-radius:10px;overflow:hidden;height:240px">' + photoEl(sorrisoImg,'FOTO SORRISO',240) + '</div>' +
-          '<div style="font-size:10px;color:#94a3b8;text-align:center;padding-top:5px">Vista frontal sorrindo</div>' +
-        '</div>' +
-        '<div style="display:flex;flex-direction:column;gap:10px">' +
-          card('<div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px">' +
-            '<div><div style="font-size:9px;color:#94a3b8;font-weight:600;letter-spacing:.4px">P01.A02</div>' +
-            '<div style="font-size:12px;font-weight:600;color:#0f172a">Desvio Linha Média</div></div></div>' +
-            midlineHtml) +
-          '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">' +
-            card('<div style="font-size:9px;color:#94a3b8;font-weight:600;letter-spacing:.4px">P01.A12</div>' +
-              '<div style="font-size:12px;font-weight:600;color:#0f172a;margin-bottom:6px">Exposição Dentária</div>' +
-              dentalExpHtml) +
-            card('<div style="font-size:9px;color:#94a3b8;font-weight:600;letter-spacing:.4px">Avaliação Clínica</div>' +
-              '<div style="font-size:12px;font-weight:600;color:#0f172a;margin-bottom:6px">Exposição Gengival</div>' +
-              '<div style="font-size:9px;color:#94a3b8">Avaliar clinicamente em repouso e sorriso forçado. Normal: &lt; 2 mm</div>') +
-          '</div>' +
-          '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">' +
-            card('<div style="font-size:9px;color:#94a3b8;font-weight:600;letter-spacing:.4px">P01.A10</div>' +
-              '<div style="font-size:12px;font-weight:600;color:#0f172a;margin-bottom:6px">Razão Labial Sup/Inf</div>' +
-              lipRatioHtml) +
-            card('<div style="font-size:9px;color:#94a3b8;font-weight:600;letter-spacing:.4px">P01.A11</div>' +
-              '<div style="font-size:12px;font-weight:600;color:#0f172a;margin-bottom:6px">Competência Labial</div>' +
-              bdg('P01.A11', m['P01.A11'])) +
-          '</div>' +
-        '</div>' +
-      '</div>' +
-      synthBox('Síntese — Análise do Sorriso', allFindings()) +
-    '</div>' +
-    pFoot(3,6) + '</div>';
+  const midCol = (midline!==null&&Math.abs(midline)>2)?'#7A5A1A':'#0F2537';
+  const midCls = (midline!==null&&Math.abs(midline)>2)?'ca':'cn';
+  const page3 = '<div class="page">'+ph('Análise do Sorriso',3)+
+    '<div class="pb">'+
+      '<div><div class="sec-eyebrow">Avaliação do Sorriso</div>'+
+        '<div class="sec-title">Linha Média · Exposição · Proporção Labial</div>'+
+        '<div class="sec-sub">Desvio de Linha Média Dental · Exposição Dentária · Razão Labial · Competência Labial</div></div>'+
+      '<div style="display:grid;grid-template-columns:150px 1fr;gap:18px;flex:1">'+
+        '<div>'+
+          '<div style="background:#0A0C10;border-radius:2px;overflow:hidden;height:220px">'+photoEl(sorrisoImg,'SORRISO',220)+'</div>'+
+          '<div style="font-size:7.5px;color:#6F737A;text-align:center;margin-top:5px;letter-spacing:.3px">Vista frontal sorrindo</div>'+
+        '</div>'+
+        '<div style="display:flex;flex-direction:column;gap:10px">'+
+          '<div class="panel"><div class="lbl" style="margin-bottom:8px">P01.A02 · Desvio de Linha Média</div>'+
+            (midline!==null
+              ?'<div style="display:flex;align-items:baseline;gap:5px;margin-bottom:2px">'+
+                '<span style="font-family:\'Cormorant Garamond\',serif;font-size:30px;font-weight:300;color:'+midCol+'">'+(midline>0?'+':'')+midline.toFixed(1)+'</span>'+
+                '<span style="font-size:10px;color:#6F737A">mm</span>'+
+                '<span class="chip '+midCls+'" style="margin-left:8px">'+(Math.abs(midline)<=2?'Dentro do limite':'Atenção')+'</span></div>'+
+                rbar(midline,-10,10,-2,2,' mm')+
+                '<div style="font-family:\'Cormorant Garamond\',serif;font-size:10px;color:#6F737A;font-style:italic;text-align:center;margin-top:5px">Paciente: '+(midline>0?'+':'')+midline.toFixed(1)+' mm à '+(midline>0?'direita':'esquerda')+'</div>'
+              :'<div style="font-size:9px;color:#6F737A;font-style:italic">Marque Tr, Me, U1 na foto de sorriso para calcular.</div>')+
+          '</div>'+
+          '<div class="g2">'+
+            '<div class="panel"><div class="lbl" style="margin-bottom:6px">P01.A12 · Exposição Dentária</div>'+
+              (dentalExp!==null
+                ?'<div style="display:flex;align-items:baseline;gap:4px">'+
+                  '<span style="font-family:\'Cormorant Garamond\',serif;font-size:22px;font-weight:300;color:#0F2537">'+dentalExp.toFixed(1)+'</span>'+
+                  '<span style="font-size:9px;color:#6F737A">mm</span></div>'+
+                  rbar(dentalExp,0,10,2,4,' mm')+
+                  '<span class="chip '+(dentalExp>=2&&dentalExp<=4?'cn':'ca')+'" style="margin-top:4px">'+(dentalExp>=2&&dentalExp<=4?'Normal':'Verificar')+'</span>'
+                :'<div style="font-size:9px;color:#6F737A;font-style:italic">Não calculado</div>')+
+            '</div>'+
+            '<div class="panel"><div class="lbl" style="margin-bottom:6px">P01.A10 · Razão Labial Sup/Inf</div>'+
+              (lipRatio!==null
+                ?'<div style="display:flex;align-items:baseline;gap:4px">'+
+                  '<span style="font-family:\'Cormorant Garamond\',serif;font-size:22px;font-weight:300;color:#0F2537">'+lipRatio.toFixed(2)+'</span></div>'+
+                  '<div class="caption">Ideal: 0,45 – 0,55</div>'+
+                  '<span class="chip '+(lipRatio>=0.4&&lipRatio<=0.6?'cn':'ca')+'" style="margin-top:5px">'+(lipRatio>=0.4&&lipRatio<=0.6?'Equilibrada':'Verificar')+'</span>'
+                :'<div style="font-size:9px;color:#6F737A;font-style:italic">Não calculado</div>')+
+            '</div>'+
+          '</div>'+
+          '<div class="panel" style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">'+
+            '<div><div class="lbl">P01.A11 · Competência Labial</div>'+
+            '<div style="font-family:\'Cormorant Garamond\',serif;font-size:15px;font-weight:400;color:#0F2537;margin-top:2px">'+e(blbl('P01.A11',m['P01.A11'])||'—')+'</div>'+
+            '<div class="caption">Selamento labial em repouso.</div></div>'+
+            chip('P01.A11',m['P01.A11'])+'</div>'+
+        '</div>'+
+      '</div>'+
+      insight('Interpretação Clínica · Análise do Sorriso',
+        (midline!==null?'O desvio de linha média de '+(midline>0?'+':'')+midline.toFixed(1)+' mm '+(Math.abs(midline)<=2?'situa-se dentro dos limites de aceitabilidade clínica':'supera o limite aceitável, devendo ser investigada a origem dental ou esquelética')+'. ':'')+
+        'A exposição dentária e labial, a razão Sup/Inf e a competência labial são parâmetros fundamentais para o planejamento estético e funcional do caso.')+
+    '</div>'+pf(3)+'</div>';
 
   // ── Page 4: Perfil ──
-  const page4 = '<div style="' + PAGE + '">' +
-    '<div style="height:3px;background:linear-gradient(90deg,#d4a843 0%,#0e7490 60%,transparent 100%)"></div>' +
-    pStrip('Análise de Perfil') +
-    '<div style="padding:24px 36px;flex:1;display:flex;flex-direction:column;gap:14px">' +
-      '<div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:6px">' +
-        '<div style="font-size:22px;line-height:1">📐</div>' +
-        '<div><div style="font-size:20px;font-weight:800;color:#0c1f3f;letter-spacing:-.4px">Análise de Perfil</div>' +
-        '<div style="font-size:11px;color:#94a3b8;margin-top:2px">Convexidade Facial · Ângulo Nasolabial · Projeção do Mento</div></div>' +
-      '</div>' +
-      '<div style="display:grid;grid-template-columns:180px 1fr;gap:18px">' +
-        '<div>' +
-          '<div style="background:#0f0f14;border-radius:10px;overflow:hidden;height:280px">' + photoEl(perfilImg,'FOTO PERFIL',280) + '</div>' +
-          '<div style="font-size:10px;color:#94a3b8;text-align:center;padding-top:5px">Vista lateral · pontos anotados</div>' +
-        '</div>' +
-        '<div style="display:flex;flex-direction:column;gap:10px">' +
-          card('<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">' +
-            '<div><div style="font-size:9px;color:#94a3b8;font-weight:600;letter-spacing:.4px">P01.A06</div>' +
-            '<div style="font-size:12px;font-weight:600;color:#0f172a">Perfil Facial</div></div>' +
-            bdg('P01.A06', m['P01.A06']) + '</div>' +
-            '<div style="font-size:11px;color:#94a3b8;line-height:1.5">Avaliação da convexidade ântero-posterior da face.</div>') +
-          card('<div style="font-size:9px;color:#94a3b8;font-weight:600;letter-spacing:.4px">P01.A07</div>' +
-            '<div style="font-size:12px;font-weight:600;color:#0f172a;margin-bottom:8px">Ângulo Nasolabial</div>' +
-            nasoAngleHtml) +
-          card('<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">' +
-            '<div><div style="font-size:9px;color:#94a3b8;font-weight:600;letter-spacing:.4px">P01.A08</div>' +
-            '<div style="font-size:12px;font-weight:600;color:#0f172a">Projeção do Mento</div></div>' +
-            bdg('P01.A08', m['P01.A08']) + '</div>') +
-        '</div>' +
-      '</div>' +
-      synthBox('Síntese — Análise de Perfil', allFindings()) +
-    '</div>' +
-    pFoot(4,6) + '</div>';
+  const page4 = '<div class="page">'+ph('Análise de Perfil',4)+
+    '<div class="pb">'+
+      '<div><div class="sec-eyebrow">Avaliação Lateral</div>'+
+        '<div class="sec-title">Análise de Perfil</div>'+
+        '<div class="sec-sub">Convexidade Facial · Ângulo Nasolabial · Projeção do Mento</div></div>'+
+      '<div style="display:grid;grid-template-columns:150px 1fr;gap:18px;flex:1">'+
+        '<div>'+
+          '<div style="background:#0A0C10;border-radius:2px;overflow:hidden;height:260px">'+photoEl(perfilImg,'PERFIL',260)+'</div>'+
+          '<div style="font-size:7.5px;color:#6F737A;text-align:center;margin-top:5px;letter-spacing:.3px">Perfil lateral</div>'+
+        '</div>'+
+        '<div style="display:flex;flex-direction:column;gap:10px">'+
+          '<div class="panel" style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">'+
+            '<div><div class="lbl">P01.A06 · Perfil Facial</div>'+
+            '<div style="font-family:\'Cormorant Garamond\',serif;font-size:19px;font-weight:400;color:'+(m['P01.A06']==='STRAIGHT'?'#2A5C3A':m['P01.A06']?'#7A5A1A':'#0F2537')+';margin-top:2px">'+e(blbl('P01.A06',m['P01.A06'])||'—')+'</div>'+
+            '<div class="caption">Discrepância ântero-posterior facial.</div></div>'+
+            chip('P01.A06',m['P01.A06'])+'</div>'+
+          '<div class="panel"><div class="lbl" style="margin-bottom:8px">P01.A07 · Ângulo Nasolabial</div>'+
+            (nasoAngle!==null
+              ?'<div style="display:flex;align-items:baseline;gap:5px;margin-bottom:2px">'+
+                '<span style="font-family:\'Cormorant Garamond\',serif;font-size:30px;font-weight:300;color:#0F2537">'+nasoAngle.toFixed(0)+'</span>'+
+                '<span style="font-size:10px;color:#6F737A">graus</span>'+
+                '<span class="chip '+(nasoAngle>=90&&nasoAngle<=110?'cn':'ca')+'" style="margin-left:8px">'+(nasoAngle>=90&&nasoAngle<=110?'Normal':'Verificar')+'</span></div>'+
+                rbar(nasoAngle,70,145,90,110,'°')+
+                '<div style="font-family:\'Cormorant Garamond\',serif;font-size:10px;color:#6F737A;font-style:italic;text-align:center;margin-top:5px">Paciente: '+nasoAngle.toFixed(0)+'° — '+(nasoAngle>=90&&nasoAngle<=110?'dentro da faixa de normalidade':'fora da faixa de normalidade')+'</div>'
+              :'<div style="font-size:9px;color:#6F737A;font-style:italic">Marque Prn, Sn, Ls na foto de perfil para calcular.</div>')+
+          '</div>'+
+          '<div class="panel" style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">'+
+            '<div><div class="lbl">P01.A08 · Projeção do Mento</div>'+
+            '<div style="font-family:\'Cormorant Garamond\',serif;font-size:19px;font-weight:400;color:'+(m['P01.A08']==='NORMAL'?'#0F2537':'#7A5A1A')+';margin-top:2px">'+e(blbl('P01.A08',m['P01.A08'])||'—')+'</div>'+
+            '<div class="caption">Posicionamento ântero-posterior do mento.</div></div>'+
+            chip('P01.A08',m['P01.A08'])+'</div>'+
+          '<div class="panel"><div class="lbl" style="margin-bottom:7px">Referência · Perfis Faciais</div>'+
+            '<div style="display:flex;gap:0;font-size:8px;text-align:center">'+
+              '<div style="flex:1;padding:7px;border-right:1px solid #EDEAE6">'+
+                '<div style="font-family:\'Cormorant Garamond\',serif;font-size:11px;color:#6F737A;margin-bottom:2px;font-style:italic">Côncavo</div>'+
+                '<div style="font-size:7px;color:#E5E1DA">Classe III</div></div>'+
+              '<div style="flex:1;padding:7px;border-right:1px solid #EDEAE6;background:#EEF4F0">'+
+                '<div style="font-family:\'Cormorant Garamond\',serif;font-size:11px;color:#2A5C3A;margin-bottom:2px;font-style:italic">Reto</div>'+
+                '<div style="font-size:7px;color:#2A5C3A">Ideal</div></div>'+
+              '<div style="flex:1;padding:7px;background:'+(m['P01.A06']==='CONVEX'?'#F8F3E8':'#FCFBF9')+'">'+
+                '<div style="font-family:\'Cormorant Garamond\',serif;font-size:11px;color:'+(m['P01.A06']==='CONVEX'?'#7A5A1A':'#6F737A')+';margin-bottom:2px;font-style:italic">Convexo'+(m['P01.A06']==='CONVEX'?' ←':'')+'</div>'+
+                '<div style="font-size:7px;color:'+(m['P01.A06']==='CONVEX'?'#7A5A1A':'#E5E1DA')+'">'+(m['P01.A06']==='CONVEX'?'Paciente':'Classe II')+'</div></div>'+
+            '</div></div>'+
+        '</div>'+
+      '</div>'+
+      insight('Interpretação Clínica · Análise de Perfil',
+        (m['P01.A06']&&m['P01.A06']!=='STRAIGHT'?'O perfil '+blbl('P01.A06',m['P01.A06']).toLowerCase()+' indica discrepância ântero-posterior que deve ser correlacionada com os dados cefalométricos. ':'')+
+        (m['P01.A08']&&m['P01.A08']!=='NORMAL'?'O mento '+blbl('P01.A08',m['P01.A08']).toLowerCase()+' é relevante para o planejamento de eventual genioplastia. ':'')+
+        (nasoAngle!==null?'O ângulo nasolabial de '+nasoAngle.toFixed(0)+'° '+(nasoAngle>=90&&nasoAngle<=110?'está dentro dos limites normais':'sugere avaliar componente nasal')+'. ':'')+
+        'A análise de perfil orienta a decisão sobre extrações e mecânica de ancoragem.')+
+    '</div>'+pf(4)+'</div>';
 
   // ── Page 5: Intrabucal ──
-  const page5 = '<div style="' + PAGE + '">' +
-    '<div style="height:3px;background:linear-gradient(90deg,#d4a843 0%,#0e7490 60%,transparent 100%)"></div>' +
-    pStrip('Intrabucal · Documentação') +
-    '<div style="padding:24px 36px;flex:1;display:flex;flex-direction:column;gap:14px">' +
-      '<div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:6px">' +
-        '<div style="font-size:22px;line-height:1">🦷</div>' +
-        '<div><div style="font-size:20px;font-weight:800;color:#0c1f3f;letter-spacing:-.4px">Análise Intrabucal</div>' +
-        '<div style="font-size:11px;color:#94a3b8;margin-top:2px">Linhas Médias Superior e Inferior · Documentação Fotográfica</div></div>' +
-      '</div>' +
-      // 3-photo grid
-      '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px">' +
-        '<div><div style="background:#0f0f14;border-radius:10px;overflow:hidden;height:160px">' + photoEl(frontalImg,'FRONTAL',160) + '</div>' +
-        '<div style="font-size:10px;color:#94a3b8;text-align:center;padding-top:5px">Foto frontal de rosto</div></div>' +
-        '<div><div style="background:#0f0f14;border-radius:10px;overflow:hidden;height:160px">' + photoEl(sorrisoImg,'SORRISO',160) + '</div>' +
-        '<div style="font-size:10px;color:#94a3b8;text-align:center;padding-top:5px">Foto de sorriso</div></div>' +
-        '<div><div style="background:#0f0f14;border-radius:10px;overflow:hidden;height:160px">' + photoEl(intrabucalImg,'INTRABUCAL',160) + '</div>' +
-        '<div style="font-size:10px;color:#94a3b8;text-align:center;padding-top:5px">Foto intrabucal de frente</div></div>' +
-      '</div>' +
-      // Midline cards
-      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">' +
-        card('<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">' +
-          '<div style="width:10px;height:10px;border-radius:50%;background:#e3a008;flex-shrink:0"></div>' +
-          '<div><div style="font-size:9px;color:#94a3b8;font-weight:600;letter-spacing:.4px">Linha Média Superior · U1s</div>' +
-          '<div style="font-size:12px;font-weight:600;color:#0f172a">Entre Incisivos Sup.</div></div></div>' +
-          '<div style="font-size:11px;color:#94a3b8;line-height:1.5">Marcada entre os incisivos centrais superiores. Referência para diagnóstico diferencial dental vs. esquelético.</div>') +
-        card('<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">' +
-          '<div style="width:10px;height:10px;border-radius:50%;background:#0e7490;flex-shrink:0"></div>' +
-          '<div><div style="font-size:9px;color:#94a3b8;font-weight:600;letter-spacing:.4px">Linha Média Inferior · L1i</div>' +
-          '<div style="font-size:12px;font-weight:600;color:#0f172a">Entre Incisivos Inf.</div></div></div>' +
-          '<div style="font-size:11px;color:#94a3b8;line-height:1.5">Avaliação da coincidência entre linhas médias superior e inferior.</div>') +
-      '</div>' +
-      // Deviation summary
-      '<div style="background:linear-gradient(135deg,#f8fafc 0%,#f0f4ff 100%);border:1px solid #dde5f5;border-radius:10px;padding:14px 18px;display:flex;gap:24px;align-items:center">' +
-        '<div style="text-align:center;flex-shrink:0">' +
-          '<div style="font-size:32px;font-weight:900;color:' + (midline !== null && Math.abs(midline) > 2 ? '#c2410c' : '#0c1f3f') + ';font-variant-numeric:tabular-nums">' +
-          (midline !== null ? (midline>0?'+':'') + midline.toFixed(1) + '<span style="font-size:16px;font-weight:600;color:#475569"> mm</span>' : '—') + '</div>' +
-          '<div style="font-size:9px;text-transform:uppercase;letter-spacing:.6px;color:#94a3b8;margin-top:2px">Desvio Linha Média</div>' +
-        '</div>' +
-        '<div style="width:1px;height:40px;background:#e2e8f0;flex-shrink:0"></div>' +
-        '<div><div style="font-size:12px;font-weight:700;color:#0f172a;margin-bottom:4px">Interpretação Clínica</div>' +
-        '<div style="font-size:11px;color:#475569;line-height:1.55">Avaliar origem dental vs. esquelética para definição do protocolo mecânico.</div></div>' +
-      '</div>' +
-    '</div>' +
-    pFoot(5,6) + '</div>';
+  const page5 = '<div class="page">'+ph('Análise Intrabucal',5)+
+    '<div class="pb">'+
+      '<div><div class="sec-eyebrow">Documentação Intrabucal</div>'+
+        '<div class="sec-title">Análise Intrabucal</div>'+
+        '<div class="sec-sub">Linhas Médias Superior e Inferior · Documentação Fotográfica</div></div>'+
+      '<div class="g3">'+
+        '<div>'+
+          '<div style="background:#0A0C10;border-radius:2px;overflow:hidden;height:132px">'+photoEl(frontalImg,'FRONTAL',132)+'</div>'+
+          '<div style="font-size:7.5px;color:#6F737A;text-align:center;margin-top:4px;letter-spacing:.3px">Foto frontal de rosto</div>'+
+        '</div>'+
+        '<div>'+
+          '<div style="background:#0A0C10;border-radius:2px;overflow:hidden;height:132px">'+photoEl(sorrisoImg,'SORRISO',132)+'</div>'+
+          '<div style="font-size:7.5px;color:#6F737A;text-align:center;margin-top:4px;letter-spacing:.3px">Foto de sorriso</div>'+
+        '</div>'+
+        '<div>'+
+          '<div style="background:#0A0C10;border-radius:2px;overflow:hidden;height:132px">'+photoEl(intrabucalImg,'INTRABUCAL',132)+'</div>'+
+          '<div style="font-size:7.5px;color:#6F737A;text-align:center;margin-top:4px;letter-spacing:.3px">Foto intrabucal frontal</div>'+
+        '</div>'+
+      '</div>'+
+      '<div class="g2">'+
+        '<div class="panel">'+
+          '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">'+
+            '<div style="width:5px;height:5px;border-radius:50%;background:#B08D57;flex-shrink:0"></div>'+
+            '<div class="lbl">Linha Média Superior · U1s</div></div>'+
+          '<div style="font-family:\'Cormorant Garamond\',serif;font-size:13px;font-weight:400;color:#0F2537;margin-bottom:3px">Entre Incisivos Centrais Superiores</div>'+
+          '<div class="caption">Referência para diagnóstico diferencial entre desvio dental e esquelético. Correlacionar com a linha média facial (Tr–Me).</div>'+
+        '</div>'+
+        '<div class="panel">'+
+          '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">'+
+            '<div style="width:5px;height:5px;border-radius:50%;background:#2B2F36;flex-shrink:0"></div>'+
+            '<div class="lbl">Linha Média Inferior · L1i</div></div>'+
+          '<div style="font-family:\'Cormorant Garamond\',serif;font-size:13px;font-weight:400;color:#0F2537;margin-bottom:3px">Entre Incisivos Centrais Inferiores</div>'+
+          '<div class="caption">Discordância entre linhas médias indica componente dental passível de correção com mecânica assimétrica.</div>'+
+        '</div>'+
+      '</div>'+
+      '<div style="border:1px solid #E5E1DA;border-radius:2px;padding:14px 18px;display:flex;gap:22px;align-items:center">'+
+        '<div style="text-align:center;flex-shrink:0;min-width:68px">'+
+          '<div style="font-family:\'Cormorant Garamond\',serif;font-size:30px;font-weight:300;color:'+(midline!==null&&Math.abs(midline)>2?'#7A5A1A':'#0F2537')+'">'+
+          (midline!==null?(midline>0?'+':'')+midline.toFixed(1):'—')+'</div>'+
+          '<div style="font-size:7px;letter-spacing:1px;text-transform:uppercase;color:#6F737A;margin-top:2px">mm · Desvio</div></div>'+
+        '<div style="width:1px;height:38px;background:#EDEAE6;flex-shrink:0"></div>'+
+        '<div><div style="font-family:\'Cormorant Garamond\',serif;font-size:12px;font-weight:500;color:#0F2537;margin-bottom:3px">Interpretação Clínica</div>'+
+        '<div style="font-size:9px;color:#6F737A;line-height:1.65">'+
+          (midline!==null&&Math.abs(midline)<=2
+            ?'Desvio dentro dos limites aceitáveis. Investigar correlação com a linha média facial.'
+            :midline!==null
+            ?'Desvio de '+Math.abs(midline).toFixed(1)+' mm. Avaliar origem dental vs. esquelética para definição do protocolo mecânico.'
+            :'Avaliar origem dental vs. esquelética para definição do protocolo mecânico.')+
+        '</div></div>'+
+        (midline!==null?'<span class="chip '+(Math.abs(midline)<=2?'cn':'ca')+'" style="flex-shrink:0;align-self:flex-start">'+(Math.abs(midline)<=2?'Dental · Aceito':'Verificar')+'</span>':'')+
+      '</div>'+
+      insight('Interpretação Clínica · Análise Intrabucal',
+        'A documentação intrabucal é essencial para distinguir a origem do desvio de linha média identificado na análise extrabucal. Desvios de origem dental respondem bem à mecânica ortodôntica assimétrica, enquanto desvios esqueléticos podem requerer cirurgia ortognática. A correlação com a cefalometria posteroanterior complementa o diagnóstico diferencial.')+
+    '</div>'+pf(5)+'</div>';
 
-  // ── Page 6: Tratamento ──
-  const tlHtml = treatmentNotes
-    ? '<div style="font-size:13px;color:#475569;line-height:1.8;white-space:pre-wrap">' + esc(treatmentNotes) + '</div>'
-    : '<div style="display:flex;flex-direction:column;gap:0">' +
-      [['Fase 1','Documentação Complementar','Telerradiografia lateral, tomografia e modelos digitais para avaliação esquelética.','1 – 2 semanas'],
-       ['Fase 2','Tratamento Ortodôntico Ativo','Alinhamento e nivelamento com mecânica adequada. Controle do padrão vertical e correção de linha média.','18 – 24 meses'],
-       ['Fase 3','Contenção e Acompanhamento','Contenção fixa + removível. Reavaliação facial e oclusal. Avaliação de genioplastia se indicada.','12 meses +']].map((ph, i, arr) =>
-        '<div style="display:flex;gap:14px;padding:10px 0">' +
-          '<div style="display:flex;flex-direction:column;align-items:center">' +
-            '<div style="width:10px;height:10px;border-radius:50%;border:2px solid #0e7490;background:' + (i===0?'#0e7490':'#fff') + ';flex-shrink:0;margin-top:3px"></div>' +
-            (i < arr.length-1 ? '<div style="flex:1;width:1px;background:#e2e8f0;margin:3px auto"></div>' : '') +
-          '</div>' +
-          '<div style="flex:1;padding-bottom:8px">' +
-            '<div style="font-size:10px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:#0e7490;margin-bottom:2px">' + ph[0] + '</div>' +
-            '<div style="font-size:13px;font-weight:700;color:#0f172a">' + ph[1] + '</div>' +
-            '<div style="font-size:11px;color:#475569;margin-top:2px;line-height:1.5">' + ph[2] + '</div>' +
-            '<div style="font-size:10px;color:#94a3b8;margin-top:4px">⏱ ' + ph[3] + '</div>' +
-          '</div>' +
-        '</div>').join('') + '</div>';
+  // ── Page 6: Plano de Tratamento ──
+  const hasTN = treatmentNotes && treatmentNotes.trim();
+  const tlHtml = hasTN
+    ? '<div style="font-size:9.5px;color:#2B2F36;line-height:1.8;white-space:pre-wrap">'+e(treatmentNotes)+'</div>'
+    : [['Fase 01','Documentação Complementar','Telerradiografia lateral, tomografia computadorizada e modelos digitais. Avaliação esquelética completa e planejamento digital integrado.','1 – 2 semanas'],
+       ['Fase 02','Tratamento Ortodôntico Ativo','Alinhamento e nivelamento com mecânica assimétrica para correção de linha média. Controle do padrão vertical com ancoragem adequada ao diagnóstico esquelético.','18 – 24 meses'],
+       ['Fase 03','Contenção e Acompanhamento','Contenção fixa e removível. Reavaliação facial, oclusal e fotográfica.','12 meses +']].map((p2,i,arr)=>
+      '<div class="tl-item" style="'+(i<arr.length-1?'padding-bottom:12px':'')+'">'+
+        '<div style="display:flex;flex-direction:column;align-items:center">'+
+          '<div class="tl-dot'+(i===0?' tl-dot-f':'')+'"></div>'+
+          (i<arr.length-1?'<div class="tl-con" style="height:36px"></div>':'')+
+        '</div>'+
+        '<div style="flex:1">'+
+          '<div class="tl-phase">'+p2[0]+'</div>'+
+          '<div class="tl-title">'+p2[1]+'</div>'+
+          '<div class="tl-desc">'+p2[2]+'</div>'+
+          '<div class="tl-dur">'+p2[3]+'</div>'+
+        '</div>'+
+      '</div>').join('');
 
-  const page6 = '<div style="' + PAGE.replace('page-break-after:always','') + '">' +
-    '<div style="height:3px;background:linear-gradient(90deg,#d4a843 0%,#0e7490 60%,transparent 100%)"></div>' +
-    pStrip('Plano de Tratamento') +
-    '<div style="padding:24px 36px;flex:1;display:flex;flex-direction:column;gap:14px">' +
-      '<div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:6px">' +
-        '<div style="font-size:22px;line-height:1">📋</div>' +
-        '<div><div style="font-size:20px;font-weight:800;color:#0c1f3f;letter-spacing:-.4px">Plano de Tratamento</div>' +
-        '<div style="font-size:11px;color:#94a3b8;margin-top:2px">Diagnóstico Consolidado · Opções Terapêuticas · Cronograma</div></div>' +
-      '</div>' +
-      // Diagnosis box
-      '<div style="background:linear-gradient(135deg,#0c1f3f 0%,#1a3461 100%);border-radius:10px;padding:16px 20px">' +
-        '<div style="font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:8px">Diagnóstico Consolidado</div>' +
-        (reportText
-          ? '<div style="font-size:13px;color:rgba(255,255,255,.85);line-height:1.65">' + esc(reportText) + '</div>'
-          : '<div style="font-size:13px;color:rgba(255,255,255,.5);font-style:italic">Diagnóstico não gerado. Execute o pipeline de análise.</div>') +
-      '</div>' +
-      // Findings summary
-      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">' +
-        card('<div style="font-size:10px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:#14532d;margin-bottom:10px">✓ Pontos Fortes</div>' +
-          (favItems.length ? favItems.map(f => '<div style="display:flex;gap:8px;padding:6px 8px;border:1px solid #e2e8f0;border-radius:6px;margin-bottom:4px;font-size:11px;color:#475569"><span style="width:6px;height:6px;border-radius:50%;background:#22c55e;flex-shrink:0;margin-top:3px"></span>' + esc(f.text) + '</div>').join('') : '<div style="font-size:11px;color:#94a3b8">—</div>')) +
-        card('<div style="font-size:10px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:#c2410c;margin-bottom:10px">⚠ Pontos de Atenção</div>' +
-          (attnItems.length ? attnItems.map(f => '<div style="display:flex;gap:8px;padding:6px 8px;border:1px solid #e2e8f0;border-radius:6px;margin-bottom:4px;font-size:11px;color:#475569"><span style="width:6px;height:6px;border-radius:50%;background:' + (dotMap[f.severity]||'#9ca3af') + ';flex-shrink:0;margin-top:3px"></span>' + esc(f.text) + '</div>').join('') : '<div style="font-size:11px;color:#94a3b8">—</div>')) +
-      '</div>' +
-      // Timeline
-      card('<div style="font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:#94a3b8;margin-bottom:14px">Cronograma Estimado de Tratamento</div>' + tlHtml) +
-      // Signature
-      '<div style="margin-top:auto;display:flex;align-items:flex-end;justify-content:space-between;padding-top:8px">' +
-        '<div style="flex:1;max-width:220px"><div style="border-bottom:1px solid #cbd5e1;height:44px"></div>' +
-        '<div style="font-size:9px;color:#94a3b8;margin-top:5px;text-align:center">Assinatura do Profissional</div></div>' +
-        '<div style="text-align:right">' +
-          '<div style="font-size:14px;font-weight:800;color:#0c1f3f">' + esc(FIXED_ORTH_NAME) + '</div>' +
-          '<div style="font-size:10px;color:#94a3b8;margin-top:2px">Avaliação Ortodôntica · Protocolo Tadao · ' + today + '</div>' +
-        '</div>' +
-      '</div>' +
-    '</div>' +
-    pFoot(6,6) + '</div>';
+  const page6 = '<div class="page" style="page-break-after:auto">'+ph('Plano de Tratamento',6)+
+    '<div class="pb">'+
+      '<div><div class="sec-eyebrow">Conclusão e Conduta</div>'+
+        '<div class="sec-title">Plano de Tratamento</div>'+
+        '<div class="sec-sub">Diagnóstico Consolidado · Objetivos Terapêuticos · Cronograma · Compromisso Clínico</div></div>'+
+      '<div style="background:#0F2537;border-radius:2px;padding:15px 20px">'+
+        '<div style="font-size:7.5px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:7px">Diagnóstico Consolidado</div>'+
+        '<div style="font-family:\'Cormorant Garamond\',serif;font-size:12.5px;font-weight:300;color:rgba(255,255,255,.85);line-height:1.8;font-style:italic">"'+e(diagText)+'"</div>'+
+      '</div>'+
+      '<div class="g2">'+
+        '<div><div style="font-size:7.5px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:#2A5C3A;margin-bottom:7px">Pontos Favoráveis</div>'+
+          (normItems.length?normItems.map(f=>findRow(f)).join(''):'<div style="font-size:9px;color:#6F737A">Nenhum achado normal.</div>')+
+        '</div>'+
+        '<div><div style="font-size:7.5px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:#7A5A1A;margin-bottom:7px">Pontos de Atenção</div>'+
+          (attnItems.length?attnItems.map(f=>findRow(f)).join(''):'<div style="font-size:9px;color:#6F737A">Nenhum ponto de atenção.</div>')+
+        '</div>'+
+      '</div>'+
+      '<div><div style="font-size:7.5px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:#6F737A;margin-bottom:12px">Cronograma de Tratamento</div>'+tlHtml+'</div>'+
+      '<div style="margin-top:auto;display:flex;align-items:flex-end;justify-content:space-between;padding-top:12px;border-top:1px solid #EDEAE6">'+
+        '<div style="flex:1;max-width:170px">'+
+          '<div style="border-bottom:1px solid #E5E1DA;height:36px"></div>'+
+          '<div style="font-size:7.5px;color:#6F737A;margin-top:4px;letter-spacing:.3px">Assinatura do Profissional Responsável</div></div>'+
+        '<div style="text-align:right">'+
+          '<div style="font-family:\'Cormorant Garamond\',serif;font-size:14px;font-weight:500;color:#0F2537">Dr. Matheus Tadao Wakasugui</div>'+
+          '<div style="font-size:8px;color:#6F737A;margin-top:2px;letter-spacing:.3px">Avaliação Ortodôntica · Protocolo Tadao · '+todayShort+'</div>'+
+          '<div style="height:1px;background:#B08D57;width:46px;margin-top:6px;margin-left:auto;opacity:.5"></div></div>'+
+      '</div>'+
+    '</div>'+pf(6)+'</div>';
 
-  return '<!DOCTYPE html>\n<html lang="pt-BR">\n<head>\n<meta charset="UTF-8">\n<title>Protocolo Tadao — ' + esc(patName) + '</title>\n' +
-    '<style>\n*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}\n' +
-    'html{font-size:13px}\n' +
-    'body{background:#eaecef;color:#0f172a;font-family:-apple-system,"Inter","Segoe UI",system-ui,sans-serif;-webkit-font-smoothing:antialiased}\n' +
-    '@page{size:A4;margin:0}\n' +
-    '@media print{body{background:#fff !important}*{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}}\n' +
-    '</style>\n</head>\n<body>\n' +
-    page1 + page2 + page3 + page4 + page5 + page6 +
-    '\n</body>\n</html>';
+  return '<!DOCTYPE html>\n<html lang="pt-BR">\n<head>\n<meta charset="UTF-8">\n'+
+    '<title>Protocolo Tadao — '+e(patName)+'</title>\n'+
+    '<style>\n'+CSS+'\n</style>\n</head>\n<body>\n'+
+    '<div class="pbar"><span>Dr. Matheus Tadao Wakasugui · Protocolo Tadao · Relatório de Avaliação Ortodôntica</span>'+
+    '<button onclick="window.print()">Exportar PDF</button></div>\n'+
+    page1+page2+page3+page4+page5+page6+'\n</body>\n</html>';
 }
 
 function generatePDF() {
@@ -1760,11 +1816,16 @@ function generatePDF() {
     treatmentNotes: (document.getElementById('treatment-notes')||{}).value || d.treatmentNotes || ''
   });
 
-  const win = window.open('', '_blank');
-  if (!win) { alert('Pop-up bloqueado. Permita pop-ups para este site e tente novamente.'); return; }
-  win.document.write(html);
-  win.document.close();
-  win.onload = () => { win.focus(); win.print(); };
+  // Use Blob URL to avoid popup-blocker issues and onload race condition
+  const blob = new Blob([html], { type: 'text/html' });
+  const blobUrl = URL.createObjectURL(blob);
+  const win = window.open(blobUrl, '_blank');
+  if (!win) {
+    URL.revokeObjectURL(blobUrl);
+    alert('Pop-up bloqueado. Permita pop-ups para este site e tente novamente.');
+    return;
+  }
+  setTimeout(() => URL.revokeObjectURL(blobUrl), 60000);
 }
 
 /* ═══════════════════════════════
