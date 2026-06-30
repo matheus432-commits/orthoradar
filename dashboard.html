@@ -675,8 +675,16 @@ const HASH_SALT = 'OF26_';
       const senhaHash = await hashSHA256(senha);
       const res = await fetch('/.netlify/functions/login', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ email, senhaHash }) });
       const data = await res.json();
-      if (res.ok && data.token) { setSession(email, data.token); loadDashboard(email, data.token); }
-      else { msg.className = 'login-msg error'; msg.textContent = data.error || 'E-mail ou senha incorretos.'; btn.disabled = false; btn.textContent = 'Entrar →'; }
+      if (res.ok && data.token) {
+        setSession(email, data.token);
+        await loadDashboard(email, data.token);
+        if (document.getElementById('loginPage').style.display !== 'none') {
+          btn.disabled = false; btn.textContent = 'Entrar →';
+        }
+      } else {
+        msg.className = 'login-msg error'; msg.textContent = data.error || 'E-mail ou senha incorretos.';
+        btn.disabled = false; btn.textContent = 'Entrar →';
+      }
     } catch(e) { msg.className = 'login-msg error'; msg.textContent = 'Erro de conexão. Tente novamente.'; btn.disabled = false; btn.textContent = 'Entrar →'; }
   }
   // ========== LOAD DASHBOARD ==========
@@ -698,8 +706,19 @@ async function loadDashboard(email,token){
     }
     const data=await res.json();
     userData=data;
-    populateDashboard(data);
-  }catch(e){ logout(); }
+    try{
+      populateDashboard(data);
+    }catch(populateErr){
+      console.error('[dashboard] populateDashboard error:', populateErr);
+      const el=document.getElementById('recebidosContent');
+      if(el) el.innerHTML='<div class="empty-state"><div class="empty-icon">⚠️</div><h3>Erro ao carregar dados</h3><p>Recarregue a página (F5) para tentar novamente.</p></div>';
+    }
+  }catch(e){
+    console.error('[dashboard] loadDashboard error:', e);
+    logout();
+    const msgEl=document.getElementById('loginMsg');
+    if(msgEl){ msgEl.className='login-msg error'; msgEl.textContent='Erro de conexão. Verifique sua internet e tente novamente.'; }
+  }
 }
 
 // ========== SKELETON ==========
