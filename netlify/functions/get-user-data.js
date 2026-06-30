@@ -151,8 +151,8 @@ exports.handler = async (event) => {
       }
     } catch(e) { console.warn('Could not fetch amigos:', e.message); }
 
-    const temas = user.temas ? (typeof user.temas === 'string' ? user.temas.split(',') : user.temas) : [];
-    const especialidade = user.especialidade ? (typeof user.especialidade === 'string' ? user.especialidade.split(',') : user.especialidade) : [];
+    const temas = user.temas ? (typeof user.temas === 'string' ? user.temas.split(',').filter(Boolean) : user.temas) : [];
+    const especialidade = user.especialidade ? (typeof user.especialidade === 'string' ? user.especialidade.split(',').filter(Boolean) : user.especialidade) : [];
 
     return {
       statusCode: 200,

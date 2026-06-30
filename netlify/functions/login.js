@@ -28,6 +28,7 @@ async function queryByEmail(projectId, apiKey, email) {
   for (const [k, v] of Object.entries(f)) {
     if (v.stringValue !== undefined) out[k] = v.stringValue;
     else if (v.booleanValue !== undefined) out[k] = v.booleanValue;
+    else if (v.integerValue !== undefined) out[k] = v.integerValue;
     else out[k] = '';
   }
   return out;
@@ -109,7 +110,12 @@ exports.handler = async (event) => {
       return { statusCode: 429, headers, body: JSON.stringify({ error: `Conta bloqueada por tentativas excessivas. Tente novamente em ${minutesLeft} minuto(s) ou redefina sua senha.` }) };
     }
 
-    const passwordMatch = user.senhaHash === senhaHash;
+    let passwordMatch = false;
+    try {
+      if (user.senhaHash && senhaHash && user.senhaHash.length === senhaHash.length) {
+        passwordMatch = crypto.timingSafeEqual(Buffer.from(user.senhaHash), Buffer.from(senhaHash));
+      }
+    } catch { passwordMatch = false; }
 
     if (!passwordMatch) {
       // Increment failed attempts and possibly lock account
