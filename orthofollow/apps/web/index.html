@@ -785,8 +785,8 @@ class PhotoAnnotator {
     // Connection lines
     this._drawLines(w, h);
     // Points
-    for (const pd of this.def.points) {
-      const pt = this.pts[pd.key]; if (!pt) continue;
+    this.def.points.forEach((pd, i) => {
+      const pt = this.pts[pd.key]; if (!pt) return;
       const px = pt.x * w, py = pt.y * h;
       this.ctx.beginPath();
       this.ctx.arc(px, py, 3, 0, Math.PI * 2);
@@ -795,7 +795,13 @@ class PhotoAnnotator {
       this.ctx.strokeStyle = '#fff';
       this.ctx.lineWidth   = 1.5;
       this.ctx.stroke();
-    }
+      this.ctx.font = 'bold 10px Inter, sans-serif';
+      this.ctx.fillStyle = '#fff';
+      this.ctx.strokeStyle = this.def.color;
+      this.ctx.lineWidth = 3;
+      this.ctx.strokeText(String(i + 1), px + 5, py - 5);
+      this.ctx.fillText(String(i + 1), px + 5, py - 5);
+    });
     this.ctx.restore();
   }
 
@@ -1256,13 +1262,19 @@ function getAnnotatedImage(key) {
     ctx.setLineDash([]);
   }
   const r = Math.max(4, w/150);
-  for (const pd of def.points) {
-    const pt = pts[pd.key]; if (!pt) continue;
+  def.points.forEach((pd, i) => {
+    const pt = pts[pd.key]; if (!pt) return;
     const px = pt.x*w, py = pt.y*h;
     ctx.beginPath(); ctx.arc(px,py,r,0,Math.PI*2);
     ctx.fillStyle = def.color; ctx.fill();
     ctx.strokeStyle='#fff'; ctx.lineWidth=Math.max(1,w/600); ctx.stroke();
-  }
+    const fs = Math.max(12, w/45);
+    ctx.font = 'bold ' + fs + 'px Inter, sans-serif';
+    ctx.strokeStyle = def.color; ctx.lineWidth = Math.max(3, w/150);
+    ctx.fillStyle = '#fff';
+    ctx.strokeText(String(i+1), px + r + 2, py - r);
+    ctx.fillText(String(i+1), px + r + 2, py - r);
+  });
   return offscreen.toDataURL('image/jpeg', 0.88);
 }
 
@@ -1284,7 +1296,7 @@ function measDisplayVal(id, val) {
 function sevLabel(s){ return {NORMAL:'Normal',MILD:'Leve',MODERATE:'Moderado',SEVERE:'Grave',CRITICAL:'Crítico'}[s]??s }
 function sevColor(s){ return {NORMAL:'#22c55e',MILD:'#eab308',MODERATE:'#f97316',SEVERE:'#ef4444',CRITICAL:'#7f1d1d'}[s]??'#9ca3af' }
 
-function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, measurements, findings, patName, caseId, session, birthDate, sex, reportText, treatmentNotes }) {
+function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorrisoPoints = {}, sorrisoImgNat = null, measurements, findings, patName, caseId, session, birthDate, sex, reportText, treatmentNotes }) {
   const todayFull = new Date().toLocaleDateString('pt-BR', {day:'2-digit',month:'long',year:'numeric'});
   const todayShort = new Date().toLocaleDateString('pt-BR');
   const m = measurements || {};
@@ -1379,6 +1391,55 @@ function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, measur
   function insight(title, text) {
     return '<div class="insight"><div class="insight-lbl">'+title+'</div>'+
       '<div class="insight-txt">'+text+'</div></div>';
+  }
+
+  function landmarkTable(key) {
+    const def = PHOTO_DEFS[key];
+    const pts = (key==='sorriso' ? sorrisoPoints : state.points[key]) || {};
+    const nat = (key==='sorriso' ? sorrisoImgNat : state.imgNat[key]);
+    const rows = def.points.map((pd,i) => {
+      const pt = pts[pd.key];
+      let coord = '—';
+      if (pt && nat && nat.w && nat.h) coord = Math.round(pt.x*nat.w)+', '+Math.round(pt.y*nat.h);
+      else if (pt) coord = pt.x.toFixed(3)+', '+pt.y.toFixed(3);
+      return '<tr><td style="padding:3px 6px;color:'+def.color+';font-weight:600">'+(i+1)+'</td>'+
+        '<td style="padding:3px 6px;font-family:\'Cormorant Garamond\',serif;font-size:10.5px">'+e(pd.key)+'</td>'+
+        '<td style="padding:3px 6px;color:#6F737A">'+e(pd.label)+'</td>'+
+        '<td style="padding:3px 6px;text-align:right;font-variant-numeric:tabular-nums;color:'+(pt?'#0F2537':'#B9B4AC')+'">'+coord+'</td></tr>';
+    }).join('');
+    return '<div class="panel"><div class="lbl" style="margin-bottom:6px">Landmarks Oficiais · Coordenadas (px)</div>'+
+      '<table style="width:100%;border-collapse:collapse;font-size:9px">'+
+      '<thead><tr style="border-bottom:1px solid #E5E1DA">'+
+      '<th style="padding:3px 6px;text-align:left;color:#6F737A;font-weight:500">#</th>'+
+      '<th style="padding:3px 6px;text-align:left;color:#6F737A;font-weight:500">Código</th>'+
+      '<th style="padding:3px 6px;text-align:left;color:#6F737A;font-weight:500">Ponto Anatômico</th>'+
+      '<th style="padding:3px 6px;text-align:right;color:#6F737A;font-weight:500">X, Y</th></tr></thead>'+
+      '<tbody>'+rows+'</tbody></table>'+
+      '<div class="caption" style="margin-top:6px">Coordenadas extraídas da marcação manual sobre a imagem em resolução nativa — base para o cálculo das métricas acima.</div>'+
+    '</div>';
+  }
+
+  function smileConclusion(midline, dentalExp, lipRatio, m) {
+    const items = [];
+    if (midline!==null) {
+      items.push('Linha média dental '+(Math.abs(midline)<=2?'coincide, dentro da tolerância clínica, com a linha média facial':'apresenta desvio de '+Math.abs(midline).toFixed(1)+' mm para o lado '+(midline>0?'direito':'esquerdo')+' em relação à linha média facial'));
+    }
+    if (dentalExp!==null) {
+      items.push('Exposição dentária em repouso/sorriso de '+dentalExp.toFixed(1)+' mm, '+(dentalExp>=2&&dentalExp<=4?'compatível com a faixa de normalidade':'fora da faixa de referência, recomendando-se avaliação complementar'));
+    }
+    if (lipRatio!==null) {
+      items.push('Razão labial superior/inferior de '+lipRatio.toFixed(2)+', '+(lipRatio>=0.4&&lipRatio<=0.6?'equilibrada':'fora do equilíbrio ideal (0,45–0,55)'));
+    }
+    if (m['P01.A11']) {
+      items.push('Competência labial classificada como '+blbl('P01.A11',m['P01.A11']).toLowerCase());
+    }
+    if (!items.length) return '';
+    return '<div class="panel" style="margin-top:10px">'+
+      '<div class="lbl" style="margin-bottom:8px">Conclusão Consolidada · Análise do Sorriso</div>'+
+      '<div style="display:flex;flex-direction:column;gap:5px">'+
+      items.map(t=>'<div style="display:flex;gap:7px;align-items:flex-start;font-size:9.5px;color:#2B2F36;line-height:1.5">'+
+        '<span style="color:#B08D57;flex-shrink:0">✓</span><span>'+e(t)+'</span></div>').join('')+
+      '</div></div>';
   }
 
   // Numeric values
@@ -1623,6 +1684,10 @@ function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, measur
             chip('P01.A11',m['P01.A11'])+'</div>'+
         '</div>'+
       '</div>'+
+      '<div class="g2" style="margin-top:10px">'+
+        landmarkTable('sorriso')+
+        smileConclusion(midline, dentalExp, lipRatio, m)+
+      '</div>'+
       insight('Interpretação Clínica · Análise do Sorriso',
         (midline!==null?'O desvio de linha média de '+(midline>0?'+':'')+midline.toFixed(1)+' mm '+(Math.abs(midline)<=2?'situa-se dentro dos limites de aceitabilidade clínica':'supera o limite aceitável, devendo ser investigada a origem dental ou esquelética')+'. ':'')+
         'A exposição dentária e labial, a razão Sup/Inf e a competência labial são parâmetros fundamentais para o planejamento estético e funcional do caso.')+
@@ -1805,6 +1870,8 @@ function generatePDF() {
 
   const html = buildPDFHTML({
     frontalImg, perfilImg, sorrisoImg, intrabucalImg,
+    sorrisoPoints:  state.points.sorriso || {},
+    sorrisoImgNat:  state.imgNat.sorriso || null,
     measurements:   d.measurements || collectMeasurementsSnapshot(),
     findings:       d.exD.findings || [],
     patName:        d.patName || d.caseId,
