@@ -1,0 +1,396 @@
+{
+  "version": "1.0.0",
+  "description": "Banco de pontos anatomicos para analise digital do sorriso (Smile Design). Cada ponto e marcado manualmente pelo usuario sobre a fotografia. As coordenadas sao armazenadas em pixels da imagem original (nao da imagem transformada na tela).",
+  "categories": [
+    { "id": "facial", "label": "Referencias faciais", "color": "#3B82F6" },
+    { "id": "midline", "label": "Linhas medias", "color": "#EF4444" },
+    { "id": "lips", "label": "Labios", "color": "#EC4899" },
+    { "id": "teeth_width", "label": "Largura dental (pontos de contato)", "color": "#10B981" },
+    { "id": "teeth_incisal", "label": "Bordas incisais", "color": "#F59E0B" },
+    { "id": "teeth_zenith", "label": "Zeniths gengivais", "color": "#8B5CF6" },
+    { "id": "calibration", "label": "Calibracao", "color": "#14B8A6" }
+  ],
+  "landmarks": [
+    {
+      "id": "pupil_right",
+      "number": 1,
+      "name": "Pupila direita",
+      "description": "Centro da pupila do lado direito do paciente. Usada para a linha interpupilar.",
+      "category": "facial",
+      "color": "#3B82F6",
+      "required": true
+    },
+    {
+      "id": "pupil_left",
+      "number": 2,
+      "name": "Pupila esquerda",
+      "description": "Centro da pupila do lado esquerdo do paciente. Usada para a linha interpupilar.",
+      "category": "facial",
+      "color": "#3B82F6",
+      "required": true
+    },
+    {
+      "id": "glabella",
+      "number": 3,
+      "name": "Glabela",
+      "description": "Ponto medio entre as sobrancelhas. Extremo superior da linha media facial.",
+      "category": "midline",
+      "color": "#EF4444",
+      "required": true
+    },
+    {
+      "id": "subnasale",
+      "number": 4,
+      "name": "Subnasal",
+      "description": "Ponto onde a columela nasal encontra o labio superior, na linha media facial.",
+      "category": "midline",
+      "color": "#EF4444",
+      "required": true
+    },
+    {
+      "id": "menton",
+      "number": 5,
+      "name": "Menton (ponta do queixo)",
+      "description": "Ponto mais inferior do queixo na linha media. Usado para proporcao facial (tercos).",
+      "category": "facial",
+      "color": "#3B82F6",
+      "required": false
+    },
+    {
+      "id": "nasal_ala_right",
+      "number": 6,
+      "name": "Asa nasal direita",
+      "description": "Ponto mais lateral da asa do nariz do lado direito.",
+      "category": "facial",
+      "color": "#3B82F6",
+      "required": false
+    },
+    {
+      "id": "nasal_ala_left",
+      "number": 7,
+      "name": "Asa nasal esquerda",
+      "description": "Ponto mais lateral da asa do nariz do lado esquerdo.",
+      "category": "facial",
+      "color": "#3B82F6",
+      "required": false
+    },
+    {
+      "id": "commissure_right",
+      "number": 8,
+      "name": "Comissura direita",
+      "description": "Canto direito da boca. Define o limite do corredor bucal direito.",
+      "category": "lips",
+      "color": "#EC4899",
+      "required": true
+    },
+    {
+      "id": "commissure_left",
+      "number": 9,
+      "name": "Comissura esquerda",
+      "description": "Canto esquerdo da boca. Define o limite do corredor bucal esquerdo.",
+      "category": "lips",
+      "color": "#EC4899",
+      "required": true
+    },
+    {
+      "id": "upper_lip_midline",
+      "number": 10,
+      "name": "Labio superior (linha media)",
+      "description": "Borda inferior do labio superior na linha media (arco do cupido). Referencia para exposicao gengival.",
+      "category": "lips",
+      "color": "#EC4899",
+      "required": true
+    },
+    {
+      "id": "lower_lip_midline",
+      "number": 11,
+      "name": "Labio inferior (linha media)",
+      "description": "Borda superior do labio inferior na linha media. Referencia para a linha do sorriso.",
+      "category": "lips",
+      "color": "#EC4899",
+      "required": false
+    },
+    {
+      "id": "dental_midline_upper",
+      "number": 12,
+      "name": "Linha media dentaria (superior)",
+      "description": "Ponto de contato entre os incisivos centrais superiores. Comparado com a linha media facial.",
+      "category": "midline",
+      "color": "#EF4444",
+      "required": true
+    },
+
+    {
+      "id": "t11_mesial",
+      "number": 13,
+      "name": "11 - Mesial (contato)",
+      "description": "Ponto de contato mesial do incisivo central superior direito (dente 11).",
+      "category": "teeth_width",
+      "color": "#10B981",
+      "required": true,
+      "tooth": "11"
+    },
+    {
+      "id": "t11_distal",
+      "number": 14,
+      "name": "11 - Distal (contato)",
+      "description": "Ponto de contato distal do incisivo central superior direito (dente 11).",
+      "category": "teeth_width",
+      "color": "#10B981",
+      "required": true,
+      "tooth": "11"
+    },
+    {
+      "id": "t11_incisal",
+      "number": 15,
+      "name": "11 - Borda incisal",
+      "description": "Ponto medio da borda incisal do dente 11.",
+      "category": "teeth_incisal",
+      "color": "#F59E0B",
+      "required": true,
+      "tooth": "11"
+    },
+    {
+      "id": "t11_zenith",
+      "number": 16,
+      "name": "11 - Zenith gengival",
+      "description": "Ponto mais apical do contorno gengival do dente 11.",
+      "category": "teeth_zenith",
+      "color": "#8B5CF6",
+      "required": true,
+      "tooth": "11"
+    },
+
+    {
+      "id": "t21_mesial",
+      "number": 17,
+      "name": "21 - Mesial (contato)",
+      "description": "Ponto de contato mesial do incisivo central superior esquerdo (dente 21).",
+      "category": "teeth_width",
+      "color": "#10B981",
+      "required": true,
+      "tooth": "21"
+    },
+    {
+      "id": "t21_distal",
+      "number": 18,
+      "name": "21 - Distal (contato)",
+      "description": "Ponto de contato distal do incisivo central superior esquerdo (dente 21).",
+      "category": "teeth_width",
+      "color": "#10B981",
+      "required": true,
+      "tooth": "21"
+    },
+    {
+      "id": "t21_incisal",
+      "number": 19,
+      "name": "21 - Borda incisal",
+      "description": "Ponto medio da borda incisal do dente 21.",
+      "category": "teeth_incisal",
+      "color": "#F59E0B",
+      "required": true,
+      "tooth": "21"
+    },
+    {
+      "id": "t21_zenith",
+      "number": 20,
+      "name": "21 - Zenith gengival",
+      "description": "Ponto mais apical do contorno gengival do dente 21.",
+      "category": "teeth_zenith",
+      "color": "#8B5CF6",
+      "required": true,
+      "tooth": "21"
+    },
+
+    {
+      "id": "t12_mesial",
+      "number": 21,
+      "name": "12 - Mesial (contato)",
+      "description": "Ponto de contato mesial do incisivo lateral superior direito (dente 12).",
+      "category": "teeth_width",
+      "color": "#10B981",
+      "required": false,
+      "tooth": "12"
+    },
+    {
+      "id": "t12_distal",
+      "number": 22,
+      "name": "12 - Distal (contato)",
+      "description": "Ponto de contato distal do incisivo lateral superior direito (dente 12).",
+      "category": "teeth_width",
+      "color": "#10B981",
+      "required": false,
+      "tooth": "12"
+    },
+    {
+      "id": "t12_incisal",
+      "number": 23,
+      "name": "12 - Borda incisal",
+      "description": "Ponto medio da borda incisal do dente 12.",
+      "category": "teeth_incisal",
+      "color": "#F59E0B",
+      "required": false,
+      "tooth": "12"
+    },
+    {
+      "id": "t12_zenith",
+      "number": 24,
+      "name": "12 - Zenith gengival",
+      "description": "Ponto mais apical do contorno gengival do dente 12.",
+      "category": "teeth_zenith",
+      "color": "#8B5CF6",
+      "required": false,
+      "tooth": "12"
+    },
+
+    {
+      "id": "t22_mesial",
+      "number": 25,
+      "name": "22 - Mesial (contato)",
+      "description": "Ponto de contato mesial do incisivo lateral superior esquerdo (dente 22).",
+      "category": "teeth_width",
+      "color": "#10B981",
+      "required": false,
+      "tooth": "22"
+    },
+    {
+      "id": "t22_distal",
+      "number": 26,
+      "name": "22 - Distal (contato)",
+      "description": "Ponto de contato distal do incisivo lateral superior esquerdo (dente 22).",
+      "category": "teeth_width",
+      "color": "#10B981",
+      "required": false,
+      "tooth": "22"
+    },
+    {
+      "id": "t22_incisal",
+      "number": 27,
+      "name": "22 - Borda incisal",
+      "description": "Ponto medio da borda incisal do dente 22.",
+      "category": "teeth_incisal",
+      "color": "#F59E0B",
+      "required": false,
+      "tooth": "22"
+    },
+    {
+      "id": "t22_zenith",
+      "number": 28,
+      "name": "22 - Zenith gengival",
+      "description": "Ponto mais apical do contorno gengival do dente 22.",
+      "category": "teeth_zenith",
+      "color": "#8B5CF6",
+      "required": false,
+      "tooth": "22"
+    },
+
+    {
+      "id": "t13_mesial",
+      "number": 29,
+      "name": "13 - Mesial (contato)",
+      "description": "Ponto de contato mesial do canino superior direito (dente 13).",
+      "category": "teeth_width",
+      "color": "#10B981",
+      "required": false,
+      "tooth": "13"
+    },
+    {
+      "id": "t13_distal",
+      "number": 30,
+      "name": "13 - Distal (contato)",
+      "description": "Ponto de contato distal do canino superior direito (dente 13).",
+      "category": "teeth_width",
+      "color": "#10B981",
+      "required": false,
+      "tooth": "13"
+    },
+    {
+      "id": "t13_incisal",
+      "number": 31,
+      "name": "13 - Cuspide",
+      "description": "Ponta de cuspide do canino superior direito (dente 13).",
+      "category": "teeth_incisal",
+      "color": "#F59E0B",
+      "required": false,
+      "tooth": "13"
+    },
+    {
+      "id": "t13_zenith",
+      "number": 32,
+      "name": "13 - Zenith gengival",
+      "description": "Ponto mais apical do contorno gengival do dente 13.",
+      "category": "teeth_zenith",
+      "color": "#8B5CF6",
+      "required": false,
+      "tooth": "13"
+    },
+
+    {
+      "id": "t23_mesial",
+      "number": 33,
+      "name": "23 - Mesial (contato)",
+      "description": "Ponto de contato mesial do canino superior esquerdo (dente 23).",
+      "category": "teeth_width",
+      "color": "#10B981",
+      "required": false,
+      "tooth": "23"
+    },
+    {
+      "id": "t23_distal",
+      "number": 34,
+      "name": "23 - Distal (contato)",
+      "description": "Ponto de contato distal do canino superior esquerdo (dente 23).",
+      "category": "teeth_width",
+      "color": "#10B981",
+      "required": false,
+      "tooth": "23"
+    },
+    {
+      "id": "t23_incisal",
+      "number": 35,
+      "name": "23 - Cuspide",
+      "description": "Ponta de cuspide do canino superior esquerdo (dente 23).",
+      "category": "teeth_incisal",
+      "color": "#F59E0B",
+      "required": false,
+      "tooth": "23"
+    },
+    {
+      "id": "t23_zenith",
+      "number": 36,
+      "name": "23 - Zenith gengival",
+      "description": "Ponto mais apical do contorno gengival do dente 23.",
+      "category": "teeth_zenith",
+      "color": "#8B5CF6",
+      "required": false,
+      "tooth": "23"
+    },
+
+    {
+      "id": "calibration_a",
+      "number": 37,
+      "name": "Calibracao - Ponto A",
+      "description": "Primeiro ponto de uma distancia conhecida (ex.: largura real de um dente medida com paquimetro).",
+      "category": "calibration",
+      "color": "#14B8A6",
+      "required": false
+    },
+    {
+      "id": "calibration_b",
+      "number": 38,
+      "name": "Calibracao - Ponto B",
+      "description": "Segundo ponto da distancia conhecida. A distancia A-B corresponde ao valor em mm informado pelo usuario.",
+      "category": "calibration",
+      "color": "#14B8A6",
+      "required": false
+    }
+  ],
+  "teeth": [
+    { "id": "13", "name": "Canino superior direito", "type": "canine", "side": "right", "golden_group": "canine" },
+    { "id": "12", "name": "Incisivo lateral superior direito", "type": "lateral", "side": "right", "golden_group": "lateral" },
+    { "id": "11", "name": "Incisivo central superior direito", "type": "central", "side": "right", "golden_group": "central" },
+    { "id": "21", "name": "Incisivo central superior esquerdo", "type": "central", "side": "left", "golden_group": "central" },
+    { "id": "22", "name": "Incisivo lateral superior esquerdo", "type": "lateral", "side": "left", "golden_group": "lateral" },
+    { "id": "23", "name": "Canino superior esquerdo", "type": "canine", "side": "left", "golden_group": "canine" }
+  ]
+}

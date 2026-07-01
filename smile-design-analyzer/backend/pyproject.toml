@@ -1,0 +1,12 @@
+[project]
+name = "smile-design-analyzer-backend"
+version = "1.0.0"
+description = "Backend FastAPI para analise digital do sorriso (Smile Design)."
+requires-python = ">=3.10"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.setuptools]
+packages = ["app"]

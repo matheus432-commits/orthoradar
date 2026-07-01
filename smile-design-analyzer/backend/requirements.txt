@@ -1,0 +1,18 @@
+# API
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+pydantic==2.10.4
+
+# Manipulacao de imagem (requisito: OpenCV apenas para imagem)
+opencv-python-headless==4.10.0.84
+numpy==2.1.3
+
+# Geracao de PDF
+reportlab==4.2.5
+
+# IA (opcional em runtime; usado apenas se ANTHROPIC_API_KEY estiver definida)
+anthropic==0.42.0
+
+# Testes
+pytest==8.3.4
+httpx==0.28.1
