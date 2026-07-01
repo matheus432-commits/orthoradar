@@ -1705,7 +1705,7 @@ function renderComparisonTable(data) {
 // ── Add "Comparar" button to existing article cards ───────────────────────────
 // Override articleCard to inject comparar button when clinica tab is active
 const _origArticleCard = articleCard;
-function articleCard(art, curtidos, lidos) {
+articleCard = function(art, curtidos, lidos) {
   const base  = _origArticleCard(art, curtidos, lidos);
   const pmid  = art.id || art.pmid || '';
   const inSet = _comparatorSet.has(String(pmid));
@@ -2073,7 +2073,7 @@ function renderLearningPaths(data) {
 // ── Article card override: inject "Contexto" button ──────────────────────────
 // Wraps the existing articleCard (already overridden once for comparator)
 const _prevArticleCard = articleCard;
-function articleCard(art, curtidos, lidos) {
+articleCard = function(art, curtidos, lidos) {
   const base = _prevArticleCard(art, curtidos, lidos);
   const pmid = String(art.id || art.pmid || '');
   if (!pmid) return base;
