@@ -105,12 +105,12 @@
     .photo-panel.active{display:block}
 
     /* Photo box */
-    .photo-box{background:#0f172a;border-radius:0 0 8px 8px;min-height:300px;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
+    .photo-box{background:#0f172a;border-radius:0 0 8px 8px;min-height:520px;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
     .photo-box .empty-photo{color:#475569;text-align:center;padding:40px 20px}
     .photo-box .empty-photo .ep-icon{font-size:36px;margin-bottom:8px}
     .photo-box .empty-photo p{font-size:13px}
     .photo-wrap{position:relative;display:inline-block;line-height:0;max-width:100%}
-    .photo-img{display:block;max-width:100%;max-height:460px;object-fit:contain}
+    .photo-img{display:block;max-width:100%;max-height:80vh;object-fit:contain}
     .photo-canvas{position:absolute;top:0;left:0;cursor:crosshair}
 
     /* Point hints */
@@ -420,7 +420,7 @@
         <div class="field"><label>ID do Caso (UUID)</label><input id="av-case-id" type="text" placeholder="UUID do caso"></div>
         <div class="grid2">
           <div class="field"><label>Sessão</label>
-            <select id="av-session"><option value="T0">T0</option><option value="T1">T1</option><option value="T2">T2</option><option value="T3">T3</option><option value="TN">TN</option></select>
+            <select id="av-session" onchange="onSessionChange()"><option value="T0">T0</option><option value="T1">T1</option><option value="T2">T2</option><option value="T3">T3</option><option value="TN">TN</option></select>
           </div>
           <div class="field"><label>Sexo</label>
             <select id="av-sex"><option value="F">Feminino</option><option value="M">Masculino</option><option value="UNSPECIFIED">N/I</option></select>
@@ -490,6 +490,14 @@ const PHOTO_DEFS = {
       { key:'Me',  label:'Mentoniana',       hint:'Ponto mais inferior do mento (centro)' },
       { key:'Pd',  label:'Pupila Direita',   hint:'Centro da pupila direita do paciente' },
       { key:'Pe',  label:'Pupila Esq.',      hint:'Centro da pupila esquerda do paciente' },
+      { key:'Ls',  label:'Lábio Superior',   hint:'Ponto mais anterior/inferior do lábio superior (repouso)' },
+      { key:'Li',  label:'Lábio Inferior',   hint:'Ponto mais anterior/superior do lábio inferior (repouso)' },
+      { key:'Sto', label:'Estômio',          hint:'Ponto de contato/repouso entre os lábios' },
+      { key:'Pg',  label:'Pogônio Mole',     hint:'Ponto mais anterior do mento (tecido mole)' },
+      { key:'AlD', label:'Ala Nasal Dir.',   hint:'Ponto mais lateral da narina direita' },
+      { key:'AlE', label:'Ala Nasal Esq.',   hint:'Ponto mais lateral da narina esquerda' },
+      { key:'CoD', label:'Comissura Dir.',   hint:'Canto direito da boca' },
+      { key:'CoE', label:'Comissura Esq.',   hint:'Canto esquerdo da boca' },
     ]
   },
   perfil: {
@@ -500,6 +508,7 @@ const PHOTO_DEFS = {
       { key:'Prn', label:'Pronasal',          hint:'Ponta do nariz (ponto mais anterior)' },
       { key:'Sn',  label:'Subnasal',          hint:'Junção entre a base do nariz e o lábio superior' },
       { key:'Ls',  label:'Lábio Superior',    hint:'Ponto mais anterior do lábio superior' },
+      { key:'Li',  label:'Lábio Inferior',    hint:'Ponto mais anterior do lábio inferior' },
       { key:'Pg',  label:'Pogônio',           hint:'Ponto mais anterior do mento (queixo)' },
       { key:'Me',  label:'Mentoniana',        hint:'Ponto mais inferior do mento' },
     ]
@@ -516,6 +525,7 @@ const PHOTO_DEFS = {
       { key:'PMe', label:'Último Dente Esq.',                hint:'Borda do último dente visível à esquerda (corredor bucal)' },
       { key:'SsS', label:'Borda Lábio Sup.',                 hint:'Borda inferior do lábio superior (vermelhão), no repouso da linha do sorriso' },
       { key:'StI', label:'Borda Lábio Inf.',                 hint:'Borda superior do lábio inferior (referência linha do sorriso)' },
+      { key:'GM',  label:'Margem Gengival',                  hint:'Margem gengival exposta acima dos incisivos centrais superiores (se houver)' },
     ]
   },
   intrabucal: {
@@ -558,6 +568,56 @@ const ANALYSES = [
   { id:'P01.A08', group:'Perfil', label:'Projeção do Mento', type:'CLASSIFICATION', unit:'NONE',
     options:['NORMAL','RETRUDED','PROTRUDED'],
     labels:['Normal','Retruso','Protruso'] },
+
+  // ── Frontal (detalhado) ──
+  { id:'P01.A13', group:'Frontal', label:'Padrão Facial', type:'CLASSIFICATION', unit:'NONE',
+    options:['CLASS_I','CLASS_II','CLASS_III'], labels:['Classe I','Classe II','Classe III'] },
+  { id:'P01.A14', group:'Frontal', label:'Ângulo de Convexidade (G-Sn-Pg)', type:'SCALAR_DEGREES', unit:'DEGREES', min:120, max:180, step:.5, placeholder:'° auto' },
+  { id:'P01.A15', group:'Frontal', label:'Padrão Vertical', type:'CLASSIFICATION', unit:'NONE',
+    options:['NORMAL','INCREASED','REDUCED'], labels:['Normal','Aumentado','Reduzido'] },
+  { id:'P01.A16', group:'Frontal', label:'Origem Provável da Assimetria', type:'CLASSIFICATION', unit:'NONE',
+    options:['NONE','MAXILLARY','MANDIBULAR','SOFT_TISSUE','MIXED'], labels:['Nenhuma','Maxilar','Mandibular','Tecidos Moles','Mista'] },
+  { id:'P01.A17', group:'Frontal', label:'Espessura Lábio Superior (mm)', type:'SCALAR_MM', unit:'MM', min:5, max:20, step:.1, placeholder:'mm auto' },
+  { id:'P01.A18', group:'Frontal', label:'Espessura Lábio Inferior (mm)', type:'SCALAR_MM', unit:'MM', min:5, max:20, step:.1, placeholder:'mm auto' },
+  { id:'P01.A19', group:'Frontal', label:'Inclinação Bipupilar (°)', type:'SCALAR_DEGREES', unit:'DEGREES', min:0, max:15, step:.1, placeholder:'° auto' },
+
+  // ── Sorriso (detalhado) ──
+  { id:'P01.A20', group:'Sorriso', label:'Tipo de Sorriso', type:'CLASSIFICATION', unit:'NONE',
+    options:['LOW','MEDIUM','HIGH','GUMMY'], labels:['Baixo','Médio','Alto','Gengival'] },
+  { id:'P01.A21', group:'Sorriso', label:'Corredor Bucal (%)', type:'SCALAR_PERCENT', unit:'PERCENT', min:0, max:40, step:.1, placeholder:'% auto' },
+  { id:'P01.A22', group:'Sorriso', label:'Dentes Visíveis', type:'CLASSIFICATION', unit:'NONE',
+    options:['INCISORS','TO_CANINES','TO_PREMOLARS','TO_MOLARS'], labels:['Só Incisivos','Até Caninos','Até Pré-molares','Até Molares'] },
+  { id:'P01.A23', group:'Sorriso', label:'Exposição Incisivo Superior (%)', type:'SCALAR_PERCENT', unit:'PERCENT', min:0, max:100, step:1, placeholder:'%' },
+  { id:'P01.A24', group:'Sorriso', label:'Exposição Incisivo Inferior (%)', type:'SCALAR_PERCENT', unit:'PERCENT', min:0, max:100, step:1, placeholder:'%' },
+  { id:'P01.A25', group:'Sorriso', label:'Exposição Gengival Total (mm)', type:'SCALAR_MM', unit:'MM', min:0, max:8, step:.1, placeholder:'mm auto' },
+  { id:'P01.A26', group:'Sorriso', label:'Zênites Gengivais', type:'CLASSIFICATION', unit:'NONE',
+    options:['ALIGNED','MISALIGNED'], labels:['Alinhados','Desalinhados'] },
+
+  // ── Perfil (detalhado) ──
+  { id:'P01.A27', group:'Perfil', label:'Projeção Maxilar Aparente', type:'CLASSIFICATION', unit:'NONE',
+    options:['NORMAL','RETRUDED','PROTRUDED'], labels:['Normal','Retruída','Protruída'] },
+  { id:'P01.A28', group:'Perfil', label:'Projeção Mandibular Aparente', type:'CLASSIFICATION', unit:'NONE',
+    options:['NORMAL','RETRUDED','PROTRUDED'], labels:['Normal','Retruída','Protruída'] },
+  { id:'P01.A29', group:'Perfil', label:'Equilíbrio Labial no Perfil', type:'CLASSIFICATION', unit:'NONE',
+    options:['BALANCED','LIPS_ANTERIOR','LIPS_POSTERIOR'], labels:['Equilibrado','Lábios Anteriorizados','Lábios Posteriorizados'] },
+
+  // ── Intrabucal ──
+  { id:'P01.A30', group:'Intrabucal', label:'Coincidência das Linhas Médias', type:'CLASSIFICATION', unit:'NONE',
+    options:['COINCIDENT','DEVIATED'], labels:['Coincidentes','Desviadas'] },
+  { id:'P01.A31', group:'Intrabucal', label:'Inclinação da Linha Oclusal', type:'CLASSIFICATION', unit:'NONE',
+    options:['NORMAL','ALTERED'], labels:['Normal','Alterada'] },
+  { id:'P01.A32', group:'Intrabucal', label:'Overbite Visível', type:'CLASSIFICATION', unit:'NONE',
+    options:['NORMAL','INCREASED','DECREASED','OPEN_BITE'], labels:['Normal','Aumentado','Diminuído','Mordida Aberta'] },
+  { id:'P01.A33', group:'Intrabucal', label:'Mordida Cruzada Anterior', type:'CLASSIFICATION', unit:'NONE',
+    options:['ABSENT','UNILATERAL','BILATERAL'], labels:['Ausente','Unilateral','Bilateral'] },
+  { id:'P01.A34', group:'Intrabucal', label:'Mordida Cruzada Posterior', type:'CLASSIFICATION', unit:'NONE',
+    options:['ABSENT','UNILATERAL_RIGHT','UNILATERAL_LEFT','BILATERAL'], labels:['Ausente','Unilateral Dir.','Unilateral Esq.','Bilateral'] },
+  { id:'P01.A35', group:'Intrabucal', label:'Mordida Aberta', type:'CLASSIFICATION', unit:'NONE',
+    options:['ABSENT','MILD','MODERATE','SEVERE'], labels:['Ausente','Leve','Moderada','Severa'] },
+  { id:'P01.A36', group:'Intrabucal', label:'Apinhamento Visível', type:'CLASSIFICATION', unit:'NONE',
+    options:['ABSENT','MILD','MODERATE','SEVERE'], labels:['Ausente','Leve','Moderado','Severo'] },
+  { id:'P01.A37', group:'Intrabucal', label:'Diastemas', type:'CLASSIFICATION', unit:'NONE',
+    options:['ABSENT','PHYSIOLOGIC','MODERATE','LARGE'], labels:['Ausente','Fisiológico','Moderado','Grande'] },
 ];
 
 const API = '/api/v1';
@@ -568,7 +628,8 @@ const API = '/api/v1';
 const state = {
   files: {},
   points: { frontal:{}, perfil:{}, sorriso:{}, intrabucal:{} },
-  imgNat: { frontal:null, perfil:null, sorriso:null, intrabucal:null }
+  imgNat: { frontal:null, perfil:null, sorriso:null, intrabucal:null },
+  dataUrls: {}
 };
 const annotators = { frontal:null, perfil:null, sorriso:null, intrabucal:null };
 let stlViewer = null;
@@ -637,10 +698,97 @@ async function loadDashboard() {
 }
 
 function goToCase(caseId, birth, sex) {
+  resetEvaluationState();
   document.getElementById('av-case-id').value   = caseId;
+  document.getElementById('av-session').value   = 'T0';
   document.getElementById('av-birth-date').value = birth ? birth.substring(0,10) : '';
   document.getElementById('av-sex').value       = sex || 'UNSPECIFIED';
   navigate('avaliacao');
+  loadCasePhotosForCurrentCase();
+}
+
+function onSessionChange() {
+  resetEvaluationState();
+  initAnnotators();
+  loadCasePhotosForCurrentCase();
+}
+
+// Clears in-memory photos/points/annotators so switching cases (or sessions)
+// doesn't leak the previous case's marked points into the new one.
+function resetEvaluationState() {
+  state.files   = {};
+  state.points  = { frontal:{}, perfil:{}, sorriso:{}, intrabucal:{} };
+  state.imgNat  = { frontal:null, perfil:null, sorriso:null, intrabucal:null };
+  state.dataUrls = {};
+  for (const key of Object.keys(annotators)) {
+    if (annotators[key] && annotators[key].ro) annotators[key].ro.disconnect();
+    annotators[key] = null;
+  }
+  ['frontal','perfil','sorriso','intrabucal'].forEach(key => {
+    const up = document.getElementById('up-' + key);
+    if (up) up.innerHTML = '';
+  });
+}
+
+// Fetches previously saved photos + landmark points for the case/session
+// currently loaded in the Avaliação form and restores them into the annotators,
+// so reopening a case doesn't require re-uploading photos or re-marking points.
+async function loadCasePhotosForCurrentCase() {
+  const caseId  = document.getElementById('av-case-id').value.trim();
+  const session = document.getElementById('av-session').value;
+  if (!caseId) return;
+  try {
+    const r = await fetch(`${API}/cases/${enc(caseId)}/sessions/${enc(session)}/photos`);
+    if (!r.ok) return;
+    const { photos } = await r.json();
+    if (!photos || !Object.keys(photos).length) return;
+    initAnnotators();
+    for (const key of ['frontal','perfil','sorriso','intrabucal']) {
+      const p = photos[key];
+      if (!p || !p.imageData) continue;
+      state.dataUrls[key] = p.imageData;
+      if (annotators[key]) annotators[key].loadFromDataUrl(p.imageData, p.points || {});
+      updateUploadPreviewFromDataUrl(key, p.imageData);
+    }
+  } catch (e) {
+    console.warn('Não foi possível carregar fotos salvas do caso:', e.message);
+  }
+}
+
+let _savePhotoTimers = {};
+function scheduleSavePhoto(key) {
+  clearTimeout(_savePhotoTimers[key]);
+  _savePhotoTimers[key] = setTimeout(() => savePhotoNow(key), 600);
+}
+
+async function savePhotoNow(key) {
+  const caseId  = document.getElementById('av-case-id').value.trim();
+  const session = document.getElementById('av-session').value;
+  const dataUrl = state.dataUrls[key];
+  if (!caseId || !dataUrl) return;
+  const nat = state.imgNat[key];
+  try {
+    await fetch(`${API}/cases/${enc(caseId)}/sessions/${enc(session)}/photos/${enc(key)}`, {
+      method: 'PUT', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        imageData: dataUrl,
+        points:    state.points[key] || {},
+        natWidth:  nat ? nat.w : null,
+        natHeight: nat ? nat.h : null
+      })
+    });
+  } catch (e) {
+    console.warn('Não foi possível salvar a foto em nuvem:', e.message);
+  }
+}
+
+function fileToDataURL(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload  = () => resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
 }
 
 /* ═══════════════════════════════
@@ -664,6 +812,10 @@ function storeFile(key, file) {
     else if (document.getElementById('page-avaliacao').classList.contains('active')) {
       initAnnotators();
     }
+    fileToDataURL(file).then(dataUrl => {
+      state.dataUrls[key] = dataUrl;
+      scheduleSavePhoto(key);
+    }).catch(e => console.warn('Falha ao converter foto para salvamento:', e.message));
   } else {
     updateUploadPreview('stl', file);
     if (stlViewer) stlViewer.loadSTL(file);
@@ -683,6 +835,16 @@ function updateUploadPreview(key, file) {
   } else {
     up.innerHTML = `<div class="upload-fname">✓ ${esc(file.name)}</div>`;
   }
+}
+
+function updateUploadPreviewFromDataUrl(key, dataUrl) {
+  const uzMap = { frontal:'uz-frontal', perfil:'uz-perfil', sorriso:'uz-sorriso', intrabucal:'uz-intrabucal' };
+  const upMap = { frontal:'up-frontal', perfil:'up-perfil', sorriso:'up-sorriso', intrabucal:'up-intrabucal' };
+  const uz = document.getElementById(uzMap[key]);
+  const up = document.getElementById(upMap[key]);
+  if (!uz || !up) return;
+  uz.classList.add('has-file');
+  up.innerHTML = `<img src="${dataUrl}" alt="preview"><div class="upload-fname">Foto salva anteriormente</div>`;
 }
 
 function dzOver(e, id)    { e.preventDefault(); document.getElementById(id).classList.add('drag-over'); }
@@ -734,6 +896,20 @@ class PhotoAnnotator {
     this.imgEl.src = url;
   }
 
+  // Restores a previously saved photo (as a data URL) plus its landmark points,
+  // so reopening a case doesn't require re-uploading photos and re-marking points.
+  loadFromDataUrl(dataUrl, pts) {
+    this.imgEl.onload = () => {
+      state.imgNat[this.key] = { w: this.imgEl.naturalWidth, h: this.imgEl.naturalHeight };
+      this.pts = pts || {};
+      this.idx = Object.keys(this.pts).length;
+      state.points[this.key] = this.pts;
+      this.sync(); this.redraw(); this.updateUI();
+      calculateMeasurements();
+    };
+    this.imgEl.src = dataUrl;
+  }
+
   sync() {
     if (!this.imgEl.naturalWidth) return;
     const dpr = window.devicePixelRatio || 1;
@@ -758,6 +934,7 @@ class PhotoAnnotator {
     this.redraw();
     this.updateUI();
     calculateMeasurements();
+    scheduleSavePhoto(this.key);
   }
 
   undo() {
@@ -766,12 +943,14 @@ class PhotoAnnotator {
     delete this.pts[this.def.points[this.idx].key];
     state.points[this.key] = this.pts;
     this.redraw(); this.updateUI(); calculateMeasurements();
+    scheduleSavePhoto(this.key);
   }
 
   reset() {
     this.pts = {}; this.idx = 0;
     state.points[this.key] = {};
     this.redraw(); this.updateUI(); calculateMeasurements();
+    scheduleSavePhoto(this.key);
   }
 
   redraw() {
@@ -790,26 +969,26 @@ class PhotoAnnotator {
       const pt = this.pts[pd.key]; if (!pt) return;
       const px = pt.x * w, py = pt.y * h;
       this.ctx.beginPath();
-      this.ctx.arc(px, py, 3, 0, Math.PI * 2);
+      this.ctx.arc(px, py, 2, 0, Math.PI * 2);
       this.ctx.fillStyle   = this.def.color;
       this.ctx.fill();
       this.ctx.strokeStyle = '#fff';
-      this.ctx.lineWidth   = 1.5;
+      this.ctx.lineWidth   = 1;
       this.ctx.stroke();
-      this.ctx.font = 'bold 10px Inter, sans-serif';
+      this.ctx.font = 'bold 8px Inter, sans-serif';
       this.ctx.fillStyle = '#fff';
       this.ctx.strokeStyle = this.def.color;
-      this.ctx.lineWidth = 3;
-      this.ctx.strokeText(String(i + 1), px + 5, py - 5);
-      this.ctx.fillText(String(i + 1), px + 5, py - 5);
+      this.ctx.lineWidth = 2;
+      this.ctx.strokeText(String(i + 1), px + 4, py - 4);
+      this.ctx.fillText(String(i + 1), px + 4, py - 4);
     });
     this.ctx.restore();
   }
 
   _drawLines(w, h) {
     const lineMap = {
-      frontal: [['Tr','G','Sn','Me'], ['Pd','Pe']],
-      perfil:  [['Tr','G','Prn','Sn','Ls','Pg','Me']],
+      frontal: [['Tr','G','Sn','Me'], ['Pd','Pe'], ['Ls','Li'], ['AlD','AlE'], ['CoD','CoE']],
+      perfil:  [['Tr','G','Prn','Sn','Ls','Li','Pg','Me']],
       sorriso: [['Tr','Me'],['CoD','CoE'],['PMd','PMe'],['SsS','StI']]
     };
     const groups = lineMap[this.key] || [];
@@ -1014,14 +1193,65 @@ function calculateMeasurements() {
   if (pp.Prn && pp.Sn && pp.Ls) {
     const nat = state.imgNat.perfil;
     if (nat) {
-      const va = { x:(pp.Prn.x - pp.Sn.x)*nat.w, y:(pp.Prn.y - pp.Sn.y)*nat.h };
-      const vb = { x:(pp.Ls.x  - pp.Sn.x)*nat.w, y:(pp.Ls.y  - pp.Sn.y)*nat.h };
-      const dot  = va.x*vb.x + va.y*vb.y;
-      const magA = Math.sqrt(va.x*va.x + va.y*va.y);
-      const magB = Math.sqrt(vb.x*vb.x + vb.y*vb.y);
-      if (magA > 0 && magB > 0) {
-        const ang = Math.acos(Math.max(-1, Math.min(1, dot/(magA*magB)))) * 180 / Math.PI;
-        setAuto('P01.A07', ang.toFixed(1));
+      const ang = angle3(pp.Prn, pp.Sn, pp.Ls, nat.w, nat.h);
+      if (ang !== null) { setAuto('P01.A07', ang.toFixed(1)); anyAuto = true; }
+    }
+  }
+
+  // ── Frontal: Ângulo de Convexidade Facial → P01.A14 (G–Sn–Pg) ──
+  if (fp.G && fp.Sn && fp.Pg) {
+    const nat = state.imgNat.frontal;
+    if (nat) {
+      const ang = angle3(fp.G, fp.Sn, fp.Pg, nat.w, nat.h);
+      if (ang !== null) { setAuto('P01.A14', ang.toFixed(1)); anyAuto = true; }
+    }
+  }
+
+  // ── Frontal: Espessura labial Sup/Inf → P01.A17/A18 (escala: distância interpupilar ≈ 62 mm) ──
+  if (fp.Pd && fp.Pe) {
+    const nat = state.imgNat.frontal;
+    if (nat) {
+      const ipdPx = dist2d(fp.Pd, fp.Pe, nat.w, nat.h);
+      if (ipdPx > 0) {
+        const pxMm = ipdPx / 62;
+        if (fp.Sn && fp.Ls) { setAuto('P01.A17', (dist2d(fp.Sn, fp.Ls, nat.w, nat.h) / pxMm).toFixed(1)); anyAuto = true; }
+        if (fp.Li && fp.Pg) { setAuto('P01.A18', (dist2d(fp.Li, fp.Pg, nat.w, nat.h) / pxMm).toFixed(1)); anyAuto = true; }
+      }
+    }
+  }
+
+  // ── Frontal: Inclinação da linha bipupilar → P01.A19 ──
+  if (fp.Pd && fp.Pe) {
+    const nat = state.imgNat.frontal;
+    if (nat) {
+      const dx = (fp.Pe.x - fp.Pd.x) * nat.w, dy = (fp.Pe.y - fp.Pd.y) * nat.h;
+      setAuto('P01.A19', (Math.abs(Math.atan2(dy, dx) * 180 / Math.PI)).toFixed(1));
+      anyAuto = true;
+    }
+  }
+
+  // ── Sorriso: Corredor bucal → P01.A21 (largura do arco exposto vs largura da boca) ──
+  if (sp.PMd && sp.PMe && sp.CoD && sp.CoE) {
+    const nat = state.imgNat.sorriso;
+    if (nat) {
+      const archW  = dist2d(sp.PMd, sp.PMe, nat.w, nat.h);
+      const mouthW = dist2d(sp.CoD, sp.CoE, nat.w, nat.h);
+      if (mouthW > 0) {
+        setAuto('P01.A21', (Math.max(0, (1 - archW / mouthW) * 100)).toFixed(1));
+        anyAuto = true;
+      }
+    }
+  }
+
+  // ── Sorriso: Exposição gengival total → P01.A25 (GM acima da borda do lábio superior) ──
+  if (sp.GM && sp.SsS && sp.CoD && sp.CoE) {
+    const nat = state.imgNat.sorriso;
+    if (nat) {
+      const comPx = dist2d(sp.CoD, sp.CoE, nat.w, nat.h);
+      if (comPx > 0) {
+        const pxMm = comPx / 50;
+        const exposurePx = (sp.SsS.y - sp.GM.y) * nat.h; // positivo quando gengiva (GM) está acima da borda labial
+        setAuto('P01.A25', (Math.max(0, exposurePx) / pxMm).toFixed(1));
         anyAuto = true;
       }
     }
@@ -1039,6 +1269,16 @@ function dist2d(a, b, natW, natH) {
   return Math.sqrt(dx*dx + dy*dy);
 }
 
+function angle3(p1, vertex, p2, natW, natH) {
+  const va = { x:(p1.x - vertex.x)*natW, y:(p1.y - vertex.y)*natH };
+  const vb = { x:(p2.x - vertex.x)*natW, y:(p2.y - vertex.y)*natH };
+  const dot  = va.x*vb.x + va.y*vb.y;
+  const magA = Math.sqrt(va.x*va.x + va.y*va.y);
+  const magB = Math.sqrt(vb.x*vb.x + vb.y*vb.y);
+  if (magA === 0 || magB === 0) return null;
+  return Math.acos(Math.max(-1, Math.min(1, dot/(magA*magB)))) * 180 / Math.PI;
+}
+
 function setAuto(id, val) {
   const el = document.getElementById('meas-' + id);
   if (el && el.tagName === 'INPUT') {
@@ -1052,10 +1292,12 @@ function setAuto(id, val) {
 ═══════════════════════════════ */
 function renderMeasurements() {
   const list = document.getElementById('meas-list');
-  const groupLabels = { Frontal:'📷 Frontal — Simetria dos Terços', Sorriso:'😊 Sorriso — Linha Média e Exposição', Perfil:'📐 Perfil — Convexidade e Ângulo Nasolabial' };
+  const groupLabels = { Frontal:'📷 Frontal', Sorriso:'😊 Sorriso', Perfil:'📐 Perfil', Intrabucal:'🦷 Intrabucal' };
+  const groupOrder  = ['Frontal','Sorriso','Perfil','Intrabucal'];
+  const sorted = [...ANALYSES].sort((a,b) => groupOrder.indexOf(a.group) - groupOrder.indexOf(b.group));
   let html = '';
   let lastGroup = null;
-  for (const a of ANALYSES) {
+  for (const a of sorted) {
     if (a.group !== lastGroup) {
       if (lastGroup !== null) html += '</div>';
       html += `<div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);margin:${lastGroup?'14px':'4px'} 0 6px">${groupLabels[a.group]||a.group}</div><div style="display:flex;flex-direction:column;gap:6px;">`;
@@ -1077,19 +1319,25 @@ function renderMeasurements() {
 /* ═══════════════════════════════
    PIPELINE
 ═══════════════════════════════ */
+const REQUIRED_ANALYSIS_IDS = new Set([
+  'P01.A01','P01.A02','P01.A03','P01.A04','P01.A05','P01.A06',
+  'P01.A07','P01.A08','P01.A09','P01.A10','P01.A11','P01.A12'
+]);
+
 function collectMeasurements() {
   const out     = [];
   const missing = [];
   for (const a of ANALYSES) {
     const el  = document.getElementById('meas-' + a.id);
     const raw = el.value.trim();
+    const required = REQUIRED_ANALYSIS_IDS.has(a.id);
     if (a.type === 'CLASSIFICATION') {
-      if (!raw) { missing.push(a); continue; }
+      if (!raw) { if (required) missing.push(a); continue; }
       out.push({ analysisId:a.id, value:{ type:'CLASSIFICATION', classification:raw, unit:'NONE' } });
     } else {
-      if (raw === '') { missing.push(a); continue; }
+      if (raw === '') { if (required) missing.push(a); continue; }
       const n = parseFloat(raw.replace(',', '.'));
-      if (isNaN(n)) { missing.push(a); continue; }
+      if (isNaN(n)) { if (required) missing.push(a); continue; }
       out.push({ analysisId:a.id, value:{ type:a.type, numericValue:String(n), unit:a.unit } });
     }
   }
@@ -1280,8 +1528,8 @@ function getAnnotatedImage(key) {
   const def = ann.def;
   const pts = ann.pts;
   const lineMap = {
-    frontal: [['Tr','G','Sn','Me'],['Pd','Pe']],
-    perfil:  [['Tr','G','Prn','Sn','Ls','Pg','Me']],
+    frontal: [['Tr','G','Sn','Me'],['Pd','Pe'],['Ls','Li'],['AlD','AlE'],['CoD','CoE']],
+    perfil:  [['Tr','G','Prn','Sn','Ls','Li','Pg','Me']],
     sorriso: [['Tr','Me'],['CoD','CoE'],['PMd','PMe'],['SsS','StI']]
   };
   for (const grp of (lineMap[key]||[])) {
@@ -1296,20 +1544,30 @@ function getAnnotatedImage(key) {
     ctx.stroke();
     ctx.setLineDash([]);
   }
-  const r = Math.max(4, w/150);
+  const r = Math.max(2.5, w/260);
   def.points.forEach((pd, i) => {
     const pt = pts[pd.key]; if (!pt) return;
     const px = pt.x*w, py = pt.y*h;
     ctx.beginPath(); ctx.arc(px,py,r,0,Math.PI*2);
     ctx.fillStyle = def.color; ctx.fill();
-    ctx.strokeStyle='#fff'; ctx.lineWidth=Math.max(1,w/600); ctx.stroke();
-    const fs = Math.max(12, w/45);
+    ctx.strokeStyle='#fff'; ctx.lineWidth=Math.max(1,w/700); ctx.stroke();
+    const fs = Math.max(9, w/60);
     ctx.font = 'bold ' + fs + 'px Inter, sans-serif';
-    ctx.strokeStyle = def.color; ctx.lineWidth = Math.max(3, w/150);
+    ctx.strokeStyle = def.color; ctx.lineWidth = Math.max(2, w/220);
     ctx.fillStyle = '#fff';
     ctx.strokeText(String(i+1), px + r + 2, py - r);
     ctx.fillText(String(i+1), px + r + 2, py - r);
   });
+  return offscreen.toDataURL('image/jpeg', 0.88);
+}
+
+function getRawImage(key) {
+  const ann = annotators[key];
+  if (!ann || !ann.imgEl || !ann.imgEl.src || !ann.imgEl.naturalWidth) return null;
+  const w = ann.imgEl.naturalWidth, h = ann.imgEl.naturalHeight;
+  const offscreen = document.createElement('canvas');
+  offscreen.width = w; offscreen.height = h;
+  offscreen.getContext('2d').drawImage(ann.imgEl, 0, 0, w, h);
   return offscreen.toDataURL('image/jpeg', 0.88);
 }
 
@@ -1331,7 +1589,7 @@ function measDisplayVal(id, val) {
 function sevLabel(s){ return {NORMAL:'Normal',MILD:'Leve',MODERATE:'Moderado',SEVERE:'Grave',CRITICAL:'Crítico'}[s]??s }
 function sevColor(s){ return {NORMAL:'#22c55e',MILD:'#eab308',MODERATE:'#f97316',SEVERE:'#ef4444',CRITICAL:'#7f1d1d'}[s]??'#9ca3af' }
 
-function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorrisoPoints = {}, sorrisoImgNat = null, measurements, findings, patName, caseId, session, birthDate, sex, reportText, treatmentNotes }) {
+function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorrisoRawImg, sorrisoPoints = {}, sorrisoImgNat = null, measurements, findings, patName, caseId, session, birthDate, sex, reportText, treatmentNotes }) {
   const todayFull = new Date().toLocaleDateString('pt-BR', {day:'2-digit',month:'long',year:'numeric'});
   const todayShort = new Date().toLocaleDateString('pt-BR');
   const m = measurements || {};
@@ -1414,13 +1672,13 @@ function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorris
       '<div><div class="ph-name">Dr. Matheus Tadao Wakasugui</div>'+
       '<div class="ph-proto">Protocolo Tadao</div></div></div>'+
       '<div style="text-align:right"><div class="ph-section">'+section+'</div>'+
-      '<div class="ph-page">'+todayShort+' · Página '+pg+' de 6</div></div></div>';
+      '<div class="ph-page">'+todayShort+' · Página '+pg+' de 9</div></div></div>';
   }
 
   function pf(pg) {
     return '<div class="pf"><div class="pf-line"></div>'+
       '<div class="pf-text">Protocolo Tadao · Confidencial</div>'+
-      '<div class="pf-text">Página '+pg+' de 6</div></div>';
+      '<div class="pf-text">Página '+pg+' de 9</div></div>';
   }
 
   function insight(title, text) {
@@ -1507,9 +1765,9 @@ function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorris
         '<span style="color:'+(t5>35?'#7A5A1A':'#6F737A')+';font-weight:'+(t5>35?'500':'400')+'">Inf '+t5.toFixed(1)+'%'+(t5>35?' · ideal 33,3%':'')+'</span></div>'
     : '<div style="font-size:9px;color:#6F737A;font-style:italic;padding:6px 0">Marque Tr, G, Sn, Me na foto frontal para calcular automaticamente.</div>';
 
-  const diagText = reportText ||
-    'Avaliação facial completa realizada pelo Protocolo Tadao. '+
-    (findings.length?findings.slice(0,3).map(f=>f.text).join('. ')+'.':'Análise sem achados registrados.');
+  const problemsList = findings.length
+    ? findings.map(f=>f.text).join(' ')
+    : 'Nenhum problema identificado — parâmetros dentro da normalidade.';
 
   // ── CSS ──
   const CSS = "@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap');\n"+
@@ -1612,8 +1870,8 @@ function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorris
         '</div>'+
         '<div style="display:flex;flex-direction:column;gap:12px">'+
           '<div style="background:#0A0C10;border-radius:2px;flex:1;min-height:240px;overflow:hidden">'+
-            (frontalImg?'<img src="'+frontalImg+'" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;">':
-              '<div style="height:100%;min-height:240px;display:flex;align-items:center;justify-content:center"><span style="font-size:7px;color:rgba(255,255,255,.15);letter-spacing:2px;text-transform:uppercase">FOTO FRONTAL</span></div>')+
+            (sorrisoRawImg?'<img src="'+sorrisoRawImg+'" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;">':
+              '<div style="height:100%;min-height:240px;display:flex;align-items:center;justify-content:center"><span style="font-size:7px;color:rgba(255,255,255,.15);letter-spacing:2px;text-transform:uppercase">FOTO DO PACIENTE</span></div>')+
           '</div>'+
           '<div style="border:1px solid #E5E1DA;border-radius:2px;padding:12px 14px">'+
             '<div style="font-size:7.5px;letter-spacing:1.5px;text-transform:uppercase;color:#6F737A;margin-bottom:4px">Ortodontista Responsável</div>'+
@@ -1623,8 +1881,12 @@ function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorris
         '</div>'+
       '</div>'+
       '<div style="margin-top:20px;padding:15px 20px;background:#0F2537;border-radius:2px">'+
-        '<div style="font-size:7.5px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:6px">Síntese Diagnóstica</div>'+
-        '<div style="font-family:\'Cormorant Garamond\',serif;font-size:12.5px;font-weight:300;color:rgba(255,255,255,.85);line-height:1.75;font-style:italic">"'+e(diagText)+'"</div>'+
+        '<div style="font-size:7.5px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:8px">Síntese Diagnóstica</div>'+
+        '<div style="font-size:10.5px;color:rgba(255,255,255,.85);line-height:1.6">'+
+          '<div><span style="color:rgba(255,255,255,.45)">Paciente:</span> '+e(patName)+'</div>'+
+          '<div style="margin-top:2px"><span style="color:rgba(255,255,255,.45)">Ortodontista:</span> Dr. Matheus Tadao Wakasugui</div>'+
+          '<div style="margin-top:6px"><span style="color:rgba(255,255,255,.45)">Problemas identificados:</span> '+e(problemsList)+'</div>'+
+        '</div>'+
       '</div>'+
       '<div style="height:24px"></div>'+
     '</div>'+
@@ -1669,10 +1931,31 @@ function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorris
         'A avaliação frontal fornece dados fundamentais sobre a harmonia vertical e a simetria facial, orientando as decisões de ancoragem e mecânica do tratamento.')+
     '</div>'+pf(2)+'</div>';
 
-  // ── Page 3: Sorriso ──
+  // ── Page 3: Frontal — Achados Complementares ──
+  function miniRowGeneric(id) {
+    const a = ANALYSES.find(x=>x.id===id); if (!a) return '';
+    const isClass = a.type === 'CLASSIFICATION';
+    const val = isClass ? chip(id, m[id]) : '<span style="font-family:\'Cormorant Garamond\',serif;font-size:13px;color:#0F2537">'+measDisplayVal(id, m[id])+'</span>';
+    return '<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid #EDEAE6">'+
+      '<span style="font-size:9px;color:#0F2537">'+e(a.label)+'</span>'+val+'</div>';
+  }
+  const page2b = '<div class="page">'+ph('Análise Frontal — Complementar',3)+
+    '<div class="pb">'+
+      '<div><div class="sec-eyebrow">Avaliação Facial Complementar</div>'+
+        '<div class="sec-title">Frontal — Achados Complementares</div>'+
+        '<div class="sec-sub">Padrão Facial · Simetria Ocular · Competência e Espessura Labial · Padrão Vertical · Assimetria</div></div>'+
+      '<div class="g2">'+
+        '<div class="panel">'+miniRowGeneric('P01.A13')+miniRowGeneric('P01.A14')+miniRowGeneric('P01.A15')+miniRowGeneric('P01.A16')+'</div>'+
+        '<div class="panel">'+miniRowGeneric('P01.A17')+miniRowGeneric('P01.A18')+miniRowGeneric('P01.A19')+miniRowGeneric('P01.A11')+'</div>'+
+      '</div>'+
+      insight('Interpretação Clínica · Achados Frontais Complementares',
+        'O padrão facial, o padrão vertical e a origem provável da assimetria complementam a análise frontal básica, orientando a decisão entre abordagem ortodôntica isolada e associação com cirurgia ortognática. A espessura labial e a competência labial influenciam o planejamento de retração/protrusão dentária e o perfil de tecidos moles final.')+
+    '</div>'+pf(3)+'</div>';
+
+  // ── Page 4: Sorriso ──
   const midCol = (midline!==null&&Math.abs(midline)>2)?'#7A5A1A':'#0F2537';
   const midCls = (midline!==null&&Math.abs(midline)>2)?'ca':'cn';
-  const page3 = '<div class="page">'+ph('Análise do Sorriso',3)+
+  const page3 = '<div class="page">'+ph('Análise do Sorriso',4)+
     '<div class="pb">'+
       '<div><div class="sec-eyebrow">Avaliação do Sorriso</div>'+
         '<div class="sec-title">Linha Média · Exposição · Proporção Labial</div>'+
@@ -1726,10 +2009,24 @@ function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorris
       insight('Interpretação Clínica · Análise do Sorriso',
         (midline!==null?'O desvio de linha média de '+(midline>0?'+':'')+midline.toFixed(1)+' mm '+(Math.abs(midline)<=2?'situa-se dentro dos limites de aceitabilidade clínica':'supera o limite aceitável, devendo ser investigada a origem dental ou esquelética')+'. ':'')+
         'A exposição dentária e labial, a razão Sup/Inf e a competência labial são parâmetros fundamentais para o planejamento estético e funcional do caso.')+
-    '</div>'+pf(3)+'</div>';
+    '</div>'+pf(4)+'</div>';
 
-  // ── Page 4: Perfil ──
-  const page4 = '<div class="page">'+ph('Análise de Perfil',4)+
+  // ── Page 5: Sorriso — Achados Complementares ──
+  const page3b = '<div class="page">'+ph('Análise do Sorriso — Complementar',5)+
+    '<div class="pb">'+
+      '<div><div class="sec-eyebrow">Avaliação do Sorriso Complementar</div>'+
+        '<div class="sec-title">Sorriso — Achados Complementares</div>'+
+        '<div class="sec-sub">Tipo de Sorriso · Corredor Bucal · Dentes Visíveis · Exposição Incisal e Gengival · Zênites</div></div>'+
+      '<div class="g2">'+
+        '<div class="panel">'+miniRowGeneric('P01.A20')+miniRowGeneric('P01.A21')+miniRowGeneric('P01.A22')+'</div>'+
+        '<div class="panel">'+miniRowGeneric('P01.A23')+miniRowGeneric('P01.A24')+miniRowGeneric('P01.A25')+miniRowGeneric('P01.A26')+'</div>'+
+      '</div>'+
+      insight('Interpretação Clínica · Achados do Sorriso Complementares',
+        'O tipo de sorriso, o corredor bucal e a exposição gengival total definem a estética do sorriso e orientam decisões de intrusão/extrusão incisal, gengivectomia estética ou uso de toxina botulínica no lábio superior quando indicado. O alinhamento dos zênites gengivais complementa o planejamento restaurador quando aplicável.')+
+    '</div>'+pf(5)+'</div>';
+
+  // ── Page 6: Perfil ──
+  const page4 = '<div class="page">'+ph('Análise de Perfil',6)+
     '<div class="pb">'+
       '<div><div class="sec-eyebrow">Avaliação Lateral</div>'+
         '<div class="sec-title">Análise de Perfil</div>'+
@@ -1779,42 +2076,39 @@ function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorris
         (m['P01.A08']&&m['P01.A08']!=='NORMAL'?'O mento '+blbl('P01.A08',m['P01.A08']).toLowerCase()+' é relevante para o planejamento de eventual genioplastia. ':'')+
         (nasoAngle!==null?'O ângulo nasolabial de '+nasoAngle.toFixed(0)+'° '+(nasoAngle>=90&&nasoAngle<=110?'está dentro dos limites normais':'sugere avaliar componente nasal')+'. ':'')+
         'A análise de perfil orienta a decisão sobre extrações e mecânica de ancoragem.')+
-    '</div>'+pf(4)+'</div>';
+    '</div>'+pf(6)+'</div>';
 
-  // ── Page 5: Intrabucal ──
-  const page5 = '<div class="page">'+ph('Análise Intrabucal',5)+
+  // ── Page 7: Perfil — Achados Complementares ──
+  const page4b = '<div class="page">'+ph('Análise de Perfil — Complementar',7)+
+    '<div class="pb">'+
+      '<div><div class="sec-eyebrow">Avaliação Lateral Complementar</div>'+
+        '<div class="sec-title">Perfil — Achados Complementares</div>'+
+        '<div class="sec-sub">Projeção Maxilar e Mandibular Aparentes · Equilíbrio Labial no Perfil</div></div>'+
+      '<div class="panel">'+miniRowGeneric('P01.A27')+miniRowGeneric('P01.A28')+miniRowGeneric('P01.A29')+'</div>'+
+      insight('Interpretação Clínica · Achados de Perfil Complementares',
+        'A projeção maxilar e mandibular aparentes, associadas ao equilíbrio labial no perfil, ajudam a distinguir componentes dentários de componentes esqueléticos na discrepância ântero-posterior, orientando a indicação de aparelhos ortopédicos funcionais, extrações estratégicas ou cirurgia ortognática conforme a idade e a gravidade do caso.')+
+    '</div>'+pf(7)+'</div>';
+
+  // ── Page 8: Intrabucal ──
+  function miniRow(id) {
+    const a = ANALYSES.find(x=>x.id===id); if (!a) return '';
+    return '<div style="display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid #EDEAE6">'+
+      '<span style="font-size:9px;color:#0F2537">'+e(a.label)+'</span>'+chip(id,m[id])+'</div>';
+  }
+  const page5 = '<div class="page">'+ph('Análise Intrabucal',8)+
     '<div class="pb">'+
       '<div><div class="sec-eyebrow">Documentação Intrabucal</div>'+
         '<div class="sec-title">Análise Intrabucal</div>'+
-        '<div class="sec-sub">Linhas Médias Superior e Inferior · Documentação Fotográfica</div></div>'+
-      '<div class="g3">'+
+        '<div class="sec-sub">Linhas Médias · Plano Oclusal · Overbite · Mordida Cruzada · Apinhamento · Diastemas</div></div>'+
+      '<div style="display:grid;grid-template-columns:180px 1fr;gap:18px;flex:1">'+
         '<div>'+
-          '<div style="background:#0A0C10;border-radius:2px;overflow:hidden;height:132px">'+photoEl(frontalImg,'FRONTAL',132)+'</div>'+
-          '<div style="font-size:7.5px;color:#6F737A;text-align:center;margin-top:4px;letter-spacing:.3px">Foto frontal de rosto</div>'+
+          '<div style="background:#0A0C10;border-radius:2px;overflow:hidden;height:260px">'+photoEl(intrabucalImg,'INTRABUCAL',260)+'</div>'+
+          '<div style="font-size:7.5px;color:#6F737A;text-align:center;margin-top:5px;letter-spacing:.3px">Vista intrabucal frontal</div>'+
         '</div>'+
-        '<div>'+
-          '<div style="background:#0A0C10;border-radius:2px;overflow:hidden;height:132px">'+photoEl(sorrisoImg,'SORRISO',132)+'</div>'+
-          '<div style="font-size:7.5px;color:#6F737A;text-align:center;margin-top:4px;letter-spacing:.3px">Foto de sorriso</div>'+
-        '</div>'+
-        '<div>'+
-          '<div style="background:#0A0C10;border-radius:2px;overflow:hidden;height:132px">'+photoEl(intrabucalImg,'INTRABUCAL',132)+'</div>'+
-          '<div style="font-size:7.5px;color:#6F737A;text-align:center;margin-top:4px;letter-spacing:.3px">Foto intrabucal frontal</div>'+
-        '</div>'+
-      '</div>'+
-      '<div class="g2">'+
-        '<div class="panel">'+
-          '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">'+
-            '<div style="width:5px;height:5px;border-radius:50%;background:#B08D57;flex-shrink:0"></div>'+
-            '<div class="lbl">Linha Média Superior · U1s</div></div>'+
-          '<div style="font-family:\'Cormorant Garamond\',serif;font-size:13px;font-weight:400;color:#0F2537;margin-bottom:3px">Entre Incisivos Centrais Superiores</div>'+
-          '<div class="caption">Referência para diagnóstico diferencial entre desvio dental e esquelético. Correlacionar com a linha média facial (Tr–Me).</div>'+
-        '</div>'+
-        '<div class="panel">'+
-          '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">'+
-            '<div style="width:5px;height:5px;border-radius:50%;background:#2B2F36;flex-shrink:0"></div>'+
-            '<div class="lbl">Linha Média Inferior · L1i</div></div>'+
-          '<div style="font-family:\'Cormorant Garamond\',serif;font-size:13px;font-weight:400;color:#0F2537;margin-bottom:3px">Entre Incisivos Centrais Inferiores</div>'+
-          '<div class="caption">Discordância entre linhas médias indica componente dental passível de correção com mecânica assimétrica.</div>'+
+        '<div class="panel" style="display:flex;flex-direction:column">'+
+          '<div class="lbl" style="margin-bottom:2px">Achados Oclusais</div>'+
+          miniRow('P01.A30')+miniRow('P01.A31')+miniRow('P01.A32')+miniRow('P01.A33')+
+          miniRow('P01.A34')+miniRow('P01.A35')+miniRow('P01.A36')+miniRow('P01.A37')+
         '</div>'+
       '</div>'+
       '<div style="border:1px solid #E5E1DA;border-radius:2px;padding:14px 18px;display:flex;gap:22px;align-items:center">'+
@@ -1835,9 +2129,9 @@ function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorris
       '</div>'+
       insight('Interpretação Clínica · Análise Intrabucal',
         'A documentação intrabucal é essencial para distinguir a origem do desvio de linha média identificado na análise extrabucal. Desvios de origem dental respondem bem à mecânica ortodôntica assimétrica, enquanto desvios esqueléticos podem requerer cirurgia ortognática. A correlação com a cefalometria posteroanterior complementa o diagnóstico diferencial.')+
-    '</div>'+pf(5)+'</div>';
+    '</div>'+pf(8)+'</div>';
 
-  // ── Page 6: Plano de Tratamento ──
+  // ── Page 9: Plano de Tratamento ──
   const hasTN = treatmentNotes && treatmentNotes.trim();
   const tlHtml = hasTN
     ? '<div style="font-size:9.5px;color:#2B2F36;line-height:1.8;white-space:pre-wrap">'+e(treatmentNotes)+'</div>'
@@ -1857,14 +2151,18 @@ function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorris
         '</div>'+
       '</div>').join('');
 
-  const page6 = '<div class="page" style="page-break-after:auto">'+ph('Plano de Tratamento',6)+
+  const page6 = '<div class="page" style="page-break-after:auto">'+ph('Plano de Tratamento',9)+
     '<div class="pb">'+
       '<div><div class="sec-eyebrow">Conclusão e Conduta</div>'+
         '<div class="sec-title">Plano de Tratamento</div>'+
         '<div class="sec-sub">Diagnóstico Consolidado · Objetivos Terapêuticos · Cronograma · Compromisso Clínico</div></div>'+
       '<div style="background:#0F2537;border-radius:2px;padding:15px 20px">'+
         '<div style="font-size:7.5px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:7px">Diagnóstico Consolidado</div>'+
-        '<div style="font-family:\'Cormorant Garamond\',serif;font-size:12.5px;font-weight:300;color:rgba(255,255,255,.85);line-height:1.8;font-style:italic">"'+e(diagText)+'"</div>'+
+        '<div style="font-size:10.5px;color:rgba(255,255,255,.85);line-height:1.6">'+
+          '<div><span style="color:rgba(255,255,255,.45)">Paciente:</span> '+e(patName)+'</div>'+
+          '<div style="margin-top:2px"><span style="color:rgba(255,255,255,.45)">Ortodontista:</span> Dr. Matheus Tadao Wakasugui</div>'+
+          '<div style="margin-top:6px"><span style="color:rgba(255,255,255,.45)">Problemas identificados:</span> '+e(problemsList)+'</div>'+
+        '</div>'+
       '</div>'+
       '<div class="g2">'+
         '<div><div style="font-size:7.5px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:#2A5C3A;margin-bottom:7px">Pontos Favoráveis</div>'+
@@ -1884,14 +2182,14 @@ function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorris
           '<div style="font-size:8px;color:#6F737A;margin-top:2px;letter-spacing:.3px">Avaliação Ortodôntica · Protocolo Tadao · '+todayShort+'</div>'+
           '<div style="height:1px;background:#B08D57;width:46px;margin-top:6px;margin-left:auto;opacity:.5"></div></div>'+
       '</div>'+
-    '</div>'+pf(6)+'</div>';
+    '</div>'+pf(9)+'</div>';
 
   return '<!DOCTYPE html>\n<html lang="pt-BR">\n<head>\n<meta charset="UTF-8">\n'+
     '<title>Protocolo Tadao — '+e(patName)+'</title>\n'+
     '<style>\n'+CSS+'\n</style>\n</head>\n<body>\n'+
     '<div class="pbar"><span>Dr. Matheus Tadao Wakasugui · Protocolo Tadao · Relatório de Avaliação Ortodôntica</span>'+
     '<button onclick="window.print()">Exportar PDF</button></div>\n'+
-    page1+page2+page3+page4+page5+page6+'\n</body>\n</html>';
+    page1+page2+page2b+page3+page3b+page4+page4b+page5+page6+'\n</body>\n</html>';
 }
 
 function generatePDF() {
@@ -1902,9 +2200,10 @@ function generatePDF() {
   const perfilImg     = getAnnotatedImage('perfil');
   const sorrisoImg    = getAnnotatedImage('sorriso');
   const intrabucalImg = getAnnotatedImage('intrabucal');
+  const sorrisoRawImg = getRawImage('sorriso') || sorrisoImg;
 
   const html = buildPDFHTML({
-    frontalImg, perfilImg, sorrisoImg, intrabucalImg,
+    frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorrisoRawImg,
     sorrisoPoints:  state.points.sorriso || {},
     sorrisoImgNat:  state.imgNat.sorriso || null,
     measurements:   d.measurements || collectMeasurementsSnapshot(),
