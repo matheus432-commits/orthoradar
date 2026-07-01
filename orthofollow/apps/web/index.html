@@ -420,7 +420,7 @@
         <div class="field"><label>ID do Caso (UUID)</label><input id="av-case-id" type="text" placeholder="UUID do caso"></div>
         <div class="grid2">
           <div class="field"><label>Sessão</label>
-            <select id="av-session"><option value="T0">T0</option><option value="T1">T1</option><option value="T2">T2</option><option value="T3">T3</option><option value="TN">TN</option></select>
+            <select id="av-session" onchange="onSessionChange()"><option value="T0">T0</option><option value="T1">T1</option><option value="T2">T2</option><option value="T3">T3</option><option value="TN">TN</option></select>
           </div>
           <div class="field"><label>Sexo</label>
             <select id="av-sex"><option value="F">Feminino</option><option value="M">Masculino</option><option value="UNSPECIFIED">N/I</option></select>
@@ -628,7 +628,8 @@ const API = '/api/v1';
 const state = {
   files: {},
   points: { frontal:{}, perfil:{}, sorriso:{}, intrabucal:{} },
-  imgNat: { frontal:null, perfil:null, sorriso:null, intrabucal:null }
+  imgNat: { frontal:null, perfil:null, sorriso:null, intrabucal:null },
+  dataUrls: {}
 };
 const annotators = { frontal:null, perfil:null, sorriso:null, intrabucal:null };
 let stlViewer = null;
@@ -697,10 +698,97 @@ async function loadDashboard() {
 }
 
 function goToCase(caseId, birth, sex) {
+  resetEvaluationState();
   document.getElementById('av-case-id').value   = caseId;
+  document.getElementById('av-session').value   = 'T0';
   document.getElementById('av-birth-date').value = birth ? birth.substring(0,10) : '';
   document.getElementById('av-sex').value       = sex || 'UNSPECIFIED';
   navigate('avaliacao');
+  loadCasePhotosForCurrentCase();
+}
+
+function onSessionChange() {
+  resetEvaluationState();
+  initAnnotators();
+  loadCasePhotosForCurrentCase();
+}
+
+// Clears in-memory photos/points/annotators so switching cases (or sessions)
+// doesn't leak the previous case's marked points into the new one.
+function resetEvaluationState() {
+  state.files   = {};
+  state.points  = { frontal:{}, perfil:{}, sorriso:{}, intrabucal:{} };
+  state.imgNat  = { frontal:null, perfil:null, sorriso:null, intrabucal:null };
+  state.dataUrls = {};
+  for (const key of Object.keys(annotators)) {
+    if (annotators[key] && annotators[key].ro) annotators[key].ro.disconnect();
+    annotators[key] = null;
+  }
+  ['frontal','perfil','sorriso','intrabucal'].forEach(key => {
+    const up = document.getElementById('up-' + key);
+    if (up) up.innerHTML = '';
+  });
+}
+
+// Fetches previously saved photos + landmark points for the case/session
+// currently loaded in the Avaliação form and restores them into the annotators,
+// so reopening a case doesn't require re-uploading photos or re-marking points.
+async function loadCasePhotosForCurrentCase() {
+  const caseId  = document.getElementById('av-case-id').value.trim();
+  const session = document.getElementById('av-session').value;
+  if (!caseId) return;
+  try {
+    const r = await fetch(`${API}/cases/${enc(caseId)}/sessions/${enc(session)}/photos`);
+    if (!r.ok) return;
+    const { photos } = await r.json();
+    if (!photos || !Object.keys(photos).length) return;
+    initAnnotators();
+    for (const key of ['frontal','perfil','sorriso','intrabucal']) {
+      const p = photos[key];
+      if (!p || !p.imageData) continue;
+      state.dataUrls[key] = p.imageData;
+      if (annotators[key]) annotators[key].loadFromDataUrl(p.imageData, p.points || {});
+      updateUploadPreviewFromDataUrl(key, p.imageData);
+    }
+  } catch (e) {
+    console.warn('Não foi possível carregar fotos salvas do caso:', e.message);
+  }
+}
+
+let _savePhotoTimers = {};
+function scheduleSavePhoto(key) {
+  clearTimeout(_savePhotoTimers[key]);
+  _savePhotoTimers[key] = setTimeout(() => savePhotoNow(key), 600);
+}
+
+async function savePhotoNow(key) {
+  const caseId  = document.getElementById('av-case-id').value.trim();
+  const session = document.getElementById('av-session').value;
+  const dataUrl = state.dataUrls[key];
+  if (!caseId || !dataUrl) return;
+  const nat = state.imgNat[key];
+  try {
+    await fetch(`${API}/cases/${enc(caseId)}/sessions/${enc(session)}/photos/${enc(key)}`, {
+      method: 'PUT', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        imageData: dataUrl,
+        points:    state.points[key] || {},
+        natWidth:  nat ? nat.w : null,
+        natHeight: nat ? nat.h : null
+      })
+    });
+  } catch (e) {
+    console.warn('Não foi possível salvar a foto em nuvem:', e.message);
+  }
+}
+
+function fileToDataURL(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload  = () => resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
 }
 
 /* ═══════════════════════════════
@@ -724,6 +812,10 @@ function storeFile(key, file) {
     else if (document.getElementById('page-avaliacao').classList.contains('active')) {
       initAnnotators();
     }
+    fileToDataURL(file).then(dataUrl => {
+      state.dataUrls[key] = dataUrl;
+      scheduleSavePhoto(key);
+    }).catch(e => console.warn('Falha ao converter foto para salvamento:', e.message));
   } else {
     updateUploadPreview('stl', file);
     if (stlViewer) stlViewer.loadSTL(file);
@@ -743,6 +835,16 @@ function updateUploadPreview(key, file) {
   } else {
     up.innerHTML = `<div class="upload-fname">✓ ${esc(file.name)}</div>`;
   }
+}
+
+function updateUploadPreviewFromDataUrl(key, dataUrl) {
+  const uzMap = { frontal:'uz-frontal', perfil:'uz-perfil', sorriso:'uz-sorriso', intrabucal:'uz-intrabucal' };
+  const upMap = { frontal:'up-frontal', perfil:'up-perfil', sorriso:'up-sorriso', intrabucal:'up-intrabucal' };
+  const uz = document.getElementById(uzMap[key]);
+  const up = document.getElementById(upMap[key]);
+  if (!uz || !up) return;
+  uz.classList.add('has-file');
+  up.innerHTML = `<img src="${dataUrl}" alt="preview"><div class="upload-fname">Foto salva anteriormente</div>`;
 }
 
 function dzOver(e, id)    { e.preventDefault(); document.getElementById(id).classList.add('drag-over'); }
@@ -794,6 +896,20 @@ class PhotoAnnotator {
     this.imgEl.src = url;
   }
 
+  // Restores a previously saved photo (as a data URL) plus its landmark points,
+  // so reopening a case doesn't require re-uploading photos and re-marking points.
+  loadFromDataUrl(dataUrl, pts) {
+    this.imgEl.onload = () => {
+      state.imgNat[this.key] = { w: this.imgEl.naturalWidth, h: this.imgEl.naturalHeight };
+      this.pts = pts || {};
+      this.idx = Object.keys(this.pts).length;
+      state.points[this.key] = this.pts;
+      this.sync(); this.redraw(); this.updateUI();
+      calculateMeasurements();
+    };
+    this.imgEl.src = dataUrl;
+  }
+
   sync() {
     if (!this.imgEl.naturalWidth) return;
     const dpr = window.devicePixelRatio || 1;
@@ -818,6 +934,7 @@ class PhotoAnnotator {
     this.redraw();
     this.updateUI();
     calculateMeasurements();
+    scheduleSavePhoto(this.key);
   }
 
   undo() {
@@ -826,12 +943,14 @@ class PhotoAnnotator {
     delete this.pts[this.def.points[this.idx].key];
     state.points[this.key] = this.pts;
     this.redraw(); this.updateUI(); calculateMeasurements();
+    scheduleSavePhoto(this.key);
   }
 
   reset() {
     this.pts = {}; this.idx = 0;
     state.points[this.key] = {};
     this.redraw(); this.updateUI(); calculateMeasurements();
+    scheduleSavePhoto(this.key);
   }
 
   redraw() {
