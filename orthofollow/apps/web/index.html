@@ -1063,20 +1063,22 @@ function renderMeasurements() {
    PIPELINE
 ═══════════════════════════════ */
 function collectMeasurements() {
-  const out = [];
+  const out     = [];
+  const missing = [];
   for (const a of ANALYSES) {
     const el  = document.getElementById('meas-' + a.id);
     const raw = el.value.trim();
     if (a.type === 'CLASSIFICATION') {
-      out.push({ analysisId:a.id, value:{ type:'CLASSIFICATION', classification:raw||a.options[0], unit:'NONE' } });
+      if (!raw) { missing.push(a); continue; }
+      out.push({ analysisId:a.id, value:{ type:'CLASSIFICATION', classification:raw, unit:'NONE' } });
     } else {
-      if (raw === '') continue;
-      const n = parseFloat(raw);
-      if (isNaN(n)) continue;
+      if (raw === '') { missing.push(a); continue; }
+      const n = parseFloat(raw.replace(',', '.'));
+      if (isNaN(n)) { missing.push(a); continue; }
       out.push({ analysisId:a.id, value:{ type:a.type, numericValue:String(n), unit:a.unit } });
     }
   }
-  return { measurements:out };
+  return { measurements:out, missing };
 }
 
 async function runPipeline() {
@@ -1090,13 +1092,19 @@ async function runPipeline() {
   if (!caseId)   { showAlert('alert-av','danger','ID do caso é obrigatório.'); return; }
   if (!birthDate){ showAlert('alert-av','danger','Data de nascimento é obrigatória.'); return; }
 
-  const { measurements } = collectMeasurements();
+  const { measurements, missing } = collectMeasurements();
+
+  if (missing.length) {
+    showAlert('alert-av','danger','Preencha os campos obrigatórios antes de gerar o relatório: ' + missing.map(a=>a.label).join(', ') + '.');
+    return;
+  }
 
   btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Processando…';
   document.getElementById('report-section').classList.remove('show');
   showAlert('alert-av','info','Registrando medições…');
 
   try {
+    const failed = [];
     for (const m of measurements) {
       const r = await fetch(`${API}/cases/${enc(caseId)}/sessions/${enc(session)}/measurements`, {
         method:'POST', headers:{'Content-Type':'application/json'},
@@ -1104,9 +1112,16 @@ async function runPipeline() {
       });
       const b = await r.json();
       if (!r.ok) {
-        if (r.status === 422 || r.status === 400) continue;
-        throw new Error(`${m.analysisId}: ${b.error?.message || r.statusText}`);
+        if (r.status === 422 || r.status === 400) {
+          const reason = (b.validation?.errors||[]).map(e=>e.message).join('; ') || b.error?.message || 'valor inválido';
+          failed.push(`${measLabel(m.analysisId)} (${reason})`);
+          continue;
+        }
+        throw new Error(`${measLabel(m.analysisId)}: ${b.error?.message || r.statusText}`);
       }
+    }
+    if (failed.length) {
+      throw new Error('Não foi possível salvar: ' + failed.join(' · '));
     }
     showAlert('alert-av','info','Executando análise clínica…');
     const ex = await fetch(`${API}/cases/${enc(caseId)}/sessions/${enc(session)}/execute`, {
@@ -1114,7 +1129,12 @@ async function runPipeline() {
       body:JSON.stringify({ protocolId:'P01', patientBirthDate:birthDate, patientSex:sex, startedBy:orthId })
     });
     const exD = await ex.json();
-    if (!ex.ok) throw new Error(exD.error?.message || 'Erro na execução');
+    if (!ex.ok) {
+      if (exD.error?.code === 'BUNDLE_INCOMPLETE' && Array.isArray(exD.error?.missing) && exD.error.missing.length) {
+        throw new Error('Faltam medições obrigatórias: ' + exD.error.missing.map(measLabel).join(', ') + '.');
+      }
+      throw new Error(exD.error?.message || 'Erro na execução');
+    }
     const params = new URLSearchParams({ protocolId:'P01', patientBirthDate:birthDate, patientSex:sex });
     const txR = await fetch(`${API}/cases/${enc(caseId)}/sessions/${enc(session)}/report/text?${params}`);
     const txt = txR.ok ? await txR.text() : null;
