@@ -514,6 +514,7 @@ const PHOTO_DEFS = {
       { key:'CoE', label:'Comissura Esq.',                   hint:'Canto esquerdo da boca (comissura labial esquerda)' },
       { key:'PMd', label:'Último Dente Dir.',                hint:'Borda do último dente visível à direita (corredor bucal)' },
       { key:'PMe', label:'Último Dente Esq.',                hint:'Borda do último dente visível à esquerda (corredor bucal)' },
+      { key:'SsS', label:'Borda Lábio Sup.',                 hint:'Borda inferior do lábio superior (vermelhão), no repouso da linha do sorriso' },
       { key:'StI', label:'Borda Lábio Inf.',                 hint:'Borda superior do lábio inferior (referência linha do sorriso)' },
     ]
   },
@@ -809,7 +810,7 @@ class PhotoAnnotator {
     const lineMap = {
       frontal: [['Tr','G','Sn','Me'], ['Pd','Pe']],
       perfil:  [['Tr','G','Prn','Sn','Ls','Pg','Me']],
-      sorriso: [['Tr','Me'],['CoD','CoE'],['PMd','PMe']]
+      sorriso: [['Tr','Me'],['CoD','CoE'],['PMd','PMe'],['SsS','StI']]
     };
     const groups = lineMap[this.key] || [];
     for (const grp of groups) {
@@ -990,6 +991,20 @@ function calculateMeasurements() {
         const pxMm = comPx / 50;
         const expPx = Math.abs(sp.StI.y - sp.U1.y) * nat.h;
         setAuto('P01.A12', (expPx / pxMm).toFixed(1));
+        anyAuto = true;
+      }
+    }
+  }
+
+  // ── Sorriso: Razão labial Sup/Inf → P01.A10 (SsS/StI relativos à linha de comissura) ──
+  if (sp.SsS && sp.StI && sp.CoD && sp.CoE) {
+    const nat = state.imgNat.sorriso;
+    if (nat) {
+      const comY = (sp.CoD.y + sp.CoE.y) / 2;
+      const upperH = Math.abs(comY - sp.SsS.y) * nat.h;
+      const lowerH = Math.abs(sp.StI.y - comY) * nat.h;
+      if (lowerH > 0.01) {
+        setAuto('P01.A10', (upperH / lowerH).toFixed(2));
         anyAuto = true;
       }
     }
@@ -1267,7 +1282,7 @@ function getAnnotatedImage(key) {
   const lineMap = {
     frontal: [['Tr','G','Sn','Me'],['Pd','Pe']],
     perfil:  [['Tr','G','Prn','Sn','Ls','Pg','Me']],
-    sorriso: [['Tr','Me'],['CoD','CoE'],['PMd','PMe']]
+    sorriso: [['Tr','Me'],['CoD','CoE'],['PMd','PMe'],['SsS','StI']]
   };
   for (const grp of (lineMap[key]||[])) {
     const coords = grp.map(k=>pts[k]).filter(Boolean);
