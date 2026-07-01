@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist",
+    "paths": {
+      "@orthofollow/shared": ["../shared/src"],
+      "@orthofollow/knw":    ["../knw/src"]
+    }
+  },
+  "include": ["src"],
+  "references": [
+    { "path": "../shared" },
+    { "path": "../knw" }
+  ]
+}

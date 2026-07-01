@@ -1,0 +1,24 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist",
+    "paths": {
+      "@orthofollow/shared": ["../shared/src"],
+      "@orthofollow/ca":     ["../ca/src"],
+      "@orthofollow/math":   ["../math/src"],
+      "@orthofollow/knw":    ["../knw/src"],
+      "@orthofollow/wf":     ["../wf/src"],
+      "@orthofollow/pcf":    ["../pcf/src"]
+    }
+  },
+  "include": ["src"],
+  "references": [
+    { "path": "../shared" },
+    { "path": "../ca" },
+    { "path": "../math" },
+    { "path": "../knw" },
+    { "path": "../wf" },
+    { "path": "../pcf" }
+  ]
+}

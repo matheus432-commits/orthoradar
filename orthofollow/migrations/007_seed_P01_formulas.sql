@@ -1,0 +1,18 @@
+-- Migration 007: Seed FormulaRecords do P01
+
+INSERT INTO math.formula_records (id, slug, display_name, category, status, current_version, depends_on, math_spec) VALUES
+(uuid_generate_v4(),'facial-vertical-symmetry-class','Classificação Simetria Facial Vertical','CLASSIFICATION_RULE','ACTIVE','1.0.0','[]','{"algorithm":{"type":"CLASSIFICATION","inputId":"P01.A01","outputUnit":"NONE"},"preconditions":[]}'),
+(uuid_generate_v4(),'midline-deviation-severity','Severidade Desvio Linha Média','THRESHOLD_COMPARISON','ACTIVE','1.0.0','[]','{"algorithm":{"type":"THRESHOLD","inputId":"P01.A02","outputUnit":"MM","precision":4,"thresholds":[{"classification":"NO_DEVIATION","min":-1,"max":1},{"classification":"MILD_DEVIATION","min":-3,"max":3},{"classification":"MODERATE_DEVIATION","min":-5,"max":5},{"classification":"SEVERE_DEVIATION","min":-30,"max":30}]},"preconditions":[]}'),
+(uuid_generate_v4(),'facial-thirds-ratio','Proporção Terços Faciais','THRESHOLD_COMPARISON','ACTIVE','1.0.0','[]','{"algorithm":{"type":"THRESHOLD","inputId":"P01.A05","outputUnit":"PERCENT","precision":2,"thresholds":[{"classification":"BALANCED","min":30,"max":37},{"classification":"MILD_IMBALANCE","min":27,"max":40},{"classification":"MODERATE_IMBALANCE","min":22,"max":45},{"classification":"SEVERE_IMBALANCE","min":0,"max":100}]},"preconditions":[]}'),
+(uuid_generate_v4(),'facial-profile-class','Classificação Perfil Facial','CLASSIFICATION_RULE','ACTIVE','1.0.0','[]','{"algorithm":{"type":"CLASSIFICATION","inputId":"P01.A06","outputUnit":"NONE"},"preconditions":[]}'),
+(uuid_generate_v4(),'nasolabial-angle-severity','Severidade Ângulo Nasolabial','THRESHOLD_COMPARISON','ACTIVE','1.0.0','[]','{"algorithm":{"type":"THRESHOLD","inputId":"P01.A07","outputUnit":"DEGREES","precision":1,"thresholds":[{"classification":"NORMAL","min":90,"max":110},{"classification":"OBTUSE","min":110,"max":145},{"classification":"ACUTE","min":70,"max":90},{"classification":"EXTREME","min":70,"max":145}]},"preconditions":[]}'),
+(uuid_generate_v4(),'chin-position-class','Classificação Posição do Mento','CLASSIFICATION_RULE','ACTIVE','1.0.0','[]','{"algorithm":{"type":"CLASSIFICATION","inputId":"P01.A08","outputUnit":"NONE"},"preconditions":[]}'),
+(uuid_generate_v4(),'labiomental-groove-class','Classificação Sulco Labiomental','CLASSIFICATION_RULE','ACTIVE','1.0.0','[]','{"algorithm":{"type":"CLASSIFICATION","inputId":"P01.A09","outputUnit":"NONE"},"preconditions":[]}'),
+(uuid_generate_v4(),'lip-ratio-severity','Severidade Proporção Lábios','THRESHOLD_COMPARISON','ACTIVE','1.0.0','[]','{"algorithm":{"type":"THRESHOLD","inputId":"P01.A10","outputUnit":"RATIO","precision":2,"thresholds":[{"classification":"IDEAL","min":0.7,"max":0.8},{"classification":"ADEQUATE","min":0.6,"max":0.9},{"classification":"ALTERED","min":0.3,"max":2.5}]},"preconditions":[]}'),
+(uuid_generate_v4(),'lip-competence-class','Classificação Competência Labial','CLASSIFICATION_RULE','ACTIVE','1.0.0','[]','{"algorithm":{"type":"CLASSIFICATION","inputId":"P01.A11","outputUnit":"NONE"},"preconditions":[]}'),
+(uuid_generate_v4(),'dental-exposure-rest-severity','Severidade Exposição Dentária em Repouso','THRESHOLD_COMPARISON','ACTIVE','1.0.0','[]','{"algorithm":{"type":"THRESHOLD","inputId":"P01.A12","outputUnit":"MM","precision":1,"thresholds":[{"classification":"IDEAL","min":1,"max":4},{"classification":"ACCEPTABLE","min":0,"max":5},{"classification":"EXCESSIVE","min":5,"max":10},{"classification":"INSUFFICIENT","min":-5,"max":0}]},"preconditions":[]}')
+;
+
+INSERT INTO math.formula_versions (formula_record_id, version, status, spec_snapshot, golden_dataset, published_at)
+SELECT id, '1.0.0', 'ACTIVE', math_spec, '[]', now()
+FROM math.formula_records WHERE status = 'ACTIVE';
