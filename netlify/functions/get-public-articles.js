@@ -29,7 +29,8 @@ exports.handler = async (event) => {
           { fieldPath: 'resumo_pt' }, { fieldPath: 'impacto_pratico' },
           { fieldPath: 'pubmedUrl' }, { fieldPath: 'url' }
         ]},
-        limit: 8
+        // Fetch a larger recent pool so we can pick diverse specialties below
+        limit: 120
       }
     });
     const buf = Buffer.from(body, 'utf8');
@@ -43,7 +44,7 @@ exports.handler = async (event) => {
     if (res.status !== 200) return { statusCode: 500, headers, body: JSON.stringify({ error: 'Firestore error' }) };
 
     const docs = JSON.parse(res.body);
-    const artigos = docs
+    const pool = docs
       .filter(d => d.document)
       .map(d => {
         const f = d.document.fields || {};
@@ -64,6 +65,36 @@ exports.handler = async (event) => {
           url: f.url?.stringValue || '',
         };
       });
+
+    // Selecionar até 8 artigos com especialidades DISTINTAS (sem repetição),
+    // priorizando os mais recentes. O pool já vem ordenado por data DESC, então
+    // pegar o primeiro de cada especialidade preserva a recência.
+    const WANTED = 8;
+    const specKey = a => (a.especialidade || a.tema || '').trim().toLowerCase();
+    const usedSpecs = new Set();
+    const usedIds = new Set();
+    const artigos = [];
+
+    // 1ª passada: um artigo por especialidade distinta
+    for (const a of pool) {
+      if (artigos.length >= WANTED) break;
+      const k = specKey(a);
+      if (k && usedSpecs.has(k)) continue;
+      usedSpecs.add(k);
+      usedIds.add(a.id);
+      artigos.push(a);
+    }
+
+    // 2ª passada (fallback): se não houver especialidades distintas suficientes,
+    // completa com os próximos mais recentes ainda não usados, evitando duplicar artigos.
+    if (artigos.length < WANTED) {
+      for (const a of pool) {
+        if (artigos.length >= WANTED) break;
+        if (usedIds.has(a.id)) continue;
+        usedIds.add(a.id);
+        artigos.push(a);
+      }
+    }
 
     return { statusCode: 200, headers, body: JSON.stringify({ artigos }) };
   } catch (err) {
