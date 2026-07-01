@@ -2039,7 +2039,11 @@ function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorris
         '<div class="sec-sub">Diagnóstico Consolidado · Objetivos Terapêuticos · Cronograma · Compromisso Clínico</div></div>'+
       '<div style="background:#0F2537;border-radius:2px;padding:15px 20px">'+
         '<div style="font-size:7.5px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:7px">Diagnóstico Consolidado</div>'+
-        '<div style="font-family:\'Cormorant Garamond\',serif;font-size:12.5px;font-weight:300;color:rgba(255,255,255,.85);line-height:1.8;font-style:italic">"'+e(diagText)+'"</div>'+
+        '<div style="font-size:10.5px;color:rgba(255,255,255,.85);line-height:1.6">'+
+          '<div><span style="color:rgba(255,255,255,.45)">Paciente:</span> '+e(patName)+'</div>'+
+          '<div style="margin-top:2px"><span style="color:rgba(255,255,255,.45)">Ortodontista:</span> Dr. Matheus Tadao Wakasugui</div>'+
+          '<div style="margin-top:6px"><span style="color:rgba(255,255,255,.45)">Problemas identificados:</span> '+e(problemsList)+'</div>'+
+        '</div>'+
       '</div>'+
       '<div class="g2">'+
         '<div><div style="font-size:7.5px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:#2A5C3A;margin-bottom:7px">Pontos Favoráveis</div>'+

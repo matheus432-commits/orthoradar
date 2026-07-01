@@ -276,9 +276,13 @@ describe('CT-06 PCF: ReportAssembler produces valid AssembledReport', () => {
   })
 })
 
-// ── CT-07: CA CMF: DomainValidator rejects out-of-range values ───────────────
+// ── CT-07: CA CMF: DomainValidator boundary enforcement ──────────────────────
+// P01 analyses intentionally carry no numeric min/max: measured values (even
+// clinically atypical ones, e.g. a 200° nasolabial angle) must always be
+// accepted and recorded so the report reflects the real patient finding
+// rather than being blocked by a hardcoded "normal" range.
 describe('CT-07 CA CMF: DomainValidator boundary enforcement', () => {
-  it('rejects angle outside [70, 145] degrees', async () => {
+  it('accepts an angle outside the typical clinical range', async () => {
     const cmfRepo = new InMemCMFRepo()
     const cmf = new ClinicalMeasurementEngine(cmfRepo as any)
 
@@ -290,10 +294,8 @@ describe('CT-07 CA CMF: DomainValidator boundary enforcement', () => {
       recordedBy:   'dr-test-001'
     })
 
-    assert.equal(result.validation.passed, false)
-    if (!result.validation.passed) {
-      assert.equal(result.validation.errors[0]?.code, 'VALUE_ABOVE_MAXIMUM')
-    }
+    assert.equal(result.validation.passed, true)
+    assert.equal(result.measurementId !== undefined, true)
   })
 
   it('rejects invalid classification for profile type', async () => {
