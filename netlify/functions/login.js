@@ -28,6 +28,7 @@ async function queryByEmail(projectId, apiKey, email) {
   for (const [k, v] of Object.entries(f)) {
     if (v.stringValue !== undefined) out[k] = v.stringValue;
     else if (v.booleanValue !== undefined) out[k] = v.booleanValue;
+    else if (v.integerValue !== undefined) out[k] = v.integerValue;
     else out[k] = '';
   }
   return out;
@@ -109,7 +110,12 @@ exports.handler = async (event) => {
       return { statusCode: 429, headers, body: JSON.stringify({ error: `Conta bloqueada por tentativas excessivas. Tente novamente em ${minutesLeft} minuto(s) ou redefina sua senha.` }) };
     }
 
-    const passwordMatch = user.senhaHash === senhaHash;
+    let passwordMatch = false;
+    try {
+      if (user.senhaHash && senhaHash && user.senhaHash.length === senhaHash.length) {
+        passwordMatch = crypto.timingSafeEqual(Buffer.from(user.senhaHash), Buffer.from(senhaHash));
+      }
+    } catch { passwordMatch = false; }
 
     if (!passwordMatch) {
       // Increment failed attempts and possibly lock account
@@ -131,12 +137,17 @@ exports.handler = async (event) => {
     const token = crypto.randomBytes(32).toString('hex');
     const expiry = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
 
-    await patchFields(projectId, apiKey, user._id, {
+    const patchResult = await patchFields(projectId, apiKey, user._id, {
       sessionToken: token,
       sessionExpiry: expiry,
       loginAttempts: '0',
       loginLockedUntil: ''
     });
+
+    if (!patchResult || patchResult.status < 200 || patchResult.status >= 300) {
+      console.error('[login] patchFields failed', patchResult?.status, (patchResult?.body || '').substring(0, 200));
+      return { statusCode: 500, headers, body: JSON.stringify({ error: 'Erro ao salvar sessão. Tente novamente.' }) };
+    }
 
     return { statusCode: 200, headers, body: JSON.stringify({ success: true, token }) };
   } catch (err) {

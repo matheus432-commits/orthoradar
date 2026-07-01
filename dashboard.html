@@ -647,6 +647,14 @@ if (_bc) _bc.onmessage = ({ data: d }) => {
 function logout(){
   localStorage.removeItem('of_token');
   localStorage.removeItem('of_email');
+  // Reset all global state so a subsequent login starts clean
+  userData=null;
+  recebidosShown=RECEBIDOS_PAGE;
+  prefSelectedSpecs=[];prefSelectedTemas=[];_prefAllTemas=[];
+  _clinicaLoaded=false;_comparatorSet=new Map();
+  _intelLoaded=false;_workspaceLoaded=false;_memoriaLoaded=false;
+  _activeSignal=null;
+  _ctxCurrentPmid=null;_ctxCurrentData=null;_ctxCurrentTab='contexto';_ctxWorkspace=null;
   document.getElementById('dashboardPage').style.display='none';
   document.getElementById('loginPage').style.display='flex';
   document.getElementById('loginEmail').value='';
@@ -675,8 +683,16 @@ const HASH_SALT = 'OF26_';
       const senhaHash = await hashSHA256(senha);
       const res = await fetch('/.netlify/functions/login', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ email, senhaHash }) });
       const data = await res.json();
-      if (res.ok && data.token) { setSession(email, data.token); loadDashboard(email, data.token); }
-      else { msg.className = 'login-msg error'; msg.textContent = data.error || 'E-mail ou senha incorretos.'; btn.disabled = false; btn.textContent = 'Entrar →'; }
+      if (res.ok && data.token) {
+        setSession(email, data.token);
+        await loadDashboard(email, data.token);
+        if (document.getElementById('loginPage').style.display !== 'none') {
+          btn.disabled = false; btn.textContent = 'Entrar →';
+        }
+      } else {
+        msg.className = 'login-msg error'; msg.textContent = data.error || 'E-mail ou senha incorretos.';
+        btn.disabled = false; btn.textContent = 'Entrar →';
+      }
     } catch(e) { msg.className = 'login-msg error'; msg.textContent = 'Erro de conexão. Tente novamente.'; btn.disabled = false; btn.textContent = 'Entrar →'; }
   }
   // ========== LOAD DASHBOARD ==========
@@ -698,8 +714,19 @@ async function loadDashboard(email,token){
     }
     const data=await res.json();
     userData=data;
-    populateDashboard(data);
-  }catch(e){ logout(); }
+    try{
+      populateDashboard(data);
+    }catch(populateErr){
+      console.error('[dashboard] populateDashboard error:', populateErr);
+      const el=document.getElementById('recebidosContent');
+      if(el) el.innerHTML='<div class="empty-state"><div class="empty-icon">⚠️</div><h3>Erro ao carregar dados</h3><p>Recarregue a página (F5) para tentar novamente.</p></div>';
+    }
+  }catch(e){
+    console.error('[dashboard] loadDashboard error:', e);
+    logout();
+    const msgEl=document.getElementById('loginMsg');
+    if(msgEl){ msgEl.className='login-msg error'; msgEl.textContent='Erro de conexão. Verifique sua internet e tente novamente.'; }
+  }
 }
 
 // ========== SKELETON ==========
@@ -761,7 +788,7 @@ function populateDashboard(data){
 function articleCard(art,curtidos,lidos){
   const liked=curtidos.includes(art.id);
   const isLido=lidos&&lidos.includes(art.id);
-  const date=art.data?new Date(art.data).toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'numeric'}):'';
+  let date='';if(art.data){try{const _d=new Date(art.data);if(!isNaN(_d.getTime()))date=_d.toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'numeric'});}catch(e){}}
   const summary=escapeHtml((art.resumo||'').substring(0,280)+(art.resumo&&art.resumo.length>280?'…':''));
   const journal=[art.journal,art.year].filter(Boolean).map(escapeHtml).join(' · ');
   const ev=art.nivel_evidencia||'';
@@ -883,18 +910,18 @@ function renderEspecialidades(artigos, especialidades, temas, curtidos, lidos) {
   document.getElementById('tbadge-especialidades').textContent = artigos.length;
   const temasSet = new Set(Array.isArray(temas) ? temas : []);
   navEl.innerHTML = especialidades.map((esp, i) => {
-    return `<button class="tab-btn${i===0?' active':''}" onclick="switchEspTab(this,${i})">${esp}</button>`;
+    return `<button class="tab-btn${i===0?' active':''}" onclick="switchEspTab(this,${i})">${escapeHtml(esp)}</button>`;
   }).join('');
   contentEl.innerHTML = especialidades.map((esp, i) => {
     const espArts = artigos.filter(a => a.especialidade === esp);
     const display = i === 0 ? 'block' : 'none';
-    if (!espArts.length) return `<div class="esp-panel" id="esp-panel-${i}" style="display:${display}"><div class="empty-state"><div class="empty-icon">📚</div><h3>Sem artigos de ${esp} ainda</h3><p>Novos artigos chegam diariamente!</p></div></div>`;
+    if (!espArts.length) return `<div class="esp-panel" id="esp-panel-${i}" style="display:${display}"><div class="empty-state"><div class="empty-icon">📚</div><h3>Sem artigos de ${escapeHtml(esp)} ainda</h3><p>Novos artigos chegam diariamente!</p></div></div>`;
     const byTema = {};
     espArts.forEach(a => { const t = a.tema||'Geral'; if(!byTema[t]) byTema[t]=[]; byTema[t].push(a); });
     const temaKeys = temasSet.size > 0 ? Object.keys(byTema).filter(t => temasSet.has(t)) : Object.keys(byTema);
     const displayKeys = temaKeys.length ? temaKeys : Object.keys(byTema);
     const html = displayKeys.map(tema =>
-      `<div class="tema-group"><div class="tema-title">🏷️ ${tema} <span class="tema-count">(${byTema[tema].length})</span></div>${byTema[tema].map(a => articleCard(a, curtidos, lidos)).join('')}</div>`
+      `<div class="tema-group"><div class="tema-title">🏷️ ${escapeHtml(tema)} <span class="tema-count">(${byTema[tema].length})</span></div>${byTema[tema].map(a => articleCard(a, curtidos, lidos)).join('')}</div>`
     ).join('');
     return `<div class="esp-panel" id="esp-panel-${i}" style="display:${display}">${html}</div>`;
   }).join('');
@@ -1360,7 +1387,7 @@ async function runClinicalQuery() {
 
   const resultEl = document.getElementById('clinicaQueryResult');
   const btn      = document.getElementById('clinicaSearchBtn');
-  if (!resultEl) return;
+  if (!resultEl || !btn) return;
 
   btn.disabled   = true;
   btn.textContent = 'Buscando…';
@@ -1398,7 +1425,7 @@ function renderClinicalResult(data) {
       <span class="clinical-art-ev ${evBadgeClass(a.nivel_evidencia)}">${ev || '?'}</span>
       <div class="clinical-art-body">
         <div class="clinical-art-titulo">${escapeHtml(a.titulo || '')}</div>
-        <div class="clinical-art-meta">${escapeHtml(a.journal || '')}${a.data ? ' · ' + new Date(a.data).getFullYear() : ''}</div>
+        <div class="clinical-art-meta">${escapeHtml(a.journal || '')}${a.data && !isNaN(new Date(a.data).getFullYear()) ? ' · ' + new Date(a.data).getFullYear() : ''}</div>
         ${a.impacto ? `<div class="clinical-art-impact">${escapeHtml(a.impacto)}</div>` : ''}
       </div>
       ${a.pubmedUrl ? `<a class="clinical-art-link" href="${escapeHtml(a.pubmedUrl)}" target="_blank" rel="noopener">↗</a>` : ''}
@@ -1682,7 +1709,7 @@ function articleCard(art, curtidos, lidos) {
   const base  = _origArticleCard(art, curtidos, lidos);
   const pmid  = art.id || art.pmid || '';
   const inSet = _comparatorSet.has(String(pmid));
-  const btn   = `<button class="btn-like btn-comparar${inSet ? ' in-comparator' : ''}" data-pmid="${escapeHtml(String(pmid))}" onclick="addToComparator('${escapeHtml(String(pmid))}',${JSON.stringify(art.titulo || art.titulo_pt || '')});event.stopPropagation();" style="display:none;" id="comp-btn-${escapeHtml(String(pmid))}">
+  const btn   = `<button class="btn-like btn-comparar${inSet ? ' in-comparator' : ''}" data-pmid="${escapeHtml(String(pmid))}" onclick="addToComparator('${escapeHtml(String(pmid))}',${escapeHtml(JSON.stringify(art.titulo || art.titulo_pt || ''))});event.stopPropagation();" style="display:none;" id="comp-btn-${escapeHtml(String(pmid))}">
     ${inSet ? '✓ Comparando' : '⊕ Comparar'}
   </button>`;
   return base.replace('</div>\n  </div>', btn + '\n  </div>\n</div>').replace('</div></div>', btn + '</div></div>');
@@ -2133,7 +2160,7 @@ function renderCtxContextoTab(data, workspace) {
   const fields = (rc.fields || []).map(f =>
     `<div style="margin-bottom:10px;">
       <div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.4px;margin-bottom:3px;">${escapeHtml(f.label)}</div>
-      <div style="font-size:13px;color:var(--text);line-height:1.5;">${escapeHtml(f.value.slice(0,250))}</div>
+      <div style="font-size:13px;color:var(--text);line-height:1.5;">${escapeHtml((f.value||'').slice(0,250))}</div>
     </div>`
   ).join('');
 

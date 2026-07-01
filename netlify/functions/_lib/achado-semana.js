@@ -171,7 +171,7 @@ function buildFallbackNota(article, especialidade) {
  */
 async function getOrCreateAchadoSemana(db, candidates, especialidade, anthropicKey) {
   const semana  = getWeekId();
-  const safeEsp = especialidade.replace(/[^a-zA-Z0-9À-ÖØ-öø-ú]/g, '_');
+  const safeEsp = especialidade.normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-zA-Z0-9]/g, '_');
   const docId   = `${semana}_${safeEsp}`;
 
   // 1. Tentar cache Firestore
