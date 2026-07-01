@@ -142,4 +142,162 @@ export const P01_ANALYSES: AnalysisDefinition[] = [
     isRequired:      true,
     formulaInputFor: ['smile-exposure'],
   },
+
+  // ── Extended Frontal ──
+  {
+    id: 'P01.A13', protocolId: 'P01', displayName: 'Padrão Facial',
+    valueType: 'CLASSIFICATION', unit: 'NONE',
+    constraint: { minInclusive: false, maxInclusive: false, allowedValues: ['CLASS_I', 'CLASS_II', 'CLASS_III'] },
+    isRequired: false, formulaInputFor: [],
+  },
+  {
+    id: 'P01.A14', protocolId: 'P01', displayName: 'Ângulo de Convexidade Facial (G-Sn-Pg) (°)',
+    valueType: 'SCALAR_DEGREES', unit: 'DEGREES',
+    constraint: { minInclusive: true, maxInclusive: true },
+    isRequired: false, formulaInputFor: [],
+  },
+  {
+    id: 'P01.A15', protocolId: 'P01', displayName: 'Padrão Vertical',
+    valueType: 'CLASSIFICATION', unit: 'NONE',
+    constraint: { minInclusive: false, maxInclusive: false, allowedValues: ['NORMAL', 'INCREASED', 'REDUCED'] },
+    isRequired: false, formulaInputFor: [],
+  },
+  {
+    id: 'P01.A16', protocolId: 'P01', displayName: 'Origem Provável da Assimetria',
+    valueType: 'CLASSIFICATION', unit: 'NONE',
+    constraint: { minInclusive: false, maxInclusive: false, allowedValues: ['NONE', 'MAXILLARY', 'MANDIBULAR', 'SOFT_TISSUE', 'MIXED'] },
+    isRequired: false, formulaInputFor: [],
+  },
+  {
+    id: 'P01.A17', protocolId: 'P01', displayName: 'Espessura do Lábio Superior (mm)',
+    valueType: 'SCALAR_MM', unit: 'MM',
+    constraint: { minInclusive: true, maxInclusive: true },
+    isRequired: false, formulaInputFor: [],
+  },
+  {
+    id: 'P01.A18', protocolId: 'P01', displayName: 'Espessura do Lábio Inferior (mm)',
+    valueType: 'SCALAR_MM', unit: 'MM',
+    constraint: { minInclusive: true, maxInclusive: true },
+    isRequired: false, formulaInputFor: [],
+  },
+  {
+    id: 'P01.A19', protocolId: 'P01', displayName: 'Inclinação da Linha Bipupilar (°)',
+    valueType: 'SCALAR_DEGREES', unit: 'DEGREES',
+    constraint: { minInclusive: true, maxInclusive: true },
+    isRequired: false, formulaInputFor: [],
+  },
+
+  // ── Extended Sorriso ──
+  {
+    id: 'P01.A20', protocolId: 'P01', displayName: 'Tipo de Sorriso',
+    valueType: 'CLASSIFICATION', unit: 'NONE',
+    constraint: { minInclusive: false, maxInclusive: false, allowedValues: ['LOW', 'MEDIUM', 'HIGH', 'GUMMY'] },
+    isRequired: false, formulaInputFor: [],
+  },
+  {
+    id: 'P01.A21', protocolId: 'P01', displayName: 'Corredor Bucal (%)',
+    valueType: 'SCALAR_PERCENT', unit: 'PERCENT',
+    constraint: { minInclusive: true, maxInclusive: true },
+    isRequired: false, formulaInputFor: [],
+  },
+  {
+    id: 'P01.A22', protocolId: 'P01', displayName: 'Dentes Visíveis no Sorriso',
+    valueType: 'CLASSIFICATION', unit: 'NONE',
+    constraint: { minInclusive: false, maxInclusive: false, allowedValues: ['INCISORS', 'TO_CANINES', 'TO_PREMOLARS', 'TO_MOLARS'] },
+    isRequired: false, formulaInputFor: [],
+  },
+  {
+    id: 'P01.A23', protocolId: 'P01', displayName: 'Exposição do Incisivo Superior (%)',
+    valueType: 'SCALAR_PERCENT', unit: 'PERCENT',
+    constraint: { minInclusive: true, maxInclusive: true },
+    isRequired: false, formulaInputFor: [],
+  },
+  {
+    id: 'P01.A24', protocolId: 'P01', displayName: 'Exposição do Incisivo Inferior (%)',
+    valueType: 'SCALAR_PERCENT', unit: 'PERCENT',
+    constraint: { minInclusive: true, maxInclusive: true },
+    isRequired: false, formulaInputFor: [],
+  },
+  {
+    id: 'P01.A25', protocolId: 'P01', displayName: 'Exposição Gengival Total (mm)',
+    valueType: 'SCALAR_MM', unit: 'MM',
+    constraint: { minInclusive: true, maxInclusive: true },
+    isRequired: false, formulaInputFor: [],
+  },
+  {
+    id: 'P01.A26', protocolId: 'P01', displayName: 'Zênites Gengivais',
+    valueType: 'CLASSIFICATION', unit: 'NONE',
+    constraint: { minInclusive: false, maxInclusive: false, allowedValues: ['ALIGNED', 'MISALIGNED'] },
+    isRequired: false, formulaInputFor: [],
+  },
+
+  // ── Extended Perfil ──
+  {
+    id: 'P01.A27', protocolId: 'P01', displayName: 'Projeção Maxilar Aparente',
+    valueType: 'CLASSIFICATION', unit: 'NONE',
+    constraint: { minInclusive: false, maxInclusive: false, allowedValues: ['NORMAL', 'RETRUDED', 'PROTRUDED'] },
+    isRequired: false, formulaInputFor: [],
+  },
+  {
+    id: 'P01.A28', protocolId: 'P01', displayName: 'Projeção Mandibular Aparente',
+    valueType: 'CLASSIFICATION', unit: 'NONE',
+    constraint: { minInclusive: false, maxInclusive: false, allowedValues: ['NORMAL', 'RETRUDED', 'PROTRUDED'] },
+    isRequired: false, formulaInputFor: [],
+  },
+  {
+    id: 'P01.A29', protocolId: 'P01', displayName: 'Equilíbrio Labial no Perfil',
+    valueType: 'CLASSIFICATION', unit: 'NONE',
+    constraint: { minInclusive: false, maxInclusive: false, allowedValues: ['BALANCED', 'LIPS_ANTERIOR', 'LIPS_POSTERIOR'] },
+    isRequired: false, formulaInputFor: [],
+  },
+
+  // ── Intrabucal ──
+  {
+    id: 'P01.A30', protocolId: 'P01', displayName: 'Coincidência das Linhas Médias Dentárias',
+    valueType: 'CLASSIFICATION', unit: 'NONE',
+    constraint: { minInclusive: false, maxInclusive: false, allowedValues: ['COINCIDENT', 'DEVIATED'] },
+    isRequired: false, formulaInputFor: [],
+  },
+  {
+    id: 'P01.A31', protocolId: 'P01', displayName: 'Inclinação da Linha Oclusal',
+    valueType: 'CLASSIFICATION', unit: 'NONE',
+    constraint: { minInclusive: false, maxInclusive: false, allowedValues: ['NORMAL', 'ALTERED'] },
+    isRequired: false, formulaInputFor: [],
+  },
+  {
+    id: 'P01.A32', protocolId: 'P01', displayName: 'Overbite Visível',
+    valueType: 'CLASSIFICATION', unit: 'NONE',
+    constraint: { minInclusive: false, maxInclusive: false, allowedValues: ['NORMAL', 'INCREASED', 'DECREASED', 'OPEN_BITE'] },
+    isRequired: false, formulaInputFor: [],
+  },
+  {
+    id: 'P01.A33', protocolId: 'P01', displayName: 'Mordida Cruzada Anterior',
+    valueType: 'CLASSIFICATION', unit: 'NONE',
+    constraint: { minInclusive: false, maxInclusive: false, allowedValues: ['ABSENT', 'UNILATERAL', 'BILATERAL'] },
+    isRequired: false, formulaInputFor: [],
+  },
+  {
+    id: 'P01.A34', protocolId: 'P01', displayName: 'Mordida Cruzada Posterior',
+    valueType: 'CLASSIFICATION', unit: 'NONE',
+    constraint: { minInclusive: false, maxInclusive: false, allowedValues: ['ABSENT', 'UNILATERAL_RIGHT', 'UNILATERAL_LEFT', 'BILATERAL'] },
+    isRequired: false, formulaInputFor: [],
+  },
+  {
+    id: 'P01.A35', protocolId: 'P01', displayName: 'Mordida Aberta',
+    valueType: 'CLASSIFICATION', unit: 'NONE',
+    constraint: { minInclusive: false, maxInclusive: false, allowedValues: ['ABSENT', 'MILD', 'MODERATE', 'SEVERE'] },
+    isRequired: false, formulaInputFor: [],
+  },
+  {
+    id: 'P01.A36', protocolId: 'P01', displayName: 'Apinhamento Visível',
+    valueType: 'CLASSIFICATION', unit: 'NONE',
+    constraint: { minInclusive: false, maxInclusive: false, allowedValues: ['ABSENT', 'MILD', 'MODERATE', 'SEVERE'] },
+    isRequired: false, formulaInputFor: [],
+  },
+  {
+    id: 'P01.A37', protocolId: 'P01', displayName: 'Diastemas',
+    valueType: 'CLASSIFICATION', unit: 'NONE',
+    constraint: { minInclusive: false, maxInclusive: false, allowedValues: ['ABSENT', 'PHYSIOLOGIC', 'MODERATE', 'LARGE'] },
+    isRequired: false, formulaInputFor: [],
+  },
 ]
