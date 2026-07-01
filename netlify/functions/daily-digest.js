@@ -347,10 +347,14 @@ async function _runUserDigest(user, db, resendKey, anthropicKey) {
     ms: Date.now() - t,
   });
 
-  // Prevent achado article from appearing as a duplicate regular card
+  // Prevent achado article from appearing as a duplicate regular card.
+  // Only filter if enough articles remain — otherwise keep the article in both slots.
   if (achadoSemana) {
     const achadoKey = String(achadoSemana.pmid || achadoSemana.articleId || '');
-    if (achadoKey) selected = selected.filter(a => String(a.pmid || a.id || '') !== achadoKey);
+    if (achadoKey) {
+      const filtered = selected.filter(a => String(a.pmid || a.id || '') !== achadoKey);
+      if (filtered.length >= MIN_ARTICLES) selected = filtered;
+    }
   }
 
   // Load engagement for streak/badge display in email (best-effort — never blocks send)
