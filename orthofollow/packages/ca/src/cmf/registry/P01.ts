@@ -159,18 +159,6 @@ export const P01_ANALYSES: AnalysisDefinition[] = [
     isRequired: false, formulaInputFor: [],
   },
   {
-    id: 'P01.A17', protocolId: 'P01', displayName: 'Espessura do Lábio Superior (mm)',
-    valueType: 'SCALAR_MM', unit: 'MM',
-    constraint: { minInclusive: true, maxInclusive: true },
-    isRequired: false, formulaInputFor: [],
-  },
-  {
-    id: 'P01.A18', protocolId: 'P01', displayName: 'Espessura do Lábio Inferior (mm)',
-    valueType: 'SCALAR_MM', unit: 'MM',
-    constraint: { minInclusive: true, maxInclusive: true },
-    isRequired: false, formulaInputFor: [],
-  },
-  {
     id: 'P01.A19', protocolId: 'P01', displayName: 'Inclinação da Linha Bipupilar (°)',
     valueType: 'SCALAR_DEGREES', unit: 'DEGREES',
     constraint: { minInclusive: true, maxInclusive: true },

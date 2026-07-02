@@ -391,6 +391,10 @@
           </div>
           <div class="pt-area">
             <div class="hint-text" id="hint-intrabucal">Carregue a foto intrabucal para marcar as linhas médias</div>
+            <label style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);margin:8px 0;cursor:pointer">
+              <input type="checkbox" id="chk-no-upper-teeth" onchange="annotators.intrabucal&&annotators.intrabucal.setSkip(['ZD','ZE'], this.checked)">
+              Paciente não possui dentes superiores visíveis (não marcar zênites gengivais)
+            </label>
             <div class="pt-list" id="ptl-intrabucal"></div>
             <div class="hint-row">
               <button class="btn btn-outline btn-sm" onclick="annotators.intrabucal&&annotators.intrabucal.undo()">↩ Desfazer</button>
@@ -533,6 +537,8 @@ const PHOTO_DEFS = {
     points: [
       { key:'U1s', label:'Linha Média Superior', hint:'Ponto entre os incisivos centrais superiores' },
       { key:'L1i', label:'Linha Média Inferior', hint:'Ponto entre os incisivos centrais inferiores' },
+      { key:'ZD',  label:'Zênite Gengival Dir.', hint:'Ponto mais apical da margem gengival do incisivo central superior direito', skippable:true },
+      { key:'ZE',  label:'Zênite Gengival Esq.', hint:'Ponto mais apical da margem gengival do incisivo central superior esquerdo', skippable:true },
     ]
   }
 };
@@ -573,8 +579,6 @@ const ANALYSES = [
     options:['NORMAL','INCREASED','REDUCED'], labels:['Mesofacial','Dolicofacial','Braquifacial'] },
   { id:'P01.A16', group:'Frontal', label:'Origem Provável da Assimetria', type:'CLASSIFICATION', unit:'NONE',
     options:['NONE','MAXILLARY','MANDIBULAR','SOFT_TISSUE','MIXED'], labels:['Nenhuma','Maxilar','Mandibular','Tecidos Moles','Mista'] },
-  { id:'P01.A17', group:'Frontal', label:'Espessura Lábio Superior (mm)', type:'SCALAR_MM', unit:'MM', min:5, max:20, step:.1, placeholder:'mm auto' },
-  { id:'P01.A18', group:'Frontal', label:'Espessura Lábio Inferior (mm)', type:'SCALAR_MM', unit:'MM', min:5, max:20, step:.1, placeholder:'mm auto' },
   { id:'P01.A19', group:'Frontal', label:'Inclinação Bipupilar (°)', type:'SCALAR_DEGREES', unit:'DEGREES', min:0, max:15, step:.1, placeholder:'° auto' },
 
   // ── Sorriso (detalhado) ──
@@ -586,7 +590,7 @@ const ANALYSES = [
   { id:'P01.A23', group:'Sorriso', label:'Exposição Incisivo Superior (%)', type:'SCALAR_PERCENT', unit:'PERCENT', min:0, max:100, step:1, placeholder:'%' },
   { id:'P01.A24', group:'Sorriso', label:'Exposição Incisivo Inferior (%)', type:'SCALAR_PERCENT', unit:'PERCENT', min:0, max:100, step:1, placeholder:'%' },
   { id:'P01.A25', group:'Sorriso', label:'Exposição Gengival Total (mm)', type:'SCALAR_MM', unit:'MM', min:0, max:8, step:.1, placeholder:'mm auto' },
-  { id:'P01.A26', group:'Sorriso', label:'Zênites Gengivais', type:'CLASSIFICATION', unit:'NONE',
+  { id:'P01.A26', group:'Intrabucal', label:'Zênites Gengivais', type:'CLASSIFICATION', unit:'NONE',
     options:['ALIGNED','MISALIGNED'], labels:['Alinhados','Desalinhados'] },
 
   // ── Perfil (detalhado) ──
@@ -728,6 +732,8 @@ function resetEvaluationState() {
     const up = document.getElementById('up-' + key);
     if (up) up.innerHTML = '';
   });
+  const noUpperTeeth = document.getElementById('chk-no-upper-teeth');
+  if (noUpperTeeth) noUpperTeeth.checked = false;
 }
 
 // Fetches previously saved photos + landmark points for the case/session
@@ -867,6 +873,28 @@ class PhotoAnnotator {
     this.canvas = null;
     this.ctx    = null;
     this.ro     = null;
+    this.skipKeys = new Set(); // landmark keys the clinician chose not to mark (e.g. no upper teeth visible)
+  }
+
+  // Marks/unmarks a set of point keys as "not applicable" — used when a landmark simply
+  // doesn't exist for this patient/photo (e.g. no visible upper teeth for gingival zeniths),
+  // so the sequential marking flow doesn't get stuck waiting for a click that can't happen.
+  setSkip(keys, skip) {
+    for (const k of keys) { if (skip) this.skipKeys.add(k); else this.skipKeys.delete(k); }
+    this._recomputeIdx();
+    this.updateUI();
+    calculateMeasurements();
+    scheduleSavePhoto(this.key);
+  }
+
+  _recomputeIdx() {
+    let idx = 0;
+    while (idx < this.def.points.length) {
+      const k = this.def.points[idx].key;
+      if (this.pts[k] || this.skipKeys.has(k)) idx++;
+      else break;
+    }
+    this.idx = idx;
   }
 
   mount(pbId) {
@@ -902,7 +930,7 @@ class PhotoAnnotator {
     this.imgEl.onload = () => {
       state.imgNat[this.key] = { w: this.imgEl.naturalWidth, h: this.imgEl.naturalHeight };
       this.pts = pts || {};
-      this.idx = Object.keys(this.pts).length;
+      this._recomputeIdx();
       state.points[this.key] = this.pts;
       this.sync(); this.redraw(); this.updateUI();
       calculateMeasurements();
@@ -923,6 +951,7 @@ class PhotoAnnotator {
   }
 
   _click(e) {
+    while (this.idx < this.def.points.length && this.skipKeys.has(this.def.points[this.idx].key)) this.idx++;
     if (this.idx >= this.def.points.length) return;
     const rect = this.imgEl.getBoundingClientRect();
     const x    = (e.clientX - rect.left) / rect.width;
@@ -947,7 +976,8 @@ class PhotoAnnotator {
   }
 
   reset() {
-    this.pts = {}; this.idx = 0;
+    this.pts = {};
+    this._recomputeIdx();
     state.points[this.key] = {};
     this.redraw(); this.updateUI(); calculateMeasurements();
     scheduleSavePhoto(this.key);
@@ -1021,12 +1051,13 @@ class PhotoAnnotator {
     }
     if (list) {
       list.innerHTML = this.def.points.map((pd, i) => {
-        const placed = !!this.pts[pd.key];
-        const active = i === this.idx;
-        return `<div class="pt-item ${placed?'placed':''} ${active?'active':''}">
+        const placed  = !!this.pts[pd.key];
+        const skipped = this.skipKeys.has(pd.key);
+        const active  = i === this.idx;
+        return `<div class="pt-item ${placed?'placed':''} ${active?'active':''}" ${skipped?'style="opacity:.5"':''}>
           <span class="pt-key">${pd.key}</span>
-          <span class="pt-label">${pd.label}</span>
-          <span class="pt-check">${placed ? '✓' : (active ? '◎' : '○')}</span>
+          <span class="pt-label">${pd.label}${skipped?' (não se aplica)':''}</span>
+          <span class="pt-check">${skipped ? '—' : placed ? '✓' : (active ? '◎' : '○')}</span>
         </div>`;
       }).join('');
     }
@@ -1190,6 +1221,13 @@ function calculateMeasurements() {
     anyAuto = true;
   }
 
+  // ── Intrabucal: Zênites gengivais → P01.A26 (altura relativa ZD vs ZE) ──
+  if (ip.ZD && ip.ZE) {
+    const dyN = Math.abs(ip.ZD.y - ip.ZE.y);
+    setAutoSelect('P01.A26', dyN > 0.01 ? 'MISALIGNED' : 'ALIGNED');
+    anyAuto = true;
+  }
+
   // ── Perfil: Ângulo Nasolabial → P01.A07 (Prn–Sn–Ls) ──
   if (pp.Prn && pp.Sn && pp.Ls) {
     const nat = state.imgNat.perfil;
@@ -1249,18 +1287,6 @@ function calculateMeasurements() {
     }
   }
 
-  // ── Frontal: Espessura labial Sup/Inf → P01.A17/A18 (escala: distância interpupilar ≈ 62 mm) ──
-  if (fp.Pd && fp.Pe) {
-    const nat = state.imgNat.frontal;
-    if (nat) {
-      const ipdPx = dist2d(fp.Pd, fp.Pe, nat.w, nat.h);
-      if (ipdPx > 0) {
-        const pxMm = ipdPx / 62;
-        if (fp.Sn && fp.Ls) { setAuto('P01.A17', (dist2d(fp.Sn, fp.Ls, nat.w, nat.h) / pxMm).toFixed(1)); anyAuto = true; }
-        if (fp.Li && fp.Pg) { setAuto('P01.A18', (dist2d(fp.Li, fp.Pg, nat.w, nat.h) / pxMm).toFixed(1)); anyAuto = true; }
-      }
-    }
-  }
 
   // ── Frontal: Padrão Vertical (dolico/meso/braquifacial) → P01.A15, a partir do terço inferior (A05) ──
   if (fp.Tr && fp.G && fp.Sn && fp.Me) {
@@ -1324,13 +1350,6 @@ function calculateMeasurements() {
     }
   }
 
-  // ── Sorriso: Dentes visíveis → P01.A22 (aproximado pelo corredor bucal — quanto menor o
-  // espaço negro lateral, mais posterior é o último dente que aparece no sorriso) ──
-  if (corredorBucalPct !== null) {
-    const cls = corredorBucalPct < 10 ? 'TO_MOLARS' : corredorBucalPct < 20 ? 'TO_PREMOLARS' : corredorBucalPct < 30 ? 'TO_CANINES' : 'INCISORS';
-    setAutoSelect('P01.A22', cls);
-    anyAuto = true;
-  }
 
   // ── Sorriso: Exposição do incisivo superior → P01.A23 (%), aproximado pela exposição
   // dentária medida (P01.A12) sobre uma altura média de coroa clínica de referência (~10 mm) ──
@@ -1838,6 +1857,30 @@ function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorris
     return intrabucalCls === 'DEVIATED' ? 'DEVIATED' : 'COINCIDENT';
   }
 
+  function smileTypeExplanation(type, gingivalMm) {
+    const gum = gingivalMm!==null&&gingivalMm!==undefined&&gingivalMm!=='' ? parseFloat(gingivalMm) : null;
+    if (type === 'GUMMY') {
+      return 'Sorriso classificado como gengival: '+(gum!==null?'a exposição gengival medida ('+gum.toFixed(1)+' mm) supera 2 mm':'a exposição da margem gengival supera 2 mm')+', valor acima do qual a literatura considera o sorriso gengival — a gengiva fica visível acima da coroa dentária ao sorrir.';
+    }
+    if (type === 'HIGH') {
+      return 'Sorriso classificado como alto: a coroa dentária é exposta em sua totalidade ao sorrir, '+(gum!==null?'com exposição gengival de '+gum.toFixed(1)+' mm (dentro do limite de até 2 mm)':'com discreta exposição gengival, dentro do limite de até 2 mm')+' — mais expressivo que o sorriso médio, porém sem caracterizar sorriso gengival.';
+    }
+    if (type === 'MEDIUM') {
+      return 'Sorriso classificado como médio: exposição da coroa dentária próxima da totalidade, sem exposição gengival relevante.';
+    }
+    if (type === 'LOW') {
+      return 'Sorriso classificado como baixo: exposição parcial da coroa dentária ao sorrir.';
+    }
+    return '';
+  }
+
+  function corredorBucalExplanation(pct) {
+    if (pct === null) return '';
+    if (pct > 15) return 'O corredor bucal de '+pct.toFixed(1)+'% está acima da faixa ideal (8–15%), criando um espaço negro lateral perceptível que estreita visualmente o sorriso — pode ser abordado com expansão do arco superior.';
+    if (pct < 8) return 'O corredor bucal de '+pct.toFixed(1)+'% está abaixo da faixa ideal (8–15%), com arco dentário muito próximo da comissura labial, o que pode indicar um sorriso "cheio" ou excesso transverso de maxila.';
+    return 'O corredor bucal de '+pct.toFixed(1)+'% está dentro da faixa ideal (8–15%), não comprometendo a estética do sorriso.';
+  }
+
   function smileConclusion(midline, lowerMidline, dentalExp, m) {
     const items = [];
     if (midline!==null) {
@@ -2083,7 +2126,7 @@ function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorris
           '</div>'+
           '<div class="g2">'+
             '<div class="panel">'+miniRowGeneric('P01.A15')+miniRowGeneric('P01.A16')+'</div>'+
-            '<div class="panel">'+miniRowGeneric('P01.A17')+miniRowGeneric('P01.A18')+miniRowGeneric('P01.A19')+'</div>'+
+            '<div class="panel">'+miniRowGeneric('P01.A19')+'</div>'+
           '</div>'+
         '</div>'+
       '</div>'+
@@ -2100,7 +2143,7 @@ function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorris
     '<div class="pb">'+
       '<div><div class="sec-eyebrow">Avaliação do Sorriso</div>'+
         '<div class="sec-title">Linha Média · Exposição · Proporção Labial</div>'+
-        '<div class="sec-sub">Desvio de Linha Média Dental · Exposição Dentária · Razão Labial · Competência Labial</div></div>'+
+        '<div class="sec-sub">Desvio de Linha Média Dental · Exposição Dentária · Tipo de Sorriso · Corredor Bucal</div></div>'+
       '<div style="display:grid;grid-template-columns:var(--photo-grid);gap:18px;flex:1">'+
         '<div>'+
           '<div style="background:#0A0C10;border-radius:2px;overflow:hidden;height:220px">'+photoEl(sorrisoImg,'SORRISO',220)+'</div>'+
@@ -2113,7 +2156,7 @@ function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorris
                 ?'<div style="display:flex;align-items:baseline;gap:5px;margin-bottom:2px">'+
                   '<span style="font-family:\'Cormorant Garamond\',serif;font-size:16px;font-weight:400;color:'+midCol+'">'+(Math.abs(midline)<=MIDLINE_TOL_PCT?'Coincide':'Diverge')+'</span>'+
                   '<span class="chip '+midCls+'" style="margin-left:6px">'+(midline>0?'à direita':midline<0?'à esquerda':'centrada')+'</span></div>'+
-                  '<div class="caption" style="margin-top:5px">Desvio de '+Math.abs(midline).toFixed(1)+'% da largura da boca em relação à linha média facial (estimativa proporcional; não convertida em mm por não haver escala confiável nesta foto).</div>'
+                  '<div class="caption" style="margin-top:5px">Desvio de '+Math.abs(midline).toFixed(1)+'% da largura da boca em relação à linha média facial.</div>'
                 :'<div style="font-size:9px;color:#6F737A;font-style:italic">Marque Tr, Me, U1 na foto de sorriso para calcular.</div>')+
             '</div>'+
             '<div class="panel"><div class="lbl" style="margin-bottom:8px">Linha Média Inferior (inferida)</div>'+
@@ -2138,14 +2181,16 @@ function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorris
       '</div>'+
       '<div class="g2" style="margin-top:10px">'+
         '<div class="panel">'+miniRowGeneric('P01.A20')+miniRowGeneric('P01.A21')+miniRowGeneric('P01.A22')+'</div>'+
-        '<div class="panel">'+miniRowGeneric('P01.A23')+miniRowGeneric('P01.A24')+miniRowGeneric('P01.A25')+miniRowGeneric('P01.A26')+'</div>'+
+        '<div class="panel">'+miniRowGeneric('P01.A23')+miniRowGeneric('P01.A24')+miniRowGeneric('P01.A25')+'</div>'+
       '</div>'+
       smileConclusion(midline, lowerMidline, dentalExp, m)+
       insight('Interpretação Clínica · Análise do Sorriso',
         (midline!==null?'A linha média dental superior '+(Math.abs(midline)<=MIDLINE_TOL_PCT?'coincide com a linha média facial, dentro dos limites de aceitabilidade clínica':'diverge da linha média facial, devendo ser investigada a origem dental ou esquelética')+'. ':'')+
         (lowerMidline==='DEVIATED'?'A linha média dental inferior diverge da linha média facial (inferido a partir da coincidência superior e do desvio identificado na foto intrabucal). ':'')+
         (lowerMidline==='COINCIDENT'?'A linha média dental inferior também coincide com a linha média facial. ':'')+
-        'A exposição dentária, o tipo de sorriso, o corredor bucal e a exposição gengival total definem a estética do sorriso e orientam decisões de intrusão/extrusão incisal, gengivectomia estética ou uso de toxina botulínica no lábio superior quando indicado. Tipo de sorriso e dentes visíveis são estimados a partir das medições já feitas — uma aproximação, sujeita a confirmação clínica direta.')+
+        smileTypeExplanation(m['P01.A20'], m['P01.A25'])+' '+
+        corredorBucalExplanation(numVal('P01.A21'))+
+        ' Dentes visíveis e demais achados complementares são de avaliação clínica direta sobre a foto.')+
     '</div>'+pf(3)+'</div>';
 
   // ── Page 6: Perfil ──
@@ -2217,7 +2262,7 @@ function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorris
     '<div class="pb">'+
       '<div><div class="sec-eyebrow">Documentação Intrabucal</div>'+
         '<div class="sec-title">Análise Intrabucal</div>'+
-        '<div class="sec-sub">Linhas Médias · Plano Oclusal · Overbite · Mordida Cruzada · Apinhamento · Diastemas</div></div>'+
+        '<div class="sec-sub">Linhas Médias · Plano Oclusal · Overbite · Mordida Cruzada · Apinhamento · Diastemas · Zênites Gengivais</div></div>'+
       '<div>'+
         '<div style="background:#0A0C10;border-radius:2px;overflow:hidden;height:220px">'+photoEl(intrabucalImg,'INTRABUCAL',220,'contain')+'</div>'+
         '<div style="font-size:7.5px;color:#6F737A;text-align:center;margin-top:5px;letter-spacing:.3px">Vista intrabucal frontal · foto completa</div>'+
@@ -2226,7 +2271,7 @@ function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorris
         '<div class="lbl" style="margin-bottom:2px">Achados Oclusais</div>'+
         '<div class="g2">'+
           '<div>'+miniRow('P01.A30')+miniRow('P01.A31')+miniRow('P01.A32')+miniRow('P01.A33')+'</div>'+
-          '<div>'+miniRow('P01.A34')+miniRow('P01.A35')+miniRow('P01.A36')+miniRow('P01.A37')+'</div>'+
+          '<div>'+miniRow('P01.A34')+miniRow('P01.A35')+miniRow('P01.A36')+miniRow('P01.A37')+miniRow('P01.A26')+'</div>'+
         '</div>'+
       '</div>'+
       '<div style="border:1px solid #E5E1DA;border-radius:2px;padding:14px 18px;display:flex;gap:22px;align-items:center">'+
