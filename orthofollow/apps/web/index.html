@@ -4,9 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>OrthoFollow — Intranet</title>
-  <script type="importmap">
-  {"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.166.0/build/three.module.min.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.166.0/examples/jsm/"}}
-  </script>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     :root{
@@ -137,9 +134,6 @@
     .meas-input input:focus,.meas-input select:focus{border-color:var(--primary)}
     .meas-input input.auto-filled{background:#f0fdf4;border-color:#86efac}
 
-    /* STL viewer */
-    #stl-canvas-wrap{width:100%;height:420px;background:#0f172a;border-radius:0 0 8px 8px;overflow:hidden}
-
     /* Buttons */
     .btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:0 20px;height:40px;border:none;border-radius:6px;font-size:14px;font-weight:600;cursor:pointer;transition:background .15s,opacity .15s}
     .btn-primary{background:var(--primary);color:#fff}
@@ -236,7 +230,7 @@
 
 <!-- ══ NOVO CASO ══ -->
 <div class="page" id="page-novo-caso">
-  <div class="page-header"><h1>Novo Caso</h1><p>Cadastre o paciente, carregue as fotografias e o modelo STL</p></div>
+  <div class="page-header"><h1>Novo Caso</h1><p>Cadastre o paciente e carregue as fotografias</p></div>
   <div id="alert-novo" class="alert"></div>
 
   <div class="card">
@@ -268,8 +262,8 @@
   </div>
 
   <div class="card">
-    <div class="card-title"><span class="step">3</span> Fotografias e Modelo 3D</div>
-    <p style="font-size:13px;color:var(--muted);margin-bottom:16px">Carregue as fotografias clínicas e o arquivo STL. Você marcará os pontos anatômicos na etapa seguinte.</p>
+    <div class="card-title"><span class="step">3</span> Fotografias</div>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:16px">Carregue as fotografias clínicas. Você marcará os pontos anatômicos na etapa seguinte. Fotos não fornecidas não impedem a geração do relatório — o sistema analisa apenas o que foi documentado.</p>
     <div class="upload-grid">
       <div class="upload-zone" id="uz-frontal" onclick="triggerUpload('frontal')" ondragover="dzOver(event,'uz-frontal')" ondragleave="dzLeave('uz-frontal')" ondrop="dzDrop(event,'frontal','uz-frontal')">
         <div class="upload-icon">📷</div>
@@ -291,50 +285,15 @@
       </div>
       <div class="upload-zone" id="uz-intrabucal" onclick="triggerUpload('intrabucal')" ondragover="dzOver(event,'uz-intrabucal')" ondragleave="dzLeave('uz-intrabucal')" ondrop="dzDrop(event,'intrabucal','uz-intrabucal')">
         <div class="upload-icon">🦷</div>
-        <div class="upload-label">Intrabucal · Mordida de Frente</div>
-        <div class="upload-hint">Foto intrabucal frontal — linhas médias dental superior e inferior</div>
+        <div class="upload-label">Fotos Intrabucais</div>
+        <div class="upload-hint">Foto compilada com as vistas intrabucais (maxila, mandíbula, mordida de frente e laterais)</div>
         <div class="upload-preview" id="up-intrabucal"></div>
-      </div>
-      <div class="upload-zone" id="uz-intrabucalMaxila" onclick="triggerUpload('intrabucalMaxila')" ondragover="dzOver(event,'uz-intrabucalMaxila')" ondragleave="dzLeave('uz-intrabucalMaxila')" ondrop="dzDrop(event,'intrabucalMaxila','uz-intrabucalMaxila')">
-        <div class="upload-icon">🦷</div>
-        <div class="upload-label">Intrabucal · Maxila</div>
-        <div class="upload-hint">Vista oclusal da arcada superior</div>
-        <div class="upload-preview" id="up-intrabucalMaxila"></div>
-      </div>
-      <div class="upload-zone" id="uz-intrabucalMandibula" onclick="triggerUpload('intrabucalMandibula')" ondragover="dzOver(event,'uz-intrabucalMandibula')" ondragleave="dzLeave('uz-intrabucalMandibula')" ondrop="dzDrop(event,'intrabucalMandibula','uz-intrabucalMandibula')">
-        <div class="upload-icon">🦷</div>
-        <div class="upload-label">Intrabucal · Mandíbula</div>
-        <div class="upload-hint">Vista oclusal da arcada inferior</div>
-        <div class="upload-preview" id="up-intrabucalMandibula"></div>
-      </div>
-      <div class="upload-zone" id="uz-intrabucalLatD" onclick="triggerUpload('intrabucalLatD')" ondragover="dzOver(event,'uz-intrabucalLatD')" ondragleave="dzLeave('uz-intrabucalLatD')" ondrop="dzDrop(event,'intrabucalLatD','uz-intrabucalLatD')">
-        <div class="upload-icon">🦷</div>
-        <div class="upload-label">Intrabucal · Mordida Lateral Direita</div>
-        <div class="upload-hint">Mordida em oclusão, vista lateral direita</div>
-        <div class="upload-preview" id="up-intrabucalLatD"></div>
-      </div>
-      <div class="upload-zone" id="uz-intrabucalLatE" onclick="triggerUpload('intrabucalLatE')" ondragover="dzOver(event,'uz-intrabucalLatE')" ondragleave="dzLeave('uz-intrabucalLatE')" ondrop="dzDrop(event,'intrabucalLatE','uz-intrabucalLatE')">
-        <div class="upload-icon">🦷</div>
-        <div class="upload-label">Intrabucal · Mordida Lateral Esquerda</div>
-        <div class="upload-hint">Mordida em oclusão, vista lateral esquerda</div>
-        <div class="upload-preview" id="up-intrabucalLatE"></div>
-      </div>
-      <div class="upload-zone" id="uz-stl" onclick="triggerUpload('stl')" ondragover="dzOver(event,'uz-stl')" ondragleave="dzLeave('uz-stl')" ondrop="dzDrop(event,'stl','uz-stl')">
-        <div class="upload-icon">🗂️</div>
-        <div class="upload-label">Modelo STL</div>
-        <div class="upload-hint">Arquivo .stl da mordida ou modelo de gesso</div>
-        <div class="upload-preview" id="up-stl"></div>
       </div>
     </div>
     <input type="file" id="file-frontal" accept="image/*" hidden onchange="handleUpload('frontal',this)">
     <input type="file" id="file-perfil" accept="image/*" hidden onchange="handleUpload('perfil',this)">
     <input type="file" id="file-sorriso" accept="image/*" hidden onchange="handleUpload('sorriso',this)">
     <input type="file" id="file-intrabucal" accept="image/*" hidden onchange="handleUpload('intrabucal',this)">
-    <input type="file" id="file-intrabucalMaxila" accept="image/*" hidden onchange="handleUpload('intrabucalMaxila',this)">
-    <input type="file" id="file-intrabucalMandibula" accept="image/*" hidden onchange="handleUpload('intrabucalMandibula',this)">
-    <input type="file" id="file-intrabucalLatD" accept="image/*" hidden onchange="handleUpload('intrabucalLatD',this)">
-    <input type="file" id="file-intrabucalLatE" accept="image/*" hidden onchange="handleUpload('intrabucalLatE',this)">
-    <input type="file" id="file-stl" accept=".stl" hidden onchange="handleUpload('stl',this)">
   </div>
 
   <div class="actions">
@@ -360,7 +319,6 @@
           <button class="photo-tab" onclick="switchPhotoTab('perfil',this)">📷 Perfil</button>
           <button class="photo-tab" onclick="switchPhotoTab('sorriso',this)">😊 Sorriso</button>
           <button class="photo-tab" onclick="switchPhotoTab('intrabucal',this)">🦷 Intrabucal</button>
-          <button class="photo-tab" onclick="switchPhotoTab('stl3d',this)">🦷 Modelo 3D</button>
         </div>
 
         <!-- Frontal -->
@@ -415,10 +373,10 @@
         <!-- Intrabucal -->
         <div class="photo-panel" id="pp-intrabucal">
           <div class="photo-box" id="pb-intrabucal">
-            <div class="empty-photo"><div class="ep-icon">🦷</div><p>Carregue a foto intrabucal de frente<br><button class="btn btn-outline btn-sm" style="margin-top:10px" onclick="triggerUpload('intrabucal')">Selecionar foto</button></p></div>
+            <div class="empty-photo"><div class="ep-icon">🦷</div><p>Carregue a foto intrabucal compilada<br><button class="btn btn-outline btn-sm" style="margin-top:10px" onclick="triggerUpload('intrabucal')">Selecionar foto</button></p></div>
           </div>
           <div class="pt-area">
-            <div class="hint-text" id="hint-intrabucal">Carregue a foto intrabucal para marcar as linhas médias</div>
+            <div class="hint-text" id="hint-intrabucal">Marque as linhas médias na vista de mordida de frente da foto compilada</div>
             <label style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);margin:8px 0;cursor:pointer">
               <input type="checkbox" id="chk-no-upper-teeth" onchange="annotators.intrabucal&&annotators.intrabucal.setSkip(['ZD','ZE'], this.checked)">
               Paciente não possui dentes superiores visíveis (não marcar zênites gengivais)
@@ -429,17 +387,6 @@
               <button class="btn btn-outline btn-sm" onclick="annotators.intrabucal&&annotators.intrabucal.reset()">✕ Resetar</button>
               <button class="btn btn-outline btn-sm" onclick="triggerUpload('intrabucal')">📷 Trocar foto</button>
             </div>
-          </div>
-        </div>
-
-        <!-- STL 3D -->
-        <div class="photo-panel" id="pp-stl3d">
-          <div id="stl-canvas-wrap">
-            <div class="empty-photo" id="stl-empty" style="padding:60px 20px"><div class="ep-icon">🦷</div><p>Carregue o arquivo STL para visualizar o modelo 3D<br><button class="btn btn-outline btn-sm" style="margin-top:10px" onclick="triggerUpload('stl')">Selecionar STL</button></p></div>
-          </div>
-          <div class="pt-area">
-            <div class="hint-text">Use o mouse para rotacionar (botão esquerdo), zoom (scroll) e mover (botão direito) o modelo 3D.</div>
-            <div class="hint-row"><button class="btn btn-outline btn-sm" onclick="triggerUpload('stl')">🦷 Trocar arquivo STL</button></div>
           </div>
         </div>
       </div>
@@ -495,15 +442,6 @@
 </div><!-- /page-avaliacao -->
 
 </main>
-
-<!-- Three.js -->
-<script type="module">
-import * as THREE from 'three';
-import { STLLoader } from 'three/addons/loaders/STLLoader.js';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-window.__LIBS = { THREE, STLLoader, OrbitControls };
-document.dispatchEvent(new Event('libs-ready'));
-</script>
 
 <script>
 /* ═══════════════════════════════
@@ -664,10 +602,6 @@ const state = {
   dataUrls: {}
 };
 const annotators = { frontal:null, perfil:null, sorriso:null, intrabucal:null };
-let stlViewer = null;
-let libsReady = false;
-
-document.addEventListener('libs-ready', () => { libsReady = true; });
 
 /* ═══════════════════════════════
    NAVIGATION
@@ -691,7 +625,6 @@ function switchPhotoTab(key, btn) {
   document.querySelectorAll('.photo-tab').forEach(b => b.classList.remove('active'));
   document.getElementById('pp-' + key).classList.add('active');
   btn.classList.add('active');
-  if (key === 'stl3d') tryInitSTL();
 }
 
 /* ═══════════════════════════════
@@ -756,7 +689,7 @@ function resetEvaluationState() {
     if (annotators[key] && annotators[key].ro) annotators[key].ro.disconnect();
     annotators[key] = null;
   }
-  ['frontal','perfil','sorriso','intrabucal','intrabucalMaxila','intrabucalMandibula','intrabucalLatD','intrabucalLatE'].forEach(key => {
+  ['frontal','perfil','sorriso','intrabucal'].forEach(key => {
     const up = document.getElementById('up-' + key);
     if (up) up.innerHTML = '';
     const uz = document.getElementById('uz-' + key);
@@ -779,7 +712,7 @@ async function loadCasePhotosForCurrentCase() {
     const { photos } = await r.json();
     if (!photos || !Object.keys(photos).length) return;
     initAnnotators();
-    for (const key of ['frontal','perfil','sorriso','intrabucal','intrabucalMaxila','intrabucalMandibula','intrabucalLatD','intrabucalLatE']) {
+    for (const key of ['frontal','perfil','sorriso','intrabucal']) {
       const p = photos[key];
       if (!p || !p.imageData) continue;
       state.dataUrls[key] = p.imageData;
@@ -831,9 +764,7 @@ function fileToDataURL(file) {
    FILE UPLOADS
 ═══════════════════════════════ */
 function triggerUpload(key) {
-  const map = { frontal:'file-frontal', perfil:'file-perfil', sorriso:'file-sorriso', intrabucal:'file-intrabucal',
-    intrabucalMaxila:'file-intrabucalMaxila', intrabucalMandibula:'file-intrabucalMandibula',
-    intrabucalLatD:'file-intrabucalLatD', intrabucalLatE:'file-intrabucalLatE', stl:'file-stl' };
+  const map = { frontal:'file-frontal', perfil:'file-perfil', sorriso:'file-sorriso', intrabucal:'file-intrabucal' };
   document.getElementById(map[key]).click();
 }
 
@@ -844,48 +775,31 @@ function handleUpload(key, input) {
 
 function storeFile(key, file) {
   state.files[key] = file;
-  if (key !== 'stl') {
-    updateUploadPreview(key, file);
-    if (annotators[key]) annotators[key].loadImage(file);
-    else if (document.getElementById('page-avaliacao').classList.contains('active')) {
-      initAnnotators();
-    }
-    fileToDataURL(file).then(dataUrl => {
-      state.dataUrls[key] = dataUrl;
-      scheduleSavePhoto(key);
-    }).catch(e => console.warn('Falha ao converter foto para salvamento:', e.message));
-  } else {
-    updateUploadPreview('stl', file);
-    if (stlViewer) stlViewer.loadSTL(file);
+  updateUploadPreview(key, file);
+  if (annotators[key]) annotators[key].loadImage(file);
+  else if (document.getElementById('page-avaliacao').classList.contains('active')) {
+    initAnnotators();
   }
+  fileToDataURL(file).then(dataUrl => {
+    state.dataUrls[key] = dataUrl;
+    scheduleSavePhoto(key);
+  }).catch(e => console.warn('Falha ao converter foto para salvamento:', e.message));
 }
 
 function updateUploadPreview(key, file) {
-  const uzMap = { frontal:'uz-frontal', perfil:'uz-perfil', sorriso:'uz-sorriso', intrabucal:'uz-intrabucal',
-    intrabucalMaxila:'uz-intrabucalMaxila', intrabucalMandibula:'uz-intrabucalMandibula',
-    intrabucalLatD:'uz-intrabucalLatD', intrabucalLatE:'uz-intrabucalLatE', stl:'uz-stl' };
-  const upMap = { frontal:'up-frontal', perfil:'up-perfil', sorriso:'up-sorriso', intrabucal:'up-intrabucal',
-    intrabucalMaxila:'up-intrabucalMaxila', intrabucalMandibula:'up-intrabucalMandibula',
-    intrabucalLatD:'up-intrabucalLatD', intrabucalLatE:'up-intrabucalLatE', stl:'up-stl' };
+  const uzMap = { frontal:'uz-frontal', perfil:'uz-perfil', sorriso:'uz-sorriso', intrabucal:'uz-intrabucal' };
+  const upMap = { frontal:'up-frontal', perfil:'up-perfil', sorriso:'up-sorriso', intrabucal:'up-intrabucal' };
   const uz = document.getElementById(uzMap[key]);
   const up = document.getElementById(upMap[key]);
   if (!uz || !up) return;
   uz.classList.add('has-file');
-  if (key !== 'stl') {
-    const url = URL.createObjectURL(file);
-    up.innerHTML = `<img src="${url}" alt="preview"><div class="upload-fname">${esc(file.name)}</div>`;
-  } else {
-    up.innerHTML = `<div class="upload-fname">✓ ${esc(file.name)}</div>`;
-  }
+  const url = URL.createObjectURL(file);
+  up.innerHTML = `<img src="${url}" alt="preview"><div class="upload-fname">${esc(file.name)}</div>`;
 }
 
 function updateUploadPreviewFromDataUrl(key, dataUrl) {
-  const uzMap = { frontal:'uz-frontal', perfil:'uz-perfil', sorriso:'uz-sorriso', intrabucal:'uz-intrabucal',
-    intrabucalMaxila:'uz-intrabucalMaxila', intrabucalMandibula:'uz-intrabucalMandibula',
-    intrabucalLatD:'uz-intrabucalLatD', intrabucalLatE:'uz-intrabucalLatE' };
-  const upMap = { frontal:'up-frontal', perfil:'up-perfil', sorriso:'up-sorriso', intrabucal:'up-intrabucal',
-    intrabucalMaxila:'up-intrabucalMaxila', intrabucalMandibula:'up-intrabucalMandibula',
-    intrabucalLatD:'up-intrabucalLatD', intrabucalLatE:'up-intrabucalLatE' };
+  const uzMap = { frontal:'uz-frontal', perfil:'uz-perfil', sorriso:'uz-sorriso', intrabucal:'uz-intrabucal' };
+  const upMap = { frontal:'up-frontal', perfil:'up-perfil', sorriso:'up-sorriso', intrabucal:'up-intrabucal' };
   const uz = document.getElementById(uzMap[key]);
   const up = document.getElementById(upMap[key]);
   if (!uz || !up) return;
@@ -1101,68 +1015,6 @@ class PhotoAnnotator {
         </div>`;
       }).join('');
     }
-  }
-}
-
-/* ═══════════════════════════════
-   STL VIEWER
-═══════════════════════════════ */
-function tryInitSTL() {
-  if (stlViewer || !libsReady) return;
-  const wrap = document.getElementById('stl-canvas-wrap');
-  const empty = document.getElementById('stl-empty');
-  if (empty) empty.remove();
-  stlViewer = new STLViewer(wrap);
-  if (state.files['stl']) stlViewer.loadSTL(state.files['stl']);
-}
-
-class STLViewer {
-  constructor(container) {
-    const { THREE, OrbitControls } = window.__LIBS;
-    const w = container.clientWidth || 600;
-    const h = container.clientHeight || 420;
-    this.renderer = new THREE.WebGLRenderer({ antialias:true });
-    this.renderer.setSize(w, h);
-    this.renderer.setPixelRatio(window.devicePixelRatio);
-    this.renderer.setClearColor(0x0f172a);
-    container.appendChild(this.renderer.domElement);
-    this.scene  = new THREE.Scene();
-    this.camera = new THREE.PerspectiveCamera(45, w/h, 0.01, 10000);
-    this.camera.position.set(0, 0, 150);
-    this.controls = new OrbitControls(this.camera, this.renderer.domElement);
-    this.controls.enableDamping = true;
-    const a = new THREE.AmbientLight(0xffffff, 0.7);
-    const d1 = new THREE.DirectionalLight(0xffffff, 0.8); d1.position.set(1,1,1);
-    const d2 = new THREE.DirectionalLight(0xffffff, 0.4); d2.position.set(-1,-1,-1);
-    this.scene.add(a, d1, d2);
-    this.THREE = THREE;
-    this._animate();
-  }
-
-  loadSTL(file) {
-    const { STLLoader, THREE } = window.__LIBS;
-    const url = URL.createObjectURL(file);
-    new STLLoader().load(url, geo => {
-      const old = this.scene.getObjectByName('m'); if (old) this.scene.remove(old);
-      geo.computeBoundingBox();
-      const c = new THREE.Vector3();
-      geo.boundingBox.getCenter(c);
-      geo.translate(-c.x, -c.y, -c.z);
-      const sz = new THREE.Vector3();
-      geo.boundingBox.getSize(sz);
-      const mx = Math.max(sz.x, sz.y, sz.z);
-      this.camera.position.set(0, 0, mx * 1.8);
-      this.controls.target.set(0,0,0);
-      const mat = new THREE.MeshPhongMaterial({ color:0xe8d5b7, specular:0x222222, shininess:30, side:THREE.DoubleSide });
-      const mesh = new THREE.Mesh(geo, mat); mesh.name = 'm';
-      this.scene.add(mesh);
-    });
-  }
-
-  _animate() {
-    requestAnimationFrame(() => this._animate());
-    this.controls.update();
-    this.renderer.render(this.scene, this.camera);
   }
 }
 
@@ -1762,10 +1614,6 @@ function getAnnotatedImage(key) {
   return offscreen.toDataURL('image/jpeg', 0.88);
 }
 
-function getPlainImage(key) {
-  return state.dataUrls[key] || null;
-}
-
 function getRawImage(key) {
   const ann = annotators[key];
   if (!ann || !ann.imgEl || !ann.imgEl.src || !ann.imgEl.naturalWidth) return null;
@@ -1794,7 +1642,7 @@ function measDisplayVal(id, val) {
 function sevLabel(s){ return {NORMAL:'Normal',MILD:'Leve',MODERATE:'Moderado',SEVERE:'Grave',CRITICAL:'Crítico'}[s]??s }
 function sevColor(s){ return {NORMAL:'#22c55e',MILD:'#eab308',MODERATE:'#f97316',SEVERE:'#ef4444',CRITICAL:'#7f1d1d'}[s]??'#9ca3af' }
 
-function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, intrabucalMaxilaImg, intrabucalMandibulaImg, intrabucalLatDImg, intrabucalLatEImg, sorrisoRawImg, sorrisoPoints = {}, sorrisoImgNat = null, measurements, findings, patName, caseId, session, birthDate, sex, reportText, treatmentNotes }) {
+function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorrisoRawImg, sorrisoPoints = {}, sorrisoImgNat = null, measurements, findings, patName, caseId, session, birthDate, sex, reportText, treatmentNotes }) {
   const todayFull = new Date().toLocaleDateString('pt-BR', {day:'2-digit',month:'long',year:'numeric'});
   const todayShort = new Date().toLocaleDateString('pt-BR');
   const m = measurements || {};
@@ -2308,18 +2156,8 @@ function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, intrab
         '<div class="sec-title">Análise Intrabucal</div>'+
         '<div class="sec-sub">Linhas Médias · Plano Oclusal · Overbite · Mordida Cruzada · Apinhamento · Diastemas · Zênites Gengivais</div></div>'+
       '<div>'+
-        '<div style="background:#0A0C10;border-radius:2px;overflow:hidden;height:140px">'+photoEl(intrabucalImg,'MORDIDA DE FRENTE',140,'contain')+'</div>'+
-        '<div style="font-size:7.5px;color:#6F737A;text-align:center;margin-top:5px;letter-spacing:.3px">Mordida de frente · linhas médias</div>'+
-        '<div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:6px">'+
-          '<div><div style="background:#0A0C10;border-radius:2px;overflow:hidden;height:60px">'+photoEl(intrabucalMaxilaImg,'MAXILA',60,'contain')+'</div>'+
-            '<div style="font-size:6px;color:#6F737A;text-align:center;margin-top:2px">Maxila (oclusal superior)</div></div>'+
-          '<div><div style="background:#0A0C10;border-radius:2px;overflow:hidden;height:60px">'+photoEl(intrabucalMandibulaImg,'MANDÍBULA',60,'contain')+'</div>'+
-            '<div style="font-size:6px;color:#6F737A;text-align:center;margin-top:2px">Mandíbula (oclusal inferior)</div></div>'+
-          '<div><div style="background:#0A0C10;border-radius:2px;overflow:hidden;height:60px">'+photoEl(intrabucalLatDImg,'LATERAL D',60,'contain')+'</div>'+
-            '<div style="font-size:6px;color:#6F737A;text-align:center;margin-top:2px">Mordida lateral direita</div></div>'+
-          '<div><div style="background:#0A0C10;border-radius:2px;overflow:hidden;height:60px">'+photoEl(intrabucalLatEImg,'LATERAL E',60,'contain')+'</div>'+
-            '<div style="font-size:6px;color:#6F737A;text-align:center;margin-top:2px">Mordida lateral esquerda</div></div>'+
-        '</div>'+
+        '<div style="background:#0A0C10;border-radius:2px;overflow:hidden;height:220px">'+photoEl(intrabucalImg,'INTRABUCAL',220,'contain')+'</div>'+
+        '<div style="font-size:7.5px;color:#6F737A;text-align:center;margin-top:5px;letter-spacing:.3px">Documentação intrabucal · maxila, mandíbula, mordida de frente e laterais</div>'+
       '</div>'+
       '<div class="panel" style="display:flex;flex-direction:column">'+
         '<div class="lbl" style="margin-bottom:2px">Achados Oclusais</div>'+
@@ -2365,15 +2203,10 @@ function generatePDF() {
   const perfilImg     = getAnnotatedImage('perfil');
   const sorrisoImg    = getAnnotatedImage('sorriso');
   const intrabucalImg = getAnnotatedImage('intrabucal');
-  const intrabucalMaxilaImg    = getPlainImage('intrabucalMaxila');
-  const intrabucalMandibulaImg = getPlainImage('intrabucalMandibula');
-  const intrabucalLatDImg      = getPlainImage('intrabucalLatD');
-  const intrabucalLatEImg      = getPlainImage('intrabucalLatE');
   const sorrisoRawImg = getRawImage('sorriso') || sorrisoImg;
 
   const html = buildPDFHTML({
-    frontalImg, perfilImg, sorrisoImg, intrabucalImg,
-    intrabucalMaxilaImg, intrabucalMandibulaImg, intrabucalLatDImg, intrabucalLatEImg, sorrisoRawImg,
+    frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorrisoRawImg,
     sorrisoPoints:  state.points.sorriso || {},
     sorrisoImgNat:  state.imgNat.sorriso || null,
     measurements:   d.measurements || collectMeasurementsSnapshot(),
@@ -2384,8 +2217,7 @@ function generatePDF() {
     birthDate:      d.birthDate,
     sex:            d.sex,
     reportText:     d.txt,
-    treatmentNotes: (document.getElementById('treatment-notes')||{}).value || d.treatmentNotes || '',
-    stlShots:       state.stlShots || null
+    treatmentNotes: (document.getElementById('treatment-notes')||{}).value || d.treatmentNotes || ''
   });
 
   // Use Blob URL to avoid popup-blocker issues and onload race condition

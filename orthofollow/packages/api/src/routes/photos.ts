@@ -2,10 +2,7 @@ import type { FastifyInstance } from 'fastify'
 import { z } from 'zod'
 import { getPool } from '../db/pool'
 
-const PHOTO_KEYS = [
-  'frontal', 'perfil', 'sorriso', 'intrabucal',
-  'intrabucalMaxila', 'intrabucalMandibula', 'intrabucalLatD', 'intrabucalLatE',
-] as const
+const PHOTO_KEYS = ['frontal', 'perfil', 'sorriso', 'intrabucal'] as const
 
 const SavePhotoBody = z.object({
   imageData: z.string().min(1),
