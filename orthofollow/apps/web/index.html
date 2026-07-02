@@ -1915,27 +1915,36 @@ function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorris
 
   // ── CSS ──
   const CSS = "@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap');\n"+
-    ":root{--ink:#0F2537;--ink-mid:#2B2F36;--gold:#B08D57;--gold-pale:rgba(176,141,87,.09);--warm-white:#FCFBF9;--gray:#6F737A;--gray-light:#F2F2F0;--border:#E5E1DA;--border-lt:#EDEAE6;--green:#2A5C3A;--green-bg:#EEF4F0;--amber:#7A5A1A;--amber-bg:#F8F3E8;--red:#7A2828;--red-bg:#F8EEEE}\n"+
+    ":root{--ink:#0F2537;--ink-mid:#2B2F36;--gold:#B08D57;--gold-pale:rgba(176,141,87,.09);--warm-white:#FCFBF9;--gray:#6F737A;--gray-light:#F2F2F0;--border:#E5E1DA;--border-lt:#EDEAE6;--green:#2A5C3A;--green-bg:#EEF4F0;--amber:#7A5A1A;--amber-bg:#F8F3E8;--red:#7A2828;--red-bg:#F8EEEE;--pad-h:44px;--photo-grid:150px 1fr;--cover-grid:1fr 260px}\n"+
     "*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}\nhtml{font-size:11px}\n"+
-    "body{background:#E9E7E3;color:var(--ink);font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased}\n"+
-    ".pbar{position:fixed;top:0;left:0;right:0;z-index:999;background:var(--ink);padding:9px 32px;display:flex;align-items:center;justify-content:space-between}\n"+
+    "body{background:#E9E7E3;color:var(--ink);font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}\n"+
+    ".pbar{position:fixed;top:0;left:0;right:0;z-index:999;background:var(--ink);padding:9px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px}\n"+
     ".pbar span{font-size:10px;color:rgba(255,255,255,.45);letter-spacing:.3px}\n"+
-    ".pbar button{background:var(--gold);color:var(--warm-white);border:none;padding:6px 18px;font-size:9.5px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;cursor:pointer;border-radius:2px;font-family:'Inter',sans-serif}\n"+
+    ".pbar button{background:var(--gold);color:var(--warm-white);border:none;padding:6px 18px;font-size:9.5px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;cursor:pointer;border-radius:2px;font-family:'Inter',sans-serif;flex-shrink:0}\n"+
     "body{padding-top:44px}\n"+
     "@media print{.pbar{display:none}body{padding-top:0;background:var(--warm-white)}}\n"+
-    ".page{width:210mm;min-height:297mm;background:var(--warm-white);margin:20px auto;display:flex;flex-direction:column;page-break-after:always;overflow:hidden}\n"+
+    ".page{width:210mm;max-width:100%;min-height:297mm;background:var(--warm-white);margin:20px auto;display:flex;flex-direction:column;page-break-after:always;overflow:hidden}\n"+
     ".page:last-child{page-break-after:auto}\n"+
     "@media print{body{background:var(--warm-white)}.page{margin:0}*{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}}\n"+
-    ".ph{padding:13px 44px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}\n"+
+    "@media screen and (max-width:700px){\n"+
+    "  :root{--pad-h:16px;--photo-grid:1fr;--cover-grid:1fr}\n"+
+    "  .page{width:100%;min-height:0;margin:0 auto 10px}\n"+
+    "  .pbar{flex-wrap:wrap;padding:8px 12px}\n"+
+    "  .pbar span{font-size:8.5px}\n"+
+    "  body{padding-top:58px}\n"+
+    "  .g2,.g3{grid-template-columns:1fr}\n"+
+    "  .sec-title{font-size:19px}\n"+
+    "}\n"+
+    ".ph{padding:13px var(--pad-h);display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}\n"+
     ".ph-mono{width:24px;height:24px;border-radius:50%;border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:11px;color:var(--gold);flex-shrink:0}\n"+
     ".ph-name{font-family:'Cormorant Garamond',serif;font-size:12.5px;font-weight:600;color:var(--ink);letter-spacing:.2px}\n"+
     ".ph-proto{font-size:8px;color:var(--gray);letter-spacing:.6px;margin-top:1px}\n"+
     ".ph-section{font-size:8px;font-weight:500;letter-spacing:1.2px;text-transform:uppercase;color:var(--gray)}\n"+
     ".ph-page{font-size:8px;color:var(--border);margin-top:2px}\n"+
-    ".pf{padding:9px 44px;border-top:1px solid var(--border-lt);display:flex;align-items:center;justify-content:space-between}\n"+
+    ".pf{padding:9px var(--pad-h);border-top:1px solid var(--border-lt);display:flex;align-items:center;justify-content:space-between}\n"+
     ".pf-line{width:16px;height:1px;background:var(--gold)}\n"+
     ".pf-text{font-size:7.5px;color:var(--gray);letter-spacing:.6px;text-transform:uppercase}\n"+
-    ".pb{padding:22px 44px;flex:1;display:flex;flex-direction:column;gap:14px}\n"+
+    ".pb{padding:22px var(--pad-h);flex:1;display:flex;flex-direction:column;gap:14px}\n"+
     ".sec-eyebrow{font-size:7.5px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:4px}\n"+
     ".sec-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;color:var(--ink);line-height:1.15}\n"+
     ".sec-sub{font-size:9px;color:var(--gray);margin-top:3px;line-height:1.6}\n"+
@@ -1977,15 +1986,15 @@ function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorris
   // ── Page 1: Capa ──
   const page1 = '<div class="page">'+
     '<div style="height:2px;background:linear-gradient(90deg,#B08D57 0%,rgba(176,141,87,.15) 100%)"></div>'+
-    '<div style="padding:18px 44px 16px;border-bottom:1px solid #E5E1DA;display:flex;align-items:center;justify-content:space-between">'+
+    '<div style="padding:18px var(--pad-h) 16px;border-bottom:1px solid #E5E1DA;display:flex;align-items:center;justify-content:space-between">'+
       '<div style="display:flex;align-items:center;gap:12px">'+
         '<div class="ph-mono">T</div>'+
         '<div><div style="font-family:\'Cormorant Garamond\',serif;font-size:13px;font-weight:600;color:#0F2537;letter-spacing:.3px">Dr. Matheus Tadao Wakasugui</div>'+
         '<div style="font-size:8px;color:#6F737A;letter-spacing:.7px;margin-top:1px">AVALIAÇÃO ORTODÔNTICA · PROTOCOLO TADAO</div></div></div>'+
       '<div style="text-align:right"><div style="font-size:8.5px;color:#6F737A;letter-spacing:.5px">'+todayFull+'</div>'+
       '<div style="font-size:8px;color:#E5E1DA;margin-top:2px;letter-spacing:.3px">Sessão '+e(session||'T0')+' · Avaliação</div></div></div>'+
-    '<div style="flex:1;display:flex;flex-direction:column;padding:36px 44px 0">'+
-      '<div style="display:grid;grid-template-columns:1fr 260px;gap:36px;flex:1;min-height:0">'+
+    '<div style="flex:1;display:flex;flex-direction:column;padding:36px var(--pad-h) 0">'+
+      '<div style="display:grid;grid-template-columns:var(--cover-grid);gap:36px;flex:1;min-height:0">'+
         '<div style="display:flex;flex-direction:column;justify-content:space-between">'+
           '<div>'+
             '<div style="font-size:7.5px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:#B08D57;margin-bottom:12px">Paciente</div>'+
@@ -2055,7 +2064,7 @@ function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorris
       '<div><div class="sec-eyebrow">Avaliação Facial</div>'+
         '<div class="sec-title">Análise Frontal</div>'+
         '<div class="sec-sub">Simetria dos Terços Faciais · Proporção Vertical · Simetria Nasal</div></div>'+
-      '<div style="display:grid;grid-template-columns:150px 1fr;gap:18px;flex:1">'+
+      '<div style="display:grid;grid-template-columns:var(--photo-grid);gap:18px;flex:1">'+
         '<div>'+
           '<div style="background:#0A0C10;border-radius:2px;overflow:hidden;height:220px">'+photoEl(frontalImg,'FRONTAL',220)+'</div>'+
           '<div style="font-size:7.5px;color:#6F737A;text-align:center;margin-top:5px;letter-spacing:.3px">Vista frontal · pontos anatômicos</div>'+
@@ -2098,7 +2107,7 @@ function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorris
       '<div><div class="sec-eyebrow">Avaliação do Sorriso</div>'+
         '<div class="sec-title">Linha Média · Exposição · Proporção Labial</div>'+
         '<div class="sec-sub">Desvio de Linha Média Dental · Exposição Dentária · Razão Labial · Competência Labial</div></div>'+
-      '<div style="display:grid;grid-template-columns:150px 1fr;gap:18px;flex:1">'+
+      '<div style="display:grid;grid-template-columns:var(--photo-grid);gap:18px;flex:1">'+
         '<div>'+
           '<div style="background:#0A0C10;border-radius:2px;overflow:hidden;height:220px">'+photoEl(sorrisoImg,'SORRISO',220)+'</div>'+
           '<div style="font-size:7.5px;color:#6F737A;text-align:center;margin-top:5px;letter-spacing:.3px">Vista frontal sorrindo</div>'+
@@ -2151,7 +2160,7 @@ function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorris
       '<div><div class="sec-eyebrow">Avaliação Lateral</div>'+
         '<div class="sec-title">Análise de Perfil</div>'+
         '<div class="sec-sub">Convexidade Facial · Ângulo Nasolabial · Projeção do Mento</div></div>'+
-      '<div style="display:grid;grid-template-columns:150px 1fr;gap:18px;flex:1">'+
+      '<div style="display:grid;grid-template-columns:var(--photo-grid);gap:18px;flex:1">'+
         '<div>'+
           '<div style="background:#0A0C10;border-radius:2px;overflow:hidden;height:260px">'+photoEl(perfilImg,'PERFIL',260)+'</div>'+
           '<div style="font-size:7.5px;color:#6F737A;text-align:center;margin-top:5px;letter-spacing:.3px">Perfil lateral</div>'+
@@ -2300,6 +2309,7 @@ function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorris
     '</div>'+pf(6)+'</div>';
 
   return '<!DOCTYPE html>\n<html lang="pt-BR">\n<head>\n<meta charset="UTF-8">\n'+
+    '<meta name="viewport" content="width=device-width, initial-scale=1.0">\n'+
     '<title>Protocolo Tadao — '+e(patName)+'</title>\n'+
     '<style>\n'+CSS+'\n</style>\n</head>\n<body>\n'+
     '<div class="pbar"><span>Dr. Matheus Tadao Wakasugui · Protocolo Tadao · Relatório de Avaliação Ortodôntica</span>'+
