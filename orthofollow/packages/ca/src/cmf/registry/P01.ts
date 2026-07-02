@@ -19,7 +19,7 @@ export const P01_ANALYSES: AnalysisDefinition[] = [
   {
     id:              'P01.A02',
     protocolId:      'P01',
-    displayName:     'Desvio de Linha Média (mm)',
+    displayName:     'Desvio de Linha Média Superior (mm)',
     valueType:       'SCALAR_MM',
     unit:            'MM',
     constraint:      { minInclusive: true, maxInclusive: true },
@@ -109,16 +109,6 @@ export const P01_ANALYSES: AnalysisDefinition[] = [
     formulaInputFor: ['nasal-symmetry'],
   },
   {
-    id:              'P01.A10',
-    protocolId:      'P01',
-    displayName:     'Razão Labial Superior/Inferior',
-    valueType:       'SCALAR_RATIO',
-    unit:            'RATIO',
-    constraint:      { minInclusive: true, maxInclusive: true },
-    isRequired:      true,
-    formulaInputFor: ['lip-ratio'],
-  },
-  {
     id:              'P01.A11',
     protocolId:      'P01',
     displayName:     'Competência Labial',
@@ -145,7 +135,7 @@ export const P01_ANALYSES: AnalysisDefinition[] = [
 
   // ── Extended Frontal ──
   {
-    id: 'P01.A13', protocolId: 'P01', displayName: 'Padrão Facial',
+    id: 'P01.A13', protocolId: 'P01', displayName: 'Padrão Facial (Classificação de Angle)',
     valueType: 'CLASSIFICATION', unit: 'NONE',
     constraint: { minInclusive: false, maxInclusive: false, allowedValues: ['CLASS_I', 'CLASS_II', 'CLASS_III'] },
     isRequired: false, formulaInputFor: [],
@@ -273,31 +263,37 @@ export const P01_ANALYSES: AnalysisDefinition[] = [
   {
     id: 'P01.A33', protocolId: 'P01', displayName: 'Mordida Cruzada Anterior',
     valueType: 'CLASSIFICATION', unit: 'NONE',
-    constraint: { minInclusive: false, maxInclusive: false, allowedValues: ['ABSENT', 'UNILATERAL', 'BILATERAL'] },
+    constraint: { minInclusive: false, maxInclusive: false, allowedValues: ['ABSENT', 'PRESENT'] },
     isRequired: false, formulaInputFor: [],
   },
   {
     id: 'P01.A34', protocolId: 'P01', displayName: 'Mordida Cruzada Posterior',
     valueType: 'CLASSIFICATION', unit: 'NONE',
-    constraint: { minInclusive: false, maxInclusive: false, allowedValues: ['ABSENT', 'UNILATERAL_RIGHT', 'UNILATERAL_LEFT', 'BILATERAL'] },
+    constraint: { minInclusive: false, maxInclusive: false, allowedValues: ['ABSENT', 'PRESENT'] },
     isRequired: false, formulaInputFor: [],
   },
   {
     id: 'P01.A35', protocolId: 'P01', displayName: 'Mordida Aberta',
     valueType: 'CLASSIFICATION', unit: 'NONE',
-    constraint: { minInclusive: false, maxInclusive: false, allowedValues: ['ABSENT', 'MILD', 'MODERATE', 'SEVERE'] },
+    constraint: { minInclusive: false, maxInclusive: false, allowedValues: ['ABSENT', 'PRESENT'] },
     isRequired: false, formulaInputFor: [],
   },
   {
     id: 'P01.A36', protocolId: 'P01', displayName: 'Apinhamento Visível',
     valueType: 'CLASSIFICATION', unit: 'NONE',
-    constraint: { minInclusive: false, maxInclusive: false, allowedValues: ['ABSENT', 'MILD', 'MODERATE', 'SEVERE'] },
+    constraint: { minInclusive: false, maxInclusive: false, allowedValues: ['ABSENT', 'PRESENT'] },
     isRequired: false, formulaInputFor: [],
   },
   {
     id: 'P01.A37', protocolId: 'P01', displayName: 'Diastemas',
     valueType: 'CLASSIFICATION', unit: 'NONE',
-    constraint: { minInclusive: false, maxInclusive: false, allowedValues: ['ABSENT', 'PHYSIOLOGIC', 'MODERATE', 'LARGE'] },
+    constraint: { minInclusive: false, maxInclusive: false, allowedValues: ['ABSENT', 'PRESENT'] },
+    isRequired: false, formulaInputFor: [],
+  },
+  {
+    id: 'P01.A38', protocolId: 'P01', displayName: 'Desvio de Linha Média Inferior (mm)',
+    valueType: 'SCALAR_MM', unit: 'MM',
+    constraint: { minInclusive: true, maxInclusive: true },
     isRequired: false, formulaInputFor: [],
   },
 ]

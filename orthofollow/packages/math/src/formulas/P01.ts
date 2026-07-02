@@ -75,11 +75,6 @@ export const P01_FORMULAS: FormulaSpec[] = [
     compute: (inputs) => classificationResult(getClassification(inputs, 'P01.A09')),
   },
   {
-    slug: 'lip-ratio', version: '1.0.0', name: 'Razão Labial',
-    inputAnalysisIds: ['P01.A10'],
-    compute: (inputs) => scalarResult(getNumeric(inputs, 'P01.A10'), 'RATIO'),
-  },
-  {
     slug: 'lip-competence', version: '1.0.0', name: 'Competência Labial',
     inputAnalysisIds: ['P01.A11'],
     compute: (inputs) => classificationResult(getClassification(inputs, 'P01.A11')),

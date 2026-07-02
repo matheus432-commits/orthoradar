@@ -132,19 +132,6 @@ export const P01_KNOWLEDGE: KnowledgeRecord[] = [
     ],
   },
   {
-    id: 'kr-lip-ratio', version: '1.0.0',
-    formulaSlug: 'lip-ratio',
-    displayName: 'Razão Labial',
-    rules: [
-      { when: r => r.value !== null && r.value.gte(new Decimal('0.6')) && r.value.lte(new Decimal('0.9')), severity: 'NORMAL', classification: 'IDEAL',   priority: 10, referralRequired: false },
-      { when: r => r.value !== null,                                                                        severity: 'MILD',   classification: 'ALTERED', priority: 25, referralRequired: false },
-    ],
-    templates: [
-      { id: 'tpl-lipr-normal', severity: 'NORMAL', classification: 'IDEAL',   text: 'Proporção entre lábio superior e inferior dentro da normalidade.' },
-      { id: 'tpl-lipr-mild',   severity: 'MILD',   classification: 'ALTERED', text: 'Proporção labial alterada. Avaliar impacto no equilíbrio facial.' },
-    ],
-  },
-  {
     id: 'kr-lip-competence', version: '1.0.0',
     formulaSlug: 'lip-competence',
     displayName: 'Competência Labial',
