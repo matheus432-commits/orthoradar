@@ -290,10 +290,4 @@ export const P01_ANALYSES: AnalysisDefinition[] = [
     constraint: { minInclusive: false, maxInclusive: false, allowedValues: ['ABSENT', 'PRESENT'] },
     isRequired: false, formulaInputFor: [],
   },
-  {
-    id: 'P01.A38', protocolId: 'P01', displayName: 'Desvio de Linha Média Inferior (mm)',
-    valueType: 'SCALAR_MM', unit: 'MM',
-    constraint: { minInclusive: true, maxInclusive: true },
-    isRequired: false, formulaInputFor: [],
-  },
 ]
