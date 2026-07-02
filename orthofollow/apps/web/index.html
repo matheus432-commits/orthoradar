@@ -1749,8 +1749,6 @@ function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorris
   const normItems = findings.filter(f => f.severity==='NORMAL');
   const attnItems = findings.filter(f => f.severity!=='NORMAL');
   const complexity = attnItems.length===0?'Baixa':attnItems.length<=2?'Leve':attnItems.length<=4?'Moderada':'Alta';
-  const sevDot = {NORMAL:'#2A5C3A',MILD:'#B08D57',MODERATE:'#c2410c',SEVERE:'#7A2828',CRITICAL:'#5c0a0a'};
-  const sevTxt = {NORMAL:'Normal',MILD:'Leve',MODERATE:'Moderado',SEVERE:'Grave',CRITICAL:'Crítico'};
 
   function e(s){ return String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;') }
 
@@ -1800,14 +1798,6 @@ function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorris
       '<span style="font-size:7px;color:rgba(255,255,255,.18);letter-spacing:2px;text-transform:uppercase">'+e(label)+'</span></div>';
   }
 
-  function findRow(f) {
-    const dot = sevDot[f.severity]||'#9ca3af';
-    const sv = sevTxt[f.severity]||f.severity;
-    return '<div class="find-row"><div class="find-dot" style="background:'+dot+'"></div>'+
-      '<div><div class="find-sev">'+sv+'</div>'+
-      '<div class="find-txt">'+e(f.text)+'</div></div></div>';
-  }
-
   function ph(section, pg) {
     return '<div style="height:1px;background:linear-gradient(90deg,#B08D57 0%,rgba(176,141,87,.1) 100%)"></div>'+
       '<div class="ph"><div style="display:flex;align-items:center;gap:10px">'+
@@ -1815,13 +1805,13 @@ function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorris
       '<div><div class="ph-name">Dr. Matheus Tadao Wakasugui</div>'+
       '<div class="ph-proto">Protocolo Tadao</div></div></div>'+
       '<div style="text-align:right"><div class="ph-section">'+section+'</div>'+
-      '<div class="ph-page">'+todayShort+' · Página '+pg+' de 6</div></div></div>';
+      '<div class="ph-page">'+todayShort+' · Página '+pg+' de 5</div></div></div>';
   }
 
   function pf(pg) {
     return '<div class="pf"><div class="pf-line"></div>'+
       '<div class="pf-text">Protocolo Tadao · Confidencial</div>'+
-      '<div class="pf-text">Página '+pg+' de 6</div></div>';
+      '<div class="pf-text">Página '+pg+' de 5</div></div>';
   }
 
   function insight(title, text) {
@@ -2259,66 +2249,13 @@ function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorris
         'A documentação intrabucal é essencial para distinguir a origem do desvio de linha média identificado na análise extrabucal. Desvios de origem dental respondem bem à mecânica ortodôntica assimétrica, enquanto desvios esqueléticos podem requerer cirurgia ortognática. A correlação com a cefalometria posteroanterior complementa o diagnóstico diferencial.')+
     '</div>'+pf(5)+'</div>';
 
-  // ── Page 6: Plano de Tratamento ──
-  const hasTN = treatmentNotes && treatmentNotes.trim();
-  const tlHtml = hasTN
-    ? '<div style="font-size:9.5px;color:#2B2F36;line-height:1.8;white-space:pre-wrap">'+e(treatmentNotes)+'</div>'
-    : [['Fase 01','Documentação Complementar','Telerradiografia lateral, tomografia computadorizada e modelos digitais. Avaliação esquelética completa e planejamento digital integrado.','1 – 2 semanas'],
-       ['Fase 02','Tratamento Ortodôntico Ativo','Alinhamento e nivelamento com mecânica assimétrica para correção de linha média. Controle do padrão vertical com ancoragem adequada ao diagnóstico esquelético.','18 – 24 meses'],
-       ['Fase 03','Contenção e Acompanhamento','Contenção fixa e removível. Reavaliação facial, oclusal e fotográfica.','12 meses +']].map((p2,i,arr)=>
-      '<div class="tl-item" style="'+(i<arr.length-1?'padding-bottom:12px':'')+'">'+
-        '<div style="display:flex;flex-direction:column;align-items:center">'+
-          '<div class="tl-dot'+(i===0?' tl-dot-f':'')+'"></div>'+
-          (i<arr.length-1?'<div class="tl-con" style="height:36px"></div>':'')+
-        '</div>'+
-        '<div style="flex:1">'+
-          '<div class="tl-phase">'+p2[0]+'</div>'+
-          '<div class="tl-title">'+p2[1]+'</div>'+
-          '<div class="tl-desc">'+p2[2]+'</div>'+
-          '<div class="tl-dur">'+p2[3]+'</div>'+
-        '</div>'+
-      '</div>').join('');
-
-  const page6 = '<div class="page" style="page-break-after:auto">'+ph('Plano de Tratamento',6)+
-    '<div class="pb">'+
-      '<div><div class="sec-eyebrow">Conclusão e Conduta</div>'+
-        '<div class="sec-title">Plano de Tratamento</div>'+
-        '<div class="sec-sub">Diagnóstico Consolidado · Objetivos Terapêuticos · Cronograma · Compromisso Clínico</div></div>'+
-      '<div style="background:#0F2537;border-radius:2px;padding:15px 20px">'+
-        '<div style="font-size:7.5px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:7px">Diagnóstico Consolidado</div>'+
-        '<div style="font-size:10.5px;color:rgba(255,255,255,.85);line-height:1.6">'+
-          '<div><span style="color:rgba(255,255,255,.45)">Paciente:</span> '+e(patName)+'</div>'+
-          '<div style="margin-top:2px"><span style="color:rgba(255,255,255,.45)">Ortodontista:</span> Dr. Matheus Tadao Wakasugui</div>'+
-          '<div style="margin-top:6px"><span style="color:rgba(255,255,255,.45)">Problemas identificados:</span> '+e(problemsList)+'</div>'+
-        '</div>'+
-      '</div>'+
-      '<div class="g2">'+
-        '<div><div style="font-size:7.5px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:#2A5C3A;margin-bottom:7px">Pontos Favoráveis</div>'+
-          (normItems.length?normItems.map(f=>findRow(f)).join(''):'<div style="font-size:9px;color:#6F737A">Nenhum achado normal.</div>')+
-        '</div>'+
-        '<div><div style="font-size:7.5px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:#7A5A1A;margin-bottom:7px">Pontos de Atenção</div>'+
-          (attnItems.length?attnItems.map(f=>findRow(f)).join(''):'<div style="font-size:9px;color:#6F737A">Nenhum ponto de atenção.</div>')+
-        '</div>'+
-      '</div>'+
-      '<div><div style="font-size:7.5px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:#6F737A;margin-bottom:12px">Cronograma de Tratamento</div>'+tlHtml+'</div>'+
-      '<div style="margin-top:auto;display:flex;align-items:flex-end;justify-content:space-between;padding-top:12px;border-top:1px solid #EDEAE6">'+
-        '<div style="flex:1;max-width:170px">'+
-          '<div style="border-bottom:1px solid #E5E1DA;height:36px"></div>'+
-          '<div style="font-size:7.5px;color:#6F737A;margin-top:4px;letter-spacing:.3px">Assinatura do Profissional Responsável</div></div>'+
-        '<div style="text-align:right">'+
-          '<div style="font-family:\'Cormorant Garamond\',serif;font-size:14px;font-weight:500;color:#0F2537">Dr. Matheus Tadao Wakasugui</div>'+
-          '<div style="font-size:8px;color:#6F737A;margin-top:2px;letter-spacing:.3px">Avaliação Ortodôntica · Protocolo Tadao · '+todayShort+'</div>'+
-          '<div style="height:1px;background:#B08D57;width:46px;margin-top:6px;margin-left:auto;opacity:.5"></div></div>'+
-      '</div>'+
-    '</div>'+pf(6)+'</div>';
-
   return '<!DOCTYPE html>\n<html lang="pt-BR">\n<head>\n<meta charset="UTF-8">\n'+
     '<meta name="viewport" content="width=device-width, initial-scale=1.0">\n'+
     '<title>Protocolo Tadao — '+e(patName)+'</title>\n'+
     '<style>\n'+CSS+'\n</style>\n</head>\n<body>\n'+
     '<div class="pbar"><span>Dr. Matheus Tadao Wakasugui · Protocolo Tadao · Relatório de Avaliação Ortodôntica</span>'+
     '<button onclick="window.print()">Exportar PDF</button></div>\n'+
-    page1+page2+page3+page4+page5+page6+'\n</body>\n</html>';
+    page1+page2+page3+page4+page5+'\n</body>\n</html>';
 }
 
 function generatePDF() {
