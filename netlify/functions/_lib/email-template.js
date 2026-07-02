@@ -316,7 +316,7 @@ function articleCard(article, index, total, opts) {
  * Builds the full HTML email for a digest.
  *
  * @param {Object} user      - { nome, email, especialidade }
- * @param {Array}  articles  - curated article list (3–5)
+ * @param {Array}  articles  - curated article list (fixo: 3)
  * @param {Object} opts      - { digestId, baseUrl, siteUrl, unsubscribeToken, editorial? }
  * @returns {{ html: string, subject: string }}
  */
@@ -423,7 +423,7 @@ function achadoSemanaCard(achado, opts) {
  * Builds the full digest HTML email.
  *
  * @param {Object} user      - { nome, email, especialidade }
- * @param {Array}  articles  - curated article list (3–5)
+ * @param {Array}  articles  - curated article list (fixo: 3)
  * @param {Object} opts      - { digestId, baseUrl, unsubscribeToken, editorial?, achadoSemana? }
  * @returns {{ html: string, subject: string }}
  */

@@ -18,7 +18,9 @@ const GENERIC_RESUMO_RE = [
 ];
 
 const MIN_ARTICLES    = 3;
-const MAX_ARTICLES    = 5;
+// Padrão fixo: 3 artigos regulares por dia. O Achado da Semana é validado/enviado
+// à parte (não entra nesta contagem), então não infla este máximo.
+const MAX_ARTICLES    = 3;
 const MIN_RESUMO_LEN  = 50;
 const EDITORIAL_COVERAGE_THRESHOLD = 0.5; // warn if < 50% of articles referenced
 
