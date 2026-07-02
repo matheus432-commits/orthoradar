@@ -1300,7 +1300,11 @@ function calculateMeasurements() {
     const nat = state.imgNat.frontal;
     if (nat) {
       const dx = (fp.Pe.x - fp.Pd.x) * nat.w, dy = (fp.Pe.y - fp.Pd.y) * nat.h;
-      setAuto('P01.A19', (Math.abs(Math.atan2(dy, dx) * 180 / Math.PI)).toFixed(1));
+      // atan2(dy,dx) sem valor absoluto no dx pode "virar" para perto de 180° quando o
+      // eixo horizontal da linha bipupilar aponta no sentido negativo — usar os módulos
+      // de dx e dy garante o ângulo de inclinação (0°-90°) independente da ordem em que
+      // as pupilas foram marcadas.
+      setAuto('P01.A19', (Math.atan2(Math.abs(dy), Math.abs(dx)) * 180 / Math.PI).toFixed(1));
       anyAuto = true;
     }
   }
