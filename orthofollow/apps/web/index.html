@@ -121,6 +121,15 @@
     .pt-label{flex:1}
     .pt-check{font-size:13px}
     .hint-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:4px}
+
+    /* Clinical finding chips (intrabucal) */
+    .finding-chips{display:flex;flex-wrap:wrap;gap:6px}
+    .finding-chip{--fc-color:#111;font-size:11px;padding:5px 10px;border-radius:14px;border:1.5px solid var(--fc-color);background:#fff;color:var(--fc-color);cursor:pointer;font-weight:600}
+    .finding-chip.active{background:var(--fc-color);color:#fff}
+    .finding-list{display:flex;flex-direction:column;gap:4px;max-height:130px;overflow-y:auto}
+    .finding-item{display:flex;align-items:center;gap:6px;font-size:12px;padding:3px 6px;border-radius:4px;background:var(--surface)}
+    .finding-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+    .finding-remove{margin-left:auto;border:none;background:none;color:var(--muted);cursor:pointer;font-size:11px}
     .ipd-wrap{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
     .ipd-wrap input{width:56px;height:28px;border:1px solid var(--border);border-radius:4px;padding:0 6px;font-size:12px;text-align:center}
 
@@ -327,14 +336,8 @@
             <div class="empty-photo"><div class="ep-icon">📷</div><p>Carregue a foto frontal<br><button class="btn btn-outline btn-sm" style="margin-top:10px" onclick="triggerUpload('frontal')">Selecionar foto</button></p></div>
           </div>
           <div class="pt-area">
-            <div class="hint-text" id="hint-frontal">Carregue a foto frontal para iniciar a marcação de pontos</div>
-            <div class="pt-list" id="ptl-frontal"></div>
-            <div class="hint-row">
-              <div class="ipd-wrap">DIP: <input type="number" id="ipd-input" value="62" min="50" max="75" title="Distância Interpupilar em mm (padrão: 62 mm)"> mm</div>
-              <button class="btn btn-outline btn-sm" onclick="annotators.frontal&&annotators.frontal.undo()">↩ Desfazer</button>
-              <button class="btn btn-outline btn-sm" onclick="annotators.frontal&&annotators.frontal.reset()">✕ Resetar</button>
-              <button class="btn btn-outline btn-sm" onclick="triggerUpload('frontal')">📷 Trocar foto</button>
-            </div>
+            <div class="ipd-wrap">DIP: <input type="number" id="ipd-input" value="62" min="50" max="75" title="Distância Interpupilar em mm (padrão: 62 mm)"> mm</div>
+            <button class="btn btn-outline btn-sm" onclick="triggerUpload('frontal')">📷 Trocar foto</button>
           </div>
         </div>
 
@@ -344,13 +347,7 @@
             <div class="empty-photo"><div class="ep-icon">📷</div><p>Carregue a foto de perfil<br><button class="btn btn-outline btn-sm" style="margin-top:10px" onclick="triggerUpload('perfil')">Selecionar foto</button></p></div>
           </div>
           <div class="pt-area">
-            <div class="hint-text" id="hint-perfil">Carregue a foto de perfil para iniciar a marcação de pontos</div>
-            <div class="pt-list" id="ptl-perfil"></div>
-            <div class="hint-row">
-              <button class="btn btn-outline btn-sm" onclick="annotators.perfil&&annotators.perfil.undo()">↩ Desfazer</button>
-              <button class="btn btn-outline btn-sm" onclick="annotators.perfil&&annotators.perfil.reset()">✕ Resetar</button>
-              <button class="btn btn-outline btn-sm" onclick="triggerUpload('perfil')">📷 Trocar foto</button>
-            </div>
+            <button class="btn btn-outline btn-sm" onclick="triggerUpload('perfil')">📷 Trocar foto</button>
           </div>
         </div>
 
@@ -360,13 +357,7 @@
             <div class="empty-photo"><div class="ep-icon">😊</div><p>Carregue a foto de sorriso<br><button class="btn btn-outline btn-sm" style="margin-top:10px" onclick="triggerUpload('sorriso')">Selecionar foto</button></p></div>
           </div>
           <div class="pt-area">
-            <div class="hint-text" id="hint-sorriso">Carregue a foto de sorriso para iniciar a marcação de pontos</div>
-            <div class="pt-list" id="ptl-sorriso"></div>
-            <div class="hint-row">
-              <button class="btn btn-outline btn-sm" onclick="annotators.sorriso&&annotators.sorriso.undo()">↩ Desfazer</button>
-              <button class="btn btn-outline btn-sm" onclick="annotators.sorriso&&annotators.sorriso.reset()">✕ Resetar</button>
-              <button class="btn btn-outline btn-sm" onclick="triggerUpload('sorriso')">📷 Trocar foto</button>
-            </div>
+            <button class="btn btn-outline btn-sm" onclick="triggerUpload('sorriso')">📷 Trocar foto</button>
           </div>
         </div>
 
@@ -376,23 +367,21 @@
             <div class="empty-photo"><div class="ep-icon">🦷</div><p>Carregue a foto intrabucal compilada<br><button class="btn btn-outline btn-sm" style="margin-top:10px" onclick="triggerUpload('intrabucal')">Selecionar foto</button></p></div>
           </div>
           <div class="pt-area">
-            <div class="hint-text" id="hint-intrabucal">Marque as linhas médias na vista de mordida de frente da foto compilada</div>
-            <label style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);margin:8px 0;cursor:pointer">
-              <input type="checkbox" id="chk-no-upper-teeth" onchange="annotators.intrabucal&&annotators.intrabucal.setSkip(['ZD','ZE'], this.checked)">
-              Paciente não possui dentes superiores visíveis (não marcar zênites gengivais)
-            </label>
-            <div class="pt-list" id="ptl-intrabucal"></div>
-            <div class="hint-row">
-              <button class="btn btn-outline btn-sm" onclick="annotators.intrabucal&&annotators.intrabucal.undo()">↩ Desfazer</button>
-              <button class="btn btn-outline btn-sm" onclick="annotators.intrabucal&&annotators.intrabucal.reset()">✕ Resetar</button>
-              <button class="btn btn-outline btn-sm" onclick="triggerUpload('intrabucal')">📷 Trocar foto</button>
-            </div>
+            <button class="btn btn-outline btn-sm" onclick="triggerUpload('intrabucal')">📷 Trocar foto</button>
+          </div>
+          <div class="divider" style="margin:10px 0"></div>
+          <div class="section-label">Achados Odontológicos</div>
+          <p style="font-size:11px;color:var(--muted);margin-bottom:8px">Selecione uma categoria e clique na foto em cada ponto correspondente. Pode marcar quantos pontos quiser por categoria.</p>
+          <div class="finding-chips" id="finding-chips"></div>
+          <div class="finding-list" id="finding-list" style="margin-top:8px"></div>
+          <div class="hint-row" style="margin-top:6px">
+            <button class="btn btn-outline btn-sm" onclick="annotators.intrabucal&&annotators.intrabucal.undoFinding()">↩ Desfazer último achado</button>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Right: Measurements -->
+    <!-- Right: Point selection + case fields -->
     <div class="av-measurements">
       <div class="section-label">Identificação do Caso</div>
       <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px">
@@ -408,8 +397,18 @@
         <div class="field"><label>Data de Nascimento</label><input id="av-birth-date" type="date"></div>
       </div>
       <div class="divider" style="margin:12px 0"></div>
-      <div class="section-label">Medições P01 <span id="auto-badge" style="font-size:10px;font-weight:400;color:var(--success);display:none"> · ✓ calculado automaticamente</span></div>
-      <div class="meas-list" id="meas-list"></div>
+      <div class="section-label">Pontos a Marcar — <span id="pt-selector-title"></span></div>
+      <div class="hint-text" id="pt-selector-hint" style="margin-bottom:6px">Carregue a foto para começar.</div>
+      <div class="pt-list" id="pt-selector-list"></div>
+      <div class="hint-row" style="margin:8px 0">
+        <button class="btn btn-outline btn-sm" onclick="currentAnnotator()&&currentAnnotator().undo()">↩ Desfazer último</button>
+        <button class="btn btn-outline btn-sm" onclick="currentAnnotator()&&currentAnnotator().reset()">✕ Resetar</button>
+      </div>
+      <div class="divider" style="margin:12px 0"></div>
+      <details>
+        <summary class="section-label" style="cursor:pointer">Classificações Manuais (P01) <span id="auto-badge" style="font-size:10px;font-weight:400;color:var(--success);display:none"> · ✓ calculado automaticamente</span></summary>
+        <div class="meas-list" id="meas-list" style="margin-top:10px"></div>
+      </details>
       <div style="margin-top:16px">
         <button class="btn btn-primary" id="btn-run" style="width:100%" onclick="runPipeline()">Gerar Relatório</button>
       </div>
@@ -602,6 +601,22 @@ const state = {
   dataUrls: {}
 };
 const annotators = { frontal:null, perfil:null, sorriso:null, intrabucal:null };
+let currentPhotoTab = 'frontal';
+
+function currentAnnotator() { return annotators[currentPhotoTab] || null; }
+
+const FINDING_CATEGORIES = [
+  { id:'CARIE',      label:'Cárie',                         color:'#DC2626' },
+  { id:'INFLAM_GEN', label:'Inflamação Gengival',            color:'#F59E0B' },
+  { id:'PINO_COROA', label:'Pino + Coroa',                   color:'#7C3AED' },
+  { id:'IMPLANTE',   label:'Implante',                       color:'#2563EB' },
+  { id:'RESINA',     label:'Restauração Resina Infiltrada',  color:'#0D9488' },
+  { id:'AMALGAMA',   label:'Restauração de Amálgama',        color:'#4B5563' },
+  { id:'RETRACAO',   label:'Retração',                       color:'#DB2777' },
+  { id:'EXODONTIA',  label:'Exodontia',                      color:'#111827' },
+  { id:'CANAL',      label:'Canal',                          color:'#059669' },
+];
+function findingCategoryById(id) { return FINDING_CATEGORIES.find(c => c.id === id); }
 
 /* ═══════════════════════════════
    NAVIGATION
@@ -625,6 +640,8 @@ function switchPhotoTab(key, btn) {
   document.querySelectorAll('.photo-tab').forEach(b => b.classList.remove('active'));
   document.getElementById('pp-' + key).classList.add('active');
   btn.classList.add('active');
+  currentPhotoTab = key;
+  renderPointSelector();
 }
 
 /* ═══════════════════════════════
@@ -695,8 +712,8 @@ function resetEvaluationState() {
     const uz = document.getElementById('uz-' + key);
     if (uz) uz.classList.remove('has-file');
   });
-  const noUpperTeeth = document.getElementById('chk-no-upper-teeth');
-  if (noUpperTeeth) noUpperTeeth.checked = false;
+  renderPointSelector();
+  renderFindingChips();
 }
 
 // Fetches previously saved photos + landmark points for the case/session
@@ -821,34 +838,34 @@ class PhotoAnnotator {
   constructor(key) {
     this.key    = key;
     this.def    = PHOTO_DEFS[key];
-    this.pts    = {};   // { key: {x,y} } normalized 0-1
-    this.idx    = 0;    // current point index
+    this.pts    = {};   // { key: {x,y} } normalized 0-1, landmark points only
+    this.order  = [];   // keys placed, in placement order (for undo)
+    this.activeKey = null; // point key selected in the right-side list, waiting for a click on the photo
     this.imgEl  = null;
     this.canvas = null;
     this.ctx    = null;
     this.ro     = null;
-    this.skipKeys = new Set(); // landmark keys the clinician chose not to mark (e.g. no upper teeth visible)
+    this.findingMode = null;  // active finding category id, or null
+    this.findings    = [];    // { category, x, y } — free-form clinical markers (intrabucal only)
   }
 
-  // Marks/unmarks a set of point keys as "not applicable" — used when a landmark simply
-  // doesn't exist for this patient/photo (e.g. no visible upper teeth for gingival zeniths),
-  // so the sequential marking flow doesn't get stuck waiting for a click that can't happen.
-  setSkip(keys, skip) {
-    for (const k of keys) { if (skip) this.skipKeys.add(k); else this.skipKeys.delete(k); }
-    this._recomputeIdx();
-    this.updateUI();
-    calculateMeasurements();
-    scheduleSavePhoto(this.key);
-  }
-
-  _recomputeIdx() {
-    let idx = 0;
-    while (idx < this.def.points.length) {
-      const k = this.def.points[idx].key;
-      if (this.pts[k] || this.skipKeys.has(k)) idx++;
-      else break;
+  // Activates a landmark point so the next click on the photo places it there.
+  // Clicking a point that's already placed clears it first, so the clinician can reposition it.
+  selectPoint(key) {
+    if (this.pts[key]) {
+      delete this.pts[key];
+      this.order = this.order.filter(k => k !== key);
     }
-    this.idx = idx;
+    this.activeKey = key;
+    this.updateUI();
+    renderPointSelector();
+  }
+
+  setFindingMode(category) {
+    this.findingMode = (this.findingMode === category) ? null : category;
+    this.activeKey = null;
+    this.updateUI();
+    renderFindingChips();
   }
 
   mount(pbId) {
@@ -878,18 +895,34 @@ class PhotoAnnotator {
     this.imgEl.src = url;
   }
 
-  // Restores a previously saved photo (as a data URL) plus its landmark points,
-  // so reopening a case doesn't require re-uploading photos and re-marking points.
+  // Restores a previously saved photo (as a data URL) plus its landmark points and
+  // clinical finding markers, so reopening a case doesn't require re-marking everything.
+  // Finding markers are persisted alongside landmark points using synthetic keys
+  // ("FIND__<CATEGORY>__<n>") since the backend only stores a flat {key:{x,y}} map.
   loadFromDataUrl(dataUrl, pts) {
     this.imgEl.onload = () => {
       state.imgNat[this.key] = { w: this.imgEl.naturalWidth, h: this.imgEl.naturalHeight };
-      this.pts = pts || {};
-      this._recomputeIdx();
+      const all = pts || {};
+      this.pts = {};
+      this.findings = [];
+      for (const [k, v] of Object.entries(all)) {
+        const m = /^FIND__(.+)__\d+$/.exec(k);
+        if (m) this.findings.push({ category: m[1], x: v.x, y: v.y });
+        else this.pts[k] = v;
+      }
+      this.order = Object.keys(this.pts);
       state.points[this.key] = this.pts;
       this.sync(); this.redraw(); this.updateUI();
       calculateMeasurements();
     };
     this.imgEl.src = dataUrl;
+  }
+
+  // Combines landmark points + finding markers into the flat map the backend expects.
+  pointsForSave() {
+    const out = { ...this.pts };
+    this.findings.forEach((f, i) => { out['FIND__' + f.category + '__' + i] = { x: f.x, y: f.y }; });
+    return out;
   }
 
   sync() {
@@ -905,35 +938,61 @@ class PhotoAnnotator {
   }
 
   _click(e) {
-    while (this.idx < this.def.points.length && this.skipKeys.has(this.def.points[this.idx].key)) this.idx++;
-    if (this.idx >= this.def.points.length) return;
     const rect = this.imgEl.getBoundingClientRect();
     const x    = (e.clientX - rect.left) / rect.width;
     const y    = (e.clientY - rect.top)  / rect.height;
-    const pkey = this.def.points[this.idx].key;
-    this.pts[pkey] = { x, y };
-    this.idx++;
-    state.points[this.key] = this.pts;
+    if (this.findingMode) {
+      this.findings.push({ category: this.findingMode, x, y });
+      state.points[this.key] = this.pointsForSave();
+      this.redraw();
+      renderFindingChips();
+      scheduleSavePhoto(this.key);
+      return;
+    }
+    if (!this.activeKey) return;
+    this.pts[this.activeKey] = { x, y };
+    if (!this.order.includes(this.activeKey)) this.order.push(this.activeKey);
+    this.activeKey = null;
+    state.points[this.key] = this.pointsForSave();
     this.redraw();
     this.updateUI();
+    renderPointSelector();
     calculateMeasurements();
     scheduleSavePhoto(this.key);
   }
 
   undo() {
-    if (this.idx <= 0) return;
-    this.idx--;
-    delete this.pts[this.def.points[this.idx].key];
-    state.points[this.key] = this.pts;
-    this.redraw(); this.updateUI(); calculateMeasurements();
+    const key = this.order.pop();
+    if (!key) return;
+    delete this.pts[key];
+    state.points[this.key] = this.pointsForSave();
+    this.redraw(); this.updateUI(); renderPointSelector(); calculateMeasurements();
+    scheduleSavePhoto(this.key);
+  }
+
+  undoFinding() {
+    if (!this.findings.length) return;
+    this.findings.pop();
+    state.points[this.key] = this.pointsForSave();
+    this.redraw();
+    renderFindingChips();
+    scheduleSavePhoto(this.key);
+  }
+
+  removeFinding(index) {
+    this.findings.splice(index, 1);
+    state.points[this.key] = this.pointsForSave();
+    this.redraw();
+    renderFindingChips();
     scheduleSavePhoto(this.key);
   }
 
   reset() {
     this.pts = {};
-    this._recomputeIdx();
-    state.points[this.key] = {};
-    this.redraw(); this.updateUI(); calculateMeasurements();
+    this.order = [];
+    this.activeKey = null;
+    state.points[this.key] = this.pointsForSave();
+    this.redraw(); this.updateUI(); renderPointSelector(); calculateMeasurements();
     scheduleSavePhoto(this.key);
   }
 
@@ -948,7 +1007,7 @@ class PhotoAnnotator {
     this.ctx.scale(dpr, dpr);
     // Connection lines
     this._drawLines(w, h);
-    // Points
+    // Landmark points
     this.def.points.forEach((pd, i) => {
       const pt = this.pts[pd.key]; if (!pt) return;
       const px = pt.x * w, py = pt.y * h;
@@ -965,6 +1024,19 @@ class PhotoAnnotator {
       this.ctx.lineWidth = 2;
       this.ctx.strokeText(String(i + 1), px + 4, py - 4);
       this.ctx.fillText(String(i + 1), px + 4, py - 4);
+    });
+    // Clinical finding markers
+    this.findings.forEach(f => {
+      const cat = findingCategoryById(f.category);
+      const color = cat ? cat.color : '#111827';
+      const px = f.x * w, py = f.y * h;
+      this.ctx.beginPath();
+      this.ctx.arc(px, py, 4, 0, Math.PI * 2);
+      this.ctx.fillStyle = color;
+      this.ctx.fill();
+      this.ctx.strokeStyle = '#fff';
+      this.ctx.lineWidth = 1.2;
+      this.ctx.stroke();
     });
     this.ctx.restore();
   }
@@ -991,30 +1063,8 @@ class PhotoAnnotator {
   }
 
   updateUI() {
-    const hint = document.getElementById('hint-' + this.key);
-    const list = document.getElementById('ptl-' + this.key);
-    if (hint) {
-      if (!this.imgEl || !this.imgEl.src) {
-        hint.textContent = 'Carregue a foto para iniciar a marcação de pontos';
-      } else if (this.idx >= this.def.points.length) {
-        hint.textContent = '✓ Todos os pontos marcados! Medições calculadas automaticamente.';
-      } else {
-        const pd = this.def.points[this.idx];
-        hint.textContent = `Clique na foto → ${pd.label}: ${pd.hint}`;
-      }
-    }
-    if (list) {
-      list.innerHTML = this.def.points.map((pd, i) => {
-        const placed  = !!this.pts[pd.key];
-        const skipped = this.skipKeys.has(pd.key);
-        const active  = i === this.idx;
-        return `<div class="pt-item ${placed?'placed':''} ${active?'active':''}" ${skipped?'style="opacity:.5"':''}>
-          <span class="pt-key">${pd.key}</span>
-          <span class="pt-label">${pd.label}${skipped?' (não se aplica)':''}</span>
-          <span class="pt-check">${skipped ? '—' : placed ? '✓' : (active ? '◎' : '○')}</span>
-        </div>`;
-      }).join('');
-    }
+    renderPointSelector();
+    if (this.key === 'intrabucal') renderFindingChips();
   }
 }
 
@@ -1042,6 +1092,60 @@ function initAnnotators() {
     annotators.intrabucal.mount('pb-intrabucal');
     if (state.files['intrabucal']) annotators.intrabucal.loadImage(state.files['intrabucal']);
   }
+  renderPointSelector();
+  renderFindingChips();
+}
+
+/* ═══════════════════════════════
+   POINT SELECTOR (right sidebar) + FINDING CHIPS (intrabucal panel)
+═══════════════════════════════ */
+function renderPointSelector() {
+  const titleEl = document.getElementById('pt-selector-title');
+  const hintEl  = document.getElementById('pt-selector-hint');
+  const listEl  = document.getElementById('pt-selector-list');
+  if (!listEl) return;
+  const key = currentPhotoTab;
+  const ann = annotators[key];
+  const def = PHOTO_DEFS[key];
+  if (titleEl) titleEl.textContent = { frontal:'Frontal', perfil:'Perfil', sorriso:'Sorriso', intrabucal:'Intrabucal' }[key] || key;
+  if (!ann || !ann.imgEl || !ann.imgEl.src) {
+    if (hintEl) hintEl.textContent = 'Carregue a foto para começar.';
+    listEl.innerHTML = '';
+    return;
+  }
+  if (hintEl) {
+    hintEl.textContent = ann.activeKey
+      ? `Clique na foto para marcar: ${def.points.find(p=>p.key===ann.activeKey)?.label || ann.activeKey}`
+      : 'Clique em um ponto da lista para marcá-lo na foto. Pontos não clicados não são marcados.';
+  }
+  listEl.innerHTML = def.points.map(pd => {
+    const placed = !!ann.pts[pd.key];
+    const active = ann.activeKey === pd.key;
+    return `<div class="pt-item ${placed?'placed':''} ${active?'active':''}" style="cursor:pointer" onclick="currentAnnotator()&&currentAnnotator().selectPoint('${pd.key}')">
+      <span class="pt-key">${pd.key}</span>
+      <span class="pt-label">${pd.label}</span>
+      <span class="pt-check">${placed ? '✓' : (active ? '◎' : '○')}</span>
+    </div>`;
+  }).join('');
+}
+
+function renderFindingChips() {
+  const chipsEl = document.getElementById('finding-chips');
+  const listEl  = document.getElementById('finding-list');
+  if (!chipsEl) return;
+  const ann = annotators.intrabucal;
+  chipsEl.innerHTML = FINDING_CATEGORIES.map(c => {
+    const active = ann && ann.findingMode === c.id;
+    return `<button type="button" class="finding-chip ${active?'active':''}" style="--fc-color:${c.color}" onclick="annotators.intrabucal&&annotators.intrabucal.setFindingMode('${c.id}')">${c.label}</button>`;
+  }).join('');
+  if (!listEl) return;
+  if (!ann || !ann.findings.length) { listEl.innerHTML = ''; return; }
+  listEl.innerHTML = ann.findings.map((f, i) => {
+    const cat = findingCategoryById(f.category);
+    return `<div class="finding-item"><span class="finding-dot" style="background:${cat?cat.color:'#111'}"></span>
+      <span>${cat?cat.label:f.category}</span>
+      <button type="button" class="finding-remove" onclick="annotators.intrabucal&&annotators.intrabucal.removeFinding(${i})">✕</button></div>`;
+  }).join('');
 }
 
 /* ═══════════════════════════════
@@ -1611,7 +1715,24 @@ function getAnnotatedImage(key) {
     ctx.strokeText(String(i+1), px + r + 2, py - r);
     ctx.fillText(String(i+1), px + r + 2, py - r);
   });
+  const fr = Math.max(4, w/160);
+  (ann.findings||[]).forEach(f => {
+    const cat = findingCategoryById(f.category);
+    const color = cat ? cat.color : '#111827';
+    const px = f.x*w, py = f.y*h;
+    ctx.beginPath(); ctx.arc(px,py,fr,0,Math.PI*2);
+    ctx.fillStyle = color; ctx.fill();
+    ctx.strokeStyle='#fff'; ctx.lineWidth=Math.max(1.5,w/500); ctx.stroke();
+  });
   return offscreen.toDataURL('image/jpeg', 0.88);
+}
+
+// Returns the list of finding categories actually used on a photo, for the report legend.
+function usedFindingCategories(key) {
+  const ann = annotators[key];
+  if (!ann || !ann.findings.length) return [];
+  const used = new Set(ann.findings.map(f => f.category));
+  return FINDING_CATEGORIES.filter(c => used.has(c.id));
 }
 
 function getRawImage(key) {
@@ -1642,7 +1763,7 @@ function measDisplayVal(id, val) {
 function sevLabel(s){ return {NORMAL:'Normal',MILD:'Leve',MODERATE:'Moderado',SEVERE:'Grave',CRITICAL:'Crítico'}[s]??s }
 function sevColor(s){ return {NORMAL:'#22c55e',MILD:'#eab308',MODERATE:'#f97316',SEVERE:'#ef4444',CRITICAL:'#7f1d1d'}[s]??'#9ca3af' }
 
-function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorrisoRawImg, sorrisoPoints = {}, sorrisoImgNat = null, measurements, findings, patName, caseId, session, birthDate, sex, reportText, treatmentNotes }) {
+function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorrisoRawImg, intrabucalLegend = [], sorrisoPoints = {}, sorrisoImgNat = null, measurements, findings, patName, caseId, session, birthDate, sex, reportText, treatmentNotes }) {
   const todayFull = new Date().toLocaleDateString('pt-BR', {day:'2-digit',month:'long',year:'numeric'});
   const todayShort = new Date().toLocaleDateString('pt-BR');
   const m = measurements || {};
@@ -2156,8 +2277,13 @@ function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorris
         '<div class="sec-title">Análise Intrabucal</div>'+
         '<div class="sec-sub">Linhas Médias · Plano Oclusal · Overbite · Mordida Cruzada · Apinhamento · Diastemas · Zênites Gengivais</div></div>'+
       '<div>'+
-        '<div style="background:#0A0C10;border-radius:2px;overflow:hidden;height:220px">'+photoEl(intrabucalImg,'INTRABUCAL',220,'contain')+'</div>'+
+        '<div style="background:#0A0C10;border-radius:2px;overflow:hidden;height:'+(intrabucalLegend.length?190:220)+'px">'+photoEl(intrabucalImg,'INTRABUCAL',intrabucalLegend.length?190:220,'contain')+'</div>'+
         '<div style="font-size:7.5px;color:#6F737A;text-align:center;margin-top:5px;letter-spacing:.3px">Documentação intrabucal · maxila, mandíbula, mordida de frente e laterais</div>'+
+        (intrabucalLegend.length?(
+          '<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;justify-content:center">'+
+          intrabucalLegend.map(c=>'<span style="display:inline-flex;align-items:center;gap:3px;font-size:6.5px;color:#4B5563"><span style="width:6px;height:6px;border-radius:50%;background:'+c.color+';display:inline-block"></span>'+e(c.label)+'</span>').join('')+
+          '</div>'
+        ):'')+
       '</div>'+
       '<div class="panel" style="display:flex;flex-direction:column">'+
         '<div class="lbl" style="margin-bottom:2px">Achados Oclusais</div>'+
@@ -2204,9 +2330,10 @@ function generatePDF() {
   const sorrisoImg    = getAnnotatedImage('sorriso');
   const intrabucalImg = getAnnotatedImage('intrabucal');
   const sorrisoRawImg = getRawImage('sorriso') || sorrisoImg;
+  const intrabucalLegend = usedFindingCategories('intrabucal');
 
   const html = buildPDFHTML({
-    frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorrisoRawImg,
+    frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorrisoRawImg, intrabucalLegend,
     sorrisoPoints:  state.points.sorriso || {},
     sorrisoImgNat:  state.imgNat.sorriso || null,
     measurements:   d.measurements || collectMeasurementsSnapshot(),
