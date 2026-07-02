@@ -411,7 +411,16 @@
           </div>
           <div class="pt-area">
             <div class="hint-text">Use o mouse para rotacionar (botão esquerdo), zoom (scroll) e mover (botão direito) o modelo 3D.</div>
-            <div class="hint-row"><button class="btn btn-outline btn-sm" onclick="triggerUpload('stl')">🦷 Trocar arquivo STL</button></div>
+            <div class="hint-row">
+              <button class="btn btn-outline btn-sm" onclick="triggerUpload('stl')">🦷 Trocar arquivo STL</button>
+              <button class="btn btn-primary btn-sm" onclick="generateSTLShots()">📸 Gerar Fotos do Modelo 3D</button>
+            </div>
+            <div id="stl-shots-preview" style="display:none;margin-top:10px;grid-template-columns:1fr 1fr 1fr;gap:6px">
+              <div><img id="stl-shot-frontal" style="width:100%;border-radius:4px;background:#0f172a"><div style="font-size:10px;text-align:center;color:var(--muted);margin-top:2px">Frontal</div></div>
+              <div><img id="stl-shot-direita" style="width:100%;border-radius:4px;background:#0f172a"><div style="font-size:10px;text-align:center;color:var(--muted);margin-top:2px">Lateral Direita</div></div>
+              <div><img id="stl-shot-esquerda" style="width:100%;border-radius:4px;background:#0f172a"><div style="font-size:10px;text-align:center;color:var(--muted);margin-top:2px">Lateral Esquerda</div></div>
+            </div>
+            <div style="font-size:10.5px;color:var(--muted);margin-top:6px">As fotos geradas são um render 3D estilizado (cor/iluminação simulada), não fotos reais do paciente. Elas são incluídas na página intrabucal do relatório.</div>
           </div>
         </div>
       </div>
@@ -633,7 +642,8 @@ const state = {
   files: {},
   points: { frontal:{}, perfil:{}, sorriso:{}, intrabucal:{} },
   imgNat: { frontal:null, perfil:null, sorriso:null, intrabucal:null },
-  dataUrls: {}
+  dataUrls: {},
+  stlShots: null
 };
 const annotators = { frontal:null, perfil:null, sorriso:null, intrabucal:null };
 let stlViewer = null;
@@ -734,6 +744,9 @@ function resetEvaluationState() {
   });
   const noUpperTeeth = document.getElementById('chk-no-upper-teeth');
   if (noUpperTeeth) noUpperTeeth.checked = false;
+  state.stlShots = null;
+  const stlPreview = document.getElementById('stl-shots-preview');
+  if (stlPreview) stlPreview.style.display = 'none';
 }
 
 // Fetches previously saved photos + landmark points for the case/session
@@ -1108,15 +1121,66 @@ class STLViewer {
       const c = new THREE.Vector3();
       geo.boundingBox.getCenter(c);
       geo.translate(-c.x, -c.y, -c.z);
+      geo.computeBoundingBox();
       const sz = new THREE.Vector3();
       geo.boundingBox.getSize(sz);
       const mx = Math.max(sz.x, sz.y, sz.z);
+      this._modelSize = mx;
       this.camera.position.set(0, 0, mx * 1.8);
       this.controls.target.set(0,0,0);
-      const mat = new THREE.MeshPhongMaterial({ color:0xe8d5b7, specular:0x222222, shininess:30, side:THREE.DoubleSide });
+      this._applyToothGumColoring(geo, THREE);
+      const mat = new THREE.MeshStandardMaterial({ vertexColors:true, roughness:0.35, metalness:0.02, side:THREE.DoubleSide });
       const mesh = new THREE.Mesh(geo, mat); mesh.name = 'm';
       this.scene.add(mesh);
     });
+  }
+
+  // Heurística de coloração dente/gengiva: sem informação real de cor no STL,
+  // aproxima a margem gengival pela faixa inferior da bounding box no eixo
+  // vertical do modelo (Y) — não altera geometria/oclusão, só aplica cor por
+  // vértice para dar aspecto realista (esmalte marfim / gengiva rosa).
+  _applyToothGumColoring(geo, THREE) {
+    geo.computeBoundingBox();
+    const bb = geo.boundingBox;
+    const yMin = bb.min.y, yRange = Math.max(bb.max.y - bb.min.y, 1e-6);
+    const pos = geo.attributes.position;
+    const colors = new Float32Array(pos.count * 3);
+    const tooth = { r:0.95, g:0.92, b:0.86 };
+    const gum   = { r:0.86, g:0.42, b:0.46 };
+    for (let i = 0; i < pos.count; i++) {
+      const yN = (pos.getY(i) - yMin) / yRange; // 0 = base, 1 = topo
+      const t = Math.min(1, Math.max(0, (yN - 0.18) / 0.12)); // transição suave ~18-30% da altura
+      colors[i*3]   = gum.r + (tooth.r - gum.r) * t;
+      colors[i*3+1] = gum.g + (tooth.g - gum.g) * t;
+      colors[i*3+2] = gum.b + (tooth.b - gum.b) * t;
+    }
+    geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+  }
+
+  // Captura 3 fotos estáticas do modelo (frontal, lateral direita, lateral
+  // esquerda) girando a câmera em torno do eixo Y, sem alterar geometria,
+  // oclusão ou cores. Retorna data URLs PNG; restaura a câmera ao final.
+  captureViews() {
+    const mesh = this.scene.getObjectByName('m');
+    if (!mesh || !this._modelSize) return null;
+    const prevPos = this.camera.position.clone();
+    const prevTarget = this.controls.target.clone();
+    const dist = this._modelSize * 1.8;
+    const shots = {};
+    const angles = { frontal:0, direita:55, esquerda:-55 };
+    for (const [key, deg] of Object.entries(angles)) {
+      const rad = deg * Math.PI / 180;
+      this.camera.position.set(Math.sin(rad) * dist, 0, Math.cos(rad) * dist);
+      this.camera.lookAt(0, 0, 0);
+      this.controls.target.set(0, 0, 0);
+      this.controls.update();
+      this.renderer.render(this.scene, this.camera);
+      shots[key] = this.renderer.domElement.toDataURL('image/png');
+    }
+    this.camera.position.copy(prevPos);
+    this.controls.target.copy(prevTarget);
+    this.controls.update();
+    return shots;
   }
 
   _animate() {
@@ -1124,6 +1188,18 @@ class STLViewer {
     this.controls.update();
     this.renderer.render(this.scene, this.camera);
   }
+}
+
+function generateSTLShots() {
+  if (!stlViewer) { alert('Carregue o arquivo STL antes de gerar as fotos.'); return; }
+  const shots = stlViewer.captureViews();
+  if (!shots) { alert('Não foi possível gerar as fotos: carregue o modelo 3D primeiro.'); return; }
+  state.stlShots = shots;
+  const preview = document.getElementById('stl-shots-preview');
+  if (preview) preview.style.display = 'grid';
+  const f = document.getElementById('stl-shot-frontal'); if (f) f.src = shots.frontal;
+  const d = document.getElementById('stl-shot-direita'); if (d) d.src = shots.direita;
+  const e = document.getElementById('stl-shot-esquerda'); if (e) e.src = shots.esquerda;
 }
 
 /* ═══════════════════════════════
@@ -1750,7 +1826,7 @@ function measDisplayVal(id, val) {
 function sevLabel(s){ return {NORMAL:'Normal',MILD:'Leve',MODERATE:'Moderado',SEVERE:'Grave',CRITICAL:'Crítico'}[s]??s }
 function sevColor(s){ return {NORMAL:'#22c55e',MILD:'#eab308',MODERATE:'#f97316',SEVERE:'#ef4444',CRITICAL:'#7f1d1d'}[s]??'#9ca3af' }
 
-function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorrisoRawImg, sorrisoPoints = {}, sorrisoImgNat = null, measurements, findings, patName, caseId, session, birthDate, sex, reportText, treatmentNotes }) {
+function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorrisoRawImg, sorrisoPoints = {}, sorrisoImgNat = null, measurements, findings, patName, caseId, session, birthDate, sex, reportText, treatmentNotes, stlShots = null }) {
   const todayFull = new Date().toLocaleDateString('pt-BR', {day:'2-digit',month:'long',year:'numeric'});
   const todayShort = new Date().toLocaleDateString('pt-BR');
   const m = measurements || {};
@@ -2264,8 +2340,19 @@ function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorris
         '<div class="sec-title">Análise Intrabucal</div>'+
         '<div class="sec-sub">Linhas Médias · Plano Oclusal · Overbite · Mordida Cruzada · Apinhamento · Diastemas · Zênites Gengivais</div></div>'+
       '<div>'+
-        '<div style="background:#0A0C10;border-radius:2px;overflow:hidden;height:220px">'+photoEl(intrabucalImg,'INTRABUCAL',220,'contain')+'</div>'+
+        '<div style="background:#0A0C10;border-radius:2px;overflow:hidden;height:'+(stlShots?166:220)+'px">'+photoEl(intrabucalImg,'INTRABUCAL',stlShots?166:220,'contain')+'</div>'+
         '<div style="font-size:7.5px;color:#6F737A;text-align:center;margin-top:5px;letter-spacing:.3px">Vista intrabucal frontal · foto completa</div>'+
+        (stlShots?(
+          '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;margin-top:6px">'+
+            '<div><div style="background:#0A0C10;border-radius:2px;overflow:hidden;height:52px">'+photoEl(stlShots.frontal,'3D',52,'contain')+'</div>'+
+              '<div style="font-size:6px;color:#6F737A;text-align:center;margin-top:2px">Modelo 3D · Frontal</div></div>'+
+            '<div><div style="background:#0A0C10;border-radius:2px;overflow:hidden;height:52px">'+photoEl(stlShots.direita,'3D',52,'contain')+'</div>'+
+              '<div style="font-size:6px;color:#6F737A;text-align:center;margin-top:2px">Modelo 3D · Lat. Direita</div></div>'+
+            '<div><div style="background:#0A0C10;border-radius:2px;overflow:hidden;height:52px">'+photoEl(stlShots.esquerda,'3D',52,'contain')+'</div>'+
+              '<div style="font-size:6px;color:#6F737A;text-align:center;margin-top:2px">Modelo 3D · Lat. Esquerda</div></div>'+
+          '</div>'+
+          '<div style="font-size:6px;color:#9CA0A6;text-align:center;margin-top:3px">Render 3D do modelo digital (STL) — não substitui a fotografia clínica</div>'
+        ):'')+
       '</div>'+
       '<div class="panel" style="display:flex;flex-direction:column">'+
         '<div class="lbl" style="margin-bottom:2px">Achados Oclusais</div>'+
@@ -2325,7 +2412,8 @@ function generatePDF() {
     birthDate:      d.birthDate,
     sex:            d.sex,
     reportText:     d.txt,
-    treatmentNotes: (document.getElementById('treatment-notes')||{}).value || d.treatmentNotes || ''
+    treatmentNotes: (document.getElementById('treatment-notes')||{}).value || d.treatmentNotes || '',
+    stlShots:       state.stlShots || null
   });
 
   // Use Blob URL to avoid popup-blocker issues and onload race condition
