@@ -1811,13 +1811,13 @@ function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorris
       '<div><div class="ph-name">Dr. Matheus Tadao Wakasugui</div>'+
       '<div class="ph-proto">Protocolo Tadao</div></div></div>'+
       '<div style="text-align:right"><div class="ph-section">'+section+'</div>'+
-      '<div class="ph-page">'+todayShort+' · Página '+pg+' de 9</div></div></div>';
+      '<div class="ph-page">'+todayShort+' · Página '+pg+' de 6</div></div></div>';
   }
 
   function pf(pg) {
     return '<div class="pf"><div class="pf-line"></div>'+
       '<div class="pf-text">Protocolo Tadao · Confidencial</div>'+
-      '<div class="pf-text">Página '+pg+' de 9</div></div>';
+      '<div class="pf-text">Página '+pg+' de 6</div></div>';
   }
 
   function insight(title, text) {
@@ -1825,31 +1825,6 @@ function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorris
       '<div class="insight-txt">'+text+'</div></div>';
   }
 
-  function landmarkTable(key) {
-    const def = PHOTO_DEFS[key];
-    const pts = (key==='sorriso' ? sorrisoPoints : state.points[key]) || {};
-    const nat = (key==='sorriso' ? sorrisoImgNat : state.imgNat[key]);
-    const rows = def.points.map((pd,i) => {
-      const pt = pts[pd.key];
-      let coord = '—';
-      if (pt && nat && nat.w && nat.h) coord = Math.round(pt.x*nat.w)+', '+Math.round(pt.y*nat.h);
-      else if (pt) coord = pt.x.toFixed(3)+', '+pt.y.toFixed(3);
-      return '<tr><td style="padding:3px 6px;color:'+def.color+';font-weight:600">'+(i+1)+'</td>'+
-        '<td style="padding:3px 6px;font-family:\'Cormorant Garamond\',serif;font-size:10.5px">'+e(pd.key)+'</td>'+
-        '<td style="padding:3px 6px;color:#6F737A">'+e(pd.label)+'</td>'+
-        '<td style="padding:3px 6px;text-align:right;font-variant-numeric:tabular-nums;color:'+(pt?'#0F2537':'#B9B4AC')+'">'+coord+'</td></tr>';
-    }).join('');
-    return '<div class="panel"><div class="lbl" style="margin-bottom:6px">Landmarks Oficiais · Coordenadas (px)</div>'+
-      '<table style="width:100%;border-collapse:collapse;font-size:9px">'+
-      '<thead><tr style="border-bottom:1px solid #E5E1DA">'+
-      '<th style="padding:3px 6px;text-align:left;color:#6F737A;font-weight:500">#</th>'+
-      '<th style="padding:3px 6px;text-align:left;color:#6F737A;font-weight:500">Código</th>'+
-      '<th style="padding:3px 6px;text-align:left;color:#6F737A;font-weight:500">Ponto Anatômico</th>'+
-      '<th style="padding:3px 6px;text-align:right;color:#6F737A;font-weight:500">X, Y</th></tr></thead>'+
-      '<tbody>'+rows+'</tbody></table>'+
-      '<div class="caption" style="margin-top:6px">Coordenadas extraídas da marcação manual sobre a imagem em resolução nativa — base para o cálculo das métricas acima.</div>'+
-    '</div>';
-  }
 
   // A linha média dental inferior raramente é visível na foto de sorriso (dentes
   // inferiores cobertos pelo lábio); em vez de exigir sua marcação ali, ela é inferida
@@ -2055,11 +2030,24 @@ function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorris
           '<div><span style="color:rgba(255,255,255,.45)">Paciente:</span> '+e(patName)+'</div>'+
           '<div style="margin-top:2px"><span style="color:rgba(255,255,255,.45)">Ortodontista:</span> Dr. Matheus Tadao Wakasugui</div>'+
           '<div style="margin-top:6px"><span style="color:rgba(255,255,255,.45)">Problemas identificados:</span> '+e(problemsList)+'</div>'+
+          (treatmentNotes && treatmentNotes.trim()
+            ? '<div style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.12)">'+
+              '<span style="color:rgba(255,255,255,.45)">Plano de Tratamento:</span> '+
+              '<span style="white-space:pre-wrap">'+e(treatmentNotes)+'</span></div>'
+            : '')+
         '</div>'+
       '</div>'+
       '<div style="height:24px"></div>'+
     '</div>'+
     pf(1)+'</div>';
+
+  function miniRowGeneric(id) {
+    const a = ANALYSES.find(x=>x.id===id); if (!a) return '';
+    const isClass = a.type === 'CLASSIFICATION';
+    const val = isClass ? chip(id, m[id]) : '<span style="font-family:\'Cormorant Garamond\',serif;font-size:13px;color:#0F2537">'+measDisplayVal(id, m[id])+'</span>';
+    return '<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid #EDEAE6">'+
+      '<span style="font-size:9px;color:#0F2537">'+e(a.label)+'</span>'+val+'</div>';
+  }
 
   // ── Page 2: Frontal ──
   const page2 = '<div class="page">'+ph('Análise Frontal',2)+
@@ -2090,50 +2078,22 @@ function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorris
               '<div class="caption">Selamento labial avaliado em repouso, sem expressão.</div></div>'+
               chip('P01.A11',m['P01.A11'])+'</div>'+
           '</div>'+
-          '<div class="panel"><div class="lbl" style="margin-bottom:8px">Resumo · Medições vs. Referência</div>'+
-            '<table class="ref-table">'+
-              '<thead><tr><th>Parâmetro</th><th style="text-align:center">Paciente</th><th style="text-align:center">Referência</th><th style="text-align:right">Status</th></tr></thead>'+
-              '<tbody>'+
-                '<tr><td>Simetria Facial</td><td style="text-align:center;font-family:\'Cormorant Garamond\',serif;font-size:11px">'+e(blbl('P01.A01',m['P01.A01'])||'—')+'</td><td style="text-align:center;color:#6F737A">Simétrica</td><td style="text-align:right">'+chip('P01.A01',m['P01.A01'])+'</td></tr>'+
-                '<tr><td>Terço Superior</td><td style="text-align:center;font-family:\'Cormorant Garamond\',serif;font-size:11px">'+(t3!==null?t3.toFixed(1)+'%':'—')+'</td><td style="text-align:center;color:#6F737A">~33,3%</td><td style="text-align:right"><span class="chip '+(t3!==null&&t3>=28&&t3<=38?'cn':'ca')+'">'+(t3!==null&&t3>=28&&t3<=38?'Normal':'Verificar')+'</span></td></tr>'+
-                '<tr><td>Terço Médio</td><td style="text-align:center;font-family:\'Cormorant Garamond\',serif;font-size:11px">'+(t4!==null?t4.toFixed(1)+'%':'—')+'</td><td style="text-align:center;color:#6F737A">~33,3%</td><td style="text-align:right"><span class="chip '+(t4!==null&&t4>=28&&t4<=38?'cn':'ca')+'">'+(t4!==null&&t4>=28&&t4<=38?'Normal':'Verificar')+'</span></td></tr>'+
-                '<tr><td>Terço Inferior</td><td style="text-align:center;font-family:\'Cormorant Garamond\',serif;font-size:11px;color:'+(t5!==null&&t5>35?'#7A5A1A':'#0F2537')+'">'+(t5!==null?t5.toFixed(1)+'%':'—')+'</td><td style="text-align:center;color:#6F737A">~33,3%</td><td style="text-align:right"><span class="chip '+(t5!==null&&t5>35?'ca':'cn')+'">'+(t5!==null&&t5>35?'Atenção':'Normal')+'</span></td></tr>'+
-                '<tr><td>Simetria Nasal</td><td style="text-align:center;font-family:\'Cormorant Garamond\',serif;font-size:11px">'+e(blbl('P01.A09',m['P01.A09'])||'—')+'</td><td style="text-align:center;color:#6F737A">Normal</td><td style="text-align:right">'+chip('P01.A09',m['P01.A09'])+'</td></tr>'+
-                '<tr><td>Competência Labial</td><td style="text-align:center;font-family:\'Cormorant Garamond\',serif;font-size:11px">'+e(blbl('P01.A11',m['P01.A11'])||'—')+'</td><td style="text-align:center;color:#6F737A">Competente</td><td style="text-align:right">'+chip('P01.A11',m['P01.A11'])+'</td></tr>'+
-              '</tbody></table></div>'+
+          '<div class="g2">'+
+            '<div class="panel">'+miniRowGeneric('P01.A15')+miniRowGeneric('P01.A16')+'</div>'+
+            '<div class="panel">'+miniRowGeneric('P01.A17')+miniRowGeneric('P01.A18')+miniRowGeneric('P01.A19')+'</div>'+
+          '</div>'+
         '</div>'+
       '</div>'+
       insight('Interpretação Clínica · Análise Frontal',
         (t5!==null&&t5>35?'O terço inferior aumentado ('+t5.toFixed(1)+'%) indica padrão de crescimento vertical hiperdivergente, frequentemente associado a mordida aberta esquelética ou Classe II com rotação horária da mandíbula. ':'')+
         (m['P01.A11']&&m['P01.A11']!=='COMPETENT'?'A competência labial classificada como '+blbl('P01.A11',m['P01.A11']).toLowerCase()+', avaliada em repouso, é relevante para o planejamento de retração/protrusão incisal e para o selamento labial pós-tratamento. ':'Selamento labial adequado em repouso — função labial preservada. ')+
-        'A avaliação frontal fornece dados fundamentais sobre a harmonia vertical e a simetria facial, orientando as decisões de ancoragem e mecânica do tratamento.')+
+        'O padrão vertical e a origem provável da assimetria orientam a decisão entre abordagem ortodôntica isolada e associação com cirurgia ortognática; a classificação esquelética (Padrão I/II/III) é avaliada na análise de perfil.')+
     '</div>'+pf(2)+'</div>';
 
-  // ── Page 3: Frontal — Achados Complementares ──
-  function miniRowGeneric(id) {
-    const a = ANALYSES.find(x=>x.id===id); if (!a) return '';
-    const isClass = a.type === 'CLASSIFICATION';
-    const val = isClass ? chip(id, m[id]) : '<span style="font-family:\'Cormorant Garamond\',serif;font-size:13px;color:#0F2537">'+measDisplayVal(id, m[id])+'</span>';
-    return '<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid #EDEAE6">'+
-      '<span style="font-size:9px;color:#0F2537">'+e(a.label)+'</span>'+val+'</div>';
-  }
-  const page2b = '<div class="page">'+ph('Análise Frontal — Complementar',3)+
-    '<div class="pb">'+
-      '<div><div class="sec-eyebrow">Avaliação Facial Complementar</div>'+
-        '<div class="sec-title">Frontal — Achados Complementares</div>'+
-        '<div class="sec-sub">Padrão Vertical · Origem da Assimetria · Espessura Labial · Inclinação Bipupilar</div></div>'+
-      '<div class="g2">'+
-        '<div class="panel">'+miniRowGeneric('P01.A15')+miniRowGeneric('P01.A16')+'</div>'+
-        '<div class="panel">'+miniRowGeneric('P01.A17')+miniRowGeneric('P01.A18')+miniRowGeneric('P01.A19')+'</div>'+
-      '</div>'+
-      insight('Interpretação Clínica · Achados Frontais Complementares',
-        'O padrão vertical e a origem provável da assimetria complementam a análise frontal básica, orientando a decisão entre abordagem ortodôntica isolada e associação com cirurgia ortognática. A espessura labial influencia o planejamento de retração/protrusão dentária e o perfil de tecidos moles final. A classificação esquelética (Padrão I/II/III) é avaliada na análise de perfil.')+
-    '</div>'+pf(3)+'</div>';
-
-  // ── Page 4: Sorriso ──
+  // ── Page 3: Sorriso ──
   const midCol = (midline!==null&&Math.abs(midline)>MIDLINE_TOL_PCT)?'#7A5A1A':'#0F2537';
   const midCls = (midline!==null&&Math.abs(midline)>MIDLINE_TOL_PCT)?'ca':'cn';
-  const page3 = '<div class="page">'+ph('Análise do Sorriso',4)+
+  const page3 = '<div class="page">'+ph('Análise do Sorriso',3)+
     '<div class="pb">'+
       '<div><div class="sec-eyebrow">Avaliação do Sorriso</div>'+
         '<div class="sec-title">Linha Média · Exposição · Proporção Labial</div>'+
@@ -2174,32 +2134,19 @@ function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorris
         '</div>'+
       '</div>'+
       '<div class="g2" style="margin-top:10px">'+
-        landmarkTable('sorriso')+
-        smileConclusion(midline, lowerMidline, dentalExp, m)+
+        '<div class="panel">'+miniRowGeneric('P01.A20')+miniRowGeneric('P01.A21')+miniRowGeneric('P01.A22')+'</div>'+
+        '<div class="panel">'+miniRowGeneric('P01.A23')+miniRowGeneric('P01.A24')+miniRowGeneric('P01.A25')+miniRowGeneric('P01.A26')+'</div>'+
       '</div>'+
+      smileConclusion(midline, lowerMidline, dentalExp, m)+
       insight('Interpretação Clínica · Análise do Sorriso',
         (midline!==null?'A linha média dental superior '+(Math.abs(midline)<=MIDLINE_TOL_PCT?'coincide com a linha média facial, dentro dos limites de aceitabilidade clínica':'diverge da linha média facial, devendo ser investigada a origem dental ou esquelética')+'. ':'')+
         (lowerMidline==='DEVIATED'?'A linha média dental inferior diverge da linha média facial (inferido a partir da coincidência superior e do desvio identificado na foto intrabucal). ':'')+
         (lowerMidline==='COINCIDENT'?'A linha média dental inferior também coincide com a linha média facial. ':'')+
-        'A exposição dentária ao sorriso é um parâmetro fundamental para o planejamento estético do caso.')+
-    '</div>'+pf(4)+'</div>';
-
-  // ── Page 5: Sorriso — Achados Complementares ──
-  const page3b = '<div class="page">'+ph('Análise do Sorriso — Complementar',5)+
-    '<div class="pb">'+
-      '<div><div class="sec-eyebrow">Avaliação do Sorriso Complementar</div>'+
-        '<div class="sec-title">Sorriso — Achados Complementares</div>'+
-        '<div class="sec-sub">Tipo de Sorriso · Corredor Bucal · Dentes Visíveis · Exposição Incisal e Gengival · Zênites</div></div>'+
-      '<div class="g2">'+
-        '<div class="panel">'+miniRowGeneric('P01.A20')+miniRowGeneric('P01.A21')+miniRowGeneric('P01.A22')+'</div>'+
-        '<div class="panel">'+miniRowGeneric('P01.A23')+miniRowGeneric('P01.A24')+miniRowGeneric('P01.A25')+miniRowGeneric('P01.A26')+'</div>'+
-      '</div>'+
-      insight('Interpretação Clínica · Achados do Sorriso Complementares',
-        'O tipo de sorriso, o corredor bucal e a exposição gengival total definem a estética do sorriso e orientam decisões de intrusão/extrusão incisal, gengivectomia estética ou uso de toxina botulínica no lábio superior quando indicado. Tipo de sorriso e dentes visíveis são estimados a partir da exposição gengival/dentária e do corredor bucal já medidos — trata-se de uma aproximação, sujeita a confirmação clínica direta. O alinhamento dos zênites gengivais complementa o planejamento restaurador quando aplicável.')+
-    '</div>'+pf(5)+'</div>';
+        'A exposição dentária, o tipo de sorriso, o corredor bucal e a exposição gengival total definem a estética do sorriso e orientam decisões de intrusão/extrusão incisal, gengivectomia estética ou uso de toxina botulínica no lábio superior quando indicado. Tipo de sorriso e dentes visíveis são estimados a partir das medições já feitas — uma aproximação, sujeita a confirmação clínica direta.')+
+    '</div>'+pf(3)+'</div>';
 
   // ── Page 6: Perfil ──
-  const page4 = '<div class="page">'+ph('Análise de Perfil',6)+
+  const page4 = '<div class="page">'+ph('Análise de Perfil',4)+
     '<div class="pb">'+
       '<div><div class="sec-eyebrow">Avaliação Lateral</div>'+
         '<div class="sec-title">Análise de Perfil</div>'+
@@ -2246,26 +2193,16 @@ function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorris
                 '<div style="font-family:\'Cormorant Garamond\',serif;font-size:11px;color:'+(m['P01.A06']==='CONVEX'?'#7A5A1A':'#6F737A')+';margin-bottom:2px;font-style:italic">Convexo'+(m['P01.A06']==='CONVEX'?' ←':'')+'</div>'+
                 '<div style="font-size:7px;color:'+(m['P01.A06']==='CONVEX'?'#7A5A1A':'#B9B4AC')+'">Mento relativamente retruído</div></div>'+
             '</div></div>'+
+          '<div class="panel">'+miniRowGeneric('P01.A27')+miniRowGeneric('P01.A28')+miniRowGeneric('P01.A29')+'</div>'+
         '</div>'+
       '</div>'+
       insight('Interpretação Clínica · Análise de Perfil',
-        (m['P01.A06']==='CONVEX'?'O perfil convexo é mais frequentemente associado à retrusão mandibular (padrão Classe II), podendo também refletir protrusão maxilar; a projeção maxilar e mandibular aparentes (página seguinte) ajudam a diferenciar a origem. ':'')+
-        (m['P01.A06']==='CONCAVE'?'O perfil côncavo é mais frequentemente associado à protrusão mandibular (padrão Classe III), podendo também refletir retrusão maxilar; a projeção maxilar e mandibular aparentes (página seguinte) ajudam a diferenciar a origem. ':'')+
+        (m['P01.A06']==='CONVEX'?'O perfil convexo é mais frequentemente associado à retrusão mandibular (padrão Classe II), podendo também refletir protrusão maxilar. ':'')+
+        (m['P01.A06']==='CONCAVE'?'O perfil côncavo é mais frequentemente associado à protrusão mandibular (padrão Classe III), podendo também refletir retrusão maxilar. ':'')+
         (m['P01.A08']&&m['P01.A08']!=='NORMAL'?'O mento '+blbl('P01.A08',m['P01.A08']).toLowerCase()+' é relevante para o planejamento de eventual genioplastia. ':'')+
         (nasoAngle!==null?'O ângulo nasolabial de '+nasoAngle.toFixed(0)+'° '+(nasoAngle>=90&&nasoAngle<=110?'está dentro dos limites normais':'sugere avaliar componente nasal')+'. ':'')+
-        'A análise de perfil orienta a decisão sobre extrações e mecânica de ancoragem.')+
-    '</div>'+pf(6)+'</div>';
-
-  // ── Page 7: Perfil — Achados Complementares ──
-  const page4b = '<div class="page">'+ph('Análise de Perfil — Complementar',7)+
-    '<div class="pb">'+
-      '<div><div class="sec-eyebrow">Avaliação Lateral Complementar</div>'+
-        '<div class="sec-title">Perfil — Achados Complementares</div>'+
-        '<div class="sec-sub">Projeção Maxilar e Mandibular Aparentes · Equilíbrio Labial no Perfil</div></div>'+
-      '<div class="panel">'+miniRowGeneric('P01.A27')+miniRowGeneric('P01.A28')+miniRowGeneric('P01.A29')+'</div>'+
-      insight('Interpretação Clínica · Achados de Perfil Complementares',
-        'A projeção maxilar e mandibular aparentes ajudam a distinguir a origem esquelética do perfil identificado na página anterior: um perfil convexo tende a corresponder a retrusão mandibular e/ou protrusão maxilar; um perfil côncavo tende a corresponder a protrusão mandibular e/ou retrusão maxilar. Estimadas por tecido mole (posição de Sn e Me em relação à linha Pronasale-Pogônio) — uma aproximação fotográfica, não uma cefalometria, e deve ser confirmada clinicamente. Associadas ao equilíbrio labial no perfil, essas informações orientam a indicação de aparelhos ortopédicos funcionais, extrações estratégicas ou cirurgia ortognática conforme a idade e a gravidade do caso.')+
-    '</div>'+pf(7)+'</div>';
+        'A projeção maxilar e mandibular aparentes e o equilíbrio labial no perfil (estimados por tecido mole — posição de Sn e Me em relação à linha Pronasale-Pogônio, uma aproximação fotográfica que deve ser confirmada clinicamente) ajudam a diferenciar a origem esquelética e orientam a indicação de aparelhos ortopédicos funcionais, extrações estratégicas ou cirurgia ortognática conforme a idade e a gravidade do caso.')+
+    '</div>'+pf(4)+'</div>';
 
   // ── Page 8: Intrabucal ──
   function miniRow(id) {
@@ -2273,7 +2210,7 @@ function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorris
     return '<div style="display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid #EDEAE6">'+
       '<span style="font-size:9px;color:#0F2537">'+e(a.label)+'</span>'+chip(id,m[id])+'</div>';
   }
-  const page5 = '<div class="page">'+ph('Análise Intrabucal',8)+
+  const page5 = '<div class="page">'+ph('Análise Intrabucal',5)+
     '<div class="pb">'+
       '<div><div class="sec-eyebrow">Documentação Intrabucal</div>'+
         '<div class="sec-title">Análise Intrabucal</div>'+
@@ -2307,9 +2244,9 @@ function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorris
       '</div>'+
       insight('Interpretação Clínica · Análise Intrabucal',
         'A documentação intrabucal é essencial para distinguir a origem do desvio de linha média identificado na análise extrabucal. Desvios de origem dental respondem bem à mecânica ortodôntica assimétrica, enquanto desvios esqueléticos podem requerer cirurgia ortognática. A correlação com a cefalometria posteroanterior complementa o diagnóstico diferencial.')+
-    '</div>'+pf(8)+'</div>';
+    '</div>'+pf(5)+'</div>';
 
-  // ── Page 9: Plano de Tratamento ──
+  // ── Page 6: Plano de Tratamento ──
   const hasTN = treatmentNotes && treatmentNotes.trim();
   const tlHtml = hasTN
     ? '<div style="font-size:9.5px;color:#2B2F36;line-height:1.8;white-space:pre-wrap">'+e(treatmentNotes)+'</div>'
@@ -2329,7 +2266,7 @@ function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorris
         '</div>'+
       '</div>').join('');
 
-  const page6 = '<div class="page" style="page-break-after:auto">'+ph('Plano de Tratamento',9)+
+  const page6 = '<div class="page" style="page-break-after:auto">'+ph('Plano de Tratamento',6)+
     '<div class="pb">'+
       '<div><div class="sec-eyebrow">Conclusão e Conduta</div>'+
         '<div class="sec-title">Plano de Tratamento</div>'+
@@ -2360,14 +2297,14 @@ function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorris
           '<div style="font-size:8px;color:#6F737A;margin-top:2px;letter-spacing:.3px">Avaliação Ortodôntica · Protocolo Tadao · '+todayShort+'</div>'+
           '<div style="height:1px;background:#B08D57;width:46px;margin-top:6px;margin-left:auto;opacity:.5"></div></div>'+
       '</div>'+
-    '</div>'+pf(9)+'</div>';
+    '</div>'+pf(6)+'</div>';
 
   return '<!DOCTYPE html>\n<html lang="pt-BR">\n<head>\n<meta charset="UTF-8">\n'+
     '<title>Protocolo Tadao — '+e(patName)+'</title>\n'+
     '<style>\n'+CSS+'\n</style>\n</head>\n<body>\n'+
     '<div class="pbar"><span>Dr. Matheus Tadao Wakasugui · Protocolo Tadao · Relatório de Avaliação Ortodôntica</span>'+
     '<button onclick="window.print()">Exportar PDF</button></div>\n'+
-    page1+page2+page2b+page3+page3b+page4+page4b+page5+page6+'\n</body>\n</html>';
+    page1+page2+page3+page4+page5+page6+'\n</body>\n</html>';
 }
 
 function generatePDF() {
