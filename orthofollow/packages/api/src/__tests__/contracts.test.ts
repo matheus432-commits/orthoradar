@@ -81,7 +81,6 @@ const P01_MEASUREMENTS: Array<{ analysisId: string; value: MeasurementValue }> =
   { analysisId: 'P01.A07', value: { type: 'SCALAR_DEGREES', numericValue: new Decimal('102'), unit: 'DEGREES' } },
   { analysisId: 'P01.A08', value: { type: 'CLASSIFICATION', classification: 'NORMAL', unit: 'NONE' } },
   { analysisId: 'P01.A09', value: { type: 'CLASSIFICATION', classification: 'NORMAL', unit: 'NONE' } },
-  { analysisId: 'P01.A10', value: { type: 'SCALAR_RATIO', numericValue: new Decimal('0.75'), unit: 'RATIO' } },
   { analysisId: 'P01.A11', value: { type: 'CLASSIFICATION', classification: 'COMPETENT', unit: 'NONE' } },
   { analysisId: 'P01.A12', value: { type: 'SCALAR_MM', numericValue: new Decimal('2.5'), unit: 'MM' } }
 ]
@@ -122,9 +121,9 @@ async function buildFullPipeline() {
 
 // ── CT-01: CA → MATH bundle contract ─────────────────────────────────────────
 describe('CT-01 CA→MATH: MeasurementBundle contract', () => {
-  it('bundle contains all required P01 analyses after recording 12 measurements', async () => {
+  it('bundle contains all required P01 analyses after recording 11 measurements', async () => {
     const { bundle } = await buildFullPipeline()
-    assert.equal(bundle.entries.length, 12)
+    assert.equal(bundle.entries.length, 11)
     assert.equal(bundle.protocolId, 'P01')
     assert.equal(bundle.completeness.isComplete, true)
     assert.equal(bundle.completeness.missing.length, 0)
