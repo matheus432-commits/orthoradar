@@ -519,7 +519,6 @@ const PHOTO_DEFS = {
       { key:'Tr',  label:'Tríquio (linha média facial)',      hint:'Ponto mais alto visível no centro da testa — define o eixo vertical facial' },
       { key:'Me',  label:'Mentoniana (linha média facial)',   hint:'Ponto mais inferior do mento, centro — fecha o eixo vertical facial' },
       { key:'U1',  label:'Linha Média Dental Superior',      hint:'Ponto entre os dois incisivos centrais superiores' },
-      { key:'L1',  label:'Linha Média Dental Inferior',      hint:'Ponto entre os dois incisivos centrais inferiores (se visível no sorriso)' },
       { key:'CoD', label:'Comissura Dir.',                   hint:'Canto direito da boca (comissura labial direita)' },
       { key:'CoE', label:'Comissura Esq.',                   hint:'Canto esquerdo da boca (comissura labial esquerda)' },
       { key:'PMd', label:'Último Dente Dir.',                hint:'Borda do último dente visível à direita (corredor bucal)' },
@@ -558,7 +557,6 @@ const ANALYSES = [
 
   // ── Sorriso ──
   { id:'P01.A02', group:'Sorriso', label:'Desvio Linha Média Superior (mm)', type:'SCALAR_MM', unit:'MM', min:-10, max:10, step:.1, placeholder:'mm auto' },
-  { id:'P01.A38', group:'Sorriso', label:'Desvio Linha Média Inferior (mm)', type:'SCALAR_MM', unit:'MM', min:-10, max:10, step:.1, placeholder:'mm auto' },
   { id:'P01.A12', group:'Sorriso', label:'Exposição Dentária (mm)', type:'SCALAR_MM', unit:'MM', min:0, max:10, step:.1, placeholder:'mm auto' },
 
   // ── Perfil ──
@@ -572,7 +570,7 @@ const ANALYSES = [
 
   // ── Frontal (detalhado) ──
   { id:'P01.A15', group:'Frontal', label:'Padrão Vertical', type:'CLASSIFICATION', unit:'NONE',
-    options:['NORMAL','INCREASED','REDUCED'], labels:['Normal','Aumentado','Reduzido'] },
+    options:['NORMAL','INCREASED','REDUCED'], labels:['Mesofacial','Dolicofacial','Braquifacial'] },
   { id:'P01.A16', group:'Frontal', label:'Origem Provável da Assimetria', type:'CLASSIFICATION', unit:'NONE',
     options:['NONE','MAXILLARY','MANDIBULAR','SOFT_TISSUE','MIXED'], labels:['Nenhuma','Maxilar','Mandibular','Tecidos Moles','Mista'] },
   { id:'P01.A17', group:'Frontal', label:'Espessura Lábio Superior (mm)', type:'SCALAR_MM', unit:'MM', min:5, max:20, step:.1, placeholder:'mm auto' },
@@ -594,7 +592,7 @@ const ANALYSES = [
   // ── Perfil (detalhado) ──
   { id:'P01.A13', group:'Perfil', label:'Padrão Facial (Classificação de Angle)', type:'CLASSIFICATION', unit:'NONE',
     options:['CLASS_I','CLASS_II','CLASS_III'],
-    labels:['Padrão I — maxila e mandíbula equilibradas','Padrão II — mandíbula retruída','Padrão III — mandíbula protruída'] },
+    labels:['Padrão I','Padrão II','Padrão III'] },
   { id:'P01.A14', group:'Perfil', label:'Ângulo de Convexidade Facial (G-Sn-Pg)', type:'SCALAR_DEGREES', unit:'DEGREES', min:120, max:180, step:.5, placeholder:'° auto' },
   { id:'P01.A27', group:'Perfil', label:'Projeção Maxilar Aparente', type:'CLASSIFICATION', unit:'NONE',
     options:['NORMAL','RETRUDED','PROTRUDED'], labels:['Normal','Retruída','Protruída'] },
@@ -1130,6 +1128,7 @@ function calculateMeasurements() {
   const fp = state.points.frontal;
   const pp = state.points.perfil;
   const sp = state.points.sorriso;
+  const ip = state.points.intrabucal;
   let anyAuto = false;
 
   // ── Frontal: Terços faciais ──
@@ -1177,20 +1176,11 @@ function calculateMeasurements() {
     }
   }
 
-  // ── Sorriso: Desvio linha média dental inferior → P01.A38 ──
-  if (sp.Tr && sp.Me && sp.L1 && sp.CoD && sp.CoE) {
-    const nat = state.imgNat.sorriso;
-    if (nat) {
-      const dx = sp.Me.x - sp.Tr.x, dy = sp.Me.y - sp.Tr.y;
-      const facialMidAtL1 = dy !== 0 ? sp.Tr.x + dx * ((sp.L1.y - sp.Tr.y) / dy) : (sp.Tr.x + sp.Me.x) / 2;
-      const comPx = Math.abs(sp.CoD.x - sp.CoE.x) * nat.w;
-      if (comPx > 0) {
-        const pxMm = comPx / 50;
-        const devMm = ((sp.L1.x - facialMidAtL1) * nat.w / pxMm).toFixed(1);
-        setAuto('P01.A38', devMm);
-        anyAuto = true;
-      }
-    }
+  // ── Intrabucal: Coincidência das linhas médias dentárias → P01.A30 (U1s vs L1i) ──
+  if (ip.U1s && ip.L1i) {
+    const dxN = Math.abs(ip.U1s.x - ip.L1i.x);
+    setAutoSelect('P01.A30', dxN > 0.015 ? 'DEVIATED' : 'COINCIDENT');
+    anyAuto = true;
   }
 
   // ── Perfil: Ângulo Nasolabial → P01.A07 (Prn–Sn–Ls) ──
@@ -1203,11 +1193,39 @@ function calculateMeasurements() {
   }
 
   // ── Perfil: Ângulo de Convexidade Facial → P01.A14 (G–Sn–Pg, avaliado em perfil, não em frontal) ──
+  // e Padrão Facial → P01.A13, seguindo os limiares clássicos de convexidade de tecido mole:
+  // 165–175° Padrão I · >175° Padrão III (mandíbula protruída) · <165° Padrão II (mandíbula retruída)
   if (pp.G && pp.Sn && pp.Pg) {
     const nat = state.imgNat.perfil;
     if (nat) {
       const ang = angle3(pp.G, pp.Sn, pp.Pg, nat.w, nat.h);
-      if (ang !== null) { setAuto('P01.A14', ang.toFixed(1)); anyAuto = true; }
+      if (ang !== null) {
+        setAuto('P01.A14', ang.toFixed(1));
+        setAutoSelect('P01.A13', ang > 175 ? 'CLASS_III' : ang < 165 ? 'CLASS_II' : 'CLASS_I');
+        anyAuto = true;
+      }
+    }
+  }
+
+  // ── Perfil: Equilíbrio Labial (Linha E de Ricketts) → P01.A29 ──
+  // Linha de referência Prn–Pg; G é usado como calibração de "posterior" (a testa está,
+  // por definição anatômica, atrás da linha do nariz ao queixo), sem depender de o
+  // paciente estar de perfil para a esquerda ou para a direita na foto.
+  if (pp.Prn && pp.Pg && pp.G && pp.Ls && pp.Li) {
+    const nat = state.imgNat.perfil;
+    if (nat) {
+      const P = k => ({ x: pp[k].x*nat.w, y: pp[k].y*nat.h });
+      const prn = P('Prn'), pg = P('Pg'), g = P('G'), ls = P('Ls'), li = P('Li');
+      const lineLen = Math.hypot(pg.x-prn.x, pg.y-prn.y);
+      const side = pt => ((pg.x-prn.x)*(pt.y-prn.y) - (pg.y-prn.y)*(pt.x-prn.x));
+      const gSign = Math.sign(side(g)) || 1;
+      const rel = pt => lineLen > 0 ? (Math.sign(side(pt))===gSign ? -1 : 1) * Math.abs(side(pt))/lineLen : 0;
+      const lsRel = rel(ls), liRel = rel(li);
+      const thresh = 0.04;
+      const anterior  = lsRel > thresh || liRel > thresh;
+      const posterior = lsRel < -thresh && liRel < -thresh;
+      setAutoSelect('P01.A29', anterior ? 'LIPS_ANTERIOR' : posterior ? 'LIPS_POSTERIOR' : 'BALANCED');
+      anyAuto = true;
     }
   }
 
@@ -1220,13 +1238,39 @@ function calculateMeasurements() {
         const pxMm = ipdPx / 62;
         if (fp.Sn && fp.Ls) { setAuto('P01.A17', (dist2d(fp.Sn, fp.Ls, nat.w, nat.h) / pxMm).toFixed(1)); anyAuto = true; }
         if (fp.Li && fp.Pg) { setAuto('P01.A18', (dist2d(fp.Li, fp.Pg, nat.w, nat.h) / pxMm).toFixed(1)); anyAuto = true; }
-        // ── Frontal (repouso): Competência labial → P01.A11 (afastamento Ls/Li em repouso) ──
-        if (fp.Ls && fp.Li) {
-          const gapMm = dist2d(fp.Ls, fp.Li, nat.w, nat.h) / pxMm;
-          const cls = gapMm <= 1 ? 'COMPETENT' : gapMm <= 4 ? 'POTENTIALLY_INCOMPETENT' : 'INCOMPETENT';
-          setAutoSelect('P01.A11', cls);
-          anyAuto = true;
-        }
+      }
+    }
+  }
+
+  // ── Frontal: Padrão Vertical (dolico/meso/braquifacial) → P01.A15, a partir do terço inferior (A05) ──
+  if (fp.Tr && fp.G && fp.Sn && fp.Me) {
+    const total = fp.Me.y - fp.Tr.y;
+    if (total > 0.01) {
+      const t5pct = (fp.Me.y - fp.Sn.y) / total * 100;
+      setAutoSelect('P01.A15', t5pct > 35 ? 'INCREASED' : t5pct < 31 ? 'REDUCED' : 'NORMAL');
+      anyAuto = true;
+    }
+  }
+
+  // ── Frontal: Origem provável da assimetria → P01.A16 ──
+  // Eixo de referência definido por Tr–G (fronte, estruturalmente mais estável), estendido
+  // para comparar o desvio do nariz (alas nasais) e do mento (Me) em relação a esse eixo —
+  // evita a tautologia de usar Sn/Me para definir a própria linha que os mede.
+  if (fp.Tr && fp.G && fp.Sn && fp.Me && fp.AlD && fp.AlE && fp.Pd && fp.Pe) {
+    const nat = state.imgNat.frontal;
+    if (nat) {
+      const ipdPx = dist2d(fp.Pd, fp.Pe, nat.w, nat.h);
+      if (ipdPx > 0) {
+        const pxMm = ipdPx / 62;
+        const dx = fp.G.x - fp.Tr.x, dy = fp.G.y - fp.Tr.y;
+        const xAt = y => dy !== 0 ? fp.Tr.x + dx * ((y - fp.Tr.y) / dy) : fp.Tr.x;
+        const noseX = (fp.AlD.x + fp.AlE.x) / 2;
+        const noseOffMm = Math.abs((noseX - xAt(fp.Sn.y)) * nat.w) / pxMm;
+        const chinOffMm = Math.abs((fp.Me.x - xAt(fp.Me.y)) * nat.w) / pxMm;
+        const noseDev = noseOffMm > 2, chinDev = chinOffMm > 2;
+        const origin = (noseDev && chinDev) ? 'MIXED' : chinDev ? 'MANDIBULAR' : noseDev ? 'MAXILLARY' : 'NONE';
+        setAutoSelect('P01.A16', origin);
+        anyAuto = true;
       }
     }
   }
@@ -1738,13 +1782,29 @@ function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorris
     '</div>';
   }
 
-  function smileConclusion(midline, midlineLower, dentalExp, m) {
+  // A linha média dental inferior raramente é visível na foto de sorriso (dentes
+  // inferiores cobertos pelo lábio); em vez de exigir sua marcação ali, ela é inferida
+  // a partir de dois dados já coletados: o desvio da linha média SUPERIOR (sorriso,
+  // sempre visível) e a coincidência entre as linhas médias superior/inferior na foto
+  // INTRABUCAL (onde ambas costumam estar visíveis). Se a superior coincide com a linha
+  // média facial e a intrabucal mostra desvio entre superior/inferior, a inferior diverge
+  // da linha média facial por transitividade.
+  function lowerMidlineInference(midline, intrabucalCls) {
+    if (intrabucalCls !== 'COINCIDENT' && intrabucalCls !== 'DEVIATED') return null;
+    if (midline === null) return null;
+    if (Math.abs(midline) > 2) return 'INCONCLUSIVE';
+    return intrabucalCls === 'DEVIATED' ? 'DEVIATED' : 'COINCIDENT';
+  }
+
+  function smileConclusion(midline, lowerMidline, dentalExp, m) {
     const items = [];
     if (midline!==null) {
       items.push('Linha média dental superior '+(Math.abs(midline)<=2?'coincide, dentro da tolerância clínica, com a linha média facial':'diverge da linha média facial em '+Math.abs(midline).toFixed(1)+' mm para o lado '+(midline>0?'direito':'esquerdo')));
     }
-    if (midlineLower!==null) {
-      items.push('Linha média dental inferior '+(Math.abs(midlineLower)<=2?'coincide, dentro da tolerância clínica, com a linha média facial':'diverge da linha média facial em '+Math.abs(midlineLower).toFixed(1)+' mm para o lado '+(midlineLower>0?'direito':'esquerdo')));
+    if (lowerMidline==='DEVIATED') {
+      items.push('Linha média dental inferior diverge da linha média facial (inferido: linha superior coincidente + desvio identificado entre as linhas médias na foto intrabucal)');
+    } else if (lowerMidline==='COINCIDENT') {
+      items.push('Linha média dental inferior também coincide com a linha média facial (linhas médias superior e inferior coincidentes na foto intrabucal)');
     }
     if (dentalExp!==null) {
       items.push('Exposição dentária em repouso/sorriso de '+dentalExp.toFixed(1)+' mm, '+(dentalExp>=2&&dentalExp<=4?'compatível com a faixa de normalidade':'fora da faixa de referência, recomendando-se avaliação complementar'));
@@ -1761,7 +1821,7 @@ function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorris
   // Numeric values
   const t3=numVal('P01.A03'), t4=numVal('P01.A04'), t5=numVal('P01.A05');
   const midline=numVal('P01.A02');
-  const midlineLower=numVal('P01.A38');
+  const lowerMidline=lowerMidlineInference(midline, m['P01.A30']);
   const dentalExp=numVal('P01.A12');
   const nasoAngle=numVal('P01.A07');
   const convexAngle=numVal('P01.A14');
@@ -1893,9 +1953,9 @@ function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorris
           '</div>'+
         '</div>'+
         '<div style="display:flex;flex-direction:column;gap:12px">'+
-          '<div style="background:#0A0C10;border-radius:2px;flex:1;min-height:300px;overflow:hidden;display:flex;align-items:center;justify-content:center">'+
-            (sorrisoRawImg?'<img src="'+sorrisoRawImg+'" style="width:100%;height:100%;object-fit:contain;object-position:center;display:block;">':
-              '<span style="font-size:7px;color:rgba(255,255,255,.15);letter-spacing:2px;text-transform:uppercase">FOTO DO PACIENTE</span>')+
+          '<div style="background:#0A0C10;border-radius:2px;overflow:hidden">'+
+            (sorrisoRawImg?'<img src="'+sorrisoRawImg+'" style="width:100%;height:auto;max-height:420px;object-fit:contain;display:block;margin:0 auto;">':
+              '<div style="min-height:300px;display:flex;align-items:center;justify-content:center"><span style="font-size:7px;color:rgba(255,255,255,.15);letter-spacing:2px;text-transform:uppercase">FOTO DO PACIENTE</span></div>')+
           '</div>'+
           '<div style="border:1px solid #E5E1DA;border-radius:2px;padding:12px 14px">'+
             '<div style="font-size:7.5px;letter-spacing:1.5px;text-transform:uppercase;color:#6F737A;margin-bottom:4px">Ortodontista Responsável</div>'+
@@ -2009,14 +2069,13 @@ function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorris
                   rbar(midline,-10,10,-2,2,' mm')
                 :'<div style="font-size:9px;color:#6F737A;font-style:italic">Marque Tr, Me, U1 na foto de sorriso para calcular.</div>')+
             '</div>'+
-            '<div class="panel"><div class="lbl" style="margin-bottom:8px">P01.A38 · Linha Média Inferior</div>'+
-              (midlineLower!==null
-                ?'<div style="display:flex;align-items:baseline;gap:5px;margin-bottom:2px">'+
-                  '<span style="font-family:\'Cormorant Garamond\',serif;font-size:24px;font-weight:300;color:'+(Math.abs(midlineLower)>2?'#7A5A1A':'#0F2537')+'">'+(midlineLower>0?'+':'')+midlineLower.toFixed(1)+'</span>'+
-                  '<span style="font-size:9px;color:#6F737A">mm</span>'+
-                  '<span class="chip '+(Math.abs(midlineLower)<=2?'cn':'ca')+'" style="margin-left:6px">'+(Math.abs(midlineLower)<=2?'Coincide':'Diverge')+'</span></div>'+
-                  rbar(midlineLower,-10,10,-2,2,' mm')
-                :'<div style="font-size:9px;color:#6F737A;font-style:italic">Marque L1 na foto de sorriso, se visível, para calcular.</div>')+
+            '<div class="panel"><div class="lbl" style="margin-bottom:8px">Linha Média Inferior (inferida)</div>'+
+              (lowerMidline==='DEVIATED'?'<div style="font-family:\'Cormorant Garamond\',serif;font-size:16px;font-weight:400;color:#7A5A1A;margin-top:2px">Diverge</div><span class="chip ca" style="margin-top:4px">Diverge</span>'+
+                '<div class="caption" style="margin-top:5px">Superior coincidente + desvio identificado entre linhas médias na foto intrabucal.</div>'
+              :lowerMidline==='COINCIDENT'?'<div style="font-family:\'Cormorant Garamond\',serif;font-size:16px;font-weight:400;color:#0F2537;margin-top:2px">Coincide</div><span class="chip cn" style="margin-top:4px">Coincide</span>'+
+                '<div class="caption" style="margin-top:5px">Linhas médias superior e inferior coincidentes na foto intrabucal.</div>'
+              :lowerMidline==='INCONCLUSIVE'?'<div style="font-size:9px;color:#6F737A;font-style:italic">Linha média superior divergente — não é possível inferir a inferior por transitividade; avaliar diretamente na foto intrabucal.</div>'
+              :'<div style="font-size:9px;color:#6F737A;font-style:italic">Marque U1s e L1i na foto intrabucal para inferir.</div>')+
             '</div>'+
           '</div>'+
           '<div class="panel"><div class="lbl" style="margin-bottom:6px">P01.A12 · Exposição Dentária</div>'+
@@ -2032,11 +2091,12 @@ function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorris
       '</div>'+
       '<div class="g2" style="margin-top:10px">'+
         landmarkTable('sorriso')+
-        smileConclusion(midline, midlineLower, dentalExp, m)+
+        smileConclusion(midline, lowerMidline, dentalExp, m)+
       '</div>'+
       insight('Interpretação Clínica · Análise do Sorriso',
         (midline!==null?'A linha média dental superior '+(Math.abs(midline)<=2?'coincide com a linha média facial, dentro dos limites de aceitabilidade clínica':'diverge da linha média facial em '+Math.abs(midline).toFixed(1)+' mm, devendo ser investigada a origem dental ou esquelética')+'. ':'')+
-        (midlineLower!==null?'A linha média dental inferior '+(Math.abs(midlineLower)<=2?'coincide com a linha média facial':'diverge da linha média facial em '+Math.abs(midlineLower).toFixed(1)+' mm')+'. ':'')+
+        (lowerMidline==='DEVIATED'?'A linha média dental inferior diverge da linha média facial (inferido a partir da coincidência superior e do desvio identificado na foto intrabucal). ':'')+
+        (lowerMidline==='COINCIDENT'?'A linha média dental inferior também coincide com a linha média facial. ':'')+
         'A exposição dentária ao sorriso é um parâmetro fundamental para o planejamento estético do caso.')+
     '</div>'+pf(4)+'</div>';
 
@@ -2088,8 +2148,7 @@ function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorris
             chip('P01.A08',m['P01.A08'])+'</div>'+
           '<div class="panel" style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">'+
             '<div><div class="lbl">P01.A13 · Padrão Facial (Classificação de Angle)</div>'+
-            '<div style="font-family:\'Cormorant Garamond\',serif;font-size:16px;font-weight:400;color:#0F2537;margin-top:2px">'+e(blbl('P01.A13',m['P01.A13'])||'—')+'</div>'+
-            '<div class="caption">'+(convexAngle!==null?'Ângulo de convexidade (G-Sn-Pg): '+convexAngle.toFixed(1)+'° — apoio à classificação, não substitui o exame clínico.':'Avaliado clinicamente em vista de perfil (não em foto frontal).')+'</div></div>'+
+            '<div style="font-family:\'Cormorant Garamond\',serif;font-size:19px;font-weight:400;color:#0F2537;margin-top:2px">'+e(blbl('P01.A13',m['P01.A13'])||'—')+'</div></div>'+
             chip('P01.A13',m['P01.A13'])+'</div>'+
           '<div class="panel"><div class="lbl" style="margin-bottom:7px">Referência · Perfis Faciais</div>'+
             '<div style="display:flex;gap:0;font-size:8px;text-align:center">'+
