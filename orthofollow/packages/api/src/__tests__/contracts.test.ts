@@ -151,7 +151,9 @@ describe('CT-02 MATH DAG: topological order is deterministic', () => {
     const { execRep } = await buildFullPipeline()
     assert.equal(execRep.summary.total, P01_FORMULAS.length)
     assert.equal(execRep.summary.failure, 0)
-    assert.equal(execRep.summary.skipped, 0)
+    // gingival-exposure depends on the optional P01.A25, which the fixture (the 11
+    // required measurements) doesn't include — its precondition correctly skips it.
+    assert.equal(execRep.summary.skipped, 1)
   })
 
   it('every P01 formula slug appears in executionReport.results', async () => {
@@ -164,9 +166,10 @@ describe('CT-02 MATH DAG: topological order is deterministic', () => {
 
 // ── CT-03: MATH → KNW: ExecutionReport contract ──────────────────────────────
 describe('CT-03 MATH→KNW: ExecutionReport contract', () => {
-  it('results Map contains ExecutionResult with classification or value', async () => {
+  it('results Map contains ExecutionResult with classification or value, except preconditioned-skipped formulas', async () => {
     const { execRep } = await buildFullPipeline()
     for (const [slug, result] of execRep.results) {
+      if (result.flags.preconditionSkipped) continue
       assert.ok(
         result.classification !== null || result.value !== null,
         `${slug}: must have classification or numeric value`

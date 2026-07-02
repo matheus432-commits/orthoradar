@@ -84,4 +84,10 @@ export const P01_FORMULAS: FormulaSpec[] = [
     inputAnalysisIds: ['P01.A12'],
     compute: (inputs) => scalarResult(getNumeric(inputs, 'P01.A12'), 'MM'),
   },
+  {
+    slug: 'gingival-exposure', version: '1.0.0', name: 'Exposição Gengival Total',
+    inputAnalysisIds: ['P01.A25'],
+    precondition: (inputs) => inputs.has('P01.A25'),
+    compute: (inputs) => scalarResult(getNumeric(inputs, 'P01.A25'), 'MM'),
+  },
 ]

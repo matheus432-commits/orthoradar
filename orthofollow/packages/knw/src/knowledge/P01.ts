@@ -157,8 +157,21 @@ export const P01_KNOWLEDGE: KnowledgeRecord[] = [
     ],
     templates: [
       { id: 'tpl-smile-normal',  severity: 'NORMAL', classification: 'IDEAL',     text: 'Exposição dentária no sorriso dentro do padrão estético esperado.' },
-      { id: 'tpl-smile-excess',  severity: 'MILD',   classification: 'EXCESSIVE', text: 'Sorriso gengival identificado. Avaliar causas e tratamento.' },
+      { id: 'tpl-smile-excess',  severity: 'MILD',   classification: 'EXCESSIVE', text: 'Exposição dentária elevada no sorriso. Diferenciar clinicamente de sorriso gengival (que depende da exposição da margem gengival, não apenas da coroa dentária).' },
       { id: 'tpl-smile-reduced', severity: 'MILD',   classification: 'REDUCED',   text: 'Baixa exposição dentária no sorriso. Avaliar causas estruturais.' },
+    ],
+  },
+  {
+    id: 'kr-gingival-exposure', version: '1.0.0',
+    formulaSlug: 'gingival-exposure',
+    displayName: 'Exposição Gengival Total',
+    rules: [
+      { when: r => r.value !== null && r.value.gt(new Decimal('2')), severity: 'MILD',   classification: 'GUMMY',  priority: 25, referralRequired: false },
+      { when: r => r.value !== null && r.value.lte(new Decimal('2')), severity: 'NORMAL', classification: 'NORMAL', priority: 10, referralRequired: false },
+    ],
+    templates: [
+      { id: 'tpl-gum-normal', severity: 'NORMAL', classification: 'NORMAL', text: 'Exposição gengival dentro do padrão estético esperado.' },
+      { id: 'tpl-gum-gummy',  severity: 'MILD',   classification: 'GUMMY',  text: 'Sorriso gengival identificado. Avaliar causas e tratamento.' },
     ],
   },
 ]
