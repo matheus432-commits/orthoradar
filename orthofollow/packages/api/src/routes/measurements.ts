@@ -2,6 +2,7 @@ import type { FastifyInstance } from 'fastify'
 import { z } from 'zod'
 import { Decimal } from '@orthofollow/shared'
 import type { ClinicalCaseId, SessionLabel, MeasurementValue } from '@orthofollow/shared'
+import { requireAuth } from '../auth/requireAuth'
 
 const ScalarSchema = z.object({
   type:         z.enum(['SCALAR_MM','SCALAR_DEGREES','SCALAR_PERCENT','SCALAR_RATIO','SCALAR_INDEX']),
@@ -28,7 +29,10 @@ const MeasurementValueSchema = z.discriminatedUnion('type', [
 const RecordMeasurementBody = z.object({
   analysisId:        z.string(),
   value:             MeasurementValueSchema,
-  recordedBy:        z.string().uuid(),
+  // recordedBy is derived from the authenticated session (req.orthodontist), not
+  // trusted from the client, so it's no longer read from the body — kept optional
+  // here only so older cached frontend bundles that still send it don't fail validation.
+  recordedBy:        z.string().uuid().optional(),
   sessionSnapshotId: z.string().uuid().optional(),
   landmarkRefs:      z.array(z.string()).optional()
 })
@@ -39,7 +43,7 @@ export async function measurementsRoutes(app: FastifyInstance): Promise<void> {
   app.post<{
     Params: { caseId: string; sessionLabel: string }
     Body:   z.infer<typeof RecordMeasurementBody>
-  }>('/cases/:caseId/sessions/:sessionLabel/measurements', async (req, reply) => {
+  }>('/cases/:caseId/sessions/:sessionLabel/measurements', { preHandler: requireAuth }, async (req, reply) => {
     const parsed = RecordMeasurementBody.safeParse(req.body)
     if (!parsed.success) {
       return reply.status(400).send({ error: { code: 'VALIDATION_ERROR', message: parsed.error.message } })
@@ -56,7 +60,7 @@ export async function measurementsRoutes(app: FastifyInstance): Promise<void> {
       sessionLabel:     sessionLabel as SessionLabel,
       analysisId:       body.analysisId,
       value,
-      recordedBy:       body.recordedBy,
+      recordedBy:       req.orthodontist!.id,
       ...(body.sessionSnapshotId ? { sessionSnapshotId: body.sessionSnapshotId } : {}),
       ...(body.landmarkRefs      ? { landmarkRefs:      body.landmarkRefs }      : {})
     })

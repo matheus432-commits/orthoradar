@@ -7,6 +7,7 @@ import { executionRoutes }    from './routes/execution'
 import { workflowRoutes }     from './routes/workflow'
 import { casesRoutes }        from './routes/cases'
 import { photosRoutes }       from './routes/photos'
+import { authRoutes }         from './routes/auth'
 import { errorHandler }       from './middleware/errorHandler'
 import enginesPlugin          from './plugins/engines'
 
@@ -30,6 +31,7 @@ export async function buildApp() {
   // Routes (must be registered before static so they take precedence)
   const prefix = '/api/v1'
   await app.register(healthRoutes)
+  await app.register(authRoutes,         { prefix })
   await app.register(measurementsRoutes, { prefix })
   await app.register(executionRoutes,    { prefix })
   await app.register(workflowRoutes,     { prefix })
