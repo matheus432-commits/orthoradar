@@ -1457,10 +1457,8 @@ function renderMeasurements() {
       lastGroup = a.group;
     }
     const isClass = a.type === 'CLASSIFICATION';
-    const required = REQUIRED_ANALYSIS_IDS.has(a.id);
-    const blankOpt = required ? '' : '<option value="">— Não avaliado —</option>';
     const inp = isClass
-      ? `<select id="meas-${a.id}" onchange="this.classList.add('user-edited')">${blankOpt}${a.options.map((o,i) => `<option value="${o}">${a.labels[i]}</option>`).join('')}</select>`
+      ? `<select id="meas-${a.id}" onchange="this.classList.add('user-edited')"><option value="">— Não avaliado —</option>${a.options.map((o,i) => `<option value="${o}">${a.labels[i]}</option>`).join('')}</select>`
       : `<input id="meas-${a.id}" type="number" min="${a.min}" max="${a.max}" step="${a.step}" placeholder="${a.placeholder}">`;
     html += `<div class="meas-row">
       <div class="meas-label">${a.label}<div class="meas-mid">${a.id}</div></div>
@@ -1474,31 +1472,25 @@ function renderMeasurements() {
 /* ═══════════════════════════════
    PIPELINE
 ═══════════════════════════════ */
-// P01.A10 (Razão Labial Sup/Inf) removed from the protocol per clinical review — no
-// longer required (see registry: isRequired changed to false to match).
-const REQUIRED_ANALYSIS_IDS = new Set([
-  'P01.A01','P01.A02','P01.A03','P01.A04','P01.A05','P01.A06',
-  'P01.A07','P01.A08','P01.A09','P01.A11','P01.A12'
-]);
-
+// No analysis is required to generate a report: the clinician may mark landmarks
+// on only some of the photos (e.g. only facial photos, or only the intrabucal photo)
+// in a given session, and the report is built from whatever was actually measured.
 function collectMeasurements() {
-  const out     = [];
-  const missing = [];
+  const out = [];
   for (const a of ANALYSES) {
     const el  = document.getElementById('meas-' + a.id);
     const raw = el.value.trim();
-    const required = REQUIRED_ANALYSIS_IDS.has(a.id);
     if (a.type === 'CLASSIFICATION') {
-      if (!raw) { if (required) missing.push(a); continue; }
+      if (!raw) continue;
       out.push({ analysisId:a.id, value:{ type:'CLASSIFICATION', classification:raw, unit:'NONE' } });
     } else {
-      if (raw === '') { if (required) missing.push(a); continue; }
+      if (raw === '') continue;
       const n = parseFloat(raw.replace(',', '.'));
-      if (isNaN(n)) { if (required) missing.push(a); continue; }
+      if (isNaN(n)) continue;
       out.push({ analysisId:a.id, value:{ type:a.type, numericValue:String(n), unit:a.unit } });
     }
   }
-  return { measurements:out, missing };
+  return { measurements:out };
 }
 
 async function runPipeline() {
@@ -1512,10 +1504,10 @@ async function runPipeline() {
   if (!caseId)   { showAlert('alert-av','danger','ID do caso é obrigatório.'); return; }
   if (!birthDate){ showAlert('alert-av','danger','Data de nascimento é obrigatória.'); return; }
 
-  const { measurements, missing } = collectMeasurements();
+  const { measurements } = collectMeasurements();
 
-  if (missing.length) {
-    showAlert('alert-av','danger','Preencha os campos obrigatórios antes de gerar o relatório: ' + missing.map(a=>a.label).join(', ') + '.');
+  if (!measurements.length) {
+    showAlert('alert-av','danger','Marque ao menos um ponto em alguma foto antes de gerar o relatório.');
     return;
   }
 

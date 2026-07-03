@@ -13,7 +13,7 @@ export const P01_ANALYSES: AnalysisDefinition[] = [
       maxInclusive:  false,
       allowedValues: ['SYMMETRIC', 'ASYMMETRIC_MILD', 'ASYMMETRIC_MODERATE', 'ASYMMETRIC_SEVERE'],
     },
-    isRequired:      true,
+    isRequired:      false,
     formulaInputFor: ['facial-vertical-symmetry'],
   },
   {
@@ -23,7 +23,7 @@ export const P01_ANALYSES: AnalysisDefinition[] = [
     valueType:       'SCALAR_MM',
     unit:            'MM',
     constraint:      { minInclusive: true, maxInclusive: true },
-    isRequired:      true,
+    isRequired:      false,
     formulaInputFor: ['midline-deviation'],
   },
   {
@@ -33,7 +33,7 @@ export const P01_ANALYSES: AnalysisDefinition[] = [
     valueType:       'SCALAR_PERCENT',
     unit:            'PERCENT',
     constraint:      { minInclusive: true, maxInclusive: true },
-    isRequired:      true,
+    isRequired:      false,
     formulaInputFor: ['facial-thirds-upper'],
   },
   {
@@ -43,7 +43,7 @@ export const P01_ANALYSES: AnalysisDefinition[] = [
     valueType:       'SCALAR_PERCENT',
     unit:            'PERCENT',
     constraint:      { minInclusive: true, maxInclusive: true },
-    isRequired:      true,
+    isRequired:      false,
     formulaInputFor: ['facial-thirds-middle'],
   },
   {
@@ -53,7 +53,7 @@ export const P01_ANALYSES: AnalysisDefinition[] = [
     valueType:       'SCALAR_PERCENT',
     unit:            'PERCENT',
     constraint:      { minInclusive: true, maxInclusive: true },
-    isRequired:      true,
+    isRequired:      false,
     formulaInputFor: ['facial-thirds-lower'],
   },
   {
@@ -67,7 +67,7 @@ export const P01_ANALYSES: AnalysisDefinition[] = [
       maxInclusive:  false,
       allowedValues: ['CONVEX', 'STRAIGHT', 'CONCAVE'],
     },
-    isRequired:      true,
+    isRequired:      false,
     formulaInputFor: ['facial-profile'],
   },
   {
@@ -77,7 +77,7 @@ export const P01_ANALYSES: AnalysisDefinition[] = [
     valueType:       'SCALAR_DEGREES',
     unit:            'DEGREES',
     constraint:      { minInclusive: true, maxInclusive: true },
-    isRequired:      true,
+    isRequired:      false,
     formulaInputFor: ['nasolabial-angle'],
   },
   {
@@ -91,7 +91,7 @@ export const P01_ANALYSES: AnalysisDefinition[] = [
       maxInclusive:  false,
       allowedValues: ['NORMAL', 'RETRUDED', 'PROTRUDED'],
     },
-    isRequired:      true,
+    isRequired:      false,
     formulaInputFor: ['chin-projection'],
   },
   {
@@ -105,7 +105,7 @@ export const P01_ANALYSES: AnalysisDefinition[] = [
       maxInclusive:  false,
       allowedValues: ['NORMAL', 'DEVIATED_LEFT', 'DEVIATED_RIGHT'],
     },
-    isRequired:      true,
+    isRequired:      false,
     formulaInputFor: ['nasal-symmetry'],
   },
   {
@@ -119,7 +119,7 @@ export const P01_ANALYSES: AnalysisDefinition[] = [
       maxInclusive:  false,
       allowedValues: ['COMPETENT', 'INCOMPETENT', 'POTENTIALLY_INCOMPETENT'],
     },
-    isRequired:      true,
+    isRequired:      false,
     formulaInputFor: ['lip-competence'],
   },
   {
@@ -129,7 +129,7 @@ export const P01_ANALYSES: AnalysisDefinition[] = [
     valueType:       'SCALAR_MM',
     unit:            'MM',
     constraint:      { minInclusive: true, maxInclusive: true },
-    isRequired:      true,
+    isRequired:      false,
     formulaInputFor: ['smile-exposure'],
   },
 
