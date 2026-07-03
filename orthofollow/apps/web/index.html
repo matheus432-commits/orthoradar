@@ -404,6 +404,7 @@
         <button class="btn btn-outline btn-sm" onclick="currentAnnotator()&&currentAnnotator().undo()">↩ Desfazer último</button>
         <button class="btn btn-outline btn-sm" onclick="currentAnnotator()&&currentAnnotator().reset()">✕ Resetar</button>
       </div>
+      <div style="font-size:10.5px;color:var(--muted);margin-top:2px">🧠 O sistema aprende com seus ajustes: quando você arrasta um ponto detectado automaticamente, essa correção é memorizada e aplicada nas próximas detecções. <a href="#" onclick="event.preventDefault();if(confirm('Isso apaga todo o aprendizado acumulado de correções de pontos. Continuar?'))resetLandmarkLearning();">Redefinir aprendizado</a></div>
       <div class="divider" style="margin:12px 0"></div>
       <details>
         <summary class="section-label" style="cursor:pointer">Classificações Manuais (P01) <span id="auto-badge" style="font-size:10px;font-weight:400;color:var(--success);display:none"> · ✓ calculado automaticamente</span></summary>
@@ -688,6 +689,40 @@ const FACE_AUTO_POINTS = {
   ],
 };
 
+// Persistent, self-correcting bias per (photoKey, pointKey): a running average of how
+// far off the raw model detection tends to be from where this clinician actually wants
+// the point, learned from every drag/re-click correction. Survives across cases/sessions
+// (stored in localStorage) so the same mistake doesn't keep repeating.
+let LANDMARK_BIAS = {};
+try { LANDMARK_BIAS = JSON.parse(localStorage.getItem('ortho_landmark_bias') || '{}'); } catch (e) { LANDMARK_BIAS = {}; }
+
+function saveLandmarkBias() {
+  try { localStorage.setItem('ortho_landmark_bias', JSON.stringify(LANDMARK_BIAS)); } catch (e) { /* ignore */ }
+}
+
+function recordLandmarkCorrection(photoKey, pointKey, delta) {
+  LANDMARK_BIAS[photoKey] = LANDMARK_BIAS[photoKey] || {};
+  const cur = LANDMARK_BIAS[photoKey][pointKey] || { x:0, y:0, n:0 };
+  const n = cur.n + 1;
+  LANDMARK_BIAS[photoKey][pointKey] = {
+    x: cur.x + (delta.x - cur.x) / n,
+    y: cur.y + (delta.y - cur.y) / n,
+    n
+  };
+  saveLandmarkBias();
+}
+
+function applyLandmarkBias(photoKey, pointKey, pt) {
+  const b = LANDMARK_BIAS[photoKey] && LANDMARK_BIAS[photoKey][pointKey];
+  if (!b) return pt;
+  return { x: Math.min(1, Math.max(0, pt.x + b.x)), y: Math.min(1, Math.max(0, pt.y + b.y)) };
+}
+
+function resetLandmarkLearning() {
+  LANDMARK_BIAS = {};
+  saveLandmarkBias();
+}
+
 async function runFaceAutoDetect(ann) {
   const spec = FACE_AUTO_POINTS[ann.key];
   if (!spec || !ann.imgEl || !ann.imgEl.naturalWidth) return;
@@ -703,16 +738,21 @@ async function runFaceAutoDetect(ann) {
     if (entry.keys.some(k => ann.pts[k])) continue; // never overwrite an existing point
     const pts = entry.idx.map(i => lm[i]);
     if (pts.some(p => !p)) continue;
+    let placed;
     if (entry.idx.length === 1) {
-      ann.pts[entry.keys[0]] = { x: pts[0].x, y: pts[0].y };
+      placed = { [entry.keys[0]]: { x: pts[0].x, y: pts[0].y } };
     } else if (entry.mid) {
-      ann.pts[entry.keys[0]] = { x: (pts[0].x+pts[1].x)/2, y: (pts[0].y+pts[1].y)/2 };
+      placed = { [entry.keys[0]]: { x: (pts[0].x+pts[1].x)/2, y: (pts[0].y+pts[1].y)/2 } };
     } else if (entry.byX) {
       const [a, b] = pts;
       const first  = a.x <= b.x ? a : b;
       const second = a.x <= b.x ? b : a;
-      ann.pts[entry.keys[0]] = { x: first.x,  y: first.y };
-      ann.pts[entry.keys[1]] = { x: second.x, y: second.y };
+      placed = { [entry.keys[0]]: { x: first.x, y: first.y }, [entry.keys[1]]: { x: second.x, y: second.y } };
+    }
+    for (const [k, pt] of Object.entries(placed)) {
+      const biased = applyLandmarkBias(ann.key, k, pt);
+      ann.pts[k] = biased;
+      ann.autoRaw[k] = biased;
     }
     entry.keys.forEach(k => { if (!ann.order.includes(k)) ann.order.push(k); });
     placedAny = true;
@@ -954,6 +994,18 @@ class PhotoAnnotator {
     this.ro     = null;
     this.findingMode = null;  // active finding category id, or null
     this.findings    = [];    // { category, x, y } — free-form clinical markers (intrabucal only)
+    this.autoRaw     = {};    // { key: {x,y} } position last shown by auto-detection, for learning from corrections
+  }
+
+  // Called whenever a point that came from auto-detection gets moved by the clinician
+  // (drag, or re-click from the sidebar list). Feeds the correction into the persistent
+  // per-key bias table so future auto-detections on any case start closer to where this
+  // clinician actually wants the point.
+  _maybeLearnCorrection(key, newPos) {
+    const prev = this.autoRaw[key];
+    if (!prev) return;
+    recordLandmarkCorrection(this.key, key, { x: newPos.x - prev.x, y: newPos.y - prev.y });
+    delete this.autoRaw[key];
   }
 
   // Activates a landmark point so the next click on the photo places it there.
@@ -1094,8 +1146,10 @@ class PhotoAnnotator {
   _pointerUp(e) {
     if (this._drag) {
       const { x, y } = this._relXY(e);
-      if (this._drag.type === 'point') this.pts[this._drag.key] = { x, y };
-      else this.findings[this._drag.index] = { ...this.findings[this._drag.index], x, y };
+      if (this._drag.type === 'point') {
+        this._maybeLearnCorrection(this._drag.key, { x, y });
+        this.pts[this._drag.key] = { x, y };
+      } else this.findings[this._drag.index] = { ...this.findings[this._drag.index], x, y };
       this._drag = null;
       state.points[this.key] = this.pointsForSave();
       this.redraw(); this.updateUI(); renderPointSelector(); renderFindingChips();
@@ -1117,6 +1171,7 @@ class PhotoAnnotator {
       return;
     }
     if (!this.activeKey) return;
+    this._maybeLearnCorrection(this.activeKey, { x, y });
     this.pts[this.activeKey] = { x, y };
     if (!this.order.includes(this.activeKey)) this.order.push(this.activeKey);
     this.activeKey = null;
@@ -1132,6 +1187,7 @@ class PhotoAnnotator {
     const key = this.order.pop();
     if (!key) return;
     delete this.pts[key];
+    delete this.autoRaw[key];
     state.points[this.key] = this.pointsForSave();
     this.redraw(); this.updateUI(); renderPointSelector(); calculateMeasurements();
     scheduleSavePhoto(this.key);
@@ -1158,6 +1214,7 @@ class PhotoAnnotator {
     this.pts = {};
     this.order = [];
     this.activeKey = null;
+    this.autoRaw = {};
     state.points[this.key] = this.pointsForSave();
     this.redraw(); this.updateUI(); renderPointSelector(); calculateMeasurements();
     scheduleSavePhoto(this.key);
