@@ -1,6 +1,7 @@
 import type { FastifyInstance } from 'fastify'
 import { z } from 'zod'
 import { getPool } from '../db/pool'
+import { requireAuth } from '../auth/requireAuth'
 
 const PHOTO_KEYS = ['frontal', 'perfil', 'sorriso', 'intrabucal'] as const
 
@@ -17,7 +18,7 @@ export async function photosRoutes(app: FastifyInstance): Promise<void> {
   app.put<{
     Params: { caseId: string; sessionLabel: string; photoKey: string }
     Body:   z.infer<typeof SavePhotoBody>
-  }>('/cases/:caseId/sessions/:sessionLabel/photos/:photoKey', async (req, reply) => {
+  }>('/cases/:caseId/sessions/:sessionLabel/photos/:photoKey', { preHandler: requireAuth }, async (req, reply) => {
     const { caseId, sessionLabel, photoKey } = req.params
     if (!(PHOTO_KEYS as readonly string[]).includes(photoKey)) {
       return reply.status(400).send({ error: { code: 'VALIDATION_ERROR', message: `Unknown photoKey: ${photoKey}` } })

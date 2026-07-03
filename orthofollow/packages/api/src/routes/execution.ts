@@ -3,13 +3,16 @@ import { z } from 'zod'
 import { makePatientContext } from '@orthofollow/shared'
 import type { ClinicalCaseId, SessionLabel, BiologicalSex } from '@orthofollow/shared'
 import { getPool } from '../db/pool'
+import { requireAuth } from '../auth/requireAuth'
 
 const TriggerExecutionBody = z.object({
   protocolId:       z.string().default('P01'),
   patientBirthDate: z.string(),
   patientSex:       z.enum(['M', 'F', 'UNSPECIFIED']),
   patientEthnicity: z.string().nullable().optional(),
-  startedBy:        z.string().uuid()
+  // startedBy is derived from the authenticated session now; kept optional so
+  // older cached frontend bundles that still send it don't fail validation.
+  startedBy:        z.string().uuid().optional()
 })
 
 export async function executionRoutes(app: FastifyInstance): Promise<void> {
@@ -19,7 +22,7 @@ export async function executionRoutes(app: FastifyInstance): Promise<void> {
   app.post<{
     Params: { caseId: string; sessionLabel: string }
     Body:   z.infer<typeof TriggerExecutionBody>
-  }>('/cases/:caseId/sessions/:sessionLabel/execute', async (req, reply) => {
+  }>('/cases/:caseId/sessions/:sessionLabel/execute', { preHandler: requireAuth }, async (req, reply) => {
     const parsed = TriggerExecutionBody.safeParse(req.body)
     if (!parsed.success) {
       return reply.status(400).send({ error: { code: 'VALIDATION_ERROR', message: parsed.error.message } })
@@ -41,7 +44,7 @@ export async function executionRoutes(app: FastifyInstance): Promise<void> {
       caseId,
       protocolId:   body.protocolId,
       sessionLabel,
-      startedBy:    body.startedBy
+      startedBy:    req.orthodontist!.id
     })
 
     // 2. Build measurement bundle

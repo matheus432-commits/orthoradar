@@ -1,6 +1,7 @@
 import type { FastifyInstance } from 'fastify'
 import { z } from 'zod'
 import { getPool } from '../db/pool'
+import { requireAuth } from '../auth/requireAuth'
 
 const TENANT_ID = '00000000-0000-0000-0000-000000000001'
 
@@ -9,8 +10,6 @@ const RegisterCaseBody = z.object({
   patientFamilyName: z.string().min(1),
   patientBirthDate:  z.string().regex(/^\d{4}-\d{2}-\d{2}/),
   patientSex:        z.enum(['M', 'F', 'UNSPECIFIED']),
-  orthodontistId:    z.string().uuid(),
-  orthodontistName:  z.string().min(1),
   chiefComplaint:    z.string().optional(),
   sessionLabel:      z.string().default('T0'),
 })
@@ -18,21 +17,14 @@ const RegisterCaseBody = z.object({
 export async function casesRoutes(app: FastifyInstance): Promise<void> {
 
   // POST /api/v1/cases/register
-  app.post('/cases/register', async (req, reply) => {
+  app.post('/cases/register', { preHandler: requireAuth }, async (req, reply) => {
     const parsed = RegisterCaseBody.safeParse(req.body)
     if (!parsed.success) {
       return reply.status(400).send({ error: { code: 'VALIDATION_ERROR', message: parsed.error.message } })
     }
     const body = parsed.data
+    const orthodontistId = req.orthodontist!.id
     const pool = getPool()
-    const email = `${body.orthodontistId}@intranet.local`
-
-    await pool.query(
-      `INSERT INTO ca.orthodontists (id, full_name, email, tenant_id)
-       VALUES ($1, $2, $3, $4)
-       ON CONFLICT (id) DO UPDATE SET full_name = EXCLUDED.full_name`,
-      [body.orthodontistId, body.orthodontistName, email, TENANT_ID]
-    )
 
     const { rows: patRows } = await pool.query<{ id: string }>(
       `INSERT INTO ca.patients (given_name, family_name, birth_date, biological_sex, tenant_id)
@@ -47,7 +39,7 @@ export async function casesRoutes(app: FastifyInstance): Promise<void> {
       `INSERT INTO ca.clinical_cases (patient_id, orthodontist_id, chief_complaint)
        VALUES ($1, $2, $3)
        RETURNING id`,
-      [patient.id, body.orthodontistId, body.chiefComplaint ?? null]
+      [patient.id, orthodontistId, body.chiefComplaint ?? null]
     )
     const cas = caseRows[0]
     if (!cas) return reply.status(500).send({ error: { code: 'DB_ERROR', message: 'Case insert failed' } })

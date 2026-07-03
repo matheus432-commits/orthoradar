@@ -23,11 +23,13 @@
     "fastify-plugin": "^5.0.0",
     "zod": "^4.4.3",
     "pg": "^8.11.0",
-    "decimal.js": "^10.4.3"
+    "decimal.js": "^10.4.3",
+    "bcryptjs": "^2.4.3"
   },
   "devDependencies": {
     "typescript": "^5.4.0",
     "@types/node": "^20.0.0",
-    "@types/pg": "^8.11.0"
+    "@types/pg": "^8.11.0",
+    "@types/bcryptjs": "^2.4.6"
   }
 }

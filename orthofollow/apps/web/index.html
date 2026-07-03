@@ -199,6 +199,31 @@
 </head>
 <body>
 
+<div id="login-overlay" style="display:none;position:fixed;inset:0;background:#0f172a;z-index:9999;align-items:center;justify-content:center">
+  <div style="background:#fff;border-radius:10px;padding:32px;width:340px;max-width:90vw;box-shadow:0 10px 40px rgba(0,0,0,.35)">
+    <div id="login-form-view">
+      <div style="font-weight:700;font-size:18px;margin-bottom:4px">OrthoFollow</div>
+      <div style="font-size:13px;color:#666;margin-bottom:20px">Entre com sua conta de dentista</div>
+      <div id="alert-login" class="alert"></div>
+      <div class="field" style="margin-bottom:10px"><label>E-mail</label><input id="login-email" type="email" placeholder="seu@email.com"></div>
+      <div class="field" style="margin-bottom:16px"><label>Senha</label><input id="login-password" type="password" placeholder="Senha" onkeydown="if(event.key==='Enter')doLogin()"></div>
+      <button class="btn btn-primary" style="width:100%" id="btn-login" onclick="doLogin()">Entrar</button>
+      <div style="margin-top:14px;text-align:center"><a href="#" style="font-size:12px" onclick="event.preventDefault();showRegisterDentistForm()">Cadastrar novo dentista</a></div>
+    </div>
+    <div id="register-form-view" style="display:none">
+      <div style="font-weight:700;font-size:18px;margin-bottom:4px">Cadastrar Dentista</div>
+      <div style="font-size:13px;color:#666;margin-bottom:20px">Se já existir ao menos uma conta na clínica, é preciso estar logado com ela para cadastrar novas contas.</div>
+      <div id="alert-register" class="alert"></div>
+      <div class="field" style="margin-bottom:10px"><label>Nome completo</label><input id="register-name" type="text" placeholder="Dr(a). Nome Sobrenome"></div>
+      <div class="field" style="margin-bottom:10px"><label>CRO (opcional)</label><input id="register-cro" type="text" placeholder="CRO-SP 12345"></div>
+      <div class="field" style="margin-bottom:10px"><label>E-mail</label><input id="register-email" type="email" placeholder="seu@email.com"></div>
+      <div class="field" style="margin-bottom:16px"><label>Senha</label><input id="register-password" type="password" placeholder="Mínimo 6 caracteres"></div>
+      <button class="btn btn-primary" style="width:100%" id="btn-register-dentist" onclick="doRegisterDentist()">Cadastrar</button>
+      <div style="margin-top:14px;text-align:center"><a href="#" style="font-size:12px" onclick="event.preventDefault();closeOrBackFromRegister()">Voltar</a></div>
+    </div>
+  </div>
+</div>
+
 <div class="topbar">
   <div class="logo">OrthoFollow <span>Análise Facial P01</span></div>
   <div class="spacer"></div>
@@ -210,6 +235,7 @@
     <button class="nav-item active" onclick="navigate('dashboard')"><span class="icon">🏠</span> Dashboard</button>
     <button class="nav-item" onclick="navigate('novo-caso')"><span class="icon">➕</span> Novo Caso</button>
     <button class="nav-item" onclick="navigate('avaliacao')"><span class="icon">📋</span> Avaliação P01</button>
+    <button class="nav-item" onclick="openAddDentistFromApp()"><span class="icon">👤</span> Adicionar Dentista</button>
   </nav>
   <div class="sidebar-footer">v1.0 · Protocolo P01<br>Análise Facial Ortodôntica</div>
 </aside>
@@ -469,11 +495,142 @@ window.__faceLandmarkerReady = (async () => {
 
 <script>
 /* ═══════════════════════════════
+   AUTH
+═══════════════════════════════ */
+const AUTH_STORAGE_KEY = 'orthofollow_auth';
+let currentAuth = null; // { token, orthodontist:{id,fullName,email} }
+
+function loadStoredAuth() {
+  try { return JSON.parse(localStorage.getItem(AUTH_STORAGE_KEY) || 'null'); } catch (e) { return null; }
+}
+function persistAuth() {
+  try { localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(currentAuth)); } catch (e) { /* ignore */ }
+}
+function clearAuth() {
+  currentAuth = null;
+  try { localStorage.removeItem(AUTH_STORAGE_KEY); } catch (e) { /* ignore */ }
+}
+function authHeaders() {
+  return currentAuth ? { 'Authorization': 'Bearer ' + currentAuth.token } : {};
+}
+// fetch wrapper that attaches the session token and bounces back to the login
+// screen on 401 (expired/invalid token) instead of leaving the UI in a broken state.
+async function authFetch(url, opts) {
+  opts = opts || {};
+  opts.headers = Object.assign({}, opts.headers || {}, authHeaders());
+  const r = await fetch(url, opts);
+  if (r.status === 401) {
+    clearAuth();
+    showLoginOverlay();
+  }
+  return r;
+}
+
+async function initAuth() {
+  const stored = loadStoredAuth();
+  if (!stored) { showLoginOverlay(); return; }
+  currentAuth = stored;
+  try {
+    const r = await fetch(API + '/auth/me', { headers: authHeaders() });
+    if (!r.ok) throw new Error('invalid session');
+    const d = await r.json();
+    currentAuth.orthodontist = d.orthodontist;
+    persistAuth();
+    hideLoginOverlay();
+  } catch (e) {
+    clearAuth();
+    showLoginOverlay();
+  }
+}
+
+function showLoginOverlay() {
+  document.getElementById('login-overlay').style.display = 'flex';
+}
+function hideLoginOverlay() {
+  document.getElementById('login-overlay').style.display = 'none';
+  const el = document.getElementById('topbar-ortho');
+  if (el && currentAuth) {
+    el.innerHTML = esc(currentAuth.orthodontist.fullName) + ' · <a href="#" style="color:inherit" onclick="event.preventDefault();doLogout()">Sair</a>';
+  }
+  loadDashboard();
+}
+
+function showRegisterDentistForm() {
+  document.getElementById('login-form-view').style.display = 'none';
+  document.getElementById('register-form-view').style.display = 'block';
+}
+function showLoginFormView() {
+  document.getElementById('register-form-view').style.display = 'none';
+  document.getElementById('login-form-view').style.display = 'block';
+}
+function closeOrBackFromRegister() {
+  if (currentAuth) document.getElementById('login-overlay').style.display = 'none';
+  else showLoginFormView();
+}
+function openAddDentistFromApp() {
+  document.getElementById('login-overlay').style.display = 'flex';
+  showRegisterDentistForm();
+}
+
+async function doLogin() {
+  const email    = document.getElementById('login-email').value.trim();
+  const password = document.getElementById('login-password').value;
+  const btn = document.getElementById('btn-login');
+  if (!email || !password) { showAlert('alert-login','danger','Preencha e-mail e senha.'); return; }
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Entrando…';
+  try {
+    const r = await fetch(API + '/auth/login', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ email, password })
+    });
+    const d = await r.json();
+    if (!r.ok) throw new Error(d.error?.message || 'Falha no login.');
+    currentAuth = { token: d.token, orthodontist: d.orthodontist };
+    persistAuth();
+    showAlert('alert-login', '', '');
+    hideLoginOverlay();
+  } catch (e) {
+    showAlert('alert-login','danger', e.message);
+  } finally {
+    btn.disabled = false; btn.innerHTML = 'Entrar';
+  }
+}
+
+function doLogout() {
+  clearAuth();
+  showLoginOverlay();
+}
+
+async function doRegisterDentist() {
+  const fullName = document.getElementById('register-name').value.trim();
+  const email    = document.getElementById('register-email').value.trim();
+  const password = document.getElementById('register-password').value;
+  const cro      = document.getElementById('register-cro').value.trim();
+  const btn = document.getElementById('btn-register-dentist');
+  if (!fullName || !email || !password) { showAlert('alert-register','danger','Preencha nome, e-mail e senha.'); return; }
+  if (password.length < 6) { showAlert('alert-register','danger','A senha precisa ter ao menos 6 caracteres.'); return; }
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Cadastrando…';
+  try {
+    const body = { fullName, email, password };
+    if (cro) body.cro = cro;
+    const r = await fetch(API + '/auth/dentists', {
+      method:'POST', headers: Object.assign({'Content-Type':'application/json'}, authHeaders()),
+      body: JSON.stringify(body)
+    });
+    const d = await r.json();
+    if (!r.ok) throw new Error(d.error?.message || 'Falha ao cadastrar.');
+    showAlert('alert-register','success','✓ Conta criada! Faça login.');
+    setTimeout(() => { showLoginFormView(); document.getElementById('login-email').value = email; }, 900);
+  } catch (e) {
+    showAlert('alert-register','danger', e.message);
+  } finally {
+    btn.disabled = false; btn.innerHTML = 'Cadastrar';
+  }
+}
+
+/* ═══════════════════════════════
    LANDMARK DEFINITIONS
 ═══════════════════════════════ */
-const FIXED_ORTH_ID   = '00000000-0000-4000-8000-000000000099';
-const FIXED_ORTH_NAME = 'Dr. Matheus Tadao Wakasugui';
-
 const PHOTO_DEFS = {
   frontal: {
     color: '#1a56db',
@@ -901,7 +1058,7 @@ async function savePhotoNow(key) {
   if (!caseId || !dataUrl) return;
   const nat = state.imgNat[key];
   try {
-    await fetch(`${API}/cases/${enc(caseId)}/sessions/${enc(session)}/photos/${enc(key)}`, {
+    await authFetch(`${API}/cases/${enc(caseId)}/sessions/${enc(session)}/photos/${enc(key)}`, {
       method: 'PUT', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         imageData: dataUrl,
@@ -1726,7 +1883,6 @@ async function runPipeline() {
   const session   = document.getElementById('av-session').value;
   const birthDate = document.getElementById('av-birth-date').value;
   const sex       = document.getElementById('av-sex').value;
-  const orthId    = FIXED_ORTH_ID;
 
   if (!caseId)   { showAlert('alert-av','danger','ID do caso é obrigatório.'); return; }
   if (!birthDate){ showAlert('alert-av','danger','Data de nascimento é obrigatória.'); return; }
@@ -1745,9 +1901,9 @@ async function runPipeline() {
   try {
     const failed = [];
     for (const m of measurements) {
-      const r = await fetch(`${API}/cases/${enc(caseId)}/sessions/${enc(session)}/measurements`, {
+      const r = await authFetch(`${API}/cases/${enc(caseId)}/sessions/${enc(session)}/measurements`, {
         method:'POST', headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({ analysisId:m.analysisId, value:m.value, recordedBy:orthId })
+        body:JSON.stringify({ analysisId:m.analysisId, value:m.value })
       });
       const b = await r.json();
       if (!r.ok) {
@@ -1763,9 +1919,9 @@ async function runPipeline() {
       throw new Error('Não foi possível salvar: ' + failed.join(' · '));
     }
     showAlert('alert-av','info','Executando análise clínica…');
-    const ex = await fetch(`${API}/cases/${enc(caseId)}/sessions/${enc(session)}/execute`, {
+    const ex = await authFetch(`${API}/cases/${enc(caseId)}/sessions/${enc(session)}/execute`, {
       method:'POST', headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({ protocolId:'P01', patientBirthDate:birthDate, patientSex:sex, startedBy:orthId })
+      body:JSON.stringify({ protocolId:'P01', patientBirthDate:birthDate, patientSex:sex })
     });
     const exD = await ex.json();
     if (!ex.ok) {
@@ -1841,8 +1997,6 @@ function resetNovoCaso() {
 
 async function registerCase() {
   const btn = document.getElementById('btn-register');
-  const orthId    = FIXED_ORTH_ID;
-  const orthName  = FIXED_ORTH_NAME;
   const given     = document.getElementById('nc-pat-given').value.trim();
   const family    = document.getElementById('nc-pat-family').value.trim();
   const birth     = document.getElementById('nc-pat-birth').value;
@@ -1857,9 +2011,9 @@ async function registerCase() {
   showAlert('alert-novo','info','Registrando caso…');
 
   try {
-    const body = { orthodontistId:orthId, orthodontistName:orthName, patientGivenName:given, patientFamilyName:family, patientBirthDate:birth, patientSex:sex, sessionLabel:session };
+    const body = { patientGivenName:given, patientFamilyName:family, patientBirthDate:birth, patientSex:sex, sessionLabel:session };
     if (complaint) body.chiefComplaint = complaint;
-    const r = await fetch(API + '/cases/register', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body) });
+    const r = await authFetch(API + '/cases/register', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body) });
     const d = await r.json();
     if (!r.ok) throw new Error(d.error?.message || JSON.stringify(d));
     showAlert('alert-novo','success',`✓ Caso cadastrado! ID: ${d.caseId}`);
@@ -2610,7 +2764,7 @@ try { renderMeasurements(); } catch(e) {
   const el = document.getElementById('cases-tbody');
   if (el) el.innerHTML = `<tr><td colspan="7"><div class="empty"><div class="emoji">🐛</div><p><b>renderMeasurements erro:</b> ${e.message}</p></div></td></tr>`;
 }
-loadDashboard();
+initAuth();
 </script>
 </body>
 </html>
