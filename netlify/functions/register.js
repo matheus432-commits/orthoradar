@@ -1,4 +1,5 @@
 const { request } = require('./_lib');
+const { hashPassword } = require('./_lib/password');
 
 const ALLOWED_SPECS = new Set([
   'Ortodontia', 'Implantodontia', 'Periodontia', 'Dentística',
@@ -96,6 +97,10 @@ exports.handler = async (event) => {
   if (!nome || !email || !especialidade || !temas || !temas.length || !senhaHash) {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'Campos obrigatorios faltando' }) };
   }
+  // O cliente deve enviar SHA-256 hex (64 chars). Valida o formato antes de derivar.
+  if (!/^[a-f0-9]{64}$/i.test(senhaHash)) {
+    return { statusCode: 400, headers, body: JSON.stringify({ error: 'Senha inválida.' }) };
+  }
   const nomeTrimmed = nome.trim();
   if (nomeTrimmed.length < 3 || !nomeTrimmed.includes(' ')) {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'Informe seu nome completo (nome e sobrenome)' }) };
@@ -129,7 +134,7 @@ exports.handler = async (event) => {
       email,
       especialidade: Array.isArray(especialidade) ? especialidade : [especialidade],
       temas: Array.isArray(temas) ? temas : [temas],
-      senhaHash,
+      senhaHash: hashPassword(senhaHash),
       ativo: true,
       criadoEm: new Date().toISOString(),
       curtidos: [],
