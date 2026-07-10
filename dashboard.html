@@ -654,6 +654,18 @@ if (_bc) _bc.onmessage = ({ data: d }) => {
 };
 
 function logout(){
+  // Invalida a sessão no servidor (best-effort) antes de descartar o token localmente.
+  try {
+    const _t = getToken(), _e = getEmail();
+    if (_t && _e) {
+      fetch('/.netlify/functions/logout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _t },
+        body: JSON.stringify({ email: _e }),
+        keepalive: true
+      }).catch(()=>{});
+    }
+  } catch(e){}
   localStorage.removeItem('of_token');
   localStorage.removeItem('of_email');
   // Reset all global state so a subsequent login starts clean
@@ -1406,7 +1418,7 @@ async function runClinicalQuery() {
   try {
     const res  = await fetch('/.netlify/functions/ask-clinical-question', {
       method: 'POST',
-      headers: {'Content-Type':'application/json'},
+      headers: {'Content-Type':'application/json', 'Authorization': 'Bearer ' + (getToken()||'')},
       body: JSON.stringify({ question: q, specialty: spec, email: getEmail() }),
     });
     const data = await res.json();
