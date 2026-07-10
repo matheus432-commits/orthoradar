@@ -784,6 +784,7 @@ document.getElementById('feedDate').textContent = new Date().toLocaleDateString(
 // ── Load public articles ────────────────────────────
 (async function loadPublicArticles() {
   function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+  function safeUrl(u){u=String(u==null?'':u).trim();if(!/^https?:\/\//i.test(u))return '';if(/["'<>\\\s]/.test(u))return '';return u;}
   function evCls(n){
     if(!n) return 'ev-iv';
     const l=n.toLowerCase();
@@ -811,7 +812,7 @@ document.getElementById('feedDate').textContent = new Date().toLocaleDateString(
       const t  = esc((feat.titulo_pt||feat.titulo||'').substring(0,130));
       const s  = esc((feat.resumo_pt||feat.abstract||'').substring(0,290));
       const im = feat.impacto_pratico ? `<div class="ff-impact"><strong>Relevância clínica:</strong> ${esc(feat.impacto_pratico.substring(0,200))}</div>` : '';
-      const lk = feat.pubmedUrl ? `<a href="${esc(feat.pubmedUrl)}" target="_blank" rel="noopener" style="color:var(--primary);font-weight:600;">Ver no PubMed →</a>` : '';
+      const lk = safeUrl(feat.pubmedUrl) ? `<a href="${esc(safeUrl(feat.pubmedUrl))}" target="_blank" rel="noopener" style="color:var(--primary);font-weight:600;">Ver no PubMed →</a>` : '';
       featEl.innerHTML = `<div class="ff-kicker"><span class="ff-tag ${cl}">${ev}</span><span class="ff-sep">·</span><span class="ff-spec">${sp}</span></div><h2 class="ff-title">${t}</h2><p class="ff-summary">${s}…</p>${im}<div class="ff-meta"><span>${esc(feat.journal||'')}</span><span class="ff-meta-sep">·</span><span>${esc(String(feat.year||''))}</span>${lk?'<span class="ff-meta-sep">·</span>'+lk:''}</div>`;
     }
 
@@ -823,7 +824,7 @@ document.getElementById('feedDate').textContent = new Date().toLocaleDateString(
     const grEl = document.getElementById('feedGrid');
     if(grEl && grid.length) {
       grEl.innerHTML = grid.map(a=>{
-        const lk = a.pubmedUrl?`<a href="${esc(a.pubmedUrl)}" target="_blank" rel="noopener" style="color:var(--primary);">Ler artigo na íntegra →</a>`:'<span style="color:var(--primary);">Ler artigo na íntegra →</span>';
+        const lk = safeUrl(a.pubmedUrl)?`<a href="${esc(safeUrl(a.pubmedUrl))}" target="_blank" rel="noopener" style="color:var(--primary);">Ler artigo na íntegra →</a>`:'<span style="color:var(--primary);">Ler artigo na íntegra →</span>';
         return `<div class="fg-card"><div class="fg-kicker"><span class="fg-ev ${evCls(a.nivel_evidencia)}">${esc(a.nivel_evidencia||'Artigo')}</span><span class="fg-spec">${esc(a.especialidade||a.tema||'')}</span></div><div class="fg-title">${esc((a.titulo_pt||a.titulo||'').substring(0,100))}</div><div class="fg-meta"><span>${esc(a.journal||'')}</span>${a.year?'<span>·</span><span>'+esc(String(a.year))+'</span>':''}</div><div class="fg-read">${lk}</div></div>`;
       }).join('');
     }
