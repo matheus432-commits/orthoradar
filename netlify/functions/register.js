@@ -150,6 +150,6 @@ exports.handler = async (event) => {
     return { statusCode: 200, headers, body: JSON.stringify({ success: true, message: 'Cadastro realizado com sucesso!', id: docId }) };
   } catch (err) {
     console.error('Register error:', err);
-    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Erro interno: ' + err.message }) };
+    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Erro interno. Tente novamente.' }) };
   }
 };

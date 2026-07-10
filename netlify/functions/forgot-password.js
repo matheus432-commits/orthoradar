@@ -23,7 +23,8 @@ async function getUserByEmail(projectId, apiKey, email) {
   const f = docs[0].document.fields || {};
   return {
     docId: docs[0].document.name.split('/').pop(),
-    nome: f.nome?.stringValue || ''
+    nome: f.nome?.stringValue || '',
+    resetTokenExpiry: f.resetTokenExpiry?.stringValue || null
   };
 }
 
@@ -93,6 +94,15 @@ exports.handler = async (event) => {
   try {
     const user = await getUserByEmail(projectId, apiKey, email);
     if (user) {
+      // Anti email-bombing: se um token foi emitido nos últimos 2 min, não reenvia.
+      // Emissão = expiry - 1h; se restam > 58 min de validade, foi emitido há < 2 min.
+      const TOKEN_TTL_MS = 3600000, COOLDOWN_MS = 120000;
+      if (user.resetTokenExpiry) {
+        const remaining = new Date(user.resetTokenExpiry).getTime() - Date.now();
+        if (remaining > TOKEN_TTL_MS - COOLDOWN_MS) {
+          return { statusCode: 200, headers, body: JSON.stringify({ success: true, message: 'Se o e-mail estiver cadastrado, você receberá o link em instantes.' }) };
+        }
+      }
       const token = crypto.randomBytes(32).toString('hex');
       const expiry = new Date(Date.now() + 3600000).toISOString();
       await saveResetToken(projectId, apiKey, user.docId, token, expiry);

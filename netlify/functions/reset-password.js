@@ -101,6 +101,6 @@ exports.handler = async (event) => {
     return { statusCode: 200, headers, body: JSON.stringify({ success: true, message: 'Senha atualizada com sucesso!' }) };
   } catch (err) {
     console.error('Reset password error:', err);
-    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Erro interno: ' + err.message }) };
+    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Erro interno. Tente novamente.' }) };
   }
 };

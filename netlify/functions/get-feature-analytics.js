@@ -5,6 +5,7 @@
 // Query: ?secret=ADMIN_SECRET&days=30
 
 const { Firestore }   = require('./_lib/firestore');
+const { checkAdmin } = require('./_lib/admin-guard');
 const { request }     = require('./_lib');
 const log             = require('./_lib/logger');
 
@@ -59,8 +60,8 @@ exports.handler = async (event) => {
     return { statusCode: 200, headers: { ...headers, 'Access-Control-Allow-Methods': 'GET, OPTIONS' }, body: '' };
   }
 
-  const { secret, days: daysStr = '30' } = event.queryStringParameters || {};
-  if (!secret || secret !== process.env.ADMIN_SECRET) {
+  const { days: daysStr = '30' } = event.queryStringParameters || {};
+  if (!checkAdmin(event)) {
     return { statusCode: 403, headers, body: JSON.stringify({ error: 'Forbidden' }) };
   }
 
