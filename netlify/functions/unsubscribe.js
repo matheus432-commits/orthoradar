@@ -54,8 +54,18 @@ exports.handler = async (event) => {
   if (!email || !t) {
     return { statusCode: 400, headers, body: errorPage('Link invalido', 'O link de cancelamento esta incompleto ou expirado.') };
   }
-  const expectedToken = crypto.createHmac('sha256', process.env.UNSUBSCRIBE_SECRET || 'unsub').update(email).digest('hex');
-  if (!crypto.timingSafeEqual(Buffer.from(t, 'hex'), Buffer.from(expectedToken, 'hex'))) {
+  const secret = process.env.UNSUBSCRIBE_SECRET;
+  if (!secret) {
+    console.error('[unsubscribe] UNSUBSCRIBE_SECRET nao configurado — recusando validacao');
+    return { statusCode: 500, headers, body: errorPage('Erro de configuracao', 'Nao foi possivel processar o cancelamento agora. Tente novamente mais tarde.') };
+  }
+  const expectedToken = crypto.createHmac('sha256', secret).update(email).digest('hex');
+  // Valida formato antes de timingSafeEqual (que lanca RangeError em buffers de tamanhos diferentes)
+  let tokenOk = false;
+  if (/^[a-f0-9]{64}$/i.test(t)) {
+    try { tokenOk = crypto.timingSafeEqual(Buffer.from(t, 'hex'), Buffer.from(expectedToken, 'hex')); } catch { tokenOk = false; }
+  }
+  if (!tokenOk) {
     return { statusCode: 403, headers, body: errorPage('Link invalido', 'Este link de cancelamento e invalido.') };
   }
   const projectId = process.env.FIREBASE_PROJECT_ID || 'orthoradar';

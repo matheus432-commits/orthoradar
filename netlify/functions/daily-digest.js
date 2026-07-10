@@ -241,7 +241,8 @@ async function saveSentLog(db, email, articles, especialidade) {
 // ── Per-user editorial pipeline (logic unchanged) ─────────────────────────────
 
 function buildUnsubscribeToken(email) {
-  const secret = process.env.UNSUBSCRIBE_SECRET || 'unsub-default';
+  const secret = process.env.UNSUBSCRIBE_SECRET;
+  if (!secret) throw new Error('UNSUBSCRIBE_SECRET nao configurado');
   return crypto.createHmac('sha256', secret).update(email).digest('hex');
 }
 
@@ -560,6 +561,7 @@ async function main() {
   const resendKey   = process.env.RESEND_API_KEY;
   if (!apiKey)    { log.error('[digest] FIREBASE_API_KEY not set'); process.exit(1); }
   if (!resendKey) { log.error('[digest] RESEND_API_KEY not set');   process.exit(1); }
+  if (!process.env.UNSUBSCRIBE_SECRET) { log.error('[digest] UNSUBSCRIBE_SECRET not set'); process.exit(1); }
 
   const anthropicKey = process.env.ANTHROPIC_API_KEY || null;
   if (!anthropicKey) log.warn('[digest] ANTHROPIC_API_KEY not set — editorial uses deterministic fallback');

@@ -56,7 +56,8 @@ function getWeekDateRange(date = new Date()) {
 }
 
 function buildWeeklyUnsubToken(email) {
-  const secret = process.env.UNSUBSCRIBE_SECRET || 'unsub-default';
+  const secret = process.env.UNSUBSCRIBE_SECRET;
+  if (!secret) throw new Error('UNSUBSCRIBE_SECRET nao configurado');
   return crypto.createHmac('sha256', secret).update('weekly:' + email).digest('hex');
 }
 
@@ -456,6 +457,7 @@ async function runWeeklyDigest() {
   const resendKey = process.env.RESEND_API_KEY;
   if (!apiKey)    { log.error('[weekly] FIREBASE_API_KEY not set'); return { error: 'no_firebase_key' }; }
   if (!resendKey) { log.error('[weekly] RESEND_API_KEY not set');   return { error: 'no_resend_key' }; }
+  if (!process.env.UNSUBSCRIBE_SECRET) { log.error('[weekly] UNSUBSCRIBE_SECRET not set'); return { error: 'no_unsub_secret' }; }
 
   const db        = new Firestore(projectId, apiKey);
   const weekId    = getWeekId();

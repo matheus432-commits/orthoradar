@@ -14,8 +14,9 @@ const log           = require('./_lib/logger');
 const BASE_URL = process.env.SITE_URL || 'https://odontofeed.com.br';
 
 function tokenValid(email, token) {
-  if (!email || !token || token.length !== 64) return false;
-  const secret   = process.env.UNSUBSCRIBE_SECRET || 'unsub-default';
+  if (!email || !token || !/^[a-f0-9]{64}$/i.test(token)) return false;
+  const secret = process.env.UNSUBSCRIBE_SECRET;
+  if (!secret) { console.error('[weekly-unsubscribe] UNSUBSCRIBE_SECRET nao configurado'); return false; }
   const expected = crypto.createHmac('sha256', secret).update('weekly:' + email).digest('hex');
   try { return crypto.timingSafeEqual(Buffer.from(expected), Buffer.from(token)); }
   catch { return false; }

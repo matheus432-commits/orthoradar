@@ -116,3 +116,9 @@
     X-Frame-Options      = "DENY"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy      = "strict-origin-when-cross-origin"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+    Permissions-Policy   = "geolocation=(), microphone=(), camera=(), payment=()"
+    # CSP: o app usa JS inline e handlers onclick, por isso script-src precisa de 'unsafe-inline'.
+    # A proteção-chave é connect-src 'self': mesmo um XSS não consegue exfiltrar o token de sessão
+    # para um host externo via fetch/XHR/WebSocket/beacon. Fontes do Google são liberadas para CSS/fontes.
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
