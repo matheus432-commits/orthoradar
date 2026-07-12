@@ -1,0 +1,20 @@
+# Dependências
+node_modules/
+
+# Variáveis de ambiente / segredos (NUNCA commitar)
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+serviceAccount*.json
+service-account*.json
+firebase-adminsdk*.json
+
+# Netlify
+.netlify/
+
+# Logs e temporários
+*.log
+npm-debug.log*
+.DS_Store

@@ -57,6 +57,23 @@ function trackClick(baseUrl, digestId, pmid, email, targetUrl, tema) {
   return th ? `${base}&th=${th}` : base;
 }
 
+// Resolve o destino REAL do artigo, em ordem de prioridade. NUNCA monta uma URL
+// do PubMed a partir de um id sintético (ex.: "doi_10_1234_..."): só um PMID
+// numérico real mapeia para pubmed.ncbi.nlm.nih.gov. Artigos só com DOI vão para
+// doi.org (host permitido pelo track-click). Evita a "página desconhecida" quando
+// o pubmedUrl armazenado está vazio e o id não é um PMID.
+function resolveArticleUrl(article, baseUrl) {
+  const rawPubmedUrl = String(article.pubmedUrl ?? '').trim();
+  if (/^https?:\/\//i.test(rawPubmedUrl)) return rawPubmedUrl;
+  const realPmid = String(article.pmid ?? '').trim();
+  if (/^\d+$/.test(realPmid)) return `https://pubmed.ncbi.nlm.nih.gov/${realPmid}/`;
+  const doi = String(article.doi ?? '').trim().replace(/^https?:\/\/(dx\.)?doi\.org\//i, '');
+  if (doi) return `https://doi.org/${doi}`;
+  const url = String(article.url || article.oaUrl || '').trim();
+  if (/^https?:\/\//i.test(url)) return url;
+  return baseUrl;
+}
+
 // ── Editorial intro generator ─────────────────────────────────────────────────
 // STEP 1 — classify article relationship (convergent / coexistent)
 // STEP 2 — detect invisible editorial theme from content signals
@@ -234,12 +251,8 @@ function articleCard(article, index, total, opts) {
   const espTag       = esc(article.especialidade || article.tema || '');
   const isLast       = index === total - 1;
 
-  const rawPubmedUrl = (article.pubmedUrl ?? '').trim();
-  const articleUrl   = article.url || article.oaUrl || '';
-  const pubmedDirect = rawPubmedUrl ||
-    (pmid ? `https://pubmed.ncbi.nlm.nih.gov/${pmid}/`
-          : (articleUrl || baseUrl));
-  if (!rawPubmedUrl && !pmid && !articleUrl) {
+  const pubmedDirect = resolveArticleUrl(article, baseUrl);
+  if (pubmedDirect === baseUrl) {
     console.warn('[email-template] no article URL for card, falling back to baseUrl', { id: article.id, title: (article.titulo || '').slice(0, 60) });
   }
   const trackedUrl = trackClick(baseUrl, digestId, pmid, email, pubmedDirect, article.tema || article.especialidade);
@@ -316,7 +329,7 @@ function articleCard(article, index, total, opts) {
  * Builds the full HTML email for a digest.
  *
  * @param {Object} user      - { nome, email, especialidade }
- * @param {Array}  articles  - curated article list (3–5)
+ * @param {Array}  articles  - curated article list (fixo: 3)
  * @param {Object} opts      - { digestId, baseUrl, siteUrl, unsubscribeToken, editorial? }
  * @returns {{ html: string, subject: string }}
  */
@@ -339,9 +352,7 @@ function achadoSemanaCard(achado, opts) {
     .filter(Boolean)
     .join('<br><br>');
 
-  const rawUrl      = (achado.pubmedUrl ?? '').trim();
-  const articleUrl  = rawUrl ||
-    (pmid ? `https://pubmed.ncbi.nlm.nih.gov/${pmid}/` : baseUrl);
+  const articleUrl  = resolveArticleUrl(achado, baseUrl);
   const trackedUrl  = trackClick(baseUrl, digestId, pmid, email, articleUrl, achado.especialidade || achado.tema);
 
   return `
@@ -423,7 +434,7 @@ function achadoSemanaCard(achado, opts) {
  * Builds the full digest HTML email.
  *
  * @param {Object} user      - { nome, email, especialidade }
- * @param {Array}  articles  - curated article list (3–5)
+ * @param {Array}  articles  - curated article list (fixo: 3)
  * @param {Object} opts      - { digestId, baseUrl, unsubscribeToken, editorial?, achadoSemana? }
  * @returns {{ html: string, subject: string }}
  */

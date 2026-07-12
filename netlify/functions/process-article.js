@@ -7,6 +7,7 @@
 // Run: node netlify/functions/process-article.js
 
 const { Firestore }           = require('./_lib/firestore');
+const { checkAdmin } = require('./_lib/admin-guard');
 const { enrichArticle, currentCost, resetCost } = require('./_lib/claude');
 const { scoreRelevance, estimateQualityScore }   = require('./_lib/scoring');
 const log                     = require('./_lib/logger');
@@ -146,7 +147,8 @@ async function main() {
 
 // ── Netlify Function handler ──────────────────────────────────────────────────
 
-exports.handler = async () => {
+exports.handler = async (event) => {
+  if (!checkAdmin(event)) return { statusCode: 403, body: JSON.stringify({ error: 'Forbidden' }) };
   try {
     const result = await main();
     return { statusCode: 200, body: JSON.stringify(result) };

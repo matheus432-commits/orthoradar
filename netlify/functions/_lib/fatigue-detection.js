@@ -131,16 +131,12 @@ function detectFatigue(profile) {
 }
 
 /**
- * Returns optimal number of articles for the digest (3–5).
+ * Returns the number of articles for the daily digest.
+ * Padrão fixo do OdontoFeed: 3 artigos regulares por dia (o Achado da Semana
+ * é enviado à parte e pode elevar o total). Mantido como função para
+ * compatibilidade com os chamadores existentes.
  */
 function getOptimalDigestSize(profile) {
-  const ctr     = profile.ctr         || 0.2;
-  const fatigue = detectFatigue(profile);
-
-  if (fatigue.action === 'send_weekly' || fatigue.action === 'pause')    return 3;
-  if (fatigue.action === 'send_daily_reduced')                           return 3;
-  if (ctr >= THRESHOLDS.HIGH_CTR)                                        return 5;
-  if (ctr >= THRESHOLDS.LOW_CTR + 0.05)                                  return 4;
   return 3;
 }
 

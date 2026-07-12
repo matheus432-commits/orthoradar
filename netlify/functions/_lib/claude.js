@@ -3,9 +3,10 @@
 
 const { request } = require('../_lib');
 const log = require('./logger');
+const { resolveModel } = require('./ai-config');
 
 const HOST          = 'api.anthropic.com';
-const MODEL         = 'claude-haiku-4-5-20251001';
+const MODEL         = resolveModel('ENRICH_MODEL');
 const MAX_TOKENS    = 1024;
 // Cost guard: stop enriching if accumulated cost exceeds this per run
 const MAX_COST_USD  = 0.50;

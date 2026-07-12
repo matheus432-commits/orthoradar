@@ -613,6 +613,15 @@ let userData = null;
 function escapeHtml(s) {
   return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 }
+// Só aceita URLs http(s) sem caracteres que quebrem contextos HTML/JS. Bloqueia javascript:, data:, etc.
+function safeUrl(u){
+  u = String(u==null?'':u).trim();
+  if(!/^https?:\/\//i.test(u)) return '';
+  if(/["'<>\\\s]/.test(u)) return '';
+  return u;
+}
+// Normaliza IDs (pmid, docId, chaves) para um conjunto seguro — impossível quebrar atributo/handler.
+function safeId(s){ return String(s==null?'':s).replace(/[^A-Za-z0-9_.:-]/g,''); }
 
 function getToken(){ return localStorage.getItem('of_token'); }
 function getEmail(){ return localStorage.getItem('of_email'); }
@@ -645,6 +654,18 @@ if (_bc) _bc.onmessage = ({ data: d }) => {
 };
 
 function logout(){
+  // Invalida a sessão no servidor (best-effort) antes de descartar o token localmente.
+  try {
+    const _t = getToken(), _e = getEmail();
+    if (_t && _e) {
+      fetch('/.netlify/functions/logout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _t },
+        body: JSON.stringify({ email: _e }),
+        keepalive: true
+      }).catch(()=>{});
+    }
+  } catch(e){}
   localStorage.removeItem('of_token');
   localStorage.removeItem('of_email');
   // Reset all global state so a subsequent login starts clean
@@ -811,9 +832,9 @@ function articleCard(art,curtidos,lidos){
     ${journal?`<div class="article-journal">${journal}</div>`:''}
     <div class="article-summary">${summary}</div>
     <div class="article-actions">
-      <button class="btn-like ${liked?'liked':''}" onclick="toggleLike('${art.id}',this)">${liked?'❤️ Curtido':'🤍 Curtir'}</button>
-      ${art.pubmedUrl?`<a class="btn-pubmed" href="${art.pubmedUrl}" target="_blank" rel="noopener">PubMed ↗</a>`:''}
-      <button class="btn-lido ${isLido?'lido':''}" onclick="toggleLido('${art.id}')">${isLido?'✅ Lido':'📝 Lido'}</button>
+      <button class="btn-like ${liked?'liked':''}" onclick="toggleLike('${safeId(art.id)}',this)">${liked?'❤️ Curtido':'🤍 Curtir'}</button>
+      ${safeUrl(art.pubmedUrl)?`<a class="btn-pubmed" href="${escapeHtml(safeUrl(art.pubmedUrl))}" target="_blank" rel="noopener">PubMed ↗</a>`:''}
+      <button class="btn-lido ${isLido?'lido':''}" onclick="toggleLido('${safeId(art.id)}')">${isLido?'✅ Lido':'📝 Lido'}</button>
     </div>
   </div>`;
 }
@@ -938,7 +959,7 @@ function switchEspTab(btnEl, idx) {
 async function toggleLido(artId) {
   const email = getEmail(), token = getToken();
   if (!email || !token) return;
-  const btns = document.querySelectorAll(`.btn-lido[onclick="toggleLido('${artId}')"]`);
+  const btns = document.querySelectorAll(`.btn-lido[onclick="toggleLido('${safeId(artId)}')"]`);
   const currentlyLido = btns[0]?.classList.contains('lido') ?? false;
   const action = currentlyLido ? 'unmark' : 'mark';
   btns.forEach(b => { b.disabled = true; });
@@ -1241,7 +1262,7 @@ function renderPrefTemas() {
   });
   el.innerHTML = _prefAllTemas.map((t, i) => {
     const sel = prefSelectedTemas.includes(t);
-    return `<div onclick="prefToggleTema(${i},this)" style="padding:7px 14px;border-radius:20px;font-size:13px;font-weight:500;cursor:pointer;border:1px solid ${sel ? 'rgba(14,165,233,0.4)' : 'var(--border)'};background:${sel ? 'rgba(14,165,233,0.12)' : 'var(--bg3)'};color:${sel ? 'var(--primary)' : 'var(--muted)'};transition:all 0.15s;user-select:none;">${t}</div>`;
+    return `<div onclick="prefToggleTema(${i},this)" style="padding:7px 14px;border-radius:20px;font-size:13px;font-weight:500;cursor:pointer;border:1px solid ${sel ? 'rgba(14,165,233,0.4)' : 'var(--border)'};background:${sel ? 'rgba(14,165,233,0.12)' : 'var(--bg3)'};color:${sel ? 'var(--primary)' : 'var(--muted)'};transition:all 0.15s;user-select:none;">${escapeHtml(t)}</div>`;
   }).join('');
   document.getElementById('prefTemasHint').textContent = prefSelectedTemas.length + ' tema(s) selecionado(s)';
 }
@@ -1397,7 +1418,7 @@ async function runClinicalQuery() {
   try {
     const res  = await fetch('/.netlify/functions/ask-clinical-question', {
       method: 'POST',
-      headers: {'Content-Type':'application/json'},
+      headers: {'Content-Type':'application/json', 'Authorization': 'Bearer ' + (getToken()||'')},
       body: JSON.stringify({ question: q, specialty: spec, email: getEmail() }),
     });
     const data = await res.json();
@@ -1428,7 +1449,7 @@ function renderClinicalResult(data) {
         <div class="clinical-art-meta">${escapeHtml(a.journal || '')}${a.data && !isNaN(new Date(a.data).getFullYear()) ? ' · ' + new Date(a.data).getFullYear() : ''}</div>
         ${a.impacto ? `<div class="clinical-art-impact">${escapeHtml(a.impacto)}</div>` : ''}
       </div>
-      ${a.pubmedUrl ? `<a class="clinical-art-link" href="${escapeHtml(a.pubmedUrl)}" target="_blank" rel="noopener">↗</a>` : ''}
+      ${a.pubmedUrl ? `<a class="clinical-art-link" href="${escapeHtml(safeUrl(a.pubmedUrl))}" target="_blank" rel="noopener">↗</a>` : ''}
     </div>`;
   }).join('');
 
@@ -1455,7 +1476,7 @@ function renderGuidelineAlerts(data, spec) {
   }
 
   const cards = data.alerts.map(a => {
-    return `<div class="alert-card severity-${escapeHtml(a.severity || 'medium')}" onclick="if(event.target.tagName!=='A')window.open('${escapeHtml(a.pubmedUrl || '#')}','_blank')" style="cursor:${a.pubmedUrl ? 'pointer' : 'default'}">
+    return `<div class="alert-card severity-${escapeHtml(a.severity || 'medium')}" onclick="if(event.target.tagName!=='A')window.open('${safeUrl(a.pubmedUrl)||'#'}','_blank')" style="cursor:${safeUrl(a.pubmedUrl) ? 'pointer' : 'default'}">
       <div class="alert-card-top">
         <span class="alert-ev-badge ${evBadgeClass(a.nivel_evidencia)}">${escapeHtml(a.nivel_evidencia || '')}</span>
         <span class="alert-age">${escapeHtml(a.ageText || '')}</span>
@@ -1463,7 +1484,7 @@ function renderGuidelineAlerts(data, spec) {
       <div class="alert-text">${escapeHtml(a.alertText || '')}</div>
       <div class="alert-titulo">${escapeHtml(a.titulo || '')}</div>
       <div class="alert-meta">${escapeHtml(a.journal || '')}${a.especialidade ? ' · ' + escapeHtml(a.especialidade) : ''}</div>
-      ${a.pubmedUrl ? `<a class="alert-link" href="${escapeHtml(a.pubmedUrl)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Ver no PubMed ↗</a>` : ''}
+      ${a.pubmedUrl ? `<a class="alert-link" href="${escapeHtml(safeUrl(a.pubmedUrl))}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Ver no PubMed ↗</a>` : ''}
     </div>`;
   }).join('');
 
@@ -1494,7 +1515,7 @@ function renderConsensusSection(data, spec) {
             <div style="font-size:11px;color:var(--muted);margin-top:2px;">${escapeHtml(a.journal || '')}${a.nivel_evidencia ? ' · ' + escapeHtml(a.nivel_evidencia) : ''}</div>
             ${a.impacto ? `<div style="font-size:11px;color:var(--primary);margin-top:3px;">${escapeHtml(a.impacto)}</div>` : ''}
           </div>
-          ${a.pubmedUrl ? `<a style="font-size:11px;font-weight:600;color:var(--primary);text-decoration:none;flex-shrink:0;" href="${escapeHtml(a.pubmedUrl)}" target="_blank" rel="noopener">↗</a>` : ''}
+          ${a.pubmedUrl ? `<a style="font-size:11px;font-weight:600;color:var(--primary);text-decoration:none;flex-shrink:0;" href="${escapeHtml(safeUrl(a.pubmedUrl))}" target="_blank" rel="noopener">↗</a>` : ''}
         </div>
         ${renderSnapshotToggle(snapshotId, a.snapshot)}
       </div>`;
@@ -1552,7 +1573,7 @@ function renderSnapshotToggle(id, snapshot) {
     <div class="snapshot-disclaimer">${escapeHtml(snapshot.disclaimer || '')}</div>
   </div>`;
 
-  return `<button class="snapshot-toggle" onclick="toggleSnapshot('${id}');event.stopPropagation()">
+  return `<button class="snapshot-toggle" onclick="toggleSnapshot('${safeId(id)}');event.stopPropagation()">
     ⊕ Snapshot Clínico
   </button>${html}`;
 }
@@ -1617,7 +1638,7 @@ function updateComparatorUI() {
   chips.innerHTML = [..._comparatorSet.entries()].map(([pmid, titulo]) =>
     `<div class="comp-chip">
       <span class="comp-chip-title">${escapeHtml(titulo || pmid)}</span>
-      <button class="comp-chip-remove" onclick="addToComparator('${pmid}','')">×</button>
+      <button class="comp-chip-remove" onclick="addToComparator('${safeId(pmid)}','')">×</button>
     </div>`
   ).join('');
   runBtn.disabled = _comparatorSet.size < 2;
@@ -1675,7 +1696,7 @@ function renderComparisonTable(data) {
     `<th class="${colClass(i)}" style="min-width:180px;">
       ${escapeHtml(a.titulo || '')}
       <div style="font-size:10px;font-weight:400;margin-top:3px;">${escapeHtml(a.journal || '')} ${a.year ? '· ' + a.year : ''}</div>
-      ${a.pubmedUrl ? `<a style="font-size:10px;color:var(--primary);text-decoration:none;" href="${escapeHtml(a.pubmedUrl)}" target="_blank" rel="noopener">PubMed ↗</a>` : ''}
+      ${a.pubmedUrl ? `<a style="font-size:10px;color:var(--primary);text-decoration:none;" href="${escapeHtml(safeUrl(a.pubmedUrl))}" target="_blank" rel="noopener">PubMed ↗</a>` : ''}
     </th>`
   ).join('');
 
@@ -1874,7 +1895,7 @@ function renderTopArticleBlock(a) {
     <div style="font-size:13px;font-weight:700;color:var(--text);line-height:1.45;margin-bottom:4px;">${escapeHtml(a.titulo || '')}</div>
     <div style="font-size:11px;color:var(--muted);margin-bottom:6px;">${escapeHtml(a.journal || '')} &middot; ${escapeHtml(a.nivel_evidencia || '')}</div>
     <div style="font-size:12px;color:var(--primary);font-style:italic;">${escapeHtml(a.reason || '')}</div>
-    ${a.pubmedUrl ? `<a href="${escapeHtml(a.pubmedUrl)}" target="_blank" rel="noopener" style="display:inline-block;margin-top:8px;font-size:12px;font-weight:600;color:var(--primary);">Ver no PubMed &#8599;</a>` : ''}
+    ${a.pubmedUrl ? `<a href="${escapeHtml(safeUrl(a.pubmedUrl))}" target="_blank" rel="noopener" style="display:inline-block;margin-top:8px;font-size:12px;font-weight:600;color:var(--primary);">Ver no PubMed &#8599;</a>` : ''}
   </div>`;
 }
 
@@ -1896,7 +1917,7 @@ function renderRadar(trend, spec) {
     const articles = trend.signals?.[key] || [];
     return `<div class="signal-chip" id="chip-${key}"
       style="--signal-color:${cfg.color};--signal-rgb:${cfg.rgb}"
-      onclick="toggleSignal('${key}')">
+      onclick="toggleSignal('${safeId(key)}')">
       <div class="signal-chip-top">
         <span class="signal-label">${cfg.label}</span>
         <span class="signal-count">${articles.length}</span>
@@ -1962,7 +1983,7 @@ function radarArticleCard(a) {
     ${resumo ? `<div class="radar-card-resumo">${resumo}${a.resumo && a.resumo.length > 200 ? '…' : ''}</div>` : ''}
     <div class="radar-card-footer">
       <span class="radar-card-eng">${eng > 0 ? eng + ' interações' : ''}</span>
-      ${a.pubmedUrl ? `<a class="radar-card-link" href="${escapeHtml(a.pubmedUrl)}" target="_blank" rel="noopener">PubMed &#8599;</a>` : ''}
+      ${a.pubmedUrl ? `<a class="radar-card-link" href="${escapeHtml(safeUrl(a.pubmedUrl))}" target="_blank" rel="noopener">PubMed &#8599;</a>` : ''}
     </div>
   </div>`;
 }
@@ -2042,7 +2063,7 @@ function renderLearningPaths(data) {
           <div class="path-art-title">${escapeHtml(a.titulo || 'Sem título')}</div>
           <div class="path-art-ev">${escapeHtml(a.nivel_evidencia || '')} ${a.journal ? '&middot; ' + escapeHtml(a.journal) : ''}</div>
         </div>
-        ${a.pubmedUrl ? `<a class="path-art-link" href="${escapeHtml(a.pubmedUrl)}" target="_blank" rel="noopener">&#8599;</a>` : ''}
+        ${a.pubmedUrl ? `<a class="path-art-link" href="${escapeHtml(safeUrl(a.pubmedUrl))}" target="_blank" rel="noopener">&#8599;</a>` : ''}
       </div>`;
     }).join('');
 
@@ -2078,7 +2099,7 @@ articleCard = function(art, curtidos, lidos) {
   const pmid = String(art.id || art.pmid || '');
   if (!pmid) return base;
   const titleEsc = escapeHtml((art.titulo || art.titulo_pt || '').slice(0, 80));
-  const btn = `<button class="btn-like" data-pmid="${pmid}" onclick="openContextDrawer('${pmid}',${JSON.stringify(art.titulo||art.titulo_pt||'')});event.stopPropagation();" style="background:rgba(14,165,233,0.1);border:1px solid rgba(14,165,233,0.25);color:var(--primary);" title="Ver contexto clínico">🔎 Contexto</button>`;
+  const btn = `<button class="btn-like" data-pmid="${escapeHtml(String(pmid))}" onclick="openContextDrawer('${safeId(pmid)}',${escapeHtml(JSON.stringify(art.titulo||art.titulo_pt||''))});event.stopPropagation();" style="background:rgba(14,165,233,0.1);border:1px solid rgba(14,165,233,0.25);color:var(--primary);" title="Ver contexto clínico">🔎 Contexto</button>`;
   return base.replace('</div>\n  </div>', `${btn}\n</div>\n  </div>`);
 }
 
@@ -2263,7 +2284,7 @@ function renderCtxRelacionadosTab(data) {
       <div class="ctx-item-title">${escapeHtml(a.titulo_pt || a.titulo || '')}</div>
       <div class="ctx-item-meta">${escapeHtml([a.nivel_evidencia, a.tema, a.data ? new Date(a.data).getFullYear() : ''].filter(Boolean).join(' · '))}</div>
       <div style="font-size:11px;color:var(--primary);margin-top:4px;">${escapeHtml(a.relatedness?.reason || '')}</div>
-      ${a.pubmedUrl ? `<a href="${escapeHtml(a.pubmedUrl)}" target="_blank" rel="noopener" style="font-size:11px;color:var(--primary);text-decoration:none;display:inline-block;margin-top:4px;" onclick="logRelatedClick('${escapeHtml(String(a.pmid||a.id||''))}')">PubMed ↗</a>` : ''}
+      ${a.pubmedUrl ? `<a href="${escapeHtml(safeUrl(a.pubmedUrl))}" target="_blank" rel="noopener" style="font-size:11px;color:var(--primary);text-decoration:none;display:inline-block;margin-top:4px;" onclick="logRelatedClick('${safeId(a.pmid||a.id||'')}')">PubMed ↗</a>` : ''}
     </div>`
   ).join('');
 
@@ -2314,7 +2335,7 @@ function renderCtxDiretrizesTab(data) {
       <div class="ctx-item-title">${escapeHtml(g.titulo || g.titulo_pt || '')}</div>
       <div class="ctx-item-meta">${escapeHtml([g.nivel_evidencia, g.journal].filter(Boolean).join(' · '))}</div>
       ${g.alertText ? `<div style="font-size:12px;color:var(--primary);margin-top:5px;">${escapeHtml(g.alertText)}</div>` : ''}
-      ${g.pubmedUrl ? `<a href="${escapeHtml(g.pubmedUrl)}" target="_blank" rel="noopener" style="font-size:11px;color:var(--primary);text-decoration:none;display:inline-block;margin-top:4px;">PubMed ↗</a>` : ''}
+      ${g.pubmedUrl ? `<a href="${escapeHtml(safeUrl(g.pubmedUrl))}" target="_blank" rel="noopener" style="font-size:11px;color:var(--primary);text-decoration:none;display:inline-block;margin-top:4px;">PubMed ↗</a>` : ''}
     </div>`
   ).join('');
 }
@@ -2379,7 +2400,7 @@ function renderDailyBriefing(data) {
         <div style="font-size:12px;font-weight:600;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escapeHtml((a.titulo_pt||a.titulo||'').slice(0,65))}</div>
         <div style="font-size:10px;color:var(--muted);">${escapeHtml([a.journal, a.data ? new Date(a.data).getFullYear() : ''].filter(Boolean).join(' · '))}</div>
       </div>
-      ${a.pubmedUrl ? `<a href="${escapeHtml(a.pubmedUrl)}" target="_blank" rel="noopener" style="color:var(--primary);font-size:12px;text-decoration:none;flex-shrink:0;">↗</a>` : ''}
+      ${a.pubmedUrl ? `<a href="${escapeHtml(safeUrl(a.pubmedUrl))}" target="_blank" rel="noopener" style="color:var(--primary);font-size:12px;text-decoration:none;flex-shrink:0;">↗</a>` : ''}
     </div>`
   ).join('');
 
@@ -2552,7 +2573,7 @@ function renderMemoriaResults(data, q) {
   const rows = data.results.map(r => {
     const icon = typeIcon[r.type] || '•';
     const link = r.pmid && r.type === 'article'
-      ? `<a href="${r.pubmedUrl ? escapeHtml(r.pubmedUrl) : '#'}" target="_blank" rel="noopener" style="color:var(--primary);font-size:13px;text-decoration:none;white-space:nowrap;">PubMed ↗</a>`
+      ? `<a href="${safeUrl(r.pubmedUrl) ? escapeHtml(safeUrl(r.pubmedUrl)) : '#'}" target="_blank" rel="noopener" style="color:var(--primary);font-size:13px;text-decoration:none;white-space:nowrap;">PubMed ↗</a>`
       : '';
     return `<div style="display:flex;gap:12px;align-items:flex-start;padding:14px 18px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin-bottom:10px;">
       <span style="font-size:18px;line-height:1;padding-top:2px;">${icon}</span>
@@ -2592,7 +2613,7 @@ function renderMemoriaReview(data) {
           <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escapeHtml((c.titulo_pt || c.titulo || '').slice(0,80))}</div>
           <div style="font-size:11px;color:var(--muted);">${escapeHtml(c.ageLabel || '')}</div>
         </div>
-        ${c.pubmedUrl ? `<a href="${escapeHtml(c.pubmedUrl)}" target="_blank" rel="noopener" style="color:var(--primary);font-size:12px;flex-shrink:0;">↗</a>` : ''}
+        ${c.pubmedUrl ? `<a href="${escapeHtml(safeUrl(c.pubmedUrl))}" target="_blank" rel="noopener" style="color:var(--primary);font-size:12px;flex-shrink:0;">↗</a>` : ''}
       </div>
       <div style="font-size:12px;color:var(--primary);background:rgba(14,165,233,0.08);border-radius:8px;padding:6px 10px;">${escapeHtml(c.resurfaceReason || '')}</div>
       <div style="height:4px;background:rgba(255,255,255,0.07);border-radius:4px;overflow:hidden;">
@@ -2636,7 +2657,7 @@ function renderKnowledgeGraph(data) {
           <span style="width:5px;height:5px;border-radius:50%;background:var(--muted);flex-shrink:0;"></span>
           <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;">${escapeHtml(a.label || '')}</span>
           ${noteIndicator}
-          ${a.pubmedUrl ? `<a href="${escapeHtml(a.pubmedUrl)}" target="_blank" rel="noopener" style="color:var(--primary);font-size:11px;flex-shrink:0;text-decoration:none;">↗</a>` : ''}
+          ${a.pubmedUrl ? `<a href="${escapeHtml(safeUrl(a.pubmedUrl))}" target="_blank" rel="noopener" style="color:var(--primary);font-size:11px;flex-shrink:0;text-decoration:none;">↗</a>` : ''}
         </div>`;
       }).join('');
       return `<div style="margin-left:16px;margin-bottom:10px;">
@@ -2679,7 +2700,7 @@ function renderCollectionSection(collections) {
           ${c.descricao ? `<div style="font-size:12px;color:var(--muted);">${escapeHtml(c.descricao.slice(0,80))}</div>` : ''}
           <div style="font-size:11px;color:var(--muted);margin-top:3px;">${(c.pmids || []).length} artigos</div>
         </div>
-        <button onclick="deleteCollectionUI('${escapeHtml(c.collectionId)}')" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:18px;padding:4px;" title="Apagar coleção">×</button>
+        <button onclick="deleteCollectionUI('${safeId(c.collectionId)}')" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:18px;padding:4px;" title="Apagar coleção">×</button>
       </div>`).join('')
     : `<div style="font-size:13px;color:var(--muted);padding:16px 0;">Nenhuma coleção ainda. Crie sua primeira coleção abaixo.</div>`;
 

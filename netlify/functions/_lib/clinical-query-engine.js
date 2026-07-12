@@ -6,6 +6,7 @@
 
 const { request }            = require('../_lib');
 const { computeCuratedScore } = require('./digest-ranking');
+const { resolveModel }       = require('./ai-config');
 const { detectDirection }    = require('./consensus-engine');
 const log                    = require('./logger');
 
@@ -188,7 +189,7 @@ Limitações: ${a.limitacoes || '—'}`;
 
   try {
     const body = JSON.stringify({
-      model:      'claude-haiku-4-5-20251001',
+      model:      resolveModel('CLINICAL_MODEL'),
       max_tokens: 280,
       messages:   [{ role: 'user', content: prompt }],
     });

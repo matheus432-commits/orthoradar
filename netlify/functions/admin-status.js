@@ -1,4 +1,5 @@
 const https = require('https');
+const { checkAdmin } = require('./_lib/admin-guard');
 const { request } = require('./_lib');
 
 async function firestoreQuery(projectId, apiKey, query) {
@@ -65,8 +66,7 @@ async function countDocs(projectId, apiKey, collection, whereClause) {
 exports.handler = async (event) => {
   const headers = { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' };
 
-  const secret = (event.queryStringParameters || {}).secret;
-  if (!secret || secret !== process.env.ADMIN_SECRET) {
+  if (!checkAdmin(event)) {
     return { statusCode: 403, headers, body: JSON.stringify({ error: 'Forbidden' }) };
   }
 

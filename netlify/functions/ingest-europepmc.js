@@ -5,6 +5,7 @@
 // API docs: https://europepmc.org/RestfulWebService
 
 const { Firestore }       = require('./_lib/firestore');
+const { checkAdmin } = require('./_lib/admin-guard');
 const { detectEvidenceLevel, classifySpecialty } = require('./_lib/scoring');
 const log                 = require('./_lib/logger');
 const { request }         = require('./_lib');
@@ -216,7 +217,8 @@ async function main() {
 
 // ── Netlify Function handler ──────────────────────────────────────────────────
 
-exports.handler = async () => {
+exports.handler = async (event) => {
+  if (!checkAdmin(event)) return { statusCode: 403, body: JSON.stringify({ error: 'Forbidden' }) };
   try {
     const result = await main();
     return { statusCode: 200, body: JSON.stringify(result) };

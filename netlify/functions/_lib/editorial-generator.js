@@ -7,9 +7,10 @@
 
 const { request } = require('../_lib');
 const log         = require('./logger');
+const { resolveModel } = require('./ai-config');
 
 const HOST  = 'api.anthropic.com';
-const MODEL = process.env.EDITORIAL_MODEL || 'claude-haiku-4-5-20251001';
+const MODEL = resolveModel('EDITORIAL_MODEL');
 
 // ── System prompt (the editorial directive) ───────────────────────────────────
 // Marked for prompt caching — cached across all users in the same hourly window.

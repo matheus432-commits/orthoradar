@@ -171,6 +171,6 @@ exports.handler = async (event) => {
     };
   } catch(err) {
     console.error('Get user data error:', err);
-    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Erro interno: ' + err.message }) };
+    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Erro interno. Tente novamente.' }) };
   }
 };

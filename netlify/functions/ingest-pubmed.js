@@ -5,6 +5,7 @@
 // Trigger: node netlify/functions/ingest-pubmed.js
 
 const { Firestore }             = require('./_lib/firestore');
+const { checkAdmin } = require('./_lib/admin-guard');
 const { filterNew }             = require('./_lib/dedup');
 const { detectEvidenceLevel, classifySpecialty, scoreRelevance } = require('./_lib/scoring');
 const log                       = require('./_lib/logger');
@@ -239,7 +240,8 @@ async function main() {
 
 // ── Netlify Function handler ──────────────────────────────────────────────────
 
-exports.handler = async () => {
+exports.handler = async (event) => {
+  if (!checkAdmin(event)) return { statusCode: 403, body: JSON.stringify({ error: 'Forbidden' }) };
   try {
     const result = await main();
     return { statusCode: 200, body: JSON.stringify(result) };

@@ -1,4 +1,11 @@
 const { request } = require('./_lib');
+const crypto = require('crypto');
+const { hashPassword } = require('./_lib/password');
+
+function tokenEqual(a, b) {
+  if (!a || !b || a.length !== b.length) return false;
+  try { return crypto.timingSafeEqual(Buffer.from(a), Buffer.from(b)); } catch { return false; }
+}
 
 
 async function getUserByEmail(projectId, apiKey, email) {
@@ -31,15 +38,18 @@ async function getUserByEmail(projectId, apiKey, email) {
 async function updatePassword(projectId, apiKey, docId, senhaHash, updateTime) {
   const body = JSON.stringify({
     fields: {
-      senhaHash: { stringValue: senhaHash },
+      senhaHash: { stringValue: hashPassword(senhaHash) },
       resetToken: { stringValue: '' },
       resetTokenExpiry: { stringValue: '' },
       loginAttempts: { stringValue: '0' },
-      loginLockedUntil: { stringValue: '' }
+      loginLockedUntil: { stringValue: '' },
+      // Invalida qualquer sessão existente ao trocar a senha (expulsa invasor).
+      sessionToken: { stringValue: '' },
+      sessionExpiry: { stringValue: '' }
     }
   });
   const buf = Buffer.from(body, 'utf8');
-  const masks = 'updateMask.fieldPaths=senhaHash&updateMask.fieldPaths=resetToken&updateMask.fieldPaths=resetTokenExpiry&updateMask.fieldPaths=loginAttempts&updateMask.fieldPaths=loginLockedUntil';
+  const masks = 'updateMask.fieldPaths=senhaHash&updateMask.fieldPaths=resetToken&updateMask.fieldPaths=resetTokenExpiry&updateMask.fieldPaths=loginAttempts&updateMask.fieldPaths=loginLockedUntil&updateMask.fieldPaths=sessionToken&updateMask.fieldPaths=sessionExpiry';
   // currentDocument.updateTime precondition: Firestore returns 409 if document was
   // modified since we read it, preventing a second concurrent request from resetting
   // the password with the same token.
@@ -66,6 +76,9 @@ exports.handler = async (event) => {
   if (!email || !token || !novaSenhaHash) {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'Campos obrigatorios faltando' }) };
   }
+  if (!/^[a-f0-9]{64}$/i.test(novaSenhaHash)) {
+    return { statusCode: 400, headers, body: JSON.stringify({ error: 'Senha inválida.' }) };
+  }
 
   const projectId = process.env.FIREBASE_PROJECT_ID || 'orthoradar';
   const apiKey = process.env.FIREBASE_API_KEY;
@@ -73,7 +86,7 @@ exports.handler = async (event) => {
   try {
     const user = await getUserByEmail(projectId, apiKey, email);
     if (!user) return { statusCode: 404, headers, body: JSON.stringify({ error: 'Usuário não encontrado.' }) };
-    if (!user.resetToken || user.resetToken !== token) {
+    if (!tokenEqual(user.resetToken, token)) {
       return { statusCode: 401, headers, body: JSON.stringify({ error: 'Link inválido ou já utilizado.' }) };
     }
     if (!user.resetTokenExpiry || new Date(user.resetTokenExpiry) < new Date()) {
@@ -88,6 +101,6 @@ exports.handler = async (event) => {
     return { statusCode: 200, headers, body: JSON.stringify({ success: true, message: 'Senha atualizada com sucesso!' }) };
   } catch (err) {
     console.error('Reset password error:', err);
-    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Erro interno: ' + err.message }) };
+    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Erro interno. Tente novamente.' }) };
   }
 };

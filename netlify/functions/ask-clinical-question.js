@@ -6,6 +6,7 @@
 // By default returns algorithmic synthesis (fast, free).
 // Pass ai: true to use Claude Haiku for richer synthesis (requires ANTHROPIC_API_KEY).
 
+const crypto                      = require('crypto');
 const { Firestore }               = require('./_lib/firestore');
 const { answerClinicalQuestion, parseQuestion } = require('./_lib/clinical-query-engine');
 const { logEvent }                = require('./_lib/engagement');
@@ -13,9 +14,27 @@ const log                         = require('./_lib/logger');
 
 const CORS = {
   'Access-Control-Allow-Origin':  '*',
-  'Access-Control-Allow-Headers': 'Content-Type',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
   'Content-Type':                 'application/json',
 };
+
+// Valida sessão para liberar o caminho pago (Claude). Sem sessão válida, o
+// endpoint ainda responde — mas apenas com a síntese algorítmica gratuita.
+async function hasValidSession(db, email, token) {
+  if (!email || !token) return false;
+  try {
+    const users = await db.query('cadastros', {
+      where: { fieldFilter: { field: { fieldPath: 'email' }, op: 'EQUAL', value: { stringValue: email } } },
+      limit: 1,
+    });
+    const u = users[0];
+    if (!u || !u.sessionToken) return false;
+    const a = Buffer.from(String(u.sessionToken)), b = Buffer.from(String(token));
+    if (a.length !== b.length || !crypto.timingSafeEqual(a, b)) return false;
+    if (u.sessionExpiry && new Date(u.sessionExpiry) < new Date()) return false;
+    return true;
+  } catch { return false; }
+}
 
 const CANDIDATE_LIMIT = 80;
 
@@ -77,7 +96,12 @@ exports.handler = async (event) => {
       articles = await db.query('artigos', { where, limit: CANDIDATE_LIMIT });
     }
 
-    const useAI = body.ai === true && !!process.env.ANTHROPIC_API_KEY;
+    // Caminho pago (Claude) só para usuários autenticados — evita abuso de custo.
+    const authHeader = event.headers['authorization'] || event.headers['Authorization'];
+    const token = authHeader && authHeader.startsWith('Bearer ') ? authHeader.substring(7) : null;
+    const useAI = body.ai === true
+      && !!process.env.ANTHROPIC_API_KEY
+      && await hasValidSession(db, body.email, token);
     const result = await answerClinicalQuestion(question, articles, { useAI });
 
     // Track usage (non-blocking)

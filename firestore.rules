@@ -1,4 +1,24 @@
 rules_version = '2';
+
+// ATENCAO — MODELO DE ACESSO
+// As Netlify Functions acessam o Firestore via REST API usando apenas
+// ?key=FIREBASE_API_KEY (sem token de servico / sem Firebase Auth). Do ponto de
+// vista do Firestore essas chamadas sao ANONIMAS (request.auth == null).
+//
+// A regra abaixo (`if request.auth != null`) NEGARIA essas chamadas — portanto,
+// se o app funciona em producao, as regras REALMENTE PUBLICADAS sao mais
+// permissivas que este arquivo. Isso e um risco: quem obtiver a FIREBASE_API_KEY
+// teria leitura/escrita direta em `cadastros` (e-mails, hashes de senha, tokens),
+// ignorando toda a validacao feita nas funcoes.
+//
+// CORRECAO RECOMENDADA (exige acao no console/deploy, nao pode ser feita so no codigo):
+//   1. Migrar as funcoes para uma SERVICE ACCOUNT (Admin SDK / OAuth2). O acesso
+//      Admin ignora as regras.
+//   2. Com isso feito, trocar a regra abaixo por `allow read, write: if false;`
+//      para negar TODO acesso direto do cliente.
+// Enquanto a migracao nao ocorre, garanta que a FIREBASE_API_KEY tenha
+// restricoes de aplicativo/API no Google Cloud e NUNCA seja exposta no cliente.
+
 service cloud.firestore {
   match /databases/{database}/documents {
     match /{document=**} {

@@ -415,7 +415,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:44px 52p
   <div class="hero-left">
     <div class="hero-kicker">Inteligência científica para dentistas</div>
     <h1>A ciência que você precisa,<br><em>sem o trabalho</em><br>de procurar.</h1>
-    <p class="hero-sub">3 a 5 artigos do PubMed, resumidos em português com relevância clínica destacada — entregues toda manhã às 7h na sua especialidade.</p>
+    <p class="hero-sub">3 artigos do PubMed, resumidos em português com relevância clínica destacada — entregues toda manhã às 7h na sua especialidade.</p>
     <div class="hero-ctas">
       <button class="btn-hero" onclick="document.getElementById('cadastro').scrollIntoView({behavior:'smooth'})">Criar conta grátis →</button>
       <button class="btn-hero-ghost" onclick="document.getElementById('email-preview').scrollIntoView({behavior:'smooth'})">Ver exemplo de digest</button>
@@ -558,7 +558,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:44px 52p
     <div class="pipe-flow">
       <div class="pipe-step"><div class="pipe-card"><div class="ps-icon">🔬</div><div class="ps-lbl">Fontes</div><div class="ps-name">PubMed &amp; Europe PMC</div><div class="ps-desc">Varredura diária em 3 bases indexadas com +35M de artigos</div><div class="ps-time">02:00 UTC</div></div></div>
       <div class="pipe-step"><div class="pipe-card"><div class="ps-icon">🧠</div><div class="ps-lbl">Enriquecimento</div><div class="ps-name">Claude Haiku (IA)</div><div class="ps-desc">Detecta nível de evidência, extrai achados e traduz para português</div><div class="ps-time">02:00 – 02:30</div></div></div>
-      <div class="pipe-step"><div class="pipe-card"><div class="ps-icon">⚖️</div><div class="ps-lbl">Curadoria</div><div class="ps-name">Algoritmo editorial</div><div class="ps-desc">Seleciona 3–5 artigos priorizando evidência, recência e seu perfil</div><div class="ps-time">09:30 – 10:00</div></div></div>
+      <div class="pipe-step"><div class="pipe-card"><div class="ps-icon">⚖️</div><div class="ps-lbl">Curadoria</div><div class="ps-name">Algoritmo editorial</div><div class="ps-desc">Seleciona 3 artigos priorizando evidência, recência e seu perfil</div><div class="ps-time">09:30 – 10:00</div></div></div>
       <div class="pipe-step"><div class="pipe-card"><div class="ps-icon">✍️</div><div class="ps-lbl">Editorial</div><div class="ps-name">Nota editorial IA</div><div class="ps-desc">Contextualização clínica conectando os artigos com a prática</div><div class="ps-time">10:00 – 10:15</div></div></div>
       <div class="pipe-step"><div class="pipe-card"><div class="ps-icon">✅</div><div class="ps-lbl">Validação</div><div class="ps-name">30+ verificações</div><div class="ps-desc">Gate obrigatório de estrutura, consistência editorial e qualidade</div><div class="ps-time">10:15</div></div></div>
       <div class="pipe-step"><div class="pipe-card"><div class="ps-icon">📬</div><div class="ps-lbl">Entrega</div><div class="ps-name">Inbox às 7h BRT</div><div class="ps-desc">Digest personalizado por especialidade e histórico de leitura</div><div class="ps-time" style="color:var(--green);">07:00 BRT · todo dia</div></div></div>
@@ -635,7 +635,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:44px 52p
       <h2>Configure em 2 minutos.<br>Receba <em>amanhã às 7h</em>.</h2>
       <p>Escolha sua especialidade, defina os temas de interesse e deixe o OdontoFeed trazer a ciência até você — sem garimpar a literatura.</p>
       <div class="cta-benefits">
-        <div class="cb">3–5 artigos por dia, na sua especialidade</div>
+        <div class="cb">3 artigos por dia, na sua especialidade</div>
         <div class="cb">Resumos em português com relevância clínica</div>
         <div class="cb">Nível de evidência destacado em cada artigo</div>
         <div class="cb">Sem cartão de crédito · 100% gratuito</div>
@@ -784,6 +784,7 @@ document.getElementById('feedDate').textContent = new Date().toLocaleDateString(
 // ── Load public articles ────────────────────────────
 (async function loadPublicArticles() {
   function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+  function safeUrl(u){u=String(u==null?'':u).trim();if(!/^https?:\/\//i.test(u))return '';if(/["'<>\\\s]/.test(u))return '';return u;}
   function evCls(n){
     if(!n) return 'ev-iv';
     const l=n.toLowerCase();
@@ -811,7 +812,7 @@ document.getElementById('feedDate').textContent = new Date().toLocaleDateString(
       const t  = esc((feat.titulo_pt||feat.titulo||'').substring(0,130));
       const s  = esc((feat.resumo_pt||feat.abstract||'').substring(0,290));
       const im = feat.impacto_pratico ? `<div class="ff-impact"><strong>Relevância clínica:</strong> ${esc(feat.impacto_pratico.substring(0,200))}</div>` : '';
-      const lk = feat.pubmedUrl ? `<a href="${esc(feat.pubmedUrl)}" target="_blank" rel="noopener" style="color:var(--primary);font-weight:600;">Ver no PubMed →</a>` : '';
+      const lk = safeUrl(feat.pubmedUrl) ? `<a href="${esc(safeUrl(feat.pubmedUrl))}" target="_blank" rel="noopener" style="color:var(--primary);font-weight:600;">Ver no PubMed →</a>` : '';
       featEl.innerHTML = `<div class="ff-kicker"><span class="ff-tag ${cl}">${ev}</span><span class="ff-sep">·</span><span class="ff-spec">${sp}</span></div><h2 class="ff-title">${t}</h2><p class="ff-summary">${s}…</p>${im}<div class="ff-meta"><span>${esc(feat.journal||'')}</span><span class="ff-meta-sep">·</span><span>${esc(String(feat.year||''))}</span>${lk?'<span class="ff-meta-sep">·</span>'+lk:''}</div>`;
     }
 
@@ -823,7 +824,7 @@ document.getElementById('feedDate').textContent = new Date().toLocaleDateString(
     const grEl = document.getElementById('feedGrid');
     if(grEl && grid.length) {
       grEl.innerHTML = grid.map(a=>{
-        const lk = a.pubmedUrl?`<a href="${esc(a.pubmedUrl)}" target="_blank" rel="noopener" style="color:var(--primary);">Ler artigo na íntegra →</a>`:'<span style="color:var(--primary);">Ler artigo na íntegra →</span>';
+        const lk = safeUrl(a.pubmedUrl)?`<a href="${esc(safeUrl(a.pubmedUrl))}" target="_blank" rel="noopener" style="color:var(--primary);">Ler artigo na íntegra →</a>`:'<span style="color:var(--primary);">Ler artigo na íntegra →</span>';
         return `<div class="fg-card"><div class="fg-kicker"><span class="fg-ev ${evCls(a.nivel_evidencia)}">${esc(a.nivel_evidencia||'Artigo')}</span><span class="fg-spec">${esc(a.especialidade||a.tema||'')}</span></div><div class="fg-title">${esc((a.titulo_pt||a.titulo||'').substring(0,100))}</div><div class="fg-meta"><span>${esc(a.journal||'')}</span>${a.year?'<span>·</span><span>'+esc(String(a.year))+'</span>':''}</div><div class="fg-read">${lk}</div></div>`;
       }).join('');
     }

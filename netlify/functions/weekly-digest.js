@@ -16,6 +16,7 @@ const crypto        = require('crypto');
 const { Firestore } = require('./_lib/firestore');
 const { request }   = require('./_lib');
 const { getWeekId } = require('./_lib/engagement');
+const { resolveModel } = require('./_lib/ai-config');
 const log           = require('./_lib/logger');
 
 const BASE_URL      = process.env.SITE_URL || 'https://odontofeed.com.br';
@@ -56,7 +57,8 @@ function getWeekDateRange(date = new Date()) {
 }
 
 function buildWeeklyUnsubToken(email) {
-  const secret = process.env.UNSUBSCRIBE_SECRET || 'unsub-default';
+  const secret = process.env.UNSUBSCRIBE_SECRET;
+  if (!secret) throw new Error('UNSUBSCRIBE_SECRET nao configurado');
   return crypto.createHmac('sha256', secret).update('weekly:' + email).digest('hex');
 }
 
@@ -153,7 +155,7 @@ async function generateWeeklyEditorial(topArticles) {
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey || topArticles.length < 1) return null;
 
-  const MODEL = process.env.EDITORIAL_MODEL || 'claude-haiku-4-5-20251001';
+  const MODEL = resolveModel('EDITORIAL_MODEL');
 
   const articleList = topArticles.slice(0, 3).map((art, i) => {
     const title = (art.titulo_pt || art.titulo || '').slice(0, 120);
@@ -456,6 +458,7 @@ async function runWeeklyDigest() {
   const resendKey = process.env.RESEND_API_KEY;
   if (!apiKey)    { log.error('[weekly] FIREBASE_API_KEY not set'); return { error: 'no_firebase_key' }; }
   if (!resendKey) { log.error('[weekly] RESEND_API_KEY not set');   return { error: 'no_resend_key' }; }
+  if (!process.env.UNSUBSCRIBE_SECRET) { log.error('[weekly] UNSUBSCRIBE_SECRET not set'); return { error: 'no_unsub_secret' }; }
 
   const db        = new Firestore(projectId, apiKey);
   const weekId    = getWeekId();

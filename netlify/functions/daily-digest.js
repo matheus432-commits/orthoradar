@@ -28,7 +28,7 @@ const { request }                                  = require('./_lib');
 
 const BASE_URL        = process.env.SITE_URL || 'https://odontofeed.com.br';
 const MIN_ARTICLES    = 3;
-const MAX_ARTICLES    = 5;
+const MAX_ARTICLES    = 3;   // Padrão fixo: 3 artigos regulares por dia (o Achado da Semana entra à parte, podendo elevar o total)
 const LOOKBACK_DAYS   = 180;
 const CANDIDATE_LIMIT = 120;
 
@@ -241,7 +241,8 @@ async function saveSentLog(db, email, articles, especialidade) {
 // ── Per-user editorial pipeline (logic unchanged) ─────────────────────────────
 
 function buildUnsubscribeToken(email) {
-  const secret = process.env.UNSUBSCRIBE_SECRET || 'unsub-default';
+  const secret = process.env.UNSUBSCRIBE_SECRET;
+  if (!secret) throw new Error('UNSUBSCRIBE_SECRET nao configurado');
   return crypto.createHmac('sha256', secret).update(email).digest('hex');
 }
 
@@ -305,7 +306,7 @@ async function _runUserDigest(user, db, resendKey, anthropicKey) {
 
   // 6. Personalized curated selection
   t = Date.now();
-  const digestSize = profile ? getOptimalDigestSize(profile) : MAX_ARTICLES;
+  const digestSize = Math.min(profile ? getOptimalDigestSize(profile) : MAX_ARTICLES, MAX_ARTICLES);
   let selected     = recommendArticles(candidates, profile, {
     maxArticles: digestSize,
     minArticles: MIN_ARTICLES,
@@ -347,13 +348,24 @@ async function _runUserDigest(user, db, resendKey, anthropicKey) {
     ms: Date.now() - t,
   });
 
-  // Prevent achado article from appearing as a duplicate regular card.
-  // Only filter if enough articles remain — otherwise keep the article in both slots.
+  // O Achado da Semana é exibido à parte, no topo do email. Removemos o artigo
+  // correspondente da lista regular para não duplicar e, em seguida, completamos
+  // de volta até o alvo diário (MAX_ARTICLES) com os próximos candidatos distintos.
+  // Se não houver candidatos suficientes para manter o mínimo sem o achado, mantemos
+  // a seleção original — o limite de 3 nunca deve BLOQUEAR o envio.
   if (achadoSemana) {
     const achadoKey = String(achadoSemana.pmid || achadoSemana.articleId || '');
     if (achadoKey) {
-      const filtered = selected.filter(a => String(a.pmid || a.id || '') !== achadoKey);
-      if (filtered.length >= MIN_ARTICLES) selected = filtered;
+      const withoutAchado = selected.filter(a => String(a.pmid || a.id || '') !== achadoKey);
+      const have = new Set(withoutAchado.map(a => String(a.pmid || a.id || '')));
+      for (const c of candidates) {
+        if (withoutAchado.length >= MAX_ARTICLES) break;
+        const ck = String(c.pmid || c.id || '');
+        if (!ck || ck === achadoKey || have.has(ck)) continue;
+        have.add(ck);
+        withoutAchado.push(c);
+      }
+      if (withoutAchado.length >= MIN_ARTICLES) selected = withoutAchado;
     }
   }
 
@@ -549,6 +561,7 @@ async function main() {
   const resendKey   = process.env.RESEND_API_KEY;
   if (!apiKey)    { log.error('[digest] FIREBASE_API_KEY not set'); process.exit(1); }
   if (!resendKey) { log.error('[digest] RESEND_API_KEY not set');   process.exit(1); }
+  if (!process.env.UNSUBSCRIBE_SECRET) { log.error('[digest] UNSUBSCRIBE_SECRET not set'); process.exit(1); }
 
   const anthropicKey = process.env.ANTHROPIC_API_KEY || null;
   if (!anthropicKey) log.warn('[digest] ANTHROPIC_API_KEY not set — editorial uses deterministic fallback');

@@ -1,5 +1,10 @@
 const { request } = require('./_lib');
 const crypto = require('crypto');
+const { hashPassword, verifyPassword } = require('./_lib/password');
+
+// Hash fantasma (formato/custo reais) para igualar o tempo de resposta quando o
+// e-mail não existe — evita enumeração de usuários por timing.
+const DUMMY_HASH = 's2$' + '00'.repeat(16) + '$' + '00'.repeat(32);
 
 // Must match HASH_SALT in index.html and dashboard.html
 const HASH_SALT = 'OF26_';
@@ -102,7 +107,10 @@ exports.handler = async (event) => {
 
   try {
     const user = await queryByEmail(projectId, apiKey, email);
-    if (!user) return { statusCode: 401, headers, body: JSON.stringify({ error: 'E-mail ou senha incorretos.' }) };
+    if (!user) {
+      verifyPassword(senhaHash || '', DUMMY_HASH); // equaliza timing (anti-enumeração)
+      return { statusCode: 401, headers, body: JSON.stringify({ error: 'E-mail ou senha incorretos.' }) };
+    }
 
     // Rate limiting: check if account is locked
     if (user.loginLockedUntil && new Date(user.loginLockedUntil) > new Date()) {
@@ -110,12 +118,7 @@ exports.handler = async (event) => {
       return { statusCode: 429, headers, body: JSON.stringify({ error: `Conta bloqueada por tentativas excessivas. Tente novamente em ${minutesLeft} minuto(s) ou redefina sua senha.` }) };
     }
 
-    let passwordMatch = false;
-    try {
-      if (user.senhaHash && senhaHash && user.senhaHash.length === senhaHash.length) {
-        passwordMatch = crypto.timingSafeEqual(Buffer.from(user.senhaHash), Buffer.from(senhaHash));
-      }
-    } catch { passwordMatch = false; }
+    const { match: passwordMatch, needsUpgrade } = verifyPassword(senhaHash, user.senhaHash);
 
     if (!passwordMatch) {
       // Increment failed attempts and possibly lock account
@@ -123,13 +126,13 @@ exports.handler = async (event) => {
       const updates = { loginAttempts: String(attempts) };
       if (attempts >= 5) {
         updates.loginLockedUntil = new Date(Date.now() + 15 * 60 * 1000).toISOString();
-        console.warn(`[Login] Account locked after ${attempts} attempts: ${email}`);
+        console.warn(`[Login] Account locked after ${attempts} attempts`);
       }
       await patchFields(projectId, apiKey, user._id, updates).catch(() => {});
-      const remaining = Math.max(0, 5 - attempts);
+      // Mensagem genérica — sem contador de tentativas (evita enumeração/oráculo).
       const msg = attempts >= 5
-        ? 'Conta bloqueada por 15 minutos. Use "Esqueci minha senha" para recuperar o acesso.'
-        : `E-mail ou senha incorretos.${remaining > 0 ? ` (${remaining} tentativa(s) restante(s))` : ''}`;
+        ? 'Muitas tentativas. Aguarde 15 minutos ou use "Esqueci minha senha".'
+        : 'E-mail ou senha incorretos.';
       return { statusCode: 401, headers, body: JSON.stringify({ error: msg }) };
     }
 
@@ -137,12 +140,19 @@ exports.handler = async (event) => {
     const token = crypto.randomBytes(32).toString('hex');
     const expiry = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
 
-    const patchResult = await patchFields(projectId, apiKey, user._id, {
+    const successFields = {
       sessionToken: token,
       sessionExpiry: expiry,
       loginAttempts: '0',
       loginLockedUntil: ''
-    });
+    };
+    // Migração transparente: se a senha ainda estava no formato legado (SHA-256
+    // puro), grava agora o hash forte (scrypt + salt por usuário).
+    if (needsUpgrade) {
+      try { successFields.senhaHash = hashPassword(senhaHash); } catch (e) { console.warn('[login] upgrade hash falhou:', e.message); }
+    }
+
+    const patchResult = await patchFields(projectId, apiKey, user._id, successFields);
 
     if (!patchResult || patchResult.status < 200 || patchResult.status >= 300) {
       console.error('[login] patchFields failed', patchResult?.status, (patchResult?.body || '').substring(0, 200));
