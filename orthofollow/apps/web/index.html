@@ -171,6 +171,8 @@
     /* Report */
     #report-section{display:none}
     #report-section.show{display:block}
+    @keyframes btnpulse{0%,100%{box-shadow:0 0 0 0 rgba(26,86,219,.45)}50%{box-shadow:0 0 0 8px rgba(26,86,219,0)}}
+    .btn.pulse{animation:btnpulse 1.2s ease-in-out 4}
     .report-meta{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px}
     .meta-chip{display:flex;flex-direction:column;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:10px 16px;min-width:100px}
     .meta-chip .ml{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
@@ -341,6 +343,13 @@
 <div class="page" id="page-avaliacao">
   <div class="page-header"><h1>Avaliação Facial — Protocolo P01</h1><p>Marque os pontos anatômicos nas fotos para calcular as medições automaticamente</p></div>
 
+  <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px">
+    <span style="display:inline-flex;align-items:center;gap:6px;background:var(--primary-bg);color:var(--primary);font-size:12px;font-weight:600;padding:6px 12px;border-radius:16px"><span style="background:var(--primary);color:#fff;width:17px;height:17px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:10px">1</span> Carregue as fotos</span>
+    <span style="display:inline-flex;align-items:center;gap:6px;background:var(--primary-bg);color:var(--primary);font-size:12px;font-weight:600;padding:6px 12px;border-radius:16px"><span style="background:var(--primary);color:#fff;width:17px;height:17px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:10px">2</span> Confira os pontos automáticos (arraste p/ ajustar)</span>
+    <span style="display:inline-flex;align-items:center;gap:6px;background:var(--primary-bg);color:var(--primary);font-size:12px;font-weight:600;padding:6px 12px;border-radius:16px"><span style="background:var(--primary);color:#fff;width:17px;height:17px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:10px">3</span> Gere o relatório</span>
+    <span style="display:inline-flex;align-items:center;gap:6px;background:var(--primary-bg);color:var(--primary);font-size:12px;font-weight:600;padding:6px 12px;border-radius:16px"><span style="background:var(--primary);color:#fff;width:17px;height:17px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:10px">4</span> Escreva o plano e exporte o PDF</span>
+  </div>
+
   <div id="av-banner" class="case-banner"></div>
   <div id="alert-av" class="alert"></div>
 
@@ -411,7 +420,7 @@
     <div class="av-measurements">
       <div class="section-label">Identificação do Caso</div>
       <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px">
-        <div class="field"><label>ID do Caso (UUID)</label><input id="av-case-id" type="text" placeholder="UUID do caso"></div>
+        <div class="field"><label>Caso <span style="font-weight:400;color:var(--muted)">(preenchido automaticamente ao abrir um caso)</span></label><input id="av-case-id" type="text" placeholder="Abra um caso pelo Dashboard ou cadastre em Novo Caso"></div>
         <div class="grid2">
           <div class="field"><label>Sessão</label>
             <select id="av-session" onchange="onSessionChange()"><option value="T0">T0</option><option value="T1">T1</option><option value="T2">T2</option><option value="T3">T3</option><option value="TN">TN</option></select>
@@ -461,8 +470,8 @@
     <div class="divider" style="margin:20px 0"></div>
     <div>
       <div class="section-label" style="margin-bottom:8px">Pontos de Melhoria e Opções de Tratamento</div>
-      <p style="font-size:12px;color:var(--muted);margin-bottom:10px">Campo livre para o profissional registrar as possibilidades de melhoria e opções terapêuticas. Este campo será incluído no PDF.</p>
-      <textarea id="treatment-notes" rows="6" style="width:100%;border:1px solid var(--border);border-radius:6px;padding:12px;font-size:13px;font-family:inherit;resize:vertical;outline:none;line-height:1.6" placeholder="Ex: Correção de assimetria facial por meio de... / Opções de tratamento: 1) Alinhamento ortodôntico... 2) Camuflagem..."></textarea>
+      <p style="font-size:12px;color:var(--muted);margin-bottom:10px">Este texto aparece em destaque na capa do PDF que o paciente recebe. Escreva pensando no paciente: o que será feito, o resultado esperado e o tempo estimado — linguagem simples vende mais que termos técnicos.</p>
+      <textarea id="treatment-notes" rows="6" style="width:100%;border:1px solid var(--border);border-radius:6px;padding:12px;font-size:13px;font-family:inherit;resize:vertical;outline:none;line-height:1.6" placeholder="Ex: Alinharemos seus dentes com alinhadores transparentes em aproximadamente 18 meses, corrigindo o desvio da linha média e devolvendo a harmonia do seu sorriso. Etapas: 1) Escaneamento e planejamento digital  2) Uso dos alinhadores com acompanhamento mensal  3) Contenção e revisões finais."></textarea>
     </div>
   </div>
 </div><!-- /page-avaliacao -->
@@ -1953,9 +1962,11 @@ async function runPipeline() {
       treatmentNotes: (document.getElementById('treatment-notes')||{}).value || ''
     };
     renderReport(exD, txt);
-    showAlert('alert-av','success',`✓ Relatório gerado — ${exD.findings.length} achado(s).`);
+    showAlert('alert-av','success',`✓ Relatório gerado — ${exD.findings.length} achado(s). Escreva o plano de tratamento abaixo e clique em "Gerar PDF".`);
     document.getElementById('report-section').classList.add('show');
     document.getElementById('report-section').scrollIntoView({ behavior:'smooth', block:'start' });
+    const pdfBtn = document.getElementById('btn-pdf');
+    if (pdfBtn) { pdfBtn.classList.add('pulse'); setTimeout(() => pdfBtn.classList.remove('pulse'), 6000); }
   } catch(e) {
     showAlert('alert-av','danger','Erro: ' + e.message);
   } finally {
@@ -2461,15 +2472,32 @@ function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorris
         '<div style="font-size:10.5px;color:rgba(255,255,255,.85);line-height:1.6">'+
           '<div><span style="color:rgba(255,255,255,.45)">Paciente:</span> '+e(patName)+'</div>'+
           '<div style="margin-top:2px"><span style="color:rgba(255,255,255,.45)">Ortodontista:</span> Dr. Matheus Tadao Wakasugui</div>'+
-          '<div style="margin-top:6px"><span style="color:rgba(255,255,255,.45)">Problemas identificados:</span> '+e(problemsList)+'</div>'+
+          '<div style="margin-top:6px"><span style="color:rgba(255,255,255,.45)">'+(attnItems.length?'Pontos que o tratamento vai corrigir:':'Avaliação:')+'</span> '+e(problemsList)+'</div>'+
           (treatmentNotes && treatmentNotes.trim()
             ? '<div style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.12)">'+
-              '<span style="color:rgba(255,255,255,.45)">Plano de Tratamento:</span> '+
+              '<span style="color:rgba(255,255,255,.45)">Plano de Tratamento Personalizado:</span> '+
               '<span style="white-space:pre-wrap">'+e(treatmentNotes)+'</span></div>'
             : '')+
         '</div>'+
       '</div>'+
-      '<div style="height:24px"></div>'+
+      (attnItems.length?(
+        '<div style="margin-top:10px;display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:6px">'+
+          [['✦','Sorriso mais harmônico','Alinhamento e proporções faciais equilibradas'],
+           ['✦','Mais autoestima','Confiança para sorrir em qualquer situação'],
+           ['✦','Saúde bucal','Dentes alinhados facilitam higiene e mastigação'],
+           ['✦','Resultado duradouro','Plano personalizado com acompanhamento em cada etapa']]
+          .map(b=>'<div style="border:1px solid #E5E1DA;border-left:2px solid #B08D57;border-radius:2px;padding:8px 10px">'+
+            '<div style="font-size:9.5px;font-weight:600;color:#0F2537;margin-bottom:2px"><span style="color:#B08D57">'+b[0]+'</span> '+b[1]+'</div>'+
+            '<div style="font-size:7.5px;color:#6F737A;line-height:1.5">'+b[2]+'</div></div>').join('')+
+        '</div>'
+      ):'')+
+      '<div style="margin-top:10px;margin-bottom:14px;padding:12px 20px;background:linear-gradient(90deg,#B08D57,#C9A76E);border-radius:2px;display:flex;align-items:center;justify-content:space-between;gap:14px">'+
+        '<div>'+
+          '<div style="font-family:\'Cormorant Garamond\',serif;font-size:14px;font-weight:600;color:#fff">'+(attnItems.length?'Seu novo sorriso começa com uma decisão.':'Continue cuidando do seu sorriso.')+'</div>'+
+          '<div style="font-size:8.5px;color:rgba(255,255,255,.85);margin-top:2px">'+(attnItems.length?'Esta avaliação já mapeou tudo o que precisamos. O próximo passo é agendar a consulta para iniciarmos o seu tratamento.':'Agende suas revisões periódicas para manter os resultados desta avaliação.')+'</div>'+
+        '</div>'+
+        '<div style="flex-shrink:0;background:#fff;color:#B08D57;font-size:8px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:8px 14px;border-radius:2px;white-space:nowrap">Agende sua consulta</div>'+
+      '</div>'+
     '</div>'+
     pf(1)+'</div>';
 
