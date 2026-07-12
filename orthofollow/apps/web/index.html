@@ -919,6 +919,7 @@ async function runFaceAutoDetect(ann) {
       const biased = applyLandmarkBias(ann.key, k, pt);
       ann.pts[k] = biased;
       ann.autoRaw[k] = biased;
+      ann.unconfirmed.add(k);
     }
     entry.keys.forEach(k => { if (!ann.order.includes(k)) ann.order.push(k); });
     placedAny = true;
@@ -1161,6 +1162,14 @@ class PhotoAnnotator {
     this.findingMode = null;  // active finding category id, or null
     this.findings    = [];    // { category, x, y } — free-form clinical markers (intrabucal only)
     this.autoRaw     = {};    // { key: {x,y} } position last shown by auto-detection, for learning from corrections
+    this.unconfirmed = new Set(); // auto-detected points the clinician hasn't reviewed yet
+  }
+
+  // Marks every auto-detected point as reviewed ("Confirmar todos").
+  confirmAllPoints() {
+    this.unconfirmed.clear();
+    this.redraw();
+    renderPointSelector();
   }
 
   // Called whenever a point that came from auto-detection gets moved by the clinician
@@ -1234,6 +1243,7 @@ class PhotoAnnotator {
       const all = pts || {};
       this.pts = {};
       this.findings = [];
+      this.unconfirmed.clear(); // saved points were already reviewed in a previous session
       for (const [k, v] of Object.entries(all)) {
         const m = /^FIND__(.+)__\d+$/.exec(k);
         if (m) this.findings.push({ category: m[1], x: v.x, y: v.y });
@@ -1315,6 +1325,7 @@ class PhotoAnnotator {
       if (this._drag.type === 'point') {
         this._maybeLearnCorrection(this._drag.key, { x, y });
         this.pts[this._drag.key] = { x, y };
+        this.unconfirmed.delete(this._drag.key);
       } else this.findings[this._drag.index] = { ...this.findings[this._drag.index], x, y };
       this._drag = null;
       state.points[this.key] = this.pointsForSave();
@@ -1339,6 +1350,7 @@ class PhotoAnnotator {
     if (!this.activeKey) return;
     this._maybeLearnCorrection(this.activeKey, { x, y });
     this.pts[this.activeKey] = { x, y };
+    this.unconfirmed.delete(this.activeKey);
     if (!this.order.includes(this.activeKey)) this.order.push(this.activeKey);
     this.activeKey = null;
     state.points[this.key] = this.pointsForSave();
@@ -1354,6 +1366,7 @@ class PhotoAnnotator {
     if (!key) return;
     delete this.pts[key];
     delete this.autoRaw[key];
+    this.unconfirmed.delete(key);
     state.points[this.key] = this.pointsForSave();
     this.redraw(); this.updateUI(); renderPointSelector(); calculateMeasurements();
     scheduleSavePhoto(this.key);
@@ -1381,6 +1394,7 @@ class PhotoAnnotator {
     this.order = [];
     this.activeKey = null;
     this.autoRaw = {};
+    this.unconfirmed.clear();
     state.points[this.key] = this.pointsForSave();
     this.redraw(); this.updateUI(); renderPointSelector(); calculateMeasurements();
     scheduleSavePhoto(this.key);
@@ -1401,6 +1415,16 @@ class PhotoAnnotator {
     this.def.points.forEach((pd, i) => {
       const pt = this.pts[pd.key]; if (!pt) return;
       const px = pt.x * w, py = pt.y * h;
+      if (this.unconfirmed.has(pd.key)) {
+        // Amber dashed halo: auto-detected, awaiting review — drag or confirm to accept.
+        this.ctx.beginPath();
+        this.ctx.arc(px, py, 7, 0, Math.PI * 2);
+        this.ctx.strokeStyle = '#F59E0B';
+        this.ctx.lineWidth = 1.5;
+        this.ctx.setLineDash([3, 2]);
+        this.ctx.stroke();
+        this.ctx.setLineDash([]);
+      }
       this.ctx.beginPath();
       this.ctx.arc(px, py, 2, 0, Math.PI * 2);
       this.ctx.fillStyle   = this.def.color;
@@ -1503,10 +1527,13 @@ function renderPointSelector() {
     listEl.innerHTML = '';
     return;
   }
+  const pendCount = ann.unconfirmed.size;
   if (hintEl) {
     const auto = !!FACE_AUTO_POINTS[key];
     hintEl.textContent = ann.activeKey
       ? `Clique na foto para marcar: ${def.points.find(p=>p.key===ann.activeKey)?.label || ann.activeKey}`
+      : pendCount
+      ? `⚠ ${pendCount} ponto(s) detectado(s) pela IA aguardando sua conferência (anel âmbar na foto). Arraste para corrigir ou confirme todos abaixo.`
       : (auto
           ? 'Pontos detectados automaticamente quando possível. Arraste um ponto na foto para ajustar sua posição, ou clique em um item da lista para marcar/remarcar manualmente.'
           : 'Clique em um ponto da lista para marcá-lo na foto. Pontos não clicados não são marcados.');
@@ -1514,12 +1541,15 @@ function renderPointSelector() {
   listEl.innerHTML = def.points.map(pd => {
     const placed = !!ann.pts[pd.key];
     const active = ann.activeKey === pd.key;
-    return `<div class="pt-item ${placed?'placed':''} ${active?'active':''}" style="cursor:pointer" onclick="currentAnnotator()&&currentAnnotator().selectPoint('${pd.key}')">
+    const pending = ann.unconfirmed.has(pd.key);
+    return `<div class="pt-item ${placed?'placed':''} ${active?'active':''}" style="cursor:pointer${pending?';color:#B45309':''}" onclick="currentAnnotator()&&currentAnnotator().selectPoint('${pd.key}')">
       <span class="pt-key">${pd.key}</span>
-      <span class="pt-label">${pd.label}</span>
-      <span class="pt-check">${placed ? '✓' : (active ? '◎' : '○')}</span>
+      <span class="pt-label">${pd.label}${pending?' <span style="font-size:10px;font-weight:600">· conferir</span>':''}</span>
+      <span class="pt-check">${pending ? '◉' : placed ? '✓' : (active ? '◎' : '○')}</span>
     </div>`;
-  }).join('');
+  }).join('') + (pendCount
+    ? `<button class="btn btn-primary btn-sm" style="margin-top:6px;background:#B45309;border-color:#B45309" onclick="currentAnnotator()&&currentAnnotator().confirmAllPoints()">✓ Conferi — confirmar ${pendCount} ponto(s)</button>`
+    : '');
 }
 
 function renderFindingChips() {
@@ -1901,6 +1931,18 @@ async function runPipeline() {
   if (!measurements.length) {
     showAlert('alert-av','danger','Marque ao menos um ponto em alguma foto antes de gerar o relatório.');
     return;
+  }
+
+  // Safety gate: AI-detected points that were never reviewed can carry silent errors
+  // into the clinical measurements — require an explicit acknowledgement to proceed.
+  const pendingByPhoto = Object.entries(annotators)
+    .filter(([,a]) => a && a.unconfirmed && a.unconfirmed.size)
+    .map(([k,a]) => `${({frontal:'Frontal',perfil:'Perfil',sorriso:'Sorriso',intrabucal:'Intrabucal'})[k]||k}: ${a.unconfirmed.size}`);
+  if (pendingByPhoto.length) {
+    if (!confirm('Existem pontos detectados pela IA que você ainda não conferiu (' + pendingByPhoto.join(' · ') + ').\n\nPontos errados geram medições erradas no relatório. Deseja gerar mesmo assim?\n\nRecomendado: cancele, confira os pontos com anel âmbar e use "Conferi — confirmar".')) {
+      showAlert('alert-av','info','Geração cancelada — confira os pontos destacados em âmbar e confirme-os.');
+      return;
+    }
   }
 
   btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Processando…';
