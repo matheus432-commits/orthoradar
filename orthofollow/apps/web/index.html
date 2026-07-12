@@ -1,0 +1,2842 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OrthoFollow — Intranet</title>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#f0f4f8;--surface:#fff;--border:#dde2ea;
+      --primary:#1a56db;--primary-d:#1648c0;--primary-bg:#eff6ff;
+      --danger:#dc2626;--danger-bg:#fef2f2;
+      --success:#16a34a;--success-bg:#f0fdf4;
+      --warn:#d97706;--warn-bg:#fffbeb;
+      --text:#111928;--muted:#6b7280;
+      --sidebar-w:220px;--header-h:56px;--radius:8px;--shadow:0 1px 4px rgba(0,0,0,.08)
+    }
+    body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+
+    /* Topbar */
+    .topbar{position:fixed;top:0;left:0;right:0;height:var(--header-h);background:var(--primary);color:#fff;display:flex;align-items:center;gap:14px;padding:0 20px;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+    .topbar .logo{font-size:18px;font-weight:800;letter-spacing:-.4px}
+    .topbar .logo span{opacity:.7;font-weight:400;font-size:13px;margin-left:6px}
+    .topbar .spacer{flex:1}
+
+    /* Sidebar */
+    .sidebar{position:fixed;top:var(--header-h);left:0;bottom:0;width:var(--sidebar-w);background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;z-index:50;overflow-y:auto}
+    .sidebar nav{padding:12px 8px;flex:1}
+    .nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:6px;margin-bottom:2px;font-size:14px;font-weight:500;color:var(--muted);cursor:pointer;border:none;background:none;width:100%;text-align:left;transition:background .12s,color .12s}
+    .nav-item .icon{font-size:17px;width:20px;text-align:center}
+    .nav-item:hover{background:var(--bg);color:var(--text)}
+    .nav-item.active{background:var(--primary-bg);color:var(--primary);font-weight:600}
+    .sidebar-footer{padding:12px 16px;font-size:11px;color:var(--muted);border-top:1px solid var(--border)}
+
+    /* Content */
+    .content{margin-top:var(--header-h);margin-left:var(--sidebar-w);padding:28px 24px 64px;min-height:calc(100vh - var(--header-h))}
+    .page{display:none}.page.active{display:block}
+
+    /* Cards */
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px;margin-bottom:20px}
+    .card-title{font-size:15px;font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:8px}
+    .card-title .step{background:var(--primary);color:#fff;width:24px;height:24px;border-radius:50%;font-size:11px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+
+    /* Page header */
+    .page-header{margin-bottom:24px}
+    .page-header h1{font-size:22px;font-weight:700}
+    .page-header p{color:var(--muted);font-size:14px;margin-top:4px}
+
+    /* Stats */
+    .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px}
+    .stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow)}
+    .stat-card .sl{font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
+    .stat-card .sv{font-size:28px;font-weight:800;margin-top:4px;color:var(--text)}
+    .stat-card.primary .sv{color:var(--primary)}
+
+    /* Table */
+    .table-wrap{overflow-x:auto}
+    table{width:100%;border-collapse:collapse;font-size:13px}
+    thead th{background:var(--bg);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);padding:10px 14px;text-align:left;border-bottom:1px solid var(--border)}
+    tbody tr{border-bottom:1px solid var(--border)}
+    tbody tr:last-child{border-bottom:none}
+    tbody tr:hover{background:var(--bg)}
+    tbody td{padding:11px 14px;vertical-align:middle}
+    .badge-status{display:inline-flex;align-items:center;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:700;text-transform:uppercase}
+    .status-ACTIVE{background:#dcfce7;color:#14532d}
+    .status-TREATMENT{background:#dbeafe;color:#1e3a5f}
+    .status-COMPLETED{background:#f3f4f6;color:#374151}
+
+    /* Forms */
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+    @media(max-width:700px){.grid2,.grid3,.stats-row{grid-template-columns:1fr}}
+    .field{display:flex;flex-direction:column;gap:5px}
+    .field label{font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
+    .field input,.field select{height:38px;border:1px solid var(--border);border-radius:6px;padding:0 10px;font-size:14px;color:var(--text);background:#fff;outline:none;transition:border-color .15s,box-shadow .15s}
+    .field input:focus,.field select:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(26,86,219,.12)}
+    .field .hint{font-size:11px;color:var(--muted)}
+
+    /* Upload grid */
+    .upload-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+    @media(max-width:800px){.upload-grid{grid-template-columns:repeat(2,1fr)}}
+    .upload-zone{border:2px dashed var(--border);border-radius:8px;padding:16px 10px;text-align:center;cursor:pointer;transition:all .15s;position:relative;user-select:none}
+    .upload-zone:hover{border-color:var(--primary);background:var(--primary-bg)}
+    .upload-zone.has-file{border-color:var(--success);border-style:solid;background:var(--success-bg)}
+    .upload-zone.drag-over{border-color:var(--primary);background:var(--primary-bg);transform:scale(1.02)}
+    .upload-icon{font-size:28px;margin-bottom:6px}
+    .upload-label{font-size:13px;font-weight:600;margin-bottom:4px}
+    .upload-hint{font-size:11px;color:var(--muted);line-height:1.4}
+    .upload-preview{margin-top:8px}
+    .upload-preview img{width:100%;max-height:70px;object-fit:cover;border-radius:4px}
+    .upload-fname{font-size:10px;color:var(--success);font-weight:600;margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+    /* Avaliação layout */
+    .av-layout{display:grid;grid-template-columns:1.3fr 1fr;gap:20px;align-items:start}
+    @media(max-width:1000px){.av-layout{grid-template-columns:1fr}}
+
+    /* Photo tabs */
+    .photo-tabs{display:flex;gap:0;border-bottom:1px solid var(--border);background:var(--surface);border-radius:8px 8px 0 0;padding:0 4px}
+    .photo-tab{padding:8px 14px;border:none;background:none;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .12s}
+    .photo-tab.active{color:var(--primary);border-bottom-color:var(--primary);font-weight:600}
+    .photo-panel{display:none}
+    .photo-panel.active{display:block}
+
+    /* Photo box */
+    .photo-box{background:#0f172a;border-radius:0 0 8px 8px;min-height:520px;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
+    .photo-box .empty-photo{color:#475569;text-align:center;padding:40px 20px}
+    .photo-box .empty-photo .ep-icon{font-size:36px;margin-bottom:8px}
+    .photo-box .empty-photo p{font-size:13px}
+    .photo-wrap{position:relative;display:inline-block;line-height:0;max-width:100%}
+    .photo-img{display:block;max-width:100%;max-height:80vh;object-fit:contain}
+    .photo-canvas{position:absolute;top:0;left:0;cursor:crosshair;touch-action:none}
+
+    /* Point hints */
+    .pt-area{background:var(--surface);border:1px solid var(--border);border-top:none;border-radius:0 0 8px 8px;padding:10px 12px}
+    .hint-text{font-size:12px;padding:6px 10px;background:var(--primary-bg);border-radius:4px;color:#1d4ed8;margin-bottom:8px;line-height:1.4}
+    .pt-list{display:flex;flex-direction:column;gap:2px;margin-bottom:8px;max-height:120px;overflow-y:auto}
+    .pt-item{display:flex;align-items:center;gap:8px;padding:3px 8px;border-radius:4px;font-size:12px;color:var(--muted)}
+    .pt-item.active{background:var(--primary-bg);color:var(--primary)}
+    .pt-item.placed{color:var(--success)}
+    .pt-key{font-weight:700;font-family:monospace;min-width:34px}
+    .pt-label{flex:1}
+    .pt-check{font-size:13px}
+    .hint-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:4px}
+
+    /* Clinical finding chips (intrabucal) */
+    .finding-chips{display:flex;flex-wrap:wrap;gap:6px}
+    .finding-chip{--fc-color:#111;font-size:11px;padding:5px 10px;border-radius:14px;border:1.5px solid var(--fc-color);background:#fff;color:var(--fc-color);cursor:pointer;font-weight:600}
+    .finding-chip.active{background:var(--fc-color);color:#fff}
+    .finding-list{display:flex;flex-direction:column;gap:4px;max-height:130px;overflow-y:auto}
+    .finding-item{display:flex;align-items:center;gap:6px;font-size:12px;padding:3px 6px;border-radius:4px;background:var(--surface)}
+    .finding-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+    .finding-remove{margin-left:auto;border:none;background:none;color:var(--muted);cursor:pointer;font-size:11px}
+    .ipd-wrap{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
+    .ipd-wrap input{width:56px;height:28px;border:1px solid var(--border);border-radius:4px;padding:0 6px;font-size:12px;text-align:center}
+
+    /* Measurements panel */
+    .av-measurements{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;position:sticky;top:calc(var(--header-h) + 16px);max-height:calc(100vh - var(--header-h) - 32px);overflow-y:auto}
+    .meas-list{display:flex;flex-direction:column;gap:6px}
+    .meas-row{display:grid;grid-template-columns:1fr 160px;gap:10px;align-items:center;padding:8px 10px;border:1px solid var(--border);border-radius:6px;background:#fafbfc}
+    .meas-label{font-size:12px;font-weight:500;line-height:1.4}
+    .meas-mid{font-size:10px;color:var(--muted);font-weight:400}
+    .meas-input input,.meas-input select{width:100%;height:34px;border:1px solid var(--border);border-radius:6px;padding:0 8px;font-size:13px;background:#fff;outline:none}
+    .meas-input input:focus,.meas-input select:focus{border-color:var(--primary)}
+    .meas-input input.auto-filled{background:#f0fdf4;border-color:#86efac}
+
+    /* Buttons */
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:0 20px;height:40px;border:none;border-radius:6px;font-size:14px;font-weight:600;cursor:pointer;transition:background .15s,opacity .15s}
+    .btn-primary{background:var(--primary);color:#fff}
+    .btn-primary:hover{background:var(--primary-d)}
+    .btn-primary:disabled{opacity:.5;cursor:not-allowed}
+    .btn-outline{background:transparent;border:1px solid var(--border);color:var(--text)}
+    .btn-outline:hover{background:var(--bg)}
+    .btn-sm{height:30px;padding:0 12px;font-size:12px}
+    .actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+
+    /* Alert */
+    .alert{padding:12px 16px;border-radius:6px;font-size:13px;display:none;margin-bottom:16px;line-height:1.5}
+    .alert.show{display:block}
+    .alert-danger{background:var(--danger-bg);border:1px solid #fca5a5;color:var(--danger)}
+    .alert-success{background:var(--success-bg);border:1px solid #86efac;color:var(--success)}
+    .alert-info{background:var(--primary-bg);border:1px solid #93c5fd;color:#1d4ed8}
+    .alert-warn{background:var(--warn-bg);border:1px solid #fcd34d;color:var(--warn)}
+
+    /* Case banner */
+    .case-banner{background:var(--primary-bg);border:1px solid #93c5fd;border-radius:var(--radius);padding:10px 16px;margin-bottom:16px;display:none;gap:20px;flex-wrap:wrap;align-items:center}
+    .case-banner.show{display:flex}
+    .cb-item{display:flex;flex-direction:column}
+    .cb-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:#1d4ed8}
+    .cb-value{font-size:14px;font-weight:600;color:#1e3a5f}
+
+    /* Report */
+    #report-section{display:none}
+    #report-section.show{display:block}
+    @keyframes btnpulse{0%,100%{box-shadow:0 0 0 0 rgba(26,86,219,.45)}50%{box-shadow:0 0 0 8px rgba(26,86,219,0)}}
+    .btn.pulse{animation:btnpulse 1.2s ease-in-out 4}
+    .report-meta{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+    .meta-chip{display:flex;flex-direction:column;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:10px 16px;min-width:100px}
+    .meta-chip .ml{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
+    .meta-chip .mv{font-size:26px;font-weight:800;color:var(--text)}
+    .meta-chip .mv.danger{color:var(--danger)}.meta-chip .mv.warn{color:var(--warn)}.meta-chip .mv.success{color:var(--success)}
+    .findings-list{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}
+    .finding-card{display:grid;grid-template-columns:100px 1fr;gap:12px;align-items:start;padding:12px 14px;border-radius:6px;border:1px solid var(--border)}
+    .badge{display:inline-flex;align-items:center;justify-content:center;padding:3px 8px;border-radius:4px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;white-space:nowrap}
+    .badge-NORMAL{background:#dcfce7;color:#14532d}.badge-MILD{background:#fef3c7;color:#92400e}
+    .badge-MODERATE{background:#fed7aa;color:#7c2d12}.badge-SEVERE{background:#fee2e2;color:#7f1d1d}.badge-CRITICAL{background:#7f1d1d;color:#fff}
+    .finding-text{font-size:13px;line-height:1.6}
+    .finding-ref{font-size:11px;color:var(--danger);font-weight:600;margin-top:4px}
+    .report-pre{background:#1e1e2e;color:#cdd6f4;font-family:'Consolas','Courier New',monospace;font-size:12px;line-height:1.7;padding:20px;border-radius:6px;overflow-x:auto;white-space:pre}
+    .tabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:20px}
+    .tab{padding:8px 18px;font-size:13px;font-weight:500;cursor:pointer;border:none;background:none;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-1px}
+    .tab.active{color:var(--primary);border-bottom-color:var(--primary);font-weight:600}
+    .tab-panel{display:none}.tab-panel.active{display:block}
+
+    .spinner{display:inline-block;width:15px;height:15px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .empty{text-align:center;padding:40px 20px;color:var(--muted)}
+    .empty .emoji{font-size:36px;margin-bottom:10px}
+    .divider{height:1px;background:var(--border);margin:24px 0}
+    .section-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:10px}
+  </style>
+</head>
+<body>
+
+<div id="login-overlay" style="display:none;position:fixed;inset:0;background:#0f172a;z-index:9999;align-items:center;justify-content:center">
+  <div style="background:#fff;border-radius:10px;padding:32px;width:340px;max-width:90vw;box-shadow:0 10px 40px rgba(0,0,0,.35)">
+    <div id="login-form-view">
+      <div style="font-weight:700;font-size:18px;margin-bottom:4px">OrthoFollow</div>
+      <div style="font-size:13px;color:#666;margin-bottom:20px">Entre com sua conta de dentista</div>
+      <div id="alert-login" class="alert"></div>
+      <div class="field" style="margin-bottom:10px"><label>E-mail</label><input id="login-email" type="email" placeholder="seu@email.com"></div>
+      <div class="field" style="margin-bottom:16px"><label>Senha</label><input id="login-password" type="password" placeholder="Senha" onkeydown="if(event.key==='Enter')doLogin()"></div>
+      <button class="btn btn-primary" style="width:100%" id="btn-login" onclick="doLogin()">Entrar</button>
+      <div style="margin-top:14px;text-align:center"><a href="#" style="font-size:12px" onclick="event.preventDefault();showRegisterDentistForm()">Cadastrar novo dentista</a></div>
+    </div>
+    <div id="register-form-view" style="display:none">
+      <div style="font-weight:700;font-size:18px;margin-bottom:4px">Cadastrar Dentista</div>
+      <div style="font-size:13px;color:#666;margin-bottom:20px">Se já existir ao menos uma conta na clínica, é preciso estar logado com ela para cadastrar novas contas.</div>
+      <div id="alert-register" class="alert"></div>
+      <div class="field" style="margin-bottom:10px"><label>Nome completo</label><input id="register-name" type="text" placeholder="Dr(a). Nome Sobrenome"></div>
+      <div class="field" style="margin-bottom:10px"><label>CRO (opcional)</label><input id="register-cro" type="text" placeholder="CRO-SP 12345"></div>
+      <div class="field" style="margin-bottom:10px"><label>E-mail</label><input id="register-email" type="email" placeholder="seu@email.com"></div>
+      <div class="field" style="margin-bottom:16px"><label>Senha</label><input id="register-password" type="password" placeholder="Mínimo 6 caracteres"></div>
+      <button class="btn btn-primary" style="width:100%" id="btn-register-dentist" onclick="doRegisterDentist()">Cadastrar</button>
+      <div style="margin-top:14px;text-align:center"><a href="#" style="font-size:12px" onclick="event.preventDefault();closeOrBackFromRegister()">Voltar</a></div>
+    </div>
+  </div>
+</div>
+
+<div class="topbar">
+  <div class="logo">OrthoFollow <span>Análise Facial P01</span></div>
+  <div class="spacer"></div>
+  <div id="topbar-ortho" style="font-size:13px;opacity:.8">Intranet Clínica</div>
+</div>
+
+<aside class="sidebar">
+  <nav>
+    <button class="nav-item active" onclick="navigate('dashboard')"><span class="icon">🏠</span> Dashboard</button>
+    <button class="nav-item" onclick="navigate('novo-caso')"><span class="icon">➕</span> Novo Caso</button>
+    <button class="nav-item" onclick="navigate('avaliacao')"><span class="icon">📋</span> Avaliação P01</button>
+    <button class="nav-item" onclick="openAddDentistFromApp()"><span class="icon">👤</span> Adicionar Dentista</button>
+  </nav>
+  <div class="sidebar-footer">v1.0 · Protocolo P01<br>Análise Facial Ortodôntica</div>
+</aside>
+
+<main class="content">
+
+<!-- ══ DASHBOARD ══ -->
+<div class="page active" id="page-dashboard">
+  <div class="page-header"><h1>Dashboard</h1><p>Visão geral dos casos clínicos</p></div>
+  <div class="stats-row">
+    <div class="stat-card primary"><div class="sl">Total de Casos</div><div class="sv" id="stat-total">—</div></div>
+    <div class="stat-card"><div class="sl">Casos Ativos</div><div class="sv" id="stat-active">—</div></div>
+    <div class="stat-card"><div class="sl">Em Tratamento</div><div class="sv" id="stat-treatment">—</div></div>
+    <div class="stat-card"><div class="sl">Concluídos</div><div class="sv" id="stat-completed">—</div></div>
+  </div>
+  <div class="card">
+    <div class="card-title" style="justify-content:space-between">
+      <span>Casos Recentes</span>
+      <button class="btn btn-primary btn-sm" onclick="navigate('novo-caso')">+ Novo Caso</button>
+    </div>
+    <div class="table-wrap">
+      <table><thead><tr><th>Paciente</th><th>Nasc./Sexo</th><th>Ortodontista</th><th>Status</th><th>Sessões</th><th>Abertura</th><th></th></tr></thead>
+      <tbody id="cases-tbody"><tr><td colspan="7"><div class="empty"><div class="emoji">⏳</div><p>Carregando…</p></div></td></tr></tbody></table>
+    </div>
+  </div>
+</div>
+
+<!-- ══ NOVO CASO ══ -->
+<div class="page" id="page-novo-caso">
+  <div class="page-header"><h1>Novo Caso</h1><p>Cadastre o paciente e carregue as fotografias</p></div>
+  <div id="alert-novo" class="alert"></div>
+
+  <div class="card">
+    <div class="card-title"><span class="step">1</span> Dados do Paciente</div>
+    <div class="grid3" style="margin-bottom:16px">
+      <div class="field"><label>Nome</label><input id="nc-pat-given" type="text" placeholder="Nome"></div>
+      <div class="field"><label>Sobrenome</label><input id="nc-pat-family" type="text" placeholder="Sobrenome"></div>
+      <div class="field"><label>Sexo Biológico</label>
+        <select id="nc-pat-sex"><option value="F">Feminino</option><option value="M">Masculino</option><option value="UNSPECIFIED">Não informado</option></select>
+      </div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label>Data de Nascimento</label><input id="nc-pat-birth" type="date"></div>
+      <div class="field"><label>Queixa Principal</label><input id="nc-complaint" type="text" placeholder="Opcional"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="step">2</span> Sessão Inicial</div>
+    <div class="grid2">
+      <div class="field"><label>Rótulo da Sessão</label>
+        <select id="nc-session">
+          <option value="T0">T0 — Inicial / Pré-tratamento</option>
+          <option value="T1">T1</option><option value="T2">T2</option><option value="T3">T3</option>
+          <option value="TN">TN — Final / Alta</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="step">3</span> Fotografias</div>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:16px">Carregue as fotografias clínicas. Você marcará os pontos anatômicos na etapa seguinte. Fotos não fornecidas não impedem a geração do relatório — o sistema analisa apenas o que foi documentado.</p>
+    <div class="upload-grid">
+      <div class="upload-zone" id="uz-frontal" onclick="triggerUpload('frontal')" ondragover="dzOver(event,'uz-frontal')" ondragleave="dzLeave('uz-frontal')" ondrop="dzDrop(event,'frontal','uz-frontal')">
+        <div class="upload-icon">📷</div>
+        <div class="upload-label">Foto Frontal</div>
+        <div class="upload-hint">Frente, olhos abertos, posição natural de repouso</div>
+        <div class="upload-preview" id="up-frontal"></div>
+      </div>
+      <div class="upload-zone" id="uz-perfil" onclick="triggerUpload('perfil')" ondragover="dzOver(event,'uz-perfil')" ondragleave="dzLeave('uz-perfil')" ondrop="dzDrop(event,'perfil','uz-perfil')">
+        <div class="upload-icon">📷</div>
+        <div class="upload-label">Foto de Perfil</div>
+        <div class="upload-hint">Perfil direito, lábios em repouso natural</div>
+        <div class="upload-preview" id="up-perfil"></div>
+      </div>
+      <div class="upload-zone" id="uz-sorriso" onclick="triggerUpload('sorriso')" ondragover="dzOver(event,'uz-sorriso')" ondragleave="dzLeave('uz-sorriso')" ondrop="dzDrop(event,'sorriso','uz-sorriso')">
+        <div class="upload-icon">😊</div>
+        <div class="upload-label">Foto de Sorriso</div>
+        <div class="upload-hint">Sorriso aberto mostrando os dentes frontais</div>
+        <div class="upload-preview" id="up-sorriso"></div>
+      </div>
+      <div class="upload-zone" id="uz-intrabucal" onclick="triggerUpload('intrabucal')" ondragover="dzOver(event,'uz-intrabucal')" ondragleave="dzLeave('uz-intrabucal')" ondrop="dzDrop(event,'intrabucal','uz-intrabucal')">
+        <div class="upload-icon">🦷</div>
+        <div class="upload-label">Fotos Intrabucais</div>
+        <div class="upload-hint">Foto compilada com as vistas intrabucais (maxila, mandíbula, mordida de frente e laterais)</div>
+        <div class="upload-preview" id="up-intrabucal"></div>
+      </div>
+    </div>
+    <input type="file" id="file-frontal" accept="image/*" hidden onchange="handleUpload('frontal',this)">
+    <input type="file" id="file-perfil" accept="image/*" hidden onchange="handleUpload('perfil',this)">
+    <input type="file" id="file-sorriso" accept="image/*" hidden onchange="handleUpload('sorriso',this)">
+    <input type="file" id="file-intrabucal" accept="image/*" hidden onchange="handleUpload('intrabucal',this)">
+  </div>
+
+  <div class="actions">
+    <button class="btn btn-primary" id="btn-register" onclick="registerCase()">Cadastrar e Iniciar Avaliação</button>
+    <button class="btn btn-outline" onclick="resetNovoCaso()">Limpar</button>
+  </div>
+</div>
+
+<!-- ══ AVALIAÇÃO ══ -->
+<div class="page" id="page-avaliacao">
+  <div class="page-header"><h1>Avaliação Facial — Protocolo P01</h1><p>Marque os pontos anatômicos nas fotos para calcular as medições automaticamente</p></div>
+
+  <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px">
+    <span style="display:inline-flex;align-items:center;gap:6px;background:var(--primary-bg);color:var(--primary);font-size:12px;font-weight:600;padding:6px 12px;border-radius:16px"><span style="background:var(--primary);color:#fff;width:17px;height:17px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:10px">1</span> Carregue as fotos</span>
+    <span style="display:inline-flex;align-items:center;gap:6px;background:var(--primary-bg);color:var(--primary);font-size:12px;font-weight:600;padding:6px 12px;border-radius:16px"><span style="background:var(--primary);color:#fff;width:17px;height:17px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:10px">2</span> Confira os pontos automáticos (arraste p/ ajustar)</span>
+    <span style="display:inline-flex;align-items:center;gap:6px;background:var(--primary-bg);color:var(--primary);font-size:12px;font-weight:600;padding:6px 12px;border-radius:16px"><span style="background:var(--primary);color:#fff;width:17px;height:17px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:10px">3</span> Gere o relatório</span>
+    <span style="display:inline-flex;align-items:center;gap:6px;background:var(--primary-bg);color:var(--primary);font-size:12px;font-weight:600;padding:6px 12px;border-radius:16px"><span style="background:var(--primary);color:#fff;width:17px;height:17px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:10px">4</span> Escreva o plano e exporte o PDF</span>
+  </div>
+
+  <div id="av-banner" class="case-banner"></div>
+  <div id="alert-av" class="alert"></div>
+
+  <div class="av-layout">
+
+    <!-- Left: Photos + annotation -->
+    <div>
+      <div class="card" style="padding:0;overflow:hidden">
+        <div class="photo-tabs" id="photo-tabs">
+          <button class="photo-tab active" onclick="switchPhotoTab('frontal',this)">📷 Frontal</button>
+          <button class="photo-tab" onclick="switchPhotoTab('perfil',this)">📷 Perfil</button>
+          <button class="photo-tab" onclick="switchPhotoTab('sorriso',this)">😊 Sorriso</button>
+          <button class="photo-tab" onclick="switchPhotoTab('intrabucal',this)">🦷 Intrabucal</button>
+        </div>
+
+        <!-- Frontal -->
+        <div class="photo-panel active" id="pp-frontal">
+          <div class="photo-box" id="pb-frontal">
+            <div class="empty-photo"><div class="ep-icon">📷</div><p>Carregue a foto frontal<br><button class="btn btn-outline btn-sm" style="margin-top:10px" onclick="triggerUpload('frontal')">Selecionar foto</button></p></div>
+          </div>
+          <div class="pt-area">
+            <div class="ipd-wrap">DIP: <input type="number" id="ipd-input" value="62" min="50" max="75" title="Distância Interpupilar em mm (padrão: 62 mm)"> mm</div>
+            <button class="btn btn-outline btn-sm" onclick="triggerUpload('frontal')">📷 Trocar foto</button>
+          </div>
+        </div>
+
+        <!-- Perfil -->
+        <div class="photo-panel" id="pp-perfil">
+          <div class="photo-box" id="pb-perfil">
+            <div class="empty-photo"><div class="ep-icon">📷</div><p>Carregue a foto de perfil<br><button class="btn btn-outline btn-sm" style="margin-top:10px" onclick="triggerUpload('perfil')">Selecionar foto</button></p></div>
+          </div>
+          <div class="pt-area">
+            <button class="btn btn-outline btn-sm" onclick="triggerUpload('perfil')">📷 Trocar foto</button>
+          </div>
+        </div>
+
+        <!-- Sorriso -->
+        <div class="photo-panel" id="pp-sorriso">
+          <div class="photo-box" id="pb-sorriso">
+            <div class="empty-photo"><div class="ep-icon">😊</div><p>Carregue a foto de sorriso<br><button class="btn btn-outline btn-sm" style="margin-top:10px" onclick="triggerUpload('sorriso')">Selecionar foto</button></p></div>
+          </div>
+          <div class="pt-area">
+            <button class="btn btn-outline btn-sm" onclick="triggerUpload('sorriso')">📷 Trocar foto</button>
+          </div>
+        </div>
+
+        <!-- Intrabucal -->
+        <div class="photo-panel" id="pp-intrabucal">
+          <div class="photo-box" id="pb-intrabucal">
+            <div class="empty-photo"><div class="ep-icon">🦷</div><p>Carregue a foto intrabucal compilada<br><button class="btn btn-outline btn-sm" style="margin-top:10px" onclick="triggerUpload('intrabucal')">Selecionar foto</button></p></div>
+          </div>
+          <div class="pt-area">
+            <button class="btn btn-outline btn-sm" onclick="triggerUpload('intrabucal')">📷 Trocar foto</button>
+          </div>
+          <div class="divider" style="margin:10px 0"></div>
+          <div class="section-label">Achados Odontológicos</div>
+          <p style="font-size:11px;color:var(--muted);margin-bottom:8px">Selecione uma categoria e clique na foto em cada ponto correspondente. Pode marcar quantos pontos quiser por categoria.</p>
+          <div class="finding-chips" id="finding-chips"></div>
+          <div class="finding-list" id="finding-list" style="margin-top:8px"></div>
+          <div class="hint-row" style="margin-top:6px">
+            <button class="btn btn-outline btn-sm" onclick="annotators.intrabucal&&annotators.intrabucal.undoFinding()">↩ Desfazer último achado</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Point selection + case fields -->
+    <div class="av-measurements">
+      <div class="section-label">Identificação do Caso</div>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px">
+        <div class="field"><label>Caso <span style="font-weight:400;color:var(--muted)">(preenchido automaticamente ao abrir um caso)</span></label><input id="av-case-id" type="text" placeholder="Abra um caso pelo Dashboard ou cadastre em Novo Caso"></div>
+        <div class="grid2">
+          <div class="field"><label>Sessão</label>
+            <select id="av-session" onchange="onSessionChange()"><option value="T0">T0</option><option value="T1">T1</option><option value="T2">T2</option><option value="T3">T3</option><option value="TN">TN</option></select>
+          </div>
+          <div class="field"><label>Sexo</label>
+            <select id="av-sex"><option value="F">Feminino</option><option value="M">Masculino</option><option value="UNSPECIFIED">N/I</option></select>
+          </div>
+        </div>
+        <div class="field"><label>Data de Nascimento</label><input id="av-birth-date" type="date"></div>
+      </div>
+      <div class="divider" style="margin:12px 0"></div>
+      <div class="section-label">Pontos a Marcar — <span id="pt-selector-title"></span></div>
+      <div class="hint-text" id="pt-selector-hint" style="margin-bottom:6px">Carregue a foto para começar.</div>
+      <div class="pt-list" id="pt-selector-list"></div>
+      <div class="hint-row" style="margin:8px 0">
+        <button class="btn btn-outline btn-sm" onclick="currentAnnotator()&&currentAnnotator().undo()">↩ Desfazer último</button>
+        <button class="btn btn-outline btn-sm" onclick="currentAnnotator()&&currentAnnotator().reset()">✕ Resetar</button>
+      </div>
+      <div style="font-size:10.5px;color:var(--muted);margin-top:2px">🧠 O sistema aprende com seus ajustes: quando você arrasta um ponto detectado automaticamente, essa correção é memorizada e aplicada nas próximas detecções. <a href="#" onclick="event.preventDefault();if(confirm('Isso apaga todo o aprendizado acumulado de correções de pontos. Continuar?'))resetLandmarkLearning();">Redefinir aprendizado</a></div>
+      <div class="divider" style="margin:12px 0"></div>
+      <details>
+        <summary class="section-label" style="cursor:pointer">Classificações Manuais (P01) <span id="auto-badge" style="font-size:10px;font-weight:400;color:var(--success);display:none"> · ✓ calculado automaticamente</span></summary>
+        <div class="meas-list" id="meas-list" style="margin-top:10px"></div>
+      </details>
+      <div style="margin-top:16px">
+        <button class="btn btn-primary" id="btn-run" style="width:100%" onclick="runPipeline()">Gerar Relatório</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Report -->
+  <div id="report-section">
+    <div class="divider"></div>
+    <div class="card">
+      <div class="card-title" style="justify-content:space-between">
+        <span><span class="step">3</span> Resultado da Avaliação</span>
+        <button class="btn btn-primary btn-sm" onclick="generatePDF()" id="btn-pdf">⬇ Gerar PDF</button>
+      </div>
+      <div class="report-meta" id="report-meta"></div>
+      <div class="tabs">
+        <button class="tab active" onclick="showTab('tab-findings',this)">Achados Clínicos</button>
+        <button class="tab" onclick="showTab('tab-report',this)">Relatório Completo</button>
+      </div>
+      <div class="tab-panel active" id="tab-findings"><div class="findings-list" id="findings-list"></div></div>
+      <div class="tab-panel" id="tab-report"><pre class="report-pre" id="report-pre"></pre></div>
+    </div>
+    <div class="divider" style="margin:20px 0"></div>
+    <div>
+      <div class="section-label" style="margin-bottom:8px">Pontos de Melhoria e Opções de Tratamento</div>
+      <p style="font-size:12px;color:var(--muted);margin-bottom:10px">Este texto aparece em destaque na capa do PDF que o paciente recebe. Escreva pensando no paciente: o que será feito, o resultado esperado e o tempo estimado — linguagem simples vende mais que termos técnicos.</p>
+      <textarea id="treatment-notes" rows="6" style="width:100%;border:1px solid var(--border);border-radius:6px;padding:12px;font-size:13px;font-family:inherit;resize:vertical;outline:none;line-height:1.6" placeholder="Ex: Alinharemos seus dentes com alinhadores transparentes em aproximadamente 18 meses, corrigindo o desvio da linha média e devolvendo a harmonia do seu sorriso. Etapas: 1) Escaneamento e planejamento digital  2) Uso dos alinhadores com acompanhamento mensal  3) Contenção e revisões finais."></textarea>
+    </div>
+  </div>
+</div><!-- /page-avaliacao -->
+
+</main>
+
+<!-- Automatic facial landmark detection (MediaPipe Face Landmarker) -->
+<script type="module">
+import { FaceLandmarker, FilesetResolver } from 'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/vision_bundle.mjs';
+window.__faceLandmarkerReady = (async () => {
+  try {
+    const filesetResolver = await FilesetResolver.forVisionTasks(
+      'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/wasm'
+    );
+    return await FaceLandmarker.createFromOptions(filesetResolver, {
+      baseOptions: {
+        modelAssetPath: 'https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task',
+        delegate: 'GPU'
+      },
+      outputFaceBlendshapes: false,
+      runningMode: 'IMAGE',
+      numFaces: 1
+    });
+  } catch (e) {
+    console.warn('Detecção automática de pontos faciais indisponível:', e.message);
+    return null;
+  }
+})();
+</script>
+
+<script>
+/* ═══════════════════════════════
+   AUTH
+═══════════════════════════════ */
+const AUTH_STORAGE_KEY = 'orthofollow_auth';
+let currentAuth = null; // { token, orthodontist:{id,fullName,email} }
+
+function loadStoredAuth() {
+  try { return JSON.parse(localStorage.getItem(AUTH_STORAGE_KEY) || 'null'); } catch (e) { return null; }
+}
+function persistAuth() {
+  try { localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(currentAuth)); } catch (e) { /* ignore */ }
+}
+function clearAuth() {
+  currentAuth = null;
+  try { localStorage.removeItem(AUTH_STORAGE_KEY); } catch (e) { /* ignore */ }
+}
+function authHeaders() {
+  return currentAuth ? { 'Authorization': 'Bearer ' + currentAuth.token } : {};
+}
+// fetch wrapper that attaches the session token and bounces back to the login
+// screen on 401 (expired/invalid token) instead of leaving the UI in a broken state.
+async function authFetch(url, opts) {
+  opts = opts || {};
+  opts.headers = Object.assign({}, opts.headers || {}, authHeaders());
+  const r = await fetch(url, opts);
+  if (r.status === 401) {
+    clearAuth();
+    showLoginOverlay();
+  }
+  return r;
+}
+
+async function initAuth() {
+  const stored = loadStoredAuth();
+  if (!stored) { showLoginOverlay(); return; }
+  currentAuth = stored;
+  try {
+    const r = await fetch(API + '/auth/me', { headers: authHeaders() });
+    if (!r.ok) throw new Error('invalid session');
+    const d = await r.json();
+    currentAuth.orthodontist = d.orthodontist;
+    persistAuth();
+    hideLoginOverlay();
+  } catch (e) {
+    clearAuth();
+    showLoginOverlay();
+  }
+}
+
+function showLoginOverlay() {
+  document.getElementById('login-overlay').style.display = 'flex';
+}
+function hideLoginOverlay() {
+  document.getElementById('login-overlay').style.display = 'none';
+  const el = document.getElementById('topbar-ortho');
+  if (el && currentAuth) {
+    el.innerHTML = esc(currentAuth.orthodontist.fullName) + ' · <a href="#" style="color:inherit" onclick="event.preventDefault();doLogout()">Sair</a>';
+  }
+  loadDashboard();
+}
+
+function showRegisterDentistForm() {
+  document.getElementById('login-form-view').style.display = 'none';
+  document.getElementById('register-form-view').style.display = 'block';
+}
+function showLoginFormView() {
+  document.getElementById('register-form-view').style.display = 'none';
+  document.getElementById('login-form-view').style.display = 'block';
+}
+function closeOrBackFromRegister() {
+  if (currentAuth) document.getElementById('login-overlay').style.display = 'none';
+  else showLoginFormView();
+}
+function openAddDentistFromApp() {
+  document.getElementById('login-overlay').style.display = 'flex';
+  showRegisterDentistForm();
+}
+
+async function doLogin() {
+  const email    = document.getElementById('login-email').value.trim();
+  const password = document.getElementById('login-password').value;
+  const btn = document.getElementById('btn-login');
+  if (!email || !password) { showAlert('alert-login','danger','Preencha e-mail e senha.'); return; }
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Entrando…';
+  try {
+    const r = await fetch(API + '/auth/login', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ email, password })
+    });
+    const d = await r.json();
+    if (!r.ok) throw new Error(d.error?.message || 'Falha no login.');
+    currentAuth = { token: d.token, orthodontist: d.orthodontist };
+    persistAuth();
+    showAlert('alert-login', '', '');
+    hideLoginOverlay();
+  } catch (e) {
+    showAlert('alert-login','danger', e.message);
+  } finally {
+    btn.disabled = false; btn.innerHTML = 'Entrar';
+  }
+}
+
+function doLogout() {
+  clearAuth();
+  showLoginOverlay();
+}
+
+async function doRegisterDentist() {
+  const fullName = document.getElementById('register-name').value.trim();
+  const email    = document.getElementById('register-email').value.trim();
+  const password = document.getElementById('register-password').value;
+  const cro      = document.getElementById('register-cro').value.trim();
+  const btn = document.getElementById('btn-register-dentist');
+  if (!fullName || !email || !password) { showAlert('alert-register','danger','Preencha nome, e-mail e senha.'); return; }
+  if (password.length < 6) { showAlert('alert-register','danger','A senha precisa ter ao menos 6 caracteres.'); return; }
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Cadastrando…';
+  try {
+    const body = { fullName, email, password };
+    if (cro) body.cro = cro;
+    const r = await fetch(API + '/auth/dentists', {
+      method:'POST', headers: Object.assign({'Content-Type':'application/json'}, authHeaders()),
+      body: JSON.stringify(body)
+    });
+    const d = await r.json();
+    if (!r.ok) throw new Error(d.error?.message || 'Falha ao cadastrar.');
+    showAlert('alert-register','success','✓ Conta criada! Faça login.');
+    setTimeout(() => { showLoginFormView(); document.getElementById('login-email').value = email; }, 900);
+  } catch (e) {
+    showAlert('alert-register','danger', e.message);
+  } finally {
+    btn.disabled = false; btn.innerHTML = 'Cadastrar';
+  }
+}
+
+/* ═══════════════════════════════
+   LANDMARK DEFINITIONS
+═══════════════════════════════ */
+const PHOTO_DEFS = {
+  frontal: {
+    color: '#1a56db',
+    points: [
+      { key:'Tr',  label:'Tríquio',         hint:'Ponto mais alto da linha do cabelo (centro)' },
+      { key:'G',   label:'Glabela',          hint:'Ponto entre as sobrancelhas (centro da fronte)' },
+      { key:'Sn',  label:'Subnasal',         hint:'Base do nariz — referência da linha média facial' },
+      { key:'Me',  label:'Mentoniana',       hint:'Ponto mais inferior do mento (centro)' },
+      { key:'Pd',  label:'Pupila Direita',   hint:'Centro da pupila direita do paciente' },
+      { key:'Pe',  label:'Pupila Esq.',      hint:'Centro da pupila esquerda do paciente' },
+      { key:'Ls',  label:'Lábio Superior',   hint:'Ponto mais anterior/inferior do lábio superior (repouso)' },
+      { key:'Li',  label:'Lábio Inferior',   hint:'Ponto mais anterior/superior do lábio inferior (repouso)' },
+      { key:'Sto', label:'Estômio',          hint:'Ponto de contato/repouso entre os lábios' },
+      { key:'Pg',  label:'Pogônio Mole',     hint:'Ponto mais anterior do mento (tecido mole)' },
+      { key:'AlD', label:'Ala Nasal Dir.',   hint:'Ponto mais lateral da narina direita' },
+      { key:'AlE', label:'Ala Nasal Esq.',   hint:'Ponto mais lateral da narina esquerda' },
+      { key:'CoD', label:'Comissura Dir.',   hint:'Canto direito da boca' },
+      { key:'CoE', label:'Comissura Esq.',   hint:'Canto esquerdo da boca' },
+    ]
+  },
+  perfil: {
+    color: '#7e3af2',
+    points: [
+      { key:'Tr',  label:'Tríquio',          hint:'Ponto superior da linha do cabelo (perfil)' },
+      { key:'G',   label:'Glabela',           hint:'Ponto mais proeminente da fronte' },
+      { key:'Prn', label:'Pronasal',          hint:'Ponta do nariz (ponto mais anterior)' },
+      { key:'Sn',  label:'Subnasal',          hint:'Junção entre a base do nariz e o lábio superior' },
+      { key:'Ls',  label:'Lábio Superior',    hint:'Ponto mais anterior do lábio superior' },
+      { key:'Li',  label:'Lábio Inferior',    hint:'Ponto mais anterior do lábio inferior' },
+      { key:'Pg',  label:'Pogônio',           hint:'Ponto mais anterior do mento (queixo)' },
+      { key:'Me',  label:'Mentoniana',        hint:'Ponto mais inferior do mento' },
+    ]
+  },
+  sorriso: {
+    color: '#057a55',
+    points: [
+      { key:'Tr',  label:'Tríquio (linha média facial)',      hint:'Ponto mais alto visível no centro da testa — define o eixo vertical facial' },
+      { key:'Me',  label:'Mentoniana (linha média facial)',   hint:'Ponto mais inferior do mento, centro — fecha o eixo vertical facial' },
+      { key:'U1',  label:'Linha Média Dental Superior',      hint:'Ponto entre os dois incisivos centrais superiores' },
+      { key:'CoD', label:'Comissura Dir.',                   hint:'Canto direito da boca (comissura labial direita)' },
+      { key:'CoE', label:'Comissura Esq.',                   hint:'Canto esquerdo da boca (comissura labial esquerda)' },
+      { key:'PMd', label:'Último Dente Dir.',                hint:'Borda do último dente visível à direita (corredor bucal)' },
+      { key:'PMe', label:'Último Dente Esq.',                hint:'Borda do último dente visível à esquerda (corredor bucal)' },
+      { key:'SsS', label:'Borda Lábio Sup.',                 hint:'Borda inferior do lábio superior (vermelhão), no repouso da linha do sorriso' },
+      { key:'StI', label:'Borda Lábio Inf.',                 hint:'Borda superior do lábio inferior (referência linha do sorriso)' },
+      { key:'GM',  label:'Margem Gengival',                  hint:'Margem gengival exposta acima dos incisivos centrais superiores (se houver)' },
+    ]
+  },
+  intrabucal: {
+    color: '#e3a008',
+    points: [
+      { key:'U1s', label:'Linha Média Superior', hint:'Ponto entre os incisivos centrais superiores' },
+      { key:'L1i', label:'Linha Média Inferior', hint:'Ponto entre os incisivos centrais inferiores' },
+      { key:'ZD',  label:'Zênite Gengival Dir.', hint:'Ponto mais apical da margem gengival do incisivo central superior direito', skippable:true },
+      { key:'ZE',  label:'Zênite Gengival Esq.', hint:'Ponto mais apical da margem gengival do incisivo central superior esquerdo', skippable:true },
+    ]
+  }
+};
+
+/* ═══════════════════════════════
+   ANALYSES
+═══════════════════════════════ */
+const ANALYSES = [
+  // ── Frontal ──
+  { id:'P01.A01', group:'Frontal', label:'Simetria Facial Vertical', type:'CLASSIFICATION', unit:'NONE',
+    options:['SYMMETRIC','ASYMMETRIC_MILD','ASYMMETRIC_MODERATE','ASYMMETRIC_SEVERE'],
+    labels:['Simétrica','Assimetria Leve','Assimetria Moderada','Assimetria Grave'] },
+  { id:'P01.A03', group:'Frontal', label:'Terço Superior (%)', type:'SCALAR_PERCENT', unit:'PERCENT', min:0, max:100, step:.1, placeholder:'% auto' },
+  { id:'P01.A04', group:'Frontal', label:'Terço Médio (%)',    type:'SCALAR_PERCENT', unit:'PERCENT', min:0, max:100, step:.1, placeholder:'% auto' },
+  { id:'P01.A05', group:'Frontal', label:'Terço Inferior (%)', type:'SCALAR_PERCENT', unit:'PERCENT', min:0, max:100, step:.1, placeholder:'% auto' },
+  { id:'P01.A09', group:'Frontal', label:'Simetria Nasal', type:'CLASSIFICATION', unit:'NONE',
+    options:['NORMAL','DEVIATED_LEFT','DEVIATED_RIGHT'],
+    labels:['Normal','Desviada à Esquerda','Desviada à Direita'] },
+  { id:'P01.A11', group:'Frontal', label:'Competência Labial (repouso)', type:'CLASSIFICATION', unit:'NONE',
+    options:['COMPETENT','INCOMPETENT','POTENTIALLY_INCOMPETENT'],
+    labels:['Competente','Incompetente','Potencialmente Incompetente'] },
+
+  // ── Sorriso ──
+  { id:'P01.A02', group:'Sorriso', label:'Desvio Linha Média Superior (mm)', type:'SCALAR_MM', unit:'MM', min:-10, max:10, step:.1, placeholder:'mm auto' },
+  { id:'P01.A12', group:'Sorriso', label:'Exposição Dentária (mm)', type:'SCALAR_MM', unit:'MM', min:0, max:10, step:.1, placeholder:'mm auto' },
+
+  // ── Perfil ──
+  { id:'P01.A06', group:'Perfil', label:'Perfil Facial', type:'CLASSIFICATION', unit:'NONE',
+    options:['CONVEX','STRAIGHT','CONCAVE'],
+    labels:['Convexo','Reto','Côncavo'] },
+  { id:'P01.A07', group:'Perfil', label:'Ângulo Nasolabial (°)', type:'SCALAR_DEGREES', unit:'DEGREES', min:70, max:145, step:.5, placeholder:'° auto' },
+  { id:'P01.A08', group:'Perfil', label:'Projeção do Mento', type:'CLASSIFICATION', unit:'NONE',
+    options:['NORMAL','RETRUDED','PROTRUDED'],
+    labels:['Normal','Retruso','Protruso'] },
+
+  // ── Frontal (detalhado) ──
+  { id:'P01.A15', group:'Frontal', label:'Padrão Vertical', type:'CLASSIFICATION', unit:'NONE',
+    options:['NORMAL','INCREASED','REDUCED'], labels:['Mesofacial','Dolicofacial','Braquifacial'] },
+  { id:'P01.A16', group:'Frontal', label:'Origem Provável da Assimetria', type:'CLASSIFICATION', unit:'NONE',
+    options:['NONE','MAXILLARY','MANDIBULAR','SOFT_TISSUE','MIXED'], labels:['Nenhuma','Maxilar','Mandibular','Tecidos Moles','Mista'] },
+  { id:'P01.A19', group:'Frontal', label:'Inclinação Bipupilar (°)', type:'SCALAR_DEGREES', unit:'DEGREES', min:0, max:15, step:.1, placeholder:'° auto' },
+
+  // ── Sorriso (detalhado) ──
+  { id:'P01.A20', group:'Sorriso', label:'Tipo de Sorriso', type:'CLASSIFICATION', unit:'NONE',
+    options:['LOW','MEDIUM','HIGH','GUMMY'], labels:['Baixo','Médio','Alto','Gengival'] },
+  { id:'P01.A21', group:'Sorriso', label:'Corredor Bucal (%)', type:'SCALAR_PERCENT', unit:'PERCENT', min:0, max:40, step:.1, placeholder:'% auto' },
+  { id:'P01.A22', group:'Sorriso', label:'Dentes Visíveis', type:'CLASSIFICATION', unit:'NONE',
+    options:['INCISORS','TO_CANINES','TO_PREMOLARS','TO_MOLARS'], labels:['Só Incisivos','Até Caninos','Até Pré-molares','Até Molares'] },
+  { id:'P01.A23', group:'Sorriso', label:'Exposição Incisivo Superior (%)', type:'SCALAR_PERCENT', unit:'PERCENT', min:0, max:100, step:1, placeholder:'%' },
+  { id:'P01.A24', group:'Sorriso', label:'Exposição Incisivo Inferior (%)', type:'SCALAR_PERCENT', unit:'PERCENT', min:0, max:100, step:1, placeholder:'%' },
+  { id:'P01.A25', group:'Sorriso', label:'Exposição Gengival Total (mm)', type:'SCALAR_MM', unit:'MM', min:0, max:8, step:.1, placeholder:'mm auto' },
+  { id:'P01.A26', group:'Intrabucal', label:'Zênites Gengivais', type:'CLASSIFICATION', unit:'NONE',
+    options:['ALIGNED','MISALIGNED'], labels:['Alinhados','Desalinhados'] },
+
+  // ── Perfil (detalhado) ──
+  { id:'P01.A13', group:'Perfil', label:'Padrão Facial (Classificação de Angle)', type:'CLASSIFICATION', unit:'NONE',
+    options:['CLASS_I','CLASS_II','CLASS_III'],
+    labels:['Padrão I','Padrão II','Padrão III'] },
+  { id:'P01.A14', group:'Perfil', label:'Ângulo de Convexidade Facial (G-Sn-Pg)', type:'SCALAR_DEGREES', unit:'DEGREES', min:120, max:180, step:.5, placeholder:'° auto' },
+  { id:'P01.A27', group:'Perfil', label:'Projeção Maxilar Aparente', type:'CLASSIFICATION', unit:'NONE',
+    options:['NORMAL','RETRUDED','PROTRUDED'], labels:['Normal','Retruída','Protruída'] },
+  { id:'P01.A28', group:'Perfil', label:'Projeção Mandibular Aparente', type:'CLASSIFICATION', unit:'NONE',
+    options:['NORMAL','RETRUDED','PROTRUDED'], labels:['Normal','Retruída','Protruída'] },
+  { id:'P01.A29', group:'Perfil', label:'Equilíbrio Labial no Perfil', type:'CLASSIFICATION', unit:'NONE',
+    options:['BALANCED','LIPS_ANTERIOR','LIPS_POSTERIOR'], labels:['Equilibrado','Lábios Anteriorizados','Lábios Posteriorizados'] },
+
+  // ── Intrabucal ──
+  { id:'P01.A30', group:'Intrabucal', label:'Coincidência das Linhas Médias', type:'CLASSIFICATION', unit:'NONE',
+    options:['COINCIDENT','DEVIATED'], labels:['Coincidentes','Desviadas'] },
+  { id:'P01.A31', group:'Intrabucal', label:'Inclinação da Linha Oclusal', type:'CLASSIFICATION', unit:'NONE',
+    options:['NORMAL','ALTERED'], labels:['Normal','Alterada'] },
+  { id:'P01.A32', group:'Intrabucal', label:'Overbite Visível', type:'CLASSIFICATION', unit:'NONE',
+    options:['NORMAL','INCREASED','DECREASED','OPEN_BITE'], labels:['Normal','Aumentado','Diminuído','Mordida Aberta'] },
+  { id:'P01.A33', group:'Intrabucal', label:'Mordida Cruzada Anterior', type:'CLASSIFICATION', unit:'NONE',
+    options:['ABSENT','PRESENT'], labels:['Ausente','Presente'] },
+  { id:'P01.A34', group:'Intrabucal', label:'Mordida Cruzada Posterior', type:'CLASSIFICATION', unit:'NONE',
+    options:['ABSENT','PRESENT'], labels:['Ausente','Presente'] },
+  { id:'P01.A35', group:'Intrabucal', label:'Mordida Aberta', type:'CLASSIFICATION', unit:'NONE',
+    options:['ABSENT','PRESENT'], labels:['Ausente','Presente'] },
+  { id:'P01.A36', group:'Intrabucal', label:'Apinhamento Visível', type:'CLASSIFICATION', unit:'NONE',
+    options:['ABSENT','PRESENT'], labels:['Ausente','Presente'] },
+  { id:'P01.A37', group:'Intrabucal', label:'Diastemas', type:'CLASSIFICATION', unit:'NONE',
+    options:['ABSENT','PRESENT'], labels:['Ausente','Presente'] },
+];
+
+const API = '/api/v1';
+
+/* ═══════════════════════════════
+   STATE
+═══════════════════════════════ */
+const state = {
+  files: {},
+  points: { frontal:{}, perfil:{}, sorriso:{}, intrabucal:{} },
+  imgNat: { frontal:null, perfil:null, sorriso:null, intrabucal:null },
+  dataUrls: {}
+};
+const annotators = { frontal:null, perfil:null, sorriso:null, intrabucal:null };
+let currentPhotoTab = 'frontal';
+
+function currentAnnotator() { return annotators[currentPhotoTab] || null; }
+
+const FINDING_CATEGORIES = [
+  { id:'CARIE',      label:'Cárie',                         color:'#DC2626' },
+  { id:'INFLAM_GEN', label:'Inflamação Gengival',            color:'#F59E0B' },
+  { id:'PINO_COROA', label:'Pino + Coroa',                   color:'#7C3AED' },
+  { id:'IMPLANTE',   label:'Implante',                       color:'#2563EB' },
+  { id:'RESINA',     label:'Restauração Resina Infiltrada',  color:'#0D9488' },
+  { id:'AMALGAMA',   label:'Restauração de Amálgama',        color:'#4B5563' },
+  { id:'RETRACAO',   label:'Retração',                       color:'#DB2777' },
+  { id:'EXODONTIA',  label:'Exodontia',                      color:'#111827' },
+  { id:'CANAL',      label:'Canal',                          color:'#059669' },
+];
+function findingCategoryById(id) { return FINDING_CATEGORIES.find(c => c.id === id); }
+
+/* ═══════════════════════════════
+   AUTOMATIC FACIAL LANDMARK DETECTION
+   Maps MediaPipe Face Landmarker's 478 mesh points (indices below) onto our
+   protocol's landmark keys. This is an approximation, not a clinical-grade
+   measurement — every point it places remains fully draggable so the
+   clinician can correct its position before the measurements are trusted.
+   Intrabucal has no equivalent model (no reliable open dental-landmark
+   detector), so it stays fully manual.
+   For left/right pairs we don't rely on MediaPipe's own left/right naming
+   (which is defined in image space and easy to get backwards) — instead we
+   assign whichever detected point has the smaller x to the "Direita" key,
+   which is correct for a standard non-mirrored frontal/sorriso photo.
+═══════════════════════════════ */
+const FACE_AUTO_POINTS = {
+  frontal: [
+    { keys:['Tr'],  idx:[10] },
+    { keys:['G'],   idx:[9] },
+    { keys:['Sn'],  idx:[2] },
+    { keys:['Me'],  idx:[152] },
+    { keys:['Pg'],  idx:[175] },
+    { keys:['Ls'],  idx:[13] },
+    { keys:['Li'],  idx:[14] },
+    { keys:['Sto'], idx:[13,14], mid:true },
+    { keys:['Pd','Pe'],   idx:[468,473], byX:true },
+    { keys:['AlD','AlE'], idx:[129,358], byX:true },
+    { keys:['CoD','CoE'], idx:[61,291],  byX:true },
+  ],
+  perfil: [
+    { keys:['Tr'],  idx:[10] },
+    { keys:['G'],   idx:[9] },
+    { keys:['Prn'], idx:[4] },
+    { keys:['Sn'],  idx:[2] },
+    { keys:['Ls'],  idx:[13] },
+    { keys:['Li'],  idx:[14] },
+    { keys:['Pg'],  idx:[175] },
+    { keys:['Me'],  idx:[152] },
+  ],
+  sorriso: [
+    { keys:['Tr'],  idx:[10] },
+    { keys:['Me'],  idx:[152] },
+    { keys:['SsS'], idx:[13] },
+    { keys:['StI'], idx:[14] },
+    { keys:['CoD','CoE'], idx:[61,291], byX:true },
+  ],
+};
+
+// Persistent, self-correcting bias per (photoKey, pointKey): a running average of how
+// far off the raw model detection tends to be from where this clinician actually wants
+// the point, learned from every drag/re-click correction. Survives across cases/sessions
+// (stored in localStorage) so the same mistake doesn't keep repeating.
+let LANDMARK_BIAS = {};
+try { LANDMARK_BIAS = JSON.parse(localStorage.getItem('ortho_landmark_bias') || '{}'); } catch (e) { LANDMARK_BIAS = {}; }
+
+function saveLandmarkBias() {
+  try { localStorage.setItem('ortho_landmark_bias', JSON.stringify(LANDMARK_BIAS)); } catch (e) { /* ignore */ }
+}
+
+function recordLandmarkCorrection(photoKey, pointKey, delta) {
+  LANDMARK_BIAS[photoKey] = LANDMARK_BIAS[photoKey] || {};
+  const cur = LANDMARK_BIAS[photoKey][pointKey] || { x:0, y:0, n:0 };
+  const n = cur.n + 1;
+  LANDMARK_BIAS[photoKey][pointKey] = {
+    x: cur.x + (delta.x - cur.x) / n,
+    y: cur.y + (delta.y - cur.y) / n,
+    n
+  };
+  saveLandmarkBias();
+}
+
+function applyLandmarkBias(photoKey, pointKey, pt) {
+  const b = LANDMARK_BIAS[photoKey] && LANDMARK_BIAS[photoKey][pointKey];
+  if (!b) return pt;
+  return { x: Math.min(1, Math.max(0, pt.x + b.x)), y: Math.min(1, Math.max(0, pt.y + b.y)) };
+}
+
+function resetLandmarkLearning() {
+  LANDMARK_BIAS = {};
+  saveLandmarkBias();
+}
+
+async function runFaceAutoDetect(ann) {
+  const spec = FACE_AUTO_POINTS[ann.key];
+  if (!spec || !ann.imgEl || !ann.imgEl.naturalWidth) return;
+  const detector = await (window.__faceLandmarkerReady || Promise.resolve(null));
+  if (!detector) return;
+  let result;
+  try { result = detector.detect(ann.imgEl); } catch (e) { console.warn('Falha na detecção automática:', e.message); return; }
+  const lm = result && result.faceLandmarks && result.faceLandmarks[0];
+  if (!lm) return; // no face found — leave everything to manual marking
+
+  let placedAny = false;
+  for (const entry of spec) {
+    if (entry.keys.some(k => ann.pts[k])) continue; // never overwrite an existing point
+    const pts = entry.idx.map(i => lm[i]);
+    if (pts.some(p => !p)) continue;
+    let placed;
+    if (entry.idx.length === 1) {
+      placed = { [entry.keys[0]]: { x: pts[0].x, y: pts[0].y } };
+    } else if (entry.mid) {
+      placed = { [entry.keys[0]]: { x: (pts[0].x+pts[1].x)/2, y: (pts[0].y+pts[1].y)/2 } };
+    } else if (entry.byX) {
+      const [a, b] = pts;
+      const first  = a.x <= b.x ? a : b;
+      const second = a.x <= b.x ? b : a;
+      placed = { [entry.keys[0]]: { x: first.x, y: first.y }, [entry.keys[1]]: { x: second.x, y: second.y } };
+    }
+    for (const [k, pt] of Object.entries(placed)) {
+      const biased = applyLandmarkBias(ann.key, k, pt);
+      ann.pts[k] = biased;
+      ann.autoRaw[k] = biased;
+      ann.unconfirmed.add(k);
+    }
+    entry.keys.forEach(k => { if (!ann.order.includes(k)) ann.order.push(k); });
+    placedAny = true;
+  }
+  if (!placedAny) return;
+  ann.activeKey = null;
+  state.points[ann.key] = ann.pointsForSave();
+  ann.redraw(); ann.updateUI();
+  calculateMeasurements();
+  scheduleSavePhoto(ann.key);
+}
+
+/* ═══════════════════════════════
+   NAVIGATION
+═══════════════════════════════ */
+function navigate(p) {
+  document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+  document.getElementById('page-' + p).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(el => {
+    if ((el.getAttribute('onclick')||'').includes("'"+p+"'")) el.classList.add('active');
+  });
+  if (p === 'dashboard') loadDashboard();
+  if (p === 'avaliacao') initAnnotators();
+}
+
+/* ═══════════════════════════════
+   PHOTO TABS
+═══════════════════════════════ */
+function switchPhotoTab(key, btn) {
+  document.querySelectorAll('.photo-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.photo-tab').forEach(b => b.classList.remove('active'));
+  document.getElementById('pp-' + key).classList.add('active');
+  btn.classList.add('active');
+  currentPhotoTab = key;
+  renderPointSelector();
+}
+
+/* ═══════════════════════════════
+   DASHBOARD
+═══════════════════════════════ */
+async function loadDashboard() {
+  const tbody = document.getElementById('cases-tbody');
+  tbody.innerHTML = '<tr><td colspan="7"><div class="empty"><div class="emoji">⏳</div><p>Carregando… <a href="/api/v1/cases" target="_blank" style="font-size:11px">[testar API]</a></p></div></td></tr>';
+  try {
+    const ctrl = new AbortController();
+    const tid = setTimeout(() => ctrl.abort(), 8000);
+    const r = await fetch(API + '/cases', { signal: ctrl.signal });
+    clearTimeout(tid);
+    if (!r.ok) throw new Error(await r.text());
+    const { cases } = await r.json();
+    document.getElementById('stat-total').textContent     = cases.length;
+    document.getElementById('stat-active').textContent    = cases.filter(c => c.status==='ACTIVE').length;
+    document.getElementById('stat-treatment').textContent = cases.filter(c => c.status==='TREATMENT').length;
+    document.getElementById('stat-completed').textContent = cases.filter(c => c.status==='COMPLETED').length;
+    if (!cases.length) {
+      tbody.innerHTML = '<tr><td colspan="7"><div class="empty"><div class="emoji">📂</div><p>Nenhum caso cadastrado.<br><button class="btn btn-primary btn-sm" style="margin-top:10px" onclick="navigate(\'novo-caso\')">+ Cadastrar primeiro caso</button></p></div></td></tr>';
+      return;
+    }
+    tbody.innerHTML = cases.map(c => `<tr>
+      <td><strong>${esc(c.patientName)}</strong></td>
+      <td>${fmtDate(c.birthDate)} · ${sexLbl(c.sex)}</td>
+      <td>${esc(c.orthodontistName)}</td>
+      <td><span class="badge-status status-${c.status}">${statusLbl(c.status)}</span></td>
+      <td>${c.sessionCount}</td>
+      <td>${fmtDate(c.openedAt)}</td>
+      <td><button class="btn btn-outline btn-sm" onclick="goToCase('${esc(c.caseId)}','${esc(c.birthDate)}','${esc(c.sex)}')">Avaliar</button></td>
+    </tr>`).join('');
+  } catch(e) {
+    tbody.innerHTML = `<tr><td colspan="7"><div class="empty"><div class="emoji">⚠️</div><p>Erro: ${esc(String(e))}</p></div></td></tr>`;
+  }
+}
+
+function goToCase(caseId, birth, sex) {
+  resetEvaluationState();
+  document.getElementById('av-case-id').value   = caseId;
+  document.getElementById('av-session').value   = 'T0';
+  document.getElementById('av-birth-date').value = birth ? birth.substring(0,10) : '';
+  document.getElementById('av-sex').value       = sex || 'UNSPECIFIED';
+  navigate('avaliacao');
+  loadCasePhotosForCurrentCase();
+}
+
+function onSessionChange() {
+  resetEvaluationState();
+  initAnnotators();
+  loadCasePhotosForCurrentCase();
+}
+
+// Clears in-memory photos/points/annotators so switching cases (or sessions)
+// doesn't leak the previous case's marked points into the new one.
+function resetEvaluationState() {
+  state.files   = {};
+  state.points  = { frontal:{}, perfil:{}, sorriso:{}, intrabucal:{} };
+  state.imgNat  = { frontal:null, perfil:null, sorriso:null, intrabucal:null };
+  state.dataUrls = {};
+  for (const key of Object.keys(annotators)) {
+    if (annotators[key] && annotators[key].ro) annotators[key].ro.disconnect();
+    annotators[key] = null;
+  }
+  ['frontal','perfil','sorriso','intrabucal'].forEach(key => {
+    const up = document.getElementById('up-' + key);
+    if (up) up.innerHTML = '';
+    const uz = document.getElementById('uz-' + key);
+    if (uz) uz.classList.remove('has-file');
+  });
+  renderPointSelector();
+  renderFindingChips();
+}
+
+// Fetches previously saved photos + landmark points for the case/session
+// currently loaded in the Avaliação form and restores them into the annotators,
+// so reopening a case doesn't require re-uploading photos or re-marking points.
+async function loadCasePhotosForCurrentCase() {
+  const caseId  = document.getElementById('av-case-id').value.trim();
+  const session = document.getElementById('av-session').value;
+  if (!caseId) return;
+  try {
+    const r = await fetch(`${API}/cases/${enc(caseId)}/sessions/${enc(session)}/photos`);
+    if (!r.ok) return;
+    const { photos } = await r.json();
+    if (!photos || !Object.keys(photos).length) return;
+    initAnnotators();
+    for (const key of ['frontal','perfil','sorriso','intrabucal']) {
+      const p = photos[key];
+      if (!p || !p.imageData) continue;
+      state.dataUrls[key] = p.imageData;
+      if (annotators[key]) annotators[key].loadFromDataUrl(p.imageData, p.points || {});
+      updateUploadPreviewFromDataUrl(key, p.imageData);
+    }
+  } catch (e) {
+    console.warn('Não foi possível carregar fotos salvas do caso:', e.message);
+  }
+}
+
+let _savePhotoTimers = {};
+function scheduleSavePhoto(key) {
+  clearTimeout(_savePhotoTimers[key]);
+  _savePhotoTimers[key] = setTimeout(() => savePhotoNow(key), 600);
+}
+
+async function savePhotoNow(key) {
+  const caseId  = document.getElementById('av-case-id').value.trim();
+  const session = document.getElementById('av-session').value;
+  const dataUrl = state.dataUrls[key];
+  if (!caseId || !dataUrl) return;
+  const nat = state.imgNat[key];
+  try {
+    await authFetch(`${API}/cases/${enc(caseId)}/sessions/${enc(session)}/photos/${enc(key)}`, {
+      method: 'PUT', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        imageData: dataUrl,
+        points:    state.points[key] || {},
+        natWidth:  nat ? nat.w : null,
+        natHeight: nat ? nat.h : null
+      })
+    });
+  } catch (e) {
+    console.warn('Não foi possível salvar a foto em nuvem:', e.message);
+  }
+}
+
+function fileToDataURL(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload  = () => resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+/* ═══════════════════════════════
+   FILE UPLOADS
+═══════════════════════════════ */
+function triggerUpload(key) {
+  const map = { frontal:'file-frontal', perfil:'file-perfil', sorriso:'file-sorriso', intrabucal:'file-intrabucal' };
+  document.getElementById(map[key]).click();
+}
+
+function handleUpload(key, input) {
+  const file = input.files[0]; if (!file) return;
+  storeFile(key, file);
+}
+
+function storeFile(key, file) {
+  state.files[key] = file;
+  updateUploadPreview(key, file);
+  if (annotators[key]) annotators[key].loadImage(file);
+  else if (document.getElementById('page-avaliacao').classList.contains('active')) {
+    initAnnotators();
+  }
+  fileToDataURL(file).then(dataUrl => {
+    state.dataUrls[key] = dataUrl;
+    scheduleSavePhoto(key);
+  }).catch(e => console.warn('Falha ao converter foto para salvamento:', e.message));
+}
+
+function updateUploadPreview(key, file) {
+  const uzMap = { frontal:'uz-frontal', perfil:'uz-perfil', sorriso:'uz-sorriso', intrabucal:'uz-intrabucal' };
+  const upMap = { frontal:'up-frontal', perfil:'up-perfil', sorriso:'up-sorriso', intrabucal:'up-intrabucal' };
+  const uz = document.getElementById(uzMap[key]);
+  const up = document.getElementById(upMap[key]);
+  if (!uz || !up) return;
+  uz.classList.add('has-file');
+  const url = URL.createObjectURL(file);
+  up.innerHTML = `<img src="${url}" alt="preview"><div class="upload-fname">${esc(file.name)}</div>`;
+}
+
+function updateUploadPreviewFromDataUrl(key, dataUrl) {
+  const uzMap = { frontal:'uz-frontal', perfil:'uz-perfil', sorriso:'uz-sorriso', intrabucal:'uz-intrabucal' };
+  const upMap = { frontal:'up-frontal', perfil:'up-perfil', sorriso:'up-sorriso', intrabucal:'up-intrabucal' };
+  const uz = document.getElementById(uzMap[key]);
+  const up = document.getElementById(upMap[key]);
+  if (!uz || !up) return;
+  uz.classList.add('has-file');
+  up.innerHTML = `<img src="${dataUrl}" alt="preview"><div class="upload-fname">Foto salva anteriormente</div>`;
+}
+
+function dzOver(e, id)    { e.preventDefault(); document.getElementById(id).classList.add('drag-over'); }
+function dzLeave(id)      { document.getElementById(id).classList.remove('drag-over'); }
+function dzDrop(e, key, id) {
+  e.preventDefault(); dzLeave(id);
+  const file = e.dataTransfer.files[0]; if (file) storeFile(key, file);
+}
+
+/* ═══════════════════════════════
+   PHOTO ANNOTATOR CLASS
+═══════════════════════════════ */
+class PhotoAnnotator {
+  constructor(key) {
+    this.key    = key;
+    this.def    = PHOTO_DEFS[key];
+    this.pts    = {};   // { key: {x,y} } normalized 0-1, landmark points only
+    this.order  = [];   // keys placed, in placement order (for undo)
+    this.activeKey = null; // point key selected in the right-side list, waiting for a click on the photo
+    this.imgEl  = null;
+    this.canvas = null;
+    this.ctx    = null;
+    this.ro     = null;
+    this.findingMode = null;  // active finding category id, or null
+    this.findings    = [];    // { category, x, y } — free-form clinical markers (intrabucal only)
+    this.autoRaw     = {};    // { key: {x,y} } position last shown by auto-detection, for learning from corrections
+    this.unconfirmed = new Set(); // auto-detected points the clinician hasn't reviewed yet
+  }
+
+  // Marks every auto-detected point as reviewed ("Confirmar todos").
+  confirmAllPoints() {
+    this.unconfirmed.clear();
+    this.redraw();
+    renderPointSelector();
+  }
+
+  // Called whenever a point that came from auto-detection gets moved by the clinician
+  // (drag, or re-click from the sidebar list). Feeds the correction into the persistent
+  // per-key bias table so future auto-detections on any case start closer to where this
+  // clinician actually wants the point.
+  _maybeLearnCorrection(key, newPos) {
+    const prev = this.autoRaw[key];
+    if (!prev) return;
+    recordLandmarkCorrection(this.key, key, { x: newPos.x - prev.x, y: newPos.y - prev.y });
+    delete this.autoRaw[key];
+  }
+
+  // Activates a landmark point so the next click on the photo places it there.
+  // Clicking a point that's already placed clears it first, so the clinician can reposition it.
+  selectPoint(key) {
+    if (this.pts[key]) {
+      delete this.pts[key];
+      this.order = this.order.filter(k => k !== key);
+    }
+    this.activeKey = key;
+    this.updateUI();
+    renderPointSelector();
+  }
+
+  setFindingMode(category) {
+    this.findingMode = (this.findingMode === category) ? null : category;
+    this.activeKey = null;
+    this.updateUI();
+    renderFindingChips();
+  }
+
+  mount(pbId) {
+    const pb = document.getElementById(pbId);
+    pb.innerHTML = '';
+    const wrap = document.createElement('div');
+    wrap.className = 'photo-wrap';
+    this.imgEl  = document.createElement('img');
+    this.imgEl.className = 'photo-img';
+    this.canvas = document.createElement('canvas');
+    this.canvas.className = 'photo-canvas';
+    this.ctx    = this.canvas.getContext('2d');
+    wrap.append(this.imgEl, this.canvas);
+    pb.appendChild(wrap);
+    this.canvas.addEventListener('pointerdown', e => this._pointerDown(e));
+    this.canvas.addEventListener('pointermove', e => this._pointerMove(e));
+    this.canvas.addEventListener('pointerup', e => this._pointerUp(e));
+    this.canvas.addEventListener('pointercancel', () => { this._drag = null; });
+    this.ro = new ResizeObserver(() => this.sync());
+    this.ro.observe(this.imgEl);
+    this.updateUI();
+  }
+
+  loadImage(file) {
+    const url = URL.createObjectURL(file);
+    this.imgEl.onload = () => {
+      state.imgNat[this.key] = { w: this.imgEl.naturalWidth, h: this.imgEl.naturalHeight };
+      this.sync(); this.redraw(); this.updateUI();
+      runFaceAutoDetect(this);
+    };
+    this.imgEl.src = url;
+  }
+
+  // Restores a previously saved photo (as a data URL) plus its landmark points and
+  // clinical finding markers, so reopening a case doesn't require re-marking everything.
+  // Finding markers are persisted alongside landmark points using synthetic keys
+  // ("FIND__<CATEGORY>__<n>") since the backend only stores a flat {key:{x,y}} map.
+  loadFromDataUrl(dataUrl, pts) {
+    this.imgEl.onload = () => {
+      state.imgNat[this.key] = { w: this.imgEl.naturalWidth, h: this.imgEl.naturalHeight };
+      const all = pts || {};
+      this.pts = {};
+      this.findings = [];
+      this.unconfirmed.clear(); // saved points were already reviewed in a previous session
+      for (const [k, v] of Object.entries(all)) {
+        const m = /^FIND__(.+)__\d+$/.exec(k);
+        if (m) this.findings.push({ category: m[1], x: v.x, y: v.y });
+        else this.pts[k] = v;
+      }
+      this.order = Object.keys(this.pts);
+      state.points[this.key] = this.pts;
+      this.sync(); this.redraw(); this.updateUI();
+      calculateMeasurements();
+      runFaceAutoDetect(this);
+    };
+    this.imgEl.src = dataUrl;
+  }
+
+  // Combines landmark points + finding markers into the flat map the backend expects.
+  pointsForSave() {
+    const out = { ...this.pts };
+    this.findings.forEach((f, i) => { out['FIND__' + f.category + '__' + i] = { x: f.x, y: f.y }; });
+    return out;
+  }
+
+  sync() {
+    if (!this.imgEl.naturalWidth) return;
+    const dpr = window.devicePixelRatio || 1;
+    const w   = this.imgEl.offsetWidth;
+    const h   = this.imgEl.offsetHeight;
+    this.canvas.style.width  = w + 'px';
+    this.canvas.style.height = h + 'px';
+    this.canvas.width        = Math.round(w * dpr);
+    this.canvas.height       = Math.round(h * dpr);
+    this.redraw();
+  }
+
+  _relXY(e) {
+    const rect = this.imgEl.getBoundingClientRect();
+    return { x: (e.clientX - rect.left) / rect.width, y: (e.clientY - rect.top) / rect.height };
+  }
+
+  // Finds an existing landmark point or finding marker near (x,y) (normalized 0-1),
+  // so a pointerdown there starts a drag instead of placing a new point.
+  _hitTest(x, y) {
+    const w = this.imgEl.offsetWidth, h = this.imgEl.offsetHeight;
+    const rPx = 10;
+    for (const pd of this.def.points) {
+      const pt = this.pts[pd.key]; if (!pt) continue;
+      const dx = pt.x*w - x*w, dy = pt.y*h - y*h;
+      if (Math.sqrt(dx*dx + dy*dy) <= rPx) return { type:'point', key:pd.key };
+    }
+    for (let i = 0; i < this.findings.length; i++) {
+      const f = this.findings[i];
+      const dx = f.x*w - x*w, dy = f.y*h - y*h;
+      if (Math.sqrt(dx*dx + dy*dy) <= rPx) return { type:'finding', index:i };
+    }
+    return null;
+  }
+
+  _pointerDown(e) {
+    const { x, y } = this._relXY(e);
+    const hit = this._hitTest(x, y);
+    if (hit) {
+      this._drag = hit;
+      this.canvas.setPointerCapture(e.pointerId);
+    } else {
+      this._drag = null;
+    }
+  }
+
+  _pointerMove(e) {
+    if (!this._drag) return;
+    const { x, y } = this._relXY(e);
+    if (this._drag.type === 'point') this.pts[this._drag.key] = { x, y };
+    else this.findings[this._drag.index] = { ...this.findings[this._drag.index], x, y };
+    this.redraw();
+  }
+
+  _pointerUp(e) {
+    if (this._drag) {
+      const { x, y } = this._relXY(e);
+      if (this._drag.type === 'point') {
+        this._maybeLearnCorrection(this._drag.key, { x, y });
+        this.pts[this._drag.key] = { x, y };
+        this.unconfirmed.delete(this._drag.key);
+      } else this.findings[this._drag.index] = { ...this.findings[this._drag.index], x, y };
+      this._drag = null;
+      state.points[this.key] = this.pointsForSave();
+      this.redraw(); this.updateUI(); renderPointSelector(); renderFindingChips();
+      calculateMeasurements();
+      scheduleSavePhoto(this.key);
+      return;
+    }
+    this._click(e);
+  }
+
+  _click(e) {
+    const { x, y } = this._relXY(e);
+    if (this.findingMode) {
+      this.findings.push({ category: this.findingMode, x, y });
+      state.points[this.key] = this.pointsForSave();
+      this.redraw();
+      renderFindingChips();
+      scheduleSavePhoto(this.key);
+      return;
+    }
+    if (!this.activeKey) return;
+    this._maybeLearnCorrection(this.activeKey, { x, y });
+    this.pts[this.activeKey] = { x, y };
+    this.unconfirmed.delete(this.activeKey);
+    if (!this.order.includes(this.activeKey)) this.order.push(this.activeKey);
+    this.activeKey = null;
+    state.points[this.key] = this.pointsForSave();
+    this.redraw();
+    this.updateUI();
+    renderPointSelector();
+    calculateMeasurements();
+    scheduleSavePhoto(this.key);
+  }
+
+  undo() {
+    const key = this.order.pop();
+    if (!key) return;
+    delete this.pts[key];
+    delete this.autoRaw[key];
+    this.unconfirmed.delete(key);
+    state.points[this.key] = this.pointsForSave();
+    this.redraw(); this.updateUI(); renderPointSelector(); calculateMeasurements();
+    scheduleSavePhoto(this.key);
+  }
+
+  undoFinding() {
+    if (!this.findings.length) return;
+    this.findings.pop();
+    state.points[this.key] = this.pointsForSave();
+    this.redraw();
+    renderFindingChips();
+    scheduleSavePhoto(this.key);
+  }
+
+  removeFinding(index) {
+    this.findings.splice(index, 1);
+    state.points[this.key] = this.pointsForSave();
+    this.redraw();
+    renderFindingChips();
+    scheduleSavePhoto(this.key);
+  }
+
+  reset() {
+    this.pts = {};
+    this.order = [];
+    this.activeKey = null;
+    this.autoRaw = {};
+    this.unconfirmed.clear();
+    state.points[this.key] = this.pointsForSave();
+    this.redraw(); this.updateUI(); renderPointSelector(); calculateMeasurements();
+    scheduleSavePhoto(this.key);
+  }
+
+  redraw() {
+    const dpr = window.devicePixelRatio || 1;
+    const w   = this.imgEl.offsetWidth;
+    const h   = this.imgEl.offsetHeight;
+    const cw  = this.canvas.width;
+    const ch  = this.canvas.height;
+    this.ctx.clearRect(0, 0, cw, ch);
+    this.ctx.save();
+    this.ctx.scale(dpr, dpr);
+    // Connection lines
+    this._drawLines(w, h);
+    // Landmark points
+    this.def.points.forEach((pd, i) => {
+      const pt = this.pts[pd.key]; if (!pt) return;
+      const px = pt.x * w, py = pt.y * h;
+      if (this.unconfirmed.has(pd.key)) {
+        // Amber dashed halo: auto-detected, awaiting review — drag or confirm to accept.
+        this.ctx.beginPath();
+        this.ctx.arc(px, py, 7, 0, Math.PI * 2);
+        this.ctx.strokeStyle = '#F59E0B';
+        this.ctx.lineWidth = 1.5;
+        this.ctx.setLineDash([3, 2]);
+        this.ctx.stroke();
+        this.ctx.setLineDash([]);
+      }
+      this.ctx.beginPath();
+      this.ctx.arc(px, py, 2, 0, Math.PI * 2);
+      this.ctx.fillStyle   = this.def.color;
+      this.ctx.fill();
+      this.ctx.strokeStyle = '#fff';
+      this.ctx.lineWidth   = 1;
+      this.ctx.stroke();
+      this.ctx.font = 'bold 8px Inter, sans-serif';
+      this.ctx.fillStyle = '#fff';
+      this.ctx.strokeStyle = this.def.color;
+      this.ctx.lineWidth = 2;
+      this.ctx.strokeText(String(i + 1), px + 4, py - 4);
+      this.ctx.fillText(String(i + 1), px + 4, py - 4);
+    });
+    // Clinical finding markers
+    this.findings.forEach(f => {
+      const cat = findingCategoryById(f.category);
+      const color = cat ? cat.color : '#111827';
+      const px = f.x * w, py = f.y * h;
+      this.ctx.beginPath();
+      this.ctx.arc(px, py, 4, 0, Math.PI * 2);
+      this.ctx.fillStyle = color;
+      this.ctx.fill();
+      this.ctx.strokeStyle = '#fff';
+      this.ctx.lineWidth = 1.2;
+      this.ctx.stroke();
+    });
+    this.ctx.restore();
+  }
+
+  _drawLines(w, h) {
+    const lineMap = {
+      frontal: [['Tr','G','Sn','Me'], ['Pd','Pe'], ['Ls','Li'], ['AlD','AlE'], ['CoD','CoE']],
+      perfil:  [['Tr','G','Prn','Sn','Ls','Li','Pg','Me']],
+      sorriso: [['Tr','Me'],['CoD','CoE'],['PMd','PMe'],['SsS','StI']]
+    };
+    const groups = lineMap[this.key] || [];
+    for (const grp of groups) {
+      const coords = grp.map(k => this.pts[k]).filter(Boolean);
+      if (coords.length < 2) continue;
+      this.ctx.beginPath();
+      this.ctx.strokeStyle = this.def.color + 'aa';
+      this.ctx.lineWidth   = 1.5;
+      this.ctx.setLineDash([4,3]);
+      this.ctx.moveTo(coords[0].x * w, coords[0].y * h);
+      for (let i=1;i<coords.length;i++) this.ctx.lineTo(coords[i].x * w, coords[i].y * h);
+      this.ctx.stroke();
+      this.ctx.setLineDash([]);
+    }
+  }
+
+  updateUI() {
+    renderPointSelector();
+    if (this.key === 'intrabucal') renderFindingChips();
+  }
+}
+
+/* ═══════════════════════════════
+   INIT ANNOTATORS
+═══════════════════════════════ */
+function initAnnotators() {
+  if (!annotators.frontal) {
+    annotators.frontal = new PhotoAnnotator('frontal');
+    annotators.frontal.mount('pb-frontal');
+    if (state.files['frontal']) annotators.frontal.loadImage(state.files['frontal']);
+  }
+  if (!annotators.perfil) {
+    annotators.perfil = new PhotoAnnotator('perfil');
+    annotators.perfil.mount('pb-perfil');
+    if (state.files['perfil']) annotators.perfil.loadImage(state.files['perfil']);
+  }
+  if (!annotators.sorriso) {
+    annotators.sorriso = new PhotoAnnotator('sorriso');
+    annotators.sorriso.mount('pb-sorriso');
+    if (state.files['sorriso']) annotators.sorriso.loadImage(state.files['sorriso']);
+  }
+  if (!annotators.intrabucal) {
+    annotators.intrabucal = new PhotoAnnotator('intrabucal');
+    annotators.intrabucal.mount('pb-intrabucal');
+    if (state.files['intrabucal']) annotators.intrabucal.loadImage(state.files['intrabucal']);
+  }
+  renderPointSelector();
+  renderFindingChips();
+}
+
+/* ═══════════════════════════════
+   POINT SELECTOR (right sidebar) + FINDING CHIPS (intrabucal panel)
+═══════════════════════════════ */
+function renderPointSelector() {
+  const titleEl = document.getElementById('pt-selector-title');
+  const hintEl  = document.getElementById('pt-selector-hint');
+  const listEl  = document.getElementById('pt-selector-list');
+  if (!listEl) return;
+  const key = currentPhotoTab;
+  const ann = annotators[key];
+  const def = PHOTO_DEFS[key];
+  if (titleEl) titleEl.textContent = { frontal:'Frontal', perfil:'Perfil', sorriso:'Sorriso', intrabucal:'Intrabucal' }[key] || key;
+  if (!ann || !ann.imgEl || !ann.imgEl.src) {
+    if (hintEl) hintEl.textContent = 'Carregue a foto para começar.';
+    listEl.innerHTML = '';
+    return;
+  }
+  const pendCount = ann.unconfirmed.size;
+  if (hintEl) {
+    const auto = !!FACE_AUTO_POINTS[key];
+    hintEl.textContent = ann.activeKey
+      ? `Clique na foto para marcar: ${def.points.find(p=>p.key===ann.activeKey)?.label || ann.activeKey}`
+      : pendCount
+      ? `⚠ ${pendCount} ponto(s) detectado(s) pela IA aguardando sua conferência (anel âmbar na foto). Arraste para corrigir ou confirme todos abaixo.`
+      : (auto
+          ? 'Pontos detectados automaticamente quando possível. Arraste um ponto na foto para ajustar sua posição, ou clique em um item da lista para marcar/remarcar manualmente.'
+          : 'Clique em um ponto da lista para marcá-lo na foto. Pontos não clicados não são marcados.');
+  }
+  listEl.innerHTML = def.points.map(pd => {
+    const placed = !!ann.pts[pd.key];
+    const active = ann.activeKey === pd.key;
+    const pending = ann.unconfirmed.has(pd.key);
+    return `<div class="pt-item ${placed?'placed':''} ${active?'active':''}" style="cursor:pointer${pending?';color:#B45309':''}" onclick="currentAnnotator()&&currentAnnotator().selectPoint('${pd.key}')">
+      <span class="pt-key">${pd.key}</span>
+      <span class="pt-label">${pd.label}${pending?' <span style="font-size:10px;font-weight:600">· conferir</span>':''}</span>
+      <span class="pt-check">${pending ? '◉' : placed ? '✓' : (active ? '◎' : '○')}</span>
+    </div>`;
+  }).join('') + (pendCount
+    ? `<button class="btn btn-primary btn-sm" style="margin-top:6px;background:#B45309;border-color:#B45309" onclick="currentAnnotator()&&currentAnnotator().confirmAllPoints()">✓ Conferi — confirmar ${pendCount} ponto(s)</button>`
+    : '');
+}
+
+function renderFindingChips() {
+  const chipsEl = document.getElementById('finding-chips');
+  const listEl  = document.getElementById('finding-list');
+  if (!chipsEl) return;
+  const ann = annotators.intrabucal;
+  chipsEl.innerHTML = FINDING_CATEGORIES.map(c => {
+    const active = ann && ann.findingMode === c.id;
+    return `<button type="button" class="finding-chip ${active?'active':''}" style="--fc-color:${c.color}" onclick="annotators.intrabucal&&annotators.intrabucal.setFindingMode('${c.id}')">${c.label}</button>`;
+  }).join('');
+  if (!listEl) return;
+  if (!ann || !ann.findings.length) { listEl.innerHTML = ''; return; }
+  listEl.innerHTML = ann.findings.map((f, i) => {
+    const cat = findingCategoryById(f.category);
+    return `<div class="finding-item"><span class="finding-dot" style="background:${cat?cat.color:'#111'}"></span>
+      <span>${cat?cat.label:f.category}</span>
+      <button type="button" class="finding-remove" onclick="annotators.intrabucal&&annotators.intrabucal.removeFinding(${i})">✕</button></div>`;
+  }).join('');
+}
+
+/* ═══════════════════════════════
+   AUTO-CALCULATE MEASUREMENTS
+═══════════════════════════════ */
+function calculateMeasurements() {
+  const fp = state.points.frontal;
+  const pp = state.points.perfil;
+  const sp = state.points.sorriso;
+  const ip = state.points.intrabucal;
+  let anyAuto = false;
+
+  // ── Frontal: Terços faciais ──
+  // ── Frontal: Terços faciais → P01.A03/A04/A05 ──
+  if (fp.Tr && fp.G && fp.Sn && fp.Me) {
+    const total = fp.Me.y - fp.Tr.y;
+    if (total > 0.01) {
+      setAuto('P01.A03', ((fp.G.y  - fp.Tr.y) / total * 100).toFixed(1));
+      setAuto('P01.A04', ((fp.Sn.y - fp.G.y)  / total * 100).toFixed(1));
+      setAuto('P01.A05', ((fp.Me.y - fp.Sn.y) / total * 100).toFixed(1));
+      anyAuto = true;
+    }
+  }
+
+  // ── Sorriso: Desvio linha média dental → P01.A02 ──
+  // Facial midline = vertical line through Tr and Me; dental midline = U1.
+  // Não convertemos em mm absolutos aqui: a única escala disponível na foto de sorriso
+  // é a largura da boca (comissura a comissura), que varia bastante entre repouso e
+  // sorriso aberto — assumir um valor fixo (ex.: 50 mm) gera uma conversão para mm
+  // sistematicamente errada. Em vez disso, o desvio é expresso como % da largura da
+  // boca (métrica proporcional, sem depender de suposição de escala), com uma
+  // classificação qualitativa (coincide/diverge) — mais confiável que um "mm" inventado.
+  if (sp.Tr && sp.Me && sp.U1 && sp.CoD && sp.CoE) {
+    const nat = state.imgNat.sorriso;
+    if (nat) {
+      const dx = sp.Me.x - sp.Tr.x, dy = sp.Me.y - sp.Tr.y;
+      const facialMidAtU1 = dy !== 0 ? sp.Tr.x + dx * ((sp.U1.y - sp.Tr.y) / dy) : (sp.Tr.x + sp.Me.x) / 2;
+      const mouthWPx = Math.abs(sp.CoD.x - sp.CoE.x) * nat.w;
+      if (mouthWPx > 0) {
+        const devPx = (sp.U1.x - facialMidAtU1) * nat.w;
+        const devPct = (devPx / mouthWPx) * 100;
+        setAuto('P01.A02', devPct.toFixed(1));
+        anyAuto = true;
+      }
+    }
+  }
+
+  // ── Sorriso: Exposição dentária → P01.A12 (StI - borda incisivos sup) ──
+  // Escala aproximada pela largura da boca no sorriso (≈60 mm em sorriso aberto,
+  // maior que os ≈50 mm de referência em repouso) — ainda uma estimativa, não uma
+  // medida calibrada; ver nota acima sobre a limitação dessa escala.
+  if (sp.U1 && sp.StI) {
+    const nat = state.imgNat.sorriso;
+    if (nat && sp.CoD && sp.CoE) {
+      const comPx = Math.abs(sp.CoD.x - sp.CoE.x) * nat.w;
+      if (comPx > 0) {
+        const pxMm = comPx / 60;
+        const expPx = Math.abs(sp.StI.y - sp.U1.y) * nat.h;
+        setAuto('P01.A12', (expPx / pxMm).toFixed(1));
+        anyAuto = true;
+      }
+    }
+  }
+
+  // ── Intrabucal: Coincidência das linhas médias dentárias → P01.A30 (U1s vs L1i) ──
+  if (ip.U1s && ip.L1i) {
+    const dxN = Math.abs(ip.U1s.x - ip.L1i.x);
+    setAutoSelect('P01.A30', dxN > 0.015 ? 'DEVIATED' : 'COINCIDENT');
+    anyAuto = true;
+  }
+
+  // ── Intrabucal: Zênites gengivais → P01.A26 (altura relativa ZD vs ZE) ──
+  if (ip.ZD && ip.ZE) {
+    const dyN = Math.abs(ip.ZD.y - ip.ZE.y);
+    setAutoSelect('P01.A26', dyN > 0.01 ? 'MISALIGNED' : 'ALIGNED');
+    anyAuto = true;
+  }
+
+  // ── Perfil: Ângulo Nasolabial → P01.A07 (Prn–Sn–Ls) ──
+  if (pp.Prn && pp.Sn && pp.Ls) {
+    const nat = state.imgNat.perfil;
+    if (nat) {
+      const ang = angle3(pp.Prn, pp.Sn, pp.Ls, nat.w, nat.h);
+      if (ang !== null) { setAuto('P01.A07', ang.toFixed(1)); anyAuto = true; }
+    }
+  }
+
+  // ── Perfil: Ângulo de Convexidade Facial → P01.A14 (G–Sn–Pg, avaliado em perfil, não em frontal) ──
+  // e Padrão Facial → P01.A13, seguindo os limiares clássicos de convexidade de tecido mole:
+  // 165–175° Padrão I · >175° Padrão III (mandíbula protruída) · <165° Padrão II (mandíbula retruída)
+  if (pp.G && pp.Sn && pp.Pg) {
+    const nat = state.imgNat.perfil;
+    if (nat) {
+      const ang = angle3(pp.G, pp.Sn, pp.Pg, nat.w, nat.h);
+      if (ang !== null) {
+        setAuto('P01.A14', ang.toFixed(1));
+        setAutoSelect('P01.A13', ang > 175 ? 'CLASS_III' : ang < 165 ? 'CLASS_II' : 'CLASS_I');
+        anyAuto = true;
+      }
+    }
+  }
+
+  // ── Perfil: Equilíbrio Labial (Linha E de Ricketts) → P01.A29 ──
+  // Linha de referência Prn–Pg; G é usado como calibração de "posterior" (a testa está,
+  // por definição anatômica, atrás da linha do nariz ao queixo), sem depender de o
+  // paciente estar de perfil para a esquerda ou para a direita na foto.
+  if (pp.Prn && pp.Pg && pp.G && pp.Ls && pp.Li) {
+    const nat = state.imgNat.perfil;
+    if (nat) {
+      const P = k => ({ x: pp[k].x*nat.w, y: pp[k].y*nat.h });
+      const prn = P('Prn'), pg = P('Pg'), g = P('G'), ls = P('Ls'), li = P('Li');
+      const lineLen = Math.hypot(pg.x-prn.x, pg.y-prn.y);
+      const side = pt => ((pg.x-prn.x)*(pt.y-prn.y) - (pg.y-prn.y)*(pt.x-prn.x));
+      const gSign = Math.sign(side(g)) || 1;
+      const rel = pt => lineLen > 0 ? (Math.sign(side(pt))===gSign ? -1 : 1) * Math.abs(side(pt))/lineLen : 0;
+      const lsRel = rel(ls), liRel = rel(li);
+      const thresh = 0.04;
+      const anterior  = lsRel > thresh || liRel > thresh;
+      const posterior = lsRel < -thresh && liRel < -thresh;
+      setAutoSelect('P01.A29', anterior ? 'LIPS_ANTERIOR' : posterior ? 'LIPS_POSTERIOR' : 'BALANCED');
+      anyAuto = true;
+
+      // ── Perfil: Projeção Maxilar/Mandibular Aparente → P01.A27/A28 ──
+      // Estimativa aproximada de tecido mole: posição de Sn (proxy de maxila) e Me
+      // (proxy de mandíbula) em relação à mesma linha de referência Prn–Pg, calibrada
+      // por G. Não substitui uma cefalometria (não há Ponto A/B em foto), mas dá um
+      // indicativo inicial melhor do que deixar sempre em branco.
+      if (pp.Sn && pp.Me) {
+        const sn = P('Sn'), me = P('Me');
+        const snRel = rel(sn), meRel = rel(me);
+        setAutoSelect('P01.A27', snRel > thresh ? 'PROTRUDED' : snRel < -thresh ? 'RETRUDED' : 'NORMAL');
+        setAutoSelect('P01.A28', meRel > thresh ? 'PROTRUDED' : meRel < -thresh ? 'RETRUDED' : 'NORMAL');
+        anyAuto = true;
+      }
+    }
+  }
+
+
+  // ── Frontal: Padrão Vertical (dolico/meso/braquifacial) → P01.A15, a partir do terço inferior (A05) ──
+  if (fp.Tr && fp.G && fp.Sn && fp.Me) {
+    const total = fp.Me.y - fp.Tr.y;
+    if (total > 0.01) {
+      const t5pct = (fp.Me.y - fp.Sn.y) / total * 100;
+      setAutoSelect('P01.A15', t5pct > 35 ? 'INCREASED' : t5pct < 31 ? 'REDUCED' : 'NORMAL');
+      anyAuto = true;
+    }
+  }
+
+  // ── Frontal: Origem provável da assimetria → P01.A16 ──
+  // Eixo de referência definido por Tr–G (fronte, estruturalmente mais estável), estendido
+  // para comparar o desvio do nariz (alas nasais) e do mento (Me) em relação a esse eixo —
+  // evita a tautologia de usar Sn/Me para definir a própria linha que os mede.
+  if (fp.Tr && fp.G && fp.Sn && fp.Me && fp.AlD && fp.AlE && fp.Pd && fp.Pe) {
+    const nat = state.imgNat.frontal;
+    if (nat) {
+      const ipdPx = dist2d(fp.Pd, fp.Pe, nat.w, nat.h);
+      if (ipdPx > 0) {
+        const pxMm = ipdPx / 62;
+        const dx = fp.G.x - fp.Tr.x, dy = fp.G.y - fp.Tr.y;
+        const xAt = y => dy !== 0 ? fp.Tr.x + dx * ((y - fp.Tr.y) / dy) : fp.Tr.x;
+        const noseX = (fp.AlD.x + fp.AlE.x) / 2;
+        const noseOffMm = Math.abs((noseX - xAt(fp.Sn.y)) * nat.w) / pxMm;
+        const chinOffMm = Math.abs((fp.Me.x - xAt(fp.Me.y)) * nat.w) / pxMm;
+        const noseDev = noseOffMm > 2, chinDev = chinOffMm > 2;
+        const origin = (noseDev && chinDev) ? 'MIXED' : chinDev ? 'MANDIBULAR' : noseDev ? 'MAXILLARY' : 'NONE';
+        setAutoSelect('P01.A16', origin);
+        anyAuto = true;
+      }
+    }
+  }
+
+  // ── Frontal: Inclinação da linha bipupilar → P01.A19 ──
+  if (fp.Pd && fp.Pe) {
+    const nat = state.imgNat.frontal;
+    if (nat) {
+      const dx = (fp.Pe.x - fp.Pd.x) * nat.w, dy = (fp.Pe.y - fp.Pd.y) * nat.h;
+      // atan2(dy,dx) sem valor absoluto no dx pode "virar" para perto de 180° quando o
+      // eixo horizontal da linha bipupilar aponta no sentido negativo — usar os módulos
+      // de dx e dy garante o ângulo de inclinação (0°-90°) independente da ordem em que
+      // as pupilas foram marcadas.
+      setAuto('P01.A19', (Math.atan2(Math.abs(dy), Math.abs(dx)) * 180 / Math.PI).toFixed(1));
+      anyAuto = true;
+    }
+  }
+
+  // ── Sorriso: Corredor bucal → P01.A21 (largura do arco exposto vs largura da boca) ──
+  let corredorBucalPct = null;
+  if (sp.PMd && sp.PMe && sp.CoD && sp.CoE) {
+    const nat = state.imgNat.sorriso;
+    if (nat) {
+      const archW  = dist2d(sp.PMd, sp.PMe, nat.w, nat.h);
+      const mouthW = dist2d(sp.CoD, sp.CoE, nat.w, nat.h);
+      if (mouthW > 0) {
+        corredorBucalPct = Math.max(0, (1 - archW / mouthW) * 100);
+        setAuto('P01.A21', corredorBucalPct.toFixed(1));
+        anyAuto = true;
+      }
+    }
+  }
+
+
+  // ── Sorriso: Exposição do incisivo superior → P01.A23 (%), aproximado pela exposição
+  // dentária medida (P01.A12) sobre uma altura média de coroa clínica de referência (~10 mm) ──
+  if (sp.U1 && sp.StI && sp.CoD && sp.CoE) {
+    const nat = state.imgNat.sorriso;
+    if (nat) {
+      const comPx = dist2d(sp.CoD, sp.CoE, nat.w, nat.h);
+      if (comPx > 0) {
+        const pxMm = comPx / 60;
+        const expMm = Math.abs(sp.StI.y - sp.U1.y) * nat.h / pxMm;
+        setAuto('P01.A23', Math.min(100, (expMm / 10) * 100).toFixed(0));
+        anyAuto = true;
+      }
+    }
+  }
+
+  // ── Sorriso: Exposição gengival total → P01.A25 (GM acima da borda do lábio superior) ──
+  // GM só é marcado "se houver" gengiva visível (ver dica do ponto); se o restante da
+  // marcação do sorriso está completo e GM não foi marcado, assume-se exposição ≈ 0
+  // para fins de classificação do tipo de sorriso (P01.A20) abaixo.
+  let gingivalMm = null;
+  if (sp.SsS && sp.CoD && sp.CoE) {
+    const nat = state.imgNat.sorriso;
+    if (nat) {
+      const comPx = dist2d(sp.CoD, sp.CoE, nat.w, nat.h);
+      if (comPx > 0) {
+        const pxMm = comPx / 60;
+        if (sp.GM) {
+          const exposurePx = (sp.SsS.y - sp.GM.y) * nat.h; // positivo quando gengiva (GM) está acima da borda labial
+          gingivalMm = Math.max(0, exposurePx) / pxMm;
+          setAuto('P01.A25', gingivalMm.toFixed(1));
+          anyAuto = true;
+        } else {
+          gingivalMm = 0;
+        }
+      }
+    }
+  }
+
+  // ── Sorriso: Tipo de sorriso → P01.A20, a partir da exposição gengival (A25) e da
+  // exposição dentária (A12) já calculadas ──
+  if (gingivalMm !== null) {
+    const nat = state.imgNat.sorriso;
+    let cls;
+    if (gingivalMm > 2) cls = 'GUMMY';
+    else {
+      const expMm = (sp.U1 && sp.StI && nat && sp.CoD && sp.CoE)
+        ? Math.abs(sp.StI.y - sp.U1.y) * nat.h / (dist2d(sp.CoD, sp.CoE, nat.w, nat.h) / 60)
+        : null;
+      cls = expMm === null ? null : expMm < 1 ? 'LOW' : expMm <= 4 ? 'MEDIUM' : 'HIGH';
+    }
+    if (cls) { setAutoSelect('P01.A20', cls); anyAuto = true; }
+  }
+
+  if (anyAuto) {
+    const badge = document.getElementById('auto-badge');
+    if (badge) badge.style.display = 'inline';
+  }
+}
+
+function dist2d(a, b, natW, natH) {
+  const dx = (a.x - b.x) * natW;
+  const dy = (a.y - b.y) * natH;
+  return Math.sqrt(dx*dx + dy*dy);
+}
+
+function angle3(p1, vertex, p2, natW, natH) {
+  const va = { x:(p1.x - vertex.x)*natW, y:(p1.y - vertex.y)*natH };
+  const vb = { x:(p2.x - vertex.x)*natW, y:(p2.y - vertex.y)*natH };
+  const dot  = va.x*vb.x + va.y*vb.y;
+  const magA = Math.sqrt(va.x*va.x + va.y*va.y);
+  const magB = Math.sqrt(vb.x*vb.x + vb.y*vb.y);
+  if (magA === 0 || magB === 0) return null;
+  return Math.acos(Math.max(-1, Math.min(1, dot/(magA*magB)))) * 180 / Math.PI;
+}
+
+function setAuto(id, val) {
+  const el = document.getElementById('meas-' + id);
+  if (el && el.tagName === 'INPUT') {
+    el.value = val;
+    el.classList.add('auto-filled');
+  }
+}
+
+// Sets an auto-computed value on a <select> (CLASSIFICATION) field without
+// overwriting a value the clinician already chose manually.
+function setAutoSelect(id, val) {
+  const el = document.getElementById('meas-' + id);
+  if (el && el.tagName === 'SELECT' && !el.classList.contains('user-edited')) {
+    el.value = val;
+    el.classList.add('auto-filled');
+  }
+}
+
+/* ═══════════════════════════════
+   RENDER MEASUREMENTS
+═══════════════════════════════ */
+function renderMeasurements() {
+  const list = document.getElementById('meas-list');
+  const groupLabels = { Frontal:'📷 Frontal', Sorriso:'😊 Sorriso', Perfil:'📐 Perfil', Intrabucal:'🦷 Intrabucal' };
+  const groupOrder  = ['Frontal','Sorriso','Perfil','Intrabucal'];
+  const sorted = [...ANALYSES].sort((a,b) => groupOrder.indexOf(a.group) - groupOrder.indexOf(b.group));
+  let html = '';
+  let lastGroup = null;
+  for (const a of sorted) {
+    if (a.group !== lastGroup) {
+      if (lastGroup !== null) html += '</div>';
+      html += `<div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);margin:${lastGroup?'14px':'4px'} 0 6px">${groupLabels[a.group]||a.group}</div><div style="display:flex;flex-direction:column;gap:6px;">`;
+      lastGroup = a.group;
+    }
+    const isClass = a.type === 'CLASSIFICATION';
+    const inp = isClass
+      ? `<select id="meas-${a.id}" onchange="this.classList.add('user-edited')"><option value="">— Não avaliado —</option>${a.options.map((o,i) => `<option value="${o}">${a.labels[i]}</option>`).join('')}</select>`
+      : `<input id="meas-${a.id}" type="number" min="${a.min}" max="${a.max}" step="${a.step}" placeholder="${a.placeholder}">`;
+    html += `<div class="meas-row">
+      <div class="meas-label">${a.label}<div class="meas-mid">${a.id}</div></div>
+      <div class="meas-input">${inp}</div>
+    </div>`;
+  }
+  if (lastGroup !== null) html += '</div>';
+  list.innerHTML = html;
+}
+
+/* ═══════════════════════════════
+   PIPELINE
+═══════════════════════════════ */
+// No analysis is required to generate a report: the clinician may mark landmarks
+// on only some of the photos (e.g. only facial photos, or only the intrabucal photo)
+// in a given session, and the report is built from whatever was actually measured.
+function collectMeasurements() {
+  const out = [];
+  for (const a of ANALYSES) {
+    const el  = document.getElementById('meas-' + a.id);
+    const raw = el.value.trim();
+    if (a.type === 'CLASSIFICATION') {
+      if (!raw) continue;
+      out.push({ analysisId:a.id, value:{ type:'CLASSIFICATION', classification:raw, unit:'NONE' } });
+    } else {
+      if (raw === '') continue;
+      const n = parseFloat(raw.replace(',', '.'));
+      if (isNaN(n)) continue;
+      out.push({ analysisId:a.id, value:{ type:a.type, numericValue:String(n), unit:a.unit } });
+    }
+  }
+  return { measurements:out };
+}
+
+async function runPipeline() {
+  const btn       = document.getElementById('btn-run');
+  const caseId    = document.getElementById('av-case-id').value.trim();
+  const session   = document.getElementById('av-session').value;
+  const birthDate = document.getElementById('av-birth-date').value;
+  const sex       = document.getElementById('av-sex').value;
+
+  if (!caseId)   { showAlert('alert-av','danger','ID do caso é obrigatório.'); return; }
+  if (!birthDate){ showAlert('alert-av','danger','Data de nascimento é obrigatória.'); return; }
+
+  const { measurements } = collectMeasurements();
+
+  if (!measurements.length) {
+    showAlert('alert-av','danger','Marque ao menos um ponto em alguma foto antes de gerar o relatório.');
+    return;
+  }
+
+  // Safety gate: AI-detected points that were never reviewed can carry silent errors
+  // into the clinical measurements — require an explicit acknowledgement to proceed.
+  const pendingByPhoto = Object.entries(annotators)
+    .filter(([,a]) => a && a.unconfirmed && a.unconfirmed.size)
+    .map(([k,a]) => `${({frontal:'Frontal',perfil:'Perfil',sorriso:'Sorriso',intrabucal:'Intrabucal'})[k]||k}: ${a.unconfirmed.size}`);
+  if (pendingByPhoto.length) {
+    if (!confirm('Existem pontos detectados pela IA que você ainda não conferiu (' + pendingByPhoto.join(' · ') + ').\n\nPontos errados geram medições erradas no relatório. Deseja gerar mesmo assim?\n\nRecomendado: cancele, confira os pontos com anel âmbar e use "Conferi — confirmar".')) {
+      showAlert('alert-av','info','Geração cancelada — confira os pontos destacados em âmbar e confirme-os.');
+      return;
+    }
+  }
+
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Processando…';
+  document.getElementById('report-section').classList.remove('show');
+  showAlert('alert-av','info','Registrando medições…');
+
+  try {
+    const failed = [];
+    for (const m of measurements) {
+      const r = await authFetch(`${API}/cases/${enc(caseId)}/sessions/${enc(session)}/measurements`, {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({ analysisId:m.analysisId, value:m.value })
+      });
+      const b = await r.json();
+      if (!r.ok) {
+        if (r.status === 422 || r.status === 400) {
+          const reason = (b.validation?.errors||[]).map(e=>e.message).join('; ') || b.error?.message || 'valor inválido';
+          failed.push(`${measLabel(m.analysisId)} (${reason})`);
+          continue;
+        }
+        throw new Error(`${measLabel(m.analysisId)}: ${b.error?.message || r.statusText}`);
+      }
+    }
+    if (failed.length) {
+      throw new Error('Não foi possível salvar: ' + failed.join(' · '));
+    }
+    showAlert('alert-av','info','Executando análise clínica…');
+    const ex = await authFetch(`${API}/cases/${enc(caseId)}/sessions/${enc(session)}/execute`, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({ protocolId:'P01', patientBirthDate:birthDate, patientSex:sex })
+    });
+    const exD = await ex.json();
+    if (!ex.ok) {
+      if (exD.error?.code === 'BUNDLE_INCOMPLETE' && Array.isArray(exD.error?.missing) && exD.error.missing.length) {
+        throw new Error('Faltam medições obrigatórias: ' + exD.error.missing.map(measLabel).join(', ') + '.');
+      }
+      throw new Error(exD.error?.message || 'Erro na execução');
+    }
+    const params = new URLSearchParams({ protocolId:'P01', patientBirthDate:birthDate, patientSex:sex });
+    const txR = await fetch(`${API}/cases/${enc(caseId)}/sessions/${enc(session)}/report/text?${params}`);
+    const txt = txR.ok ? await txR.text() : null;
+    window._lastPipelineData = {
+      exD, txt,
+      caseId, session, birthDate, sex,
+      patName: (() => {
+        const banner = document.getElementById('av-banner');
+        if (!banner) return caseId.substring(0,8);
+        const chips = banner.querySelectorAll('.cb-item');
+        for (const chip of chips) {
+          const lbl = chip.querySelector('.cb-label');
+          if (lbl && lbl.textContent.trim() === 'Paciente') {
+            const v = chip.querySelector('.cb-value');
+            if (v) return v.textContent.trim();
+          }
+        }
+        return caseId.substring(0,8);
+      })(),
+      measurements: collectMeasurementsSnapshot(),
+      treatmentNotes: (document.getElementById('treatment-notes')||{}).value || ''
+    };
+    renderReport(exD, txt);
+    showAlert('alert-av','success',`✓ Relatório gerado — ${exD.findings.length} achado(s). Escreva o plano de tratamento abaixo e clique em "Gerar PDF".`);
+    document.getElementById('report-section').classList.add('show');
+    document.getElementById('report-section').scrollIntoView({ behavior:'smooth', block:'start' });
+    const pdfBtn = document.getElementById('btn-pdf');
+    if (pdfBtn) { pdfBtn.classList.add('pulse'); setTimeout(() => pdfBtn.classList.remove('pulse'), 6000); }
+  } catch(e) {
+    showAlert('alert-av','danger','Erro: ' + e.message);
+  } finally {
+    btn.disabled = false; btn.innerHTML = 'Gerar Relatório';
+  }
+}
+
+function renderReport(data, text) {
+  const { findings, report } = data;
+  document.getElementById('report-meta').innerHTML = `
+    <div class="meta-chip"><span class="ml">Achados</span><span class="mv">${report.totalFindings}</span></div>
+    <div class="meta-chip"><span class="ml">Graves/Críticos</span><span class="mv ${report.criticalCount>0?'danger':'success'}">${report.criticalCount}</span></div>
+    <div class="meta-chip"><span class="ml">Encaminhamentos</span><span class="mv ${report.referralCount>0?'warn':'success'}">${report.referralCount}</span></div>
+    <div class="meta-chip"><span class="ml">Seções</span><span class="mv">${report.sections.length}</span></div>`;
+  document.getElementById('findings-list').innerHTML = findings.length===0
+    ? '<div class="empty"><div class="emoji">✅</div><p>Nenhum achado clínico.</p></div>'
+    : findings.map(f => `<div class="finding-card">
+        <div><span class="badge badge-${f.severity}">${sevLbl(f.severity)}</span></div>
+        <div>
+          <div class="finding-text">${esc(f.text)}</div>
+          ${f.referral ? '<div class="finding-ref">⚑ Encaminhamento indicado</div>' : ''}
+        </div>
+      </div>`).join('');
+  if (text) document.getElementById('report-pre').textContent = text;
+}
+
+/* ═══════════════════════════════
+   NOVO CASO
+═══════════════════════════════ */
+function resetNovoCaso() {
+  ['nc-pat-given','nc-pat-family','nc-complaint'].forEach(id => {
+    const el = document.getElementById(id); if(el) el.value = '';
+  });
+  document.getElementById('nc-pat-birth').value = '';
+  document.getElementById('nc-pat-sex').value   = 'F';
+  document.getElementById('nc-session').value   = 'T0';
+  showAlert('alert-novo', null);
+}
+
+async function registerCase() {
+  const btn = document.getElementById('btn-register');
+  const given     = document.getElementById('nc-pat-given').value.trim();
+  const family    = document.getElementById('nc-pat-family').value.trim();
+  const birth     = document.getElementById('nc-pat-birth').value;
+  const sex       = document.getElementById('nc-pat-sex').value;
+  const complaint = document.getElementById('nc-complaint').value.trim();
+  const session   = document.getElementById('nc-session').value;
+
+  if (!given || !family){ showAlert('alert-novo','danger','Nome e sobrenome do paciente são obrigatórios.'); return; }
+  if (!birth)           { showAlert('alert-novo','danger','Data de nascimento é obrigatória.'); return; }
+
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Cadastrando…';
+  showAlert('alert-novo','info','Registrando caso…');
+
+  try {
+    const body = { patientGivenName:given, patientFamilyName:family, patientBirthDate:birth, patientSex:sex, sessionLabel:session };
+    if (complaint) body.chiefComplaint = complaint;
+    const r = await authFetch(API + '/cases/register', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body) });
+    const d = await r.json();
+    if (!r.ok) throw new Error(d.error?.message || JSON.stringify(d));
+    showAlert('alert-novo','success',`✓ Caso cadastrado! ID: ${d.caseId}`);
+    document.getElementById('av-case-id').value    = d.caseId;
+    document.getElementById('av-session').value    = d.sessionLabel;
+    document.getElementById('av-birth-date').value = birth;
+    document.getElementById('av-sex').value        = sex;
+    const banner = document.getElementById('av-banner');
+    banner.innerHTML = `<div class="cb-item"><span class="cb-label">Case ID</span><span class="cb-value">${esc(d.caseId.substring(0,8))}…</span></div><div class="cb-item"><span class="cb-label">Paciente</span><span class="cb-value">${esc(given)} ${esc(family)}</span></div><div class="cb-item"><span class="cb-label">Sessão</span><span class="cb-value">${esc(session)}</span></div>`;
+    banner.classList.add('show');
+    setTimeout(() => navigate('avaliacao'), 600);
+  } catch(e) {
+    showAlert('alert-novo','danger','Erro: ' + e.message);
+  } finally {
+    btn.disabled = false; btn.innerHTML = 'Cadastrar e Iniciar Avaliação';
+  }
+}
+
+/* ═══════════════════════════════
+   PDF GENERATION
+═══════════════════════════════ */
+function collectMeasurementsSnapshot() {
+  const snap = {};
+  for (const a of ANALYSES) {
+    const el = document.getElementById('meas-' + a.id);
+    if (el) snap[a.id] = el.value;
+  }
+  return snap;
+}
+
+function getAnnotatedImage(key) {
+  const ann = annotators[key];
+  if (!ann || !ann.imgEl || !ann.imgEl.src || !ann.imgEl.naturalWidth) return null;
+  const w = ann.imgEl.naturalWidth;
+  const h = ann.imgEl.naturalHeight;
+  const offscreen = document.createElement('canvas');
+  offscreen.width  = w;
+  offscreen.height = h;
+  const ctx = offscreen.getContext('2d');
+  ctx.drawImage(ann.imgEl, 0, 0, w, h);
+  // Re-draw landmarks at native resolution
+  const def = ann.def;
+  const pts = ann.pts;
+  const lineMap = {
+    frontal: [['Tr','G','Sn','Me'],['Pd','Pe'],['Ls','Li'],['AlD','AlE'],['CoD','CoE']],
+    perfil:  [['Tr','G','Prn','Sn','Ls','Li','Pg','Me']],
+    sorriso: [['Tr','Me'],['CoD','CoE'],['PMd','PMe'],['SsS','StI']]
+  };
+  for (const grp of (lineMap[key]||[])) {
+    const coords = grp.map(k=>pts[k]).filter(Boolean);
+    if (coords.length<2) continue;
+    ctx.beginPath();
+    ctx.strokeStyle = def.color + 'cc';
+    ctx.lineWidth   = Math.max(2, w/400);
+    ctx.setLineDash([8,5]);
+    ctx.moveTo(coords[0].x*w, coords[0].y*h);
+    for (let i=1;i<coords.length;i++) ctx.lineTo(coords[i].x*w, coords[i].y*h);
+    ctx.stroke();
+    ctx.setLineDash([]);
+  }
+  const r = Math.max(2.5, w/260);
+  def.points.forEach((pd, i) => {
+    const pt = pts[pd.key]; if (!pt) return;
+    const px = pt.x*w, py = pt.y*h;
+    ctx.beginPath(); ctx.arc(px,py,r,0,Math.PI*2);
+    ctx.fillStyle = def.color; ctx.fill();
+    ctx.strokeStyle='#fff'; ctx.lineWidth=Math.max(1,w/700); ctx.stroke();
+    const fs = Math.max(9, w/60);
+    ctx.font = 'bold ' + fs + 'px Inter, sans-serif';
+    ctx.strokeStyle = def.color; ctx.lineWidth = Math.max(2, w/220);
+    ctx.fillStyle = '#fff';
+    ctx.strokeText(String(i+1), px + r + 2, py - r);
+    ctx.fillText(String(i+1), px + r + 2, py - r);
+  });
+  const fr = Math.max(4, w/160);
+  (ann.findings||[]).forEach(f => {
+    const cat = findingCategoryById(f.category);
+    const color = cat ? cat.color : '#111827';
+    const px = f.x*w, py = f.y*h;
+    ctx.beginPath(); ctx.arc(px,py,fr,0,Math.PI*2);
+    ctx.fillStyle = color; ctx.fill();
+    ctx.strokeStyle='#fff'; ctx.lineWidth=Math.max(1.5,w/500); ctx.stroke();
+  });
+  return offscreen.toDataURL('image/jpeg', 0.88);
+}
+
+// Returns the list of finding categories actually used on a photo, for the report legend.
+function usedFindingCategories(key) {
+  const ann = annotators[key];
+  if (!ann || !ann.findings.length) return [];
+  const used = new Set(ann.findings.map(f => f.category));
+  return FINDING_CATEGORIES.filter(c => used.has(c.id));
+}
+
+function getRawImage(key) {
+  const ann = annotators[key];
+  if (!ann || !ann.imgEl || !ann.imgEl.src || !ann.imgEl.naturalWidth) return null;
+  const w = ann.imgEl.naturalWidth, h = ann.imgEl.naturalHeight;
+  const offscreen = document.createElement('canvas');
+  offscreen.width = w; offscreen.height = h;
+  offscreen.getContext('2d').drawImage(ann.imgEl, 0, 0, w, h);
+  return offscreen.toDataURL('image/jpeg', 0.88);
+}
+
+function measLabel(id) {
+  const a = ANALYSES.find(x=>x.id===id); return a?a.label:id;
+}
+function measDisplayVal(id, val) {
+  const a = ANALYSES.find(x=>x.id===id);
+  if (!a) return val||'—';
+  if (a.type==='CLASSIFICATION') {
+    const i = a.options.indexOf(val);
+    return i>=0 ? a.labels[i] : (val||'—');
+  }
+  if (val===''||val==null) return '—';
+  const u = {MM:'mm',DEGREES:'°',PERCENT:'%',RATIO:''}[a.unit]||'';
+  return val+u;
+}
+
+function sevLabel(s){ return {NORMAL:'Normal',MILD:'Leve',MODERATE:'Moderado',SEVERE:'Grave',CRITICAL:'Crítico'}[s]??s }
+function sevColor(s){ return {NORMAL:'#22c55e',MILD:'#eab308',MODERATE:'#f97316',SEVERE:'#ef4444',CRITICAL:'#7f1d1d'}[s]??'#9ca3af' }
+
+function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorrisoRawImg, intrabucalLegend = [], sorrisoPoints = {}, sorrisoImgNat = null, measurements, findings, patName, caseId, session, birthDate, sex, reportText, treatmentNotes }) {
+  const todayFull = new Date().toLocaleDateString('pt-BR', {day:'2-digit',month:'long',year:'numeric'});
+  const todayShort = new Date().toLocaleDateString('pt-BR');
+  const m = measurements || {};
+
+  let ageStr = '';
+  if (birthDate) {
+    try {
+      const bd = new Date(birthDate + 'T12:00:00'), now = new Date();
+      let a = now.getFullYear() - bd.getFullYear();
+      if (now.getMonth() < bd.getMonth() || (now.getMonth()===bd.getMonth()&&now.getDate()<bd.getDate())) a--;
+      ageStr = ' · ' + a + ' anos';
+    } catch(e) {}
+  }
+
+  const normItems = findings.filter(f => f.severity==='NORMAL');
+  const attnItems = findings.filter(f => f.severity!=='NORMAL');
+  const complexity = attnItems.length===0?'Baixa':attnItems.length<=2?'Leve':attnItems.length<=4?'Moderada':'Alta';
+
+  function e(s){ return String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;') }
+
+  function blbl(id, val) {
+    if (!val) return '—';
+    const a = ANALYSES.find(x=>x.id===id);
+    if (a&&a.options){ const i=a.options.indexOf(val); if(i>=0) return a.labels[i]; }
+    return val;
+  }
+
+  const chipCls = {
+    SYMMETRIC:'cn',NORMAL:'cn',COMPETENT:'cn',STRAIGHT:'cn',
+    ASYMMETRIC_MILD:'ca',DEVIATED_LEFT:'ca',DEVIATED_RIGHT:'ca',
+    POTENTIALLY_INCOMPETENT:'ca',CONVEX:'ca',CONCAVE:'ca',RETRUDED:'ca',PROTRUDED:'ca',
+    ASYMMETRIC_MODERATE:'ca',ASYMMETRIC_SEVERE:'cr',INCOMPETENT:'cr'
+  };
+  function chip(id, val) {
+    const lbl = blbl(id, val);
+    const cls = val?(chipCls[val]||'cx'):'cx';
+    return '<span class="chip '+cls+'">'+(val?e(lbl):'—')+'</span>';
+  }
+
+  function numVal(id) {
+    const v = m[id];
+    if (v===null||v===undefined||v==='') return null;
+    const n = parseFloat(v); return isNaN(n)?null:n;
+  }
+
+  function rbar(val, minV, maxV, nMin, nMax, unit) {
+    if (val===null||val===undefined) return '';
+    const range = maxV-minV;
+    const pct = Math.max(1,Math.min(99,((val-minV)/range)*100)).toFixed(1);
+    const nL = (((nMin-minV)/range)*100).toFixed(1);
+    const nW = (((nMax-nMin)/range)*100).toFixed(1);
+    return '<div class="rb-track">'+
+      '<div class="rb-normal" style="left:'+nL+'%;width:'+nW+'%"></div>'+
+      '<div class="rb-marker" style="left:'+pct+'%"></div></div>'+
+      '<div class="rb-labels"><span>'+minV+(unit||'')+'</span>'+
+      '<span style="color:#2A5C3A;font-size:7px">Normal '+nMin+'–'+nMax+(unit||'')+'</span>'+
+      '<span>'+maxV+(unit||'')+'</span></div>';
+  }
+
+  function photoEl(src, label, h, fit) {
+    const f = fit || 'cover';
+    if (src) return '<img src="'+src+'" style="width:100%;height:'+h+'px;object-fit:'+f+';object-position:center;display:block;">';
+    return '<div style="height:'+h+'px;display:flex;align-items:center;justify-content:center">'+
+      '<span style="font-size:7px;color:rgba(255,255,255,.18);letter-spacing:2px;text-transform:uppercase">'+e(label)+'</span></div>';
+  }
+
+  function ph(section, pg) {
+    return '<div style="height:1px;background:linear-gradient(90deg,#B08D57 0%,rgba(176,141,87,.1) 100%)"></div>'+
+      '<div class="ph"><div style="display:flex;align-items:center;gap:10px">'+
+      '<div class="ph-mono">T</div>'+
+      '<div><div class="ph-name">Dr. Matheus Tadao Wakasugui</div>'+
+      '<div class="ph-proto">Protocolo Tadao</div></div></div>'+
+      '<div style="text-align:right"><div class="ph-section">'+section+'</div>'+
+      '<div class="ph-page">'+todayShort+' · Página '+pg+' de 5</div></div></div>';
+  }
+
+  function pf(pg) {
+    return '<div class="pf"><div class="pf-line"></div>'+
+      '<div class="pf-text">Protocolo Tadao · Confidencial</div>'+
+      '<div class="pf-text">Página '+pg+' de 5</div></div>';
+  }
+
+  function insight(title, text) {
+    return '<div class="insight"><div class="insight-lbl">'+title+'</div>'+
+      '<div class="insight-txt">'+text+'</div></div>';
+  }
+
+
+  // A linha média dental inferior raramente é visível na foto de sorriso (dentes
+  // inferiores cobertos pelo lábio); em vez de exigir sua marcação ali, ela é inferida
+  // a partir de dois dados já coletados: o desvio da linha média SUPERIOR (sorriso,
+  // sempre visível) e a coincidência entre as linhas médias superior/inferior na foto
+  // INTRABUCAL (onde ambas costumam estar visíveis). Se a superior coincide com a linha
+  // média facial e a intrabucal mostra desvio entre superior/inferior, a inferior diverge
+  // da linha média facial por transitividade.
+  // Limiar de 4% da largura da boca ≈ equivalente ao antigo critério de 2 mm sobre uma
+  // boca de ~50 mm, mas expresso de forma proporcional (sem exigir uma escala em mm).
+  const MIDLINE_TOL_PCT = 4;
+
+  function lowerMidlineInference(midline, intrabucalCls) {
+    if (intrabucalCls !== 'COINCIDENT' && intrabucalCls !== 'DEVIATED') return null;
+    if (midline === null) return null;
+    if (Math.abs(midline) > MIDLINE_TOL_PCT) return 'INCONCLUSIVE';
+    return intrabucalCls === 'DEVIATED' ? 'DEVIATED' : 'COINCIDENT';
+  }
+
+  function smileTypeExplanation(type, gingivalMm) {
+    const gum = gingivalMm!==null&&gingivalMm!==undefined&&gingivalMm!=='' ? parseFloat(gingivalMm) : null;
+    if (type === 'GUMMY') {
+      return 'Sorriso classificado como gengival: '+(gum!==null?'a exposição gengival medida ('+gum.toFixed(1)+' mm) supera 2 mm':'a exposição da margem gengival supera 2 mm')+', valor acima do qual a literatura considera o sorriso gengival — a gengiva fica visível acima da coroa dentária ao sorrir.';
+    }
+    if (type === 'HIGH') {
+      return 'Sorriso classificado como alto: a coroa dentária é exposta em sua totalidade ao sorrir, '+(gum!==null?'com exposição gengival de '+gum.toFixed(1)+' mm (dentro do limite de até 2 mm)':'com discreta exposição gengival, dentro do limite de até 2 mm')+' — mais expressivo que o sorriso médio, porém sem caracterizar sorriso gengival.';
+    }
+    if (type === 'MEDIUM') {
+      return 'Sorriso classificado como médio: exposição da coroa dentária próxima da totalidade, sem exposição gengival relevante.';
+    }
+    if (type === 'LOW') {
+      return 'Sorriso classificado como baixo: exposição parcial da coroa dentária ao sorrir.';
+    }
+    return '';
+  }
+
+  function corredorBucalExplanation(pct) {
+    if (pct === null) return '';
+    if (pct > 15) return 'O corredor bucal de '+pct.toFixed(1)+'% está acima da faixa ideal (8–15%), criando um espaço negro lateral perceptível que estreita visualmente o sorriso — pode ser abordado com expansão do arco superior.';
+    if (pct < 8) return 'O corredor bucal de '+pct.toFixed(1)+'% está abaixo da faixa ideal (8–15%), com arco dentário muito próximo da comissura labial, o que pode indicar um sorriso "cheio" ou excesso transverso de maxila.';
+    return 'O corredor bucal de '+pct.toFixed(1)+'% está dentro da faixa ideal (8–15%), não comprometendo a estética do sorriso.';
+  }
+
+  function smileConclusion(midline, lowerMidline, dentalExp, m) {
+    const items = [];
+    if (midline!==null) {
+      items.push('Linha média dental superior '+(Math.abs(midline)<=MIDLINE_TOL_PCT?'coincide, dentro da tolerância clínica, com a linha média facial':'diverge da linha média facial para o lado '+(midline>0?'direito':'esquerdo')));
+    }
+    if (lowerMidline==='DEVIATED') {
+      items.push('Linha média dental inferior diverge da linha média facial (inferido: linha superior coincidente + desvio identificado entre as linhas médias na foto intrabucal)');
+    } else if (lowerMidline==='COINCIDENT') {
+      items.push('Linha média dental inferior também coincide com a linha média facial (linhas médias superior e inferior coincidentes na foto intrabucal)');
+    }
+    if (dentalExp!==null) {
+      items.push('Exposição dentária em repouso/sorriso de '+dentalExp.toFixed(1)+' mm, '+(dentalExp>=2&&dentalExp<=4?'compatível com a faixa de normalidade':'fora da faixa de referência, recomendando-se avaliação complementar'));
+    }
+    if (!items.length) return '';
+    return '<div class="panel" style="margin-top:10px">'+
+      '<div class="lbl" style="margin-bottom:8px">Conclusão Consolidada · Análise do Sorriso</div>'+
+      '<div style="display:flex;flex-direction:column;gap:5px">'+
+      items.map(t=>'<div style="display:flex;gap:7px;align-items:flex-start;font-size:9.5px;color:#2B2F36;line-height:1.5">'+
+        '<span style="color:#B08D57;flex-shrink:0">✓</span><span>'+e(t)+'</span></div>').join('')+
+      '</div></div>';
+  }
+
+  // Numeric values
+  const t3=numVal('P01.A03'), t4=numVal('P01.A04'), t5=numVal('P01.A05');
+  const midline=numVal('P01.A02');
+  const lowerMidline=lowerMidlineInference(midline, m['P01.A30']);
+  const dentalExp=numVal('P01.A12');
+  const nasoAngle=numVal('P01.A07');
+  const convexAngle=numVal('P01.A14');
+
+  const thirdsHtml = (t3!==null&&t4!==null&&t5!==null)
+    ? '<div class="g3" style="margin-bottom:10px">'+
+      '<div style="text-align:center;padding:8px 6px;border:1px solid #EDEAE6;border-radius:2px">'+
+        '<div style="font-size:7px;letter-spacing:1px;text-transform:uppercase;color:#6F737A;margin-bottom:3px">Superior</div>'+
+        '<div style="font-family:\'Cormorant Garamond\',serif;font-size:20px;font-weight:300;color:#0F2537">'+t3.toFixed(1)+'</div>'+
+        '<div style="font-size:8px;color:#6F737A">%</div></div>'+
+      '<div style="text-align:center;padding:8px 6px;border:1px solid #EDEAE6;border-radius:2px">'+
+        '<div style="font-size:7px;letter-spacing:1px;text-transform:uppercase;color:#6F737A;margin-bottom:3px">Médio</div>'+
+        '<div style="font-family:\'Cormorant Garamond\',serif;font-size:20px;font-weight:300;color:#0F2537">'+t4.toFixed(1)+'</div>'+
+        '<div style="font-size:8px;color:#6F737A">%</div></div>'+
+      '<div style="text-align:center;padding:8px 6px;border:1px solid '+(t5>35?'rgba(122,90,26,.25)':'#EDEAE6')+';border-radius:2px;background:'+(t5>35?'#F8F3E8':'#FCFBF9')+'">'+
+        '<div style="font-size:7px;letter-spacing:1px;text-transform:uppercase;color:'+(t5>35?'#7A5A1A':'#6F737A')+';margin-bottom:3px">Inferior'+(t5>35?' ↑':'')+'</div>'+
+        '<div style="font-family:\'Cormorant Garamond\',serif;font-size:20px;font-weight:300;color:'+(t5>35?'#7A5A1A':'#0F2537')+'">'+t5.toFixed(1)+'</div>'+
+        '<div style="font-size:8px;color:'+(t5>35?'#7A5A1A':'#6F737A')+'">%</div></div></div>'+
+      '<div style="display:flex;height:4px;border-radius:2px;overflow:hidden;gap:1px;margin-bottom:4px">'+
+        '<div style="width:'+t3.toFixed(1)+'%;background:#0F2537;opacity:.3;border-radius:1px 0 0 1px"></div>'+
+        '<div style="width:'+t4.toFixed(1)+'%;background:#0F2537;opacity:.18"></div>'+
+        '<div style="flex:1;background:'+(t5>35?'#7A5A1A':'#0F2537')+';opacity:'+(t5>35?'.45':'.12')+';border-radius:0 1px 1px 0"></div></div>'+
+      '<div style="display:flex;justify-content:space-between;font-size:7.5px;color:#6F737A">'+
+        '<span>Sup '+t3.toFixed(1)+'%</span><span>Méd '+t4.toFixed(1)+'%</span>'+
+        '<span style="color:'+(t5>35?'#7A5A1A':'#6F737A')+';font-weight:'+(t5>35?'500':'400')+'">Inf '+t5.toFixed(1)+'%'+(t5>35?' · ideal 33,3%':'')+'</span></div>'
+    : '<div style="font-size:9px;color:#6F737A;font-style:italic;padding:6px 0">Marque Tr, G, Sn, Me na foto frontal para calcular automaticamente.</div>';
+
+  // Achados inferidos no cliente (não vêm do motor de achados do backend, mas de
+  // correlações entre medições já coletadas) que também devem constar nos problemas
+  // identificados — ex.: a linha média inferior nunca é medida diretamente, apenas
+  // inferida a partir da linha média superior + a foto intrabucal.
+  const clientFindings = [];
+  if (lowerMidline === 'DEVIATED') {
+    clientFindings.push('Linha média dental superior coincide com a linha média facial; a linha média dental inferior diverge da linha média facial (identificado por meio da foto intrabucal).');
+  } else if (midline !== null && Math.abs(midline) > MIDLINE_TOL_PCT) {
+    clientFindings.push('Linha média dental superior diverge da linha média facial.');
+  }
+
+  const allProblems = findings.map(f=>f.text).concat(clientFindings);
+  const problemsList = allProblems.length
+    ? allProblems.join(' ')
+    : 'Nenhum problema identificado — parâmetros dentro da normalidade.';
+
+  // ── CSS ──
+  const CSS = "@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap');\n"+
+    ":root{--ink:#0F2537;--ink-mid:#2B2F36;--gold:#B08D57;--gold-pale:rgba(176,141,87,.09);--warm-white:#FCFBF9;--gray:#6F737A;--gray-light:#F2F2F0;--border:#E5E1DA;--border-lt:#EDEAE6;--green:#2A5C3A;--green-bg:#EEF4F0;--amber:#7A5A1A;--amber-bg:#F8F3E8;--red:#7A2828;--red-bg:#F8EEEE;--pad-h:44px;--photo-grid:150px 1fr;--cover-grid:1fr 260px}\n"+
+    "*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}\nhtml{font-size:11px}\n"+
+    "body{background:#E9E7E3;color:var(--ink);font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}\n"+
+    ".pbar{position:fixed;top:0;left:0;right:0;z-index:999;background:var(--ink);padding:9px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px}\n"+
+    ".pbar span{font-size:10px;color:rgba(255,255,255,.45);letter-spacing:.3px}\n"+
+    ".pbar button{background:var(--gold);color:var(--warm-white);border:none;padding:6px 18px;font-size:9.5px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;cursor:pointer;border-radius:2px;font-family:'Inter',sans-serif;flex-shrink:0}\n"+
+    "body{padding-top:44px}\n"+
+    "@media print{.pbar{display:none}body{padding-top:0;background:var(--warm-white)}}\n"+
+    ".page{width:210mm;max-width:100%;min-height:297mm;background:var(--warm-white);margin:20px auto;display:flex;flex-direction:column;page-break-after:always;overflow:hidden}\n"+
+    ".page:last-child{page-break-after:auto}\n"+
+    "@media print{body{background:var(--warm-white)}.page{margin:0}*{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}}\n"+
+    "@media screen and (max-width:700px){\n"+
+    "  :root{--pad-h:16px;--photo-grid:1fr;--cover-grid:1fr}\n"+
+    "  .page{width:100%;min-height:0;margin:0 auto 10px}\n"+
+    "  .pbar{flex-wrap:wrap;padding:8px 12px}\n"+
+    "  .pbar span{font-size:8.5px}\n"+
+    "  body{padding-top:58px}\n"+
+    "  .g2,.g3{grid-template-columns:1fr}\n"+
+    "  .sec-title{font-size:19px}\n"+
+    "}\n"+
+    ".ph{padding:13px var(--pad-h);display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}\n"+
+    ".ph-mono{width:24px;height:24px;border-radius:50%;border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:11px;color:var(--gold);flex-shrink:0}\n"+
+    ".ph-name{font-family:'Cormorant Garamond',serif;font-size:12.5px;font-weight:600;color:var(--ink);letter-spacing:.2px}\n"+
+    ".ph-proto{font-size:8px;color:var(--gray);letter-spacing:.6px;margin-top:1px}\n"+
+    ".ph-section{font-size:8px;font-weight:500;letter-spacing:1.2px;text-transform:uppercase;color:var(--gray)}\n"+
+    ".ph-page{font-size:8px;color:var(--border);margin-top:2px}\n"+
+    ".pf{padding:9px var(--pad-h);border-top:1px solid var(--border-lt);display:flex;align-items:center;justify-content:space-between}\n"+
+    ".pf-line{width:16px;height:1px;background:var(--gold)}\n"+
+    ".pf-text{font-size:7.5px;color:var(--gray);letter-spacing:.6px;text-transform:uppercase}\n"+
+    ".pb{padding:22px var(--pad-h);flex:1;display:flex;flex-direction:column;gap:14px}\n"+
+    ".sec-eyebrow{font-size:7.5px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:4px}\n"+
+    ".sec-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;color:var(--ink);line-height:1.15}\n"+
+    ".sec-sub{font-size:9px;color:var(--gray);margin-top:3px;line-height:1.6}\n"+
+    ".lbl{font-size:7.5px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray);margin-bottom:2px}\n"+
+    ".caption{font-size:9px;color:var(--gray);line-height:1.6;margin-top:3px}\n"+
+    ".chip{display:inline-flex;align-items:center;padding:2px 7px;border-radius:2px;font-size:7.5px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;border:1px solid;white-space:nowrap}\n"+
+    ".cn{background:var(--green-bg);color:var(--green);border-color:rgba(42,92,58,.15)}\n"+
+    ".ca{background:var(--amber-bg);color:var(--amber);border-color:rgba(122,90,26,.15)}\n"+
+    ".cr{background:var(--red-bg);color:var(--red);border-color:rgba(122,40,40,.15)}\n"+
+    ".cx{background:var(--gray-light);color:var(--ink-mid);border-color:var(--border)}\n"+
+    ".panel{border:1px solid var(--border);border-radius:2px;padding:12px 16px}\n"+
+    ".insight{border-left:2px solid var(--gold);background:var(--gold-pale);padding:12px 18px}\n"+
+    ".insight-lbl{font-size:7.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:5px}\n"+
+    ".insight-txt{font-size:9.5px;color:var(--ink-mid);line-height:1.75}\n"+
+    ".rb-track{position:relative;height:1px;background:var(--border);margin:9px 0}\n"+
+    ".rb-normal{position:absolute;top:-1px;height:3px;background:rgba(42,92,58,.18);border-radius:1px}\n"+
+    ".rb-marker{position:absolute;top:50%;transform:translate(-50%,-50%);width:8px;height:8px;border-radius:50%;background:var(--ink);border:2px solid var(--warm-white);box-shadow:0 0 0 1px var(--ink)}\n"+
+    ".rb-labels{display:flex;justify-content:space-between;font-size:7.5px;color:var(--gray);margin-top:3px}\n"+
+    ".g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}\n"+
+    ".g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}\n"+
+    ".find-row{display:flex;align-items:flex-start;gap:8px;padding:6px 0;border-bottom:1px solid var(--border-lt)}\n"+
+    ".find-row:last-child{border-bottom:none}\n"+
+    ".find-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;margin-top:3px}\n"+
+    ".find-sev{font-size:7px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--gray);margin-bottom:1px}\n"+
+    ".find-txt{font-size:9.5px;color:var(--ink-mid);line-height:1.55}\n"+
+    ".ref-table{width:100%;border-collapse:collapse;font-size:9px}\n"+
+    ".ref-table th{text-align:left;font-size:7px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:var(--gray);padding:0 4px 5px;border-bottom:1px solid var(--border)}\n"+
+    ".ref-table td{padding:5px 4px;border-bottom:1px solid var(--border-lt);color:var(--ink-mid);vertical-align:middle}\n"+
+    ".ref-table tr:last-child td{border-bottom:none}\n"+
+    ".tl-item{display:flex;gap:12px}\n"+
+    ".tl-dot{width:7px;height:7px;border-radius:50%;border:1px solid var(--gold);background:var(--warm-white);flex-shrink:0;margin-top:3px}\n"+
+    ".tl-dot-f{background:var(--gold)}\n"+
+    ".tl-con{flex:1;width:1px;background:var(--border);margin:3px auto}\n"+
+    ".tl-phase{font-size:7.5px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:2px}\n"+
+    ".tl-title{font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:500;color:var(--ink)}\n"+
+    ".tl-desc{font-size:9px;color:var(--gray);margin-top:2px;line-height:1.6}\n"+
+    ".tl-dur{font-size:8px;color:#C8C2B8;margin-top:3px;letter-spacing:.3px}";
+
+  // ── Page 1: Capa ──
+  const page1 = '<div class="page">'+
+    '<div style="height:2px;background:linear-gradient(90deg,#B08D57 0%,rgba(176,141,87,.15) 100%)"></div>'+
+    '<div style="padding:18px var(--pad-h) 16px;border-bottom:1px solid #E5E1DA;display:flex;align-items:center;justify-content:space-between">'+
+      '<div style="display:flex;align-items:center;gap:12px">'+
+        '<div class="ph-mono">T</div>'+
+        '<div><div style="font-family:\'Cormorant Garamond\',serif;font-size:13px;font-weight:600;color:#0F2537;letter-spacing:.3px">Dr. Matheus Tadao Wakasugui</div>'+
+        '<div style="font-size:8px;color:#6F737A;letter-spacing:.7px;margin-top:1px">AVALIAÇÃO ORTODÔNTICA · PROTOCOLO TADAO</div></div></div>'+
+      '<div style="text-align:right"><div style="font-size:8.5px;color:#6F737A;letter-spacing:.5px">'+todayFull+'</div>'+
+      '<div style="font-size:8px;color:#E5E1DA;margin-top:2px;letter-spacing:.3px">Sessão '+e(session||'T0')+' · Avaliação</div></div></div>'+
+    '<div style="flex:1;display:flex;flex-direction:column;padding:36px var(--pad-h) 0">'+
+      '<div style="display:grid;grid-template-columns:var(--cover-grid);gap:36px;flex:1;min-height:0">'+
+        '<div style="display:flex;flex-direction:column;justify-content:space-between">'+
+          '<div>'+
+            '<div style="font-size:7.5px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:#B08D57;margin-bottom:12px">Paciente</div>'+
+            '<div style="font-family:\'Cormorant Garamond\',serif;font-size:36px;font-weight:300;color:#0F2537;letter-spacing:-1px;line-height:1.05;margin-bottom:6px">'+e(patName)+'</div>'+
+            '<div style="height:1px;background:#B08D57;width:32px;margin:14px 0;opacity:.6"></div>'+
+            '<div style="display:flex;flex-direction:column;gap:11px">'+
+              (birthDate?'<div><div style="font-size:7.5px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:#6F737A;margin-bottom:2px">Data de Nascimento</div><div style="font-size:11px;font-weight:400;color:#0F2537">'+new Date(birthDate+'T12:00:00').toLocaleDateString('pt-BR')+ageStr+'</div></div>':'')+
+              '<div><div style="font-size:7.5px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:#6F737A;margin-bottom:2px">Protocolo de Análise</div><div style="font-family:\'Cormorant Garamond\',serif;font-size:13px;font-weight:500;color:#0F2537">Protocolo Tadao</div></div>'+
+              '<div><div style="font-size:7.5px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:#6F737A;margin-bottom:2px">Sessão</div><div style="font-size:11px;font-weight:400;color:#0F2537">'+e(session||'T0')+' · Avaliação Inicial</div></div>'+
+            '</div>'+
+          '</div>'+
+          '<div style="display:flex;gap:0;border:1px solid #E5E1DA;border-radius:2px;margin-top:22px;overflow:hidden">'+
+            '<div style="flex:1;padding:11px 12px;border-right:1px solid #E5E1DA;text-align:center">'+
+              '<div style="font-family:\'Cormorant Garamond\',serif;font-size:24px;font-weight:300;color:#0F2537">'+ANALYSES.length+'</div>'+
+              '<div style="font-size:7px;letter-spacing:.8px;text-transform:uppercase;color:#6F737A;margin-top:2px">Medições</div></div>'+
+            '<div style="flex:1;padding:11px 12px;border-right:1px solid #E5E1DA;text-align:center">'+
+              '<div style="font-family:\'Cormorant Garamond\',serif;font-size:24px;font-weight:300;color:#7A5A1A">'+attnItems.length+'</div>'+
+              '<div style="font-size:7px;letter-spacing:.8px;text-transform:uppercase;color:#6F737A;margin-top:2px">Atenção</div></div>'+
+            '<div style="flex:1;padding:11px 12px;border-right:1px solid #E5E1DA;text-align:center">'+
+              '<div style="font-family:\'Cormorant Garamond\',serif;font-size:24px;font-weight:300;color:#2A5C3A">'+normItems.length+'</div>'+
+              '<div style="font-size:7px;letter-spacing:.8px;text-transform:uppercase;color:#6F737A;margin-top:2px">Normais</div></div>'+
+            '<div style="flex:1;padding:11px 12px;text-align:center">'+
+              '<div style="font-family:\'Cormorant Garamond\',serif;font-size:14px;font-weight:400;color:'+(attnItems.length>3?'#7A2828':attnItems.length>0?'#7A5A1A':'#2A5C3A')+';margin-top:4px">'+complexity+'</div>'+
+              '<div style="font-size:7px;letter-spacing:.8px;text-transform:uppercase;color:#6F737A;margin-top:2px">Complexidade</div></div>'+
+          '</div>'+
+        '</div>'+
+        '<div style="display:flex;flex-direction:column;gap:12px">'+
+          '<div style="background:#0A0C10;border-radius:2px;overflow:hidden">'+
+            (sorrisoRawImg?'<img src="'+sorrisoRawImg+'" style="width:100%;height:auto;max-height:420px;object-fit:contain;display:block;margin:0 auto;">':
+              '<div style="min-height:300px;display:flex;align-items:center;justify-content:center"><span style="font-size:7px;color:rgba(255,255,255,.15);letter-spacing:2px;text-transform:uppercase">FOTO DO PACIENTE</span></div>')+
+          '</div>'+
+          '<div style="border:1px solid #E5E1DA;border-radius:2px;padding:12px 14px">'+
+            '<div style="font-size:7.5px;letter-spacing:1.5px;text-transform:uppercase;color:#6F737A;margin-bottom:4px">Ortodontista Responsável</div>'+
+            '<div style="font-family:\'Cormorant Garamond\',serif;font-size:12px;font-weight:500;color:#0F2537">Dr. Matheus Tadao Wakasugui</div>'+
+            '<div style="height:1px;background:#B08D57;width:22px;margin-top:7px;opacity:.5"></div>'+
+          '</div>'+
+        '</div>'+
+      '</div>'+
+      '<div style="margin-top:20px;padding:15px 20px;background:#0F2537;border-radius:2px">'+
+        '<div style="font-size:7.5px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:8px">Síntese Diagnóstica</div>'+
+        '<div style="font-size:10.5px;color:rgba(255,255,255,.85);line-height:1.6">'+
+          '<div><span style="color:rgba(255,255,255,.45)">Paciente:</span> '+e(patName)+'</div>'+
+          '<div style="margin-top:2px"><span style="color:rgba(255,255,255,.45)">Ortodontista:</span> Dr. Matheus Tadao Wakasugui</div>'+
+          '<div style="margin-top:6px"><span style="color:rgba(255,255,255,.45)">'+(attnItems.length?'Pontos que o tratamento vai corrigir:':'Avaliação:')+'</span> '+e(problemsList)+'</div>'+
+          (treatmentNotes && treatmentNotes.trim()
+            ? '<div style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.12)">'+
+              '<span style="color:rgba(255,255,255,.45)">Plano de Tratamento Personalizado:</span> '+
+              '<span style="white-space:pre-wrap">'+e(treatmentNotes)+'</span></div>'
+            : '')+
+        '</div>'+
+      '</div>'+
+      (attnItems.length?(
+        '<div style="margin-top:10px;display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:6px">'+
+          [['✦','Sorriso mais harmônico','Alinhamento e proporções faciais equilibradas'],
+           ['✦','Mais autoestima','Confiança para sorrir em qualquer situação'],
+           ['✦','Saúde bucal','Dentes alinhados facilitam higiene e mastigação'],
+           ['✦','Resultado duradouro','Plano personalizado com acompanhamento em cada etapa']]
+          .map(b=>'<div style="border:1px solid #E5E1DA;border-left:2px solid #B08D57;border-radius:2px;padding:8px 10px">'+
+            '<div style="font-size:9.5px;font-weight:600;color:#0F2537;margin-bottom:2px"><span style="color:#B08D57">'+b[0]+'</span> '+b[1]+'</div>'+
+            '<div style="font-size:7.5px;color:#6F737A;line-height:1.5">'+b[2]+'</div></div>').join('')+
+        '</div>'
+      ):'')+
+      '<div style="margin-top:10px;margin-bottom:14px;padding:12px 20px;background:linear-gradient(90deg,#B08D57,#C9A76E);border-radius:2px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap">'+
+        '<div style="min-width:200px;flex:1">'+
+          '<div style="font-family:\'Cormorant Garamond\',serif;font-size:14px;font-weight:600;color:#fff">'+(attnItems.length?'Seu novo sorriso começa com uma decisão.':'Continue cuidando do seu sorriso.')+'</div>'+
+          '<div style="font-size:8.5px;color:rgba(255,255,255,.85);margin-top:2px">'+(attnItems.length?'Esta avaliação já mapeou tudo o que precisamos. O próximo passo é agendar a consulta para iniciarmos o seu tratamento.':'Agende suas revisões periódicas para manter os resultados desta avaliação.')+'</div>'+
+          '<div style="font-size:8px;color:rgba(255,255,255,.75);margin-top:4px">Viva Odontologia · Rua Minas Gerais, 124 – Vila Maracanã, Foz do Iguaçu/PR · Tel. (45) 3029-3113</div>'+
+        '</div>'+
+        '<a href="https://wa.me/5545991244412?text='+encodeURIComponent('Olá! Recebi minha avaliação ortodôntica e gostaria de agendar uma consulta.')+'" target="_blank" rel="noopener" style="flex-shrink:0;background:#fff;color:#B08D57;font-size:8px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:8px 14px;border-radius:2px;white-space:nowrap;text-decoration:none;display:inline-flex;align-items:center;gap:5px">'+
+          '<span style="font-size:10px">💬</span> Agendar pelo WhatsApp · (45) 99124-4412</a>'+
+      '</div>'+
+    '</div>'+
+    pf(1)+'</div>';
+
+  function miniRowGeneric(id) {
+    const a = ANALYSES.find(x=>x.id===id); if (!a) return '';
+    const isClass = a.type === 'CLASSIFICATION';
+    const val = isClass ? chip(id, m[id]) : '<span style="font-family:\'Cormorant Garamond\',serif;font-size:13px;color:#0F2537">'+measDisplayVal(id, m[id])+'</span>';
+    return '<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid #EDEAE6">'+
+      '<span style="font-size:9px;color:#0F2537">'+e(a.label)+'</span>'+val+'</div>';
+  }
+
+  // ── Page 2: Frontal ──
+  const page2 = '<div class="page">'+ph('Análise Frontal',2)+
+    '<div class="pb">'+
+      '<div><div class="sec-eyebrow">Avaliação Facial</div>'+
+        '<div class="sec-title">Análise Frontal</div>'+
+        '<div class="sec-sub">Simetria dos Terços Faciais · Proporção Vertical · Simetria Nasal</div></div>'+
+      '<div style="display:grid;grid-template-columns:var(--photo-grid);gap:18px;flex:1">'+
+        '<div>'+
+          '<div style="background:#0A0C10;border-radius:2px;overflow:hidden;height:220px">'+photoEl(frontalImg,'FRONTAL',220)+'</div>'+
+          '<div style="font-size:7.5px;color:#6F737A;text-align:center;margin-top:5px;letter-spacing:.3px">Vista frontal · pontos anatômicos</div>'+
+        '</div>'+
+        '<div style="display:flex;flex-direction:column;gap:10px">'+
+          '<div class="panel" style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">'+
+            '<div><div class="lbl">P01.A01 · Simetria Facial Vertical</div>'+
+            '<div style="font-family:\'Cormorant Garamond\',serif;font-size:16px;font-weight:400;color:#0F2537;margin-top:2px">'+e(blbl('P01.A01',m['P01.A01'])||'—')+'</div>'+
+            '<div class="caption">Proporção entre hemifácios.</div></div>'+
+            chip('P01.A01',m['P01.A01'])+'</div>'+
+          '<div class="panel"><div class="lbl" style="margin-bottom:10px">P01.A03 – A05 · Proporção dos Terços Faciais</div>'+thirdsHtml+'</div>'+
+          '<div class="g2">'+
+            '<div class="panel" style="display:flex;align-items:center;justify-content:space-between">'+
+              '<div><div class="lbl">P01.A09 · Simetria Nasal</div>'+
+              '<div style="font-family:\'Cormorant Garamond\',serif;font-size:16px;font-weight:400;color:#0F2537;margin-top:2px">'+e(blbl('P01.A09',m['P01.A09'])||'—')+'</div></div>'+
+              chip('P01.A09',m['P01.A09'])+'</div>'+
+            '<div class="panel" style="display:flex;align-items:center;justify-content:space-between">'+
+              '<div><div class="lbl">P01.A11 · Competência Labial (repouso)</div>'+
+              '<div style="font-family:\'Cormorant Garamond\',serif;font-size:16px;font-weight:400;color:#0F2537;margin-top:2px">'+e(blbl('P01.A11',m['P01.A11'])||'—')+'</div>'+
+              '<div class="caption">Selamento labial avaliado em repouso, sem expressão.</div></div>'+
+              chip('P01.A11',m['P01.A11'])+'</div>'+
+          '</div>'+
+          '<div class="g2">'+
+            '<div class="panel">'+miniRowGeneric('P01.A15')+miniRowGeneric('P01.A16')+'</div>'+
+            '<div class="panel">'+miniRowGeneric('P01.A19')+'</div>'+
+          '</div>'+
+        '</div>'+
+      '</div>'+
+      insight('Interpretação Clínica · Análise Frontal',
+        (t5!==null&&t5>35?'O terço inferior aumentado ('+t5.toFixed(1)+'%) indica padrão de crescimento vertical hiperdivergente, frequentemente associado a mordida aberta esquelética ou Classe II com rotação horária da mandíbula. ':'')+
+        (m['P01.A11']&&m['P01.A11']!=='COMPETENT'?'A competência labial classificada como '+blbl('P01.A11',m['P01.A11']).toLowerCase()+', avaliada em repouso, é relevante para o planejamento de retração/protrusão incisal e para o selamento labial pós-tratamento. ':'Selamento labial adequado em repouso — função labial preservada. ')+
+        'O padrão vertical e a origem provável da assimetria orientam a decisão entre abordagem ortodôntica isolada e associação com cirurgia ortognática; a classificação esquelética (Padrão I/II/III) é avaliada na análise de perfil.')+
+    '</div>'+pf(2)+'</div>';
+
+  // ── Page 3: Sorriso ──
+  const midCol = (midline!==null&&Math.abs(midline)>MIDLINE_TOL_PCT)?'#7A5A1A':'#0F2537';
+  const midCls = (midline!==null&&Math.abs(midline)>MIDLINE_TOL_PCT)?'ca':'cn';
+  const page3 = '<div class="page">'+ph('Análise do Sorriso',3)+
+    '<div class="pb">'+
+      '<div><div class="sec-eyebrow">Avaliação do Sorriso</div>'+
+        '<div class="sec-title">Linha Média · Exposição · Proporção Labial</div>'+
+        '<div class="sec-sub">Desvio de Linha Média Dental · Exposição Dentária · Tipo de Sorriso · Corredor Bucal</div></div>'+
+      '<div style="display:grid;grid-template-columns:var(--photo-grid);gap:18px;flex:1">'+
+        '<div>'+
+          '<div style="background:#0A0C10;border-radius:2px;overflow:hidden;height:220px">'+photoEl(sorrisoImg,'SORRISO',220)+'</div>'+
+          '<div style="font-size:7.5px;color:#6F737A;text-align:center;margin-top:5px;letter-spacing:.3px">Vista frontal sorrindo</div>'+
+        '</div>'+
+        '<div style="display:flex;flex-direction:column;gap:10px">'+
+          '<div class="g2">'+
+            '<div class="panel"><div class="lbl" style="margin-bottom:8px">P01.A02 · Linha Média Superior</div>'+
+              (midline!==null
+                ?'<div style="display:flex;align-items:baseline;gap:5px;margin-bottom:2px">'+
+                  '<span style="font-family:\'Cormorant Garamond\',serif;font-size:16px;font-weight:400;color:'+midCol+'">'+(Math.abs(midline)<=MIDLINE_TOL_PCT?'Coincide':'Diverge')+'</span>'+
+                  '<span class="chip '+midCls+'" style="margin-left:6px">'+(midline>0?'à direita':midline<0?'à esquerda':'centrada')+'</span></div>'+
+                  '<div class="caption" style="margin-top:5px">Desvio de '+Math.abs(midline).toFixed(1)+'% da largura da boca em relação à linha média facial.</div>'
+                :'<div style="font-size:9px;color:#6F737A;font-style:italic">Marque Tr, Me, U1 na foto de sorriso para calcular.</div>')+
+            '</div>'+
+            '<div class="panel"><div class="lbl" style="margin-bottom:8px">Linha Média Inferior (inferida)</div>'+
+              (lowerMidline==='DEVIATED'?'<div style="font-family:\'Cormorant Garamond\',serif;font-size:16px;font-weight:400;color:#7A5A1A;margin-top:2px">Diverge</div><span class="chip ca" style="margin-top:4px">Diverge</span>'+
+                '<div class="caption" style="margin-top:5px">Superior coincidente + desvio identificado entre linhas médias na foto intrabucal.</div>'
+              :lowerMidline==='COINCIDENT'?'<div style="font-family:\'Cormorant Garamond\',serif;font-size:16px;font-weight:400;color:#0F2537;margin-top:2px">Coincide</div><span class="chip cn" style="margin-top:4px">Coincide</span>'+
+                '<div class="caption" style="margin-top:5px">Linhas médias superior e inferior coincidentes na foto intrabucal.</div>'
+              :lowerMidline==='INCONCLUSIVE'?'<div style="font-size:9px;color:#6F737A;font-style:italic">Linha média superior divergente — não é possível inferir a inferior por transitividade; avaliar diretamente na foto intrabucal.</div>'
+              :'<div style="font-size:9px;color:#6F737A;font-style:italic">Marque U1s e L1i na foto intrabucal para inferir.</div>')+
+            '</div>'+
+          '</div>'+
+          '<div class="panel"><div class="lbl" style="margin-bottom:6px">P01.A12 · Exposição Dentária</div>'+
+            (dentalExp!==null
+              ?'<div style="display:flex;align-items:baseline;gap:4px">'+
+                '<span style="font-family:\'Cormorant Garamond\',serif;font-size:22px;font-weight:300;color:#0F2537">'+dentalExp.toFixed(1)+'</span>'+
+                '<span style="font-size:9px;color:#6F737A">mm</span></div>'+
+                rbar(dentalExp,0,10,2,4,' mm')+
+                '<span class="chip '+(dentalExp>=2&&dentalExp<=4?'cn':'ca')+'" style="margin-top:4px">'+(dentalExp>=2&&dentalExp<=4?'Normal':'Verificar')+'</span>'
+              :'<div style="font-size:9px;color:#6F737A;font-style:italic">Não calculado</div>')+
+          '</div>'+
+        '</div>'+
+      '</div>'+
+      '<div class="g2" style="margin-top:10px">'+
+        '<div class="panel">'+miniRowGeneric('P01.A20')+miniRowGeneric('P01.A21')+miniRowGeneric('P01.A22')+'</div>'+
+        '<div class="panel">'+miniRowGeneric('P01.A23')+miniRowGeneric('P01.A24')+miniRowGeneric('P01.A25')+'</div>'+
+      '</div>'+
+      smileConclusion(midline, lowerMidline, dentalExp, m)+
+      insight('Interpretação Clínica · Análise do Sorriso',
+        (midline!==null?'A linha média dental superior '+(Math.abs(midline)<=MIDLINE_TOL_PCT?'coincide com a linha média facial, dentro dos limites de aceitabilidade clínica':'diverge da linha média facial, devendo ser investigada a origem dental ou esquelética')+'. ':'')+
+        (lowerMidline==='DEVIATED'?'A linha média dental inferior diverge da linha média facial (inferido a partir da coincidência superior e do desvio identificado na foto intrabucal). ':'')+
+        (lowerMidline==='COINCIDENT'?'A linha média dental inferior também coincide com a linha média facial. ':'')+
+        smileTypeExplanation(m['P01.A20'], m['P01.A25'])+' '+
+        corredorBucalExplanation(numVal('P01.A21'))+
+        ' Dentes visíveis e demais achados complementares são de avaliação clínica direta sobre a foto.')+
+    '</div>'+pf(3)+'</div>';
+
+  // ── Page 6: Perfil ──
+  const page4 = '<div class="page">'+ph('Análise de Perfil',4)+
+    '<div class="pb">'+
+      '<div><div class="sec-eyebrow">Avaliação Lateral</div>'+
+        '<div class="sec-title">Análise de Perfil</div>'+
+        '<div class="sec-sub">Convexidade Facial · Ângulo Nasolabial · Projeção do Mento</div></div>'+
+      '<div style="display:grid;grid-template-columns:var(--photo-grid);gap:18px;flex:1">'+
+        '<div>'+
+          '<div style="background:#0A0C10;border-radius:2px;overflow:hidden;height:260px">'+photoEl(perfilImg,'PERFIL',260)+'</div>'+
+          '<div style="font-size:7.5px;color:#6F737A;text-align:center;margin-top:5px;letter-spacing:.3px">Perfil lateral</div>'+
+        '</div>'+
+        '<div style="display:flex;flex-direction:column;gap:10px">'+
+          '<div class="panel" style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">'+
+            '<div><div class="lbl">P01.A06 · Perfil Facial</div>'+
+            '<div style="font-family:\'Cormorant Garamond\',serif;font-size:19px;font-weight:400;color:'+(m['P01.A06']==='STRAIGHT'?'#2A5C3A':m['P01.A06']?'#7A5A1A':'#0F2537')+';margin-top:2px">'+e(blbl('P01.A06',m['P01.A06'])||'—')+'</div>'+
+            '<div class="caption">Discrepância ântero-posterior facial.</div></div>'+
+            chip('P01.A06',m['P01.A06'])+'</div>'+
+          '<div class="panel"><div class="lbl" style="margin-bottom:8px">P01.A07 · Ângulo Nasolabial</div>'+
+            (nasoAngle!==null
+              ?'<div style="display:flex;align-items:baseline;gap:5px;margin-bottom:2px">'+
+                '<span style="font-family:\'Cormorant Garamond\',serif;font-size:30px;font-weight:300;color:#0F2537">'+nasoAngle.toFixed(0)+'</span>'+
+                '<span style="font-size:10px;color:#6F737A">graus</span>'+
+                '<span class="chip '+(nasoAngle>=90&&nasoAngle<=110?'cn':'ca')+'" style="margin-left:8px">'+(nasoAngle>=90&&nasoAngle<=110?'Normal':'Verificar')+'</span></div>'+
+                rbar(nasoAngle,70,145,90,110,'°')+
+                '<div style="font-family:\'Cormorant Garamond\',serif;font-size:10px;color:#6F737A;font-style:italic;text-align:center;margin-top:5px">Paciente: '+nasoAngle.toFixed(0)+'° — '+(nasoAngle>=90&&nasoAngle<=110?'dentro da faixa de normalidade':'fora da faixa de normalidade')+'</div>'
+              :'<div style="font-size:9px;color:#6F737A;font-style:italic">Marque Prn, Sn, Ls na foto de perfil para calcular.</div>')+
+          '</div>'+
+          '<div class="panel" style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">'+
+            '<div><div class="lbl">P01.A08 · Projeção do Mento</div>'+
+            '<div style="font-family:\'Cormorant Garamond\',serif;font-size:19px;font-weight:400;color:'+(m['P01.A08']==='NORMAL'?'#0F2537':'#7A5A1A')+';margin-top:2px">'+e(blbl('P01.A08',m['P01.A08'])||'—')+'</div>'+
+            '<div class="caption">Posicionamento ântero-posterior do mento.</div></div>'+
+            chip('P01.A08',m['P01.A08'])+'</div>'+
+          '<div class="panel" style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">'+
+            '<div><div class="lbl">P01.A13 · Padrão Facial (Classificação de Angle)</div>'+
+            '<div style="font-family:\'Cormorant Garamond\',serif;font-size:19px;font-weight:400;color:#0F2537;margin-top:2px">'+e(blbl('P01.A13',m['P01.A13'])||'—')+'</div></div>'+
+            chip('P01.A13',m['P01.A13'])+'</div>'+
+          '<div class="panel"><div class="lbl" style="margin-bottom:7px">Referência · Perfis Faciais</div>'+
+            '<div style="display:flex;gap:0;font-size:8px;text-align:center">'+
+              '<div style="flex:1;padding:7px;border-right:1px solid #EDEAE6;background:'+(m['P01.A06']==='CONCAVE'?'#F8F3E8':'#FCFBF9')+'">'+
+                '<div style="font-family:\'Cormorant Garamond\',serif;font-size:11px;color:'+(m['P01.A06']==='CONCAVE'?'#7A5A1A':'#6F737A')+';margin-bottom:2px;font-style:italic">Côncavo'+(m['P01.A06']==='CONCAVE'?' ←':'')+'</div>'+
+                '<div style="font-size:7px;color:'+(m['P01.A06']==='CONCAVE'?'#7A5A1A':'#B9B4AC')+'">Mento relativamente proeminente</div></div>'+
+              '<div style="flex:1;padding:7px;border-right:1px solid #EDEAE6;background:'+(m['P01.A06']==='STRAIGHT'?'#EEF4F0':'#FCFBF9')+'">'+
+                '<div style="font-family:\'Cormorant Garamond\',serif;font-size:11px;color:'+(m['P01.A06']==='STRAIGHT'?'#2A5C3A':'#6F737A')+';margin-bottom:2px;font-style:italic">Reto'+(m['P01.A06']==='STRAIGHT'?' ←':'')+'</div>'+
+                '<div style="font-size:7px;color:'+(m['P01.A06']==='STRAIGHT'?'#2A5C3A':'#B9B4AC')+'">Perfil harmônico ântero-posterior</div></div>'+
+              '<div style="flex:1;padding:7px;background:'+(m['P01.A06']==='CONVEX'?'#F8F3E8':'#FCFBF9')+'">'+
+                '<div style="font-family:\'Cormorant Garamond\',serif;font-size:11px;color:'+(m['P01.A06']==='CONVEX'?'#7A5A1A':'#6F737A')+';margin-bottom:2px;font-style:italic">Convexo'+(m['P01.A06']==='CONVEX'?' ←':'')+'</div>'+
+                '<div style="font-size:7px;color:'+(m['P01.A06']==='CONVEX'?'#7A5A1A':'#B9B4AC')+'">Mento relativamente retruído</div></div>'+
+            '</div></div>'+
+          '<div class="panel">'+miniRowGeneric('P01.A27')+miniRowGeneric('P01.A28')+miniRowGeneric('P01.A29')+'</div>'+
+        '</div>'+
+      '</div>'+
+      insight('Interpretação Clínica · Análise de Perfil',
+        (m['P01.A06']==='CONVEX'?'O perfil convexo é mais frequentemente associado à retrusão mandibular (padrão Classe II), podendo também refletir protrusão maxilar. ':'')+
+        (m['P01.A06']==='CONCAVE'?'O perfil côncavo é mais frequentemente associado à protrusão mandibular (padrão Classe III), podendo também refletir retrusão maxilar. ':'')+
+        (m['P01.A08']&&m['P01.A08']!=='NORMAL'?'O mento '+blbl('P01.A08',m['P01.A08']).toLowerCase()+' é relevante para o planejamento de eventual genioplastia. ':'')+
+        (nasoAngle!==null?'O ângulo nasolabial de '+nasoAngle.toFixed(0)+'° '+(nasoAngle>=90&&nasoAngle<=110?'está dentro dos limites normais':'sugere avaliar componente nasal')+'. ':'')+
+        'A projeção maxilar e mandibular aparentes e o equilíbrio labial no perfil (estimados por tecido mole — posição de Sn e Me em relação à linha Pronasale-Pogônio, uma aproximação fotográfica que deve ser confirmada clinicamente) ajudam a diferenciar a origem esquelética e orientam a indicação de aparelhos ortopédicos funcionais, extrações estratégicas ou cirurgia ortognática conforme a idade e a gravidade do caso.')+
+    '</div>'+pf(4)+'</div>';
+
+  // ── Page 8: Intrabucal ──
+  function miniRow(id) {
+    const a = ANALYSES.find(x=>x.id===id); if (!a) return '';
+    return '<div style="display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid #EDEAE6">'+
+      '<span style="font-size:9px;color:#0F2537">'+e(a.label)+'</span>'+chip(id,m[id])+'</div>';
+  }
+  const page5 = '<div class="page">'+ph('Análise Intrabucal',5)+
+    '<div class="pb">'+
+      '<div><div class="sec-eyebrow">Documentação Intrabucal</div>'+
+        '<div class="sec-title">Análise Intrabucal</div>'+
+        '<div class="sec-sub">Linhas Médias · Plano Oclusal · Overbite · Mordida Cruzada · Apinhamento · Diastemas · Zênites Gengivais</div></div>'+
+      '<div>'+
+        '<div style="background:#0A0C10;border-radius:2px;overflow:hidden;height:'+(intrabucalLegend.length?190:220)+'px">'+photoEl(intrabucalImg,'INTRABUCAL',intrabucalLegend.length?190:220,'contain')+'</div>'+
+        '<div style="font-size:7.5px;color:#6F737A;text-align:center;margin-top:5px;letter-spacing:.3px">Documentação intrabucal · maxila, mandíbula, mordida de frente e laterais</div>'+
+        (intrabucalLegend.length?(
+          '<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;justify-content:center">'+
+          intrabucalLegend.map(c=>'<span style="display:inline-flex;align-items:center;gap:3px;font-size:6.5px;color:#4B5563"><span style="width:6px;height:6px;border-radius:50%;background:'+c.color+';display:inline-block"></span>'+e(c.label)+'</span>').join('')+
+          '</div>'
+        ):'')+
+      '</div>'+
+      '<div class="panel" style="display:flex;flex-direction:column">'+
+        '<div class="lbl" style="margin-bottom:2px">Achados Oclusais</div>'+
+        '<div class="g2">'+
+          '<div>'+miniRow('P01.A30')+miniRow('P01.A31')+miniRow('P01.A32')+miniRow('P01.A33')+'</div>'+
+          '<div>'+miniRow('P01.A34')+miniRow('P01.A35')+miniRow('P01.A36')+miniRow('P01.A37')+miniRow('P01.A26')+'</div>'+
+        '</div>'+
+      '</div>'+
+      '<div style="border:1px solid #E5E1DA;border-radius:2px;padding:14px 18px;display:flex;gap:22px;align-items:center">'+
+        '<div style="text-align:center;flex-shrink:0;min-width:68px">'+
+          '<div style="font-family:\'Cormorant Garamond\',serif;font-size:19px;font-weight:400;color:'+(m['P01.A30']==='DEVIATED'?'#7A5A1A':'#0F2537')+'">'+
+          e(blbl('P01.A30',m['P01.A30'])||'—')+'</div>'+
+          '<div style="font-size:7px;letter-spacing:1px;text-transform:uppercase;color:#6F737A;margin-top:2px">Linhas Médias</div></div>'+
+        '<div style="width:1px;height:38px;background:#EDEAE6;flex-shrink:0"></div>'+
+        '<div><div style="font-family:\'Cormorant Garamond\',serif;font-size:12px;font-weight:500;color:#0F2537;margin-bottom:3px">Interpretação Clínica</div>'+
+        '<div style="font-size:9px;color:#6F737A;line-height:1.65">'+
+          (m['P01.A30']==='COINCIDENT'
+            ?'Linhas médias dentárias coincidentes entre si e com a linha média facial.'
+            :m['P01.A30']==='DEVIATED'
+            ?'Desvio identificado entre as linhas médias dentárias. Avaliar origem dental vs. esquelética para definição do protocolo mecânico.'
+            :'Marque U1s e L1i na foto intrabucal para avaliar a coincidência das linhas médias.')+
+        '</div></div>'+
+        (m['P01.A30']?'<span class="chip '+(m['P01.A30']==='COINCIDENT'?'cn':'ca')+'" style="flex-shrink:0;align-self:flex-start">'+(m['P01.A30']==='COINCIDENT'?'Aceito':'Verificar')+'</span>':'')+
+      '</div>'+
+      insight('Interpretação Clínica · Análise Intrabucal',
+        'A documentação intrabucal é essencial para distinguir a origem do desvio de linha média identificado na análise extrabucal. Desvios de origem dental respondem bem à mecânica ortodôntica assimétrica, enquanto desvios esqueléticos podem requerer cirurgia ortognática. A correlação com a cefalometria posteroanterior complementa o diagnóstico diferencial.')+
+    '</div>'+pf(5)+'</div>';
+
+  return '<!DOCTYPE html>\n<html lang="pt-BR">\n<head>\n<meta charset="UTF-8">\n'+
+    '<meta name="viewport" content="width=device-width, initial-scale=1.0">\n'+
+    '<title>Protocolo Tadao — '+e(patName)+'</title>\n'+
+    '<style>\n'+CSS+'\n</style>\n</head>\n<body>\n'+
+    '<div class="pbar"><span>Dr. Matheus Tadao Wakasugui · Protocolo Tadao · Relatório de Avaliação Ortodôntica</span>'+
+    '<button onclick="window.print()">Exportar PDF</button></div>\n'+
+    page1+page2+page3+page4+page5+'\n</body>\n</html>';
+}
+
+function generatePDF() {
+  const d = window._lastPipelineData;
+  if (!d) { alert('Execute a análise primeiro para gerar o relatório.'); return; }
+
+  const frontalImg    = getAnnotatedImage('frontal');
+  const perfilImg     = getAnnotatedImage('perfil');
+  const sorrisoImg    = getAnnotatedImage('sorriso');
+  const intrabucalImg = getAnnotatedImage('intrabucal');
+  const sorrisoRawImg = getRawImage('sorriso') || sorrisoImg;
+  const intrabucalLegend = usedFindingCategories('intrabucal');
+
+  const html = buildPDFHTML({
+    frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorrisoRawImg, intrabucalLegend,
+    sorrisoPoints:  state.points.sorriso || {},
+    sorrisoImgNat:  state.imgNat.sorriso || null,
+    measurements:   d.measurements || collectMeasurementsSnapshot(),
+    findings:       d.exD.findings || [],
+    patName:        d.patName || d.caseId,
+    caseId:         d.caseId,
+    session:        d.session,
+    birthDate:      d.birthDate,
+    sex:            d.sex,
+    reportText:     d.txt,
+    treatmentNotes: (document.getElementById('treatment-notes')||{}).value || d.treatmentNotes || ''
+  });
+
+  // Use Blob URL to avoid popup-blocker issues and onload race condition
+  const blob = new Blob([html], { type: 'text/html' });
+  const blobUrl = URL.createObjectURL(blob);
+  const win = window.open(blobUrl, '_blank');
+  if (!win) {
+    URL.revokeObjectURL(blobUrl);
+    alert('Pop-up bloqueado. Permita pop-ups para este site e tente novamente.');
+    return;
+  }
+  setTimeout(() => URL.revokeObjectURL(blobUrl), 60000);
+}
+
+/* ═══════════════════════════════
+   HELPERS
+═══════════════════════════════ */
+function showAlert(id, type, msg) {
+  const el = document.getElementById(id); if(!el) return;
+  if (!type) { el.className='alert'; el.innerHTML=''; return; }
+  el.className = `alert alert-${type} show`; el.innerHTML = msg;
+}
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active'); btn.classList.add('active');
+}
+function esc(s){ return String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;') }
+function enc(s){ return encodeURIComponent(s) }
+function isUUID(s){ return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(s) }
+function fmtDate(d){ if(!d) return '—'; const dt=new Date(d); return isNaN(dt)?String(d):dt.toLocaleDateString('pt-BR') }
+function sexLbl(s){ return {M:'Masc.',F:'Fem.',UNSPECIFIED:'N/I'}[s]??s }
+function statusLbl(s){ return {ACTIVE:'Ativo',TREATMENT:'Tratamento',RETENTION:'Contenção',COMPLETED:'Concluído',ARCHIVED:'Arquivado',SUSPENDED:'Suspenso'}[s]??s }
+function sevLbl(s){ return {NORMAL:'Normal',MILD:'Leve',MODERATE:'Moderado',SEVERE:'Grave',CRITICAL:'Crítico'}[s]??s }
+
+/* ═══════════════════════════════
+   INIT
+═══════════════════════════════ */
+window.onerror = function(msg, src, line, col, err) {
+  const el = document.getElementById('cases-tbody');
+  if (el) el.innerHTML = `<tr><td colspan="7"><div class="empty"><div class="emoji">🐛</div><p><b>JS Error:</b> ${msg}<br>${src}:${line}:${col}</p></div></td></tr>`;
+};
+try { renderMeasurements(); } catch(e) {
+  const el = document.getElementById('cases-tbody');
+  if (el) el.innerHTML = `<tr><td colspan="7"><div class="empty"><div class="emoji">🐛</div><p><b>renderMeasurements erro:</b> ${e.message}</p></div></td></tr>`;
+}
+initAuth();
+</script>
+</body>
+</html>
