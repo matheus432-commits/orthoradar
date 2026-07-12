@@ -2491,12 +2491,14 @@ function buildPDFHTML({ frontalImg, perfilImg, sorrisoImg, intrabucalImg, sorris
             '<div style="font-size:7.5px;color:#6F737A;line-height:1.5">'+b[2]+'</div></div>').join('')+
         '</div>'
       ):'')+
-      '<div style="margin-top:10px;margin-bottom:14px;padding:12px 20px;background:linear-gradient(90deg,#B08D57,#C9A76E);border-radius:2px;display:flex;align-items:center;justify-content:space-between;gap:14px">'+
-        '<div>'+
+      '<div style="margin-top:10px;margin-bottom:14px;padding:12px 20px;background:linear-gradient(90deg,#B08D57,#C9A76E);border-radius:2px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap">'+
+        '<div style="min-width:200px;flex:1">'+
           '<div style="font-family:\'Cormorant Garamond\',serif;font-size:14px;font-weight:600;color:#fff">'+(attnItems.length?'Seu novo sorriso começa com uma decisão.':'Continue cuidando do seu sorriso.')+'</div>'+
           '<div style="font-size:8.5px;color:rgba(255,255,255,.85);margin-top:2px">'+(attnItems.length?'Esta avaliação já mapeou tudo o que precisamos. O próximo passo é agendar a consulta para iniciarmos o seu tratamento.':'Agende suas revisões periódicas para manter os resultados desta avaliação.')+'</div>'+
+          '<div style="font-size:8px;color:rgba(255,255,255,.75);margin-top:4px">Viva Odontologia · Rua Minas Gerais, 124 – Vila Maracanã, Foz do Iguaçu/PR · Tel. (45) 3029-3113</div>'+
         '</div>'+
-        '<div style="flex-shrink:0;background:#fff;color:#B08D57;font-size:8px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:8px 14px;border-radius:2px;white-space:nowrap">Agende sua consulta</div>'+
+        '<a href="https://wa.me/5545991244412?text='+encodeURIComponent('Olá! Recebi minha avaliação ortodôntica e gostaria de agendar uma consulta.')+'" target="_blank" rel="noopener" style="flex-shrink:0;background:#fff;color:#B08D57;font-size:8px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:8px 14px;border-radius:2px;white-space:nowrap;text-decoration:none;display:inline-flex;align-items:center;gap:5px">'+
+          '<span style="font-size:10px">💬</span> Agendar pelo WhatsApp · (45) 99124-4412</a>'+
       '</div>'+
     '</div>'+
     pf(1)+'</div>';
