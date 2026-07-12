@@ -16,6 +16,7 @@ const crypto        = require('crypto');
 const { Firestore } = require('./_lib/firestore');
 const { request }   = require('./_lib');
 const { getWeekId } = require('./_lib/engagement');
+const { resolveModel } = require('./_lib/ai-config');
 const log           = require('./_lib/logger');
 
 const BASE_URL      = process.env.SITE_URL || 'https://odontofeed.com.br';
@@ -154,7 +155,7 @@ async function generateWeeklyEditorial(topArticles) {
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey || topArticles.length < 1) return null;
 
-  const MODEL = process.env.EDITORIAL_MODEL || 'claude-haiku-4-5-20251001';
+  const MODEL = resolveModel('EDITORIAL_MODEL');
 
   const articleList = topArticles.slice(0, 3).map((art, i) => {
     const title = (art.titulo_pt || art.titulo || '').slice(0, 120);

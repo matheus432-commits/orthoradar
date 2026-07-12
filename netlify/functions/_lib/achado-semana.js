@@ -11,9 +11,10 @@
 
 const { request } = require('../_lib');
 const log         = require('./logger');
+const { resolveModel } = require('./ai-config');
 
 const HOST  = 'api.anthropic.com';
-const MODEL = process.env.ACHADO_MODEL || 'claude-haiku-4-5-20251001';
+const MODEL = resolveModel('ACHADO_MODEL');
 
 // ── Prioridade de nível de evidência ─────────────────────────────────────────
 

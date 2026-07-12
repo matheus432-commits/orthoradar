@@ -3,6 +3,7 @@
 
 const { request } = require('../_lib');
 const log         = require('./logger');
+const { resolveModel } = require('./ai-config');
 
 const NCBI_API_PARAM = process.env.NCBI_API_KEY ? '&api_key=' + process.env.NCBI_API_KEY : '';
 
@@ -327,7 +328,7 @@ JSON:
 {"titulo_pt":"...","impacto_pratico":"...","resumo_pt":"...","nivel_evidencia":"..."}`;
 
   const payload = JSON.stringify({
-    model:      'claude-haiku-4-5-20251001',
+    model:      resolveModel('ENRICH_MODEL'),
     max_tokens: 800,
     messages:   [{ role: 'user', content: prompt }],
   });
