@@ -15,7 +15,7 @@ const log = require('./logger');
 const LOCK_DOC_ID  = 'current';
 const LOCK_TTL_MS  = 28 * 60 * 1000; // 28 min — matches GitHub Actions job timeout
 
-async function acquireLock(db, runId) {
+async function acquireLock(db, runId, collection = 'digest_lock') {
   const now       = new Date();
   const expiresAt = new Date(now.getTime() + LOCK_TTL_MS).toISOString();
   const lockData  = {
@@ -28,7 +28,7 @@ async function acquireLock(db, runId) {
   // Atomic creation — returns false if document already exists
   let created;
   try {
-    created = await db.createDoc('digest_lock', LOCK_DOC_ID, lockData);
+    created = await db.createDoc(collection, LOCK_DOC_ID, lockData);
   } catch (err) {
     log.warn('[lock] createDoc threw, falling back to getDoc check', { err: err.message });
     created = false;
@@ -43,7 +43,7 @@ async function acquireLock(db, runId) {
   // Document exists — read it to decide what to do
   let existing;
   try {
-    existing = await db.getDoc('digest_lock', LOCK_DOC_ID);
+    existing = await db.getDoc(collection, LOCK_DOC_ID);
   } catch (err) {
     // Cannot read lock state — refuse to proceed (safety first)
     log.error('[lock] cannot read existing lock — aborting', { err: err.message });
@@ -52,7 +52,7 @@ async function acquireLock(db, runId) {
 
   // Lock was released or belongs to this same run
   if (!existing || existing.status === 'released' || existing.runId === runId) {
-    await db.setDoc('digest_lock', LOCK_DOC_ID, lockData);
+    await db.setDoc(collection, LOCK_DOC_ID, lockData);
     log.info('[lock] acquired (replaced released/own lock)', { runId, previous: existing?.runId });
     console.log(`[LOCK ACQUIRED] runId=${runId} (replaced stale)`);
     return true;
@@ -60,7 +60,7 @@ async function acquireLock(db, runId) {
 
   // Lock is expired — force takeover
   if (existing.expiresAt && existing.expiresAt < now.toISOString()) {
-    await db.setDoc('digest_lock', LOCK_DOC_ID, lockData);
+    await db.setDoc(collection, LOCK_DOC_ID, lockData);
     log.warn('[lock] acquired (expired lock taken over)', {
       runId, expiredRun: existing.runId, expiredAt: existing.expiresAt,
     });
@@ -76,11 +76,11 @@ async function acquireLock(db, runId) {
   return false;
 }
 
-async function releaseLock(db, runId) {
+async function releaseLock(db, runId, collection = 'digest_lock') {
   try {
-    const existing = await db.getDoc('digest_lock', LOCK_DOC_ID);
+    const existing = await db.getDoc(collection, LOCK_DOC_ID);
     if (existing && existing.runId === runId) {
-      await db.deleteDoc('digest_lock', LOCK_DOC_ID);
+      await db.deleteDoc(collection, LOCK_DOC_ID);
       log.info('[lock] released (deleted)', { runId });
       console.log(`[LOCK RELEASED] runId=${runId}`);
     } else {

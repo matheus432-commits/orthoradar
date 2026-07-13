@@ -1,5 +1,6 @@
 const { request } = require('./_lib');
 const { hashPassword } = require('./_lib/password');
+const { DEFAULT_PLAN } = require('./_lib/plans');
 
 const ALLOWED_SPECS = new Set([
   'Ortodontia', 'Implantodontia', 'Periodontia', 'Dentística',
@@ -137,6 +138,7 @@ exports.handler = async (event) => {
       temas: temasArr,
       senhaHash: hashPassword(senhaHash),
       ativo: true,
+      plano: DEFAULT_PLAN,
       criadoEm: new Date().toISOString(),
       curtidos: [],
       lidos: []
