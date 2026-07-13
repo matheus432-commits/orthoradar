@@ -15,13 +15,8 @@ const { generateScript } = require('./_lib/podcast-script');
 const { synthesize } = require('./_lib/tts');
 const { uploadMp3 } = require('./_lib/storage');
 const { billableChars } = require('./_lib/tts-budget');
+const { specialtySlug: slug } = require('./_lib/slug');
 const log = require('./_lib/logger');
-
-// Normaliza a especialidade para um id seguro (path do Storage / doc id).
-// "DTM e Dor Orofacial" → "DTM_e_Dor_Orofacial"; "Prótese" → "Protese".
-function slug(esp) {
-  return String(esp || '').normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-zA-Z0-9]+/g, '_').replace(/^_+|_+$/g, '');
-}
 
 // Especialidades distintas entre os assinantes Pro ativos.
 async function proSpecialties(db) {
