@@ -1,10 +1,19 @@
-// OdontoFeed Smart Digest — daily email dispatch with curated article selection.
+// OdontoFeed Smart Digest — daily email dispatch with per-specialty shared content.
 //
 // Run: node netlify/functions/daily-digest.js
 // Schedule: GitHub Actions daily-pipeline.yml at 10:00 UTC
 //
+// Content model:
+//   O digest é montado UMA VEZ por especialidade (curadoria + Achado da Semana +
+//   editorial via Claude) e cacheado em `digests_especialidade/<esp>_<data>`.
+//   Todos os inscritos da especialidade recebem o MESMO conteúdo — só variam a
+//   saudação, o link de descadastro e o pixel de tracking (por usuário).
+//   Custo de IA e de leituras deixa de crescer com o nº de usuários: cresce com
+//   o nº de especialidades (~10).
+//
 // Reliability architecture:
 //   - Execution lock (digest_lock)     → prevents concurrent duplicate runs
+//   - Per-specialty digest cache       → crash/re-run nunca refaz chamadas de IA
 //   - Per-user idempotency (digest_logs) → prevents double-send on crash/recovery
 //   - Concurrent batch processing      → throughput with controlled parallelism
 //   - Per-user timeout (90s)           → a hanging user never stalls the full run
@@ -13,11 +22,9 @@
 
 const crypto   = require('crypto');
 const { Firestore }                                = require('./_lib/firestore');
-const { buildDigestEmail, emailHash }              = require('./_lib/email-template');
+const { buildDigestEmail }                         = require('./_lib/email-template');
 const { generateEditorial }                        = require('./_lib/editorial-generator');
-const { getProfile }                               = require('./_lib/user-profile');
 const { recommendArticles }                        = require('./_lib/recommendation-engine');
-const { getOptimalDigestSize }                     = require('./_lib/fatigue-detection');
 const { runValidation }                            = require('./_lib/digest-validator');
 const { pubmedFallbackArticles }                   = require('./_lib/pubmed');
 const { acquireLock, releaseLock }                 = require('./_lib/pipeline-lock');
@@ -49,6 +56,19 @@ function getDateStr() {
 function getUserLogKey(email, dateStr) {
   const hash = crypto.createHash('sha256').update(email).digest('hex').slice(0, 16);
   return `${hash}_${dateStr}`;
+}
+
+// Stable document ID for a specialty's shared digest on a given day.
+function espSlug(esp) {
+  return String(esp)
+    .normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+function getEspDigestKey(esp, dateStr) {
+  return `${espSlug(esp)}_${dateStr}`;
 }
 
 // ── Firestore helpers ─────────────────────────────────────────────────────────
@@ -88,22 +108,27 @@ async function getActiveUsers(db) {
   return mapped.filter(u => u.especialidades.length > 0);
 }
 
-async function getSentPmids(db, email) {
-  const cutoff = new Date(Date.now() - LOOKBACK_DAYS * 24 * 3600 * 1000).toISOString();
+// Anti-repeat por especialidade: pmids já usados nos digests compartilhados
+// recentes desta especialidade (o conteúdo é o mesmo para todos os inscritos,
+// então o histórico também é por especialidade, não por usuário).
+async function getRecentEspPmids(db, especialidade) {
+  const cutoff = new Date(Date.now() - LOOKBACK_DAYS * 24 * 3600 * 1000)
+    .toISOString().slice(0, 10);
   try {
-    const docs = await db.query('artigos_enviados', {
-      where: { fieldFilter: { field: { fieldPath: 'email' }, op: 'EQUAL', value: { stringValue: email } } },
-      select: { fields: [{ fieldPath: 'pmid' }, { fieldPath: 'data' }] },
+    const docs = await db.query('digests_especialidade', {
+      where: { fieldFilter: { field: { fieldPath: 'especialidade' }, op: 'EQUAL', value: { stringValue: especialidade } } },
       limit: 300,
     });
-    return new Set(
-      docs
-        .filter(d => !d.data || d.data >= cutoff)
-        .map(d => String(d.pmid || ''))
-        .filter(Boolean)
-    );
+    const pmids = new Set();
+    for (const d of docs) {
+      if (d.date && d.date < cutoff) continue;
+      for (const p of d.pmids || []) {
+        if (p) pmids.add(String(p));
+      }
+    }
+    return pmids;
   } catch (err) {
-    log.warn('[digest] getSentPmids failed', { email, err: err.message });
+    log.warn('[digest] getRecentEspPmids failed', { especialidade, err: err.message });
     return new Set();
   }
 }
@@ -238,7 +263,7 @@ async function saveSentLog(db, email, articles, especialidade) {
   }
 }
 
-// ── Per-user editorial pipeline (logic unchanged) ─────────────────────────────
+// ── Per-specialty shared digest ───────────────────────────────────────────────
 
 function buildUnsubscribeToken(email) {
   const secret = process.env.UNSUBSCRIBE_SECRET;
@@ -246,27 +271,51 @@ function buildUnsubscribeToken(email) {
   return crypto.createHmac('sha256', secret).update(email).digest('hex');
 }
 
-// Internal pipeline — responsible for the editorial logic only.
-// Does NOT handle idempotency or logging; those are in processUser() below.
-async function _runUserDigest(user, db, resendKey, anthropicKey) {
-  const { email, nome, especialidades, especialidade } = user;
-  const processStart = Date.now();
-  log.info('[digest] processing user', { email, specialties: especialidades });
+// Remove campos internos de scoring antes de persistir os artigos no cache.
+function stripInternal(article) {
+  const { _ps, ...rest } = article;
+  return rest;
+}
 
-  // 1. Sent PMIDs anti-repeat
+// Monta (ou recarrega do cache) o digest compartilhado de uma especialidade
+// para o dia: curadoria + Achado da Semana + editorial via Claude, UMA vez.
+// Retorna { articles, achadoSemana, editorial } ou null se não há conteúdo
+// suficiente (todos os usuários da especialidade são pulados nesse caso).
+async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
+  const key = getEspDigestKey(especialidade, dateStr);
+
+  // ── CACHE: reuso em re-execução/crash recovery — nunca refaz chamadas de IA ─
+  let cached;
+  try {
+    cached = await db.getDoc('digests_especialidade', key);
+  } catch (err) {
+    log.warn('[digest] esp digest cache check failed, rebuilding', { especialidade, err: err.message });
+  }
+  if (cached?.status === 'ready' && Array.isArray(cached.artigos) && cached.artigos.length >= MIN_ARTICLES) {
+    log.info('[digest][ESP] reusing cached digest', { especialidade, key, articles: cached.artigos.length });
+    return {
+      articles:     cached.artigos,
+      achadoSemana: cached.achadoSemana || null,
+      editorial:    cached.editorial || null,
+    };
+  }
+
+  log.info('[digest][ESP] building shared digest', { especialidade, key });
+
+  // 1. Anti-repeat: pmids já usados nos digests recentes desta especialidade
   let t = Date.now();
-  const sentPmids = await getSentPmids(db, email);
-  log.info('[digest][STAGE antirepeat]', { email, sentCount: sentPmids.size, ms: Date.now() - t });
+  const sentPmids = await getRecentEspPmids(db, especialidade);
+  log.info('[digest][ESP][STAGE antirepeat]', { especialidade, sentCount: sentPmids.size, ms: Date.now() - t });
 
   // 2. Candidate articles from shared collection
   t = Date.now();
-  let candidates = await getCandidates(db, especialidades);
+  let candidates = await getCandidates(db, [especialidade]);
   candidates = candidates.filter(a => !sentPmids.has(String(a.pmid || a.id || '')));
-  log.info('[digest][STAGE candidates]', { email, count: candidates.length, ms: Date.now() - t });
+  log.info('[digest][ESP][STAGE candidates]', { especialidade, count: candidates.length, ms: Date.now() - t });
 
   // 3. Trending Firestore fallback
   if (candidates.length < MIN_ARTICLES) {
-    log.info('[digest] insufficient candidates, trying trending', { email, found: candidates.length });
+    log.info('[digest][ESP] insufficient candidates, trying trending', { especialidade, found: candidates.length });
     const trending = await getTrendingArticles(db, 30);
     const trendNew = trending.filter(a => !sentPmids.has(String(a.pmid || a.id || '')));
     const allIds   = new Set(candidates.map(a => a.pmid || a.id));
@@ -275,74 +324,61 @@ async function _runUserDigest(user, db, resendKey, anthropicKey) {
 
   // 4. PubMed direct fallback
   if (candidates.length < MIN_ARTICLES) {
-    log.info('[digest] Firestore sparse, falling back to PubMed direct', { email, found: candidates.length });
+    log.info('[digest][ESP] Firestore sparse, falling back to PubMed direct', { especialidade, found: candidates.length });
     try {
       const needed  = MAX_ARTICLES + 2;
-      const fbArts  = await pubmedFallbackArticles(user, sentPmids, needed, anthropicKey);
+      const fbArts  = await pubmedFallbackArticles({ especialidade, temas: [] }, sentPmids, needed, anthropicKey);
       const allIds  = new Set(candidates.map(a => String(a.pmid || a.id)));
       const newArts = fbArts.filter(a => !allIds.has(String(a.pmid)));
       candidates    = [...candidates, ...newArts];
-      log.info('[digest] PubMed fallback added', { email, added: newArts.length, total: candidates.length });
+      log.info('[digest][ESP] PubMed fallback added', { especialidade, added: newArts.length, total: candidates.length });
     } catch (err) {
-      log.warn('[digest] PubMed fallback failed', { email, err: err.message });
+      log.warn('[digest][ESP] PubMed fallback failed', { especialidade, err: err.message });
     }
   }
 
   // ── GATE 1: minimum articles ────────────────────────────────────────────────
   if (candidates.length < MIN_ARTICLES) {
-    log.warn('[digest] BLOCKED — insufficient articles after all fallbacks', {
-      email, found: candidates.length, minimum: MIN_ARTICLES,
+    log.warn('[digest][ESP] BLOCKED — insufficient articles after all fallbacks', {
+      especialidade, found: candidates.length, minimum: MIN_ARTICLES,
     });
-    return 'skipped';
+    return null;
   }
 
-  // 5. Load behavioral profile (usado apenas para personalização do digest size)
+  // 5. Curated selection (shared — sem perfil individual)
   t = Date.now();
-  const profile = await getProfile(email, db).catch(err => {
-    log.warn('[digest] getProfile failed, proceeding without profile', { email, err: err.message });
-    return null;
-  });
-  log.info('[digest][STAGE profile]', { email, hasProfile: !!profile, ms: Date.now() - t });
-
-  // 6. Personalized curated selection
-  t = Date.now();
-  const digestSize = Math.min(profile ? getOptimalDigestSize(profile) : MAX_ARTICLES, MAX_ARTICLES);
-  let selected     = recommendArticles(candidates, profile, {
-    maxArticles: digestSize,
+  let selected = recommendArticles(candidates, null, {
+    maxArticles: MAX_ARTICLES,
     minArticles: MIN_ARTICLES,
   });
-  log.info('[digest][STAGE curation]', {
-    email, selected: selected.length, candidatesIn: candidates.length, ms: Date.now() - t,
+  log.info('[digest][ESP][STAGE curation]', {
+    especialidade, selected: selected.length, candidatesIn: candidates.length, ms: Date.now() - t,
   });
 
   // ── GATE 2: hard minimum after curation ─────────────────────────────────────
   if (selected.length < MIN_ARTICLES) {
-    log.warn('[digest] BLOCKED — curation returned fewer than minimum', {
-      email, selected: selected.length, minimum: MIN_ARTICLES,
+    log.warn('[digest][ESP] BLOCKED — curation returned fewer than minimum', {
+      especialidade, selected: selected.length, minimum: MIN_ARTICLES,
     });
-    return 'skipped';
+    return null;
   }
 
   // ── GATE 3: specialty coherence ─────────────────────────────────────────────
   const artEspecialidades = selected.map(a => a.especialidade).filter(Boolean);
-  const wrongEsp = artEspecialidades.filter(e => !especialidades.includes(e));
+  const wrongEsp = artEspecialidades.filter(e => e !== especialidade);
   if (wrongEsp.length === selected.length && selected.length > 0) {
-    log.warn('[digest] BLOCKED — all articles have wrong specialty', {
-      email, userEsps: especialidades, artEsp: [...new Set(wrongEsp)],
+    log.warn('[digest][ESP] BLOCKED — all articles have wrong specialty', {
+      especialidade, artEsp: [...new Set(wrongEsp)],
     });
-    return 'skipped';
+    return null;
   }
 
-  // 7. Build email
-  const digestId   = crypto.randomUUID();
-  const unsubToken = buildUnsubscribeToken(email);
-
-  // Achado da Semana — gerado uma vez por especialidade por semana, cacheado no Firestore
+  // 6. Achado da Semana — gerado uma vez por especialidade por semana, cacheado no Firestore
   t = Date.now();
   const achadoSemana = await getOrCreateAchadoSemana(db, candidates, especialidade, anthropicKey)
-    .catch(err => { log.warn('[digest] getOrCreateAchadoSemana threw', { err: err.message }); return null; });
-  log.info('[digest][STAGE achado]', {
-    email,
+    .catch(err => { log.warn('[digest][ESP] getOrCreateAchadoSemana threw', { err: err.message }); return null; });
+  log.info('[digest][ESP][STAGE achado]', {
+    especialidade,
     hasAchado: !!achadoSemana,
     id: achadoSemana?.pmid || achadoSemana?.articleId || null,
     ms: Date.now() - t,
@@ -369,34 +405,56 @@ async function _runUserDigest(user, db, resendKey, anthropicKey) {
     }
   }
 
-  // Load engagement for streak/badge display in email (best-effort — never blocks send)
+  // 7. Editorial via Claude — UMA chamada por especialidade (não por usuário);
+  //    falls back to deterministic on failure.
   t = Date.now();
-  const ehash       = emailHash(email);
-  const engagement  = await db.getDoc('user_engagement', ehash)
-    .catch(err => { log.warn('[digest] engagement load failed', { email, err: err.message }); return null; });
-  const streakCount = engagement?.streak || 0;
-  const newBadges   = engagement?.newBadgesThisWeek || [];
-  // Top 3 email-click themes — fed to editorial prompt for thematic awareness
-  const topThemes   = Object.entries(engagement?.clicksByTheme || {})
-    .sort(([, a], [, b]) => b - a)
-    .slice(0, 3)
-    .map(([tema]) => tema);
-  log.info('[digest][STAGE engagement]', { email, streak: streakCount, newBadges: newBadges.length, topThemes, ms: Date.now() - t });
-
-  // Generate editorial via Claude (falls back to deterministic on failure)
-  t = Date.now();
-  const editorial = await generateEditorial(selected, especialidade, topThemes)
-    .catch(err => { log.warn('[digest] generateEditorial threw', { err: err.message }); return null; });
-  log.info('[digest][STAGE editorial]', {
-    email, generated: !!editorial, chars: editorial?.length ?? 0, ms: Date.now() - t,
+  const editorial = await generateEditorial(selected, especialidade, [])
+    .catch(err => { log.warn('[digest][ESP] generateEditorial threw', { err: err.message }); return null; });
+  log.info('[digest][ESP][STAGE editorial]', {
+    especialidade, generated: !!editorial, chars: editorial?.length ?? 0, ms: Date.now() - t,
   });
 
-  t = Date.now();
+  // 8. Persist shared digest (cache + anti-repeat history)
+  const articles = selected.map(stripInternal);
+  const pmids = [
+    ...articles.map(a => a.pmid || a.id || ''),
+    ...(achadoSemana ? [achadoSemana.pmid || achadoSemana.articleId || ''] : []),
+  ].filter(Boolean);
+
+  await db.setDoc('digests_especialidade', key, {
+    especialidade,
+    date:         dateStr,
+    pmids,
+    artigos:      articles,
+    achadoSemana: achadoSemana || null,
+    editorial:    editorial || null,
+    criadoEm:     new Date().toISOString(),
+    status:       'ready',
+  }).catch(e => log.warn('[digest][ESP] cache save failed (continuing)', { especialidade, err: e.message }));
+
+  return { articles, achadoSemana, editorial };
+}
+
+// ── Per-user send pipeline ────────────────────────────────────────────────────
+
+// Renders and sends the SHARED specialty digest to one user. Only the greeting,
+// unsubscribe link and tracking ids are per-user; content is identical for
+// everyone in the specialty. Does NOT handle idempotency or logging; those are
+// in processUser() below.
+async function _sendUserDigest(user, espDigest, db, resendKey) {
+  const { email, nome, especialidade } = user;
+  const processStart = Date.now();
+  const { articles: selected, achadoSemana, editorial } = espDigest;
+
+  // 1. Build email
+  const digestId   = crypto.randomUUID();
+  const unsubToken = buildUnsubscribeToken(email);
+
+  let t = Date.now();
   const { html, subject } = buildDigestEmail(
     { nome, email, especialidade },
     selected,
-    { digestId, baseUrl: BASE_URL, unsubscribeToken: unsubToken, editorial, achadoSemana,
-      streak: streakCount, newBadges }
+    { digestId, baseUrl: BASE_URL, unsubscribeToken: unsubToken, editorial, achadoSemana }
   );
   log.info('[digest][STAGE render]', { email, htmlBytes: html?.length ?? 0, ms: Date.now() - t });
 
@@ -409,7 +467,7 @@ async function _runUserDigest(user, db, resendKey, anthropicKey) {
     return 'blocked';
   }
 
-  // 8. Send via Resend (with retry on 429)
+  // 2. Send via Resend (with retry on 429)
   t = Date.now();
   const emailRes = await sendEmailWithRetry(resendKey, email, subject, html);
   if (emailRes.status !== 200 && emailRes.status !== 201) {
@@ -431,13 +489,7 @@ async function _runUserDigest(user, db, resendKey, anthropicKey) {
     subject: subject.slice(0, 80), msgId: resendMessageId, ms: Date.now() - t,
   });
 
-  // Clear newBadgesThisWeek so the badge notification isn't shown again next send
-  if (newBadges.length > 0) {
-    await db.updateDoc('user_engagement', ehash, { newBadgesThisWeek: [] })
-      .catch(err => log.warn('[digest] clearNewBadgesThisWeek failed', { email, err: err.message }));
-  }
-
-  // 9. Persist digest + sent log
+  // 3. Persist digest + sent log
   t = Date.now();
   const [digestResult, sentLogResult] = await Promise.allSettled([
     saveDigest(db, digestId, {
@@ -463,11 +515,11 @@ async function _runUserDigest(user, db, resendKey, anthropicKey) {
 
 // ── Reliability wrapper ───────────────────────────────────────────────────────
 
-// Wraps _runUserDigest with:
+// Wraps _sendUserDigest with:
 //   1. Idempotency check  — skip if already sent today (crash recovery)
 //   2. Processing marker  — update digest_logs before and after
 //   3. Per-user timeout   — 90s hard limit; hanging user never stalls the run
-async function processUser(user, db, resendKey, anthropicKey, runId, dateStr) {
+async function processUser(user, espDigest, db, resendKey, runId, dateStr) {
   const { email, especialidade } = user;
   const logKey = getUserLogKey(email, dateStr);
 
@@ -503,7 +555,7 @@ async function processUser(user, db, resendKey, anthropicKey, runId, dateStr) {
   try {
     // ── PER-USER TIMEOUT ─────────────────────────────────────────────────────
     const result = await withTimeout(
-      _runUserDigest(user, db, resendKey, anthropicKey),
+      _sendUserDigest(user, espDigest, db, resendKey),
       USER_TIMEOUT_MS,
       email
     );
@@ -531,13 +583,14 @@ async function processUser(user, db, resendKey, anthropicKey, runId, dateStr) {
 
 // ── Run record helpers ────────────────────────────────────────────────────────
 
-async function createRunRecord(db, runId, dateStr, totalUsers) {
+async function createRunRecord(db, runId, dateStr, totalUsers, totalEspecialidades) {
   await db.setDoc('digest_runs', runId, {
     runId, dateStr,
     startedAt:  new Date().toISOString(),
     completedAt: null,
     status:     'running',
     totalUsers,
+    especialidades: totalEspecialidades,
     sent:       0,
     failed:     0,
     skipped:    0,
@@ -597,52 +650,91 @@ async function main() {
     console.log(`[USERS] ${users.length} active users found`);
     log.info('[digest] users found', { runId, count: users.length });
 
-    await createRunRecord(db, runId, dateStr, users.length);
-
-    // ── BATCH PROCESSING ─────────────────────────────────────────────────────
-    const batches = [];
-    for (let i = 0; i < users.length; i += BATCH_SIZE) {
-      batches.push(users.slice(i, i + BATCH_SIZE));
+    // ── GROUP BY SPECIALTY ───────────────────────────────────────────────────
+    // Cada usuário recebe o digest da sua especialidade principal (a primeira,
+    // para cadastros antigos com mais de uma).
+    const groups = new Map();
+    for (const user of users) {
+      const esp = user.especialidade;
+      if (!groups.has(esp)) groups.set(esp, []);
+      groups.get(esp).push(user);
     }
 
-    for (let bIdx = 0; bIdx < batches.length; bIdx++) {
-      const batch    = batches[bIdx];
-      const batchNum = bIdx + 1;
-      const processed = sent + errors + skipped;
-      console.log(`\n[BATCH ${batchNum}/${batches.length}] users ${processed + 1}-${processed + batch.length} of ${users.length}`);
+    console.log(`[GROUPS] ${groups.size} specialties: ${[...groups.keys()].map(e => `${e} (${groups.get(e).length})`).join(', ')}`);
+    log.info('[digest] specialty groups', {
+      runId,
+      count: groups.size,
+      groups: [...groups.entries()].map(([esp, us]) => ({ esp, users: us.length })),
+    });
 
-      // Process batch users concurrently — each isolated from the others
-      const results = await Promise.allSettled(
-        batch.map(user => processUser(user, db, resendKey, anthropicKey, runId, dateStr))
-      );
+    await createRunRecord(db, runId, dateStr, users.length, groups.size);
 
-      for (let i = 0; i < results.length; i++) {
-        const r     = results[i];
-        const email = batch[i].email;
+    // ── PER-SPECIALTY PROCESSING ─────────────────────────────────────────────
+    for (const [especialidade, groupUsers] of groups) {
+      console.log(`\n[ESP] ${especialidade} — ${groupUsers.length} users`);
 
-        if (r.status === 'rejected') {
-          log.error('[digest] user threw uncaught error', { email, err: r.reason?.message });
-          console.log(`[FAILED] ${email} — ${r.reason?.message?.slice(0, 100)}`);
-          errors++;
-        } else if (r.value === 'sent') {
-          console.log(`[SEND OK] ${email}`);
-          sent++;
-        } else if (r.value === 'skipped' || r.value === 'blocked') {
-          console.log(`[SKIP] ${email} (${r.value})`);
-          skipped++;
-        } else {
-          console.log(`[FAILED] ${email} — result=${r.value}`);
-          errors++;
-        }
+      // Build the shared digest ONCE per specialty (cached across re-runs)
+      let espDigest = null;
+      try {
+        espDigest = await withTimeout(
+          buildEspDigest(db, especialidade, anthropicKey, dateStr),
+          USER_TIMEOUT_MS * 2,
+          `esp:${especialidade}`
+        );
+      } catch (err) {
+        log.error('[digest][ESP] buildEspDigest failed', { especialidade, err: err.message });
       }
 
-      // Snapshot progress into run record
-      await db.updateDoc('digest_runs', runId, { sent, failed: errors, skipped })
-        .catch(() => {});
+      if (!espDigest) {
+        console.log(`[ESP SKIP] ${especialidade} — no digest content, ${groupUsers.length} users skipped`);
+        skipped += groupUsers.length;
+        continue;
+      }
 
-      // Pause between batches (not after the last one)
-      if (bIdx < batches.length - 1) {
-        await new Promise(r => setTimeout(r, BATCH_PAUSE_MS));
+      // ── BATCH PROCESSING within the specialty ──────────────────────────────
+      const batches = [];
+      for (let i = 0; i < groupUsers.length; i += BATCH_SIZE) {
+        batches.push(groupUsers.slice(i, i + BATCH_SIZE));
+      }
+
+      for (let bIdx = 0; bIdx < batches.length; bIdx++) {
+        const batch    = batches[bIdx];
+        const batchNum = bIdx + 1;
+        console.log(`[BATCH ${batchNum}/${batches.length}] ${especialidade} — ${batch.length} users`);
+
+        // Process batch users concurrently — each isolated from the others
+        const results = await Promise.allSettled(
+          batch.map(user => processUser(user, espDigest, db, resendKey, runId, dateStr))
+        );
+
+        for (let i = 0; i < results.length; i++) {
+          const r     = results[i];
+          const email = batch[i].email;
+
+          if (r.status === 'rejected') {
+            log.error('[digest] user threw uncaught error', { email, err: r.reason?.message });
+            console.log(`[FAILED] ${email} — ${r.reason?.message?.slice(0, 100)}`);
+            errors++;
+          } else if (r.value === 'sent') {
+            console.log(`[SEND OK] ${email}`);
+            sent++;
+          } else if (r.value === 'skipped' || r.value === 'blocked') {
+            console.log(`[SKIP] ${email} (${r.value})`);
+            skipped++;
+          } else {
+            console.log(`[FAILED] ${email} — result=${r.value}`);
+            errors++;
+          }
+        }
+
+        // Snapshot progress into run record
+        await db.updateDoc('digest_runs', runId, { sent, failed: errors, skipped })
+          .catch(() => {});
+
+        // Pause between batches (not after the last one)
+        if (bIdx < batches.length - 1) {
+          await new Promise(r => setTimeout(r, BATCH_PAUSE_MS));
+        }
       }
     }
   } finally {

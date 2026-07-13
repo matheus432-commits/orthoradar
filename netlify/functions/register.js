@@ -94,7 +94,7 @@ exports.handler = async (event) => {
 
   const { nome, email, especialidade, temas, senhaHash } = body;
 
-  if (!nome || !email || !especialidade || !temas || !temas.length || !senhaHash) {
+  if (!nome || !email || !especialidade || !senhaHash) {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'Campos obrigatorios faltando' }) };
   }
   // O cliente deve enviar SHA-256 hex (64 chars). Valida o formato antes de derivar.
@@ -113,7 +113,8 @@ exports.handler = async (event) => {
   if (invalidSpec) {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'Especialidade inválida: ' + invalidSpec }) };
   }
-  const temasArr = Array.isArray(temas) ? temas : [temas];
+  // Temas são opcionais: o digest diário é montado por especialidade, não por subtema.
+  const temasArr = temas == null ? [] : (Array.isArray(temas) ? temas : [temas]);
   const invalidTema = temasArr.find(t => typeof t !== 'string' || t.length < 3 || t.length > 120);
   if (invalidTema !== undefined) {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'Tema inválido.' }) };
@@ -133,7 +134,7 @@ exports.handler = async (event) => {
       nome: nomeTrimmed,
       email,
       especialidade: Array.isArray(especialidade) ? especialidade : [especialidade],
-      temas: Array.isArray(temas) ? temas : [temas],
+      temas: temasArr,
       senhaHash: hashPassword(senhaHash),
       ativo: true,
       criadoEm: new Date().toISOString(),
