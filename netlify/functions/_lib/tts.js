@@ -67,12 +67,14 @@ async function synthesize(db, { text, voice = VOICES.A, speakingRate = 1.0, now 
     audioConfig: { audioEncoding: 'MP3', speakingRate },
   });
   const buf = Buffer.from(payload, 'utf8');
+  // maxRetries=0: o Cloud TTS cobra por tentativa; um retry após timeout/queda
+  // cobraria em dobro sem reservar — o que furaria o teto. Uma tentativa só.
   const res = await request({
     hostname: HOST,
     path:     '/v1/text:synthesize?key=' + apiKey,
     method:   'POST',
     headers:  { 'Content-Type': 'application/json', 'Content-Length': buf.length },
-  }, buf);
+  }, buf, 0, 0);
 
   if (res.status !== 200) {
     log.error('[tts] erro na API Cloud TTS', { status: res.status, body: res.body.slice(0, 200) });

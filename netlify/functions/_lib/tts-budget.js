@@ -5,7 +5,9 @@
 //   - MONTHLY_TARGET  = 3.200.000  → teto OPERACIONAL (margem de segurança de 20%).
 //                                    Toda decisão usa este teto, não o de 4M, então
 //                                    o consumo real nunca chega perto dos 4M.
-//   - MAX_CHARS_PER_AUDIO = 8.000  → limite por áudio (~5 min). Bound cada geração.
+//   - MAX_CHARS_PER_AUDIO = 5.000  → rede de segurança de orçamento por áudio.
+//   - MAX_REQUEST_BYTES  = 4.500   → limite HARD da API TTS (5000 bytes/requisição);
+//                                    medido em bytes UTF-8 (acento pt-BR = 2 bytes).
 //   - Cota DIÁRIA = floor(MONTHLY_TARGET / dias_do_mês) → espalha o consumo pelo mês
 //                                    e evita queimar a cota nos primeiros dias.
 //
