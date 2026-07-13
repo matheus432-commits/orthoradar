@@ -1,0 +1,41 @@
+name: OdontoFeed Weekly Digest
+
+# "O Que Ficou" — recap semanal dos artigos mais lidos.
+# Roda via GitHub Actions (não Netlify scheduled function) porque o envio
+# percorre todos os usuários e precisa de timeout maior que os ~26s do Netlify.
+#
+# Triggers:
+#   schedule          — Sábado 11:00 UTC (08:00 BRT), mesmo horário do antigo
+#                       agendamento no netlify.toml.
+#   workflow_dispatch — disparo manual.
+
+on:
+  schedule:
+    - cron: '0 11 * * 6'
+
+  workflow_dispatch:
+
+jobs:
+  send-weekly:
+    name: Envio do Recap Semanal
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Disparar recap semanal
+        env:
+          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+          FIREBASE_API_KEY:    ${{ secrets.FIREBASE_API_KEY }}
+          RESEND_API_KEY:      ${{ secrets.RESEND_API_KEY }}
+          ANTHROPIC_API_KEY:   ${{ secrets.ANTHROPIC_API_KEY }}
+          UNSUBSCRIBE_SECRET:  ${{ secrets.UNSUBSCRIBE_SECRET }}
+          SITE_URL:            https://odontofeed.com.br
+        run: node netlify/functions/weekly-digest.js

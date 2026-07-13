@@ -7,11 +7,12 @@
 [functions."cleanup-articles"]
   schedule = "0 3 * * 0"
 
-# "O Que Ficou" — weekly top-articles recap (Saturday 11h UTC = 8h BRT).
-# NOTE: for > 50 users, move this to a GitHub Actions cron (same as daily-digest)
-# to avoid Netlify's function timeout limit.
+# "O Que Ficou" — weekly top-articles recap: agendado via GitHub Actions
+# (.github/workflows/weekly-digest.yml, sábado 11h UTC = 8h BRT) porque o envio
+# percorre todos os usuários e não cabe no timeout de ~26s do Netlify.
+# A função continua deployada apenas para disparo manual via HTTP.
 [functions."weekly-digest"]
-  schedule = "0 11 * * 6"
+  node_bundler = "nft"
 
 [functions."weekly-unsubscribe"]
   node_bundler = "nft"
