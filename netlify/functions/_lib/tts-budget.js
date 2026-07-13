@@ -17,9 +17,12 @@
 // A geração roda SEQUENCIALMENTE (uma especialidade por vez), então o
 // read-modify-write abaixo é seguro (sem concorrência sobre o contador).
 
-const FREE_TIER_HARD    = 4_000_000;
-const MONTHLY_TARGET     = 3_200_000;
-const MAX_CHARS_PER_AUDIO = 8_000;
+const FREE_TIER_HARD     = 4_000_000;   // caracteres — limite absoluto do plano grátis
+const MONTHLY_TARGET      = 3_200_000;   // caracteres — teto operacional (billing é por caractere)
+const MAX_CHARS_PER_AUDIO = 5_000;       // caracteres — rede de segurança de orçamento por áudio
+// Limite HARD da API text:synthesize: 5000 BYTES por requisição. Medimos em bytes
+// UTF-8 (acento pt-BR = 2 bytes) e cortamos com margem para nunca receber 400.
+const MAX_REQUEST_BYTES   = 4_500;
 
 // Sanidade: o teto operacional precisa ficar abaixo do limite grátis.
 if (MONTHLY_TARGET >= FREE_TIER_HARD) throw new Error('[tts-budget] MONTHLY_TARGET deve ser < FREE_TIER_HARD');
@@ -29,8 +32,10 @@ function monthId(d) { return `${d.getUTCFullYear()}-${pad2(d.getUTCMonth() + 1)}
 function dayId(d)   { return `${d.getUTCFullYear()}-${pad2(d.getUTCMonth() + 1)}-${pad2(d.getUTCDate())}`; }
 function daysInMonth(d) { return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth() + 1, 0)).getUTCDate(); }
 
-// Caracteres cobrados = tamanho do texto enviado. Contagem conservadora.
+// Caracteres cobrados = tamanho do texto (o Google cobra por CARACTERE).
 function billableChars(text) { return String(text || '').length; }
+// Bytes UTF-8 do texto — usado para o limite de tamanho da requisição (5000 bytes).
+function byteLength(text) { return Buffer.byteLength(String(text || ''), 'utf8'); }
 
 async function loadUsage(db, now) {
   const doc = await db.getDoc('tts_usage', monthId(now)).catch(() => null);
@@ -45,6 +50,8 @@ function checkBudget(usage, chars, now) {
 
   if (chars <= 0)                              return { ok: false, reason: 'empty' };
   if (chars > MAX_CHARS_PER_AUDIO)             return { ok: false, reason: 'audio_too_long', chars, cap: MAX_CHARS_PER_AUDIO };
+  // Segunda linha de defesa, independente do teto operacional: nunca cruzar 4M.
+  if (monthUsed + chars > FREE_TIER_HARD)      return { ok: false, reason: 'free_tier_hard', monthUsed, hard: FREE_TIER_HARD };
   if (monthUsed + chars > MONTHLY_TARGET)      return { ok: false, reason: 'monthly_cap', monthUsed, target: MONTHLY_TARGET };
   if (dayUsed + chars > dCap)                  return { ok: false, reason: 'daily_cap', dayUsed, dailyCap: dCap };
 
@@ -69,7 +76,7 @@ async function recordUsage(db, now, chars) {
 }
 
 module.exports = {
-  FREE_TIER_HARD, MONTHLY_TARGET, MAX_CHARS_PER_AUDIO,
-  monthId, dayId, daysInMonth, billableChars,
+  FREE_TIER_HARD, MONTHLY_TARGET, MAX_CHARS_PER_AUDIO, MAX_REQUEST_BYTES,
+  monthId, dayId, daysInMonth, billableChars, byteLength,
   loadUsage, checkBudget, recordUsage,
 };

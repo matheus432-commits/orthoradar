@@ -30,7 +30,20 @@ async function synthesize(db, { text, voice = VOICES.A, speakingRate = 1.0, now 
   const clean = String(text || '').trim();
   const chars = budget.billableChars(clean);
 
-  // ── GATE DE ORÇAMENTO (antes de qualquer gasto) ──────────────────────────
+  // Limite HARD da API (5000 bytes/requisição). capScript já garante, mas checamos
+  // de novo aqui para nunca enviar algo que retornaria 400.
+  if (budget.byteLength(clean) > budget.MAX_REQUEST_BYTES) {
+    log.warn('[tts] texto acima do limite de bytes da API — pulando', { bytes: budget.byteLength(clean) });
+    return { skipped: true, reason: 'too_long_bytes', chars };
+  }
+
+  const apiKey = process.env.GOOGLE_TTS_API_KEY;
+  if (!apiKey) {
+    log.warn('[tts] GOOGLE_TTS_API_KEY não configurada — pulando síntese');
+    return { skipped: true, reason: 'no_api_key', chars };
+  }
+
+  // ── GATE DE ORÇAMENTO ────────────────────────────────────────────────────
   const usage   = await budget.loadUsage(db, now);
   const verdict = budget.checkBudget(usage, chars, now);
   if (!verdict.ok) {
@@ -38,10 +51,14 @@ async function synthesize(db, { text, voice = VOICES.A, speakingRate = 1.0, now 
     return { skipped: true, reason: verdict.reason, chars, monthUsed: usage.chars };
   }
 
-  const apiKey = process.env.GOOGLE_TTS_API_KEY;
-  if (!apiKey) {
-    log.warn('[tts] GOOGLE_TTS_API_KEY não configurada — pulando síntese');
-    return { skipped: true, reason: 'no_api_key', chars };
+  // ── RESERVA o consumo ANTES de gastar ────────────────────────────────────
+  // Assim o registrado é sempre >= o gasto real: se a API falhar depois, no
+  // máximo super-contamos (direção segura) — NUNCA gastamos mais do que o teto.
+  try {
+    await budget.recordUsage(db, now, chars);
+  } catch (e) {
+    log.error('[tts] falha ao reservar orçamento — abortando síntese (sem gasto)', { err: e.message });
+    return { skipped: true, reason: 'budget_write_failed', chars };
   }
 
   const payload = JSON.stringify({
@@ -65,10 +82,7 @@ async function synthesize(db, { text, voice = VOICES.A, speakingRate = 1.0, now 
   const audioBase64 = JSON.parse(res.body).audioContent || null;
   if (!audioBase64) return { skipped: true, reason: 'empty_audio', chars };
 
-  // ── REGISTRA O CONSUMO só após o sucesso ─────────────────────────────────
-  await budget.recordUsage(db, now, chars);
-  log.info('[tts] áudio gerado', { chars, voice, monthUsedAgora: (usage.chars || 0) + chars });
-
+  log.info('[tts] áudio gerado', { chars, voice, monthUsadoAgora: (usage.chars || 0) + chars });
   return { ok: true, audioBase64, chars };
 }
 

@@ -4,18 +4,26 @@
 
 const { request } = require('../_lib');
 const { resolveModel } = require('./ai-config');
-const { MAX_CHARS_PER_AUDIO } = require('./tts-budget');
+const { MAX_REQUEST_BYTES, byteLength } = require('./tts-budget');
 const log = require('./logger');
 
 const HOST = 'api.anthropic.com';
 
-// Corta no último ponto final antes do limite, para não terminar no meio da frase.
+// Corta o texto para caber no limite de BYTES do TTS (5000 bytes/requisição),
+// terminando no último fim de frase. Mede em bytes UTF-8 porque acentos pt-BR
+// ocupam 2 bytes — String.length subestimaria e a API responderia 400.
 function capScript(text) {
   const t = String(text || '').trim();
-  if (t.length <= MAX_CHARS_PER_AUDIO) return t;
-  const cut = t.slice(0, MAX_CHARS_PER_AUDIO);
+  if (byteLength(t) <= MAX_REQUEST_BYTES) return t;
+  // Busca binária pelo maior prefixo (em caracteres) que cabe no limite de bytes.
+  let lo = 0, hi = t.length;
+  while (lo < hi) {
+    const mid = Math.ceil((lo + hi) / 2);
+    if (byteLength(t.slice(0, mid)) <= MAX_REQUEST_BYTES) lo = mid; else hi = mid - 1;
+  }
+  const cut = t.slice(0, lo);
   const lastStop = Math.max(cut.lastIndexOf('. '), cut.lastIndexOf('! '), cut.lastIndexOf('? '));
-  return (lastStop > MAX_CHARS_PER_AUDIO * 0.6 ? cut.slice(0, lastStop + 1) : cut).trim();
+  return (lastStop > lo * 0.6 ? cut.slice(0, lastStop + 1) : cut).trim();
 }
 
 function fallbackScript(article, especialidade) {
@@ -45,7 +53,7 @@ REGRAS:
 - Português brasileiro, tom de locutor de podcast — natural, direto, sem ser acadêmico.
 - APENAS o texto a ser narrado, em prosa corrida. SEM títulos, SEM marcadores, SEM asteriscos, SEM "[música]".
 - Abra cumprimentando e citando o tema; feche com uma frase curta de despedida.
-- Máximo ~850 palavras (o texto será convertido em áudio de ~5 minutos).
+- Máximo ~600 palavras (o texto vira áudio de ~4 minutos e há limite rígido de tamanho).
 - PROIBIDO citar p-valor, IC, OR, tamanhos de amostra ou estatística técnica.
 - Explique por que o achado importa na prática clínica.`;
 

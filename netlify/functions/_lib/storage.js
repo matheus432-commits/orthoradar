@@ -68,4 +68,20 @@ async function uploadMp3(objectPath, audioBuffer, downloadToken = newDownloadTok
   return { ok: true, url: firebaseDownloadUrl(bucket, objectPath, downloadToken), token };
 }
 
-module.exports = { uploadMp3, firebaseDownloadUrl, newDownloadToken, _bucketName: bucketName };
+// Remove um objeto do bucket (usado para limpar podcasts de especialidades sem
+// Pro ativo — invalida o token de download órfão). Best-effort.
+async function deleteObject(objectPath) {
+  const token = await getAccessToken('https://www.googleapis.com/auth/devstorage.read_write');
+  const bucket = bucketName();
+  if (!token || !bucket) return { skipped: true, reason: 'no_credentials' };
+  const res = await request({
+    hostname: UPLOAD_HOST,
+    path: `/storage/v1/b/${bucket}/o/${encodeURIComponent(objectPath)}`,
+    method: 'DELETE',
+    headers: { 'Authorization': 'Bearer ' + token },
+  });
+  // 200/204 = removido; 404 = já não existe (idempotente).
+  return { ok: res.status === 200 || res.status === 204 || res.status === 404, status: res.status };
+}
+
+module.exports = { uploadMp3, deleteObject, firebaseDownloadUrl, newDownloadToken, _bucketName: bucketName };

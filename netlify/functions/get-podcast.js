@@ -39,6 +39,7 @@ async function getUser(projectId, apiKey, email) {
     : (f.especialidade?.stringValue ? [f.especialidade.stringValue] : []);
   return {
     plano:         f.plano?.stringValue || 'basico',
+    ativo:         f.ativo?.booleanValue,
     sessionToken:  f.sessionToken?.stringValue || null,
     sessionExpiry: f.sessionExpiry?.stringValue || null,
     especialidade,
@@ -90,8 +91,8 @@ exports.handler = async (event) => {
       return { statusCode: 401, headers, body: JSON.stringify({ error: 'Sessao expirada. Faca login novamente.' }) };
     }
 
-    // ── GATE PRO ────────────────────────────────────────────────────────────
-    if (!isPro(user)) {
+    // ── GATE PRO (plano Pro E conta ativa) ──────────────────────────────────
+    if (!isPro(user) || user.ativo === false) {
       return { statusCode: 403, headers, body: JSON.stringify({ error: 'pro_required', message: 'O podcast diário é exclusivo do plano Pro.' }) };
     }
 
