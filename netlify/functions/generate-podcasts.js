@@ -51,7 +51,13 @@ async function cleanupStale(db, activeSlugs) {
   try { existing = await db.query('podcasts', { limit: 200 }); } catch { return; }
   for (const doc of existing) {
     if (!doc.id || activeSlugs.has(doc.id)) continue;
-    if (doc.objectPath) await deleteObject(doc.objectPath).catch(() => {});
+    // Só apaga o DOC depois de confirmar que o OBJETO (e seu token) foram removidos.
+    // Se o delete do objeto falhar, mantém o doc para uma tentativa futura — evita
+    // objeto órfão com token válido sem doc que o rastreie.
+    if (doc.objectPath) {
+      const del = await deleteObject(doc.objectPath).catch(() => ({ ok: false }));
+      if (!del.ok) { log.warn('[podcasts] delete do objeto falhou — mantendo doc p/ retry', { slug: doc.id, status: del.status }); continue; }
+    }
     await db.deleteDoc('podcasts', doc.id).catch(() => {});
     log.info('[podcasts] limpeza — especialidade sem Pro ativo', { slug: doc.id });
   }
