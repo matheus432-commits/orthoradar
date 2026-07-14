@@ -1,28 +1,25 @@
 rules_version = '2';
 
-// ATENCAO — MODELO DE ACESSO
-// As Netlify Functions acessam o Firestore via REST API usando apenas
-// ?key=FIREBASE_API_KEY (sem token de servico / sem Firebase Auth). Do ponto de
-// vista do Firestore essas chamadas sao ANONIMAS (request.auth == null).
+// MODELO DE ACESSO
+// As Netlify Functions e os jobs do GitHub Actions acessam o Firestore como
+// SERVICE ACCOUNT (OAuth2 Bearer, ver netlify/functions/_lib/google-auth.js).
+// Acesso de service account com papel IAM (roles/datastore.user) e
+// ADMINISTRATIVO e ignora estas regras — por isso elas podem (e devem) negar
+// todo o resto: nenhum cliente fala com o Firestore diretamente; todo acesso
+// passa pelas funcoes, que fazem validacao e autorizacao em codigo.
 //
-// A regra abaixo (`if request.auth != null`) NEGARIA essas chamadas — portanto,
-// se o app funciona em producao, as regras REALMENTE PUBLICADAS sao mais
-// permissivas que este arquivo. Isso e um risco: quem obtiver a FIREBASE_API_KEY
-// teria leitura/escrita direta em `cadastros` (e-mails, hashes de senha, tokens),
-// ignorando toda a validacao feita nas funcoes.
-//
-// CORRECAO RECOMENDADA (exige acao no console/deploy, nao pode ser feita so no codigo):
-//   1. Migrar as funcoes para uma SERVICE ACCOUNT (Admin SDK / OAuth2). O acesso
-//      Admin ignora as regras.
-//   2. Com isso feito, trocar a regra abaixo por `allow read, write: if false;`
-//      para negar TODO acesso direto do cliente.
-// Enquanto a migracao nao ocorre, garanta que a FIREBASE_API_KEY tenha
-// restricoes de aplicativo/API no Google Cloud e NUNCA seja exposta no cliente.
+// ORDEM DE PUBLICACAO (importante — fora de ordem derruba a producao):
+//   1. Deployar o codigo com suporte a service account (fallback p/ ?key= ativo).
+//   2. Criar a service account no GCP e configurar FIREBASE_SERVICE_ACCOUNT
+//      no Netlify e nos secrets do GitHub Actions.
+//   3. Confirmar nos logs: "[_lib] Firestore auth: service account (Bearer)".
+//   4. SO ENTAO publicar estas regras (deny-all).
+//   5. Depois, rotacionar/restringir a FIREBASE_API_KEY antiga no console GCP.
 
 service cloud.firestore {
   match /databases/{database}/documents {
     match /{document=**} {
-      allow read, write: if request.auth != null;
+      allow read, write: if false;
     }
   }
 }

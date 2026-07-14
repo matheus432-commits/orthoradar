@@ -29,6 +29,7 @@ jobs:
         env:
           FIREBASE_PROJECT_ID:  ${{ secrets.FIREBASE_PROJECT_ID }}
           FIREBASE_API_KEY:     ${{ secrets.FIREBASE_API_KEY }}
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
           RESEND_API_KEY:       ${{ secrets.RESEND_API_KEY }}
           ANTHROPIC_API_KEY:    ${{ secrets.ANTHROPIC_API_KEY }}
           NCBI_API_KEY:         ${{ secrets.NCBI_API_KEY }}

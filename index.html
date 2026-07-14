@@ -279,16 +279,6 @@ header{position:sticky;top:0;z-index:200;background:rgba(255,253,249,0.94);backd
 .spec-select-hint{font-size:11.5px;color:var(--text-muted);margin-bottom:16px;}
 .spec-select-hint strong{color:var(--primary);}
 
-/* THEMES */
-.themes-select{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:17px;max-height:200px;overflow-y:auto;padding-right:3px;}
-.themes-select::-webkit-scrollbar{width:3px;}
-.themes-select::-webkit-scrollbar-track{background:#F3F4F6;border-radius:2px;}
-.themes-select::-webkit-scrollbar-thumb{background:#D1D5DB;border-radius:2px;}
-.theme-tag{padding:5px 12px;border-radius:99px;border:1px solid #E5E7EB;background:#F9FAFB;font-size:11.5px;font-weight:500;cursor:pointer;transition:all .15s;user-select:none;color:var(--text-2);}
-.theme-tag:hover{border-color:var(--primary);color:var(--primary);}
-.theme-tag.selected{background:#EFF6FF;border-color:var(--primary);color:var(--primary);font-weight:600;}
-.themes-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
-.themes-counter{font-size:11px;color:var(--primary);font-weight:700;}
 
 /* SUCCESS */
 .success-box{text-align:center;padding:12px 0;display:none;}
@@ -421,8 +411,8 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:44px 52p
       <button class="btn-hero-ghost" onclick="document.getElementById('email-preview').scrollIntoView({behavior:'smooth'})">Ver exemplo de digest</button>
     </div>
     <div class="hero-proof">
-      <div class="hero-proof-item"><span class="hp-num" id="statAssinantes">—</span><span class="hp-lbl">Dentistas assinantes</span></div>
-      <div class="hero-proof-item"><span class="hp-num" id="statArtigos">—</span><span class="hp-lbl">Artigos resumidos</span></div>
+      <div class="hero-proof-item"><span class="hp-num">3</span><span class="hp-lbl">Artigos por dia</span></div>
+      <div class="hero-proof-item"><span class="hp-num" id="statArtigos">2.300+</span><span class="hp-lbl">Artigos resumidos</span></div>
       <div class="hero-proof-item"><span class="hp-num">10</span><span class="hp-lbl">Especialidades CFO</span></div>
       <div class="hero-proof-item"><span class="hp-num">R$0</span><span class="hp-lbl">Para começar</span></div>
     </div>
@@ -452,7 +442,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:44px 52p
         <div class="dw-art-meta">Journal of Orthodontics · 2024 · 3 min leitura</div>
       </div>
       <div class="dw-footer">
-        <div class="dw-footer-l">✉ Enviado para <span id="statAssinantes2">—</span> dentistas hoje às 7h</div>
+        <div class="dw-footer-l" id="statFooter">✉ Enviado toda manhã às 7h, direto no seu e-mail</div>
         <div class="dw-footer-r" onclick="document.getElementById('cadastro').scrollIntoView({behavior:'smooth'})">Receber o meu →</div>
       </div>
     </div>
@@ -633,7 +623,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:44px 52p
     <div class="cta-left">
       <div class="cta-kicker">Comece hoje · É gratuito</div>
       <h2>Configure em 2 minutos.<br>Receba <em>amanhã às 7h</em>.</h2>
-      <p>Escolha sua especialidade, defina os temas de interesse e deixe o OdontoFeed trazer a ciência até você — sem garimpar a literatura.</p>
+      <p>Escolha sua especialidade e deixe o OdontoFeed trazer a ciência até você — sem garimpar a literatura.</p>
       <div class="cta-benefits">
         <div class="cb">3 artigos por dia, na sua especialidade</div>
         <div class="cb">Resumos em português com relevância clínica</div>
@@ -645,14 +635,13 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:44px 52p
       <div class="step-indicator">
         <div class="step-dot active" id="dot1"></div>
         <div class="step-dot" id="dot2"></div>
-        <div class="step-dot" id="dot3"></div>
       </div>
-      <div class="step-label" id="stepLabelTxt">Passo <strong>1 de 3</strong> — Especialidades</div>
+      <div class="step-label" id="stepLabelTxt">Passo <strong>1 de 2</strong> — Especialidade</div>
 
       <!-- STEP 1 -->
       <div class="form-step active" id="fstep1">
-        <div class="form-section-title">Quais são suas especialidades?</div>
-        <div class="form-section-sub">Selecione uma ou mais. Você receberá artigos das áreas escolhidas.</div>
+        <div class="form-section-title">Qual é a sua especialidade?</div>
+        <div class="form-section-sub">Selecione uma. Você receberá todos os dias o resumo científico da sua área.</div>
         <div class="specialties-select" id="specSelect">
           <div class="spec-opt" data-value="Ortodontia" onclick="toggleSpec(this)"><span class="spec-opt-icon">🦷</span><span class="spec-opt-label">Ortodontia</span><span class="spec-check">✓</span></div>
           <div class="spec-opt" data-value="Implantodontia" onclick="toggleSpec(this)"><span class="spec-opt-icon">🔬</span><span class="spec-opt-label">Implantodontia</span><span class="spec-check">✓</span></div>
@@ -665,25 +654,12 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:44px 52p
           <div class="spec-opt" data-value="DTM e Dor Orofacial" onclick="toggleSpec(this)"><span class="spec-opt-icon">🧠</span><span class="spec-opt-label">DTM e Dor Orofacial</span><span class="spec-check">✓</span></div>
           <div class="spec-opt" data-value="Radiologia" onclick="toggleSpec(this)"><span class="spec-opt-icon">📷</span><span class="spec-opt-label">Radiologia</span><span class="spec-check">✓</span></div>
         </div>
-        <div class="spec-select-hint" id="specHint">Selecione <strong>ao menos uma</strong> especialidade para continuar.</div>
-        <button class="btn btn-grad" id="toStep2" disabled onclick="goToStep(2);renderThemes();" style="width:100%;padding:14px;">Próximo: escolher temas →</button>
+        <div class="spec-select-hint" id="specHint">Selecione <strong>sua especialidade</strong> para continuar.</div>
+        <button class="btn btn-grad" id="toStep2" disabled onclick="goToStep(2)" style="width:100%;padding:14px;">Próximo: criar conta →</button>
       </div>
 
       <!-- STEP 2 -->
       <div class="form-step" id="fstep2">
-        <div class="form-section-title" id="themesTitle">Temas de interesse</div>
-        <div class="form-section-sub" id="themesSubtitle">Selecione os assuntos que mais te interessam. Quanto mais específico, melhor a curadoria.</div>
-        <div class="themes-header">
-          <span style="font-size:11px;color:var(--text-muted);">Selecione quantos quiser</span>
-          <span class="themes-counter" id="themesCounter">0 selecionados</span>
-        </div>
-        <div class="themes-select" id="themesSelect"></div>
-        <button class="btn btn-grad" id="toStep3" disabled onclick="goToStep(3)" style="width:100%;padding:14px;">Próximo: criar conta →</button>
-        <button class="btn btn-outline" onclick="goToStep(1)" style="width:100%;padding:11px;margin-top:8px;">← Voltar</button>
-      </div>
-
-      <!-- STEP 3 -->
-      <div class="form-step" id="fstep3">
         <div class="form-section-title">Seus dados</div>
         <div class="form-section-sub">Crie sua conta para começar a receber.</div>
         <label class="form-label">Nome completo</label>
@@ -699,7 +675,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:44px 52p
         <input class="form-input" type="password" id="inputSenhaConf" placeholder="Repita a senha" oninput="validateSenhaConf()" autocomplete="new-password"/>
         <div class="field-hint" id="hintSenhaConf"></div>
         <button class="btn btn-grad" id="submitBtn" onclick="submitForm()" style="width:100%;padding:14px;margin-top:2px;">Criar conta e começar a receber →</button>
-        <button class="btn btn-outline" onclick="goToStep(2)" style="width:100%;padding:11px;margin-top:8px;">← Voltar</button>
+        <button class="btn btn-outline" onclick="goToStep(1)" style="width:100%;padding:11px;margin-top:8px;">← Voltar</button>
       </div>
 
       <!-- SUCCESS -->
@@ -710,8 +686,8 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:44px 52p
         <div class="success-info">
           <div class="success-info-item"><span class="sii-icon">📬</span><div class="sii-txt"><strong>Verifique sua caixa de entrada</strong><br/>Enviamos confirmação para <strong id="successEmail"></strong>.</div></div>
           <div class="success-info-item"><span class="sii-icon">🌅</span><div class="sii-txt"><strong>Primeiro artigo amanhã às 7h</strong><br/>Após confirmar o e-mail, você receberá sua primeira curadoria.</div></div>
-          <div class="success-info-item"><span class="sii-icon">🦷</span><div class="sii-txt"><strong>Especialidades cadastradas</strong><br/><span id="successSpecs"></span></div></div>
-          <div class="success-info-item"><span class="sii-icon">📊</span><div class="sii-txt"><strong>O OdontoFeed aprende com você</strong><br/>Cada artigo que você abre ensina o sistema sobre seus interesses — suas próximas edições serão progressivamente mais relevantes para sua prática.</div></div>
+          <div class="success-info-item"><span class="sii-icon">🦷</span><div class="sii-txt"><strong>Especialidade cadastrada</strong><br/><span id="successSpecs"></span></div></div>
+          <div class="success-info-item"><span class="sii-icon">📊</span><div class="sii-txt"><strong>Curadoria diária da sua especialidade</strong><br/>Todos os dias selecionamos e resumimos os estudos mais relevantes da sua área — direto no seu e-mail.</div></div>
         </div>
       </div>
     </div>
@@ -785,6 +761,16 @@ document.getElementById('feedDate').textContent = new Date().toLocaleDateString(
 (async function loadPublicArticles() {
   function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
   function safeUrl(u){u=String(u==null?'':u).trim();if(!/^https?:\/\//i.test(u))return '';if(/["'<>\\\s]/.test(u))return '';return u;}
+  // Decodifica entidades HTML/XML dos títulos do PubMed (ex.: &#x3ba;→κ, &#xf6;→ö,
+  // &amp;→&) para não exibirem cruas depois do esc(). Decodificar e re-escapar é
+  // seguro contra XSS (o esc() posterior re-escapa qualquer caractere especial).
+  function decodeEntities(s){
+    return String(s==null?'':s)
+      .replace(/&#x([0-9a-f]+);/gi, (_,h)=>{try{return String.fromCodePoint(parseInt(h,16));}catch(e){return '';}})
+      .replace(/&#(\d+);/g, (_,d)=>{try{return String.fromCodePoint(parseInt(d,10));}catch(e){return '';}})
+      .replace(/&nbsp;/gi,' ').replace(/&quot;/gi,'"').replace(/&apos;/gi,"'")
+      .replace(/&lt;/gi,'<').replace(/&gt;/gi,'>').replace(/&amp;/gi,'&');
+  }
   function evCls(n){
     if(!n) return 'ev-iv';
     const l=n.toLowerCase();
@@ -809,91 +795,50 @@ document.getElementById('feedDate').textContent = new Date().toLocaleDateString(
       const cl = evCls(feat.nivel_evidencia);
       const ev = esc(feat.nivel_evidencia||'Artigo');
       const sp = esc(feat.especialidade||feat.tema||'');
-      const t  = esc((feat.titulo_pt||feat.titulo||'').substring(0,130));
-      const s  = esc((feat.resumo_pt||feat.abstract||'').substring(0,290));
-      const im = feat.impacto_pratico ? `<div class="ff-impact"><strong>Relevância clínica:</strong> ${esc(feat.impacto_pratico.substring(0,200))}</div>` : '';
+      const t  = esc(decodeEntities(feat.titulo_pt||feat.titulo||'').substring(0,130));
+      const s  = esc(decodeEntities(feat.resumo_pt||feat.abstract||'').substring(0,290));
+      const im = feat.impacto_pratico ? `<div class="ff-impact"><strong>Relevância clínica:</strong> ${esc(decodeEntities(feat.impacto_pratico).substring(0,200))}</div>` : '';
       const lk = safeUrl(feat.pubmedUrl) ? `<a href="${esc(safeUrl(feat.pubmedUrl))}" target="_blank" rel="noopener" style="color:var(--primary);font-weight:600;">Ver no PubMed →</a>` : '';
       featEl.innerHTML = `<div class="ff-kicker"><span class="ff-tag ${cl}">${ev}</span><span class="ff-sep">·</span><span class="ff-spec">${sp}</span></div><h2 class="ff-title">${t}</h2><p class="ff-summary">${s}…</p>${im}<div class="ff-meta"><span>${esc(feat.journal||'')}</span><span class="ff-meta-sep">·</span><span>${esc(String(feat.year||''))}</span>${lk?'<span class="ff-meta-sep">·</span>'+lk:''}</div>`;
     }
 
     const sbEl = document.getElementById('feedSidebar');
     if(sbEl && side.length) {
-      sbEl.innerHTML = side.map(a=>`<div class="fs-card"><div class="fs-kicker"><span class="fs-ev ${evCls(a.nivel_evidencia)}">${esc(a.nivel_evidencia||'Artigo')}</span><span class="fs-spec">${esc(a.especialidade||'')}</span></div><div class="fs-title">${esc((a.titulo_pt||a.titulo||'').substring(0,90))}</div><div class="fs-meta">${esc(a.journal||'')}${a.year?' · '+esc(String(a.year)):''}</div></div>`).join('');
+      sbEl.innerHTML = side.map(a=>`<div class="fs-card"><div class="fs-kicker"><span class="fs-ev ${evCls(a.nivel_evidencia)}">${esc(a.nivel_evidencia||'Artigo')}</span><span class="fs-spec">${esc(a.especialidade||'')}</span></div><div class="fs-title">${esc(decodeEntities(a.titulo_pt||a.titulo||'').substring(0,90))}</div><div class="fs-meta">${esc(a.journal||'')}${a.year?' · '+esc(String(a.year)):''}</div></div>`).join('');
     }
 
     const grEl = document.getElementById('feedGrid');
     if(grEl && grid.length) {
       grEl.innerHTML = grid.map(a=>{
         const lk = safeUrl(a.pubmedUrl)?`<a href="${esc(safeUrl(a.pubmedUrl))}" target="_blank" rel="noopener" style="color:var(--primary);">Ler artigo na íntegra →</a>`:'<span style="color:var(--primary);">Ler artigo na íntegra →</span>';
-        return `<div class="fg-card"><div class="fg-kicker"><span class="fg-ev ${evCls(a.nivel_evidencia)}">${esc(a.nivel_evidencia||'Artigo')}</span><span class="fg-spec">${esc(a.especialidade||a.tema||'')}</span></div><div class="fg-title">${esc((a.titulo_pt||a.titulo||'').substring(0,100))}</div><div class="fg-meta"><span>${esc(a.journal||'')}</span>${a.year?'<span>·</span><span>'+esc(String(a.year))+'</span>':''}</div><div class="fg-read">${lk}</div></div>`;
+        return `<div class="fg-card"><div class="fg-kicker"><span class="fg-ev ${evCls(a.nivel_evidencia)}">${esc(a.nivel_evidencia||'Artigo')}</span><span class="fg-spec">${esc(a.especialidade||a.tema||'')}</span></div><div class="fg-title">${esc(decodeEntities(a.titulo_pt||a.titulo||'').substring(0,100))}</div><div class="fg-meta"><span>${esc(a.journal||'')}</span>${a.year?'<span>·</span><span>'+esc(String(a.year))+'</span>':''}</div><div class="fg-read">${lk}</div></div>`;
       }).join('');
     }
   } catch(e){}
 })();
 
-// ── THEMES DATA ─────────────────────────────────────
-const THEMES = {
-  "Ortodontia": ["Alinhadores invisíveis","Biomecânica ortodôntica","Cefalometria","Mini-implantes / TADs","Expansão maxilar","Cirurgia ortognática","Ortodontia e ATM","Ancoragem esquelética","Contenção e recidiva","Ortodontia interceptiva","Aparelho fixo estético","Extração em ortodontia","Ortodontia lingual","Self-ligating","Torque e angulação","Crescimento e desenvolvimento facial","Ortodontia em adultos","Respiração oral e má-oclusão","Ortodontia e sono/apneia","Tratamento de Classe II","Tratamento de Classe III","Mordida aberta","Mordida cruzada posterior","Sobremordida profunda","Inteligência artificial em ortodontia"],
-  "Implantodontia": ["Osseointegração","Carga imediata","Enxertos ósseos autógenos","Enxertos com biomateriais","Implantes zigomáticos","Prótese sobre implante","Peri-implantite","Planejamento digital 3D","All-on-4 e All-on-X","Implantes em maxila posterior","Implantes em mandíbula posterior","Elevação de seio maxilar","Implantes estreitos (mini-implantes)","Implantes curtos","Tecido mole peri-implantar","Carga diferida","Reabilitação com implantes unitários","Implantes em pacientes sistêmicos","Complicações em implantes","Sobredentadura","Membranas e ROG","Biofilme peri-implantar","Impressão digital em implantes","Implantes imediatos pós-extração","Implantes em adolescentes"],
-  "Periodontia": ["Doença periodontal crônica","Periodontite agressiva","Gengivite","Regeneração tecidual guiada","Cirurgia mucogengival","Periodontia e diabetes","Periodontia e doenças cardiovasculares","Lasers em periodontia","Manutenção periodontal","Raspagem e alisamento radicular","Cirurgia ressectiva","Cirurgia regenerativa","Enxerto gengival livre","Retalho de reposicionamento","Tratamento de furca","Abscesso periodontal","Periodontia e tabagismo","Microbioma periodontal","Periodontia e gestação","Periodontia e osteoporose","Medicação de suporte periodontal","Terapia fotodinâmica","Ozônio em periodontia","Periodontia estética","Defeitos ósseos verticais"],
-  "Dentística": ["Resinas compostas nanoparticuladas","Clareamento dental","Facetas de porcelana","Laminados cerâmicos","Adesão dental","Estética digital (DSD)","Restaurações indiretas em cerâmica","Inlays e onlays","Cárie e mínima intervenção","Fluorose e tratamento","Erosão dental","Sensibilidade dentinária","Bruxismo e dentística","Mock-up digital","Pigmentações e manchamentos","Restaurações em dentes anteriores","Sistemas cerâmicos (zircônia, dissilicato)","Fotopolimerização e luz LED","Cor em dentística","Tratamento de cavidades classe IV","Restaurações cervicais","Dentística minimamente invasiva","Materiais provisórios estéticos","Técnica incremental em compósito","Polimento e acabamento"],
-  "Bucomaxilofacial": ["Cirurgia ortognática","Trauma facial","Fraturas mandibulares","Fraturas do terço médio","Patologia oral benigna","Cistos odontogênicos","Tumores benignos dos maxilares","Carcinoma espinocelular oral","Reconstrução mandibular","Distração osteogênica","Transplante de osso","Enxertos microvascularizados","Articulação temporomandibular cirúrgica","Cirurgia de terceiros molares","Doenças das glândulas salivares","Fissura labiopalatina","Cirurgia pré-protética","Complicações pós-operatórias","Anestesia local em BMF","Implantes zigomáticos em BMF","Medicina do sono e cirurgia","Bifosfonatos e osteonecrose","Cirurgia oncológica oral","Reconstrução com retalhos locais","Cirurgia minimamente invasiva"],
-  "Prótese": ["Prótese total convencional","Prótese parcial removível","Prótese fixa unitária","Prótese fixa de múltiplos elementos","Oclusão em prótese","Reabilitação oral completa","Materiais cerâmicos para prótese","Zircônia em prótese fixa","CAD/CAM em prótese","Prótese implanto-suportada","Prótese parcial imediata","Prótese provisória","Overdenture sobre implantes","Prótese bucomaxilofacial","Reembasamento de próteses","Prótese em pacientes geriátricos","Estética em prótese fixa","Cimentação adesiva","Prótese e bruxismo","Desordens oclusais","Impressão digital em prótese","Cera e moldagem funcional","Prótese e ATM","Sorrisos compostos","Prótese e estética facial"],
-  "Endodontia": ["Tratamento de canal convencional","Retratamento endodôntico","Cirurgia perirradicular (apicectomia)","Regeneração pulpar em dentes imaturos","Instrumentação rotatória NiTi","Instrumentação reciprocante","Irrigação com hipoclorito de sódio","EDTA e quelantes em endodontia","Obturação endodôntica","Diagnóstico diferencial de dor endodôntica","Perfuração radicular","Fratura de instrumento","Dente com rizogênese incompleta","Reabsorção radicular","Traumatismo dentário e endodontia","Cimentos endodônticos","Tomografia em endodontia","Endodontia em dentes com anatomia complexa","Lasers em endodontia","Medicação intracanal","Dente com câmara calcificada","Endodontia em dentes posteriores","Biopulpotomia em dentes permanentes","Dor pós-operatória em endodontia","Prognóstico endodôntico"],
-  "Odontopediatria": ["Cárie precoce na infância","Traumatismo dental em crianças","Pulpotomia em molares decíduos","Pulpectomia em decíduos","Odontologia para bebês","Fluoretação e prevenção","Selantes de fóssulas e fissuras","Ortopedia funcional dos maxilares","Respiração oral na infância","Hábitos orais deletérios","Ansiedade e medo em odontopediatria","Técnicas de manejo comportamental","Sedação em odontopediatria","Anestesia geral em odontopediatria","Traumatismo em dentes permanentes jovens","Erupção dentária e anomalias","Dentes supranumerários","Dentes neonatais","Nutrição e saúde bucal infantil","Fissura labiopalatina na infância","Doença periodontal em crianças","Atualização em cariologia pediátrica","Hipomineralização molar-incisivo (HMI)","Reabilitação oral pediátrica","Primeiro atendimento odontológico"],
-  "DTM e Dor Orofacial": ["Bruxismo do sono","Bruxismo em vigília","Artralgia da ATM","Deslocamento de disco com redução","Deslocamento de disco sem redução","Osteoartrite da ATM","Mialgia mastigatória","Dor miofascial","Placa oclusal estabilizadora","Placa oclusal de reposicionamento","Biofeedback em DTM","Toxina botulínica (Botox) em DTM","Fisioterapia orofacial","Diagnóstico por imagem da ATM (CBCT/RM)","Dor crônica orofacial","Neuralgia do trigêmeo","Cefaleia tensional e odontologia","Oclusão e DTM","Relação oclusal e postura","Diagnóstico diferencial de dores faciais","Dor neuropática orofacial","Impacto psicossocial das DTMs","Tratamento multidisciplinar em DTM","Laser de baixa intensidade em DTM","Qualidade de sono e DTM"],
-  "Radiologia": ["CBCT 3D em diagnóstico","Radiografia periapical digital","Panorâmica e suas limitações","Diagnóstico de cárie por imagem","Diagnóstico periodontal por radiografia","Planejamento de implantes com CBCT","CBCT em endodontia","CBCT em ortodontia","Redução de dose em radiologia odontológica","Inteligência artificial em radiologia","Detecção automática de cárie por IA","Radiologia em patologia oral","Imagem da ATM por RM","Sialografia","Radioprotecção em odontologia","Interpretação de achados incidentais","Diagnóstico de reabsorções radiculares","Lesões periapicais em imagem","CBCT em cirurgia guiada","Tomossíntese em odontologia","Fantomas e calibração em radiologia","Imagem em trauma facial","Princípios de proteção radiológica","Radiologia em pediatria","Teleradiologia e laudos remotos"]
-};
-
 let selectedSpecs = [];
-let selectedThemes = [];
 
 function escapeHtml(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
 
 function toggleSpec(el){
   const val=el.dataset.value;
-  el.classList.toggle('selected');
-  if(el.classList.contains('selected')){if(!selectedSpecs.includes(val))selectedSpecs.push(val);}
-  else{selectedSpecs=selectedSpecs.filter(s=>s!==val);}
+  const wasSelected=el.classList.contains('selected');
+  document.querySelectorAll('.spec-opt.selected').forEach(o=>o.classList.remove('selected'));
+  selectedSpecs=[];
+  if(!wasSelected){el.classList.add('selected');selectedSpecs=[val];}
   const hint=document.getElementById('specHint');
   const btn=document.getElementById('toStep2');
-  if(selectedSpecs.length===0){hint.innerHTML='Selecione <strong>ao menos uma</strong> especialidade para continuar.';btn.disabled=true;}
-  else if(selectedSpecs.length===1){hint.innerHTML='<strong style="color:var(--success)">✓ '+escapeHtml(selectedSpecs[0])+' selecionada</strong> — pode adicionar mais!';btn.disabled=false;}
-  else{hint.innerHTML='<strong style="color:var(--success)">✓ '+selectedSpecs.length+' selecionadas:</strong> '+escapeHtml(selectedSpecs.join(', '));btn.disabled=false;}
-}
-
-function renderThemes(){
-  selectedThemes=[];
-  document.getElementById('toStep3').disabled=true;
-  document.getElementById('themesCounter').textContent='0 selecionados';
-  const allThemes=[];const seen=new Set();
-  selectedSpecs.forEach(spec=>{(THEMES[spec]||[]).forEach(t=>{if(!seen.has(t)){seen.add(t);allThemes.push({theme:t,spec});}});});
-  const titleEl=document.getElementById('themesTitle');
-  const subEl=document.getElementById('themesSubtitle');
-  titleEl.textContent=selectedSpecs.length===1?'Temas de '+selectedSpecs[0]:'Temas das suas especialidades';
-  subEl.textContent=allThemes.length+' temas disponíveis de '+selectedSpecs.join(' + ')+'. Selecione os que mais te interessam!';
-  const container=document.getElementById('themesSelect');
-  container.innerHTML='';
-  allThemes.forEach(({theme})=>{
-    const tag=document.createElement('div');
-    tag.className='theme-tag';tag.textContent=theme;
-    tag.addEventListener('click',()=>{
-      tag.classList.toggle('selected');
-      if(tag.classList.contains('selected')){selectedThemes.push(theme);}
-      else{selectedThemes=selectedThemes.filter(x=>x!==theme);}
-      document.getElementById('themesCounter').textContent=selectedThemes.length+' selecionado'+(selectedThemes.length!==1?'s':'');
-      document.getElementById('toStep3').disabled=selectedThemes.length===0;
-    });
-    container.appendChild(tag);
-  });
+  if(selectedSpecs.length===0){hint.innerHTML='Selecione <strong>sua especialidade</strong> para continuar.';btn.disabled=true;}
+  else{hint.innerHTML='<strong style="color:var(--success)">✓ '+escapeHtml(selectedSpecs[0])+' selecionada</strong>';btn.disabled=false;}
 }
 
 function goToStep(n){
   document.querySelectorAll('.form-step').forEach(s=>s.classList.remove('active'));
   document.getElementById('fstep'+n).classList.add('active');
-  const labels=['Especialidades','Temas','Seus dados'];
-  document.getElementById('stepLabelTxt').innerHTML='Passo <strong>'+n+' de 3</strong> — '+labels[n-1];
-  ['dot1','dot2','dot3'].forEach((id,i)=>{
+  const labels=['Especialidade','Seus dados'];
+  document.getElementById('stepLabelTxt').innerHTML='Passo <strong>'+n+' de 2</strong> — '+labels[n-1];
+  ['dot1','dot2'].forEach((id,i)=>{
     const dot=document.getElementById(id);
     dot.classList.remove('active','done');
     if(i+1<n)dot.classList.add('done');
@@ -947,7 +892,7 @@ async function submitForm(){
   btn.disabled=true;btn.textContent='Criando sua conta...';
   try {
     const senhaHash=await hashSHA256(senha);
-    const res=await fetch('/.netlify/functions/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nome:name,email,especialidade:selectedSpecs,temas:selectedThemes,senhaHash})});
+    const res=await fetch('/.netlify/functions/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nome:name,email,especialidade:selectedSpecs,senhaHash})});
     const data=await res.json();
     if(!res.ok){
       btn.disabled=false;btn.textContent='Criar conta e começar a receber →';
@@ -962,7 +907,7 @@ async function submitForm(){
       if(lr.ok&&ld.token){localStorage.setItem('of_token',ld.token);localStorage.setItem('of_email',email);window.location.href='/dashboard';return;}
     } catch(e){}
   } catch(e){btn.disabled=false;btn.textContent='Criar conta e começar a receber →';return;}
-  document.getElementById('fstep3').style.display='none';
+  document.getElementById('fstep2').style.display='none';
   document.getElementById('successBox').style.display='block';
   document.querySelector('.step-indicator').style.display='none';
   document.getElementById('stepLabelTxt').style.display='none';
@@ -977,10 +922,15 @@ async function submitForm(){
     const res = await fetch('/.netlify/functions/get-stats');
     if (!res.ok) return;
     const { assinantes, artigos } = await res.json();
-    const fmt = n => n ? new Intl.NumberFormat('pt-BR').format(n) : null;
-    const a = fmt(assinantes), b = fmt(artigos);
-    if (a) { document.getElementById('statAssinantes').textContent = a; document.getElementById('statAssinantes2').textContent = a; }
-    if (b) document.getElementById('statArtigos').textContent = b;
+    const fmt = n => new Intl.NumberFormat('pt-BR').format(n);
+    // Artigos: mostra o número real quando disponível; senão mantém o fallback do HTML.
+    if (artigos > 0) document.getElementById('statArtigos').textContent = fmt(artigos);
+    // Assinantes: prova social só entra quando há tração (>=50). Abaixo disso mantém
+    // o enquadramento de "early adopter" já no HTML — nunca expõe placeholder nem número pequeno.
+    if (assinantes >= 50) {
+      const f = document.getElementById('statFooter');
+      if (f) f.textContent = '✉ Enviado para ' + fmt(assinantes) + ' dentistas hoje às 7h';
+    }
   } catch(e) {}
 })();
 

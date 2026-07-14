@@ -1,11 +1,11 @@
 // OdontoFeed "O Que Ficou" — weekly top-articles recap email.
 //
 // Run: node netlify/functions/weekly-digest.js
-// Schedule: netlify.toml schedule = "0 11 * * 6"  (Saturday 11h UTC = 8h BRT)
-//
-// NOTE: For large user bases (100+) this function will exceed Netlify's 26-second
-// limit.  In that case, invoke it via a GitHub Actions workflow on the same
-// cron schedule, exactly as daily-digest.js is invoked.
+// Schedule: GitHub Actions weekly-digest.yml at "0 11 * * 6" (Saturday 11h UTC = 8h BRT).
+//   Roda via Actions — não como Netlify scheduled function — porque o envio
+//   percorre todos os usuários e não cabe no timeout de ~26s do Netlify.
+//   O conteúdo (top 3 da comunidade + editorial) já é gerado UMA vez e
+//   compartilhado por todos; por usuário há apenas render, envio e log.
 //
 // Reliability:
 //   - Per-user idempotency via `weekly_digest_logs` (skip if already sent this week)
