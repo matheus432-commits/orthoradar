@@ -396,6 +396,11 @@ function buildWeeklyEmail({ nome, email, especialidade }, top3, specialtyArt, ed
           N&atilde;o quero receber o resumo semanal
         </a>
       </div>
+      <div style="margin-top:10px;font-size:10px;color:#B5B0A8;line-height:1.7;font-family:${FONT_SANS};">
+        As s&iacute;nteses s&atilde;o geradas por intelig&ecirc;ncia artificial com valida&ccedil;&atilde;o
+        automatizada e n&atilde;o substituem a leitura dos estudos originais nem orienta&ccedil;&atilde;o
+        cl&iacute;nica individualizada.
+      </div>
     </td></tr>
 
   </table>

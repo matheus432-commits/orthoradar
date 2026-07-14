@@ -610,7 +610,9 @@ function buildDigestEmail(user, articles, opts) {
                         font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">
                 O OdontoFeed tem como objetivo facilitar a atualiza&ccedil;&atilde;o cient&iacute;fica do
                 cirurgi&atilde;o-dentista por meio de curadoria editorial de artigos recentes indexados em
-                bases cient&iacute;ficas. As s&iacute;nteses apresentadas n&atilde;o substituem a leitura
+                bases cient&iacute;ficas. As s&iacute;nteses s&atilde;o geradas por intelig&ecirc;ncia
+                artificial com valida&ccedil;&atilde;o automatizada e podem conter imprecis&otilde;es;
+                elas n&atilde;o substituem a leitura
                 integral dos estudos originais, nem devem ser interpretadas como recomenda&ccedil;&atilde;o
                 cl&iacute;nica definitiva ou altera&ccedil;&atilde;o obrigat&oacute;ria de protocolo
                 profissional. Decis&otilde;es cl&iacute;nicas devem considerar o contexto individual de cada

@@ -25,7 +25,11 @@ function buildPrompt(article) {
   return (
     'Você é um editor científico especializado em Odontologia.\n' +
     'Dado o artigo abaixo, produza conteúdo ORIGINAL em português brasileiro para uma newsletter profissional.\n' +
-    'Não reproduza o abstract — crie novo texto analítico e prático.\n\n' +
+    'REGRA EDITORIAL DE DIREITO AUTORAL (obrigatória, ver docs/REGRAS-EDITORIAIS.md):\n' +
+    'o abstract é apenas CONTEXTO — é PROIBIDO reproduzi-lo, parafraseá-lo frase a frase\n' +
+    'ou traduzi-lo literalmente (isso criaria obra derivada sem licença). Extraia os FATOS\n' +
+    'e ACHADOS (não protegidos por direito autoral) e escreva texto analítico e prático\n' +
+    'inteiramente com suas próprias palavras e estrutura.\n\n' +
     `TÍTULO (inglês): ${article.titulo || article.title || ''}\n` +
     `CONTEXTO ABSTRACT (inglês, uso interno, max 400 chars): ${abstract}\n` +
     `ESPECIALIDADE: ${article.especialidade || ''}\n` +

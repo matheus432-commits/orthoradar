@@ -93,6 +93,7 @@ async function generateNotaEditorial(article, especialidade, anthropicKey) {
 Sua tarefa: escrever a nota editorial "Por que este artigo importa agora?" para o Achado da Semana do OdontoFeed.
 
 REGRAS ABSOLUTAS:
+- DIREITO AUTORAL: o material do artigo é apenas contexto — NUNCA reproduza nem traduza literalmente o abstract/resumo; escreva com suas próprias palavras sobre os fatos e achados
 - Tom: colega especialista falando com pares, NÃO acadêmico, NÃO marketing
 - Parágrafo 1: por que ESTE achado é relevante AGORA para ${especialidade}
 - Parágrafo 2: o que muda (ou confirma) na prática clínica real

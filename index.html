@@ -674,6 +674,11 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:44px 52p
         <label class="form-label">Confirmar senha</label>
         <input class="form-input" type="password" id="inputSenhaConf" placeholder="Repita a senha" oninput="validateSenhaConf()" autocomplete="new-password"/>
         <div class="field-hint" id="hintSenhaConf"></div>
+        <label style="display:flex;align-items:flex-start;gap:8px;margin:10px 0 12px;font-size:12px;color:var(--text-muted);line-height:1.5;cursor:pointer;">
+          <input type="checkbox" id="aceiteTermos" onchange="validateAceite()" style="margin-top:2px;flex-shrink:0;"/>
+          <span>Li e concordo com os <a href="/termos.html" target="_blank" rel="noopener" style="color:var(--primary);">Termos de Uso</a> e com a <a href="/privacidade.html" target="_blank" rel="noopener" style="color:var(--primary);">Política de Privacidade</a>, incluindo o envio do resumo diário por e-mail.</span>
+        </label>
+        <div class="field-hint" id="hintAceite"></div>
         <button class="btn btn-grad" id="submitBtn" onclick="submitForm()" style="width:100%;padding:14px;margin-top:2px;">Criar conta e começar a receber →</button>
         <button class="btn btn-outline" onclick="goToStep(1)" style="width:100%;padding:11px;margin-top:8px;">← Voltar</button>
       </div>
@@ -700,7 +705,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:44px 52p
     <div>
       <div class="footer-logo">OdontoFeed<em>.</em></div>
       <p class="footer-desc">Portal de inteligência científica para dentistas brasileiros. Curadoria diária do PubMed, resumida em português, entregue toda manhã às 7h.</p>
-      <p class="footer-disclaimer">Os resumos são gerados por IA e revisados editorialmente. Não substituem a leitura do artigo original nem orientação clínica individualizada.</p>
+      <p class="footer-disclaimer">Os resumos são gerados por IA com validação automatizada. Não substituem a leitura do artigo original nem orientação clínica individualizada.</p>
     </div>
     <div>
       <div class="footer-col-title">Especialidades</div>
@@ -725,8 +730,8 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:44px 52p
     <div>
       <div class="footer-col-title">Institucional</div>
       <ul class="footer-links">
-        <li><a href="#">Política de Privacidade</a></li>
-        <li><a href="#">Termos de Uso</a></li>
+        <li><a href="/privacidade.html">Política de Privacidade</a></li>
+        <li><a href="/termos.html">Termos de Uso</a></li>
         <li><a href="/.netlify/functions/unsubscribe">Descadastrar</a></li>
       </ul>
     </div>
@@ -882,17 +887,24 @@ async function hashSHA256(str){
   return Array.from(new Uint8Array(h)).map(b=>b.toString(16).padStart(2,'0')).join('');
 }
 
+function validateAceite(){
+  const cb=document.getElementById('aceiteTermos');const hint=document.getElementById('hintAceite');
+  if(!cb.checked){hint.textContent='É necessário aceitar os Termos de Uso e a Política de Privacidade.';hint.className='field-hint err';return false;}
+  hint.textContent='';hint.className='field-hint';return true;
+}
+
 async function submitForm(){
   const nameInput=document.getElementById('inputName');
   const emailInput=document.getElementById('inputEmail');
   if(!validateName(nameInput)||!validateEmail(emailInput)||!validateSenha()||!validateSenhaConf()) return;
+  if(!validateAceite()) return;
   const name=nameInput.value.trim();const email=emailInput.value.trim();
   const senha=document.getElementById('inputSenha').value;
   const btn=document.getElementById('submitBtn');
   btn.disabled=true;btn.textContent='Criando sua conta...';
   try {
     const senhaHash=await hashSHA256(senha);
-    const res=await fetch('/.netlify/functions/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nome:name,email,especialidade:selectedSpecs,senhaHash})});
+    const res=await fetch('/.netlify/functions/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nome:name,email,especialidade:selectedSpecs,senhaHash,aceiteTermos:true})});
     const data=await res.json();
     if(!res.ok){
       btn.disabled=false;btn.textContent='Criar conta e começar a receber →';
