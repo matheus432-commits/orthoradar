@@ -4,13 +4,14 @@
 //   1. Env var específica da feature (ex.: EDITORIAL_MODEL, ACHADO_MODEL,
 //      ENRICH_MODEL, CLINICAL_MODEL) — permite usar um modelo diferente por uso.
 //   2. ANTHROPIC_MODEL — modelo global para todas as features.
-//   3. DEFAULT_MODEL — padrão do projeto: Claude Fable 5.
+//   3. DEFAULT_MODEL — padrão do projeto: Claude Haiku 4.5 (barato).
 //
-// Para usar o Fable 5 em tudo, basta NÃO configurar nada (é o padrão) ou
-// definir ANTHROPIC_MODEL=claude-fable-5. Para baratear uma feature específica
-// (ex.: enriquecimento em massa), defina a env var daquela feature.
+// PADRÃO = Haiku 4.5 para conter custo (o pipeline enriquece ~20 artigos/dia).
+// Para usar o Fable 5 (bem mais caro), configure ANTHROPIC_MODEL=claude-fable-5
+// (global) ou a env de uma feature específica, ex. EDITORIAL_MODEL=claude-fable-5
+// só no editorial que o usuário lê.
 
-const DEFAULT_MODEL = 'claude-fable-5';
+const DEFAULT_MODEL = 'claude-haiku-4-5-20251001';
 
 function resolveModel(featureVar) {
   return (featureVar && process.env[featureVar]) || process.env.ANTHROPIC_MODEL || DEFAULT_MODEL;
