@@ -11,7 +11,7 @@ const { Firestore } = require('./_lib/firestore');
 const { request }   = require('./_lib');
 const log           = require('./_lib/logger');
 
-const BASE_URL = process.env.SITE_URL || 'https://odontofeed.com.br';
+const BASE_URL = process.env.SITE_URL || 'https://odontofeed.com';
 
 // ── Date helpers ──────────────────────────────────────────────────────────────
 

@@ -29,11 +29,14 @@ function capScript(text) {
 function fallbackScript(article, especialidade) {
   const titulo  = article.titulo_pt || article.titulo || 'um estudo recente';
   const impacto = (article.impacto_pratico || '').trim();
-  const resumo  = (article.resumo_pt || article.abstract || '').trim();
+  // DIREITO AUTORAL: só narra o resumo PRÓPRIO (resumo_pt) — nunca o abstract
+  // original, que é obra protegida da editora/autores.
+  const resumo  = (article.resumo_pt || '').trim();
   const partes = [
     `Olá! No episódio de hoje do OdontoFeed sobre ${especialidade}, vamos falar sobre ${titulo}.`,
     resumo ? `Em resumo: ${resumo}` : '',
     impacto ? `Na prática clínica, isso significa o seguinte: ${impacto}` : '',
+    `Lembrando: este episódio é informativo e não substitui a leitura do artigo original nem o seu julgamento clínico.`,
     `É isso por hoje. Bons estudos e até o próximo episódio.`,
   ].filter(Boolean);
   return capScript(partes.join(' '));
@@ -55,7 +58,9 @@ REGRAS:
 - Abra cumprimentando e citando o tema; feche com uma frase curta de despedida.
 - Máximo ~600 palavras (o texto vira áudio de ~4 minutos e há limite rígido de tamanho).
 - PROIBIDO citar p-valor, IC, OR, tamanhos de amostra ou estatística técnica.
-- Explique por que o achado importa na prática clínica.`;
+- Explique por que o achado importa na prática clínica.
+- DIREITO AUTORAL (obrigatório): o material recebido é apenas contexto — NÃO o leia, reproduza ou traduza literalmente; narre os achados inteiramente com suas próprias palavras.
+- Antes da despedida, inclua UMA frase natural lembrando que o episódio é informativo e não substitui a leitura do artigo original nem o julgamento clínico.`;
 
   const user =
 `Artigo (${nivel}):

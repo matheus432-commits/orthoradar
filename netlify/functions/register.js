@@ -93,10 +93,15 @@ exports.handler = async (event) => {
   let body;
   try { body = JSON.parse(event.body); } catch { return { statusCode: 400, headers, body: JSON.stringify({ error: 'JSON invalido' }) }; }
 
-  const { nome, email, especialidade, temas, senhaHash } = body;
+  const { nome, email, especialidade, temas, senhaHash, aceiteTermos } = body;
 
   if (!nome || !email || !especialidade || !senhaHash) {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'Campos obrigatorios faltando' }) };
+  }
+  // LGPD/CDC: o cadastro exige aceite expresso dos Termos de Uso e da Política
+  // de Privacidade; data e versão ficam registradas no documento do usuário.
+  if (aceiteTermos !== true) {
+    return { statusCode: 400, headers, body: JSON.stringify({ error: 'É necessário aceitar os Termos de Uso e a Política de Privacidade.' }) };
   }
   // O cliente deve enviar SHA-256 hex (64 chars). Valida o formato antes de derivar.
   if (!/^[a-f0-9]{64}$/i.test(senhaHash)) {
@@ -139,6 +144,8 @@ exports.handler = async (event) => {
       senhaHash: hashPassword(senhaHash),
       ativo: true,
       plano: DEFAULT_PLAN,
+      aceitouTermosEm: new Date().toISOString(),
+      termosVersao: '1.0-2026-07-14',
       criadoEm: new Date().toISOString(),
       curtidos: [],
       lidos: []

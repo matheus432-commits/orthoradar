@@ -4,12 +4,12 @@
 const { recordClick, logEvent, updateBadges } = require('./_lib/engagement');
 const log                       = require('./_lib/logger');
 
-const FALLBACK_URL = process.env.SITE_URL || 'https://odontofeed.com.br';
+const FALLBACK_URL = process.env.SITE_URL || 'https://odontofeed.com';
 const EHASH_RE     = /^[a-f0-9]{16}$/;
 
 // Hostname-based allowlist — immune to prefix-bypass attacks (e.g. evil.pubmed.com, //evil.com)
 const ALLOWED_HOSTS = new Set([
-  'odontofeed.com.br',
+  'odontofeed.com',
   'pubmed.ncbi.nlm.nih.gov',
   'europepmc.org',
   'doi.org',

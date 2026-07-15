@@ -19,7 +19,7 @@ const { getWeekId } = require('./_lib/engagement');
 const { resolveModel } = require('./_lib/ai-config');
 const log           = require('./_lib/logger');
 
-const BASE_URL      = process.env.SITE_URL || 'https://odontofeed.com.br';
+const BASE_URL      = process.env.SITE_URL || 'https://odontofeed.com';
 const RESEND_RETRIES = 3;
 const MIN_ARTICLES   = 3;
 const TOP_N          = 20; // candidates loaded from Firestore
@@ -395,6 +395,11 @@ function buildWeeklyEmail({ nome, email, especialidade }, top3, specialtyArt, ed
         <a href="${weeklyUnsubUrl}" style="color:#9E988E;text-decoration:none;">
           N&atilde;o quero receber o resumo semanal
         </a>
+      </div>
+      <div style="margin-top:10px;font-size:10px;color:#B5B0A8;line-height:1.7;font-family:${FONT_SANS};">
+        As s&iacute;nteses s&atilde;o geradas por intelig&ecirc;ncia artificial com valida&ccedil;&atilde;o
+        automatizada e n&atilde;o substituem a leitura dos estudos originais nem orienta&ccedil;&atilde;o
+        cl&iacute;nica individualizada.
       </div>
     </td></tr>
 

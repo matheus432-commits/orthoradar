@@ -149,7 +149,7 @@ jobs:
           ANTHROPIC_API_KEY:   ${{ secrets.ANTHROPIC_API_KEY }}
           NCBI_API_KEY:        ${{ secrets.NCBI_API_KEY }}
           UNSUBSCRIBE_SECRET:  ${{ secrets.UNSUBSCRIBE_SECRET }}
-          SITE_URL:            https://odontofeed.com.br
+          SITE_URL:            https://odontofeed.com
           FORCE_SEND:          ${{ github.event.inputs.force_send || 'false' }}
         run: node netlify/functions/daily-digest.js
 

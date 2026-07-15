@@ -70,7 +70,7 @@ async function processOne(db, article) {
   };
   const scoreNow = updatedArticle.relevanceScore;
 
-  await db.updateDoc('artigos', pmid, {
+  const updateFields = {
     titulo_pt:          enriched.titulo_pt,
     resumo_pt:          enriched.resumo_pt,
     impacto_pratico:    enriched.impacto_pratico,
@@ -82,7 +82,20 @@ async function processOne(db, article) {
     relevanceScore:     scoreNow,
     status:             'active',
     enrichedAt:         new Date().toISOString(),
-  });
+  };
+
+  // O rótulo da ingestão vem da QUERY de busca e pode estar errado (ex.: artigo
+  // de odontopediatria achado pela busca de Prótese). A classificação da IA pelo
+  // conteúdo real prevalece; o rótulo antigo fica em especialidadeOriginal.
+  if (enriched.especialidade && enriched.especialidade !== article.especialidade) {
+    updateFields.especialidade         = enriched.especialidade;
+    updateFields.especialidadeOriginal = article.especialidade || '';
+    log.info('[process] especialidade reclassificada', {
+      id: pmid, de: article.especialidade || '(vazia)', para: enriched.especialidade,
+    });
+  }
+
+  await db.updateDoc('artigos', pmid, updateFields);
 
   log.info('[process] enriched', {
     id:         pmid,
