@@ -33,7 +33,7 @@ const { getOrCreateAchadoSemana }                  = require('./_lib/achado-sema
 const log                                          = require('./_lib/logger');
 const { request }                                  = require('./_lib');
 
-const BASE_URL        = process.env.SITE_URL || 'https://odontofeed.com.br';
+const BASE_URL        = process.env.SITE_URL || 'https://odontofeed.com';
 const MIN_ARTICLES    = 3;
 const MAX_ARTICLES    = 3;   // Padrão fixo: 3 artigos regulares por dia (o Achado da Semana entra à parte, podendo elevar o total)
 const LOOKBACK_DAYS   = 180;
@@ -313,11 +313,15 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
   candidates = candidates.filter(a => !sentPmids.has(String(a.pmid || a.id || '')));
   log.info('[digest][ESP][STAGE candidates]', { especialidade, count: candidates.length, ms: Date.now() - t });
 
-  // 3. Trending Firestore fallback
+  // 3. Trending Firestore fallback — SÓ artigos da MESMA especialidade.
+  // Sem este filtro, um digest escasso completava com artigos de outras áreas
+  // (ex.: odontopediatria dentro do digest de Prótese).
   if (candidates.length < MIN_ARTICLES) {
     log.info('[digest][ESP] insufficient candidates, trying trending', { especialidade, found: candidates.length });
     const trending = await getTrendingArticles(db, 30);
-    const trendNew = trending.filter(a => !sentPmids.has(String(a.pmid || a.id || '')));
+    const trendNew = trending.filter(a =>
+      a.especialidade === especialidade &&
+      !sentPmids.has(String(a.pmid || a.id || '')));
     const allIds   = new Set(candidates.map(a => a.pmid || a.id));
     candidates     = [...candidates, ...trendNew.filter(a => !allIds.has(a.pmid || a.id))];
   }

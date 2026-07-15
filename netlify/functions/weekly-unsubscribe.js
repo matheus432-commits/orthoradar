@@ -11,7 +11,7 @@ const crypto        = require('crypto');
 const { Firestore } = require('./_lib/firestore');
 const log           = require('./_lib/logger');
 
-const BASE_URL = process.env.SITE_URL || 'https://odontofeed.com.br';
+const BASE_URL = process.env.SITE_URL || 'https://odontofeed.com';
 
 function tokenValid(email, token) {
   if (!email || !token || !/^[a-f0-9]{64}$/i.test(token)) return false;

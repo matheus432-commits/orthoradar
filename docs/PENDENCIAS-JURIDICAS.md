@@ -21,8 +21,8 @@ CDC, planos e marca).
 
 ## Ação do titular do negócio (fora do código)
 
-- [ ] **Criar as caixas de e-mail** `privacidade@odontofeed.com.br` e
-      `contato@odontofeed.com.br` (ou redirecionamentos) — as páginas legais já
+- [ ] **Criar as caixas de e-mail** `privacidade@odontofeed.com` e
+      `contato@odontofeed.com` (ou redirecionamentos) — as páginas legais já
       apontam para elas
 - [ ] Concluir a migração de segurança do Firestore (service account + rules
       deny-all) — obrigação de segurança da LGPD (art. 46)

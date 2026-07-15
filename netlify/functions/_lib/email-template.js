@@ -441,7 +441,7 @@ function achadoSemanaCard(achado, opts) {
 function buildDigestEmail(user, articles, opts) {
   const {
     digestId,
-    baseUrl          = 'https://odontofeed.com.br',
+    baseUrl          = 'https://odontofeed.com',
     unsubscribeToken = '',
     editorial:       editorialOverride = null,
     achadoSemana:    achado            = null,

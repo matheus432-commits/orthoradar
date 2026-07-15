@@ -32,12 +32,14 @@ const SPECIALTY_QUERIES = [
   { specialty: 'Endodontia',      query: 'endodontics[MeSH Major Topic]' },
   { specialty: 'Dentística',      query: 'dental caries[MeSH Major Topic] OR dental restoration permanent[MeSH Major Topic]' },
   { specialty: 'Prótese',         query: 'prosthodontics[MeSH Major Topic] OR "denture, partial, fixed"[MeSH Major Topic] OR "denture, complete"[MeSH Major Topic]' },
-  { specialty: 'Cirurgia',        query: 'oral surgical procedures[MeSH Major Topic]' },
+  // Nomes SEMPRE iguais aos do cadastro (ALLOWED_SPECS) — rótulo divergente
+  // significa que os inscritos daquela especialidade nunca recebem candidatos.
+  { specialty: 'Bucomaxilofacial', query: 'oral surgical procedures[MeSH Major Topic]' },
   { specialty: 'Odontopediatria', query: 'pediatric dentistry[MeSH Major Topic]' },
   { specialty: 'Saúde Pública',   query: 'public health dentistry[MeSH Major Topic]' },
   { specialty: 'Radiologia',      query: 'radiography dental[MeSH Major Topic] OR cone-beam computed tomography[MeSH Major Topic]' },
   { specialty: 'Estomatologia',   query: 'stomatognathic diseases[MeSH Major Topic]' },
-  { specialty: 'DTM',             query: 'temporomandibular joint disorders[MeSH Major Topic]' },
+  { specialty: 'DTM e Dor Orofacial', query: 'temporomandibular joint disorders[MeSH Major Topic]' },
 ];
 
 const DATE_RANGE = 'last+90+days'; // wider window → more candidates, dedup handles repeats

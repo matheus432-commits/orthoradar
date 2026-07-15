@@ -1,0 +1,44 @@
+name: Corrigir Especialidades dos Artigos
+
+# Reclassifica os artigos ativos pelo conteúdo (via Claude) e corrige rótulos
+# errados de especialidade no Firestore. Disparo manual; rodar após a ingestão
+# ou sempre que aparecerem artigos na especialidade errada.
+
+on:
+  workflow_dispatch:
+    inputs:
+      fix_limit:
+        description: 'Máximo de artigos avaliados'
+        required: false
+        default: '300'
+      purge_caches:
+        description: 'Limpar caches do digest do dia e do Achado da Semana'
+        required: false
+        default: 'true'
+        type: boolean
+
+jobs:
+  fix:
+    name: Reclassificar artigos
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Corrigir especialidades
+        env:
+          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+          FIREBASE_API_KEY:    ${{ secrets.FIREBASE_API_KEY }}
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          ANTHROPIC_API_KEY:   ${{ secrets.ANTHROPIC_API_KEY }}
+          ANTHROPIC_MODEL:     ${{ vars.ANTHROPIC_MODEL }}
+          FIX_LIMIT:           ${{ inputs.fix_limit }}
+          PURGE_CACHES:        ${{ inputs.purge_caches }}
+        run: node netlify/functions/fix-especialidades.js

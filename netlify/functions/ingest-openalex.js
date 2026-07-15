@@ -42,7 +42,7 @@ async function searchOpenAlex(conceptId, perPage = 12) {
     `/works?filter=${encodeURIComponent(filter)}` +
     `&per-page=${perPage}&sort=publication_date:desc` +
     `&select=id,doi,title,abstract_inverted_index,authorships,primary_location,publication_year,publication_date,open_access,concepts` +
-    `&mailto=contato@odontofeed.com.br` // polite pool: better rate limits
+    `&mailto=contato@odontofeed.com` // polite pool: better rate limits
   );
 
   const res = await request({ hostname: HOST, path, method: 'GET' }, null);

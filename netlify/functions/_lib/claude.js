@@ -20,6 +20,14 @@ const EVIDENCE_LEVELS = [
   'Caso Clínico', 'Revisão Narrativa', 'In Vitro', 'Estudo Animal',
 ];
 
+// Especialidades canônicas do cadastro — a classificação SEMPRE usa esta lista.
+// 'Outra' vira 'Odontologia Geral' (nunca entra em digest de especialidade).
+const CANONICAL_ESPECIALIDADES = [
+  'Ortodontia', 'Implantodontia', 'Periodontia', 'Dentística',
+  'Bucomaxilofacial', 'Prótese', 'Endodontia', 'Odontopediatria',
+  'DTM e Dor Orofacial', 'Radiologia',
+];
+
 function buildPrompt(article) {
   const abstract = (article.abstract || '').slice(0, 400);
   return (
@@ -43,7 +51,8 @@ function buildPrompt(article) {
     '  "achados_principais": ["achado 1", "achado 2", "achado 3"],\n' +
     `  "nivel_evidencia": "um de: ${EVIDENCE_LEVELS.join(' | ')}",\n` +
     '  "limitacoes": "Principais limitações em 1 frase",\n' +
-    '  "tempo_leitura": 3\n' +
+    '  "tempo_leitura": 3,\n' +
+    `  "especialidade": "classifique pelo FOCO CLÍNICO PRINCIPAL do artigo em UMA de: ${CANONICAL_ESPECIALIDADES.join(' | ')} | Outra. Ignore a especialidade sugerida acima se não corresponder ao conteúdo real (ex.: estudo sobre apneia do sono ou odontopediatria NÃO é Prótese). Use 'Outra' quando não se encaixar claramente."\n` +
     '}'
   );
 }
@@ -168,7 +177,36 @@ async function enrichArticle(article) {
     nivel_evidencia:   EVIDENCE_LEVELS.includes(enriched.nivel_evidencia) ? enriched.nivel_evidencia : 'Revisão Narrativa',
     limitacoes:        String(enriched.limitacoes          || '').slice(0, 500),
     tempo_leitura:     Number.isInteger(enriched.tempo_leitura) ? enriched.tempo_leitura : 3,
+    // 'Odontologia Geral' (para 'Outra'/inválida) nunca casa com digest de especialidade
+    especialidade:     CANONICAL_ESPECIALIDADES.includes(enriched.especialidade)
+      ? enriched.especialidade
+      : (enriched.especialidade ? 'Odontologia Geral' : null),
   };
 }
 
-module.exports = { enrichArticle, currentCost, resetCost, MODEL };
+// Classificação isolada (sem enriquecimento completo) — usada pelo script de
+// correção em massa fix-especialidades.js. Retorna uma especialidade canônica,
+// 'Odontologia Geral', ou null em falha.
+async function classifyEspecialidade(article) {
+  const prompt =
+    'Classifique o artigo odontológico abaixo pelo seu FOCO CLÍNICO PRINCIPAL.\n' +
+    `Responda APENAS com uma opção exata desta lista: ${CANONICAL_ESPECIALIDADES.join(' | ')} | Outra\n` +
+    'Use "Outra" quando o artigo não se encaixar claramente em nenhuma.\n\n' +
+    `TÍTULO: ${article.titulo || article.title || ''}\n` +
+    `ABSTRACT (contexto, max 400 chars): ${(article.abstract || article.resumo_pt || '').slice(0, 400)}\n` +
+    `RÓTULO ATUAL (pode estar errado): ${article.especialidade || ''}`;
+
+  try {
+    const raw = await callClaude(prompt);
+    const answer = raw.text.trim().split('\n')[0].trim();
+    if (CANONICAL_ESPECIALIDADES.includes(answer)) return answer;
+    if (/^outra$/i.test(answer)) return 'Odontologia Geral';
+    const hit = CANONICAL_ESPECIALIDADES.find(e => answer.includes(e));
+    return hit || null;
+  } catch (err) {
+    log.warn('[claude] classifyEspecialidade failed', { pmid: article.pmid || article.id, err: err.message });
+    return null;
+  }
+}
+
+module.exports = { enrichArticle, classifyEspecialidade, CANONICAL_ESPECIALIDADES, currentCost, resetCost, MODEL };

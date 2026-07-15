@@ -19,7 +19,7 @@ const { getWeekId } = require('./_lib/engagement');
 const { resolveModel } = require('./_lib/ai-config');
 const log           = require('./_lib/logger');
 
-const BASE_URL      = process.env.SITE_URL || 'https://odontofeed.com.br';
+const BASE_URL      = process.env.SITE_URL || 'https://odontofeed.com';
 const RESEND_RETRIES = 3;
 const MIN_ARTICLES   = 3;
 const TOP_N          = 20; // candidates loaded from Firestore
