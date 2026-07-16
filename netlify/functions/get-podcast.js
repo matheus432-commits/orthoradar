@@ -6,7 +6,7 @@
 
 const { request } = require('./_lib');
 const crypto = require('crypto');
-const { isPro } = require('./_lib/plans');
+// (gate de plano removido — diretriz 07/2026: podcast é do plano Gratuito)
 const { specialtySlug } = require('./_lib/slug');
 const { firebaseDownloadUrl } = require('./_lib/storage');
 
@@ -54,12 +54,23 @@ async function getPodcastDoc(projectId, apiKey, slug) {
   });
   if (res.status !== 200) return null;
   const f = JSON.parse(res.body).fields || {};
+  const episodios = (f.episodios?.arrayValue?.values || []).map(v => {
+    const e = v.mapValue?.fields || {};
+    return {
+      n:             parseInt(e.n?.integerValue || '0', 10),
+      artigoId:      e.artigoId?.stringValue || '',
+      titulo:        e.titulo?.stringValue || '',
+      objectPath:    e.objectPath?.stringValue || '',
+      downloadToken: e.downloadToken?.stringValue || '',
+    };
+  }).filter(e => e.objectPath && e.downloadToken);
   return {
     objectPath:    f.objectPath?.stringValue || '',
     downloadToken: f.downloadToken?.stringValue || '',
     titulo:        f.titulo?.stringValue || '',
     especialidade: f.especialidade?.stringValue || '',
     geradoEm:      f.geradoEm?.stringValue || '',
+    episodios,
   };
 }
 
@@ -91,9 +102,10 @@ exports.handler = async (event) => {
       return { statusCode: 401, headers, body: JSON.stringify({ error: 'Sessao expirada. Faca login novamente.' }) };
     }
 
-    // ── GATE PRO (plano Pro E conta ativa) ──────────────────────────────────
-    if (!isPro(user) || user.ativo === false) {
-      return { statusCode: 403, headers, body: JSON.stringify({ error: 'pro_required', message: 'O podcast diário é exclusivo do plano Pro.' }) };
+    // Diretriz 07/2026: o podcast diário é do plano GRATUITO — basta a conta
+    // estar ativa (a sessão já foi validada acima).
+    if (user.ativo === false) {
+      return { statusCode: 403, headers, body: JSON.stringify({ error: 'conta_inativa' }) };
     }
 
     const esp = user.especialidade[0];
@@ -112,6 +124,10 @@ exports.handler = async (event) => {
         titulo:        doc.titulo,
         especialidade: doc.especialidade || esp,
         geradoEm:      doc.geradoEm,
+        episodios:     (doc.episodios || []).map(e => ({
+          n: e.n, artigoId: e.artigoId, titulo: e.titulo,
+          url: firebaseDownloadUrl(bucket, e.objectPath, e.downloadToken),
+        })),
       }),
     };
   } catch (err) {

@@ -14,7 +14,8 @@ const { verifyEdicaoToken } = require('./_lib/edicao-token');
 const { espDigestSlug, specialtySlug } = require('./_lib/slug');
 const { resolveArticleUrl } = require('./_lib/email-template');
 const { firebaseDownloadUrl } = require('./_lib/storage');
-const { isPro } = require('./_lib/plans');
+const { isPremium, featuresOf, PLANS } = require('./_lib/plans');
+const { getActiveAd } = require('./_lib/ads');
 const log = require('./_lib/logger');
 
 const BASE_URL = process.env.SITE_URL || 'https://odontofeed.com';
@@ -56,24 +57,34 @@ async function getEdicao(db, especialidade) {
   }
 }
 
-async function getPodcastUrl(db, especialidade) {
+async function getPodcast(db, especialidade) {
   try {
     const doc = await db.getDoc('podcasts', specialtySlug(especialidade));
-    if (!doc || !doc.objectPath || !doc.downloadToken) return null;
+    if (!doc) return null;
     const projectId = process.env.FIREBASE_PROJECT_ID || 'orthoradar';
     const bucket    = process.env.GCS_BUCKET || (projectId + '.appspot.com');
-    return {
-      url:      firebaseDownloadUrl(bucket, doc.objectPath, doc.downloadToken),
-      titulo:   doc.titulo || '',
-      geradoEm: doc.geradoEm || '',
-    };
+    const episodios = (doc.episodios || [])
+      .filter(e => e.objectPath && e.downloadToken)
+      .map(e => ({
+        n: e.n, artigoId: String(e.artigoId || ''), titulo: e.titulo || '',
+        url: firebaseDownloadUrl(bucket, e.objectPath, e.downloadToken),
+      }));
+    // Compat com docs antigos (episódio único nos campos legados)
+    if (!episodios.length && doc.objectPath && doc.downloadToken) {
+      episodios.push({ n: 1, artigoId: String(doc.artigoId || ''), titulo: doc.titulo || '',
+        url: firebaseDownloadUrl(bucket, doc.objectPath, doc.downloadToken) });
+    }
+    if (!episodios.length) return null;
+    return { episodios, geradoEm: doc.geradoEm || '', date: doc.date || '' };
   } catch { return null; }
 }
 
 function publicArticle(a) {
   return {
+    id:              String(a.pmid || a.id || ''),
     titulo:          a.titulo_pt || a.titulo || '',
     resumo:          a.resumo_pt || '',
+    resumo_completo: a.resumo_completo || '',
     impacto:         a.impacto_pratico || '',
     nivel_evidencia: a.nivel_evidencia || '',
     tempo_leitura:   a.tempo_leitura || 3,
@@ -139,17 +150,21 @@ exports.handler = async (event) => {
       return { statusCode: 404, headers, body: JSON.stringify({ error: 'sem_edicao', message: 'A edição de hoje ainda não está disponível. Volte em instantes.' }) };
     }
 
-    const pro = isPro(user);
-    const podcast = pro ? await getPodcastUrl(db, especialidade) : null;
+    // Diretriz 07/2026: podcast e resumo completo são do plano GRATUITO.
+    // Premium diferencia por inteligência (biblioteca, Wakai) e sem publicidade.
+    const premium  = isPremium(user);
+    const features = featuresOf(user);
+    const podcast  = await getPodcast(db, especialidade);
+    const anuncio  = features.semPublicidade ? null : await getActiveAd(db, 'site', especialidade);
 
     return {
       statusCode: 200,
       headers: { ...headers, 'Cache-Control': 'private, no-store' },
       body: JSON.stringify({
         user: {
-          nome:  String(user.nome || '').split(' ')[0] || 'Dentista',
-          plano: pro ? 'pro' : 'basico',
-          isPro: pro,
+          nome:      String(user.nome || '').split(' ')[0] || 'Dentista',
+          plano:     premium ? 'premium' : 'gratuito',
+          isPremium: premium,
           especialidade,
         },
         edicao: {
@@ -158,7 +173,12 @@ exports.handler = async (event) => {
           artigos:   (edicao.artigos || []).map(publicArticle),
           achado:    edicao.achadoSemana ? publicArticle(edicao.achadoSemana) : null,
         },
-        podcast, // null para não-Pro ou quando o áudio do dia não existe
+        podcast, // { episodios:[{n, artigoId, titulo, url}] } ou null se o áudio do dia não existe
+        anuncio: anuncio ? {
+          patrocinador: anuncio.patrocinador || '', texto: anuncio.texto || '',
+          linkUrl: anuncio.linkUrl || '', imagemUrl: anuncio.imagemUrl || '',
+        } : null,
+        premiumPreco: PLANS.premium.precoMensal,
       }),
     };
   } catch (err) {

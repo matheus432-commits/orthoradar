@@ -71,12 +71,12 @@ function resetCost()    { _runCostUsd = 0; }
 
 // ── Core API call ─────────────────────────────────────────────────────────────
 
-async function callClaude(prompt, attempt = 0) {
+async function callClaude(prompt, attempt = 0, model = MODEL) {
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) throw new Error('ANTHROPIC_API_KEY not set');
 
   const body = JSON.stringify({
-    model:      MODEL,
+    model,
     max_tokens: MAX_TOKENS,
     messages:   [{ role: 'user', content: prompt }],
   });
@@ -99,7 +99,7 @@ async function callClaude(prompt, attempt = 0) {
       const delay = 2000 * Math.pow(2, attempt);
       log.warn('[claude] Rate limited, retrying', { attempt, delay_ms: delay });
       await new Promise(r => setTimeout(r, delay));
-      return callClaude(prompt, attempt + 1);
+      return callClaude(prompt, attempt + 1, model);
     }
     throw new Error(`Claude rate limit after ${attempt} retries`);
   }
@@ -184,6 +184,58 @@ async function enrichArticle(article) {
   };
 }
 
+// ── Resumo completo (site) ────────────────────────────────────────────────────
+// Resumo detalhado (~350-450 palavras, com metodologia) exibido na /edicao.html.
+// Decisão de produto 07/2026: gerado com SONNET (fidelidade factual maior que o
+// Haiku) + validador numérico determinístico — nenhum número que não exista na
+// origem passa. Uma retentativa em caso de reprovação; persistindo, retorna null
+// (a página cai no resumo curto — nunca publica número não verificado).
+
+const RESUMO_COMPLETO_MODEL = process.env.RESUMO_COMPLETO_MODEL || 'claude-sonnet-5';
+const { numbersConsistent } = require('./numeric-check');
+
+function buildResumoCompletoPrompt(article, strictNote) {
+  const abstract = (article.abstract || '').slice(0, 2500);
+  return (
+    'Você é um editor científico especializado em Odontologia escrevendo para dentistas brasileiros.\n' +
+    'Escreva o RESUMO COMPLETO do estudo abaixo em português (350 a 450 palavras), em prosa corrida com parágrafos, cobrindo:\n' +
+    '1) o problema clínico e o objetivo; 2) a METODOLOGIA (desenho do estudo, amostra, grupos, acompanhamento); ' +
+    '3) os principais resultados; 4) limitações; 5) o que isso significa na prática clínica.\n' +
+    'REGRA DE DIREITO AUTORAL (obrigatória): o abstract é apenas CONTEXTO — é PROIBIDO reproduzi-lo ou traduzi-lo literalmente; escreva com suas próprias palavras e estrutura.\n' +
+    'REGRA DE FIDELIDADE NUMÉRICA (obrigatória): cite APENAS números que constam literalmente no material abaixo (amostras, percentuais, tempos, medidas). ' +
+    'NUNCA derive, arredonde, converta ou estime números. Se um dado não estiver no material, descreva-o qualitativamente sem número.\n' +
+    (strictNote ? 'ATENÇÃO: a versão anterior citou números inexistentes no material (' + strictNote + '). Remova qualquer número que não esteja literalmente no material.\n' : '') +
+    'Responda APENAS com o texto do resumo, sem títulos nem marcadores.\n\n' +
+    `TÍTULO: ${article.titulo || article.title || ''}\n` +
+    `ABSTRACT (contexto): ${abstract}\n` +
+    `PERIÓDICO/ANO: ${article.journal || ''} ${article.year || ''}`
+  );
+}
+
+async function generateResumoCompleto(article) {
+  const sourceText = [article.titulo, article.title, article.abstract, article.journal, article.year].join(' ');
+  let strictNote = null;
+
+  for (let tentativa = 0; tentativa < 2; tentativa++) {
+    let raw;
+    try {
+      raw = await callClaude(buildResumoCompletoPrompt(article, strictNote), 0, RESUMO_COMPLETO_MODEL);
+    } catch (err) {
+      log.warn('[claude] resumo_completo falhou', { pmid: article.pmid, err: err.message });
+      return null;
+    }
+    const texto = raw.text.trim().slice(0, 4000);
+    const check = numbersConsistent(sourceText, texto);
+    if (check.ok) return texto;
+
+    log.warn('[claude] resumo_completo reprovado no validador numérico', {
+      pmid: article.pmid, tentativa: tentativa + 1, numeros: check.offending.slice(0, 10),
+    });
+    strictNote = check.offending.slice(0, 10).join(', ');
+  }
+  return null; // nunca publica número não verificado
+}
+
 // Classificação isolada (sem enriquecimento completo) — usada pelo script de
 // correção em massa fix-especialidades.js. Retorna uma especialidade canônica,
 // 'Odontologia Geral', ou null em falha.
@@ -209,4 +261,4 @@ async function classifyEspecialidade(article) {
   }
 }
 
-module.exports = { enrichArticle, classifyEspecialidade, CANONICAL_ESPECIALIDADES, currentCost, resetCost, MODEL };
+module.exports = { enrichArticle, generateResumoCompleto, classifyEspecialidade, CANONICAL_ESPECIALIDADES, currentCost, resetCost, MODEL };

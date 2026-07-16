@@ -42,8 +42,12 @@ function fallbackScript(article, especialidade) {
   return capScript(partes.join(' '));
 }
 
-async function generateScript(article, especialidade, anthropicKey) {
-  if (!anthropicKey) return capScript(fallbackScript(article, especialidade));
+async function generateScript(article, especialidade, anthropicKey, opts = {}) {
+  const sponsorText = (opts.sponsorText || '').trim();
+  if (!anthropicKey) {
+    const base = fallbackScript(article, especialidade);
+    return capScript(sponsorText ? base.replace('vamos falar sobre', `${sponsorText} Hoje vamos falar sobre`) : base);
+  }
 
   const titulo   = article.titulo_pt || article.titulo || '';
   const resumo   = (article.resumo_pt || article.abstract || '').slice(0, 1500);
@@ -60,7 +64,8 @@ REGRAS:
 - PROIBIDO citar p-valor, IC, OR, tamanhos de amostra ou estatística técnica.
 - Explique por que o achado importa na prática clínica.
 - DIREITO AUTORAL (obrigatório): o material recebido é apenas contexto — NÃO o leia, reproduza ou traduza literalmente; narre os achados inteiramente com suas próprias palavras.
-- Antes da despedida, inclua UMA frase natural lembrando que o episódio é informativo e não substitui a leitura do artigo original nem o julgamento clínico.`;
+- Antes da despedida, inclua UMA frase natural lembrando que o episódio é informativo e não substitui a leitura do artigo original nem o julgamento clínico.${sponsorText ? `
+- PATROCÍNIO: logo após a saudação inicial, leia naturalmente esta mensagem de patrocínio, identificando-a como tal, sem alterá-la: "${sponsorText}"` : ''}`;
 
   const user =
 `Artigo (${nivel}):

@@ -32,6 +32,8 @@ const { withTimeout }                              = require('./_lib/retry-utils
 const { getOrCreateAchadoSemana }                  = require('./_lib/achado-semana');
 const { espDigestSlug }                            = require('./_lib/slug');
 const { buildEdicaoUrl }                           = require('./_lib/edicao-token');
+const { isPremium }                                = require('./_lib/plans');
+const { getActiveAd }                              = require('./_lib/ads');
 const log                                          = require('./_lib/logger');
 const { request }                                  = require('./_lib');
 
@@ -454,7 +456,9 @@ async function _sendUserDigest(user, espDigest, db, resendKey) {
     { nome, email, especialidade },
     selected,
     { digestId, baseUrl: BASE_URL, unsubscribeToken: unsubToken, editorial, achadoSemana,
-      edicaoUrl: buildEdicaoUrl(BASE_URL, email) }
+      edicaoUrl: buildEdicaoUrl(BASE_URL, email),
+      // Publicidade contextual só para o plano Gratuito — Premium não vê anúncio
+      anuncio: isPremium(user) ? null : (espDigest.anuncio || null) }
   );
   log.info('[digest][STAGE render]', { email, htmlBytes: html?.length ?? 0, ms: Date.now() - t });
 
@@ -690,6 +694,9 @@ async function main() {
         skipped += groupUsers.length;
         continue;
       }
+
+      // Publicidade contextual da especialidade (1 consulta por grupo; best-effort)
+      espDigest.anuncio = await getActiveAd(db, 'email', especialidade).catch(() => null);
 
       // ── BATCH PROCESSING within the specialty ──────────────────────────────
       const batches = [];

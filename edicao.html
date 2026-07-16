@@ -41,7 +41,15 @@
   .audio-card.upgrade h3{font-family:Georgia,serif;font-size:17px;color:#fff;margin-bottom:4px;}
   .audio-card.upgrade p{font-size:13px;color:#C9BFE2;margin-bottom:12px;}
   .audio-title{font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--pro);margin-bottom:10px;}
-  .player{display:flex;align-items:center;gap:12px;}
+  .player{display:none;align-items:center;gap:12px;margin-top:14px;background:var(--pro-bg);border:1px solid #C2B5E2;border-radius:4px;padding:12px 16px;}
+  .player.open{display:flex;}
+  .btn-audio{background:var(--pro);color:#fff;}
+  .btn-audio:hover{background:#4A2F80;}
+  .resumo-full{margin-bottom:12px;border:1px solid var(--line);border-radius:4px;background:var(--paper);}
+  .resumo-full summary{cursor:pointer;padding:10px 14px;font-size:13px;font-weight:700;color:var(--accent-dark);}
+  .resumo-full p{padding:0 16px 14px;font-size:14px;color:var(--text-2);line-height:1.75;}
+  .ad-card{background:var(--paper);border:1px dashed #C8C2B8;border-radius:6px;padding:14px 18px;margin-bottom:16px;}
+  .ad-label{font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
   .pp{width:42px;height:42px;border-radius:50%;background:var(--pro);color:#fff;border:none;font-size:15px;cursor:pointer;flex-shrink:0;}
   .track{flex:1;}
   .bar{height:5px;background:#D5CBE8;border-radius:3px;overflow:hidden;cursor:pointer;}
@@ -119,66 +127,100 @@ function showError(title, msg){
     '<div class="state"><h2>'+esc(title)+'</h2><p>'+msg+'</p></div>';
 }
 
-function articleCard(a, isAchado){
+// Episódio de áudio correspondente ao artigo (por id; fallback por posição)
+function episodeFor(podcast, artigo, idx){
+  if (!podcast || !podcast.episodios) return null;
+  return podcast.episodios.find(e => e.artigoId && artigo.id && e.artigoId === artigo.id)
+      || podcast.episodios[idx] || null;
+}
+
+function playerHtml(pid){
+  return '<div class="player" id="player-'+pid+'">'
+    + '<button class="pp">▶</button>'
+    + '<div class="track"><div class="bar"><div class="fill"></div></div>'
+    + '<div class="times"><span class="cur">0:00</span><span class="dur">–:––</span></div></div>'
+    + '<button class="speed">1×</button>'
+    + '</div>';
+}
+
+function articleCard(a, isAchado, ep, idx){
+  const pid = 'a' + idx;
   return '<article class="art'+(isAchado?' achado':'')+'">'
     + (isAchado ? '<span class="achado-flag">★ Achado da Semana</span>' : '')
     + '<div class="art-kicker">'
     +   '<span class="esp-tag">'+esc(a.especialidade||'')+'</span>'
     +   (a.nivel_evidencia ? '<span class="ev-badge">'+esc(a.nivel_evidencia)+'</span>' : '')
-    +   '<span class="read-min">☕ '+esc(a.tempo_leitura||3)+' min de leitura</span>'
+    +   '<span class="read-min">☕ '+esc(a.tempo_leitura||3)+' min'+(ep?' · 🎧 áudio disponível':'')+'</span>'
     + '</div>'
     + '<h2>'+esc(a.titulo)+'</h2>'
     + (a.resumo ? '<div class="resumo-destaque"><div class="rlabel">O essencial</div><p>'+esc(a.resumo)+'</p></div>' : '')
+    + (a.resumo_completo ? '<details class="resumo-full"><summary>Ler o resumo completo (com metodologia)</summary><p>'
+        + esc(a.resumo_completo).replace(/\n\n+/g,'</p><p>').replace(/\n/g,'<br/>') + '</p></details>' : '')
     + (a.impacto ? '<p class="impacto"><strong>Na sua prática:</strong> '+esc(a.impacto)+'</p>' : '')
     + ((a.journal||a.year) ? '<p class="meta-src">'+esc(a.journal||'')+(a.year?' · '+esc(a.year):'')+'</p>' : '')
-    + '<div class="actions"><a class="btn btn-read" href="'+esc(a.url)+'" target="_blank" rel="noopener">Ler o artigo original ↗</a></div>'
+    + '<div class="actions">'
+    +   (ep ? '<button class="btn btn-audio" data-player="'+pid+'">▶ Ouvir este artigo</button>' : '')
+    +   '<a class="btn btn-read" href="'+esc(a.url)+'" target="_blank" rel="noopener">Ler o artigo original ↗</a>'
+    + '</div>'
+    + (ep ? playerHtml(pid) + '<audio id="audio-'+pid+'" preload="none" src="'+esc(ep.url)+'"></audio>' : '')
     + '</article>';
 }
 
-function audioSection(data){
-  if (data.user.isPro && data.podcast && data.podcast.url) {
-    return '<div class="audio-card pro-on">'
-      + '<div class="audio-title">🎧 Ouça a edição de hoje'+(data.podcast.titulo?(' — '+esc(data.podcast.titulo)):'')+'</div>'
-      + '<div class="player">'
-      +   '<button class="pp" id="ppBtn">▶</button>'
-      +   '<div class="track"><div class="bar" id="barEl"><div class="fill" id="fillEl"></div></div>'
-      +   '<div class="times"><span id="curEl">0:00</span><span id="durEl">–:––</span></div></div>'
-      +   '<button class="speed" id="spdBtn">1×</button>'
-      + '</div>'
-      + '<audio id="audioEl" preload="metadata" src="'+esc(data.podcast.url)+'"></audio>'
-      + '</div>';
-  }
-  if (data.user.isPro) {
-    return '<div class="audio-card pro-wait">🎧 O áudio de hoje ainda está sendo preparado — volte em alguns minutos.</div>';
-  }
+// Anúncio contextual (plano Gratuito) — sempre identificado como publicidade
+function adSection(anuncio){
+  if (!anuncio || (!anuncio.texto && !anuncio.imagemUrl)) return '';
+  const inner = (anuncio.imagemUrl ? '<img src="'+esc(anuncio.imagemUrl)+'" alt="'+esc(anuncio.patrocinador)+'" style="max-width:100%;border-radius:4px;margin-bottom:8px;"/>' : '')
+    + (anuncio.texto ? '<p style="margin:0;font-size:13.5px;color:var(--text-2);">'+esc(anuncio.texto)+'</p>' : '');
+  const body = anuncio.linkUrl ? '<a href="'+esc(anuncio.linkUrl)+'" target="_blank" rel="noopener sponsored" style="text-decoration:none;">'+inner+'</a>' : inner;
+  return '<div class="ad-card"><div class="ad-label">Publicidade · '+esc(anuncio.patrocinador||'parceiro')+'</div>'+body+'</div>';
+}
+
+// Upsell Premium — inteligência, não conteúdo (o conteúdo é grátis)
+function premiumSection(data){
+  if (data.user.isPremium) return '';
+  const preco = (data.premiumPreco || 59.90).toFixed(2).replace('.', ',');
   return '<div class="audio-card upgrade">'
-    + '<h3>🎧 Ouça esta edição no caminho para o consultório</h3>'
-    + '<p>Assinantes Pro escutam os resumos do dia em áudio, narrados e prontos. Sem tela, sem esforço.</p>'
-    + '<a class="btn btn-upgrade" href="/#planos">Conhecer o plano Pro →</a>'
+    + '<h3>🧠 Construa seu segundo cérebro científico</h3>'
+    + '<p>No Premium (R$ '+preco+'/mês), tudo que você lê e ouve vira uma biblioteca inteligente: salve artigos e podcasts, '
+    + 'crie notas, escolha seus temas favoritos e pergunte à <strong>Wakai</strong> — sua IA pessoal que responde com base no que VOCÊ já estudou. Sem publicidade.</p>'
+    + '<a class="btn btn-upgrade" href="/#planos">Conhecer o Premium →</a>'
     + '</div>';
 }
 
-function wirePlayer(){
-  const audio = document.getElementById('audioEl');
-  if (!audio) return;
-  const pp = document.getElementById('ppBtn'), fill = document.getElementById('fillEl');
-  const cur = document.getElementById('curEl'), dur = document.getElementById('durEl');
-  const bar = document.getElementById('barEl'), spd = document.getElementById('spdBtn');
+function wirePlayers(){
   const speeds = [1, 1.25, 1.5, 2];
-  let si = 0;
-  audio.addEventListener('loadedmetadata', () => { dur.textContent = fmt(audio.duration); });
-  audio.addEventListener('timeupdate', () => {
-    cur.textContent = fmt(audio.currentTime);
-    if (audio.duration) fill.style.width = (audio.currentTime / audio.duration * 100) + '%';
+  document.querySelectorAll('.btn-audio').forEach(btn => {
+    const pid = btn.dataset.player;
+    const p = document.getElementById('player-'+pid);
+    const audio = document.getElementById('audio-'+pid);
+    if (!p || !audio) return;
+    const pp = p.querySelector('.pp'), fill = p.querySelector('.fill');
+    const cur = p.querySelector('.cur'), dur = p.querySelector('.dur');
+    const bar = p.querySelector('.bar'), spd = p.querySelector('.speed');
+    let si = 0;
+    audio.addEventListener('loadedmetadata', () => { dur.textContent = fmt(audio.duration); });
+    audio.addEventListener('timeupdate', () => {
+      cur.textContent = fmt(audio.currentTime);
+      if (audio.duration) fill.style.width = (audio.currentTime / audio.duration * 100) + '%';
+    });
+    audio.addEventListener('ended', () => { pp.textContent = '▶'; });
+    const toggle = () => {
+      if (audio.paused) {
+        // pausa qualquer outro áudio tocando
+        document.querySelectorAll('audio').forEach(a => { if (a !== audio) a.pause(); });
+        document.querySelectorAll('.player .pp').forEach(b => { if (b !== pp) b.textContent = '▶'; });
+        p.classList.add('open'); audio.play(); pp.textContent = '⏸';
+      } else { audio.pause(); pp.textContent = '▶'; }
+    };
+    btn.onclick = toggle;
+    pp.onclick = toggle;
+    bar.onclick = (ev) => {
+      if (!audio.duration) return;
+      const r = bar.getBoundingClientRect();
+      audio.currentTime = ((ev.clientX - r.left) / r.width) * audio.duration;
+    };
+    spd.onclick = () => { si = (si + 1) % speeds.length; audio.playbackRate = speeds[si]; spd.textContent = speeds[si] + '×'; };
   });
-  audio.addEventListener('ended', () => { pp.textContent = '▶'; });
-  pp.onclick = () => { if (audio.paused) { audio.play(); pp.textContent = '⏸'; } else { audio.pause(); pp.textContent = '▶'; } };
-  bar.onclick = (ev) => {
-    if (!audio.duration) return;
-    const r = bar.getBoundingClientRect();
-    audio.currentTime = ((ev.clientX - r.left) / r.width) * audio.duration;
-  };
-  spd.onclick = () => { si = (si + 1) % speeds.length; audio.playbackRate = speeds[si]; spd.textContent = speeds[si] + '×'; };
 }
 
 function render(data){
@@ -186,8 +228,8 @@ function render(data){
   document.getElementById('userChip').style.display = 'flex';
   document.getElementById('userName').textContent = u.nome + ' · ' + u.especialidade;
   const badge = document.getElementById('badgePlan');
-  badge.textContent = u.isPro ? '★ PRO' : 'ASSINANTE';
-  badge.className = 'plan-badge ' + (u.isPro ? 'pro' : 'free');
+  badge.textContent = u.isPremium ? '★ PREMIUM' : 'ASSINANTE';
+  badge.className = 'plan-badge ' + (u.isPremium ? 'pro' : 'free');
 
   let html = '<div class="ed-head">'
     + '<div class="kicker">Sua edição diária · '+esc(u.especialidade)+'</div>'
@@ -196,12 +238,20 @@ function render(data){
     + (ed.editorial ? '<div class="editorial">'+esc(ed.editorial)+'</div>' : '')
     + '</div>';
 
-  html += audioSection(data);
-  if (ed.achado) html += articleCard({ ...ed.achado, especialidade: u.especialidade }, true);
-  html += (ed.artigos || []).map(a => articleCard({ ...a, especialidade: u.especialidade }, false)).join('');
+  html += adSection(data.anuncio);
+
+  let idx = 0;
+  if (ed.achado) {
+    html += articleCard({ ...ed.achado, especialidade: u.especialidade }, true, null, idx++);
+  }
+  (ed.artigos || []).forEach((a, i) => {
+    html += articleCard({ ...a, especialidade: u.especialidade }, false, episodeFor(data.podcast, a, i), idx++);
+  });
+
+  html += premiumSection(data);
 
   document.getElementById('main').innerHTML = html;
-  wirePlayer();
+  wirePlayers();
 }
 
 (async function init(){

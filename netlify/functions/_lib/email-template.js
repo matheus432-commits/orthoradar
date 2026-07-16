@@ -448,6 +448,7 @@ function buildDigestEmail(user, articles, opts) {
     streak:          streakCount       = 0,
     newBadges:       newBadgesList     = [],
     edicaoUrl        = '',
+    anuncio          = null, // publicidade contextual (plano Gratuito) — sempre identificada
   } = opts;
 
   const siteUrl      = baseUrl;
@@ -589,6 +590,21 @@ function buildDigestEmail(user, articles, opts) {
 
     <!-- ══ ARTICLES ══ -->
     ${cardsHtml}
+
+    ${anuncio && (anuncio.texto || anuncio.imagemUrl) ? `
+    <!-- ══ PUBLICIDADE (plano Gratuito, sempre identificada) ══ -->
+    <tr><td style="padding:6px 36px 20px;">
+      <div style="border:1px dashed #C8C2B8;border-radius:4px;padding:12px 16px;background:#FDFAF5;">
+        <div style="font-size:8.5px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:#B5B0A8;margin-bottom:6px;
+                    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">
+          Publicidade &middot; ${esc(anuncio.patrocinador || 'parceiro')}
+        </div>
+        ${anuncio.linkUrl ? `<a href="${esc(anuncio.linkUrl)}" target="_blank" style="text-decoration:none;">` : ''}
+        ${anuncio.imagemUrl ? `<img src="${esc(anuncio.imagemUrl)}" alt="${esc(anuncio.patrocinador || '')}" width="528" style="max-width:100%;border-radius:4px;display:block;margin-bottom:6px;border:0;"/>` : ''}
+        ${anuncio.texto ? `<p style="margin:0;font-size:12.5px;color:#6B665E;line-height:1.6;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">${esc(anuncio.texto)}</p>` : ''}
+        ${anuncio.linkUrl ? `</a>` : ''}
+      </div>
+    </td></tr>` : ''}
 
     <!-- ══ FOOTER ══ -->
     <tr><td style="padding:22px 36px 26px;border-top:1px solid #E8E0D0;background:#F2EDE3;">

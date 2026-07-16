@@ -17,16 +17,20 @@ const log         = require('./logger');
 
 const HOST = 'texttospeech.googleapis.com';
 
-// Vozes Standard pt-BR (as mais baratas — 4M chars/mês grátis).
+// Vozes pt-BR. Padrão: Neural2 (alta qualidade, US$16/1M após 1M grátis —
+// decisão de produto 07/2026). Troque sem deploy via env TTS_VOICE
+// (ex.: TTS_VOICE=pt-BR-Standard-A para voltar ao modo gratuito).
 const VOICES = {
-  A: 'pt-BR-Standard-A', // feminina
-  B: 'pt-BR-Standard-B', // masculina
-  C: 'pt-BR-Standard-C',
+  A: 'pt-BR-Neural2-A', // feminina (alta qualidade)
+  B: 'pt-BR-Neural2-B', // masculina (alta qualidade)
+  C: 'pt-BR-Neural2-C', // feminina
+  STANDARD_A: 'pt-BR-Standard-A', // fallback barato (4M grátis/mês)
 };
+const DEFAULT_VOICE = process.env.TTS_VOICE || VOICES.A;
 
 // Sintetiza `text` respeitando o orçamento. `now` injetável para testes.
 // Retorna { ok:true, audioBase64, chars } ou { skipped:true, reason }.
-async function synthesize(db, { text, voice = VOICES.A, speakingRate = 1.0, now = new Date() } = {}) {
+async function synthesize(db, { text, voice = DEFAULT_VOICE, speakingRate = 1.0, now = new Date() } = {}) {
   const clean = String(text || '').trim();
   const chars = budget.billableChars(clean);
 
