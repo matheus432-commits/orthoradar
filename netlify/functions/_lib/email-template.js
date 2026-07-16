@@ -43,6 +43,25 @@ function formatDate() {
   });
 }
 
+const MESES_PT = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
+
+// Formata a DATA DE PUBLICAÇÃO do artigo em pt-BR, preservando a granularidade
+// disponível: "15 mar 2024" (dia), "mar 2024" (mês) ou "2024" (só ano). Aceita o
+// campo dataPublicacao (ISO "YYYY-MM-DD" / "YYYY-MM" / "YYYY") e cai para o ano.
+// Parsing manual evita fuso horário (new Date('2024-03') vira UTC e pode recuar 1 mês).
+function formatPublicationDate(article) {
+  const raw = String(article.dataPublicacao || '').trim();
+  const m = raw.match(/^(\d{4})(?:-(\d{2}))?(?:-(\d{2}))?/);
+  if (m) {
+    const [, y, mo, d] = m;
+    if (d && mo)  return `${parseInt(d, 10)} ${MESES_PT[parseInt(mo, 10) - 1]} ${y}`;
+    if (mo)       return `${MESES_PT[parseInt(mo, 10) - 1]} ${y}`;
+    return y;
+  }
+  const year = String(article.year || '').trim();
+  return /^\d{4}$/.test(year) ? year : '';
+}
+
 // Creates a hash used to identify the user in tracking URLs without exposing email
 function emailHash(email) {
   return crypto.createHash('sha256').update(String(email)).digest('hex').slice(0, 16);
@@ -244,7 +263,7 @@ function articleCard(article, index, total, opts) {
   // resumo: prefer PT → raw English abstract → empty
   const resumo       = esc(truncate(article.resumo_pt || article._rawAbstract || article.abstract || '', 500));
   const journal      = esc(article.journal || '');
-  const year         = esc(String(article.year || ''));
+  const pubDate      = esc(formatPublicationDate(article));
   const tempoLeitura = article.tempo_leitura || 3;
   const nivel        = esc(article.nivel_evidencia || 'Revisão Narrativa');
   const isOA         = article.isOpenAccess ? '&#x1F513;&nbsp;' : '';
@@ -272,7 +291,7 @@ function articleCard(article, index, total, opts) {
         <span style="display:inline-block;background:${badge.bg};color:${badge.color};border:1px solid ${badge.border};font-size:10px;font-weight:600;padding:2px 9px;border-radius:100px;letter-spacing:0.4px;">${nivel}</span>
       </td>
       <td align="right" style="font-size:11px;color:#9E988E;white-space:nowrap;">
-        ${isOA}${tempoLeitura}&nbsp;min
+        ${isOA}${pubDate ? `${pubDate}&nbsp;&middot;&nbsp;` : ''}${tempoLeitura}&nbsp;min
       </td>
     </tr>
   </table>
@@ -307,8 +326,8 @@ function articleCard(article, index, total, opts) {
     <tr>
       <td style="font-size:12px;color:#9E988E;">
         ${journal
-          ? `<span style="color:#6B665E;font-weight:500;">${journal}</span>&nbsp;&middot;&nbsp;`
-          : ''}${year}
+          ? `<span style="color:#6B665E;font-weight:500;">${journal}</span>${pubDate ? '&nbsp;&middot;&nbsp;' : ''}`
+          : ''}${pubDate}
       </td>
       <td align="right">
         <a href="${esc(pubmedDirect)}"
@@ -341,7 +360,7 @@ function achadoSemanaCard(achado, opts) {
   const pmid        = String(achado.pmid || achado.articleId || '').trim();
   const titulo      = esc(truncate(achado.titulo_pt || achado.titulo || 'Sem título', 160));
   const journal     = esc(achado.journal || '');
-  const year        = esc(String(achado.year || ''));
+  const pubDate     = esc(formatPublicationDate(achado));
   const nivel       = esc(achado.nivel_evidencia || '');
   const isOA        = achado.isOpenAccess ? '<span style="color:#B08968;">&#x1F513;</span>&nbsp;' : '';
 
@@ -394,7 +413,7 @@ function achadoSemanaCard(achado, opts) {
     <!-- Journal + ano -->
     <div style="font-size:11.5px;color:#9E988E;margin-bottom:18px;
                 font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">
-      ${isOA}${journal}${journal && year ? '&nbsp;&middot;&nbsp;' : ''}${year}
+      ${isOA}${journal}${journal && pubDate ? '&nbsp;&middot;&nbsp;' : ''}${pubDate}
     </div>
 
     <!-- Nota editorial com borda dourada -->

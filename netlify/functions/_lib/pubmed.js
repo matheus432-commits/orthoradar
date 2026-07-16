@@ -170,6 +170,47 @@ async function throttle() {
   _lastPubMed = Date.now();
 }
 
+// ── Publication date parsing ─────────────────────────────────────────────────
+
+const MONTH_MAP = {
+  jan: '01', feb: '02', mar: '03', apr: '04', may: '05', jun: '06',
+  jul: '07', aug: '08', sep: '09', oct: '10', nov: '11', dec: '12',
+};
+
+// Converte o bloco <PubDate> em ISO ("YYYY-MM-DD" / "YYYY-MM" / "YYYY"),
+// preservando a granularidade informada pela revista.
+function parsePubDate(pubDateBlock, fallbackYear) {
+  if (!pubDateBlock) return fallbackYear ? String(fallbackYear) : null;
+  const yearM  = pubDateBlock.match(/<Year>(\d{4})<\/Year>/);
+  let year     = yearM ? yearM[1] : null;
+  const monthM = pubDateBlock.match(/<Month>([A-Za-z0-9]+)<\/Month>/);
+  const dayM   = pubDateBlock.match(/<Day>(\d{1,2})<\/Day>/);
+
+  if (!year) {
+    const med = pubDateBlock.match(/<MedlineDate>([\s\S]*?)<\/MedlineDate>/);
+    if (med) {
+      const ym = med[1].match(/(\d{4})/); if (ym) year = ym[1];
+      const mm = med[1].match(/([A-Za-z]{3})/);
+      if (mm && !monthM && year) {
+        const mon = MONTH_MAP[mm[1].toLowerCase().slice(0, 3)];
+        if (mon) return `${year}-${mon}`;
+      }
+    }
+  }
+  if (!year) return fallbackYear ? String(fallbackYear) : null;
+
+  let month = null;
+  if (monthM) {
+    const raw = monthM[1];
+    month = /^\d+$/.test(raw)
+      ? String(parseInt(raw, 10)).padStart(2, '0')
+      : MONTH_MAP[raw.toLowerCase().slice(0, 3)] || null;
+  }
+  if (!month) return year;
+  const day = dayM ? String(parseInt(dayM[1], 10)).padStart(2, '0') : null;
+  return day ? `${year}-${month}-${day}` : `${year}-${month}`;
+}
+
 // ── Fetch a single article from PubMed ───────────────────────────────────────
 
 async function fetchOne(pmid) {
@@ -187,6 +228,8 @@ async function fetchOne(pmid) {
   const abstract = abstractMs.map(a => a.replace(/<[^>]+>/g, '').trim()).join(' ').slice(0, 1200);
   const journalM = xml.match(/<Title>([\s\S]*?)<\/Title>/);
   const yearM    = xml.match(/<Year>(\d{4})<\/Year>/);
+  const pubDateM = xml.match(/<PubDate>[\s\S]*?<\/PubDate>/);
+  const dataPublicacao = parsePubDate(pubDateM ? pubDateM[0] : '', yearM ? yearM[1] : null);
   const authMs   = xml.match(/<LastName>([\s\S]*?)<\/LastName>/g) || [];
   const authors  = authMs.slice(0, 3).map(a => a.replace(/<[^>]+>/g, '').trim());
   const authorStr = authors.length
@@ -199,6 +242,7 @@ async function fetchOne(pmid) {
     abstract,
     journal: journalM ? journalM[1].trim() : '',
     year:    yearM    ? yearM[1]           : String(new Date().getFullYear()),
+    dataPublicacao,
     authors: authorStr,
   };
 }
@@ -207,7 +251,10 @@ async function fetchOne(pmid) {
 
 async function searchOne(query, excludePmids = new Set()) {
   const encoded    = encodeURIComponent(query);
-  const searchPath = `/entrez/eutils/esearch.fcgi?db=pubmed&term=${encoded}&retmax=20&sort=date&retmode=json&datetype=pdat&reldate=1825${NCBI_API_PARAM}`;
+  // Janela ampla (15 anos) → acervo específico da área muito maior, tornando a
+  // repetição de artigos praticamente impossível. O excludePmids remove o que já
+  // foi enviado antes de escolher o candidato.
+  const searchPath = `/entrez/eutils/esearch.fcgi?db=pubmed&term=${encoded}&retmax=20&sort=date&retmode=json&datetype=pdat&reldate=5475${NCBI_API_PARAM}`;
 
   await throttle();
   const res = await request({ hostname: 'eutils.ncbi.nlm.nih.gov', path: searchPath, method: 'GET' }, null);
@@ -288,6 +335,7 @@ function toDigestArticle(raw, tema, especialidade) {
     nivel_evidencia:   nivel,
     journal:           raw.journal,
     year:              raw.year,
+    dataPublicacao:    raw.dataPublicacao || (raw.year ? String(raw.year) : null),
     authors:           raw.authors,
     tempo_leitura:     tempoLeitura,
     isOpenAccess:      false,

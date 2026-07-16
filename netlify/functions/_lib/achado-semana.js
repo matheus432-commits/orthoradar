@@ -215,6 +215,7 @@ async function getOrCreateAchadoSemana(db, candidates, especialidade, anthropicK
     titulo_pt:      best.titulo_pt    || '',
     journal:        best.journal      || '',
     year:           best.year         || null,
+    dataPublicacao: best.dataPublicacao || (best.year ? String(best.year) : null),
     autores:        best.autores      || [],
     nivel_evidencia: best.nivel_evidencia || '',
     isOpenAccess:   best.isOpenAccess || false,
