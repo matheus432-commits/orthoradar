@@ -36,6 +36,11 @@ CDC, planos e marca).
 
 ## ⚠️ NÃO ESQUECER — Marca (etapa final combinada)
 
+- [ ] **Busca de anterioridade e eventual depósito da marca "ARIA"** (nome da
+      assistente de IA do plano Premium) — pesquisar no INPI nas classes 41/42
+      antes do lançamento público; usar como "ARIA do OdontoFeed" reduz risco
+      de colisão. Nota: Opera (navegador) tem assistente "Aria" — segmento
+      distinto, mas registrar a busca.
 - [ ] **Depositar a marca "OdontoFeed" no INPI** (classes sugeridas: 41 —
       educação/informação; 42 — software/SaaS; considerar 44 — serviços
       odontológicos por afinidade). Fazer busca de anterioridade antes.
