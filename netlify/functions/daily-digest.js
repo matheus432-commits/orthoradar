@@ -30,6 +30,8 @@ const { pubmedFallbackArticles }                   = require('./_lib/pubmed');
 const { acquireLock, releaseLock }                 = require('./_lib/pipeline-lock');
 const { withTimeout }                              = require('./_lib/retry-utils');
 const { getOrCreateAchadoSemana }                  = require('./_lib/achado-semana');
+const { espDigestSlug }                            = require('./_lib/slug');
+const { buildEdicaoUrl }                           = require('./_lib/edicao-token');
 const log                                          = require('./_lib/logger');
 const { request }                                  = require('./_lib');
 
@@ -59,16 +61,9 @@ function getUserLogKey(email, dateStr) {
 }
 
 // Stable document ID for a specialty's shared digest on a given day.
-function espSlug(esp) {
-  return String(esp)
-    .normalize('NFD').replace(/[̀-ͯ]/g, '')
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '');
-}
-
+// Slug centralizado em _lib/slug.js — o get-edicao lê pela mesma chave.
 function getEspDigestKey(esp, dateStr) {
-  return `${espSlug(esp)}_${dateStr}`;
+  return `${espDigestSlug(esp)}_${dateStr}`;
 }
 
 // ── Firestore helpers ─────────────────────────────────────────────────────────
@@ -458,7 +453,8 @@ async function _sendUserDigest(user, espDigest, db, resendKey) {
   const { html, subject } = buildDigestEmail(
     { nome, email, especialidade },
     selected,
-    { digestId, baseUrl: BASE_URL, unsubscribeToken: unsubToken, editorial, achadoSemana }
+    { digestId, baseUrl: BASE_URL, unsubscribeToken: unsubToken, editorial, achadoSemana,
+      edicaoUrl: buildEdicaoUrl(BASE_URL, email) }
   );
   log.info('[digest][STAGE render]', { email, htmlBytes: html?.length ?? 0, ms: Date.now() - t });
 

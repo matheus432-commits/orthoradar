@@ -8,4 +8,15 @@ function specialtySlug(esp) {
     .replace(/^_+|_+$/g, '');
 }
 
-module.exports = { specialtySlug };
+// Slug usado nas chaves da coleção digests_especialidade ("<slug>_<data>").
+// "DTM e Dor Orofacial" → "dtm-e-dor-orofacial"; "Prótese" → "protese".
+// Precisa dar o MESMO resultado no daily-digest (escrita) e no get-edicao (leitura).
+function espDigestSlug(esp) {
+  return String(esp)
+    .normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+module.exports = { specialtySlug, espDigestSlug };

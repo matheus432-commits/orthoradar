@@ -447,6 +447,7 @@ function buildDigestEmail(user, articles, opts) {
     achadoSemana:    achado            = null,
     streak:          streakCount       = 0,
     newBadges:       newBadgesList     = [],
+    edicaoUrl        = '',
   } = opts;
 
   const siteUrl      = baseUrl;
@@ -568,6 +569,21 @@ function buildDigestEmail(user, articles, opts) {
       </p>
     </td></tr>
 
+    ${edicaoUrl ? `
+    <!-- ══ ABRIR EDIÇÃO NO SITE (acesso via token, sem senha) ══ -->
+    <tr><td style="padding:16px 36px;border-bottom:1px solid #E8E0D0;" align="center">
+      <a href="${esc(edicaoUrl)}"
+         style="display:inline-block;background:#1A1A18;color:#FDFAF5;font-size:13px;font-weight:700;
+                text-decoration:none;padding:12px 26px;border-radius:3px;
+                font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">
+        Abrir minha edi&ccedil;&atilde;o no OdontoFeed &rarr;
+      </a>
+      <div style="margin-top:7px;font-size:10.5px;color:#9E988E;
+                  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">
+        Leia no site &mdash; e, no plano Pro, ou&ccedil;a a edi&ccedil;&atilde;o em &aacute;udio &#127911;
+      </div>
+    </td></tr>` : ''}
+
     ${achadoHtml}
     ${badgeRowHtml}
 
@@ -639,4 +655,4 @@ function buildDigestEmail(user, articles, opts) {
   return { html, subject };
 }
 
-module.exports = { buildDigestEmail, achadoSemanaCard, emailHash, trackClick };
+module.exports = { buildDigestEmail, achadoSemanaCard, emailHash, trackClick, resolveArticleUrl };
