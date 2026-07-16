@@ -280,7 +280,7 @@ function articleCard(article, index, total, opts) {
   <!-- Headline — primary clickable element -->
   <h2 style="margin:0 0 14px;font-size:19px;font-weight:700;color:#1A1A18;line-height:1.35;
              font-family:Georgia,'Times New Roman',serif;">
-    <a href="${trackedUrl}"
+    <a href="${esc(pubmedDirect)}"
        style="color:#1A1A18;text-decoration:none;">${titulo}</a>
   </h2>
 
@@ -311,7 +311,7 @@ function articleCard(article, index, total, opts) {
           : ''}${year}
       </td>
       <td align="right">
-        <a href="${trackedUrl}"
+        <a href="${esc(pubmedDirect)}"
            style="font-size:12px;color:#B08968;text-decoration:none;font-weight:500;">
           Abrir artigo&nbsp;&rarr;
         </a>
@@ -414,7 +414,7 @@ function achadoSemanaCard(achado, opts) {
     <table role="presentation" cellpadding="0" cellspacing="0">
       <tr>
         <td style="background:#C9A227;border-radius:3px;">
-          <a href="${trackedUrl}" target="_blank" rel="noopener noreferrer"
+          <a href="${esc(articleUrl)}" target="_blank" rel="noopener noreferrer"
              style="display:inline-block;padding:10px 22px;color:#FFFFFF;
                     text-decoration:none;font-size:12.5px;font-weight:700;
                     letter-spacing:0.4px;
