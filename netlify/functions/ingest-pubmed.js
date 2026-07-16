@@ -45,7 +45,7 @@ const SPECIALTY_QUERIES = [
 // Janela de busca ampla (15 anos): o objetivo é um acervo grande e específico da
 // área, para que praticamente nunca se repita um artigo. O dedup contra o Firestore
 // impede reprocessar o que já entrou; o enriquecimento continua limitado por
-// AI_BATCH_SIZE (20/dia), então ampliar a janela NÃO aumenta o custo de IA.
+// AI_BATCH_SIZE (enriquecimento/dia), então ampliar a janela NÃO aumenta o custo de IA.
 const SEARCH_YEARS = 15;
 const SEARCH_RELDATE = SEARCH_YEARS * 365; // dias
 

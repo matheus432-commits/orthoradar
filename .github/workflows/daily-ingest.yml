@@ -60,7 +60,9 @@ jobs:
           FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
           FIREBASE_API_KEY:    ${{ secrets.FIREBASE_API_KEY }}
           ANTHROPIC_API_KEY:   ${{ secrets.ANTHROPIC_API_KEY }}
-          AI_BATCH_SIZE:       '20'
+          # 3 artigos/dia × 12 especialidades = 36 + margem (reclassificação,
+          # Achado da Semana, dias de ingestão fraca) → cobre todas as especialidades.
+          AI_BATCH_SIZE:       '50'
         run: node netlify/functions/process-article.js
 
       # ── Step 5: Update behavioral profiles ────────────────────────────────
