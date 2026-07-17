@@ -145,13 +145,25 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 36px
 
 /* RESPONSIVE */
 @media(max-width:700px){
-  #dashboardPage{padding:16px;}
-  .profile-header{flex-wrap:wrap;gap:14px;padding:18px;}
-  .btn-logout{margin-left:0;}
-  .stats-strip{grid-template-columns:repeat(2,1fr);}
-  .tabs-wrap{width:100%;}
-  .tab-btn{flex:1;justify-content:center;padding:8px 6px;font-size:11px;}
-  nav{padding:0 16px;}
+  #dashboardPage{padding:12px;}
+  .profile-header{flex-wrap:wrap;gap:12px;padding:16px;}
+  .profile-info h2{font-size:17px;}
+  .email-txt{font-size:12px;word-break:break-all;}
+  .btn-logout{margin-left:auto;}
+  .stats-strip{grid-template-columns:repeat(2,1fr);gap:10px;}
+  .stat-tile{padding:14px 10px;}
+  .stat-num{font-size:22px;}
+  /* Abas: rolagem horizontal em vez de espremer tudo numa linha */
+  .tabs-wrap{width:100%;display:flex;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;gap:6px;padding-bottom:6px;scrollbar-width:none;}
+  .tabs-wrap::-webkit-scrollbar{display:none;}
+  .tab-btn{flex:0 0 auto;white-space:nowrap;justify-content:center;padding:9px 13px;font-size:12.5px;}
+  .article-card{padding:16px;}
+  .article-card h3{font-size:15px;}
+  .article-actions{flex-wrap:wrap;gap:8px;}
+  .article-actions .btn-like,.article-actions .btn-lido,.article-actions .btn-pubmed{font-size:12px;padding:7px 11px;}
+  .section-title{font-size:16px;}
+  .invite-card{flex-direction:column;text-align:center;}
+  nav{padding:0 12px;}
 }
 
 /* LIDOS & ESPECIALIDADES */
@@ -485,17 +497,8 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 36px
     <button class="tab-btn" id="tabBtn-especialidades" onclick="switchTab('especialidades',this)">
       🦷 Especialidades <span class="tab-badge" id="tbadge-especialidades">0</span>
     </button>
-    <button class="tab-btn" id="tabBtn-clinica" onclick="switchTab('clinica',this)">
-      Clínica
-    </button>
-    <button class="tab-btn" id="tabBtn-inteligencia" onclick="switchTab('inteligencia',this)">
-      Inteligência
-    </button>
-    <button class="tab-btn" id="tabBtn-workspace" onclick="switchTab('workspace',this)">
-      Workspace
-    </button>
-    <button class="tab-btn" id="tabBtn-memoria" onclick="switchTab('memoria',this)">
-      Memória
+    <button class="tab-btn" id="tabBtn-biblioteca" onclick="switchTab('biblioteca',this)">
+      📚 Biblioteca <span class="tab-badge" id="tbadge-biblioteca">0</span>
     </button>
     <button class="tab-btn" id="tabBtn-preferencias" onclick="switchTab('preferencias',this)">
       ⚙️ Preferências
@@ -540,44 +543,16 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 36px
     <div id="espTabsContent"></div>
   </div>
 
-  <!-- TAB: CLÍNICA -->
-  <div class="tab-content" id="tab-clinica">
-    <div id="clinicaContent">
-      <div class="empty-state" style="padding:48px 32px;">
-        <div class="empty-icon" style="font-size:28px;">&#9679;</div>
-        <h3>Carregando Inteligência Clínica…</h3>
-      </div>
+  <!-- TAB: BIBLIOTECA (Premium — Fase B) -->
+  <div class="tab-content" id="tab-biblioteca">
+    <div class="section-title">📚 Sua Biblioteca Científica <span id="countBiblioteca"></span></div>
+    <div id="bibliotecaTools" style="display:none;margin-bottom:16px;">
+      <input type="text" id="bibBusca" placeholder="🔎 Buscar no que você salvou (título, nota, coleção)…" oninput="renderBiblioteca()"
+             style="width:100%;max-width:520px;padding:11px 14px;border:1px solid var(--border);border-radius:10px;background:var(--card);color:var(--text);font-size:14px;"/>
+      <div id="bibColecoes" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;"></div>
     </div>
-  </div>
-
-  <!-- TAB: INTELIGÊNCIA -->
-  <div class="tab-content" id="tab-inteligencia">
-    <div id="intelContent">
-      <!-- filled by loadIntelligenceTab() -->
-      <div class="empty-state" style="padding:48px 32px;">
-        <div class="empty-icon" style="font-size:28px;">&#9679;</div>
-        <h3>Carregando Inteligência Científica…</h3>
-      </div>
-    </div>
-  </div>
-
-  <!-- TAB: WORKSPACE -->
-  <div class="tab-content" id="tab-workspace">
-    <div id="workspaceContent">
-      <div class="empty-state" style="padding:48px 32px;">
-        <div class="empty-icon" style="font-size:28px;">&#9679;</div>
-        <h3>Carregando Workspace…</h3>
-      </div>
-    </div>
-  </div>
-
-  <!-- TAB: MEMÓRIA -->
-  <div class="tab-content" id="tab-memoria">
-    <div id="memoriaContent">
-      <div class="empty-state" style="padding:48px 32px;">
-        <div class="empty-icon" style="font-size:28px;">&#9679;</div>
-        <h3>Carregando Memória Científica…</h3>
-      </div>
+    <div id="bibliotecaContent">
+      <div class="empty-state"><div class="empty-icon">📚</div><h3>Carregando sua biblioteca…</h3></div>
     </div>
   </div>
 
@@ -835,6 +810,7 @@ function articleCard(art,curtidos,lidos){
       <button class="btn-like ${liked?'liked':''}" onclick="toggleLike('${safeId(art.id)}',this)">${liked?'❤️ Curtido':'🤍 Curtir'}</button>
       ${safeUrl(art.pubmedUrl)?`<a class="btn-pubmed" href="${escapeHtml(safeUrl(art.pubmedUrl))}" target="_blank" rel="noopener">PubMed ↗</a>`:''}
       <button class="btn-lido ${isLido?'lido':''}" onclick="toggleLido('${safeId(art.id)}')">${isLido?'✅ Lido':'📝 Lido'}</button>
+      <button class="btn-lido ${_bibIds.has(String(art.id))?'lido':''}" onclick="salvarBiblioteca('${safeId(art.id)}',this)">${_bibIds.has(String(art.id))?'📚 Salvo':'📚 Salvar'}</button>
     </div>
   </div>`;
 }
@@ -1218,13 +1194,16 @@ function renderPrefTab() {
   prefSelectedTemas = [...currentTemas];
   loadEngagementProfile();
 
+  // Uma especialidade por cadastro (diretriz 07/2026) — quem quiser duas áreas
+  // cadastra dois e-mails. Seleção em rádio: escolher uma desmarca a anterior.
+  prefSelectedSpecs = currentSpecs.slice(0, 1);
   const specEl = document.getElementById('prefSpecSelect');
   specEl.innerHTML = Object.keys(THEMES).map(spec => {
-    const checked = currentSpecs.includes(spec);
+    const checked = prefSelectedSpecs[0] === spec;
     const bg = checked ? 'rgba(14,165,233,0.1)' : 'var(--bg3)';
     const border = checked ? 'rgba(14,165,233,0.3)' : 'var(--border)';
     return `<label style="display:flex;align-items:center;gap:10px;background:${bg};border:1px solid ${border};border-radius:10px;padding:12px 14px;cursor:pointer;transition:all 0.2s;">
-      <input type="checkbox" ${checked ? 'checked' : ''} onchange="prefToggleSpec('${spec.replace(/'/g,"\\'")}',this)" style="width:16px;height:16px;accent-color:var(--primary);cursor:pointer;flex-shrink:0;"/>
+      <input type="radio" name="prefSpec" ${checked ? 'checked' : ''} onchange="prefToggleSpec('${spec.replace(/'/g,"\\'")}',this)" style="width:16px;height:16px;accent-color:var(--primary);cursor:pointer;flex-shrink:0;"/>
       <span style="font-size:14px;font-weight:600;">${spec}</span>
     </label>`;
   }).join('');
@@ -1233,20 +1212,14 @@ function renderPrefTab() {
   document.getElementById('prefSaveBtn').disabled = false;
 }
 
-function prefToggleSpec(spec, checkbox) {
-  const label = checkbox.closest('label');
-  if (checkbox.checked) {
-    if (!prefSelectedSpecs.includes(spec)) prefSelectedSpecs.push(spec);
-    label.style.background = 'rgba(14,165,233,0.1)';
-    label.style.borderColor = 'rgba(14,165,233,0.3)';
-  } else {
-    prefSelectedSpecs = prefSelectedSpecs.filter(s => s !== spec);
-    label.style.background = 'var(--bg3)';
-    label.style.borderColor = 'var(--border)';
-    const validTemas = new Set();
-    prefSelectedSpecs.forEach(s => (THEMES[s] || []).forEach(t => validTemas.add(t)));
-    prefSelectedTemas = prefSelectedTemas.filter(t => validTemas.has(t));
-  }
+function prefToggleSpec(spec, radio) {
+  prefSelectedSpecs = [spec];
+  prefSelectedTemas = prefSelectedTemas.filter(t => (THEMES[spec] || []).includes(t));
+  document.querySelectorAll('#prefSpecSelect label').forEach(l => {
+    const sel = l.querySelector('input').checked;
+    l.style.background = sel ? 'rgba(14,165,233,0.1)' : 'var(--bg3)';
+    l.style.borderColor = sel ? 'rgba(14,165,233,0.3)' : 'var(--border)';
+  });
   renderPrefTemas();
 }
 
@@ -1286,7 +1259,7 @@ async function salvarPreferencias() {
   const msg = document.getElementById('prefSaveMsg');
   const btn = document.getElementById('prefSaveBtn');
   if (!prefSelectedSpecs.length) { msg.style.color = 'var(--danger)'; msg.textContent = 'Selecione ao menos uma especialidade.'; return; }
-  if (!prefSelectedTemas.length) { msg.style.color = 'var(--danger)'; msg.textContent = 'Selecione ao menos um tema.'; return; }
+  // Temas são opcionais (curadoria por tema é recurso Premium; sem temas, vale a especialidade)
   btn.disabled = true; btn.textContent = 'Salvando...';
   msg.textContent = '';
   try {
@@ -1315,19 +1288,130 @@ async function salvarPreferencias() {
 }
 
 // ========== TABS ==========
+// ========== BIBLIOTECA CIENTÍFICA PESSOAL (Premium — Fase B) ==========
+let _bibItens = [];         // itens carregados da biblioteca
+let _bibIds = new Set();    // pmids salvos (marca os botões "Salvar" nos cards)
+let _bibColecaoAtiva = '';  // filtro de coleção ('' = todas)
+let _bibPremium = null;     // null = desconhecido; false = mostrar upsell
+
+async function loadBibliotecaTab(force){
+  const email=getEmail(), token=getToken();
+  if(!email||!token) return;
+  if(_bibPremium===false && !force){ renderBibliotecaUpsell(); return; }
+  try{
+    const res=await fetch('/.netlify/functions/biblioteca?email='+encodeURIComponent(email),{headers:{Authorization:'Bearer '+token}});
+    if(res.status===403){ _bibPremium=false; renderBibliotecaUpsell(); return; }
+    const data=await res.json();
+    if(!res.ok) throw new Error(data.error||'erro');
+    _bibPremium=true;
+    _bibItens=data.itens||[];
+    _bibIds=new Set(_bibItens.map(i=>String(i.pmid)));
+    document.getElementById('tbadge-biblioteca').textContent=_bibItens.length;
+    document.getElementById('bibliotecaTools').style.display=_bibItens.length?'block':'none';
+    renderBibColecoes(data.colecoes||[]);
+    renderBiblioteca();
+  }catch(e){
+    document.getElementById('bibliotecaContent').innerHTML='<div class="empty-state"><div class="empty-icon">⚠️</div><h3>Não foi possível carregar</h3><p>Tente novamente em instantes.</p></div>';
+  }
+}
+
+function renderBibliotecaUpsell(){
+  document.getElementById('bibliotecaTools').style.display='none';
+  document.getElementById('bibliotecaContent').innerHTML=
+    '<div style="background:linear-gradient(120deg,#2A2440,#4A2F80);border-radius:16px;padding:32px;color:#EDE8F8;max-width:720px;">'
+    +'<h3 style="color:#fff;font-size:18px;margin-bottom:8px;">🧠 Construa seu segundo cérebro científico</h3>'
+    +'<p style="font-size:14px;color:#C9BFE2;line-height:1.7;margin-bottom:16px;">A Biblioteca é exclusiva do plano <strong style="color:#fff;">Premium (R$ 59,90/mês)</strong>: salve artigos, resumos e podcasts em coleções, crie notas privadas, busque em tudo que você já estudou — e pergunte à <strong style="color:#fff;">Wakai</strong>, sua IA pessoal.</p>'
+    +'<a href="/#planos" style="display:inline-block;background:#C9A227;color:#1A1A18;font-weight:800;padding:11px 22px;border-radius:8px;text-decoration:none;font-size:14px;">Conhecer o Premium →</a></div>';
+}
+
+function renderBibColecoes(colecoes){
+  const el=document.getElementById('bibColecoes');
+  const chips=['', ...colecoes];
+  el.innerHTML=chips.map(c=>{
+    const ativa=_bibColecaoAtiva===c;
+    return '<button onclick="_bibColecaoAtiva=\''+escapeHtml(c).replace(/'/g,"\\'")+'\';renderBiblioteca();renderBibColecoes('+JSON.stringify(colecoes).replace(/"/g,'&quot;')+')" '
+      +'style="padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid '+(ativa?'var(--primary)':'var(--border)')+';background:'+(ativa?'rgba(37,99,235,0.1)':'var(--card)')+';color:'+(ativa?'var(--primary)':'var(--muted)')+';">'
+      +(c===''?'Todas':escapeHtml(c))+'</button>';
+  }).join('');
+}
+
+function renderBiblioteca(){
+  const q=(document.getElementById('bibBusca')?.value||'').toLowerCase().trim();
+  let itens=_bibItens;
+  if(_bibColecaoAtiva) itens=itens.filter(i=>i.colecao===_bibColecaoAtiva);
+  if(q) itens=itens.filter(i=>((i.titulo||'')+' '+(i.nota||'')+' '+(i.colecao||'')).toLowerCase().includes(q));
+  document.getElementById('countBiblioteca').textContent='('+itens.length+')';
+  const el=document.getElementById('bibliotecaContent');
+  if(!itens.length){
+    el.innerHTML='<div class="empty-state"><div class="empty-icon">📚</div><h3>'+(_bibItens.length?'Nada encontrado com esse filtro':'Sua biblioteca está vazia')+'</h3><p>'+(_bibItens.length?'Ajuste a busca ou a coleção.':'Use o botão 📚 Salvar em qualquer artigo para começar a construir seu segundo cérebro.')+'</p></div>';
+    return;
+  }
+  el.innerHTML=itens.map(i=>{
+    const pm=/^\d+$/.test(String(i.pmid))?'https://pubmed.ncbi.nlm.nih.gov/'+i.pmid+'/':'';
+    return '<div class="article-card" data-id="'+escapeHtml(i.pmid)+'">'
+    +'<div class="article-meta-top"><div class="article-tags-row">'
+    +'<span class="article-tag">'+escapeHtml(i.especialidade||'Artigo')+'</span>'
+    +(i.nivel?'<span class="ev-chip">'+escapeHtml(String(i.nivel).split(" ")[0])+'</span>':'')
+    +(i.colecao?'<span class="article-tema-tag">📁 '+escapeHtml(i.colecao)+'</span>':'')
+    +'</div><span class="article-date">'+escapeHtml((i.savedAt||'').slice(0,10))+'</span></div>'
+    +'<h3>'+escapeHtml(i.titulo||'Sem título')+'</h3>'
+    +(i.journal?'<div class="article-journal">'+escapeHtml(i.journal)+'</div>':'')
+    +'<div style="margin:10px 0;"><textarea placeholder="✏️ Sua nota privada sobre este artigo…" onchange="salvarNotaBib(\''+escapeHtml(String(i.pmid))+'\',this)" '
+    +'style="width:100%;min-height:54px;padding:10px 12px;border:1px solid var(--border);border-radius:8px;background:var(--bg3);color:var(--text);font-size:13px;font-family:inherit;resize:vertical;">'+escapeHtml(i.nota||'')+'</textarea></div>'
+    +'<div class="article-actions">'
+    +(pm?'<a class="btn-pubmed" href="'+pm+'" target="_blank" rel="noopener">PubMed ↗</a>':'')
+    +'<button class="btn-lido" onclick="moverColecaoBib(\''+escapeHtml(String(i.pmid))+'\')">📁 Coleção</button>'
+    +'<button class="btn-lido" onclick="removerBiblioteca(\''+escapeHtml(String(i.pmid))+'\')">🗑️ Remover</button>'
+    +'</div></div>';
+  }).join('');
+}
+
+async function _bibPost(payload){
+  const email=getEmail(), token=getToken();
+  const res=await fetch('/.netlify/functions/biblioteca',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,token,...payload})});
+  if(res.status===403){ _bibPremium=false; return {premiumRequired:true}; }
+  return res.json();
+}
+
+async function salvarBiblioteca(pmid,btn){
+  if(_bibIds.has(String(pmid))){ switchTab('biblioteca',document.getElementById('tabBtn-biblioteca')); return; }
+  if(btn){ btn.disabled=true; btn.textContent='…'; }
+  const r=await _bibPost({action:'save',pmid}).catch(()=>null);
+  if(r&&r.premiumRequired){
+    if(btn){ btn.disabled=false; btn.textContent='📚 Salvar'; }
+    switchTab('biblioteca',document.getElementById('tabBtn-biblioteca'));
+    return;
+  }
+  if(r&&r.success){ _bibIds.add(String(pmid)); if(btn){ btn.textContent='📚 Salvo'; btn.classList.add('lido'); btn.disabled=false; } }
+  else if(btn){ btn.disabled=false; btn.textContent='📚 Salvar'; }
+}
+
+async function removerBiblioteca(pmid){
+  if(!confirm('Remover este artigo da sua biblioteca? A nota será perdida.')) return;
+  const r=await _bibPost({action:'remove',pmid}).catch(()=>null);
+  if(r&&r.success){ _bibIds.delete(String(pmid)); _bibItens=_bibItens.filter(i=>String(i.pmid)!==String(pmid)); document.getElementById('tbadge-biblioteca').textContent=_bibItens.length; renderBiblioteca(); }
+}
+
+async function salvarNotaBib(pmid,ta){
+  const r=await _bibPost({action:'nota',pmid,nota:ta.value}).catch(()=>null);
+  if(r&&r.success){ const it=_bibItens.find(i=>String(i.pmid)===String(pmid)); if(it) it.nota=ta.value; ta.style.borderColor='var(--success,#16a34a)'; setTimeout(()=>ta.style.borderColor='var(--border)',1200); }
+}
+
+async function moverColecaoBib(pmid){
+  const it=_bibItens.find(i=>String(i.pmid)===String(pmid));
+  const c=prompt('Nome da coleção (vazio remove da coleção):', it?.colecao||'');
+  if(c===null) return;
+  const r=await _bibPost({action:'colecao',pmid,colecao:c.trim()}).catch(()=>null);
+  if(r&&r.success){ loadBibliotecaTab(true); }
+}
+
 function switchTab(name,btnEl){
   document.querySelectorAll('.tabs-wrap .tab-btn').forEach(b=>b.classList.remove('active'));
   document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
   btnEl.classList.add('active');
   document.getElementById('tab-'+name).classList.add('active');
   if (name === 'preferencias') renderPrefTab();
-  if (name === 'inteligencia') loadIntelligenceTab();
-  if (name === 'clinica')      { loadClinicaTab(); showCompareBtns(false); }
-  if (name === 'memoria')      { loadMemoriaTab(); }
-  if (name === 'workspace')    { loadWorkspaceTab(); }
-  // Show compare buttons on article tabs when clinica was last visited
-  const clinicaActive = name === 'recebidos' || name === 'curtidos' || name === 'lidos';
-  if (clinicaActive) showCompareBtns(_clinicaLoaded);
+  if (name === 'biblioteca')   loadBibliotecaTab();
 }
 
 // ========== CLINICAL INTELLIGENCE TAB (FASE 4) ==========
@@ -2772,6 +2856,7 @@ window.addEventListener('DOMContentLoaded',()=>{
   const email=getEmail();
   if(token&&email){
     loadDashboard(email,token);
+    loadBibliotecaTab(); // pré-carrega estado dos botões 📚 Salvar (silencioso p/ não-Premium)
   }
   document.getElementById('loginEmail').addEventListener('keydown',e=>{ if(e.key==='Enter')loginComSenha(); });
   document.getElementById('loginSenha').addEventListener('keydown',e=>{ if(e.key==='Enter')loginComSenha(); });

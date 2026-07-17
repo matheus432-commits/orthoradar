@@ -115,6 +115,11 @@ exports.handler = async (event) => {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'Email invalido' }) };
   }
   const specs = Array.isArray(especialidade) ? especialidade : [especialidade];
+  // Uma especialidade por cadastro (diretriz 07/2026): quem quiser duas áreas
+  // cadastra dois e-mails. O digest, o podcast e a edição são por especialidade.
+  if (specs.length !== 1) {
+    return { statusCode: 400, headers, body: JSON.stringify({ error: 'Escolha exatamente uma especialidade. Para receber duas áreas, cadastre um e-mail para cada.' }) };
+  }
   const invalidSpec = specs.find(e => !ALLOWED_SPECS.has(e));
   if (invalidSpec) {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'Especialidade inválida: ' + invalidSpec }) };
