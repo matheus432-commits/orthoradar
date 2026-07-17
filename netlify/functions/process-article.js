@@ -8,7 +8,7 @@
 
 const { Firestore }           = require('./_lib/firestore');
 const { checkAdmin } = require('./_lib/admin-guard');
-const { enrichArticle, currentCost, resetCost } = require('./_lib/claude');
+const { enrichArticle, generateResumoCompleto, currentCost, resetCost } = require('./_lib/claude');
 const { scoreRelevance, estimateQualityScore }   = require('./_lib/scoring');
 const log                     = require('./_lib/logger');
 
@@ -94,6 +94,14 @@ async function processOne(db, article) {
       id: pmid, de: article.especialidade || '(vazia)', para: enriched.especialidade,
     });
   }
+
+  // Resumo completo para o site (Sonnet + validador numérico) — best-effort:
+  // se reprovar/falhar, a página usa o resumo curto; nunca bloqueia a ativação.
+  const resumoCompleto = await generateResumoCompleto({
+    pmid, titulo: article.titulo || article.title || '',
+    abstract: article.abstract || '', journal: article.journal || '', year: article.year || '',
+  }).catch(() => null);
+  if (resumoCompleto) updateFields.resumo_completo = resumoCompleto;
 
   await db.updateDoc('artigos', pmid, updateFields);
 

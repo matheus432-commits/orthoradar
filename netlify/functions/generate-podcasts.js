@@ -1,9 +1,12 @@
-// Geração diária dos podcasts Pro — 1 áudio por especialidade que tenha ao menos
-// um assinante Pro ativo. Roda no pipeline (GitHub Actions) após o digest.
+// Geração diária dos podcasts — 3 áudios por especialidade (um por artigo da
+// edição do dia), para TODA especialidade com ao menos um usuário ativo.
+// Diretriz 07/2026: o podcast é do plano GRATUITO — o áudio é compartilhado
+// por especialidade, então o custo não cresce com o nº de usuários.
 //
 // Fluxo por especialidade (SEQUENCIAL — exigência do orçamento de TTS):
-//   artigo do dia → roteiro (Claude) → TTS Standard (com guardrail) →
-//   upload/rotação no Storage → metadados em `podcasts/{slug}`.
+//   edição do dia (digests_especialidade) → roteiro por artigo (Claude) →
+//   TTS Neural2 (com guardrail de orçamento) → upload/rotação no Storage →
+//   metadados em `podcasts/{slug}` com a lista de episódios.
 //
 // Protegido por lock (podcast_lock) contra execuções concorrentes — o contador
 // de orçamento é read-modify-write, então dois runs simultâneos poderiam gastar
@@ -13,21 +16,21 @@
 const crypto = require('crypto');
 const { Firestore } = require('./_lib/firestore');
 const { checkAdmin } = require('./_lib/admin-guard');
-const { isPro } = require('./_lib/plans');
 const { generateScript } = require('./_lib/podcast-script');
 const { synthesize } = require('./_lib/tts');
 const { uploadMp3, deleteObject } = require('./_lib/storage');
 const { billableChars } = require('./_lib/tts-budget');
-const { specialtySlug: slug } = require('./_lib/slug');
+const { specialtySlug: slug, espDigestSlug } = require('./_lib/slug');
 const { acquireLock, releaseLock } = require('./_lib/pipeline-lock');
+const { getActiveAd } = require('./_lib/ads');
 const log = require('./_lib/logger');
 
 const LOCK = 'podcast_lock';
+const MAX_EPISODES = 3;
 
-// Especialidades distintas entre os assinantes Pro ATIVOS. Pagina todos os
-// cadastros e usa o MESMO isPro do gate (normaliza plano) — evita divergência
-// entre "quem gera" e "quem acessa" (ex.: plano gravado como 'Pro'/'PRO').
-async function proSpecialties(db) {
+// Especialidades distintas entre os usuários ATIVOS (qualquer plano — o
+// podcast agora é para todos).
+async function activeSpecialties(db) {
   let users = [], pageToken = null;
   do {
     const { docs, nextPageToken } = await db.listDocs('cadastros', { pageSize: 300, pageToken });
@@ -37,39 +40,49 @@ async function proSpecialties(db) {
 
   const set = new Set();
   for (const u of users) {
-    if (u.ativo === false || !isPro(u)) continue;
+    if (u.ativo === false) continue;
     const specs = Array.isArray(u.especialidade) ? u.especialidade : (u.especialidade ? [u.especialidade] : []);
     for (const s of specs) if (s) set.add(s);
   }
   return [...set];
 }
 
-// Remove podcasts de especialidades que não têm mais Pro ativo — invalida o
-// token de download órfão que, de outra forma, ficaria válido para sempre.
+// Remove podcasts de especialidades sem usuário ativo — invalida os tokens de
+// download órfãos. Apaga TODOS os objetos do doc (episódios + legado) antes do doc.
 async function cleanupStale(db, activeSlugs) {
   let existing = [];
   try { existing = await db.query('podcasts', { limit: 200 }); } catch { return; }
   for (const doc of existing) {
     if (!doc.id || activeSlugs.has(doc.id)) continue;
-    // Só apaga o DOC depois de confirmar que o OBJETO (e seu token) foram removidos.
-    // Se o delete do objeto falhar, mantém o doc para uma tentativa futura — evita
-    // objeto órfão com token válido sem doc que o rastreie.
-    if (doc.objectPath) {
-      const del = await deleteObject(doc.objectPath).catch(() => ({ ok: false }));
-      if (!del.ok) { log.warn('[podcasts] delete do objeto falhou — mantendo doc p/ retry', { slug: doc.id, status: del.status }); continue; }
+    const paths = [
+      ...(Array.isArray(doc.episodios) ? doc.episodios.map(e => e.objectPath) : []),
+      doc.objectPath,
+    ].filter(Boolean);
+    let allDeleted = true;
+    for (const p of paths) {
+      const del = await deleteObject(p).catch(() => ({ ok: false }));
+      if (!del.ok) { allDeleted = false; log.warn('[podcasts] delete do objeto falhou — mantendo doc p/ retry', { slug: doc.id, path: p }); }
     }
+    if (!allDeleted) continue;
     await db.deleteDoc('podcasts', doc.id).catch(() => {});
-    log.info('[podcasts] limpeza — especialidade sem Pro ativo', { slug: doc.id });
+    log.info('[podcasts] limpeza — especialidade sem usuário ativo', { slug: doc.id });
   }
 }
 
-// Artigo do dia da especialidade: mais recente enriquecido (fallback sem orderBy).
-async function latestArticle(db, especialidade) {
+// Artigos do dia: a edição compartilhada (mesma que o e-mail e a /edicao.html).
+// Fallback: artigo mais recente da especialidade, como episódio único.
+async function editionArticles(db, especialidade) {
+  const today = new Date().toISOString().slice(0, 10);
+  const doc = await db.getDoc('digests_especialidade', `${espDigestSlug(especialidade)}_${today}`).catch(() => null);
+  if (doc?.status === 'ready' && Array.isArray(doc.artigos) && doc.artigos.length) {
+    return doc.artigos.slice(0, MAX_EPISODES);
+  }
   const where = { fieldFilter: { field: { fieldPath: 'especialidade' }, op: 'EQUAL', value: { stringValue: especialidade } } };
   let rows = await db.query('artigos', { where, orderBy: [{ field: { fieldPath: 'data' }, direction: 'DESCENDING' }], limit: 5 }).catch(() => null);
   if (!rows) rows = await db.query('artigos', { where, limit: 20 }).catch(() => []);
   rows.sort((a, b) => (b.data || '') > (a.data || '') ? 1 : (b.data || '') < (a.data || '') ? -1 : 0);
-  return rows.find(a => a.status === 'active') || rows[0] || null;
+  const art = rows.find(a => a.status === 'active') || rows[0] || null;
+  return art ? [art] : [];
 }
 
 async function main() {
@@ -80,48 +93,80 @@ async function main() {
 
   const db = new Firestore(projectId, apiKey);
   const runId = crypto.randomUUID();
+  const today = new Date().toISOString().slice(0, 10);
 
   const locked = await acquireLock(db, runId, LOCK);
   if (!locked) { log.warn('[podcasts] outro run em andamento — abortando'); return { aborted: true }; }
 
   let generated = 0, skipped = 0, total = 0;
   try {
-    const specialties = await proSpecialties(db);
+    const specialties = await activeSpecialties(db);
     total = specialties.length;
     const activeSlugs = new Set(specialties.map(slug).filter(Boolean));
     await cleanupStale(db, activeSlugs);
-    log.info('[podcasts] especialidades com Pro', { count: total, specialties });
+    log.info('[podcasts] especialidades ativas', { count: total, specialties });
+
+    // Patrocínio do podcast (slot 'podcast') — uma consulta por run, best-effort.
+    const anuncio = await getActiveAd(db, 'podcast').catch(() => null);
 
     // SEQUENCIAL — o contador de orçamento do TTS depende disso.
     for (const esp of specialties) {
       const s = slug(esp);
       if (!s) { log.warn('[podcasts] slug vazio — pulando', { esp }); skipped++; continue; }
       try {
-        const art = await latestArticle(db, esp);
-        if (!art) { log.warn('[podcasts] sem artigo', { esp }); skipped++; continue; }
+        // Idempotência diária: se os episódios de hoje já existem, não regenera
+        // (protege o orçamento em re-runs do pipeline).
+        const existing = await db.getDoc('podcasts', s).catch(() => null);
+        if (existing?.date === today && Array.isArray(existing.episodios) && existing.episodios.length) {
+          log.info('[podcasts] já gerado hoje — pulando', { esp });
+          skipped++;
+          continue;
+        }
 
-        const script = await generateScript(art, esp, anthropicKey);
+        const artigos = await editionArticles(db, esp);
+        if (!artigos.length) { log.warn('[podcasts] sem artigos', { esp }); skipped++; continue; }
 
-        const tts = await synthesize(db, { text: script });
-        if (!tts.ok) { log.warn('[podcasts] TTS pulado', { esp, reason: tts.reason }); skipped++; continue; }
+        const episodios = [];
+        for (let i = 0; i < artigos.length; i++) {
+          const art = artigos[i];
+          const script = await generateScript(art, esp, anthropicKey, {
+            sponsorText: i === 0 ? (anuncio?.textoPodcast || null) : null, // patrocínio só no 1º episódio
+          });
 
-        const audio = Buffer.from(tts.audioBase64, 'base64');
-        const path  = `podcasts/${s}/latest.mp3`;
-        const up = await uploadMp3(path, audio);
-        if (!up.ok) { log.warn('[podcasts] upload pulado', { esp, reason: up.reason }); skipped++; continue; }
+          const tts = await synthesize(db, { text: script });
+          if (!tts.ok) { log.warn('[podcasts] TTS pulado', { esp, ep: i + 1, reason: tts.reason }); continue; }
+
+          const audio = Buffer.from(tts.audioBase64, 'base64');
+          const path  = `podcasts/${s}/ep${i + 1}.mp3`;
+          const up = await uploadMp3(path, audio);
+          if (!up.ok) { log.warn('[podcasts] upload pulado', { esp, ep: i + 1, reason: up.reason }); continue; }
+
+          episodios.push({
+            n:             i + 1,
+            artigoId:      String(art.pmid || art.id || ''),
+            titulo:        art.titulo_pt || art.titulo || '',
+            objectPath:    path,
+            downloadToken: up.token,
+            chars:         billableChars(script),
+          });
+        }
+
+        if (!episodios.length) { skipped++; continue; }
 
         await db.setDoc('podcasts', s, {
           especialidade: esp,
-          artigoId: art.id || art.pmid || '',
-          titulo: art.titulo_pt || art.titulo || '',
-          objectPath: path,
-          downloadToken: up.token,
-          chars: billableChars(script),
-          geradoEm: new Date().toISOString(),
+          date:          today,
+          episodios,
+          // Campos legados (1º episódio) — mantêm consumidores antigos funcionando
+          artigoId:      episodios[0].artigoId,
+          titulo:        episodios[0].titulo,
+          objectPath:    episodios[0].objectPath,
+          downloadToken: episodios[0].downloadToken,
+          geradoEm:      new Date().toISOString(),
         }).catch(e => log.warn('[podcasts] setDoc falhou', { esp, err: e.message }));
 
-        generated++;
-        log.info('[podcasts] gerado', { esp, chars: tts.chars, titulo: (art.titulo_pt || art.titulo || '').slice(0, 60) });
+        generated += episodios.length;
+        log.info('[podcasts] gerado', { esp, episodios: episodios.length });
       } catch (err) {
         log.error('[podcasts] erro na especialidade', { esp, err: err.message });
         skipped++;

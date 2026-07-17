@@ -404,8 +404,8 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:44px 52p
 <div class="hero-grid">
   <div class="hero-left">
     <div class="hero-kicker">Inteligência científica para dentistas</div>
-    <h1>A ciência que você precisa,<br><em>sem o trabalho</em><br>de procurar.</h1>
-    <p class="hero-sub">3 artigos do PubMed, resumidos em português com relevância clínica destacada — entregues toda manhã às 7h na sua especialidade.</p>
+    <h1>Construa seu<br><em>segundo cérebro</em><br>científico.</h1>
+    <p class="hero-sub">Todos os dias às 7h: 3 artigos da sua especialidade resumidos em português, para ler ou <strong>ouvir em podcast</strong> — grátis. E, com o tempo, uma biblioteca inteligente que aprende com você.</p>
     <div class="hero-ctas">
       <button class="btn-hero" onclick="document.getElementById('cadastro').scrollIntoView({behavior:'smooth'})">Criar conta grátis →</button>
       <button class="btn-hero-ghost" onclick="document.getElementById('email-preview').scrollIntoView({behavior:'smooth'})">Ver exemplo de digest</button>
@@ -617,6 +617,37 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:44px 52p
   </div>
 </div>
 
+<!-- PLANOS -->
+<div id="planos" style="max-width:1280px;margin:0 auto;padding:44px 52px;">
+  <div style="font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:var(--text);margin-bottom:18px;">Planos</div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:16px;">
+    <div style="background:var(--bg-card,#fff);border:1px solid #E5E7EB;border-radius:10px;padding:26px 28px;">
+      <div style="font-weight:800;font-size:15px;margin-bottom:2px;">Gratuito</div>
+      <div style="font-size:24px;font-weight:800;margin-bottom:12px;">R$ 0<span style="font-size:12px;color:var(--text-muted);font-weight:500;"> /para sempre</span></div>
+      <ul style="list-style:none;font-size:13px;color:var(--text-2);line-height:2;">
+        <li>✓ E-mail editorial diário com 3 artigos</li>
+        <li>✓ Resumos completos em português no site</li>
+        <li>✓ <strong>Podcast diário em áudio</strong> dos artigos</li>
+        <li>✓ Dashboard completo</li>
+        <li style="color:var(--text-muted);">· Apoiado por publicidade discreta de parceiros</li>
+      </ul>
+      <button class="btn btn-outline" onclick="document.getElementById('cadastro').scrollIntoView({behavior:'smooth'})" style="width:100%;padding:11px;margin-top:12px;">Começar grátis</button>
+    </div>
+    <div style="background:linear-gradient(120deg,#2A2440,#4A2F80);border-radius:10px;padding:26px 28px;color:#EDE8F8;">
+      <div style="font-weight:800;font-size:15px;margin-bottom:2px;color:#fff;">Premium <span style="font-size:10px;background:#C9A227;color:#1A1A18;border-radius:99px;padding:2px 8px;vertical-align:middle;font-weight:800;">SEU 2º CÉREBRO</span></div>
+      <div style="font-size:24px;font-weight:800;margin-bottom:12px;color:#fff;">R$ 59,90<span style="font-size:12px;color:#C9BFE2;font-weight:500;"> /mês</span></div>
+      <ul style="list-style:none;font-size:13px;color:#D8D0EC;line-height:2;">
+        <li>✓ Tudo do Gratuito, <strong style="color:#fff;">sem publicidade</strong></li>
+        <li>✓ <strong style="color:#fff;">Biblioteca científica pessoal</strong> — salve artigos, resumos e podcasts em coleções, com notas e busca</li>
+        <li>✓ <strong style="color:#fff;">Preferências por tema</strong> — curadoria personalizada dentro da sua especialidade</li>
+        <li>✓ <strong style="color:#fff;">Wakai</strong> — sua IA pessoal, que responde com base em tudo que você já leu e ouviu</li>
+        <li>✓ Revisão inteligente e comparação entre estudos</li>
+      </ul>
+      <button class="btn" onclick="document.getElementById('cadastro').scrollIntoView({behavior:'smooth'})" style="width:100%;padding:11px;margin-top:12px;background:#C9A227;color:#1A1A18;font-weight:800;border:none;border-radius:6px;cursor:pointer;">Em breve — comece grátis hoje</button>
+    </div>
+  </div>
+</div>
+
 <!-- CADASTRO -->
 <div class="cta-outer" id="cadastro">
   <div class="cta-inner">
@@ -627,8 +658,9 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:44px 52p
       <div class="cta-benefits">
         <div class="cb">3 artigos por dia, na sua especialidade</div>
         <div class="cb">Resumos em português com relevância clínica</div>
+        <div class="cb">Podcast diário em áudio — ouça no carro, grátis</div>
         <div class="cb">Nível de evidência destacado em cada artigo</div>
-        <div class="cb">Sem cartão de crédito · 100% gratuito</div>
+        <div class="cb">Sem cartão de crédito · comece 100% grátis</div>
       </div>
     </div>
     <div class="form-card">

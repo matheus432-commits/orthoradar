@@ -36,6 +36,13 @@ CDC, planos e marca).
 
 ## ⚠️ NÃO ESQUECER — Marca (etapa final combinada)
 
+- [ ] **Busca de anterioridade e eventual depósito da marca "Wakai"** (nome da
+      assistente de IA do plano Premium) — pesquisar no INPI nas classes 41/42
+      antes do lançamento público; usar como "Wakai do OdontoFeed" reduz risco.
+      Verificação web (07/2026): nenhum conflito em IA/saúde/odontologia no
+      Brasil; existe marca de calçados "Wakai" (classe distinta, sem colisão
+      prática). Nomes descartados por colisão direta: ARIA (Dent.AI tem
+      chatbot "Ária" para dentistas), Iara (Iara Health, healthtech).
 - [ ] **Depositar a marca "OdontoFeed" no INPI** (classes sugeridas: 41 —
       educação/informação; 42 — software/SaaS; considerar 44 — serviços
       odontológicos por afinidade). Fazer busca de anterioridade antes.

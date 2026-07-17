@@ -19,8 +19,11 @@
 // A geração roda SEQUENCIALMENTE (uma especialidade por vez), então o
 // read-modify-write abaixo é seguro (sem concorrência sobre o contador).
 
-const FREE_TIER_HARD     = 4_000_000;   // caracteres — limite absoluto do plano grátis
-const MONTHLY_TARGET      = 3_200_000;   // caracteres — teto operacional (billing é por caractere)
+// Com vozes pagas (Neural2, US$16/1M após 1M grátis) o teto vira controle de
+// CUSTO, não de gratuidade: 3,6M/mês ≈ US$ 42. Ambos configuráveis por env
+// para ajustar sem deploy (TTS_HARD_CAP_CHARS / TTS_MONTHLY_BUDGET_CHARS).
+const FREE_TIER_HARD     = parseInt(process.env.TTS_HARD_CAP_CHARS || '', 10) || 4_500_000; // teto ABSOLUTO de segurança
+const MONTHLY_TARGET      = parseInt(process.env.TTS_MONTHLY_BUDGET_CHARS || '', 10) || 3_600_000; // teto operacional
 const MAX_CHARS_PER_AUDIO = 5_000;       // caracteres — rede de segurança de orçamento por áudio
 // Limite HARD da API text:synthesize: 5000 BYTES por requisição. Medimos em bytes
 // UTF-8 (acento pt-BR = 2 bytes) e cortamos com margem para nunca receber 400.

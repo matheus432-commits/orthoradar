@@ -447,6 +447,8 @@ function buildDigestEmail(user, articles, opts) {
     achadoSemana:    achado            = null,
     streak:          streakCount       = 0,
     newBadges:       newBadgesList     = [],
+    edicaoUrl        = '',
+    anuncio          = null, // publicidade contextual (plano Gratuito) — sempre identificada
   } = opts;
 
   const siteUrl      = baseUrl;
@@ -568,11 +570,41 @@ function buildDigestEmail(user, articles, opts) {
       </p>
     </td></tr>
 
+    ${edicaoUrl ? `
+    <!-- ══ ABRIR EDIÇÃO NO SITE (acesso via token, sem senha) ══ -->
+    <tr><td style="padding:16px 36px;border-bottom:1px solid #E8E0D0;" align="center">
+      <a href="${esc(edicaoUrl)}"
+         style="display:inline-block;background:#1A1A18;color:#FDFAF5;font-size:13px;font-weight:700;
+                text-decoration:none;padding:12px 26px;border-radius:3px;
+                font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">
+        Abrir minha edi&ccedil;&atilde;o no OdontoFeed &rarr;
+      </a>
+      <div style="margin-top:7px;font-size:10.5px;color:#9E988E;
+                  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">
+        Leia no site &mdash; e, no plano Pro, ou&ccedil;a a edi&ccedil;&atilde;o em &aacute;udio &#127911;
+      </div>
+    </td></tr>` : ''}
+
     ${achadoHtml}
     ${badgeRowHtml}
 
     <!-- ══ ARTICLES ══ -->
     ${cardsHtml}
+
+    ${anuncio && (anuncio.texto || anuncio.imagemUrl) ? `
+    <!-- ══ PUBLICIDADE (plano Gratuito, sempre identificada) ══ -->
+    <tr><td style="padding:6px 36px 20px;">
+      <div style="border:1px dashed #C8C2B8;border-radius:4px;padding:12px 16px;background:#FDFAF5;">
+        <div style="font-size:8.5px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:#B5B0A8;margin-bottom:6px;
+                    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">
+          Publicidade &middot; ${esc(anuncio.patrocinador || 'parceiro')}
+        </div>
+        ${anuncio.linkUrl ? `<a href="${esc(anuncio.linkUrl)}" target="_blank" style="text-decoration:none;">` : ''}
+        ${anuncio.imagemUrl ? `<img src="${esc(anuncio.imagemUrl)}" alt="${esc(anuncio.patrocinador || '')}" width="528" style="max-width:100%;border-radius:4px;display:block;margin-bottom:6px;border:0;"/>` : ''}
+        ${anuncio.texto ? `<p style="margin:0;font-size:12.5px;color:#6B665E;line-height:1.6;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">${esc(anuncio.texto)}</p>` : ''}
+        ${anuncio.linkUrl ? `</a>` : ''}
+      </div>
+    </td></tr>` : ''}
 
     <!-- ══ FOOTER ══ -->
     <tr><td style="padding:22px 36px 26px;border-top:1px solid #E8E0D0;background:#F2EDE3;">
@@ -639,4 +671,4 @@ function buildDigestEmail(user, articles, opts) {
   return { html, subject };
 }
 
-module.exports = { buildDigestEmail, achadoSemanaCard, emailHash, trackClick };
+module.exports = { buildDigestEmail, achadoSemanaCard, emailHash, trackClick, resolveArticleUrl };
