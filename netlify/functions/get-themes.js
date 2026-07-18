@@ -103,6 +103,13 @@ const THEMES_CATALOG = {
     "CBCT 3D em diagnóstico",
     "Radiografia periapical digital",
     "Panorâmica e suas limitações"
+  ],
+  "Estomatologia": [
+    "Câncer bucal (diagnóstico precoce)",
+    "Lesões potencialmente malignas",
+    "Líquen plano oral",
+    "Estomatite aftosa recorrente",
+    "Doenças das glândulas salivares"
   ]
 };
 
