@@ -9,18 +9,21 @@
 // notas privadas) + no conhecimento consolidado da literatura. Os artigos
 // usados são citados na resposta e devolvidos em `fontes`.
 //
-// Fair use: WAKAI_DAILY_LIMIT perguntas/dia (contador em wakai_usage), somando
-// os dois modos. Gate Premium no servidor (403 premium_required).
-// Modelo: WAKAI_MODEL (padrão Sonnet — qualidade clínica > custo; ~30 q/dia).
+// Fair use: orçamento de TOKENS/dia (entrada + saída), não número de perguntas
+// — o teto acompanha o custo real da API. Contador em wakai_usage, somando os
+// dois modos. Gate Premium no servidor (403 premium_required).
+// Modelo: WAKAI_MODEL (padrão Sonnet — qualidade clínica > custo).
 
 const crypto = require('crypto');
 const { Firestore } = require('./_lib/firestore');
-const { isPremium, WAKAI_DAILY_LIMIT } = require('./_lib/plans');
+const { isPremium, WAKAI_DAILY_TOKEN_LIMIT } = require('./_lib/plans');
 const { request } = require('./_lib');
 const log = require('./_lib/logger');
 
 const WAKAI_MODEL = process.env.WAKAI_MODEL || 'claude-sonnet-5';
 const MAX_CONTEXT_ARTICLES = 8;
+// Orçamento diário de tokens (env sobrepõe o padrão do plano).
+const TOKEN_LIMIT = Number(process.env.WAKAI_DAILY_TOKEN_LIMIT) || WAKAI_DAILY_TOKEN_LIMIT;
 
 function emailHash16(email) {
   return crypto.createHash('sha256').update(String(email)).digest('hex').slice(0, 16);
@@ -41,16 +44,28 @@ async function getUser(db, email) {
   return docs[0] || null;
 }
 
-// ── Fair use (30/dia) — read-modify-write; uso individual, concorrência baixa ─
-async function checkAndCountUsage(db, email) {
-  const today = new Date().toISOString().slice(0, 10);
-  const id = `${emailHash16(email)}_${today}`;
+// ── Fair use por orçamento de TOKENS/dia ──────────────────────────────────────
+// Só sabemos o gasto real (entrada + saída) DEPOIS da chamada ao Claude, então:
+//   1. usageDocId/readUsage: quanto já foi gasto hoje — se estourou, barra antes.
+//   2. recordUsage: soma os tokens efetivamente consumidos após a resposta.
+// Read-modify-write; uso individual, concorrência baixa.
+function usageDocId(email) {
+  return `${emailHash16(email)}_${new Date().toISOString().slice(0, 10)}`;
+}
+async function readUsage(db, email) {
+  const doc = await db.getDoc('wakai_usage', usageDocId(email)).catch(() => null);
+  const tokens = doc?.tokens || 0;
+  return { tokens, restantes: Math.max(0, TOKEN_LIMIT - tokens), esgotado: tokens >= TOKEN_LIMIT };
+}
+async function recordUsage(db, email, tokensGastos) {
+  const id = usageDocId(email);
   const doc = await db.getDoc('wakai_usage', id).catch(() => null);
-  const usadas = doc?.count || 0;
-  if (usadas >= WAKAI_DAILY_LIMIT) return { ok: false, usadas, restantes: 0 };
-  await db.setDoc('wakai_usage', id, { email: emailHash16(email), date: today, count: usadas + 1 })
-    .catch(e => log.warn('[wakai] contador falhou', { err: e.message }));
-  return { ok: true, usadas: usadas + 1, restantes: WAKAI_DAILY_LIMIT - usadas - 1 };
+  const tokens = (doc?.tokens || 0) + tokensGastos;
+  const perguntas = (doc?.count || 0) + 1;
+  await db.setDoc('wakai_usage', id, {
+    email: emailHash16(email), date: new Date().toISOString().slice(0, 10), tokens, count: perguntas,
+  }).catch(e => log.warn('[wakai] contador falhou', { err: e.message }));
+  return { tokens, restantes: Math.max(0, TOKEN_LIMIT - tokens) };
 }
 
 // ── Recuperação de contexto: artigos da especialidade + biblioteca pessoal ────
@@ -145,7 +160,10 @@ async function askClaude(modo, especialidade, contexto, pergunta) {
   }, buf);
   if (res.status !== 200) throw new Error('Claude ' + res.status + ': ' + res.body.slice(0, 200));
   const json = JSON.parse(res.body);
-  return (json.content?.[0]?.text || '').trim();
+  const u = json.usage || {};
+  const tokens = (u.input_tokens || 0) + (u.output_tokens || 0) +
+                 (u.cache_read_input_tokens || 0) + (u.cache_creation_input_tokens || 0);
+  return { texto: (json.content?.[0]?.text || '').trim(), tokens };
 }
 
 exports.handler = async (event) => {
@@ -177,21 +195,25 @@ exports.handler = async (event) => {
       return { statusCode: 403, headers, body: JSON.stringify({ error: 'premium_required', message: 'A Wakai é exclusiva do plano Premium.' }) };
     }
 
-    const uso = await checkAndCountUsage(db, email);
-    if (!uso.ok) {
+    const uso = await readUsage(db, email);
+    if (uso.esgotado) {
       return { statusCode: 429, headers, body: JSON.stringify({
-        error: 'limite_diario', restantes: 0,
-        message: `Você usou as ${WAKAI_DAILY_LIMIT} perguntas de hoje. O limite renova à meia-noite (UTC).`,
+        error: 'limite_diario', restantes: 0, limite: TOKEN_LIMIT,
+        message: 'Você atingiu o limite de uso da Wakai hoje. O limite renova à meia-noite (UTC).',
       }) };
     }
 
     const ctx = await buildContext(db, user, pergunta);
-    const resposta = await askClaude(modoOk, ctx.especialidade, ctx.bloco, String(pergunta));
+    const { texto, tokens } = await askClaude(modoOk, ctx.especialidade, ctx.bloco, String(pergunta));
+    const pos = await recordUsage(db, email, tokens);
 
     return {
       statusCode: 200,
       headers: { ...headers, 'Cache-Control': 'private, no-store' },
-      body: JSON.stringify({ resposta, fontes: ctx.fontes, modo: modoOk, restantes: uso.restantes }),
+      body: JSON.stringify({
+        resposta: texto, fontes: ctx.fontes, modo: modoOk,
+        restantes: pos.restantes, limite: TOKEN_LIMIT,
+      }),
     };
   } catch (err) {
     log.error('[wakai] erro', { err: err.message });
