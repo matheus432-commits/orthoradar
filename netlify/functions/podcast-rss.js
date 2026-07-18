@@ -1,16 +1,26 @@
-// GET /.netlify/functions/podcast-rss?esp=Periodontia
+// GET /.netlify/functions/podcast-rss?esp=Ortodontia
 //
-// Gera feed RSS/Atom para um podcast por especialidade.
-// Spotify, Apple Podcasts e outros agregadores sincronizam via este feed.
-// Feed inclui últimos 30 episódios com metadados iTunes.
+// Feed RSS do podcast por especialidade — consumido pelo Spotify, Apple
+// Podcasts e demais agregadores.
+//
+// Fonte: coleção `podcast_episodios` (histórico datado, retenção de ~14 dias,
+// alimentado pelo generate-podcasts). Fallback: doc `podcasts/{slug}` (episódios
+// de hoje) para o período de transição antes do histórico existir.
+//
+// IMPORTANTE: o feed responde SEMPRE um RSS válido (HTTP 200), mesmo sem
+// episódios — agregadores validam o XML na submissão e re-verificam o feed
+// continuamente; um 404 transitório (ex.: antes da 1ª geração do dia) faria o
+// Spotify marcar o feed como quebrado.
 
 const { Firestore } = require('./_lib/firestore');
 const { specialtySlug } = require('./_lib/slug');
 const { firebaseDownloadUrl } = require('./_lib/storage');
 
+const BASE_URL = process.env.SITE_URL || 'https://odontofeed.com';
+const MAX_ITEMS = 50;
+
 function escapeXml(str) {
-  if (!str) return '';
-  return String(str)
+  return String(str || '')
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
@@ -18,87 +28,94 @@ function escapeXml(str) {
     .replace(/'/g, '&apos;');
 }
 
-function formatRFC2822(dateStr) {
-  // Converte "2026-07-18" para "Fri, 18 Jul 2026 12:00:00 GMT"
-  const d = new Date(dateStr + 'T12:00:00Z');
+// "2026-07-18" → "Sat, 18 Jul 2026 09:00:00 GMT" (RFC 2822, exigido pelo RSS)
+function rfc2822(dateStr) {
+  const d = new Date((dateStr || new Date().toISOString().slice(0, 10)) + 'T09:00:00Z');
+  if (isNaN(d.getTime())) return rfc2822(new Date().toISOString().slice(0, 10));
   const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  return `${days[d.getUTCDay()]}, ${String(d.getUTCDate()).padStart(2, '0')} ${months[d.getUTCMonth()]} ${d.getUTCFullYear()} 12:00:00 GMT`;
+  return `${days[d.getUTCDay()]}, ${String(d.getUTCDate()).padStart(2, '0')} ${months[d.getUTCMonth()]} ${d.getUTCFullYear()} 09:00:00 GMT`;
 }
 
-async function getPodcastDoc(db, slug) {
+// Histórico datado (preferência). Ordena por data desc + nº do episódio.
+async function historyEpisodes(db, slug) {
   try {
-    const doc = await db.getDoc('podcasts', slug);
-    return doc || null;
-  } catch {
-    return null;
-  }
-}
-
-// Últimos 30 dias de podcasts (para preencher histórico)
-async function getRecentPodcasts(db, slug) {
-  try {
-    const docs = await db.query('podcasts', {
-      where: { fieldFilter: { field: { fieldPath: 'especialidade' }, op: 'EQUAL', value: { stringValue: slug } } },
-      orderBy: [{ field: { fieldPath: 'date' }, direction: 'DESCENDING' }],
-      limit: 30
+    const docs = await db.query('podcast_episodios', {
+      where: { fieldFilter: { field: { fieldPath: 'slug' }, op: 'EQUAL', value: { stringValue: slug } } },
+      limit: MAX_ITEMS * 2,
     });
-    return docs || [];
+    return docs
+      .filter(e => e.objectPath && e.downloadToken)
+      .sort((a, b) => (b.date || '').localeCompare(a.date || '') || (a.n || 0) - (b.n || 0))
+      .slice(0, MAX_ITEMS);
   } catch {
     return [];
   }
 }
 
-function generateRSSFeed(especialidade, doc, bucket) {
-  const slug = specialtySlug(especialidade);
-  const baseUrl = 'https://odontofeed.com';
-  const podcastUrl = `${baseUrl}/podcast-rss?esp=${encodeURIComponent(especialidade)}`;
+// Fallback: episódios de hoje no doc `podcasts/{slug}` (formato antigo).
+async function todaysEpisodes(db, slug) {
+  try {
+    const doc = await db.getDoc('podcasts', slug);
+    if (!doc) return [];
+    const eps = (Array.isArray(doc.episodios) ? doc.episodios : [])
+      .filter(e => e.objectPath && e.downloadToken)
+      .map(e => ({ ...e, date: doc.date || '', especialidade: doc.especialidade || '' }));
+    if (!eps.length && doc.objectPath && doc.downloadToken) {
+      eps.push({ n: 1, titulo: doc.titulo || '', objectPath: doc.objectPath,
+                 downloadToken: doc.downloadToken, date: doc.date || '' });
+    }
+    return eps;
+  } catch {
+    return [];
+  }
+}
 
-  const today = new Date().toISOString().slice(0, 10);
-  const geradoEm = doc?.geradoEm || `${today}T12:00:00Z`;
-
-  // Episódios (máximo 30 por RSS — agregadores têm limite)
-  const episodios = (Array.isArray(doc?.episodios) ? doc.episodios : [])
-    .slice(0, 30)
-    .map((ep, idx) => `
+function buildFeed(especialidade, episodes, bucket) {
+  const feedUrl = `${BASE_URL}/.netlify/functions/podcast-rss?esp=${encodeURIComponent(especialidade)}`;
+  const items = episodes.map(ep => {
+    const date = ep.date || new Date().toISOString().slice(0, 10);
+    const titulo = ep.titulo ? `${ep.titulo}` : `Episódio ${ep.n || 1}`;
+    return `
     <item>
-      <title>${escapeXml(ep.titulo || `Episódio ${ep.n || idx + 1}`)}</title>
-      <description>${escapeXml(ep.titulo || `Episódio ${ep.n || idx + 1}`)}</description>
-      <link>${baseUrl}/dashboard</link>
-      <guid isPermaLink="false">odontofeed-${slug}-${today}-ep${ep.n || idx + 1}</guid>
-      <pubDate>${formatRFC2822(today)}</pubDate>
-      <enclosure url="${firebaseDownloadUrl(bucket, ep.objectPath, ep.downloadToken)}" type="audio/mpeg" length="0"/>
-      <itunes:title>${escapeXml(ep.titulo || `Episódio ${ep.n || idx + 1}`)}</itunes:title>
-      <itunes:episode>${ep.n || idx + 1}</itunes:episode>
+      <title>${escapeXml(titulo)}</title>
+      <description>${escapeXml(`Resumo em áudio — ${especialidade}, edição de ${date}. ${ep.titulo || ''}`)}</description>
+      <link>${BASE_URL}/dashboard</link>
+      <guid isPermaLink="false">odontofeed-${escapeXml(ep.slug || specialtySlug(especialidade))}-${date}-ep${ep.n || 1}</guid>
+      <pubDate>${rfc2822(date)}</pubDate>
+      <enclosure url="${escapeXml(firebaseDownloadUrl(bucket, ep.objectPath, ep.downloadToken))}" type="audio/mpeg" length="0"/>
+      <itunes:title>${escapeXml(titulo)}</itunes:title>
       <itunes:episodeType>full</itunes:episodeType>
+      <itunes:explicit>false</itunes:explicit>
       <itunes:author>OdontoFeed</itunes:author>
-      <itunes:duration>900</itunes:duration>
-    </item>
-  `).join('');
+    </item>`;
+  }).join('');
 
   return `<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+<rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>OdontoFeed — ${especialidade}</title>
-    <link>${baseUrl}</link>
+    <title>OdontoFeed — ${escapeXml(especialidade)}</title>
+    <link>${BASE_URL}</link>
+    <atom:link href="${escapeXml(feedUrl)}" rel="self" type="application/rss+xml"/>
     <language>pt-br</language>
-    <description>Resumos diários de artigos científicos odontológicos em áudio. ${especialidade} — ciência atualizada, todos os dias, em português.</description>
+    <description>Resumos diários de artigos científicos de ${escapeXml(especialidade)} em áudio. Ciência odontológica atualizada, em português, todos os dias — selecionada do PubMed, Europe PMC e OpenAlex.</description>
     <copyright>© 2026 OdontoFeed</copyright>
-    <lastBuildDate>${formatRFC2822(today)}</lastBuildDate>
-    <generator>OdontoFeed RSS Generator</generator>
-
+    <lastBuildDate>${rfc2822(episodes[0]?.date)}</lastBuildDate>
+    <generator>OdontoFeed</generator>
     <itunes:author>OdontoFeed</itunes:author>
     <itunes:owner>
       <itunes:name>OdontoFeed</itunes:name>
       <itunes:email>contato@odontofeed.com</itunes:email>
     </itunes:owner>
-    <itunes:category text="Education">
-      <itunes:category text="Medical"/>
-    </itunes:category>
+    <itunes:category text="Health &amp; Fitness"><itunes:category text="Medicine"/></itunes:category>
     <itunes:explicit>false</itunes:explicit>
-    <itunes:image href="${baseUrl}/logo-square-3000.jpg"/>
-
-    ${episodios}
+    <itunes:type>episodic</itunes:type>
+    <itunes:image href="${BASE_URL}/logo-square-3000.jpg"/>
+    <image>
+      <url>${BASE_URL}/logo-square-3000.jpg</url>
+      <title>OdontoFeed — ${escapeXml(especialidade)}</title>
+      <link>${BASE_URL}</link>
+    </image>${items}
   </channel>
 </rss>`;
 }
@@ -106,56 +123,33 @@ function generateRSSFeed(especialidade, doc, bucket) {
 exports.handler = async (event) => {
   const headers = {
     'Content-Type': 'application/rss+xml; charset=UTF-8',
-    'Cache-Control': 'public, max-age=3600',
+    'Cache-Control': 'public, max-age=1800',
     'Access-Control-Allow-Origin': '*',
   };
 
-  const esp = event.queryStringParameters?.esp;
+  const esp = (event.queryStringParameters?.esp || '').trim();
   if (!esp) {
-    return {
-      statusCode: 400,
-      headers,
-      body: 'especialidade obrigatória (ex: ?esp=Periodontia)'
-    };
+    return { statusCode: 400, headers: { ...headers, 'Content-Type': 'text/plain; charset=UTF-8' },
+             body: 'Informe a especialidade: ?esp=Ortodontia' };
   }
 
   const projectId = process.env.FIREBASE_PROJECT_ID || 'orthoradar';
-  const apiKey = process.env.FIREBASE_API_KEY;
-  const bucket = process.env.GCS_BUCKET || (projectId + '.appspot.com');
-
-  if (!apiKey) {
-    return {
-      statusCode: 500,
-      headers,
-      body: 'FIREBASE_API_KEY não configurado'
-    };
-  }
+  const apiKey    = process.env.FIREBASE_API_KEY;
+  const bucket    = process.env.GCS_BUCKET || (projectId + '.appspot.com');
+  if (!apiKey) return { statusCode: 500, headers, body: '' };
 
   try {
-    const db = new Firestore(projectId, apiKey);
-    const slug = specialtySlug(esp);
+    const db   = new Firestore(projectId, apiKey);
+    const s    = specialtySlug(esp);
 
-    const doc = await getPodcastDoc(db, slug);
-    if (!doc) {
-      return {
-        statusCode: 404,
-        headers,
-        body: `Nenhum podcast encontrado para ${esp}`
-      };
-    }
+    let episodes = await historyEpisodes(db, s);
+    if (!episodes.length) episodes = await todaysEpisodes(db, s);
 
-    const rss = generateRSSFeed(esp, doc, bucket);
-    return {
-      statusCode: 200,
-      headers,
-      body: rss
-    };
+    // Sem episódios ainda → feed VÁLIDO e vazio (nunca 404: o Spotify
+    // re-verifica o feed e o marcaria como quebrado).
+    return { statusCode: 200, headers, body: buildFeed(esp, episodes, bucket) };
   } catch (err) {
-    console.error('[podcast-rss] erro:', err);
-    return {
-      statusCode: 500,
-      headers,
-      body: `Erro interno: ${err.message}`
-    };
+    console.error('[podcast-rss] erro:', err.message);
+    return { statusCode: 500, headers, body: '' };
   }
 };

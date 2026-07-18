@@ -27,6 +27,9 @@ const log = require('./_lib/logger');
 
 const LOCK = 'podcast_lock';
 const MAX_EPISODES = 3;
+// Episódios ficam disponíveis por N dias (feed RSS / Spotify) e depois são
+// removidos do Storage — controla o custo de armazenamento (~14d × 11 esp × 3 eps).
+const RETENTION_DAYS = 14;
 
 // Especialidades distintas entre os usuários ATIVOS (qualquer plano — o
 // podcast agora é para todos).
@@ -69,6 +72,31 @@ async function cleanupStale(db, activeSlugs) {
   }
 }
 
+// Remove episódios além da retenção (objeto no Storage + doc no histórico).
+// Best-effort: falha aqui nunca bloqueia a geração do dia.
+async function cleanupOldEpisodes(db) {
+  const cutoff = new Date(Date.now() - RETENTION_DAYS * 86400000).toISOString().slice(0, 10);
+  let old = [];
+  try {
+    old = await db.query('podcast_episodios', {
+      where: { fieldFilter: { field: { fieldPath: 'date' }, op: 'LESS_THAN', value: { stringValue: cutoff } } },
+      limit: 300,
+    });
+  } catch (err) {
+    log.warn('[podcasts] retenção — query falhou', { err: err.message });
+    return;
+  }
+  for (const ep of old) {
+    if (!ep.id) continue;
+    if (ep.objectPath) {
+      const del = await deleteObject(ep.objectPath).catch(() => ({ ok: false }));
+      if (!del.ok) { log.warn('[podcasts] retenção — delete falhou, mantendo doc p/ retry', { path: ep.objectPath }); continue; }
+    }
+    await db.deleteDoc('podcast_episodios', ep.id).catch(() => {});
+  }
+  if (old.length) log.info('[podcasts] retenção aplicada', { cutoff, candidatos: old.length });
+}
+
 // Artigos do dia: a edição compartilhada (mesma que o e-mail e a /edicao.html).
 // Fallback: artigo mais recente da especialidade, como episódio único.
 async function editionArticles(db, especialidade) {
@@ -104,6 +132,7 @@ async function main() {
     total = specialties.length;
     const activeSlugs = new Set(specialties.map(slug).filter(Boolean));
     await cleanupStale(db, activeSlugs);
+    await cleanupOldEpisodes(db); // retenção do histórico (feed RSS)
     log.info('[podcasts] especialidades ativas', { count: total, specialties });
 
     // Patrocínio do podcast (slot 'podcast') — uma consulta por run, best-effort.
@@ -137,7 +166,9 @@ async function main() {
           if (!tts.ok) { log.warn('[podcasts] TTS pulado', { esp, ep: i + 1, reason: tts.reason }); continue; }
 
           const audio = Buffer.from(tts.audioBase64, 'base64');
-          const path  = `podcasts/${s}/ep${i + 1}.mp3`;
+          // Path datado: o áudio de cada dia é um objeto próprio — o de ontem
+          // continua válido p/ o feed RSS (Spotify) até a retenção limpar.
+          const path  = `podcasts/${s}/${today}/ep${i + 1}.mp3`;
           const up = await uploadMp3(path, audio);
           if (!up.ok) { log.warn('[podcasts] upload pulado', { esp, ep: i + 1, reason: up.reason }); continue; }
 
@@ -164,6 +195,22 @@ async function main() {
           downloadToken: episodios[0].downloadToken,
           geradoEm:      new Date().toISOString(),
         }).catch(e => log.warn('[podcasts] setDoc falhou', { esp, err: e.message }));
+
+        // Histórico permanente (até a retenção): um doc por episódio, id
+        // determinístico ({slug}_{data}_ep{n}) — re-runs não duplicam.
+        for (const ep of episodios) {
+          await db.setDoc('podcast_episodios', `${s}_${today}_ep${ep.n}`, {
+            slug:          s,
+            especialidade: esp,
+            date:          today,
+            n:             ep.n,
+            artigoId:      ep.artigoId,
+            titulo:        ep.titulo,
+            objectPath:    ep.objectPath,
+            downloadToken: ep.downloadToken,
+            geradoEm:      new Date().toISOString(),
+          }).catch(e => log.warn('[podcasts] histórico setDoc falhou', { esp, ep: ep.n, err: e.message }));
+        }
 
         generated += episodios.length;
         log.info('[podcasts] gerado', { esp, episodios: episodios.length });

@@ -106,6 +106,14 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 36px
 .ev-chip.ev-c{background:rgba(194,155,107,0.12);color:#C29B6B;}
 .ev-chip.ev-d{background:rgba(107,114,128,0.1);color:#6B7280;}
 .article-tema-tag{font-size:10px;color:var(--muted);background:var(--bg2);border:1px solid var(--border);padding:2px 7px;border-radius:5px;font-weight:500;display:inline-block;margin-bottom:6px;}
+/* ── Edição de hoje (aba Recebidos) ── */
+.edicao-hoje-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin:2px 0 14px;}
+.edicao-hoje-titulo{font-size:15px;font-weight:800;color:var(--text);}
+.edicao-hoje-sub{font-size:12.5px;color:var(--muted);font-weight:500;}
+.edicao-upsell{margin:16px 0 4px;padding:12px 16px;background:linear-gradient(135deg,rgba(139,92,246,0.07),rgba(167,139,250,0.05));border:1px solid rgba(139,92,246,0.25);border-radius:12px;font-size:13px;color:var(--text-2,#555);line-height:1.55;}
+.edicao-upsell a{color:#7C3AED;font-weight:700;text-decoration:none;}
+.card-premium{border-color:rgba(139,92,246,0.45);background:linear-gradient(180deg,rgba(139,92,246,0.045),var(--card) 60%);}
+.premium-tag{font-size:10px;color:#7C3AED;text-transform:uppercase;font-weight:800;letter-spacing:0.5px;background:rgba(139,92,246,0.1);padding:3px 8px;border-radius:5px;}
 .article-journal{font-size:11px;color:var(--muted);margin-bottom:9px;line-height:1.4;}
 .article-card.card-lido{opacity:0.6;}
 .article-card.card-lido:hover{opacity:1;}
@@ -737,7 +745,7 @@ async function loadDashboard(email,token){
     userData=data;
     try{
       populateDashboard(data);
-      loadPodcast(email, token); // enriquece os cards com o "Ouvir resumo" (assíncrono)
+      loadEdicaoHoje(email, token); // edição do dia + áudio "Ouvir resumo" (assíncrono)
     }catch(populateErr){
       console.error('[dashboard] populateDashboard error:', populateErr);
       const el=document.getElementById('recebidosContent');
@@ -751,25 +759,40 @@ async function loadDashboard(email,token){
   }
 }
 
-// ========== PODCAST DO DIA (áudio dos resumos) ==========
-// Busca os episódios da especialidade do dentista e liga cada um ao seu artigo
-// pelo artigoId. Com o mapa preenchido, re-renderiza os artigos recebidos para
-// exibir o botão "🎧 Ouvir resumo" nos que têm áudio. Silencioso em falha.
-async function loadPodcast(email, token){
+// ========== EDIÇÃO DE HOJE (artigos do dia + áudio) ==========
+// Busca a edição diária da especialidade (mesma do e-mail): os 3 artigos do dia
+// (+ 2 extras para Premium) e os episódios de áudio. Com isso, a aba Recebidos
+// abre com a "Edição de hoje" — e o histórico vira "Edições anteriores".
+// Silencioso em falha: sem edição, a aba mostra o histórico como antes.
+async function loadEdicaoHoje(email, token){
   try{
-    const res=await fetch('/.netlify/functions/get-podcast?email='+encodeURIComponent(email),{
+    const res=await fetch('/.netlify/functions/get-edicao?email='+encodeURIComponent(email),{
       headers:{'Authorization':'Bearer '+token}
     });
     if(!res.ok) return;
     const data=await res.json();
-    const eps=(data && data.episodios)||[];
-    if(!eps.length) return;
+    const eps=(data && data.podcast && data.podcast.episodios)||[];
     _podcastMap=new Map();
     eps.forEach(e=>{ if(e.artigoId && e.url) _podcastMap.set(String(e.artigoId), e); });
-    if(_podcastMap.size && userData){
+    const ed=data && data.edicao;
+    if(ed && Array.isArray(ed.artigos) && ed.artigos.length){
+      _edicaoHoje={
+        date: ed.date||'',
+        artigos: ed.artigos,
+        premiumExtras: Array.isArray(ed.premiumExtras)?ed.premiumExtras:[],
+        isPremium: !!(data.user && data.user.isPremium),
+      };
+      // Contadores refletem a edição do dia (3, ou 5 no Premium)
+      const nHoje=_edicaoHoje.artigos.length+_edicaoHoje.premiumExtras.length;
+      const badge=document.getElementById('tbadge-recebidos');
+      if(badge) badge.textContent=nHoje;
+      const count=document.getElementById('countRecebidos');
+      if(count) count.textContent='('+nHoje+' hoje)';
+    }
+    if(userData && (_edicaoHoje || _podcastMap.size)){
       renderRecebidos(userData.artigos||[], userData.curtidos||[], userData.lidos||[]);
     }
-  }catch(e){ /* áudio é opcional — nunca quebra o dashboard */ }
+  }catch(e){ /* edição/áudio são opcionais — nunca quebram o dashboard */ }
 }
 
 // ========== SKELETON ==========
@@ -841,9 +864,10 @@ function articleCard(art,curtidos,lidos){
   else if(/coorte|caso.controle|transversal|cross/i.test(ev))evCls='ev-c';
   const evBadge=ev?`<span class="ev-chip ${evCls}">${escapeHtml(ev.split(' ')[0])}</span>`:'';
   const temaTag=(art.tema&&art.tema!==art.especialidade)?`<span class="article-tema-tag">${escapeHtml(art.tema)}</span>`:'';
-  return `<div class="article-card${isLido?' card-lido':''}" data-id="${escapeHtml(art.id)}">
+  return `<div class="article-card${isLido?' card-lido':''}${art.premium?' card-premium':''}" data-id="${escapeHtml(art.id)}">
     <div class="article-meta-top">
       <div class="article-tags-row">
+        ${art.premium?'<span class="premium-tag">💎 Exclusivo assinante</span>':''}
         <span class="article-tag">${escapeHtml(art.especialidade||art.tema||'Artigo')}</span>
         ${evBadge}
       </div>
@@ -875,10 +899,23 @@ function toggleAudioDash(btn){
 const RECEBIDOS_PAGE = 10;
 let recebidosShown = RECEBIDOS_PAGE;
 
+// Converte um artigo da edição (get-edicao) para o formato do articleCard,
+// preferindo o registro completo do histórico quando existir (mantém like/lido).
+function _edicaoParaCard(e, artigos){
+  const full=(artigos||[]).find(a=>String(a.id)===String(e.id));
+  if(full) return e.premium?{...full,premium:true}:full;
+  return {
+    id:String(e.id||''), titulo:e.titulo||'', resumo:e.resumo||'',
+    journal:e.journal||'', year:e.year||'', nivel_evidencia:e.nivel_evidencia||'',
+    pubmedUrl:e.url||'', data:(_edicaoHoje&&_edicaoHoje.date)||'', premium:!!e.premium,
+  };
+}
+
 function renderRecebidos(artigos,curtidos,lidos){
   recebidosShown = RECEBIDOS_PAGE;
   const el=document.getElementById('recebidosContent');
-  if(!artigos.length){
+  const temEdicao=_edicaoHoje&&_edicaoHoje.artigos.length;
+  if(!artigos.length && !temEdicao){
     el.innerHTML=`<div class="empty-state">
       <div class="empty-icon">📬</div>
       <h3>Ainda sem artigos recebidos</h3>
@@ -891,14 +928,42 @@ function renderRecebidos(artigos,curtidos,lidos){
 
 function _paintRecebidos(artigos, curtidos, lidos, el) {
   el = el || document.getElementById('recebidosContent');
-  const slice = artigos.slice(0, recebidosShown);
-  const hasMore = artigos.length > recebidosShown;
-  el.innerHTML = '<div class="articles-grid">' + slice.map(a=>articleCard(a,curtidos,lidos)).join('') + '</div>' +
-    (hasMore ? `<div style="text-align:center;margin:20px 0 8px"><button onclick="loadMoreRecebidos()" style="background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff;border:none;padding:10px 28px;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.9rem;">Carregar mais (${artigos.length - recebidosShown} restantes)</button></div>` : '');
+  let html='';
+  let anteriores=artigos;
+
+  if(_edicaoHoje && _edicaoHoje.artigos.length){
+    // ── Edição de hoje: os 3 do dia (+2 exclusivos no Premium), com áudio ──
+    const hoje=_edicaoHoje.artigos.map(e=>_edicaoParaCard(e,artigos));
+    const extras=_edicaoHoje.premiumExtras.map(e=>_edicaoParaCard({...e,premium:true},artigos));
+    const idsHoje=new Set([...hoje,...extras].map(a=>String(a.id)));
+    anteriores=artigos.filter(a=>!idsHoje.has(String(a.id)));
+
+    let dataFmt='';
+    if(_edicaoHoje.date){try{const d=new Date(_edicaoHoje.date+'T12:00:00');if(!isNaN(d.getTime()))dataFmt=d.toLocaleDateString('pt-BR',{day:'2-digit',month:'long'});}catch(e){}}
+    html+=`<div class="edicao-hoje-head">
+      <span class="edicao-hoje-titulo">📅 Edição de hoje${dataFmt?' · '+dataFmt:''}</span>
+      <span class="edicao-hoje-sub">${hoje.length+extras.length} artigo${hoje.length+extras.length>1?'s':''} selecionado${hoje.length+extras.length>1?'s':''} para você${_podcastMap.size?' · 🎧 com resumo em áudio':''}</span>
+    </div>`;
+    html+='<div class="articles-grid">'+hoje.map(a=>articleCard(a,curtidos,lidos)).join('')+
+      extras.map(a=>articleCard(a,curtidos,lidos)).join('')+'</div>';
+
+    if(!extras.length && !_edicaoHoje.isPremium){
+      html+=`<div class="edicao-upsell">💎 Assinantes Premium recebem <strong>5 artigos por dia</strong> — os 3 acima mais 2 exclusivos pelos seus temas, com resumo aprofundado. <a href="/#planos">Conhecer o Premium →</a></div>`;
+    }
+    if(anteriores.length) html+=`<div class="edicao-hoje-head" style="margin-top:28px;"><span class="edicao-hoje-titulo">🗂️ Edições anteriores</span></div>`;
+  }
+
+  if(anteriores.length){
+    const slice = anteriores.slice(0, recebidosShown);
+    const hasMore = anteriores.length > recebidosShown;
+    html += '<div class="articles-grid">' + slice.map(a=>articleCard(a,curtidos,lidos)).join('') + '</div>' +
+      (hasMore ? `<div style="text-align:center;margin:20px 0 8px"><button onclick="loadMoreRecebidos()" style="background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff;border:none;padding:10px 28px;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.9rem;">Carregar mais (${anteriores.length - recebidosShown} restantes)</button></div>` : '');
+  }
+  el.innerHTML=html;
 }
 
 function loadMoreRecebidos() {
-  recebidosShown = Math.min(recebidosShown + RECEBIDOS_PAGE, (userData.artigos||[]).length);
+  recebidosShown = recebidosShown + RECEBIDOS_PAGE;
   _paintRecebidos(userData.artigos||[], userData.curtidos||[], userData.lidos||[]);
 }
 
@@ -1352,6 +1417,7 @@ let _bibIds = new Set();    // pmids salvos (marca os botões "Salvar" nos cards
 let _bibColecaoAtiva = '';  // filtro de coleção ('' = todas)
 let _bibPremium = null;     // null = desconhecido; false = mostrar upsell
 let _podcastMap = new Map(); // artigoId -> { url } do podcast do dia (botão "Ouvir resumo")
+let _edicaoHoje = null;      // { date, artigos, premiumExtras, isPremium } — edição do dia (get-edicao)
 
 async function loadBibliotecaTab(force){
   const email=getEmail(), token=getToken();
