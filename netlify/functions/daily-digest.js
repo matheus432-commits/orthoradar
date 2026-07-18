@@ -40,7 +40,10 @@ const { request }                                  = require('./_lib');
 const BASE_URL        = process.env.SITE_URL || 'https://odontofeed.com';
 const MIN_ARTICLES    = 3;
 const MAX_ARTICLES    = 3;   // Padrão fixo: 3 artigos regulares por dia (o Achado da Semana entra à parte, podendo elevar o total)
-const LOOKBACK_DAYS   = 180;
+// Anti-repetição efetivamente permanente: um artigo já enviado a uma especialidade
+// nunca volta. Com o acervo ampliado (busca de 15 anos), há candidatos novos de
+// sobra, então não há motivo para "esquecer" o que já foi enviado.
+const LOOKBACK_DAYS   = 15 * 365;
 const CANDIDATE_LIMIT = 120;
 
 // Reliability constants
@@ -114,7 +117,7 @@ async function getRecentEspPmids(db, especialidade) {
   try {
     const docs = await db.query('digests_especialidade', {
       where: { fieldFilter: { field: { fieldPath: 'especialidade' }, op: 'EQUAL', value: { stringValue: especialidade } } },
-      limit: 300,
+      limit: 2000,
     });
     const pmids = new Set();
     for (const d of docs) {

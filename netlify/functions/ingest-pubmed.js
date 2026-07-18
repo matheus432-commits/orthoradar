@@ -42,16 +42,23 @@ const SPECIALTY_QUERIES = [
   { specialty: 'DTM e Dor Orofacial', query: 'temporomandibular joint disorders[MeSH Major Topic]' },
 ];
 
-const DATE_RANGE = 'last+90+days'; // wider window → more candidates, dedup handles repeats
+// Janela de busca ampla (15 anos): o objetivo é um acervo grande e específico da
+// área, para que praticamente nunca se repita um artigo. O dedup contra o Firestore
+// impede reprocessar o que já entrou; o enriquecimento continua limitado por
+// AI_BATCH_SIZE (enriquecimento/dia), então ampliar a janela NÃO aumenta o custo de IA.
+const SEARCH_YEARS = 15;
+const SEARCH_RELDATE = SEARCH_YEARS * 365; // dias
 
 // ── PubMed API helpers ────────────────────────────────────────────────────────
 
 async function searchPmids(query, retMax = 15) {
   await ncbiThrottle();
   const encodedQuery = encodeURIComponent(
-    `(${query}) AND ("last 90 days"[PDat]) AND (English[lang])`
+    `(${query}) AND (English[lang])`
   );
-  const path = `/entrez/eutils/esearch.fcgi?db=pubmed&term=${encodedQuery}&retmax=${retMax}&retmode=json${NCBI_KEY}`;
+  // datetype=pdat + reldate → últimos SEARCH_YEARS anos por data de publicação.
+  // sort=date traz os mais recentes primeiro; o dedup diário evita reingestão.
+  const path = `/entrez/eutils/esearch.fcgi?db=pubmed&term=${encodedQuery}&retmax=${retMax}&sort=date&datetype=pdat&reldate=${SEARCH_RELDATE}&retmode=json${NCBI_KEY}`;
   const res  = await request({ hostname: 'eutils.ncbi.nlm.nih.gov', path, method: 'GET' }, null);
   if (res.status !== 200) {
     log.warn('[pubmed] esearch failed', { status: res.status, query: query.slice(0, 80) });
@@ -94,6 +101,11 @@ function parseArticlesXml(xml) {
       const yearMatch = block.match(/<PubDate>[\s\S]*?<Year>(\d{4})<\/Year>/);
       const year      = yearMatch ? parseInt(yearMatch[1], 10) : null;
 
+      // Data de publicação completa (ano + mês + dia quando disponíveis).
+      // Guardada em ISO para exibição no email ("a data do artigo no local").
+      const pubDateBlock = (block.match(/<PubDate>[\s\S]*?<\/PubDate>/) || [''])[0];
+      const dataPublicacao = parsePubDate(pubDateBlock, year);
+
       // Authors: first 3 + et al
       const authorMatches = block.match(/<LastName>(.*?)<\/LastName>/g) || [];
       const authors = authorMatches
@@ -115,6 +127,7 @@ function parseArticlesXml(xml) {
         abstract,
         journal:      journal || '',
         year:         year || new Date().getFullYear(),
+        dataPublicacao,
         autores:      authors,
         isOpenAccess: Boolean(isOpenAccess),
         fonte:        'pubmed',
@@ -130,6 +143,52 @@ function parseArticlesXml(xml) {
 function extractTag(xml, tag) {
   const m = xml.match(new RegExp(`<${tag}[^>]*>([\\s\\S]*?)<\\/${tag}>`, 'i'));
   return m ? m[1].replace(/<[^>]+>/g, '').trim() : null;
+}
+
+const MONTH_MAP = {
+  jan: '01', feb: '02', mar: '03', apr: '04', may: '05', jun: '06',
+  jul: '07', aug: '08', sep: '09', oct: '10', nov: '11', dec: '12',
+};
+
+// Converte o bloco <PubDate> do PubMed numa data ISO ("YYYY-MM-DD" / "YYYY-MM" /
+// "YYYY"), preservando a granularidade real informada pela revista. Suporta o
+// formato estruturado (<Year>/<Month>/<Day>) e o <MedlineDate> ("2024 Mar-Apr").
+function parsePubDate(pubDateBlock, fallbackYear) {
+  if (!pubDateBlock) return fallbackYear ? String(fallbackYear) : null;
+
+  const yearM = pubDateBlock.match(/<Year>(\d{4})<\/Year>/);
+  let year = yearM ? yearM[1] : null;
+
+  const monthM = pubDateBlock.match(/<Month>([A-Za-z0-9]+)<\/Month>/);
+  const dayM   = pubDateBlock.match(/<Day>(\d{1,2})<\/Day>/);
+
+  // Fallback: <MedlineDate>2024 Mar-Apr</MedlineDate>
+  if (!year) {
+    const med = pubDateBlock.match(/<MedlineDate>([\s\S]*?)<\/MedlineDate>/);
+    if (med) {
+      const ym = med[1].match(/(\d{4})/);
+      if (ym) year = ym[1];
+      const mm = med[1].match(/([A-Za-z]{3})/);
+      if (mm && !monthM) {
+        const mon = MONTH_MAP[mm[1].toLowerCase().slice(0, 3)];
+        if (mon) return `${year}-${mon}`;
+      }
+    }
+  }
+
+  if (!year) return fallbackYear ? String(fallbackYear) : null;
+
+  let month = null;
+  if (monthM) {
+    const raw = monthM[1];
+    month = /^\d+$/.test(raw)
+      ? String(parseInt(raw, 10)).padStart(2, '0')
+      : MONTH_MAP[raw.toLowerCase().slice(0, 3)] || null;
+  }
+  if (!month) return year;
+
+  const day = dayM ? String(parseInt(dayM[1], 10)).padStart(2, '0') : null;
+  return day ? `${year}-${month}-${day}` : `${year}-${month}`;
 }
 
 function cleanText(s) {
@@ -149,6 +208,7 @@ async function saveArticle(db, article, specialty) {
     abstract:         (article.abstract || '').slice(0, 2000), // stored for AI processing
     journal:          article.journal  || '',
     year:             article.year     || null,
+    dataPublicacao:   article.dataPublicacao || (article.year ? String(article.year) : null),
     autores:          article.autores  || [],
     isOpenAccess:     article.isOpenAccess || false,
     fonte:            'pubmed',
