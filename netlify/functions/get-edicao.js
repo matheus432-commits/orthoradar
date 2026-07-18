@@ -79,6 +79,33 @@ async function getPodcast(db, especialidade) {
   } catch { return null; }
 }
 
+// Extras Premium enviados HOJE a este assinante (registrados pelo daily-digest
+// em artigos_enviados_premium). Devolve os artigos completos para o dashboard
+// exibir os 5 do dia (3 da edição + 2 exclusivos). Best-effort: falha → [].
+async function getPremiumExtrasHoje(db, email) {
+  const today = new Date().toISOString().slice(0, 10);
+  try {
+    const sent = await db.query('artigos_enviados_premium', {
+      where: { fieldFilter: { field: { fieldPath: 'email' }, op: 'EQUAL', value: { stringValue: email } } },
+      limit: 300,
+    });
+    const ids = [...new Set(
+      sent.filter(s => String(s.data || '').slice(0, 10) === today)
+          .map(s => String(s.pmid || ''))
+          .filter(Boolean)
+    )].slice(0, 5);
+    const extras = [];
+    for (const id of ids) {
+      const a = await db.getDoc('artigos', id).catch(() => null);
+      if (a) extras.push({ ...publicArticle({ ...a, id }), premium: true });
+    }
+    return extras;
+  } catch (err) {
+    log.warn('[get-edicao] premium extras indisponíveis', { err: err.message });
+    return [];
+  }
+}
+
 function publicArticle(a) {
   return {
     id:              String(a.pmid || a.id || ''),
@@ -156,6 +183,7 @@ exports.handler = async (event) => {
     const features = featuresOf(user);
     const podcast  = await getPodcast(db, especialidade);
     const anuncio  = features.semPublicidade ? null : await getActiveAd(db, 'site', especialidade);
+    const premiumExtras = premium ? await getPremiumExtrasHoje(db, email) : [];
 
     return {
       statusCode: 200,
@@ -172,6 +200,7 @@ exports.handler = async (event) => {
           editorial: edicao.editorial || null,
           artigos:   (edicao.artigos || []).map(publicArticle),
           achado:    edicao.achadoSemana ? publicArticle(edicao.achadoSemana) : null,
+          premiumExtras, // [] p/ plano gratuito; até 2 artigos exclusivos p/ Premium
         },
         podcast, // { episodios:[{n, artigoId, titulo, url}] } ou null se o áudio do dia não existe
         anuncio: anuncio ? {
