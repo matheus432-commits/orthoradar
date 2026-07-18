@@ -1,5 +1,6 @@
 const { request } = require('./_lib');
 const crypto = require('crypto');
+const { normalizePlan, isPremium } = require('./_lib/plans');
 
 function tokenEqual(a, b) {
   if (!a || !b || a.length !== b.length) return false;
@@ -160,6 +161,8 @@ exports.handler = async (event) => {
       body: JSON.stringify({
         nome: user.nome || '',
         email: user.email || '',
+        plano: normalizePlan(user.plano),
+        isPremium: isPremium(user),
         especialidade,
         temas,
         criadoEm: user.criadoEm || '',
