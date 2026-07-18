@@ -3,7 +3,10 @@ name: OdontoFeed Daily Pipeline
 # Pipeline completo: ingestão → enriquecimento → perfis → envio de emails.
 #
 # Triggers:
-#   schedule   — 10:00 UTC (07:00 BRT): entrega no inbox às 7h Brasília.
+#   schedule   — 03:00 UTC (00:00 BRT): dispara à meia-noite de Brasília. A
+#                ingestão + enriquecimento + envio roda de madrugada, então o
+#                dentista acorda (5h, 6h, 7h…) com o digest já no inbox,
+#                independentemente de o pipeline levar mais ou menos tempo.
 #   push       — qualquer push em netlify/functions/** para main:
 #                executa apenas ingestão (nunca email), garantindo artigos
 #                frescos sem risco de duplo envio.
@@ -14,7 +17,7 @@ env:
 
 on:
   schedule:
-    - cron: '0 10 * * *'
+    - cron: '0 3 * * *'
 
   push:
     branches: [main]

@@ -4,7 +4,7 @@ const crypto = require('crypto');
 const ALLOWED_SPECS = new Set([
   'Ortodontia', 'Implantodontia', 'Periodontia', 'Dentística',
   'Bucomaxilofacial', 'Prótese', 'Endodontia', 'Odontopediatria',
-  'DTM e Dor Orofacial', 'Radiologia'
+  'DTM e Dor Orofacial', 'Radiologia', 'Estomatologia'
 ]);
 
 function tokenEqual(a, b) {

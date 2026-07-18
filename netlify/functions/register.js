@@ -5,7 +5,7 @@ const { DEFAULT_PLAN } = require('./_lib/plans');
 const ALLOWED_SPECS = new Set([
   'Ortodontia', 'Implantodontia', 'Periodontia', 'Dentística',
   'Bucomaxilofacial', 'Prótese', 'Endodontia', 'Odontopediatria',
-  'DTM e Dor Orofacial', 'Radiologia'
+  'DTM e Dor Orofacial', 'Radiologia', 'Estomatologia'
 ]);
 
 async function getUserByEmail(projectId, apiKey, email) {
@@ -41,7 +41,7 @@ async function sendWelcomeEmail(resendKey, nome, email, especialidade) {
 </div>
 <div style="background:#ffffff;padding:32px;border-left:1px solid #e2e8f0;border-right:1px solid #e2e8f0;">
 <p style="color:#0f172a;font-size:1rem;">Olá, <strong>${firstName}</strong>! 🦷</p>
-<p style="color:#334155;line-height:1.7;">Seu cadastro no <strong style="color:#0ea5e9;">OdontoFeed</strong> foi realizado com sucesso. A partir de amanhã às <strong>7h</strong>, você receberá um artigo científico de <strong style="color:#0ea5e9;">${esp}</strong> diretamente no seu email.</p>
+<p style="color:#334155;line-height:1.7;">Seu cadastro no <strong style="color:#0ea5e9;">OdontoFeed</strong> foi realizado com sucesso. A partir de amanhã de manhã, você acorda com um artigo científico de <strong style="color:#0ea5e9;">${esp}</strong> já no seu email — todos os dias.</p>
 <p style="color:#334155;line-height:1.7;">Os artigos são selecionados do PubMed e resumidos para facilitar a leitura — ciência odontológica atualizada, todos os dias, sem esforço.</p>
 <div style="text-align:center;margin:28px 0;">
 <a href="https://odontofeed.com/dashboard" style="display:inline-block;background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff;text-decoration:none;padding:14px 32px;border-radius:10px;font-weight:700;font-size:0.95rem;">Acessar minha conta →</a>
