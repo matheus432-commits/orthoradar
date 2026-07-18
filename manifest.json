@@ -4,8 +4,8 @@
   "description": "Artigos científicos odontológicos diários curados do PubMed para dentistas",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0a0a0f",
-  "theme_color": "#00d4ff",
+  "background_color": "#0A0E1A",
+  "theme_color": "#0A0E1A",
   "orientation": "portrait-primary",
   "lang": "pt-BR",
   "categories": [

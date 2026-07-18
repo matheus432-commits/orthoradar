@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 128" width="560" height="128" role="img" aria-label="OdontoFeed">
+  <!-- Lockup horizontal para fundos ESCUROS (símbolo Sinal + logotipo).
+       O texto usa fonte do sistema; para arte final, converta para contornos. -->
+  <g transform="translate(6,14) scale(0.78)">
+    <path d="M64 18 C46 18 34 30 34 48 C34 62 38 76 44 94 C47 103 55 103 57 94 L61 72 C62 66 66 66 67 72 L71 94 C73 103 81 103 84 94 C90 76 94 62 94 48 C94 30 82 18 64 18 Z" fill="#37D7E7"/>
+    <g fill="none" stroke="#EABF48" stroke-width="7" stroke-linecap="round">
+      <path d="M83 30 A13 13 0 0 1 96 43"/>
+      <path d="M83 17 A26 26 0 0 1 109 43"/>
+    </g>
+    <circle cx="83" cy="43" r="5.4" fill="#EABF48"/>
+  </g>
+  <text x="150" y="84" font-family="'Segoe UI',system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif" font-size="62" letter-spacing="-2">
+    <tspan fill="#EAF2F5" font-weight="600">Odonto</tspan><tspan fill="#37D7E7" font-weight="800">Feed</tspan><tspan fill="#37D7E7" font-weight="800">.</tspan>
+  </text>
+</svg>

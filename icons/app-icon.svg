@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="512" height="512" role="img" aria-label="OdontoFeed">
+  <!-- Fundo full-bleed (o SO arredonda no maskable) -->
+  <rect width="128" height="128" fill="#0A0E1A"/>
+  <!-- Símbolo "Sinal": dente + ondas de feed. Escalado ~78% e centralizado (safe zone maskable) -->
+  <g transform="translate(64,64) scale(0.78) translate(-76.5,-55.5)">
+    <path d="M64 18 C46 18 34 30 34 48 C34 62 38 76 44 94 C47 103 55 103 57 94 L61 72 C62 66 66 66 67 72 L71 94 C73 103 81 103 84 94 C90 76 94 62 94 48 C94 30 82 18 64 18 Z" fill="#37D7E7"/>
+    <g fill="none" stroke="#EABF48" stroke-width="7" stroke-linecap="round">
+      <path d="M83 30 A13 13 0 0 1 96 43"/>
+      <path d="M83 17 A26 26 0 0 1 109 43"/>
+    </g>
+    <circle cx="83" cy="43" r="5.4" fill="#EABF48"/>
+  </g>
+</svg>

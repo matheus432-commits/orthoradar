@@ -1,5 +1,5 @@
-// OdontoFeed Service Worker v1.0
-const CACHE_NAME = 'odontofeed-v1';
+// OdontoFeed Service Worker v2.0 (nova identidade visual)
+const CACHE_NAME = 'odontofeed-v2';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
@@ -141,4 +141,4 @@ self.addEventListener('sync', event => {
   }
 });
 
-console.log('[SW] Service Worker loaded - OdontoFeed v1.0');
+console.log('[SW] Service Worker loaded - OdontoFeed v2.0');
