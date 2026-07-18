@@ -72,7 +72,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 36px
 .stat-label{font-size:11px;color:var(--muted);margin-top:3px;font-weight:500;}
 
 /* TABS */
-.tabs-wrap{display:flex;gap:3px;background:var(--card);border:1px solid var(--border);padding:4px;border-radius:12px;width:fit-content;margin-bottom:22px;box-shadow:var(--shadow);}
+.tabs-wrap{display:flex;flex-wrap:wrap;gap:3px;background:var(--card);border:1px solid var(--border);padding:4px;border-radius:12px;width:fit-content;max-width:100%;margin-bottom:22px;box-shadow:var(--shadow);}
 .tab-btn{background:none;border:none;color:var(--muted);padding:8px 18px;border-radius:9px;cursor:pointer;font-size:13px;font-weight:600;transition:all 0.18s;display:flex;align-items:center;gap:6px;font-family:inherit;}
 .tab-btn.active{background:var(--bg);color:var(--primary);border:1.5px solid var(--border);box-shadow:var(--shadow);}
 .tab-btn:hover:not(.active){color:var(--text);background:rgba(0,0,0,0.03);}
@@ -737,6 +737,7 @@ async function loadDashboard(email,token){
     userData=data;
     try{
       populateDashboard(data);
+      loadPodcast(email, token); // enriquece os cards com o "Ouvir resumo" (assíncrono)
     }catch(populateErr){
       console.error('[dashboard] populateDashboard error:', populateErr);
       const el=document.getElementById('recebidosContent');
@@ -748,6 +749,27 @@ async function loadDashboard(email,token){
     const msgEl=document.getElementById('loginMsg');
     if(msgEl){ msgEl.className='login-msg error'; msgEl.textContent='Erro de conexão. Verifique sua internet e tente novamente.'; }
   }
+}
+
+// ========== PODCAST DO DIA (áudio dos resumos) ==========
+// Busca os episódios da especialidade do dentista e liga cada um ao seu artigo
+// pelo artigoId. Com o mapa preenchido, re-renderiza os artigos recebidos para
+// exibir o botão "🎧 Ouvir resumo" nos que têm áudio. Silencioso em falha.
+async function loadPodcast(email, token){
+  try{
+    const res=await fetch('/.netlify/functions/get-podcast?email='+encodeURIComponent(email),{
+      headers:{'Authorization':'Bearer '+token}
+    });
+    if(!res.ok) return;
+    const data=await res.json();
+    const eps=(data && data.episodios)||[];
+    if(!eps.length) return;
+    _podcastMap=new Map();
+    eps.forEach(e=>{ if(e.artigoId && e.url) _podcastMap.set(String(e.artigoId), e); });
+    if(_podcastMap.size && userData){
+      renderRecebidos(userData.artigos||[], userData.curtidos||[], userData.lidos||[]);
+    }
+  }catch(e){ /* áudio é opcional — nunca quebra o dashboard */ }
 }
 
 // ========== SKELETON ==========
@@ -833,11 +855,21 @@ function articleCard(art,curtidos,lidos){
     <div class="article-summary">${summary}</div>
     <div class="article-actions">
       <button class="btn-like ${liked?'liked':''}" onclick="toggleLike('${safeId(art.id)}',this)">${liked?'❤️ Curtido':'🤍 Curtir'}</button>
+      ${_podcastMap.has(String(art.id))?`<button class="btn-lido btn-audio-dash" onclick="toggleAudioDash(this)">🎧 Ouvir resumo</button>`:''}
       ${safeUrl(art.pubmedUrl)?`<a class="btn-pubmed" href="${escapeHtml(safeUrl(art.pubmedUrl))}" target="_blank" rel="noopener">PubMed ↗</a>`:''}
       <button class="btn-lido ${isLido?'lido':''}" onclick="toggleLido('${safeId(art.id)}')">${isLido?'✅ Lido':'📝 Lido'}</button>
       <button class="btn-lido ${_bibIds.has(String(art.id))?'lido':''}" onclick="salvarBiblioteca('${safeId(art.id)}',this)">${_bibIds.has(String(art.id))?'📚 Salvo':'📚 Salvar'}</button>
     </div>
+    ${_podcastMap.has(String(art.id))?`<audio controls preload="none" style="display:none;width:100%;margin-top:10px;"><source src="${escapeHtml(_podcastMap.get(String(art.id)).url)}" type="audio/mpeg"></audio>`:''}
   </div>`;
+}
+
+// Mostra/oculta e toca o áudio do resumo (podcast do dia) do próprio card.
+function toggleAudioDash(btn){
+  const a=btn.closest('.article-card').querySelector('audio');
+  if(!a) return;
+  if(a.style.display==='none'){ a.style.display='block'; a.play().catch(()=>{}); btn.innerHTML='🎧 Ouvindo…'; }
+  else{ a.pause(); a.style.display='none'; btn.innerHTML='🎧 Ouvir resumo'; }
 }
 
 const RECEBIDOS_PAGE = 10;
@@ -1319,6 +1351,7 @@ let _bibItens = [];         // itens carregados da biblioteca
 let _bibIds = new Set();    // pmids salvos (marca os botões "Salvar" nos cards)
 let _bibColecaoAtiva = '';  // filtro de coleção ('' = todas)
 let _bibPremium = null;     // null = desconhecido; false = mostrar upsell
+let _podcastMap = new Map(); // artigoId -> { url } do podcast do dia (botão "Ouvir resumo")
 
 async function loadBibliotecaTab(force){
   const email=getEmail(), token=getToken();
