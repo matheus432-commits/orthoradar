@@ -500,6 +500,9 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 36px
     <button class="tab-btn" id="tabBtn-biblioteca" onclick="switchTab('biblioteca',this)">
       📚 Biblioteca <span class="tab-badge" id="tbadge-biblioteca">0</span>
     </button>
+    <button class="tab-btn" id="tabBtn-wakai" onclick="switchTab('wakai',this)">
+      🤖 Wakai
+    </button>
     <button class="tab-btn" id="tabBtn-preferencias" onclick="switchTab('preferencias',this)">
       ⚙️ Preferências
     </button>
@@ -553,6 +556,27 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 36px
     </div>
     <div id="bibliotecaContent">
       <div class="empty-state"><div class="empty-icon">📚</div><h3>Carregando sua biblioteca…</h3></div>
+    </div>
+  </div>
+
+  <!-- TAB: WAKAI (Premium — Fase C) -->
+  <div class="tab-content" id="tab-wakai">
+    <div class="section-title">🤖 Wakai <span style="font-size:12px;font-weight:500;color:var(--muted);">sua IA científica pessoal</span> <span id="wakaiRestantes" style="font-size:12px;font-weight:600;color:var(--muted);margin-left:auto;"></span></div>
+    <div id="wakaiGate"></div>
+    <div id="wakaiApp" style="display:none;max-width:820px;">
+      <div style="display:flex;gap:8px;margin-bottom:14px;">
+        <button class="tab-btn active" id="wmodo-conversa" onclick="wakaiModo('conversa')">💬 Conversas</button>
+        <button class="tab-btn" id="wmodo-protocolo" onclick="wakaiModo('protocolo')">📋 Protocolos</button>
+      </div>
+      <div id="wakaiHint" style="font-size:12.5px;color:var(--muted);margin-bottom:12px;"></div>
+      <div id="wakaiChat" style="display:flex;flex-direction:column;gap:12px;margin-bottom:14px;"></div>
+      <div style="display:flex;gap:10px;align-items:flex-end;">
+        <textarea id="wakaiInput" rows="2" maxlength="1000" placeholder=""
+          style="flex:1;padding:12px 14px;border:1px solid var(--border);border-radius:12px;background:var(--card);color:var(--text);font-size:14px;font-family:inherit;resize:none;"
+          onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();wakaiEnviar();}"></textarea>
+        <button class="btn-primary" id="wakaiBtn" onclick="wakaiEnviar()" style="padding:12px 20px;white-space:nowrap;">Perguntar</button>
+      </div>
+      <div style="font-size:10.5px;color:var(--muted);margin-top:8px;">A Wakai responde com base nos artigos da sua especialidade, na sua biblioteca pessoal e na literatura consolidada. Conteúdo informativo — não substitui seu julgamento clínico.</div>
     </div>
   </div>
 
@@ -1405,6 +1429,97 @@ async function moverColecaoBib(pmid){
   if(r&&r.success){ loadBibliotecaTab(true); }
 }
 
+// ========== WAKAI — IA CIENTÍFICA PESSOAL (Premium — Fase C) ==========
+let _wkModo='conversa';
+let _wkBusy=false;
+let _wkInit=false;
+
+const _WK_HINTS={
+  conversa:{hint:'Pergunte como perguntaria a um colega especialista. Ex.: "Qual adesivo tem melhor desempenho em dentina?"',ph:'Ex.: qual adesivo é melhor para restaurações posteriores?'},
+  protocolo:{hint:'Peça um protocolo e receba o passo a passo objetivo, baseado em evidência. Ex.: "Como cimentar um pino de fibra de vidro?"',ph:'Ex.: como fazer a cimentação de um pino de fibra de vidro?'}
+};
+
+function wakaiModo(m){
+  _wkModo=m;
+  document.getElementById('wmodo-conversa').classList.toggle('active',m==='conversa');
+  document.getElementById('wmodo-protocolo').classList.toggle('active',m==='protocolo');
+  document.getElementById('wakaiHint').textContent=_WK_HINTS[m].hint;
+  document.getElementById('wakaiInput').placeholder=_WK_HINTS[m].ph;
+}
+
+function initWakaiTab(){
+  if(_wkInit) return; _wkInit=true;
+  // Gate espelha a Biblioteca: _bibPremium já foi descoberto no carregamento
+  if(_bibPremium===false){
+    document.getElementById('wakaiGate').innerHTML=
+      '<div style="background:linear-gradient(120deg,#2A2440,#4A2F80);border-radius:16px;padding:32px;color:#EDE8F8;max-width:720px;">'
+      +'<h3 style="color:#fff;font-size:18px;margin-bottom:8px;">🤖 Conheça a Wakai — sua IA científica pessoal</h3>'
+      +'<p style="font-size:14px;color:#C9BFE2;line-height:1.7;margin-bottom:16px;">Exclusiva do plano <strong style="color:#fff;">Premium (R$ 59,90/mês)</strong>: pergunte em linguagem natural e receba respostas e protocolos fundamentados nos artigos da sua especialidade e em tudo que VOCÊ já leu e salvou. 30 perguntas por dia.</p>'
+      +'<a href="/#planos" style="display:inline-block;background:#C9A227;color:#1A1A18;font-weight:800;padding:11px 22px;border-radius:8px;text-decoration:none;font-size:14px;">Conhecer o Premium →</a></div>';
+    return;
+  }
+  document.getElementById('wakaiApp').style.display='block';
+  wakaiModo('conversa');
+  wakaiMsg('wakai','Olá! Sou a Wakai, sua assistente científica. Na aba <strong>Conversas</strong> respondo dúvidas como um colega especialista; na aba <strong>Protocolos</strong> devolvo o passo a passo clínico em tópicos. O que vamos estudar hoje?');
+}
+
+function wakaiMsg(quem,html,fontes){
+  const chat=document.getElementById('wakaiChat');
+  const mine=quem==='eu';
+  let fontesHtml='';
+  if(fontes&&fontes.length){
+    fontesHtml='<div style="margin-top:10px;padding-top:8px;border-top:1px dashed var(--border);font-size:11px;color:var(--muted);">Fontes: '
+      +fontes.map(f=>'<span title="'+escapeHtml(f.titulo)+'">['+f.n+']'
+        +(/^\d+$/.test(f.pmid)?' <a href="https://pubmed.ncbi.nlm.nih.gov/'+f.pmid+'/" target="_blank" rel="noopener" style="color:var(--primary);">'+escapeHtml((f.titulo||'').slice(0,50))+'…</a>':' '+escapeHtml((f.titulo||'').slice(0,50)))
+        +(f.daBiblioteca?' 📚':'')+'</span>').join(' · ')+'</div>';
+  }
+  const div=document.createElement('div');
+  div.style.cssText='max-width:88%;padding:13px 16px;border-radius:14px;font-size:14px;line-height:1.65;'
+    +(mine?'align-self:flex-end;background:rgba(37,99,235,0.1);border:1px solid rgba(37,99,235,0.25);'
+          :'align-self:flex-start;background:var(--card);border:1px solid var(--border);');
+  div.innerHTML=html+fontesHtml;
+  chat.appendChild(div);
+  div.scrollIntoView({behavior:'smooth',block:'end'});
+  return div;
+}
+
+// Resposta vem em texto puro — escapa tudo e preserva estrutura (quebras/tópicos)
+function wakaiFormat(t){
+  return escapeHtml(t).replace(/\n\n+/g,'<br/><br/>').replace(/\n/g,'<br/>');
+}
+
+async function wakaiEnviar(){
+  if(_wkBusy) return;
+  const inp=document.getElementById('wakaiInput');
+  const pergunta=inp.value.trim();
+  if(!pergunta) return;
+  const email=getEmail(), token=getToken();
+  if(!email||!token) return;
+  _wkBusy=true;
+  const btn=document.getElementById('wakaiBtn');
+  btn.disabled=true; btn.textContent='Pensando…';
+  wakaiMsg('eu',escapeHtml(pergunta));
+  inp.value='';
+  const pensando=wakaiMsg('wakai','<span style="color:var(--muted);">'+( _wkModo==='protocolo'?'Montando o protocolo com base na evidência…':'Consultando a literatura e sua biblioteca…')+'</span>');
+  try{
+    const res=await fetch('/.netlify/functions/wakai',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({email,token,modo:_wkModo,pergunta})});
+    const data=await res.json();
+    pensando.remove();
+    if(res.status===429){ wakaiMsg('wakai','⏳ '+escapeHtml(data.message||'Limite diário atingido.')); }
+    else if(res.status===403){ _bibPremium=false; _wkInit=false; document.getElementById('wakaiApp').style.display='none'; initWakaiTab(); }
+    else if(!res.ok){ wakaiMsg('wakai','⚠️ '+escapeHtml(data.message||'Não consegui responder agora. Tente de novo.')); }
+    else{
+      wakaiMsg('wakai',wakaiFormat(data.resposta),data.fontes);
+      if(typeof data.restantes==='number') document.getElementById('wakaiRestantes').textContent=data.restantes+' pergunta'+(data.restantes===1?'':'s')+' restante'+(data.restantes===1?'':'s')+' hoje';
+    }
+  }catch(e){
+    pensando.remove();
+    wakaiMsg('wakai','⚠️ Erro de conexão. Verifique sua internet e tente de novo.');
+  }
+  _wkBusy=false; btn.disabled=false; btn.textContent='Perguntar';
+}
+
 function switchTab(name,btnEl){
   document.querySelectorAll('.tabs-wrap .tab-btn').forEach(b=>b.classList.remove('active'));
   document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
@@ -1412,6 +1527,7 @@ function switchTab(name,btnEl){
   document.getElementById('tab-'+name).classList.add('active');
   if (name === 'preferencias') renderPrefTab();
   if (name === 'biblioteca')   loadBibliotecaTab();
+  if (name === 'wakai')        initWakaiTab();
 }
 
 // ========== CLINICAL INTELLIGENCE TAB (FASE 4) ==========
