@@ -30,6 +30,7 @@ const { pubmedFallbackArticles }                   = require('./_lib/pubmed');
 const { acquireLock, releaseLock }                 = require('./_lib/pipeline-lock');
 const { withTimeout }                              = require('./_lib/retry-utils');
 const { getOrCreateAchadoSemana }                  = require('./_lib/achado-semana');
+const { generateResumoCompleto }                   = require('./_lib/claude');
 const { espDigestSlug }                            = require('./_lib/slug');
 const { buildEdicaoUrl }                           = require('./_lib/edicao-token');
 const { isPremium }                                = require('./_lib/plans');
@@ -40,7 +41,10 @@ const { request }                                  = require('./_lib');
 const BASE_URL        = process.env.SITE_URL || 'https://odontofeed.com';
 const MIN_ARTICLES    = 3;
 const MAX_ARTICLES    = 3;   // Padrão fixo: 3 artigos regulares por dia (o Achado da Semana entra à parte, podendo elevar o total)
-const LOOKBACK_DAYS   = 180;
+// Anti-repetição efetivamente permanente: um artigo já enviado a uma especialidade
+// nunca volta. Com o acervo ampliado (busca de 15 anos), há candidatos novos de
+// sobra, então não há motivo para "esquecer" o que já foi enviado.
+const LOOKBACK_DAYS   = 15 * 365;
 const CANDIDATE_LIMIT = 120;
 
 // Reliability constants
@@ -105,29 +109,81 @@ async function getActiveUsers(db) {
   return mapped.filter(u => u.especialidades.length > 0);
 }
 
-// Anti-repeat por especialidade: pmids já usados nos digests compartilhados
-// recentes desta especialidade (o conteúdo é o mesmo para todos os inscritos,
-// então o histórico também é por especialidade, não por usuário).
-async function getRecentEspPmids(db, especialidade) {
+// ── Identidade de artigo para anti-repetição ─────────────────────────────────
+// Um mesmo estudo pode entrar na base por fontes diferentes (PubMed, Europe
+// PMC, OpenAlex) com ids distintos — comparar só o pmid deixa repetido passar.
+// Cada artigo é comparado por TRÊS chaves: pmid/id, DOI e título normalizado.
+function normDoi(doi) {
+  const d = String(doi || '').trim().toLowerCase().replace(/^https?:\/\/(dx\.)?doi\.org\//, '');
+  return d ? 'doi:' + d : null;
+}
+function normTitle(t) {
+  const s = String(t || '').normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+  return s.length >= 20 ? 'tt:' + s : null; // títulos muito curtos dariam falso positivo
+}
+function articleKeys(a) {
+  const pmid = String(a.pmid || a.id || '');
+  return [pmid || null, normDoi(a.doi), normTitle(a.titulo), normTitle(a.titulo_pt)].filter(Boolean);
+}
+function isRepeated(a, hist) { return articleKeys(a).some(k => hist.has(k)); }
+
+// Especialidades renomeadas: o histórico antigo foi gravado com o nome da época
+// e precisa continuar contando para a anti-repetição.
+const LEGACY_ESP_ALIASES = {
+  'Bucomaxilofacial':    ['Cirurgia'],
+  'DTM e Dor Orofacial': ['DTM'],
+};
+
+// Anti-repeat por especialidade: chaves (pmid + doi + título) de tudo que já
+// saiu nos digests compartilhados E no log por-usuário da era anterior.
+// FAIL-CLOSED: se o histórico não puder ser lido, LANÇA — quem chama pula a
+// especialidade hoje. Um dia sem e-mail é melhor que conteúdo repetido.
+async function getEspHistory(db, especialidade) {
   const cutoff = new Date(Date.now() - LOOKBACK_DAYS * 24 * 3600 * 1000)
     .toISOString().slice(0, 10);
-  try {
-    const docs = await db.query('digests_especialidade', {
-      where: { fieldFilter: { field: { fieldPath: 'especialidade' }, op: 'EQUAL', value: { stringValue: especialidade } } },
-      limit: 300,
-    });
-    const pmids = new Set();
-    for (const d of docs) {
-      if (d.date && d.date < cutoff) continue;
-      for (const p of d.pmids || []) {
-        if (p) pmids.add(String(p));
+  const nomes = [especialidade, ...(LEGACY_ESP_ALIASES[especialidade] || [])];
+  const hist = new Set();
+
+  const queryWithRetry = async (collection, esp) => {
+    let lastErr;
+    for (let attempt = 1; attempt <= 3; attempt++) {
+      try {
+        return await db.query(collection, {
+          where: { fieldFilter: { field: { fieldPath: 'especialidade' }, op: 'EQUAL', value: { stringValue: esp } } },
+          limit: 2000,
+        });
+      } catch (err) {
+        lastErr = err;
+        log.warn('[digest] history query failed, retrying', { collection, esp, attempt, err: err.message });
+        await new Promise(r => setTimeout(r, attempt * 1500));
       }
     }
-    return pmids;
-  } catch (err) {
-    log.warn('[digest] getRecentEspPmids failed', { especialidade, err: err.message });
-    return new Set();
+    throw lastErr;
+  };
+
+  for (const nome of nomes) {
+    // 1. Digests compartilhados (era atual) — pmids + doi/título dos artigos cacheados
+    const docs = await queryWithRetry('digests_especialidade', nome);
+    for (const d of docs) {
+      if (d.date && d.date < cutoff) continue;
+      for (const p of d.pmids || []) if (p) hist.add(String(p));
+      for (const a of d.artigos || []) for (const k of articleKeys(a)) hist.add(k);
+      if (d.achadoSemana) for (const k of articleKeys(d.achadoSemana)) hist.add(k);
+    }
+    // 2. Log por-usuário da era anterior (artigos_enviados) — só pmid disponível.
+    //    Best-effort: se falhar, seguimos só com o histórico principal (acima).
+    try {
+      const sent = await db.query('artigos_enviados', {
+        where: { fieldFilter: { field: { fieldPath: 'especialidade' }, op: 'EQUAL', value: { stringValue: nome } } },
+        limit: 2000,
+      });
+      for (const s of sent) if (s.pmid) hist.add(String(s.pmid));
+    } catch (err) {
+      log.warn('[digest] artigos_enviados history read failed (continuing with main history)', { esp: nome, err: err.message });
+    }
   }
+  return hist;
 }
 
 async function getCandidates(db, specialties) {
@@ -299,15 +355,33 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
 
   log.info('[digest][ESP] building shared digest', { especialidade, key });
 
-  // 1. Anti-repeat: pmids já usados nos digests recentes desta especialidade
+  // 1. Anti-repeat: chaves (pmid+doi+título) de tudo já enviado à especialidade.
+  //    FAIL-CLOSED: sem histórico legível, não montamos digest hoje — enviar às
+  //    cegas é o que gera e-mail repetido.
   let t = Date.now();
-  const sentPmids = await getRecentEspPmids(db, especialidade);
-  log.info('[digest][ESP][STAGE antirepeat]', { especialidade, sentCount: sentPmids.size, ms: Date.now() - t });
+  let hist;
+  try {
+    hist = await getEspHistory(db, especialidade);
+  } catch (err) {
+    log.error('[digest][ESP] BLOCKED — anti-repeat history unreadable, skipping specialty today', {
+      especialidade, err: err.message,
+    });
+    return null;
+  }
+  log.info('[digest][ESP][STAGE antirepeat]', { especialidade, histKeys: hist.size, ms: Date.now() - t });
 
   // 2. Candidate articles from shared collection
   t = Date.now();
   let candidates = await getCandidates(db, [especialidade]);
-  candidates = candidates.filter(a => !sentPmids.has(String(a.pmid || a.id || '')));
+  candidates = candidates.filter(a => !isRepeated(a, hist));
+  // Dedup interno: o mesmo estudo pode aparecer 2x na base (fontes diferentes).
+  const seenKeys = new Set();
+  candidates = candidates.filter(a => {
+    const ks = articleKeys(a);
+    if (ks.some(k => seenKeys.has(k))) return false;
+    ks.forEach(k => seenKeys.add(k));
+    return true;
+  });
   log.info('[digest][ESP][STAGE candidates]', { especialidade, count: candidates.length, ms: Date.now() - t });
 
   // 3. Trending Firestore fallback — SÓ artigos da MESMA especialidade.
@@ -318,9 +392,10 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
     const trending = await getTrendingArticles(db, 30);
     const trendNew = trending.filter(a =>
       a.especialidade === especialidade &&
-      !sentPmids.has(String(a.pmid || a.id || '')));
-    const allIds   = new Set(candidates.map(a => a.pmid || a.id));
-    candidates     = [...candidates, ...trendNew.filter(a => !allIds.has(a.pmid || a.id))];
+      !isRepeated(a, hist) &&
+      !articleKeys(a).some(k => seenKeys.has(k)));
+    trendNew.forEach(a => articleKeys(a).forEach(k => seenKeys.add(k)));
+    candidates = [...candidates, ...trendNew];
   }
 
   // 4. PubMed direct fallback
@@ -328,10 +403,10 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
     log.info('[digest][ESP] Firestore sparse, falling back to PubMed direct', { especialidade, found: candidates.length });
     try {
       const needed  = MAX_ARTICLES + 2;
-      const fbArts  = await pubmedFallbackArticles({ especialidade, temas: [] }, sentPmids, needed, anthropicKey);
-      const allIds  = new Set(candidates.map(a => String(a.pmid || a.id)));
-      const newArts = fbArts.filter(a => !allIds.has(String(a.pmid)));
-      candidates    = [...candidates, ...newArts];
+      const fbArts  = await pubmedFallbackArticles({ especialidade, temas: [] }, hist, needed, anthropicKey);
+      const newArts = fbArts.filter(a => !isRepeated(a, hist) && !articleKeys(a).some(k => seenKeys.has(k)));
+      newArts.forEach(a => articleKeys(a).forEach(k => seenKeys.add(k)));
+      candidates = [...candidates, ...newArts];
       log.info('[digest][ESP] PubMed fallback added', { especialidade, added: newArts.length, total: candidates.length });
     } catch (err) {
       log.warn('[digest][ESP] PubMed fallback failed', { especialidade, err: err.message });
@@ -376,8 +451,17 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
 
   // 6. Achado da Semana — gerado uma vez por especialidade por semana, cacheado no Firestore
   t = Date.now();
-  const achadoSemana = await getOrCreateAchadoSemana(db, candidates, especialidade, anthropicKey)
+  let achadoSemana = await getOrCreateAchadoSemana(db, candidates, especialidade, anthropicKey)
     .catch(err => { log.warn('[digest][ESP] getOrCreateAchadoSemana threw', { err: err.message }); return null; });
+  // Anti-repetição vale para o achado também: ele entra no e-mail apenas no DIA
+  // em que foi gerado. Nos dias seguintes já está no histórico → omitido (o
+  // cache semanal continua evitando novas chamadas de IA).
+  if (achadoSemana && isRepeated(achadoSemana, hist)) {
+    log.info('[digest][ESP] achado já enviado esta semana — omitindo do e-mail de hoje', {
+      especialidade, id: achadoSemana.pmid || achadoSemana.articleId || null,
+    });
+    achadoSemana = null;
+  }
   log.info('[digest][ESP][STAGE achado]', {
     especialidade,
     hasAchado: !!achadoSemana,
@@ -422,16 +506,31 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
     ...(achadoSemana ? [achadoSemana.pmid || achadoSemana.articleId || ''] : []),
   ].filter(Boolean);
 
-  await db.setDoc('digests_especialidade', key, {
-    especialidade,
-    date:         dateStr,
-    pmids,
-    artigos:      articles,
-    achadoSemana: achadoSemana || null,
-    editorial:    editorial || null,
-    criadoEm:     new Date().toISOString(),
-    status:       'ready',
-  }).catch(e => log.warn('[digest][ESP] cache save failed (continuing)', { especialidade, err: e.message }));
+  // FAIL-CLOSED: o histórico anti-repetição É este documento. Se não conseguirmos
+  // gravá-lo, enviar mesmo assim garante repetição amanhã — então não enviamos.
+  let persisted = false;
+  for (let attempt = 1; attempt <= 3 && !persisted; attempt++) {
+    try {
+      await db.setDoc('digests_especialidade', key, {
+        especialidade,
+        date:         dateStr,
+        pmids,
+        artigos:      articles,
+        achadoSemana: achadoSemana || null,
+        editorial:    editorial || null,
+        criadoEm:     new Date().toISOString(),
+        status:       'ready',
+      });
+      persisted = true;
+    } catch (e) {
+      log.warn('[digest][ESP] history save failed', { especialidade, attempt, err: e.message });
+      if (attempt < 3) await new Promise(r => setTimeout(r, attempt * 2000));
+    }
+  }
+  if (!persisted) {
+    log.error('[digest][ESP] BLOCKED — could not persist anti-repeat history, skipping specialty today', { especialidade });
+    return null;
+  }
 
   return { articles, achadoSemana, editorial };
 }
@@ -447,7 +546,23 @@ async function _sendUserDigest(user, espDigest, db, resendKey) {
   const processStart = Date.now();
   const { articles: selected, achadoSemana, editorial } = espDigest;
 
-  // 1. Build email
+  // 1. Curadoria Premium: +2 artigos pelas preferências (assinantes; best-effort)
+  let premiumExtras = [];
+  if (isPremium(user) && Array.isArray(espDigest.premiumPool) && espDigest.premiumPool.length) {
+    try {
+      premiumExtras = await pickPremiumExtras(db, user, espDigest.premiumPool);
+      for (const extra of premiumExtras) await ensureResumoCompleto(db, extra);
+      log.info('[digest][PREMIUM] extras selected', {
+        email, count: premiumExtras.length,
+        temas: premiumExtras.map(e => e._premiumTema || '(recente)'),
+      });
+    } catch (err) {
+      log.warn('[digest][PREMIUM] extras failed — base email proceeds', { email, err: err.message });
+      premiumExtras = [];
+    }
+  }
+
+  // 2. Build email
   const digestId   = crypto.randomUUID();
   const unsubToken = buildUnsubscribeToken(email);
 
@@ -457,6 +572,7 @@ async function _sendUserDigest(user, espDigest, db, resendKey) {
     selected,
     { digestId, baseUrl: BASE_URL, unsubscribeToken: unsubToken, editorial, achadoSemana,
       edicaoUrl: buildEdicaoUrl(BASE_URL, email),
+      premiumExtras,
       // Publicidade contextual só para o plano Gratuito — Premium não vê anúncio
       anuncio: isPremium(user) ? null : (espDigest.anuncio || null) }
   );
@@ -501,10 +617,14 @@ async function _sendUserDigest(user, espDigest, db, resendKey) {
       pmids: [
         ...selected.map(a => a.pmid || a.id || ''),
         ...(achadoSemana ? [achadoSemana.pmid || achadoSemana.articleId || ''] : []),
+        ...premiumExtras.map(a => a.pmid || a.id || ''),
       ].filter(Boolean),
       resendMessageId,
     }),
     saveSentLog(db, email, achadoSemana ? [...selected, achadoSemana] : selected, especialidade),
+    // Extras vão para o histórico PESSOAL (coleção própria) — nunca para o
+    // histórico compartilhado da especialidade.
+    savePremiumSentLog(db, email, premiumExtras, especialidade),
   ]);
 
   if (digestResult.status  === 'rejected') log.error('[digest][STAGE audit] saveDigest failed', { email, digestId, err: digestResult.reason?.message });
@@ -515,6 +635,126 @@ async function _sendUserDigest(user, espDigest, db, resendKey) {
   log.info('[digest] COMPLETE', { email, result: 'sent', digestId, totalMs });
 
   return 'sent';
+}
+
+// ── Curadoria Premium: +2 artigos pelas preferências do assinante ─────────────
+// O assinante recebe os MESMOS 3 artigos (com áudio) do plano Gratuito, mais
+// 2 extras escolhidos pelos TEMAS dele, com resumo aprofundado (Sonnet) e
+// layout distinto no e-mail. O áudio continua por especialidade (invariante de
+// custo) — a personalização Premium é em texto.
+const PREMIUM_EXTRAS = 2;
+
+// Pool por especialidade (calculado UMA vez por grupo): candidatos frescos que
+// NÃO saíram no digest de hoje nem em nenhum anterior. Best-effort: sem pool,
+// o e-mail base segue normal (extras são bônus, nunca bloqueiam o envio).
+async function buildPremiumPool(db, especialidade) {
+  try {
+    const hist = await getEspHistory(db, especialidade); // inclui o digest de HOJE (já persistido)
+    let pool = await getCandidates(db, [especialidade]);
+    pool = pool.filter(a => !isRepeated(a, hist));
+    const seen = new Set();
+    pool = pool.filter(a => {
+      const ks = articleKeys(a);
+      if (ks.some(k => seen.has(k))) return false;
+      ks.forEach(k => seen.add(k));
+      return true;
+    });
+    return pool.slice(0, 40);
+  } catch (err) {
+    log.warn('[digest][PREMIUM] pool build failed — extras skipped today', { especialidade, err: err.message });
+    return [];
+  }
+}
+
+function normTema(s) {
+  return String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+}
+
+// Pontua um artigo contra os temas do assinante: match exato de tema pesa mais;
+// sobreposição de termos do tema com título/resumo completa.
+function scoreForTemas(article, temas) {
+  const texto = normTema((article.titulo_pt || article.titulo || '') + ' ' + (article.resumo_pt || '') + ' ' + (article.tema || ''));
+  let best = 0, bestTema = '';
+  for (const tema of temas) {
+    let s = 0;
+    const nt = normTema(tema);
+    if (article.tema && normTema(article.tema) === nt) s += 5;
+    for (const w of nt.split(/[^a-z0-9]+/).filter(w => w.length > 3)) {
+      if (texto.includes(w)) s += 1;
+    }
+    if (s > best) { best = s; bestTema = tema; }
+  }
+  return { score: best, tema: bestTema };
+}
+
+// Escolhe os extras do usuário: pelos temas quando há match; completa com os
+// mais recentes do pool. Exclui o que ESTE assinante já recebeu como extra.
+async function pickPremiumExtras(db, user, pool) {
+  if (!pool.length) return [];
+
+  let jaRecebidas = new Set();
+  try {
+    const sent = await db.query('artigos_enviados_premium', {
+      where: { fieldFilter: { field: { fieldPath: 'email' }, op: 'EQUAL', value: { stringValue: user.email } } },
+      limit: 1000,
+    });
+    for (const s of sent) for (const k of s.keys || [s.pmid].filter(Boolean)) jaRecebidas.add(String(k));
+  } catch (err) {
+    // Fail-closed no que depende de histórico: sem ler o histórico pessoal,
+    // não arriscamos repetir — o assinante fica sem extras só hoje.
+    log.warn('[digest][PREMIUM] personal history unreadable — extras skipped', { email: user.email, err: err.message });
+    return [];
+  }
+
+  const disponiveis = pool.filter(a => !articleKeys(a).some(k => jaRecebidas.has(k)));
+  const temas = Array.isArray(user.temas) ? user.temas.filter(Boolean) : [];
+
+  const ranked = disponiveis
+    .map(a => ({ a, m: scoreForTemas(a, temas) }))
+    .sort((x, y) => y.m.score - x.m.score || ((y.a.data || '') > (x.a.data || '') ? 1 : -1));
+
+  const extras = [];
+  for (const { a, m } of ranked) {
+    if (extras.length >= PREMIUM_EXTRAS) break;
+    extras.push({ ...a, _premiumTema: m.score > 0 ? m.tema : '' });
+  }
+  return extras;
+}
+
+// Resumo aprofundado (Sonnet + validador numérico) com cache no próprio artigo:
+// gerado no máximo UMA vez por artigo, reutilizado por todos os assinantes.
+async function ensureResumoCompleto(db, article) {
+  if (article.resumo_completo) return article;
+  try {
+    const texto = await generateResumoCompleto(article);
+    if (texto) {
+      article.resumo_completo = texto; // atualiza o objeto do pool (reuso no mesmo run)
+      const docId = String(article.id || article.pmid || '');
+      if (docId) {
+        await db.updateDoc('artigos', docId, { resumo_completo: texto })
+          .catch(e => log.warn('[digest][PREMIUM] resumo_completo cache save failed', { id: docId, err: e.message }));
+      }
+    }
+  } catch (err) {
+    log.warn('[digest][PREMIUM] generateResumoCompleto failed', { pmid: article.pmid, err: err.message });
+  }
+  return article; // sem resumo rico, o card usa o resumo_pt normal
+}
+
+// Registra os extras no histórico pessoal do assinante (coleção separada — o
+// histórico COMPARTILHADO da especialidade não é poluído, senão um extra de um
+// assinante sumiria do digest de todos).
+async function savePremiumSentLog(db, email, extras, especialidade) {
+  const now = new Date().toISOString();
+  for (const art of extras) {
+    await db.addDoc('artigos_enviados_premium', {
+      email,
+      pmid:          String(art.pmid || art.id || ''),
+      keys:          articleKeys(art),
+      especialidade: especialidade || '',
+      data:          now,
+    }).catch(e => log.warn('[digest][PREMIUM] savePremiumSentLog failed', { email, err: e.message }));
+  }
 }
 
 // ── Reliability wrapper ───────────────────────────────────────────────────────
@@ -697,6 +937,15 @@ async function main() {
 
       // Publicidade contextual da especialidade (1 consulta por grupo; best-effort)
       espDigest.anuncio = await getActiveAd(db, 'email', especialidade).catch(() => null);
+
+      // Pool da Curadoria Premium — UMA vez por especialidade, e só se o grupo
+      // tem pelo menos um assinante (evita queries à toa).
+      espDigest.premiumPool = groupUsers.some(u => isPremium(u))
+        ? await buildPremiumPool(db, especialidade)
+        : [];
+      if (espDigest.premiumPool.length) {
+        console.log(`[PREMIUM] ${especialidade} — pool de ${espDigest.premiumPool.length} candidatos para extras`);
+      }
 
       // ── BATCH PROCESSING within the specialty ──────────────────────────────
       const batches = [];

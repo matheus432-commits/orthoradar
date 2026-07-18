@@ -43,6 +43,25 @@ function formatDate() {
   });
 }
 
+const MESES_PT = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
+
+// Formata a DATA DE PUBLICAÇÃO do artigo em pt-BR, preservando a granularidade
+// disponível: "15 mar 2024" (dia), "mar 2024" (mês) ou "2024" (só ano). Aceita o
+// campo dataPublicacao (ISO "YYYY-MM-DD" / "YYYY-MM" / "YYYY") e cai para o ano.
+// Parsing manual evita fuso horário (new Date('2024-03') vira UTC e pode recuar 1 mês).
+function formatPublicationDate(article) {
+  const raw = String(article.dataPublicacao || '').trim();
+  const m = raw.match(/^(\d{4})(?:-(\d{2}))?(?:-(\d{2}))?/);
+  if (m) {
+    const [, y, mo, d] = m;
+    if (d && mo)  return `${parseInt(d, 10)} ${MESES_PT[parseInt(mo, 10) - 1]} ${y}`;
+    if (mo)       return `${MESES_PT[parseInt(mo, 10) - 1]} ${y}`;
+    return y;
+  }
+  const year = String(article.year || '').trim();
+  return /^\d{4}$/.test(year) ? year : '';
+}
+
 // Creates a hash used to identify the user in tracking URLs without exposing email
 function emailHash(email) {
   return crypto.createHash('sha256').update(String(email)).digest('hex').slice(0, 16);
@@ -244,7 +263,7 @@ function articleCard(article, index, total, opts) {
   // resumo: prefer PT → raw English abstract → empty
   const resumo       = esc(truncate(article.resumo_pt || article._rawAbstract || article.abstract || '', 500));
   const journal      = esc(article.journal || '');
-  const year         = esc(String(article.year || ''));
+  const pubDate      = esc(formatPublicationDate(article));
   const tempoLeitura = article.tempo_leitura || 3;
   const nivel        = esc(article.nivel_evidencia || 'Revisão Narrativa');
   const isOA         = article.isOpenAccess ? '&#x1F513;&nbsp;' : '';
@@ -272,7 +291,7 @@ function articleCard(article, index, total, opts) {
         <span style="display:inline-block;background:${badge.bg};color:${badge.color};border:1px solid ${badge.border};font-size:10px;font-weight:600;padding:2px 9px;border-radius:100px;letter-spacing:0.4px;">${nivel}</span>
       </td>
       <td align="right" style="font-size:11px;color:#9E988E;white-space:nowrap;">
-        ${isOA}${tempoLeitura}&nbsp;min
+        ${isOA}${pubDate ? `${pubDate}&nbsp;&middot;&nbsp;` : ''}${tempoLeitura}&nbsp;min
       </td>
     </tr>
   </table>
@@ -307,8 +326,8 @@ function articleCard(article, index, total, opts) {
     <tr>
       <td style="font-size:12px;color:#9E988E;">
         ${journal
-          ? `<span style="color:#6B665E;font-weight:500;">${journal}</span>&nbsp;&middot;&nbsp;`
-          : ''}${year}
+          ? `<span style="color:#6B665E;font-weight:500;">${journal}</span>${pubDate ? '&nbsp;&middot;&nbsp;' : ''}`
+          : ''}${pubDate}
       </td>
       <td align="right">
         <a href="${esc(pubmedDirect)}"
@@ -323,6 +342,107 @@ function articleCard(article, index, total, opts) {
 </td></tr>`;
 }
 
+// ── Curadoria Premium (assinantes) ───────────────────────────────────────────
+// Card com layout DISTINTO dos 3 regulares: fundo lilás, borda violeta e selo
+// "Exclusivo assinante" — o leitor entende na hora que aquele artigo só chegou
+// porque ele assina. O resumo usa o texto RICO (resumo_completo, Sonnet com
+// validador numérico) quando disponível, bem mais longo que o dos cards comuns.
+function premiumArticleCard(article, opts) {
+  const { baseUrl, digestId, email } = opts;
+  const pmid    = String(article.pmid || article.id || '').trim();
+  const badge   = BADGE_STYLE[article.nivel_evidencia] || BADGE_STYLE['Revisão Narrativa'];
+  const titulo  = esc(truncate(article.titulo_pt || article.titulo || article.title || 'Sem título', 140));
+  const resumo  = esc(truncate(article.resumo_completo || article.resumo_pt || article.abstract || '', 1400));
+  const impacto = esc(truncate(article.impacto_pratico || '', 300));
+  const journal = esc(article.journal || '');
+  const pubDate = esc(formatPublicationDate(article));
+  const nivel   = esc(article.nivel_evidencia || 'Revisão Narrativa');
+  const tema    = esc(article._premiumTema || '');
+
+  const pubmedDirect = resolveArticleUrl(article, baseUrl);
+  const trackedUrl   = trackClick(baseUrl, digestId, pmid, email, pubmedDirect, article.tema || article.especialidade);
+
+  return `
+<tr><td style="padding:0 36px 18px;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+         style="background:#F6F3FB;border:1px solid #D8CFEA;border-left:3px solid #7C5CBF;border-radius:6px;">
+    <tr><td style="padding:22px 24px;">
+
+      <!-- Selo exclusivo + tema que motivou a escolha -->
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:12px;">
+        <tr>
+          <td style="vertical-align:middle;">
+            <span style="display:inline-block;background:#7C5CBF;color:#FFFFFF;font-size:9.5px;font-weight:700;
+                         padding:3px 10px;border-radius:100px;letter-spacing:1px;text-transform:uppercase;
+                         font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">&#9733;&nbsp;Exclusivo assinante</span>
+            <span style="display:inline-block;background:${badge.bg};color:${badge.color};border:1px solid ${badge.border};
+                         font-size:10px;font-weight:600;padding:2px 9px;border-radius:100px;letter-spacing:0.4px;margin-left:6px;">${nivel}</span>
+          </td>
+          <td align="right" style="font-size:11px;color:#8F86A8;white-space:nowrap;
+                                   font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">${pubDate}</td>
+        </tr>
+      </table>
+      ${tema ? `
+      <div style="font-size:10.5px;font-weight:700;color:#7C5CBF;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;
+                  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">Pelo seu tema: ${tema}</div>` : `
+      <div style="font-size:10.5px;font-weight:700;color:#7C5CBF;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;
+                  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">Escolhido para voc&ecirc;</div>`}
+
+      <h2 style="margin:0 0 12px;font-size:18px;font-weight:700;color:#241C3A;line-height:1.35;
+                 font-family:Georgia,'Times New Roman',serif;">
+        <a href="${esc(pubmedDirect)}" style="color:#241C3A;text-decoration:none;">${titulo}</a>
+      </h2>
+
+      ${impacto ? `
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:12px;">
+        <tr><td style="border-left:2px solid #7C5CBF;padding:8px 14px;">
+          <div style="font-size:10px;font-weight:700;color:#7C5CBF;letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;
+                      font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">Relev&acirc;ncia Cl&iacute;nica</div>
+          <div style="font-size:13.5px;color:#443C5C;line-height:1.65;
+                      font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">${impacto}</div>
+        </td></tr>
+      </table>` : ''}
+
+      ${resumo ? `
+      <p style="margin:0 0 14px;font-size:13.5px;color:#524A6B;line-height:1.8;
+                font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">${resumo}</p>` : ''}
+
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td style="font-size:12px;color:#8F86A8;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">
+            ${journal ? `<span style="color:#524A6B;font-weight:500;">${journal}</span>` : ''}
+          </td>
+          <td align="right">
+            <a href="${esc(pubmedDirect)}"
+               style="font-size:12px;color:#7C5CBF;text-decoration:none;font-weight:600;
+                      font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">Abrir artigo&nbsp;&rarr;</a>
+          </td>
+        </tr>
+      </table>
+
+    </td></tr>
+  </table>
+</td></tr>`;
+}
+
+// Cabeçalho da seção Premium — separa visualmente dos 3 artigos regulares.
+function premiumSectionHeader(count) {
+  return `
+<tr><td style="padding:28px 36px 14px;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+    <tr>
+      <td style="border-top:2px solid #7C5CBF;padding-top:14px;">
+        <span style="font-size:11px;font-weight:700;color:#7C5CBF;letter-spacing:2px;text-transform:uppercase;
+                     font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">&#9733;&nbsp;Curadoria Premium</span>
+        <span style="font-size:11px;color:#8F86A8;margin-left:8px;
+                     font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">
+          +${count} artigo${count === 1 ? '' : 's'} selecionado${count === 1 ? '' : 's'} pelas suas prefer&ecirc;ncias &middot; com resumo aprofundado</span>
+      </td>
+    </tr>
+  </table>
+</td></tr>`;
+}
+
 // ── Main builder ──────────────────────────────────────────────────────────────
 
 /**
@@ -330,7 +450,7 @@ function articleCard(article, index, total, opts) {
  *
  * @param {Object} user      - { nome, email, especialidade }
  * @param {Array}  articles  - curated article list (fixo: 3)
- * @param {Object} opts      - { digestId, baseUrl, siteUrl, unsubscribeToken, editorial? }
+ * @param {Object} opts      - { digestId, baseUrl, siteUrl, unsubscribeToken, editorial?, premiumExtras? }
  * @returns {{ html: string, subject: string }}
  */
 // ── Achado da Semana card ─────────────────────────────────────────────────────
@@ -341,7 +461,7 @@ function achadoSemanaCard(achado, opts) {
   const pmid        = String(achado.pmid || achado.articleId || '').trim();
   const titulo      = esc(truncate(achado.titulo_pt || achado.titulo || 'Sem título', 160));
   const journal     = esc(achado.journal || '');
-  const year        = esc(String(achado.year || ''));
+  const pubDate     = esc(formatPublicationDate(achado));
   const nivel       = esc(achado.nivel_evidencia || '');
   const isOA        = achado.isOpenAccess ? '<span style="color:#B08968;">&#x1F513;</span>&nbsp;' : '';
 
@@ -394,7 +514,7 @@ function achadoSemanaCard(achado, opts) {
     <!-- Journal + ano -->
     <div style="font-size:11.5px;color:#9E988E;margin-bottom:18px;
                 font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">
-      ${isOA}${journal}${journal && year ? '&nbsp;&middot;&nbsp;' : ''}${year}
+      ${isOA}${journal}${journal && pubDate ? '&nbsp;&middot;&nbsp;' : ''}${pubDate}
     </div>
 
     <!-- Nota editorial com borda dourada -->
@@ -449,6 +569,7 @@ function buildDigestEmail(user, articles, opts) {
     newBadges:       newBadgesList     = [],
     edicaoUrl        = '',
     anuncio          = null, // publicidade contextual (plano Gratuito) — sempre identificada
+    premiumExtras    = [],   // artigos extras do assinante (curadoria por tema, layout distinto)
   } = opts;
 
   const siteUrl      = baseUrl;
@@ -514,6 +635,11 @@ function buildDigestEmail(user, articles, opts) {
   const cardsHtml = articles
     .map((art, i) => articleCard(art, i, articles.length, { baseUrl, dashboardUrl, digestId, email: user.email }))
     .join('\n');
+
+  const premiumHtml = premiumExtras.length
+    ? premiumSectionHeader(premiumExtras.length) +
+      premiumExtras.map(a => premiumArticleCard(a, { baseUrl, digestId, email: user.email })).join('\n')
+    : '';
 
   const html = `<!DOCTYPE html>
 <html lang="pt-BR" xmlns="http://www.w3.org/1999/xhtml">
@@ -590,6 +716,9 @@ function buildDigestEmail(user, articles, opts) {
 
     <!-- ══ ARTICLES ══ -->
     ${cardsHtml}
+
+    <!-- ══ CURADORIA PREMIUM (assinantes) ══ -->
+    ${premiumHtml}
 
     ${anuncio && (anuncio.texto || anuncio.imagemUrl) ? `
     <!-- ══ PUBLICIDADE (plano Gratuito, sempre identificada) ══ -->

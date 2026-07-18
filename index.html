@@ -12,6 +12,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
 <meta name="apple-mobile-web-app-title" content="OdontoFeed"/>
 <link rel="apple-touch-icon" href="/icons/icon-192.png"/>
+<link rel="icon" type="image/svg+xml" href="/icons/favicon.svg"/>
 <link rel="icon" type="image/png" sizes="96x96" href="/icons/icon-96.png"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -61,7 +62,9 @@ header{position:sticky;top:0;z-index:200;background:rgba(255,253,249,0.94);backd
 .ticker-track{display:flex;gap:0;animation:ticker 42s linear infinite;white-space:nowrap;}
 .ticker-track:hover{animation-play-state:paused;}
 @keyframes ticker{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
-.ticker-item{display:inline-flex;align-items:center;gap:6px;padding:0 20px;font-size:12px;color:var(--text-2);border-right:1px solid var(--border);cursor:default;}
+.ticker-item{display:inline-flex;align-items:center;gap:6px;padding:0 20px;font-size:12px;color:var(--text-2);border-right:1px solid var(--border);cursor:pointer;transition:color .15s;}
+.ticker-item:hover{color:var(--primary);}
+a.ticker-item{text-decoration:none;}
 .ticker-tag{font-size:9.5px;font-weight:700;padding:1px 6px;border-radius:4px;text-transform:uppercase;letter-spacing:.4px;}
 .t-meta{background:var(--green-bg);color:var(--green);}
 .t-rct{background:var(--indigo-bg);color:var(--indigo);}
@@ -346,8 +349,8 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:44px 52p
 <!-- HEADER TOP STRIP -->
 <div class="hd-top">
   <div style="display:flex;align-items:center;gap:16px;">
-    <span class="hd-live">Atualizado hoje às 7h</span>
-    <span>+2.300 artigos resumidos · 10 especialidades</span>
+    <span class="hd-live">Atualizado hoje</span>
+    <span>+2.300 artigos resumidos · 11 especialidades</span>
   </div>
   <div class="hd-top-meta">
     <span>📍 PubMed · Europe PMC · OpenAlex</span>
@@ -378,7 +381,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:44px 52p
   <div class="ticker-inner">
     <div class="ticker-label">Em alta</div>
     <div style="overflow:hidden;flex:1;">
-      <div class="ticker-track">
+      <div class="ticker-track" id="tickerTrack">
         <span class="ticker-item"><span class="ticker-tag t-meta">Meta-análise</span>Alinhadores vs. brackets: eficácia equivalente em Classe II após 18 meses</span>
         <span class="ticker-item"><span class="ticker-tag t-rct">RCT</span>Carga imediata: sobrevida de 98,2% com ISQ ≥ 65 em 3 anos</span>
         <span class="ticker-item"><span class="ticker-tag t-rs">Rev. Sistemática</span>Peri-implantite: incidência de 22,6% após 10 anos</span>
@@ -405,7 +408,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:44px 52p
   <div class="hero-left">
     <div class="hero-kicker">Inteligência científica para dentistas</div>
     <h1>Construa seu<br><em>segundo cérebro</em><br>científico.</h1>
-    <p class="hero-sub">Todos os dias às 7h: 3 artigos da sua especialidade resumidos em português, para ler ou <strong>ouvir em podcast</strong> — grátis. E, com o tempo, uma biblioteca inteligente que aprende com você.</p>
+    <p class="hero-sub">Todos os dias, prontos quando você acordar: 3 artigos da sua especialidade resumidos em português, para ler ou <strong>ouvir em podcast</strong> — grátis. E, com o tempo, uma biblioteca inteligente que aprende com você.</p>
     <div class="hero-ctas">
       <button class="btn-hero" onclick="document.getElementById('cadastro').scrollIntoView({behavior:'smooth'})">Criar conta grátis →</button>
       <button class="btn-hero-ghost" onclick="document.getElementById('email-preview').scrollIntoView({behavior:'smooth'})">Ver exemplo de digest</button>
@@ -413,7 +416,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:44px 52p
     <div class="hero-proof">
       <div class="hero-proof-item"><span class="hp-num">3</span><span class="hp-lbl">Artigos por dia</span></div>
       <div class="hero-proof-item"><span class="hp-num" id="statArtigos">2.300+</span><span class="hp-lbl">Artigos resumidos</span></div>
-      <div class="hero-proof-item"><span class="hp-num">10</span><span class="hp-lbl">Especialidades CFO</span></div>
+      <div class="hero-proof-item"><span class="hp-num">11</span><span class="hp-lbl">Especialidades CFO</span></div>
       <div class="hero-proof-item"><span class="hp-num">R$0</span><span class="hp-lbl">Para começar</span></div>
     </div>
   </div>
@@ -442,7 +445,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:44px 52p
         <div class="dw-art-meta">Journal of Orthodontics · 2024 · 3 min leitura</div>
       </div>
       <div class="dw-footer">
-        <div class="dw-footer-l" id="statFooter">✉ Enviado toda manhã às 7h, direto no seu e-mail</div>
+        <div class="dw-footer-l" id="statFooter">✉ Enviado todos os dias, direto no seu e-mail</div>
         <div class="dw-footer-r" onclick="document.getElementById('cadastro').scrollIntoView({behavior:'smooth'})">Receber o meu →</div>
       </div>
     </div>
@@ -542,16 +545,16 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:44px 52p
   <div class="pipe-inner">
     <div class="pipe-hd">
       <div class="pipe-kicker">Como funciona</div>
-      <h2>Da publicação científica ao seu inbox em 8 horas</h2>
-      <p class="pipe-sub">Um pipeline automatizado que transforma publicações científicas em inteligência clínica aplicada, todo dia.</p>
+      <h2>Da publicação científica à sua rotina, todos os dias</h2>
+      <p class="pipe-sub">Um pipeline automatizado que roda de madrugada e transforma publicações científicas em inteligência clínica aplicada — pronto antes de você acordar.</p>
     </div>
     <div class="pipe-flow">
-      <div class="pipe-step"><div class="pipe-card"><div class="ps-icon">🔬</div><div class="ps-lbl">Fontes</div><div class="ps-name">PubMed &amp; Europe PMC</div><div class="ps-desc">Varredura diária em 3 bases indexadas com +35M de artigos</div><div class="ps-time">02:00 UTC</div></div></div>
-      <div class="pipe-step"><div class="pipe-card"><div class="ps-icon">🧠</div><div class="ps-lbl">Enriquecimento</div><div class="ps-name">Claude Haiku (IA)</div><div class="ps-desc">Detecta nível de evidência, extrai achados e traduz para português</div><div class="ps-time">02:00 – 02:30</div></div></div>
-      <div class="pipe-step"><div class="pipe-card"><div class="ps-icon">⚖️</div><div class="ps-lbl">Curadoria</div><div class="ps-name">Algoritmo editorial</div><div class="ps-desc">Seleciona 3 artigos priorizando evidência, recência e seu perfil</div><div class="ps-time">09:30 – 10:00</div></div></div>
-      <div class="pipe-step"><div class="pipe-card"><div class="ps-icon">✍️</div><div class="ps-lbl">Editorial</div><div class="ps-name">Nota editorial IA</div><div class="ps-desc">Contextualização clínica conectando os artigos com a prática</div><div class="ps-time">10:00 – 10:15</div></div></div>
-      <div class="pipe-step"><div class="pipe-card"><div class="ps-icon">✅</div><div class="ps-lbl">Validação</div><div class="ps-name">30+ verificações</div><div class="ps-desc">Gate obrigatório de estrutura, consistência editorial e qualidade</div><div class="ps-time">10:15</div></div></div>
-      <div class="pipe-step"><div class="pipe-card"><div class="ps-icon">📬</div><div class="ps-lbl">Entrega</div><div class="ps-name">Inbox às 7h BRT</div><div class="ps-desc">Digest personalizado por especialidade e histórico de leitura</div><div class="ps-time" style="color:var(--green);">07:00 BRT · todo dia</div></div></div>
+      <div class="pipe-step"><div class="pipe-card"><div class="ps-icon">🔬</div><div class="ps-lbl">Fontes</div><div class="ps-name">PubMed &amp; Europe PMC</div><div class="ps-desc">Varredura diária em 3 bases indexadas com +35M de artigos</div><div class="ps-time">Etapa 1</div></div></div>
+      <div class="pipe-step"><div class="pipe-card"><div class="ps-icon">🧠</div><div class="ps-lbl">Enriquecimento</div><div class="ps-name">Claude Haiku (IA)</div><div class="ps-desc">Detecta nível de evidência, extrai achados e traduz para português</div><div class="ps-time">Etapa 2</div></div></div>
+      <div class="pipe-step"><div class="pipe-card"><div class="ps-icon">⚖️</div><div class="ps-lbl">Curadoria</div><div class="ps-name">Algoritmo editorial</div><div class="ps-desc">Seleciona 3 artigos priorizando evidência, recência e seu perfil</div><div class="ps-time">Etapa 3</div></div></div>
+      <div class="pipe-step"><div class="pipe-card"><div class="ps-icon">✍️</div><div class="ps-lbl">Editorial</div><div class="ps-name">Nota editorial IA</div><div class="ps-desc">Contextualização clínica conectando os artigos com a prática</div><div class="ps-time">Etapa 4</div></div></div>
+      <div class="pipe-step"><div class="pipe-card"><div class="ps-icon">✅</div><div class="ps-lbl">Validação</div><div class="ps-name">30+ verificações</div><div class="ps-desc">Gate obrigatório de estrutura, consistência editorial e qualidade</div><div class="ps-time">Etapa 5</div></div></div>
+      <div class="pipe-step"><div class="pipe-card"><div class="ps-icon">📬</div><div class="ps-lbl">Entrega</div><div class="ps-name">Pronto quando você acordar</div><div class="ps-desc">Digest personalizado por especialidade e histórico de leitura, no seu e-mail</div><div class="ps-time" style="color:var(--green);">Todas as manhãs</div></div></div>
     </div>
   </div>
 </div>
@@ -599,7 +602,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:44px 52p
 <div class="esp-outer" id="especialidades">
   <div class="esp-inner">
     <div class="esp-hd">
-      <span class="esp-title">10 especialidades cobertas</span>
+      <span class="esp-title">11 especialidades cobertas</span>
       <span class="esp-sub">Reconhecidas pelo CFO · Artigos novos diariamente</span>
     </div>
     <div class="esp-grid">
@@ -613,6 +616,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:44px 52p
       <div class="esp-card" onclick="document.getElementById('cadastro').scrollIntoView({behavior:'smooth'})"><span class="esp-icon">👶</span><div><div class="esp-name">Odontopediatria</div><div class="esp-count">11 artigos este mês</div></div></div>
       <div class="esp-card" onclick="document.getElementById('cadastro').scrollIntoView({behavior:'smooth'})"><span class="esp-icon">🧠</span><div><div class="esp-name">DTM e Dor</div><div class="esp-count">9 artigos este mês</div></div></div>
       <div class="esp-card" onclick="document.getElementById('cadastro').scrollIntoView({behavior:'smooth'})"><span class="esp-icon">📷</span><div><div class="esp-name">Radiologia</div><div class="esp-count">8 artigos este mês</div></div></div>
+      <div class="esp-card" onclick="document.getElementById('cadastro').scrollIntoView({behavior:'smooth'})"><span class="esp-icon">👄</span><div><div class="esp-name">Estomatologia</div><div class="esp-count">7 artigos este mês</div></div></div>
     </div>
   </div>
 </div>
@@ -638,6 +642,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:44px 52p
       <div style="font-size:24px;font-weight:800;margin-bottom:12px;color:#fff;">R$ 59,90<span style="font-size:12px;color:#C9BFE2;font-weight:500;"> /mês</span></div>
       <ul style="list-style:none;font-size:13px;color:#D8D0EC;line-height:2;">
         <li>✓ Tudo do Gratuito, <strong style="color:#fff;">sem publicidade</strong></li>
+        <li>✓ <strong style="color:#fff;">5 artigos por dia</strong> — os 3 da edição + 2 exclusivos escolhidos pelos seus temas, com resumo aprofundado</li>
         <li>✓ <strong style="color:#fff;">Biblioteca científica pessoal</strong> — salve artigos, resumos e podcasts em coleções, com notas e busca</li>
         <li>✓ <strong style="color:#fff;">Preferências por tema</strong> — curadoria personalizada dentro da sua especialidade</li>
         <li>✓ <strong style="color:#fff;">Wakai</strong> — sua IA pessoal, que responde com base em tudo que você já leu e ouviu</li>
@@ -653,7 +658,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:44px 52p
   <div class="cta-inner">
     <div class="cta-left">
       <div class="cta-kicker">Comece hoje · É gratuito</div>
-      <h2>Configure em 2 minutos.<br>Receba <em>amanhã às 7h</em>.</h2>
+      <h2>Configure em 2 minutos.<br>Receba <em>já amanhã de manhã</em>.</h2>
       <p>Escolha sua especialidade e deixe o OdontoFeed trazer a ciência até você — sem garimpar a literatura.</p>
       <div class="cta-benefits">
         <div class="cb">3 artigos por dia, na sua especialidade</div>
@@ -685,6 +690,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:44px 52p
           <div class="spec-opt" data-value="Odontopediatria" onclick="toggleSpec(this)"><span class="spec-opt-icon">👶</span><span class="spec-opt-label">Odontopediatria</span><span class="spec-check">✓</span></div>
           <div class="spec-opt" data-value="DTM e Dor Orofacial" onclick="toggleSpec(this)"><span class="spec-opt-icon">🧠</span><span class="spec-opt-label">DTM e Dor Orofacial</span><span class="spec-check">✓</span></div>
           <div class="spec-opt" data-value="Radiologia" onclick="toggleSpec(this)"><span class="spec-opt-icon">📷</span><span class="spec-opt-label">Radiologia</span><span class="spec-check">✓</span></div>
+          <div class="spec-opt" data-value="Estomatologia" onclick="toggleSpec(this)"><span class="spec-opt-icon">👄</span><span class="spec-opt-label">Estomatologia</span><span class="spec-check">✓</span></div>
         </div>
         <div class="spec-select-hint" id="specHint">Selecione <strong>sua especialidade</strong> para continuar.</div>
         <button class="btn btn-grad" id="toStep2" disabled onclick="goToStep(2)" style="width:100%;padding:14px;">Próximo: criar conta →</button>
@@ -722,7 +728,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:44px 52p
         <p>Bem-vindo ao OdontoFeed, <strong id="successName"></strong>! Fique de olho no seu e-mail.</p>
         <div class="success-info">
           <div class="success-info-item"><span class="sii-icon">📬</span><div class="sii-txt"><strong>Verifique sua caixa de entrada</strong><br/>Enviamos confirmação para <strong id="successEmail"></strong>.</div></div>
-          <div class="success-info-item"><span class="sii-icon">🌅</span><div class="sii-txt"><strong>Primeiro artigo amanhã às 7h</strong><br/>Após confirmar o e-mail, você receberá sua primeira curadoria.</div></div>
+          <div class="success-info-item"><span class="sii-icon">🌅</span><div class="sii-txt"><strong>Primeiro artigo amanhã de manhã</strong><br/>Após confirmar o e-mail, você acorda com sua primeira curadoria pronta.</div></div>
           <div class="success-info-item"><span class="sii-icon">🦷</span><div class="sii-txt"><strong>Especialidade cadastrada</strong><br/><span id="successSpecs"></span></div></div>
           <div class="success-info-item"><span class="sii-icon">📊</span><div class="sii-txt"><strong>Curadoria diária da sua especialidade</strong><br/>Todos os dias selecionamos e resumimos os estudos mais relevantes da sua área — direto no seu e-mail.</div></div>
         </div>
@@ -736,7 +742,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:44px 52p
   <div class="footer-grid">
     <div>
       <div class="footer-logo">OdontoFeed<em>.</em></div>
-      <p class="footer-desc">Portal de inteligência científica para dentistas brasileiros. Curadoria diária do PubMed, resumida em português, entregue toda manhã às 7h.</p>
+      <p class="footer-desc">Portal de inteligência científica para dentistas brasileiros. Curadoria diária do PubMed, resumida em português, pronta no seu e-mail todas as manhãs.</p>
       <p class="footer-disclaimer">Os resumos são gerados por IA com validação automatizada. Não substituem a leitura do artigo original nem orientação clínica individualizada.</p>
     </div>
     <div>
@@ -817,6 +823,15 @@ document.getElementById('feedDate').textContent = new Date().toLocaleDateString(
     if(l.includes('coorte')||l.includes('cohort')) return 'ev-cc';
     return 'ev-iv';
   }
+  // Tag do ticker ("Em alta") a partir do nível de evidência.
+  function tkTag(n){
+    const l=String(n||'').toLowerCase();
+    if(l.includes('meta')) return ['t-meta','Meta-análise'];
+    if(l.includes('sistemát')||l.includes('sistemat')) return ['t-rs','Rev. Sistemática'];
+    if(l.includes('rct')||l.includes('randomiz')) return ['t-rct','RCT'];
+    if(l.includes('coorte')||l.includes('cohort')) return ['t-cc','Coorte'];
+    return ['t-rs','Estudo'];
+  }
   try {
     const res = await fetch('/.netlify/functions/get-public-articles');
     if(!res.ok) return;
@@ -827,6 +842,11 @@ document.getElementById('feedDate').textContent = new Date().toLocaleDateString(
     const side = artigos.slice(1,4);
     const grid = artigos.slice(4,8);
 
+    // Card inteiro clicável quando há link para a fonte; senão, container normal.
+    const cardTag = (u, cls, inner) => safeUrl(u)
+      ? `<a class="${cls}" href="${esc(safeUrl(u))}" target="_blank" rel="noopener" style="display:block;color:inherit;text-decoration:none;">${inner}</a>`
+      : `<div class="${cls}">${inner}</div>`;
+
     const featEl = document.getElementById('feedFeatured');
     if(featEl && feat) {
       const cl = evCls(feat.nivel_evidencia);
@@ -835,21 +855,42 @@ document.getElementById('feedDate').textContent = new Date().toLocaleDateString(
       const t  = esc(decodeEntities(feat.titulo_pt||feat.titulo||'').substring(0,130));
       const s  = esc(decodeEntities(feat.resumo_pt||feat.abstract||'').substring(0,290));
       const im = feat.impacto_pratico ? `<div class="ff-impact"><strong>Relevância clínica:</strong> ${esc(decodeEntities(feat.impacto_pratico).substring(0,200))}</div>` : '';
-      const lk = safeUrl(feat.pubmedUrl) ? `<a href="${esc(safeUrl(feat.pubmedUrl))}" target="_blank" rel="noopener" style="color:var(--primary);font-weight:600;">Ver no PubMed →</a>` : '';
-      featEl.innerHTML = `<div class="ff-kicker"><span class="ff-tag ${cl}">${ev}</span><span class="ff-sep">·</span><span class="ff-spec">${sp}</span></div><h2 class="ff-title">${t}</h2><p class="ff-summary">${s}…</p>${im}<div class="ff-meta"><span>${esc(feat.journal||'')}</span><span class="ff-meta-sep">·</span><span>${esc(String(feat.year||''))}</span>${lk?'<span class="ff-meta-sep">·</span>'+lk:''}</div>`;
+      const lk = safeUrl(feat.pubmedUrl) ? `<span style="color:var(--primary);font-weight:600;">Ver no PubMed →</span>` : '';
+      const inner = `<div class="ff-kicker"><span class="ff-tag ${cl}">${ev}</span><span class="ff-sep">·</span><span class="ff-spec">${sp}</span></div><h2 class="ff-title">${t}</h2><p class="ff-summary">${s}…</p>${im}<div class="ff-meta"><span>${esc(feat.journal||'')}</span><span class="ff-meta-sep">·</span><span>${esc(String(feat.year||''))}</span>${lk?'<span class="ff-meta-sep">·</span>'+lk:''}</div>`;
+      // Reaproveita o próprio container como link quando há URL.
+      if(safeUrl(feat.pubmedUrl)){ featEl.style.cursor='pointer'; featEl.onclick=()=>window.open(safeUrl(feat.pubmedUrl),'_blank','noopener'); }
+      featEl.innerHTML = inner;
     }
 
     const sbEl = document.getElementById('feedSidebar');
     if(sbEl && side.length) {
-      sbEl.innerHTML = side.map(a=>`<div class="fs-card"><div class="fs-kicker"><span class="fs-ev ${evCls(a.nivel_evidencia)}">${esc(a.nivel_evidencia||'Artigo')}</span><span class="fs-spec">${esc(a.especialidade||'')}</span></div><div class="fs-title">${esc(decodeEntities(a.titulo_pt||a.titulo||'').substring(0,90))}</div><div class="fs-meta">${esc(a.journal||'')}${a.year?' · '+esc(String(a.year)):''}</div></div>`).join('');
+      sbEl.innerHTML = side.map(a=>cardTag(a.pubmedUrl,'fs-card',
+        `<div class="fs-kicker"><span class="fs-ev ${evCls(a.nivel_evidencia)}">${esc(a.nivel_evidencia||'Artigo')}</span><span class="fs-spec">${esc(a.especialidade||'')}</span></div><div class="fs-title">${esc(decodeEntities(a.titulo_pt||a.titulo||'').substring(0,90))}</div><div class="fs-meta">${esc(a.journal||'')}${a.year?' · '+esc(String(a.year)):''}</div>`)).join('');
     }
 
     const grEl = document.getElementById('feedGrid');
     if(grEl && grid.length) {
       grEl.innerHTML = grid.map(a=>{
-        const lk = safeUrl(a.pubmedUrl)?`<a href="${esc(safeUrl(a.pubmedUrl))}" target="_blank" rel="noopener" style="color:var(--primary);">Ler artigo na íntegra →</a>`:'<span style="color:var(--primary);">Ler artigo na íntegra →</span>';
-        return `<div class="fg-card"><div class="fg-kicker"><span class="fg-ev ${evCls(a.nivel_evidencia)}">${esc(a.nivel_evidencia||'Artigo')}</span><span class="fg-spec">${esc(a.especialidade||a.tema||'')}</span></div><div class="fg-title">${esc(decodeEntities(a.titulo_pt||a.titulo||'').substring(0,100))}</div><div class="fg-meta"><span>${esc(a.journal||'')}</span>${a.year?'<span>·</span><span>'+esc(String(a.year))+'</span>':''}</div><div class="fg-read">${lk}</div></div>`;
+        const lk = safeUrl(a.pubmedUrl)?'Ler artigo na íntegra →':'Ler resumo →';
+        return cardTag(a.pubmedUrl,'fg-card',
+          `<div class="fg-kicker"><span class="fg-ev ${evCls(a.nivel_evidencia)}">${esc(a.nivel_evidencia||'Artigo')}</span><span class="fg-spec">${esc(a.especialidade||a.tema||'')}</span></div><div class="fg-title">${esc(decodeEntities(a.titulo_pt||a.titulo||'').substring(0,100))}</div><div class="fg-meta"><span>${esc(a.journal||'')}</span>${a.year?'<span>·</span><span>'+esc(String(a.year))+'</span>':''}</div><div class="fg-read" style="color:var(--primary);">${lk}</div>`);
       }).join('');
+    }
+
+    // ── Ticker "Em alta": monta a partir dos artigos reais e torna clicável ──
+    const tkEl = document.getElementById('tickerTrack');
+    if(tkEl && artigos.length){
+      const item = a => {
+        const [cls,lbl] = tkTag(a.nivel_evidencia);
+        const titulo = esc(decodeEntities(a.titulo_pt||a.titulo||'').substring(0,90));
+        const inner = `<span class="ticker-tag ${cls}">${lbl}</span>${titulo}`;
+        return safeUrl(a.pubmedUrl)
+          ? `<a class="ticker-item" href="${esc(safeUrl(a.pubmedUrl))}" target="_blank" rel="noopener">${inner}</a>`
+          : `<span class="ticker-item">${inner}</span>`;
+      };
+      // Duplica a sequência para o loop infinito (a animação translada -50%).
+      const seq = artigos.map(item).join('');
+      tkEl.innerHTML = seq + seq;
     }
   } catch(e){}
 })();
@@ -973,7 +1014,7 @@ async function submitForm(){
     // o enquadramento de "early adopter" já no HTML — nunca expõe placeholder nem número pequeno.
     if (assinantes >= 50) {
       const f = document.getElementById('statFooter');
-      if (f) f.textContent = '✉ Enviado para ' + fmt(assinantes) + ' dentistas hoje às 7h';
+      if (f) f.textContent = '✉ Enviado para ' + fmt(assinantes) + ' dentistas hoje';
     }
   } catch(e) {}
 })();

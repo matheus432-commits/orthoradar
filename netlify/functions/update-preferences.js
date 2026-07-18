@@ -4,7 +4,7 @@ const crypto = require('crypto');
 const ALLOWED_SPECS = new Set([
   'Ortodontia', 'Implantodontia', 'Periodontia', 'Dentística',
   'Bucomaxilofacial', 'Prótese', 'Endodontia', 'Odontopediatria',
-  'DTM e Dor Orofacial', 'Radiologia'
+  'DTM e Dor Orofacial', 'Radiologia', 'Estomatologia'
 ]);
 
 function tokenEqual(a, b) {
@@ -67,20 +67,20 @@ exports.handler = async (event) => {
   let body;
   try { body = JSON.parse(event.body); } catch { return { statusCode: 400, headers, body: JSON.stringify({ error: 'JSON invalido' }) }; }
 
-  const { email, token, especialidade, temas } = body;
-  if (!email || !token || !especialidade || !temas) {
+  const { email, token, especialidade } = body;
+  if (!email || !token || !especialidade) {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'Campos obrigatorios faltando' }) };
   }
-  if (!Array.isArray(especialidade) || especialidade.length === 0) {
-    return { statusCode: 400, headers, body: JSON.stringify({ error: 'Selecione ao menos uma especialidade.' }) };
+  // Uma especialidade por cadastro (diretriz 07/2026); temas são opcionais
+  // (curadoria por tema é recurso Premium — lista vazia é válida).
+  if (!Array.isArray(especialidade) || especialidade.length !== 1) {
+    return { statusCode: 400, headers, body: JSON.stringify({ error: 'Escolha exatamente uma especialidade. Para duas áreas, cadastre um e-mail para cada.' }) };
   }
   const invalidSpec = especialidade.find(e => !ALLOWED_SPECS.has(e));
   if (invalidSpec) {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'Especialidade inválida: ' + invalidSpec }) };
   }
-  if (!Array.isArray(temas) || temas.length === 0) {
-    return { statusCode: 400, headers, body: JSON.stringify({ error: 'Selecione ao menos um tema.' }) };
-  }
+  const temas = Array.isArray(body.temas) ? body.temas : [];
   const invalidTema = temas.find(t => typeof t !== 'string' || t.length < 3 || t.length > 120);
   if (invalidTema !== undefined) {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'Tema inválido.' }) };
