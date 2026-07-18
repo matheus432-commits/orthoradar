@@ -108,29 +108,81 @@ async function getActiveUsers(db) {
   return mapped.filter(u => u.especialidades.length > 0);
 }
 
-// Anti-repeat por especialidade: pmids já usados nos digests compartilhados
-// recentes desta especialidade (o conteúdo é o mesmo para todos os inscritos,
-// então o histórico também é por especialidade, não por usuário).
-async function getRecentEspPmids(db, especialidade) {
+// ── Identidade de artigo para anti-repetição ─────────────────────────────────
+// Um mesmo estudo pode entrar na base por fontes diferentes (PubMed, Europe
+// PMC, OpenAlex) com ids distintos — comparar só o pmid deixa repetido passar.
+// Cada artigo é comparado por TRÊS chaves: pmid/id, DOI e título normalizado.
+function normDoi(doi) {
+  const d = String(doi || '').trim().toLowerCase().replace(/^https?:\/\/(dx\.)?doi\.org\//, '');
+  return d ? 'doi:' + d : null;
+}
+function normTitle(t) {
+  const s = String(t || '').normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+  return s.length >= 20 ? 'tt:' + s : null; // títulos muito curtos dariam falso positivo
+}
+function articleKeys(a) {
+  const pmid = String(a.pmid || a.id || '');
+  return [pmid || null, normDoi(a.doi), normTitle(a.titulo), normTitle(a.titulo_pt)].filter(Boolean);
+}
+function isRepeated(a, hist) { return articleKeys(a).some(k => hist.has(k)); }
+
+// Especialidades renomeadas: o histórico antigo foi gravado com o nome da época
+// e precisa continuar contando para a anti-repetição.
+const LEGACY_ESP_ALIASES = {
+  'Bucomaxilofacial':    ['Cirurgia'],
+  'DTM e Dor Orofacial': ['DTM'],
+};
+
+// Anti-repeat por especialidade: chaves (pmid + doi + título) de tudo que já
+// saiu nos digests compartilhados E no log por-usuário da era anterior.
+// FAIL-CLOSED: se o histórico não puder ser lido, LANÇA — quem chama pula a
+// especialidade hoje. Um dia sem e-mail é melhor que conteúdo repetido.
+async function getEspHistory(db, especialidade) {
   const cutoff = new Date(Date.now() - LOOKBACK_DAYS * 24 * 3600 * 1000)
     .toISOString().slice(0, 10);
-  try {
-    const docs = await db.query('digests_especialidade', {
-      where: { fieldFilter: { field: { fieldPath: 'especialidade' }, op: 'EQUAL', value: { stringValue: especialidade } } },
-      limit: 2000,
-    });
-    const pmids = new Set();
-    for (const d of docs) {
-      if (d.date && d.date < cutoff) continue;
-      for (const p of d.pmids || []) {
-        if (p) pmids.add(String(p));
+  const nomes = [especialidade, ...(LEGACY_ESP_ALIASES[especialidade] || [])];
+  const hist = new Set();
+
+  const queryWithRetry = async (collection, esp) => {
+    let lastErr;
+    for (let attempt = 1; attempt <= 3; attempt++) {
+      try {
+        return await db.query(collection, {
+          where: { fieldFilter: { field: { fieldPath: 'especialidade' }, op: 'EQUAL', value: { stringValue: esp } } },
+          limit: 2000,
+        });
+      } catch (err) {
+        lastErr = err;
+        log.warn('[digest] history query failed, retrying', { collection, esp, attempt, err: err.message });
+        await new Promise(r => setTimeout(r, attempt * 1500));
       }
     }
-    return pmids;
-  } catch (err) {
-    log.warn('[digest] getRecentEspPmids failed', { especialidade, err: err.message });
-    return new Set();
+    throw lastErr;
+  };
+
+  for (const nome of nomes) {
+    // 1. Digests compartilhados (era atual) — pmids + doi/título dos artigos cacheados
+    const docs = await queryWithRetry('digests_especialidade', nome);
+    for (const d of docs) {
+      if (d.date && d.date < cutoff) continue;
+      for (const p of d.pmids || []) if (p) hist.add(String(p));
+      for (const a of d.artigos || []) for (const k of articleKeys(a)) hist.add(k);
+      if (d.achadoSemana) for (const k of articleKeys(d.achadoSemana)) hist.add(k);
+    }
+    // 2. Log por-usuário da era anterior (artigos_enviados) — só pmid disponível.
+    //    Best-effort: se falhar, seguimos só com o histórico principal (acima).
+    try {
+      const sent = await db.query('artigos_enviados', {
+        where: { fieldFilter: { field: { fieldPath: 'especialidade' }, op: 'EQUAL', value: { stringValue: nome } } },
+        limit: 2000,
+      });
+      for (const s of sent) if (s.pmid) hist.add(String(s.pmid));
+    } catch (err) {
+      log.warn('[digest] artigos_enviados history read failed (continuing with main history)', { esp: nome, err: err.message });
+    }
   }
+  return hist;
 }
 
 async function getCandidates(db, specialties) {
@@ -302,15 +354,33 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
 
   log.info('[digest][ESP] building shared digest', { especialidade, key });
 
-  // 1. Anti-repeat: pmids já usados nos digests recentes desta especialidade
+  // 1. Anti-repeat: chaves (pmid+doi+título) de tudo já enviado à especialidade.
+  //    FAIL-CLOSED: sem histórico legível, não montamos digest hoje — enviar às
+  //    cegas é o que gera e-mail repetido.
   let t = Date.now();
-  const sentPmids = await getRecentEspPmids(db, especialidade);
-  log.info('[digest][ESP][STAGE antirepeat]', { especialidade, sentCount: sentPmids.size, ms: Date.now() - t });
+  let hist;
+  try {
+    hist = await getEspHistory(db, especialidade);
+  } catch (err) {
+    log.error('[digest][ESP] BLOCKED — anti-repeat history unreadable, skipping specialty today', {
+      especialidade, err: err.message,
+    });
+    return null;
+  }
+  log.info('[digest][ESP][STAGE antirepeat]', { especialidade, histKeys: hist.size, ms: Date.now() - t });
 
   // 2. Candidate articles from shared collection
   t = Date.now();
   let candidates = await getCandidates(db, [especialidade]);
-  candidates = candidates.filter(a => !sentPmids.has(String(a.pmid || a.id || '')));
+  candidates = candidates.filter(a => !isRepeated(a, hist));
+  // Dedup interno: o mesmo estudo pode aparecer 2x na base (fontes diferentes).
+  const seenKeys = new Set();
+  candidates = candidates.filter(a => {
+    const ks = articleKeys(a);
+    if (ks.some(k => seenKeys.has(k))) return false;
+    ks.forEach(k => seenKeys.add(k));
+    return true;
+  });
   log.info('[digest][ESP][STAGE candidates]', { especialidade, count: candidates.length, ms: Date.now() - t });
 
   // 3. Trending Firestore fallback — SÓ artigos da MESMA especialidade.
@@ -321,9 +391,10 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
     const trending = await getTrendingArticles(db, 30);
     const trendNew = trending.filter(a =>
       a.especialidade === especialidade &&
-      !sentPmids.has(String(a.pmid || a.id || '')));
-    const allIds   = new Set(candidates.map(a => a.pmid || a.id));
-    candidates     = [...candidates, ...trendNew.filter(a => !allIds.has(a.pmid || a.id))];
+      !isRepeated(a, hist) &&
+      !articleKeys(a).some(k => seenKeys.has(k)));
+    trendNew.forEach(a => articleKeys(a).forEach(k => seenKeys.add(k)));
+    candidates = [...candidates, ...trendNew];
   }
 
   // 4. PubMed direct fallback
@@ -331,10 +402,10 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
     log.info('[digest][ESP] Firestore sparse, falling back to PubMed direct', { especialidade, found: candidates.length });
     try {
       const needed  = MAX_ARTICLES + 2;
-      const fbArts  = await pubmedFallbackArticles({ especialidade, temas: [] }, sentPmids, needed, anthropicKey);
-      const allIds  = new Set(candidates.map(a => String(a.pmid || a.id)));
-      const newArts = fbArts.filter(a => !allIds.has(String(a.pmid)));
-      candidates    = [...candidates, ...newArts];
+      const fbArts  = await pubmedFallbackArticles({ especialidade, temas: [] }, hist, needed, anthropicKey);
+      const newArts = fbArts.filter(a => !isRepeated(a, hist) && !articleKeys(a).some(k => seenKeys.has(k)));
+      newArts.forEach(a => articleKeys(a).forEach(k => seenKeys.add(k)));
+      candidates = [...candidates, ...newArts];
       log.info('[digest][ESP] PubMed fallback added', { especialidade, added: newArts.length, total: candidates.length });
     } catch (err) {
       log.warn('[digest][ESP] PubMed fallback failed', { especialidade, err: err.message });
@@ -379,8 +450,17 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
 
   // 6. Achado da Semana — gerado uma vez por especialidade por semana, cacheado no Firestore
   t = Date.now();
-  const achadoSemana = await getOrCreateAchadoSemana(db, candidates, especialidade, anthropicKey)
+  let achadoSemana = await getOrCreateAchadoSemana(db, candidates, especialidade, anthropicKey)
     .catch(err => { log.warn('[digest][ESP] getOrCreateAchadoSemana threw', { err: err.message }); return null; });
+  // Anti-repetição vale para o achado também: ele entra no e-mail apenas no DIA
+  // em que foi gerado. Nos dias seguintes já está no histórico → omitido (o
+  // cache semanal continua evitando novas chamadas de IA).
+  if (achadoSemana && isRepeated(achadoSemana, hist)) {
+    log.info('[digest][ESP] achado já enviado esta semana — omitindo do e-mail de hoje', {
+      especialidade, id: achadoSemana.pmid || achadoSemana.articleId || null,
+    });
+    achadoSemana = null;
+  }
   log.info('[digest][ESP][STAGE achado]', {
     especialidade,
     hasAchado: !!achadoSemana,
@@ -425,16 +505,31 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
     ...(achadoSemana ? [achadoSemana.pmid || achadoSemana.articleId || ''] : []),
   ].filter(Boolean);
 
-  await db.setDoc('digests_especialidade', key, {
-    especialidade,
-    date:         dateStr,
-    pmids,
-    artigos:      articles,
-    achadoSemana: achadoSemana || null,
-    editorial:    editorial || null,
-    criadoEm:     new Date().toISOString(),
-    status:       'ready',
-  }).catch(e => log.warn('[digest][ESP] cache save failed (continuing)', { especialidade, err: e.message }));
+  // FAIL-CLOSED: o histórico anti-repetição É este documento. Se não conseguirmos
+  // gravá-lo, enviar mesmo assim garante repetição amanhã — então não enviamos.
+  let persisted = false;
+  for (let attempt = 1; attempt <= 3 && !persisted; attempt++) {
+    try {
+      await db.setDoc('digests_especialidade', key, {
+        especialidade,
+        date:         dateStr,
+        pmids,
+        artigos:      articles,
+        achadoSemana: achadoSemana || null,
+        editorial:    editorial || null,
+        criadoEm:     new Date().toISOString(),
+        status:       'ready',
+      });
+      persisted = true;
+    } catch (e) {
+      log.warn('[digest][ESP] history save failed', { especialidade, attempt, err: e.message });
+      if (attempt < 3) await new Promise(r => setTimeout(r, attempt * 2000));
+    }
+  }
+  if (!persisted) {
+    log.error('[digest][ESP] BLOCKED — could not persist anti-repeat history, skipping specialty today', { especialidade });
+    return null;
+  }
 
   return { articles, achadoSemana, editorial };
 }
