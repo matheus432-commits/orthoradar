@@ -30,6 +30,7 @@ const { pubmedFallbackArticles }                   = require('./_lib/pubmed');
 const { acquireLock, releaseLock }                 = require('./_lib/pipeline-lock');
 const { withTimeout }                              = require('./_lib/retry-utils');
 const { getOrCreateAchadoSemana }                  = require('./_lib/achado-semana');
+const { generateResumoCompleto }                   = require('./_lib/claude');
 const { espDigestSlug }                            = require('./_lib/slug');
 const { buildEdicaoUrl }                           = require('./_lib/edicao-token');
 const { isPremium }                                = require('./_lib/plans');
@@ -545,7 +546,23 @@ async function _sendUserDigest(user, espDigest, db, resendKey) {
   const processStart = Date.now();
   const { articles: selected, achadoSemana, editorial } = espDigest;
 
-  // 1. Build email
+  // 1. Curadoria Premium: +2 artigos pelas preferências (assinantes; best-effort)
+  let premiumExtras = [];
+  if (isPremium(user) && Array.isArray(espDigest.premiumPool) && espDigest.premiumPool.length) {
+    try {
+      premiumExtras = await pickPremiumExtras(db, user, espDigest.premiumPool);
+      for (const extra of premiumExtras) await ensureResumoCompleto(db, extra);
+      log.info('[digest][PREMIUM] extras selected', {
+        email, count: premiumExtras.length,
+        temas: premiumExtras.map(e => e._premiumTema || '(recente)'),
+      });
+    } catch (err) {
+      log.warn('[digest][PREMIUM] extras failed — base email proceeds', { email, err: err.message });
+      premiumExtras = [];
+    }
+  }
+
+  // 2. Build email
   const digestId   = crypto.randomUUID();
   const unsubToken = buildUnsubscribeToken(email);
 
@@ -555,6 +572,7 @@ async function _sendUserDigest(user, espDigest, db, resendKey) {
     selected,
     { digestId, baseUrl: BASE_URL, unsubscribeToken: unsubToken, editorial, achadoSemana,
       edicaoUrl: buildEdicaoUrl(BASE_URL, email),
+      premiumExtras,
       // Publicidade contextual só para o plano Gratuito — Premium não vê anúncio
       anuncio: isPremium(user) ? null : (espDigest.anuncio || null) }
   );
@@ -599,10 +617,14 @@ async function _sendUserDigest(user, espDigest, db, resendKey) {
       pmids: [
         ...selected.map(a => a.pmid || a.id || ''),
         ...(achadoSemana ? [achadoSemana.pmid || achadoSemana.articleId || ''] : []),
+        ...premiumExtras.map(a => a.pmid || a.id || ''),
       ].filter(Boolean),
       resendMessageId,
     }),
     saveSentLog(db, email, achadoSemana ? [...selected, achadoSemana] : selected, especialidade),
+    // Extras vão para o histórico PESSOAL (coleção própria) — nunca para o
+    // histórico compartilhado da especialidade.
+    savePremiumSentLog(db, email, premiumExtras, especialidade),
   ]);
 
   if (digestResult.status  === 'rejected') log.error('[digest][STAGE audit] saveDigest failed', { email, digestId, err: digestResult.reason?.message });
@@ -613,6 +635,126 @@ async function _sendUserDigest(user, espDigest, db, resendKey) {
   log.info('[digest] COMPLETE', { email, result: 'sent', digestId, totalMs });
 
   return 'sent';
+}
+
+// ── Curadoria Premium: +2 artigos pelas preferências do assinante ─────────────
+// O assinante recebe os MESMOS 3 artigos (com áudio) do plano Gratuito, mais
+// 2 extras escolhidos pelos TEMAS dele, com resumo aprofundado (Sonnet) e
+// layout distinto no e-mail. O áudio continua por especialidade (invariante de
+// custo) — a personalização Premium é em texto.
+const PREMIUM_EXTRAS = 2;
+
+// Pool por especialidade (calculado UMA vez por grupo): candidatos frescos que
+// NÃO saíram no digest de hoje nem em nenhum anterior. Best-effort: sem pool,
+// o e-mail base segue normal (extras são bônus, nunca bloqueiam o envio).
+async function buildPremiumPool(db, especialidade) {
+  try {
+    const hist = await getEspHistory(db, especialidade); // inclui o digest de HOJE (já persistido)
+    let pool = await getCandidates(db, [especialidade]);
+    pool = pool.filter(a => !isRepeated(a, hist));
+    const seen = new Set();
+    pool = pool.filter(a => {
+      const ks = articleKeys(a);
+      if (ks.some(k => seen.has(k))) return false;
+      ks.forEach(k => seen.add(k));
+      return true;
+    });
+    return pool.slice(0, 40);
+  } catch (err) {
+    log.warn('[digest][PREMIUM] pool build failed — extras skipped today', { especialidade, err: err.message });
+    return [];
+  }
+}
+
+function normTema(s) {
+  return String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+}
+
+// Pontua um artigo contra os temas do assinante: match exato de tema pesa mais;
+// sobreposição de termos do tema com título/resumo completa.
+function scoreForTemas(article, temas) {
+  const texto = normTema((article.titulo_pt || article.titulo || '') + ' ' + (article.resumo_pt || '') + ' ' + (article.tema || ''));
+  let best = 0, bestTema = '';
+  for (const tema of temas) {
+    let s = 0;
+    const nt = normTema(tema);
+    if (article.tema && normTema(article.tema) === nt) s += 5;
+    for (const w of nt.split(/[^a-z0-9]+/).filter(w => w.length > 3)) {
+      if (texto.includes(w)) s += 1;
+    }
+    if (s > best) { best = s; bestTema = tema; }
+  }
+  return { score: best, tema: bestTema };
+}
+
+// Escolhe os extras do usuário: pelos temas quando há match; completa com os
+// mais recentes do pool. Exclui o que ESTE assinante já recebeu como extra.
+async function pickPremiumExtras(db, user, pool) {
+  if (!pool.length) return [];
+
+  let jaRecebidas = new Set();
+  try {
+    const sent = await db.query('artigos_enviados_premium', {
+      where: { fieldFilter: { field: { fieldPath: 'email' }, op: 'EQUAL', value: { stringValue: user.email } } },
+      limit: 1000,
+    });
+    for (const s of sent) for (const k of s.keys || [s.pmid].filter(Boolean)) jaRecebidas.add(String(k));
+  } catch (err) {
+    // Fail-closed no que depende de histórico: sem ler o histórico pessoal,
+    // não arriscamos repetir — o assinante fica sem extras só hoje.
+    log.warn('[digest][PREMIUM] personal history unreadable — extras skipped', { email: user.email, err: err.message });
+    return [];
+  }
+
+  const disponiveis = pool.filter(a => !articleKeys(a).some(k => jaRecebidas.has(k)));
+  const temas = Array.isArray(user.temas) ? user.temas.filter(Boolean) : [];
+
+  const ranked = disponiveis
+    .map(a => ({ a, m: scoreForTemas(a, temas) }))
+    .sort((x, y) => y.m.score - x.m.score || ((y.a.data || '') > (x.a.data || '') ? 1 : -1));
+
+  const extras = [];
+  for (const { a, m } of ranked) {
+    if (extras.length >= PREMIUM_EXTRAS) break;
+    extras.push({ ...a, _premiumTema: m.score > 0 ? m.tema : '' });
+  }
+  return extras;
+}
+
+// Resumo aprofundado (Sonnet + validador numérico) com cache no próprio artigo:
+// gerado no máximo UMA vez por artigo, reutilizado por todos os assinantes.
+async function ensureResumoCompleto(db, article) {
+  if (article.resumo_completo) return article;
+  try {
+    const texto = await generateResumoCompleto(article);
+    if (texto) {
+      article.resumo_completo = texto; // atualiza o objeto do pool (reuso no mesmo run)
+      const docId = String(article.id || article.pmid || '');
+      if (docId) {
+        await db.updateDoc('artigos', docId, { resumo_completo: texto })
+          .catch(e => log.warn('[digest][PREMIUM] resumo_completo cache save failed', { id: docId, err: e.message }));
+      }
+    }
+  } catch (err) {
+    log.warn('[digest][PREMIUM] generateResumoCompleto failed', { pmid: article.pmid, err: err.message });
+  }
+  return article; // sem resumo rico, o card usa o resumo_pt normal
+}
+
+// Registra os extras no histórico pessoal do assinante (coleção separada — o
+// histórico COMPARTILHADO da especialidade não é poluído, senão um extra de um
+// assinante sumiria do digest de todos).
+async function savePremiumSentLog(db, email, extras, especialidade) {
+  const now = new Date().toISOString();
+  for (const art of extras) {
+    await db.addDoc('artigos_enviados_premium', {
+      email,
+      pmid:          String(art.pmid || art.id || ''),
+      keys:          articleKeys(art),
+      especialidade: especialidade || '',
+      data:          now,
+    }).catch(e => log.warn('[digest][PREMIUM] savePremiumSentLog failed', { email, err: e.message }));
+  }
 }
 
 // ── Reliability wrapper ───────────────────────────────────────────────────────
@@ -795,6 +937,15 @@ async function main() {
 
       // Publicidade contextual da especialidade (1 consulta por grupo; best-effort)
       espDigest.anuncio = await getActiveAd(db, 'email', especialidade).catch(() => null);
+
+      // Pool da Curadoria Premium — UMA vez por especialidade, e só se o grupo
+      // tem pelo menos um assinante (evita queries à toa).
+      espDigest.premiumPool = groupUsers.some(u => isPremium(u))
+        ? await buildPremiumPool(db, especialidade)
+        : [];
+      if (espDigest.premiumPool.length) {
+        console.log(`[PREMIUM] ${especialidade} — pool de ${espDigest.premiumPool.length} candidatos para extras`);
+      }
 
       // ── BATCH PROCESSING within the specialty ──────────────────────────────
       const batches = [];
