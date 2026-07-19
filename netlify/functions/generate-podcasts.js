@@ -144,13 +144,16 @@ async function main() {
       if (!s) { log.warn('[podcasts] slug vazio — pulando', { esp }); skipped++; continue; }
       try {
         // Idempotência diária: se os episódios de hoje já existem, não regenera
-        // (protege o orçamento em re-runs do pipeline).
+        // (protege o orçamento em re-runs do pipeline). FORCE_REGEN=true ignora
+        // o check — uso pontual para regenerar após correção de bug.
+        const forceRegen = String(process.env.FORCE_REGEN || '').toLowerCase() === 'true';
         const existing = await db.getDoc('podcasts', s).catch(() => null);
-        if (existing?.date === today && Array.isArray(existing.episodios) && existing.episodios.length) {
+        if (!forceRegen && existing?.date === today && Array.isArray(existing.episodios) && existing.episodios.length) {
           log.info('[podcasts] já gerado hoje — pulando', { esp });
           skipped++;
           continue;
         }
+        if (forceRegen && existing?.date === today) log.warn('[podcasts] FORCE_REGEN — regenerando episódios de hoje', { esp });
 
         const artigos = await editionArticles(db, esp);
         if (!artigos.length) { log.warn('[podcasts] sem artigos', { esp }); skipped++; continue; }

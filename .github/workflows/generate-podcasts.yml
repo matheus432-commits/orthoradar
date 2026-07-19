@@ -13,6 +13,12 @@ env:
 
 on:
   workflow_dispatch:
+    inputs:
+      force_regen:
+        description: 'Regenerar mesmo se os episódios de hoje já existem'
+        required: false
+        default: 'false'
+        type: boolean
 
 jobs:
   podcasts:
@@ -38,4 +44,5 @@ jobs:
           GOOGLE_TTS_API_KEY:       ${{ secrets.GOOGLE_TTS_API_KEY }}
           GCP_SERVICE_ACCOUNT_JSON: ${{ secrets.GCP_SERVICE_ACCOUNT_JSON }}
           GCS_BUCKET:               ${{ secrets.GCS_BUCKET }}
+          FORCE_REGEN:              ${{ inputs.force_regen }}
         run: node netlify/functions/generate-podcasts.js
