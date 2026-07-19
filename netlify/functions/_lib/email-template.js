@@ -254,8 +254,13 @@ function generateEditorialIntro(articles, esp) {
 
 // ── Article block (editorial newspaper style) ─────────────────────────────────
 
+// Diretriz 19/07/2026: TODO link de artigo no e-mail leva à edição no SITE
+// (edicaoUrl com token), não ao artigo original. O dentista ouve o áudio e
+// acessa o estudo na íntegra a partir do OdontoFeed — a visita ao site é a
+// métrica-chave para venda de publicidade. O clique continua rastreado por
+// artigo via track-click (odontofeed.com está na allowlist do redirect).
 function articleCard(article, index, total, opts) {
-  const { baseUrl, dashboardUrl, digestId, email } = opts;
+  const { baseUrl, dashboardUrl, digestId, email, edicaoUrl } = opts;
   const pmid         = String(article.pmid || article.id || '').trim();
   const badge        = BADGE_STYLE[article.nivel_evidencia] || BADGE_STYLE['Revisão Narrativa'];
   const titulo       = esc(truncate(article.titulo_pt || article.titulo || article.title || 'Sem título', 120));
@@ -270,11 +275,8 @@ function articleCard(article, index, total, opts) {
   const espTag       = esc(article.especialidade || article.tema || '');
   const isLast       = index === total - 1;
 
-  const pubmedDirect = resolveArticleUrl(article, baseUrl);
-  if (pubmedDirect === baseUrl) {
-    console.warn('[email-template] no article URL for card, falling back to baseUrl', { id: article.id, title: (article.titulo || '').slice(0, 60) });
-  }
-  const trackedUrl = trackClick(baseUrl, digestId, pmid, email, pubmedDirect, article.tema || article.especialidade);
+  const destinoSite = edicaoUrl || dashboardUrl || baseUrl;
+  const trackedUrl  = trackClick(baseUrl, digestId, pmid, email, destinoSite, article.tema || article.especialidade);
 
   return `
 <tr><td style="padding:0 36px;${isLast ? '' : 'border-bottom:1px solid #E8E0D0;'}">
@@ -296,10 +298,10 @@ function articleCard(article, index, total, opts) {
     </tr>
   </table>
 
-  <!-- Headline — primary clickable element -->
+  <!-- Headline — primary clickable element (leva à edição no OdontoFeed) -->
   <h2 style="margin:0 0 14px;font-size:19px;font-weight:700;color:#1A1A18;line-height:1.35;
              font-family:Georgia,'Times New Roman',serif;">
-    <a href="${esc(pubmedDirect)}"
+    <a href="${esc(trackedUrl)}"
        style="color:#1A1A18;text-decoration:none;">${titulo}</a>
   </h2>
 
@@ -321,7 +323,7 @@ function articleCard(article, index, total, opts) {
                font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">${resumo}</p>`
     : ''}
 
-  <!-- Journal meta + discrete article link -->
+  <!-- Journal meta + link para a edição no site (áudio + artigo na íntegra) -->
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
     <tr>
       <td style="font-size:12px;color:#9E988E;">
@@ -330,9 +332,9 @@ function articleCard(article, index, total, opts) {
           : ''}${pubDate}
       </td>
       <td align="right">
-        <a href="${esc(pubmedDirect)}"
+        <a href="${esc(trackedUrl)}"
            style="font-size:12px;color:#B08968;text-decoration:none;font-weight:500;">
-          Abrir artigo&nbsp;&rarr;
+          Abrir no OdontoFeed&nbsp;&rarr;
         </a>
       </td>
     </tr>
@@ -347,20 +349,33 @@ function articleCard(article, index, total, opts) {
 // "Exclusivo assinante" — o leitor entende na hora que aquele artigo só chegou
 // porque ele assina. O resumo usa o texto RICO (resumo_completo, Sonnet com
 // validador numérico) quando disponível, bem mais longo que o dos cards comuns.
+// Renderiza o resumo estruturado (Objetivo/Métodos/Resultados/Relevância) no
+// e-mail: títulos de seção em negrito, quebras preservadas. Resumos antigos em
+// prosa passam direto como parágrafos.
+const RESUMO_HEAD_RE = /^(Objetivo|Materiais? e m[ée]todos?|M[ée]todos?|Metodologia|Resultados?|Relev[âa]ncia cl[íi]nica|Limita[çc][õo]es)\s*:?\s*$/i;
+function renderResumoEstruturado(texto) {
+  return String(texto || '').split(/\n+/)
+    .map(l => l.trim()).filter(Boolean)
+    .map(l => RESUMO_HEAD_RE.test(l)
+      ? `<strong style="display:block;margin-top:10px;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#7C5CBF;">${esc(l.replace(/\s*:\s*$/, ''))}</strong>`
+      : esc(l))
+    .join('<br>');
+}
+
 function premiumArticleCard(article, opts) {
-  const { baseUrl, digestId, email } = opts;
+  const { baseUrl, dashboardUrl, digestId, email, edicaoUrl } = opts;
   const pmid    = String(article.pmid || article.id || '').trim();
   const badge   = BADGE_STYLE[article.nivel_evidencia] || BADGE_STYLE['Revisão Narrativa'];
   const titulo  = esc(truncate(article.titulo_pt || article.titulo || article.title || 'Sem título', 140));
-  const resumo  = esc(truncate(article.resumo_completo || article.resumo_pt || article.abstract || '', 1400));
+  const resumo  = renderResumoEstruturado(truncate(article.resumo_completo || article.resumo_pt || article.abstract || '', 1400));
   const impacto = esc(truncate(article.impacto_pratico || '', 300));
   const journal = esc(article.journal || '');
   const pubDate = esc(formatPublicationDate(article));
   const nivel   = esc(article.nivel_evidencia || 'Revisão Narrativa');
   const tema    = esc(article._premiumTema || '');
 
-  const pubmedDirect = resolveArticleUrl(article, baseUrl);
-  const trackedUrl   = trackClick(baseUrl, digestId, pmid, email, pubmedDirect, article.tema || article.especialidade);
+  const destinoSite = edicaoUrl || dashboardUrl || baseUrl;
+  const trackedUrl  = trackClick(baseUrl, digestId, pmid, email, destinoSite, article.tema || article.especialidade);
 
   return `
 <tr><td style="padding:0 36px 18px;">
@@ -390,7 +405,7 @@ function premiumArticleCard(article, opts) {
 
       <h2 style="margin:0 0 12px;font-size:18px;font-weight:700;color:#241C3A;line-height:1.35;
                  font-family:Georgia,'Times New Roman',serif;">
-        <a href="${esc(pubmedDirect)}" style="color:#241C3A;text-decoration:none;">${titulo}</a>
+        <a href="${esc(trackedUrl)}" style="color:#241C3A;text-decoration:none;">${titulo}</a>
       </h2>
 
       ${impacto ? `
@@ -413,9 +428,9 @@ function premiumArticleCard(article, opts) {
             ${journal ? `<span style="color:#524A6B;font-weight:500;">${journal}</span>` : ''}
           </td>
           <td align="right">
-            <a href="${esc(pubmedDirect)}"
+            <a href="${esc(trackedUrl)}"
                style="font-size:12px;color:#7C5CBF;text-decoration:none;font-weight:600;
-                      font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">Abrir artigo&nbsp;&rarr;</a>
+                      font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">Abrir no OdontoFeed&nbsp;&rarr;</a>
           </td>
         </tr>
       </table>
@@ -632,13 +647,15 @@ function buildDigestEmail(user, articles, opts) {
       </div>`
     : '';
 
+  // edicaoUrl repassada aos cards: todo clique de artigo leva à edição no site.
+  const cardOpts = { baseUrl, dashboardUrl, digestId, email: user.email, edicaoUrl };
   const cardsHtml = articles
-    .map((art, i) => articleCard(art, i, articles.length, { baseUrl, dashboardUrl, digestId, email: user.email }))
+    .map((art, i) => articleCard(art, i, articles.length, cardOpts))
     .join('\n');
 
   const premiumHtml = premiumExtras.length
     ? premiumSectionHeader(premiumExtras.length) +
-      premiumExtras.map(a => premiumArticleCard(a, { baseUrl, digestId, email: user.email })).join('\n')
+      premiumExtras.map(a => premiumArticleCard(a, cardOpts)).join('\n')
     : '';
 
   const html = `<!DOCTYPE html>
@@ -707,7 +724,7 @@ function buildDigestEmail(user, articles, opts) {
       </a>
       <div style="margin-top:7px;font-size:10.5px;color:#9E988E;
                   font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">
-        Leia no site &mdash; e, no plano Pro, ou&ccedil;a a edi&ccedil;&atilde;o em &aacute;udio &#127911;
+        Ou&ccedil;a a edi&ccedil;&atilde;o em &aacute;udio &#127911; e acesse os artigos na &iacute;ntegra
       </div>
     </td></tr>` : ''}
 

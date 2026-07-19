@@ -199,7 +199,7 @@ exports.handler = async (event) => {
           date:      edicao.date || '',
           editorial: edicao.editorial || null,
           artigos:   (edicao.artigos || []).map(publicArticle),
-          achado:    edicao.achadoSemana ? publicArticle(edicao.achadoSemana) : null,
+          achado:    null, // Achado da Semana cancelado (19/07/2026)
           premiumExtras, // [] p/ plano gratuito; até 2 artigos exclusivos p/ Premium
         },
         podcast, // { episodios:[{n, artigoId, titulo, url}] } ou null se o áudio do dia não existe

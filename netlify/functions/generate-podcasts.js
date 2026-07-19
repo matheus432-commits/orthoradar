@@ -143,20 +143,36 @@ async function main() {
       const s = slug(esp);
       if (!s) { log.warn('[podcasts] slug vazio — pulando', { esp }); skipped++; continue; }
       try {
-        // Idempotência diária: se os episódios de hoje já existem, não regenera
-        // (protege o orçamento em re-runs do pipeline). FORCE_REGEN=true ignora
-        // o check — uso pontual para regenerar após correção de bug.
         const forceRegen = String(process.env.FORCE_REGEN || '').toLowerCase() === 'true';
-        const existing = await db.getDoc('podcasts', s).catch(() => null);
-        if (!forceRegen && existing?.date === today && Array.isArray(existing.episodios) && existing.episodios.length) {
-          log.info('[podcasts] já gerado hoje — pulando', { esp });
-          skipped++;
-          continue;
-        }
-        if (forceRegen && existing?.date === today) log.warn('[podcasts] FORCE_REGEN — regenerando episódios de hoje', { esp });
 
         const artigos = await editionArticles(db, esp);
         if (!artigos.length) { log.warn('[podcasts] sem artigos', { esp }); skipped++; continue; }
+
+        // Idempotência diária: só pula quando os episódios de hoje CORRESPONDEM
+        // à edição atual (mesmos artigos). Um doc de hoje com episódios de
+        // outros artigos (ex.: regeneração manual antes da meia-noite, quando a
+        // edição ainda não existia) NÃO conta — senão o pipeline das 00h herda
+        // áudio órfão e o dentista fica sem botão de áudio (bug real 19/07).
+        // FORCE_REGEN=true ignora o check.
+        const existing = await db.getDoc('podcasts', s).catch(() => null);
+        const expectedIds = artigos.map(a => String(a.pmid || a.id || '')).filter(Boolean);
+        const existingIds = (Array.isArray(existing?.episodios) ? existing.episodios : [])
+          .map(e => String(e.artigoId || '')).filter(Boolean);
+        const upToDate = existing?.date === today &&
+          existingIds.length === expectedIds.length &&
+          expectedIds.every(id => existingIds.includes(id));
+        if (!forceRegen && upToDate) {
+          log.info('[podcasts] já gerado hoje (episódios batem com a edição) — pulando', { esp });
+          skipped++;
+          continue;
+        }
+        if (existing?.date === today && !upToDate) {
+          log.warn('[podcasts] episódios de hoje NÃO correspondem à edição — regenerando', {
+            esp, existentes: existingIds, esperados: expectedIds, forceRegen,
+          });
+        } else if (forceRegen && existing?.date === today) {
+          log.warn('[podcasts] FORCE_REGEN — regenerando episódios de hoje', { esp });
+        }
 
         const episodios = [];
         for (let i = 0; i < artigos.length; i++) {

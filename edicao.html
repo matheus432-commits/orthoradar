@@ -46,8 +46,13 @@
   .btn-audio{background:var(--pro);color:#fff;}
   .btn-audio:hover{background:#4A2F80;}
   .resumo-full{margin-bottom:12px;border:1px solid var(--line);border-radius:4px;background:var(--paper);}
-  .resumo-full summary{cursor:pointer;padding:10px 14px;font-size:13px;font-weight:700;color:var(--accent-dark);}
   .resumo-full p{padding:0 16px 14px;font-size:14px;color:var(--text-2);line-height:1.75;}
+  /* Painel do resumo estruturado (botão "Ler o resumo") */
+  .rc-panel{margin:14px 0 0;padding-top:4px;border-left:3px solid var(--accent);}
+  .rc-panel[hidden]{display:none;}
+  .rc-head{padding:12px 16px 4px;font-size:10.5px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--accent-dark);}
+  .btn-resumo{background:var(--paper);color:var(--accent-dark);border:1.5px solid var(--accent-dark);}
+  .btn-resumo:hover{background:#F5EFE3;}
   .ad-card{background:var(--paper);border:1px dashed #C8C2B8;border-radius:6px;padding:14px 18px;margin-bottom:16px;}
   .ad-label{font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
   .pp{width:42px;height:42px;border-radius:50%;background:var(--pro);color:#fff;border:none;font-size:15px;cursor:pointer;flex-shrink:0;}
@@ -127,11 +132,12 @@ function showError(title, msg){
     '<div class="state"><h2>'+esc(title)+'</h2><p>'+msg+'</p></div>';
 }
 
-// Episódio de áudio correspondente ao artigo (por id; fallback por posição)
-function episodeFor(podcast, artigo, idx){
+// Episódio de áudio correspondente ao artigo — SOMENTE por id do artigo.
+// (O antigo fallback por posição mostrava o áudio de UM artigo em OUTRO
+// quando a edição e os episódios não estavam alinhados. Sem match = sem áudio.)
+function episodeFor(podcast, artigo){
   if (!podcast || !podcast.episodios) return null;
-  return podcast.episodios.find(e => e.artigoId && artigo.id && e.artigoId === artigo.id)
-      || podcast.episodios[idx] || null;
+  return podcast.episodios.find(e => e.artigoId && artigo.id && String(e.artigoId) === String(artigo.id)) || null;
 }
 
 function playerHtml(pid){
@@ -143,10 +149,27 @@ function playerHtml(pid){
     + '</div>';
 }
 
-function articleCard(a, isAchado, ep, idx){
+// Resumo estruturado (Objetivo / Materiais e métodos / Resultados / Relevância
+// clínica) — painel aberto pelo botão "Ler o resumo" ao lado do áudio. Títulos
+// de seção reconhecidos viram cabeçalhos; resumos antigos em prosa renderizam
+// como parágrafos normais (compatibilidade até a regeneração pelo digest).
+const RC_HEAD = /^(objetivo|materiais? e m[ée]todos?|m[ée]todos?|metodologia|resultados?|relev[âa]ncia cl[íi]nica|import[âa]ncia( cl[íi]nica)?|limita[çc][õo]es)\s*:?\s*$/i;
+function resumoPanelHtml(texto, pid){
+  if (!texto) return '';
+  const corpo = texto.split(/\n+/).map(function(l){
+    l = l.trim();
+    if (!l) return '';
+    return RC_HEAD.test(l)
+      ? '<div class="rc-head">'+esc(l.replace(/\s*:\s*$/,''))+'</div>'
+      : '<p>'+esc(l)+'</p>';
+  }).join('');
+  return '<div class="resumo-full rc-panel" id="resumo-'+pid+'" hidden>'+corpo+'</div>';
+}
+
+function articleCard(a, isPremiumExtra, ep, idx){
   const pid = 'a' + idx;
-  return '<article class="art'+(isAchado?' achado':'')+'">'
-    + (isAchado ? '<span class="achado-flag">★ Achado da Semana</span>' : '')
+  return '<article class="art'+(isPremiumExtra?' achado':'')+'">'
+    + (isPremiumExtra ? '<span class="achado-flag">★ Exclusivo assinante</span>' : '')
     + '<div class="art-kicker">'
     +   '<span class="esp-tag">'+esc(a.especialidade||'')+'</span>'
     +   (a.nivel_evidencia ? '<span class="ev-badge">'+esc(a.nivel_evidencia)+'</span>' : '')
@@ -154,15 +177,15 @@ function articleCard(a, isAchado, ep, idx){
     + '</div>'
     + '<h2>'+esc(a.titulo)+'</h2>'
     + (a.resumo ? '<div class="resumo-destaque"><div class="rlabel">O essencial</div><p>'+esc(a.resumo)+'</p></div>' : '')
-    + (a.resumo_completo ? '<details class="resumo-full"><summary>Ler o resumo completo (com metodologia)</summary><p>'
-        + esc(a.resumo_completo).replace(/\n\n+/g,'</p><p>').replace(/\n/g,'<br/>') + '</p></details>' : '')
     + (a.impacto ? '<p class="impacto"><strong>Na sua prática:</strong> '+esc(a.impacto)+'</p>' : '')
     + ((a.journal||a.year) ? '<p class="meta-src">'+esc(a.journal||'')+(a.year?' · '+esc(a.year):'')+'</p>' : '')
     + '<div class="actions">'
     +   (ep ? '<button class="btn btn-audio" data-player="'+pid+'">▶ Ouvir este artigo</button>' : '')
+    +   (a.resumo_completo ? '<button class="btn btn-resumo" data-resumo="'+pid+'">📄 Ler o resumo</button>' : '')
     +   '<a class="btn btn-read" href="'+esc(a.url)+'" target="_blank" rel="noopener">Ler o artigo original ↗</a>'
     + '</div>'
     + (ep ? playerHtml(pid) + '<audio id="audio-'+pid+'" preload="none" src="'+esc(ep.url)+'"></audio>' : '')
+    + resumoPanelHtml(a.resumo_completo, pid)
     + '</article>';
 }
 
@@ -185,6 +208,18 @@ function premiumSection(data){
     + 'crie notas, escolha seus temas favoritos e pergunte à <strong>Wakai</strong> — sua IA pessoal que responde com base no que VOCÊ já estudou. Sem publicidade.</p>'
     + '<a class="btn btn-upgrade" href="/#planos">Conhecer o Premium →</a>'
     + '</div>';
+}
+
+function wireResumos(){
+  document.querySelectorAll('.btn-resumo').forEach(btn => {
+    const panel = document.getElementById('resumo-'+btn.dataset.resumo);
+    if (!panel) return;
+    btn.onclick = () => {
+      panel.hidden = !panel.hidden;
+      btn.textContent = panel.hidden ? '📄 Ler o resumo' : '📄 Fechar resumo';
+      if (!panel.hidden) panel.scrollIntoView({ behavior:'smooth', block:'nearest' });
+    };
+  });
 }
 
 function wirePlayers(){
@@ -241,17 +276,22 @@ function render(data){
   html += adSection(data.anuncio);
 
   let idx = 0;
-  if (ed.achado) {
-    html += articleCard({ ...ed.achado, especialidade: u.especialidade }, true, null, idx++);
-  }
-  (ed.artigos || []).forEach((a, i) => {
-    html += articleCard({ ...a, especialidade: u.especialidade }, false, episodeFor(data.podcast, a, i), idx++);
+  // (Achado da Semana: função cancelada em 07/2026 — não é mais renderizado.)
+  (ed.artigos || []).forEach((a) => {
+    html += articleCard({ ...a, especialidade: u.especialidade }, false, episodeFor(data.podcast, a), idx++);
+  });
+
+  // Extras Premium do dia (2 artigos pelas preferências de tema do assinante) —
+  // os mesmos que vão no e-mail; sem áudio por design (áudio é dos 3 da edição).
+  (ed.premiumExtras || []).forEach((a) => {
+    html += articleCard({ ...a, especialidade: u.especialidade }, true, null, idx++);
   });
 
   html += premiumSection(data);
 
   document.getElementById('main').innerHTML = html;
   wirePlayers();
+  wireResumos();
 }
 
 (async function init(){
