@@ -138,28 +138,37 @@ function buildFeed(especialidade, episodes, bucket, opts = {}) {
 </rss>`;
 }
 
-// Quantas especialidades diferentes entram no feed mestre por dia. Com 2/dia,
-// as 11 especialidades completam o ciclo em ~6 dias.
-const MASTER_SPECS_PER_DAY = 2;
+// Rodízio FIXO por dia da semana (decisão de produto 19/07/2026): a cada dia,
+// duas especialidades são o destaque do feed mestre — exceto sábado, que leva
+// só Ortodontia (são 11 especialidades, número ímpar). Domingo não tem destaque
+// novo (dia de descanso; o feed segue exibindo o histórico). As 11 completam a
+// semana de segunda a sábado. Nomes CANÔNICOS (batem com specialtySlug/geração).
+const WEEKLY_SCHEDULE = {
+  1: ['Endodontia', 'Periodontia'],                 // segunda
+  2: ['Bucomaxilofacial', 'DTM e Dor Orofacial'],   // terça
+  3: ['Dentística', 'Prótese'],                     // quarta
+  4: ['Odontopediatria', 'Estomatologia'],          // quinta
+  5: ['Implantodontia', 'Radiologia'],              // sexta
+  6: ['Ortodontia'],                                // sábado
+  0: [],                                            // domingo (sem destaque)
+};
 
-// Rodízio determinístico: para um dia e uma lista ordenada de especialidades,
-// devolve as N escolhidas do dia (avança N posições por dia → cobre todas).
-function pickSpecsOfDay(date, specs, n) {
-  if (!specs.length) return [];
-  const dayNum = Math.floor(Date.parse(date + 'T00:00:00Z') / 86400000);
-  const picks = [];
-  for (let i = 0; i < Math.min(n, specs.length); i++) {
-    const idx = (((dayNum * n + i) % specs.length) + specs.length) % specs.length;
-    if (!picks.includes(specs[idx])) picks.push(specs[idx]);
-  }
-  return picks;
+// Slugs das especialidades destaque do dia (na ordem do cronograma), a partir
+// do dia da semana da DATA da edição (UTC == data BRT, pois o pipeline roda 00h BRT).
+function scheduledSlugsForDate(date) {
+  const wd = new Date(date + 'T00:00:00Z').getUTCDay();
+  return (WEEKLY_SCHEDULE[Number.isNaN(wd) ? -1 : wd] || []).map(specialtySlug);
 }
 
-// Feed MESTRE (o único submetido ao Spotify): 2 episódios por dia, com as
-// especialidades em RODÍZIO determinístico pela data — a cada dia duas áreas
-// diferentes (ciclo completo em ~6 dias), sempre o episódio 1 da edição.
-// Os 3 episódios completos de cada especialidade continuam exclusivos do site
-// (estratégia: Spotify como isca).
+// Slug de um episódio, tolerante ao formato: usa o slug gravado; senão deriva do nome.
+function episodeSlug(e) {
+  return e.slug || specialtySlug(e.especialidade || '');
+}
+
+// Feed MESTRE (o único submetido ao Spotify): as especialidades destaque de
+// cada dia seguem o cronograma FIXO da semana (WEEKLY_SCHEDULE), sempre o
+// episódio 1 da edição. Os 3 episódios completos de cada especialidade
+// continuam exclusivos do site (estratégia: Spotify como isca).
 async function masterEpisodes(db) {
   let docs = [];
   try {
@@ -175,22 +184,24 @@ async function masterEpisodes(db) {
 
   const out = [];
   for (const [date, eps] of byDate) {
-    const specs = [...new Set(eps.map(e => e.especialidade || e.slug))].filter(Boolean).sort();
-    for (const pick of pickSpecsOfDay(date, specs, MASTER_SPECS_PER_DAY)) {
+    // Na ordem do cronograma do dia; pula especialidade sem episódio gerado.
+    for (const wantSlug of scheduledSlugsForDate(date)) {
       const chosen = eps
-        .filter(e => (e.especialidade || e.slug) === pick)
+        .filter(e => episodeSlug(e) === wantSlug)
         .sort((a, b) => (a.n || 0) - (b.n || 0))[0];
       if (chosen) out.push(chosen);
     }
   }
+  // Mais recentes primeiro; a ordem do cronograma dentro do dia é preservada
+  // (sort estável → não reordena empates de mesma data).
   return out
-    .sort((a, b) => (b.date || '').localeCompare(a.date || '') || String(a.especialidade || '').localeCompare(String(b.especialidade || '')))
+    .sort((a, b) => (b.date || '').localeCompare(a.date || ''))
     .slice(0, MAX_ITEMS);
 }
 
 // Fallback do feed mestre antes do histórico existir: usa os docs do dia em
-// `podcasts/{slug}` (mesmo rodízio determinístico) — o Spotify não aceita
-// submissão de feed sem nenhum episódio.
+// `podcasts/{slug}` (mesmo cronograma fixo) — o Spotify não aceita submissão
+// de feed sem nenhum episódio.
 async function masterFallbackToday(db) {
   let docs = [];
   try { docs = await db.query('podcasts', { limit: 100 }); } catch { return []; }
@@ -199,11 +210,12 @@ async function masterFallbackToday(db) {
     .map(d => ({ ...d.episodios[0], date: d.date, especialidade: d.especialidade || d.id, slug: d.id }))
     .filter(e => e.objectPath && e.downloadToken);
   if (!candidatos.length) return [];
-  const specs = [...new Set(candidatos.map(e => e.especialidade))].sort();
-  const picks = pickSpecsOfDay(candidatos[0].date, specs, MASTER_SPECS_PER_DAY);
-  return picks
-    .map(p => candidatos.find(e => e.especialidade === p))
-    .filter(Boolean);
+  const out = [];
+  for (const wantSlug of scheduledSlugsForDate(candidatos[0].date)) {
+    const chosen = candidatos.find(e => episodeSlug(e) === wantSlug);
+    if (chosen) out.push(chosen);
+  }
+  return out;
 }
 
 exports.handler = async (event) => {
