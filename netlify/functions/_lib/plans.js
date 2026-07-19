@@ -48,6 +48,14 @@ const PLANS = {
 
 const DEFAULT_PLAN = 'gratuito';
 
+// Plano com que um NOVO cadastro entra. Período de cortesia (19/07/2026): todos
+// os cadastros entram como PREMIUM até a forma de pagamento estar configurada —
+// depois o fundador pede o downgrade geral e quem quiser paga para subir.
+// Reversível sem deploy pela env SIGNUP_PLAN ('gratuito' encerra a cortesia).
+function signupPlan() {
+  return normalizePlan(process.env.SIGNUP_PLAN || 'premium');
+}
+
 // Fair use da Wakai: orçamento de TOKENS/dia por assinante Premium (entrada +
 // saída somados). Limitar por tokens — e não por número de perguntas — casa o
 // teto com o custo real da API: perguntas com contexto grande ou respostas
@@ -83,4 +91,4 @@ function featuresOf(userOrPlan) {
   return PLANS[normalizePlan(plano)].features;
 }
 
-module.exports = { PLANS, DEFAULT_PLAN, WAKAI_DAILY_TOKEN_LIMIT, normalizePlan, isPremium, isPro, featuresOf };
+module.exports = { PLANS, DEFAULT_PLAN, signupPlan, WAKAI_DAILY_TOKEN_LIMIT, normalizePlan, isPremium, isPro, featuresOf };
