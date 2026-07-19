@@ -9,7 +9,7 @@
 const { Firestore }           = require('./_lib/firestore');
 const { checkAdmin } = require('./_lib/admin-guard');
 const { enrichArticle, generateResumoCompleto, currentCost, resetCost } = require('./_lib/claude');
-const { scoreRelevance, estimateQualityScore, especialidadeOverride } = require('./_lib/scoring');
+const { scoreRelevance, estimateQualityScore, especialidadeOverride, isUnfinishedStudy } = require('./_lib/scoring');
 const log                     = require('./_lib/logger');
 
 const MAX_ARTICLES_PER_RUN = parseInt(process.env.AI_BATCH_SIZE || '20', 10);
@@ -29,9 +29,28 @@ async function getPendingArticles(db, limit) {
 
 // ── Process one article ────────────────────────────────────────────────────────
 
+// Marca o artigo como rejeitado (fora do digest) sem gastar mais IA/Sonnet.
+async function rejectUnfinished(db, pmid, motivo, detalhe) {
+  log.info('[process] REJEITADO — estudo não concluído', { id: pmid, motivo, detalhe: (detalhe || '').slice(0, 80) });
+  await db.updateDoc('artigos', pmid, {
+    status:        'rejected_unfinished',
+    rejectReason:  motivo,
+    enrichedAt:    new Date().toISOString(),
+  }).catch(err => log.warn('[process] updateDoc reject failed', { id: pmid, err: err.message }));
+  return false;
+}
+
 async function processOne(db, article) {
   const pmid = article.id; // document ID = PMID (or doi_... fallback)
-  log.info('[process] enriching', { id: pmid, title: (article.titulo || '').slice(0, 60) });
+  const rawTitulo = article.titulo || article.title || '';
+
+  // ── GATE 1 (determinístico, antes de gastar IA): protocolos/estudos em
+  // andamento NUNCA entram no OdontoFeed — só publicamos estudos com resultados.
+  if (isUnfinishedStudy(rawTitulo, article.abstract || '', article.journal || '')) {
+    return rejectUnfinished(db, pmid, 'protocolo_ou_em_andamento', rawTitulo);
+  }
+
+  log.info('[process] enriching', { id: pmid, title: rawTitulo.slice(0, 60) });
 
   const enriched = await enrichArticle({
     pmid:         pmid,
@@ -54,6 +73,12 @@ async function processOne(db, article) {
       enrichSkipped:  true,
     }).catch(err => log.warn('[process] updateDoc fallback-active failed', { id: pmid, err: err.message }));
     return false;
+  }
+
+  // ── GATE 2 (IA): a classificação de conteúdo detectou protocolo/sem
+  // resultados que o gate determinístico não pegou → rejeita antes de ativar.
+  if (enriched.concluido === false) {
+    return rejectUnfinished(db, pmid, 'ia_sem_resultados', rawTitulo);
   }
 
   const qualidadeIA    = estimateQualityScore(enriched);

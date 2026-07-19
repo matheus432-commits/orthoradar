@@ -77,6 +77,51 @@ function especialidadeOverride(title, abstract, label) {
   return null;
 }
 
+// ── Estudo não concluído (protocolo / em andamento) ──────────────────────────
+// Regra editorial: o OdontoFeed só publica estudos COM resultados. Protocolos,
+// registros de ensaio e trabalhos "em andamento" ainda não têm achados — narrá-
+// los como estudo distorce a ciência (incidente do laceback). Detector de alta
+// PRECISÃO: marcadores inequívocos no TÍTULO (sinal forte) + no início do
+// abstract. Não usa o periódico sozinho (revistas como "Trials"/"BMJ Open"
+// publicam protocolos E estudos concluídos).
+const PROTOCOL_TITLE_RX = new RegExp([
+  'study protocol', 'trial protocol', 'protocol for (?:a|an|the)\\b',
+  '\\b(?:a|an) (?:study|trial) protocol', 'rationale and design',
+  'design of (?:a|an|the)\\b.*\\b(?:trial|study|cohort)', 'protocol of (?:a|an|the)\\b',
+  'protocol paper', 'registered report',
+  // Português
+  'protocolo de (?:estudo|ensaio|pesquisa)', 'protocolo do estudo',
+].join('|'), 'i');
+
+// Sinais de "ainda sem resultados" nas primeiras frases do abstract.
+const ONGOING_ABSTRACT_RX = new RegExp([
+  'this (?:study )?protocol', 'we will (?:recruit|enrol|enroll|randomi|assess|conduct|compare|investigate)',
+  'will be (?:recruited|enrolled|randomi|conducted|assessed|performed|analy)',
+  'is designed to (?:evaluate|assess|compare|investigate)',
+  'trial registration', 'has been registered', 'prospectively registered',
+  'the aim of this protocol', 'no results are (?:yet )?available',
+  // Português
+  'ser[aã]o (?:recrutados|randomizados|avaliados|incluídos)',
+  'este protocolo', 'protocolo (?:tem por|visa)', 'registro do ensaio',
+].join('|'), 'i');
+
+/**
+ * true quando o artigo é um estudo NÃO concluído (protocolo/em andamento).
+ * `title` pesa mais; o abstract só reforça quando o marcador aparece cedo (o
+ * início costuma declarar o desenho — evita falso-positivo por um "will" solto
+ * lá no fim de um estudo já concluído).
+ */
+function isUnfinishedStudy(title, abstract, journal) {
+  const t = String(title || '');
+  if (PROTOCOL_TITLE_RX.test(t)) return true;
+  const head = String(abstract || '').slice(0, 400);
+  if (PROTOCOL_TITLE_RX.test(head)) return true;
+  if (ONGOING_ABSTRACT_RX.test(head)) return true;
+  // Periódico dedicado a protocolos — sinal forte por si só.
+  if (/\bresearch protocols\b/i.test(String(journal || ''))) return true;
+  return false;
+}
+
 /**
  * Detects evidence level from article text (title + abstract).
  * Returns the strongest level found, or 'Revisão Narrativa' as default.
@@ -169,4 +214,4 @@ function estimateQualityScore(enriched) {
   return Math.min(1.0, score);
 }
 
-module.exports = { detectEvidenceLevel, classifySpecialty, especialidadeOverride, scoreRelevance, estimateQualityScore };
+module.exports = { detectEvidenceLevel, classifySpecialty, especialidadeOverride, isUnfinishedStudy, scoreRelevance, estimateQualityScore };
