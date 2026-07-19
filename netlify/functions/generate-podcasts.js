@@ -177,7 +177,7 @@ async function main() {
             artigoId:      String(art.pmid || art.id || ''),
             titulo:        art.titulo_pt || art.titulo || '',
             objectPath:    path,
-            downloadToken: up.token,
+            downloadToken: up.downloadToken,
             chars:         billableChars(script),
           });
         }

@@ -25,11 +25,13 @@ function firebaseDownloadUrl(bucket, objectPath, token) {
   return `https://${FB_HOST}/v0/b/${bucket}/o/${encodeURIComponent(objectPath)}?alt=media&token=${token}`;
 }
 
-// Sobe um mp3 e retorna { ok, url, token } ou { skipped, reason }.
+// Sobe um mp3 e retorna { ok, url, downloadToken } ou { skipped, reason }.
+// downloadToken é o UUID público do Firebase (NÃO o token de acesso OAuth) —
+// é ele que vai na URL de download e deve ser persistido pelo chamador.
 async function uploadMp3(objectPath, audioBuffer, downloadToken = newDownloadToken()) {
-  const token = await getAccessToken('https://www.googleapis.com/auth/devstorage.read_write');
+  const accessToken = await getAccessToken('https://www.googleapis.com/auth/devstorage.read_write');
   const bucket = bucketName();
-  if (!token || !bucket) return { skipped: true, reason: 'no_credentials' };
+  if (!accessToken || !bucket) return { skipped: true, reason: 'no_credentials' };
 
   const boundary = 'of_' + crypto.randomBytes(12).toString('hex');
   const metadata = JSON.stringify({
@@ -55,7 +57,7 @@ async function uploadMp3(objectPath, audioBuffer, downloadToken = newDownloadTok
     path: `/upload/storage/v1/b/${bucket}/o?uploadType=multipart`,
     method: 'POST',
     headers: {
-      'Authorization': 'Bearer ' + token,
+      'Authorization': 'Bearer ' + accessToken,
       'Content-Type': 'multipart/related; boundary=' + boundary,
       'Content-Length': body.length,
     },
@@ -65,7 +67,8 @@ async function uploadMp3(objectPath, audioBuffer, downloadToken = newDownloadTok
     log.error('[storage] upload falhou', { status: res.status, body: (res.body || '').slice(0, 200) });
     return { skipped: true, reason: 'upload_error', status: res.status };
   }
-  return { ok: true, url: firebaseDownloadUrl(bucket, objectPath, downloadToken), token };
+  // Devolve o UUID de download (público, não expira) — NUNCA o accessToken OAuth.
+  return { ok: true, url: firebaseDownloadUrl(bucket, objectPath, downloadToken), downloadToken };
 }
 
 // Remove um objeto do bucket (usado para limpar podcasts de especialidades sem
