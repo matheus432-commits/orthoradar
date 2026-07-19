@@ -138,10 +138,28 @@ function buildFeed(especialidade, episodes, bucket, opts = {}) {
 </rss>`;
 }
 
-// Feed MESTRE (o único submetido ao Spotify): 1 episódio por dia, com a
-// especialidade em RODÍZIO determinístico pela data — todo dia uma área
-// diferente, sempre o episódio 1 da edição. Os 3 episódios completos de cada
-// especialidade continuam exclusivos do site (estratégia: Spotify como isca).
+// Quantas especialidades diferentes entram no feed mestre por dia. Com 2/dia,
+// as 11 especialidades completam o ciclo em ~6 dias.
+const MASTER_SPECS_PER_DAY = 2;
+
+// Rodízio determinístico: para um dia e uma lista ordenada de especialidades,
+// devolve as N escolhidas do dia (avança N posições por dia → cobre todas).
+function pickSpecsOfDay(date, specs, n) {
+  if (!specs.length) return [];
+  const dayNum = Math.floor(Date.parse(date + 'T00:00:00Z') / 86400000);
+  const picks = [];
+  for (let i = 0; i < Math.min(n, specs.length); i++) {
+    const idx = (((dayNum * n + i) % specs.length) + specs.length) % specs.length;
+    if (!picks.includes(specs[idx])) picks.push(specs[idx]);
+  }
+  return picks;
+}
+
+// Feed MESTRE (o único submetido ao Spotify): 2 episódios por dia, com as
+// especialidades em RODÍZIO determinístico pela data — a cada dia duas áreas
+// diferentes (ciclo completo em ~6 dias), sempre o episódio 1 da edição.
+// Os 3 episódios completos de cada especialidade continuam exclusivos do site
+// (estratégia: Spotify como isca).
 async function masterEpisodes(db) {
   let docs = [];
   try {
@@ -158,15 +176,16 @@ async function masterEpisodes(db) {
   const out = [];
   for (const [date, eps] of byDate) {
     const specs = [...new Set(eps.map(e => e.especialidade || e.slug))].filter(Boolean).sort();
-    if (!specs.length) continue;
-    const dayNum = Math.floor(Date.parse(date + 'T00:00:00Z') / 86400000);
-    const pick   = specs[((dayNum % specs.length) + specs.length) % specs.length];
-    const chosen = eps
-      .filter(e => (e.especialidade || e.slug) === pick)
-      .sort((a, b) => (a.n || 0) - (b.n || 0))[0];
-    if (chosen) out.push(chosen);
+    for (const pick of pickSpecsOfDay(date, specs, MASTER_SPECS_PER_DAY)) {
+      const chosen = eps
+        .filter(e => (e.especialidade || e.slug) === pick)
+        .sort((a, b) => (a.n || 0) - (b.n || 0))[0];
+      if (chosen) out.push(chosen);
+    }
   }
-  return out.sort((a, b) => (b.date || '').localeCompare(a.date || '')).slice(0, MAX_ITEMS);
+  return out
+    .sort((a, b) => (b.date || '').localeCompare(a.date || '') || String(a.especialidade || '').localeCompare(String(b.especialidade || '')))
+    .slice(0, MAX_ITEMS);
 }
 
 // Fallback do feed mestre antes do histórico existir: usa os docs do dia em
@@ -181,9 +200,10 @@ async function masterFallbackToday(db) {
     .filter(e => e.objectPath && e.downloadToken);
   if (!candidatos.length) return [];
   const specs = [...new Set(candidatos.map(e => e.especialidade))].sort();
-  const dayNum = Math.floor(Date.parse(candidatos[0].date + 'T00:00:00Z') / 86400000);
-  const pick = specs[((dayNum % specs.length) + specs.length) % specs.length];
-  return candidatos.filter(e => e.especialidade === pick).slice(0, 1);
+  const picks = pickSpecsOfDay(candidatos[0].date, specs, MASTER_SPECS_PER_DAY);
+  return picks
+    .map(p => candidatos.find(e => e.especialidade === p))
+    .filter(Boolean);
 }
 
 exports.handler = async (event) => {
