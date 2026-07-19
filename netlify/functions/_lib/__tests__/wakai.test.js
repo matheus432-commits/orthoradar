@@ -19,10 +19,19 @@ const ARTIGOS = [
   { pmid: '111', titulo_pt: 'Cimentação de pino de fibra de vidro', resumo_pt: 'Estudo sobre cimentação adesiva de pino de fibra.', nivel_evidencia: 'RCT', journal: 'JPD', year: '2026', especialidade: 'Prótese', status: 'active' },
 ];
 
+// Resposta canônica do Claude: bloco de raciocínio ANTES do texto — o texto
+// real NÃO está em content[0] (bug real 19/07: chat mostrava só as fontes).
 function claudeOk() {
   return {
     status: 200,
-    body: JSON.stringify({ content: [{ type: 'text', text: 'Resposta clínica fundamentada [1].' }], usage: { input_tokens: 100, output_tokens: 50 } }),
+    body: JSON.stringify({
+      content: [
+        { type: 'thinking', thinking: 'raciocínio interno do modelo' },
+        { type: 'text', text: 'Resposta clínica fundamentada [1].' },
+      ],
+      stop_reason: 'end_turn',
+      usage: { input_tokens: 100, output_tokens: 50 },
+    }),
   };
 }
 
@@ -64,7 +73,7 @@ describe('wakai', () => {
     process.env.FIREBASE_API_KEY = 'fb-test';
   });
 
-  test('happy path: 200 com resposta, fontes e uso registrado', async () => {
+  test('happy path: 200 com resposta, fontes e uso registrado (texto FORA de content[0])', async () => {
     const wakai = loadWakai(claudeOk, state);
     const res = await wakai.handler(event(PERGUNTA));
     assert.equal(res.statusCode, 200, res.body);
@@ -73,6 +82,28 @@ describe('wakai', () => {
     assert.ok(Array.isArray(data.fontes) && data.fontes.length >= 1, 'fontes vazias');
     assert.equal(data.limite - data.restantes, 150); // 100 in + 50 out registrados
     assert.ok(state.writes.some(w => w.coll === 'wakai_usage' && w.val.tokens === 150));
+  });
+
+  test('múltiplos blocos de texto são concatenados', async () => {
+    const wakai = loadWakai(() => ({ status: 200, body: JSON.stringify({
+      content: [{ type: 'text', text: 'Parte 1.' }, { type: 'thinking', thinking: 'x' }, { type: 'text', text: 'Parte 2.' }],
+      usage: { input_tokens: 10, output_tokens: 10 },
+    }) }), state);
+    const res = await wakai.handler(event(PERGUNTA));
+    assert.equal(JSON.parse(res.body).resposta, 'Parte 1.\nParte 2.');
+  });
+
+  test('resposta SEM bloco de texto → erro "resposta_vazia" (nunca 200 com resposta vazia)', async () => {
+    const wakai = loadWakai(() => ({ status: 200, body: JSON.stringify({
+      content: [{ type: 'thinking', thinking: 'só raciocínio, texto nenhum' }],
+      stop_reason: 'max_tokens',
+      usage: { input_tokens: 100, output_tokens: 900 },
+    }) }), state);
+    const res = await wakai.handler(event(PERGUNTA));
+    assert.equal(res.statusCode, 500);
+    const data = JSON.parse(res.body);
+    assert.equal(data.error, 'resposta_vazia');
+    assert.match(data.message, /Pergunte de novo/);
   });
 
   test('chamada ao Claude usa timeout de 20s e NÃO faz retry (orçamento Netlify)', async () => {

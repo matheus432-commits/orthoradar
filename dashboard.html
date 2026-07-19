@@ -1415,6 +1415,11 @@ async function wakaiEnviar(){
     if(res.status===429){ wakaiMsg('wakai','⏳ '+escapeHtml(data.message||'Limite diário atingido.'),null,modo); }
     else if(res.status===403){ _bibPremium=false; _wkInit=false; document.getElementById('wakaiApp').style.display='none'; initWakaiTab(); }
     else if(!res.ok){ wakaiMsg('wakai','⚠️ '+escapeHtml(data.message||'Não consegui responder agora. Tente de novo.'),null,modo); }
+    else if(!String(data.resposta||'').trim()){
+      // Defesa: nunca mostrar bolha vazia só com fontes (bug real 19/07)
+      wakaiMsg('wakai','⚠️ A resposta não veio completa. Pergunte de novo, por favor.',null,modo);
+      wakaiSetUso(data.restantes,data.limite);
+    }
     else{
       wakaiMsg('wakai',wakaiFormat(data.resposta),data.fontes,modo);
       wakaiSetUso(data.restantes,data.limite);

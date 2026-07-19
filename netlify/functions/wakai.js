@@ -172,7 +172,20 @@ async function askClaude(modo, especialidade, contexto, pergunta) {
   const u = json.usage || {};
   const tokens = (u.input_tokens || 0) + (u.output_tokens || 0) +
                  (u.cache_read_input_tokens || 0) + (u.cache_creation_input_tokens || 0);
-  return { texto: (json.content?.[0]?.text || '').trim(), tokens };
+  // O retorno pode conter blocos não-textuais ANTES do texto (ex.: bloco de
+  // raciocínio do modelo). Pegar só content[0] devolvia resposta vazia com a
+  // API já cobrada (bug real 19/07: só as fontes apareciam no chat). Junta
+  // TODOS os blocos de texto; sem nenhum, erra alto com diagnóstico no log.
+  const texto = (Array.isArray(json.content) ? json.content : [])
+    .filter(b => b && b.type === 'text' && typeof b.text === 'string')
+    .map(b => b.text).join('\n').trim();
+  if (!texto) {
+    log.error('[wakai] resposta sem bloco de texto', {
+      blocos: (json.content || []).map(b => b && b.type), stop: json.stop_reason, tokens,
+    });
+    const e = new Error('resposta_vazia'); e.vazia = true; throw e;
+  }
+  return { texto, tokens };
 }
 
 exports.handler = async (event) => {
@@ -231,6 +244,9 @@ exports.handler = async (event) => {
     log.error('[wakai] erro', { err: err.message, config: !!err.config });
     if (err.config) {
       return { statusCode: 500, headers, body: JSON.stringify({ error: 'config', message: 'A Wakai está temporariamente indisponível por configuração do servidor. Já fomos avisados.' }) };
+    }
+    if (err.vazia) {
+      return { statusCode: 500, headers, body: JSON.stringify({ error: 'resposta_vazia', message: 'A Wakai não conseguiu concluir a resposta desta vez. Pergunte de novo, por favor.' }) };
     }
     if (/timeout/i.test(err.message)) {
       return { statusCode: 500, headers, body: JSON.stringify({ error: 'timeout', message: 'A resposta demorou mais que o esperado. Tente de novo — perguntas mais específicas respondem mais rápido.' }) };
