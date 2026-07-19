@@ -13,7 +13,9 @@ async function _doRequest(options, body) {
       res.on('data', c => data += c);
       res.on('end', () => resolve({ status: res.statusCode, body: data }));
     });
-    req.setTimeout(15000, () => {
+    // timeoutMs configurável por chamada — a síntese generativa do Cloud TTS
+    // (Chirp3-HD) pode passar de 15s para textos de ~3k chars.
+    req.setTimeout(options.timeoutMs || 15000, () => {
       // NUNCA logar a query string — pode conter ?key=<API_KEY> (Firestore/TTS).
       const safePath = (options.path || '').split('?')[0].substring(0, 80);
       req.destroy(new Error('Request timeout: ' + (options.hostname || '') + safePath));
