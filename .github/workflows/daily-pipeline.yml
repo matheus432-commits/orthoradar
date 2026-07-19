@@ -125,7 +125,7 @@ jobs:
     name: Envio de Digests
     needs: ingest
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
 
     # Executa email se:
     #   A) ingest terminou (com sucesso OU falha — ainda há artigos no Firestore)
