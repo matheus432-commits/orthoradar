@@ -473,11 +473,23 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
     especialidade, generated: !!editorial, chars: editorial?.length ?? 0, ms: Date.now() - t,
   });
 
-  // 7b. Resumo estruturado de CADA artigo da edição (botão "Ler o resumo" no
-  // site — Objetivo/Métodos/Resultados/Relevância). Cacheado no artigo e salvo
-  // no doc do digest; best-effort: sem resumo, o card mostra só o essencial.
+  // 7b. Resumo completo de CADA artigo da edição (botão "Ler o resumo" no
+  // site). Cacheado no artigo e salvo no doc do digest; best-effort: sem
+  // resumo, o card mostra só o essencial. ORÇAMENTO PRÓPRIO de tempo: o
+  // buildEspDigest inteiro tem 180s (USER_TIMEOUT_MS×2) — esta etapa nunca
+  // pode consumi-lo e derrubar o envio da especialidade inteira; passou do
+  // orçamento, os artigos restantes seguem sem resumo rico (amanhã completa).
+  const RESUMO_STAGE_BUDGET_MS = 100000;
   t = Date.now();
-  for (const art of selected) await ensureResumoCompleto(db, art);
+  for (const art of selected) {
+    if (Date.now() - t > RESUMO_STAGE_BUDGET_MS) {
+      log.warn('[digest][ESP][STAGE resumos] orçamento de tempo esgotado — restantes sem resumo rico hoje', {
+        especialidade, msDecorridos: Date.now() - t,
+      });
+      break;
+    }
+    await ensureResumoCompleto(db, art);
+  }
   log.info('[digest][ESP][STAGE resumos]', {
     especialidade, comResumo: selected.filter(a => a.resumo_completo).length,
     total: selected.length, ms: Date.now() - t,
