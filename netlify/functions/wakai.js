@@ -130,9 +130,12 @@ function systemFor(modo, especialidade, temContexto) {
 `Você é a Wakai, assistente científica pessoal do OdontoFeed para um cirurgião-dentista de ${especialidade} no Brasil.
 REGRAS PERMANENTES:
 - Responda em português brasileiro, para um COLEGA profissional (nunca linguagem de paciente).
-- Fundamente-se na literatura consolidada${temContexto ? ' e nos ARTIGOS DO CONTEXTO — cite-os como [1], [2] quando os usar. Dê peso especial aos marcados como salvos na biblioteca do dentista' : ''}.
+- Vá DIRETO à resposta clínica. NUNCA abra com meta-comentário sobre quais artigos você tem (ou não tem) no contexto, nem explique por que não vai citar referências. Nada de preâmbulo — comece já respondendo.
+- Fundamente-se na literatura consolidada${temContexto ? ' e, quando forem pertinentes ao tema perguntado, nos ARTIGOS DO CONTEXTO — cite-os como [1], [2] apenas quando realmente usar aquele artigo. Dê peso especial aos marcados como salvos na biblioteca do dentista' : ''}.
+- NÃO invente números, referências nem artigos. Se nenhum artigo do contexto for pertinente, responda normalmente pela literatura consolidada, SEM citar [n] e SEM anunciar essa ausência.
 - Seja honesta sobre incerteza: quando a evidência é fraca ou dividida, diga.
-- NÃO invente números, referências nem artigos. Se não houver artigo no contexto sobre o tema, responda pelo conhecimento consolidado e diga isso.
+- NUNCA sugira ao dentista mudar seus temas ou sua especialidade, nem recomende adicionar à biblioteca artigos/assuntos de outra especialidade. Mesmo que a pergunta seja de outra área, apenas responda pelo conhecimento consolidado, sem propor ampliar o escopo nem oferecer "registrar o tema".
+- Responda de forma completa porém CONCISA (no máximo ~4 parágrafos curtos) e SEMPRE conclua o raciocínio: nunca termine no meio de uma frase.
 - Encerre SEMPRE com uma linha: "⚠️ Conteúdo informativo — não substitui seu julgamento clínico nem a leitura das fontes."`;
 
   if (modo === 'protocolo') {
@@ -149,7 +152,10 @@ FORMATO (modo Conversa): prosa clara e direta de colega especialista; parágrafo
 // em toda pergunta). Damos 20s SÓ para a chamada ao Claude, SEM retry
 // (maxRetries=0): retry duplicaria a cobrança de tokens e estouraria os 26s.
 const CLAUDE_TIMEOUT_MS = 20000;
-const MAX_ANSWER_TOKENS = 1000; // ~13s de geração — cabe no orçamento com folga
+// 1000 cortava respostas no meio (bug real 19/07). Elevado para 1500; o prompt
+// exige concisão (~4 parágrafos) e SEMPRE concluir, então a resposta termina
+// naturalmente bem antes do teto — o limite é só rede de segurança.
+const MAX_ANSWER_TOKENS = 1500;
 
 async function askClaude(modo, especialidade, contexto, pergunta) {
   const apiKey = process.env.ANTHROPIC_API_KEY;
@@ -229,11 +235,17 @@ exports.handler = async (event) => {
     const { texto, tokens } = await askClaude(modoOk, ctx.especialidade, ctx.bloco, String(pergunta));
     const pos = await recordUsage(db, email, tokens);
 
+    // Só devolve as fontes REALMENTE citadas [n] na resposta — senão apareciam
+    // 8 artigos da especialidade sob uma resposta de outro tema (bug 19/07:
+    // pergunta de prótese com 8 fontes de ortodontia). Sem citação → sem fontes.
+    const citados = new Set([...String(texto).matchAll(/\[(\d+)\]/g)].map(m => Number(m[1])));
+    const fontes = ctx.fontes.filter(f => citados.has(f.n));
+
     return {
       statusCode: 200,
       headers: { ...headers, 'Cache-Control': 'private, no-store' },
       body: JSON.stringify({
-        resposta: texto, fontes: ctx.fontes, modo: modoOk,
+        resposta: texto, fontes, modo: modoOk,
         restantes: pos.restantes, limite: TOKEN_LIMIT,
       }),
     };
