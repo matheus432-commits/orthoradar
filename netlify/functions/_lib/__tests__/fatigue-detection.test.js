@@ -155,14 +155,16 @@ describe('detectFatigue', () => {
 // ── getOptimalDigestSize ──────────────────────────────────────────────────────
 
 describe('getOptimalDigestSize', () => {
-  test('high CTR → 5 articles', () => {
+  // Decisão de produto: a edição base é SEMPRE 3 artigos, independente do
+  // engajamento — os 2 extras do Premium são renderizados fora da edição base.
+  test('high CTR → still 3 articles (base fixa)', () => {
     const size = getOptimalDigestSize({ ctr: 0.4, consecutiveIgnored: 0, openRate: 0.8, engagementScore: 0.7 });
-    assert.equal(size, 5);
+    assert.equal(size, 3);
   });
 
-  test('moderate CTR → 4 articles', () => {
+  test('moderate CTR → still 3 articles (base fixa)', () => {
     const size = getOptimalDigestSize({ ctr: 0.2, consecutiveIgnored: 0, openRate: 0.5, engagementScore: 0.5 });
-    assert.equal(size, 4);
+    assert.equal(size, 3);
   });
 
   test('low CTR → 3 articles', () => {

@@ -484,7 +484,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 36px
   <!-- STATS STRIP -->
   <div class="stats-strip">
     <div class="stat-tile"><div class="stat-num" id="statRecebidos">—</div><div class="stat-label">Artigos recebidos</div></div>
-    <div class="stat-tile"><div class="stat-num" id="statCurtidos">—</div><div class="stat-label">Artigos curtidos</div></div>
+    <div class="stat-tile"><div class="stat-num" id="statSalvos">—</div><div class="stat-label">Artigos salvos</div></div>
     <div class="stat-tile"><div class="stat-num" id="statAmigos">—</div><div class="stat-label">Amigos na rede</div></div>
     <div class="stat-tile"><div class="stat-num" id="statDias">—</div><div class="stat-label">Dias assinando</div></div>
   </div>
@@ -494,20 +494,14 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 36px
     <button class="tab-btn active" id="tabBtn-recebidos" onclick="switchTab('recebidos',this)">
       📰 Recebidos <span class="tab-badge" id="tbadge-recebidos">0</span>
     </button>
-    <button class="tab-btn" id="tabBtn-curtidos" onclick="switchTab('curtidos',this)">
-      ❤️ Curtidos <span class="tab-badge" id="tbadge-curtidos">0</span>
+    <button class="tab-btn" id="tabBtn-biblioteca" onclick="switchTab('biblioteca',this)">
+      📚 Salvos <span class="tab-badge" id="tbadge-biblioteca">0</span>
     </button>
     <button class="tab-btn" id="tabBtn-amigos" onclick="switchTab('amigos',this)">
       👥 Amigos <span class="tab-badge" id="tbadge-amigos">0</span>
     </button>
-    <button class="tab-btn" id="tabBtn-lidos" onclick="switchTab('lidos',this)">
-      ✅ Lidos <span class="tab-badge" id="tbadge-lidos">0</span>
-    </button>
     <button class="tab-btn" id="tabBtn-especialidades" onclick="switchTab('especialidades',this)">
       🦷 Especialidades <span class="tab-badge" id="tbadge-especialidades">0</span>
-    </button>
-    <button class="tab-btn" id="tabBtn-biblioteca" onclick="switchTab('biblioteca',this)">
-      📚 Biblioteca <span class="tab-badge" id="tbadge-biblioteca">0</span>
     </button>
     <button class="tab-btn" id="tabBtn-wakai" onclick="switchTab('wakai',this)">
       🤖 Wakai
@@ -523,12 +517,6 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 36px
     <div id="recebidosContent"></div>
   </div>
 
-  <!-- TAB: CURTIDOS -->
-  <div class="tab-content" id="tab-curtidos">
-    <div class="section-title">❤️ Artigos Curtidos <span id="countCurtidos"></span></div>
-    <div id="curtidosContent"></div>
-  </div>
-
   <!-- TAB: AMIGOS -->
   <div class="tab-content" id="tab-amigos">
     <div class="section-title">👥 Sua Rede de Dentistas <span id="countAmigos"></span></div>
@@ -542,12 +530,6 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 36px
     <div id="amigosContent"></div>
   </div>
 
-  <!-- TAB: LIDOS -->
-  <div class="tab-content" id="tab-lidos">
-    <div class="section-title">✅ Artigos Lidos <span id="countLidos"></span></div>
-    <div id="lidosContent"><div class="empty-state"><div class="empty-icon">📖</div><h3>Nenhum artigo lido ainda</h3><p>Artigos marcados como lidos aparecerão aqui.</p></div></div>
-  </div>
-
   <!-- TAB: ESPECIALIDADES -->
   <div class="tab-content" id="tab-especialidades">
     <div class="section-title">🦷 Por Especialidade e Categoria</div>
@@ -555,9 +537,9 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 36px
     <div id="espTabsContent"></div>
   </div>
 
-  <!-- TAB: BIBLIOTECA (Premium — Fase B) -->
+  <!-- TAB: SALVOS (Biblioteca — Premium) -->
   <div class="tab-content" id="tab-biblioteca">
-    <div class="section-title">📚 Sua Biblioteca Científica <span id="countBiblioteca"></span></div>
+    <div class="section-title">📚 Seus Artigos Salvos <span id="countBiblioteca"></span></div>
     <div id="bibliotecaTools" style="display:none;margin-bottom:16px;">
       <input type="text" id="bibBusca" placeholder="🔎 Buscar no que você salvou (título, nota, coleção)…" oninput="renderBiblioteca()"
              style="width:100%;max-width:520px;padding:11px 14px;border:1px solid var(--border);border-radius:10px;background:var(--card);color:var(--text);font-size:14px;"/>
@@ -634,32 +616,6 @@ function safeId(s){ return String(s==null?'':s).replace(/[^A-Za-z0-9_.:-]/g,'');
 function getToken(){ return localStorage.getItem('of_token'); }
 function getEmail(){ return localStorage.getItem('of_email'); }
 function setSession(e,t){ localStorage.setItem('of_token',t); localStorage.setItem('of_email',e); }
-
-// Sync curtidos/lidos across open tabs
-const _bc = typeof BroadcastChannel !== 'undefined' ? new BroadcastChannel('odontofeed_sync') : null;
-if (_bc) _bc.onmessage = ({ data: d }) => {
-  if (!userData) return;
-  if (d.type === 'curtido') {
-    userData.curtidos = userData.curtidos || [];
-    if (d.liked) { if (!userData.curtidos.includes(d.id)) userData.curtidos.push(d.id); }
-    else { userData.curtidos = userData.curtidos.filter(x => x !== d.id); }
-    document.querySelectorAll(`.btn-like[onclick*="${d.id}"]`).forEach(b => {
-      b.classList.toggle('liked', d.liked); b.textContent = d.liked ? '❤️ Curtido' : '🤍 Curtir';
-    });
-    const n = (userData.curtidos||[]).length;
-    ['statCurtidos','tbadge-curtidos'].forEach(k => { const el=document.getElementById(k); if(el) el.textContent=n; });
-    const cc=document.getElementById('countCurtidos'); if(cc) cc.textContent='('+n+')';
-    renderCurtidos(userData.artigos||[], userData.curtidos||[], userData.lidos||[]);
-  } else if (d.type === 'lido') {
-    userData.lidos = userData.lidos || [];
-    if (d.lido) { if (!userData.lidos.includes(d.id)) userData.lidos.push(d.id); }
-    else { userData.lidos = userData.lidos.filter(x => x !== d.id); }
-    document.querySelectorAll(`.btn-lido[onclick*="${d.id}"]`).forEach(b => {
-      b.classList.toggle('lido', d.lido); b.textContent = d.lido ? '✅ Lido' : '📝 Marcar como lido';
-    });
-    renderLidos(userData.artigos||[], userData.lidos, userData.curtidos||[]);
-  }
-};
 
 function logout(){
   // Invalida a sessão no servidor (best-effort) antes de descartar o token localmente.
@@ -810,7 +766,6 @@ function skeletonCard(){
 function showSkeletons(){
   const skels='<div class="skeleton-grid">'+skeletonCard()+skeletonCard()+skeletonCard()+'</div>';
   document.getElementById('recebidosContent').innerHTML=skels;
-  document.getElementById('curtidosContent').innerHTML=skels;
   document.getElementById('amigosContent').innerHTML='<div class="skeleton-grid">'+skeletonCard()+skeletonCard()+'</div>';
 }
 
@@ -829,31 +784,24 @@ function populateDashboard(data){
   const dias=data.criadoEm?Math.floor((Date.now()-new Date(data.criadoEm).getTime())/86400000):0;
 
   document.getElementById('statRecebidos').textContent=artigos.length;
-  document.getElementById('statCurtidos').textContent=curtidos.length;
   document.getElementById('statAmigos').textContent=amigos.length;
   document.getElementById('statDias').textContent=dias;
 
   document.getElementById('tbadge-recebidos').textContent=artigos.length;
-  document.getElementById('tbadge-curtidos').textContent=curtidos.length;
   document.getElementById('tbadge-amigos').textContent=amigos.length;
 
   document.getElementById('countRecebidos').textContent=artigos.length?'('+artigos.length+')':'';
-  document.getElementById('countCurtidos').textContent=curtidos.length?'('+curtidos.length+')':'';
   document.getElementById('countAmigos').textContent=amigos.length?'('+amigos.length+')':'';
 
   const lidos = data.lidos || [];
   const temas = data.temas || [];
   renderRecebidos(artigos,curtidos,lidos);
-  renderCurtidos(artigos,curtidos,lidos);
   renderAmigos(amigos);
-  renderLidos(artigos, lidos, curtidos);
   renderEspecialidades(artigos, specs, temas, curtidos, lidos);
 }
 
 // ========== ARTICLE CARD ==========
 function articleCard(art,curtidos,lidos){
-  const liked=curtidos.includes(art.id);
-  const isLido=lidos&&lidos.includes(art.id);
   let date='';if(art.data){try{const _d=new Date(art.data);if(!isNaN(_d.getTime()))date=_d.toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'numeric'});}catch(e){}}
   const summary=escapeHtml((art.resumo||'').substring(0,280)+(art.resumo&&art.resumo.length>280?'…':''));
   const journal=[art.journal,art.year].filter(Boolean).map(escapeHtml).join(' · ');
@@ -864,7 +812,7 @@ function articleCard(art,curtidos,lidos){
   else if(/coorte|caso.controle|transversal|cross/i.test(ev))evCls='ev-c';
   const evBadge=ev?`<span class="ev-chip ${evCls}">${escapeHtml(ev.split(' ')[0])}</span>`:'';
   const temaTag=(art.tema&&art.tema!==art.especialidade)?`<span class="article-tema-tag">${escapeHtml(art.tema)}</span>`:'';
-  return `<div class="article-card${isLido?' card-lido':''}${art.premium?' card-premium':''}" data-id="${escapeHtml(art.id)}">
+  return `<div class="article-card${art.premium?' card-premium':''}" data-id="${escapeHtml(art.id)}">
     <div class="article-meta-top">
       <div class="article-tags-row">
         ${art.premium?'<span class="premium-tag">💎 Exclusivo assinante</span>':''}
@@ -878,10 +826,8 @@ function articleCard(art,curtidos,lidos){
     ${journal?`<div class="article-journal">${journal}</div>`:''}
     <div class="article-summary">${summary}</div>
     <div class="article-actions">
-      <button class="btn-like ${liked?'liked':''}" onclick="toggleLike('${safeId(art.id)}',this)">${liked?'❤️ Curtido':'🤍 Curtir'}</button>
       ${_podcastMap.has(String(art.id))?`<button class="btn-lido btn-audio-dash" onclick="toggleAudioDash(this)">🎧 Ouvir resumo</button>`:''}
       ${safeUrl(art.pubmedUrl)?`<a class="btn-pubmed" href="${escapeHtml(safeUrl(art.pubmedUrl))}" target="_blank" rel="noopener">PubMed ↗</a>`:''}
-      <button class="btn-lido ${isLido?'lido':''}" onclick="toggleLido('${safeId(art.id)}')">${isLido?'✅ Lido':'📝 Lido'}</button>
       <button class="btn-lido ${_bibIds.has(String(art.id))?'lido':''}" onclick="salvarBiblioteca('${safeId(art.id)}',this)">${_bibIds.has(String(art.id))?'📚 Salvo':'📚 Salvar'}</button>
     </div>
     ${_podcastMap.has(String(art.id))?`<audio controls preload="none" style="display:none;width:100%;margin-top:10px;"><source src="${escapeHtml(_podcastMap.get(String(art.id)).url)}" type="audio/mpeg"></audio>`:''}
@@ -926,17 +872,24 @@ function renderRecebidos(artigos,curtidos,lidos){
   _paintRecebidos(artigos, curtidos, lidos, el);
 }
 
+// Premium do usuário: da edição do dia quando carregada; senão do get-user-data.
+function _isPremiumUser(){
+  if(_edicaoHoje) return !!_edicaoHoje.isPremium;
+  return !!(userData && userData.isPremium);
+}
+
 function _paintRecebidos(artigos, curtidos, lidos, el) {
   el = el || document.getElementById('recebidosContent');
+  const premium=_isPremiumUser();
   let html='';
-  let anteriores=artigos;
+  let anteriores=premium?artigos:[]; // histórico é exclusivo Premium
 
   if(_edicaoHoje && _edicaoHoje.artigos.length){
     // ── Edição de hoje: os 3 do dia (+2 exclusivos no Premium), com áudio ──
     const hoje=_edicaoHoje.artigos.map(e=>_edicaoParaCard(e,artigos));
     const extras=_edicaoHoje.premiumExtras.map(e=>_edicaoParaCard({...e,premium:true},artigos));
     const idsHoje=new Set([...hoje,...extras].map(a=>String(a.id)));
-    anteriores=artigos.filter(a=>!idsHoje.has(String(a.id)));
+    anteriores=anteriores.filter(a=>!idsHoje.has(String(a.id)));
 
     let dataFmt='';
     if(_edicaoHoje.date){try{const d=new Date(_edicaoHoje.date+'T12:00:00');if(!isNaN(d.getTime()))dataFmt=d.toLocaleDateString('pt-BR',{day:'2-digit',month:'long'});}catch(e){}}
@@ -947,10 +900,17 @@ function _paintRecebidos(artigos, curtidos, lidos, el) {
     html+='<div class="articles-grid">'+hoje.map(a=>articleCard(a,curtidos,lidos)).join('')+
       extras.map(a=>articleCard(a,curtidos,lidos)).join('')+'</div>';
 
-    if(!extras.length && !_edicaoHoje.isPremium){
-      html+=`<div class="edicao-upsell">💎 Assinantes Premium recebem <strong>5 artigos por dia</strong> — os 3 acima mais 2 exclusivos pelos seus temas, com resumo aprofundado. <a href="/#planos">Conhecer o Premium →</a></div>`;
+    if(!premium){
+      html+=`<div class="edicao-upsell">💎 Assinantes Premium recebem <strong>5 artigos por dia</strong> (os 3 acima mais 2 exclusivos pelos seus temas, com resumo aprofundado), acessam o <strong>histórico de edições anteriores</strong> e podem <strong>salvar artigos</strong> na sua área de Salvos. <a href="/#planos">Conhecer o Premium →</a></div>`;
     }
     if(anteriores.length) html+=`<div class="edicao-hoje-head" style="margin-top:28px;"><span class="edicao-hoje-titulo">🗂️ Edições anteriores</span></div>`;
+  } else if(!premium){
+    // Gratuito sem edição carregada: não expor o histórico
+    html+=`<div class="empty-state">
+      <div class="empty-icon">📬</div>
+      <h3>A edição de hoje está sendo preparada</h3>
+      <p>Volte em instantes — sua edição diária com os 3 artigos da especialidade chega todos os dias.</p>
+    </div>`;
   }
 
   if(anteriores.length){
@@ -965,20 +925,6 @@ function _paintRecebidos(artigos, curtidos, lidos, el) {
 function loadMoreRecebidos() {
   recebidosShown = recebidosShown + RECEBIDOS_PAGE;
   _paintRecebidos(userData.artigos||[], userData.curtidos||[], userData.lidos||[]);
-}
-
-function renderCurtidos(artigos,curtidos,lidos){
-  const el=document.getElementById('curtidosContent');
-  const list=artigos.filter(a=>curtidos.includes(a.id));
-  if(!list.length){
-    el.innerHTML=`<div class="empty-state">
-      <div class="empty-icon">❤️</div>
-      <h3>Nenhum artigo curtido ainda</h3>
-      <p>Curta os artigos que mais te interessam na aba "Recebidos" para salvá-los aqui como favoritos.</p>
-    </div>`;
-    return;
-  }
-  el.innerHTML='<div class="articles-grid">'+list.map(a=>articleCard(a,curtidos,lidos)).join('')+'</div>';
 }
 
 function renderAmigos(amigos){
@@ -1000,20 +946,6 @@ function renderAmigos(amigos){
         <div class="friend-spec">🦷 ${escapeHtml(Array.isArray(a.especialidade)?a.especialidade.join(', '):(a.especialidade||''))}</div>
       </div>
     </div>`).join('')+'</div>';
-}
-
-// ========== LIKE ==========
-// ========== RENDER LIDOS ==========
-function renderLidos(artigos, lidos, curtidos) {
-  const el = document.getElementById('lidosContent');
-  const lidosArr = artigos.filter(a => lidos.includes(a.id));
-  document.getElementById('tbadge-lidos').textContent = lidosArr.length;
-  document.getElementById('countLidos').textContent = lidosArr.length ? '(' + lidosArr.length + ')' : '';
-  if (!lidosArr.length) {
-    el.innerHTML = '<div class="empty-state"><div class="empty-icon">📖</div><h3>Nenhum artigo lido ainda</h3><p>Artigos marcados como lidos aparecerão aqui.</p></div>';
-    return;
-  }
-  el.innerHTML = '<div class="articles-grid">'+lidosArr.map(a => articleCard(a, curtidos, lidos)).join('')+'</div>';
 }
 
 // ========== RENDER ESPECIALIDADES ==========
@@ -1052,69 +984,6 @@ function switchEspTab(btnEl, idx) {
   document.querySelectorAll('#espTabsContent .esp-panel').forEach(p => p.style.display = 'none');
   const panel = document.getElementById('esp-panel-' + idx);
   if (panel) panel.style.display = 'block';
-}
-
-async function toggleLido(artId) {
-  const email = getEmail(), token = getToken();
-  if (!email || !token) return;
-  const btns = document.querySelectorAll(`.btn-lido[onclick="toggleLido('${safeId(artId)}')"]`);
-  const currentlyLido = btns[0]?.classList.contains('lido') ?? false;
-  const action = currentlyLido ? 'unmark' : 'mark';
-  btns.forEach(b => { b.disabled = true; });
-  try {
-    const res = await fetch('/.netlify/functions/toggle-lido', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, token, artId, action })
-    });
-    if (!res.ok) return;
-    const data = await res.json();
-    if (!userData) return;
-    userData.lidos = userData.lidos || [];
-    if (data.lido) {
-      if (!userData.lidos.includes(artId)) userData.lidos.push(artId);
-    } else {
-      userData.lidos = userData.lidos.filter(id => id !== artId);
-    }
-    btns.forEach(btn => {
-      btn.classList.toggle('lido', data.lido);
-      btn.textContent = data.lido ? '✅ Lido' : '📝 Marcar como lido';
-    });
-    renderLidos(userData.artigos || [], userData.lidos, userData.curtidos || []);
-    if (_bc) _bc.postMessage({ type: 'lido', id: artId, lido: data.lido });
-  } catch(e) { console.error('Erro ao marcar lido:', e); }
-  finally { btns.forEach(b => { b.disabled = false; }); }
-}
-
-
-async function toggleLike(artigoId,btn){
-  const email=getEmail();
-  const token=getToken();
-  if(!email||!token)return;
-  const liked=btn.classList.contains('liked');
-  btn.disabled=true;
-  try{
-    const res=await fetch('/.netlify/functions/like-article',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
-      body:JSON.stringify({email,artigoId,action:liked?'unlike':'like'})
-    });
-    if(res.ok){
-      btn.classList.toggle('liked');
-      btn.textContent=liked?'🤍 Curtir':'❤️ Curtido';
-      if(userData){
-        userData.curtidos=liked
-          ?(userData.curtidos||[]).filter(id=>id!==artigoId)
-          :[...(userData.curtidos||[]),artigoId];
-        document.getElementById('statCurtidos').textContent=(userData.curtidos||[]).length;
-        document.getElementById('tbadge-curtidos').textContent=(userData.curtidos||[]).length;
-        document.getElementById('countCurtidos').textContent='('+(userData.curtidos||[]).length+')';
-        renderCurtidos(userData.artigos||[],userData.curtidos||[],userData.lidos||[]);
-        if (_bc) _bc.postMessage({ type: 'curtido', id: artigoId, liked: !liked });
-      }
-    }
-  }catch(e){}
-  btn.disabled=false;
 }
 
 // ========== FORGOT / RESET PASSWORD ==========
@@ -1432,6 +1301,7 @@ async function loadBibliotecaTab(force){
     _bibItens=data.itens||[];
     _bibIds=new Set(_bibItens.map(i=>String(i.pmid)));
     document.getElementById('tbadge-biblioteca').textContent=_bibItens.length;
+    const st=document.getElementById('statSalvos'); if(st) st.textContent=_bibItens.length;
     document.getElementById('bibliotecaTools').style.display=_bibItens.length?'block':'none';
     renderBibColecoes(data.colecoes||[]);
     renderBiblioteca();
@@ -1442,10 +1312,11 @@ async function loadBibliotecaTab(force){
 
 function renderBibliotecaUpsell(){
   document.getElementById('bibliotecaTools').style.display='none';
+  const st=document.getElementById('statSalvos'); if(st) st.textContent='🔒';
   document.getElementById('bibliotecaContent').innerHTML=
     '<div style="background:linear-gradient(120deg,#2A2440,#4A2F80);border-radius:16px;padding:32px;color:#EDE8F8;max-width:720px;">'
-    +'<h3 style="color:#fff;font-size:18px;margin-bottom:8px;">🧠 Construa seu segundo cérebro científico</h3>'
-    +'<p style="font-size:14px;color:#C9BFE2;line-height:1.7;margin-bottom:16px;">A Biblioteca é exclusiva do plano <strong style="color:#fff;">Premium (R$ 59,90/mês)</strong>: salve artigos, resumos e podcasts em coleções, crie notas privadas, busque em tudo que você já estudou — e pergunte à <strong style="color:#fff;">Wakai</strong>, sua IA pessoal.</p>'
+    +'<h3 style="color:#fff;font-size:18px;margin-bottom:8px;">🔒 Salvar artigos é um recurso Premium</h3>'
+    +'<p style="font-size:14px;color:#C9BFE2;line-height:1.7;margin-bottom:16px;">A área de Salvos é exclusiva do plano <strong style="color:#fff;">Premium (R$ 59,90/mês)</strong>: salve artigos, resumos e podcasts em coleções, crie notas privadas, busque em tudo que você já estudou — e pergunte à <strong style="color:#fff;">Wakai</strong>, sua IA pessoal.</p>'
     +'<a href="/#planos" style="display:inline-block;background:#C9A227;color:#1A1A18;font-weight:800;padding:11px 22px;border-radius:8px;text-decoration:none;font-size:14px;">Conhecer o Premium →</a></div>';
 }
 

@@ -1,0 +1,44 @@
+name: Definir Plano de Usuários
+
+# Uso administrativo: coloca usuários no plano Premium (cortesia) ou de volta
+# ao Gratuito, direto no Firestore. Disparo manual. Sem EMAILS, aplica a TODOS
+# os usuários ativos.
+
+on:
+  workflow_dispatch:
+    inputs:
+      plano:
+        description: 'Plano a aplicar'
+        required: true
+        default: 'premium'
+        type: choice
+        options:
+          - premium
+          - gratuito
+      emails:
+        description: 'E-mails separados por vírgula (vazio = todos os ativos)'
+        required: false
+        default: ''
+
+jobs:
+  set-plano:
+    name: Aplicar plano
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Definir plano
+        env:
+          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+          FIREBASE_API_KEY:    ${{ secrets.FIREBASE_API_KEY }}
+          PLANO:               ${{ inputs.plano }}
+          EMAILS:              ${{ inputs.emails }}
+        run: node netlify/functions/set-plano.js
