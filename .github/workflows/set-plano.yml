@@ -19,6 +19,11 @@ on:
         description: 'E-mails separados por vírgula (vazio = todos os ativos)'
         required: false
         default: ''
+      apenas_cortesia:
+        description: 'Só usuários com planoOrigem=cortesia (downgrade seletivo no fim da cortesia — nunca toca assinaturas pagas)'
+        required: false
+        default: false
+        type: boolean
 
 jobs:
   set-plano:
@@ -41,4 +46,5 @@ jobs:
           FIREBASE_API_KEY:    ${{ secrets.FIREBASE_API_KEY }}
           PLANO:               ${{ inputs.plano }}
           EMAILS:              ${{ inputs.emails }}
+          APENAS_CORTESIA:     ${{ inputs.apenas_cortesia }}
         run: node netlify/functions/set-plano.js
