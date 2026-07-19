@@ -1,13 +1,29 @@
 // Gera o ROTEIRO falado do podcast (narração única, pt-BR) a partir de um artigo.
 // O texto vira áudio no Cloud TTS, então o tamanho é limitado ao teto por áudio
-// do orçamento (MAX_CHARS_PER_AUDIO). Modelo: Claude (Fable 5 por padrão).
+// do orçamento (MAX_CHARS_PER_AUDIO).
+//
+// FIDELIDADE CIENTÍFICA (incidente real 07/2026): um roteiro afirmou que um
+// PROTOCOLO de RCT "avaliou se o laceback funciona" — o estudo nem tinha
+// resultados; ele media placa/dor/intercorrências. Distorção inaceitável.
+// Defesas em camadas:
+//   1. O prompt proíbe inventar/extrapolar; protocolos são narrados como
+//      protocolos (o que SERÁ medido), nunca como estudos com resultados.
+//   2. Todo roteiro passa por um VERIFICADOR de fidelidade (modelo separado)
+//      que compara com o material-fonte (abstract original incluído).
+//      Reprovado → 1 regeneração com o feedback; reprovado de novo → fallback
+//      determinístico (só narra o resumo próprio, sem criação).
+//   3. Modelo do roteiro: Sonnet por padrão (PODCAST_MODEL para trocar).
 
 const { request } = require('../_lib');
-const { resolveModel } = require('./ai-config');
 const { MAX_REQUEST_BYTES, byteLength } = require('./tts-budget');
 const log = require('./logger');
 
 const HOST = 'api.anthropic.com';
+// Roteiro: Sonnet por padrão (é o conteúdo mais consumido do produto; Haiku
+// mostrou alucinação em caso real). Verificador: Haiku é suficiente para
+// conferência objetiva e mantém o custo baixo.
+const SCRIPT_MODEL = process.env.PODCAST_MODEL || process.env.ANTHROPIC_MODEL || 'claude-sonnet-5';
+const VERIFY_MODEL = process.env.PODCAST_VERIFY_MODEL || 'claude-haiku-4-5-20251001';
 
 // Corta o texto para caber no limite de BYTES do TTS (5000 bytes/requisição),
 // terminando no último fim de frase. Mede em bytes UTF-8 porque acentos pt-BR
@@ -45,6 +61,102 @@ function fallbackScript(article, especialidade) {
   return capScript(partes.join(' '));
 }
 
+// Chamada simples à API Anthropic. Retorna o texto ou null.
+async function callModel(anthropicKey, model, system, user, maxTokens) {
+  const payload = JSON.stringify({ model, max_tokens: maxTokens, system, messages: [{ role: 'user', content: user }] });
+  const buf = Buffer.from(payload, 'utf8');
+  const res = await request({
+    hostname: HOST, path: '/v1/messages', method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Content-Length': buf.length, 'x-api-key': anthropicKey, 'anthropic-version': '2023-06-01' },
+  }, buf);
+  if (res.status !== 200) { log.warn('[podcast-script] Claude erro', { model, status: res.status }); return null; }
+  return JSON.parse(res.body).content?.[0]?.text?.trim() || null;
+}
+
+// Material-fonte usado tanto para GERAR quanto para VERIFICAR o roteiro.
+// O abstract ORIGINAL entra na verificação como fonte primária de verdade.
+function buildMaterial(article) {
+  const titulo   = article.titulo_pt || article.titulo || '';
+  const resumo   = (article.resumo_completo || article.resumo_pt || '').slice(0, 2200);
+  const abstract = (article.abstract || '').slice(0, 1800);
+  const impacto  = article.impacto_pratico || '';
+  const nivel    = article.nivel_evidencia || 'estudo recente';
+  const achados  = Array.isArray(article.achados_principais)
+    ? article.achados_principais.filter(Boolean).slice(0, 5)
+    : [];
+  return { titulo, resumo, abstract, impacto, nivel, achados };
+}
+
+// ── Verificador de fidelidade ────────────────────────────────────────────────
+// Compara o roteiro com o material-fonte. Retorna { ok, problemas } — e
+// { ok:false } também em falha de rede/parse (FAIL-CLOSED: sem verificação
+// confiável, o roteiro criativo não vai ao ar; usa-se o fallback).
+async function verifyScriptFidelity(anthropicKey, material, roteiro) {
+  const system =
+`Você é um VERIFICADOR de fidelidade científica de roteiros de podcast odontológico.
+Compare o ROTEIRO com o MATERIAL-FONTE e REPROVE se o roteiro:
+1. Afirmar um OBJETIVO diferente do que o estudo declara (ex.: dizer que avaliou eficácia quando o estudo mediu placa/dor/intercorrências);
+2. Enunciar RESULTADOS ou CONCLUSÕES que não constam no material — atenção especial a PROTOCOLOS de estudo (ainda sem resultados): apresentá-los como estudo concluído é reprovação automática;
+3. Citar números que não estão no material;
+4. Atribuir ao estudo comparações, populações ou desfechos que ele não tem.
+Reformulação de estilo/linguagem NÃO é motivo de reprovação — apenas infidelidade de CONTEÚDO.
+Responda APENAS com JSON válido: {"aprovado": true|false, "problemas": ["descrição curta de cada problema"]}`;
+
+  const user =
+`MATERIAL-FONTE:
+Título: ${material.titulo}
+Tipo/nível de evidência: ${material.nivel}
+Abstract original (fonte primária): ${material.abstract || '(indisponível)'}
+Resumo editorial: ${material.resumo}
+${material.achados.length ? `Achados listados: ${material.achados.join('; ')}` : 'Achados listados: (nenhum)'}
+
+ROTEIRO A VERIFICAR:
+${roteiro}`;
+
+  try {
+    let raw = await callModel(anthropicKey, VERIFY_MODEL, system, user, 400);
+    if (!raw) return { ok: false, problemas: ['verificador indisponível'] };
+    if (raw.startsWith('```')) raw = raw.replace(/^```[a-z]*\n?/, '').replace(/\n?```$/, '').trim();
+    const parsed = JSON.parse(raw);
+    return { ok: parsed.aprovado === true, problemas: Array.isArray(parsed.problemas) ? parsed.problemas : [] };
+  } catch (err) {
+    log.warn('[podcast-script] verificador falhou — fail-closed', { err: err.message });
+    return { ok: false, problemas: ['verificador falhou: ' + err.message] };
+  }
+}
+
+function buildSystemPrompt(especialidade, sponsorText, fixNote) {
+  return `Você escreve o roteiro FALADO de um micro-podcast diário do OdontoFeed para dentistas de ${especialidade}.
+O ouvinte é um DENTISTA que quer a essência do estudo em poucos minutos — cada frase precisa carregar informação do artigo. ZERO enrolação.
+
+FIDELIDADE (regra MÁXIMA, acima de todas): narre APENAS o que está no material.
+- NUNCA invente, extrapole ou "complete" objetivo, resultados ou conclusões.
+- O OBJETIVO narrado deve ser EXATAMENTE o que o estudo declara — não o que seria mais interessante. Ex.: se o estudo mediu placa, dor e intercorrências, é ISSO que você diz; não transforme em "avaliou se a técnica funciona".
+- Se o artigo é um PROTOCOLO ou estudo ainda SEM resultados: diga explicitamente que se trata de um protocolo, narre o que o estudo VAI medir e por quê — e NADA de resultados.
+- Se ficar em dúvida se uma informação está no material, NÃO a inclua.
+
+ESTRUTURA (nesta ordem, em prosa corrida — sem títulos, marcadores, asteriscos ou "[música]"):
+1. Saudação de UMA frase já citando o tema.
+2. OBJETIVO: o que o estudo declara que quis responder (1-2 frases, fiel ao material).
+3. MATERIAIS E MÉTODOS: desenho do estudo, quem/o que foi estudado, grupos comparados, tempo de acompanhamento e o que foi medido — quando esses dados estiverem no material (2-3 frases).
+4. RESULTADOS: quando o material CONTÉM resultados, enunciá-los é OBRIGATÓRIO — o que os autores encontraram, em linguagem clínica direta, com os números do material por extenso. Quando NÃO contém (protocolo/em andamento), diga isso claramente e descreva os desfechos que serão avaliados.
+5. RELEVÂNCIA CLÍNICA: o que muda (ou o que se espera saber) no consultório (1-2 frases).
+6. UMA frase: o episódio é informativo e não substitui a leitura do artigo original nem o julgamento clínico. Despedida em UMA frase curta.
+
+PROIBIDO (enrolação): frases de enchimento ("isso é fascinante", "vamos mergulhar", "fique com a gente"), repetir a mesma ideia, promessas vagas, introduções longas. Se uma frase não traz informação do estudo, corte-a.
+
+REGRAS:
+- Português brasileiro, tom de locutor de podcast — natural e direto, sem soar acadêmico nem traduzido.
+- Números do material são bem-vindos (por extenso). NUNCA invente números.
+- NÃO recite notação estatística técnica (valor de p, intervalo de confiança, odds ratio) — traduza para linguagem clínica.
+- Alvo: 350-500 palavras, densas (o texto vira áudio de ~3 minutos e há limite rígido de tamanho).
+- DIREITO AUTORAL (obrigatório): o material recebido é apenas contexto — NÃO o leia, reproduza ou traduza literalmente; narre inteiramente com suas próprias palavras.${sponsorText ? `
+- PATROCÍNIO: logo após a saudação inicial, leia naturalmente esta mensagem de patrocínio, identificando-a como tal, sem alterá-la: "${sponsorText}"` : ''}${fixNote ? `
+
+ATENÇÃO — a versão anterior do roteiro foi REPROVADA pelo verificador de fidelidade pelos motivos abaixo. Corrija TODOS:
+${fixNote}` : ''}`;
+}
+
 async function generateScript(article, especialidade, anthropicKey, opts = {}) {
   const sponsorText = (opts.sponsorText || '').trim();
   if (!anthropicKey) {
@@ -52,59 +164,37 @@ async function generateScript(article, especialidade, anthropicKey, opts = {}) {
     return capScript(sponsorText ? base.replace('vamos falar sobre', `${sponsorText} Hoje vamos falar sobre`) : base);
   }
 
-  const titulo   = article.titulo_pt || article.titulo || '';
-  // resumo_completo (quando existe) traz a METODOLOGIA — essencial para o bloco
-  // de materiais e métodos do roteiro; senão, cai no resumo curto/abstract.
-  const resumo   = (article.resumo_completo || article.resumo_pt || article.abstract || '').slice(0, 2200);
-  const impacto  = article.impacto_pratico || '';
-  const nivel    = article.nivel_evidencia || 'estudo recente';
-  const achados  = Array.isArray(article.achados_principais)
-    ? article.achados_principais.filter(Boolean).slice(0, 5)
-    : [];
-
-  const system =
-`Você escreve o roteiro FALADO de um micro-podcast diário do OdontoFeed para dentistas de ${especialidade}.
-O ouvinte é um DENTISTA que quer a essência do estudo em poucos minutos — cada frase precisa carregar informação do artigo. ZERO enrolação.
-
-ESTRUTURA (nesta ordem, em prosa corrida — sem títulos, marcadores, asteriscos ou "[música]"):
-1. Saudação de UMA frase já citando o tema.
-2. OBJETIVO: o que o estudo quis responder e por quê (1-2 frases).
-3. MATERIAIS E MÉTODOS: desenho do estudo, quem/o que foi estudado, grupos comparados, tempo de acompanhamento e o que foi medido — quando esses dados estiverem no material (2-3 frases).
-4. RESULTADOS — a parte central e OBRIGATÓRIA: o que os autores ENCONTRARAM, em linguagem clínica direta, com os números do material ditos por extenso. Ex.: "os alinhadores foram tão eficazes quanto o aparelho fixo depois de dezoito meses". O dentista ouve JUSTAMENTE para saber o resultado — NUNCA termine sem enunciá-lo.
-5. RELEVÂNCIA CLÍNICA: o que muda (ou se confirma) no consultório (1-2 frases).
-6. UMA frase: o episódio é informativo e não substitui a leitura do artigo original nem o julgamento clínico. Despedida em UMA frase curta.
-
-PROIBIDO (enrolação): frases de enchimento ("isso é fascinante", "vamos mergulhar", "fique com a gente", "como todos sabemos"), repetir a mesma ideia com outras palavras, promessas vagas ("resultados surpreendentes") sem dizer o resultado, e introduções longas. Se uma frase não traz informação do estudo, corte-a.
-
-REGRAS:
-- Português brasileiro, tom de locutor de podcast — natural e direto, sem soar acadêmico nem traduzido.
-- Números do material são bem-vindos (percentuais, tamanho da amostra, tempo de acompanhamento, "quase o dobro"), sempre por extenso para a locução. NUNCA invente números que não estejam no material.
-- NÃO recite notação estatística técnica (valor de p, intervalo de confiança, odds ratio) — traduza para linguagem clínica.
-- Alvo: 350-500 palavras, densas (o texto vira áudio de ~3 minutos e há limite rígido de tamanho).
-- DIREITO AUTORAL (obrigatório): o material recebido é apenas contexto — NÃO o leia, reproduza ou traduza literalmente; narre os achados inteiramente com suas próprias palavras.${sponsorText ? `
-- PATROCÍNIO: logo após a saudação inicial, leia naturalmente esta mensagem de patrocínio, identificando-a como tal, sem alterá-la: "${sponsorText}"` : ''}`;
-
+  const material = buildMaterial(article);
   const user =
-`Artigo (${nivel}):
-Título: ${titulo}
-Resumo: ${resumo}
-${achados.length ? `Principais achados/resultados do estudo (USE-OS explicitamente no roteiro):\n- ${achados.join('\n- ')}` : ''}
-${impacto ? `Relevância clínica: ${impacto}` : ''}`;
+`Artigo (${material.nivel}):
+Título: ${material.titulo}
+Resumo: ${material.resumo}
+${material.achados.length ? `Principais achados/resultados listados no material:\n- ${material.achados.join('\n- ')}` : 'Achados/resultados listados: (nenhum — se o material não trouxer resultados, trate como estudo sem resultados)'}
+${material.impacto ? `Relevância clínica: ${material.impacto}` : ''}`;
 
   try {
-    const payload = JSON.stringify({ model: resolveModel('PODCAST_MODEL'), max_tokens: 1500, system, messages: [{ role: 'user', content: user }] });
-    const buf = Buffer.from(payload, 'utf8');
-    const res = await request({
-      hostname: HOST, path: '/v1/messages', method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Content-Length': buf.length, 'x-api-key': anthropicKey, 'anthropic-version': '2023-06-01' },
-    }, buf);
-    if (res.status !== 200) { log.warn('[podcast-script] Claude erro', { status: res.status }); return capScript(fallbackScript(article, especialidade)); }
-    const text = JSON.parse(res.body).content?.[0]?.text?.trim();
-    return capScript(text || fallbackScript(article, especialidade));
+    let fixNote = null;
+    for (let tentativa = 1; tentativa <= 2; tentativa++) {
+      const roteiro = await callModel(anthropicKey, SCRIPT_MODEL, buildSystemPrompt(especialidade, sponsorText, fixNote), user, 1500);
+      if (!roteiro) break; // erro de geração → fallback
+
+      const check = await verifyScriptFidelity(anthropicKey, material, roteiro);
+      if (check.ok) {
+        if (tentativa > 1) log.info('[podcast-script] aprovado na 2ª tentativa após correção');
+        return capScript(roteiro);
+      }
+      log.warn('[podcast-script] roteiro REPROVADO pelo verificador de fidelidade', {
+        pmid: article.pmid || article.id, tentativa, problemas: check.problemas.slice(0, 5),
+      });
+      fixNote = '- ' + check.problemas.slice(0, 5).join('\n- ');
+    }
   } catch (err) {
     log.warn('[podcast-script] falha, usando fallback', { err: err.message });
-    return capScript(fallbackScript(article, especialidade));
   }
+
+  // FAIL-CLOSED: sem roteiro aprovado, narra apenas o material próprio, sem criação.
+  log.warn('[podcast-script] usando fallback determinístico (fidelidade não confirmada)', { pmid: article.pmid || article.id });
+  return capScript(fallbackScript(article, especialidade));
 }
 
-module.exports = { generateScript, capScript };
+module.exports = { generateScript, capScript, verifyScriptFidelity, buildMaterial };
