@@ -31,6 +31,7 @@ const { acquireLock, releaseLock }                 = require('./_lib/pipeline-lo
 const { withTimeout }                              = require('./_lib/retry-utils');
 const { getOrCreateAchadoSemana }                  = require('./_lib/achado-semana');
 const { generateResumoCompleto }                   = require('./_lib/claude');
+const { isUnfinishedStudy }                         = require('./_lib/scoring');
 const { espDigestSlug }                            = require('./_lib/slug');
 const { buildEdicaoUrl }                           = require('./_lib/edicao-token');
 const { isPremium }                                = require('./_lib/plans');
@@ -374,6 +375,16 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
   t = Date.now();
   let candidates = await getCandidates(db, [especialidade]);
   candidates = candidates.filter(a => !isRepeated(a, hist));
+  // Rede de segurança para o acervo já existente: protocolos/estudos em
+  // andamento que porventura tenham ficado 'active' antes do gate de ingestão
+  // são barrados aqui também — o OdontoFeed só envia estudos com resultados.
+  candidates = candidates.filter(a => {
+    if (isUnfinishedStudy(a.titulo || a.title || a.titulo_pt || '', a.abstract || '', a.journal || '')) {
+      log.info('[digest][ESP] estudo não concluído descartado', { especialidade, id: a.pmid || a.id, titulo: (a.titulo || a.titulo_pt || '').slice(0, 70) });
+      return false;
+    }
+    return true;
+  });
   // Dedup interno: o mesmo estudo pode aparecer 2x na base (fontes diferentes).
   const seenKeys = new Set();
   candidates = candidates.filter(a => {

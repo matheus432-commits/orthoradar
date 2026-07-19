@@ -84,6 +84,7 @@ function buildPrompt(article) {
     `  "nivel_evidencia": "um de: ${EVIDENCE_LEVELS.join(' | ')}",\n` +
     '  "limitacoes": "Principais limitações em 1 frase",\n' +
     '  "tempo_leitura": 3,\n' +
+    '  "concluido": "true se o estudo JÁ FOI CONCLUÍDO e apresenta RESULTADOS/achados; false se for PROTOCOLO, registro de ensaio clínico, ou estudo em andamento que ainda NÃO tem resultados (ex.: título com \'protocol for a randomized trial\', abstract que diz \'we will recruit/assess\'). Na dúvida entre protocolo e estudo concluído, responda false.",\n' +
     `  "especialidade": "aplique o ESCOPO e as REGRAS DE DESEMPATE acima e classifique pelo FOCO CLÍNICO PRINCIPAL em UMA de: ${CANONICAL_ESPECIALIDADES.join(' | ')} | Outra. Use 'Outra' quando não se encaixar claramente."\n` +
     '}'
   );
@@ -209,6 +210,10 @@ async function enrichArticle(article) {
     nivel_evidencia:   EVIDENCE_LEVELS.includes(enriched.nivel_evidencia) ? enriched.nivel_evidencia : 'Revisão Narrativa',
     limitacoes:        String(enriched.limitacoes          || '').slice(0, 500),
     tempo_leitura:     Number.isInteger(enriched.tempo_leitura) ? enriched.tempo_leitura : 3,
+    // concluido: "concluído, a menos que a IA diga explicitamente false" — se o
+    // campo vier ausente, NÃO rejeitamos por aqui (evita perder artigos bons);
+    // o detector determinístico (isUnfinishedStudy) pega os protocolos óbvios.
+    concluido:         !(enriched.concluido === false || String(enriched.concluido).toLowerCase() === 'false'),
     // 'Odontologia Geral' (para 'Outra'/inválida) nunca casa com digest de especialidade
     especialidade:     CANONICAL_ESPECIALIDADES.includes(enriched.especialidade)
       ? enriched.especialidade
