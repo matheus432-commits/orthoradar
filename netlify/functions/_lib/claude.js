@@ -223,24 +223,26 @@ async function enrichArticle(article) {
 
 // ── Resumo completo (site) ────────────────────────────────────────────────────
 // Resumo detalhado (~350-450 palavras) exibido na /edicao.html pelo botão
-// "Ler o resumo". Diretriz 19/07/2026: ESTRUTURADO nas mesmas 4 dimensões do
-// podcast — Objetivo, Materiais e métodos, Resultados, Relevância clínica —
-// porque muitos dentistas não têm acesso ao artigo completo; o resumo escrito
-// precisa se sustentar sozinho. É texto para LEITURA (não o roteiro do áudio).
-// Gerado com SONNET (fidelidade factual maior que o Haiku) + validador numérico
-// determinístico — nenhum número que não exista na origem passa. Uma
-// retentativa em caso de reprovação; persistindo, retorna null (a página cai
-// no resumo curto — nunca publica número não verificado).
+// "Ler o resumo". Diretriz 19/07/2026 (v2, pedido do fundador): PROSA FLUIDA —
+// sem títulos de seção nem tópicos — mas cobrindo obrigatoriamente as mesmas
+// 4 dimensões do podcast: objetivo, materiais e métodos, resultados e
+// relevância clínica. Muitos dentistas não têm acesso ao artigo completo; o
+// resumo escrito precisa se sustentar sozinho. É texto para LEITURA (não o
+// roteiro do áudio). Gerado com SONNET (fidelidade factual maior que o Haiku)
+// + validador numérico determinístico — nenhum número que não exista na origem
+// passa. Uma retentativa em caso de reprovação; persistindo, retorna null
+// (a página cai no resumo curto — nunca publica número não verificado).
 
 const RESUMO_COMPLETO_MODEL = process.env.RESUMO_COMPLETO_MODEL || 'claude-sonnet-5';
 const { numbersConsistent } = require('./numeric-check');
 
-// Seções obrigatórias do formato 19/07/2026 — a mesma lista alimenta o prompt,
-// o detector de resumos antigos (regeneração no digest) e a renderização.
+// As 4 dimensões obrigatórias (mesmas do podcast). Alimentam o prompt, o
+// detector abaixo e a renderização de compatibilidade (e-mail/site).
 const RESUMO_SECOES = ['Objetivo', 'Materiais e métodos', 'Resultados', 'Relevância clínica'];
 
-// True quando o texto já está no formato estruturado (títulos em linha própria).
-// Resumos antigos em prosa corrida retornam false e são regenerados pelo digest.
+// True quando o texto está no formato COM TÍTULOS de seção (janela curta de
+// 19/07 antes da v2). O formato vigente é prosa fluida — o digest usa este
+// detector para regenerar os resumos com títulos; prosa retorna false e fica.
 function isResumoEstruturado(texto) {
   const t = String(texto || '');
   return RESUMO_SECOES.every(s =>
@@ -251,19 +253,20 @@ function buildResumoCompletoPrompt(article, strictNote) {
   const abstract = (article.abstract || '').slice(0, 2500);
   return (
     'Você é um editor científico especializado em Odontologia escrevendo para dentistas brasileiros.\n' +
-    'Escreva o RESUMO ESTRUTURADO do estudo abaixo em português (350 a 450 palavras), para LEITURA no site. ' +
-    'Muitos leitores não terão acesso ao artigo completo: o resumo precisa se sustentar sozinho.\n' +
-    'FORMATO OBRIGATÓRIO — exatamente estas 4 seções, cada título SOZINHO em uma linha, seguido de parágrafo(s):\n' +
-    RESUMO_SECOES.join('\n') + '\n' +
-    '- "Resultados" é a seção central: enuncie com clareza O QUE o estudo encontrou (desfechos, comparações, direção do efeito). NUNCA a deixe vaga.\n' +
-    '- Em "Materiais e métodos": desenho do estudo, amostra, grupos e acompanhamento.\n' +
-    '- Em "Relevância clínica": o que muda (ou não) na prática, incluindo as limitações do estudo.\n' +
-    '- Sem markdown (nada de #, ** ou marcadores) — apenas os 4 títulos e parágrafos.\n' +
+    'Escreva o RESUMO COMPLETO do estudo abaixo em português (350 a 450 palavras), em PROSA FLUIDA: ' +
+    'parágrafos corridos, SEM títulos de seção, SEM tópicos e SEM marcadores.\n' +
+    'O texto deve obrigatoriamente cobrir, de forma integrada e nesta ordem:\n' +
+    '1) o problema clínico e o OBJETIVO do estudo;\n' +
+    '2) os MATERIAIS E MÉTODOS (desenho do estudo, amostra, grupos, acompanhamento);\n' +
+    '3) os RESULTADOS — a parte central do resumo: enuncie com clareza o que o estudo encontrou (desfechos, comparações, direção do efeito), NUNCA de forma vaga;\n' +
+    '4) a RELEVÂNCIA CLÍNICA, incluindo as limitações do estudo.\n' +
+    'Muitos leitores não terão acesso ao artigo completo: o resumo precisa se sustentar sozinho. ' +
+    'É texto para LEITURA — não reaproveite a estrutura de roteiro do áudio.\n' +
     'REGRA DE DIREITO AUTORAL (obrigatória): o abstract é apenas CONTEXTO — é PROIBIDO reproduzi-lo ou traduzi-lo literalmente; escreva com suas próprias palavras e estrutura.\n' +
     'REGRA DE FIDELIDADE NUMÉRICA (obrigatória): cite APENAS números que constam literalmente no material abaixo (amostras, percentuais, tempos, medidas). ' +
     'NUNCA derive, arredonde, converta ou estime números. Se um dado não estiver no material, descreva-o qualitativamente sem número.\n' +
     (strictNote ? 'ATENÇÃO: a versão anterior citou números inexistentes no material (' + strictNote + '). Remova qualquer número que não esteja literalmente no material.\n' : '') +
-    'Responda APENAS com o resumo no formato acima.\n\n' +
+    'Responda APENAS com o texto do resumo, sem títulos nem marcadores.\n\n' +
     `TÍTULO: ${article.titulo || article.title || ''}\n` +
     `ABSTRACT (contexto): ${abstract}\n` +
     `PERIÓDICO/ANO: ${article.journal || ''} ${article.year || ''}`

@@ -77,12 +77,15 @@ describe('email — links levam ao OdontoFeed (não ao artigo)', () => {
     assert.ok(!/<audio|\.mp3|firebasestorage/i.test(html));
   });
 
-  test('card premium renderiza o resumo ESTRUTURADO com títulos de seção', () => {
-    const estruturado = 'Objetivo\nAvaliar a adesão em zircônia.\n\nMateriais e métodos\nEnsaio in vitro com 40 amostras.\n\nResultados\nO primer de MDP aumentou a resistência de união.\n\nRelevância clínica\nJateamento + MDP é o protocolo mais confiável.';
-    const { html } = build({ premiumExtras: [{ pmid: '444', titulo_pt: 'Extra', resumo_completo: estruturado, nivel_evidencia: 'RCT', journal: 'JPD' }] });
-    for (const secao of ['Objetivo', 'Materiais e métodos', 'Resultados', 'Relevância clínica']) {
-      assert.ok(new RegExp('<strong[^>]*>' + secao + '</strong>').test(html), 'seção sem destaque: ' + secao);
-    }
-    assert.ok(html.includes('O primer de MDP aumentou'), 'corpo do resumo ausente');
+  test('card premium: prosa fluida renderiza limpa; formato legado com títulos ganha destaque (compat)', () => {
+    // Formato vigente (v2): prosa fluida — sem <strong> de seção
+    const prosa = 'O estudo avaliou a adesão em zircônia com 40 amostras in vitro. O primer de MDP aumentou a resistência de união, e o protocolo com jateamento mostrou-se o mais confiável na prática.';
+    const r1 = build({ premiumExtras: [{ pmid: '444', titulo_pt: 'Extra', resumo_completo: prosa, nivel_evidencia: 'RCT', journal: 'JPD' }] });
+    assert.ok(r1.html.includes('O primer de MDP aumentou'), 'corpo do resumo ausente');
+    assert.ok(!/<strong[^>]*>Objetivo<\/strong>/.test(r1.html), 'prosa não deve ganhar títulos');
+    // Compatibilidade: resumo legado com títulos (janela 19/07) ainda renderiza legível
+    const comTitulos = 'Objetivo\nAvaliar a adesão em zircônia.\n\nResultados\nO primer de MDP aumentou a resistência de união.\n\nMateriais e métodos\nEnsaio in vitro.\n\nRelevância clínica\nJateamento + MDP.';
+    const r2 = build({ premiumExtras: [{ pmid: '444', titulo_pt: 'Extra', resumo_completo: comTitulos, nivel_evidencia: 'RCT', journal: 'JPD' }] });
+    assert.ok(/<strong[^>]*>Resultados<\/strong>/.test(r2.html), 'título legado sem destaque');
   });
 });

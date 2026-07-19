@@ -733,12 +733,13 @@ async function pickPremiumExtras(db, user, pool) {
 // Resumo aprofundado (Sonnet + validador numérico) com cache no próprio artigo:
 // gerado no máximo UMA vez por artigo, reutilizado por todos. Usado para os
 // artigos da EDIÇÃO (botão "Ler o resumo" na /edicao.html) e para os extras
-// Premium. Diretriz 19/07/2026: o resumo é ESTRUTURADO (Objetivo / Materiais e
-// métodos / Resultados / Relevância clínica) — resumos antigos em prosa são
-// regenerados uma única vez aqui (custo limitado a ~5 artigos/especialidade/dia);
-// se a regeneração falhar, o texto antigo permanece (melhor prosa que nada).
+// Premium. Diretriz 19/07/2026 (v2): PROSA FLUIDA cobrindo objetivo, materiais
+// e métodos, resultados e relevância clínica — sem títulos de seção. Resumos
+// da janela curta em formato com títulos são regenerados uma única vez aqui
+// (custo limitado a ~5 artigos/especialidade/dia); prosa existente permanece.
+// Se a regeneração falhar, o texto antigo fica (melhor com títulos que nada).
 async function ensureResumoCompleto(db, article) {
-  if (article.resumo_completo && isResumoEstruturado(article.resumo_completo)) return article;
+  if (article.resumo_completo && !isResumoEstruturado(article.resumo_completo)) return article;
   try {
     const texto = await generateResumoCompleto(article);
     if (texto) {
