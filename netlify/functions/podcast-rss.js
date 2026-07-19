@@ -40,6 +40,8 @@ function rfc2822(dateStr) {
 }
 
 // Histórico datado (preferência). Ordena por data desc + nº do episódio.
+// Exclui as "edições completas" (tipo:'completo') — elas são exclusivas do
+// feed mestre; o feed por especialidade lista os episódios individuais.
 async function historyEpisodes(db, slug) {
   try {
     const docs = await db.query('podcast_episodios', {
@@ -47,7 +49,7 @@ async function historyEpisodes(db, slug) {
       limit: MAX_ITEMS * 2,
     });
     return docs
-      .filter(e => e.objectPath && e.downloadToken)
+      .filter(e => e.objectPath && e.downloadToken && e.tipo !== 'completo')
       .sort((a, b) => (b.date || '').localeCompare(a.date || '') || (a.n || 0) - (b.n || 0))
       .slice(0, MAX_ITEMS);
   } catch {
@@ -83,26 +85,40 @@ function buildFeed(especialidade, episodes, bucket, opts = {}) {
     : `${BASE_URL}/.netlify/functions/podcast-rss?esp=${encodeURIComponent(especialidade)}`;
   const chTitle = master ? 'OdontoFeed — Ciência Odontológica Diária' : `OdontoFeed — ${especialidade}`;
   const chDesc  = master
-    ? 'Todos os dias, o resumo em áudio de um artigo científico odontológico — em português, direto do PubMed, Europe PMC e OpenAlex, com a especialidade em rodízio (Ortodontia, Implantodontia, Periodontia e mais). Este é o episódio destaque do dia: os 3 episódios completos da SUA especialidade saem diariamente em odontofeed.com — crie sua conta gratuita.'
+    ? 'A edição científica do dia em áudio (~8 min): os estudos mais relevantes resumidos em português, direto do PubMed, Europe PMC e OpenAlex. Cada dia, duas especialidades — Segunda: Endodontia e Periodontia · Terça: Bucomaxilofacial e DTM · Quarta: Dentística e Prótese · Quinta: Odontopediatria e Estomatologia · Sexta: Implantodontia e Radiologia · Sábado: Ortodontia. A SUA especialidade todos os dias, com resumos escritos e artigos na íntegra, em odontofeed.com — grátis.'
     : `Resumos diários de artigos científicos de ${especialidade} em áudio. Ciência odontológica atualizada, em português, todos os dias — selecionada do PubMed, Europe PMC e OpenAlex.`;
 
   const items = episodes.map(ep => {
-    const date   = ep.date || new Date().toISOString().slice(0, 10);
-    const espEp  = ep.especialidade || especialidade || '';
-    const base   = ep.titulo ? `${ep.titulo}` : `Episódio ${ep.n || 1}`;
+    const date     = ep.date || new Date().toISOString().slice(0, 10);
+    const espEp    = ep.especialidade || especialidade || '';
+    const completo = ep.tipo === 'completo';
+    const dateBR   = date.split('-').reverse().join('/'); // "2026-07-20" → "20/07/2026"
+
+    // Edição completa (feed mestre): título com a especialidade + data; a
+    // descrição lista os estudos do dia. Episódio individual: título do artigo.
+    const base   = completo
+      ? `Edição de ${dateBR} — ${(ep.titulos || []).length || 3} estudos do dia`
+      : (ep.titulo ? `${ep.titulo}` : `Episódio ${ep.n || 1}`);
     const titulo = master && espEp ? `${espEp} · ${base}` : base;
-    const desc   = master
-      ? `Resumo em áudio — ${espEp}, edição de ${date}. ${ep.titulo || ''} • Os 3 episódios completos da sua especialidade estão em odontofeed.com — grátis.`
-      : `Resumo em áudio — ${especialidade}, edição de ${date}. ${ep.titulo || ''}`;
+    const desc   = completo
+      ? `A edição completa de ${espEp} de ${dateBR} em um único áudio: ` +
+        (ep.titulos || []).map((t, i) => `${i + 1}) ${t}`).join(' ') +
+        ` • Resumos escritos e artigos na íntegra em odontofeed.com — grátis.`
+      : master
+        ? `Resumo em áudio — ${espEp}, edição de ${date}. ${ep.titulo || ''} • Os episódios da sua especialidade saem todo dia em odontofeed.com — grátis.`
+        : `Resumo em áudio — ${especialidade}, edição de ${date}. ${ep.titulo || ''}`;
+
+    const guidSuffix = completo ? 'completo' : `ep${ep.n || 1}`;
     return `
     <item>
       <title>${escapeXml(titulo)}</title>
       <description>${escapeXml(desc)}</description>
       <link>${BASE_URL}/</link>
-      <guid isPermaLink="false">odontofeed-${escapeXml(ep.slug || specialtySlug(espEp || especialidade))}-${date}-ep${ep.n || 1}</guid>
+      <guid isPermaLink="false">odontofeed-${escapeXml(ep.slug || specialtySlug(espEp || especialidade))}-${date}-${guidSuffix}</guid>
       <pubDate>${rfc2822(date)}</pubDate>
-      <enclosure url="${escapeXml(firebaseDownloadUrl(bucket, ep.objectPath, ep.downloadToken))}" type="audio/mpeg" length="0"/>
-      <itunes:title>${escapeXml(titulo)}</itunes:title>
+      <enclosure url="${escapeXml(firebaseDownloadUrl(bucket, ep.objectPath, ep.downloadToken))}" type="audio/mpeg" length="${Number(ep.bytes) || 0}"/>
+      <itunes:title>${escapeXml(titulo)}</itunes:title>${Number(ep.secs) > 0 ? `
+      <itunes:duration>${Number(ep.secs)}</itunes:duration>` : ''}
       <itunes:episodeType>full</itunes:episodeType>
       <itunes:explicit>false</itunes:explicit>
       <itunes:author>OdontoFeed</itunes:author>
@@ -138,28 +154,38 @@ function buildFeed(especialidade, episodes, bucket, opts = {}) {
 </rss>`;
 }
 
-// Quantas especialidades diferentes entram no feed mestre por dia. Com 2/dia,
-// as 11 especialidades completam o ciclo em ~6 dias.
-const MASTER_SPECS_PER_DAY = 2;
+// Rodízio FIXO por dia da semana (decisão de produto 19/07/2026): a cada dia,
+// duas especialidades são o destaque do feed mestre — exceto sábado, que leva
+// só Ortodontia (são 11 especialidades, número ímpar). Domingo não tem destaque
+// novo (dia de descanso; o feed segue exibindo o histórico). As 11 completam a
+// semana de segunda a sábado. Nomes CANÔNICOS (batem com specialtySlug/geração).
+const WEEKLY_SCHEDULE = {
+  1: ['Endodontia', 'Periodontia'],                 // segunda
+  2: ['Bucomaxilofacial', 'DTM e Dor Orofacial'],   // terça
+  3: ['Dentística', 'Prótese'],                     // quarta
+  4: ['Odontopediatria', 'Estomatologia'],          // quinta
+  5: ['Implantodontia', 'Radiologia'],              // sexta
+  6: ['Ortodontia'],                                // sábado
+  0: [],                                            // domingo (sem destaque)
+};
 
-// Rodízio determinístico: para um dia e uma lista ordenada de especialidades,
-// devolve as N escolhidas do dia (avança N posições por dia → cobre todas).
-function pickSpecsOfDay(date, specs, n) {
-  if (!specs.length) return [];
-  const dayNum = Math.floor(Date.parse(date + 'T00:00:00Z') / 86400000);
-  const picks = [];
-  for (let i = 0; i < Math.min(n, specs.length); i++) {
-    const idx = (((dayNum * n + i) % specs.length) + specs.length) % specs.length;
-    if (!picks.includes(specs[idx])) picks.push(specs[idx]);
-  }
-  return picks;
+// Slugs das especialidades destaque do dia (na ordem do cronograma), a partir
+// do dia da semana da DATA da edição (UTC == data BRT, pois o pipeline roda 00h BRT).
+function scheduledSlugsForDate(date) {
+  const wd = new Date(date + 'T00:00:00Z').getUTCDay();
+  return (WEEKLY_SCHEDULE[Number.isNaN(wd) ? -1 : wd] || []).map(specialtySlug);
 }
 
-// Feed MESTRE (o único submetido ao Spotify): 2 episódios por dia, com as
-// especialidades em RODÍZIO determinístico pela data — a cada dia duas áreas
-// diferentes (ciclo completo em ~6 dias), sempre o episódio 1 da edição.
-// Os 3 episódios completos de cada especialidade continuam exclusivos do site
-// (estratégia: Spotify como isca).
+// Slug de um episódio, tolerante ao formato: usa o slug gravado; senão deriva do nome.
+function episodeSlug(e) {
+  return e.slug || specialtySlug(e.especialidade || '');
+}
+
+// Feed MESTRE (o único submetido ao Spotify): as especialidades destaque de
+// cada dia seguem o cronograma FIXO da semana (WEEKLY_SCHEDULE). O item
+// publicado é a EDIÇÃO COMPLETA da especialidade (decisão 19/07: os 3
+// episódios do dia compilados num único áudio, ~8 min). Fallback (transição,
+// antes de existir o compilado): o episódio 1 da edição.
 async function masterEpisodes(db) {
   let docs = [];
   try {
@@ -175,35 +201,40 @@ async function masterEpisodes(db) {
 
   const out = [];
   for (const [date, eps] of byDate) {
-    const specs = [...new Set(eps.map(e => e.especialidade || e.slug))].filter(Boolean).sort();
-    for (const pick of pickSpecsOfDay(date, specs, MASTER_SPECS_PER_DAY)) {
-      const chosen = eps
-        .filter(e => (e.especialidade || e.slug) === pick)
-        .sort((a, b) => (a.n || 0) - (b.n || 0))[0];
+    // Na ordem do cronograma do dia; pula especialidade sem episódio gerado.
+    for (const wantSlug of scheduledSlugsForDate(date)) {
+      const daEsp = eps.filter(e => episodeSlug(e) === wantSlug);
+      const chosen = daEsp.find(e => e.tipo === 'completo') ||
+        daEsp.sort((a, b) => (a.n || 0) - (b.n || 0))[0];
       if (chosen) out.push(chosen);
     }
   }
+  // Mais recentes primeiro; a ordem do cronograma dentro do dia é preservada
+  // (sort estável → não reordena empates de mesma data).
   return out
-    .sort((a, b) => (b.date || '').localeCompare(a.date || '') || String(a.especialidade || '').localeCompare(String(b.especialidade || '')))
+    .sort((a, b) => (b.date || '').localeCompare(a.date || ''))
     .slice(0, MAX_ITEMS);
 }
 
 // Fallback do feed mestre antes do histórico existir: usa os docs do dia em
-// `podcasts/{slug}` (mesmo rodízio determinístico) — o Spotify não aceita
-// submissão de feed sem nenhum episódio.
+// `podcasts/{slug}` (mesmo cronograma fixo) — o Spotify não aceita submissão
+// de feed sem nenhum episódio.
 async function masterFallbackToday(db) {
   let docs = [];
   try { docs = await db.query('podcasts', { limit: 100 }); } catch { return []; }
   const candidatos = docs
-    .filter(d => Array.isArray(d.episodios) && d.episodios.length && d.date)
-    .map(d => ({ ...d.episodios[0], date: d.date, especialidade: d.especialidade || d.id, slug: d.id }))
+    .filter(d => (Array.isArray(d.episodios) && d.episodios.length || d.compilado) && d.date)
+    .map(d => d.compilado
+      ? { ...d.compilado, tipo: 'completo', date: d.date, especialidade: d.especialidade || d.id, slug: d.id }
+      : { ...d.episodios[0], date: d.date, especialidade: d.especialidade || d.id, slug: d.id })
     .filter(e => e.objectPath && e.downloadToken);
   if (!candidatos.length) return [];
-  const specs = [...new Set(candidatos.map(e => e.especialidade))].sort();
-  const picks = pickSpecsOfDay(candidatos[0].date, specs, MASTER_SPECS_PER_DAY);
-  return picks
-    .map(p => candidatos.find(e => e.especialidade === p))
-    .filter(Boolean);
+  const out = [];
+  for (const wantSlug of scheduledSlugsForDate(candidatos[0].date)) {
+    const chosen = candidatos.find(e => episodeSlug(e) === wantSlug);
+    if (chosen) out.push(chosen);
+  }
+  return out;
 }
 
 exports.handler = async (event) => {
