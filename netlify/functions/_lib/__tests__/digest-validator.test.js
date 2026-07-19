@@ -50,9 +50,13 @@ describe('STRUCTURE — article count', () => {
     assert.equal(r.errors.length, 0);
   });
 
-  test('valid digest (5 articles) passes', () => {
+  // A edição base é validada com no máximo 3 artigos — os extras Premium são
+  // renderizados à parte e NÃO passam por esta validação (daily-digest chama
+  // runValidation apenas com os 3 selecionados da edição).
+  test('digest with 5 articles fails (base máx 3)', () => {
     const r = validateDigest({ user: makeUser(), articles: makeArticles(5), html: VALID_HTML });
-    assert.equal(r.valid, true);
+    assert.equal(r.valid, false);
+    assert.ok(r.errors.some(e => e.includes('STRUCTURE')));
   });
 
   test('too few articles (2) fails', () => {
