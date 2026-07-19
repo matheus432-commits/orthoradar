@@ -1,6 +1,6 @@
 const { request } = require('./_lib');
 const { hashPassword } = require('./_lib/password');
-const { DEFAULT_PLAN } = require('./_lib/plans');
+const { signupPlan } = require('./_lib/plans');
 
 const ALLOWED_SPECS = new Set([
   'Ortodontia', 'Implantodontia', 'Periodontia', 'Dentística',
@@ -141,6 +141,7 @@ exports.handler = async (event) => {
       return { statusCode: 409, headers, body: JSON.stringify({ error: 'duplicado', message: 'Este email ja esta cadastrado!' }) };
     }
 
+    const plano = signupPlan(); // cortesia: Premium até a forma de pagamento existir (env SIGNUP_PLAN)
     const docId = await createUser(projectId, apiKey, {
       nome: nomeTrimmed,
       email,
@@ -148,7 +149,8 @@ exports.handler = async (event) => {
       temas: temasArr,
       senhaHash: hashPassword(senhaHash),
       ativo: true,
-      plano: DEFAULT_PLAN,
+      plano,
+      planoCortesia: plano === 'premium', // marca o Premium de cortesia — facilita o downgrade seletivo depois
       aceitouTermosEm: new Date().toISOString(),
       termosVersao: '1.0-2026-07-14',
       criadoEm: new Date().toISOString(),
