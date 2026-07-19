@@ -6,7 +6,7 @@
 const { test, describe } = require('node:test');
 const assert = require('node:assert/strict');
 
-const { mp3DurationSecs, mp3BitrateKbps } = require('../mp3');
+const { mp3DurationSecs, mp3BitrateKbps, mp3FrameInfo, mp3Silence } = require('../mp3');
 
 // Frame header sintético: [0xFF, b1, b2, 0]. b1 codifica versão/layer; b2 o bitrate.
 function fakeMp3({ b1, b2, totalBytes }) {
@@ -46,5 +46,37 @@ describe('mp3', () => {
     assert.equal(mp3DurationSecs(Buffer.alloc(1000)), null);
     assert.equal(mp3DurationSecs(Buffer.from('not an mp3 at all')), null);
     assert.equal(mp3DurationSecs(null), null);
+  });
+
+  // ── Pausa entre estudos (silêncio no MESMO formato do áudio) ────────────────
+  test('mp3Silence: ~1,2s no mesmo formato do stream de referência', () => {
+    const ref = fakeMp3({ b1: 0xF3, b2: 0x40, totalBytes: 40000 }); // MPEG-2 L3 32kbps/22050Hz
+    const gap = mp3Silence(ref, 1200);
+    assert.ok(Buffer.isBuffer(gap) && gap.length > 0);
+    const info = mp3FrameInfo(gap);
+    assert.equal(info.kbps, 32, 'bitrate deve ser o do stream de referência');
+    assert.equal(info.sampleRate, 22050, 'sample rate deve ser o do stream de referência');
+    assert.equal(gap.length % info.frameLen, 0, 'silêncio = frames inteiros');
+    // duração dos frames ≈ 1,2s (± meio frame)
+    const durMs = (gap.length / info.frameLen) * (info.samplesPerFrame / info.sampleRate) * 1000;
+    assert.ok(Math.abs(durMs - 1200) < 30, 'durMs=' + durMs);
+    // header clonado com protection bit ligado (sem CRC) e padding desligado
+    assert.equal(gap[0], 0xFF);
+    assert.equal(gap[1] & 0x01, 0x01);
+    assert.equal(gap[2] & 0x02, 0x00);
+  });
+
+  test('mp3Silence: referência ilegível → null (compilação concatena sem pausa)', () => {
+    assert.equal(mp3Silence(Buffer.alloc(500), 1200), null);
+    assert.equal(mp3Silence(null, 1200), null);
+    assert.equal(mp3Silence(fakeMp3({ b1: 0xF3, b2: 0x40, totalBytes: 1000 }), 0), null);
+  });
+
+  test('concat com pausas mantém a duração derivável (mesmo CBR)', () => {
+    const ep  = fakeMp3({ b1: 0xF3, b2: 0x40, totalBytes: 40000 }); // 10s
+    const gap = mp3Silence(ep, 1200);
+    const full = Buffer.concat([ep, gap, ep, gap, ep]);
+    const secs = mp3DurationSecs(full);
+    assert.ok(secs >= 32 && secs <= 33, 'secs=' + secs); // 30s de fala + ~2,4s de pausa
   });
 });

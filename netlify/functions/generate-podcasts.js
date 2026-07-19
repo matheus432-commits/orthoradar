@@ -20,7 +20,7 @@ const { generateScript } = require('./_lib/podcast-script');
 const { synthesize } = require('./_lib/tts');
 const { uploadMp3, deleteObject } = require('./_lib/storage');
 const { billableChars } = require('./_lib/tts-budget');
-const { mp3DurationSecs } = require('./_lib/mp3');
+const { mp3DurationSecs, mp3Silence } = require('./_lib/mp3');
 const { specialtySlug: slug, espDigestSlug } = require('./_lib/slug');
 const { acquireLock, releaseLock } = require('./_lib/pipeline-lock');
 const { getActiveAd } = require('./_lib/ads');
@@ -213,10 +213,19 @@ async function main() {
         // único MP3 (~8 min) — é ESTE áudio que o feed mestre publica no
         // Spotify para as especialidades do dia. Sem custo de TTS (reusa os
         // áudios); MP3 CBR do mesmo encoder concatena por bytes sem re-encode.
-        // Best-effort: sem o compilado, o feed cai no episódio 1.
+        // Entre um estudo e outro entra uma PAUSA de ~1,2s (frames de silêncio
+        // fabricados no MESMO formato do áudio — ver _lib/mp3.js); se o formato
+        // for ilegível, concatena sem pausa. Best-effort: sem o compilado, o
+        // feed cai no episódio 1.
         let compilado = null;
         try {
-          const fullBuf  = Buffer.concat(buffers);
+          const pausa = buffers.length > 1 ? mp3Silence(buffers[0], 1200) : null;
+          if (buffers.length > 1 && !pausa) {
+            log.warn('[podcasts] pausa entre estudos indisponível (formato MP3 ilegível) — concatenando direto', { esp });
+          }
+          const partes = [];
+          buffers.forEach((b, i) => { if (i > 0 && pausa) partes.push(pausa); partes.push(b); });
+          const fullBuf  = Buffer.concat(partes);
           const fullPath = `podcasts/${s}/${today}/edicao-completa.mp3`;
           const upFull   = await uploadMp3(fullPath, fullBuf);
           if (upFull.ok) {
