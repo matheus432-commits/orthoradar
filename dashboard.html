@@ -550,7 +550,10 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 36px
         <button class="tab-btn" id="wmodo-protocolo" onclick="wakaiModo('protocolo')">📋 Protocolos</button>
       </div>
       <div id="wakaiHint" style="font-size:12.5px;color:var(--muted);margin-bottom:12px;"></div>
-      <div id="wakaiChat" style="display:flex;flex-direction:column;gap:12px;margin-bottom:14px;"></div>
+      <!-- Um chat POR MODO: Conversas e Protocolos têm funções diferentes e
+           mantêm históricos independentes (alternados pelo wakaiModo) -->
+      <div id="wakaiChat-conversa"  style="display:flex;flex-direction:column;gap:12px;margin-bottom:14px;"></div>
+      <div id="wakaiChat-protocolo" style="display:none;flex-direction:column;gap:12px;margin-bottom:14px;"></div>
       <div style="display:flex;gap:10px;align-items:flex-end;">
         <textarea id="wakaiInput" rows="2" maxlength="1000" placeholder=""
           style="flex:1;padding:12px 14px;border:1px solid var(--border);border-radius:12px;background:var(--card);color:var(--text);font-size:14px;font-family:inherit;resize:none;"
@@ -607,7 +610,7 @@ function getToken(){ return localStorage.getItem('of_token'); }
 function getEmail(){ return localStorage.getItem('of_email'); }
 function setSession(e,t){ localStorage.setItem('of_token',t); localStorage.setItem('of_email',e); }
 
-function logout(){
+function logout(msg, isError){
   // Invalida a sessão no servidor (best-effort) antes de descartar o token localmente.
   try {
     const _t = getToken(), _e = getEmail();
@@ -622,20 +625,15 @@ function logout(){
   } catch(e){}
   localStorage.removeItem('of_token');
   localStorage.removeItem('of_email');
-  // Reset all global state so a subsequent login starts clean
-  userData=null;
-  recebidosShown=RECEBIDOS_PAGE;
-  prefSelectedSpecs=[];prefSelectedTemas=[];_prefAllTemas=[];
-  _clinicaLoaded=false;_comparatorSet=new Map();
-  _intelLoaded=false;_workspaceLoaded=false;_memoriaLoaded=false;
-  _activeSignal=null;
-  _ctxCurrentPmid=null;_ctxCurrentData=null;_ctxCurrentTab='contexto';_ctxWorkspace=null;
-  document.getElementById('dashboardPage').style.display='none';
-  document.getElementById('loginPage').style.display='flex';
-  document.getElementById('loginEmail').value='';
-  const msg=document.getElementById('loginMsg');
-  msg.className='login-msg';
-  msg.textContent='Você saiu da conta.';
+  // Recarrega a página em vez de resetar o estado à mão: cai direto na tela de
+  // login com estado 100% limpo. (O reset manual referenciava variáveis que não
+  // existem mais e quebrava no meio — a tela de login só aparecia com F5.)
+  // A mensagem sobrevive ao reload via sessionStorage e é exibida no init.
+  try {
+    sessionStorage.setItem('of_login_msg', msg || 'Você saiu da conta.');
+    sessionStorage.setItem('of_login_msg_err', isError ? '1' : '');
+  } catch(e){}
+  location.replace(location.pathname);
 }
 
 // ========== LOGIN ==========
@@ -682,9 +680,7 @@ async function loadDashboard(email,token){
     if(!res.ok){
       let errMsg='Sessão expirada. Faça login novamente.';
       try{ const d=await res.json(); errMsg=d.error||errMsg; }catch(e){}
-      logout();
-      const msgEl=document.getElementById('loginMsg');
-      if(msgEl){ msgEl.className='login-msg error'; msgEl.textContent=errMsg; }
+      logout(errMsg, true); // recarrega e mostra a mensagem na tela de login
       return;
     }
     const data=await res.json();
@@ -699,9 +695,7 @@ async function loadDashboard(email,token){
     }
   }catch(e){
     console.error('[dashboard] loadDashboard error:', e);
-    logout();
-    const msgEl=document.getElementById('loginMsg');
-    if(msgEl){ msgEl.className='login-msg error'; msgEl.textContent='Erro de conexão. Verifique sua internet e tente novamente.'; }
+    logout('Erro de conexão. Verifique sua internet e tente novamente.', true);
   }
 }
 
@@ -1328,9 +1322,12 @@ let _wkBusy=false;
 let _wkInit=false;
 
 const _WK_HINTS={
-  conversa:{hint:'Pergunte como perguntaria a um colega especialista. Ex.: "Qual adesivo tem melhor desempenho em dentina?"',ph:'Ex.: qual adesivo é melhor para restaurações posteriores?'},
-  protocolo:{hint:'Peça um protocolo e receba o passo a passo objetivo, baseado em evidência. Ex.: "Como cimentar um pino de fibra de vidro?"',ph:'Ex.: como fazer a cimentação de um pino de fibra de vidro?'}
+  conversa:{hint:'Pergunte como perguntaria a um colega especialista. Ex.: "Qual adesivo tem melhor desempenho em dentina?"',ph:'Ex.: qual adesivo é melhor para restaurações posteriores?',
+    saudacao:'Olá! Sou a Wakai, sua assistente científica. Aqui na aba <strong>Conversas</strong> respondo dúvidas como um colega especialista, com base na evidência. O que vamos estudar hoje?'},
+  protocolo:{hint:'Peça um protocolo e receba o passo a passo objetivo, baseado em evidência. Ex.: "Como cimentar um pino de fibra de vidro?"',ph:'Ex.: como fazer a cimentação de um pino de fibra de vidro?',
+    saudacao:'Aba <strong>Protocolos</strong>: me diga o procedimento e devolvo o passo a passo clínico em tópicos objetivos — indicações, materiais, sequência e erros comuns. Qual protocolo você precisa?'}
 };
+let _wkGreeted={}; // saudação única por aba (cada aba tem a própria conversa)
 
 function wakaiModo(m){
   _wkModo=m;
@@ -1338,6 +1335,10 @@ function wakaiModo(m){
   document.getElementById('wmodo-protocolo').classList.toggle('active',m==='protocolo');
   document.getElementById('wakaiHint').textContent=_WK_HINTS[m].hint;
   document.getElementById('wakaiInput').placeholder=_WK_HINTS[m].ph;
+  // Alterna o histórico visível — Conversas e Protocolos NÃO compartilham chat
+  document.getElementById('wakaiChat-conversa').style.display  = m==='conversa'  ? 'flex' : 'none';
+  document.getElementById('wakaiChat-protocolo').style.display = m==='protocolo' ? 'flex' : 'none';
+  if(!_wkGreeted[m]){ _wkGreeted[m]=true; wakaiMsg('wakai',_WK_HINTS[m].saudacao,null,m); }
 }
 
 function initWakaiTab(){
@@ -1352,12 +1353,13 @@ function initWakaiTab(){
     return;
   }
   document.getElementById('wakaiApp').style.display='block';
-  wakaiModo('conversa');
-  wakaiMsg('wakai','Olá! Sou a Wakai, sua assistente científica. Na aba <strong>Conversas</strong> respondo dúvidas como um colega especialista; na aba <strong>Protocolos</strong> devolvo o passo a passo clínico em tópicos. O que vamos estudar hoje?');
+  wakaiModo('conversa'); // já emite a saudação da aba na primeira abertura
 }
 
-function wakaiMsg(quem,html,fontes){
-  const chat=document.getElementById('wakaiChat');
+// modo opcional: fixa o chat de destino mesmo se o usuário trocar de aba
+// enquanto a resposta chega (a resposta cai na conversa em que foi perguntada).
+function wakaiMsg(quem,html,fontes,modo){
+  const chat=document.getElementById('wakaiChat-'+(modo||_wkModo));
   const mine=quem==='eu';
   let fontesHtml='';
   if(fontes&&fontes.length){
@@ -1399,26 +1401,27 @@ async function wakaiEnviar(){
   const email=getEmail(), token=getToken();
   if(!email||!token) return;
   _wkBusy=true;
+  const modo=_wkModo; // congela o modo: resposta cai na aba onde foi perguntada
   const btn=document.getElementById('wakaiBtn');
   btn.disabled=true; btn.textContent='Pensando…';
-  wakaiMsg('eu',escapeHtml(pergunta));
+  wakaiMsg('eu',escapeHtml(pergunta),null,modo);
   inp.value='';
-  const pensando=wakaiMsg('wakai','<span style="color:var(--muted);">'+( _wkModo==='protocolo'?'Montando o protocolo com base na evidência…':'Consultando a literatura e sua biblioteca…')+'</span>');
+  const pensando=wakaiMsg('wakai','<span style="color:var(--muted);">'+( modo==='protocolo'?'Montando o protocolo com base na evidência…':'Consultando a literatura e sua biblioteca…')+'</span>',null,modo);
   try{
     const res=await fetch('/.netlify/functions/wakai',{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({email,token,modo:_wkModo,pergunta})});
+      body:JSON.stringify({email,token,modo,pergunta})});
     const data=await res.json();
     pensando.remove();
-    if(res.status===429){ wakaiMsg('wakai','⏳ '+escapeHtml(data.message||'Limite diário atingido.')); }
+    if(res.status===429){ wakaiMsg('wakai','⏳ '+escapeHtml(data.message||'Limite diário atingido.'),null,modo); }
     else if(res.status===403){ _bibPremium=false; _wkInit=false; document.getElementById('wakaiApp').style.display='none'; initWakaiTab(); }
-    else if(!res.ok){ wakaiMsg('wakai','⚠️ '+escapeHtml(data.message||'Não consegui responder agora. Tente de novo.')); }
+    else if(!res.ok){ wakaiMsg('wakai','⚠️ '+escapeHtml(data.message||'Não consegui responder agora. Tente de novo.'),null,modo); }
     else{
-      wakaiMsg('wakai',wakaiFormat(data.resposta),data.fontes);
+      wakaiMsg('wakai',wakaiFormat(data.resposta),data.fontes,modo);
       wakaiSetUso(data.restantes,data.limite);
     }
   }catch(e){
     pensando.remove();
-    wakaiMsg('wakai','⚠️ Erro de conexão. Verifique sua internet e tente de novo.');
+    wakaiMsg('wakai','⚠️ Erro de conexão. Verifique sua internet e tente de novo.',null,modo);
   }
   _wkBusy=false; btn.disabled=false; btn.textContent='Perguntar';
 }
@@ -2871,6 +2874,17 @@ async function deleteCollectionUI(collectionId) {
 // ========== INIT ==========
 window.addEventListener('DOMContentLoaded',()=>{
   initResetForm();
+  // Mensagem deixada pelo logout() antes do reload (ex.: "Você saiu da conta.",
+  // "Sessão expirada...") — exibida na tela de login recém-carregada.
+  try{
+    const _lm=sessionStorage.getItem('of_login_msg');
+    if(_lm){
+      const _le=sessionStorage.getItem('of_login_msg_err')==='1';
+      sessionStorage.removeItem('of_login_msg'); sessionStorage.removeItem('of_login_msg_err');
+      const _el=document.getElementById('loginMsg');
+      if(_el){ _el.className='login-msg'+(_le?' error':''); _el.textContent=_lm; }
+    }
+  }catch(e){}
   const token=getToken();
   const email=getEmail();
   if(token&&email){

@@ -143,21 +143,30 @@ FORMATO OBRIGATÓRIO (modo Protocolo): responda como protocolo clínico em TÓPI
 FORMATO (modo Conversa): prosa clara e direta de colega especialista; parágrafos curtos; compare alternativas quando a pergunta pedir escolha, com o porquê baseado em evidência.`;
 }
 
+// ATENÇÃO ao orçamento de tempo: a function síncrona do Netlify tem ~26s.
+// O timeout padrão do _lib.request é 15s — insuficiente para o Sonnet gerar
+// uma resposta clínica completa (bug real 19/07: "A Wakai teve um problema"
+// em toda pergunta). Damos 20s SÓ para a chamada ao Claude, SEM retry
+// (maxRetries=0): retry duplicaria a cobrança de tokens e estouraria os 26s.
+const CLAUDE_TIMEOUT_MS = 20000;
+const MAX_ANSWER_TOKENS = 1000; // ~13s de geração — cabe no orçamento com folga
+
 async function askClaude(modo, especialidade, contexto, pergunta) {
   const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) throw new Error('ANTHROPIC_API_KEY not set');
+  if (!apiKey) { const e = new Error('ANTHROPIC_API_KEY not set'); e.config = true; throw e; }
   const payload = JSON.stringify({
     model: WAKAI_MODEL,
-    max_tokens: 1200,
+    max_tokens: MAX_ANSWER_TOKENS,
     system: systemFor(modo, especialidade, !!contexto),
     messages: [{ role: 'user', content: (contexto ? `ARTIGOS DO CONTEXTO:\n${contexto}\n\n` : '') + `PERGUNTA DO DENTISTA:\n${pergunta}` }],
   });
   const buf = Buffer.from(payload, 'utf8');
   const res = await request({
     hostname: 'api.anthropic.com', path: '/v1/messages', method: 'POST',
+    timeoutMs: CLAUDE_TIMEOUT_MS,
     headers: { 'x-api-key': apiKey, 'anthropic-version': '2023-06-01',
                'content-type': 'application/json', 'content-length': buf.length },
-  }, buf);
+  }, buf, 0, 0 /* sem retry — ver comentário acima */);
   if (res.status !== 200) throw new Error('Claude ' + res.status + ': ' + res.body.slice(0, 200));
   const json = JSON.parse(res.body);
   const u = json.usage || {};
@@ -216,7 +225,16 @@ exports.handler = async (event) => {
       }),
     };
   } catch (err) {
-    log.error('[wakai] erro', { err: err.message });
+    // Diagnóstico específico no log + mensagem útil ao dentista:
+    //   config  → chave da IA ausente no ambiente do Netlify (erro de deploy)
+    //   timeout → a geração passou do orçamento de tempo (pergunta muito ampla)
+    log.error('[wakai] erro', { err: err.message, config: !!err.config });
+    if (err.config) {
+      return { statusCode: 500, headers, body: JSON.stringify({ error: 'config', message: 'A Wakai está temporariamente indisponível por configuração do servidor. Já fomos avisados.' }) };
+    }
+    if (/timeout/i.test(err.message)) {
+      return { statusCode: 500, headers, body: JSON.stringify({ error: 'timeout', message: 'A resposta demorou mais que o esperado. Tente de novo — perguntas mais específicas respondem mais rápido.' }) };
+    }
     return { statusCode: 500, headers, body: JSON.stringify({ error: 'erro_interno', message: 'A Wakai teve um problema. Tente de novo em instantes.' }) };
   }
 };
