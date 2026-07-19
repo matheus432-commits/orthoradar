@@ -47,14 +47,35 @@ const SPECIALTY_KEYWORDS = {
   'Implantodontia':  ['implant', 'osseointegration', 'peri-implant', 'sinus lift', 'bone graft'],
   'Periodontia':     ['periodon', 'gingivitis', 'gingival', 'alveolar bone', 'scaling root planing', 'furcation'],
   'Endodontia':      ['endodon', 'root canal', 'pulp', 'apical', 'retreatment', 'irrigation'],
-  'Dentística':      ['composite', 'resin', 'bonding', 'caries', 'restoration', 'bleaching', 'whitening'],
+  'Dentística':      ['composite', 'resin', 'bonding', 'caries', 'restoration', 'bleaching', 'whitening', 'amalgam', 'direct restoration', 'glass ionomer', 'adhesive'],
   'Prótese':         ['prosthodon', 'prosthes', 'denture', 'crown', 'fixed partial', 'removable partial', 'complete denture', 'zirconia', 'ceramic', 'pontic', 'dental bridge', 'overdenture'],
   'Cirurgia':        ['surgery', 'surgical', 'extraction', 'orthognathic', 'osteotomy', 'flap'],
-  'Odontopediatria': ['pediatric dent', 'children', 'deciduous', 'primary teeth', 'child oral'],
+  'Odontopediatria': ['pediatric dent', 'children', 'deciduous', 'primary teeth', 'child oral', 'primary molar', 'primary dentition', 'pulpotomy', 'stainless steel crown', 'space maintainer'],
   'Saúde Pública':   ['epidemiology', 'prevalence', 'public health', 'socioeconomic', 'community dent'],
   'Radiologia':      ['radiograph', 'CBCT', 'cone beam', 'imaging', 'radiolog', 'tomograph'],
   'Estomatologia':   ['oral mucosa', 'stomatolog', 'leukoplakia', 'oral cancer', 'aphthous'],
 };
+
+// ── Overrides determinísticos de especialidade ───────────────────────────────
+// Rede de segurança FINAL, aplicada depois de qualquer classificação (keyword ou
+// IA). Regras cirúrgicas para erros que NÃO podem acontecer:
+//   1. Artigo sobre dentição decídua / paciente pediátrico → Odontopediatria,
+//      não importa o procedimento (coroa, restauração, pulpotomia…).
+//   2. Restauração DIRETA (resina/amálgama/ionômero — ex.: substituir amálgama)
+//      rotulada como Prótese → Dentística.
+const PEDIATRIC_RX = /\b(deciduous|primary (?:tooth|teeth|molar|molars|incisor|incisors|canine|canines|dentition)|paediatric dentistry|pediatric dentistry|preschool child|stainless.?steel crown|pulpotom|space maintainer|dec[ií]duo)/i;
+const DIRECT_RESTORATION_RX = /\b(amalgam|direct (?:resin |composite )?restoration|direct composite|resin.?based composite restoration|glass.?ionomer|composite restoration)\b/i;
+
+/**
+ * Retorna a especialidade CORRIGIDA quando uma regra determinística se aplica,
+ * ou null quando o rótulo proposto pode ficar como está.
+ */
+function especialidadeOverride(title, abstract, label) {
+  const text = `${title || ''} ${abstract || ''}`;
+  if (PEDIATRIC_RX.test(text) && label !== 'Odontopediatria') return 'Odontopediatria';
+  if (label === 'Prótese' && DIRECT_RESTORATION_RX.test(text) && !/\b(denture|prosthes|fixed partial|overdenture|pontic)\b/i.test(text)) return 'Dentística';
+  return null;
+}
 
 /**
  * Detects evidence level from article text (title + abstract).
@@ -74,13 +95,18 @@ function detectEvidenceLevel(title, abstract) {
  */
 function classifySpecialty(title, abstract) {
   const text = (`${title || ''} ${abstract || ''}`).toLowerCase();
-  let best = null, bestScore = 0;
 
+  // Precedência absoluta: população decídua/pediátrica define a especialidade
+  // antes de qualquer contagem — "zirconia crown in primary molars" é
+  // Odontopediatria, nunca Prótese.
+  if (PEDIATRIC_RX.test(text)) return 'Odontopediatria';
+
+  let best = null, bestScore = 0;
   for (const [specialty, keywords] of Object.entries(SPECIALTY_KEYWORDS)) {
     const score = keywords.filter(kw => text.includes(kw.toLowerCase())).length;
     if (score > bestScore) { bestScore = score; best = specialty; }
   }
-  return best;
+  return especialidadeOverride(title, abstract, best) || best;
 }
 
 /**
@@ -143,4 +169,4 @@ function estimateQualityScore(enriched) {
   return Math.min(1.0, score);
 }
 
-module.exports = { detectEvidenceLevel, classifySpecialty, scoreRelevance, estimateQualityScore };
+module.exports = { detectEvidenceLevel, classifySpecialty, especialidadeOverride, scoreRelevance, estimateQualityScore };
