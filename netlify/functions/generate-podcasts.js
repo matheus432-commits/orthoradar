@@ -20,6 +20,7 @@ const { generateScript } = require('./_lib/podcast-script');
 const { synthesize } = require('./_lib/tts');
 const { uploadMp3, deleteObject } = require('./_lib/storage');
 const { billableChars } = require('./_lib/tts-budget');
+const { mp3DurationSecs } = require('./_lib/mp3');
 const { specialtySlug: slug, espDigestSlug } = require('./_lib/slug');
 const { acquireLock, releaseLock } = require('./_lib/pipeline-lock');
 const { getActiveAd } = require('./_lib/ads');
@@ -59,6 +60,7 @@ async function cleanupStale(db, activeSlugs) {
     if (!doc.id || activeSlugs.has(doc.id)) continue;
     const paths = [
       ...(Array.isArray(doc.episodios) ? doc.episodios.map(e => e.objectPath) : []),
+      doc.compilado?.objectPath,
       doc.objectPath,
     ].filter(Boolean);
     let allDeleted = true;
@@ -175,6 +177,7 @@ async function main() {
         }
 
         const episodios = [];
+        const buffers   = []; // áudios do dia — reusados p/ compilar a edição completa
         for (let i = 0; i < artigos.length; i++) {
           const art = artigos[i];
           const script = await generateScript(art, esp, anthropicKey, {
@@ -198,15 +201,44 @@ async function main() {
             objectPath:    path,
             downloadToken: up.downloadToken,
             chars:         billableChars(script),
+            bytes:         audio.length,
+            secs:          mp3DurationSecs(audio),
           });
+          buffers.push(audio);
         }
 
         if (!episodios.length) { skipped++; continue; }
+
+        // EDIÇÃO COMPLETA (decisão 19/07): concatena os episódios do dia num
+        // único MP3 (~8 min) — é ESTE áudio que o feed mestre publica no
+        // Spotify para as especialidades do dia. Sem custo de TTS (reusa os
+        // áudios); MP3 CBR do mesmo encoder concatena por bytes sem re-encode.
+        // Best-effort: sem o compilado, o feed cai no episódio 1.
+        let compilado = null;
+        try {
+          const fullBuf  = Buffer.concat(buffers);
+          const fullPath = `podcasts/${s}/${today}/edicao-completa.mp3`;
+          const upFull   = await uploadMp3(fullPath, fullBuf);
+          if (upFull.ok) {
+            compilado = {
+              objectPath:    fullPath,
+              downloadToken: upFull.downloadToken,
+              bytes:         fullBuf.length,
+              secs:          mp3DurationSecs(fullBuf),
+              titulos:       episodios.map(e => e.titulo),
+            };
+          } else {
+            log.warn('[podcasts] upload da edição completa pulado', { esp, reason: upFull.reason });
+          }
+        } catch (err) {
+          log.warn('[podcasts] compilação da edição completa falhou', { esp, err: err.message });
+        }
 
         await db.setDoc('podcasts', s, {
           especialidade: esp,
           date:          today,
           episodios,
+          compilado, // edição completa (áudio único) — null se a compilação falhou
           // Campos legados (1º episódio) — mantêm consumidores antigos funcionando
           artigoId:      episodios[0].artigoId,
           titulo:        episodios[0].titulo,
@@ -227,8 +259,28 @@ async function main() {
             titulo:        ep.titulo,
             objectPath:    ep.objectPath,
             downloadToken: ep.downloadToken,
+            bytes:         ep.bytes,
+            secs:          ep.secs,
             geradoEm:      new Date().toISOString(),
           }).catch(e => log.warn('[podcasts] histórico setDoc falhou', { esp, ep: ep.n, err: e.message }));
+        }
+        // Edição completa no histórico ({slug}_{data}_completo) — é o item que
+        // o feed mestre do Spotify publica; a retenção limpa igual aos demais.
+        if (compilado) {
+          await db.setDoc('podcast_episodios', `${s}_${today}_completo`, {
+            slug:          s,
+            especialidade: esp,
+            date:          today,
+            tipo:          'completo',
+            n:             0,
+            titulo:        `Edição completa — ${episodios.length} estudo${episodios.length === 1 ? '' : 's'}`,
+            titulos:       compilado.titulos,
+            objectPath:    compilado.objectPath,
+            downloadToken: compilado.downloadToken,
+            bytes:         compilado.bytes,
+            secs:          compilado.secs,
+            geradoEm:      new Date().toISOString(),
+          }).catch(e => log.warn('[podcasts] histórico da edição completa falhou', { esp, err: e.message }));
         }
 
         generated += episodios.length;

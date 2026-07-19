@@ -105,4 +105,52 @@ describe('podcast-rss — feed mestre (rodízio fixo semanal)', () => {
     assert.ok(res.body.includes('OdontoFeed — Ortodontia'));
     assert.equal((res.body.match(/<item>/g) || []).length, 1);
   });
+
+  // ── Edição completa (~8 min, 3 episódios compilados) no feed mestre ────────
+  function completo(esp, date) {
+    return {
+      slug: specialtySlug(esp), especialidade: esp, date, tipo: 'completo', n: 0,
+      titulo: 'Edição completa — 3 estudos',
+      titulos: ['Estudo A', 'Estudo B', 'Estudo C'],
+      objectPath: `podcasts/${specialtySlug(esp)}/${date}/edicao-completa.mp3`,
+      downloadToken: 'tokC', bytes: 1920000, secs: 480,
+    };
+  }
+
+  test('feed mestre prefere a EDIÇÃO COMPLETA ao episódio 1', async () => {
+    const eps = [ep('Endodontia', SEG, 1), ep('Endodontia', SEG, 2), completo('Endodontia', SEG)];
+    const xml = await masterFeed(eps);
+    assert.equal((xml.match(/<item>/g) || []).length, 1);
+    assert.ok(xml.includes('edicao-completa.mp3'), 'não publicou o áudio compilado');
+    assert.ok(xml.includes('Endodontia · Edição de 20/07/2026 — 3 estudos do dia'), 'título da edição completa errado');
+    assert.ok(xml.includes('1) Estudo A 2) Estudo B 3) Estudo C'), 'descrição não lista os estudos');
+  });
+
+  test('edição completa publica duração (~8 min) e tamanho reais', async () => {
+    const xml = await masterFeed([completo('Endodontia', SEG)]);
+    assert.ok(xml.includes('<itunes:duration>480</itunes:duration>'), 'sem duração');
+    assert.ok(xml.includes('length="1920000"'), 'sem tamanho do arquivo');
+    assert.ok(xml.includes('-completo</guid>'), 'guid da edição completa');
+  });
+
+  test('sem compilado (transição) → cai no episódio 1, sem quebrar', async () => {
+    const xml = await masterFeed([ep('Endodontia', SEG, 1), ep('Endodontia', SEG, 2)]);
+    assert.equal((xml.match(/<item>/g) || []).length, 1);
+    assert.ok(xml.includes('ep1.mp3'));
+    assert.ok(!xml.includes('<itunes:duration>')); // episódio antigo sem secs não inventa duração
+  });
+
+  test('feed por especialidade NÃO lista a edição completa (só episódios individuais)', async () => {
+    const rss = loadRss([ep('Endodontia', SEG, 1), ep('Endodontia', SEG, 2), completo('Endodontia', SEG)]);
+    const res = await rss.handler({ queryStringParameters: { esp: 'Endodontia' } });
+    assert.equal((res.body.match(/<item>/g) || []).length, 2);
+    assert.ok(!res.body.includes('edicao-completa.mp3'));
+  });
+
+  test('episódio individual com bytes/secs publica duração e tamanho', async () => {
+    const e = { ...ep('Ortodontia', SAB, 1), bytes: 720000, secs: 180 };
+    const xml = await masterFeed([e]);
+    assert.ok(xml.includes('<itunes:duration>180</itunes:duration>'));
+    assert.ok(xml.includes('length="720000"'));
+  });
 });
