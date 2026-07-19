@@ -29,7 +29,7 @@ const { runValidation }                            = require('./_lib/digest-vali
 const { pubmedFallbackArticles }                   = require('./_lib/pubmed');
 const { acquireLock, releaseLock }                 = require('./_lib/pipeline-lock');
 const { withTimeout }                              = require('./_lib/retry-utils');
-const { getOrCreateAchadoSemana }                  = require('./_lib/achado-semana');
+// (Achado da Semana cancelado em 19/07/2026 — módulo não é mais usado.)
 const { generateResumoCompleto }                   = require('./_lib/claude');
 const { isUnfinishedStudy }                         = require('./_lib/scoring');
 const { espDigestSlug }                            = require('./_lib/slug');
@@ -349,7 +349,7 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
     log.info('[digest][ESP] reusing cached digest', { especialidade, key, articles: cached.artigos.length });
     return {
       articles:     cached.artigos,
-      achadoSemana: cached.achadoSemana || null,
+      achadoSemana: null, // função cancelada — mesmo docs antigos com achado não o exibem mais
       editorial:    cached.editorial || null,
     };
   }
@@ -460,46 +460,9 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
     return null;
   }
 
-  // 6. Achado da Semana — gerado uma vez por especialidade por semana, cacheado no Firestore
-  t = Date.now();
-  let achadoSemana = await getOrCreateAchadoSemana(db, candidates, especialidade, anthropicKey)
-    .catch(err => { log.warn('[digest][ESP] getOrCreateAchadoSemana threw', { err: err.message }); return null; });
-  // Anti-repetição vale para o achado também: ele entra no e-mail apenas no DIA
-  // em que foi gerado. Nos dias seguintes já está no histórico → omitido (o
-  // cache semanal continua evitando novas chamadas de IA).
-  if (achadoSemana && isRepeated(achadoSemana, hist)) {
-    log.info('[digest][ESP] achado já enviado esta semana — omitindo do e-mail de hoje', {
-      especialidade, id: achadoSemana.pmid || achadoSemana.articleId || null,
-    });
-    achadoSemana = null;
-  }
-  log.info('[digest][ESP][STAGE achado]', {
-    especialidade,
-    hasAchado: !!achadoSemana,
-    id: achadoSemana?.pmid || achadoSemana?.articleId || null,
-    ms: Date.now() - t,
-  });
-
-  // O Achado da Semana é exibido à parte, no topo do email. Removemos o artigo
-  // correspondente da lista regular para não duplicar e, em seguida, completamos
-  // de volta até o alvo diário (MAX_ARTICLES) com os próximos candidatos distintos.
-  // Se não houver candidatos suficientes para manter o mínimo sem o achado, mantemos
-  // a seleção original — o limite de 3 nunca deve BLOQUEAR o envio.
-  if (achadoSemana) {
-    const achadoKey = String(achadoSemana.pmid || achadoSemana.articleId || '');
-    if (achadoKey) {
-      const withoutAchado = selected.filter(a => String(a.pmid || a.id || '') !== achadoKey);
-      const have = new Set(withoutAchado.map(a => String(a.pmid || a.id || '')));
-      for (const c of candidates) {
-        if (withoutAchado.length >= MAX_ARTICLES) break;
-        const ck = String(c.pmid || c.id || '');
-        if (!ck || ck === achadoKey || have.has(ck)) continue;
-        have.add(ck);
-        withoutAchado.push(c);
-      }
-      if (withoutAchado.length >= MIN_ARTICLES) selected = withoutAchado;
-    }
-  }
+  // 6. Achado da Semana — FUNÇÃO CANCELADA (decisão de produto 19/07/2026).
+  // Não geramos, não enviamos e não exibimos mais o achado em lugar nenhum.
+  const achadoSemana = null;
 
   // 7. Editorial via Claude — UMA chamada por especialidade (não por usuário);
   //    falls back to deterministic on failure.
@@ -559,17 +522,29 @@ async function _sendUserDigest(user, espDigest, db, resendKey) {
 
   // 1. Curadoria Premium: +2 artigos pelas preferências (assinantes; best-effort)
   let premiumExtras = [];
-  if (isPremium(user) && Array.isArray(espDigest.premiumPool) && espDigest.premiumPool.length) {
-    try {
-      premiumExtras = await pickPremiumExtras(db, user, espDigest.premiumPool);
-      for (const extra of premiumExtras) await ensureResumoCompleto(db, extra);
-      log.info('[digest][PREMIUM] extras selected', {
-        email, count: premiumExtras.length,
-        temas: premiumExtras.map(e => e._premiumTema || '(recente)'),
-      });
-    } catch (err) {
-      log.warn('[digest][PREMIUM] extras failed — base email proceeds', { email, err: err.message });
-      premiumExtras = [];
+  if (isPremium(user)) {
+    if (Array.isArray(espDigest.premiumPool) && espDigest.premiumPool.length) {
+      try {
+        premiumExtras = await pickPremiumExtras(db, user, espDigest.premiumPool);
+        for (const extra of premiumExtras) await ensureResumoCompleto(db, extra);
+        log.info('[digest][PREMIUM] extras selected', {
+          email, count: premiumExtras.length,
+          temas: premiumExtras.map(e => e._premiumTema || '(recente)'),
+        });
+        if (!premiumExtras.length) {
+          log.warn('[digest][PREMIUM] assinante SEM extras (pool tinha candidatos)', {
+            email, especialidade, poolLen: espDigest.premiumPool.length,
+            causa: 'todos os candidatos do pool já foram enviados como extra a este assinante, ou histórico pessoal ilegível',
+          });
+        }
+      } catch (err) {
+        log.warn('[digest][PREMIUM] extras failed — base email proceeds', { email, err: err.message });
+        premiumExtras = [];
+      }
+    } else {
+      // Sem pool nenhum: o assinante paga por 5 e vai receber 3 — isso PRECISA
+      // aparecer no log com a causa (incidente 19/07: aconteceu em silêncio).
+      log.warn('[digest][PREMIUM] assinante SEM extras — pool vazio para a especialidade', { email, especialidade });
     }
   }
 
@@ -661,8 +636,9 @@ const PREMIUM_EXTRAS = 2;
 async function buildPremiumPool(db, especialidade) {
   try {
     const hist = await getEspHistory(db, especialidade); // inclui o digest de HOJE (já persistido)
-    let pool = await getCandidates(db, [especialidade]);
-    pool = pool.filter(a => !isRepeated(a, hist));
+    const brutos = await getCandidates(db, [especialidade]);
+    let pool = brutos.filter(a => !isRepeated(a, hist));
+    const aposHistorico = pool.length;
     const seen = new Set();
     pool = pool.filter(a => {
       const ks = articleKeys(a);
@@ -670,6 +646,18 @@ async function buildPremiumPool(db, especialidade) {
       ks.forEach(k => seen.add(k));
       return true;
     });
+    // Diagnóstico SEMPRE logado — um pool vazio deixa assinantes sem os 2
+    // extras e precisa ser visível no log do pipeline (incidente 19/07:
+    // assinante Premium recebeu só 3 artigos sem nenhum rastro do motivo).
+    log.info('[digest][PREMIUM] pool construído', {
+      especialidade, candidatosBrutos: brutos.length, aposHistorico, poolFinal: pool.length,
+    });
+    if (!pool.length) {
+      log.warn('[digest][PREMIUM] POOL VAZIO — assinantes desta especialidade ficarão sem extras hoje', {
+        especialidade, candidatosBrutos: brutos.length,
+        causa: brutos.length === 0 ? 'sem candidatos ativos' : 'todos os candidatos já enviados (histórico)',
+      });
+    }
     return pool.slice(0, 40);
   } catch (err) {
     log.warn('[digest][PREMIUM] pool build failed — extras skipped today', { especialidade, err: err.message });

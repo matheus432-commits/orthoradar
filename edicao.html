@@ -127,11 +127,12 @@ function showError(title, msg){
     '<div class="state"><h2>'+esc(title)+'</h2><p>'+msg+'</p></div>';
 }
 
-// Episódio de áudio correspondente ao artigo (por id; fallback por posição)
-function episodeFor(podcast, artigo, idx){
+// Episódio de áudio correspondente ao artigo — SOMENTE por id do artigo.
+// (O antigo fallback por posição mostrava o áudio de UM artigo em OUTRO
+// quando a edição e os episódios não estavam alinhados. Sem match = sem áudio.)
+function episodeFor(podcast, artigo){
   if (!podcast || !podcast.episodios) return null;
-  return podcast.episodios.find(e => e.artigoId && artigo.id && e.artigoId === artigo.id)
-      || podcast.episodios[idx] || null;
+  return podcast.episodios.find(e => e.artigoId && artigo.id && String(e.artigoId) === String(artigo.id)) || null;
 }
 
 function playerHtml(pid){
@@ -143,10 +144,10 @@ function playerHtml(pid){
     + '</div>';
 }
 
-function articleCard(a, isAchado, ep, idx){
+function articleCard(a, isPremiumExtra, ep, idx){
   const pid = 'a' + idx;
-  return '<article class="art'+(isAchado?' achado':'')+'">'
-    + (isAchado ? '<span class="achado-flag">★ Achado da Semana</span>' : '')
+  return '<article class="art'+(isPremiumExtra?' achado':'')+'">'
+    + (isPremiumExtra ? '<span class="achado-flag">★ Exclusivo assinante</span>' : '')
     + '<div class="art-kicker">'
     +   '<span class="esp-tag">'+esc(a.especialidade||'')+'</span>'
     +   (a.nivel_evidencia ? '<span class="ev-badge">'+esc(a.nivel_evidencia)+'</span>' : '')
@@ -241,11 +242,15 @@ function render(data){
   html += adSection(data.anuncio);
 
   let idx = 0;
-  if (ed.achado) {
-    html += articleCard({ ...ed.achado, especialidade: u.especialidade }, true, null, idx++);
-  }
-  (ed.artigos || []).forEach((a, i) => {
-    html += articleCard({ ...a, especialidade: u.especialidade }, false, episodeFor(data.podcast, a, i), idx++);
+  // (Achado da Semana: função cancelada em 07/2026 — não é mais renderizado.)
+  (ed.artigos || []).forEach((a) => {
+    html += articleCard({ ...a, especialidade: u.especialidade }, false, episodeFor(data.podcast, a), idx++);
+  });
+
+  // Extras Premium do dia (2 artigos pelas preferências de tema do assinante) —
+  // os mesmos que vão no e-mail; sem áudio por design (áudio é dos 3 da edição).
+  (ed.premiumExtras || []).forEach((a) => {
+    html += articleCard({ ...a, especialidade: u.especialidade }, true, null, idx++);
   });
 
   html += premiumSection(data);
