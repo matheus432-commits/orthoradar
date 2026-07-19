@@ -13,6 +13,7 @@
 
 const { Firestore } = require('./_lib/firestore');
 const { classifyEspecialidade, currentCost } = require('./_lib/claude');
+const { especialidadeOverride } = require('./_lib/scoring');
 const log = require('./_lib/logger');
 
 const FIX_LIMIT = parseInt(process.env.FIX_LIMIT || '300', 10);
@@ -60,8 +61,11 @@ async function main() {
   for (const art of articles) {
     checked++;
     const atual = art.especialidade || '';
-    const nova  = await classifyEspecialidade(art);
+    let nova  = await classifyEspecialidade(art);
     if (!nova) { failed++; continue; }
+    // Override determinístico tem a palavra final (decíduo→Odontopediatria;
+    // restauração direta rotulada Prótese→Dentística) — mesmo por cima da IA.
+    nova = especialidadeOverride(art.titulo || art.title || '', art.abstract || art.resumo_pt || '', nova) || nova;
 
     if (nova !== atual) {
       await db.updateDoc('artigos', art.id, {

@@ -9,7 +9,7 @@
 const { Firestore }           = require('./_lib/firestore');
 const { checkAdmin } = require('./_lib/admin-guard');
 const { enrichArticle, generateResumoCompleto, currentCost, resetCost } = require('./_lib/claude');
-const { scoreRelevance, estimateQualityScore }   = require('./_lib/scoring');
+const { scoreRelevance, estimateQualityScore, especialidadeOverride } = require('./_lib/scoring');
 const log                     = require('./_lib/logger');
 
 const MAX_ARTICLES_PER_RUN = parseInt(process.env.AI_BATCH_SIZE || '20', 10);
@@ -87,11 +87,24 @@ async function processOne(db, article) {
   // O rótulo da ingestão vem da QUERY de busca e pode estar errado (ex.: artigo
   // de odontopediatria achado pela busca de Prótese). A classificação da IA pelo
   // conteúdo real prevalece; o rótulo antigo fica em especialidadeOriginal.
-  if (enriched.especialidade && enriched.especialidade !== article.especialidade) {
-    updateFields.especialidade         = enriched.especialidade;
+  // Por cima da IA, o override determinístico dá a palavra FINAL nos casos que
+  // não podem errar (dentição decídua → Odontopediatria; restauração direta
+  // rotulada Prótese → Dentística).
+  let especialidadeFinal = enriched.especialidade || article.especialidade || '';
+  const forced = especialidadeOverride(
+    article.titulo || article.title || '', article.abstract || '', especialidadeFinal
+  );
+  if (forced && forced !== especialidadeFinal) {
+    log.info('[process] override determinístico de especialidade', {
+      id: pmid, ia: especialidadeFinal, forcada: forced,
+    });
+    especialidadeFinal = forced;
+  }
+  if (especialidadeFinal && especialidadeFinal !== article.especialidade) {
+    updateFields.especialidade         = especialidadeFinal;
     updateFields.especialidadeOriginal = article.especialidade || '';
     log.info('[process] especialidade reclassificada', {
-      id: pmid, de: article.especialidade || '(vazia)', para: enriched.especialidade,
+      id: pmid, de: article.especialidade || '(vazia)', para: especialidadeFinal,
     });
   }
 

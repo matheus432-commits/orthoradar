@@ -25,34 +25,66 @@ const EVIDENCE_LEVELS = [
 const CANONICAL_ESPECIALIDADES = [
   'Ortodontia', 'Implantodontia', 'Periodontia', 'Dentística',
   'Bucomaxilofacial', 'Prótese', 'Endodontia', 'Odontopediatria',
-  'DTM e Dor Orofacial', 'Radiologia',
+  'DTM e Dor Orofacial', 'Radiologia', 'Estomatologia',
 ];
 
+// Guia de escopo + regras de desempate usado em TODA classificação (enriquecimento
+// e reclassificação em massa). Erros reais que este guia corrige: artigo sobre
+// coroa em dente decíduo indo para Prótese; restauração direta substituindo
+// amálgama indo para Prótese em vez de Dentística.
+const ESPECIALIDADE_GUIDE =
+  'ESCOPO DE CADA ESPECIALIDADE:\n' +
+  '- Odontopediatria: QUALQUER artigo cuja população/objeto seja dentes decíduos (deciduous/primary teeth/dentition) ou pacientes infantis — mesmo que o procedimento seja coroa, restauração, pulpotomia/pulpectomia, trauma ou prevenção. População pediátrica/decídua SEMPRE prevalece sobre o procedimento.\n' +
+  '- Dentística: restaurações DIRETAS em dentes permanentes (resina composta, amálgama e sua substituição, ionômero de vidro), adesão/sistemas adesivos, clareamento, manejo restaurador de cárie e lesões não cariosas. Substituir amálgama por resina é Dentística, NUNCA Prótese.\n' +
+  '- Prótese: reabilitação INDIRETA em adultos — coroas e facetas indiretas, inlay/onlay, prótese parcial fixa/removível, prótese total, componente protético sobre implante, materiais cerâmicos/zircônia PARA prótese indireta, oclusão protética.\n' +
+  '- Implantodontia: cirurgia de implante, osseointegração, peri-implantite, enxertos e regeneração óssea (a fase protética sobre implante é Prótese).\n' +
+  '- Endodontia: tratamento de canal em dentes PERMANENTES, retratamento, irrigação, medicação intracanal, cirurgia parendodôntica (pulpoterapia em decíduo é Odontopediatria).\n' +
+  '- Periodontia: doença periodontal, gengivite, raspagem, cirurgia periodontal, tecidos moles ao redor de DENTES.\n' +
+  '- Ortodontia: má oclusão, aparelhos, alinhadores, biomecânica, cefalometria, ancoragem.\n' +
+  '- Bucomaxilofacial: extrações, cirurgia ortognática, trauma facial, patologia cirúrgica, ATM cirúrgica.\n' +
+  '- DTM e Dor Orofacial: disfunção temporomandibular, bruxismo, dor orofacial não cirúrgica, apneia do sono.\n' +
+  '- Radiologia: quando o FOCO é o método de imagem em si (CBCT, IA diagnóstica em imagem, protocolos de aquisição) — não o uso incidental de radiografia.\n' +
+  '- Estomatologia: lesões da mucosa oral, câncer bucal, medicina oral, manifestações orais de doenças sistêmicas.\n' +
+  'REGRAS DE DESEMPATE (aplicar nesta ordem):\n' +
+  '1. População decídua/pediátrica → Odontopediatria, sem exceção.\n' +
+  '2. Restauração direta (resina/amálgama/ionômero) → Dentística; indireta em adulto → Prótese.\n' +
+  '3. Implante: fase cirúrgica/biológica → Implantodontia; fase protética → Prótese.\n' +
+  '4. O que decide é o FOCO CLÍNICO PRINCIPAL do estudo, não palavras isoladas.\n';
+
 function buildPrompt(article) {
-  const abstract = (article.abstract || '').slice(0, 400);
+  // 1500 chars de contexto: com 400 a parte do abstract que revela a população
+  // (ex.: "primary molars in children") ficava de fora e a classificação errava.
+  const abstract = (article.abstract || '').slice(0, 1500);
   return (
-    'Você é um editor científico especializado em Odontologia.\n' +
+    'Você é um editor científico especializado em Odontologia, escrevendo para dentistas brasileiros.\n' +
     'Dado o artigo abaixo, produza conteúdo ORIGINAL em português brasileiro para uma newsletter profissional.\n' +
     'REGRA EDITORIAL DE DIREITO AUTORAL (obrigatória, ver docs/REGRAS-EDITORIAIS.md):\n' +
     'o abstract é apenas CONTEXTO — é PROIBIDO reproduzi-lo, parafraseá-lo frase a frase\n' +
     'ou traduzi-lo literalmente (isso criaria obra derivada sem licença). Extraia os FATOS\n' +
     'e ACHADOS (não protegidos por direito autoral) e escreva texto analítico e prático\n' +
-    'inteiramente com suas próprias palavras e estrutura.\n\n' +
+    'inteiramente com suas próprias palavras e estrutura.\n' +
+    'QUALIDADE DE LINGUAGEM (obrigatória): use a terminologia odontológica consagrada no Brasil — ' +
+    '"deciduous/primary teeth"→"dentes decíduos", "root canal treatment"→"tratamento endodôntico", ' +
+    '"resin-based composite"→"resina composta", "survival rate"→"taxa de sobrevivência", ' +
+    '"randomized clinical trial"→"ensaio clínico randomizado". Nada de tradução literal palavra a palavra, ' +
+    'anglicismos desnecessários ou frases que soem traduzidas; o texto deve ler como escrito por um ' +
+    'professor brasileiro da área. Siglas: mantenha as consagradas (CBCT, RCT explicada) e traduza o resto.\n\n' +
+    ESPECIALIDADE_GUIDE + '\n' +
     `TÍTULO (inglês): ${article.titulo || article.title || ''}\n` +
-    `CONTEXTO ABSTRACT (inglês, uso interno, max 400 chars): ${abstract}\n` +
-    `ESPECIALIDADE: ${article.especialidade || ''}\n` +
+    `CONTEXTO ABSTRACT (inglês, uso interno): ${abstract}\n` +
+    `RÓTULO DE ORIGEM (veio da BUSCA e é FREQUENTEMENTE errado — não confie nele): ${article.especialidade || ''}\n` +
     `PERIÓDICO: ${article.journal || ''}\n` +
     `ANO: ${article.year || ''}\n\n` +
     'Responda APENAS com JSON válido (sem markdown, sem código fence):\n' +
     '{\n' +
-    '  "titulo_pt": "Título adaptado em português (máx 120 chars)",\n' +
+    '  "titulo_pt": "Título adaptado em português (máx 120 chars), terminologia brasileira correta",\n' +
     '  "resumo_pt": "Resumo transformativo original em PT (150-250 palavras). Comece pelo problema clínico. Descreva metodologia brevemente. Foque em achados práticos. Tom: colega explicando a colega.",\n' +
     '  "impacto_pratico": "1-2 frases: o que este estudo muda (ou confirma) na prática clínica",\n' +
     '  "achados_principais": ["achado 1", "achado 2", "achado 3"],\n' +
     `  "nivel_evidencia": "um de: ${EVIDENCE_LEVELS.join(' | ')}",\n` +
     '  "limitacoes": "Principais limitações em 1 frase",\n' +
     '  "tempo_leitura": 3,\n' +
-    `  "especialidade": "classifique pelo FOCO CLÍNICO PRINCIPAL do artigo em UMA de: ${CANONICAL_ESPECIALIDADES.join(' | ')} | Outra. Ignore a especialidade sugerida acima se não corresponder ao conteúdo real (ex.: estudo sobre apneia do sono ou odontopediatria NÃO é Prótese). Use 'Outra' quando não se encaixar claramente."\n` +
+    `  "especialidade": "aplique o ESCOPO e as REGRAS DE DESEMPATE acima e classifique pelo FOCO CLÍNICO PRINCIPAL em UMA de: ${CANONICAL_ESPECIALIDADES.join(' | ')} | Outra. Use 'Outra' quando não se encaixar claramente."\n` +
     '}'
   );
 }
@@ -239,17 +271,22 @@ async function generateResumoCompleto(article) {
 // Classificação isolada (sem enriquecimento completo) — usada pelo script de
 // correção em massa fix-especialidades.js. Retorna uma especialidade canônica,
 // 'Odontologia Geral', ou null em falha.
+// Modelo: CLASSIFY_MODEL (default Sonnet — roda raramente e em lote; a precisão
+// aqui corrige a base inteira, então vale o custo por chamada maior).
+const CLASSIFY_MODEL = process.env.CLASSIFY_MODEL || 'claude-sonnet-5';
+
 async function classifyEspecialidade(article) {
   const prompt =
     'Classifique o artigo odontológico abaixo pelo seu FOCO CLÍNICO PRINCIPAL.\n' +
+    ESPECIALIDADE_GUIDE + '\n' +
     `Responda APENAS com uma opção exata desta lista: ${CANONICAL_ESPECIALIDADES.join(' | ')} | Outra\n` +
     'Use "Outra" quando o artigo não se encaixar claramente em nenhuma.\n\n' +
     `TÍTULO: ${article.titulo || article.title || ''}\n` +
-    `ABSTRACT (contexto, max 400 chars): ${(article.abstract || article.resumo_pt || '').slice(0, 400)}\n` +
-    `RÓTULO ATUAL (pode estar errado): ${article.especialidade || ''}`;
+    `ABSTRACT (contexto): ${(article.abstract || article.resumo_pt || '').slice(0, 1500)}\n` +
+    `RÓTULO ATUAL (frequentemente errado — não confie nele): ${article.especialidade || ''}`;
 
   try {
-    const raw = await callClaude(prompt);
+    const raw = await callClaude(prompt, 0, CLASSIFY_MODEL);
     const answer = raw.text.trim().split('\n')[0].trim();
     if (CANONICAL_ESPECIALIDADES.includes(answer)) return answer;
     if (/^outra$/i.test(answer)) return 'Odontologia Geral';

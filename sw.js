@@ -1,8 +1,10 @@
-// OdontoFeed Service Worker v2.0 (nova identidade visual)
-const CACHE_NAME = 'odontofeed-v2';
+// OdontoFeed Service Worker v3.0
+// v3: HTML NUNCA sai do cache quando há rede (e nunca é gravado no cache em
+// runtime) — elimina o "página antiga aparece primeiro". O precache guarda um
+// snapshot de '/' apenas como fallback OFFLINE.
+const CACHE_NAME = 'odontofeed-v3';
 const STATIC_ASSETS = [
   '/',
-  '/index.html',
   '/manifest.json'
 ];
 
@@ -47,11 +49,16 @@ self.addEventListener('fetch', event => {
   // Skip Netlify function calls — never cache API responses (privacy)
   if (event.request.url.includes('/.netlify/functions/')) return;
 
+  // Navegações (HTML): SEMPRE rede, sem tocar no cache HTTP nem no do SW —
+  // garante que cada deploy aparece de imediato. Cache só como fallback offline.
+  const isNav = event.request.mode === 'navigate' ||
+    (event.request.headers.get('accept') || '').includes('text/html');
+
   event.respondWith(
-    fetch(event.request)
+    (isNav ? fetch(event.request, { cache: 'no-store' }) : fetch(event.request))
       .then(response => {
-        // Cache successful responses
-        if (response.ok) {
+        // Cache runtime apenas para assets (nunca HTML — evita versão velha)
+        if (response.ok && !isNav) {
           const responseClone = response.clone();
           caches.open(CACHE_NAME).then(cache => {
             cache.put(event.request, responseClone);
