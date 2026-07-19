@@ -76,4 +76,13 @@ describe('email — links levam ao OdontoFeed (não ao artigo)', () => {
     const { html } = build();
     assert.ok(!/<audio|\.mp3|firebasestorage/i.test(html));
   });
+
+  test('card premium renderiza o resumo ESTRUTURADO com títulos de seção', () => {
+    const estruturado = 'Objetivo\nAvaliar a adesão em zircônia.\n\nMateriais e métodos\nEnsaio in vitro com 40 amostras.\n\nResultados\nO primer de MDP aumentou a resistência de união.\n\nRelevância clínica\nJateamento + MDP é o protocolo mais confiável.';
+    const { html } = build({ premiumExtras: [{ pmid: '444', titulo_pt: 'Extra', resumo_completo: estruturado, nivel_evidencia: 'RCT', journal: 'JPD' }] });
+    for (const secao of ['Objetivo', 'Materiais e métodos', 'Resultados', 'Relevância clínica']) {
+      assert.ok(new RegExp('<strong[^>]*>' + secao + '</strong>').test(html), 'seção sem destaque: ' + secao);
+    }
+    assert.ok(html.includes('O primer de MDP aumentou'), 'corpo do resumo ausente');
+  });
 });

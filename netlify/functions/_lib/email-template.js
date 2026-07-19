@@ -349,12 +349,25 @@ function articleCard(article, index, total, opts) {
 // "Exclusivo assinante" — o leitor entende na hora que aquele artigo só chegou
 // porque ele assina. O resumo usa o texto RICO (resumo_completo, Sonnet com
 // validador numérico) quando disponível, bem mais longo que o dos cards comuns.
+// Renderiza o resumo estruturado (Objetivo/Métodos/Resultados/Relevância) no
+// e-mail: títulos de seção em negrito, quebras preservadas. Resumos antigos em
+// prosa passam direto como parágrafos.
+const RESUMO_HEAD_RE = /^(Objetivo|Materiais? e m[ée]todos?|M[ée]todos?|Metodologia|Resultados?|Relev[âa]ncia cl[íi]nica|Limita[çc][õo]es)\s*:?\s*$/i;
+function renderResumoEstruturado(texto) {
+  return String(texto || '').split(/\n+/)
+    .map(l => l.trim()).filter(Boolean)
+    .map(l => RESUMO_HEAD_RE.test(l)
+      ? `<strong style="display:block;margin-top:10px;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#7C5CBF;">${esc(l.replace(/\s*:\s*$/, ''))}</strong>`
+      : esc(l))
+    .join('<br>');
+}
+
 function premiumArticleCard(article, opts) {
   const { baseUrl, dashboardUrl, digestId, email, edicaoUrl } = opts;
   const pmid    = String(article.pmid || article.id || '').trim();
   const badge   = BADGE_STYLE[article.nivel_evidencia] || BADGE_STYLE['Revisão Narrativa'];
   const titulo  = esc(truncate(article.titulo_pt || article.titulo || article.title || 'Sem título', 140));
-  const resumo  = esc(truncate(article.resumo_completo || article.resumo_pt || article.abstract || '', 1400));
+  const resumo  = renderResumoEstruturado(truncate(article.resumo_completo || article.resumo_pt || article.abstract || '', 1400));
   const impacto = esc(truncate(article.impacto_pratico || '', 300));
   const journal = esc(article.journal || '');
   const pubDate = esc(formatPublicationDate(article));

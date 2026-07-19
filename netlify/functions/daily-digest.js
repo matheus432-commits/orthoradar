@@ -30,7 +30,7 @@ const { pubmedFallbackArticles }                   = require('./_lib/pubmed');
 const { acquireLock, releaseLock }                 = require('./_lib/pipeline-lock');
 const { withTimeout }                              = require('./_lib/retry-utils');
 // (Achado da Semana cancelado em 19/07/2026 — módulo não é mais usado.)
-const { generateResumoCompleto }                   = require('./_lib/claude');
+const { generateResumoCompleto, isResumoEstruturado } = require('./_lib/claude');
 const { isUnfinishedStudy }                         = require('./_lib/scoring');
 const { espDigestSlug }                            = require('./_lib/slug');
 const { buildEdicaoUrl }                           = require('./_lib/edicao-token');
@@ -473,6 +473,16 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
     especialidade, generated: !!editorial, chars: editorial?.length ?? 0, ms: Date.now() - t,
   });
 
+  // 7b. Resumo estruturado de CADA artigo da edição (botão "Ler o resumo" no
+  // site — Objetivo/Métodos/Resultados/Relevância). Cacheado no artigo e salvo
+  // no doc do digest; best-effort: sem resumo, o card mostra só o essencial.
+  t = Date.now();
+  for (const art of selected) await ensureResumoCompleto(db, art);
+  log.info('[digest][ESP][STAGE resumos]', {
+    especialidade, comResumo: selected.filter(a => a.resumo_completo).length,
+    total: selected.length, ms: Date.now() - t,
+  });
+
   // 8. Persist shared digest (cache + anti-repeat history)
   const articles = selected.map(stripInternal);
   const pmids = [
@@ -721,9 +731,14 @@ async function pickPremiumExtras(db, user, pool) {
 }
 
 // Resumo aprofundado (Sonnet + validador numérico) com cache no próprio artigo:
-// gerado no máximo UMA vez por artigo, reutilizado por todos os assinantes.
+// gerado no máximo UMA vez por artigo, reutilizado por todos. Usado para os
+// artigos da EDIÇÃO (botão "Ler o resumo" na /edicao.html) e para os extras
+// Premium. Diretriz 19/07/2026: o resumo é ESTRUTURADO (Objetivo / Materiais e
+// métodos / Resultados / Relevância clínica) — resumos antigos em prosa são
+// regenerados uma única vez aqui (custo limitado a ~5 artigos/especialidade/dia);
+// se a regeneração falhar, o texto antigo permanece (melhor prosa que nada).
 async function ensureResumoCompleto(db, article) {
-  if (article.resumo_completo) return article;
+  if (article.resumo_completo && isResumoEstruturado(article.resumo_completo)) return article;
   try {
     const texto = await generateResumoCompleto(article);
     if (texto) {
@@ -731,11 +746,11 @@ async function ensureResumoCompleto(db, article) {
       const docId = String(article.id || article.pmid || '');
       if (docId) {
         await db.updateDoc('artigos', docId, { resumo_completo: texto })
-          .catch(e => log.warn('[digest][PREMIUM] resumo_completo cache save failed', { id: docId, err: e.message }));
+          .catch(e => log.warn('[digest] resumo_completo cache save failed', { id: docId, err: e.message }));
       }
     }
   } catch (err) {
-    log.warn('[digest][PREMIUM] generateResumoCompleto failed', { pmid: article.pmid, err: err.message });
+    log.warn('[digest] generateResumoCompleto failed', { pmid: article.pmid, err: err.message });
   }
   return article; // sem resumo rico, o card usa o resumo_pt normal
 }
