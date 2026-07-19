@@ -150,7 +150,11 @@ exports.handler = async (event) => {
       senhaHash: hashPassword(senhaHash),
       ativo: true,
       plano,
-      planoCortesia: plano === 'premium', // marca o Premium de cortesia — facilita o downgrade seletivo depois
+      // Mesma convenção do set-plano.js: 'cortesia' marca o Premium gratuito
+      // desta fase — o downgrade seletivo futuro rebaixa só esses (quem pagar
+      // vira 'assinatura' e não é tocado).
+      planoOrigem: plano === 'premium' ? 'cortesia' : 'padrao',
+      planoAtualizadoEm: new Date().toISOString(),
       aceitouTermosEm: new Date().toISOString(),
       termosVersao: '1.0-2026-07-14',
       criadoEm: new Date().toISOString(),
