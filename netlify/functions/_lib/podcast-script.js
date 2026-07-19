@@ -53,7 +53,9 @@ async function generateScript(article, especialidade, anthropicKey, opts = {}) {
   }
 
   const titulo   = article.titulo_pt || article.titulo || '';
-  const resumo   = (article.resumo_pt || article.abstract || '').slice(0, 1500);
+  // resumo_completo (quando existe) traz a METODOLOGIA — essencial para o bloco
+  // de materiais e métodos do roteiro; senão, cai no resumo curto/abstract.
+  const resumo   = (article.resumo_completo || article.resumo_pt || article.abstract || '').slice(0, 2200);
   const impacto  = article.impacto_pratico || '';
   const nivel    = article.nivel_evidencia || 'estudo recente';
   const achados  = Array.isArray(article.achados_principais)
@@ -62,20 +64,23 @@ async function generateScript(article, especialidade, anthropicKey, opts = {}) {
 
   const system =
 `Você escreve o roteiro FALADO de um micro-podcast diário do OdontoFeed para dentistas de ${especialidade}.
+O ouvinte é um DENTISTA que quer a essência do estudo em poucos minutos — cada frase precisa carregar informação do artigo. ZERO enrolação.
 
-ESTRUTURA (nesta ordem, tudo em prosa corrida — sem títulos, marcadores, asteriscos ou "[música]"):
-1. Saudação curta citando o tema do episódio.
-2. Em 1-2 frases: o problema clínico e o que o estudo investigou.
-3. O RESULTADO PRINCIPAL — a parte MAIS IMPORTANTE e OBRIGATÓRIA: diga com clareza O QUE OS AUTORES ENCONTRARAM, em linguagem clínica direta. Ex.: "os alinhadores foram tão eficazes quanto o aparelho fixo depois de dezoito meses" ou "a carga imediata teve sobrevivência de cerca de noventa e oito por cento em três anos". O dentista ouve o episódio JUSTAMENTE para saber o resultado — NUNCA termine sem enunciá-lo.
-4. Por que esse resultado importa na prática clínica.
-5. Uma frase natural lembrando que o episódio é informativo e não substitui a leitura do artigo original nem o julgamento clínico.
-6. Despedida curta.
+ESTRUTURA (nesta ordem, em prosa corrida — sem títulos, marcadores, asteriscos ou "[música]"):
+1. Saudação de UMA frase já citando o tema.
+2. OBJETIVO: o que o estudo quis responder e por quê (1-2 frases).
+3. MATERIAIS E MÉTODOS: desenho do estudo, quem/o que foi estudado, grupos comparados, tempo de acompanhamento e o que foi medido — quando esses dados estiverem no material (2-3 frases).
+4. RESULTADOS — a parte central e OBRIGATÓRIA: o que os autores ENCONTRARAM, em linguagem clínica direta, com os números do material ditos por extenso. Ex.: "os alinhadores foram tão eficazes quanto o aparelho fixo depois de dezoito meses". O dentista ouve JUSTAMENTE para saber o resultado — NUNCA termine sem enunciá-lo.
+5. RELEVÂNCIA CLÍNICA: o que muda (ou se confirma) no consultório (1-2 frases).
+6. UMA frase: o episódio é informativo e não substitui a leitura do artigo original nem o julgamento clínico. Despedida em UMA frase curta.
+
+PROIBIDO (enrolação): frases de enchimento ("isso é fascinante", "vamos mergulhar", "fique com a gente", "como todos sabemos"), repetir a mesma ideia com outras palavras, promessas vagas ("resultados surpreendentes") sem dizer o resultado, e introduções longas. Se uma frase não traz informação do estudo, corte-a.
 
 REGRAS:
-- Português brasileiro, tom de locutor de podcast — natural, humano, direto, sem soar acadêmico nem traduzido.
-- Você PODE (e deve, quando for o resultado de destaque) dizer números que estejam no material: percentuais, "quase o dobro", "reduziu pela metade", tempos de acompanhamento. Escreva os números por extenso para a locução soar melhor. NUNCA invente números que não estejam no material.
-- NÃO recite notação estatística técnica (valor de p, intervalo de confiança, odds ratio, "n igual a") — traduza para linguagem clínica.
-- Máximo ~600 palavras (o texto vira áudio de ~4 minutos e há limite rígido de tamanho).
+- Português brasileiro, tom de locutor de podcast — natural e direto, sem soar acadêmico nem traduzido.
+- Números do material são bem-vindos (percentuais, tamanho da amostra, tempo de acompanhamento, "quase o dobro"), sempre por extenso para a locução. NUNCA invente números que não estejam no material.
+- NÃO recite notação estatística técnica (valor de p, intervalo de confiança, odds ratio) — traduza para linguagem clínica.
+- Alvo: 350-500 palavras, densas (o texto vira áudio de ~3 minutos e há limite rígido de tamanho).
 - DIREITO AUTORAL (obrigatório): o material recebido é apenas contexto — NÃO o leia, reproduza ou traduza literalmente; narre os achados inteiramente com suas próprias palavras.${sponsorText ? `
 - PATROCÍNIO: logo após a saudação inicial, leia naturalmente esta mensagem de patrocínio, identificando-a como tal, sem alterá-la: "${sponsorText}"` : ''}`;
 
