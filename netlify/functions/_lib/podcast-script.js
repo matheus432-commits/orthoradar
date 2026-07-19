@@ -32,9 +32,12 @@ function fallbackScript(article, especialidade) {
   // DIREITO AUTORAL: só narra o resumo PRÓPRIO (resumo_pt) — nunca o abstract
   // original, que é obra protegida da editora/autores.
   const resumo  = (article.resumo_pt || '').trim();
+  const achados = Array.isArray(article.achados_principais) ? article.achados_principais.filter(Boolean) : [];
   const partes = [
     `Olá! No episódio de hoje do OdontoFeed sobre ${especialidade}, vamos falar sobre ${titulo}.`,
     resumo ? `Em resumo: ${resumo}` : '',
+    // O RESULTADO é o motivo de o dentista ouvir — sempre presente quando há achados.
+    achados.length ? `O que o estudo encontrou: ${achados.join('; ')}.` : '',
     impacto ? `Na prática clínica, isso significa o seguinte: ${impacto}` : '',
     `Lembrando: este episódio é informativo e não substitui a leitura do artigo original nem o seu julgamento clínico.`,
     `É isso por hoje. Bons estudos e até o próximo episódio.`,
@@ -53,24 +56,34 @@ async function generateScript(article, especialidade, anthropicKey, opts = {}) {
   const resumo   = (article.resumo_pt || article.abstract || '').slice(0, 1500);
   const impacto  = article.impacto_pratico || '';
   const nivel    = article.nivel_evidencia || 'estudo recente';
+  const achados  = Array.isArray(article.achados_principais)
+    ? article.achados_principais.filter(Boolean).slice(0, 5)
+    : [];
 
   const system =
 `Você escreve o roteiro FALADO de um micro-podcast diário do OdontoFeed para dentistas de ${especialidade}.
+
+ESTRUTURA (nesta ordem, tudo em prosa corrida — sem títulos, marcadores, asteriscos ou "[música]"):
+1. Saudação curta citando o tema do episódio.
+2. Em 1-2 frases: o problema clínico e o que o estudo investigou.
+3. O RESULTADO PRINCIPAL — a parte MAIS IMPORTANTE e OBRIGATÓRIA: diga com clareza O QUE OS AUTORES ENCONTRARAM, em linguagem clínica direta. Ex.: "os alinhadores foram tão eficazes quanto o aparelho fixo depois de dezoito meses" ou "a carga imediata teve sobrevivência de cerca de noventa e oito por cento em três anos". O dentista ouve o episódio JUSTAMENTE para saber o resultado — NUNCA termine sem enunciá-lo.
+4. Por que esse resultado importa na prática clínica.
+5. Uma frase natural lembrando que o episódio é informativo e não substitui a leitura do artigo original nem o julgamento clínico.
+6. Despedida curta.
+
 REGRAS:
-- Português brasileiro, tom de locutor de podcast — natural, direto, sem ser acadêmico.
-- APENAS o texto a ser narrado, em prosa corrida. SEM títulos, SEM marcadores, SEM asteriscos, SEM "[música]".
-- Abra cumprimentando e citando o tema; feche com uma frase curta de despedida.
+- Português brasileiro, tom de locutor de podcast — natural, humano, direto, sem soar acadêmico nem traduzido.
+- Você PODE (e deve, quando for o resultado de destaque) dizer números que estejam no material: percentuais, "quase o dobro", "reduziu pela metade", tempos de acompanhamento. Escreva os números por extenso para a locução soar melhor. NUNCA invente números que não estejam no material.
+- NÃO recite notação estatística técnica (valor de p, intervalo de confiança, odds ratio, "n igual a") — traduza para linguagem clínica.
 - Máximo ~600 palavras (o texto vira áudio de ~4 minutos e há limite rígido de tamanho).
-- PROIBIDO citar p-valor, IC, OR, tamanhos de amostra ou estatística técnica.
-- Explique por que o achado importa na prática clínica.
-- DIREITO AUTORAL (obrigatório): o material recebido é apenas contexto — NÃO o leia, reproduza ou traduza literalmente; narre os achados inteiramente com suas próprias palavras.
-- Antes da despedida, inclua UMA frase natural lembrando que o episódio é informativo e não substitui a leitura do artigo original nem o julgamento clínico.${sponsorText ? `
+- DIREITO AUTORAL (obrigatório): o material recebido é apenas contexto — NÃO o leia, reproduza ou traduza literalmente; narre os achados inteiramente com suas próprias palavras.${sponsorText ? `
 - PATROCÍNIO: logo após a saudação inicial, leia naturalmente esta mensagem de patrocínio, identificando-a como tal, sem alterá-la: "${sponsorText}"` : ''}`;
 
   const user =
 `Artigo (${nivel}):
 Título: ${titulo}
 Resumo: ${resumo}
+${achados.length ? `Principais achados/resultados do estudo (USE-OS explicitamente no roteiro):\n- ${achados.join('\n- ')}` : ''}
 ${impacto ? `Relevância clínica: ${impacto}` : ''}`;
 
   try {

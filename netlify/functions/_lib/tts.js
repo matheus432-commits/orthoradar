@@ -17,19 +17,44 @@ const log         = require('./logger');
 
 const HOST = 'texttospeech.googleapis.com';
 
-// Vozes pt-BR. Padrão: Neural2 (alta qualidade, US$16/1M após 1M grátis —
-// decisão de produto 07/2026). Troque sem deploy via env TTS_VOICE
-// (ex.: TTS_VOICE=pt-BR-Standard-A para voltar ao modo gratuito).
+// Vozes pt-BR. Padrão: Chirp3-HD — a geração generativa mais natural do Google
+// (bem menos "robótica" que a Neural2). Troque via env TTS_VOICE.
+// FALLBACK_VOICE (Neural2) entra automaticamente se a voz primária retornar
+// erro da API — assim a geração nunca quebra por um nome de voz indisponível.
 const VOICES = {
-  A: 'pt-BR-Neural2-A', // feminina (alta qualidade)
-  B: 'pt-BR-Neural2-B', // masculina (alta qualidade)
-  C: 'pt-BR-Neural2-C', // feminina
-  STANDARD_A: 'pt-BR-Standard-A', // fallback barato (4M grátis/mês)
+  CHIRP_F:  'pt-BR-Chirp3-HD-Aoede',   // feminina generativa (mais natural)
+  CHIRP_M:  'pt-BR-Chirp3-HD-Charon',  // masculina generativa
+  A:        'pt-BR-Neural2-A',         // feminina (alta qualidade) — fallback
+  B:        'pt-BR-Neural2-B',         // masculina (alta qualidade)
+  C:        'pt-BR-Neural2-C',         // feminina
+  STANDARD_A: 'pt-BR-Standard-A',      // barata (4M grátis/mês)
 };
-const DEFAULT_VOICE = process.env.TTS_VOICE || VOICES.A;
+const DEFAULT_VOICE  = process.env.TTS_VOICE || VOICES.CHIRP_F;
+const FALLBACK_VOICE = process.env.TTS_FALLBACK_VOICE || VOICES.A;
+
+// Uma chamada ao endpoint de síntese com uma voz específica. Chirp3-HD não
+// aceita speakingRate de forma consistente, então só enviamos audioConfig
+// extra quando a taxa difere do padrão (1.0).
+async function callSynthesisAPI(apiKey, clean, voice, speakingRate) {
+  const audioConfig = { audioEncoding: 'MP3' };
+  if (speakingRate && speakingRate !== 1.0) audioConfig.speakingRate = speakingRate;
+  const payload = JSON.stringify({
+    input:       { text: clean },
+    voice:       { languageCode: 'pt-BR', name: voice },
+    audioConfig,
+  });
+  const buf = Buffer.from(payload, 'utf8');
+  // maxRetries=0: o Cloud TTS cobra por tentativa bem-sucedida; sem retry cego.
+  return request({
+    hostname: HOST,
+    path:     '/v1/text:synthesize?key=' + apiKey,
+    method:   'POST',
+    headers:  { 'Content-Type': 'application/json', 'Content-Length': buf.length },
+  }, buf, 0, 0);
+}
 
 // Sintetiza `text` respeitando o orçamento. `now` injetável para testes.
-// Retorna { ok:true, audioBase64, chars } ou { skipped:true, reason }.
+// Retorna { ok:true, audioBase64, chars, voice } ou { skipped:true, reason }.
 async function synthesize(db, { text, voice = DEFAULT_VOICE, speakingRate = 1.0, now = new Date() } = {}) {
   const clean = String(text || '').trim();
   const chars = budget.billableChars(clean);
@@ -65,20 +90,16 @@ async function synthesize(db, { text, voice = DEFAULT_VOICE, speakingRate = 1.0,
     return { skipped: true, reason: 'budget_write_failed', chars };
   }
 
-  const payload = JSON.stringify({
-    input:       { text: clean },
-    voice:       { languageCode: 'pt-BR', name: voice },
-    audioConfig: { audioEncoding: 'MP3', speakingRate },
-  });
-  const buf = Buffer.from(payload, 'utf8');
-  // maxRetries=0: o Cloud TTS cobra por tentativa; um retry após timeout/queda
-  // cobraria em dobro sem reservar — o que furaria o teto. Uma tentativa só.
-  const res = await request({
-    hostname: HOST,
-    path:     '/v1/text:synthesize?key=' + apiKey,
-    method:   'POST',
-    headers:  { 'Content-Type': 'application/json', 'Content-Length': buf.length },
-  }, buf, 0, 0);
+  // Voz primária; se a API recusar (ex.: nome de voz indisponível), cai para a
+  // Neural2. A tentativa que FALHA não gera áudio → o Cloud TTS não cobra por
+  // ela, então a reserva única acima cobre a síntese que de fato acontece.
+  let usedVoice = voice;
+  let res = await callSynthesisAPI(apiKey, clean, voice, speakingRate);
+  if (res.status !== 200 && voice !== FALLBACK_VOICE) {
+    log.warn('[tts] voz primária falhou — usando fallback', { voice, fallback: FALLBACK_VOICE, status: res.status, body: (res.body || '').slice(0, 160) });
+    usedVoice = FALLBACK_VOICE;
+    res = await callSynthesisAPI(apiKey, clean, FALLBACK_VOICE, speakingRate);
+  }
 
   if (res.status !== 200) {
     log.error('[tts] erro na API Cloud TTS', { status: res.status, body: res.body.slice(0, 200) });
@@ -88,8 +109,8 @@ async function synthesize(db, { text, voice = DEFAULT_VOICE, speakingRate = 1.0,
   const audioBase64 = JSON.parse(res.body).audioContent || null;
   if (!audioBase64) return { skipped: true, reason: 'empty_audio', chars };
 
-  log.info('[tts] áudio gerado', { chars, voice, monthUsadoAgora: (usage.chars || 0) + chars });
-  return { ok: true, audioBase64, chars };
+  log.info('[tts] áudio gerado', { chars, voice: usedVoice, monthUsadoAgora: (usage.chars || 0) + chars });
+  return { ok: true, audioBase64, chars, voice: usedVoice };
 }
 
 module.exports = { synthesize, VOICES };
