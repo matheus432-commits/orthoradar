@@ -113,7 +113,35 @@ describe('wakai', () => {
     assert.equal(state.calls[0].options.timeoutMs, 20000);
     assert.equal(state.calls[0].maxRetries, 0, 'retry duplicaria cobrança e estouraria os 26s');
     const payload = JSON.parse(state.calls[0].body);
-    assert.equal(payload.max_tokens, 1000); // cabe no orçamento de tempo
+    assert.equal(payload.max_tokens, 1500); // teto de segurança; prompt exige concisão
+  });
+
+  test('prompt proíbe preâmbulo, sugerir mudar temas e ampliar escopo (regras 19/07)', async () => {
+    const wakai = loadWakai(claudeOk, state);
+    await wakai.handler(event(PERGUNTA));
+    const sys = JSON.parse(state.calls[0].body).system;
+    assert.match(sys, /DIRETO à resposta/i);
+    assert.match(sys, /NUNCA abra com meta-comentário/i);
+    assert.match(sys, /NUNCA sugira.*mudar seus temas/i);
+    assert.match(sys, /SEMPRE conclua/i);
+  });
+
+  test('fontes: só as REALMENTE citadas [n] são devolvidas (não todas do contexto)', async () => {
+    // Resposta cita [1]; contexto tem 1 artigo (n=1) → devolve 1 fonte
+    const wakai = loadWakai(claudeOk, state);
+    const res = await wakai.handler(event(PERGUNTA));
+    const data = JSON.parse(res.body);
+    assert.equal(data.fontes.length, 1);
+    assert.equal(data.fontes[0].n, 1);
+  });
+
+  test('resposta sem citação [n] → nenhuma fonte (pergunta fora do tema não lista artigos alheios)', async () => {
+    const wakai = loadWakai(() => ({ status: 200, body: JSON.stringify({
+      content: [{ type: 'text', text: 'Resposta pela literatura consolidada, sem citar artigos do contexto.' }],
+      usage: { input_tokens: 50, output_tokens: 50 },
+    }) }), state);
+    const res = await wakai.handler(event(PERGUNTA));
+    assert.deepEqual(JSON.parse(res.body).fontes, []);
   });
 
   test('timeout na geração → mensagem específica (erro "timeout"), não a genérica', async () => {
