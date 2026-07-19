@@ -1,0 +1,41 @@
+name: Gerar Podcasts (manual)
+
+# Gera os áudios do dia (1 por artigo da edição, por especialidade com usuário
+# ativo) e grava o histórico em podcast_episodios — que alimenta o feed RSS do
+# Spotify. Mesmo passo que roda no daily-pipeline às 03:00 UTC, exposto aqui
+# como disparo manual para popular/testar o feed sem esperar a madrugada.
+#
+# Requer os secrets de TTS (GOOGLE_TTS_API_KEY, GCP_SERVICE_ACCOUNT_JSON,
+# GCS_BUCKET). Sem eles, cada etapa de áudio é pulada e nada é gravado.
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+on:
+  workflow_dispatch:
+
+jobs:
+  podcasts:
+    name: Gerar podcasts do dia
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Gerar podcasts
+        env:
+          FIREBASE_PROJECT_ID:      ${{ secrets.FIREBASE_PROJECT_ID }}
+          FIREBASE_API_KEY:         ${{ secrets.FIREBASE_API_KEY }}
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          ANTHROPIC_API_KEY:        ${{ secrets.ANTHROPIC_API_KEY }}
+          GOOGLE_TTS_API_KEY:       ${{ secrets.GOOGLE_TTS_API_KEY }}
+          GCP_SERVICE_ACCOUNT_JSON: ${{ secrets.GCP_SERVICE_ACCOUNT_JSON }}
+          GCS_BUCKET:               ${{ secrets.GCS_BUCKET }}
+        run: node netlify/functions/generate-podcasts.js
