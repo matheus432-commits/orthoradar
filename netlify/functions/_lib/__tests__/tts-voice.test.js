@@ -33,6 +33,29 @@ function loadTts(responder) {
 
 const OK = { status: 200, body: JSON.stringify({ audioContent: 'QUJD' }) };
 
+// Variante que entrega também as options da requisição (para checar timeoutMs).
+function loadTtsCaptureOpts(responder) {
+  const libPath = require.resolve('../_lib', { paths: [path.dirname(TTS)] });
+  require.cache[libPath] = {
+    id: libPath, filename: libPath, loaded: true,
+    exports: { request: async (opts, buf) => responder(opts, JSON.parse(buf.toString('utf8'))) },
+  };
+  const budgetPath = require.resolve('./tts-budget', { paths: [path.dirname(TTS)] });
+  require.cache[budgetPath] = {
+    id: budgetPath, filename: budgetPath, loaded: true,
+    exports: {
+      billableChars: (s) => s.length,
+      byteLength: (s) => Buffer.byteLength(s, 'utf8'),
+      MAX_REQUEST_BYTES: 5000,
+      loadUsage: async () => ({ chars: 0 }),
+      checkBudget: () => ({ ok: true }),
+      recordUsage: async () => {},
+    },
+  };
+  delete require.cache[require.resolve(TTS)];
+  return require(TTS);
+}
+
 describe('synthesize — voz e fallback', () => {
   test('usa Chirp3-HD por padrão quando a API aceita', async () => {
     process.env.GOOGLE_TTS_API_KEY = 'k';
@@ -58,6 +81,29 @@ describe('synthesize — voz e fallback', () => {
     assert.equal(r.ok, true, 'deve gerar áudio mesmo com a 1ª voz recusada');
     assert.deepEqual(voicesTried, ['pt-BR-Chirp3-HD-Aoede', 'pt-BR-Neural2-A']);
     assert.equal(r.voice, 'pt-BR-Neural2-A');
+  });
+
+  test('cai para Neural2 também quando a primária LANÇA (timeout/rede)', async () => {
+    process.env.GOOGLE_TTS_API_KEY = 'k';
+    delete process.env.TTS_VOICE;
+    const voicesTried = [];
+    const tts = loadTts((p) => {
+      voicesTried.push(p.voice.name);
+      if (p.voice.name.includes('Chirp')) throw new Error('Request timeout: texttospeech.googleapis.com');
+      return OK;
+    });
+    const r = await tts.synthesize({}, { text: 'Olá, resultado do estudo.' });
+    assert.equal(r.ok, true, 'timeout na 1ª voz não pode derrubar a síntese');
+    assert.deepEqual(voicesTried, ['pt-BR-Chirp3-HD-Aoede', 'pt-BR-Neural2-A']);
+    assert.equal(r.voice, 'pt-BR-Neural2-A');
+  });
+
+  test('timeout de 90s vai na chamada do TTS', async () => {
+    process.env.GOOGLE_TTS_API_KEY = 'k';
+    let opts = null;
+    const tts = loadTtsCaptureOpts((o, p) => { opts = o; return OK; });
+    await tts.synthesize({}, { text: 'teste' });
+    assert.equal(opts.timeoutMs, 90000);
   });
 
   test('não envia speakingRate no padrão 1.0 (compatível com Chirp)', async () => {

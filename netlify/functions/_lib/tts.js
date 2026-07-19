@@ -35,6 +35,8 @@ const FALLBACK_VOICE = process.env.TTS_FALLBACK_VOICE || VOICES.A;
 // Uma chamada ao endpoint de síntese com uma voz específica. Chirp3-HD não
 // aceita speakingRate de forma consistente, então só enviamos audioConfig
 // extra quando a taxa difere do padrão (1.0).
+// timeoutMs 90s: a síntese GENERATIVA (Chirp3-HD) de ~3k chars passa dos 15s
+// padrão do _lib — este código roda no GitHub Actions, sem o teto do Netlify.
 async function callSynthesisAPI(apiKey, clean, voice, speakingRate) {
   const audioConfig = { audioEncoding: 'MP3' };
   if (speakingRate && speakingRate !== 1.0) audioConfig.speakingRate = speakingRate;
@@ -46,10 +48,11 @@ async function callSynthesisAPI(apiKey, clean, voice, speakingRate) {
   const buf = Buffer.from(payload, 'utf8');
   // maxRetries=0: o Cloud TTS cobra por tentativa bem-sucedida; sem retry cego.
   return request({
-    hostname: HOST,
-    path:     '/v1/text:synthesize?key=' + apiKey,
-    method:   'POST',
-    headers:  { 'Content-Type': 'application/json', 'Content-Length': buf.length },
+    hostname:  HOST,
+    path:      '/v1/text:synthesize?key=' + apiKey,
+    method:    'POST',
+    timeoutMs: 90000,
+    headers:   { 'Content-Type': 'application/json', 'Content-Length': buf.length },
   }, buf, 0, 0);
 }
 
@@ -90,19 +93,28 @@ async function synthesize(db, { text, voice = DEFAULT_VOICE, speakingRate = 1.0,
     return { skipped: true, reason: 'budget_write_failed', chars };
   }
 
-  // Voz primária; se a API recusar (ex.: nome de voz indisponível), cai para a
-  // Neural2. A tentativa que FALHA não gera áudio → o Cloud TTS não cobra por
-  // ela, então a reserva única acima cobre a síntese que de fato acontece.
+  // Voz primária; se a API recusar OU a chamada lançar (timeout/queda de rede),
+  // cai para a Neural2. A tentativa que FALHA não gera áudio → o Cloud TTS não
+  // cobra por ela, então a reserva única acima cobre a síntese que acontece.
   let usedVoice = voice;
-  let res = await callSynthesisAPI(apiKey, clean, voice, speakingRate);
+  let res;
+  try {
+    res = await callSynthesisAPI(apiKey, clean, voice, speakingRate);
+  } catch (err) {
+    res = { status: 0, body: err.message || 'network_error' };
+  }
   if (res.status !== 200 && voice !== FALLBACK_VOICE) {
     log.warn('[tts] voz primária falhou — usando fallback', { voice, fallback: FALLBACK_VOICE, status: res.status, body: (res.body || '').slice(0, 160) });
     usedVoice = FALLBACK_VOICE;
-    res = await callSynthesisAPI(apiKey, clean, FALLBACK_VOICE, speakingRate);
+    try {
+      res = await callSynthesisAPI(apiKey, clean, FALLBACK_VOICE, speakingRate);
+    } catch (err) {
+      res = { status: 0, body: err.message || 'network_error' };
+    }
   }
 
   if (res.status !== 200) {
-    log.error('[tts] erro na API Cloud TTS', { status: res.status, body: res.body.slice(0, 200) });
+    log.error('[tts] erro na API Cloud TTS', { status: res.status, body: (res.body || '').slice(0, 200) });
     return { skipped: true, reason: 'api_error', status: res.status, chars };
   }
 
