@@ -425,10 +425,13 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:44px 52p
       <div class="dw-header">
         <div>
           <div class="dw-logo">OdontoFeed<em>.</em></div>
-          <div class="dw-edition">Edição de hoje · Ortodontia · Implantodontia</div>
+          <div class="dw-edition" id="dwEdition">Edição de hoje · Ortodontia · Implantodontia</div>
         </div>
         <div class="dw-live-badge">Ao vivo</div>
       </div>
+      <!-- Preenchido com os artigos reais do dia pelo loadPublicArticles();
+           o conteúdo abaixo é só o fallback enquanto carrega / sem rede. -->
+      <div id="dwArts">
       <div class="dw-art">
         <div class="dw-art-top"><span class="dw-ev ev-meta">Meta-análise</span><span class="dw-sp">Ortodontia</span></div>
         <div class="dw-art-title">Alinhadores apresentam eficácia equivalente a brackets fixos no tratamento de Classe II após 18 meses</div>
@@ -443,6 +446,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:44px 52p
         <div class="dw-art-top"><span class="dw-ev ev-rs">Rev. Sistemática</span><span class="dw-sp">Ortodontia</span></div>
         <div class="dw-art-title">Contenção fixa apresentou recidiva significativamente menor em comparação à removível ao longo de 5 anos</div>
         <div class="dw-art-meta">Journal of Orthodontics · 2024 · 3 min leitura</div>
+      </div>
       </div>
       <div class="dw-footer">
         <div class="dw-footer-l" id="statFooter">✉ Enviado todos os dias, direto no seu e-mail</div>
@@ -875,6 +879,25 @@ document.getElementById('feedDate').textContent = new Date().toLocaleDateString(
         return cardTag(a.pubmedUrl,'fg-card',
           `<div class="fg-kicker"><span class="fg-ev ${evCls(a.nivel_evidencia)}">${esc(a.nivel_evidencia||'Artigo')}</span><span class="fg-spec">${esc(a.especialidade||a.tema||'')}</span></div><div class="fg-title">${esc(decodeEntities(a.titulo_pt||a.titulo||'').substring(0,100))}</div><div class="fg-meta"><span>${esc(a.journal||'')}</span>${a.year?'<span>·</span><span>'+esc(String(a.year))+'</span>':''}</div><div class="fg-read" style="color:var(--primary);">${lk}</div>`);
       }).join('');
+    }
+
+    // ── Widget "Ao vivo" do hero: os 3 artigos REAIS do dia, clicáveis ──
+    const dwEl = document.getElementById('dwArts');
+    if(dwEl && artigos.length){
+      const top3 = artigos.slice(0,3);
+      dwEl.innerHTML = top3.map(a=>{
+        const inner = `<div class="dw-art-top"><span class="dw-ev ${evCls(a.nivel_evidencia)}">${esc(a.nivel_evidencia||'Estudo')}</span><span class="dw-sp">${esc(a.especialidade||a.tema||'')}</span></div>
+          <div class="dw-art-title">${esc(decodeEntities(a.titulo_pt||a.titulo||'').substring(0,120))}</div>
+          <div class="dw-art-meta">${esc(a.journal||'')}${a.year?' · '+esc(String(a.year)):''}${a.tempo_leitura?' · '+esc(String(a.tempo_leitura))+' min leitura':''}</div>`;
+        return safeUrl(a.pubmedUrl)
+          ? `<a class="dw-art" href="${esc(safeUrl(a.pubmedUrl))}" target="_blank" rel="noopener" style="display:block;color:inherit;text-decoration:none;cursor:pointer;">${inner}</a>`
+          : `<div class="dw-art">${inner}</div>`;
+      }).join('');
+      const edEl = document.getElementById('dwEdition');
+      if(edEl){
+        const specs=[...new Set(top3.map(a=>a.especialidade).filter(Boolean))].slice(0,2);
+        if(specs.length) edEl.textContent='Edição de hoje · '+specs.join(' · ');
+      }
     }
 
     // ── Ticker "Em alta": monta a partir dos artigos reais e torna clicável ──
