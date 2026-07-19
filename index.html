@@ -1055,7 +1055,15 @@ if(!isInstalled){
 }
 function installPWA(){if(deferredPrompt){deferredPrompt.prompt();deferredPrompt.userChoice.then(r=>{if(r.outcome==='accepted')document.getElementById('pwa-banner').style.display='none';deferredPrompt=null;});}}
 function dismissBanner(){const b=document.getElementById('pwa-banner');if(b)b.style.display='none';document.getElementById('ios-install-modal').style.display='none';localStorage.setItem('pwa-dismissed','1');}
-if('serviceWorker' in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{});});}
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{});});
+  // Deploy novo assumiu (SW trocou de versão) → recarrega UMA vez para a
+  // página nova, em vez de deixar o usuário na versão antiga até um F5.
+  let _swReloaded=false;
+  navigator.serviceWorker.addEventListener('controllerchange',()=>{
+    if(_swReloaded)return; _swReloaded=true; location.reload();
+  });
+}
 </script>
 </body>
 </html>

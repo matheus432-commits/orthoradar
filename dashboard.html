@@ -2902,5 +2902,16 @@ window.addEventListener('DOMContentLoaded',()=>{
     <div class="ctx-empty">Carregando…</div>
   </div>
 </div>
+<script>
+// Deploy novo assumiu (service worker trocou de versão) → recarrega UMA vez
+// para a página nova, em vez de deixar o usuário na versão antiga até um F5.
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('/sw.js').catch(()=>{});
+  let _swReloaded=false;
+  navigator.serviceWorker.addEventListener('controllerchange',()=>{
+    if(_swReloaded)return; _swReloaded=true; location.reload();
+  });
+}
+</script>
 </body>
 </html>
