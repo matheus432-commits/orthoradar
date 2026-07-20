@@ -1,253 +1,96 @@
-# OdontoFeed Instagram Automation Setup Guide
+# OdontoFeed — Automação do Instagram
 
-## Overview
+Publica **um carrossel diário** no Instagram **@odontofeedbr** com os melhores
+estudos científicos do dia, na identidade da marca. Totalmente automático.
 
-OdontoFeed automatically posts high-quality content to Instagram daily at **08:00 UTC (05:00 BRT)**, featuring:
+## Como funciona
 
-- **Carousel posts** (3-5 article highlights) with professional formatting
-- **Story posts** (quick research snippets) for reengagement
-- **Reel captions** (podcast compilation announcements) linking to streaming platforms
+```
+03:00 UTC  Pipeline diário (ingestão + digest por especialidade)
+              └─ grava os estudos curados em digests_especialidade/{esp}_{data}
+11:00 UTC  Workflow instagram-posts.yml
+              1. Lê os melhores estudos do dia (1 por especialidade, top evidência)
+              2. Monta o carrossel (capa + estudos + CTA) e renderiza em JPEG (Chromium)
+              3. Sobe as imagens no Firebase Storage (URLs públicas)
+              4. Publica o carrossel via API do Instagram (Instagram Login)
+              5. Grava marcador de idempotência (nunca posta 2× no mesmo dia)
+```
 
-Posts are generated from daily curated article digests and include:
-- Article titles (Portuguese when available)
-- Journal, year, evidence level (RCT, meta-analysis, etc)
-- Specialty + theme with relevant emoji
-- Snippet summary
-- CTAs linking to OdontoFeed.com and Spotify
+### Arquivos
 
-## Prerequisites
+| Arquivo | Papel |
+|---|---|
+| `netlify/functions/instagram-posts.js` | Orquestra tudo (fetch → render → upload → publish) |
+| `netlify/functions/_lib/instagram-slides.js` | Monta o HTML do carrossel a partir dos artigos |
+| `netlify/functions/_lib/instagram-render.js` | Renderiza os slides em JPEG 1080×1350 (Playwright) |
+| `netlify/functions/_lib/instagram-api.js` | Cliente da API do Instagram (container → carrossel → publish) |
+| `netlify/functions/_lib/storage.js` → `uploadImage` | Sobe a imagem no Firebase e devolve URL pública |
+| `.github/workflows/instagram-posts.yml` | Agenda diária (11:00 UTC) + disparo manual |
 
-1. **Meta/Facebook Business Account** with an Instagram Business profile
-2. **App registered** on Meta Developers (facebook.com/developers)
-3. **API Access Token** with required scopes
+## Credenciais (GitHub Secrets)
 
-## Step-by-Step Setup
+A automação usa a **Instagram API with Instagram Login**. Os segredos abaixo
+já foram configurados em `Settings → Secrets and variables → Actions`:
 
-### 1. Create/Connect Instagram Business Account
+| Secret | Valor | Observação |
+|---|---|---|
+| `INSTAGRAM_BUSINESS_ACCOUNT_ID` | `17841446551607375` | ID da conta business @odontofeedbr |
+| `INSTAGRAM_ACCESS_TOKEN` | *(token longo)* | Semente inicial; renova sozinho (ver abaixo) |
+| `FIREBASE_PROJECT_ID`, `FIREBASE_API_KEY`, `FIREBASE_SERVICE_ACCOUNT` | — | Já existentes no projeto |
+| `GCP_SERVICE_ACCOUNT_JSON`, `GCS_BUCKET` | — | Já existentes (usados pelo Storage/podcast) |
 
-- Go to [facebook.com/businesses](https://facebook.com/businesses)
-- Create a Business Account or use existing one
-- Connect an Instagram Business profile (not personal)
-- Get the **Business Account ID** and **Instagram Account ID**
+### Auto-renovação do token
+O token de longa duração vale ~60 dias. Como o job roda **todo dia**, ele se
+**renova sozinho**: a cada execução (se o token guardado tiver >24h) chama
+`ig_refresh_token`, estende por mais 60 dias e grava o novo em
+`instagram_config/token` no Firestore. O secret do GitHub é só a semente
+inicial — depois o Firestore assume. Enquanto o job rodar ao menos uma vez a
+cada ~59 dias, o token nunca expira.
 
-### 2. Register App on Meta Developers
+> Se algum dia o token expirar (job parado por semanas), gere um novo no painel
+> de desenvolvedores (developers.facebook.com → app OdontoFeed Publisher →
+> Instagram → Gerar token) e atualize o secret `INSTAGRAM_ACCESS_TOKEN`.
 
-- Visit [developers.facebook.com](https://developers.facebook.com)
-- Create a new app (type: "Business")
-- Add "Instagram Graph API" product to the app
-- In app settings, note the **App ID** and **App Secret**
+## Testar agora (disparo manual)
 
-### 3. Generate Access Token
-
-Two options:
-
-#### Option A: Test Token (Development)
-- Go to app dashboard → Tools → Graph API Explorer
-- Select your Instagram app and account
-- Generate a short-lived token
-- Use this for testing
-
-#### Option B: Permanent Token (Production)
-1. Get a User Access Token:
-   - In Graph API Explorer, use `GET /me/accounts?fields=access_token`
-   - Get a token with scope: `instagram_business_profile,instagram_content_publish`
-
-2. Exchange for long-lived token:
-   ```bash
-   curl -i -X GET "https://graph.instagram.com/v18.0/oauth/access_token
-     ?grant_type=fb_exchange_token
-     &client_id={app-id}
-     &client_secret={app-secret}
-     &access_token={short-lived-token}"
+1. GitHub → aba **Actions** → **OdontoFeed Instagram Daily Posts**
+2. **Run workflow** → Run
+3. Acompanhe o log. Sucesso esperado:
    ```
+   200 {"posted":1,"mediaId":"...","slides":6,"date":"2026-07-20"}
+   ```
+4. Confira o post no perfil @odontofeedbr.
 
-3. Result is a long-lived token (valid ~60 days, auto-refreshes if used regularly)
+> Se aparecer `{"posted":0,"reason":"not_enough_articles"}`, é porque o digest
+> do dia ainda não rodou — rode o pipeline diário antes (ou espere o horário).
 
-### 4. Find Business Account ID
+## Requisitos de imagem (atendidos)
+O Instagram exige JPEG, largura 320–1440px e proporção entre 4:5 e 1.91:1. Os
+slides são **1080×1350 (4:5)** — dentro do limite. Todas as imagens do carrossel
+têm a mesma proporção (obrigatório).
 
-```bash
-curl -i -X GET "https://graph.instagram.com/v18.0/me?fields=id,name
-  &access_token={access-token}"
-```
+## Formato do carrossel
+- **Slide 1 — capa:** "Ciência do dia" + data + nº de estudos + logo
+- **Slides 2–6 — estudos:** especialidade + selo de evidência (🏆 RCT, 📊 Meta-análise…) + título + fonte + resumo curto (alternando fundo claro/escuro)
+- **Último — CTA:** "Leia os resumos completos" + Seguir @odontofeedbr + odontofeed.com
 
-Response will include the ID needed for `INSTAGRAM_BUSINESS_ACCOUNT_ID`.
+Marca d'água `odontofeed.com` no topo de todos os slides.
 
-### 5. Add Secrets to GitHub
+## Idempotência e robustez
+- **1 post por dia:** marcador em `instagram_posts/{data}`; reexecutar não duplica.
+- **Não quebra o pipeline:** `continue-on-error: true` no workflow e saída limpa se faltar credencial.
+- **Processamento assíncrono:** aguarda cada container ficar `FINISHED` antes de publicar (a Meta baixa a imagem primeiro).
 
-In your repository settings (Settings → Secrets and variables → Actions), add:
+## Solução de problemas
 
-```
-INSTAGRAM_BUSINESS_ACCOUNT_ID = 1234567890123456
-INSTAGRAM_ACCESS_TOKEN = EAABsbCS1iHg...{long-token}
-```
+| Sintoma | Causa provável | Ação |
+|---|---|---|
+| `not_configured` | Secrets ausentes | Confira `INSTAGRAM_*` no GitHub |
+| `not_enough_articles` | Digest do dia não rodou | Rode o pipeline diário antes |
+| `Instagram API: ...` | Token expirado / permissão | Gere novo token e atualize o secret |
+| Container não fica pronto | URL da imagem inacessível | Verifique o Storage/bucket público |
 
-> **Security:** Use long-lived tokens, rotate every ~60 days, restrict to Instagram Graph API only.
-
-## Testing
-
-### Local Test
-```bash
-# Set environment variables
-export FIREBASE_PROJECT_ID=orthoradar
-export FIREBASE_API_KEY=...
-export INSTAGRAM_BUSINESS_ACCOUNT_ID=...
-export INSTAGRAM_ACCESS_TOKEN=...
-
-# Run the posting function
-node netlify/functions/instagram-posts.js
-```
-
-Expected output:
-```json
-{
-  "posted": 1,
-  "articles": 5,
-  "carousel": "media_id_12345",
-  "date": "2026-07-20"
-}
-```
-
-### Manual GitHub Actions Trigger
-1. Go to Actions tab in GitHub
-2. Select "OdontoFeed Instagram Daily Posts" workflow
-3. Click "Run workflow"
-4. Check logs for success/errors
-
-## Post Schedule
-
-| Post Type   | Time (BRT) | Purpose                      |
-|------------|-----------|------------------------------|
-| Carousel   | 08:00     | Morning curated highlights   |
-| Story      | 12:00     | Lunch-time reengagement      |
-| Reel       | 18:00     | Evening/office hours push    |
-
-> Times are in BRT (UTC-3). Workflow runs daily at 08:00 UTC (05:00 BRT).
-
-## Content Format
-
-### Carousel Caption Example
-```
-📚 Ciência Odontológica
-
-✅ 5 estudos curados em 2026-07-20
-
-💡 Resumos em áudio, artigos na íntegra — grátis em odontofeed.com
-
-🎧 Ouça os episódios completos em Spotify, Apple Podcasts e demais plataformas.
-
-#OdontoFeed #CiênciaOdontológica #Pesquisa #Dentística #PUP
-```
-
-### Article Slide Format
-```
-✨ Efetividade de protocolos de clareamento
-
-🏆 Ensaio Clínico
-J Esthet Dent • 2026
-
-Tema: Estética
-Especialidade: Dentística
-
-"Estudo com 50 pacientes avaliando tempo de tratamento..."
-
-[1/5]
-```
-
-## Emoji Legend
-
-**Evidence Levels:**
-- 🏆 RCT (Randomized Controlled Trial)
-- 📊 Meta-análise
-- 🔍 Revisão Sistemática
-- 👥 Estudo Coorte
-- ⚖️ Caso-Controle
-- 📋 Série de Casos
-- 1️⃣ Relato
-- 📖 Revisão Narrativa
-
-**Specialties:**
-- ✨ Estética/Dentística
-- 👑 Prótese
-- 🔧 Implantodontia
-- 🔬 Endodontia
-- 📐 Ortodontia
-- 🪥 Periodontia
-- 👧 Odontopediatria
-- 🔪 Cirurgia
-- 🦷 Other/Default
-
-## Monitoring & Troubleshooting
-
-### Check Logs
-- **GitHub Actions:** Repository → Actions → workflow run
-- **CloudWatch:** AWS Console → CloudWatch Logs (if deployed to Netlify with CloudWatch logging)
-
-### Common Issues
-
-**Issue:** "Instagram API error 400"
-- **Cause:** Invalid access token or missing scopes
-- **Fix:** Regenerate token with correct scopes
-
-**Issue:** "No articles found for today"
-- **Cause:** Digest pipeline hasn't run yet, or no articles in database
-- **Fix:** Run daily-pipeline.yml first, then instagram-posts.yml
-
-**Issue:** "not_configured" (graceful skip)
-- **Cause:** `INSTAGRAM_BUSINESS_ACCOUNT_ID` or `INSTAGRAM_ACCESS_TOKEN` missing
-- **Fix:** Add secrets to GitHub (see Step 5)
-
-**Issue:** "Graph API error 403"
-- **Cause:** Token expired or insufficient permissions
-- **Fix:** Refresh token (runs automatically if auto-refresh enabled)
-
-## Advanced Configuration
-
-### Custom Posting Times
-
-Edit `.github/workflows/instagram-posts.yml`:
-
-```yaml
-on:
-  schedule:
-    - cron: '0 8 * * *'  # Change this cron expression
-    
-    # Examples:
-    # - cron: '0 11 * * *'  # 11:00 UTC = 08:00 BRT
-    # - cron: '0 14 * * *'  # 14:00 UTC = 11:00 BRT
-```
-
-### Custom Post Selection
-
-Edit `instagram-posts.js`:
-
-```javascript
-const articles = await getTodaysTopArticles(db, 10);  // Change limit
-```
-
-### Disable Instagram Posting
-
-Temporarily disable workflow:
-- Go to Actions → Instagram workflow → Three dots → Disable
-
-Or permanently delete `.github/workflows/instagram-posts.yml`
-
-## Best Practices
-
-1. **Monitor engagement:** Check Instagram Insights weekly
-2. **Refresh tokens:** Every 60 days (or when auth fails)
-3. **Test first:** Use workflow_dispatch to test before regular runs
-4. **Fallback content:** Ensure digest pipeline runs before 08:00 UTC
-5. **Hashtag tracking:** Use unique hashtags to monitor referral traffic
-
-## API Documentation
-
-- [Meta Graph API Docs](https://developers.facebook.com/docs/instagram-api)
-- [Content Publishing Guide](https://developers.facebook.com/docs/instagram-api/guides/content-publishing)
-- [Media Creation Limits](https://developers.facebook.com/docs/instagram-api/reference/ig-user/media)
-
-## Support
-
-If Instagram posting fails:
-1. Check GitHub Actions logs
-2. Verify token validity: `curl graph.instagram.com/v18.0/me?access_token=...`
-3. Test with Graph API Explorer before troubleshooting code
+## Manutenção futura (opcional)
+- Adicionar **stories** e **reels** (o áudio do podcast) — a base já existe.
+- Login do Facebook (além do Instagram) para **insights/alcance**.
+- Variar o formato (ex.: "mito x verdade", "número que importa").

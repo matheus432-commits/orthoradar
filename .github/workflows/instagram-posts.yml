@@ -1,23 +1,25 @@
 name: OdontoFeed Instagram Daily Posts
 
-# Posts high-quality automatic content to Instagram daily
-# Schedule: 08:00 UTC = 05:00 BRT (after ingest/digest completes at 03:00 UTC)
-# This gives 2 hours buffer for ingest/digest pipeline before Instagram posting starts
+# Publica o carrossel diário no Instagram (@odontofeedbr).
+# Horário: 11:00 UTC = 08:00 BRT — depois do pipeline (ingestão + digest às
+# 03:00 UTC), então os estudos do dia já estão no cache quando este job roda.
+#
+# Requer secrets: INSTAGRAM_BUSINESS_ACCOUNT_ID, INSTAGRAM_ACCESS_TOKEN,
+# FIREBASE_*, GCP_SERVICE_ACCOUNT_JSON, GCS_BUCKET. Sem eles, o job sai limpo.
 
 on:
   schedule:
-    - cron: '0 8 * * *'  # 08:00 UTC (05:00 BRT) — morning, after pipeline completes
-
-  workflow_dispatch:  # Manual trigger for testing
+    - cron: '0 11 * * *'   # 11:00 UTC (08:00 BRT)
+  workflow_dispatch:        # disparo manual para testar
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   instagram-posts:
-    name: Gerar e Postar no Instagram
+    name: Gerar e Postar Carrossel no Instagram
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
 
     steps:
       - name: Checkout
@@ -28,12 +30,19 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Postar no Instagram
-        continue-on-error: true  # Instagram posting não deve quebrar o pipeline
+      - name: Instalar Playwright + Chromium
+        run: |
+          npm install playwright@1.56.1
+          npx playwright install --with-deps chromium
+
+      - name: Publicar carrossel no Instagram
+        continue-on-error: true   # nunca derruba o pipeline
         env:
-          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
-          FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
-          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-          INSTAGRAM_BUSINESS_ACCOUNT_ID: ${{ secrets.INSTAGRAM_BUSINESS_ACCOUNT_ID }}
-          INSTAGRAM_ACCESS_TOKEN: ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
+          FIREBASE_PROJECT_ID:            ${{ secrets.FIREBASE_PROJECT_ID }}
+          FIREBASE_API_KEY:               ${{ secrets.FIREBASE_API_KEY }}
+          FIREBASE_SERVICE_ACCOUNT:       ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          GCP_SERVICE_ACCOUNT_JSON:       ${{ secrets.GCP_SERVICE_ACCOUNT_JSON }}
+          GCS_BUCKET:                     ${{ secrets.GCS_BUCKET }}
+          INSTAGRAM_BUSINESS_ACCOUNT_ID:  ${{ secrets.INSTAGRAM_BUSINESS_ACCOUNT_ID }}
+          INSTAGRAM_ACCESS_TOKEN:         ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
         run: node netlify/functions/instagram-posts.js
