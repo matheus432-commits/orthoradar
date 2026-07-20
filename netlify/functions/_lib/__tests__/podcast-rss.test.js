@@ -58,6 +58,12 @@ describe('podcast-rss — feed mestre (rodízio fixo semanal)', () => {
   test('segunda → Endodontia + Periodontia (nessa ordem)', async () => {
     assert.deepEqual(destaques(await masterFeed(allSpecs(SEG))), ['Endodontia', 'Periodontia']);
   });
+
+  test('feed mestre anuncia a URL canônica /podcast.xml (atom:self) — estável p/ Spotify', async () => {
+    const xml = await masterFeed(allSpecs(SEG));
+    assert.ok(xml.includes('<atom:link href="https://odontofeed.com/podcast.xml" rel="self"'), 'atom:self não é /podcast.xml');
+    assert.ok(!/<atom:link href="[^"]*\/\.netlify\/functions\/podcast-rss" rel="self"/.test(xml), 'ainda expõe o caminho da function no self');
+  });
   test('terça → Bucomaxilofacial + DTM e Dor Orofacial', async () => {
     assert.deepEqual(destaques(await masterFeed(allSpecs(TER))), ['Bucomaxilofacial', 'DTM e Dor Orofacial']);
   });
