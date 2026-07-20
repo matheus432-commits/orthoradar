@@ -792,14 +792,56 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:44px 52p
   <button onclick="installPWA()" style="background:var(--primary);color:#fff;border:none;border-radius:18px;padding:8px 16px;font-weight:600;font-size:13px;cursor:pointer;white-space:nowrap;flex-shrink:0;">Instalar</button>
   <button onclick="dismissBanner()" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:17px;padding:4px 8px;flex-shrink:0;line-height:1;">✕</button>
 </div>
-<div id="ios-install-modal" style="display:none;position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--border);border-radius:18px 18px 0 0;padding:22px 22px 38px;z-index:9999;font-family:'Inter',sans-serif;text-align:center;box-shadow:0 -4px 32px rgba(0,0,0,0.1);">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;"><div style="color:var(--text);font-weight:700;font-size:14px;">📱 Instalar OdontoFeed no iPhone</div><button onclick="document.getElementById('ios-install-modal').style.display='none'" style="background:none;border:none;color:var(--text-muted);font-size:17px;cursor:pointer;">✕</button></div>
-  <div style="display:flex;flex-direction:column;gap:13px;text-align:left;">
-    <div style="display:flex;align-items:center;gap:12px;color:var(--text);"><div style="background:rgba(37,99,235,0.08);border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;color:var(--primary);font-weight:700;">1</div><span style="font-size:13px;">Toque em <strong style="color:var(--primary);">compartilhar</strong> ⬆️ na barra do Safari</span></div>
-    <div style="display:flex;align-items:center;gap:12px;color:var(--text);"><div style="background:rgba(37,99,235,0.08);border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;color:var(--primary);font-weight:700;">2</div><span style="font-size:13px;">Selecione <strong style="color:var(--primary);">"Adicionar à Tela de Início"</strong></span></div>
-    <div style="display:flex;align-items:center;gap:12px;color:var(--text);"><div style="background:rgba(37,99,235,0.08);border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;color:var(--primary);font-weight:700;">3</div><span style="font-size:13px;">Toque em <strong style="color:var(--primary);">"Adicionar"</strong> no canto superior direito</span></div>
+<!-- Bottom sheet de instalação no iPhone (padrão app: fundo escurecido, ícone,
+     passos ilustrados, CTA e "não mostrar de novo") -->
+<style>
+  /* <dialog>.showModal() coloca o sheet na TOP LAYER do navegador — acima de
+     qualquer z-index/camada da página, por garantia da plataforma. */
+  #ios-install-modal{position:fixed;inset:auto 0 0 0;width:100%;max-width:none;margin:0;border:none;background:#FFFDF9;border-radius:22px 22px 0 0;padding:14px 22px calc(26px + env(safe-area-inset-bottom));font-family:'Inter',sans-serif;box-shadow:0 -8px 40px rgba(0,0,0,0.18);}
+  #ios-install-modal[open]{animation:iosSheetUp .32s cubic-bezier(.2,.8,.3,1);}
+  #ios-install-modal::backdrop{background:rgba(31,41,55,0.45);backdrop-filter:blur(3px);}
+  /* Fallback p/ navegadores sem <dialog> (mostrado via classe .ios-fb) */
+  #ios-install-modal.ios-fb{display:block;z-index:9999;}
+  #ios-install-backdrop{display:none;position:fixed;inset:0;background:rgba(31,41,55,0.45);z-index:9998;}
+  @keyframes iosSheetUp{from{transform:translateY(60px);opacity:0;}to{transform:translateY(0);opacity:1;}}
+  .ios-handle{width:44px;height:4px;border-radius:99px;background:#D4CABB;margin:0 auto 16px;}
+  .ios-head{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+  .ios-appicon{width:52px;height:52px;border-radius:13px;box-shadow:0 2px 10px rgba(0,0,0,0.12);flex-shrink:0;}
+  .ios-appname{font-family:Georgia,serif;font-weight:700;font-size:18px;color:var(--text);line-height:1.15;}
+  .ios-appname em{color:var(--gold);font-style:normal;}
+  .ios-tag{font-size:11.5px;color:var(--text-muted);margin-top:2px;}
+  .ios-x{margin-left:auto;background:#EFEAE0;border:none;border-radius:50%;width:32px;height:32px;font-size:14px;color:var(--text-2);cursor:pointer;flex-shrink:0;line-height:1;}
+  .ios-title{font-family:Georgia,serif;font-size:19.5px;color:var(--text);margin-bottom:5px;line-height:1.3;}
+  .ios-title em{color:var(--gold);font-style:normal;}
+  .ios-sub{font-size:13px;color:var(--text-2);line-height:1.55;margin-bottom:6px;}
+  .ios-step{display:flex;align-items:center;gap:13px;padding:12.5px 0;border-top:1px solid #EFEAE0;}
+  .ios-step:first-of-type{border-top:none;margin-top:8px;}
+  .ios-n{background:var(--text);color:#FDFAF5;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:700;flex-shrink:0;}
+  .ios-ic{flex-shrink:0;color:var(--gold);display:flex;}
+  .ios-ic svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+  .ios-step span{font-size:14px;color:var(--text);line-height:1.45;}
+  .ios-cta{display:block;width:100%;margin-top:16px;background:linear-gradient(120deg,#1F2937,#8F6B3F);color:#fff;border:none;border-radius:14px;padding:15px;font-size:15.5px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;}
+  .ios-never{display:block;width:100%;background:none;border:none;color:var(--text-muted);font-size:13px;padding:13px 0 0;cursor:pointer;font-family:'Inter',sans-serif;}
+</style>
+<div id="ios-install-backdrop" onclick="fecharIosModal()"></div>
+<dialog id="ios-install-modal" aria-label="Instalar o OdontoFeed">
+  <div class="ios-handle"></div>
+  <div class="ios-head">
+    <img src="/icons/icon-128.png" alt="" class="ios-appicon"/>
+    <div>
+      <div class="ios-appname">OdontoFeed<em>.</em></div>
+      <div class="ios-tag">Ciência odontológica diária</div>
+    </div>
+    <button class="ios-x" onclick="fecharIosModal()" aria-label="Fechar">✕</button>
   </div>
-</div>
+  <div class="ios-title">Tenha o <em>OdontoFeed</em> sempre à mão! 🦷</div>
+  <div class="ios-sub">Instale na tela de início e abra sua edição diária com um toque, como um aplicativo nativo.</div>
+  <div class="ios-step"><div class="ios-n">1</div><div class="ios-ic"><svg viewBox="0 0 24 24"><path d="M12 3v11"/><path d="M8.5 6.5 12 3l3.5 3.5"/><rect x="5" y="10" width="14" height="11" rx="2.2"/></svg></div><span>Toque no botão <strong>Compartilhar</strong> na barra do Safari.</span></div>
+  <div class="ios-step"><div class="ios-n">2</div><div class="ios-ic"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3.2"/><path d="M12 8.5v7M8.5 12h7"/></svg></div><span>Selecione <strong>“Adicionar à Tela de Início”</strong>.</span></div>
+  <div class="ios-step"><div class="ios-n">3</div><div class="ios-ic"><svg viewBox="0 0 24 24"><path d="M4.5 12.5 10 18 19.5 6.5"/></svg></div><span>Finalize tocando em <strong>“Adicionar”</strong>. Pronto!</span></div>
+  <button class="ios-cta" onclick="fecharIosModal()" autofocus>Entendi</button>
+  <button class="ios-never" onclick="naoMostrarIos()">Não mostrar de novo</button>
+</dialog>
 
 <script>
 // ── Data ────────────────────────────────────────────
@@ -1052,10 +1094,29 @@ if(!isInstalled){
     setTimeout(()=>{const b=document.getElementById('pwa-banner');if(b&&!localStorage.getItem('pwa-dismissed'))b.style.display='flex';},3000);
   });
   const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);
-  if(isIOS&&!window.navigator.standalone&&!localStorage.getItem('pwa-dismissed')){setTimeout(()=>{document.getElementById('ios-install-modal').style.display='block';},4000);}
+  // iOS: mostra o sheet 1×/visita ("Entendi" silencia a sessão; "Não mostrar
+  // de novo" silencia para sempre via localStorage).
+  if(isIOS&&!window.navigator.standalone&&!localStorage.getItem('pwa-dismissed')&&!sessionStorage.getItem('pwa-ios-later')){
+    setTimeout(abrirIosModal,4000);
+  }
 }
+function abrirIosModal(){
+  const m=document.getElementById('ios-install-modal');
+  if(typeof m.showModal==='function'){ m.showModal(); }
+  else{ m.classList.add('ios-fb'); document.getElementById('ios-install-backdrop').style.display='block'; }
+}
+function fecharIosModal(){
+  const m=document.getElementById('ios-install-modal');
+  if(typeof m.close==='function'&&m.open){ m.close(); }
+  m.classList.remove('ios-fb');
+  document.getElementById('ios-install-backdrop').style.display='none';
+  try{sessionStorage.setItem('pwa-ios-later','1');}catch(e){}
+}
+// Esc (evento cancel do <dialog>) também silencia a sessão
+document.getElementById('ios-install-modal').addEventListener('cancel',()=>{try{sessionStorage.setItem('pwa-ios-later','1');}catch(e){}});
+function naoMostrarIos(){fecharIosModal();localStorage.setItem('pwa-dismissed','1');}
 function installPWA(){if(deferredPrompt){deferredPrompt.prompt();deferredPrompt.userChoice.then(r=>{if(r.outcome==='accepted')document.getElementById('pwa-banner').style.display='none';deferredPrompt=null;});}}
-function dismissBanner(){const b=document.getElementById('pwa-banner');if(b)b.style.display='none';document.getElementById('ios-install-modal').style.display='none';localStorage.setItem('pwa-dismissed','1');}
+function dismissBanner(){const b=document.getElementById('pwa-banner');if(b)b.style.display='none';localStorage.setItem('pwa-dismissed','1');}
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{});});
   // Deploy novo assumiu (SW trocou de versão) → recarrega UMA vez para a
