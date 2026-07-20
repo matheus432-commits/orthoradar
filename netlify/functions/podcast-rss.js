@@ -80,8 +80,10 @@ async function todaysEpisodes(db, slug) {
 // o ouvinte a ouvir os 3 episódios completos da especialidade dele no site.
 function buildFeed(especialidade, episodes, bucket, opts = {}) {
   const master  = !!opts.master;
+  // URL pública canônica do feed mestre: /podcast.xml (rewrite no netlify.toml).
+  // Estável para submissão ao Spotify — não amarra ao caminho da function.
   const feedUrl = master
-    ? `${BASE_URL}/.netlify/functions/podcast-rss`
+    ? `${BASE_URL}/podcast.xml`
     : `${BASE_URL}/.netlify/functions/podcast-rss?esp=${encodeURIComponent(especialidade)}`;
   const chTitle = master ? 'OdontoFeed — Ciência Odontológica Diária' : `OdontoFeed — ${especialidade}`;
   const chDesc  = master

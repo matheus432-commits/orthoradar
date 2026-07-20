@@ -4,6 +4,15 @@
 [functions]
   node_bundler = "nft"
 
+# ── Feed do podcast: URL pública limpa e estável (submetida ao Spotify) ───────
+# Rewrite (status 200): o endereço permanece /podcast.xml para quem acessa,
+# servido pela function podcast-rss (feed mestre). Se um dia a infra mudar, a
+# URL registrada nos agregadores continua a mesma.
+[[redirects]]
+  from = "/podcast.xml"
+  to = "/.netlify/functions/podcast-rss"
+  status = 200
+
 [functions."cleanup-articles"]
   schedule = "0 3 * * 0"
 
