@@ -254,6 +254,24 @@ function generateEditorialIntro(articles, esp) {
 
 // ── Article block (editorial newspaper style) ─────────────────────────────────
 
+// Linha de feedback de 1 clique ("este estudo foi relevante?") — alimenta a
+// curadoria por padrões (_lib/feedback-signal). O clique grava o voto e cai
+// na área de membro. cor = tom do card (normal/premium).
+function feedbackRow(baseUrl, digestId, pmid, email, cor) {
+  const base = `${baseUrl}/.netlify/functions/feedback-artigo?d=${encodeURIComponent(digestId || '')}&p=${encodeURIComponent(pmid)}&e=${emailHash(email)}`;
+  return `
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:10px;">
+    <tr>
+      <td style="font-size:11px;color:#9E988E;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">
+        Este estudo foi relevante para voc&ecirc;?&nbsp;
+        <a href="${esc(base + '&v=up')}" style="color:${cor};text-decoration:none;font-weight:600;">&#128077; Sim</a>
+        &nbsp;&middot;&nbsp;
+        <a href="${esc(base + '&v=down')}" style="color:#9E988E;text-decoration:none;font-weight:600;">&#128078; Pouco</a>
+      </td>
+    </tr>
+  </table>`;
+}
+
 // Diretriz 20/07/2026: TODO link do e-mail leva à ÁREA DE MEMBRO (dashboard),
 // não ao artigo original nem à página avulsa da edição. É no dashboard que a
 // publicidade acontece — a visita à área logada é a métrica-chave de mídia.
@@ -340,6 +358,7 @@ function articleCard(article, index, total, opts) {
       </td>
     </tr>
   </table>
+  ${feedbackRow(baseUrl, digestId, pmid, email, '#B08968')}
 
 </div>
 </td></tr>`;
@@ -435,6 +454,7 @@ function premiumArticleCard(article, opts) {
           </td>
         </tr>
       </table>
+      ${feedbackRow(baseUrl, digestId, pmid, email, '#7C5CBF')}
 
     </td></tr>
   </table>

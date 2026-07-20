@@ -22,7 +22,7 @@
 
 const crypto   = require('crypto');
 const { Firestore }                                = require('./_lib/firestore');
-const { buildDigestEmail }                         = require('./_lib/email-template');
+const { buildDigestEmail, emailHash }              = require('./_lib/email-template');
 const { generateEditorial }                        = require('./_lib/editorial-generator');
 const { recommendArticles }                        = require('./_lib/recommendation-engine');
 const { runValidation }                            = require('./_lib/digest-validator');
@@ -31,6 +31,7 @@ const { acquireLock, releaseLock }                 = require('./_lib/pipeline-lo
 const { withTimeout }                              = require('./_lib/retry-utils');
 // (Achado da Semana cancelado em 19/07/2026 — módulo não é mais usado.)
 const { generateResumoCompleto, isResumoEstruturado } = require('./_lib/claude');
+const { aggregateStats, feedbackMultiplier, personalTemaAffinity } = require('./_lib/feedback-signal');
 const { isUnfinishedStudy }                         = require('./_lib/scoring');
 const { espDigestSlug }                            = require('./_lib/slug');
 const { buildEdicaoUrl }                           = require('./_lib/edicao-token');
@@ -432,6 +433,27 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
     return null;
   }
 
+  // 4b. Sinal de feedback dos dentistas (👍/👎 por artigo): ajusta o ranking
+  // por PADRÕES agregados (tema/nível, suavizados, janela 90d) — multiplicador
+  // limitado a ±15%, NUNCA exclusão (ver _lib/feedback-signal.js). Best-effort.
+  try {
+    const fbDocs = await db.query('artigo_feedback', {
+      where: { fieldFilter: { field: { fieldPath: 'especialidade' }, op: 'EQUAL', value: { stringValue: especialidade } } },
+      limit: 1500,
+    });
+    const fbStats = aggregateStats(fbDocs);
+    if (fbStats.total > 0) {
+      let ajustados = 0;
+      for (const art of candidates) {
+        const mult = feedbackMultiplier(art, fbStats);
+        if (mult !== 1) { art.relevanceScore = (art.relevanceScore || 50) * mult; ajustados++; }
+      }
+      log.info('[digest][ESP][STAGE feedback]', { especialidade, votos: fbStats.total, ajustados });
+    }
+  } catch (err) {
+    log.warn('[digest][ESP] sinal de feedback indisponível — seguindo sem', { especialidade, err: err.message });
+  }
+
   // 5. Curated selection (shared — sem perfil individual)
   t = Date.now();
   let selected = recommendArticles(candidates, null, {
@@ -730,8 +752,23 @@ async function pickPremiumExtras(db, user, pool) {
   const disponiveis = pool.filter(a => !articleKeys(a).some(k => jaRecebidas.has(k)));
   const temas = Array.isArray(user.temas) ? user.temas.filter(Boolean) : [];
 
+  // Afinidade PESSOAL por tema dos votos 👍/👎 DESTE dentista (limitada a ±4.5
+  // por tema — reordena a curadoria pessoal, nunca exclui). Best-effort.
+  let afinidade = {};
+  try {
+    const meusVotos = await db.query('artigo_feedback', {
+      where: { fieldFilter: { field: { fieldPath: 'emailHash' }, op: 'EQUAL', value: { stringValue: emailHash(user.email) } } },
+      limit: 300,
+    });
+    afinidade = personalTemaAffinity(meusVotos);
+  } catch { /* sem afinidade hoje */ }
+
   const ranked = disponiveis
-    .map(a => ({ a, m: scoreForTemas(a, temas) }))
+    .map(a => {
+      const m = scoreForTemas(a, temas);
+      m.score += afinidade[String(a.tema || '').trim()] || 0;
+      return { a, m };
+    })
     .sort((x, y) => y.m.score - x.m.score || ((y.a.data || '') > (x.a.data || '') ? 1 : -1));
 
   const extras = [];

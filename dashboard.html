@@ -181,6 +181,8 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 36px
 .tema-count{font-size:10px;color:var(--muted);font-weight:500;}
 .esp-panel{animation:fadeIn 0.2s ease;}
 .btn-lido{background:none;border:1.5px solid var(--border-2);color:var(--muted);font-size:11px;font-weight:600;padding:5px 11px;border-radius:7px;cursor:pointer;transition:all 0.18s;display:inline-flex;align-items:center;gap:5px;margin-top:7px;}
+.btn-fb.fb-on{background:rgba(37,99,235,0.08);border-color:var(--primary);color:var(--primary);}
+#fbToast{display:none;position:fixed;top:14px;left:50%;transform:translateX(-50%);background:var(--text,#1F2937);color:#fff;font-size:13px;font-weight:600;padding:10px 18px;border-radius:10px;z-index:10000;box-shadow:0 4px 18px rgba(0,0,0,0.18);}
 .btn-lido.lido{background:rgba(79,124,101,0.08);color:var(--success);border-color:rgba(79,124,101,0.3);}
 .btn-lido:hover{background:rgba(79,124,101,0.06);color:var(--success);}
 
@@ -814,9 +816,26 @@ function articleCard(art,curtidos,lidos){
       ${_podcastMap.has(String(art.id))?`<button class="btn-lido btn-audio-dash" onclick="toggleAudioDash(this)">🎧 Ouvir resumo</button>`:''}
       ${safeUrl(art.pubmedUrl)?`<a class="btn-pubmed" href="${escapeHtml(safeUrl(art.pubmedUrl))}" target="_blank" rel="noopener">PubMed ↗</a>`:''}
       <button class="btn-lido ${_bibIds.has(String(art.id))?'lido':''}" onclick="salvarBiblioteca('${safeId(art.id)}',this)">${_bibIds.has(String(art.id))?'📚 Salvo':'📚 Salvar'}</button>
+      <button class="btn-lido btn-fb ${_fbGet(art.id)==='util'?'fb-on':''}" onclick="votarArtigo('${safeId(art.id)}','util',this)" title="Este estudo foi relevante">👍 Interessante</button>
+      <button class="btn-lido btn-fb ${_fbGet(art.id)==='nao_util'?'fb-on':''}" onclick="votarArtigo('${safeId(art.id)}','nao_util',this)" title="Pouco relevante para mim">👎 Pouco relevante</button>
     </div>
     ${_podcastMap.has(String(art.id))?`<audio controls preload="none" style="display:none;width:100%;margin-top:10px;"><source src="${escapeHtml(_podcastMap.get(String(art.id)).url)}" type="audio/mpeg"></audio>`:''}
   </div>`;
+}
+
+// ── Feedback 👍/👎 por artigo ────────────────────────────────────────────────
+// Alimenta a curadoria por PADRÕES agregados (nunca lista negra — ver
+// _lib/feedback-signal.js). Estado local no navegador; verdade no servidor.
+function _fbGet(id){try{return localStorage.getItem('fb_'+id)||'';}catch(e){return '';}}
+function votarArtigo(id,voto,btn){
+  const email=getEmail(), token=getToken();
+  if(!email||!token) return;
+  try{localStorage.setItem('fb_'+id,voto);}catch(e){}
+  const card=btn.closest('.article-card');
+  if(card) card.querySelectorAll('.btn-fb').forEach(b=>b.classList.remove('fb-on'));
+  btn.classList.add('fb-on');
+  fetch('/.netlify/functions/feedback-artigo',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({email,token,pmid:id,voto})}).catch(()=>{});
 }
 
 // Mostra/oculta e toca o áudio do resumo (podcast do dia) do próprio card.
@@ -2895,6 +2914,16 @@ window.addEventListener('DOMContentLoaded',()=>{
   // Chegada pelo e-mail diário (?le=): sem sessão, pré-preenche o login e
   // orienta — o dentista entra UMA vez; depois todo clique cai direto na
   // área de membro (a sessão fica no navegador).
+  // Voto vindo do e-mail (1 clique): agradece com um toast discreto.
+  try{
+    if(new URLSearchParams(location.search).get('fb')==='ok'){
+      let _t=document.getElementById('fbToast');
+      if(!_t){ _t=document.createElement('div'); _t.id='fbToast'; document.body.appendChild(_t); }
+      _t.textContent='Obrigado pelo feedback! Ele ajuda a calibrar sua curadoria. 🦷';
+      _t.style.display='block';
+      setTimeout(()=>{ _t.style.display='none'; },5000);
+    }
+  }catch(e){}
   try{
     const _le=new URLSearchParams(location.search).get('le');
     if(_le && !token){

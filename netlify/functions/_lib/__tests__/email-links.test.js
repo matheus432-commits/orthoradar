@@ -65,6 +65,20 @@ describe('email — links levam à ÁREA DE MEMBRO (não ao artigo, não à pág
     }
   });
 
+  test('cada card tem a linha de feedback 👍/👎 apontando para feedback-artigo com ehash', () => {
+    const { html } = build();
+    const fb = hrefs(html).filter(h => h.includes('/.netlify/functions/feedback-artigo?'));
+    // 5 cards × 2 votos (Sim/Pouco) = 10 links
+    assert.equal(fb.length, 10, 'fb=' + fb.length);
+    assert.ok(fb.every(h => /e=[a-f0-9]{16}/.test(h)), 'ehash ausente');
+    assert.equal(fb.filter(h => h.includes('v=up')).length, 5);
+    assert.equal(fb.filter(h => h.includes('v=down')).length, 5);
+    for (const pmid of ['111', '222', '333', '444', '555']) {
+      assert.ok(fb.some(h => h.includes('p=' + pmid)), 'sem feedback do artigo ' + pmid);
+    }
+    assert.ok(html.includes('Este estudo foi relevante'));
+  });
+
   test('CTA principal "Abrir minha área no OdontoFeed" aponta direto para o dashboard', () => {
     const { html } = build();
     assert.ok(html.includes('Abrir minha &aacute;rea no OdontoFeed'));
