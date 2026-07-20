@@ -15,9 +15,51 @@
 const crypto = require('crypto');
 const { Firestore } = require('./_lib/firestore');
 const { isPremium } = require('./_lib/plans');
+const { firebaseDownloadUrl } = require('./_lib/storage');
 const log = require('./_lib/logger');
 
 const MAX_ITENS = 500;
+// Backfill por GET: itens salvos ANTES do congelamento de resumo/áudio são
+// completados na leitura (e persistidos), com teto de leituras por chamada.
+const MAX_BACKFILL = 25;
+
+// Último episódio de podcast deste artigo (se houver; retenção ~14 dias).
+async function findEpisode(db, pmid) {
+  const eps = await db.query('podcast_episodios', {
+    where: { fieldFilter: { field: { fieldPath: 'artigoId' }, op: 'EQUAL', value: { stringValue: String(pmid) } } },
+    limit: 5,
+  }).catch(() => []);
+  return eps
+    .filter(e => e.objectPath && e.downloadToken && e.tipo !== 'completo')
+    .sort((a, b) => (b.date || '').localeCompare(a.date || ''))[0] || null;
+}
+
+// Campos congelados do artigo no momento do save — o item da biblioteca precisa
+// se sustentar sozinho mesmo se o artigo sair do acervo.
+function frozenFields(art) {
+  if (!art) return {};
+  return {
+    resumo:          String(art.resumo_completo || art.resumo_pt || '').slice(0, 4000),
+    impacto:         String(art.impacto_pratico || '').slice(0, 500),
+    tema:            art.tema || '',
+    year:            art.year || '',
+    doi:             art.doi || '',
+    pubmedUrl:       art.pubmedUrl || '',
+  };
+}
+
+// URL de áudio de um item: preferência ao acervo permanente (podcast_salvos,
+// preservado pela retenção), senão o episódio congelado no item (válido ~14d).
+async function resolveAudio(db, bucket, item) {
+  const salvo = await db.getDoc('podcast_salvos', String(item.pmid)).catch(() => null);
+  if (salvo?.objectPath && salvo?.downloadToken) {
+    return { url: firebaseDownloadUrl(bucket, salvo.objectPath, salvo.downloadToken), secs: salvo.secs || item.audioSecs || 0 };
+  }
+  if (item.audioPath && item.audioToken) {
+    return { url: firebaseDownloadUrl(bucket, item.audioPath, item.audioToken), secs: item.audioSecs || 0 };
+  }
+  return null;
+}
 
 function emailHash16(email) {
   return crypto.createHash('sha256').update(String(email)).digest('hex').slice(0, 16);
@@ -79,6 +121,36 @@ exports.handler = async (event) => {
         limit: MAX_ITENS,
       });
       itens.sort((a, b) => (b.savedAt || '') > (a.savedAt || '') ? 1 : -1);
+
+      // Backfill de itens antigos (salvos antes do congelamento): completa
+      // resumo/áudio a partir do acervo e PERSISTE, para não repetir leituras.
+      const bucket = process.env.GCS_BUCKET || (projectId + '.appspot.com');
+      let backfills = 0;
+      for (const it of itens) {
+        const precisaResumo = !it.resumo;
+        const precisaAudio  = !it.audioPath;
+        if ((precisaResumo || precisaAudio) && backfills < MAX_BACKFILL) {
+          backfills++;
+          const patch = {};
+          if (precisaResumo) {
+            const art = await db.getDoc('artigos', String(it.pmid)).catch(() => null);
+            if (art) Object.assign(patch, frozenFields(art));
+          }
+          if (precisaAudio) {
+            const ep = await findEpisode(db, it.pmid);
+            if (ep) { patch.audioPath = ep.objectPath; patch.audioToken = ep.downloadToken; patch.audioSecs = ep.secs || 0; }
+          }
+          if (Object.keys(patch).length) {
+            Object.assign(it, patch);
+            await db.updateDoc('biblioteca_itens', it.id, patch).catch(() => {});
+          }
+        }
+        // URL de áudio resolvida por item (acervo permanente > episódio congelado).
+        const audio = await resolveAudio(db, bucket, it).catch(() => null);
+        if (audio) { it.audioUrl = audio.url; it.audioSecs = audio.secs; }
+        delete it.audioToken; // token não precisa ir ao cliente além da URL pronta
+      }
+
       const colecoes = [...new Set(itens.map(i => i.colecao).filter(Boolean))].sort();
       return { statusCode: 200, headers: { ...headers, 'Cache-Control': 'private, no-store' },
                body: JSON.stringify({ itens, colecoes }) };
@@ -98,6 +170,10 @@ exports.handler = async (event) => {
 
     if (action === 'save') {
       const art = await db.getDoc('artigos', String(pmid)).catch(() => null);
+      // Congela também o episódio de áudio do artigo (se existir): a retenção
+      // do Storage preserva áudios salvos em podcasts/salvos/ (ver
+      // generate-podcasts), então o item nunca perde o "Ouvir resumo".
+      const ep = await findEpisode(db, pmid);
       await db.setDoc('biblioteca_itens', id, {
         email,
         pmid:          String(pmid),
@@ -106,6 +182,10 @@ exports.handler = async (event) => {
         nivel:         art?.nivel_evidencia || '',
         journal:       art?.journal || '',
         temArtigo:     !!art,
+        ...frozenFields(art),
+        audioPath:     ep?.objectPath || '',
+        audioToken:    ep?.downloadToken || '',
+        audioSecs:     ep?.secs || 0,
         colecao:       '',
         nota:          '',
         savedAt:       new Date().toISOString(),

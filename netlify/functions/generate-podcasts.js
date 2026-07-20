@@ -18,7 +18,7 @@ const { Firestore } = require('./_lib/firestore');
 const { checkAdmin } = require('./_lib/admin-guard');
 const { generateScript } = require('./_lib/podcast-script');
 const { synthesize } = require('./_lib/tts');
-const { uploadMp3, deleteObject } = require('./_lib/storage');
+const { uploadMp3, deleteObject, copyObject } = require('./_lib/storage');
 const { billableChars } = require('./_lib/tts-budget');
 const { mp3DurationSecs, mp3Silence } = require('./_lib/mp3');
 const { specialtySlug: slug, espDigestSlug } = require('./_lib/slug');
@@ -90,6 +90,30 @@ async function cleanupOldEpisodes(db) {
   }
   for (const ep of old) {
     if (!ep.id) continue;
+    // Artigo salvo em alguma biblioteca? PRESERVA o áudio antes de limpar:
+    // copia para podcasts/salvos/{artigoId}.mp3 (acervo permanente, com token
+    // novo) e registra em podcast_salvos — o "Ouvir resumo" dos Salvos nunca
+    // morre. Se a cópia falhar, mantém o episódio para retry na próxima rodada.
+    if (ep.objectPath && ep.artigoId && ep.tipo !== 'completo') {
+      const saved = await db.query('biblioteca_itens', {
+        where: { fieldFilter: { field: { fieldPath: 'pmid' }, op: 'EQUAL', value: { stringValue: String(ep.artigoId) } } },
+        limit: 1,
+      }).catch(() => []);
+      if (saved.length) {
+        const jaPreservado = await db.getDoc('podcast_salvos', String(ep.artigoId)).catch(() => null);
+        if (!jaPreservado) {
+          const dest = `podcasts/salvos/${ep.artigoId}.mp3`;
+          const cp = await copyObject(ep.objectPath, dest).catch(() => ({ ok: false }));
+          if (!cp.ok) { log.warn('[podcasts] retenção — preservação falhou, mantendo p/ retry', { ep: ep.id }); continue; }
+          await db.setDoc('podcast_salvos', String(ep.artigoId), {
+            objectPath: dest, downloadToken: cp.downloadToken,
+            secs: ep.secs || 0, bytes: ep.bytes || 0,
+            titulo: ep.titulo || '', origem: ep.id, criadoEm: new Date().toISOString(),
+          }).catch(() => {});
+          log.info('[podcasts] retenção — áudio preservado (artigo salvo)', { artigoId: ep.artigoId });
+        }
+      }
+    }
     if (ep.objectPath) {
       const del = await deleteObject(ep.objectPath).catch(() => ({ ok: false }));
       if (!del.ok) { log.warn('[podcasts] retenção — delete falhou, mantendo doc p/ retry', { path: ep.objectPath }); continue; }
