@@ -156,26 +156,13 @@ function buildFeed(especialidade, episodes, bucket, opts = {}) {
 </rss>`;
 }
 
-// Rodízio FIXO por dia da semana (decisão de produto 19/07/2026): a cada dia,
-// duas especialidades são o destaque do feed mestre — exceto sábado, que leva
-// só Ortodontia (são 11 especialidades, número ímpar). Domingo não tem destaque
-// novo (dia de descanso; o feed segue exibindo o histórico). As 11 completam a
-// semana de segunda a sábado. Nomes CANÔNICOS (batem com specialtySlug/geração).
-const WEEKLY_SCHEDULE = {
-  1: ['Endodontia', 'Periodontia'],                 // segunda
-  2: ['Bucomaxilofacial', 'DTM e Dor Orofacial'],   // terça
-  3: ['Dentística', 'Prótese'],                     // quarta
-  4: ['Odontopediatria', 'Estomatologia'],          // quinta
-  5: ['Implantodontia', 'Radiologia'],              // sexta
-  6: ['Ortodontia'],                                // sábado
-  0: [],                                            // domingo (sem destaque)
-};
+// Rodízio FIXO por dia da semana — fonte única em _lib/weekly-schedule.js
+// (compartilhada com os Reels do Instagram).
+const { scheduledForDate } = require('./_lib/weekly-schedule');
 
-// Slugs das especialidades destaque do dia (na ordem do cronograma), a partir
-// do dia da semana da DATA da edição (UTC == data BRT, pois o pipeline roda 00h BRT).
+// Slugs das especialidades destaque do dia (na ordem do cronograma).
 function scheduledSlugsForDate(date) {
-  const wd = new Date(date + 'T00:00:00Z').getUTCDay();
-  return (WEEKLY_SCHEDULE[Number.isNaN(wd) ? -1 : wd] || []).map(specialtySlug);
+  return scheduledForDate(date).map(specialtySlug);
 }
 
 // Slug de um episódio, tolerante ao formato: usa o slug gravado; senão deriva do nome.

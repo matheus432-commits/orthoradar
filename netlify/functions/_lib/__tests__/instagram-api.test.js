@@ -62,6 +62,51 @@ describe('instagram-api — publishCarousel', () => {
     await assert.rejects(() => api.publishCarousel('IGID', 'TOKEN', ['http://a/1.jpg', 'http://a/2.jpg'], 'x'), /imagem inválida/);
   });
 
+  test('publishReel: container REELS com video_url + espera FINISHED + publica', async () => {
+    const { api, calls } = loadWithMock(({ path, method }) => {
+      if (method === 'POST' && path.includes('/media_publish')) return { status: 200, body: JSON.stringify({ id: 'REEL_1' }) };
+      if (method === 'POST') return { status: 200, body: JSON.stringify({ id: 'CR_1' }) };
+      if (method === 'GET') return { status: 200, body: JSON.stringify({ status_code: 'FINISHED' }) };
+      return { status: 200, body: '{}' };
+    });
+    const res = await api.publishReel('IGID', 'TOKEN', 'http://a/v.mp4', 'legenda reel');
+    assert.equal(res.mediaId, 'REEL_1');
+    const create = calls.find(c => c.method === 'POST' && !c.path.includes('media_publish'));
+    assert.ok(create.body.includes('media_type=REELS'));
+    assert.ok(create.body.includes(encodeURIComponent('http://a/v.mp4')));
+    assert.ok(create.body.includes('legenda+reel') || create.body.includes('legenda%20reel'));
+  });
+
+  test('getValidToken: renova quando o guardado tem >24h e persiste o novo', async () => {
+    const { api, calls } = loadWithMock(({ path, method }) => {
+      if (method === 'GET' && path.includes('refresh_access_token')) {
+        return { status: 200, body: JSON.stringify({ access_token: 'TOK_NOVO', expires_in: 5183944 }) };
+      }
+      return { status: 200, body: '{}' };
+    });
+    const sets = [];
+    const db = {
+      async getDoc() { return { access_token: 'TOK_VELHO', refreshedAt: new Date(Date.now() - 48 * 3600 * 1000).toISOString() }; },
+      async setDoc(coll, id, val) { sets.push({ coll, id, val }); },
+    };
+    const tok = await api.getValidToken(db, 'TOK_ENV');
+    assert.equal(tok, 'TOK_NOVO');
+    assert.equal(sets[0].coll, 'instagram_config');
+    assert.equal(sets[0].val.access_token, 'TOK_NOVO');
+    assert.ok(calls.some(c => c.path.includes('refresh_access_token')));
+  });
+
+  test('getValidToken: token recente (<24h) não renova', async () => {
+    const { api, calls } = loadWithMock(() => ({ status: 200, body: '{}' }));
+    const db = {
+      async getDoc() { return { access_token: 'TOK_ATUAL', refreshedAt: new Date().toISOString() }; },
+      async setDoc() { throw new Error('não deveria gravar'); },
+    };
+    const tok = await api.getValidToken(db, 'TOK_ENV');
+    assert.equal(tok, 'TOK_ATUAL');
+    assert.equal(calls.length, 0);
+  });
+
   test('publishImage: cria container e publica', async () => {
     const { api, calls } = loadWithMock(({ path, method }) => {
       if (method === 'POST' && path.includes('/media_publish')) return { status: 200, body: JSON.stringify({ id: 'M1' }) };

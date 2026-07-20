@@ -18,10 +18,14 @@ function loadChromium() {
 const SLIDE_W = 1080;
 const SLIDE_H = 1350;
 
-// Renderiza cada slide da faixa (.carousel-track) num JPEG. Retorna Buffer[].
+// Renderiza cada slide da faixa (.carousel-track) num JPEG/PNG. Retorna Buffer[].
+// opts: { width, height } para outros formatos (Reel usa 1080×1920);
+//       { type: 'png' } quando o consumidor precisa de PNG (frames de vídeo).
 async function renderCarousel(html, totalSlides, opts = {}) {
   const chromium = loadChromium();
   const execPath = process.env.PLAYWRIGHT_CHROMIUM_PATH || undefined;
+  const W = opts.width  || SLIDE_W;
+  const H = opts.height || SLIDE_H;
 
   const browser = await chromium.launch({
     executablePath: execPath,
@@ -29,7 +33,7 @@ async function renderCarousel(html, totalSlides, opts = {}) {
   });
   try {
     const page = await browser.newPage({
-      viewport: { width: SLIDE_W, height: SLIDE_H },
+      viewport: { width: W, height: H },
       deviceScaleFactor: 1,
     });
     await page.setContent(html, { waitUntil: 'networkidle' });
@@ -37,19 +41,22 @@ async function renderCarousel(html, totalSlides, opts = {}) {
 
     const buffers = [];
     for (let i = 0; i < totalSlides; i++) {
-      await page.evaluate((idx) => {
+      await page.evaluate(({ idx, w }) => {
         const track = document.querySelector('.carousel-track');
         track.style.transition = 'none';
-        track.style.transform = 'translateX(' + (-idx * 1080) + 'px)';
-      }, i);
+        track.style.transform = 'translateX(' + (-idx * w) + 'px)';
+      }, { idx: i, w: W });
       await page.waitForTimeout(250);
+      const shot = opts.type === 'png'
+        ? { type: 'png' }
+        : { type: 'jpeg', quality: 92 };
       const buf = await page.screenshot({
-        type: 'jpeg', quality: 92,
-        clip: { x: 0, y: 0, width: SLIDE_W, height: SLIDE_H },
+        ...shot,
+        clip: { x: 0, y: 0, width: W, height: H },
       });
       buffers.push(buf);
     }
-    log.info('[instagram] slides renderizados', { total: buffers.length });
+    log.info('[instagram] slides renderizados', { total: buffers.length, w: W, h: H });
     return buffers;
   } finally {
     await browser.close();

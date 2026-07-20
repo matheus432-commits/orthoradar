@@ -16,7 +16,7 @@ const { Firestore } = require('./_lib/firestore');
 const { buildDailyCarouselHtml } = require('./_lib/instagram-slides');
 const { renderCarousel } = require('./_lib/instagram-render');
 const { uploadImage } = require('./_lib/storage');
-const { publishCarousel, refreshLongLivedToken } = require('./_lib/instagram-api');
+const { publishCarousel, getValidToken } = require('./_lib/instagram-api');
 const { formatEvidenceLevel } = require('./_lib/instagram-generator');
 const { specialtySlug } = require('./_lib/slug');
 const log = require('./_lib/logger');
@@ -68,35 +68,6 @@ function buildCaption(articles, dateStr) {
     `📄 Resumo escrito · 🎧 áudio de ~8 min · 📚 artigo na íntegra\n` +
     `Curadoria científica com apoio de IA — transparente.\n\n` +
     `👉 Siga @odontofeedbr e receba todo dia\n🌐 odontofeed.com · 🎙️ Spotify e Apple Podcasts\n\n${tags}`;
-}
-
-// Token válido com auto-renovação. O token de longa duração expira em ~60 dias;
-// como o job roda diariamente, renovamos quando o guardado passa de 24h e
-// gravamos o novo no Firestore (instagram_config/token). Assim o token nunca
-// expira sem intervenção — o segredo do GitHub serve só de semente inicial.
-async function getValidToken(db, envToken) {
-  let stored = null;
-  try { stored = await db.getDoc('instagram_config', 'token'); } catch { /* sem doc ainda */ }
-  let token = stored?.access_token || envToken;
-  const ageMs = stored?.refreshedAt ? (Date.now() - new Date(stored.refreshedAt).getTime()) : Infinity;
-
-  // ig_refresh_token exige token com >24h; renova no máximo 1×/dia.
-  if (ageMs > 24 * 3600 * 1000) {
-    try {
-      const r = await refreshLongLivedToken(token);
-      if (r?.access_token) {
-        token = r.access_token;
-        await db.setDoc('instagram_config', 'token', {
-          access_token: token, refreshedAt: new Date().toISOString(),
-          expiresIn: r.expires_in || null,
-        }).catch(() => {});
-        log.info('[instagram] token renovado', { expiresIn: r.expires_in });
-      }
-    } catch (e) {
-      log.warn('[instagram] falha ao renovar token (seguindo com o atual)', { err: e.message });
-    }
-  }
-  return token;
 }
 
 exports.handler = async () => {

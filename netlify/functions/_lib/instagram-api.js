@@ -136,10 +136,61 @@ async function publishImage(igUserId, accessToken, imageUrl, caption) {
   return { mediaId: published.id };
 }
 
+// Publica um REEL a partir de uma URL pública de MP4 (H.264/AAC, 9:16).
+// O processamento de vídeo na Meta é mais lento que o de imagem — espera até
+// ~5 min pelo container. Retorna { mediaId }.
+async function publishReel(igUserId, accessToken, videoUrl, caption) {
+  const container = await graphPost(`${igUserId}/media`, {
+    media_type: 'REELS',
+    video_url: videoUrl,
+    caption: caption || '',
+    share_to_feed: 'true',
+  }, accessToken);
+  if (!container.id) throw new Error('Falha ao criar container do reel');
+  await waitForContainer(container.id, accessToken, { tries: 60, delayMs: 5000 });
+
+  const published = await graphPost(`${igUserId}/media_publish`, {
+    creation_id: container.id,
+  }, accessToken);
+  if (!published.id) throw new Error('Falha ao publicar o reel');
+
+  log.info('[instagram] reel publicado', { mediaId: published.id });
+  return { mediaId: published.id };
+}
+
 // Renova o token de longa duração (válido ~60 dias). Deve ser chamado
 // periodicamente para o token nunca expirar. Retorna { access_token, expires_in }.
 async function refreshLongLivedToken(accessToken) {
   return graphGet('refresh_access_token', { grant_type: 'ig_refresh_token' }, accessToken);
 }
 
-module.exports = { publishCarousel, publishImage, refreshLongLivedToken, waitForContainer, _graphPost: graphPost, _graphGet: graphGet };
+// Token válido com auto-renovação (compartilhado por carrossel e reel). O token
+// de longa duração expira em ~60 dias; como os jobs rodam diariamente, renovamos
+// quando o guardado passa de 24h e gravamos o novo no Firestore
+// (instagram_config/token). O segredo do GitHub é só a semente inicial.
+async function getValidToken(db, envToken) {
+  let stored = null;
+  try { stored = await db.getDoc('instagram_config', 'token'); } catch { /* sem doc ainda */ }
+  let token = stored?.access_token || envToken;
+  const ageMs = stored?.refreshedAt ? (Date.now() - new Date(stored.refreshedAt).getTime()) : Infinity;
+
+  // ig_refresh_token exige token com >24h; renova no máximo 1×/dia.
+  if (ageMs > 24 * 3600 * 1000) {
+    try {
+      const r = await refreshLongLivedToken(token);
+      if (r?.access_token) {
+        token = r.access_token;
+        await db.setDoc('instagram_config', 'token', {
+          access_token: token, refreshedAt: new Date().toISOString(),
+          expiresIn: r.expires_in || null,
+        }).catch(() => {});
+        log.info('[instagram] token renovado', { expiresIn: r.expires_in });
+      }
+    } catch (e) {
+      log.warn('[instagram] falha ao renovar token (seguindo com o atual)', { err: e.message });
+    }
+  }
+  return token;
+}
+
+module.exports = { publishCarousel, publishImage, publishReel, refreshLongLivedToken, getValidToken, waitForContainer, _graphPost: graphPost, _graphGet: graphGet };

@@ -1,0 +1,53 @@
+name: OdontoFeed Instagram Daily Reel
+
+# Publica o REEL diário (@odontofeedbr): áudio do podcast + cenas ilustradas
+# sincronizadas com a narração. Horário: 12:00 UTC = 09:00 BRT — 1h depois do
+# carrossel (11:00 UTC), espaçando os posts do dia.
+#
+# Requer secrets: INSTAGRAM_*, FIREBASE_*, GCP_SERVICE_ACCOUNT_JSON (com papel
+# Vertex AI User + API aiplatform ativada), GCS_BUCKET, ANTHROPIC_API_KEY.
+# Sem eles (ou sem episódio com roteiro — domingo/transição), o job sai limpo.
+
+on:
+  schedule:
+    - cron: '0 12 * * *'   # 12:00 UTC (09:00 BRT)
+  workflow_dispatch:        # disparo manual para testar
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  instagram-reel:
+    name: Gerar e Postar Reel no Instagram
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Instalar Playwright + Chromium
+        run: |
+          npm install playwright@1.56.1
+          npx playwright install --with-deps chromium
+
+      - name: Conferir ffmpeg (pré-instalado no runner)
+        run: ffmpeg -version | head -1
+
+      - name: Publicar Reel no Instagram
+        continue-on-error: true   # nunca derruba o pipeline
+        env:
+          FIREBASE_PROJECT_ID:            ${{ secrets.FIREBASE_PROJECT_ID }}
+          FIREBASE_API_KEY:               ${{ secrets.FIREBASE_API_KEY }}
+          FIREBASE_SERVICE_ACCOUNT:       ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          GCP_SERVICE_ACCOUNT_JSON:       ${{ secrets.GCP_SERVICE_ACCOUNT_JSON }}
+          GCS_BUCKET:                     ${{ secrets.GCS_BUCKET }}
+          ANTHROPIC_API_KEY:              ${{ secrets.ANTHROPIC_API_KEY }}
+          INSTAGRAM_BUSINESS_ACCOUNT_ID:  ${{ secrets.INSTAGRAM_BUSINESS_ACCOUNT_ID }}
+          INSTAGRAM_ACCESS_TOKEN:         ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
+        run: node netlify/functions/instagram-reel.js
