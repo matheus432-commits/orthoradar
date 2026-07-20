@@ -139,7 +139,7 @@ ESTRUTURA (nesta ordem, em prosa corrida — sem títulos, marcadores, asterisco
 1. Saudação de UMA frase já citando o tema.
 2. OBJETIVO: o que o estudo declara que quis responder (1-2 frases, fiel ao material).
 3. MATERIAIS E MÉTODOS: desenho do estudo, quem/o que foi estudado, grupos comparados, tempo de acompanhamento e o que foi medido — quando esses dados estiverem no material (2-3 frases).
-4. RESULTADOS: quando o material CONTÉM resultados, enunciá-los é OBRIGATÓRIO — o que os autores encontraram, em linguagem clínica direta, com os números do material por extenso. Quando NÃO contém (protocolo/em andamento), diga isso claramente e descreva os desfechos que serão avaliados.
+4. RESULTADOS: quando o material CONTÉM resultados, enunciá-los é OBRIGATÓRIO — o que os autores encontraram, em linguagem clínica direta, com os números do material por extenso. Se o estudo COMPARA grupos, técnicas ou materiais, você DEVE dizer o VEREDITO em voz alta: qual grupo se saiu MELHOR e qual foi PIOR em cada desfecho. É PROIBIDO parar em "houve diferença significativa entre os grupos" sem dizer quem venceu — essa é a informação que o dentista mais quer ouvir. (Se o material genuinamente não indicar a direção, diga isso; nunca invente o vencedor.) Quando NÃO contém resultados (protocolo/em andamento), diga isso claramente e descreva os desfechos que serão avaliados.
 5. RELEVÂNCIA CLÍNICA: o que muda (ou o que se espera saber) no consultório (1-2 frases).
 6. UMA frase: o episódio é informativo e não substitui a leitura do artigo original nem o julgamento clínico. Despedida em UMA frase curta.
 

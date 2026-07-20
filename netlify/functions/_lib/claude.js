@@ -78,9 +78,9 @@ function buildPrompt(article) {
     'Responda APENAS com JSON válido (sem markdown, sem código fence):\n' +
     '{\n' +
     '  "titulo_pt": "Título adaptado em português (máx 120 chars), terminologia brasileira correta",\n' +
-    '  "resumo_pt": "Resumo transformativo original em PT (150-250 palavras). Comece pelo problema clínico. Descreva metodologia brevemente. Foque em achados práticos. Tom: colega explicando a colega.",\n' +
+    '  "resumo_pt": "Resumo transformativo original em PT (150-250 palavras). Comece pelo problema clínico. Descreva metodologia brevemente. Foque em achados práticos. Tom: colega explicando a colega. OBRIGATÓRIO: quando o estudo COMPARA grupos, técnicas ou materiais, feche com o VEREDITO — diga qual grupo se saiu MELHOR e qual foi PIOR (a direção do resultado), não apenas que \'houve diferença\'. Se o material só disser que houve diferença sem indicar o vencedor, diga isso explicitamente; nunca invente a direção.",\n' +
     '  "impacto_pratico": "1-2 frases: o que este estudo muda (ou confirma) na prática clínica",\n' +
-    '  "achados_principais": ["achado 1", "achado 2", "achado 3"],\n' +
+    '  "achados_principais": ["achado 1", "achado 2", "achado 3"] (cada achado CONCRETO e com direção: em comparações, diga qual grupo foi melhor/pior, não apenas que houve diferença),\n' +
     `  "nivel_evidencia": "um de: ${EVIDENCE_LEVELS.join(' | ')}",\n` +
     '  "limitacoes": "Principais limitações em 1 frase",\n' +
     '  "tempo_leitura": 3,\n' +
@@ -258,7 +258,7 @@ function buildResumoCompletoPrompt(article, strictNote) {
     'O texto deve obrigatoriamente cobrir, de forma integrada e nesta ordem:\n' +
     '1) o problema clínico e o OBJETIVO do estudo;\n' +
     '2) os MATERIAIS E MÉTODOS (desenho do estudo, amostra, grupos, acompanhamento);\n' +
-    '3) os RESULTADOS — a parte central do resumo: enuncie com clareza o que o estudo encontrou (desfechos, comparações, direção do efeito), NUNCA de forma vaga;\n' +
+    '3) os RESULTADOS — a parte central do resumo: enuncie com clareza o que o estudo encontrou (desfechos, comparações, direção do efeito), NUNCA de forma vaga. Se o estudo COMPARA grupos, técnicas ou materiais, é OBRIGATÓRIO declarar o VEREDITO: qual grupo se saiu MELHOR e qual foi PIOR, em cada desfecho relevante. Dizer apenas que \'houve diferenças significativas entre os grupos\' sem indicar quem foi superior é uma FALHA — é a informação que o clínico mais precisa. (Se o material realmente não indicar a direção, afirme isso de forma explícita; jamais invente o vencedor.);\n' +
     '4) a RELEVÂNCIA CLÍNICA, incluindo as limitações do estudo.\n' +
     'Muitos leitores não terão acesso ao artigo completo: o resumo precisa se sustentar sozinho. ' +
     'É texto para LEITURA — não reaproveite a estrutura de roteiro do áudio.\n' +
