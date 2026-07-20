@@ -118,6 +118,37 @@ async function uploadImage(objectPath, imageBuffer, contentType = 'image/jpeg', 
   return { ok: true, url: firebaseDownloadUrl(bucket, objectPath, downloadToken), downloadToken };
 }
 
+// Copia um objeto dentro do bucket (GCS rewrite) aplicando um downloadToken
+// NOVO no destino. Usado pela retenção para preservar áudios de artigos salvos
+// na biblioteca (podcasts/salvos/{artigoId}.mp3) antes de limpar o original.
+async function copyObject(srcPath, destPath, downloadToken = newDownloadToken()) {
+  const accessToken = await getAccessToken('https://www.googleapis.com/auth/devstorage.read_write');
+  const bucket = bucketName();
+  if (!accessToken || !bucket) return { skipped: true, reason: 'no_credentials' };
+
+  const body = Buffer.from(JSON.stringify({
+    cacheControl: 'public, max-age=86400',
+    metadata: { firebaseStorageDownloadTokens: downloadToken },
+  }), 'utf8');
+
+  const res = await request({
+    hostname: UPLOAD_HOST,
+    path: `/storage/v1/b/${bucket}/o/${encodeURIComponent(srcPath)}/rewriteTo/b/${bucket}/o/${encodeURIComponent(destPath)}`,
+    method: 'POST',
+    headers: {
+      'Authorization': 'Bearer ' + accessToken,
+      'Content-Type': 'application/json',
+      'Content-Length': body.length,
+    },
+  }, body);
+
+  if (res.status !== 200) {
+    log.error('[storage] copyObject falhou', { status: res.status, src: srcPath, body: (res.body || '').slice(0, 200) });
+    return { skipped: true, reason: 'copy_error', status: res.status };
+  }
+  return { ok: true, url: firebaseDownloadUrl(bucket, destPath, downloadToken), downloadToken };
+}
+
 // Remove um objeto do bucket (usado para limpar podcasts de especialidades sem
 // Pro ativo — invalida o token de download órfão). Best-effort.
 async function deleteObject(objectPath) {
@@ -134,4 +165,4 @@ async function deleteObject(objectPath) {
   return { ok: res.status === 200 || res.status === 204 || res.status === 404, status: res.status };
 }
 
-module.exports = { uploadMp3, uploadImage, deleteObject, firebaseDownloadUrl, newDownloadToken, _bucketName: bucketName };
+module.exports = { uploadMp3, uploadImage, copyObject, deleteObject, firebaseDownloadUrl, newDownloadToken, _bucketName: bucketName };

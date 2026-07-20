@@ -93,7 +93,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 36px
 .article-date{font-size:11px;color:var(--muted);}
 .article-card h3{font-size:14px;font-weight:700;line-height:1.55;margin-bottom:9px;color:var(--text);}
 .article-summary{font-size:12.5px;color:var(--muted);line-height:1.65;margin-bottom:14px;flex:1;font-family:'Source Serif 4',Georgia,serif;}
-.article-actions{display:flex;gap:7px;margin-top:auto;}
+.article-actions{display:flex;gap:7px;margin-top:auto;flex-wrap:wrap;}
 .btn-like{background:none;border:1.5px solid var(--border-2);color:var(--muted);padding:6px 12px;border-radius:7px;cursor:pointer;font-size:11px;font-weight:600;transition:all 0.18s;font-family:inherit;}
 .btn-like:hover{border-color:#F87171;color:#EF4444;}
 .btn-like.liked{background:rgba(239,68,68,0.07);border-color:#EF4444;color:#EF4444;}
@@ -1287,15 +1287,27 @@ function renderBiblioteca(){
     +(i.colecao?'<span class="article-tema-tag">📁 '+escapeHtml(i.colecao)+'</span>':'')
     +'</div><span class="article-date">'+escapeHtml((i.savedAt||'').slice(0,10))+'</span></div>'
     +'<h3>'+escapeHtml(i.titulo||'Sem título')+'</h3>'
-    +(i.journal?'<div class="article-journal">'+escapeHtml(i.journal)+'</div>':'')
+    +(i.journal?'<div class="article-journal">'+escapeHtml(i.journal)+(i.year?' · '+escapeHtml(String(i.year)):'')+'</div>':'')
+    +(i.resumo?'<div class="bib-resumo" style="display:none;margin:10px 0;padding:14px 16px;background:var(--bg3);border-left:3px solid var(--primary);border-radius:8px;font-size:13.5px;line-height:1.65;color:var(--text);">'+escapeHtml(i.resumo)+'</div>':'')
+    +(i.audioUrl?'<audio preload="none" style="display:none;width:100%;margin:8px 0;" controls src="'+escapeHtml(i.audioUrl)+'"></audio>':'')
     +'<div style="margin:10px 0;"><textarea placeholder="✏️ Sua nota privada sobre este artigo…" onchange="salvarNotaBib(\''+escapeHtml(String(i.pmid))+'\',this)" '
     +'style="width:100%;min-height:54px;padding:10px 12px;border:1px solid var(--border);border-radius:8px;background:var(--bg3);color:var(--text);font-size:13px;font-family:inherit;resize:vertical;">'+escapeHtml(i.nota||'')+'</textarea></div>'
     +'<div class="article-actions">'
+    +(i.resumo?'<button class="btn-lido" onclick="toggleResumoBib(this)">📄 Ler o resumo</button>':'')
+    +(i.audioUrl?'<button class="btn-lido btn-audio-dash" onclick="toggleAudioDash(this)">🎧 Ouvir resumo</button>':'')
     +(pm?'<a class="btn-pubmed" href="'+pm+'" target="_blank" rel="noopener">PubMed ↗</a>':'')
     +'<button class="btn-lido" onclick="moverColecaoBib(\''+escapeHtml(String(i.pmid))+'\')">📁 Coleção</button>'
     +'<button class="btn-lido" onclick="removerBiblioteca(\''+escapeHtml(String(i.pmid))+'\')">🗑️ Remover</button>'
     +'</div></div>';
   }).join('');
+}
+
+function toggleResumoBib(btn){
+  const r=btn.closest('.article-card').querySelector('.bib-resumo');
+  if(!r) return;
+  const aberto=r.style.display!=='none';
+  r.style.display=aberto?'none':'block';
+  btn.textContent=aberto?'📄 Ler o resumo':'📄 Fechar resumo';
 }
 
 async function _bibPost(payload){
