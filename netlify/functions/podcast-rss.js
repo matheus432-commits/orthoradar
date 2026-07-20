@@ -87,8 +87,8 @@ function buildFeed(especialidade, episodes, bucket, opts = {}) {
     : `${BASE_URL}/.netlify/functions/podcast-rss?esp=${encodeURIComponent(especialidade)}`;
   const chTitle = master ? 'OdontoFeed — Ciência Odontológica Diária' : `OdontoFeed — ${especialidade}`;
   const chDesc  = master
-    ? 'A edição científica do dia em áudio (~8 min): os estudos mais relevantes resumidos em português, direto do PubMed, Europe PMC e OpenAlex. Cada dia, duas especialidades — Segunda: Endodontia e Periodontia · Terça: Bucomaxilofacial e DTM · Quarta: Dentística e Prótese · Quinta: Odontopediatria e Estomatologia · Sexta: Implantodontia e Radiologia · Sábado: Ortodontia. A SUA especialidade todos os dias, com resumos escritos e artigos na íntegra, em odontofeed.com — grátis.'
-    : `Resumos diários de artigos científicos de ${especialidade} em áudio. Ciência odontológica atualizada, em português, todos os dias — selecionada do PubMed, Europe PMC e OpenAlex.`;
+    ? 'A edição científica do dia em áudio (~8 min): os estudos mais relevantes resumidos em português, direto do PubMed, Europe PMC e OpenAlex. Cada dia, duas especialidades — Segunda: Endodontia e Periodontia · Terça: Bucomaxilofacial e DTM · Quarta: Dentística e Prótese · Quinta: Odontopediatria e Estomatologia · Sexta: Implantodontia e Radiologia · Sábado: Ortodontia. A SUA especialidade todos os dias, com resumos escritos e artigos na íntegra, em odontofeed.com — grátis. Siga também no Instagram: @odontofeedbr.'
+    : `Resumos diários de artigos científicos de ${especialidade} em áudio. Ciência odontológica atualizada, em português, todos os dias — selecionada do PubMed, Europe PMC e OpenAlex. Resumos escritos e artigos na íntegra em odontofeed.com · Instagram: @odontofeedbr.`;
 
   const items = episodes.map(ep => {
     const date     = ep.date || new Date().toISOString().slice(0, 10);

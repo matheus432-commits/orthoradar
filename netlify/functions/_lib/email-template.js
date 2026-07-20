@@ -791,6 +791,15 @@ function buildDigestEmail(user, articles, opts) {
               <a href="${siteUrl}"
                  style="color:#B08968;text-decoration:none;">${siteUrl.replace('https://', '')}</a>
             </div>
+            <div style="margin-top:12px;font-size:11.5px;color:#6B665E;
+                        font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">
+              Siga o OdontoFeed:&nbsp;
+              <a href="${siteUrl}/instagram"
+                 style="color:#B08968;text-decoration:none;font-weight:600;">&#x1F4F7; Instagram</a>
+              &nbsp;&middot;&nbsp;
+              <a href="${siteUrl}/spotify"
+                 style="color:#B08968;text-decoration:none;font-weight:600;">&#x1F3A7; Spotify</a>
+            </div>
             <div style="margin-top:12px;font-size:11px;color:#B5B0A8;
                         font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">
               <a href="${esc(prefsUrl)}"

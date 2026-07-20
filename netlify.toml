@@ -13,6 +13,22 @@
   to = "/.netlify/functions/podcast-rss"
   status = 200
 
+# ── Links curtos dos canais (ecossistema site ↔ Instagram ↔ Spotify) ─────────
+# Todos os materiais (site, e-mail, bio do Instagram, descrição no Spotify)
+# apontam para ESTES endereços — se o destino mudar, troca-se aqui, num lugar só.
+[[redirects]]
+  from = "/instagram"
+  to = "https://www.instagram.com/odontofeedbr"
+  status = 302
+
+# TODO: trocar pelo link público do programa assim que o usuário o enviar
+# (Spotify → programa OdontoFeed → Compartilhar → Copiar link:
+# https://open.spotify.com/show/XXXXXXXX). Interino: busca pelo nome.
+[[redirects]]
+  from = "/spotify"
+  to = "https://open.spotify.com/search/OdontoFeed"
+  status = 302
+
 [functions."cleanup-articles"]
   schedule = "0 3 * * 0"
 
