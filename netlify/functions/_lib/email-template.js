@@ -254,13 +254,14 @@ function generateEditorialIntro(articles, esp) {
 
 // ── Article block (editorial newspaper style) ─────────────────────────────────
 
-// Diretriz 19/07/2026: TODO link de artigo no e-mail leva à edição no SITE
-// (edicaoUrl com token), não ao artigo original. O dentista ouve o áudio e
-// acessa o estudo na íntegra a partir do OdontoFeed — a visita ao site é a
-// métrica-chave para venda de publicidade. O clique continua rastreado por
-// artigo via track-click (odontofeed.com está na allowlist do redirect).
+// Diretriz 20/07/2026: TODO link do e-mail leva à ÁREA DE MEMBRO (dashboard),
+// não ao artigo original nem à página avulsa da edição. É no dashboard que a
+// publicidade acontece — a visita à área logada é a métrica-chave de mídia.
+// Sem sessão, o dentista cai no login com o e-mail pré-preenchido (parâmetro
+// le) e entra uma única vez; depois todo clique cai direto na área de membro.
+// O clique continua rastreado por artigo via track-click.
 function articleCard(article, index, total, opts) {
-  const { baseUrl, dashboardUrl, digestId, email, edicaoUrl } = opts;
+  const { baseUrl, memberUrl, dashboardUrl, digestId, email } = opts;
   const pmid         = String(article.pmid || article.id || '').trim();
   const badge        = BADGE_STYLE[article.nivel_evidencia] || BADGE_STYLE['Revisão Narrativa'];
   const titulo       = esc(truncate(article.titulo_pt || article.titulo || article.title || 'Sem título', 120));
@@ -275,7 +276,7 @@ function articleCard(article, index, total, opts) {
   const espTag       = esc(article.especialidade || article.tema || '');
   const isLast       = index === total - 1;
 
-  const destinoSite = edicaoUrl || dashboardUrl || baseUrl;
+  const destinoSite = memberUrl || dashboardUrl || baseUrl;
   const trackedUrl  = trackClick(baseUrl, digestId, pmid, email, destinoSite, article.tema || article.especialidade);
 
   return `
@@ -363,7 +364,7 @@ function renderResumoEstruturado(texto) {
 }
 
 function premiumArticleCard(article, opts) {
-  const { baseUrl, dashboardUrl, digestId, email, edicaoUrl } = opts;
+  const { baseUrl, memberUrl, dashboardUrl, digestId, email } = opts;
   const pmid    = String(article.pmid || article.id || '').trim();
   const badge   = BADGE_STYLE[article.nivel_evidencia] || BADGE_STYLE['Revisão Narrativa'];
   const titulo  = esc(truncate(article.titulo_pt || article.titulo || article.title || 'Sem título', 140));
@@ -374,7 +375,7 @@ function premiumArticleCard(article, opts) {
   const nivel   = esc(article.nivel_evidencia || 'Revisão Narrativa');
   const tema    = esc(article._premiumTema || '');
 
-  const destinoSite = edicaoUrl || dashboardUrl || baseUrl;
+  const destinoSite = memberUrl || dashboardUrl || baseUrl;
   const trackedUrl  = trackClick(baseUrl, digestId, pmid, email, destinoSite, article.tema || article.especialidade);
 
   return `
@@ -647,8 +648,11 @@ function buildDigestEmail(user, articles, opts) {
       </div>`
     : '';
 
-  // edicaoUrl repassada aos cards: todo clique de artigo leva à edição no site.
-  const cardOpts = { baseUrl, dashboardUrl, digestId, email: user.email, edicaoUrl };
+  // Destino único de TODO clique do e-mail: a ÁREA DE MEMBRO (dashboard, onde
+  // a publicidade acontece). `le` pré-preenche o login para quem estiver sem
+  // sessão; quem já entrou uma vez cai direto na edição do dia logado.
+  const memberUrl = `${dashboardUrl}?utm_source=email&utm_medium=digest&le=${encodeURIComponent(user.email)}`;
+  const cardOpts  = { baseUrl, memberUrl, dashboardUrl, digestId, email: user.email };
   const cardsHtml = articles
     .map((art, i) => articleCard(art, i, articles.length, cardOpts))
     .join('\n');
@@ -713,20 +717,19 @@ function buildDigestEmail(user, articles, opts) {
       </p>
     </td></tr>
 
-    ${edicaoUrl ? `
-    <!-- ══ ABRIR EDIÇÃO NO SITE (acesso via token, sem senha) ══ -->
+    <!-- ══ ABRIR A ÁREA DE MEMBRO (dashboard — onde a edição e o áudio vivem) ══ -->
     <tr><td style="padding:16px 36px;border-bottom:1px solid #E8E0D0;" align="center">
-      <a href="${esc(edicaoUrl)}"
+      <a href="${esc(memberUrl)}"
          style="display:inline-block;background:#1A1A18;color:#FDFAF5;font-size:13px;font-weight:700;
                 text-decoration:none;padding:12px 26px;border-radius:3px;
                 font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">
-        Abrir minha edi&ccedil;&atilde;o no OdontoFeed &rarr;
+        Abrir minha &aacute;rea no OdontoFeed &rarr;
       </a>
       <div style="margin-top:7px;font-size:10.5px;color:#9E988E;
                   font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">
         Ou&ccedil;a a edi&ccedil;&atilde;o em &aacute;udio &#127911; e acesse os artigos na &iacute;ntegra
       </div>
-    </td></tr>` : ''}
+    </td></tr>
 
     ${achadoHtml}
     ${badgeRowHtml}

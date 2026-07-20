@@ -2892,6 +2892,18 @@ window.addEventListener('DOMContentLoaded',()=>{
   }catch(e){}
   const token=getToken();
   const email=getEmail();
+  // Chegada pelo e-mail diário (?le=): sem sessão, pré-preenche o login e
+  // orienta — o dentista entra UMA vez; depois todo clique cai direto na
+  // área de membro (a sessão fica no navegador).
+  try{
+    const _le=new URLSearchParams(location.search).get('le');
+    if(_le && !token){
+      const _in=document.getElementById('loginEmail');
+      if(_in && !_in.value) _in.value=_le;
+      const _m=document.getElementById('loginMsg');
+      if(_m && !_m.textContent){ _m.className='login-msg'; _m.textContent='Entre para abrir sua edição de hoje.'; }
+    }
+  }catch(e){}
   if(token&&email){
     loadDashboard(email,token);
     loadBibliotecaTab(); // pré-carrega estado dos botões 📚 Salvar (silencioso p/ não-Premium)
