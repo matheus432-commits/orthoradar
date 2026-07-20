@@ -1,0 +1,39 @@
+name: OdontoFeed Instagram Daily Posts
+
+# Posts high-quality automatic content to Instagram daily
+# Schedule: 08:00 UTC = 05:00 BRT (after ingest/digest completes at 03:00 UTC)
+# This gives 2 hours buffer for ingest/digest pipeline before Instagram posting starts
+
+on:
+  schedule:
+    - cron: '0 8 * * *'  # 08:00 UTC (05:00 BRT) — morning, after pipeline completes
+
+  workflow_dispatch:  # Manual trigger for testing
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  instagram-posts:
+    name: Gerar e Postar no Instagram
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Postar no Instagram
+        continue-on-error: true  # Instagram posting não deve quebrar o pipeline
+        env:
+          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+          FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          INSTAGRAM_BUSINESS_ACCOUNT_ID: ${{ secrets.INSTAGRAM_BUSINESS_ACCOUNT_ID }}
+          INSTAGRAM_ACCESS_TOKEN: ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
+        run: node netlify/functions/instagram-posts.js
