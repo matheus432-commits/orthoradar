@@ -87,8 +87,8 @@ function buildFeed(especialidade, episodes, bucket, opts = {}) {
     : `${BASE_URL}/.netlify/functions/podcast-rss?esp=${encodeURIComponent(especialidade)}`;
   const chTitle = master ? 'OdontoFeed — Ciência Odontológica Diária' : `OdontoFeed — ${especialidade}`;
   const chDesc  = master
-    ? 'A edição científica do dia em áudio (~8 min): os estudos mais relevantes resumidos em português, direto do PubMed, Europe PMC e OpenAlex. Cada dia, duas especialidades — Segunda: Endodontia e Periodontia · Terça: Bucomaxilofacial e DTM · Quarta: Dentística e Prótese · Quinta: Odontopediatria e Estomatologia · Sexta: Implantodontia e Radiologia · Sábado: Ortodontia. A SUA especialidade todos os dias, com resumos escritos e artigos na íntegra, em odontofeed.com — grátis.'
-    : `Resumos diários de artigos científicos de ${especialidade} em áudio. Ciência odontológica atualizada, em português, todos os dias — selecionada do PubMed, Europe PMC e OpenAlex.`;
+    ? 'A edição científica do dia em áudio (~8 min): os estudos mais relevantes resumidos em português, direto do PubMed, Europe PMC e OpenAlex. Cada dia, duas especialidades — Segunda: Endodontia e Periodontia · Terça: Bucomaxilofacial e DTM · Quarta: Dentística e Prótese · Quinta: Odontopediatria e Estomatologia · Sexta: Implantodontia e Radiologia · Sábado: Ortodontia. A SUA especialidade todos os dias, com resumos escritos e artigos na íntegra, em odontofeed.com — grátis. Siga também no Instagram: @odontofeedbr.'
+    : `Resumos diários de artigos científicos de ${especialidade} em áudio. Ciência odontológica atualizada, em português, todos os dias — selecionada do PubMed, Europe PMC e OpenAlex. Resumos escritos e artigos na íntegra em odontofeed.com · Instagram: @odontofeedbr.`;
 
   const items = episodes.map(ep => {
     const date     = ep.date || new Date().toISOString().slice(0, 10);
@@ -156,26 +156,13 @@ function buildFeed(especialidade, episodes, bucket, opts = {}) {
 </rss>`;
 }
 
-// Rodízio FIXO por dia da semana (decisão de produto 19/07/2026): a cada dia,
-// duas especialidades são o destaque do feed mestre — exceto sábado, que leva
-// só Ortodontia (são 11 especialidades, número ímpar). Domingo não tem destaque
-// novo (dia de descanso; o feed segue exibindo o histórico). As 11 completam a
-// semana de segunda a sábado. Nomes CANÔNICOS (batem com specialtySlug/geração).
-const WEEKLY_SCHEDULE = {
-  1: ['Endodontia', 'Periodontia'],                 // segunda
-  2: ['Bucomaxilofacial', 'DTM e Dor Orofacial'],   // terça
-  3: ['Dentística', 'Prótese'],                     // quarta
-  4: ['Odontopediatria', 'Estomatologia'],          // quinta
-  5: ['Implantodontia', 'Radiologia'],              // sexta
-  6: ['Ortodontia'],                                // sábado
-  0: [],                                            // domingo (sem destaque)
-};
+// Rodízio FIXO por dia da semana — fonte única em _lib/weekly-schedule.js
+// (compartilhada com os Reels do Instagram).
+const { scheduledForDate } = require('./_lib/weekly-schedule');
 
-// Slugs das especialidades destaque do dia (na ordem do cronograma), a partir
-// do dia da semana da DATA da edição (UTC == data BRT, pois o pipeline roda 00h BRT).
+// Slugs das especialidades destaque do dia (na ordem do cronograma).
 function scheduledSlugsForDate(date) {
-  const wd = new Date(date + 'T00:00:00Z').getUTCDay();
-  return (WEEKLY_SCHEDULE[Number.isNaN(wd) ? -1 : wd] || []).map(specialtySlug);
+  return scheduledForDate(date).map(specialtySlug);
 }
 
 // Slug de um episódio, tolerante ao formato: usa o slug gravado; senão deriva do nome.

@@ -13,6 +13,20 @@
   to = "/.netlify/functions/podcast-rss"
   status = 200
 
+# ── Links curtos dos canais (ecossistema site ↔ Instagram ↔ Spotify) ─────────
+# Todos os materiais (site, e-mail, bio do Instagram, descrição no Spotify)
+# apontam para ESTES endereços — se o destino mudar, troca-se aqui, num lugar só.
+[[redirects]]
+  from = "/instagram"
+  to = "https://www.instagram.com/odontofeedbr"
+  status = 302
+
+# Programa oficial no Spotify (aprovado e no ar em 20/07/2026).
+[[redirects]]
+  from = "/spotify"
+  to = "https://open.spotify.com/show/033SQ8fzusV57wuFNGXtde"
+  status = 302
+
 [functions."cleanup-articles"]
   schedule = "0 3 * * 0"
 

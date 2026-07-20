@@ -203,6 +203,7 @@ async function main() {
             chars:         billableChars(script),
             bytes:         audio.length,
             secs:          mp3DurationSecs(audio),
+            roteiro:       script, // texto narrado — base da sincronia dos Reels (cena ↔ áudio)
           });
           buffers.push(audio);
         }
@@ -270,6 +271,7 @@ async function main() {
             downloadToken: ep.downloadToken,
             bytes:         ep.bytes,
             secs:          ep.secs,
+            roteiro:       ep.roteiro || '',
             geradoEm:      new Date().toISOString(),
           }).catch(e => log.warn('[podcasts] histórico setDoc falhou', { esp, ep: ep.n, err: e.message }));
         }

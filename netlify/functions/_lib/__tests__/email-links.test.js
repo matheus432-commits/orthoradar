@@ -92,6 +92,14 @@ describe('email — links levam à ÁREA DE MEMBRO (não ao artigo, não à pág
     assert.ok(!/<audio|\.mp3|firebasestorage/i.test(html));
   });
 
+  test('footer conecta o ecossistema: links para /instagram e /spotify (via site)', () => {
+    const { html } = build();
+    const h = hrefs(html);
+    assert.ok(h.includes(BASE + '/instagram'), 'link do Instagram ausente no footer');
+    assert.ok(h.includes(BASE + '/spotify'), 'link do Spotify ausente no footer');
+    assert.ok(html.includes('Siga o OdontoFeed'));
+  });
+
   test('card premium: prosa fluida renderiza limpa; formato legado com títulos ganha destaque (compat)', () => {
     // Formato vigente (v2): prosa fluida — sem <strong> de seção
     const prosa = 'O estudo avaliou a adesão em zircônia com 40 amostras in vitro. O primer de MDP aumentou a resistência de união, e o protocolo com jateamento mostrou-se o mais confiável na prática.';

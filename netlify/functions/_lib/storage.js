@@ -71,6 +71,53 @@ async function uploadMp3(objectPath, audioBuffer, downloadToken = newDownloadTok
   return { ok: true, url: firebaseDownloadUrl(bucket, objectPath, downloadToken), downloadToken };
 }
 
+// Sobe uma imagem (JPEG/PNG) e retorna { ok, url, downloadToken }.
+// Usado pela automação do Instagram: a API do Instagram só publica a partir de
+// uma URL PÚBLICA da imagem, então renderizamos os slides, subimos aqui e
+// passamos a URL de download do Firebase para o endpoint de publicação.
+async function uploadImage(objectPath, imageBuffer, contentType = 'image/jpeg', downloadToken = newDownloadToken()) {
+  const accessToken = await getAccessToken('https://www.googleapis.com/auth/devstorage.read_write');
+  const bucket = bucketName();
+  if (!accessToken || !bucket) return { skipped: true, reason: 'no_credentials' };
+
+  const boundary = 'of_' + crypto.randomBytes(12).toString('hex');
+  const metadata = JSON.stringify({
+    name: objectPath,
+    contentType,
+    // Pública e cacheável: o Instagram baixa a imagem uma vez para publicar.
+    cacheControl: 'public, max-age=86400',
+    metadata: { firebaseStorageDownloadTokens: downloadToken },
+  });
+
+  const preamble = Buffer.from(
+    `--${boundary}\r\n` +
+    `Content-Type: application/json; charset=UTF-8\r\n\r\n` +
+    `${metadata}\r\n` +
+    `--${boundary}\r\n` +
+    `Content-Type: ${contentType}\r\n\r\n`,
+    'utf8'
+  );
+  const epilogue = Buffer.from(`\r\n--${boundary}--\r\n`, 'utf8');
+  const body = Buffer.concat([preamble, imageBuffer, epilogue]);
+
+  const res = await request({
+    hostname: UPLOAD_HOST,
+    path: `/upload/storage/v1/b/${bucket}/o?uploadType=multipart`,
+    method: 'POST',
+    headers: {
+      'Authorization': 'Bearer ' + accessToken,
+      'Content-Type': 'multipart/related; boundary=' + boundary,
+      'Content-Length': body.length,
+    },
+  }, body);
+
+  if (res.status !== 200) {
+    log.error('[storage] upload de imagem falhou', { status: res.status, body: (res.body || '').slice(0, 200) });
+    return { skipped: true, reason: 'upload_error', status: res.status };
+  }
+  return { ok: true, url: firebaseDownloadUrl(bucket, objectPath, downloadToken), downloadToken };
+}
+
 // Remove um objeto do bucket (usado para limpar podcasts de especialidades sem
 // Pro ativo — invalida o token de download órfão). Best-effort.
 async function deleteObject(objectPath) {
@@ -87,4 +134,4 @@ async function deleteObject(objectPath) {
   return { ok: res.status === 200 || res.status === 204 || res.status === 404, status: res.status };
 }
 
-module.exports = { uploadMp3, deleteObject, firebaseDownloadUrl, newDownloadToken, _bucketName: bucketName };
+module.exports = { uploadMp3, uploadImage, deleteObject, firebaseDownloadUrl, newDownloadToken, _bucketName: bucketName };
