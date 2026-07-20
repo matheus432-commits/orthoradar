@@ -22,6 +22,8 @@ const PRICE = {
   imagenPerImage: 0.04,
   // Domínio: ~US$15/ano.
   domainMonthly: 15 / 12,
+  // Netlify: plano pago US$20/mês (3.000 créditos — hosting, functions, builds).
+  netlifyMonthly: 20,
   // Anthropic API (produto): faixa estimada — enriquecimento tem trava de
   // US$0.50/dia no código; resumos/roteiros/editorial/Wakai são Sonnet em
   // volume pequeno. Não medido diretamente → rotulado como estimativa.
@@ -92,18 +94,23 @@ function buildCustos(m) {
       minUsd: PRICE.firebaseMinUsd, maxUsd: PRICE.firebaseMaxUsd,
     },
     {
+      id: 'netlify', nome: 'Netlify (plano pago — 3.000 créditos)', tipo: 'fixo',
+      detalhe: 'Hosting, functions e builds', mesAtualUsd: PRICE.netlifyMonthly, projecaoUsd: PRICE.netlifyMonthly,
+    },
+    {
       id: 'dominio', nome: 'Domínio odontofeed.com', tipo: 'fixo',
       detalhe: '~US$15/ano', mesAtualUsd: PRICE.domainMonthly, projecaoUsd: PRICE.domainMonthly,
     },
     {
-      id: 'gratis', nome: 'Netlify · GitHub · Meta · Spotify · PubMed/EPMC/OpenAlex', tipo: 'fixo',
+      id: 'gratis', nome: 'GitHub · Meta · Spotify · PubMed/EPMC/OpenAlex', tipo: 'fixo',
       detalhe: 'Todos no nível gratuito', mesAtualUsd: 0, projecaoUsd: 0,
     },
   ];
 
   // Totais: mês corrente (mín/máx pelos itens estimados) e projeção fim-do-mês.
-  const medidoAtual = tts + resend + imagen + PRICE.domainMonthly;
-  const medidoProj  = ttsProj + resend + items[3].projecaoUsd + PRICE.domainMonthly;
+  const fixos = PRICE.domainMonthly + PRICE.netlifyMonthly;
+  const medidoAtual = tts + resend + imagen + fixos;
+  const medidoProj  = ttsProj + resend + items[3].projecaoUsd + fixos;
   const minExtra = PRICE.anthropicMinUsd + PRICE.firebaseMinUsd;
   const maxExtra = PRICE.anthropicMaxUsd + PRICE.firebaseMaxUsd;
 
