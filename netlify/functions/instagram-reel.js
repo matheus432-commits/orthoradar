@@ -101,11 +101,13 @@ exports.handler = async () => {
   const db = new Firestore(projectId, apiKey);
 
   try {
-    // Idempotência diária.
+    // Idempotência diária (FORCE_REPOST=true ignora, para reprocessar/testar).
+    const force = process.env.FORCE_REPOST === 'true' || process.env.FORCE_REPOST === '1';
     const already = await db.getDoc('instagram_reels', dateStr).catch(() => null);
-    if (already?.mediaId) {
+    if (already?.mediaId && !force) {
       return { statusCode: 200, body: JSON.stringify({ skipped: true, reason: 'already_posted', mediaId: already.mediaId }) };
     }
+    if (already?.mediaId && force) log.info('[reel] FORCE_REPOST — republicando apesar do marcador', { dateStr });
 
     // Especialidade do dia (ciclo fixo das 11 — mesma do carrossel).
     const especialidade = especialidadeDoDia(dateStr);
