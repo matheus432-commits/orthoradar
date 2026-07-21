@@ -59,6 +59,19 @@ h1 em{color:var(--gold);font-style:normal;}
     <h1>OdontoFeed<em>.</em> Custos do mês <span id="mes" style="color:var(--muted);font-size:1rem;"></span></h1>
     <p class="sub" id="gerado"></p>
 
+    <div class="sec-title">Cadastros de dentistas</div>
+    <div class="total-row" style="margin-bottom:6px;">
+      <div class="card" style="background:linear-gradient(135deg,#F3EFE6,#FBF7EF);">
+        <div class="t-label">Dentistas cadastrados</div>
+        <div class="t-val" id="dTotal" style="color:var(--gold);">—</div>
+        <div class="t-sufix" id="dHoje"></div>
+      </div>
+      <div class="card">
+        <div class="t-label">Por especialidade</div>
+        <div id="dEsp" style="font-size:13px;line-height:1.9;margin-top:2px;">—</div>
+      </div>
+    </div>
+
     <div class="total-row">
       <div class="card">
         <div class="t-label">Gasto até agora (mês corrente)</div>
@@ -113,6 +126,18 @@ function render(d) {
   document.getElementById('totalProj').textContent = faixa(d.totais.projecaoMinBrl, d.totais.projecaoMaxBrl);
   if (d.porUsuarioBrl) document.getElementById('porUsuario').textContent =
     'por usuário: R$ ' + d.porUsuarioBrl.min.toFixed(2) + ' – ' + d.porUsuarioBrl.max.toFixed(2) + ' / mês';
+
+  // Cadastros de dentistas (acompanhamento de crescimento).
+  const den = d.dentistas || {};
+  document.getElementById('dTotal').textContent = den.total != null ? den.total : '—';
+  const hojeTxt = den.hoje ? ('+' + den.hoje + ' hoje') : 'nenhum novo hoje';
+  const indTxt = den.comIndicacao ? (' · ' + den.comIndicacao + ' por indicação') : '';
+  document.getElementById('dHoje').textContent = hojeTxt + ' · ' + (den.ativos != null ? den.ativos : '—') + ' ativos' + indTxt;
+  const esp = den.porEspecialidade || {};
+  const espEntries = Object.entries(esp).sort((a, b) => b[1] - a[1]);
+  document.getElementById('dEsp').innerHTML = espEntries.length
+    ? espEntries.map(([k, v]) => '<span style="color:var(--muted)">' + k + '</span> <b>' + v + '</b>').join(' &nbsp;·&nbsp; ')
+    : '<span style="color:var(--muted)">sem dados</span>';
 
   document.getElementById('mUsers').textContent = d.usuariosAtivos;
   document.getElementById('mPosts').textContent = d.igPosts;
