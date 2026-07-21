@@ -27,7 +27,7 @@ const { generateIllustration } = require('./_lib/imagen');
 const { buildReelHtml, assembleVideo, REEL_W, REEL_H } = require('./_lib/reel-builder');
 const { renderCarousel } = require('./_lib/instagram-render');
 const { uploadImage, firebaseDownloadUrl } = require('./_lib/storage');
-const { publishReel, getValidToken } = require('./_lib/instagram-api');
+const { publishReel, getValidToken, resolveIgUserId } = require('./_lib/instagram-api');
 const log = require('./_lib/logger');
 
 // Download binário (o helper request do projeto acumula string — corromperia mp3).
@@ -155,8 +155,9 @@ exports.handler = async () => {
     if (!upVideo.ok) throw new Error('Upload do vídeo falhou: ' + upVideo.reason);
 
     const token = await getValidToken(db, envToken);
+    const igId = await resolveIgUserId(token, igUserId);
     const caption = buildCaption(especialidade, ep.titulo);
-    const { mediaId } = await publishReel(igUserId, token, upVideo.url, caption);
+    const { mediaId } = await publishReel(igId, token, upVideo.url, caption);
 
     await db.setDoc('instagram_reels', dateStr, {
       mediaId, especialidade, artigoId: ep.artigoId || '',
