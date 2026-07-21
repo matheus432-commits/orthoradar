@@ -107,6 +107,34 @@ describe('instagram-api — publishCarousel', () => {
     assert.equal(calls.length, 0);
   });
 
+  test('waitForContainer TOLERA o bug 100/33 do GET (não lança; retorna false)', async () => {
+    const { api } = loadWithMock(() => ({ status: 400, body: JSON.stringify({ error: { code: 100, error_subcode: 33, message: 'Object ... does not exist' } }) }));
+    const ok = await api.waitForContainer('C1', 'TOK', { tries: 2, delayMs: 1 });
+    assert.equal(ok, false); // não confirmou, mas NÃO lançou
+  });
+
+  test('waitForContainer lança em erro REAL (status ERROR do container)', async () => {
+    const { api } = loadWithMock(() => ({ status: 200, body: JSON.stringify({ status_code: 'ERROR' }) }));
+    await assert.rejects(() => api.waitForContainer('C1', 'TOK', { tries: 2, delayMs: 1 }), /status ERROR/);
+  });
+
+  test('mediaPublishWithRetry: 100/33 transitório → tenta de novo e publica', async () => {
+    let n = 0;
+    const { api } = loadWithMock(() => {
+      n++;
+      if (n < 3) return { status: 400, body: JSON.stringify({ error: { code: 100, error_subcode: 33, message: 'transient' } }) };
+      return { status: 200, body: JSON.stringify({ id: 'MEDIA_OK' }) };
+    });
+    const r = await api.mediaPublishWithRetry('IGID', 'TOK', 'C1', { tries: 5, delayMs: 1 });
+    assert.equal(r.id, 'MEDIA_OK');
+    assert.equal(n, 3);
+  });
+
+  test('mediaPublishWithRetry: erro REAL (não-transitório) propaga na hora', async () => {
+    const { api } = loadWithMock(() => ({ status: 400, body: JSON.stringify({ error: { code: 190, message: 'token inválido' } }) }));
+    await assert.rejects(() => api.mediaPublishWithRetry('IGID', 'TOK', 'C1', { tries: 5, delayMs: 1 }), /token inválido/);
+  });
+
   test('publishImage: cria container e publica', async () => {
     const { api, calls } = loadWithMock(({ path, method }) => {
       if (method === 'POST' && path.includes('/media_publish')) return { status: 200, body: JSON.stringify({ id: 'M1' }) };

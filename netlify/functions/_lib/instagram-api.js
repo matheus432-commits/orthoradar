@@ -60,23 +60,61 @@ async function graphGet(path, params, accessToken) {
   if (res.status >= 400) {
     const err = new Error(`Instagram API: ${json?.error?.message || res.status}`);
     err.status = res.status;
+    err.detail = json?.error;
     throw err;
   }
   return json;
 }
 
-// Espera um container ficar pronto (status_code === 'FINISHED'). A Meta baixa e
-// processa a imagem de forma assíncrona; publicar antes da hora dá erro.
+const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+
+// Bug conhecido e recorrente da Meta (code 100 / subcode 33): GET em objetos
+// RECÉM-CRIADOS (container/mídia) devolve "Object ... does not exist" mesmo o
+// objeto existindo e os POSTs funcionando. Tratamos como TRANSITÓRIO.
+function isTransientMeta(err) {
+  const d = err && err.detail;
+  return !!d && (d.code === 100 && (d.error_subcode === 33 || d.error_subcode === 2207032))
+    || (err && err.status === 500); // 5xx da Meta também é transitório
+}
+
+// Espera um container ficar pronto (status_code === 'FINISHED'), TOLERANTE ao
+// bug 100/33 do GET. Nunca lança por causa desse bug: se não confirmar
+// FINISHED a tempo, retorna false e o chamador segue para publicar (imagens
+// processam em segundos; a publicação tem retentativa própria).
 async function waitForContainer(containerId, accessToken, { tries = 20, delayMs = 3000 } = {}) {
   for (let i = 0; i < tries; i++) {
-    const { status_code } = await graphGet(containerId, { fields: 'status_code' }, accessToken);
-    if (status_code === 'FINISHED') return true;
-    if (status_code === 'ERROR' || status_code === 'EXPIRED') {
-      throw new Error(`Container ${containerId} falhou com status ${status_code}`);
+    try {
+      const { status_code } = await graphGet(containerId, { fields: 'status_code' }, accessToken);
+      if (status_code === 'FINISHED') return true;
+      if (status_code === 'ERROR' || status_code === 'EXPIRED') {
+        throw new Error(`Container ${containerId} falhou com status ${status_code}`);
+      }
+    } catch (e) {
+      if (!isTransientMeta(e)) throw e; // erro real (status ERROR/EXPIRED, etc.)
+      // 100/33 transitório → ignora e continua o polling.
     }
-    await new Promise(r => setTimeout(r, delayMs));
+    await sleep(delayMs);
   }
-  throw new Error(`Container ${containerId} não ficou pronto a tempo`);
+  return false; // não confirmou (provável bug do GET) — segue para publicar
+}
+
+// Publica um creation_id com retentativas: o POST de media_publish pode falhar
+// transitoriamente (100/33) ou porque a mídia ainda está processando; tenta
+// algumas vezes antes de desistir. Retorna o JSON com { id }.
+async function mediaPublishWithRetry(igUserId, accessToken, creationId, { tries = 8, delayMs = 5000 } = {}) {
+  let lastErr = null;
+  for (let i = 0; i < tries; i++) {
+    try {
+      const p = await graphPost(`${igUserId}/media_publish`, { creation_id: creationId }, accessToken);
+      if (p.id) return p;
+    } catch (e) {
+      lastErr = e;
+      const notReady = e.detail && (e.detail.code === 9007 || e.detail.error_subcode === 2207027);
+      if (!isTransientMeta(e) && !notReady) throw e; // erro real → propaga
+    }
+    await sleep(delayMs);
+  }
+  throw lastErr || new Error('media_publish não confirmou a publicação');
 }
 
 // Publica um CARROSSEL. imageUrls: array de URLs públicas (JPEG). caption: texto.
@@ -87,7 +125,8 @@ async function publishCarousel(igUserId, accessToken, imageUrls, caption) {
   }
   if (imageUrls.length > 10) imageUrls = imageUrls.slice(0, 10);
 
-  // 1. Containers filhos (um por imagem).
+  // 1. Containers filhos (um por imagem). O POST cria; a confirmação de status
+  // é tolerante ao bug 100/33 (não bloqueia).
   const childIds = [];
   for (const url of imageUrls) {
     const child = await graphPost(`${igUserId}/media`, {
@@ -95,7 +134,7 @@ async function publishCarousel(igUserId, accessToken, imageUrls, caption) {
       is_carousel_item: 'true',
     }, accessToken);
     if (!child.id) throw new Error('Falha ao criar container filho');
-    await waitForContainer(child.id, accessToken);
+    await waitForContainer(child.id, accessToken, { tries: 5, delayMs: 3000 }); // imagens são rápidas
     childIds.push(child.id);
   }
 
@@ -108,12 +147,8 @@ async function publishCarousel(igUserId, accessToken, imageUrls, caption) {
   if (!carousel.id) throw new Error('Falha ao criar container do carrossel');
   await waitForContainer(carousel.id, accessToken);
 
-  // 3. Publicar.
-  const published = await graphPost(`${igUserId}/media_publish`, {
-    creation_id: carousel.id,
-  }, accessToken);
-  if (!published.id) throw new Error('Falha ao publicar o carrossel');
-
+  // 3. Publicar (com retentativas — resiliente ao 100/33 e ao processamento).
+  const published = await mediaPublishWithRetry(igUserId, accessToken, carousel.id);
   log.info('[instagram] carrossel publicado', { mediaId: published.id, slides: childIds.length });
   return { mediaId: published.id, slides: childIds.length };
 }
@@ -127,11 +162,7 @@ async function publishImage(igUserId, accessToken, imageUrl, caption) {
   if (!container.id) throw new Error('Falha ao criar container de imagem');
   await waitForContainer(container.id, accessToken);
 
-  const published = await graphPost(`${igUserId}/media_publish`, {
-    creation_id: container.id,
-  }, accessToken);
-  if (!published.id) throw new Error('Falha ao publicar a imagem');
-
+  const published = await mediaPublishWithRetry(igUserId, accessToken, container.id);
   log.info('[instagram] imagem publicada', { mediaId: published.id });
   return { mediaId: published.id };
 }
@@ -147,13 +178,10 @@ async function publishReel(igUserId, accessToken, videoUrl, caption) {
     share_to_feed: 'true',
   }, accessToken);
   if (!container.id) throw new Error('Falha ao criar container do reel');
+  // Vídeo processa mais devagar — espera mais e publica com retentativas longas.
   await waitForContainer(container.id, accessToken, { tries: 60, delayMs: 5000 });
 
-  const published = await graphPost(`${igUserId}/media_publish`, {
-    creation_id: container.id,
-  }, accessToken);
-  if (!published.id) throw new Error('Falha ao publicar o reel');
-
+  const published = await mediaPublishWithRetry(igUserId, accessToken, container.id, { tries: 12, delayMs: 8000 });
   log.info('[instagram] reel publicado', { mediaId: published.id });
   return { mediaId: published.id };
 }
@@ -193,4 +221,4 @@ async function getValidToken(db, envToken) {
   return token;
 }
 
-module.exports = { publishCarousel, publishImage, publishReel, refreshLongLivedToken, getValidToken, waitForContainer, _graphPost: graphPost, _graphGet: graphGet };
+module.exports = { publishCarousel, publishImage, publishReel, refreshLongLivedToken, getValidToken, waitForContainer, mediaPublishWithRetry, isTransientMeta, _graphPost: graphPost, _graphGet: graphGet };
