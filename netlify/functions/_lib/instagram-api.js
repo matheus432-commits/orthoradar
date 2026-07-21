@@ -176,6 +176,9 @@ async function publishReel(igUserId, accessToken, videoUrl, caption) {
     video_url: videoUrl,
     caption: caption || '',
     share_to_feed: 'true',
+    // Miniatura do Reel = frame da CAPA (500ms, já sem fade a partir do preto),
+    // para o feed exibir a especialidade em vez de um quadro escuro.
+    thumb_offset: '500',
   }, accessToken);
   if (!container.id) throw new Error('Falha ao criar container do reel');
   // Vídeo processa mais devagar — espera mais e publica com retentativas longas.

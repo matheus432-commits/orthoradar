@@ -134,7 +134,10 @@ function assembleVideo(frames, durations, audioPath) {
     // não serve aqui — o master é o vídeo, via -t).
     execFileSync(FFMPEG, ['-y', '-f', 'concat', '-safe', '0', '-i', list,
       '-i', audioPath,
-      '-vf', `fade=t=in:st=0:d=0.4,fade=t=out:st=${Math.max(0, total - 0.5)}:d=0.5`,
+      // Sem fade-IN a partir do preto: o 1º frame já é a CAPA (nome da
+      // especialidade) — assim a miniatura do Reel no feed mostra "Endodontia"
+      // em vez de um quadro preto. Mantém só o fade-out no fim.
+      '-vf', `fade=t=out:st=${Math.max(0, total - 0.5)}:d=0.5`,
       '-af', 'apad',
       '-t', String(total),
       '-c:v', 'libx264', '-preset', 'medium', '-pix_fmt', 'yuv420p',
