@@ -11,12 +11,7 @@ name: OdontoFeed Instagram Daily Reel
 on:
   schedule:
     - cron: '0 12 * * *'   # 12:00 UTC (09:00 BRT)
-  workflow_dispatch:        # disparo manual para testar
-    inputs:
-      force:
-        description: 'Republicar mesmo se já postou hoje (teste)'
-        type: boolean
-        default: false
+  workflow_dispatch:        # disparo manual para testar (SEMPRE republica)
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
@@ -58,5 +53,7 @@ jobs:
           ANTHROPIC_API_KEY:              ${{ secrets.ANTHROPIC_API_KEY }}
           INSTAGRAM_BUSINESS_ACCOUNT_ID:  ${{ secrets.INSTAGRAM_BUSINESS_ACCOUNT_ID }}
           INSTAGRAM_ACCESS_TOKEN:         ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
-          FORCE_REPOST:                   ${{ github.event.inputs.force }}
+          # Disparo manual (workflow_dispatch) SEMPRE republica; o agendado
+          # (schedule) respeita a idempotência do dia. Sem checkbox p/ esquecer.
+          FORCE_REPOST:                   ${{ github.event_name == 'workflow_dispatch' }}
         run: node netlify/functions/instagram-reel.js
