@@ -1,6 +1,8 @@
-// Tests do feed mestre do Spotify (podcast-rss) — rodízio FIXO por dia da
-// semana (decisão 19/07/2026): Seg Endo+Perio · Ter Buco+DTM · Qua Dent+Prót ·
-// Qui Odonto+Estoma · Sex Implanto+Radio · Sáb só Ortodontia · Dom nada.
+// Tests do feed mestre do Spotify (podcast-rss) — CICLO DIÁRIO das 11
+// especialidades (decisão 21/07/2026, mesma fonte do carrossel/reel:
+// especialidade-identidade). 1 edição por dia = a especialidade do dia; se ela
+// não tiver episódio gerado (área sem usuários ativos), cai na primeira do
+// ciclo que tiver — o feed nunca fica sem o item do dia.
 // Run: node --test netlify/functions/_lib/__tests__/podcast-rss.test.js
 
 const { test, describe, beforeEach } = require('node:test');
@@ -52,11 +54,17 @@ function destaques(xml) {
     .map(m => m[1].split(' · ')[0]);
 }
 
-describe('podcast-rss — feed mestre (rodízio fixo semanal)', () => {
+describe('podcast-rss — feed mestre (ciclo diário das 11)', () => {
   beforeEach(() => { process.env.FIREBASE_API_KEY = 'x'; process.env.SITE_URL = 'https://odontofeed.com'; });
 
-  test('segunda → Endodontia + Periodontia (nessa ordem)', async () => {
-    assert.deepEqual(destaques(await masterFeed(allSpecs(SEG))), ['Endodontia', 'Periodontia']);
+  // Ciclo (época 2026-01-01): 20/07→Periodontia · 21/07→Endodontia ·
+  // 22/07→Dentística · 23/07→Prótese · 24/07→Bucomaxilofacial ·
+  // 25/07→Odontopediatria · 26/07→DTM e Dor Orofacial.
+  test('cada dia publica SÓ a especialidade do dia do ciclo (1 item/dia)', async () => {
+    assert.deepEqual(destaques(await masterFeed(allSpecs(SEG))), ['Periodontia']);
+    assert.deepEqual(destaques(await masterFeed(allSpecs(TER))), ['Endodontia']);
+    assert.deepEqual(destaques(await masterFeed(allSpecs(QUA))), ['Dentística']);
+    assert.deepEqual(destaques(await masterFeed(allSpecs(DOM))), ['DTM e Dor Orofacial']);
   });
 
   test('feed mestre anuncia a URL canônica /podcast.xml (atom:self) — estável p/ Spotify', async () => {
@@ -64,44 +72,31 @@ describe('podcast-rss — feed mestre (rodízio fixo semanal)', () => {
     assert.ok(xml.includes('<atom:link href="https://odontofeed.com/podcast.xml" rel="self"'), 'atom:self não é /podcast.xml');
     assert.ok(!/<atom:link href="[^"]*\/\.netlify\/functions\/podcast-rss" rel="self"/.test(xml), 'ainda expõe o caminho da function no self');
   });
-  test('terça → Bucomaxilofacial + DTM e Dor Orofacial', async () => {
-    assert.deepEqual(destaques(await masterFeed(allSpecs(TER))), ['Bucomaxilofacial', 'DTM e Dor Orofacial']);
-  });
-  test('quarta → Dentística + Prótese', async () => {
-    assert.deepEqual(destaques(await masterFeed(allSpecs(QUA))), ['Dentística', 'Prótese']);
-  });
-  test('quinta → Odontopediatria + Estomatologia', async () => {
-    assert.deepEqual(destaques(await masterFeed(allSpecs(QUI))), ['Odontopediatria', 'Estomatologia']);
-  });
-  test('sexta → Implantodontia + Radiologia', async () => {
-    assert.deepEqual(destaques(await masterFeed(allSpecs(SEX))), ['Implantodontia', 'Radiologia']);
-  });
-  test('sábado → só Ortodontia (11 é ímpar)', async () => {
-    assert.deepEqual(destaques(await masterFeed(allSpecs(SAB))), ['Ortodontia']);
-  });
-  test('domingo → nenhum destaque novo (feed válido e sem itens da data)', async () => {
+
+  test('domingo também publica (o ciclo diário não pula dia)', async () => {
     const xml = await masterFeed(allSpecs(DOM));
-    assert.equal(destaques(xml).length, 0);
-    assert.ok(xml.includes('<rss') && xml.includes('OdontoFeed — Ciência Odontológica Diária'));
+    assert.equal(destaques(xml).length, 1);
+    assert.ok(xml.includes('OdontoFeed — Ciência Odontológica Diária'));
   });
 
-  test('a semana inteira cobre exatamente as 11 especialidades, sem repetir', async () => {
-    const eps = [SEG, TER, QUA, QUI, SEX, SAB].flatMap(allSpecs);
-    const set = new Set(destaques(await masterFeed(eps)));
-    assert.equal(set.size, 11);
-    for (const e of CANON) assert.ok(set.has(e), 'faltou ' + e);
+  test('uma semana de episódios → 7 itens, um por dia, seguindo o ciclo', async () => {
+    const dias = [SEG, TER, QUA, QUI, SEX, SAB, DOM];
+    const xml = await masterFeed(dias.flatMap(allSpecs));
+    assert.deepEqual(destaques(xml), ['DTM e Dor Orofacial', 'Odontopediatria',
+      'Bucomaxilofacial', 'Prótese', 'Dentística', 'Endodontia', 'Periodontia']);
   });
 
-  test('ordena por data (mais recente primeiro), mantendo a ordem do dia', async () => {
+  test('ordena por data (mais recente primeiro)', async () => {
     const eps = [...allSpecs(SEG), ...allSpecs(TER)];
-    // Ter (mais recente) antes de Seg; dentro de cada dia, ordem do cronograma.
-    assert.deepEqual(destaques(await masterFeed(eps)),
-      ['Bucomaxilofacial', 'DTM e Dor Orofacial', 'Endodontia', 'Periodontia']);
+    assert.deepEqual(destaques(await masterFeed(eps)), ['Endodontia', 'Periodontia']);
   });
 
-  test('especialidade do dia sem episódio gerado é pulada (não quebra o feed)', async () => {
-    // Segunda com só Periodontia gerada (Endodontia faltando)
-    assert.deepEqual(destaques(await masterFeed([ep('Periodontia', SEG)])), ['Periodontia']);
+  test('BUG 21/07: especialidade do dia sem episódio → cai na primeira do ciclo GERADA', async () => {
+    // 21/07 (dia de Endodontia no ciclo) mas só Ortodontia e Prótese geradas:
+    // publica Ortodontia (primeira do ciclo entre as existentes) — nunca fica sem item.
+    assert.deepEqual(destaques(await masterFeed([ep('Prótese', TER), ep('Ortodontia', TER)])), ['Ortodontia']);
+    // Só Periodontia num dia de Endodontia → Periodontia.
+    assert.deepEqual(destaques(await masterFeed([ep('Periodontia', TER)])), ['Periodontia']);
   });
 
   test('feed por especialidade (?esp=) continua funcionando', async () => {

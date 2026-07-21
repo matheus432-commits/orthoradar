@@ -87,7 +87,7 @@ function buildFeed(especialidade, episodes, bucket, opts = {}) {
     : `${BASE_URL}/.netlify/functions/podcast-rss?esp=${encodeURIComponent(especialidade)}`;
   const chTitle = master ? 'OdontoFeed — Ciência Odontológica Diária' : `OdontoFeed — ${especialidade}`;
   const chDesc  = master
-    ? 'A edição científica do dia em áudio (~8 min): os estudos mais relevantes resumidos em português, direto do PubMed, Europe PMC e OpenAlex. Cada dia, duas especialidades — Segunda: Endodontia e Periodontia · Terça: Bucomaxilofacial e DTM · Quarta: Dentística e Prótese · Quinta: Odontopediatria e Estomatologia · Sexta: Implantodontia e Radiologia · Sábado: Ortodontia. A SUA especialidade todos os dias, com resumos escritos e artigos na íntegra, em odontofeed.com — grátis. Siga também no Instagram: @odontofeedbr.'
+    ? 'A edição científica do dia em áudio (~8 min): os estudos mais relevantes resumidos em português, direto do PubMed, Europe PMC e OpenAlex. Cada dia, uma especialidade diferente no rodízio das 11 áreas. A SUA especialidade todos os dias, com resumos escritos e artigos na íntegra, em odontofeed.com — grátis. Siga também no Instagram: @odontofeedbr.'
     : `Resumos diários de artigos científicos de ${especialidade} em áudio. Ciência odontológica atualizada, em português, todos os dias — selecionada do PubMed, Europe PMC e OpenAlex. Resumos escritos e artigos na íntegra em odontofeed.com · Instagram: @odontofeedbr.`;
 
   const items = episodes.map(ep => {
@@ -156,13 +156,19 @@ function buildFeed(especialidade, episodes, bucket, opts = {}) {
 </rss>`;
 }
 
-// Rodízio FIXO por dia da semana — fonte única em _lib/weekly-schedule.js
-// (compartilhada com os Reels do Instagram).
-const { scheduledForDate } = require('./_lib/weekly-schedule');
+// Ciclo diário das 11 especialidades — MESMA fonte do carrossel e do Reel
+// (especialidade-identidade). Correção 21/07: o rodízio semanal antigo pedia
+// especialidades sem episódio gerado (só as ATIVAS geram podcast) e o feed
+// ficava sem o item do dia. Agora: prioridade = especialidade do dia do ciclo;
+// fallback = qualquer especialidade gerada naquele dia (ordem do ciclo) — o
+// Spotify nunca fica sem a edição diária.
+const { especialidadeDoDia, CICLO } = require('./_lib/especialidade-identidade');
 
-// Slugs das especialidades destaque do dia (na ordem do cronograma).
-function scheduledSlugsForDate(date) {
-  return scheduledForDate(date).map(specialtySlug);
+// Slugs em ordem de prioridade para uma data: o do dia primeiro, depois o
+// restante do ciclo (determinístico).
+function prioritySlugsForDate(date) {
+  const primeiro = specialtySlug(especialidadeDoDia(date));
+  return [primeiro, ...CICLO.map(specialtySlug).filter(s => s !== primeiro)];
 }
 
 // Slug de um episódio, tolerante ao formato: usa o slug gravado; senão deriva do nome.
@@ -190,12 +196,13 @@ async function masterEpisodes(db) {
 
   const out = [];
   for (const [date, eps] of byDate) {
-    // Na ordem do cronograma do dia; pula especialidade sem episódio gerado.
-    for (const wantSlug of scheduledSlugsForDate(date)) {
+    // 1 edição por dia: a especialidade do dia (ciclo das 11); se ela não tiver
+    // episódio (área sem usuários ativos), a primeira do ciclo que tiver.
+    for (const wantSlug of prioritySlugsForDate(date)) {
       const daEsp = eps.filter(e => episodeSlug(e) === wantSlug);
       const chosen = daEsp.find(e => e.tipo === 'completo') ||
         daEsp.sort((a, b) => (a.n || 0) - (b.n || 0))[0];
-      if (chosen) out.push(chosen);
+      if (chosen) { out.push(chosen); break; }
     }
   }
   // Mais recentes primeiro; a ordem do cronograma dentro do dia é preservada
@@ -218,12 +225,11 @@ async function masterFallbackToday(db) {
       : { ...d.episodios[0], date: d.date, especialidade: d.especialidade || d.id, slug: d.id })
     .filter(e => e.objectPath && e.downloadToken);
   if (!candidatos.length) return [];
-  const out = [];
-  for (const wantSlug of scheduledSlugsForDate(candidatos[0].date)) {
+  for (const wantSlug of prioritySlugsForDate(candidatos[0].date)) {
     const chosen = candidatos.find(e => episodeSlug(e) === wantSlug);
-    if (chosen) out.push(chosen);
+    if (chosen) return [chosen];
   }
-  return out;
+  return [];
 }
 
 exports.handler = async (event) => {
