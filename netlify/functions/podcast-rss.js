@@ -183,11 +183,30 @@ function episodeSlug(e) {
   return e.slug || specialtySlug(e.especialidade || '');
 }
 
-// Feed MESTRE (o único submetido ao Spotify): as especialidades destaque de
-// cada dia seguem o cronograma FIXO da semana (WEEKLY_SCHEDULE). O item
-// publicado é a EDIÇÃO COMPLETA da especialidade (decisão 19/07: os 3
-// episódios do dia compilados num único áudio, ~8 min). Fallback (transição,
-// antes de existir o compilado): o episódio 1 da edição.
+// Escolhe até EDICOES_POR_DIA especialidades de UMA data, na ordem do ciclo
+// rotacionado (a do dia primeiro). compiledOnly=true pega SÓ a edição compilada
+// (o padrão do feed — cada especialidade = 1 áudio com os 3 estudos do dia);
+// =false tolera o episódio avulso (rede de segurança para transição/legado).
+function pickForDate(eps, date, compiledOnly) {
+  const out = [];
+  for (const wantSlug of prioritySlugsForDate(date)) {
+    if (out.length >= EDICOES_POR_DIA) break;
+    const daEsp = eps.filter(e => episodeSlug(e) === wantSlug);
+    const chosen = compiledOnly
+      ? daEsp.find(e => e.tipo === 'completo')
+      : (daEsp.find(e => e.tipo === 'completo') || daEsp.sort((a, b) => (a.n || 0) - (b.n || 0))[0]);
+    if (chosen) out.push(chosen);
+  }
+  return out;
+}
+
+// Feed MESTRE (o único submetido ao Spotify). Regra (fundador, 21/07): TODO dia,
+// 2 especialidades — cada uma representada pela sua EDIÇÃO COMPLETA (os 3
+// estudos do dia compilados num único áudio, os mesmos do site). As 2 saem do
+// ciclo rotacionado a partir da especialidade do dia. O feed publica APENAS
+// edições compiladas; só se o histórico não tiver NENHUMA compilada (transição
+// ou legado) é que tolera o episódio avulso — para o Spotify nunca ver um feed
+// vazio (o que marcaria o feed como quebrado).
 async function masterEpisodes(db) {
   let docs = [];
   try {
@@ -201,20 +220,15 @@ async function masterEpisodes(db) {
     byDate.get(e.date).push(e);
   }
 
-  const out = [];
-  for (const [date, eps] of byDate) {
-    // Até EDICOES_POR_DIA edições por data, na ordem do ciclo rotacionado
-    // (a do dia primeiro); especialidade sem episódio cede a vez à próxima.
-    let doDia = 0;
-    for (const wantSlug of prioritySlugsForDate(date)) {
-      if (doDia >= EDICOES_POR_DIA) break;
-      const daEsp = eps.filter(e => episodeSlug(e) === wantSlug);
-      const chosen = daEsp.find(e => e.tipo === 'completo') ||
-        daEsp.sort((a, b) => (a.n || 0) - (b.n || 0))[0];
-      if (chosen) { out.push(chosen); doDia++; }
-    }
+  // Padrão: só edições compiladas. Dias sem compilada (ex.: legado) ficam de
+  // fora — nunca misturam áudio avulso quando há compiladas disponíveis.
+  let out = [];
+  for (const [date, eps] of byDate) out.push(...pickForDate(eps, date, true));
+  // Rede de segurança: nenhuma compilada no histórico inteiro → modo tolerante.
+  if (!out.length) {
+    for (const [date, eps] of byDate) out.push(...pickForDate(eps, date, false));
   }
-  // Mais recentes primeiro; a ordem do cronograma dentro do dia é preservada
+  // Mais recentes primeiro; a ordem do ciclo dentro do dia é preservada
   // (sort estável → não reordena empates de mesma data).
   return out
     .sort((a, b) => (b.date || '').localeCompare(a.date || ''))

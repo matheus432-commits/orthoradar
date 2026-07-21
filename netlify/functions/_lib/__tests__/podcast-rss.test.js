@@ -144,11 +144,23 @@ describe('podcast-rss — feed mestre (ciclo diário das 11)', () => {
     assert.ok(xml.includes('-completo</guid>'), 'guid da edição completa');
   });
 
-  test('sem compilado (transição) → cai no episódio 1, sem quebrar', async () => {
+  test('sem NENHUM compilado (transição) → cai no episódio 1, sem quebrar', async () => {
     const xml = await masterFeed([ep('Endodontia', SEG, 1), ep('Endodontia', SEG, 2)]);
     assert.equal((xml.match(/<item>/g) || []).length, 1);
     assert.ok(xml.includes('ep1.mp3'));
     assert.ok(!xml.includes('<itunes:duration>')); // episódio antigo sem secs não inventa duração
+  });
+
+  test('havendo compiladas, NÃO mistura avulsos de dias sem compilado', async () => {
+    // TER (21/07) tem as compiladas de Endodontia e Prótese; um dia legado
+    // (19/07) só tem avulso. O feed publica SÓ as 2 compiladas — o dia sem
+    // compilada fica de fora (o avulso não aparece).
+    const eps = [completo('Endodontia', TER), completo('Prótese', TER), ep('Endodontia', '2026-07-19', 1)];
+    const xml = await masterFeed(eps);
+    assert.equal((xml.match(/<item>/g) || []).length, 2);
+    assert.equal((xml.match(/edicao-completa\.mp3/g) || []).length, 2);
+    assert.ok(!xml.includes('2026-07-19'), 'dia sem compilada não deveria aparecer');
+    assert.deepEqual(destaques(xml), ['Endodontia', 'Prótese']);
   });
 
   test('feed por especialidade NÃO lista a edição completa (só episódios individuais)', async () => {
