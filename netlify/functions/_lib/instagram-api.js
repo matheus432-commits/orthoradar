@@ -192,6 +192,24 @@ async function refreshLongLivedToken(accessToken) {
   return graphGet('refresh_access_token', { grant_type: 'ig_refresh_token' }, accessToken);
 }
 
+// Resolve o ID da conta a usar nas publicações. Com Instagram Login, o id
+// correto para os endpoints /media e /media_publish é o `user_id` retornado por
+// GET /me — que pode diferir do número exibido no painel. Loga tudo para
+// diagnóstico; se /me falhar (token inválido), cai no id do ambiente.
+async function resolveIgUserId(accessToken, fallbackId) {
+  try {
+    const me = await graphGet('me', { fields: 'user_id,username' }, accessToken);
+    const id = me.user_id || me.id || fallbackId;
+    log.info('[instagram] conta resolvida via /me', {
+      username: me.username, user_id: me.user_id, me_id: me.id, envId: fallbackId, usando: id,
+    });
+    return id;
+  } catch (e) {
+    log.warn('[instagram] /me falhou — usando id do ambiente', { err: e.message, detail: e.detail });
+    return fallbackId;
+  }
+}
+
 // Token válido com auto-renovação (compartilhado por carrossel e reel). O token
 // de longa duração expira em ~60 dias; como os jobs rodam diariamente, renovamos
 // quando o guardado passa de 24h e gravamos o novo no Firestore
@@ -221,4 +239,4 @@ async function getValidToken(db, envToken) {
   return token;
 }
 
-module.exports = { publishCarousel, publishImage, publishReel, refreshLongLivedToken, getValidToken, waitForContainer, mediaPublishWithRetry, isTransientMeta, _graphPost: graphPost, _graphGet: graphGet };
+module.exports = { publishCarousel, publishImage, publishReel, refreshLongLivedToken, getValidToken, resolveIgUserId, waitForContainer, mediaPublishWithRetry, isTransientMeta, _graphPost: graphPost, _graphGet: graphGet };

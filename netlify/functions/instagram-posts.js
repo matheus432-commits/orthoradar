@@ -15,7 +15,7 @@ const { Firestore } = require('./_lib/firestore');
 const { buildDailyCarouselHtml } = require('./_lib/instagram-slides');
 const { renderCarousel } = require('./_lib/instagram-render');
 const { uploadImage } = require('./_lib/storage');
-const { publishCarousel, getValidToken } = require('./_lib/instagram-api');
+const { publishCarousel, getValidToken, resolveIgUserId } = require('./_lib/instagram-api');
 const { formatEvidenceLevel } = require('./_lib/instagram-generator');
 const { especialidadeDoDia, corDe } = require('./_lib/especialidade-identidade');
 const { specialtySlug, espDigestSlug } = require('./_lib/slug');
@@ -102,10 +102,11 @@ exports.handler = async () => {
       urls.push(up.url);
     }
 
-    // 3. Publicar carrossel (token com auto-renovação)
+    // 3. Publicar carrossel (token com auto-renovação; id resolvido via /me)
     const validToken = await getValidToken(db, token);
+    const igId = await resolveIgUserId(validToken, igUserId);
     const caption = buildCaption(especialidade, articles);
-    const { mediaId, slides } = await publishCarousel(igUserId, validToken, urls, caption);
+    const { mediaId, slides } = await publishCarousel(igId, validToken, urls, caption);
 
     // 4. Marcador de idempotência
     await db.setDoc('instagram_posts', dateStr, {
