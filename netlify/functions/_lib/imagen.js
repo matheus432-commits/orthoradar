@@ -28,8 +28,11 @@ const STYLE = 'Flat vector editorial illustration for a dental science brand. ' 
   'centered composition, generous margins, square 1:1 format. Strictly NO text, NO letters, NO numbers, NO watermark, ' +
   'NO photorealism, NO human faces. Subject: ';
 
+const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+
 // Gera 1 ilustração (PNG/JPEG Buffer) a partir da descrição visual da cena.
-// Retorna { ok, buffer, mime } ou { skipped, reason }.
+// 429 (limite por minuto — 5 cenas em sequência estouram) → espera e tenta de
+// novo. Retorna { ok, buffer, mime } ou { skipped, reason }.
 async function generateIllustration(visualDesc) {
   const sa = loadServiceAccount();
   if (!sa?.project_id) return { skipped: true, reason: 'no_service_account' };
@@ -42,16 +45,22 @@ async function generateIllustration(visualDesc) {
     generationConfig: { responseModalities: ['TEXT', 'IMAGE'] },
   }), 'utf8');
 
-  const res = await request({
-    hostname: `${LOCATION}-aiplatform.googleapis.com`,
-    path: `/v1/projects/${sa.project_id}/locations/${LOCATION}/publishers/google/models/${MODEL}:generateContent`,
-    method: 'POST',
-    headers: {
-      'Authorization': 'Bearer ' + token,
-      'Content-Type': 'application/json',
-      'Content-Length': body.length,
-    },
-  }, body);
+  let res = null;
+  for (let tentativa = 1; tentativa <= 3; tentativa++) {
+    res = await request({
+      hostname: `${LOCATION}-aiplatform.googleapis.com`,
+      path: `/v1/projects/${sa.project_id}/locations/${LOCATION}/publishers/google/models/${MODEL}:generateContent`,
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + token,
+        'Content-Type': 'application/json',
+        'Content-Length': body.length,
+      },
+    }, body);
+    if (res.status !== 429 || tentativa === 3) break;
+    log.info('[imagen] 429 (quota/min) — aguardando para tentar de novo', { tentativa });
+    await sleep(20000 * tentativa); // 20s, 40s
+  }
 
   if (res.status !== 200) {
     // Loga a conta em uso: o papel Vertex AI precisa estar NESTA conta.
