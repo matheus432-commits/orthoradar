@@ -55,6 +55,7 @@ audio{width:100%;margin-top:10px;display:none;}
 
     <div class="controls">
       <input type="text" id="busca" placeholder="🔎 Buscar por título, especialidade ou PMID…" oninput="aplicar()">
+      <select id="filtroDia" onchange="aplicar()"><option value="">Todos os dias</option></select>
       <select id="filtroEsp" onchange="aplicar()"><option value="">Todas as especialidades</option></select>
     </div>
     <div class="count" id="count">Carregando…</div>
@@ -76,6 +77,10 @@ async function entrar() {
   carregar(await res.json());
 }
 
+// Dia de referência de um estudo: 'YYYY-MM-DD' (a.data pode vir com hora).
+function diaDe(a){ return String(a.data || '').slice(0, 10); }
+function diaBR(d){ const [y,m,dd] = d.split('-'); return dd + '/' + m + '/' + y; }
+
 function carregar(d) {
   document.getElementById('login').style.display = 'none';
   document.getElementById('dash').style.display = 'block';
@@ -84,6 +89,12 @@ function carregar(d) {
   const esps = [...new Set(TODOS.map(a => a.especialidade).filter(Boolean))].sort();
   const sel = document.getElementById('filtroEsp');
   esps.forEach(e => { const o = document.createElement('option'); o.value = e; o.textContent = e; sel.appendChild(o); });
+  // Popular filtro de DIA (mais recente primeiro) e pré-selecionar o último
+  // dia com estudos — abre enxuto em vez da lista inteira.
+  const dias = [...new Set(TODOS.map(diaDe).filter(d => /^\d{4}-\d{2}-\d{2}$/.test(d)))].sort().reverse();
+  const selDia = document.getElementById('filtroDia');
+  dias.forEach(dd => { const o = document.createElement('option'); o.value = dd; o.textContent = diaBR(dd); selDia.appendChild(o); });
+  if (dias.length) selDia.value = dias[0];
   document.getElementById('count').dataset.audio = d.comAudio || 0;
   aplicar();
 }
@@ -94,7 +105,9 @@ function mmss(s){ s=Number(s)||0; const m=Math.floor(s/60), r=Math.round(s%60); 
 function aplicar() {
   const q = document.getElementById('busca').value.trim().toLowerCase();
   const esp = document.getElementById('filtroEsp').value;
+  const dia = document.getElementById('filtroDia').value;
   filtrados = TODOS.filter(a => {
+    if (dia && diaDe(a) !== dia) return false;
     if (esp && a.especialidade !== esp) return false;
     if (!q) return true;
     return (a.titulo + ' ' + a.especialidade + ' ' + a.pmid).toLowerCase().includes(q);

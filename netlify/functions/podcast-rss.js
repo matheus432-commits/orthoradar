@@ -87,7 +87,7 @@ function buildFeed(especialidade, episodes, bucket, opts = {}) {
     : `${BASE_URL}/.netlify/functions/podcast-rss?esp=${encodeURIComponent(especialidade)}`;
   const chTitle = master ? 'OdontoFeed — Ciência Odontológica Diária' : `OdontoFeed — ${especialidade}`;
   const chDesc  = master
-    ? 'A edição científica do dia em áudio (~8 min): os estudos mais relevantes resumidos em português, direto do PubMed, Europe PMC e OpenAlex. Cada dia, uma especialidade diferente no rodízio das 11 áreas. A SUA especialidade todos os dias, com resumos escritos e artigos na íntegra, em odontofeed.com — grátis. Siga também no Instagram: @odontofeedbr.'
+    ? 'A edição científica do dia em áudio (~8 min por especialidade): os estudos mais relevantes resumidos em português, direto do PubMed, Europe PMC e OpenAlex. Todo dia, as edições de duas especialidades no rodízio das 11 áreas. A SUA especialidade todos os dias, com resumos escritos e artigos na íntegra, em odontofeed.com — grátis. Siga também no Instagram: @odontofeedbr.'
     : `Resumos diários de artigos científicos de ${especialidade} em áudio. Ciência odontológica atualizada, em português, todos os dias — selecionada do PubMed, Europe PMC e OpenAlex. Resumos escritos e artigos na íntegra em odontofeed.com · Instagram: @odontofeedbr.`;
 
   const items = episodes.map(ep => {
@@ -159,16 +159,23 @@ function buildFeed(especialidade, episodes, bucket, opts = {}) {
 // Ciclo diário das 11 especialidades — MESMA fonte do carrossel e do Reel
 // (especialidade-identidade). Correção 21/07: o rodízio semanal antigo pedia
 // especialidades sem episódio gerado (só as ATIVAS geram podcast) e o feed
-// ficava sem o item do dia. Agora: prioridade = especialidade do dia do ciclo;
-// fallback = qualquer especialidade gerada naquele dia (ordem do ciclo) — o
-// Spotify nunca fica sem a edição diária.
+// ficava sem o item do dia.
+//
+// Decisão 21/07 (fundador): o Spotify publica PELO MENOS 2 especialidades por
+// dia. Prioridade = o ciclo ROTACIONADO a partir da especialidade do dia
+// (dia de Endodontia → Endodontia, depois Dentística, Prótese, …). Pega as
+// 2 primeiras que tiverem episódio gerado — a dupla gira dia a dia e, se uma
+// área não tiver edição (sem usuários ativos), a próxima do ciclo entra no
+// lugar: o feed nunca fica aquém do possível.
 const { especialidadeDoDia, CICLO } = require('./_lib/especialidade-identidade');
 
-// Slugs em ordem de prioridade para uma data: o do dia primeiro, depois o
-// restante do ciclo (determinístico).
+const EDICOES_POR_DIA = parseInt(process.env.PODCAST_MASTER_POR_DIA || '', 10) || 2;
+
+// Slugs em ordem de prioridade para uma data: o ciclo rotacionado começando
+// na especialidade do dia (determinístico).
 function prioritySlugsForDate(date) {
-  const primeiro = specialtySlug(especialidadeDoDia(date));
-  return [primeiro, ...CICLO.map(specialtySlug).filter(s => s !== primeiro)];
+  const idx = Math.max(0, CICLO.indexOf(especialidadeDoDia(date)));
+  return CICLO.map((_, i) => specialtySlug(CICLO[(idx + i) % CICLO.length]));
 }
 
 // Slug de um episódio, tolerante ao formato: usa o slug gravado; senão deriva do nome.
@@ -196,13 +203,15 @@ async function masterEpisodes(db) {
 
   const out = [];
   for (const [date, eps] of byDate) {
-    // 1 edição por dia: a especialidade do dia (ciclo das 11); se ela não tiver
-    // episódio (área sem usuários ativos), a primeira do ciclo que tiver.
+    // Até EDICOES_POR_DIA edições por data, na ordem do ciclo rotacionado
+    // (a do dia primeiro); especialidade sem episódio cede a vez à próxima.
+    let doDia = 0;
     for (const wantSlug of prioritySlugsForDate(date)) {
+      if (doDia >= EDICOES_POR_DIA) break;
       const daEsp = eps.filter(e => episodeSlug(e) === wantSlug);
       const chosen = daEsp.find(e => e.tipo === 'completo') ||
         daEsp.sort((a, b) => (a.n || 0) - (b.n || 0))[0];
-      if (chosen) { out.push(chosen); break; }
+      if (chosen) { out.push(chosen); doDia++; }
     }
   }
   // Mais recentes primeiro; a ordem do cronograma dentro do dia é preservada
@@ -225,11 +234,13 @@ async function masterFallbackToday(db) {
       : { ...d.episodios[0], date: d.date, especialidade: d.especialidade || d.id, slug: d.id })
     .filter(e => e.objectPath && e.downloadToken);
   if (!candidatos.length) return [];
+  const out = [];
   for (const wantSlug of prioritySlugsForDate(candidatos[0].date)) {
+    if (out.length >= EDICOES_POR_DIA) break;
     const chosen = candidatos.find(e => episodeSlug(e) === wantSlug);
-    if (chosen) return [chosen];
+    if (chosen) out.push(chosen);
   }
-  return [];
+  return out;
 }
 
 exports.handler = async (event) => {
