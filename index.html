@@ -416,7 +416,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:44px 52p
       <button class="btn-hero-ghost" onclick="document.getElementById('email-preview').scrollIntoView({behavior:'smooth'})">Ver exemplo de digest</button>
     </div>
     <div class="hero-proof">
-      <div class="hero-proof-item"><span class="hp-num" id="statDentistas">5</span><span class="hp-lbl">Dentistas cadastrados</span></div>
+      <div class="hero-proof-item"><span class="hp-num">3</span><span class="hp-lbl">Artigos por dia</span></div>
       <div class="hero-proof-item"><span class="hp-num" id="statArtigos">2.300+</span><span class="hp-lbl">Artigos resumidos</span></div>
       <div class="hero-proof-item"><span class="hp-num">11</span><span class="hp-lbl">Especialidades CFO</span></div>
       <div class="hero-proof-item"><span class="hp-num">R$0</span><span class="hp-lbl">Para começar</span></div>
@@ -1100,13 +1100,9 @@ async function submitForm(){
     const fmt = n => new Intl.NumberFormat('pt-BR').format(n);
     // Artigos: mostra o número real quando disponível; senão mantém o fallback do HTML.
     if (artigos > 0) document.getElementById('statArtigos').textContent = fmt(artigos);
-    // Dentistas cadastrados: número real, ao vivo (sobe sozinho a cada cadastro).
-    if (assinantes >= 0) {
-      const d = document.getElementById('statDentistas');
-      if (d) d.textContent = fmt(assinantes);
-    }
-    // Rodapé do widget: prova social "enviado para N dentistas" só quando há
-    // tração (>=50) — abaixo disso mantém o texto neutro já no HTML.
+    // Assinantes: prova social só entra quando há tração (>=50). Abaixo disso mantém
+    // o enquadramento de "early adopter" já no HTML — nunca expõe placeholder nem número pequeno.
+    // (Contagem de dentistas para o fundador acompanhar fica no /custos.html.)
     if (assinantes >= 50) {
       const f = document.getElementById('statFooter');
       if (f) f.textContent = '✉ Enviado para ' + fmt(assinantes) + ' dentistas hoje';

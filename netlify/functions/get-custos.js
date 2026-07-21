@@ -48,11 +48,22 @@ exports.handler = async (event) => {
     const doMes = (arr) => arr.filter(d => String(d.id || d.criadoEm || '').includes(month)).length;
     const imagensNovasMes = cenas.filter(c => String(c.criadoEm || '').startsWith(month)).length;
 
-    // Usuários ativos (mesmo critério do digest).
-    let usuarios = 0, pageToken = null;
+    // Cadastros: ativos (critério do digest) + total, novos de hoje e por
+    // especialidade — para o fundador acompanhar o crescimento aqui no painel.
+    const hojeISO = now.toISOString().slice(0, 10);
+    let usuarios = 0, dentistasTotal = 0, dentistasHoje = 0, comIndicacao = 0, pageToken = null;
+    const porEsp = {};
     do {
       const { docs, nextPageToken } = await db.listDocs('cadastros', { pageSize: 300, pageToken });
-      usuarios += docs.filter(u => u.email && u.ativo !== false && !u.bounced && u.emailFrequencia !== 'nunca').length;
+      for (const u of docs) {
+        if (!u.email) continue;
+        dentistasTotal++;
+        if (u.ativo !== false && !u.bounced && u.emailFrequencia !== 'nunca') usuarios++;
+        if (String(u.criadoEm || '').slice(0, 10) === hojeISO) dentistasHoje++;
+        if (u.referredBy) comIndicacao++;
+        const specs = Array.isArray(u.especialidade) ? u.especialidade : (u.especialidade ? [u.especialidade] : []);
+        specs.forEach(s => { if (s) porEsp[s] = (porEsp[s] || 0) + 1; });
+      }
       pageToken = nextPageToken;
     } while (pageToken);
 
@@ -68,6 +79,15 @@ exports.handler = async (event) => {
       usuariosAtivos: usuarios,
       diasNoMes, diaAtual,
     });
+
+    // Acompanhamento de cadastros (crescimento) — anexado ao payload de custos.
+    payload.dentistas = {
+      total: dentistasTotal,
+      ativos: usuarios,
+      hoje: dentistasHoje,
+      comIndicacao,
+      porEspecialidade: porEsp,
+    };
 
     return { statusCode: 200, headers, body: JSON.stringify(payload) };
   } catch (err) {
