@@ -294,12 +294,37 @@ function render(data){
   wireResumos();
 }
 
+// ── Modo ADMIN (fundador): /edicao.html?secret=ADMIN_SECRET ─────────────────
+// Acesso completo: vê a edição de QUALQUER especialidade (seletor no topo).
+// O segredo fica salvo na sessão da aba (mesmo esquema do /custos.html).
+function renderAdminBar(data, secret){
+  const esps = (data.admin && data.admin.especialidades) || [];
+  if (!esps.length) return;
+  const atual = data.user.especialidade;
+  const bar = document.createElement('div');
+  bar.style.cssText = 'max-width:720px;margin:0 auto 14px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;';
+  bar.innerHTML = '<span style="font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#8A8478;">👑 Modo admin — especialidade:</span>';
+  const sel = document.createElement('select');
+  sel.style.cssText = 'padding:9px 12px;border:1px solid #EDE6D8;border-radius:9px;font-size:13.5px;background:#fff;';
+  esps.forEach(e => { const o = document.createElement('option'); o.value = e; o.textContent = e; if (e === atual) o.selected = true; sel.appendChild(o); });
+  sel.onchange = () => { location.search = '?secret=' + encodeURIComponent(secret) + '&esp=' + encodeURIComponent(sel.value); };
+  bar.appendChild(sel);
+  const main = document.querySelector('main') || document.body;
+  main.insertBefore(bar, main.firstChild);
+}
+
 (async function init(){
   const params = new URLSearchParams(location.search);
   const e = params.get('e'), t = params.get('t');
-  let url, opts = {};
+  const secret = params.get('secret') || sessionStorage.getItem('of_admin');
+  let url, opts = {}, adminSecret = null;
 
-  if (e && t) {
+  if (params.get('secret') || (params.get('admin') === '1' && secret)) {
+    adminSecret = secret;
+    sessionStorage.setItem('of_admin', secret);
+    url = '/.netlify/functions/get-edicao?secret=' + encodeURIComponent(secret)
+        + (params.get('esp') ? '&esp=' + encodeURIComponent(params.get('esp')) : '');
+  } else if (e && t) {
     url = '/.netlify/functions/get-edicao?e=' + encodeURIComponent(e) + '&t=' + encodeURIComponent(t);
   } else {
     const email = localStorage.getItem('of_email'), token = localStorage.getItem('of_token');
@@ -322,6 +347,7 @@ function render(data){
       return;
     }
     render(data);
+    if (adminSecret && data.admin) renderAdminBar(data, adminSecret);
   } catch (err) {
     showError('Erro de conexão', 'Verifique sua internet e recarregue a página.');
   }

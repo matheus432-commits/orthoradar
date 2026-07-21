@@ -10,6 +10,8 @@
 
 const crypto = require('crypto');
 const { Firestore } = require('./_lib/firestore');
+const { checkAdmin } = require('./_lib/admin-guard');
+const { CICLO, especialidadeDoDia } = require('./_lib/especialidade-identidade');
 const { verifyEdicaoToken } = require('./_lib/edicao-token');
 const { espDigestSlug, specialtySlug } = require('./_lib/slug');
 const { resolveArticleUrl } = require('./_lib/email-template');
@@ -133,6 +135,36 @@ exports.handler = async (event) => {
   const db = new Firestore(projectId, process.env.FIREBASE_API_KEY);
 
   try {
+    // ── Modo ADMIN (fundador): ?secret=ADMIN_SECRET[&esp=Especialidade] ──────
+    // Acesso completo à edição de QUALQUER especialidade (default: a do dia no
+    // ciclo), sem conta — visão Premium, sem publicidade. Lista as 11 no
+    // payload para a página montar o seletor.
+    if (qs.secret) {
+      if (!checkAdmin(event)) return { statusCode: 401, headers, body: JSON.stringify({ error: 'nao_autenticado' }) };
+      const esp = CICLO.includes(qs.esp) ? qs.esp : especialidadeDoDia(new Date().toISOString().slice(0, 10));
+      const edicao = await getEdicao(db, esp);
+      if (!edicao) {
+        return { statusCode: 404, headers, body: JSON.stringify({ error: 'sem_edicao', message: `Sem edição gerada para ${esp} ainda.`, especialidades: CICLO }) };
+      }
+      const podcast = await getPodcast(db, esp);
+      return {
+        statusCode: 200,
+        headers: { ...headers, 'Cache-Control': 'private, no-store' },
+        body: JSON.stringify({
+          user: { nome: 'Admin', plano: 'premium', isPremium: true, especialidade: esp },
+          admin: { especialidades: CICLO },
+          edicao: {
+            date: edicao.date || '', editorial: edicao.editorial || null,
+            artigos: (edicao.artigos || []).map(publicArticle),
+            achado: null, premiumExtras: [],
+          },
+          podcast,
+          anuncio: null,
+          premiumPreco: PLANS.premium.precoMensal,
+        }),
+      };
+    }
+
     // ── Autenticação ──────────────────────────────────────────────────────────
     let email = null;
 
