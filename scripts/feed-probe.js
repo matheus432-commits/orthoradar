@@ -23,3 +23,5 @@ const { handler } = require('../netlify/functions/podcast-rss');
   Object.keys(porDia).sort().reverse().forEach(d => console.log(`  ${d}: ${porDia[d]}`));
   console.log('dias distintos:', Object.keys(porDia).length);
 })().catch(e => { console.error('ERRO', e.message); process.exit(1); });
+
+// re-run 22:04:18
