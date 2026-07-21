@@ -1024,6 +1024,25 @@ function validateSenhaConf(){
   inp.className='form-input valid';hint.textContent='✓ Senhas coincidem';hint.className='field-hint ok';return true;
 }
 
+// Indicação: captura ?ref=CODE do link do colega e guarda (sobrevive à
+// navegação entre passos). Só aceita o formato do refCode (7 chars A-Z/2-9).
+const REF_ALFABETO='ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+function normalizeRef(raw){
+  if(!raw) return '';
+  const up=String(raw).trim().toUpperCase();
+  if(up.length!==7) return '';
+  for(const ch of up) if(!REF_ALFABETO.includes(ch)) return '';
+  return up;
+}
+let REF_CODE='';
+(function captureRef(){
+  try{
+    const url=normalizeRef(new URLSearchParams(location.search).get('ref'));
+    if(url){REF_CODE=url;localStorage.setItem('of_ref',url);}
+    else{REF_CODE=normalizeRef(localStorage.getItem('of_ref'));}
+  }catch(e){}
+})();
+
 const HASH_SALT='OF26_';
 async function hashSHA256(str){
   const buf=new TextEncoder().encode(HASH_SALT+str);
@@ -1048,7 +1067,7 @@ async function submitForm(){
   btn.disabled=true;btn.textContent='Criando sua conta...';
   try {
     const senhaHash=await hashSHA256(senha);
-    const res=await fetch('/.netlify/functions/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nome:name,email,especialidade:selectedSpecs,senhaHash,aceiteTermos:true})});
+    const res=await fetch('/.netlify/functions/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nome:name,email,especialidade:selectedSpecs,senhaHash,aceiteTermos:true,ref:REF_CODE||undefined})});
     const data=await res.json();
     if(!res.ok){
       btn.disabled=false;btn.textContent='Criar conta e começar a receber →';
@@ -1060,7 +1079,7 @@ async function submitForm(){
     try {
       const lr=await fetch('/.netlify/functions/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,senhaHash})});
       const ld=await lr.json();
-      if(lr.ok&&ld.token){localStorage.setItem('of_token',ld.token);localStorage.setItem('of_email',email);window.location.href='/dashboard';return;}
+      if(lr.ok&&ld.token){localStorage.setItem('of_token',ld.token);localStorage.setItem('of_email',email);localStorage.removeItem('of_ref');window.location.href='/dashboard';return;}
     } catch(e){}
   } catch(e){btn.disabled=false;btn.textContent='Criar conta e começar a receber →';return;}
   document.getElementById('fstep2').style.display='none';

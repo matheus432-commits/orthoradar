@@ -1,6 +1,8 @@
 const { request } = require('./_lib');
+const { Firestore } = require('./_lib/firestore');
 const { hashPassword } = require('./_lib/password');
 const { signupPlan } = require('./_lib/plans');
+const { gerarRefCode, normalizeRefCode } = require('./_lib/referral');
 
 const ALLOWED_SPECS = new Set([
   'Ortodontia', 'Implantodontia', 'Periodontia', 'Dentística',
@@ -82,6 +84,27 @@ async function createUser(projectId, apiKey, data) {
   return doc.name.split('/').pop();
 }
 
+// Credita +1 indicação ao dono do refCode. Localiza o indicador pela query
+// refCode==code; se ele mesmo for o e-mail que acabou de se cadastrar, ignora
+// (auto-indicação). Incremento por leitura+escrita (sem transação): a escala e
+// a raridade de concorrência tornam corrida improvável e sem prejuízo grave.
+async function creditReferral(projectId, apiKey, code, novoEmail) {
+  const db = new Firestore(projectId, apiKey);
+  const donos = await db.query('cadastros', {
+    where: { fieldFilter: { field: { fieldPath: 'refCode' }, op: 'EQUAL', value: { stringValue: code } } },
+    limit: 1,
+  });
+  const dono = donos[0];
+  if (!dono) return;                          // código inexistente
+  if (dono.email === novoEmail) return;       // auto-indicação
+  const atual = Number(dono.indicacoes) || 0;
+  await db.updateDoc('cadastros', dono.id, {
+    indicacoes: atual + 1,
+    ultimaIndicacaoEm: new Date().toISOString(),
+  });
+  console.log('[Register] Indicação creditada:', code, '→', atual + 1);
+}
+
 exports.handler = async (event) => {
   if (event.httpMethod === 'OPTIONS') {
     return { statusCode: 200, headers: { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': 'Content-Type', 'Access-Control-Allow-Methods': 'POST, OPTIONS' }, body: '' };
@@ -93,7 +116,7 @@ exports.handler = async (event) => {
   let body;
   try { body = JSON.parse(event.body); } catch { return { statusCode: 400, headers, body: JSON.stringify({ error: 'JSON invalido' }) }; }
 
-  const { nome, email, especialidade, temas, senhaHash, aceiteTermos } = body;
+  const { nome, email, especialidade, temas, senhaHash, aceiteTermos, ref } = body;
 
   if (!nome || !email || !especialidade || !senhaHash) {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'Campos obrigatorios faltando' }) };
@@ -141,6 +164,13 @@ exports.handler = async (event) => {
       return { statusCode: 409, headers, body: JSON.stringify({ error: 'duplicado', message: 'Este email ja esta cadastrado!' }) };
     }
 
+    // Programa "Indique um colega": quem chega por um link /?ref=CODE grava o
+    // código de quem indicou (referredBy) e recebe o SEU próprio refCode para
+    // indicar outros. A validação/atribuição da indicação acontece após criar
+    // o usuário (não bloqueia o cadastro se algo falhar).
+    const refDoIndicador = normalizeRefCode(ref);
+    const meuRefCode = gerarRefCode();
+
     const plano = signupPlan(); // cortesia: Premium até a forma de pagamento existir (env SIGNUP_PLAN)
     const docId = await createUser(projectId, apiKey, {
       nome: nomeTrimmed,
@@ -158,11 +188,22 @@ exports.handler = async (event) => {
       aceitouTermosEm: new Date().toISOString(),
       termosVersao: '1.0-2026-07-14',
       criadoEm: new Date().toISOString(),
+      // Indicações: meu código (para eu indicar) e de quem me indicou (se veio de link).
+      refCode: meuRefCode,
+      referredBy: refDoIndicador || '',
+      indicacoes: 0,
       curtidos: [],
       lidos: []
     });
 
     console.log('Cadastro criado:', docId, email);
+
+    // Credita a indicação ao dono do link (+1). Best-effort: nunca derruba o
+    // cadastro. Guarda contra auto-indicação (mesmo e-mail).
+    if (refDoIndicador) {
+      creditReferral(projectId, apiKey, refDoIndicador, email)
+        .catch(e => console.warn('[Register] Referral credit failed:', e.message));
+    }
     if (resendKey) {
       sendWelcomeEmail(resendKey, nome, email, especialidade)
         .then(r => { if (r.status !== 200 && r.status !== 201) console.error('[Register] Welcome email failed:', r.status, r.body.substring(0, 100)); })
