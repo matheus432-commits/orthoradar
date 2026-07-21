@@ -8,6 +8,7 @@ on:
     branches: [main]
     paths:
       - 'scripts/imagen-probe.js'
+      - 'netlify/functions/_lib/imagen.js'
       - '.github/workflows/imagen-test.yml'
   workflow_dispatch:
 

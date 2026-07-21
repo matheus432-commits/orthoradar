@@ -53,6 +53,19 @@ async function probeGenerateContent(location, model, sa, token) {
   if (!token) { console.log('SEM_TOKEN'); process.exit(1); }
   console.log('conta:', sa.client_email, '| projeto:', sa.project_id);
 
+  // 1º: valida a FUNÇÃO REAL da lib (o que o reel usa em produção). Se ela
+  // gera imagem, o pipeline está pronto — nem precisa da bateria abaixo.
+  try {
+    const { generateIllustration, _MODEL } = require('../netlify/functions/_lib/imagen');
+    const real = await generateIllustration('single healthy tooth with a subtle glow');
+    if (real.ok) {
+      console.log(`LIB_REAL_OK modelo=${_MODEL} bytes=${real.buffer.length} mime=${real.mime}`);
+      console.log('VENCEDOR:', JSON.stringify({ api: 'lib', model: _MODEL }));
+      process.exit(0);
+    }
+    console.log('LIB_REAL_FALHOU', JSON.stringify(real));
+  } catch (e) { console.log('LIB_REAL_ERRO', e.message); }
+
   const imagenModels = [
     'imagen-4.0-generate-001', 'imagen-4.0-fast-generate-001', 'imagen-4.0-ultra-generate-001',
     'imagen-4.0-generate-preview-06-06', 'imagen-3.0-generate-002', 'imagen-3.0-fast-generate-001',
