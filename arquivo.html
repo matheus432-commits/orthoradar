@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Arquivo — OdontoFeed (admin)</title>
+<style>
+:root{--bg:#FBF7EF;--card:#FFFFFF;--border:#EDE6D8;--text:#1A1A18;--muted:#8A8478;--gold:#B08968;--cyan:#1BA9B8;--green:#3E7C4F;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,-apple-system,sans-serif;padding:24px 16px 60px;}
+.wrap{max-width:900px;margin:0 auto;}
+h1{font-family:Georgia,'Times New Roman',serif;font-size:1.6rem;letter-spacing:-.4px;margin-bottom:4px;}
+h1 em{color:var(--gold);font-style:normal;}
+.sub{color:var(--muted);font-size:13px;margin-bottom:18px;}
+.controls{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;position:sticky;top:0;background:var(--bg);padding:8px 0;z-index:5;}
+.controls input,.controls select{padding:11px 13px;border:1px solid var(--border);border-radius:10px;font-size:14px;background:#fff;color:var(--text);}
+.controls input{flex:1;min-width:200px;}
+.count{font-size:12.5px;color:var(--muted);margin-bottom:12px;}
+.item{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:10px;}
+.i-top{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;}
+.i-date{font-size:12px;color:var(--muted);white-space:nowrap;}
+.badge{font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:2px 9px;border-radius:10px;background:#EAF6F7;color:var(--cyan);white-space:nowrap;}
+.i-titulo{font-weight:600;font-size:14.5px;line-height:1.35;margin:6px 0 4px;}
+.i-meta{font-size:11.5px;color:var(--muted);}
+.i-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px;}
+.btn{border:1px solid var(--border);background:#fff;border-radius:9px;padding:7px 12px;font-size:12.5px;font-weight:600;cursor:pointer;color:var(--text);display:inline-flex;gap:6px;align-items:center;text-decoration:none;}
+.btn:hover{border-color:var(--gold);}
+.btn.pri{background:var(--text);color:#fff;border-color:var(--text);}
+.noaudio{font-size:11.5px;color:var(--muted);font-style:italic;}
+.resumo{margin-top:12px;padding-top:12px;border-top:1px dashed var(--border);font-size:13.5px;line-height:1.7;color:#33322E;white-space:pre-wrap;display:none;}
+audio{width:100%;margin-top:10px;display:none;}
+.login{max-width:400px;margin:80px auto;text-align:center;}
+.login input{width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:10px;font-size:14px;margin:14px 0 10px;background:#fff;}
+.login button{background:var(--text);color:#fff;border:none;border-radius:10px;padding:12px 26px;font-weight:600;font-size:14px;cursor:pointer;}
+.err{color:#B4533B;font-size:13px;margin-top:10px;display:none;}
+#dash{display:none;}
+.more{display:block;margin:16px auto 0;background:#fff;border:1px solid var(--border);border-radius:10px;padding:11px 22px;font-size:13px;font-weight:600;cursor:pointer;color:var(--text);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="login" id="login">
+    <h1>OdontoFeed<em>.</em> Arquivo</h1>
+    <p class="sub">Painel administrativo — todos os resumos e áudios.</p>
+    <input type="password" id="secret" placeholder="ADMIN_SECRET" onkeydown="if(event.key==='Enter')entrar()">
+    <button onclick="entrar()">Entrar</button>
+    <p class="err" id="err">Segredo inválido.</p>
+  </div>
+
+  <div id="dash">
+    <h1>OdontoFeed<em>.</em> Arquivo de resumos e áudios</h1>
+    <p class="sub">Tudo que o sistema já gerou. Acesso restrito ao admin.</p>
+
+    <div class="controls">
+      <input type="text" id="busca" placeholder="🔎 Buscar por título, especialidade ou PMID…" oninput="aplicar()">
+      <select id="filtroEsp" onchange="aplicar()"><option value="">Todas as especialidades</option></select>
+    </div>
+    <div class="count" id="count">Carregando…</div>
+    <div id="lista"></div>
+    <button class="more" id="btnMore" style="display:none" onclick="mostrarMais()">Carregar mais</button>
+  </div>
+</div>
+
+<script>
+const PAG = 40;
+let TODOS = [], filtrados = [], mostrados = 0, SECRET = '';
+
+async function entrar() {
+  const s = document.getElementById('secret').value.trim();
+  if (!s) return;
+  const res = await fetch('/.netlify/functions/get-arquivo?secret=' + encodeURIComponent(s));
+  if (!res.ok) { document.getElementById('err').style.display = 'block'; return; }
+  SECRET = s; sessionStorage.setItem('of_admin', s);
+  carregar(await res.json());
+}
+
+function carregar(d) {
+  document.getElementById('login').style.display = 'none';
+  document.getElementById('dash').style.display = 'block';
+  TODOS = d.artigos || [];
+  // Popular filtro de especialidades.
+  const esps = [...new Set(TODOS.map(a => a.especialidade).filter(Boolean))].sort();
+  const sel = document.getElementById('filtroEsp');
+  esps.forEach(e => { const o = document.createElement('option'); o.value = e; o.textContent = e; sel.appendChild(o); });
+  document.getElementById('count').dataset.audio = d.comAudio || 0;
+  aplicar();
+}
+
+function esc(s){ return String(s||'').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function mmss(s){ s=Number(s)||0; const m=Math.floor(s/60), r=Math.round(s%60); return m+':'+String(r).padStart(2,'0'); }
+
+function aplicar() {
+  const q = document.getElementById('busca').value.trim().toLowerCase();
+  const esp = document.getElementById('filtroEsp').value;
+  filtrados = TODOS.filter(a => {
+    if (esp && a.especialidade !== esp) return false;
+    if (!q) return true;
+    return (a.titulo + ' ' + a.especialidade + ' ' + a.pmid).toLowerCase().includes(q);
+  });
+  const comAudio = filtrados.filter(a => a.audioUrl).length;
+  document.getElementById('count').textContent = filtrados.length + ' estudos · ' + comAudio + ' com áudio';
+  document.getElementById('lista').innerHTML = '';
+  mostrados = 0;
+  mostrarMais();
+}
+
+function mostrarMais() {
+  const slice = filtrados.slice(mostrados, mostrados + PAG);
+  const html = slice.map(a => {
+    const meta = [a.journal, a.year, a.nivel].filter(Boolean).join(' · ');
+    const audio = a.audioUrl
+      ? `<button class="btn pri" onclick="tocar(this,'${encodeURIComponent(a.audioUrl)}')">▶ Áudio ${a.secs?('· '+mmss(a.secs)):''}</button>`
+        + `<a class="btn" href="${a.audioUrl}" download="odontofeed-${a.pmid}.mp3">⬇ Baixar</a>`
+      : `<span class="noaudio">sem áudio (não gerado ou removido na retenção)</span>`;
+    return `<div class="item" id="it-${a.pmid}">
+      <div class="i-top"><span class="i-date">${esc(a.data)||'—'}</span><span class="badge">${esc(a.especialidade)}</span></div>
+      <div class="i-titulo">${esc(a.titulo)}</div>
+      <div class="i-meta">${esc(meta)} · PMID ${esc(a.pmid)}</div>
+      <div class="i-actions">${audio}<button class="btn" onclick="lerResumo(this,'${esc(a.pmid)}')">▸ Ler resumo</button></div>
+      <audio controls preload="none"></audio>
+      <div class="resumo"></div>
+    </div>`;
+  }).join('');
+  document.getElementById('lista').insertAdjacentHTML('beforeend', html);
+  mostrados += slice.length;
+  document.getElementById('btnMore').style.display = mostrados < filtrados.length ? 'block' : 'none';
+}
+
+function tocar(btn, urlEnc) {
+  const audio = btn.closest('.item').querySelector('audio');
+  if (audio.style.display === 'block') { audio.pause(); audio.style.display = 'none'; return; }
+  if (!audio.src) audio.src = decodeURIComponent(urlEnc);
+  audio.style.display = 'block'; audio.play().catch(()=>{});
+}
+
+async function lerResumo(btn, pmid) {
+  const box = btn.closest('.item').querySelector('.resumo');
+  if (box.style.display === 'block') { box.style.display = 'none'; return; }
+  if (!box.dataset.loaded) {
+    box.textContent = 'Carregando resumo…'; box.style.display = 'block';
+    try {
+      const res = await fetch('/.netlify/functions/get-arquivo?secret=' + encodeURIComponent(SECRET) + '&id=' + encodeURIComponent(pmid));
+      const d = await res.json();
+      box.textContent = d.resumo && d.resumo.trim() ? d.resumo : '(sem resumo escrito para este estudo)';
+      box.dataset.loaded = '1';
+    } catch (e) { box.textContent = 'Erro ao carregar o resumo.'; }
+  } else { box.style.display = 'block'; }
+}
+
+// Sessão anterior (mesma senha do /custos.html) → entra direto.
+(async () => {
+  const s = sessionStorage.getItem('of_admin');
+  if (!s) return;
+  const res = await fetch('/.netlify/functions/get-arquivo?secret=' + encodeURIComponent(s));
+  if (res.ok) { SECRET = s; carregar(await res.json()); }
+})();
+</script>
+</body>
+</html>
