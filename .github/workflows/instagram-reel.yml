@@ -36,8 +36,11 @@ jobs:
           npm install playwright@1.56.1
           npx playwright install --with-deps chromium
 
-      - name: Conferir ffmpeg (pré-instalado no runner)
-        run: ffmpeg -version | head -1
+      - name: Instalar ffmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+          ffmpeg -version | head -1
 
       - name: Publicar Reel no Instagram
         continue-on-error: true   # nunca derruba o pipeline

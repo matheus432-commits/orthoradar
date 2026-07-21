@@ -4,7 +4,7 @@
 const { test, describe } = require('node:test');
 const assert = require('node:assert/strict');
 
-const { computeTimings, findBoundaries, conceptSlug } = require('../reel-scenes');
+const { computeTimings, findBoundaries, conceptSlug, fallbackSegments, segmentScript, _extractJson } = require('../reel-scenes');
 
 const ROTEIRO =
   'Olá, dentista! Hoje vamos falar sobre cimentação de facetas cerâmicas. ' +
@@ -58,5 +58,37 @@ describe('reel-scenes — sincronia', () => {
     assert.equal(conceptSlug('Profilaxia da Faceta'), 'profilaxia-da-faceta');
     assert.equal(conceptSlug('Cimentação adesiva!'), 'cimentacao-adesiva');
     assert.equal(conceptSlug(''), 'cena-generica');
+  });
+});
+
+describe('reel-scenes — robustez da segmentação', () => {
+  test('extractJson tolera cercas ```json e texto ao redor', () => {
+    assert.deepEqual(_extractJson('bla ```json\n{"segmentos":[1,2,3]}\n``` fim'), { segmentos: [1, 2, 3] });
+    assert.deepEqual(_extractJson('{"segmentos":[{"a":{"b":1}}]}'), { segmentos: [{ a: { b: 1 } }] });
+    assert.equal(_extractJson('sem json aqui'), null);
+    assert.equal(_extractJson(''), null);
+  });
+
+  test('fallbackSegments: capa + cenas + outro cobrindo o roteiro', () => {
+    const rot = 'Bom dia, dentista. Hoje um estudo de endodontia. Os métodos compararam dois grupos. '
+      + 'Os resultados mostraram menos dor no grupo reciprocante. A relevância clínica é grande. Até amanhã.';
+    const segs = fallbackSegments(rot);
+    assert.ok(segs.length >= 3);
+    assert.equal(segs[0].tipo, 'capa');
+    assert.equal(segs[segs.length - 1].tipo, 'outro');
+    assert.ok(segs.slice(1, -1).every(s => s.tipo === 'cena'));
+    // sem "visual" → não chama o Imagen (cartão de texto)
+    assert.ok(segs.every(s => s.visual === ''));
+  });
+
+  test('fallbackSegments: roteiro curto demais → null', () => {
+    assert.equal(fallbackSegments('Uma frase só.'), null);
+  });
+
+  test('segmentScript sem chave cai no fallback determinístico', async () => {
+    const rot = 'Olá. Estudo um. Estudo dois. Estudo três. Conclusão. Tchau.';
+    const segs = await segmentScript(rot, { titulo: 'x' }, null);
+    assert.ok(Array.isArray(segs) && segs.length >= 3);
+    assert.equal(segs[0].tipo, 'capa');
   });
 });
