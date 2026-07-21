@@ -1,0 +1,27 @@
+# Sondagem do modelo de geração de imagens (diagnóstico do 404 do Imagen).
+# Dispara em PUSH que toque o script/este arquivo — permite iterar no
+# diagnóstico sem depender de cliques manuais no Actions. Não publica nada.
+name: Imagen Probe (diagnóstico)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/imagen-probe.js'
+      - '.github/workflows/imagen-test.yml'
+  workflow_dispatch:
+
+jobs:
+  probe:
+    name: Sondar modelos de imagem no Vertex
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Rodar sondagem
+        env:
+          GCP_SERVICE_ACCOUNT_JSON: ${{ secrets.GCP_SERVICE_ACCOUNT_JSON }}
+        run: node scripts/imagen-probe.js
