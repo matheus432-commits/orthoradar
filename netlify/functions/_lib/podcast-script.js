@@ -16,6 +16,7 @@
 
 const { request } = require('../_lib');
 const { MAX_REQUEST_BYTES, byteLength } = require('./tts-budget');
+const { corrigirTermosBR } = require('./claude');
 const log = require('./logger');
 
 const HOST = 'api.anthropic.com';
@@ -181,7 +182,9 @@ ${material.impacto ? `Relevância clínica: ${material.impacto}` : ''}`;
       const check = await verifyScriptFidelity(anthropicKey, material, roteiro);
       if (check.ok) {
         if (tentativa > 1) log.info('[podcast-script] aprovado na 2ª tentativa após correção');
-        return capScript(roteiro);
+        // Terminologia BR determinística (ex.: prostodontista→protesista) —
+        // o narrado deve soar como um professor brasileiro da área.
+        return capScript(corrigirTermosBR(roteiro));
       }
       log.warn('[podcast-script] roteiro REPROVADO pelo verificador de fidelidade', {
         pmid: article.pmid || article.id, tentativa, problemas: check.problemas.slice(0, 5),

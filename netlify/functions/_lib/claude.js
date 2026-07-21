@@ -66,6 +66,7 @@ function buildPrompt(article) {
     'QUALIDADE DE LINGUAGEM (obrigatória): use a terminologia odontológica consagrada no Brasil — ' +
     '"deciduous/primary teeth"→"dentes decíduos", "root canal treatment"→"tratamento endodôntico", ' +
     '"resin-based composite"→"resina composta", "survival rate"→"taxa de sobrevivência", ' +
+    '"prosthodontist"→"protesista" (NUNCA "prostodontista"), "general dentist"→"clínico geral", ' +
     '"randomized clinical trial"→"ensaio clínico randomizado". Nada de tradução literal palavra a palavra, ' +
     'anglicismos desnecessários ou frases que soem traduzidas; o texto deve ler como escrito por um ' +
     'professor brasileiro da área. Siglas: mantenha as consagradas (CBCT, RCT explicada) e traduza o resto.\n\n' +
@@ -101,6 +102,17 @@ function addCost(inputTokens, outputTokens) {
 
 function currentCost() { return _runCostUsd; }
 function resetCost()    { _runCostUsd = 0; }
+
+// Correções DETERMINÍSTICAS de terminologia BR — rede de segurança sobre a IA.
+// Ex.: "prostodontista"→"protesista" (o termo consagrado no Brasil para o
+// especialista em prótese). Preserva maiúscula inicial e plural.
+function corrigirTermosBR(s) {
+  if (!s) return s;
+  const cap = (repl, m) => (m[0] === m[0].toUpperCase() ? repl[0].toUpperCase() + repl.slice(1) : repl);
+  return String(s)
+    .replace(/prostodontistas/gi, m => cap('protesistas', m))
+    .replace(/prostodontista/gi,  m => cap('protesista', m));
+}
 
 // ── Core API call ─────────────────────────────────────────────────────────────
 
@@ -203,12 +215,12 @@ async function enrichArticle(article) {
   });
 
   return {
-    titulo_pt:         String(enriched.titulo_pt          || '').slice(0, 200),
-    resumo_pt:         String(enriched.resumo_pt           || '').slice(0, 2000),
-    impacto_pratico:   String(enriched.impacto_pratico     || '').slice(0, 500),
-    achados_principais: Array.isArray(enriched.achados_principais) ? enriched.achados_principais.slice(0, 5).map(String) : [],
+    titulo_pt:         corrigirTermosBR(String(enriched.titulo_pt || '').slice(0, 200)),
+    resumo_pt:         corrigirTermosBR(String(enriched.resumo_pt  || '').slice(0, 2000)),
+    impacto_pratico:   corrigirTermosBR(String(enriched.impacto_pratico || '').slice(0, 500)),
+    achados_principais: Array.isArray(enriched.achados_principais) ? enriched.achados_principais.slice(0, 5).map(x => corrigirTermosBR(String(x))) : [],
     nivel_evidencia:   EVIDENCE_LEVELS.includes(enriched.nivel_evidencia) ? enriched.nivel_evidencia : 'Revisão Narrativa',
-    limitacoes:        String(enriched.limitacoes          || '').slice(0, 500),
+    limitacoes:        corrigirTermosBR(String(enriched.limitacoes || '').slice(0, 500)),
     tempo_leitura:     Number.isInteger(enriched.tempo_leitura) ? enriched.tempo_leitura : 3,
     // concluido: "concluído, a menos que a IA diga explicitamente false" — se o
     // campo vier ausente, NÃO rejeitamos por aqui (evita perder artigos bons);
@@ -285,7 +297,7 @@ async function generateResumoCompleto(article) {
       log.warn('[claude] resumo_completo falhou', { pmid: article.pmid, err: err.message });
       return null;
     }
-    const texto = raw.text.trim().slice(0, 4000);
+    const texto = corrigirTermosBR(raw.text.trim().slice(0, 4000));
     const check = numbersConsistent(sourceText, texto);
     if (check.ok) return texto;
 
@@ -327,4 +339,4 @@ async function classifyEspecialidade(article) {
   }
 }
 
-module.exports = { enrichArticle, generateResumoCompleto, isResumoEstruturado, RESUMO_SECOES, classifyEspecialidade, CANONICAL_ESPECIALIDADES, currentCost, resetCost, MODEL };
+module.exports = { enrichArticle, generateResumoCompleto, isResumoEstruturado, RESUMO_SECOES, classifyEspecialidade, CANONICAL_ESPECIALIDADES, corrigirTermosBR, currentCost, resetCost, MODEL };
