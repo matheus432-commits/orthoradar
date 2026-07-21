@@ -53,7 +53,9 @@ async function generateIllustration(visualDesc) {
   }, body);
 
   if (res.status !== 200) {
-    log.warn('[imagen] geração falhou', { status: res.status, body: String(res.body || '').slice(0, 300) });
+    // Loga a conta de serviço em uso: o papel "Vertex AI User" precisa estar
+    // NESTA conta (a do GCP_SERVICE_ACCOUNT_JSON), não em outra do projeto.
+    log.warn('[imagen] geração falhou', { status: res.status, sa: sa.client_email, model: MODEL, body: String(res.body || '').slice(0, 300) });
     return { skipped: true, reason: 'api_error', status: res.status };
   }
 
