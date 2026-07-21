@@ -1,0 +1,27 @@
+# Sondagem de cadastros (diagnóstico) — quantos dentistas e quando entraram.
+# Dispara em push no script; imprime só agregados/datas (sem PII) no log.
+name: Stats Probe (cadastros)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/stats-probe.js'
+      - '.github/workflows/stats-probe.yml'
+  workflow_dispatch:
+
+jobs:
+  probe:
+    name: Contar cadastros
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Rodar sondagem
+        env:
+          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+          FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+        run: node scripts/stats-probe.js
