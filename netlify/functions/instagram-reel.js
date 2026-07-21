@@ -20,7 +20,7 @@ const os = require('os');
 const path = require('path');
 
 const { Firestore } = require('./_lib/firestore');
-const { scheduledForDate } = require('./_lib/weekly-schedule');
+const { especialidadeDoDia, corDe } = require('./_lib/especialidade-identidade');
 const { specialtySlug } = require('./_lib/slug');
 const { segmentScript, computeTimings, conceptSlug } = require('./_lib/reel-scenes');
 const { generateIllustration } = require('./_lib/imagen');
@@ -107,18 +107,12 @@ exports.handler = async () => {
       return { statusCode: 200, body: JSON.stringify({ skipped: true, reason: 'already_posted', mediaId: already.mediaId }) };
     }
 
-    // Episódio do dia: tenta as especialidades do rodízio, na ordem.
-    const especialidades = scheduledForDate(dateStr);
-    let ep = null, especialidade = null;
-    for (const e of especialidades) {
-      const doc = await db.getDoc('podcast_episodios', `${specialtySlug(e)}_${dateStr}_ep1`).catch(() => null);
-      if (doc?.roteiro && doc?.objectPath && doc?.downloadToken && Number(doc.secs) > 0) {
-        ep = doc; especialidade = e; break;
-      }
-    }
-    if (!ep) {
-      log.info('[reel] sem episódio com roteiro hoje (domingo ou transição)', { dateStr, especialidades });
-      return { statusCode: 200, body: JSON.stringify({ skipped: true, reason: 'no_episode_with_script' }) };
+    // Especialidade do dia (ciclo fixo das 11 — mesma do carrossel).
+    const especialidade = especialidadeDoDia(dateStr);
+    const ep = await db.getDoc('podcast_episodios', `${specialtySlug(especialidade)}_${dateStr}_ep1`).catch(() => null);
+    if (!ep?.roteiro || !ep?.objectPath || !ep?.downloadToken || !(Number(ep.secs) > 0)) {
+      log.info('[reel] sem episódio com roteiro p/ a especialidade do dia', { dateStr, especialidade });
+      return { statusCode: 200, body: JSON.stringify({ skipped: true, reason: 'no_episode_with_script', especialidade }) };
     }
 
     // Cenas + sincronia.
@@ -137,9 +131,10 @@ exports.handler = async () => {
       }
     }
 
-    // Frames → PNGs → vídeo com o áudio real.
+    // Frames → PNGs → vídeo com o áudio real (capa na cor da especialidade).
     const { html, totalFrames } = buildReelHtml({
-      especialidade, tituloEstudo: ep.titulo, dataLonga: dateBrLong(dateStr), cenas,
+      especialidade, cor: corDe(especialidade), tituloEstudo: ep.titulo,
+      dataLonga: dateBrLong(dateStr), cenas,
     });
     const frames = await renderCarousel(html, totalFrames, { width: REEL_W, height: REEL_H, type: 'png' });
 

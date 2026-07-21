@@ -24,11 +24,14 @@ describe('instagram-slides — carrossel diário', () => {
     assert.equal(totalSlides, 5); // 1 capa + 3 estudos + 1 CTA
   });
 
-  test('capa mostra a data e a contagem de estudos', () => {
-    const { html } = buildDailyCarouselHtml(articles, { dateStr: '2026-07-20' });
+  test('capa mostra a data, a especialidade em destaque e a contagem de estudos', () => {
+    const { html } = buildDailyCarouselHtml(articles, { dateStr: '2026-07-20', especialidade: 'Endodontia' });
     assert.ok(html.includes('20 de julho'));
     assert.ok(html.includes('3 estudos selecionados'));
-    assert.ok(html.includes('Ciência do dia'));
+    // Nome da especialidade grande na capa + cor-assinatura aplicada
+    assert.ok(/<div class="esp serif"[^>]*>Endodontia<\/div>/.test(html));
+    assert.ok(html.includes('#FFB020')); // âmbar da Endodontia
+    assert.ok(html.includes('Edição de'));
   });
 
   test('cada estudo aparece com título, especialidade e nível de evidência', () => {

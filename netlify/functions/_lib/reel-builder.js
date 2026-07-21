@@ -10,6 +10,7 @@ const os = require('os');
 const path = require('path');
 const { execFileSync } = require('child_process');
 const { escapeHtml } = require('./utils');
+const { corDe, capaFontPx } = require('./especialidade-identidade');
 const log = require('./logger');
 
 const FFMPEG = process.env.FFMPEG_PATH || 'ffmpeg';
@@ -22,15 +23,19 @@ function tooth(w, tc, wc) { return `<svg style="width:${w}px" viewBox="0 0 130 1
 
 // cenas: [{ tipo:'capa'|'cena'|'outro', rotulo, frase, imgSrc }] — imgSrc é a
 // URL pública (ou data URI) da ilustração; capa/outro não usam imagem.
-function buildReelHtml({ especialidade, tituloEstudo, dataLonga, cenas }) {
+function buildReelHtml({ especialidade, cor, tituloEstudo, dataLonga, cenas }) {
   const meio = cenas.filter(c => c.tipo === 'cena');
+  const accent = cor || corDe(especialidade);
 
+  // Capa: NOME da especialidade em destaque, na cor-assinatura (reconhecimento
+  // no feed); a palavra fantasma ao fundo reforça a identidade.
   const cover = `<div class="f cover">
-    <div class="topline">${tooth(64, '#37D7E7', '#EABF48')}<div class="word"><span class="a">Odonto</span><span class="b">Feed.</span></div></div>
+    <div class="ghost" style="color:${accent}14;">${escapeHtml(String(especialidade || '').toUpperCase())}</div>
+    <div class="topline">${tooth(60, '#37D7E7', '#EABF48')}<div class="word"><span class="a">Odonto</span><span class="b">Feed.</span></div></div>
     <div class="cov-mid">
-      <div class="kicker">${escapeHtml(especialidade)} · ${escapeHtml(dataLonga || 'Edição de hoje')}</div>
-      <div class="title">${escapeHtml(tituloEstudo || '')}</div>
-      <div class="rule"></div>
+      <div class="kicker">Edição de ${escapeHtml(dataLonga || 'hoje')}</div>
+      <div class="esp" style="color:${accent};font-size:${capaFontPx(especialidade)}px;">${escapeHtml(especialidade)}</div>
+      <div class="rule" style="background:${accent};"></div>
       <div class="meta">🎧 Narrado · acompanhe cada passo</div>
     </div>
     <div class="cov-foot">odontofeed.com</div>
@@ -61,14 +66,17 @@ body{background:#000;font-family:'DM Sans',sans-serif;}
 .carousel-track{display:flex;}
 .f{width:${W}px;height:${H}px;flex:0 0 ${W}px;position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;text-align:center;padding:120px 90px;color:#EAF2F5;
   background:radial-gradient(120% 70% at 50% 0%,#17233b 0%,#0d1526 55%,#0A0E1A 100%);}
-.word,.title,.o-title,.kicker,.s-rotulo,.s-frase{font-family:'Space Grotesk',sans-serif;}
+.word,.title,.o-title,.kicker,.s-rotulo,.s-frase,.esp{font-family:'Space Grotesk',sans-serif;}
 .cover{justify-content:space-between;}
-.topline{display:flex;flex-direction:column;align-items:center;gap:20px;}
+.cover .ghost{position:absolute;top:46%;left:50%;transform:translate(-50%,-50%) rotate(-8deg);font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:230px;white-space:nowrap;letter-spacing:-6px;z-index:0;}
+.topline{display:flex;flex-direction:column;align-items:center;gap:20px;z-index:2;}
 .word{font-size:64px;letter-spacing:-2px;font-weight:600;}.word .a{color:#EAF2F5;}.word .b{color:#37D7E7;font-weight:700;}
-.cov-mid{display:flex;flex-direction:column;align-items:center;gap:24px;}
+.cov-mid{display:flex;flex-direction:column;align-items:center;gap:24px;z-index:2;}
 .kicker{font-size:34px;letter-spacing:5px;text-transform:uppercase;color:#EABF48;font-weight:600;}
+.esp{font-weight:700;letter-spacing:-2px;line-height:.95;}
 .title{font-size:76px;font-weight:700;letter-spacing:-1.5px;line-height:1.1;color:#EAF2F5;max-width:900px;}
 .rule{width:140px;height:8px;background:#EABF48;border-radius:5px;}
+.cover .cov-foot{z-index:2;}
 .meta{font-size:38px;color:rgba(234,242,245,.8);}
 .cov-foot{font-size:32px;letter-spacing:4px;text-transform:uppercase;color:rgba(234,242,245,.5);}
 .scene{justify-content:space-between;padding-top:150px;}
