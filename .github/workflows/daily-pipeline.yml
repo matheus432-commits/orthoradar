@@ -172,3 +172,14 @@ jobs:
           GCP_SERVICE_ACCOUNT_JSON: ${{ secrets.GCP_SERVICE_ACCOUNT_JSON }}
           GCS_BUCKET:               ${{ secrets.GCS_BUCKET }}
         run: node netlify/functions/generate-podcasts.js
+
+      # Auditoria de qualidade (22/07): reprova em vermelho artigo sem
+      # enriquecimento na edição, áudio "casca vazia" (<40s) e roteiro de
+      # comparação sem VEREDITO. Vermelho aqui = problema visível no mesmo
+      # dia, sem depender do fundador ouvir o episódio.
+      - name: Auditar qualidade da edição
+        env:
+          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+          FIREBASE_API_KEY:    ${{ secrets.FIREBASE_API_KEY }}
+          ANTHROPIC_API_KEY:   ${{ secrets.ANTHROPIC_API_KEY }}
+        run: node scripts/audit-edicao.js
