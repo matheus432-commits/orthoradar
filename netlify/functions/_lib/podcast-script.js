@@ -130,7 +130,12 @@ ${roteiro}`;
     let raw = await callModel(anthropicKey, VERIFY_MODEL, system, user, 400);
     if (!raw) return { ok: false, problemas: ['verificador indisponível'] };
     if (raw.startsWith('```')) raw = raw.replace(/^```[a-z]*\n?/, '').replace(/\n?```$/, '').trim();
-    const parsed = JSON.parse(raw);
+    // Parse TOLERANTE: o modelo às vezes anexa texto após o JSON ("{...} Nota:")
+    // — recorta do primeiro '{' ao '}' balanceado antes de parsear (incidente
+    // 22/07: parse quebrava e derrubava roteiro bom para o fallback).
+    const ini = raw.indexOf('{');
+    const fim = raw.lastIndexOf('}');
+    const parsed = JSON.parse(ini >= 0 && fim > ini ? raw.slice(ini, fim + 1) : raw);
     return { ok: parsed.aprovado === true, problemas: Array.isArray(parsed.problemas) ? parsed.problemas : [] };
   } catch (err) {
     log.warn('[podcast-script] verificador falhou — fail-closed', { err: err.message });
