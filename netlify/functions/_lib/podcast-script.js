@@ -43,6 +43,17 @@ function capScript(text) {
   return (lastStop > lo * 0.6 ? cut.slice(0, lastStop + 1) : cut).trim();
 }
 
+// Há material suficiente para NARRAR? Sem resumo próprio substancial (ou ao
+// menos 2 achados), não existe episódio possível — narrar só a saudação gerou
+// o áudio de 24s de 15/07 ("não trouxe nada sobre o artigo"). O chamador deve
+// PULAR o episódio quando isto retornar false.
+function hasNarratableMaterial(article) {
+  const resumo  = String(article.resumo_completo || article.resumo_pt || '').trim();
+  const achados = Array.isArray(article.achados_principais) ? article.achados_principais.filter(Boolean) : [];
+  const temTituloPt = String(article.titulo_pt || '').trim().length >= 10;
+  return temTituloPt && (resumo.length >= 200 || achados.length >= 2);
+}
+
 function fallbackScript(article, especialidade) {
   const titulo  = article.titulo_pt || article.titulo || 'um estudo recente';
   const impacto = (article.impacto_pratico || '').trim();
@@ -99,8 +110,9 @@ Compare o ROTEIRO com o MATERIAL-FONTE e REPROVE se o roteiro:
 1. Afirmar um OBJETIVO diferente do que o estudo declara (ex.: dizer que avaliou eficácia quando o estudo mediu placa/dor/intercorrências);
 2. Enunciar RESULTADOS ou CONCLUSÕES que não constam no material — atenção especial a PROTOCOLOS de estudo (ainda sem resultados): apresentá-los como estudo concluído é reprovação automática;
 3. Citar números que não estão no material;
-4. Atribuir ao estudo comparações, populações ou desfechos que ele não tem.
-Reformulação de estilo/linguagem NÃO é motivo de reprovação — apenas infidelidade de CONTEÚDO.
+4. Atribuir ao estudo comparações, populações ou desfechos que ele não tem;
+5. OMITIR O VEREDITO de uma comparação: se o material (abstract/resumo/achados) INDICA qual grupo, técnica ou material foi MELHOR ou PIOR em um desfecho, e o roteiro diz apenas que "houve diferença" (ou equivalente) SEM nomear o vencedor daquele desfecho, REPROVE e liste no problema qual desfecho ficou sem veredito e qual é a direção correta segundo o material.
+Reformulação de estilo/linguagem NÃO é motivo de reprovação — apenas infidelidade de CONTEÚDO ou omissão de veredito (regra 5).
 Responda APENAS com JSON válido: {"aprovado": true|false, "problemas": ["descrição curta de cada problema"]}`;
 
   const user =
@@ -159,6 +171,14 @@ ${fixNote}` : ''}`;
 }
 
 async function generateScript(article, especialidade, anthropicKey, opts = {}) {
+  // Sem material narratável não há episódio — retorna null e o chamador pula.
+  if (!hasNarratableMaterial(article)) {
+    log.warn('[podcast-script] artigo SEM material narratável (não enriquecido?) — sem roteiro', {
+      pmid: article.pmid || article.id, titulo: String(article.titulo || article.titulo_pt || '').slice(0, 70),
+    });
+    return null;
+  }
+
   const sponsorText = (opts.sponsorText || '').trim();
   if (!anthropicKey) {
     const base = fallbackScript(article, especialidade);
@@ -166,10 +186,15 @@ async function generateScript(article, especialidade, anthropicKey, opts = {}) {
   }
 
   const material = buildMaterial(article);
+  // O abstract original entra como CONTEXTO FACTUAL (nunca para tradução
+  // literal): é nele que está a DIREÇÃO dos resultados (qual grupo venceu) —
+  // sem ele o roteiro não tinha como declarar o veredito quando o resumo
+  // editorial vinha vago (bug recorrente 20-21/07).
   const user =
 `Artigo (${material.nivel}):
 Título: ${material.titulo}
 Resumo: ${material.resumo}
+${material.abstract ? `Abstract original (APENAS contexto factual — proibido traduzir/reproduzir literalmente; use-o para números e para a DIREÇÃO dos resultados):\n${material.abstract}` : ''}
 ${material.achados.length ? `Principais achados/resultados listados no material:\n- ${material.achados.join('\n- ')}` : 'Achados/resultados listados: (nenhum — se o material não trouxer resultados, trate como estudo sem resultados)'}
 ${material.impacto ? `Relevância clínica: ${material.impacto}` : ''}`;
 
@@ -200,4 +225,4 @@ ${material.impacto ? `Relevância clínica: ${material.impacto}` : ''}`;
   return capScript(fallbackScript(article, especialidade));
 }
 
-module.exports = { generateScript, capScript, verifyScriptFidelity, buildMaterial };
+module.exports = { generateScript, capScript, verifyScriptFidelity, buildMaterial, hasNarratableMaterial };

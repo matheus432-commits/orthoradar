@@ -207,11 +207,21 @@ async function main() {
           const script = await generateScript(art, esp, anthropicKey, {
             sponsorText: i === 0 ? (anuncio?.textoPodcast || null) : null, // patrocínio só no 1º episódio
           });
+          // Sem material narratável → sem episódio (nunca publicar áudio "casca
+          // vazia" de segundos — incidente 15/07, áudio de 24s sem conteúdo).
+          if (!script) { log.warn('[podcasts] episódio pulado — sem roteiro (artigo sem material)', { esp, ep: i + 1, artigo: art.pmid || art.id }); continue; }
 
           const tts = await synthesize(db, { text: script });
           if (!tts.ok) { log.warn('[podcasts] TTS pulado', { esp, ep: i + 1, reason: tts.reason }); continue; }
 
           const audio = Buffer.from(tts.audioBase64, 'base64');
+          // Cinto e suspensório: áudio anormalmente curto (<40s) = narração sem
+          // conteúdo real; descarta em vez de publicar.
+          const secsCheck = mp3DurationSecs(audio);
+          if (secsCheck > 0 && secsCheck < 40) {
+            log.warn('[podcasts] áudio curto demais — descartado', { esp, ep: i + 1, secs: secsCheck, artigo: art.pmid || art.id });
+            continue;
+          }
           // Path datado: o áudio de cada dia é um objeto próprio — o de ontem
           // continua válido p/ o feed RSS (Spotify) até a retenção limpar.
           const path  = `podcasts/${s}/${today}/ep${i + 1}.mp3`;
