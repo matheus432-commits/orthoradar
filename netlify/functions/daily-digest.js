@@ -1079,6 +1079,38 @@ async function main() {
         }
       }
     }
+
+    // ── ESPECIALIDADES SÓ-SECUNDÁRIAS (diretriz 22/07) ───────────────────────
+    // Até 3 especialidades por cadastro: uma especialidade escolhida APENAS como
+    // secundária (ninguém a tem como principal) não entra nos grupos acima e,
+    // sem isto, não teria edição gerada — a área de membro desse dentista veria
+    // conteúdo vazio/velho. A inscrição secundária é o GATILHO: construímos e
+    // PERSISTIMOS o digest dela também (mesmo cache digests_especialidade que o
+    // site lê), porém SEM enviar e-mail (o e-mail continua sendo só o da
+    // principal). O áudio dessas especialidades já é gerado pelo generate-podcasts,
+    // que usa a mesma união (principal + secundárias).
+    const todasEspecialidades = new Set();
+    for (const u of users) for (const e of (u.especialidades || [])) if (e) todasEspecialidades.add(e);
+    const secundariasSemPrincipal = [...todasEspecialidades].filter(e => !groups.has(e));
+
+    if (secundariasSemPrincipal.length) {
+      console.log(`\n[ESP SECUNDÁRIAS] ${secundariasSemPrincipal.length} sem inscrito principal — gerando edição (sem e-mail): ${secundariasSemPrincipal.join(', ')}`);
+      log.info('[digest] gerando edições de especialidades só-secundárias', { especialidades: secundariasSemPrincipal });
+      for (const especialidade of secundariasSemPrincipal) {
+        try {
+          const espDigest = await withTimeout(
+            buildEspDigest(db, especialidade, anthropicKey, dateStr),
+            USER_TIMEOUT_MS * 2,
+            `esp-sec:${especialidade}`
+          );
+          console.log(espDigest
+            ? `[ESP SECUNDÁRIA OK] ${especialidade} — edição gerada e persistida`
+            : `[ESP SECUNDÁRIA SKIP] ${especialidade} — sem conteúdo suficiente hoje`);
+        } catch (err) {
+          log.error('[digest][ESP-SEC] buildEspDigest falhou', { especialidade, err: err.message });
+        }
+      }
+    }
   } finally {
     // ── FINALIZE — always runs, even on exception ─────────────────────────────
     const elapsed = ((Date.now() - start) / 1000).toFixed(1);
