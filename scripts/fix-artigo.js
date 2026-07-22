@@ -19,28 +19,30 @@ const { uploadMp3 } = require('../netlify/functions/_lib/storage');
 const { mp3DurationSecs } = require('../netlify/functions/_lib/mp3');
 const { specialtySlug, espDigestSlug } = require('../netlify/functions/_lib/slug');
 
-const QUERY = (process.env.FIX_QUERY || 'arch width changes following first premolar').toLowerCase();
-const ESP   = process.env.FIX_ESP || 'Ortodontia';
+// Alvos: FIX_TARGETS (JSON [{q, esp}, ...]) ou FIX_QUERY/FIX_ESP (um só).
+function targets() {
+  if (process.env.FIX_TARGETS) {
+    try { return JSON.parse(process.env.FIX_TARGETS).map(t => ({ q: String(t.q).toLowerCase(), esp: t.esp })); }
+    catch { /* cai no single */ }
+  }
+  return [{ q: (process.env.FIX_QUERY || '').toLowerCase(), esp: process.env.FIX_ESP || 'Ortodontia' }];
+}
 
-(async () => {
-  const projectId = process.env.FIREBASE_PROJECT_ID || 'orthoradar';
-  const apiKey = process.env.FIREBASE_API_KEY;
-  if (!apiKey || !process.env.ANTHROPIC_API_KEY) { console.log('FALTAM_SECRETS'); process.exit(1); }
-  const db = new Firestore(projectId, apiKey);
+async function fixOne(db, QUERY, ESP) {
 
   // 1. Localizar o artigo pelo trecho do título.
   const candidatos = await db.query('artigos', { limit: 3000 });
   const alvo = candidatos.find(a =>
     String(a.titulo || a.title || '').toLowerCase().includes(QUERY) ||
     String(a.titulo_pt || '').toLowerCase().includes(QUERY));
-  if (!alvo) { console.log('ARTIGO_NAO_ENCONTRADO para:', QUERY); process.exit(1); }
+  if (!alvo) { console.log('ARTIGO_NAO_ENCONTRADO para:', QUERY); return false; }
   const pmid = String(alvo.pmid || alvo.id);
   console.log('ARTIGO:', pmid, '|', String(alvo.titulo || '').slice(0, 90));
   console.log('estado atual: titulo_pt?', !!alvo.titulo_pt, '| resumo_pt chars:', String(alvo.resumo_pt || '').length);
 
   // 2. Enriquecer (traduz título, resumo com veredito, achados, nível).
   const enriched = await enrichArticle(alvo);
-  if (!enriched?.titulo_pt) { console.log('ENRIQUECIMENTO_FALHOU'); process.exit(1); }
+  if (!enriched?.titulo_pt) { console.log('ENRIQUECIMENTO_FALHOU'); return false; }
   await db.updateDoc('artigos', alvo.id, {
     titulo_pt: enriched.titulo_pt,
     resumo_pt: enriched.resumo_pt,
@@ -80,19 +82,19 @@ const ESP   = process.env.FIX_ESP || 'Ortodontia';
 
   // 4. Roteiro + áudio novos (regras novas: abstract na geração + veredito).
   const roteiro = await generateScript(artigoAtualizado, ESP, process.env.ANTHROPIC_API_KEY);
-  if (!roteiro) { console.log('SEM_ROTEIRO (material insuficiente mesmo após enriquecer)'); process.exit(1); }
+  if (!roteiro) { console.log('SEM_ROTEIRO (material insuficiente mesmo após enriquecer)'); return false; }
   console.log('ROTEIRO:', roteiro.length, 'chars |', roteiro.slice(0, 140).replace(/\n/g, ' '), '…');
 
   const tts = await synthesize(db, { text: roteiro });
-  if (!tts.ok) { console.log('TTS_FALHOU:', tts.reason); process.exit(1); }
+  if (!tts.ok) { console.log('TTS_FALHOU:', tts.reason); return false; }
   const audio = Buffer.from(tts.audioBase64, 'base64');
   const secs = mp3DurationSecs(audio);
   console.log('AUDIO NOVO:', audio.length, 'bytes |', secs, 's');
-  if (secs < 40) { console.log('AUDIO_AINDA_CURTO — abortando sem publicar'); process.exit(1); }
+  if (secs < 40) { console.log('AUDIO_AINDA_CURTO — abortando sem publicar'); return false; }
 
   const objectPath = `podcasts/fixes/${pmid}-${Date.now()}.mp3`;
   const up = await uploadMp3(objectPath, audio);
-  if (!up.ok) { console.log('UPLOAD_FALHOU:', up.reason); process.exit(1); }
+  if (!up.ok) { console.log('UPLOAD_FALHOU:', up.reason); return false; }
 
   // 5. Atualizar todas as referências de áudio deste artigo.
   const patch = { objectPath, downloadToken: up.downloadToken, bytes: audio.length, secs, roteiro, titulo: enriched.titulo_pt };
@@ -125,5 +127,20 @@ const ESP   = process.env.FIX_ESP || 'Ortodontia';
   }
 
   console.log(refs ? `OK — ${refs} referência(s) de áudio atualizadas.` :
-    'OK — artigo corrigido; nenhuma referência de áudio antiga encontrada (o player que mostrava 24s passará a 404 ou já expirou; o card agora tem título/resumo corretos).');
-})().catch(e => { console.error('ERRO', e.message); process.exit(1); });
+    'OK — artigo corrigido; nenhuma referência de áudio antiga encontrada (o card agora tem título/resumo corretos).');
+  return true;
+}
+
+(async () => {
+  const projectId = process.env.FIREBASE_PROJECT_ID || 'orthoradar';
+  const apiKey = process.env.FIREBASE_API_KEY;
+  if (!apiKey || !process.env.ANTHROPIC_API_KEY) { console.log('FALTAM_SECRETS'); process.exit(1); }
+  const db = new Firestore(projectId, apiKey);
+  let falhas = 0;
+  for (const t of targets()) {
+    console.log(`\n===== ALVO: "${t.q}" (${t.esp}) =====`);
+    const ok = await fixOne(db, t.q, t.esp).catch(e => { console.error('ERRO', e.message); return false; });
+    if (!ok) falhas++;
+  }
+  process.exit(falhas ? 1 : 0);
+})();

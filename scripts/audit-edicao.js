@@ -26,8 +26,13 @@ async function haiku(key, system, user) {
   if (res.status !== 200) return null;
   let text = JSON.parse(res.body).content?.[0]?.text?.trim() || '';
   if (text.startsWith('```')) text = text.replace(/^```[a-z]*\n?/, '').replace(/\n?```$/, '').trim();
-  try { return JSON.parse(text); } catch { return null; }
+  // Parse tolerante: recorta do primeiro '{' ao último '}' (o modelo às vezes
+  // anexa texto ao redor do JSON).
+  const ini = text.indexOf('{'), fim = text.lastIndexOf('}');
+  try { return JSON.parse(ini >= 0 && fim > ini ? text.slice(ini, fim + 1) : text); } catch { return null; }
 }
+
+const pausa = (ms) => new Promise(r => setTimeout(r, ms));
 
 (async () => {
   const projectId = process.env.FIREBASE_PROJECT_ID || 'orthoradar';
@@ -64,6 +69,7 @@ async function haiku(key, system, user) {
 
     // C. Veredito: só roteiros que falam de comparação/diferença.
     if (anthropicKey && /(diferen|compar|versus|\bvs\b|superior|inferior)/i.test(e.roteiro)) {
+      await pausa(1200); // respeita o limite por minuto do modelo
       const veredito = await haiku(anthropicKey,
         'Você audita roteiros de podcast científico odontológico. Responda APENAS JSON: {"ok": true|false, "problemas": ["..."]}. ' +
         'ok=false SOMENTE se o roteiro afirmar que houve diferença/comparação entre grupos, técnicas ou materiais e NÃO disser qual lado foi MELHOR ou PIOR naquele desfecho. ' +

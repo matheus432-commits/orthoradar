@@ -29,6 +29,5 @@ jobs:
           GCS_BUCKET:               ${{ secrets.GCS_BUCKET }}
           GOOGLE_TTS_API_KEY:       ${{ secrets.GOOGLE_TTS_API_KEY }}
           ANTHROPIC_API_KEY:        ${{ secrets.ANTHROPIC_API_KEY }}
-          FIX_QUERY: 'restorative materials for direct coronal'
-          FIX_ESP: 'Prótese'
+          FIX_TARGETS: '[{"q":"arch width changes following first premolar","esp":"Ortodontia"},{"q":"digital evaluation with abo ecre","esp":"Ortodontia"}]'
         run: node scripts/fix-artigo.js
