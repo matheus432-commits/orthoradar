@@ -18,7 +18,9 @@ const { Firestore } = require('./_lib/firestore');
 const { checkAdmin } = require('./_lib/admin-guard');
 const { generateScript } = require('./_lib/podcast-script');
 const { synthesize } = require('./_lib/tts');
-const { uploadMp3, deleteObject, copyObject } = require('./_lib/storage');
+// DIRETRIZ 22/07: nenhum objeto de áudio é deletado do Storage (acervo da
+// futura biblioteca pública) — por isso não importamos deleteObject.
+const { uploadMp3 } = require('./_lib/storage');
 const { billableChars } = require('./_lib/tts-budget');
 const { mp3DurationSecs, mp3Silence } = require('./_lib/mp3');
 const { specialtySlug: slug, espDigestSlug } = require('./_lib/slug');
@@ -53,28 +55,26 @@ async function activeSpecialties(db) {
 
 // Remove podcasts de especialidades sem usuário ativo — invalida os tokens de
 // download órfãos. Apaga TODOS os objetos do doc (episódios + legado) antes do doc.
+// DIRETRIZ 22/07 (fundador): NUNCA apagar áudios/resumos — tudo fica
+// armazenado para a futura biblioteca pública. A "limpeza" remove apenas o
+// PONTEIRO diário (doc podcasts/{slug}) de especialidade sem usuário ativo;
+// os episódios continuam em podcast_episodios/podcast_arquivo e os MP3
+// permanecem intactos no Storage.
 async function cleanupStale(db, activeSlugs) {
   let existing = [];
   try { existing = await db.query('podcasts', { limit: 200 }); } catch { return; }
   for (const doc of existing) {
     if (!doc.id || activeSlugs.has(doc.id)) continue;
-    const paths = [
-      ...(Array.isArray(doc.episodios) ? doc.episodios.map(e => e.objectPath) : []),
-      doc.compilado?.objectPath,
-      doc.objectPath,
-    ].filter(Boolean);
-    let allDeleted = true;
-    for (const p of paths) {
-      const del = await deleteObject(p).catch(() => ({ ok: false }));
-      if (!del.ok) { allDeleted = false; log.warn('[podcasts] delete do objeto falhou — mantendo doc p/ retry', { slug: doc.id, path: p }); }
-    }
-    if (!allDeleted) continue;
     await db.deleteDoc('podcasts', doc.id).catch(() => {});
-    log.info('[podcasts] limpeza — especialidade sem usuário ativo', { slug: doc.id });
+    log.info('[podcasts] ponteiro diário removido (áudios preservados)', { slug: doc.id });
   }
 }
 
-// Remove episódios além da retenção (objeto no Storage + doc no histórico).
+// ARQUIVA episódios além da janela do feed. DIRETRIZ 22/07 (fundador): NADA é
+// apagado — nem doc, nem áudio no Storage. O episódio antigo apenas MUDA de
+// coleção (podcast_episodios → podcast_arquivo, mesmo id/campos), mantendo a
+// coleção "quente" pequena para as queries do feed RSS. O acervo completo
+// (podcast_arquivo + Storage intacto) alimentará a futura biblioteca pública.
 // Best-effort: falha aqui nunca bloqueia a geração do dia.
 async function cleanupOldEpisodes(db) {
   const cutoff = new Date(Date.now() - RETENTION_DAYS * 86400000).toISOString().slice(0, 10);
@@ -85,42 +85,21 @@ async function cleanupOldEpisodes(db) {
       limit: 300,
     });
   } catch (err) {
-    log.warn('[podcasts] retenção — query falhou', { err: err.message });
+    log.warn('[podcasts] arquivamento — query falhou', { err: err.message });
     return;
   }
   for (const ep of old) {
     if (!ep.id) continue;
-    // Artigo salvo em alguma biblioteca? PRESERVA o áudio antes de limpar:
-    // copia para podcasts/salvos/{artigoId}.mp3 (acervo permanente, com token
-    // novo) e registra em podcast_salvos — o "Ouvir resumo" dos Salvos nunca
-    // morre. Se a cópia falhar, mantém o episódio para retry na próxima rodada.
-    if (ep.objectPath && ep.artigoId && ep.tipo !== 'completo') {
-      const saved = await db.query('biblioteca_itens', {
-        where: { fieldFilter: { field: { fieldPath: 'pmid' }, op: 'EQUAL', value: { stringValue: String(ep.artigoId) } } },
-        limit: 1,
-      }).catch(() => []);
-      if (saved.length) {
-        const jaPreservado = await db.getDoc('podcast_salvos', String(ep.artigoId)).catch(() => null);
-        if (!jaPreservado) {
-          const dest = `podcasts/salvos/${ep.artigoId}.mp3`;
-          const cp = await copyObject(ep.objectPath, dest).catch(() => ({ ok: false }));
-          if (!cp.ok) { log.warn('[podcasts] retenção — preservação falhou, mantendo p/ retry', { ep: ep.id }); continue; }
-          await db.setDoc('podcast_salvos', String(ep.artigoId), {
-            objectPath: dest, downloadToken: cp.downloadToken,
-            secs: ep.secs || 0, bytes: ep.bytes || 0,
-            titulo: ep.titulo || '', origem: ep.id, criadoEm: new Date().toISOString(),
-          }).catch(() => {});
-          log.info('[podcasts] retenção — áudio preservado (artigo salvo)', { artigoId: ep.artigoId });
-        }
-      }
-    }
-    if (ep.objectPath) {
-      const del = await deleteObject(ep.objectPath).catch(() => ({ ok: false }));
-      if (!del.ok) { log.warn('[podcasts] retenção — delete falhou, mantendo doc p/ retry', { path: ep.objectPath }); continue; }
-    }
-    await db.deleteDoc('podcast_episodios', ep.id).catch(() => {});
+    // 1. Copia o doc inteiro para o ARQUIVO permanente (id preservado).
+    const { id, ...campos } = ep;
+    const arq = await db.setDoc('podcast_arquivo', id, {
+      ...campos, arquivadoEm: new Date().toISOString(),
+    }).then(() => true).catch(e => { log.warn('[podcasts] arquivamento falhou — mantendo p/ retry', { ep: id, err: e.message }); return false; });
+    if (!arq) continue;
+    // 2. Só então remove da coleção quente. O MP3 no Storage fica intocado.
+    await db.deleteDoc('podcast_episodios', id).catch(() => {});
   }
-  if (old.length) log.info('[podcasts] retenção aplicada', { cutoff, candidatos: old.length });
+  if (old.length) log.info('[podcasts] arquivamento aplicado (nada apagado)', { cutoff, movidos: old.length });
 }
 
 // Artigos do dia: a edição compartilhada (mesma que o e-mail e a /edicao.html).
