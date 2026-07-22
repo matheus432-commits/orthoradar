@@ -225,6 +225,17 @@ ${material.impacto ? `Relevância clínica: ${material.impacto}` : ''}`;
     log.warn('[podcast-script] falha, usando fallback', { err: err.message });
   }
 
+  // MODO ESTRITO (correções pontuais): NÃO cai no fallback determinístico —
+  // se a fidelidade não foi confirmada (timeout da API, verificador indisponível
+  // ou 2 reprovações), retorna null para o chamador ABORTAR sem publicar. Isso
+  // impede que uma correção republique um roteiro sem veredito (incidente 22/07:
+  // o FORCE_REGEN degradou p/ fallback em timeout e reintroduziu "houve diferença"
+  // sem dizer quem venceu).
+  if (opts.strict) {
+    log.warn('[podcast-script] STRICT — fidelidade não confirmada, retornando null (sem fallback)', { pmid: article.pmid || article.id });
+    return null;
+  }
+
   // FAIL-CLOSED: sem roteiro aprovado, narra apenas o material próprio, sem criação.
   log.warn('[podcast-script] usando fallback determinístico (fidelidade não confirmada)', { pmid: article.pmid || article.id });
   return capScript(fallbackScript(article, especialidade));

@@ -81,8 +81,15 @@ async function fixOne(db, QUERY, ESP) {
   } catch (e) { console.log('RESUMO_COMPLETO falhou:', e.message); }
 
   // 4. Roteiro + áudio novos (regras novas: abstract na geração + veredito).
-  const roteiro = await generateScript(artigoAtualizado, ESP, process.env.ANTHROPIC_API_KEY);
-  if (!roteiro) { console.log('SEM_ROTEIRO (material insuficiente mesmo após enriquecer)'); return false; }
+  //    STRICT: nunca aceita o fallback determinístico — o roteiro TEM de passar
+  //    pelo verificador de fidelidade (com veredito). Em timeout da API, tenta
+  //    de novo (até 3x) em vez de publicar algo sem veredito.
+  let roteiro = null;
+  for (let tentativa = 1; tentativa <= 3 && !roteiro; tentativa++) {
+    roteiro = await generateScript(artigoAtualizado, ESP, process.env.ANTHROPIC_API_KEY, { strict: true });
+    if (!roteiro) console.log(`ROTEIRO tentativa ${tentativa}/3 sem confirmação de fidelidade — ${tentativa < 3 ? 'repetindo' : 'desistindo'}`);
+  }
+  if (!roteiro) { console.log('SEM_ROTEIRO (fidelidade não confirmada após 3 tentativas — nada publicado)'); return false; }
   console.log('ROTEIRO:', roteiro.length, 'chars |', roteiro.slice(0, 140).replace(/\n/g, ' '), '…');
 
   const tts = await synthesize(db, { text: roteiro });
