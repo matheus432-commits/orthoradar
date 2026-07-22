@@ -17,6 +17,7 @@ const { espDigestSlug, specialtySlug } = require('./_lib/slug');
 const { resolveArticleUrl } = require('./_lib/email-template');
 const { firebaseDownloadUrl } = require('./_lib/storage');
 const { isPremium, featuresOf, PLANS } = require('./_lib/plans');
+const { especialidadesDe, escolherEspecialidade } = require('./_lib/especialidades');
 const { getActiveAd } = require('./_lib/ads');
 const log = require('./_lib/logger');
 
@@ -196,9 +197,10 @@ exports.handler = async (event) => {
     if (!user || user.ativo === false) {
       return { statusCode: 404, headers, body: JSON.stringify({ error: 'conta_nao_encontrada' }) };
     }
-    const especialidade = Array.isArray(user.especialidade)
-      ? (user.especialidade.filter(Boolean)[0] || '')
-      : (user.especialidade || '');
+    // Até 3 especialidades por cadastro (22/07): ?esp= escolhe qual edição ver
+    // (restrita às do dentista); sem ?esp= vale a principal (primeira).
+    const especialidades = especialidadesDe(user);
+    const especialidade = escolherEspecialidade(especialidades, qs.esp);
     if (!especialidade) {
       return { statusCode: 404, headers, body: JSON.stringify({ error: 'sem_especialidade' }) };
     }
@@ -225,7 +227,8 @@ exports.handler = async (event) => {
           nome:      String(user.nome || '').split(' ')[0] || 'Dentista',
           plano:     premium ? 'premium' : 'gratuito',
           isPremium: premium,
-          especialidade,
+          especialidade,   // a exibida nesta resposta
+          especialidades,  // todas as do dentista (até 3) — o front monta o seletor
         },
         edicao: {
           date:      edicao.date || '',

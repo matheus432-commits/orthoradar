@@ -9,6 +9,7 @@ const crypto = require('crypto');
 // (gate de plano removido — diretriz 07/2026: podcast é do plano Gratuito)
 const { specialtySlug } = require('./_lib/slug');
 const { firebaseDownloadUrl } = require('./_lib/storage');
+const { especialidadesDe, escolherEspecialidade } = require('./_lib/especialidades');
 
 function tokenEqual(a, b) {
   if (!a || !b || a.length !== b.length) return false;
@@ -108,7 +109,9 @@ exports.handler = async (event) => {
       return { statusCode: 403, headers, body: JSON.stringify({ error: 'conta_inativa' }) };
     }
 
-    const esp = user.especialidade[0];
+    // Até 3 especialidades (22/07): ?esp= escolhe qual podcast ouvir, restrito
+    // às especialidades do dentista; sem ?esp= vale a principal.
+    const esp = escolherEspecialidade(especialidadesDe(user), event.queryStringParameters && event.queryStringParameters.esp);
     if (!esp) return { statusCode: 404, headers, body: JSON.stringify({ error: 'Nenhuma especialidade configurada.' }) };
 
     const doc = await getPodcastDoc(projectId, apiKey, specialtySlug(esp));

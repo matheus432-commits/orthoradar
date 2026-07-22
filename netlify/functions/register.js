@@ -2,13 +2,8 @@ const { request } = require('./_lib');
 const { Firestore } = require('./_lib/firestore');
 const { hashPassword } = require('./_lib/password');
 const { signupPlan } = require('./_lib/plans');
+const { validarEspecialidades } = require('./_lib/especialidades');
 const { gerarRefCode, normalizeRefCode } = require('./_lib/referral');
-
-const ALLOWED_SPECS = new Set([
-  'Ortodontia', 'Implantodontia', 'Periodontia', 'Dentística',
-  'Bucomaxilofacial', 'Prótese', 'Endodontia', 'Odontopediatria',
-  'DTM e Dor Orofacial', 'Radiologia', 'Estomatologia'
-]);
 
 async function getUserByEmail(projectId, apiKey, email) {
   const body = JSON.stringify({
@@ -137,16 +132,16 @@ exports.handler = async (event) => {
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'Email invalido' }) };
   }
-  const specs = Array.isArray(especialidade) ? especialidade : [especialidade];
-  // Uma especialidade por cadastro (diretriz 07/2026): quem quiser duas áreas
-  // cadastra dois e-mails. O digest, o podcast e a edição são por especialidade.
-  if (specs.length !== 1) {
-    return { statusCode: 400, headers, body: JSON.stringify({ error: 'Escolha exatamente uma especialidade. Para receber duas áreas, cadastre um e-mail para cada.' }) };
+  // Até 3 especialidades por cadastro (diretriz 22/07/2026) — recurso Premium;
+  // o plano de entrada atual (cortesia) é Premium, então o teto vale para todos.
+  // A primeira da lista é a PRINCIPAL (define o e-mail diário); as demais são
+  // consumidas na área de membro.
+  const planoEntrada = signupPlan();
+  const valSpecs = validarEspecialidades(especialidade, planoEntrada);
+  if (!valSpecs.ok) {
+    return { statusCode: 400, headers, body: JSON.stringify({ error: valSpecs.error }) };
   }
-  const invalidSpec = specs.find(e => !ALLOWED_SPECS.has(e));
-  if (invalidSpec) {
-    return { statusCode: 400, headers, body: JSON.stringify({ error: 'Especialidade inválida: ' + invalidSpec }) };
-  }
+  const specs = valSpecs.especialidades;
   // Temas são opcionais: o digest diário é montado por especialidade, não por subtema.
   const temasArr = temas == null ? [] : (Array.isArray(temas) ? temas : [temas]);
   const invalidTema = temasArr.find(t => typeof t !== 'string' || t.length < 3 || t.length > 120);
@@ -171,11 +166,11 @@ exports.handler = async (event) => {
     const refDoIndicador = normalizeRefCode(ref);
     const meuRefCode = gerarRefCode();
 
-    const plano = signupPlan(); // cortesia: Premium até a forma de pagamento existir (env SIGNUP_PLAN)
+    const plano = planoEntrada; // cortesia: Premium até a forma de pagamento existir (env SIGNUP_PLAN)
     const docId = await createUser(projectId, apiKey, {
       nome: nomeTrimmed,
       email,
-      especialidade: Array.isArray(especialidade) ? especialidade : [especialidade],
+      especialidade: specs,
       temas: temasArr,
       senhaHash: hashPassword(senhaHash),
       ativo: true,

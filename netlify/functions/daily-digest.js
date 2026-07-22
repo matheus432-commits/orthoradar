@@ -979,8 +979,10 @@ async function main() {
     log.info('[digest] users found', { runId, count: users.length });
 
     // ── GROUP BY SPECIALTY ───────────────────────────────────────────────────
-    // Cada usuário recebe o digest da sua especialidade principal (a primeira,
-    // para cadastros antigos com mais de uma).
+    // Diretriz 22/07/2026 (até 3 especialidades por cadastro): o E-MAIL diário
+    // continua sendo UM só, o da especialidade PRINCIPAL (a primeira da lista).
+    // As demais especialidades o dentista consome na área de membro (aba
+    // Recebidos tem seletor) — sem duplicar envios nem custo de e-mail.
     const groups = new Map();
     for (const user of users) {
       const esp = user.especialidade;
@@ -1074,6 +1076,38 @@ async function main() {
         // Pause between batches (not after the last one)
         if (bIdx < batches.length - 1) {
           await new Promise(r => setTimeout(r, BATCH_PAUSE_MS));
+        }
+      }
+    }
+
+    // ── ESPECIALIDADES SÓ-SECUNDÁRIAS (diretriz 22/07) ───────────────────────
+    // Até 3 especialidades por cadastro: uma especialidade escolhida APENAS como
+    // secundária (ninguém a tem como principal) não entra nos grupos acima e,
+    // sem isto, não teria edição gerada — a área de membro desse dentista veria
+    // conteúdo vazio/velho. A inscrição secundária é o GATILHO: construímos e
+    // PERSISTIMOS o digest dela também (mesmo cache digests_especialidade que o
+    // site lê), porém SEM enviar e-mail (o e-mail continua sendo só o da
+    // principal). O áudio dessas especialidades já é gerado pelo generate-podcasts,
+    // que usa a mesma união (principal + secundárias).
+    const todasEspecialidades = new Set();
+    for (const u of users) for (const e of (u.especialidades || [])) if (e) todasEspecialidades.add(e);
+    const secundariasSemPrincipal = [...todasEspecialidades].filter(e => !groups.has(e));
+
+    if (secundariasSemPrincipal.length) {
+      console.log(`\n[ESP SECUNDÁRIAS] ${secundariasSemPrincipal.length} sem inscrito principal — gerando edição (sem e-mail): ${secundariasSemPrincipal.join(', ')}`);
+      log.info('[digest] gerando edições de especialidades só-secundárias', { especialidades: secundariasSemPrincipal });
+      for (const especialidade of secundariasSemPrincipal) {
+        try {
+          const espDigest = await withTimeout(
+            buildEspDigest(db, especialidade, anthropicKey, dateStr),
+            USER_TIMEOUT_MS * 2,
+            `esp-sec:${especialidade}`
+          );
+          console.log(espDigest
+            ? `[ESP SECUNDÁRIA OK] ${especialidade} — edição gerada e persistida`
+            : `[ESP SECUNDÁRIA SKIP] ${especialidade} — sem conteúdo suficiente hoje`);
+        } catch (err) {
+          log.error('[digest][ESP-SEC] buildEspDigest falhou', { especialidade, err: err.message });
         }
       }
     }

@@ -647,6 +647,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:44px 52p
       <div style="font-size:24px;font-weight:800;margin-bottom:12px;color:#fff;">R$ 59,90<span style="font-size:12px;color:#C9BFE2;font-weight:500;"> /mês</span></div>
       <ul style="list-style:none;font-size:13px;color:#D8D0EC;line-height:2;">
         <li>✓ Tudo do Gratuito, <strong style="color:#fff;">sem publicidade</strong></li>
+        <li>✓ <strong style="color:#fff;">Até 3 especialidades</strong> — receba os resumos de todas em sua área de membro</li>
         <li>✓ <strong style="color:#fff;">5 artigos por dia</strong> — os 3 da edição + 2 exclusivos escolhidos pelos seus temas, com resumo aprofundado</li>
         <li>✓ <strong style="color:#fff;">Biblioteca científica pessoal</strong> — salve artigos, resumos e podcasts em coleções, com notas e busca</li>
         <li>✓ <strong style="color:#fff;">Preferências por tema</strong> — curadoria personalizada dentro da sua especialidade</li>
@@ -664,7 +665,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:44px 52p
     <div class="cta-left">
       <div class="cta-kicker">Comece hoje · É gratuito</div>
       <h2>Configure em 2 minutos.<br>Receba <em>já amanhã de manhã</em>.</h2>
-      <p>Escolha sua especialidade e deixe o OdontoFeed trazer a ciência até você — sem garimpar a literatura.</p>
+      <p>Escolha até 3 especialidades para receber resumos em sua área de membro — e deixe o OdontoFeed trazer a ciência até você, sem garimpar a literatura.</p>
       <div class="cta-benefits">
         <div class="cb">3 artigos por dia, na sua especialidade</div>
         <div class="cb">Resumos em português com relevância clínica</div>
@@ -682,8 +683,8 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:44px 52p
 
       <!-- STEP 1 -->
       <div class="form-step active" id="fstep1">
-        <div class="form-section-title">Qual é a sua especialidade?</div>
-        <div class="form-section-sub">Selecione uma. Você receberá todos os dias o resumo científico da sua área.</div>
+        <div class="form-section-title">Quais são as suas especialidades?</div>
+        <div class="form-section-sub">Escolha até 3 especialidades para receber resumos em sua área de membro. A primeira é a principal — define o e-mail diário.</div>
         <div class="specialties-select" id="specSelect">
           <div class="spec-opt" data-value="Ortodontia" onclick="toggleSpec(this)"><span class="spec-opt-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 12h18"/><rect x="4.7" y="9.7" width="3.7" height="4.6" rx=".5"/><rect x="10.15" y="9.7" width="3.7" height="4.6" rx=".5"/><rect x="15.6" y="9.7" width="3.7" height="4.6" rx=".5"/></svg></span><span class="spec-opt-label">Ortodontia</span><span class="spec-check">✓</span></div>
           <div class="spec-opt" data-value="Implantodontia" onclick="toggleSpec(this)"><span class="spec-opt-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 3.5h8"/><path d="M9 6.5h6"/><path d="M12 6.5v3"/><path d="M8.6 10.5l6.8 0-.7 2.2-5.4 0z"/><path d="M9 12.7l5.4 0-.6 2.1-4.2 0z"/><path d="M9.4 14.8l4.2 0-.7 2.3-2.8 0z"/><path d="M10.2 17.1l2.6 0L12 20.5z"/></svg></span><span class="spec-opt-label">Implantodontia</span><span class="spec-check">✓</span></div>
@@ -697,7 +698,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:44px 52p
           <div class="spec-opt" data-value="Radiologia" onclick="toggleSpec(this)"><span class="spec-opt-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4.5" y="3.5" width="15" height="17" rx="2"/><path d="M4.5 7.2h1.8M17.7 7.2h1.8M4.5 16.8h1.8M17.7 16.8h1.8"/><path d="M12 7.4c-2 0-3.3 1.4-3.3 3.4 0 1.3.5 2.1.9 3.2.4 1.2 1 3.6 1.6 3.6.5 0 .5-1.6.8-2.6M12 7.4c2 0 3.3 1.4 3.3 3.4 0 1.3-.5 2.1-.9 3.2-.4 1.2-1 3.6-1.6 3.6-.5 0-.5-1.6-.8-2.6"/></svg></span><span class="spec-opt-label">Radiologia</span><span class="spec-check">✓</span></div>
           <div class="spec-opt" data-value="Estomatologia" onclick="toggleSpec(this)"><span class="spec-opt-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 9.6c1.3-1.4 2.6-1.4 3.4-.4.4.5 1.1.5 1.5 0 .8-1 2.1-1 3.4.4"/><path d="M3 9.6h8.3"/><path d="M3 9.6c1.7 2.1 6.6 2.1 8.3 0"/><circle cx="16.3" cy="14.3" r="3.4"/><path d="M18.8 16.8 21.5 19.5"/></svg></span><span class="spec-opt-label">Estomatologia</span><span class="spec-check">✓</span></div>
         </div>
-        <div class="spec-select-hint" id="specHint">Selecione <strong>sua especialidade</strong> para continuar.</div>
+        <div class="spec-select-hint" id="specHint">Selecione <strong>de 1 a 3 especialidades</strong> para continuar.</div>
         <button class="btn btn-grad" id="toStep2" disabled onclick="goToStep(2)" style="width:100%;padding:14px;">Próximo: criar conta →</button>
       </div>
 
@@ -734,8 +735,8 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:44px 52p
         <div class="success-info">
           <div class="success-info-item"><span class="sii-icon">📬</span><div class="sii-txt"><strong>Verifique sua caixa de entrada</strong><br/>Enviamos confirmação para <strong id="successEmail"></strong>.</div></div>
           <div class="success-info-item"><span class="sii-icon">🌅</span><div class="sii-txt"><strong>Primeiro artigo amanhã de manhã</strong><br/>Após confirmar o e-mail, você acorda com sua primeira curadoria pronta.</div></div>
-          <div class="success-info-item"><span class="sii-icon">🦷</span><div class="sii-txt"><strong>Especialidade cadastrada</strong><br/><span id="successSpecs"></span></div></div>
-          <div class="success-info-item"><span class="sii-icon">📊</span><div class="sii-txt"><strong>Curadoria diária da sua especialidade</strong><br/>Todos os dias selecionamos e resumimos os estudos mais relevantes da sua área — direto no seu e-mail.</div></div>
+          <div class="success-info-item"><span class="sii-icon">🦷</span><div class="sii-txt"><strong id="successSpecsLbl">Especialidade cadastrada</strong><br/><span id="successSpecs"></span></div></div>
+          <div class="success-info-item"><span class="sii-icon">📊</span><div class="sii-txt"><strong>Curadoria diária da sua área</strong><br/>Todos os dias selecionamos e resumimos os estudos mais relevantes das suas especialidades — direto no seu e-mail e na área de membro.</div></div>
         </div>
       </div>
     </div>
@@ -970,16 +971,29 @@ let selectedSpecs = [];
 
 function escapeHtml(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
 
+// Até 3 especialidades por cadastro (22/07) — a PRIMEIRA selecionada é a
+// principal (define o e-mail diário); todas aparecem na área de membro.
+const MAX_SPECS=3;
 function toggleSpec(el){
   const val=el.dataset.value;
-  const wasSelected=el.classList.contains('selected');
-  document.querySelectorAll('.spec-opt.selected').forEach(o=>o.classList.remove('selected'));
-  selectedSpecs=[];
-  if(!wasSelected){el.classList.add('selected');selectedSpecs=[val];}
   const hint=document.getElementById('specHint');
   const btn=document.getElementById('toStep2');
-  if(selectedSpecs.length===0){hint.innerHTML='Selecione <strong>sua especialidade</strong> para continuar.';btn.disabled=true;}
-  else{hint.innerHTML='<strong style="color:var(--success)">✓ '+escapeHtml(selectedSpecs[0])+' selecionada</strong>';btn.disabled=false;}
+  if(el.classList.contains('selected')){
+    el.classList.remove('selected');
+    selectedSpecs=selectedSpecs.filter(s=>s!==val);
+  }else if(selectedSpecs.length>=MAX_SPECS){
+    hint.innerHTML='<strong style="color:var(--warning,#f59e0b)">Máximo de '+MAX_SPECS+' especialidades.</strong> Desmarque uma para trocar.';
+    return;
+  }else{
+    el.classList.add('selected');
+    selectedSpecs.push(val);
+  }
+  if(selectedSpecs.length===0){hint.innerHTML='Selecione <strong>de 1 a 3 especialidades</strong> para continuar.';btn.disabled=true;}
+  else{
+    const extra=selectedSpecs.length>1?' <span style="color:var(--muted)">(principal: '+escapeHtml(selectedSpecs[0])+')</span>':'';
+    hint.innerHTML='<strong style="color:var(--success)">✓ '+escapeHtml(selectedSpecs.join(', '))+'</strong>'+extra;
+    btn.disabled=false;
+  }
 }
 
 function goToStep(n){
@@ -1089,6 +1103,8 @@ async function submitForm(){
   document.getElementById('successName').textContent=name.split(' ')[0];
   document.getElementById('successEmail').textContent=email;
   document.getElementById('successSpecs').textContent=selectedSpecs.join(', ');
+  const lbl=document.getElementById('successSpecsLbl');
+  if(lbl) lbl.textContent=selectedSpecs.length>1?'Especialidades cadastradas':'Especialidade cadastrada';
 }
 
 // ── Stats ────────────────────────────────────────────
