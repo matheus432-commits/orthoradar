@@ -755,6 +755,7 @@ async function loadDashboard(email,token){
 // Até 3 especialidades por cadastro (22/07): `esp` escolhe qual edição ver;
 // com mais de uma, a aba ganha um seletor (chips). Silencioso em falha.
 let _espAtiva = null; // especialidade exibida na aba Recebidos
+let _minhasEsp = [];  // todas as especialidades do dentista (até 3)
 async function loadEdicaoHoje(email, token, esp){
   try{
     const q = esp ? '&esp='+encodeURIComponent(esp) : '';
@@ -764,7 +765,8 @@ async function loadEdicaoHoje(email, token, esp){
     if(!res.ok) return;
     const data=await res.json();
     _espAtiva=(data.user && data.user.especialidade)||esp||null;
-    renderEspSwitcher((data.user && data.user.especialidades)||[]);
+    _minhasEsp=(data.user && data.user.especialidades)||[];
+    renderEspSwitcher(_minhasEsp);
     const eps=(data && data.podcast && data.podcast.episodios)||[];
     _podcastMap=new Map();
     eps.forEach(e=>{ if(e.artigoId && e.url) _podcastMap.set(String(e.artigoId), e); });
@@ -777,8 +779,12 @@ async function loadEdicaoHoje(email, token, esp){
         premiumExtras: Array.isArray(ed.premiumExtras)?ed.premiumExtras:[],
         isPremium: !!(data.user && data.user.isPremium),
       };
-      // Contadores refletem a edição do dia (3, ou 5 no Premium)
-      const nHoje=_edicaoHoje.artigos.length+_edicaoHoje.premiumExtras.length;
+      // Contadores "recebidos" = TOTAL do dia somando TODAS as especialidades
+      // do dentista (recebidosHoje, vindo do backend). Para quem tem só uma,
+      // é igual à edição atual; com mais de uma, soma as demais. Fallback: a
+      // contagem da edição atual, se o backend não enviar o total.
+      const nEdicao=_edicaoHoje.artigos.length+_edicaoHoje.premiumExtras.length;
+      const nHoje=(typeof data.recebidosHoje==='number' && data.recebidosHoje>0)?data.recebidosHoje:nEdicao;
       const badge=document.getElementById('tbadge-recebidos');
       if(badge) badge.textContent=nHoje;
       const count=document.getElementById('countRecebidos');
@@ -975,9 +981,13 @@ function renderRecebidos(artigos,curtidos,lidos){
 
   let dataFmt='';
   if(_edicaoHoje.date){try{const d=new Date(_edicaoHoje.date+'T12:00:00');if(!isNaN(d.getTime()))dataFmt=d.toLocaleDateString('pt-BR',{day:'2-digit',month:'long'});}catch(e){}}
+  // Com mais de uma especialidade, a lista mostra a especialidade ATIVA;
+  // deixa isso explícito no subtítulo (o tile "Artigos recebidos" soma todas).
+  const _multi=Array.isArray(_minhasEsp)&&_minhasEsp.length>1;
+  const espTxt=(_multi&&_espAtiva)?` de <strong>${escapeHtml(_espAtiva)}</strong>`:'';
   let html=`<div class="edicao-hoje-head">
     <span class="edicao-hoje-titulo">📅 Edição de hoje${dataFmt?' · '+dataFmt:''}</span>
-    <span class="edicao-hoje-sub">${n} artigo${n>1?'s':''} selecionado${n>1?'s':''} para você${_podcastMap.size?' · 🎧 com resumo em áudio':''}</span>
+    <span class="edicao-hoje-sub">${n} artigo${n>1?'s':''}${espTxt} selecionado${n>1?'s':''} para você${_podcastMap.size?' · 🎧 com resumo em áudio':''}${_multi?' · troque a especialidade acima':''}</span>
   </div>`;
   html+='<div class="articles-grid">'+hoje.map(a=>articleCard(a,curtidos,lidos)).join('')+
     extras.map(a=>articleCard(a,curtidos,lidos)).join('')+'</div>';
