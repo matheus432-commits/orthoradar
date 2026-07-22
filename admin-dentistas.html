@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Dentistas — OdontoFeed (admin)</title>
+<style>
+:root{--bg:#FBF7EF;--card:#FFFFFF;--border:#EDE6D8;--text:#1A1A18;--muted:#8A8478;--gold:#B08968;--green:#3E7C4F;--red:#B4533B;--blue:#4A6B8A;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,-apple-system,sans-serif;padding:28px 16px 60px;}
+.wrap{max-width:900px;margin:0 auto;}
+h1{font-family:Georgia,'Times New Roman',serif;font-size:1.6rem;letter-spacing:-.4px;margin-bottom:4px;}
+h1 em{color:var(--gold);font-style:normal;}
+.sub{color:var(--muted);font-size:13px;margin-bottom:18px;}
+.back{color:var(--gold);text-decoration:none;font-size:13px;font-weight:600;}
+.tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:16px 0 20px;}
+.tools input{flex:1;min-width:200px;padding:10px 13px;border:1px solid var(--border);border-radius:10px;font-size:14px;background:#fff;color:var(--text);}
+.tools button{border:1px solid var(--border);background:#fff;border-radius:10px;padding:10px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text);}
+.sec-title{font-family:Georgia,serif;font-size:1.15rem;margin:24px 0 10px;display:flex;align-items:baseline;gap:10px;}
+.sec-title .n{font-size:12px;color:var(--muted);font-family:'Segoe UI',sans-serif;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.03);}
+table{width:100%;border-collapse:collapse;font-size:13.5px;}
+th{text-align:left;font-size:10.5px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);font-weight:700;padding:11px 14px;border-bottom:1px solid var(--border);}
+td{padding:11px 14px;border-bottom:1px solid var(--border);vertical-align:top;}
+tr:last-child td{border-bottom:none;}
+.nome{font-weight:600;}
+.email{color:var(--blue);}
+.badge{display:inline-block;font-size:9.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:2px 7px;border-radius:9px;}
+.badge.prem{background:#F5EDE2;color:var(--gold);}
+.badge.grat{background:#EFEDE8;color:var(--muted);}
+.badge.off{background:#F6E7E2;color:var(--red);}
+.badge.ind{background:#E8F2EA;color:var(--green);}
+.date{color:var(--muted);font-size:12px;white-space:nowrap;}
+.foot{font-size:11px;color:var(--muted);line-height:1.7;margin-top:26px;}
+.login{max-width:400px;margin:80px auto;text-align:center;}
+.login input{width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:10px;font-size:14px;margin:14px 0 10px;background:#fff;}
+.login button{background:var(--text);color:#fff;border:none;border-radius:10px;padding:12px 26px;font-weight:600;font-size:14px;cursor:pointer;}
+.err{color:var(--red);font-size:13px;margin-top:10px;display:none;}
+#dash{display:none;}
+@media(max-width:560px){.hide-sm{display:none;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="login" id="login">
+    <h1>OdontoFeed<em>.</em> Dentistas</h1>
+    <p class="sub">Lista de cadastros — informe o segredo.</p>
+    <input type="password" id="secret" placeholder="ADMIN_SECRET" onkeydown="if(event.key==='Enter')entrar()">
+    <button onclick="entrar()">Entrar</button>
+    <p class="err" id="err">Segredo inválido.</p>
+  </div>
+
+  <div id="dash">
+    <a class="back" href="/admin.html">‹ voltar ao painel</a>
+    <h1 style="margin-top:8px;">OdontoFeed<em>.</em> Dentistas cadastrados</h1>
+    <p class="sub" id="gerado"></p>
+
+    <div class="tools">
+      <input type="text" id="busca" placeholder="Buscar por nome ou e-mail…" oninput="filtrar()">
+      <button onclick="exportarCsv()">⬇ Exportar CSV</button>
+    </div>
+
+    <div id="grupos"></div>
+
+    <p class="foot">Contém dados pessoais (LGPD). Uso estritamente administrativo — não compartilhe esta lista.</p>
+  </div>
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+let DADOS = null;
+
+function planoBadge(d){
+  if (d.plano === 'premium') return '<span class="badge prem">Premium' + (d.planoOrigem==='cortesia'?' cortesia':'') + '</span>';
+  return '<span class="badge grat">Gratuito</span>';
+}
+function fmtData(iso){ if(!iso) return '—'; try{ return new Date(iso).toLocaleDateString('pt-BR'); }catch{ return '—'; } }
+
+async function entrar() {
+  const secret = $('secret').value.trim(); if (!secret) return;
+  const res = await fetch('/.netlify/functions/get-dentistas?secret=' + encodeURIComponent(secret));
+  if (!res.ok) { $('err').style.display = 'block'; return; }
+  sessionStorage.setItem('of_admin', secret);
+  DADOS = await res.json(); render();
+}
+
+function render() {
+  $('login').style.display = 'none';
+  $('dash').style.display = 'block';
+  $('gerado').textContent = DADOS.total + ' dentistas · ' + DADOS.porEspecialidade.length +
+    ' especialidades · gerado ' + new Date(DADOS.geradoEm).toLocaleString('pt-BR');
+  filtrar();
+}
+
+function filtrar() {
+  const q = ($('busca').value || '').toLowerCase().trim();
+  const cont = $('grupos'); cont.innerHTML = '';
+  for (const g of DADOS.porEspecialidade) {
+    const linhas = g.dentistas.filter(d =>
+      !q || d.nome.toLowerCase().includes(q) || d.email.toLowerCase().includes(q));
+    if (!linhas.length) continue;
+    const rows = linhas.map(d => {
+      const badges = [planoBadge(d),
+        d.ativo ? '' : '<span class="badge off">inativo</span>',
+        d.porIndicacao ? '<span class="badge ind">indicação</span>' : '',
+        d.indicacoes ? '<span class="badge ind">indicou ' + d.indicacoes + '</span>' : '',
+      ].filter(Boolean).join(' ');
+      return '<tr><td class="nome">' + esc(d.nome) + '</td>' +
+        '<td class="email">' + esc(d.email) + '</td>' +
+        '<td class="hide-sm">' + badges + '</td>' +
+        '<td class="date hide-sm">' + fmtData(d.criadoEm) + '</td></tr>';
+    }).join('');
+    cont.insertAdjacentHTML('beforeend',
+      '<div class="sec-title">' + g.especialidade + ' <span class="n">' + linhas.length +
+      (q ? ' de ' + g.total : '') + '</span></div>' +
+      '<div class="card"><table><thead><tr><th>Nome</th><th>E-mail</th>' +
+      '<th class="hide-sm">Situação</th><th class="hide-sm">Cadastro</th></tr></thead><tbody>' +
+      rows + '</tbody></table></div>');
+  }
+  if (!cont.innerHTML) cont.innerHTML = '<div class="card" style="padding:16px;color:var(--muted);font-size:13px;">Nenhum resultado.</div>';
+}
+
+function esc(s){ return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+function exportarCsv() {
+  const linhas = [['Especialidade','Nome','Email','Plano','Origem','Ativo','Indicacoes','Cadastro']];
+  for (const g of DADOS.porEspecialidade)
+    for (const d of g.dentistas)
+      linhas.push([g.especialidade, d.nome, d.email, d.plano, d.planoOrigem||'', d.ativo?'sim':'nao', d.indicacoes||0, d.criadoEm||'']);
+  const csv = linhas.map(r => r.map(c => '"' + String(c).replace(/"/g,'""') + '"').join(',')).join('\n');
+  const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'dentistas-odontofeed-' + new Date().toISOString().slice(0,10) + '.csv';
+  a.click();
+}
+
+// Sessão ativa nesta aba → entra direto.
+(async () => {
+  const s = sessionStorage.getItem('of_admin'); if (!s) return;
+  const res = await fetch('/.netlify/functions/get-dentistas?secret=' + encodeURIComponent(s));
+  if (res.ok) { DADOS = await res.json(); render(); }
+})();
+</script>
+</body>
+</html>
