@@ -539,6 +539,8 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 36px
   <!-- TAB: RECEBIDOS -->
   <div class="tab-content active" id="tab-recebidos">
     <div class="section-title">📰 Artigos Recebidos <span id="countRecebidos"></span></div>
+    <!-- Seletor de especialidade (aparece só para quem tem mais de uma — até 3) -->
+    <div id="espSwitcher" style="display:none;flex-wrap:wrap;gap:8px;margin:0 0 16px;"></div>
     <div id="recebidosContent"></div>
   </div>
 
@@ -742,21 +744,27 @@ async function loadDashboard(email,token){
 }
 
 // ========== EDIÇÃO DE HOJE (artigos do dia + áudio) ==========
-// Busca a edição diária da especialidade (mesma do e-mail): os 3 artigos do dia
-// (+ 2 extras para Premium) e os episódios de áudio. Com isso, a aba Recebidos
-// abre com a "Edição de hoje" — e o histórico vira "Edições anteriores".
-// Silencioso em falha: sem edição, a aba mostra o histórico como antes.
-async function loadEdicaoHoje(email, token){
+// Busca a edição diária da especialidade: os 3 artigos do dia (+ 2 extras para
+// Premium) e os episódios de áudio. Com isso, a aba Recebidos abre com a
+// "Edição de hoje" — e o histórico vira "Edições anteriores".
+// Até 3 especialidades por cadastro (22/07): `esp` escolhe qual edição ver;
+// com mais de uma, a aba ganha um seletor (chips). Silencioso em falha.
+let _espAtiva = null; // especialidade exibida na aba Recebidos
+async function loadEdicaoHoje(email, token, esp){
   try{
-    const res=await fetch('/.netlify/functions/get-edicao?email='+encodeURIComponent(email),{
+    const q = esp ? '&esp='+encodeURIComponent(esp) : '';
+    const res=await fetch('/.netlify/functions/get-edicao?email='+encodeURIComponent(email)+q,{
       headers:{'Authorization':'Bearer '+token}
     });
     if(!res.ok) return;
     const data=await res.json();
+    _espAtiva=(data.user && data.user.especialidade)||esp||null;
+    renderEspSwitcher((data.user && data.user.especialidades)||[]);
     const eps=(data && data.podcast && data.podcast.episodios)||[];
     _podcastMap=new Map();
     eps.forEach(e=>{ if(e.artigoId && e.url) _podcastMap.set(String(e.artigoId), e); });
     const ed=data && data.edicao;
+    _edicaoHoje=null;
     if(ed && Array.isArray(ed.artigos) && ed.artigos.length){
       _edicaoHoje={
         date: ed.date||'',
@@ -777,6 +785,27 @@ async function loadEdicaoHoje(email, token){
       renderRecebidos(userData.artigos||[], userData.curtidos||[], userData.lidos||[]);
     }
   }catch(e){ /* edição/áudio são opcionais — nunca quebram o dashboard */ }
+}
+
+// Chips de troca de especialidade na aba Recebidos (só com 2+ especialidades).
+function renderEspSwitcher(especialidades){
+  const box=document.getElementById('espSwitcher');
+  if(!box) return;
+  if(!Array.isArray(especialidades) || especialidades.length<2){ box.style.display='none'; box.innerHTML=''; return; }
+  box.style.display='flex';
+  box.innerHTML=especialidades.map(e=>{
+    const on=(e===_espAtiva);
+    return `<button onclick="trocarEspecialidade('${e.replace(/'/g,"\\'")}')" style="border:1px solid ${on?'rgba(14,165,233,0.45)':'var(--border)'};background:${on?'rgba(14,165,233,0.12)':'var(--bg3)'};color:${on?'var(--primary)':'var(--muted)'};font-weight:600;font-size:13px;padding:7px 14px;border-radius:20px;cursor:pointer;transition:all .15s;">🦷 ${escapeHtml(e)}</button>`;
+  }).join('');
+}
+
+function trocarEspecialidade(esp){
+  if(esp===_espAtiva) return;
+  const email=getEmail(), token=getToken();
+  if(!email||!token) return;
+  const cont=document.getElementById('recebidosContent');
+  if(cont) cont.innerHTML='<div class="skeleton-grid">'+skeletonCard()+skeletonCard()+skeletonCard()+'</div>';
+  loadEdicaoHoje(email, token, esp);
 }
 
 // ========== SKELETON ==========
@@ -1160,33 +1189,68 @@ function renderPrefTab() {
   prefSelectedTemas = [...currentTemas];
   loadEngagementProfile();
 
-  // Uma especialidade por cadastro (diretriz 07/2026) — quem quiser duas áreas
-  // cadastra dois e-mails. Seleção em rádio: escolher uma desmarca a anterior.
-  prefSelectedSpecs = currentSpecs.slice(0, 1);
+  // Até 3 especialidades por cadastro (diretriz 22/07/2026) — recurso Premium
+  // (na cortesia atual todos são Premium). A PRIMEIRA selecionada é a principal
+  // (define o e-mail diário); as demais aparecem na aba Recebidos.
+  const maxEsp = prefMaxEspecialidades();
+  prefSelectedSpecs = currentSpecs.slice(0, maxEsp);
   const specEl = document.getElementById('prefSpecSelect');
-  specEl.innerHTML = Object.keys(THEMES).map(spec => {
-    const checked = prefSelectedSpecs[0] === spec;
+  specEl.innerHTML = `<div id="prefSpecHint" style="font-size:13px;color:var(--muted);margin:0 0 10px;grid-column:1/-1;">
+      Escolha até ${maxEsp} especialidade${maxEsp > 1 ? 's' : ''} para receber resumos em sua área de membro.
+      ${maxEsp > 1 ? 'A <strong>primeira</strong> é a principal — define o e-mail diário.' : ''}
+      <span id="prefSpecCount" style="font-weight:700;color:var(--primary);"></span>
+    </div>` + Object.keys(THEMES).map(spec => {
+    const checked = prefSelectedSpecs.includes(spec);
     const bg = checked ? 'rgba(14,165,233,0.1)' : 'var(--bg3)';
     const border = checked ? 'rgba(14,165,233,0.3)' : 'var(--border)';
-    return `<label style="display:flex;align-items:center;gap:10px;background:${bg};border:1px solid ${border};border-radius:10px;padding:12px 14px;cursor:pointer;transition:all 0.2s;">
-      <input type="radio" name="prefSpec" ${checked ? 'checked' : ''} onchange="prefToggleSpec('${spec.replace(/'/g,"\\'")}',this)" style="width:16px;height:16px;accent-color:var(--primary);cursor:pointer;flex-shrink:0;"/>
+    return `<label data-spec="${spec.replace(/"/g,'&quot;')}" style="display:flex;align-items:center;gap:10px;background:${bg};border:1px solid ${border};border-radius:10px;padding:12px 14px;cursor:pointer;transition:all 0.2s;">
+      <input type="checkbox" ${checked ? 'checked' : ''} onchange="prefToggleSpec('${spec.replace(/'/g,"\\'")}',this)" style="width:16px;height:16px;accent-color:var(--primary);cursor:pointer;flex-shrink:0;"/>
       <span style="font-size:14px;font-weight:600;">${spec}</span>
+      <span class="pref-principal" style="display:none;margin-left:auto;font-size:10px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;color:var(--primary);background:rgba(14,165,233,0.12);padding:2px 8px;border-radius:8px;">principal</span>
     </label>`;
   }).join('');
 
+  prefRefreshSpecStyles();
   renderPrefTemas();
   document.getElementById('prefSaveBtn').disabled = false;
 }
 
-function prefToggleSpec(spec, radio) {
-  prefSelectedSpecs = [spec];
-  prefSelectedTemas = prefSelectedTemas.filter(t => (THEMES[spec] || []).includes(t));
-  document.querySelectorAll('#prefSpecSelect label').forEach(l => {
+// Teto de especialidades pelo plano do usuário (Premium: 3; Gratuito: 1).
+function prefMaxEspecialidades() {
+  return (userData && String(userData.plano).toLowerCase() === 'premium') ? 3 : 1;
+}
+
+function prefToggleSpec(spec, box) {
+  const maxEsp = prefMaxEspecialidades();
+  if (box.checked) {
+    if (prefSelectedSpecs.includes(spec)) { /* já estava */ }
+    else if (prefSelectedSpecs.length >= maxEsp) {
+      box.checked = false; // estourou o teto — desfaz o clique
+      const c = document.getElementById('prefSpecCount');
+      if (c) c.textContent = ` Limite: ${maxEsp}. Desmarque uma para trocar.`;
+      return;
+    } else prefSelectedSpecs.push(spec);
+  } else {
+    prefSelectedSpecs = prefSelectedSpecs.filter(s => s !== spec);
+  }
+  // Temas só das especialidades ainda selecionadas.
+  const temasValidos = new Set();
+  prefSelectedSpecs.forEach(s => (THEMES[s] || []).forEach(t => temasValidos.add(t)));
+  prefSelectedTemas = prefSelectedTemas.filter(t => temasValidos.has(t));
+  prefRefreshSpecStyles();
+  renderPrefTemas();
+}
+
+function prefRefreshSpecStyles() {
+  document.querySelectorAll('#prefSpecSelect label[data-spec]').forEach(l => {
     const sel = l.querySelector('input').checked;
     l.style.background = sel ? 'rgba(14,165,233,0.1)' : 'var(--bg3)';
     l.style.borderColor = sel ? 'rgba(14,165,233,0.3)' : 'var(--border)';
+    const tag = l.querySelector('.pref-principal');
+    if (tag) tag.style.display = (prefSelectedSpecs.length > 1 && l.dataset.spec === prefSelectedSpecs[0]) ? 'inline-block' : 'none';
   });
-  renderPrefTemas();
+  const c = document.getElementById('prefSpecCount');
+  if (c) c.textContent = ' ' + prefSelectedSpecs.length + ' de ' + prefMaxEspecialidades() + ' selecionada' + (prefSelectedSpecs.length === 1 ? '' : 's') + '.';
 }
 
 function renderPrefTemas() {

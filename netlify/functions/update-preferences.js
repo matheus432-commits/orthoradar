@@ -1,11 +1,6 @@
 const { request } = require('./_lib');
 const crypto = require('crypto');
-
-const ALLOWED_SPECS = new Set([
-  'Ortodontia', 'Implantodontia', 'Periodontia', 'Dentística',
-  'Bucomaxilofacial', 'Prótese', 'Endodontia', 'Odontopediatria',
-  'DTM e Dor Orofacial', 'Radiologia', 'Estomatologia'
-]);
+const { validarEspecialidades } = require('./_lib/especialidades');
 
 function tokenEqual(a, b) {
   if (!a || !b || a.length !== b.length) return false;
@@ -34,7 +29,8 @@ async function getUserByEmail(projectId, apiKey, email) {
   return {
     docId: docs[0].document.name.split('/').pop(),
     sessionToken: f.sessionToken?.stringValue || null,
-    sessionExpiry: f.sessionExpiry?.stringValue || null
+    sessionExpiry: f.sessionExpiry?.stringValue || null,
+    plano: f.plano?.stringValue || null
   };
 }
 
@@ -71,15 +67,9 @@ exports.handler = async (event) => {
   if (!email || !token || !especialidade) {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'Campos obrigatorios faltando' }) };
   }
-  // Uma especialidade por cadastro (diretriz 07/2026); temas são opcionais
-  // (curadoria por tema é recurso Premium — lista vazia é válida).
-  if (!Array.isArray(especialidade) || especialidade.length !== 1) {
-    return { statusCode: 400, headers, body: JSON.stringify({ error: 'Escolha exatamente uma especialidade. Para duas áreas, cadastre um e-mail para cada.' }) };
-  }
-  const invalidSpec = especialidade.find(e => !ALLOWED_SPECS.has(e));
-  if (invalidSpec) {
-    return { statusCode: 400, headers, body: JSON.stringify({ error: 'Especialidade inválida: ' + invalidSpec }) };
-  }
+  // Até 3 especialidades (diretriz 22/07/2026; recurso Premium — validado
+  // adiante com o plano real do usuário). Temas são opcionais (curadoria por
+  // tema é recurso Premium — lista vazia é válida).
   const temas = Array.isArray(body.temas) ? body.temas : [];
   const invalidTema = temas.find(t => typeof t !== 'string' || t.length < 3 || t.length > 120);
   if (invalidTema !== undefined) {
@@ -98,9 +88,15 @@ exports.handler = async (event) => {
     if (user.sessionExpiry && new Date(user.sessionExpiry) < new Date()) {
       return { statusCode: 401, headers, body: JSON.stringify({ error: 'Sessão expirada.' }) };
     }
-    const res = await updatePreferences(projectId, apiKey, user.docId, especialidade, temas);
+    // Teto pelo plano REAL do usuário (Premium: 3; Gratuito: 1) — validação no
+    // servidor para o limite não depender do frontend.
+    const valSpecs = validarEspecialidades(especialidade, user.plano);
+    if (!valSpecs.ok) {
+      return { statusCode: 400, headers, body: JSON.stringify({ error: valSpecs.error }) };
+    }
+    const res = await updatePreferences(projectId, apiKey, user.docId, valSpecs.especialidades, temas);
     if (res.status !== 200) throw new Error('Firestore update failed: ' + res.body);
-    console.log('Preferences updated for:', email, '| specs:', especialidade.join(','), '| temas:', temas.length);
+    console.log('Preferences updated for:', email, '| specs:', valSpecs.especialidades.join(','), '| temas:', temas.length);
     return { statusCode: 200, headers, body: JSON.stringify({ success: true, message: 'Preferências atualizadas com sucesso!' }) };
   } catch (err) {
     console.error('Update preferences error:', err);

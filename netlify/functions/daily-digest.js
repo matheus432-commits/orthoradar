@@ -979,8 +979,10 @@ async function main() {
     log.info('[digest] users found', { runId, count: users.length });
 
     // ── GROUP BY SPECIALTY ───────────────────────────────────────────────────
-    // Cada usuário recebe o digest da sua especialidade principal (a primeira,
-    // para cadastros antigos com mais de uma).
+    // Diretriz 22/07/2026 (até 3 especialidades por cadastro): o E-MAIL diário
+    // continua sendo UM só, o da especialidade PRINCIPAL (a primeira da lista).
+    // As demais especialidades o dentista consome na área de membro (aba
+    // Recebidos tem seletor) — sem duplicar envios nem custo de e-mail.
     const groups = new Map();
     for (const user of users) {
       const esp = user.especialidade;
