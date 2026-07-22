@@ -15,17 +15,21 @@ const log = require('./_lib/logger');
 
 const sel = (...paths) => ({ fields: paths.map(fieldPath => ({ fieldPath })) });
 
-// Constrói o mapa pmid → { url, secs } a partir dos áudios que ainda existem.
+// Constrói o mapa pmid → { url, secs } com TODOS os áudios já produzidos.
+// Diretriz 22/07: nada é deletado — episódios antigos vão para podcast_arquivo
+// (mesmos campos) e os MP3 ficam no Storage para sempre.
 async function audioMap(db, bucket) {
   const map = new Map();
-  // Recentes (podem sumir na retenção).
-  const eps = await db.query('podcast_episodios', {
-    select: sel('artigoId', 'objectPath', 'downloadToken', 'secs'), limit: 5000,
-  }).catch(() => []);
-  for (const e of eps) {
-    const k = String(e.artigoId || '');
-    if (k && e.objectPath && e.downloadToken) {
-      map.set(k, { url: firebaseDownloadUrl(bucket, e.objectPath, e.downloadToken), secs: Number(e.secs) || 0 });
+  // Arquivo permanente (mais antigo) + coleção quente (recentes, sobrescreve).
+  for (const coll of ['podcast_arquivo', 'podcast_episodios']) {
+    const eps = await db.query(coll, {
+      select: sel('artigoId', 'objectPath', 'downloadToken', 'secs'), limit: 5000,
+    }).catch(() => []);
+    for (const e of eps) {
+      const k = String(e.artigoId || '');
+      if (k && e.objectPath && e.downloadToken) {
+        map.set(k, { url: firebaseDownloadUrl(bucket, e.objectPath, e.downloadToken), secs: Number(e.secs) || 0 });
+      }
     }
   }
   // Preservados (acervo permanente) — têm prioridade (nunca somem).
