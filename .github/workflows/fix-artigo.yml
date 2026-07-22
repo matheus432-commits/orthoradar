@@ -1,0 +1,33 @@
+# Correção pontual de artigo defeituoso (enriquecimento + áudio regenerado).
+# Dispara em push no script; envs FIX_QUERY/FIX_ESP definem o alvo.
+name: Fix Artigo (correção pontual)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/fix-artigo.js'
+      - '.github/workflows/fix-artigo.yml'
+  workflow_dispatch:
+
+jobs:
+  fix:
+    name: Corrigir artigo e regenerar áudio
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Rodar correção
+        env:
+          FIREBASE_PROJECT_ID:      ${{ secrets.FIREBASE_PROJECT_ID }}
+          FIREBASE_API_KEY:         ${{ secrets.FIREBASE_API_KEY }}
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          GCP_SERVICE_ACCOUNT_JSON: ${{ secrets.GCP_SERVICE_ACCOUNT_JSON }}
+          GCS_BUCKET:               ${{ secrets.GCS_BUCKET }}
+          ANTHROPIC_API_KEY:        ${{ secrets.ANTHROPIC_API_KEY }}
+          FIX_QUERY: 'arch width changes following first premolar'
+          FIX_ESP: 'Ortodontia'
+        run: node scripts/fix-artigo.js
