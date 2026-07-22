@@ -130,6 +130,14 @@ function articleKeys(a) {
 }
 function isRepeated(a, hist) { return articleKeys(a).some(k => hist.has(k)); }
 
+// Artigo ENRIQUECIDO = tem título traduzido e resumo próprio substancial.
+// É o gate de elegibilidade da edição (incidente 15/07: artigo cru virou card
+// em inglês no site e áudio de 24s sem conteúdo no podcast).
+function isEnriched(a) {
+  return String(a.titulo_pt || '').trim().length >= 10 &&
+         String(a.resumo_pt || '').trim().length >= 120;
+}
+
 // Especialidades renomeadas: o histórico antigo foi gravado com o nome da época
 // e precisa continuar contando para a anti-repetição.
 const LEGACY_ESP_ALIASES = {
@@ -386,6 +394,17 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
     }
     return true;
   });
+  // Só artigo ENRIQUECIDO entra na edição (incidente 15/07: artigo sem
+  // enriquecimento virou card com título em inglês e áudio de 24s sem
+  // conteúdo). Sem título traduzido E resumo próprio substancial, o artigo
+  // fica para o próximo ciclo (quando o enriquecimento o alcançar).
+  candidates = candidates.filter(a => {
+    if (isEnriched(a)) return true;
+    log.info('[digest][ESP] artigo NÃO ENRIQUECIDO descartado (sem titulo_pt/resumo_pt)', {
+      especialidade, id: a.pmid || a.id, titulo: (a.titulo || '').slice(0, 70),
+    });
+    return false;
+  });
   // Dedup interno: o mesmo estudo pode aparecer 2x na base (fontes diferentes).
   const seenKeys = new Set();
   candidates = candidates.filter(a => {
@@ -404,6 +423,7 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
     const trending = await getTrendingArticles(db, 30);
     const trendNew = trending.filter(a =>
       a.especialidade === especialidade &&
+      isEnriched(a) && // mesma trava: sem enriquecimento não entra na edição
       !isRepeated(a, hist) &&
       !articleKeys(a).some(k => seenKeys.has(k)));
     trendNew.forEach(a => articleKeys(a).forEach(k => seenKeys.add(k)));

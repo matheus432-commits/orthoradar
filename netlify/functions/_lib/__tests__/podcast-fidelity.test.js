@@ -35,7 +35,8 @@ const isVerify = (p) => String(p.model).includes('haiku');
 const ART = {
   pmid: '123',
   titulo_pt: 'Ligadura laceback em Ortodontia: protocolo de RCT',
-  resumo_pt: 'Protocolo de ensaio que medirá placa, dor e intercorrências em pacientes com laceback.',
+  // ≥200 chars: precisa passar na trava de material narratável (hasNarratableMaterial)
+  resumo_pt: 'Protocolo de ensaio clínico randomizado que medirá acúmulo de placa, dor relatada pelo paciente e intercorrências clínicas em pacientes ortodônticos tratados com ligadura laceback, acompanhados ao longo do alinhamento inicial. O estudo ainda não tem resultados; os desfechos serão avaliados durante o seguimento.',
   abstract: 'Protocol for an RCT measuring plaque, pain and adverse events with laceback ligatures.',
   achados_principais: [],
   nivel_evidencia: 'RCT',
@@ -81,7 +82,7 @@ describe('generateScript — fluxo de fidelidade', () => {
     const r = await ps.generateScript(ART, 'Ortodontia', 'key');
     assert.ok(!r.includes('INVENTANDO'), 'roteiro reprovado não pode ir ao ar');
     assert.match(r, /Em resumo:/, 'fallback narra o resumo próprio');
-    assert.match(r, /placa, dor e intercorrências/, 'fallback fica no conteúdo real do estudo');
+    assert.match(r, /acúmulo de placa[\s\S]*intercorrências/, 'fallback fica no conteúdo real do estudo');
   });
 
   test('verificador fora do ar → FAIL-CLOSED (fallback)', async () => {
