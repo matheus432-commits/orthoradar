@@ -19,6 +19,9 @@ on:
         required: false
         default: 'false'
         type: boolean
+  push:
+    branches: [main]
+    paths: ['.podcasts-dispatch']   # tocar este arquivo regenera os episódios do dia
 
 jobs:
   podcasts:
@@ -44,5 +47,6 @@ jobs:
           GOOGLE_TTS_API_KEY:       ${{ secrets.GOOGLE_TTS_API_KEY }}
           GCP_SERVICE_ACCOUNT_JSON: ${{ secrets.GCP_SERVICE_ACCOUNT_JSON }}
           GCS_BUCKET:               ${{ secrets.GCS_BUCKET }}
-          FORCE_REGEN:              ${{ inputs.force_regen }}
+          # Push do .podcasts-dispatch é sempre uma regeneração deliberada.
+          FORCE_REGEN:              ${{ github.event_name == 'push' && 'true' || inputs.force_regen }}
         run: node netlify/functions/generate-podcasts.js

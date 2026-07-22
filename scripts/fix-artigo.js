@@ -17,7 +17,7 @@ const { generateScript } = require('../netlify/functions/_lib/podcast-script');
 const { synthesize } = require('../netlify/functions/_lib/tts');
 const { uploadMp3 } = require('../netlify/functions/_lib/storage');
 const { mp3DurationSecs } = require('../netlify/functions/_lib/mp3');
-const { specialtySlug } = require('../netlify/functions/_lib/slug');
+const { specialtySlug, espDigestSlug } = require('../netlify/functions/_lib/slug');
 
 const QUERY = (process.env.FIX_QUERY || 'arch width changes following first premolar').toLowerCase();
 const ESP   = process.env.FIX_ESP || 'Ortodontia';
@@ -52,6 +52,24 @@ const ESP   = process.env.FIX_ESP || 'Ortodontia';
   console.log('ENRIQUECIDO:', enriched.titulo_pt.slice(0, 90));
 
   const artigoAtualizado = { ...alvo, ...enriched };
+
+  // 2b. Corrigir o SNAPSHOT do digest de HOJE (é dele que o site e o
+  // generate-podcasts leem a edição): substitui os campos do artigo alvo.
+  const hoje = new Date().toISOString().slice(0, 10);
+  const digestId = `${espDigestSlug(ESP)}_${hoje}`;
+  const digest = await db.getDoc('digests_especialidade', digestId).catch(() => null);
+  if (digest && Array.isArray(digest.artigos)) {
+    let tocado = false;
+    digest.artigos = digest.artigos.map(a => {
+      if (String(a.pmid || a.id) !== pmid) return a;
+      tocado = true;
+      return { ...a, titulo_pt: enriched.titulo_pt, resumo_pt: enriched.resumo_pt,
+        impacto_pratico: enriched.impacto_pratico, achados_principais: enriched.achados_principais,
+        nivel_evidencia: enriched.nivel_evidencia };
+    });
+    if (tocado) { await db.setDoc('digests_especialidade', digestId, digest); console.log('SNAPSHOT do digest corrigido:', digestId); }
+    else console.log('artigo não está no digest de hoje (' + digestId + ') — snapshot inalterado');
+  } else console.log('sem digest de hoje para', ESP);
 
   // 3. Resumo completo (best-effort — o "Ler o resumo" do site).
   try {

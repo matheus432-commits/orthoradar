@@ -1,0 +1,29 @@
+# Auditoria de qualidade da edição do dia (sob demanda / pós-correção).
+# A mesma auditoria roda automaticamente como passo final do daily-pipeline.
+name: Auditoria da Edição
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/audit-edicao.js'
+      - '.audit-dispatch'
+      - '.github/workflows/audit-edicao.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    name: Auditar edição do dia
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Rodar auditoria
+        env:
+          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+          FIREBASE_API_KEY:    ${{ secrets.FIREBASE_API_KEY }}
+          ANTHROPIC_API_KEY:   ${{ secrets.ANTHROPIC_API_KEY }}
+        run: node scripts/audit-edicao.js
