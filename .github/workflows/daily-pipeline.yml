@@ -2,15 +2,18 @@ name: OdontoFeed Daily Pipeline
 
 # Pipeline completo: ingestão → enriquecimento → perfis → envio de emails.
 #
-# Triggers:
-#   schedule   — 03:00 UTC (00:00 BRT): dispara à meia-noite de Brasília. A
-#                ingestão + enriquecimento + envio roda de madrugada, então o
-#                dentista acorda (5h, 6h, 7h…) com o digest já no inbox,
-#                independentemente de o pipeline levar mais ou menos tempo.
-#   push       — qualquer push em netlify/functions/** para main:
-#                executa apenas ingestão (nunca email), garantindo artigos
-#                frescos sem risco de duplo envio.
-#   workflow_dispatch — disparo manual com opções force_send / skip_ai / email_only.
+# Triggers (diretriz 22/07 — controle de custos):
+#   schedule   — 03:00 UTC (00:00 BRT): a ÚNICA execução automática. Ingestão +
+#                enriquecimento + envio roda de madrugada, então o dentista
+#                acorda com o digest no inbox. Esta é a única cobrança de
+#                créditos "automática" esperada por dia.
+#   workflow_dispatch — disparo manual (force_send / skip_ai / email_only).
+#
+# NÃO existe mais gatilho por PUSH. Publicar código (deploy) NÃO re-executa o
+# pipeline: antes, qualquer push em netlify/functions/** re-rodava ingestão +
+# enriquecimento com Claude, consumindo créditos a cada deploy durante o dia.
+# O site no Netlify continua publicando normalmente (deploy independente do
+# GitHub Actions); o pipeline só roda à meia-noite ou por disparo manual.
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
@@ -18,12 +21,6 @@ env:
 on:
   schedule:
     - cron: '0 3 * * *'
-
-  push:
-    branches: [main]
-    paths:
-      - 'netlify/functions/**'
-      - '.github/workflows/daily-pipeline.yml'
 
   workflow_dispatch:
     inputs:
