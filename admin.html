@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Painel — OdontoFeed (admin)</title>
+<style>
+:root{--bg:#FBF7EF;--card:#FFFFFF;--border:#EDE6D8;--text:#1A1A18;--muted:#8A8478;--gold:#B08968;--green:#3E7C4F;--red:#B4533B;--blue:#4A6B8A;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,-apple-system,sans-serif;padding:28px 16px 60px;}
+.wrap{max-width:960px;margin:0 auto;}
+h1{font-family:Georgia,'Times New Roman',serif;font-size:1.6rem;letter-spacing:-.4px;margin-bottom:4px;}
+h1 em{color:var(--gold);font-style:normal;}
+.sub{color:var(--muted);font-size:13px;margin-bottom:22px;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px 20px;margin-bottom:14px;box-shadow:0 1px 4px rgba(0,0,0,.03);}
+.sec-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.4px;color:var(--muted);margin:26px 0 10px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.t-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--muted);margin-bottom:6px;}
+.t-val{font-family:Georgia,serif;font-size:1.7rem;letter-spacing:-.5px;}
+.t-sufix{font-size:12px;color:var(--muted);margin-top:3px;}
+
+/* Atalhos */
+.links{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:6px;}
+a.link{display:block;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px 18px;text-decoration:none;color:var(--text);transition:transform .12s,box-shadow .12s;}
+a.link:hover{transform:translateY(-2px);box-shadow:0 4px 14px rgba(0,0,0,.06);}
+a.link .lk-t{font-weight:700;font-size:15px;}
+a.link .lk-d{font-size:12px;color:var(--muted);margin-top:3px;}
+a.link .lk-ic{font-size:20px;margin-bottom:8px;display:block;}
+
+/* Pipeline */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;}
+.mini{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px;}
+.mini .t-val{font-size:1.3rem;}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;padding:5px 11px;border-radius:20px;background:#EFEDE8;color:var(--muted);}
+.chip.ok{background:#E8F2EA;color:var(--green);}
+.chip.no{background:#F6E7E2;color:var(--red);}
+.chips{display:flex;flex-wrap:wrap;gap:8px;}
+
+/* Cadastros */
+.total-row{display:flex;gap:12px;flex-wrap:wrap;}
+.total-row .card{flex:1;min-width:170px;margin-bottom:0;}
+.esp-line{font-size:13px;line-height:2;}
+.esp-line b{font-family:Georgia,serif;}
+.bar{height:7px;border-radius:4px;background:#EFEAE0;overflow:hidden;margin-top:8px;}
+.bar>div{height:100%;border-radius:4px;background:var(--gold);}
+.bar.warn>div{background:var(--red);}
+
+/* Edições */
+.edicao{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px 18px;margin-bottom:12px;}
+.ed-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;}
+.ed-esp{font-family:Georgia,serif;font-size:1.15rem;}
+.art{display:flex;gap:12px;align-items:flex-start;padding:11px 0;border-top:1px solid var(--border);}
+.art:first-of-type{border-top:none;}
+.art-num{font-family:Georgia,serif;color:var(--gold);font-size:1rem;min-width:20px;}
+.art-body{flex:1;min-width:0;}
+.art-tit{font-size:13.5px;font-weight:600;line-height:1.4;}
+.art-meta{font-size:11.5px;color:var(--muted);margin-top:3px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
+.badge{display:inline-block;font-size:9.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:2px 7px;border-radius:9px;}
+.badge.nivel{background:#EEF1F4;color:var(--blue);}
+.badge.audio{background:#E8F2EA;color:var(--green);}
+.badge.warn{background:#F6E7E2;color:var(--red);}
+.art audio{height:30px;margin-top:7px;max-width:260px;width:100%;}
+
+.date-nav{display:flex;align-items:center;gap:8px;}
+.date-nav input{border:1px solid var(--border);border-radius:9px;padding:6px 9px;font-size:13px;background:#fff;color:var(--text);}
+.date-nav button{border:1px solid var(--border);background:#fff;border-radius:9px;padding:6px 10px;cursor:pointer;font-size:13px;color:var(--text);}
+
+.foot{font-size:11px;color:var(--muted);line-height:1.7;margin-top:26px;}
+.login{max-width:400px;margin:80px auto;text-align:center;}
+.login input{width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:10px;font-size:14px;margin:14px 0 10px;background:#fff;}
+.login button{background:var(--text);color:#fff;border:none;border-radius:10px;padding:12px 26px;font-weight:600;font-size:14px;cursor:pointer;}
+.err{color:var(--red);font-size:13px;margin-top:10px;display:none;}
+#dash{display:none;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="login" id="login">
+    <h1>OdontoFeed<em>.</em> Painel</h1>
+    <p class="sub">Central de administração — informe o segredo.</p>
+    <input type="password" id="secret" placeholder="ADMIN_SECRET" onkeydown="if(event.key==='Enter')entrar()">
+    <button onclick="entrar()">Entrar</button>
+    <p class="err" id="err">Segredo inválido.</p>
+  </div>
+
+  <div id="dash">
+    <h1>OdontoFeed<em>.</em> Painel de administração</h1>
+    <p class="sub" id="gerado"></p>
+
+    <div class="links">
+      <a class="link" href="/custos.html"><span class="lk-ic">💰</span><span class="lk-t">Custos</span><span class="lk-d">gasto do mês e projeção</span></a>
+      <a class="link" href="/admin-dentistas.html"><span class="lk-ic">🦷</span><span class="lk-t">Dentistas</span><span class="lk-d">lista com nomes e e-mails</span></a>
+      <a class="link" href="/arquivo.html"><span class="lk-ic">📚</span><span class="lk-t">Acervo</span><span class="lk-d">todos os resumos e áudios</span></a>
+      <a class="link" href="/dashboard" target="_blank"><span class="lk-ic">🌐</span><span class="lk-t">Área do dentista</span><span class="lk-d">ver como o usuário vê</span></a>
+    </div>
+
+    <div class="sec-title">Pipeline do dia
+      <span class="date-nav">
+        <button onclick="mudarDia(-1)" title="dia anterior">‹</button>
+        <input type="date" id="dia" onchange="carregar(this.value)">
+        <button onclick="mudarDia(1)" title="próximo dia">›</button>
+      </span>
+    </div>
+    <div class="card">
+      <div class="chips" id="pipeline"></div>
+    </div>
+
+    <div class="sec-title">Crescimento de cadastros</div>
+    <div class="total-row" style="margin-bottom:12px;">
+      <div class="card"><div class="t-label">Total</div><div class="t-val" id="cTotal" style="color:var(--gold);">—</div><div class="t-sufix" id="cHoje"></div></div>
+      <div class="card"><div class="t-label">Ativos</div><div class="t-val" id="cAtivos">—</div><div class="t-sufix">recebem o e-mail</div></div>
+      <div class="card"><div class="t-label">Premium (cortesia)</div><div class="t-val" id="cPrem">—</div><div class="t-sufix" id="cInd"></div></div>
+    </div>
+    <div class="card"><div class="t-label">Por especialidade</div><div class="esp-line" id="cEsp" style="margin-top:4px;">—</div></div>
+
+    <div class="sec-title">Edições de hoje — todas as especialidades</div>
+    <div id="edicoes"></div>
+
+    <p class="foot" id="footTts"></p>
+    <p class="foot">Página estritamente administrativa (noindex). Os dados de cadastro são pessoais — não compartilhe esta tela.</p>
+  </div>
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const NIVEL = { 'revisão sistemática':'Rev. sistemática','meta-análise':'Meta-análise','ensaio clínico randomizado':'ECR' };
+function fmtDur(s){ s=Number(s)||0; if(!s) return ''; const m=Math.floor(s/60), r=s%60; return m+':'+String(r).padStart(2,'0'); }
+
+async function entrar() {
+  const secret = $('secret').value.trim();
+  if (!secret) return;
+  const res = await fetch('/.netlify/functions/get-painel?secret=' + encodeURIComponent(secret));
+  if (!res.ok) { $('err').style.display = 'block'; return; }
+  sessionStorage.setItem('of_admin', secret);
+  render(await res.json());
+}
+
+async function carregar(dia) {
+  const s = sessionStorage.getItem('of_admin'); if (!s) return;
+  const q = dia ? '&dia=' + encodeURIComponent(dia) : '';
+  const res = await fetch('/.netlify/functions/get-painel?secret=' + encodeURIComponent(s) + q);
+  if (res.ok) render(await res.json());
+}
+function mudarDia(delta) {
+  const inp = $('dia'); const base = inp.value ? new Date(inp.value + 'T12:00:00') : new Date();
+  base.setDate(base.getDate() + delta);
+  const iso = base.toISOString().slice(0,10);
+  inp.value = iso; carregar(iso);
+}
+
+function render(d) {
+  $('login').style.display = 'none';
+  $('dash').style.display = 'block';
+  if (!$('dia').value) $('dia').value = d.dia;
+  $('gerado').textContent = 'Dia ' + d.dia + ' · gerado ' + new Date(d.geradoEm).toLocaleString('pt-BR');
+
+  // Pipeline
+  const p = d.pipeline;
+  const spot = p.spotifyCompiladas || [];
+  const chip = (ok, txt) => '<span class="chip ' + (ok?'ok':'no') + '">' + (ok?'✓':'✕') + ' ' + txt + '</span>';
+  $('pipeline').innerHTML = [
+    '<span class="chip ' + (p.edicoesProntas>=2?'ok':'no') + '">' + p.edicoesProntas + ' edições prontas</span>',
+    '<span class="chip ' + (p.episodiosDia>0?'ok':'no') + '">' + p.episodiosDia + ' áudios do dia</span>',
+    '<span class="chip ' + (spot.length>=2?'ok':'no') + '">🎧 Spotify: ' + (spot.length?spot.join(' + '):'nada') + '</span>',
+    chip(p.instagramCarrossel, 'Carrossel IG'),
+    chip(p.instagramReel, 'Reel IG'),
+  ].join('');
+
+  // Cadastros
+  const den = d.dentistas || {};
+  $('cTotal').textContent = den.total ?? '—';
+  $('cHoje').textContent = den.hoje ? ('+' + den.hoje + ' hoje') : 'nenhum novo hoje';
+  $('cAtivos').textContent = den.ativos ?? '—';
+  $('cPrem').textContent = den.premium ?? '—';
+  $('cInd').textContent = den.comIndicacao ? (den.comIndicacao + ' por indicação') : '';
+  const esp = den.porEspecialidade || {};
+  const ent = Object.entries(esp).sort((a,b)=>b[1]-a[1]);
+  $('cEsp').innerHTML = ent.length
+    ? ent.map(([k,v]) => '<span style="color:var(--muted)">'+k+'</span> <b>'+v+'</b>').join(' &nbsp;·&nbsp; ')
+    : '<span style="color:var(--muted)">sem dados</span>';
+
+  // Edições
+  const cont = $('edicoes');
+  if (!d.edicoes || !d.edicoes.length) {
+    cont.innerHTML = '<div class="card" style="color:var(--muted);font-size:13px;">Nenhuma edição encontrada para ' + d.dia + '.</div>';
+  } else {
+    cont.innerHTML = d.edicoes.map(e => {
+      const arts = e.artigos.map((a,i) => {
+        const nivel = a.nivel ? '<span class="badge nivel">' + (NIVEL[String(a.nivel).toLowerCase()]||a.nivel) + '</span>' : '';
+        const audio = a.temAudio
+          ? '<span class="badge audio">áudio ' + fmtDur(a.secs) + '</span>'
+          : '<span class="badge warn">sem áudio</span>';
+        const alerta = a.enriquecido ? '' : '<span class="badge warn">sem enriquecimento</span>';
+        const player = a.audioUrl ? '<audio controls preload="none" src="' + a.audioUrl + '"></audio>' : '';
+        return '<div class="art"><div class="art-num">' + (i+1) + '</div><div class="art-body">' +
+          '<div class="art-tit">' + a.titulo + '</div>' +
+          '<div class="art-meta">' + nivel + audio + alerta + (a.journal?'<span>'+a.journal+'</span>':'') + '</div>' +
+          player + '</div></div>';
+      }).join('');
+      const spotBadge = e.noSpotify ? '<span class="badge audio">no Spotify</span>' : '';
+      return '<div class="edicao"><div class="ed-head"><span class="ed-esp">' + e.especialidade + '</span>' +
+        '<span>' + spotBadge + ' <span style="color:var(--muted);font-size:12px;">' + e.artigos.length + ' estudos</span></span></div>' +
+        arts + '</div>';
+    }).join('');
+  }
+
+  // TTS
+  const t = d.tts || {};
+  $('footTts').innerHTML = '<b>TTS do mês:</b> ' + (t.chars||0).toLocaleString('pt-BR') + ' de ' +
+    (t.budget||0).toLocaleString('pt-BR') + ' caracteres (' + (t.pct||0) + '%). ' +
+    '<div class="bar' + (t.pct>85?' warn':'') + '" style="max-width:320px"><div style="width:' + Math.min(100,t.pct||0) + '%"></div></div>';
+}
+
+// Sessão ativa nesta aba → entra direto.
+(async () => {
+  const s = sessionStorage.getItem('of_admin'); if (!s) return;
+  const res = await fetch('/.netlify/functions/get-painel?secret=' + encodeURIComponent(s));
+  if (res.ok) render(await res.json());
+})();
+</script>
+</body>
+</html>
