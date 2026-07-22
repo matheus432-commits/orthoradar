@@ -93,6 +93,11 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 36px
 .article-date{font-size:11px;color:var(--muted);}
 .article-card h3{font-size:14px;font-weight:700;line-height:1.55;margin-bottom:9px;color:var(--text);}
 .article-summary{font-size:12.5px;color:var(--muted);line-height:1.65;margin-bottom:14px;flex:1;font-family:'Source Serif 4',Georgia,serif;}
+/* Extra Premium: resumo detalhado (formato podcast) — parágrafos completos */
+.article-summary.full{color:var(--text,#1f2430);font-size:13px;}
+.article-summary.full p{margin:0 0 10px;}
+.article-summary.full p:last-child{margin-bottom:0;}
+.article-summary-mais{background:none;border:none;color:#7C3AED;font-weight:700;font-size:12px;cursor:pointer;padding:0;margin:-4px 0 12px;}
 .article-actions{display:flex;gap:7px;margin-top:auto;flex-wrap:wrap;}
 .btn-like{background:none;border:1.5px solid var(--border-2);color:var(--muted);padding:6px 12px;border-radius:7px;cursor:pointer;font-size:11px;font-weight:600;transition:all 0.18s;font-family:inherit;}
 .btn-like:hover{border-color:#F87171;color:#EF4444;}
@@ -859,7 +864,19 @@ function populateDashboard(data){
 // ========== ARTICLE CARD ==========
 function articleCard(art,curtidos,lidos){
   let date='';if(art.data){try{const _d=new Date(art.data);if(!isNaN(_d.getTime()))date=_d.toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'numeric'});}catch(e){}}
-  const summary=escapeHtml((art.resumo||'').substring(0,280)+(art.resumo&&art.resumo.length>280?'…':''));
+  // Extra Premium: mostra o RESUMO DETALHADO (formato podcast: objetivo, métodos,
+  // resultados com veredito e relevância clínica) por inteiro, em parágrafos.
+  // Demais artigos: prévia curta do resumo (280 chars).
+  const isPrem=!!art.premium;
+  const resumoFull=String(art.resumo_completo||'').trim();
+  let summaryCls='article-summary', summary;
+  if(isPrem && resumoFull){
+    summaryCls+=' full';
+    summary=resumoFull.split(/\n{2,}|\r?\n/).map(p=>p.trim()).filter(Boolean)
+      .map(p=>`<p>${escapeHtml(p)}</p>`).join('') || `<p>${escapeHtml(resumoFull)}</p>`;
+  }else{
+    summary=escapeHtml((art.resumo||'').substring(0,280)+(art.resumo&&art.resumo.length>280?'…':''));
+  }
   const journal=[art.journal,art.year].filter(Boolean).map(escapeHtml).join(' · ');
   const ev=art.nivel_evidencia||'';
   let evCls='ev-d';
@@ -880,7 +897,7 @@ function articleCard(art,curtidos,lidos){
     ${temaTag}
     <h3>${escapeHtml(art.titulo||'Sem título')}</h3>
     ${journal?`<div class="article-journal">${journal}</div>`:''}
-    <div class="article-summary">${summary}</div>
+    <div class="${summaryCls}">${summary}</div>
     <div class="article-actions">
       ${_podcastMap.has(String(art.id))?`<button class="btn-lido btn-audio-dash" onclick="toggleAudioDash(this)">🎧 Ouvir resumo</button>`:''}
       ${safeUrl(art.pubmedUrl)?`<a class="btn-pubmed" href="${escapeHtml(safeUrl(art.pubmedUrl))}" target="_blank" rel="noopener">PubMed ↗</a>`:''}
@@ -919,9 +936,12 @@ function toggleAudioDash(btn){
 // preferindo o registro completo da coleção quando existir (mantém id/estado).
 function _edicaoParaCard(e, artigos){
   const full=(artigos||[]).find(a=>String(a.id)===String(e.id));
-  if(full) return e.premium?{...full,premium:true}:full;
+  // Mesmo quando há registro completo na coleção, o resumo detalhado (formato
+  // podcast) vem da edição — preserva-o para o card Premium exibir por inteiro.
+  if(full) return e.premium?{...full,premium:true,resumo_completo:e.resumo_completo||full.resumo_completo||'',impacto:e.impacto||full.impacto||''}:full;
   return {
     id:String(e.id||''), titulo:e.titulo||'', resumo:e.resumo||'',
+    resumo_completo:e.resumo_completo||'', impacto:e.impacto||'',
     journal:e.journal||'', year:e.year||'', nivel_evidencia:e.nivel_evidencia||'',
     pubmedUrl:e.url||'', data:(_edicaoHoje&&_edicaoHoje.date)||'', premium:!!e.premium,
   };
