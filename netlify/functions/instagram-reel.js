@@ -77,7 +77,7 @@ function buildCaption(especialidade, tituloEstudo) {
   const espTag = '#' + specialtySlug(especialidade).replace(/-/g, '');
   return `🎧 ${especialidade} — a ciência do dia, narrada\n\n${tituloEstudo}\n\n` +
     `Acompanhe cada passo do estudo com o áudio. Resumo escrito e artigo na íntegra — grátis.\n\n` +
-    `👉 Siga @odontofeedbr\n🌐 odontofeed.com · Spotify · Apple Podcasts\n\n` +
+    `👉 Siga @odontofeedbr\n🌐 Site: odontofeed.com\n🎧 Ouça no Spotify: odontofeed.com/spotify\n\n` +
     `#OdontoFeed #Odontologia #CiênciaOdontológica #OdontoBaseadaEmEvidência ${espTag}`;
 }
 

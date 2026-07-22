@@ -55,7 +55,8 @@ function buildCaption(especialidade, articles) {
     `Os estudos que selecionamos e resumimos hoje:\n${linhas.join('\n')}\n\n` +
     `📄 Resumo escrito · 🎧 áudio de ~8 min · 📚 artigo na íntegra\n` +
     `Curadoria científica com apoio de IA — transparente.\n\n` +
-    `👉 Siga @odontofeedbr e receba todo dia\n🌐 odontofeed.com · 🎙️ Spotify e Apple Podcasts\n\n${tags}`;
+    `👉 Siga @odontofeedbr e receba todo dia\n` +
+    `🌐 Site: odontofeed.com\n🎧 Ouça no Spotify: odontofeed.com/spotify\n\n${tags}`;
 }
 
 exports.handler = async () => {
