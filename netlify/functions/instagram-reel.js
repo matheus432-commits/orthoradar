@@ -20,7 +20,7 @@ const os = require('os');
 const path = require('path');
 
 const { Firestore } = require('./_lib/firestore');
-const { especialidadeDoDia, corDe } = require('./_lib/especialidade-identidade');
+const { prioridadesDoDia, corDe } = require('./_lib/especialidade-identidade');
 const { specialtySlug } = require('./_lib/slug');
 const { segmentScript, computeTimings, conceptSlug } = require('./_lib/reel-scenes');
 const { generateIllustration } = require('./_lib/imagen');
@@ -109,12 +109,18 @@ exports.handler = async () => {
     }
     if (already?.mediaId && force) log.info('[reel] FORCE_REPOST — republicando apesar do marcador', { dateStr });
 
-    // Especialidade do dia (ciclo fixo das 11 — mesma do carrossel).
-    const especialidade = especialidadeDoDia(dateStr);
-    const ep = await db.getDoc('podcast_episodios', `${specialtySlug(especialidade)}_${dateStr}_ep1`).catch(() => null);
-    if (!ep?.roteiro || !ep?.objectPath || !ep?.downloadToken || !(Number(ep.secs) > 0)) {
-      log.info('[reel] sem episódio com roteiro p/ a especialidade do dia', { dateStr, especialidade });
-      return { statusCode: 200, body: JSON.stringify({ skipped: true, reason: 'no_episode_with_script', especialidade }) };
+    // Especialidade do dia com FALLBACK (incidente 22/07, mesma regra do
+    // carrossel): dia de área sem episódio → a próxima do ciclo com áudio.
+    let especialidade = null, ep = null;
+    for (const cand of prioridadesDoDia(dateStr)) {
+      const doc = await db.getDoc('podcast_episodios', `${specialtySlug(cand)}_${dateStr}_ep1`).catch(() => null);
+      if (doc?.roteiro && doc?.objectPath && doc?.downloadToken && Number(doc.secs) > 0) {
+        especialidade = cand; ep = doc; break;
+      }
+    }
+    if (!ep) {
+      log.info('[reel] nenhuma especialidade com episódio narrado hoje', { dateStr });
+      return { statusCode: 200, body: JSON.stringify({ skipped: true, reason: 'no_episode_with_script' }) };
     }
 
     // Cenas + sincronia.

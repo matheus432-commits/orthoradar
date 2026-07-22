@@ -17,7 +17,7 @@ const { renderCarousel } = require('./_lib/instagram-render');
 const { uploadImage } = require('./_lib/storage');
 const { publishCarousel, getValidToken, resolveIgUserId } = require('./_lib/instagram-api');
 const { formatEvidenceLevel } = require('./_lib/instagram-generator');
-const { especialidadeDoDia, corDe } = require('./_lib/especialidade-identidade');
+const { prioridadesDoDia, corDe } = require('./_lib/especialidade-identidade');
 const { specialtySlug, espDigestSlug } = require('./_lib/slug');
 const log = require('./_lib/logger');
 
@@ -81,12 +81,18 @@ exports.handler = async () => {
       return { statusCode: 200, body: JSON.stringify({ skipped: true, reason: 'already_posted', mediaId: already.mediaId }) };
     }
 
-    // Especialidade do dia (ciclo fixo das 11).
-    const especialidade = especialidadeDoDia(dateStr);
-    const articles = await getEspecialidadeArticles(db, especialidade, dateStr, 5);
-    if (articles.length < 2) {
-      log.warn('[instagram] estudos insuficientes p/ carrossel', { especialidade, count: articles.length });
-      return { statusCode: 200, body: JSON.stringify({ posted: 0, reason: 'not_enough_articles', especialidade }) };
+    // Especialidade do dia com FALLBACK (incidente 22/07): se a área da vez
+    // não tem edição (sem usuários ativos → sem digest), a próxima do ciclo
+    // com estudos assume — o feed nunca fica sem o post do dia.
+    let especialidade = null, articles = [];
+    for (const cand of prioridadesDoDia(dateStr)) {
+      const arts = await getEspecialidadeArticles(db, cand, dateStr, 5);
+      if (arts.length >= 2) { especialidade = cand; articles = arts; break; }
+      log.info('[instagram] especialidade sem edição hoje — tentando a próxima do ciclo', { cand, count: arts.length });
+    }
+    if (!especialidade) {
+      log.warn('[instagram] nenhuma especialidade com estudos suficientes hoje', { date: dateStr });
+      return { statusCode: 200, body: JSON.stringify({ posted: 0, reason: 'not_enough_articles' }) };
     }
 
     // 1. HTML → slides JPEG (capa na cor-assinatura da especialidade)

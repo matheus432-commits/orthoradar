@@ -56,4 +56,14 @@ function especialidadeDoDia(dateStr) {
   return CICLO[idx];
 }
 
-module.exports = { CICLO, CORES, FALLBACK_COR, corDe, capaFontPx, especialidadeDoDia };
+// Prioridades do dia: o ciclo ROTACIONADO a partir da especialidade do dia.
+// Consumidores (Instagram, Spotify) percorrem a lista e usam a PRIMEIRA
+// especialidade que tiver conteúdo gerado — dia de área sem usuários ativos
+// (sem edição) não pode deixar canal nenhum sem post (incidente 22/07:
+// dia de Dentística sem digest → carrossel e reel pularam o dia).
+function prioridadesDoDia(dateStr) {
+  const idx = CICLO.indexOf(especialidadeDoDia(dateStr));
+  return CICLO.map((_, i) => CICLO[(Math.max(0, idx) + i) % CICLO.length]);
+}
+
+module.exports = { CICLO, CORES, FALLBACK_COR, corDe, capaFontPx, especialidadeDoDia, prioridadesDoDia };
