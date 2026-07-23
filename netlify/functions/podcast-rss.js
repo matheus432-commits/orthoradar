@@ -167,14 +167,18 @@ function buildFeed(especialidade, episodes, bucket, opts = {}) {
 // 2 primeiras que tiverem episódio gerado — a dupla gira dia a dia e, se uma
 // área não tiver edição (sem usuários ativos), a próxima do ciclo entra no
 // lugar: o feed nunca fica aquém do possível.
-const { especialidadeDoDia, CICLO } = require('./_lib/especialidade-identidade');
+const { CICLO, diaDoCiclo } = require('./_lib/especialidade-identidade');
 
 const EDICOES_POR_DIA = parseInt(process.env.PODCAST_MASTER_POR_DIA || '', 10) || 2;
 
-// Slugs em ordem de prioridade para uma data: o ciclo rotacionado começando
-// na especialidade do dia (determinístico).
+// RODÍZIO do feed mestre (correção 23/07 — Prótese saiu 3 dias seguidos): o
+// Spotify pega EDICOES_POR_DIA especialidades por dia, então o rodízio avança
+// em BLOCOS de EDICOES_POR_DIA por dia (não de 1 em 1). Assim a leva de hoje
+// começa onde a de ontem parou — dias consecutivos ficam disjuntos. (O
+// Instagram continua avançando 1/dia via especialidadeDoDia; são consumos
+// diferentes do mesmo ciclo.)
 function prioritySlugsForDate(date) {
-  const idx = Math.max(0, CICLO.indexOf(especialidadeDoDia(date)));
+  const idx = (((diaDoCiclo(date) * EDICOES_POR_DIA) % CICLO.length) + CICLO.length) % CICLO.length;
   return CICLO.map((_, i) => specialtySlug(CICLO[(idx + i) % CICLO.length]));
 }
 
@@ -184,19 +188,34 @@ function episodeSlug(e) {
 }
 
 // Escolhe até EDICOES_POR_DIA especialidades de UMA data, na ordem do ciclo
-// rotacionado (a do dia primeiro). compiledOnly=true pega SÓ a edição compilada
-// (o padrão do feed — cada especialidade = 1 áudio com os 3 estudos do dia);
-// =false tolera o episódio avulso (rede de segurança para transição/legado).
-function pickForDate(eps, date, compiledOnly) {
-  const out = [];
-  for (const wantSlug of prioritySlugsForDate(date)) {
-    if (out.length >= EDICOES_POR_DIA) break;
+// rotacionado. compiledOnly=true pega SÓ a edição compilada (o padrão do feed —
+// cada especialidade = 1 áudio com os 3 estudos do dia); =false tolera o
+// episódio avulso (rede de segurança para transição/legado). `avoidSlugs` =
+// especialidades do dia ANTERIOR: são puladas para garantir o rodízio mesmo
+// quando alguma área não tem edição e o ciclo "pula" para a próxima (isso
+// reintroduzia repetição em dias seguidos). 2ª passada permite repetir só se
+// não houver distintas suficientes (o feed nunca fica aquém do possível).
+function pickForDate(eps, date, compiledOnly, avoidSlugs = new Set()) {
+  const chooseEp = (wantSlug) => {
     const daEsp = eps.filter(e => episodeSlug(e) === wantSlug);
-    const chosen = compiledOnly
+    return compiledOnly
       ? daEsp.find(e => e.tipo === 'completo')
       : (daEsp.find(e => e.tipo === 'completo') || daEsp.sort((a, b) => (a.n || 0) - (b.n || 0))[0]);
-    if (chosen) out.push(chosen);
-  }
+  };
+  const order = prioritySlugsForDate(date);
+  const out = [];
+  const usedHere = new Set();
+  const passada = (respeitaRodizio) => {
+    for (const wantSlug of order) {
+      if (out.length >= EDICOES_POR_DIA) break;
+      if (usedHere.has(wantSlug)) continue;
+      if (respeitaRodizio && avoidSlugs.has(wantSlug)) continue;
+      const chosen = chooseEp(wantSlug);
+      if (chosen) { out.push(chosen); usedHere.add(wantSlug); }
+    }
+  };
+  passada(true);              // 1ª: rodízio (evita as de ontem)
+  if (out.length < EDICOES_POR_DIA) passada(false); // 2ª: completa se faltou
   return out;
 }
 
@@ -220,14 +239,24 @@ async function masterEpisodes(db) {
     byDate.get(e.date).push(e);
   }
 
+  // Processa as datas em ordem CRONOLÓGICA, passando as especialidades do dia
+  // anterior como `avoidSlugs` — assim o rodízio nunca repete a mesma
+  // especialidade em dias seguidos (correção 23/07).
+  const escolher = (compiledOnly) => {
+    const res = [];
+    let anterior = new Set();
+    for (const date of [...byDate.keys()].sort()) {
+      const picks = pickForDate(byDate.get(date), date, compiledOnly, anterior);
+      if (picks.length) { res.push(...picks); anterior = new Set(picks.map(episodeSlug)); }
+    }
+    return res;
+  };
+
   // Padrão: só edições compiladas. Dias sem compilada (ex.: legado) ficam de
   // fora — nunca misturam áudio avulso quando há compiladas disponíveis.
-  let out = [];
-  for (const [date, eps] of byDate) out.push(...pickForDate(eps, date, true));
+  let out = escolher(true);
   // Rede de segurança: nenhuma compilada no histórico inteiro → modo tolerante.
-  if (!out.length) {
-    for (const [date, eps] of byDate) out.push(...pickForDate(eps, date, false));
-  }
+  if (!out.length) out = escolher(false);
   // Mais recentes primeiro; a ordem do ciclo dentro do dia é preservada
   // (sort estável → não reordena empates de mesma data).
   return out
