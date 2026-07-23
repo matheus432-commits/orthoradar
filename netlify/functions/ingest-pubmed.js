@@ -51,10 +51,18 @@ const SEARCH_RELDATE = SEARCH_YEARS * 365; // dias
 
 // ── PubMed API helpers ────────────────────────────────────────────────────────
 
+// Diretriz do fundador (22/07): não ingerir questionários/surveys de opinião —
+// descrevem percepção/padrão de prática, não desfecho de tratamento. Excluído já
+// na busca (título/resumo + tipo de publicação), poupando cota e enriquecimento.
+const EXCLUI_SURVEY =
+  ' NOT (questionnaire[tiab] OR questionnaires[tiab] OR survey[tiab] OR surveys[tiab]' +
+  ' OR "cross-sectional survey"[tiab] OR "knowledge attitude"[tiab] OR "knowledge, attitude"[tiab]' +
+  ' OR "Surveys and Questionnaires"[Mesh])';
+
 async function searchPmids(query, retMax = 15) {
   await ncbiThrottle();
   const encodedQuery = encodeURIComponent(
-    `(${query}) AND (English[lang])`
+    `(${query}) AND (English[lang])${EXCLUI_SURVEY}`
   );
   // datetype=pdat + reldate → últimos SEARCH_YEARS anos por data de publicação.
   // sort=date traz os mais recentes primeiro; o dedup diário evita reingestão.

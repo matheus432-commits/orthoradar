@@ -249,8 +249,17 @@ async function fetchOne(pmid) {
 
 // ── Search PubMed for a query term ───────────────────────────────────────────
 
+// Diretriz do fundador (22/07): tirar questionários/surveys de opinião das
+// buscas — descrevem percepção/padrão de prática, não desfecho de tratamento
+// ("não melhora em nada"). Exclui por título/resumo e por tipo de publicação no
+// próprio PubMed, para não gastar cota buscando o que seria descartado depois.
+const EXCLUI_SURVEY =
+  ' NOT (questionnaire[tiab] OR questionnaires[tiab] OR survey[tiab] OR surveys[tiab]' +
+  ' OR "cross-sectional survey"[tiab] OR "knowledge attitude"[tiab] OR "knowledge, attitude"[tiab]' +
+  ' OR "Surveys and Questionnaires"[Mesh])';
+
 async function searchOne(query, excludePmids = new Set()) {
-  const encoded    = encodeURIComponent(query);
+  const encoded    = encodeURIComponent(query + EXCLUI_SURVEY);
   // Janela ampla (15 anos) → acervo específico da área muito maior, tornando a
   // repetição de artigos praticamente impossível. O excludePmids remove o que já
   // foi enviado antes de escolher o candidato.
