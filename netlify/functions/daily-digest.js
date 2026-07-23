@@ -156,6 +156,39 @@ function isLowValueSurvey(a) {
   return false;
 }
 
+// Estudo de SAÚDE PÚBLICA / POLÍTICA / EPIDEMIOLOGIA POPULACIONAL brasileira
+// (SUS, SB Brasil, inquéritos nacionais, acesso/cobertura/desigualdade de
+// serviços): mede prevalência, uso e políticas — não desfecho clínico de
+// tratamento. Diretriz do fundador (23/07): evitar ao máximo — "não traz
+// impacto clínico para o dentista".
+function isPublicHealthPolicy(a) {
+  const t = `${a.titulo_pt || ''} ${a.titulo || a.title || ''} ${a.resumo_pt || ''}`.toLowerCase();
+  const journal = String(a.journal || '').toLowerCase();
+  if (/\bsb[\s-]?brasil\b/.test(t)) return true;                                   // levantamento nacional de saúde bucal
+  if (/\bsus\b|sistema [úu]nico de sa[úu]de/.test(t)) return true;                 // SUS
+  if (/pol[íi]tica[s]? p[úu]blica[s]?|pol[íi]tica de sa[úu]de/.test(t)) return true;
+  if (/inqu[ée]rito nacional|levantamento epidemiol[óo]gico nacional|pesquisa nacional de sa[úu]de/.test(t)) return true;
+  if (/estrat[ée]gia sa[úu]de da fam[íi]lia|\baten[çc][ãa]o b[áa]sica\b|e-?sus|\bpnad\b|\bpnsb\b/.test(t)) return true;
+  // Periódico de epidemiologia + contexto populacional (uso/necessidade/acesso/
+  // prevalência/tendências/cobertura/desigualdade) — estudo de população.
+  if (/epidemiolog/.test(journal) &&
+      /(preval[êe]ncia|uso e necessidade|\buso de\b|necessidade de|acesso a|acesso aos|cobertura|tend[êe]ncia|desigualdade)/.test(t)) return true;
+  return false;
+}
+
+// Passa na CURADORIA DE CONTEÚDO? Reúne as travas de qualidade — enriquecido,
+// não é survey/questionário, é estudo COM resultados (não protocolo/em
+// andamento) e não é estudo de saúde pública/política (SUS/SB Brasil). Usada em
+// TODOS os caminhos que injetam candidatos (seleção base E fallbacks), para nada
+// escapar (incidente 22-23/07: crus, surveys, protocolos e estudos de SUS
+// entravam pelos fallbacks, que rodam depois do filtro base).
+function passaCuradoria(a) {
+  return isEnriched(a) &&
+         !isLowValueSurvey(a) &&
+         !isPublicHealthPolicy(a) &&
+         !isUnfinishedStudy(a.titulo || a.title || a.titulo_pt || '', a.abstract || '', a.journal || '');
+}
+
 // Especialidades renomeadas: o histórico antigo foi gravado com o nome da época
 // e precisa continuar contando para a anti-repetição.
 const LEGACY_ESP_ALIASES = {
@@ -423,6 +456,12 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
       });
       return false;
     }
+    if (isPublicHealthPolicy(a)) {
+      log.info('[digest][ESP] estudo de saúde pública/SUS descartado (sem impacto clínico)', {
+        especialidade, id: a.pmid || a.id, titulo: (a.titulo_pt || a.titulo || '').slice(0, 70),
+      });
+      return false;
+    }
     if (isEnriched(a)) return true;
     log.info('[digest][ESP] artigo NÃO ENRIQUECIDO descartado (sem titulo_pt/resumo_pt)', {
       especialidade, id: a.pmid || a.id, titulo: (a.titulo || '').slice(0, 70),
@@ -447,7 +486,7 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
     const trending = await getTrendingArticles(db, 30);
     const trendNew = trending.filter(a =>
       a.especialidade === especialidade &&
-      isEnriched(a) && // mesma trava: sem enriquecimento não entra na edição
+      passaCuradoria(a) && // enriquecido + não-survey + com resultados
       !isRepeated(a, hist) &&
       !articleKeys(a).some(k => seenKeys.has(k)));
     trendNew.forEach(a => articleKeys(a).forEach(k => seenKeys.add(k)));
@@ -460,12 +499,12 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
     try {
       const needed  = MAX_ARTICLES + 2;
       const fbArts  = await pubmedFallbackArticles({ especialidade, temas: [] }, hist, needed, anthropicKey);
-      // TRAVA (incidente 22/07): o fallback do PubMed traz artigos frescos que
+      // TRAVA (incidente 22-23/07): o fallback do PubMed traz artigos frescos que
       // só são traduzidos se o Claude responder. Se vierem CRUS (sem titulo_pt/
-      // resumo_pt), NÃO entram — antes entravam em inglês. Também exclui
-      // questionários/surveys de opinião.
+      // resumo_pt), NÃO entram — antes entravam em inglês. passaCuradoria também
+      // barra questionários/surveys e protocolos/estudos sem resultados.
       const newArts = fbArts.filter(a =>
-        isEnriched(a) && !isLowValueSurvey(a) &&
+        passaCuradoria(a) &&
         !isRepeated(a, hist) && !articleKeys(a).some(k => seenKeys.has(k)));
       const descartadosCrus = fbArts.length - newArts.length;
       newArts.forEach(a => articleKeys(a).forEach(k => seenKeys.add(k)));
@@ -732,11 +771,11 @@ async function buildPremiumPool(db, especialidade) {
   try {
     const hist = await getEspHistory(db, especialidade); // inclui o digest de HOJE (já persistido)
     const brutos = await getCandidates(db, [especialidade]);
-    // TRAVA DE ENRIQUECIMENTO (incidente 22/07): extra Premium sem titulo_pt/
-    // resumo_pt saía como card em inglês, sem resumo. Só entra no pool o que já
-    // está enriquecido — a MESMA trava da edição base. Também remove
-    // questionários/surveys de outros países (baixa acionabilidade clínica).
-    let pool = brutos.filter(a => isEnriched(a) && !isLowValueSurvey(a) && !isRepeated(a, hist));
+    // CURADORIA (incidente 22-23/07): extra Premium sem titulo_pt/resumo_pt saía
+    // como card em inglês, sem resumo; e surveys/protocolos não devem entrar.
+    // passaCuradoria é a MESMA trava da edição base (enriquecido + não-survey +
+    // com resultados).
+    let pool = brutos.filter(a => passaCuradoria(a) && !isRepeated(a, hist));
     const aposHistorico = pool.length;
     const seen = new Set();
     pool = pool.filter(a => {
@@ -1181,6 +1220,7 @@ exports.handler = async () => {
 // Helpers puros expostos para teste (não alteram o comportamento do script).
 exports.isEnriched = isEnriched;
 exports.isLowValueSurvey = isLowValueSurvey;
+exports.isPublicHealthPolicy = isPublicHealthPolicy;
 
 if (require.main === module) {
   main()

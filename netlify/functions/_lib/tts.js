@@ -125,4 +125,61 @@ async function synthesize(db, { text, voice = DEFAULT_VOICE, speakingRate = 1.0,
   return { ok: true, audioBase64, chars, voice: usedVoice };
 }
 
-module.exports = { synthesize, VOICES };
+// Divide um texto em pedaços que caibam no limite de BYTES da API, cada um
+// terminando em fim de frase quando possível. Antes (incidente 23/07) o roteiro
+// era TRUNCADO em 4500 bytes e o áudio cortava no meio; agora ele é sintetizado
+// em partes e concatenado.
+function splitForTts(text, maxBytes = budget.MAX_REQUEST_BYTES) {
+  const t = String(text || '').trim();
+  if (!t) return [];
+  if (budget.byteLength(t) <= maxBytes) return [t];
+  const chunks = [];
+  let rest = t;
+  while (budget.byteLength(rest) > maxBytes) {
+    // Maior prefixo (em caracteres) que cabe em maxBytes (busca binária).
+    let lo = 0, hi = rest.length;
+    while (lo < hi) {
+      const mid = Math.ceil((lo + hi) / 2);
+      if (budget.byteLength(rest.slice(0, mid)) <= maxBytes) lo = mid; else hi = mid - 1;
+    }
+    let cut = rest.slice(0, lo);
+    // Recua até o último fim de frase; se não houver, corta no último espaço
+    // (nunca no meio de uma palavra).
+    const stop = Math.max(cut.lastIndexOf('. '), cut.lastIndexOf('! '), cut.lastIndexOf('? '),
+                          cut.lastIndexOf('.\n'), cut.lastIndexOf('!\n'), cut.lastIndexOf('?\n'));
+    if (stop > lo * 0.5) cut = cut.slice(0, stop + 1);
+    else { const sp = cut.lastIndexOf(' '); if (sp > lo * 0.5) cut = cut.slice(0, sp); }
+    chunks.push(cut.trim());
+    rest = rest.slice(cut.length).trim();
+  }
+  if (rest) chunks.push(rest);
+  return chunks.filter(Boolean);
+}
+
+// Sintetiza um roteiro de qualquer tamanho: fatia no limite de bytes, sintetiza
+// cada parte (com o gate de orçamento de synthesize) e concatena o MP3. MP3s do
+// mesmo encoder/voz concatenam sem problema (players tocam em sequência; a
+// duração soma — ver mp3DurationSecs). ALL-OR-NOTHING: se uma parte falhar/for
+// bloqueada, retorna o skip (o chamador mantém o áudio anterior / pula), para
+// nunca publicar um áudio parcial.
+async function synthesizeLong(db, opts = {}) {
+  const parts = splitForTts(opts.text || '');
+  if (parts.length <= 1) return synthesize(db, opts);
+
+  const buffers = [];
+  let totalChars = 0, usedVoice = null;
+  for (let i = 0; i < parts.length; i++) {
+    const r = await synthesize(db, { ...opts, text: parts[i] });
+    if (!r.ok) {
+      log.warn('[tts] parte falhou — áudio longo abortado', { reason: r.reason, parte: i + 1, de: parts.length });
+      return r;
+    }
+    buffers.push(Buffer.from(r.audioBase64, 'base64'));
+    totalChars += r.chars;
+    usedVoice = r.voice;
+  }
+  log.info('[tts] áudio longo concatenado (roteiro fatiado, nada truncado)', { partes: parts.length, chars: totalChars });
+  return { ok: true, audioBase64: Buffer.concat(buffers).toString('base64'), chars: totalChars, voice: usedVoice, partes: parts.length };
+}
+
+module.exports = { synthesize, synthesizeLong, splitForTts, VOICES };
