@@ -57,15 +57,27 @@ function destaques(xml) {
 describe('podcast-rss — feed mestre (ciclo diário das 11)', () => {
   beforeEach(() => { process.env.FIREBASE_API_KEY = 'x'; process.env.SITE_URL = 'https://odontofeed.com'; });
 
-  // Ciclo (época 2026-01-01): 20/07→Periodontia · 21/07→Endodontia ·
-  // 22/07→Dentística · 23/07→Prótese · 24/07→Bucomaxilofacial ·
-  // 25/07→Odontopediatria · 26/07→DTM e Dor Orofacial.
-  // Decisão 21/07: 2 especialidades/dia — a do dia + a próxima do ciclo.
-  test('cada dia publica a especialidade do dia + a próxima do ciclo (2 itens/dia)', async () => {
-    assert.deepEqual(destaques(await masterFeed(allSpecs(SEG))), ['Periodontia', 'Endodontia']);
-    assert.deepEqual(destaques(await masterFeed(allSpecs(TER))), ['Endodontia', 'Dentística']);
-    assert.deepEqual(destaques(await masterFeed(allSpecs(QUA))), ['Dentística', 'Prótese']);
-    assert.deepEqual(destaques(await masterFeed(allSpecs(DOM))), ['DTM e Dor Orofacial', 'Radiologia']);
+  // RODÍZIO em blocos de 2/dia (correção 23/07 — antes a janela deslizava de 1
+  // e a mesma especialidade saía 2 dias seguidos). Início = (diaDoCiclo*2)%11.
+  // 20/07(dia200)→idx4 Dentística · 21/07→idx6 Bucomax · 22/07→idx8 DTM ·
+  // 26/07(dia206)→idx5 Prótese.
+  test('cada dia publica um BLOCO de 2 do ciclo (avança 2/dia, sem repetir)', async () => {
+    assert.deepEqual(destaques(await masterFeed(allSpecs(SEG))), ['Dentística', 'Prótese']);
+    assert.deepEqual(destaques(await masterFeed(allSpecs(TER))), ['Bucomaxilofacial', 'Odontopediatria']);
+    assert.deepEqual(destaques(await masterFeed(allSpecs(QUA))), ['DTM e Dor Orofacial', 'Radiologia']);
+    assert.deepEqual(destaques(await masterFeed(allSpecs(DOM))), ['Prótese', 'Bucomaxilofacial']);
+  });
+
+  // A garantia central: nenhuma especialidade se repete em dias CONSECUTIVOS.
+  test('rodízio: dias consecutivos nunca repetem especialidade', async () => {
+    const dias = ['2026-07-20', '2026-07-21', '2026-07-22', '2026-07-23', '2026-07-24', '2026-07-25', '2026-07-26'];
+    const porDia = {};
+    for (const d of dias) porDia[d] = destaques(await masterFeed(allSpecs(d)));
+    for (let i = 1; i < dias.length; i++) {
+      const ontem = new Set(porDia[dias[i - 1]]);
+      const hoje = porDia[dias[i]];
+      for (const esp of hoje) assert.ok(!ontem.has(esp), `${esp} repetiu em ${dias[i - 1]}→${dias[i]}`);
+    }
   });
 
   test('feed mestre anuncia a URL canônica /podcast.xml (atom:self) — estável p/ Spotify', async () => {
@@ -80,31 +92,31 @@ describe('podcast-rss — feed mestre (ciclo diário das 11)', () => {
     assert.ok(xml.includes('OdontoFeed — Ciência Odontológica Diária'));
   });
 
-  test('uma semana de episódios → 2 itens por dia, seguindo o ciclo', async () => {
+  test('uma semana de episódios → 2 itens por dia, blocos de 2 do ciclo', async () => {
     const dias = [SEG, TER, QUA, QUI, SEX, SAB, DOM];
     const xml = await masterFeed(dias.flatMap(allSpecs));
     assert.deepEqual(destaques(xml), [
-      'DTM e Dor Orofacial', 'Radiologia',       // Dom
-      'Odontopediatria', 'DTM e Dor Orofacial',  // Sáb
-      'Bucomaxilofacial', 'Odontopediatria',     // Sex
-      'Prótese', 'Bucomaxilofacial',             // Qui
-      'Dentística', 'Prótese',                   // Qua
-      'Endodontia', 'Dentística',                // Ter
-      'Periodontia', 'Endodontia',               // Seg
+      'Prótese', 'Bucomaxilofacial',             // Dom (idx5)
+      'Endodontia', 'Dentística',                // Sáb (idx3)
+      'Implantodontia', 'Periodontia',           // Sex (idx1)
+      'Estomatologia', 'Ortodontia',             // Qui (idx10→0)
+      'DTM e Dor Orofacial', 'Radiologia',       // Qua (idx8)
+      'Bucomaxilofacial', 'Odontopediatria',     // Ter (idx6)
+      'Dentística', 'Prótese',                   // Seg (idx4)
     ]);
   });
 
   test('ordena por data (mais recente primeiro)', async () => {
     const eps = [...allSpecs(SEG), ...allSpecs(TER)];
     assert.deepEqual(destaques(await masterFeed(eps)),
-      ['Endodontia', 'Dentística', 'Periodontia', 'Endodontia']);
+      ['Bucomaxilofacial', 'Odontopediatria', 'Dentística', 'Prótese']);
   });
 
-  test('BUG 21/07: especialidade do dia sem episódio → as próximas do ciclo GERADAS', async () => {
-    // 21/07 (dia de Endodontia) mas só Ortodontia e Prótese geradas: na ordem
-    // do ciclo rotacionado a partir de Endodontia, Prótese vem antes de
-    // Ortodontia — publica as duas, nunca fica sem itens.
-    assert.deepEqual(destaques(await masterFeed([ep('Prótese', TER), ep('Ortodontia', TER)])), ['Prótese', 'Ortodontia']);
+  test('poucas especialidades geradas → o feed pega as disponíveis na ordem do ciclo', async () => {
+    // 21/07 (bloco começa em Bucomax, idx6) mas só Ortodontia e Prótese geradas:
+    // na ordem do ciclo a partir de Bucomax, Ortodontia (idx0) vem antes de
+    // Prótese (idx5) — publica as duas, nunca fica sem itens.
+    assert.deepEqual(destaques(await masterFeed([ep('Prótese', TER), ep('Ortodontia', TER)])), ['Ortodontia', 'Prótese']);
     // Só 1 especialidade gerada → 1 item (o mínimo possível).
     assert.deepEqual(destaques(await masterFeed([ep('Periodontia', TER)])), ['Periodontia']);
   });

@@ -46,12 +46,19 @@ function capaFontPx(nome) {
 // Épocaancoragem do ciclo (UTC). A partir daqui, cada dia avança 1 no ciclo.
 const EPOCH_UTC = Date.UTC(2026, 0, 1); // 2026-01-01
 
+// Nº de dias inteiros desde a época do ciclo (determinístico pela data).
+// Base do rodízio: o Instagram avança 1/dia (1 post); o Spotify avança em
+// blocos (2/dia) a partir deste mesmo contador.
+function diaDoCiclo(dateStr) {
+  const t = Date.parse((dateStr || '') + 'T00:00:00Z');
+  const base = Number.isNaN(t) ? Date.now() : t;
+  return Math.floor((base - EPOCH_UTC) / 86400000);
+}
+
 // Especialidade do dia (determinística pela data): gira as 11 em ordem fixa.
 // dateStr 'YYYY-MM-DD' → uma das 11. Estável: a mesma data sempre dá a mesma.
 function especialidadeDoDia(dateStr) {
-  const t = Date.parse((dateStr || '') + 'T00:00:00Z');
-  const base = Number.isNaN(t) ? Date.now() : t;
-  const dias = Math.floor((base - EPOCH_UTC) / 86400000);
+  const dias = diaDoCiclo(dateStr);
   const idx = ((dias % CICLO.length) + CICLO.length) % CICLO.length;
   return CICLO[idx];
 }
@@ -66,4 +73,4 @@ function prioridadesDoDia(dateStr) {
   return CICLO.map((_, i) => CICLO[(Math.max(0, idx) + i) % CICLO.length]);
 }
 
-module.exports = { CICLO, CORES, FALLBACK_COR, corDe, capaFontPx, especialidadeDoDia, prioridadesDoDia };
+module.exports = { CICLO, CORES, FALLBACK_COR, corDe, capaFontPx, diaDoCiclo, especialidadeDoDia, prioridadesDoDia };
