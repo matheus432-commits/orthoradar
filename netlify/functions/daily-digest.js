@@ -156,14 +156,36 @@ function isLowValueSurvey(a) {
   return false;
 }
 
-// Passa na CURADORIA DE CONTEÚDO? Reúne as três travas — enriquecido, não é
-// survey/questionário, e é estudo COM resultados (não protocolo/em andamento).
-// Usada em TODOS os caminhos que injetam candidatos (seleção base E fallbacks),
-// para nada escapar (incidente 22-23/07: crus, surveys e protocolos entravam
-// pelos fallbacks, que rodam depois do filtro base).
+// Estudo de SAÚDE PÚBLICA / POLÍTICA / EPIDEMIOLOGIA POPULACIONAL brasileira
+// (SUS, SB Brasil, inquéritos nacionais, acesso/cobertura/desigualdade de
+// serviços): mede prevalência, uso e políticas — não desfecho clínico de
+// tratamento. Diretriz do fundador (23/07): evitar ao máximo — "não traz
+// impacto clínico para o dentista".
+function isPublicHealthPolicy(a) {
+  const t = `${a.titulo_pt || ''} ${a.titulo || a.title || ''} ${a.resumo_pt || ''}`.toLowerCase();
+  const journal = String(a.journal || '').toLowerCase();
+  if (/\bsb[\s-]?brasil\b/.test(t)) return true;                                   // levantamento nacional de saúde bucal
+  if (/\bsus\b|sistema [úu]nico de sa[úu]de/.test(t)) return true;                 // SUS
+  if (/pol[íi]tica[s]? p[úu]blica[s]?|pol[íi]tica de sa[úu]de/.test(t)) return true;
+  if (/inqu[ée]rito nacional|levantamento epidemiol[óo]gico nacional|pesquisa nacional de sa[úu]de/.test(t)) return true;
+  if (/estrat[ée]gia sa[úu]de da fam[íi]lia|\baten[çc][ãa]o b[áa]sica\b|e-?sus|\bpnad\b|\bpnsb\b/.test(t)) return true;
+  // Periódico de epidemiologia + contexto populacional (uso/necessidade/acesso/
+  // prevalência/tendências/cobertura/desigualdade) — estudo de população.
+  if (/epidemiolog/.test(journal) &&
+      /(preval[êe]ncia|uso e necessidade|\buso de\b|necessidade de|acesso a|acesso aos|cobertura|tend[êe]ncia|desigualdade)/.test(t)) return true;
+  return false;
+}
+
+// Passa na CURADORIA DE CONTEÚDO? Reúne as travas de qualidade — enriquecido,
+// não é survey/questionário, é estudo COM resultados (não protocolo/em
+// andamento) e não é estudo de saúde pública/política (SUS/SB Brasil). Usada em
+// TODOS os caminhos que injetam candidatos (seleção base E fallbacks), para nada
+// escapar (incidente 22-23/07: crus, surveys, protocolos e estudos de SUS
+// entravam pelos fallbacks, que rodam depois do filtro base).
 function passaCuradoria(a) {
   return isEnriched(a) &&
          !isLowValueSurvey(a) &&
+         !isPublicHealthPolicy(a) &&
          !isUnfinishedStudy(a.titulo || a.title || a.titulo_pt || '', a.abstract || '', a.journal || '');
 }
 
@@ -430,6 +452,12 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
   candidates = candidates.filter(a => {
     if (isLowValueSurvey(a)) {
       log.info('[digest][ESP] survey/questionário descartado (baixa acionabilidade)', {
+        especialidade, id: a.pmid || a.id, titulo: (a.titulo_pt || a.titulo || '').slice(0, 70),
+      });
+      return false;
+    }
+    if (isPublicHealthPolicy(a)) {
+      log.info('[digest][ESP] estudo de saúde pública/SUS descartado (sem impacto clínico)', {
         especialidade, id: a.pmid || a.id, titulo: (a.titulo_pt || a.titulo || '').slice(0, 70),
       });
       return false;
@@ -1192,6 +1220,7 @@ exports.handler = async () => {
 // Helpers puros expostos para teste (não alteram o comportamento do script).
 exports.isEnriched = isEnriched;
 exports.isLowValueSurvey = isLowValueSurvey;
+exports.isPublicHealthPolicy = isPublicHealthPolicy;
 
 if (require.main === module) {
   main()
