@@ -116,13 +116,13 @@ function corrigirTermosBR(s) {
 
 // ── Core API call ─────────────────────────────────────────────────────────────
 
-async function callClaude(prompt, attempt = 0, model = MODEL) {
+async function callClaude(prompt, attempt = 0, model = MODEL, maxTokens = MAX_TOKENS) {
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) throw new Error('ANTHROPIC_API_KEY not set');
 
   const body = JSON.stringify({
     model,
-    max_tokens: MAX_TOKENS,
+    max_tokens: maxTokens,
     messages:   [{ role: 'user', content: prompt }],
   });
   const buf = Buffer.from(body, 'utf8');
@@ -292,7 +292,11 @@ async function generateResumoCompleto(article) {
   for (let tentativa = 0; tentativa < 2; tentativa++) {
     let raw;
     try {
-      raw = await callClaude(buildResumoCompletoPrompt(article, strictNote), 0, RESUMO_COMPLETO_MODEL);
+      // max_tokens ALTO (2500): o resumo estruturado (objetivo/métodos/
+      // resultados/relevância) não cabia nos 1024 padrão e saía CORTADO no
+      // meio (incidente 23/07 "9 linhas e …"). O corte final de 4000 chars é
+      // só a rede de segurança de tamanho.
+      raw = await callClaude(buildResumoCompletoPrompt(article, strictNote), 0, RESUMO_COMPLETO_MODEL, 2500);
     } catch (err) {
       log.warn('[claude] resumo_completo falhou', { pmid: article.pmid, err: err.message });
       return null;
