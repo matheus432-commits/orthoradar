@@ -156,6 +156,17 @@ function isLowValueSurvey(a) {
   return false;
 }
 
+// Passa na CURADORIA DE CONTEÚDO? Reúne as três travas — enriquecido, não é
+// survey/questionário, e é estudo COM resultados (não protocolo/em andamento).
+// Usada em TODOS os caminhos que injetam candidatos (seleção base E fallbacks),
+// para nada escapar (incidente 22-23/07: crus, surveys e protocolos entravam
+// pelos fallbacks, que rodam depois do filtro base).
+function passaCuradoria(a) {
+  return isEnriched(a) &&
+         !isLowValueSurvey(a) &&
+         !isUnfinishedStudy(a.titulo || a.title || a.titulo_pt || '', a.abstract || '', a.journal || '');
+}
+
 // Especialidades renomeadas: o histórico antigo foi gravado com o nome da época
 // e precisa continuar contando para a anti-repetição.
 const LEGACY_ESP_ALIASES = {
@@ -447,7 +458,7 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
     const trending = await getTrendingArticles(db, 30);
     const trendNew = trending.filter(a =>
       a.especialidade === especialidade &&
-      isEnriched(a) && // mesma trava: sem enriquecimento não entra na edição
+      passaCuradoria(a) && // enriquecido + não-survey + com resultados
       !isRepeated(a, hist) &&
       !articleKeys(a).some(k => seenKeys.has(k)));
     trendNew.forEach(a => articleKeys(a).forEach(k => seenKeys.add(k)));
@@ -460,12 +471,12 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
     try {
       const needed  = MAX_ARTICLES + 2;
       const fbArts  = await pubmedFallbackArticles({ especialidade, temas: [] }, hist, needed, anthropicKey);
-      // TRAVA (incidente 22/07): o fallback do PubMed traz artigos frescos que
+      // TRAVA (incidente 22-23/07): o fallback do PubMed traz artigos frescos que
       // só são traduzidos se o Claude responder. Se vierem CRUS (sem titulo_pt/
-      // resumo_pt), NÃO entram — antes entravam em inglês. Também exclui
-      // questionários/surveys de opinião.
+      // resumo_pt), NÃO entram — antes entravam em inglês. passaCuradoria também
+      // barra questionários/surveys e protocolos/estudos sem resultados.
       const newArts = fbArts.filter(a =>
-        isEnriched(a) && !isLowValueSurvey(a) &&
+        passaCuradoria(a) &&
         !isRepeated(a, hist) && !articleKeys(a).some(k => seenKeys.has(k)));
       const descartadosCrus = fbArts.length - newArts.length;
       newArts.forEach(a => articleKeys(a).forEach(k => seenKeys.add(k)));
@@ -732,11 +743,11 @@ async function buildPremiumPool(db, especialidade) {
   try {
     const hist = await getEspHistory(db, especialidade); // inclui o digest de HOJE (já persistido)
     const brutos = await getCandidates(db, [especialidade]);
-    // TRAVA DE ENRIQUECIMENTO (incidente 22/07): extra Premium sem titulo_pt/
-    // resumo_pt saía como card em inglês, sem resumo. Só entra no pool o que já
-    // está enriquecido — a MESMA trava da edição base. Também remove
-    // questionários/surveys de outros países (baixa acionabilidade clínica).
-    let pool = brutos.filter(a => isEnriched(a) && !isLowValueSurvey(a) && !isRepeated(a, hist));
+    // CURADORIA (incidente 22-23/07): extra Premium sem titulo_pt/resumo_pt saía
+    // como card em inglês, sem resumo; e surveys/protocolos não devem entrar.
+    // passaCuradoria é a MESMA trava da edição base (enriquecido + não-survey +
+    // com resultados).
+    let pool = brutos.filter(a => passaCuradoria(a) && !isRepeated(a, hist));
     const aposHistorico = pool.length;
     const seen = new Set();
     pool = pool.filter(a => {

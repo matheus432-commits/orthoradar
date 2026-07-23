@@ -89,8 +89,14 @@ const PROTOCOL_TITLE_RX = new RegExp([
   '\\b(?:a|an) (?:study|trial) protocol', 'rationale and design',
   'design of (?:a|an|the)\\b.*\\b(?:trial|study|cohort)', 'protocol of (?:a|an|the)\\b',
   'protocol paper', 'registered report',
+  // Protocolos de REVISÃO/META-ANÁLISE (incidente 23/07: meta-análise "que ainda
+  // vai avaliar" — BMJ Open): "…: a systematic review protocol", "meta-analysis
+  // protocol", "protocol for a systematic review/meta-analysis".
+  '(?:systematic|scoping|narrative|umbrella) review protocol',
+  'meta-?analysis protocol',
+  'protocol (?:of|for) (?:a |an |the )?(?:systematic review|meta-?analysis|scoping review)',
   // Português
-  'protocolo de (?:estudo|ensaio|pesquisa)', 'protocolo do estudo',
+  'protocolo de (?:estudo|ensaio|pesquisa|revis[ãa]o)', 'protocolo do estudo',
 ].join('|'), 'i');
 
 // Sinais de "ainda sem resultados" nas primeiras frases do abstract.
@@ -100,9 +106,15 @@ const ONGOING_ABSTRACT_RX = new RegExp([
   'is designed to (?:evaluate|assess|compare|investigate)',
   'trial registration', 'has been registered', 'prospectively registered',
   'the aim of this protocol', 'no results are (?:yet )?available',
+  // Protocolo de REVISÃO SISTEMÁTICA/META-ANÁLISE (ainda sem síntese de dados):
+  'we will (?:search|include|synthesi|screen|extract|appraise)',
+  'will be (?:searched|screened|included|synthesi|extracted|appraised)',
+  '(?:databases|the literature) will be searched', 'prospero',
+  'this (?:systematic |scoping )?review (?:protocol )?(?:will|aims to|is registered)',
   // Português
-  'ser[aã]o (?:recrutados|randomizados|avaliados|incluídos)',
+  'ser[aã]o (?:recrutados|randomizados|avaliados|incluídos|pesquisados|buscados|selecionados)',
   'este protocolo', 'protocolo (?:tem por|visa)', 'registro do ensaio',
+  'esta revis[ãa]o (?:sistem[áa]tica )?(?:ir[áa]|visa|pretende|foi registrada)',
 ].join('|'), 'i');
 
 /**

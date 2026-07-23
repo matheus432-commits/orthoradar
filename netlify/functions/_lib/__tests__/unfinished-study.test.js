@@ -40,6 +40,33 @@ describe('isUnfinishedStudy — barra protocolos e estudos em andamento', () => 
     assert.equal(isUnfinishedStudy('Protocolo de estudo para avaliar clareamento', 'Serão recrutados pacientes.', 'RGO'), true);
   });
 
+  // ── Protocolos de REVISÃO SISTEMÁTICA / META-ANÁLISE (incidente 23/07) ──
+  test('CASO REAL: meta-análise que "ainda vai avaliar" (BMJ Open) → não concluído', () => {
+    assert.equal(
+      isUnfinishedStudy(
+        'Traction screw in guided bone regeneration: a systematic review and meta-analysis protocol',
+        'This protocol describes a systematic review. We will search MEDLINE, Embase and Cochrane; studies will be included and appraised. The review is registered in PROSPERO.',
+        'BMJ Open'
+      ),
+      true
+    );
+  });
+
+  test('"meta-analysis protocol" no título → não concluído', () => {
+    assert.equal(isUnfinishedStudy('Bond strength of X: a meta-analysis protocol', '', 'Systematic Reviews'), true);
+  });
+
+  test('abstract de protocolo de revisão ("we will search / PROSPERO") → não concluído', () => {
+    assert.equal(
+      isUnfinishedStudy('Efeito de Y em Z', 'We will search four databases and synthesise the evidence. Prospectively registered in PROSPERO.', 'PLoS One'),
+      true
+    );
+  });
+
+  test('protocolo de revisão em português → não concluído', () => {
+    assert.equal(isUnfinishedStudy('Revisão sistemática sobre clareamento: protocolo de revisão', 'Serão pesquisadas as bases de dados.', 'RGO'), true);
+  });
+
   // ── Negativos: estudos CONCLUÍDOS não podem ser barrados ──
   test('RCT concluído com resultados → NÃO é barrado', () => {
     assert.equal(
