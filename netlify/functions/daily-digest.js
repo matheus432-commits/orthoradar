@@ -138,6 +138,24 @@ function isEnriched(a) {
          String(a.resumo_pt || '').trim().length >= 120;
 }
 
+// Estudo de BAIXA acionabilidade clínica: questionário/survey de opinião,
+// conhecimento/atitude/prática (KAP) entre profissionais/estudantes — descreve
+// percepção ou padrão de prática, não desfecho de tratamento. Diretriz do
+// fundador (22/07): "não melhora em nada nos tratamentos" → não entra na
+// curadoria (nem na edição base, nem nos extras Premium).
+function isLowValueSurvey(a) {
+  const t = `${a.titulo_pt || ''} ${a.titulo || a.title || ''}`.toLowerCase();
+  const tipo = `${a.nivel_evidencia || ''} ${a.tipo_estudo || ''}`.toLowerCase();
+  // Marcadores fortes de questionário/survey de opinião.
+  if (/question[áa]rio|questionnaire|\bsurvey(s|ed)?\b|\binqu[ée]rito\b/.test(t)) return true;
+  if (/knowledge[\s,-]+attitude|atitude e pr[áa]tica|\bKAP\b/i.test(t)) return true;
+  if (/question[áa]rio|questionnaire|\bsurvey\b/.test(tipo)) return true;
+  // Percepção/opinião/conhecimento ENTRE profissionais/estudantes.
+  if (/(percep[çc][ãa]o|opini[ãa]o|conhecimento|awareness|perception|attitude|knowledge)\b/.test(t) &&
+      /\b(entre|among|de)\b[^.]*\b(especialista|dentist|odont[óo]log|student|estudante|cirurgi[ãa]|clinic|professional|practitioner)/.test(t)) return true;
+  return false;
+}
+
 // Especialidades renomeadas: o histórico antigo foi gravado com o nome da época
 // e precisa continuar contando para a anti-repetição.
 const LEGACY_ESP_ALIASES = {
@@ -399,6 +417,12 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
   // conteúdo). Sem título traduzido E resumo próprio substancial, o artigo
   // fica para o próximo ciclo (quando o enriquecimento o alcançar).
   candidates = candidates.filter(a => {
+    if (isLowValueSurvey(a)) {
+      log.info('[digest][ESP] survey/questionário descartado (baixa acionabilidade)', {
+        especialidade, id: a.pmid || a.id, titulo: (a.titulo_pt || a.titulo || '').slice(0, 70),
+      });
+      return false;
+    }
     if (isEnriched(a)) return true;
     log.info('[digest][ESP] artigo NÃO ENRIQUECIDO descartado (sem titulo_pt/resumo_pt)', {
       especialidade, id: a.pmid || a.id, titulo: (a.titulo || '').slice(0, 70),
@@ -436,10 +460,17 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
     try {
       const needed  = MAX_ARTICLES + 2;
       const fbArts  = await pubmedFallbackArticles({ especialidade, temas: [] }, hist, needed, anthropicKey);
-      const newArts = fbArts.filter(a => !isRepeated(a, hist) && !articleKeys(a).some(k => seenKeys.has(k)));
+      // TRAVA (incidente 22/07): o fallback do PubMed traz artigos frescos que
+      // só são traduzidos se o Claude responder. Se vierem CRUS (sem titulo_pt/
+      // resumo_pt), NÃO entram — antes entravam em inglês. Também exclui
+      // questionários/surveys de opinião.
+      const newArts = fbArts.filter(a =>
+        isEnriched(a) && !isLowValueSurvey(a) &&
+        !isRepeated(a, hist) && !articleKeys(a).some(k => seenKeys.has(k)));
+      const descartadosCrus = fbArts.length - newArts.length;
       newArts.forEach(a => articleKeys(a).forEach(k => seenKeys.add(k)));
       candidates = [...candidates, ...newArts];
-      log.info('[digest][ESP] PubMed fallback added', { especialidade, added: newArts.length, total: candidates.length });
+      log.info('[digest][ESP] PubMed fallback added', { especialidade, added: newArts.length, descartados: descartadosCrus, total: candidates.length });
     } catch (err) {
       log.warn('[digest][ESP] PubMed fallback failed', { especialidade, err: err.message });
     }
@@ -701,7 +732,11 @@ async function buildPremiumPool(db, especialidade) {
   try {
     const hist = await getEspHistory(db, especialidade); // inclui o digest de HOJE (já persistido)
     const brutos = await getCandidates(db, [especialidade]);
-    let pool = brutos.filter(a => !isRepeated(a, hist));
+    // TRAVA DE ENRIQUECIMENTO (incidente 22/07): extra Premium sem titulo_pt/
+    // resumo_pt saía como card em inglês, sem resumo. Só entra no pool o que já
+    // está enriquecido — a MESMA trava da edição base. Também remove
+    // questionários/surveys de outros países (baixa acionabilidade clínica).
+    let pool = brutos.filter(a => isEnriched(a) && !isLowValueSurvey(a) && !isRepeated(a, hist));
     const aposHistorico = pool.length;
     const seen = new Set();
     pool = pool.filter(a => {
@@ -1142,6 +1177,10 @@ exports.handler = async () => {
     return { statusCode: 500, body: JSON.stringify({ error: err.message }) };
   }
 };
+
+// Helpers puros expostos para teste (não alteram o comportamento do script).
+exports.isEnriched = isEnriched;
+exports.isLowValueSurvey = isLowValueSurvey;
 
 if (require.main === module) {
   main()

@@ -219,6 +219,16 @@ exports.handler = async (event) => {
     const anuncio  = features.semPublicidade ? null : await getActiveAd(db, 'site', especialidade);
     const premiumExtras = premium ? await getPremiumExtrasHoje(db, email) : [];
 
+    // Total de artigos recebidos HOJE somando TODAS as especialidades do
+    // dentista (o tile "Artigos recebidos" reflete a soma — até 3). A edição já
+    // buscada é reaproveitada; os extras Premium contam uma vez (são do dia, do
+    // assinante). Reads extras: no máx. 2 (as outras especialidades).
+    let recebidosHoje = premiumExtras.length;
+    for (const esp of especialidades) {
+      const ed = (esp === especialidade) ? edicao : await getEdicao(db, esp).catch(() => null);
+      recebidosHoje += (ed && Array.isArray(ed.artigos)) ? ed.artigos.length : 0;
+    }
+
     return {
       statusCode: 200,
       headers: { ...headers, 'Cache-Control': 'private, no-store' },
@@ -238,6 +248,7 @@ exports.handler = async (event) => {
           premiumExtras, // [] p/ plano gratuito; até 2 artigos exclusivos p/ Premium
         },
         podcast, // { episodios:[{n, artigoId, titulo, url}] } ou null se o áudio do dia não existe
+        recebidosHoje, // total de artigos do dia somando TODAS as especialidades do dentista
         anuncio: anuncio ? {
           patrocinador: anuncio.patrocinador || '', texto: anuncio.texto || '',
           linkUrl: anuncio.linkUrl || '', imagemUrl: anuncio.imagemUrl || '',

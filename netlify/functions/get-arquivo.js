@@ -3,10 +3,13 @@
 // GET /.netlify/functions/get-arquivo?secret=...&id=PMID
 //   → resumo escrito completo (texto) daquele estudo
 //
-// Uso: página admin /arquivo.html — o fundador revisa TUDO que o sistema gerou.
-// Áudios vêm de podcast_salvos (acervo permanente) e podcast_episodios
-// (recentes). Nota: episódios antigos não salvos são apagados na retenção, então
-// nem todo áudio histórico continua existindo — o catálogo mostra o que existe.
+// Uso: página /arquivo.html — o ACERVO PERMANENTE de tudo que o sistema já
+// gerou (semente da futura biblioteca pública). Diretriz 22/07: NADA é apagado.
+// Todo artigo com resumo fica retido em `artigos`; os áudios ficam para sempre
+// no Storage. As três fontes de áudio abaixo cobrem 100% do histórico:
+//   • podcast_salvos    → artigos preservados individualmente (acervo);
+//   • podcast_episodios → episódios recentes (janela quente do feed);
+//   • podcast_arquivo   → episódios além da janela (arquivados, NÃO apagados).
 
 const { Firestore } = require('./_lib/firestore');
 const { checkAdmin } = require('./_lib/admin-guard');
