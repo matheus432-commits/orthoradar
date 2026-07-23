@@ -14,7 +14,7 @@
 const { Firestore } = require('../netlify/functions/_lib/firestore');
 const { enrichArticle, generateResumoCompleto } = require('../netlify/functions/_lib/claude');
 const { generateScript } = require('../netlify/functions/_lib/podcast-script');
-const { synthesize } = require('../netlify/functions/_lib/tts');
+const { synthesizeLong } = require('../netlify/functions/_lib/tts');
 const { uploadMp3 } = require('../netlify/functions/_lib/storage');
 const { mp3DurationSecs } = require('../netlify/functions/_lib/mp3');
 const { specialtySlug, espDigestSlug } = require('../netlify/functions/_lib/slug');
@@ -92,7 +92,7 @@ async function fixOne(db, QUERY, ESP) {
   if (!roteiro) { console.log('SEM_ROTEIRO (fidelidade não confirmada após 3 tentativas — nada publicado)'); return false; }
   console.log('ROTEIRO:', roteiro.length, 'chars |', roteiro.slice(0, 140).replace(/\n/g, ' '), '…');
 
-  const tts = await synthesize(db, { text: roteiro });
+  const tts = await synthesizeLong(db, { text: roteiro });
   if (!tts.ok) { console.log('TTS_FALHOU:', tts.reason); return false; }
   const audio = Buffer.from(tts.audioBase64, 'base64');
   const secs = mp3DurationSecs(audio);

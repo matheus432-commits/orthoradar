@@ -15,7 +15,7 @@
 //   3. Modelo do roteiro: Sonnet por padrão (PODCAST_MODEL para trocar).
 
 const { request } = require('../_lib');
-const { MAX_REQUEST_BYTES, byteLength } = require('./tts-budget');
+const { MAX_CHARS_PER_AUDIO } = require('./tts-budget');
 const { corrigirTermosBR } = require('./claude');
 const log = require('./logger');
 
@@ -26,21 +26,17 @@ const HOST = 'api.anthropic.com';
 const SCRIPT_MODEL = process.env.PODCAST_MODEL || process.env.ANTHROPIC_MODEL || 'claude-sonnet-5';
 const VERIFY_MODEL = process.env.PODCAST_VERIFY_MODEL || 'claude-haiku-4-5-20251001';
 
-// Corta o texto para caber no limite de BYTES do TTS (5000 bytes/requisição),
-// terminando no último fim de frase. Mede em bytes UTF-8 porque acentos pt-BR
-// ocupam 2 bytes — String.length subestimaria e a API responderia 400.
+// Limita o roteiro ao TETO DE ORÇAMENTO por áudio (MAX_CHARS_PER_AUDIO = 5000
+// caracteres ≈ ~4-4,5 min), terminando no último fim de frase. NÃO usamos mais
+// o limite de BYTES da API aqui — isso truncava roteiros densos e cortava o
+// áudio no meio (incidente 23/07). O limite de bytes da API agora é resolvido
+// no TTS por FATIAMENTO+concatenação (synthesizeLong), sem perder conteúdo.
 function capScript(text) {
   const t = String(text || '').trim();
-  if (byteLength(t) <= MAX_REQUEST_BYTES) return t;
-  // Busca binária pelo maior prefixo (em caracteres) que cabe no limite de bytes.
-  let lo = 0, hi = t.length;
-  while (lo < hi) {
-    const mid = Math.ceil((lo + hi) / 2);
-    if (byteLength(t.slice(0, mid)) <= MAX_REQUEST_BYTES) lo = mid; else hi = mid - 1;
-  }
-  const cut = t.slice(0, lo);
+  if (t.length <= MAX_CHARS_PER_AUDIO) return t;
+  const cut = t.slice(0, MAX_CHARS_PER_AUDIO);
   const lastStop = Math.max(cut.lastIndexOf('. '), cut.lastIndexOf('! '), cut.lastIndexOf('? '));
-  return (lastStop > lo * 0.6 ? cut.slice(0, lastStop + 1) : cut).trim();
+  return (lastStop > MAX_CHARS_PER_AUDIO * 0.6 ? cut.slice(0, lastStop + 1) : cut).trim();
 }
 
 // Há material suficiente para NARRAR? Sem resumo próprio substancial (ou ao

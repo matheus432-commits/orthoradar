@@ -17,7 +17,7 @@ const crypto = require('crypto');
 const { Firestore } = require('./_lib/firestore');
 const { checkAdmin } = require('./_lib/admin-guard');
 const { generateScript } = require('./_lib/podcast-script');
-const { synthesize } = require('./_lib/tts');
+const { synthesizeLong } = require('./_lib/tts');
 // DIRETRIZ 22/07: nenhum objeto de áudio é deletado do Storage (acervo da
 // futura biblioteca pública) — por isso não importamos deleteObject.
 const { uploadMp3 } = require('./_lib/storage');
@@ -190,7 +190,7 @@ async function main() {
           // vazia" de segundos — incidente 15/07, áudio de 24s sem conteúdo).
           if (!script) { log.warn('[podcasts] episódio pulado — sem roteiro (artigo sem material)', { esp, ep: i + 1, artigo: art.pmid || art.id }); continue; }
 
-          const tts = await synthesize(db, { text: script });
+          const tts = await synthesizeLong(db, { text: script });
           if (!tts.ok) { log.warn('[podcasts] TTS pulado', { esp, ep: i + 1, reason: tts.reason }); continue; }
 
           const audio = Buffer.from(tts.audioBase64, 'base64');
