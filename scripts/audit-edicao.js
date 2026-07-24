@@ -12,7 +12,7 @@ const { Firestore } = require('../netlify/functions/_lib/firestore');
 const { tituloEmIngles } = require('../netlify/functions/_lib/scoring');
 const { specialtySlug } = require('../netlify/functions/_lib/slug');
 const { extractAnthropicText } = require('../netlify/functions/_lib/anthropic-text');
-const { isHealthSystemCost, isResultadosIndisponiveis } = require('../netlify/functions/daily-digest');
+const { isHealthSystemCost, isResultadosIndisponiveis, isHealthPromotionBehavior } = require('../netlify/functions/daily-digest');
 
 const HOJE = process.env.AUDIT_DATE || new Date().toISOString().slice(0, 10);
 const VERIFY_MODEL = process.env.PODCAST_VERIFY_MODEL || 'claude-haiku-4-5-20251001';
@@ -71,6 +71,9 @@ const pausa = (ms) => new Promise(r => setTimeout(r, ms));
       }
       // Curadoria (diretriz 24/07): custo/economia no sistema de saúde e estudos
       // sem resultados acessíveis (remetem ao texto completo) NÃO entram.
+      if (isHealthPromotionBehavior(a)) {
+        falhas.push(`[digest ${d.id}] artigo ${id} PROMOÇÃO/COMPORTAMENTO/PROGRAMA (sem impacto clínico — não deveria entrar): "${String(a.titulo_pt || '').slice(0, 70)}"`);
+      }
       if (isHealthSystemCost(a)) {
         falhas.push(`[digest ${d.id}] artigo ${id} ESTUDO DE CUSTO/SISTEMA DE SAÚDE (sem impacto clínico — não deveria entrar): "${String(a.titulo_pt || '').slice(0, 70)}"`);
       }

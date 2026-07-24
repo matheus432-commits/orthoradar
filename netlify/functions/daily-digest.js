@@ -180,6 +180,24 @@ function isPublicHealthPolicy(a) {
   return false;
 }
 
+// Estudo de PROMOÇÃO DE SAÚDE / MUDANÇA DE COMPORTAMENTO / EDUCAÇÃO / AVALIAÇÃO
+// DE PROGRAMA (comunitário, escolar, campanha, app de comportamento). Ex.:
+// "Sorrisos Empoderados: intervenção digital baseada em teoria para comportamento
+// em saúde bucal" (programa nas Filipinas); programa de Kosovo. Avalia a adesão a
+// um programa/comportamento de uma população — NÃO é desfecho clínico de
+// tratamento acionável no consultório. Diretriz do fundador (24/07): "não traz
+// impacto clínico para o dentista" — vale para QUALQUER país, não só o Brasil.
+// Regra: termos FORTES de promoção/educação/comportamento barram sozinhos; termos
+// FRACOS (motivacional, app/mHealth, gamificação, "baseado em teoria") só barram
+// com contexto de programa/intervenção comunitária/escolar/populacional.
+function isHealthPromotionBehavior(a) {
+  const t = `${a.titulo_pt || ''} ${a.titulo || a.title || ''} ${a.resumo_pt || ''}`.toLowerCase();
+  if (/mudan[çc]a de comportamento|behaviou?r(al)? change|comportamento em sa[úu]de|oral health behaviou?r|promo[çc][ãa]o (d[aeo] )?sa[úu]de|health promotion|educa[çc][ãa]o em sa[úu]de|health education|educa[çc][ãa]o (em )?sa[úu]de bucal|oral health (education|literacy)|awareness campaign|campanha de (conscientiza|sa[úu]de|preven|educa)|conscientiza[çc][ãa]o|empoderad|empowerment|letramento em sa[úu]de|health literacy/.test(t)) return true;
+  const fraco = /motivational|entrevista motivacional|\bapp\b|aplicativo|mhealth|\bm-?health\b|digital health|basead[oa] em teoria|theory-based|gamifica/.test(t);
+  const contexto = /\bprograma\b|\bprogram\b|comunit|community|escolar|school-based|em escolas|popula[çc]|interven[çc][ãa]o (comunit|escolar|populac|digital|educ)/.test(t);
+  return fraco && contexto;
+}
+
 // Estudo de ECONOMIA EM SAÚDE / CUSTO e CARGA no SISTEMA DE SAÚDE: projeção de
 // custos diretos, gasto/despesa, burden econômico no nível populacional ou do
 // sistema. Ex.: "Projeção dos custos diretos de doenças orais no sistema de
@@ -242,6 +260,7 @@ function passaCuradoria(a) {
   return isEnriched(a) &&
          !isLowValueSurvey(a) &&
          !isPublicHealthPolicy(a) &&
+         !isHealthPromotionBehavior(a) &&
          !isHealthSystemCost(a) &&
          !isResultadosIndisponiveis(a) &&
          !isUnfinishedStudy(a.titulo || a.title || a.titulo_pt || '', a.abstract || '', a.journal || '');
@@ -516,6 +535,12 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
     }
     if (isPublicHealthPolicy(a)) {
       log.info('[digest][ESP] estudo de saúde pública/SUS descartado (sem impacto clínico)', {
+        especialidade, id: a.pmid || a.id, titulo: (a.titulo_pt || a.titulo || '').slice(0, 70),
+      });
+      return false;
+    }
+    if (isHealthPromotionBehavior(a)) {
+      log.info('[digest][ESP] estudo de promoção/comportamento/programa descartado (sem impacto clínico)', {
         especialidade, id: a.pmid || a.id, titulo: (a.titulo_pt || a.titulo || '').slice(0, 70),
       });
       return false;
@@ -1291,6 +1316,7 @@ exports.handler = async () => {
 exports.isEnriched = isEnriched;
 exports.isLowValueSurvey = isLowValueSurvey;
 exports.isPublicHealthPolicy = isPublicHealthPolicy;
+exports.isHealthPromotionBehavior = isHealthPromotionBehavior;
 exports.isHealthSystemCost = isHealthSystemCost;
 exports.isResultadosIndisponiveis = isResultadosIndisponiveis;
 

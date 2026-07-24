@@ -12,8 +12,33 @@
 const { test, describe } = require('node:test');
 const assert = require('node:assert/strict');
 
-const { isHealthSystemCost, isResultadosIndisponiveis } = require('../../daily-digest.js');
+const { isHealthSystemCost, isResultadosIndisponiveis, isHealthPromotionBehavior } = require('../../daily-digest.js');
 const { corrigirEspecialidade } = require('../claude.js');
+
+describe('A0. isHealthPromotionBehavior — promoção/comportamento/programa (qualquer país)', () => {
+  test('barra programa de intervenção comportamental (Filipinas / Kosovo)', () => {
+    assert.equal(isHealthPromotionBehavior({
+      titulo_pt: 'Sorrisos Empoderados: Intervenção Digital Baseada em Teoria para Comportamento em Saúde Bucal',
+      journal: 'International dental journal',
+    }), true);
+    assert.equal(isHealthPromotionBehavior({ titulo: 'A theory-based digital program for oral health behaviour change in schoolchildren' }), true);
+  });
+  test('barra educação/promoção/campanha/letramento em saúde', () => {
+    assert.equal(isHealthPromotionBehavior({ titulo_pt: 'Educação em saúde bucal em escolas rurais' }), true);
+    assert.equal(isHealthPromotionBehavior({ titulo: 'Oral health promotion campaign and community awareness' }), true);
+    assert.equal(isHealthPromotionBehavior({ titulo: 'Health literacy and oral health behaviour' }), true);
+  });
+  test('termo fraco (app/motivacional) só barra com contexto de programa/comunidade', () => {
+    // app SEM contexto comunitário/programa e SEM desfecho comportamental → não barra
+    assert.equal(isHealthPromotionBehavior({ titulo_pt: 'Aplicativo para planejamento digital de implantes', resumo_pt: 'Precisão do guia cirúrgico.' }), false);
+    // app + programa comunitário → barra
+    assert.equal(isHealthPromotionBehavior({ titulo: 'A mobile app program for community-based caries prevention behaviour' }), true);
+  });
+  test('NÃO barra RCT clínico de tratamento', () => {
+    assert.equal(isHealthPromotionBehavior({ titulo_pt: 'Resina bulk-fill versus incremental na infiltração marginal', resumo_pt: 'RCT clínico.' }), false);
+    assert.equal(isHealthPromotionBehavior({ titulo_pt: 'Sobrevivência de implantes com carga imediata', resumo_pt: 'Coorte 5 anos.' }), false);
+  });
+});
 
 describe('A. isHealthSystemCost — custo/economia no sistema de saúde', () => {
   test('barra projeção de custos diretos no sistema de saúde britânico', () => {
