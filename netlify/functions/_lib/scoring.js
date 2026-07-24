@@ -134,6 +134,25 @@ function isUnfinishedStudy(title, abstract, journal) {
   return false;
 }
 
+// O título traduzido (titulo_pt) ficou EM INGLÊS? (incidente 24/07: card com
+// "Orthodontics and temporomandibular disorders: a comprehensive review"). O
+// gate de enriquecimento só media COMPRIMENTO — um titulo_pt não-traduzido
+// passava. Sinais: (1) idêntico ao título original; (2) sem acento português E
+// com ≥2 palavras funcionais claramente inglesas.
+const PALAVRAS_INGLES_RX = /\b(the|of|and|with|for|among|versus|assessment|comprehensive|review|study|studies|treatment|patients|using|based|outcomes?|management|between|randomized|randomised|trial|systematic|evaluation|analysis|effect|effects|impact|role)\b/gi;
+function tituloEmIngles(tituloPt, tituloOriginal) {
+  const pt = String(tituloPt || '').trim();
+  if (!pt) return false; // vazio é tratado pelo gate de comprimento
+  const orig = String(tituloOriginal || '').trim();
+  // 1) Não traduzido: igual ao original.
+  if (orig && pt.toLowerCase() === orig.toLowerCase()) return true;
+  // 2) Sem acento pt-BR E com ≥2 marcadores ingleses fortes.
+  const temAcento = /[áàâãéêíóôõúüçÁÀÂÃÉÊÍÓÔÕÚÜÇ]/.test(pt);
+  if (temAcento) return false;
+  const nIngles = (pt.match(PALAVRAS_INGLES_RX) || []).length;
+  return nIngles >= 2;
+}
+
 /**
  * Detects evidence level from article text (title + abstract).
  * Returns the strongest level found, or 'Revisão Narrativa' as default.
@@ -226,4 +245,4 @@ function estimateQualityScore(enriched) {
   return Math.min(1.0, score);
 }
 
-module.exports = { detectEvidenceLevel, classifySpecialty, especialidadeOverride, isUnfinishedStudy, scoreRelevance, estimateQualityScore };
+module.exports = { detectEvidenceLevel, classifySpecialty, especialidadeOverride, isUnfinishedStudy, tituloEmIngles, scoreRelevance, estimateQualityScore };

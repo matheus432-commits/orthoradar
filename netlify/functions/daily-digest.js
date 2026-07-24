@@ -32,7 +32,7 @@ const { withTimeout }                              = require('./_lib/retry-utils
 // (Achado da Semana cancelado em 19/07/2026 — módulo não é mais usado.)
 const { generateResumoCompleto, isResumoEstruturado } = require('./_lib/claude');
 const { aggregateStats, feedbackMultiplier, personalTemaAffinity } = require('./_lib/feedback-signal');
-const { isUnfinishedStudy }                         = require('./_lib/scoring');
+const { isUnfinishedStudy, tituloEmIngles }         = require('./_lib/scoring');
 const { espDigestSlug }                            = require('./_lib/slug');
 const { buildEdicaoUrl }                           = require('./_lib/edicao-token');
 const { isPremium }                                = require('./_lib/plans');
@@ -134,8 +134,12 @@ function isRepeated(a, hist) { return articleKeys(a).some(k => hist.has(k)); }
 // É o gate de elegibilidade da edição (incidente 15/07: artigo cru virou card
 // em inglês no site e áudio de 24s sem conteúdo no podcast).
 function isEnriched(a) {
-  return String(a.titulo_pt || '').trim().length >= 10 &&
-         String(a.resumo_pt || '').trim().length >= 120;
+  if (String(a.titulo_pt || '').trim().length < 10) return false;
+  if (String(a.resumo_pt || '').trim().length < 120) return false;
+  // O titulo_pt precisa estar de fato EM PORTUGUÊS (incidente 24/07: título
+  // ainda em inglês passava porque só o comprimento era checado).
+  if (tituloEmIngles(a.titulo_pt, a.titulo || a.title || '')) return false;
+  return true;
 }
 
 // Estudo de BAIXA acionabilidade clínica: questionário/survey de opinião,
