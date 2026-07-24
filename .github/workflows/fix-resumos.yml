@@ -1,0 +1,35 @@
+# Gera os resumos completos FALTANTES da edição do dia (correção pontual).
+# Dispara em push no script; roda uma vez e grava no banco.
+name: Fix Resumos da Edição
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/fix-resumos-edicao.js'
+      - '.github/workflows/fix-resumos.yml'
+  workflow_dispatch:
+    inputs:
+      fix_date:
+        description: 'Data da edição (YYYY-MM-DD; vazio = hoje)'
+        required: false
+        default: ''
+
+jobs:
+  fix:
+    name: Gerar resumos completos faltantes
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Rodar correção dos resumos
+        env:
+          FIREBASE_PROJECT_ID:      ${{ secrets.FIREBASE_PROJECT_ID }}
+          FIREBASE_API_KEY:         ${{ secrets.FIREBASE_API_KEY }}
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          ANTHROPIC_API_KEY:        ${{ secrets.ANTHROPIC_API_KEY }}
+          FIX_DATE:                 ${{ github.event.inputs.fix_date }}
+        run: node scripts/fix-resumos-edicao.js
