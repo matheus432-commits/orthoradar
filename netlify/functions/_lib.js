@@ -5,6 +5,19 @@ const { getAccessToken, isConfigured } = require('./_lib/google-auth');
 const FIRESTORE_HOST = 'firestore.googleapis.com';
 let _authModeLogged = false;
 
+// Timeout padrão POR HOST. Firestore/PubMed respondem rápido (15s basta), mas a
+// geração da Anthropic (roteiros do podcast e resumo_completo com Sonnet) leva
+// 20-40s+ e era MORTA aos 15s — causa-raiz do incidente 24/07: praticamente
+// TODA chamada de resumo_completo dava "Request timeout" (parecia instabilidade
+// da API, mas era o nosso próprio teto curto), deixando artigos sem resumo e
+// especialidades sem podcast. Chamadas generativas ganham um teto largo; ainda
+// pode ser sobrescrito por timeoutMs explícito na própria chamada.
+function _defaultTimeoutMs(options) {
+  if (options.timeoutMs) return options.timeoutMs;
+  if (options.hostname === 'api.anthropic.com') return 180000; // 3 min p/ geração
+  return 15000;
+}
+
 async function _doRequest(options, body) {
   const mod = options.protocol === 'http:' ? http : https; // http apenas para testes
   return new Promise((resolve, reject) => {
@@ -13,9 +26,8 @@ async function _doRequest(options, body) {
       res.on('data', c => data += c);
       res.on('end', () => resolve({ status: res.statusCode, body: data }));
     });
-    // timeoutMs configurável por chamada — a síntese generativa do Cloud TTS
-    // (Chirp3-HD) pode passar de 15s para textos de ~3k chars.
-    req.setTimeout(options.timeoutMs || 15000, () => {
+    // timeoutMs configurável por chamada; senão, teto padrão por host (acima).
+    req.setTimeout(_defaultTimeoutMs(options), () => {
       // NUNCA logar a query string — pode conter ?key=<API_KEY> (Firestore/TTS).
       const safePath = (options.path || '').split('?')[0].substring(0, 80);
       req.destroy(new Error('Request timeout: ' + (options.hostname || '') + safePath));
@@ -67,4 +79,4 @@ async function request(options, body, _attempt = 0, maxRetries = 2) {
   }
 }
 
-module.exports = { request, firestoreAuthConfigured: isConfigured, _withFirestoreAuth };
+module.exports = { request, firestoreAuthConfigured: isConfigured, _withFirestoreAuth, _defaultTimeoutMs };
