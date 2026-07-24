@@ -198,6 +198,16 @@ function isHealthPromotionBehavior(a) {
   return fraco && contexto;
 }
 
+// META-PESQUISA: mapeamento/escopo de pesquisas, bibliometria, panorama da
+// produção científica. Descreve o ESTADO DA PESQUISA (quantos estudos, onde,
+// tendências) — não um desfecho clínico acionável. Ex.: "Função mastigatória em
+// idosos: mapeamento de pesquisas no Japão, Suécia e Índia" (revisão narrativa);
+// mesmo caso de Kosovo. Diretriz do fundador (24/07): "não traz impacto clínico".
+function isBibliometricScoping(a) {
+  const t = `${a.titulo_pt || ''} ${a.titulo || a.title || ''} ${a.resumo_pt || ''}`.toLowerCase();
+  return /mapeamento (de|das?) pesquisas?|mapeamento cient[íi]fico|scoping review|revis[ãa]o de escopo|bibliometr|an[áa]lise bibliom|cienciometr|produ[çc][ãa]o cient[íi]fica|panorama (d[aeo]s?|de) (pesquisas?|estudos?|produ[çc])|mapping review|research (trends|mapping|landscape|priorities|gaps|output)|state of the (art|research)|tend[êe]ncias (de|das?) pesquisas?|literature mapping/.test(t);
+}
+
 // Estudo de ECONOMIA EM SAÚDE / CUSTO e CARGA no SISTEMA DE SAÚDE: projeção de
 // custos diretos, gasto/despesa, burden econômico no nível populacional ou do
 // sistema. Ex.: "Projeção dos custos diretos de doenças orais no sistema de
@@ -261,6 +271,7 @@ function passaCuradoria(a) {
          !isLowValueSurvey(a) &&
          !isPublicHealthPolicy(a) &&
          !isHealthPromotionBehavior(a) &&
+         !isBibliometricScoping(a) &&
          !isHealthSystemCost(a) &&
          !isResultadosIndisponiveis(a) &&
          !isUnfinishedStudy(a.titulo || a.title || a.titulo_pt || '', a.abstract || '', a.journal || '');
@@ -541,6 +552,12 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
     }
     if (isHealthPromotionBehavior(a)) {
       log.info('[digest][ESP] estudo de promoção/comportamento/programa descartado (sem impacto clínico)', {
+        especialidade, id: a.pmid || a.id, titulo: (a.titulo_pt || a.titulo || '').slice(0, 70),
+      });
+      return false;
+    }
+    if (isBibliometricScoping(a)) {
+      log.info('[digest][ESP] meta-pesquisa (mapeamento/escopo/bibliometria) descartada (sem impacto clínico)', {
         especialidade, id: a.pmid || a.id, titulo: (a.titulo_pt || a.titulo || '').slice(0, 70),
       });
       return false;
@@ -1317,6 +1334,7 @@ exports.isEnriched = isEnriched;
 exports.isLowValueSurvey = isLowValueSurvey;
 exports.isPublicHealthPolicy = isPublicHealthPolicy;
 exports.isHealthPromotionBehavior = isHealthPromotionBehavior;
+exports.isBibliometricScoping = isBibliometricScoping;
 exports.isHealthSystemCost = isHealthSystemCost;
 exports.isResultadosIndisponiveis = isResultadosIndisponiveis;
 

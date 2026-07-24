@@ -4,7 +4,24 @@
 const { test, describe } = require('node:test');
 const assert = require('node:assert/strict');
 
-const { generateScript, hasNarratableMaterial, buildMaterial } = require('../podcast-script');
+const { generateScript, hasNarratableMaterial, buildMaterial, capScript } = require('../podcast-script');
+
+describe('capScript — áudio nunca corta no meio de uma frase', () => {
+  test('roteiro truncado (sem pontuação final) é fechado na última frase completa', () => {
+    const truncado = 'Primeira frase completa. Segunda frase também completa. E aqui o roteiro foi cortado no meio de uma ideia sem';
+    const out = capScript(truncado);
+    assert.ok(/[.!?…]$/.test(out), `deveria terminar em pontuação; veio: "${out.slice(-40)}"`);
+    assert.equal(out, 'Primeira frase completa. Segunda frase também completa.');
+  });
+  test('roteiro já completo é preservado (inclui a despedida)', () => {
+    const ok = 'Olá! Hoje falamos sobre X. Os resultados mostraram Y. É isso por hoje. Até o próximo episódio.';
+    assert.equal(capScript(ok), ok);
+  });
+  test('termina em pontuação seguida de aspas/fecho é aceito', () => {
+    const s = 'O autor conclui que "a técnica é superior."';
+    assert.equal(capScript(s), s);
+  });
+});
 
 const enriquecido = {
   pmid: '1', titulo_pt: 'Alinhadores versus aparelho fixo em extrações',

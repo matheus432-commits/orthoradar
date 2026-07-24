@@ -12,8 +12,26 @@
 const { test, describe } = require('node:test');
 const assert = require('node:assert/strict');
 
-const { isHealthSystemCost, isResultadosIndisponiveis, isHealthPromotionBehavior } = require('../../daily-digest.js');
+const { isHealthSystemCost, isResultadosIndisponiveis, isHealthPromotionBehavior, isBibliometricScoping } = require('../../daily-digest.js');
 const { corrigirEspecialidade } = require('../claude.js');
+
+describe('A0b. isBibliometricScoping — mapeamento/escopo/bibliometria (meta-pesquisa)', () => {
+  test('barra mapeamento de pesquisas multipaís', () => {
+    assert.equal(isBibliometricScoping({
+      titulo_pt: 'Função mastigatória em idosos: mapeamento de pesquisas no Japão, Suécia e Índia',
+      journal: 'The Japanese dental science review',
+    }), true);
+  });
+  test('barra scoping review / bibliometria / panorama da produção', () => {
+    assert.equal(isBibliometricScoping({ titulo: 'A scoping review of dental implant research' }), true);
+    assert.equal(isBibliometricScoping({ titulo_pt: 'Análise bibliométrica da produção científica em endodontia' }), true);
+    assert.equal(isBibliometricScoping({ titulo_pt: 'Panorama das pesquisas em periodontia na última década' }), true);
+  });
+  test('NÃO barra revisão sistemática/RCT clínico comum', () => {
+    assert.equal(isBibliometricScoping({ titulo_pt: 'Revisão sistemática da sobrevivência de implantes curtos', resumo_pt: 'Meta-análise de 12 RCTs.' }), false);
+    assert.equal(isBibliometricScoping({ titulo_pt: 'Resina bulk-fill versus incremental', resumo_pt: 'RCT clínico.' }), false);
+  });
+});
 
 describe('A0. isHealthPromotionBehavior — promoção/comportamento/programa (qualquer país)', () => {
   test('barra programa de intervenção comportamental (Filipinas / Kosovo)', () => {

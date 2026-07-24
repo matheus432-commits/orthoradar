@@ -33,11 +33,28 @@ const VERIFY_MODEL = process.env.PODCAST_VERIFY_MODEL || 'claude-haiku-4-5-20251
 // áudio no meio (incidente 23/07). O limite de bytes da API agora é resolvido
 // no TTS por FATIAMENTO+concatenação (synthesizeLong), sem perder conteúdo.
 function capScript(text) {
-  const t = String(text || '').trim();
-  if (t.length <= MAX_CHARS_PER_AUDIO) return t;
-  const cut = t.slice(0, MAX_CHARS_PER_AUDIO);
-  const lastStop = Math.max(cut.lastIndexOf('. '), cut.lastIndexOf('! '), cut.lastIndexOf('? '));
-  return (lastStop > MAX_CHARS_PER_AUDIO * 0.6 ? cut.slice(0, lastStop + 1) : cut).trim();
+  let t = String(text || '').trim();
+  if (t.length > MAX_CHARS_PER_AUDIO) {
+    const cut = t.slice(0, MAX_CHARS_PER_AUDIO);
+    const lastStop = Math.max(cut.lastIndexOf('. '), cut.lastIndexOf('! '), cut.lastIndexOf('? '));
+    t = (lastStop > MAX_CHARS_PER_AUDIO * 0.6 ? cut.slice(0, lastStop + 1) : cut).trim();
+  }
+  return ensureCompleteEnding(t);
+}
+
+// GARANTIA ABSOLUTA: o áudio NUNCA termina no meio de uma frase. Se o roteiro
+// não fecha em pontuação terminal (ex.: geração truncada pelo teto de tokens —
+// incidente recorrente com revisões densas: "cortou no meio"), recua até o
+// último fim de frase COMPLETO. Melhor um roteiro sem a despedida do que um
+// áudio cortado no meio de uma palavra/frase.
+function ensureCompleteEnding(text) {
+  const s = String(text || '').trim();
+  if (!s) return s;
+  // Já termina em . ! ? … (com aspas/parênteses de fechamento opcionais)?
+  if (/[.!?…]["'”’»)\]]?$/.test(s)) return s;
+  let idx = -1;
+  for (const ch of ['.', '!', '?', '…']) idx = Math.max(idx, s.lastIndexOf(ch));
+  return idx > 0 ? s.slice(0, idx + 1).trim() : s;
 }
 
 // Há material suficiente para NARRAR? Sem resumo próprio substancial (ou ao
@@ -205,8 +222,20 @@ ${material.impacto ? `Relevância clínica: ${material.impacto}` : ''}`;
   try {
     let fixNote = null;
     for (let tentativa = 1; tentativa <= 2; tentativa++) {
-      const roteiro = await callModel(anthropicKey, SCRIPT_MODEL, buildSystemPrompt(especialidade, sponsorText, fixNote), user, 1500);
+      // max_tokens 2400: 1500 truncava a ÚLTIMA FRASE de roteiros densos em
+      // português (a tokenização pt gasta ~2 chars/token, então ~2.7k chars já
+      // se aproximavam do teto e o áudio "cortava no meio" — revisões
+      // sistemáticas/RCTs longos). O tamanho final continua limitado por capScript.
+      const roteiro = await callModel(anthropicKey, SCRIPT_MODEL, buildSystemPrompt(especialidade, sponsorText, fixNote), user, 2400);
       if (!roteiro) break; // erro de geração → fallback
+
+      // Sinal de truncamento: roteiro que não fecha em pontuação terminal veio
+      // cortado. capScript recupera a última frase completa, mas registramos.
+      if (!/[.!?…]["'”’»)\]]?\s*$/.test(roteiro.trim())) {
+        log.warn('[podcast-script] roteiro possivelmente truncado (sem pontuação final) — será fechado na última frase completa', {
+          pmid: article.pmid || article.id, tentativa, chars: roteiro.trim().length,
+        });
+      }
 
       const check = await verifyScriptFidelity(anthropicKey, material, roteiro);
       if (check.ok) {
