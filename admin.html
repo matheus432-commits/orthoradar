@@ -109,6 +109,13 @@ a.link .lk-ic{font-size:20px;margin-bottom:8px;display:block;}
       <div class="chips" id="pipeline"></div>
     </div>
 
+    <div class="sec-title">Acessos de hoje</div>
+    <div class="total-row" style="margin-bottom:12px;">
+      <div class="card"><div class="t-label">Pessoas que acessaram</div><div class="t-val" id="aPessoas" style="color:var(--blue);">—</div><div class="t-sufix">únicas · e-mail ou site</div></div>
+      <div class="card"><div class="t-label">Abriram algum arquivo</div><div class="t-val" id="aAbriram" style="color:var(--green);">—</div><div class="t-sufix">abriram um estudo</div></div>
+      <div class="card"><div class="t-label">Eventos no dia</div><div class="t-val" id="aEventos">—</div><div class="t-sufix" id="aTipos"></div></div>
+    </div>
+
     <div class="sec-title">Crescimento de cadastros</div>
     <div class="total-row" style="margin-bottom:12px;">
       <div class="card"><div class="t-label">Total</div><div class="t-val" id="cTotal" style="color:var(--gold);">—</div><div class="t-sufix" id="cHoje"></div></div>
@@ -169,6 +176,14 @@ function render(d) {
     chip(p.instagramCarrossel, 'Carrossel IG'),
     chip(p.instagramReel, 'Reel IG'),
   ].join('');
+
+  // Acessos de hoje (engajamento)
+  const ac = d.acessos || {};
+  $('aPessoas').textContent = ac.pessoas ?? '—';
+  $('aAbriram').textContent = ac.abriramArquivo ?? '—';
+  $('aEventos').textContent = (ac.totalEventos ?? 0).toLocaleString('pt-BR');
+  const te = Object.entries(ac.porTipo || {}).sort((a,b)=>b[1]-a[1]);
+  $('aTipos').textContent = te.length ? te.slice(0,5).map(([k,v]) => k.replace(/_/g,' ') + ' ' + v).join(' · ') : 'sem eventos';
 
   // Cadastros
   const den = d.dentistas || {};
