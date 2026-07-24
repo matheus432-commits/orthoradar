@@ -1,0 +1,31 @@
+# Gera as OPÇÕES DE RETRATO fotorrealista da apresentadora (identidade fixa do
+# avatar realista). Roda 1x por push no script (padrão dos fix-*): imprime as
+# URLs das 3 candidatas no log; o fundador escolhe e a escolhida vira
+# avatar_config/retrato. Custo: ~3 gerações de imagem no Vertex (centavos).
+name: Avatar — Retrato da Apresentadora
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/gerar-avatar-retrato.js'
+  workflow_dispatch:
+
+jobs:
+  retrato:
+    name: Gerar opções de retrato
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Gerar retratos
+        env:
+          FIREBASE_PROJECT_ID:      ${{ secrets.FIREBASE_PROJECT_ID }}
+          FIREBASE_API_KEY:         ${{ secrets.FIREBASE_API_KEY }}
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          GCP_SERVICE_ACCOUNT_JSON: ${{ secrets.GCP_SERVICE_ACCOUNT_JSON }}
+          GCS_BUCKET:               ${{ secrets.GCS_BUCKET }}
+        run: node scripts/gerar-avatar-retrato.js

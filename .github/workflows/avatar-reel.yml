@@ -24,6 +24,10 @@ on:
         description: 'Especialidade (vazio = a do dia, com fallback)'
         required: false
         default: ''
+      avatar_mode:
+        description: 'desenho (grátis) ou realista (HeyGen, ~US$1-3/min)'
+        required: false
+        default: 'desenho'
   push:
     branches: [main]
     paths: ['.avatar-reel-dispatch']   # tocar este arquivo gera o vídeo do dia
@@ -64,4 +68,10 @@ jobs:
           GCS_BUCKET:               ${{ secrets.GCS_BUCKET }}
           AVATAR_DATE:              ${{ inputs.avatar_date }}
           AVATAR_ESP:               ${{ inputs.avatar_esp }}
+          # Modo realista (talking head HeyGen). Push do sentinela usa o modo
+          # gravado em AVATAR_MODE_DEFAULT (vars) — default desenho (grátis).
+          AVATAR_MODE:              ${{ inputs.avatar_mode || vars.AVATAR_MODE_DEFAULT || 'desenho' }}
+          HEYGEN_API_KEY:           ${{ secrets.HEYGEN_API_KEY }}
+          AVATAR_FOTO_URL:          ${{ vars.AVATAR_FOTO_URL }}
+          AVATAR_MAX_SECS:          ${{ vars.AVATAR_MAX_SECS }}
         run: node scripts/gerar-reel-avatar.js

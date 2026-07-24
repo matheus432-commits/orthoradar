@@ -79,10 +79,13 @@ body{background:#000;font-family:'DM Sans',sans-serif;}
 
 // ── Montagem (ffmpeg) ────────────────────────────────────────────────────────
 // topFrames: PNG Buffers (1 por segmento) · topDurations: segundos (mesma ordem)
-// spriteBuffers: PNG Buffers dos 10 sprites do avatar
-// timeline: [{ sprite, secs }] (run-length do lip-sync)
+// Metade de baixo, UMA das duas fontes:
+//   • spriteBuffers + timeline — avatar desenhado (lip-sync por visema); OU
+//   • bottomVideoPath — vídeo pronto de talking head REALISTA (HeyGen), que é
+//     escalado/cortado para 1080×960 (o áudio dele é descartado — o áudio
+//     master é sempre o MP3 original do episódio).
 // audioPath: MP3 do episódio. Retorna Buffer do MP4 1080×1920 30fps.
-function assembleSplitVideo({ topFrames, topDurations, spriteBuffers, timeline, audioPath }) {
+function assembleSplitVideo({ topFrames, topDurations, spriteBuffers, timeline, bottomVideoPath, audioPath }) {
   if (topFrames.length !== topDurations.length) throw new Error('topFrames e topDurations devem ter o mesmo tamanho');
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'avatar-reel-'));
   try {
@@ -105,23 +108,35 @@ function assembleSplitVideo({ topFrames, topDurations, spriteBuffers, timeline, 
     execFileSync(FFMPEG, ['-y', '-f', 'concat', '-safe', '0', '-i', topList,
       '-c', 'copy', topMp4], { stdio: 'ignore' });
 
-    // Metade de baixo: sprites em concat demuxer com a duração de cada visema.
-    for (let i = 0; i < spriteBuffers.length; i++) {
-      fs.writeFileSync(path.join(tmp, `s${i}.png`), spriteBuffers[i]);
-    }
-    const lines = [];
-    for (const seg of timeline) {
-      lines.push(`file 's${seg.sprite}.png'`);
-      lines.push(`duration ${seg.secs.toFixed(4)}`);
-    }
-    // Regra do concat demuxer: o último arquivo se repete sem duration.
-    if (timeline.length) lines.push(`file 's${timeline[timeline.length - 1].sprite}.png'`);
-    const botList = path.join(tmp, 'bottom.txt');
-    fs.writeFileSync(botList, lines.join('\n'));
+    // Metade de baixo.
     const botMp4 = path.join(tmp, 'bottom.mp4');
-    execFileSync(FFMPEG, ['-y', '-f', 'concat', '-safe', '0', '-i', botList,
-      '-vf', `fps=30,scale=${AVATAR_W}:${AVATAR_H},format=yuv420p`,
-      '-c:v', 'libx264', '-preset', 'medium', '-pix_fmt', 'yuv420p', botMp4], { stdio: 'ignore' });
+    if (bottomVideoPath) {
+      // Talking head realista: escala preenchendo e corta ao 1080×960; sem áudio
+      // (o master é o MP3 do episódio, garantindo sincronia com a metade de cima).
+      // tpad clona o último frame por alguns segundos: se o render vier uns
+      // décimos mais curto que o áudio, o vstack não corta o final (o -t total
+      // do passo seguinte apara o excesso).
+      execFileSync(FFMPEG, ['-y', '-i', bottomVideoPath, '-an',
+        '-vf', `scale=${AVATAR_W}:${AVATAR_H}:force_original_aspect_ratio=increase,crop=${AVATAR_W}:${AVATAR_H},fps=30,tpad=stop_mode=clone:stop_duration=4,format=yuv420p`,
+        '-c:v', 'libx264', '-preset', 'medium', '-pix_fmt', 'yuv420p', botMp4], { stdio: 'ignore' });
+    } else {
+      // Avatar desenhado: sprites em concat demuxer com a duração de cada visema.
+      for (let i = 0; i < spriteBuffers.length; i++) {
+        fs.writeFileSync(path.join(tmp, `s${i}.png`), spriteBuffers[i]);
+      }
+      const lines = [];
+      for (const seg of timeline) {
+        lines.push(`file 's${seg.sprite}.png'`);
+        lines.push(`duration ${seg.secs.toFixed(4)}`);
+      }
+      // Regra do concat demuxer: o último arquivo se repete sem duration.
+      if (timeline.length) lines.push(`file 's${timeline[timeline.length - 1].sprite}.png'`);
+      const botList = path.join(tmp, 'bottom.txt');
+      fs.writeFileSync(botList, lines.join('\n'));
+      execFileSync(FFMPEG, ['-y', '-f', 'concat', '-safe', '0', '-i', botList,
+        '-vf', `fps=30,scale=${AVATAR_W}:${AVATAR_H},format=yuv420p`,
+        '-c:v', 'libx264', '-preset', 'medium', '-pix_fmt', 'yuv420p', botMp4], { stdio: 'ignore' });
+    }
 
     // Empilha e casa com o áudio real.
     const total = topDurations.reduce((a, b) => a + b, 0);
