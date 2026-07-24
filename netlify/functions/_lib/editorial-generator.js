@@ -7,6 +7,7 @@
 
 const { request } = require('../_lib');
 const log         = require('./logger');
+const { extractAnthropicText } = require('./anthropic-text');
 const { resolveModel } = require('./ai-config');
 
 const HOST  = 'api.anthropic.com';
@@ -184,7 +185,7 @@ async function generateEditorial(articles, especialidade, topThemes = [], attemp
     return null;
   }
 
-  const text = (json.content?.[0]?.text || '').trim();
+  const text = extractAnthropicText(json);
   if (!text) return null;
 
   const usage = json.usage || {};

@@ -9,6 +9,7 @@ const { computeCuratedScore } = require('./digest-ranking');
 const { resolveModel }       = require('./ai-config');
 const { detectDirection }    = require('./consensus-engine');
 const log                    = require('./logger');
+const { extractAnthropicText } = require('./anthropic-text');
 
 // ── Portuguese stopwords ──────────────────────────────────────────────────────
 
@@ -211,7 +212,7 @@ Limitações: ${a.limitacoes || '—'}`;
 
     if (res.status !== 200) return null;
     const json = JSON.parse(res.body);
-    return (json.content?.[0]?.text || '').trim() || null;
+    return extractAnthropicText(json) || null;
   } catch (err) {
     log.warn('[clinical-query] Claude synthesis failed', { err: err.message });
     return null;

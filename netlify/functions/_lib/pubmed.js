@@ -3,6 +3,7 @@
 
 const { request } = require('../_lib');
 const log         = require('./logger');
+const { extractAnthropicText } = require('./anthropic-text');
 const { resolveModel } = require('./ai-config');
 
 const NCBI_API_PARAM = process.env.NCBI_API_KEY ? '&api_key=' + process.env.NCBI_API_KEY : '';
@@ -409,7 +410,7 @@ JSON:
       return null;
     }
 
-    const text = JSON.parse(res.body).content?.[0]?.text || '';
+    const text = extractAnthropicText(JSON.parse(res.body));
     const m    = text.match(/\{[\s\S]*\}/);
     if (!m) {
       log.warn('[pubmed] enrichWithClaude: no JSON in response', { pmid: article.pmid, preview: text.slice(0, 100) });

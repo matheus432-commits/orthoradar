@@ -17,6 +17,7 @@
 const { request } = require('../_lib');
 const { MAX_CHARS_PER_AUDIO } = require('./tts-budget');
 const { corrigirTermosBR } = require('./claude');
+const { extractAnthropicText } = require('./anthropic-text');
 const log = require('./logger');
 
 const HOST = 'api.anthropic.com';
@@ -78,7 +79,9 @@ async function callModel(anthropicKey, model, system, user, maxTokens) {
     headers: { 'Content-Type': 'application/json', 'Content-Length': buf.length, 'x-api-key': anthropicKey, 'anthropic-version': '2023-06-01' },
   }, buf);
   if (res.status !== 200) { log.warn('[podcast-script] Claude erro', { model, status: res.status }); return null; }
-  return JSON.parse(res.body).content?.[0]?.text?.trim() || null;
+  // Junta todos os blocos de texto (content[0] pode ser bloco de raciocínio) —
+  // ver _lib/anthropic-text.js. Roteiro vazio deixava a especialidade SEM PODCAST.
+  return extractAnthropicText(JSON.parse(res.body)) || null;
 }
 
 // Material-fonte usado tanto para GERAR quanto para VERIFICAR o roteiro.

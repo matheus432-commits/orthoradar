@@ -29,7 +29,7 @@ function loadPS(responder) {
   return require(PS);
 }
 
-const msg = (text) => ({ status: 200, body: JSON.stringify({ content: [{ text }] }) });
+const msg = (text) => ({ status: 200, body: JSON.stringify({ content: [{ type: 'text', text }] }) });
 const isVerify = (p) => String(p.model).includes('haiku');
 
 const ART = {

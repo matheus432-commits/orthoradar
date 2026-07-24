@@ -11,6 +11,7 @@
 
 const { request } = require('../_lib');
 const log         = require('./logger');
+const { extractAnthropicText } = require('./anthropic-text');
 const { resolveModel } = require('./ai-config');
 
 const HOST  = 'api.anthropic.com';
@@ -142,7 +143,7 @@ ${abstract.length > 400 ? `Resumo: ${abstract}` : ''}`;
     }
 
     const json = JSON.parse(res.body);
-    return { text: json.content?.[0]?.text?.trim() || null, rateLimited: false };
+    return { text: extractAnthropicText(json) || null, rateLimited: false };
   } catch (err) {
     log.warn('[achado-semana] generateNotaEditorial threw', { err: err.message });
     return { text: null, rateLimited: false };

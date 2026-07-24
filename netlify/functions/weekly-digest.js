@@ -15,6 +15,7 @@
 const crypto        = require('crypto');
 const { Firestore } = require('./_lib/firestore');
 const { request }   = require('./_lib');
+const { extractAnthropicText } = require('./_lib/anthropic-text');
 const { getWeekId } = require('./_lib/engagement');
 const { resolveModel } = require('./_lib/ai-config');
 const log           = require('./_lib/logger');
@@ -192,7 +193,7 @@ async function generateWeeklyEditorial(topArticles) {
       return null;
     }
     const json = JSON.parse(res.body);
-    return (json.content?.[0]?.text || '').trim() || null;
+    return extractAnthropicText(json) || null;
   } catch (err) {
     log.warn('[weekly] generateWeeklyEditorial failed', { err: err.message });
     return null;

@@ -4,6 +4,7 @@
 const { request } = require('../_lib');
 const log = require('./logger');
 const { resolveModel } = require('./ai-config');
+const { extractAnthropicText } = require('./anthropic-text');
 
 const HOST          = 'api.anthropic.com';
 const MODEL         = resolveModel('ENRICH_MODEL');
@@ -160,7 +161,10 @@ async function callClaude(prompt, attempt = 0, model = MODEL, maxTokens = MAX_TO
   }
 
   const json = JSON.parse(res.body);
-  const text = json.content?.[0]?.text || '';
+  // content[] pode ter blocos NÃO-textuais (raciocínio) antes do texto — junta
+  // TODOS os blocos de texto (ver _lib/anthropic-text.js). Pegar content[0]
+  // devolvia resumo/JSON VAZIO com a API já cobrada (incidente 24/07).
+  const text = extractAnthropicText(json);
   const usage = json.usage || {};
   addCost(usage.input_tokens || 0, usage.output_tokens || 0);
 
@@ -302,6 +306,16 @@ async function generateResumoCompleto(article) {
       return null;
     }
     const texto = corrigirTermosBR(raw.text.trim().slice(0, 4000));
+    // Resposta VAZIA/curta demais nunca é aceita em silêncio (incidente 24/07:
+    // o Sonnet devolvia bloco de raciocínio e o texto vinha vazio — o resumo
+    // "sumia" sem erro). Loga e tenta de novo; persistindo, retorna null e a
+    // página cai no resumo curto.
+    if (texto.length < 200) {
+      log.warn('[claude] resumo_completo vazio/curto — resposta sem texto útil', {
+        pmid: article.pmid, tentativa: tentativa + 1, len: texto.length,
+      });
+      continue;
+    }
     const check = numbersConsistent(sourceText, texto);
     if (check.ok) return texto;
 
