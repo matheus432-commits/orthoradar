@@ -50,3 +50,5 @@ const MIN_RC = 200; // mesmo piso da auditoria
   console.log(`\nFIM: gerados=${gerados} jaTinha=${jaTinha} falhou=${falhou}`);
   process.exit(falhou ? 1 : 0);
 })().catch(e => { console.error('ERRO_FATAL', e.message); process.exit(1); });
+
+// rerun 2026-07-24T10:55Z: reprocessa a edição de hoje com o teto de 180s (34aaa1a).
