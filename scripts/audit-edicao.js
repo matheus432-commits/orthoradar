@@ -12,6 +12,7 @@ const { Firestore } = require('../netlify/functions/_lib/firestore');
 const { tituloEmIngles } = require('../netlify/functions/_lib/scoring');
 const { specialtySlug } = require('../netlify/functions/_lib/slug');
 const { extractAnthropicText } = require('../netlify/functions/_lib/anthropic-text');
+const { isHealthSystemCost, isResultadosIndisponiveis } = require('../netlify/functions/daily-digest');
 
 const HOJE = process.env.AUDIT_DATE || new Date().toISOString().slice(0, 10);
 const VERIFY_MODEL = process.env.PODCAST_VERIFY_MODEL || 'claude-haiku-4-5-20251001';
@@ -67,6 +68,14 @@ const pausa = (ms) => new Promise(r => setTimeout(r, ms));
       }
       if (String(a.resumo_completo || '').trim().length < 200) {
         falhas.push(`[digest ${d.id}] artigo ${id} SEM RESUMO COMPLETO (o "Ler resumo completo" ficaria vazio) — "${String(a.titulo_pt || '').slice(0, 60)}"`);
+      }
+      // Curadoria (diretriz 24/07): custo/economia no sistema de saúde e estudos
+      // sem resultados acessíveis (remetem ao texto completo) NÃO entram.
+      if (isHealthSystemCost(a)) {
+        falhas.push(`[digest ${d.id}] artigo ${id} ESTUDO DE CUSTO/SISTEMA DE SAÚDE (sem impacto clínico — não deveria entrar): "${String(a.titulo_pt || '').slice(0, 70)}"`);
+      }
+      if (isResultadosIndisponiveis(a)) {
+        falhas.push(`[digest ${d.id}] artigo ${id} SEM RESULTADOS ACESSÍVEIS (remete ao texto completo / dados indisponíveis — não deveria entrar): "${String(a.titulo_pt || '').slice(0, 70)}"`);
       }
     }
   }

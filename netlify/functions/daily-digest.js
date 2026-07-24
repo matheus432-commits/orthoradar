@@ -180,16 +180,70 @@ function isPublicHealthPolicy(a) {
   return false;
 }
 
+// Estudo de ECONOMIA EM SAÚDE / CUSTO e CARGA no SISTEMA DE SAÚDE: projeção de
+// custos diretos, gasto/despesa, burden econômico no nível populacional ou do
+// sistema. Ex.: "Projeção dos custos diretos de doenças orais no sistema de
+// saúde britânico até 2050" (Frontiers in public health); estudo de Kosovo. Mede
+// custo/carga de população — não desfecho clínico de tratamento. Diretriz do
+// fundador (24/07): "não traz impacto clínico para o dentista".
+// NÃO confundir com CUSTO-EFETIVIDADE de um tratamento específico (esse é
+// clínico): aqui o alvo é custo/carga do SISTEMA/POPULAÇÃO, por isso exige um
+// termo de custo/econômico JUNTO de um contexto de sistema/país/projeção.
+function isHealthSystemCost(a) {
+  const t = `${a.titulo_pt || ''} ${a.titulo || a.title || ''} ${a.resumo_pt || ''}`.toLowerCase();
+  const custo = /\bcustos?\b|\bcost(s|ing)?\b|econ[oô]mic|\bexpenditures?\b|\bgastos?\b|\bdespesas?\b|spending/.test(t);
+  if (!custo) return false;
+  // (a) custo + sistema de saúde / serviço nacional de saúde.
+  if (/sistema de sa[úu]de|health\s?care system|health system|\bnhs\b|national health service|servi[çc]os? de sa[úu]de/.test(t)) return true;
+  // (b) projeção/estimativa de custos (modelagem econômica, não ensaio clínico).
+  if (/proje[çc][ãa]o de custos|cost projection|projected costs?|custos? projetados?|estimated costs?|custos? estimados?/.test(t)) return true;
+  // (c) custo/gasto/carga em escala nacional/populacional/social.
+  if (/(custo|cost|gasto|despesa|expenditure|burden).{0,45}(nacional|national|popula[çc]|pa[íi]s\b|country|societ|global)/.test(t)) return true;
+  // (d) carga econômica / global de doença.
+  if (/burden of (oral )?disease|carga (econ[oô]mica|global)|economic burden/.test(t)) return true;
+  return false;
+}
+
+// Estudo cujos RESULTADOS não estão no material que temos (abstract sem os dados
+// finais, texto completo pago/indisponível): o resumo acaba ADMITINDO isso —
+// "os resultados não foram disponibilizados", "consulte o texto completo para os
+// achados", "com base apenas no resumo". Diretriz do fundador (24/07): só
+// resumimos e entregamos estudos que APRESENTAM resultados; sem acesso ao texto
+// completo com os dados, o estudo NÃO entra — nunca inventamos nem remetemos o
+// dentista ao artigo original no lugar do resultado. Detector determinístico
+// (cobre o acervo já enriquecido); a IA também marca resultados_disponiveis=false
+// nas edições novas.
+function isResultadosIndisponiveis(a) {
+  if (a.resultados_disponiveis === false) return true;
+  const t = `${a.resumo_pt || ''} ${a.resumo_completo || ''} ${a.impacto_pratico || ''} ${Array.isArray(a.achados_principais) ? a.achados_principais.join(' ') : ''}`.toLowerCase();
+  if (!t.trim()) return false;
+  // (a) admite que os resultados/dados não estão disponíveis/relatados.
+  if (/(resultados?|dados|desfechos?|achados?|n[úu]meros?)[^.]{0,60}n[ãa]o (foram|est[ãa]o|se encontram|puderam ser|se acham)\s*(dispon|relatad|apresentad|divulgad|reportad|especificad|quantificad|extra[íi]d|obtid|inclu[íi]d)/.test(t)) return true;
+  if (/(results?|data|outcomes?|findings?)[^.]{0,60}(not|were not|are not|weren.t|aren.t)\s*(available|reported|presented|provided|disclosed|specified)/.test(t)) return true;
+  // (b) remete o leitor ao TEXTO COMPLETO / ARTIGO ORIGINAL — um resumo bom se
+  // sustenta sozinho; mencionar isso é sinal de que faltaram os dados no material
+  // (ex.: "consulte o texto completo", "leitura do artigo original na íntegra").
+  if (/texto completo|artigo original|artigo na [íi]ntegra|artigo completo|publica[çc][ãa]o original|estudo (completo|na [íi]ntegra)|full text|full article|na [íi]ntegra (do|no) (artigo|estudo|texto)/.test(t)) return true;
+  // (c) acesso restrito / baseado só no resumo.
+  if (/acesso (restrito|pago|limitado)|paywall|somente (o |no )?(resumo|abstract)|apenas (o |no )?(resumo|abstract)|com base (apenas|somente) no (resumo|abstract)/.test(t)) return true;
+  if (/n[ãa]o (foi|foram) poss[íi]vel[^.]{0,45}(resultado|dado|desfecho|n[úu]mero|acesso ao (texto|artigo))/.test(t)) return true;
+  return false;
+}
+
 // Passa na CURADORIA DE CONTEÚDO? Reúne as travas de qualidade — enriquecido,
 // não é survey/questionário, é estudo COM resultados (não protocolo/em
-// andamento) e não é estudo de saúde pública/política (SUS/SB Brasil). Usada em
-// TODOS os caminhos que injetam candidatos (seleção base E fallbacks), para nada
-// escapar (incidente 22-23/07: crus, surveys, protocolos e estudos de SUS
-// entravam pelos fallbacks, que rodam depois do filtro base).
+// andamento), não é estudo de saúde pública/política (SUS/SB Brasil), não é
+// estudo de custo/carga no sistema de saúde e TEM os resultados no material
+// (não remete ao texto completo pago). Usada em TODOS os caminhos que injetam
+// candidatos (seleção base E fallbacks), para nada escapar (incidente 22-24/07:
+// crus, surveys, protocolos, estudos de SUS, projeções de custo e estudos sem
+// resultados acessíveis entravam pelos fallbacks, que rodam depois do filtro base).
 function passaCuradoria(a) {
   return isEnriched(a) &&
          !isLowValueSurvey(a) &&
          !isPublicHealthPolicy(a) &&
+         !isHealthSystemCost(a) &&
+         !isResultadosIndisponiveis(a) &&
          !isUnfinishedStudy(a.titulo || a.title || a.titulo_pt || '', a.abstract || '', a.journal || '');
 }
 
@@ -462,6 +516,18 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
     }
     if (isPublicHealthPolicy(a)) {
       log.info('[digest][ESP] estudo de saúde pública/SUS descartado (sem impacto clínico)', {
+        especialidade, id: a.pmid || a.id, titulo: (a.titulo_pt || a.titulo || '').slice(0, 70),
+      });
+      return false;
+    }
+    if (isHealthSystemCost(a)) {
+      log.info('[digest][ESP] estudo de custo/economia no sistema de saúde descartado (sem impacto clínico)', {
+        especialidade, id: a.pmid || a.id, titulo: (a.titulo_pt || a.titulo || '').slice(0, 70),
+      });
+      return false;
+    }
+    if (isResultadosIndisponiveis(a)) {
+      log.info('[digest][ESP] estudo SEM resultados acessíveis descartado (remete ao texto completo / dados indisponíveis)', {
         especialidade, id: a.pmid || a.id, titulo: (a.titulo_pt || a.titulo || '').slice(0, 70),
       });
       return false;
@@ -1225,6 +1291,8 @@ exports.handler = async () => {
 exports.isEnriched = isEnriched;
 exports.isLowValueSurvey = isLowValueSurvey;
 exports.isPublicHealthPolicy = isPublicHealthPolicy;
+exports.isHealthSystemCost = isHealthSystemCost;
+exports.isResultadosIndisponiveis = isResultadosIndisponiveis;
 
 if (require.main === module) {
   main()

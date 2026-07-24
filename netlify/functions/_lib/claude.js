@@ -45,12 +45,16 @@ const ESPECIALIDADE_GUIDE =
   '- Bucomaxilofacial: extrações, cirurgia ortognática, trauma facial, patologia cirúrgica, ATM cirúrgica.\n' +
   '- DTM e Dor Orofacial: disfunção temporomandibular, bruxismo, dor orofacial não cirúrgica, apneia do sono.\n' +
   '- Radiologia: quando o FOCO é o método de imagem em si (CBCT, IA diagnóstica em imagem, protocolos de aquisição) — não o uso incidental de radiografia.\n' +
-  '- Estomatologia: lesões da mucosa oral, câncer bucal, medicina oral, manifestações orais de doenças sistêmicas.\n' +
+  '- Estomatologia: lesões da mucosa oral, câncer bucal, medicina oral, manifestações orais de doenças sistêmicas, ' +
+  'e o manejo odontológico de pacientes com doenças/medicamentos sistêmicos — inclui osteoporose e antirreabsortivos ' +
+  '(bisfosfonatos, denosumab), avaliação/adequação odontológica PRÉ-tratamento medicamentoso, e osteonecrose dos ' +
+  'maxilares relacionada a medicamentos (MRONJ/BRONJ). Esse foco NUNCA é Dentística.\n' +
   'REGRAS DE DESEMPATE (aplicar nesta ordem):\n' +
   '1. População decídua/pediátrica → Odontopediatria, sem exceção.\n' +
-  '2. Restauração direta (resina/amálgama/ionômero) → Dentística; indireta em adulto → Prótese.\n' +
-  '3. Implante: fase cirúrgica/biológica → Implantodontia; fase protética → Prótese.\n' +
-  '4. O que decide é o FOCO CLÍNICO PRINCIPAL do estudo, não palavras isoladas.\n';
+  '2. Foco em doença/medicamento SISTÊMICO (osteoporose, bisfosfonato/denosumab, MRONJ, avaliação pré-tratamento medicamentoso) → Estomatologia, NUNCA Dentística/Ortodontia/Endodontia.\n' +
+  '3. Restauração direta (resina/amálgama/ionômero) → Dentística; indireta em adulto → Prótese.\n' +
+  '4. Implante: fase cirúrgica/biológica → Implantodontia; fase protética → Prótese.\n' +
+  '5. O que decide é o FOCO CLÍNICO PRINCIPAL do estudo, não palavras isoladas.\n';
 
 function buildPrompt(article) {
   // 1500 chars de contexto: com 400 a parte do abstract que revela a população
@@ -64,6 +68,8 @@ function buildPrompt(article) {
     'ou traduzi-lo literalmente (isso criaria obra derivada sem licença). Extraia os FATOS\n' +
     'e ACHADOS (não protegidos por direito autoral) e escreva texto analítico e prático\n' +
     'inteiramente com suas próprias palavras e estrutura.\n' +
+    'REGRA DE RESULTADOS (obrigatória): baseie-se APENAS no material fornecido. É PROIBIDO inventar resultados ou remeter o leitor ao "texto completo"/"artigo original" para obter os achados. ' +
+    'Se o material não trouxer os resultados concretos, NÃO os escreva e marque resultados_disponiveis=false (o estudo será descartado).\n' +
     'QUALIDADE DE LINGUAGEM (obrigatória): use a terminologia odontológica consagrada no Brasil — ' +
     '"deciduous/primary teeth"→"dentes decíduos", "root canal treatment"→"tratamento endodôntico", ' +
     '"resin-based composite"→"resina composta", "survival rate"→"taxa de sobrevivência", ' +
@@ -87,6 +93,7 @@ function buildPrompt(article) {
     '  "limitacoes": "Principais limitações em 1 frase",\n' +
     '  "tempo_leitura": 3,\n' +
     '  "concluido": "true se o estudo JÁ FOI CONCLUÍDO e apresenta RESULTADOS/achados; false se for PROTOCOLO, registro de ensaio clínico, ou estudo em andamento que ainda NÃO tem resultados (ex.: título com \'protocol for a randomized trial\', abstract que diz \'we will recruit/assess\'). Na dúvida entre protocolo e estudo concluído, responda false.",\n' +
+    '  "resultados_disponiveis": "true se o MATERIAL ACIMA (título + abstract) apresenta os RESULTADOS concretos do estudo — números, desfechos, direção do efeito. false se o material descreve objetivo e métodos mas os RESULTADOS não estão nele (abstract sem seção de resultados, dados não divulgados, texto completo pago/indisponível). REGRA ABSOLUTA: é PROIBIDO inventar, supor ou completar resultados que não estejam no material — se não estiverem, responda false e NÃO escreva resultados no resumo.",\n' +
     `  "especialidade": "aplique o ESCOPO e as REGRAS DE DESEMPATE acima e classifique pelo FOCO CLÍNICO PRINCIPAL em UMA de: ${CANONICAL_ESPECIALIDADES.join(' | ')} | Outra. Use 'Outra' quando não se encaixar claramente."\n` +
     '}'
   );
@@ -113,6 +120,23 @@ function corrigirTermosBR(s) {
   return String(s)
     .replace(/prostodontistas/gi, m => cap('protesistas', m))
     .replace(/prostodontista/gi,  m => cap('protesista', m));
+}
+
+// Rede de segurança DETERMINÍSTICA sobre a classificação da IA — corrige erros
+// recorrentes que o guia sozinho não impediu. Incidente 24/07: o estudo
+// "Avaliação odontológica pré-tratamento em osteoporose" (foco em antirreabsortivos
+// e risco de MRONJ) foi classificado como DENTÍSTICA — não fala de restauração.
+// Foco em doença/medicamento sistêmico (osteoporose, bisfosfonato, denosumab,
+// osteonecrose/MRONJ) é ESTOMATOLOGIA (medicina oral), nunca Dentística e afins.
+const MRONJ_RX = /osteoporos|bisfosfonat|bisphosphonat|antirreabsortiv|antiresorptiv|denosumab|osteonecros|\bmronj\b|\bbronj\b|medication-related osteonecrosis/i;
+// Especialidades clínicas onde um estudo de osteoporose/MRONJ claramente NÃO se
+// encaixa (Bucomaxilofacial fica de fora — MRONJ cirúrgico é dela por direito).
+const ESP_INCOMPATIVEIS_MRONJ = new Set(['Dentística', 'Ortodontia', 'Odontopediatria', 'Endodontia', 'Periodontia', 'Prótese', 'Radiologia']);
+
+function corrigirEspecialidade(esp, article) {
+  const t = `${article.titulo_pt || ''} ${article.titulo || article.title || ''} ${article.abstract || ''}`;
+  if (esp && ESP_INCOMPATIVEIS_MRONJ.has(esp) && MRONJ_RX.test(t)) return 'Estomatologia';
+  return esp;
 }
 
 // ── Core API call ─────────────────────────────────────────────────────────────
@@ -230,10 +254,17 @@ async function enrichArticle(article) {
     // campo vier ausente, NÃO rejeitamos por aqui (evita perder artigos bons);
     // o detector determinístico (isUnfinishedStudy) pega os protocolos óbvios.
     concluido:         !(enriched.concluido === false || String(enriched.concluido).toLowerCase() === 'false'),
+    // resultados_disponiveis: só entregamos estudo cujos RESULTADOS estão no
+    // material (pedido do fundador 24/07: estudo sem os dados finais — abstract
+    // sem resultados, texto completo pago — NÃO deve ser resumido). Ausente =
+    // true (não derruba o acervo antigo); o detector determinístico pega o resto.
+    resultados_disponiveis: !(enriched.resultados_disponiveis === false || String(enriched.resultados_disponiveis).toLowerCase() === 'false'),
     // 'Odontologia Geral' (para 'Outra'/inválida) nunca casa com digest de especialidade
-    especialidade:     CANONICAL_ESPECIALIDADES.includes(enriched.especialidade)
-      ? enriched.especialidade
-      : (enriched.especialidade ? 'Odontologia Geral' : null),
+    especialidade:     corrigirEspecialidade(
+      CANONICAL_ESPECIALIDADES.includes(enriched.especialidade)
+        ? enriched.especialidade
+        : (enriched.especialidade ? 'Odontologia Geral' : null),
+      { ...article, titulo_pt: enriched.titulo_pt }),
   };
 }
 
@@ -281,6 +312,7 @@ function buildResumoCompletoPrompt(article, strictNote) {
     'REGRA DE DIREITO AUTORAL (obrigatória): o abstract é apenas CONTEXTO — é PROIBIDO reproduzi-lo ou traduzi-lo literalmente; escreva com suas próprias palavras e estrutura.\n' +
     'REGRA DE FIDELIDADE NUMÉRICA (obrigatória): cite APENAS números que constam literalmente no material abaixo (amostras, percentuais, tempos, medidas). ' +
     'NUNCA derive, arredonde, converta ou estime números. Se um dado não estiver no material, descreva-o qualitativamente sem número.\n' +
+    'REGRA DE RESULTADOS (obrigatória): é PROIBIDO remeter o leitor ao "texto completo"/"artigo original" para obter os resultados, ou inventar achados que não estejam no material. Trabalhe só com o que o material traz.\n' +
     (strictNote ? 'ATENÇÃO: a versão anterior citou números inexistentes no material (' + strictNote + '). Remova qualquer número que não esteja literalmente no material.\n' : '') +
     'Responda APENAS com o texto do resumo, sem títulos nem marcadores.\n\n' +
     `TÍTULO: ${article.titulo || article.title || ''}\n` +
@@ -347,14 +379,14 @@ async function classifyEspecialidade(article) {
   try {
     const raw = await callClaude(prompt, 0, CLASSIFY_MODEL);
     const answer = raw.text.trim().split('\n')[0].trim();
-    if (CANONICAL_ESPECIALIDADES.includes(answer)) return answer;
+    if (CANONICAL_ESPECIALIDADES.includes(answer)) return corrigirEspecialidade(answer, article);
     if (/^outra$/i.test(answer)) return 'Odontologia Geral';
     const hit = CANONICAL_ESPECIALIDADES.find(e => answer.includes(e));
-    return hit || null;
+    return hit ? corrigirEspecialidade(hit, article) : null;
   } catch (err) {
     log.warn('[claude] classifyEspecialidade failed', { pmid: article.pmid || article.id, err: err.message });
     return null;
   }
 }
 
-module.exports = { enrichArticle, generateResumoCompleto, isResumoEstruturado, RESUMO_SECOES, classifyEspecialidade, CANONICAL_ESPECIALIDADES, corrigirTermosBR, currentCost, resetCost, MODEL };
+module.exports = { enrichArticle, generateResumoCompleto, isResumoEstruturado, RESUMO_SECOES, classifyEspecialidade, corrigirEspecialidade, CANONICAL_ESPECIALIDADES, corrigirTermosBR, currentCost, resetCost, MODEL };
