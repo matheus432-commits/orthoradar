@@ -27,7 +27,9 @@ jobs:
   podcasts:
     name: Gerar podcasts do dia
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    # 40 min: FORCE_REGEN de todas as especialidades numa madrugada de API lenta
+    # não pode ser cortado (incidente 24/07 — o áudio ficou incompleto).
+    timeout-minutes: 40
 
     steps:
       - name: Checkout
