@@ -9,6 +9,8 @@
 
 const { request } = require('../netlify/functions/_lib');
 const { Firestore } = require('../netlify/functions/_lib/firestore');
+const { tituloEmIngles } = require('../netlify/functions/_lib/scoring');
+const { specialtySlug } = require('../netlify/functions/_lib/slug');
 
 const HOJE = process.env.AUDIT_DATE || new Date().toISOString().slice(0, 10);
 const VERIFY_MODEL = process.env.PODCAST_VERIFY_MODEL || 'claude-haiku-4-5-20251001';
@@ -44,16 +46,26 @@ const pausa = (ms) => new Promise(r => setTimeout(r, ms));
 
   console.log(`=== AUDITORIA DA EDIÇÃO DE ${HOJE} ===`);
 
-  // A. Digests do dia: todo artigo precisa estar enriquecido.
+  // A. Digests do dia: todo artigo precisa estar (1) enriquecido, (2) com o
+  // título EM PORTUGUÊS e (3) com RESUMO COMPLETO. Incidente 24/07: card em
+  // inglês, sem resumo completo.
   const digests = (await db.query('digests_especialidade', { limit: 100 }).catch(() => []))
     .filter(d => String(d.id || '').endsWith('_' + HOJE));
   console.log(`digests de hoje: ${digests.length}`);
   for (const d of digests) {
     for (const a of (Array.isArray(d.artigos) ? d.artigos : [])) {
+      const id = a.pmid || a.id;
       const tituloOk = String(a.titulo_pt || '').trim().length >= 10;
       const resumoOk = String(a.resumo_pt || '').trim().length >= 120;
       if (!tituloOk || !resumoOk) {
-        falhas.push(`[digest ${d.id}] artigo ${a.pmid || a.id} SEM ENRIQUECIMENTO (titulo_pt: ${tituloOk}, resumo_pt: ${resumoOk}) — "${String(a.titulo || a.titulo_pt || '').slice(0, 70)}"`);
+        falhas.push(`[digest ${d.id}] artigo ${id} SEM ENRIQUECIMENTO (titulo_pt: ${tituloOk}, resumo_pt: ${resumoOk}) — "${String(a.titulo || a.titulo_pt || '').slice(0, 70)}"`);
+        continue;
+      }
+      if (tituloEmIngles(a.titulo_pt, a.titulo || a.title || '')) {
+        falhas.push(`[digest ${d.id}] artigo ${id} TÍTULO AINDA EM INGLÊS (não traduzido): "${String(a.titulo_pt).slice(0, 80)}"`);
+      }
+      if (String(a.resumo_completo || '').trim().length < 200) {
+        falhas.push(`[digest ${d.id}] artigo ${id} SEM RESUMO COMPLETO (o "Ler resumo completo" ficaria vazio) — "${String(a.titulo_pt || '').slice(0, 60)}"`);
       }
     }
   }
@@ -62,6 +74,19 @@ const pausa = (ms) => new Promise(r => setTimeout(r, ms));
   const eps = (await db.query('podcast_episodios', { limit: 300 }).catch(() => []))
     .filter(e => e.date === HOJE && e.tipo !== 'completo');
   console.log(`episódios de hoje: ${eps.length}`);
+
+  // D. TODA especialidade com edição do dia precisa ter PODCAST (o erro mais
+  // grave — incidente 24/07: generate-podcasts cancelado no meio deixou uma
+  // especialidade sem áudio). Sem episódio individual da especialidade → reprova.
+  const slugDe = (e) => e.slug || specialtySlug(e.especialidade || '');
+  for (const d of digests) {
+    const esp = d.especialidade || String(d.id || '').replace('_' + HOJE, '');
+    const slug = specialtySlug(esp);
+    const n = eps.filter(e => slugDe(e) === slug).length;
+    if (n === 0) {
+      falhas.push(`[${esp}] edição do dia SEM PODCAST — 0 episódios gerados (ERRO GRAVE: dentista sem áudio)`);
+    }
+  }
   for (const e of eps) {
     const secs = Number(e.secs) || 0;
     if (secs < 40) falhas.push(`[episódio ${e.id}] áudio curto demais (${secs}s) — casca vazia?`);
