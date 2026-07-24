@@ -108,6 +108,46 @@ exports.handler = async (event) => {
     const tts = await db.getDoc('tts_usage', month).catch(() => null);
     const ttsChars = Number(tts?.chars) || 0;
 
+    // ── Acessos do dia (engajamento explícito p/ o fundador) ──
+    // Lê os eventos de digest_metrics do dia (e-mail: open/click; site:
+    // context_opened, briefing_opened, knowledge_search, etc.).
+    //   • pessoas         = identidades DISTINTAS (e-mail; se ausente, IP) com
+    //     QUALQUER evento hoje → "quantas pessoas acessaram o OdontoFeed".
+    //   • abriramArquivo  = pessoas distintas que ABRIRAM um estudo — clique no
+    //     card do e-mail (click) OU abriram o detalhe do artigo no site
+    //     (context_opened) → "quantos abriram algum dos arquivos".
+    // Janela em UTC (igual ao resto do painel). ts é ISO string, que ordena
+    // cronologicamente, então o range por string dispensa índice composto.
+    const FILE_OPEN_TYPES = new Set(['click', 'context_opened']);
+    const acessos = { pessoas: 0, abriramArquivo: 0, totalEventos: 0, porTipo: {} };
+    try {
+      const amanha = new Date(hoje + 'T00:00:00.000Z');
+      amanha.setUTCDate(amanha.getUTCDate() + 1);
+      const eventos = await db.query('digest_metrics', {
+        where: { compositeFilter: { op: 'AND', filters: [
+          { fieldFilter: { field: { fieldPath: 'ts' }, op: 'GREATER_THAN_OR_EQUAL', value: { stringValue: hoje + 'T00:00:00.000Z' } } },
+          { fieldFilter: { field: { fieldPath: 'ts' }, op: 'LESS_THAN',              value: { stringValue: amanha.toISOString() } } },
+        ] } },
+        orderBy: [{ field: { fieldPath: 'ts' }, direction: 'ASCENDING' }],
+        select: { fields: [{ fieldPath: 'ts' }, { fieldPath: 'email' }, { fieldPath: 'ip' }, { fieldPath: 'eventType' }] },
+        limit: 20000,
+      });
+      const idsAcesso = new Set(), idsAbriram = new Set();
+      for (const ev of eventos) {
+        acessos.totalEventos++;
+        const tipo = ev.eventType || 'unknown';
+        acessos.porTipo[tipo] = (acessos.porTipo[tipo] || 0) + 1;
+        const identidade = ev.email || ev.ip || null; // dedupe por pessoa
+        if (!identidade) continue;
+        idsAcesso.add(identidade);
+        if (FILE_OPEN_TYPES.has(tipo)) idsAbriram.add(identidade);
+      }
+      acessos.pessoas = idsAcesso.size;
+      acessos.abriramArquivo = idsAbriram.size;
+    } catch (e) {
+      log.warn('[painel] métricas de acesso indisponíveis', { err: e.message });
+    }
+
     const payload = {
       dia: hoje,
       geradoEm: now.toISOString(),
@@ -121,6 +161,7 @@ exports.handler = async (event) => {
       },
       dentistas: { total, ativos, hoje: hojeNovos, premium, comIndicacao, porEspecialidade: porEsp },
       tts: { chars: ttsChars, budget: TTS_BUDGET, pct: TTS_BUDGET ? Math.round((ttsChars / TTS_BUDGET) * 100) : 0 },
+      acessos,
     };
 
     return { statusCode: 200, headers, body: JSON.stringify(payload) };
