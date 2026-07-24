@@ -1,0 +1,67 @@
+name: OdontoFeed Avatar Reel
+
+# Gera o REEL COM AVATAR (vídeo vertical dividido: cenas em cima, apresentadora
+# virtual falando embaixo) a partir do episódio do dia. v1 SÓ GERA O ARQUIVO e
+# sobe ao Storage — a URL sai no log e em avatar_reels/{data}; a publicação em
+# IG/TikTok/YouTube é manual até validarmos o formato.
+#
+# NUNCA agendado: roda apenas sob demanda (dispatch manual ou tocar o arquivo
+# .avatar-reel-dispatch) — custo sob controle do fundador.
+# Custo por execução: 1 chamada de segmentação (Sonnet, centavos) + Imagen só
+# em cena sem cache. Sem TTS novo.
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+on:
+  workflow_dispatch:
+    inputs:
+      avatar_date:
+        description: 'Data da edição (YYYY-MM-DD; vazio = hoje)'
+        required: false
+        default: ''
+      avatar_esp:
+        description: 'Especialidade (vazio = a do dia, com fallback)'
+        required: false
+        default: ''
+  push:
+    branches: [main]
+    paths: ['.avatar-reel-dispatch']   # tocar este arquivo gera o vídeo do dia
+
+jobs:
+  avatar-reel:
+    name: Gerar Reel com Avatar
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Instalar Playwright + Chromium
+        run: |
+          npm install playwright@1.56.1
+          npx playwright install --with-deps chromium
+
+      - name: Instalar ffmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+          ffmpeg -version | head -1
+
+      - name: Gerar Reel com Avatar
+        env:
+          FIREBASE_PROJECT_ID:      ${{ secrets.FIREBASE_PROJECT_ID }}
+          FIREBASE_API_KEY:         ${{ secrets.FIREBASE_API_KEY }}
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          ANTHROPIC_API_KEY:        ${{ secrets.ANTHROPIC_API_KEY }}
+          GCP_SERVICE_ACCOUNT_JSON: ${{ secrets.GCP_SERVICE_ACCOUNT_JSON }}
+          GCS_BUCKET:               ${{ secrets.GCS_BUCKET }}
+          AVATAR_DATE:              ${{ inputs.avatar_date }}
+          AVATAR_ESP:               ${{ inputs.avatar_esp }}
+        run: node scripts/gerar-reel-avatar.js
