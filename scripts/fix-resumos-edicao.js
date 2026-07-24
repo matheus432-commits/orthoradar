@@ -52,3 +52,5 @@ const MIN_RC = 200; // mesmo piso da auditoria
 })().catch(e => { console.error('ERRO_FATAL', e.message); process.exit(1); });
 
 // rerun 2026-07-24T10:55Z: reprocessa a edição de hoje com o teto de 180s (34aaa1a).
+
+// rerun 2026-07-24T11:08Z: teto 180s + extração robusta de content[] (ccdd8d1).
