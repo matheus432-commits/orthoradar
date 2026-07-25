@@ -140,4 +140,19 @@ describe('C. corrigirEspecialidade — osteoporose/MRONJ nunca é Dentística', 
   test('não mexe em estudo sem tema sistêmico de osteonecrose', () => {
     assert.equal(corrigirEspecialidade('Dentística', { titulo_pt: 'Resina bulk-fill versus incremental' }), 'Dentística');
   });
+
+  test('INCIDENTE 25/07: câncer bucal / CEC oral / mucosa → Estomatologia (não Endodontia)', () => {
+    assert.equal(corrigirEspecialidade('Endodontia', {
+      titulo_pt: 'H. pylori em carcinoma de células escamosas oral: achados imuno-histoquímicos e implicações clínicas',
+    }), 'Estomatologia');
+    assert.equal(corrigirEspecialidade('Dentística', { titulo: 'Oral squamous cell carcinoma (OSCC) immunohistochemistry' }), 'Estomatologia');
+    assert.equal(corrigirEspecialidade('Ortodontia', { titulo_pt: 'Leucoplasia oral e risco de transformação maligna' }), 'Estomatologia');
+    assert.equal(corrigirEspecialidade('Periodontia', { titulo_pt: 'Líquen plano oral: manejo em medicina oral' }), 'Estomatologia');
+  });
+  test('câncer bucal cirúrgico em Bucomaxilofacial é mantido (competência dela)', () => {
+    assert.equal(corrigirEspecialidade('Bucomaxilofacial', { titulo: 'Surgical resection of oral squamous cell carcinoma' }), 'Bucomaxilofacial');
+  });
+  test('não pega estudo periodontal mucogengival comum (sem lesão/câncer)', () => {
+    assert.equal(corrigirEspecialidade('Periodontia', { titulo_pt: 'Enxerto gengival livre para aumento de tecido queratinizado' }), 'Periodontia');
+  });
 });
