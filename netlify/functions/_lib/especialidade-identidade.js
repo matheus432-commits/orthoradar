@@ -73,4 +73,47 @@ function prioridadesDoDia(dateStr) {
   return CICLO.map((_, i) => CICLO[(Math.max(0, idx) + i) % CICLO.length]);
 }
 
-module.exports = { CICLO, CORES, FALLBACK_COR, corDe, capaFontPx, diaDoCiclo, especialidadeDoDia, prioridadesDoDia };
+// ANTI-REPETIÇÃO (incidente 25/07: Odontopediatria saiu no Instagram 2 dias
+// seguidos). O bug: quando a especialidade principal do dia não tem edição, o
+// canal cai para a PRÓXIMA com conteúdo — que pode ser a mesma de ontem, e/ou
+// a que vira principal amanhã. Solução: escolher a 1ª das prioridades que TEM
+// conteúdo e NÃO saiu nos últimos dias. Se TODAS as com conteúdo estiverem na
+// lista de evitar (base com poucas especialidades ativas), libera — nunca
+// deixamos o dia sem post. `carregarConteudo(esp)` é async e devolve o conteúdo
+// (artigos/episódio) ou null/false; retorna { especialidade, conteudo } ou null.
+async function escolherEspecialidadeComConteudo(prioridades, carregarConteudo, evitar = new Set()) {
+  const cache = new Map();
+  const carregar = async (esp) => {
+    if (!cache.has(esp)) cache.set(esp, await carregarConteudo(esp));
+    return cache.get(esp);
+  };
+  // 1ª passada: pula as que saíram recentemente.
+  for (const esp of prioridades) {
+    if (evitar.has(esp)) continue;
+    const c = await carregar(esp);
+    if (c) return { especialidade: esp, conteudo: c };
+  }
+  // 2ª passada: libera as evitadas — melhor repetir do que deixar o dia sem post.
+  for (const esp of prioridades) {
+    const c = await carregar(esp);
+    if (c) return { especialidade: esp, conteudo: c };
+  }
+  return null;
+}
+
+// Especialidades já postadas nos últimos `dias` dias (para não repetir). Lê a
+// coleção de histórico do canal (instagram_posts / instagram_reels; doc id =
+// data 'YYYY-MM-DD'). Best-effort: falha de leitura não bloqueia o post.
+async function especialidadesRecentes(db, colecao, dateStr, dias = 2) {
+  const set = new Set();
+  const base = Date.parse((dateStr || '') + 'T00:00:00Z');
+  if (Number.isNaN(base)) return set;
+  for (let i = 1; i <= dias; i++) {
+    const d = new Date(base - i * 86400000).toISOString().slice(0, 10);
+    const doc = await db.getDoc(colecao, d).catch(() => null);
+    if (doc && doc.especialidade) set.add(doc.especialidade);
+  }
+  return set;
+}
+
+module.exports = { CICLO, CORES, FALLBACK_COR, corDe, capaFontPx, diaDoCiclo, especialidadeDoDia, prioridadesDoDia, escolherEspecialidadeComConteudo, especialidadesRecentes };
