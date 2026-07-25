@@ -12,8 +12,47 @@
 const { test, describe } = require('node:test');
 const assert = require('node:assert/strict');
 
-const { isHealthSystemCost, isResultadosIndisponiveis, isHealthPromotionBehavior, isBibliometricScoping } = require('../../daily-digest.js');
+const { isHealthSystemCost, isResultadosIndisponiveis, isHealthPromotionBehavior, isBibliometricScoping, isComparacaoSemVeredito } = require('../../daily-digest.js');
 const { corrigirEspecialidade } = require('../claude.js');
+
+describe('B2. isComparacaoSemVeredito — comparação PRECISA declarar o vencedor', () => {
+  test('INCIDENTE 26/07: comparação de materiais sem dizer qual foi melhor → barra', () => {
+    assert.equal(isComparacaoSemVeredito({
+      titulo_pt: 'Enxerto ósseo alógeno desmineralizado versus mineral bovino em regeneração óssea guiada',
+      resumo_completo: 'O estudo comparou dois materiais de enxerto em regeneração óssea guiada. Ambos os grupos foram acompanhados por seis meses e apresentaram formação óssea, com variações entre os grupos ao longo do período.',
+    }), true);
+  });
+  test('comparação COM vencedor declarado → passa', () => {
+    assert.equal(isComparacaoSemVeredito({
+      titulo_pt: 'Enxerto alógeno versus bovino',
+      resumo_completo: 'O enxerto bovino foi superior ao alógeno em ganho ósseo aos seis meses.',
+    }), false);
+  });
+  test('comparação com EQUIVALÊNCIA explícita (veredito válido) → passa', () => {
+    assert.equal(isComparacaoSemVeredito({
+      titulo_pt: 'Adesivo universal versus convencional',
+      resumo_pt: 'Não houve diferença significativa entre os dois adesivos na resistência de união.',
+    }), false);
+  });
+  test('comparação com números comparados → passa', () => {
+    assert.equal(isComparacaoSemVeredito({
+      titulo_pt: 'Técnica A versus B',
+      resumo_pt: 'A sobrevivência foi de 95% no grupo A contra 82% no grupo B em cinco anos.',
+    }), false);
+  });
+  test('estudo NÃO comparativo não é afetado', () => {
+    assert.equal(isComparacaoSemVeredito({
+      titulo_pt: 'Sobrevivência de implantes curtos em cinco anos',
+      resumo_pt: 'A taxa de sobrevivência observada foi de 96%.',
+    }), false);
+  });
+  test('flui pelo isResultadosIndisponiveis (curadoria usa este)', () => {
+    assert.equal(isResultadosIndisponiveis({
+      titulo_pt: 'Material X versus material Y',
+      resumo_completo: 'Comparou os dois materiais; ambos apresentaram bom comportamento clínico no acompanhamento.',
+    }), true);
+  });
+});
 
 describe('A0b. isBibliometricScoping — mapeamento/escopo/bibliometria (meta-pesquisa)', () => {
   test('barra mapeamento de pesquisas multipaís', () => {
