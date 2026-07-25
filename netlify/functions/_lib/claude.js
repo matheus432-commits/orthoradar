@@ -123,19 +123,28 @@ function corrigirTermosBR(s) {
 }
 
 // Rede de segurança DETERMINÍSTICA sobre a classificação da IA — corrige erros
-// recorrentes que o guia sozinho não impediu. Incidente 24/07: o estudo
-// "Avaliação odontológica pré-tratamento em osteoporose" (foco em antirreabsortivos
-// e risco de MRONJ) foi classificado como DENTÍSTICA — não fala de restauração.
-// Foco em doença/medicamento sistêmico (osteoporose, bisfosfonato, denosumab,
-// osteonecrose/MRONJ) é ESTOMATOLOGIA (medicina oral), nunca Dentística e afins.
+// recorrentes que o guia sozinho não impediu, roteando para ESTOMATOLOGIA
+// (medicina oral) temas que são dela por direito mas a IA jogou numa
+// especialidade clínica errada.
+//
+// Casos cobertos:
+//  • MRONJ/osteoporose (incidente 24/07): "Avaliação pré-tratamento em
+//    osteoporose" foi para DENTÍSTICA.
+//  • Câncer bucal / lesões da mucosa oral (incidente 25/07): "H. pylori em
+//    carcinoma de células escamosas oral — achados imuno-histoquímicos" foi
+//    para ENDODONTIA. Câncer bucal, CEC oral, lesões potencialmente malignas,
+//    líquen, leucoplasia, medicina oral e patologia da mucosa = Estomatologia.
 const MRONJ_RX = /osteoporos|bisfosfonat|bisphosphonat|antirreabsortiv|antiresorptiv|denosumab|osteonecros|\bmronj\b|\bbronj\b|medication-related osteonecrosis/i;
-// Especialidades clínicas onde um estudo de osteoporose/MRONJ claramente NÃO se
-// encaixa (Bucomaxilofacial fica de fora — MRONJ cirúrgico é dela por direito).
-const ESP_INCOMPATIVEIS_MRONJ = new Set(['Dentística', 'Ortodontia', 'Odontopediatria', 'Endodontia', 'Periodontia', 'Prótese', 'Radiologia']);
+const ESTOMATO_RX = /c[âa]ncer (bucal|oral|de boca)|oral cancer|carcinoma (oral|bucal|de c[ée]lulas escamosas|espinocelular|epidermoide)|c[ée]lulas escamosas oral|oral squamous cell|\boscc\b|neoplasia (oral|bucal|maligna)|tumor (oral|bucal|de boca)|leucoplasia|leukoplakia|eritroplasia|erythroplakia|l[íi]quen plano|lichen planus|displasia (oral|epitelial|bucal)|epithelial dysplasia|les(ão|ões) (oral|bucal|da mucosa (oral|bucal)?|potencialmente maligna)|oral potentially malignant|est[oa]matite|medicina oral|oral medicine|patologia (oral|bucal)|imuno-?histoqu[íi]mic.{0,40}(carcinoma|neoplasia|tumor|les|c[âa]ncer|mucosa)/i;
+
+// Especialidades clínicas onde esses temas claramente NÃO se encaixam.
+// Bucomaxilofacial fica de fora — cirurgia de MRONJ e de tumor/câncer é dela por
+// direito; a decisão medicina-oral vs. cirurgia fica com a IA nesse limite.
+const ESP_CLINICAS_INCOMPATIVEIS = new Set(['Dentística', 'Ortodontia', 'Odontopediatria', 'Endodontia', 'Periodontia', 'Prótese', 'Radiologia', 'DTM e Dor Orofacial']);
 
 function corrigirEspecialidade(esp, article) {
   const t = `${article.titulo_pt || ''} ${article.titulo || article.title || ''} ${article.abstract || ''}`;
-  if (esp && ESP_INCOMPATIVEIS_MRONJ.has(esp) && MRONJ_RX.test(t)) return 'Estomatologia';
+  if (esp && ESP_CLINICAS_INCOMPATIVEIS.has(esp) && (MRONJ_RX.test(t) || ESTOMATO_RX.test(t))) return 'Estomatologia';
   return esp;
 }
 
