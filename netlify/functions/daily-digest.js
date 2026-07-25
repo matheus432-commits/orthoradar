@@ -269,7 +269,36 @@ function isResultadosIndisponiveis(a) {
   // (e) acesso restrito / baseado só no resumo/informações apresentadas.
   if (/acesso (restrito|pago|limitado)|paywall|somente (o |no )?(resumo|abstract)|apenas (o |no )?(resumo|abstract)|com base (apenas|somente|unicamente) (no|nas) (resumo|abstract|informa[çc][õo]es)/.test(t)) return true;
   if (/n[ãa]o (foi|foram|é|e) poss[íi]vel[^.]{0,60}(resultado|dado|desfecho|n[úu]mero|valor|declarar|afirmar|dizer|determinar|acesso ao (texto|artigo))/.test(t)) return true;
+
+  // (f) PROATIVO — comparação SEM VEREDITO declarado. Incidente 26/07: "Enxerto
+  // alógeno versus mineral bovino" saiu sem dizer qual material foi melhor, e
+  // SEM admitir isso (então (a)-(e) não pegam). Regra: se é um estudo
+  // comparativo e o nosso texto não declara direção do resultado (nem vencedor,
+  // nem equivalência explícita), o estudo NÃO pode ir ao ar.
+  if (isComparacaoSemVeredito(a)) return true;
   return false;
+}
+
+// Estudo COMPARATIVO cujo nosso resumo NÃO declara o veredito (qual grupo foi
+// melhor/pior — ou que foram equivalentes). O que o dentista mais quer saber.
+// Só dispara para comparações; declarar "não houve diferença" É um veredito
+// válido e PASSA.
+function isComparacaoSemVeredito(a) {
+  const titulo = `${a.titulo_pt || ''} ${a.titulo || a.title || ''}`.toLowerCase();
+  const corpo = `${a.resumo_pt || ''} ${a.resumo_completo || ''} ${a.impacto_pratico || ''} ${Array.isArray(a.achados_principais) ? a.achados_principais.join(' ') : ''}`.toLowerCase();
+  if (!corpo.trim()) return false; // sem texto p/ avaliar — outros filtros cuidam
+
+  // É comparação? (título ou corpo)
+  const ehComparacao = /\bversus\b|\bvs\.?\b|compara[çc]|comparou|comparativ|confront/.test(titulo + ' ' + corpo);
+  if (!ehComparacao) return false;
+
+  // Tem direção do resultado (vencedor OU equivalência explícita OU números
+  // comparados)? Qualquer um desses é um veredito válido e o estudo passa.
+  const temVencedor = /superior|inferior|\bmelhor\b|\bpior\b|\bmaior\b|\bmenor\b|mais efic|menos efic|mais efetiv|menos efetiv|favor[áa]ve|favorec|prevalec|super(ou|aram)|vantagem|apresentou (maior|menor|melhor|pior)|desempenho (superior|inferior|melhor|pior)|reduz(iu|iram)|aument(ou|aram)/.test(corpo);
+  const temEquivalencia = /sem diferen|n[ãa]o houve diferen|n[ãa]o apresentou diferen|sem diferen[çc]a (estat[íi]stica|significativa)|semelhant|similar(es)?|equivalent|compar[áa]ve(l|is)|n[ãa]o diferi|estatisticamente iguais|sem superioridade/.test(corpo);
+  const temNumerosComparados = /\d+[.,]?\d*\s*%[^.]{0,45}(vs\.?|versus|contra|ante|enquanto|\d+[.,]?\d*\s*%)/.test(corpo);
+
+  return !(temVencedor || temEquivalencia || temNumerosComparados);
 }
 
 // Passa na CURADORIA DE CONTEÚDO? Reúne as travas de qualidade — enriquecido,
@@ -1381,6 +1410,7 @@ exports.isHealthPromotionBehavior = isHealthPromotionBehavior;
 exports.isBibliometricScoping = isBibliometricScoping;
 exports.isHealthSystemCost = isHealthSystemCost;
 exports.isResultadosIndisponiveis = isResultadosIndisponiveis;
+exports.isComparacaoSemVeredito = isComparacaoSemVeredito;
 
 if (require.main === module) {
   main()
