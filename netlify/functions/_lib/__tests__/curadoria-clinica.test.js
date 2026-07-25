@@ -107,6 +107,22 @@ describe('B. isResultadosIndisponiveis — só entra estudo com resultados acess
     assert.equal(isResultadosIndisponiveis({
       resumo_pt: 'Não houve diferença significativa entre os grupos na sobrevivência das restaurações.',
     }), false);
+    assert.equal(isResultadosIndisponiveis({
+      resumo_pt: 'O grupo A foi superior ao B; no grupo C não houve diferença estatística.',
+    }), false);
+  });
+
+  test('INCIDENTE 25/07 — pega a redação REAL de comparação sem veredito', () => {
+    // texto exato do card do incidente (braquetes rebonados)
+    assert.equal(isResultadosIndisponiveis({
+      resumo_completo: 'O material disponibilizado não traz os valores numéricos de resistência de união obtidos em cada grupo, nem especifica de forma explícita qual combinação entre método de recondicionamento e protocolo de primer resultou no melhor ou no pior desempenho de colagem. Dessa forma, não é possível, com base nas informações apresentadas, declarar qual técnica se mostrou superior ou inferior às demais.',
+    }), true);
+  });
+  test('pega variações de "não é possível dizer qual foi melhor"', () => {
+    assert.equal(isResultadosIndisponiveis({ resumo_completo: 'Não fica claro qual protocolo foi superior.' }), true);
+    assert.equal(isResultadosIndisponiveis({ resumo_completo: 'O abstract não permite determinar qual grupo teve melhor desempenho.' }), true);
+    assert.equal(isResultadosIndisponiveis({ resumo_pt: 'Não há como afirmar qual material se saiu melhor com base no material.' }), true);
+    assert.equal(isResultadosIndisponiveis({ resumo_completo: 'O estudo não apresenta os valores de resistência de cada grupo.' }), true);
   });
 });
 

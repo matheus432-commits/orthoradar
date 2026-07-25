@@ -245,16 +245,30 @@ function isResultadosIndisponiveis(a) {
   if (a.resultados_disponiveis === false) return true;
   const t = `${a.resumo_pt || ''} ${a.resumo_completo || ''} ${a.impacto_pratico || ''} ${Array.isArray(a.achados_principais) ? a.achados_principais.join(' ') : ''}`.toLowerCase();
   if (!t.trim()) return false;
-  // (a) admite que os resultados/dados não estão disponíveis/relatados.
-  if (/(resultados?|dados|desfechos?|achados?|n[úu]meros?)[^.]{0,60}n[ãa]o (foram|est[ãa]o|se encontram|puderam ser|se acham)\s*(dispon|relatad|apresentad|divulgad|reportad|especificad|quantificad|extra[íi]d|obtid|inclu[íi]d)/.test(t)) return true;
-  if (/(results?|data|outcomes?|findings?)[^.]{0,60}(not|were not|are not|weren.t|aren.t)\s*(available|reported|presented|provided|disclosed|specified)/.test(t)) return true;
-  // (b) remete o leitor ao TEXTO COMPLETO / ARTIGO ORIGINAL — um resumo bom se
-  // sustenta sozinho; mencionar isso é sinal de que faltaram os dados no material
-  // (ex.: "consulte o texto completo", "leitura do artigo original na íntegra").
+
+  // (a) admite que os resultados/dados/valores não estão disponíveis/relatados.
+  if (/(resultados?|dados|desfechos?|achados?|n[úu]meros?|valores?)[^.]{0,70}n[ãa]o (foram|est[ãa]o|se encontram|puderam ser|se acham|est[aã]o)\s*(dispon|relatad|apresentad|divulgad|reportad|especificad|quantificad|extra[íi]d|obtid|inclu[íi]d|detalhad|inform)/.test(t)) return true;
+  if (/(results?|data|outcomes?|findings?)[^.]{0,70}(not|were not|are not|weren.t|aren.t)\s*(available|reported|presented|provided|disclosed|specified|detailed)/.test(t)) return true;
+
+  // (b) o MATERIAL/ABSTRACT/RESUMO não traz/permite/especifica os dados —
+  // redação real do incidente 25/07: "O material disponibilizado não traz os
+  // valores numéricos...".
+  if (/(o material|os materiais|o abstract|o resumo|a fonte|as informa[çc][õo]es|o conte[úu]do)[^.]{0,60}(n[ãa]o|nem|tampouco)[^.]{0,25}(traz|apresenta|fornece|permite|possibilita|disponibiliza|inclui|cont[ée]m|informa|especifica|detalha|descreve|deixa claro|esclarece)/.test(t)) return true;
+  if (/(n[ãa]o|nem|tampouco)[^.]{0,25}(traz|apresenta|fornece|informa|especifica|detalha|disponibiliza|descreve)[^.]{0,40}(os valores|os resultados|os dados|os n[úu]meros|os desfechos|a magnitude|as m[ée]dias)/.test(t)) return true;
+
+  // (c) NÃO CONSEGUE declarar o VENCEDOR/DIREÇÃO da comparação — o pior caso
+  // (incidente 25/07: "não é possível... declarar qual técnica se mostrou
+  // superior ou inferior"; "nem especifica qual... resultou no melhor ou pior").
+  if (/n[ãa]o (é|e|foi|fica|ficou|est[áa]|se torna|h[áa] como|d[áa] para|se pode|se consegue|permite|possibilita)[^.]{0,60}(poss[íi]vel|clar[oa]|vi[áa]vel)?[^.]{0,45}(dizer|afirmar|declarar|determinar|identificar|apontar|precisar|saber|concluir|estabelecer|indicar|definir|inferir)[^.]{0,45}(qual|quais|quem|se|a dire[çc][ãa]o|o vencedor)/.test(t)) return true;
+  if (/(n[ãa]o|nem|tampouco)[^.]{0,35}(especifica|indica|deixa claro|esclarece|informa|revela|aponta|define)[^.]{0,60}(qual|quais)[^.]{0,80}(melhor|pior|superior|inferior|venceu|eficaz|efic[áa]cia|se saiu)/.test(t)) return true;
+  if (/n[ãa]o (fica|ficou|est[áa]|é|e|se torna|tornou) clar[oa][^.]{0,70}(qual|quais|quem)[^.]{0,80}(melhor|pior|superior|inferior|venceu|eficaz|se saiu|desempenho)/.test(t)) return true;
+
+  // (d) remete o leitor ao TEXTO COMPLETO / ARTIGO ORIGINAL.
   if (/texto completo|artigo original|artigo na [íi]ntegra|artigo completo|publica[çc][ãa]o original|estudo (completo|na [íi]ntegra)|full text|full article|na [íi]ntegra (do|no) (artigo|estudo|texto)/.test(t)) return true;
-  // (c) acesso restrito / baseado só no resumo.
-  if (/acesso (restrito|pago|limitado)|paywall|somente (o |no )?(resumo|abstract)|apenas (o |no )?(resumo|abstract)|com base (apenas|somente) no (resumo|abstract)/.test(t)) return true;
-  if (/n[ãa]o (foi|foram) poss[íi]vel[^.]{0,45}(resultado|dado|desfecho|n[úu]mero|acesso ao (texto|artigo))/.test(t)) return true;
+
+  // (e) acesso restrito / baseado só no resumo/informações apresentadas.
+  if (/acesso (restrito|pago|limitado)|paywall|somente (o |no )?(resumo|abstract)|apenas (o |no )?(resumo|abstract)|com base (apenas|somente|unicamente) (no|nas) (resumo|abstract|informa[çc][õo]es)/.test(t)) return true;
+  if (/n[ãa]o (foi|foram|é|e) poss[íi]vel[^.]{0,60}(resultado|dado|desfecho|n[úu]mero|valor|declarar|afirmar|dizer|determinar|acesso ao (texto|artigo))/.test(t)) return true;
   return false;
 }
 
@@ -703,21 +717,51 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
   // buildEspDigest inteiro tem 180s (USER_TIMEOUT_MS×2) — esta etapa nunca
   // pode consumi-lo e derrubar o envio da especialidade inteira; passou do
   // orçamento, os artigos restantes seguem sem resumo rico (amanhã completa).
+  // TRAVA PÓS-GERAÇÃO (incidente 25/07 — ERRO GRAVÍSSIMO): a admissão de que o
+  // material "não traz os valores" ou de que "não é possível dizer qual técnica
+  // foi superior" só aparece DEPOIS, no resumo completo. Então: geramos o resumo
+  // e, se ele admitir que o estudo NÃO PODE ser resumido de forma completa (com
+  // o veredito), DESCARTAMOS o artigo e REPOMOS por outro candidato bom. Só vai
+  // ao ar estudo que conseguimos resumir por inteiro. O check determinístico
+  // (isResultadosIndisponiveis) roda sempre — mesmo sem gerar, sobre o resumo_pt.
   const RESUMO_STAGE_BUDGET_MS = 100000;
   t = Date.now();
+  const usadosIds = new Set(selected.map(a => String(a.pmid || a.id || '')));
+  const reserva = candidates.filter(a => !usadosIds.has(String(a.pmid || a.id || '')) && passaCuradoria(a));
+  const finais = [];
+  let descartadosSemVeredito = 0;
   for (const art of selected) {
-    if (Date.now() - t > RESUMO_STAGE_BUDGET_MS) {
-      log.warn('[digest][ESP][STAGE resumos] orçamento de tempo esgotado — restantes sem resumo rico hoje', {
-        especialidade, msDecorridos: Date.now() - t,
-      });
-      break;
+    if (Date.now() - t <= RESUMO_STAGE_BUDGET_MS) await ensureResumoCompleto(db, art);
+    if (!isResultadosIndisponiveis(art)) { finais.push(art); continue; }
+    descartadosSemVeredito++;
+    log.warn('[digest][ESP] artigo DESCARTADO após resumo completo — sem resultados/veredito no material (repondo)', {
+      especialidade, id: art.pmid || art.id, titulo: (art.titulo_pt || art.titulo || '').slice(0, 70),
+    });
+    let reposto = null;
+    while (reserva.length && Date.now() - t <= RESUMO_STAGE_BUDGET_MS) {
+      const cand = reserva.shift();
+      await ensureResumoCompleto(db, cand);
+      if (!isResultadosIndisponiveis(cand)) { reposto = cand; break; }
+      log.info('[digest][ESP] reposição também sem veredito — tentando a próxima', { id: cand.pmid || cand.id });
     }
-    await ensureResumoCompleto(db, art);
+    if (reposto) finais.push(reposto);
   }
+  selected = finais;
   log.info('[digest][ESP][STAGE resumos]', {
     especialidade, comResumo: selected.filter(a => a.resumo_completo).length,
-    total: selected.length, ms: Date.now() - t,
+    total: selected.length, descartadosSemVeredito, ms: Date.now() - t,
   });
+
+  // ── GATE 4: só publica com o mínimo de artigos COMPLETOS ────────────────────
+  // Se as reposições não recompuseram o mínimo, é melhor NÃO publicar a
+  // especialidade hoje do que entregar um estudo sem veredito (diretriz do
+  // fundador 25/07: "devem sempre ser selecionados estudos completos").
+  if (selected.length < MIN_ARTICLES) {
+    log.warn('[digest][ESP] BLOCKED — sem artigos completos suficientes após a trava de veredito', {
+      especialidade, restaram: selected.length, minimo: MIN_ARTICLES,
+    });
+    return null;
+  }
 
   // 8. Persist shared digest (cache + anti-repeat history)
   const articles = selected.map(stripInternal);
