@@ -20,7 +20,7 @@ const os = require('os');
 const path = require('path');
 
 const { Firestore } = require('./_lib/firestore');
-const { prioridadesDoDia, corDe } = require('./_lib/especialidade-identidade');
+const { prioridadesDoDia, corDe, escolherEspecialidadeComConteudo, especialidadesRecentes } = require('./_lib/especialidade-identidade');
 const { specialtySlug } = require('./_lib/slug');
 const { segmentScript, computeTimings, conceptSlug } = require('./_lib/reel-scenes');
 const { generateIllustration } = require('./_lib/imagen');
@@ -111,17 +111,22 @@ exports.handler = async () => {
 
     // Especialidade do dia com FALLBACK (incidente 22/07, mesma regra do
     // carrossel): dia de área sem episódio → a próxima do ciclo com áudio.
-    let especialidade = null, ep = null;
-    for (const cand of prioridadesDoDia(dateStr)) {
-      const doc = await db.getDoc('podcast_episodios', `${specialtySlug(cand)}_${dateStr}_ep1`).catch(() => null);
-      if (doc?.roteiro && doc?.objectPath && doc?.downloadToken && Number(doc.secs) > 0) {
-        especialidade = cand; ep = doc; break;
-      }
-    }
-    if (!ep) {
+    // Anti-repetição (25/07): não repete a especialidade dos últimos 2 dias.
+    const evitarReel = await especialidadesRecentes(db, 'instagram_reels', dateStr, 2);
+    const escolhaReel = await escolherEspecialidadeComConteudo(
+      prioridadesDoDia(dateStr),
+      async (cand) => {
+        const doc = await db.getDoc('podcast_episodios', `${specialtySlug(cand)}_${dateStr}_ep1`).catch(() => null);
+        return (doc?.roteiro && doc?.objectPath && doc?.downloadToken && Number(doc.secs) > 0) ? doc : null;
+      },
+      evitarReel);
+    if (!escolhaReel) {
       log.info('[reel] nenhuma especialidade com episódio narrado hoje', { dateStr });
       return { statusCode: 200, body: JSON.stringify({ skipped: true, reason: 'no_episode_with_script' }) };
     }
+    const especialidade = escolhaReel.especialidade;
+    const ep = escolhaReel.conteudo;
+    log.info('[reel] especialidade do reel escolhida', { especialidade, evitou: [...evitarReel] });
 
     // Cenas + sincronia.
     const segs = await segmentScript(ep.roteiro, { titulo: ep.titulo }, anthropicKey);

@@ -17,7 +17,7 @@ const { renderCarousel } = require('./_lib/instagram-render');
 const { uploadImage } = require('./_lib/storage');
 const { publishCarousel, getValidToken, resolveIgUserId } = require('./_lib/instagram-api');
 const { formatEvidenceLevel } = require('./_lib/instagram-generator');
-const { prioridadesDoDia, corDe } = require('./_lib/especialidade-identidade');
+const { prioridadesDoDia, corDe, escolherEspecialidadeComConteudo, especialidadesRecentes } = require('./_lib/especialidade-identidade');
 const { specialtySlug, espDigestSlug } = require('./_lib/slug');
 const log = require('./_lib/logger');
 
@@ -85,16 +85,21 @@ exports.handler = async () => {
     // Especialidade do dia com FALLBACK (incidente 22/07): se a área da vez
     // não tem edição (sem usuários ativos → sem digest), a próxima do ciclo
     // com estudos assume — o feed nunca fica sem o post do dia.
-    let especialidade = null, articles = [];
-    for (const cand of prioridadesDoDia(dateStr)) {
-      const arts = await getEspecialidadeArticles(db, cand, dateStr, 5);
-      if (arts.length >= 2) { especialidade = cand; articles = arts; break; }
-      log.info('[instagram] especialidade sem edição hoje — tentando a próxima do ciclo', { cand, count: arts.length });
-    }
-    if (!especialidade) {
+    // Anti-repetição (25/07): não repete a especialidade que saiu nos últimos
+    // 2 dias — evita Odontopediatria 2x seguidas quando a principal do dia não
+    // tem edição e o fallback recai na mesma área.
+    const evitar = await especialidadesRecentes(db, 'instagram_posts', dateStr, 2);
+    const escolha = await escolherEspecialidadeComConteudo(
+      prioridadesDoDia(dateStr),
+      async (cand) => { const arts = await getEspecialidadeArticles(db, cand, dateStr, 5); return arts.length >= 2 ? arts : null; },
+      evitar);
+    if (!escolha) {
       log.warn('[instagram] nenhuma especialidade com estudos suficientes hoje', { date: dateStr });
       return { statusCode: 200, body: JSON.stringify({ posted: 0, reason: 'not_enough_articles' }) };
     }
+    const especialidade = escolha.especialidade;
+    const articles = escolha.conteudo;
+    log.info('[instagram] especialidade do carrossel escolhida', { especialidade, evitou: [...evitar] });
 
     // 1. HTML → slides JPEG (capa na cor-assinatura da especialidade)
     const { html, totalSlides } = buildDailyCarouselHtml(articles, { dateStr, especialidade, cor: corDe(especialidade) });
