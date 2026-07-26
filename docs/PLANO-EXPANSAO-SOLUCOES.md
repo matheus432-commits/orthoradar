@@ -22,6 +22,9 @@ ferramentas de trabalho** — o dentista deixa de só *receber* ciência e passa
 | 3 | Quanto devo cobrar | Precificador | **ADIADO** (decisão do fundador 26/07) — análise preservada p/ o futuro | — |
 | 4 | Qual material entrega melhor custo-benefício | **Comparador de Materiais** | Aprovado p/ construir | acervo `artigos`, ingestores, Wakai, `compare-studies.js` |
 | 5 | Guias clínicos visuais por especialidade (área de membro rica) | **Guias OdontoFeed** | Novo (pedido 26/07) — ver seção 5 | pipeline de ilustração (`imagen.js`), identidade por especialidade |
+| 6 | Ferramentas de decisão por especialidade (situação → opções + protocolo) | **Ferramentas OdontoFeed** | Novo (pedido 26/07) — ver seções 6 e 7 | conteúdo curado, sem custo de IA por uso |
+
+> **Mapa completo de todas as abas (gerais + por especialidade): seção 7.**
 
 **REGRA DE CRÉDITOS (decisão do fundador, 26/07):** nenhuma ferramenta cria
 orçamento novo. **Tudo que usa IA debita do orçamento diário da Wakai**
@@ -323,7 +326,7 @@ Protótipo de estética/interação: `docs/prototipos/ferramenta-aparelhos-ortop
 
 | Especialidade | Ferramenta proposta (situação → opções + protocolo) |
 |---------------|------------------------------------------------------|
-| **Todas (transversal)** | 💊 **Prescrição Segura**: situação clínica (dor pós-op, abscesso, pericoronarite, profilaxia) + perfil do paciente (alergia à penicilina, gestante, criança/peso, renal) → fármaco, dose, posologia e modelo de receita. É a dúvida nº 1 de qualquer consultório. · 💉 **Calculadora de anestésico**: peso + comorbidade → dose máxima em tubetes por sal |
+| **Todas (transversal)** | ★ **APROVADO 26/07** — 💊 **Prescrição Segura**: situação clínica (dor pós-op, abscesso, pericoronarite, profilaxia) + perfil do paciente (alergia à penicilina, gestante, criança/peso, renal) → fármaco, dose, posologia e modelo de receita. É a dúvida nº 1 de qualquer consultório. Inclui 💉 **calculadora de dose máxima de anestésico** (peso + comorbidade → tubetes por sal) |
 | **Ortodontia** | ★ Aparelhos Ortopédicos (aprovado) · Timing de interceptação: achado no exame → tratar agora × monitorar |
 | **Implantodontia** | Enxertos e biomateriais: defeito ósseo (seio, deiscência, horizontal...) → técnica + biomaterial + tempo de espera · Protocolo de carga: torque/ISQ + situação → imediata × precoce × tardia |
 | **Periodontia** | Do periograma ao plano: estágio + grau → sequência de terapia (RAR, antimicrobianos, cirurgia, intervalo de manutenção) |
@@ -336,10 +339,67 @@ Protótipo de estética/interação: `docs/prototipos/ferramenta-aparelhos-ortop
 | **Radiologia** | Qual exame pedir: suspeita clínica → exame indicado + justificativa + dose comparada |
 | **Estomatologia** | Da lesão à conduta: características da lesão (cor, tempo, superfície) → hipóteses + biópsia sim/não + urgência do encaminhamento |
 
-**Priorização sugerida dentro desta frente:** 1º Aparelhos Ortopédicos
-(aprovado, protótipo pronto) · 2º Prescrição Segura (transversal — serve os 11
-públicos de uma vez) · depois 1 ferramenta por especialidade seguindo o ciclo
-editorial.
+**Priorização dentro desta frente:** 1º Aparelhos Ortopédicos (aprovado,
+protótipo pronto) · 2º Prescrição Segura (aprovada 26/07 — transversal, serve
+os 11 públicos de uma vez) · depois 1 ferramenta por especialidade seguindo o
+ciclo editorial.
+
+---
+
+## 7) MAPA DE ABAS — visão consolidada
+
+### 7.1 Abas GERAIS (todo dentista vê, independente da especialidade)
+
+| Aba | Status | O que faz | Custo de IA |
+|-----|--------|-----------|-------------|
+| 📰 **Recebidos** | já existe | Edição do dia (artigos + áudio) | — |
+| 📚 **Salvos** | já existe | Biblioteca pessoal (Premium) | — |
+| 👥 **Amigos** | já existe | Indicação e colegas da especialidade | — |
+| 🤖 **Wakai** | já existe | IA científica pessoal (Premium) | orçamento diário |
+| ⚙️ **Preferências** | já existe | Perfil e temas | — |
+| ⚖️ **CFO & ANVISA: o que mudou** | NOVA | Avaliação semanal do regulatório; bolinha vermelha quando há mudança + texto breve explicando; sem mudança, mostra normas em vigor + links oficiais | nenhum p/ usuário |
+| 💊 **Prescrição Segura** | NOVA ★ aprovada | Situação + perfil do paciente → fármaco, dose, posologia, modelo de receita + calculadora de anestésico | nenhum (conteúdo curado) |
+| 🩻 **Resolver um Caso** | NOVA | Descrição + fotos/radiografias → casos clínicos similares na literatura | orçamento Wakai |
+| 🧪 **Comparador de Materiais** | NOVA | Material/categoria → ranking com justificativa por evidência (cache: pergunta repetida não gasta crédito) | orçamento Wakai (só no cache miss) |
+| 📖 **Guias** | NOVA | Biblioteca de guias visuais — abre nos da especialidade do usuário, com acesso a todas | nenhum |
+| 🛠️ **Ferramentas** | NOVA | Hub das ferramentas de decisão — abre nas da especialidade do usuário | nenhum |
+
+> **Como a especialidade entra:** Guias e Ferramentas são abas gerais que
+> **filtram pelo perfil do dentista** — o ortodontista abre e vê Ortodontia
+> primeiro, com um seletor para navegar nas outras. Isso evita 22 abas no menu
+> e mantém a área de membro enxuta.
+
+### 7.2 Conteúdo POR ESPECIALIDADE (dentro de 📖 Guias e 🛠️ Ferramentas)
+
+★ = primeiro a ser produzido em cada especialidade.
+
+| Especialidade | 📖 Guias (leitura visual) | 🛠️ Ferramentas (interativas) |
+|---|---|---|
+| **Ortodontia** | ★ Análise cefalométrica parâmetro a parâmetro · Classificação de Angle + plano por classe · Análise de Bolton com calculadora · Cronologia de erupção e janelas de interceptação · Guia de contenção | ★ **Aparelhos Ortopédicos** (aprovado, protótipo pronto) · Timing de interceptação: tratar agora × monitorar |
+| **Implantodontia** | ★ Carga imediata × precoce × tardia · Qualidade óssea (Lekholm & Zarb) ilustrada · Checklist de planejamento em tomografia · Mucosite × peri-implantite | ★ Enxertos e biomateriais: defeito ósseo → técnica + biomaterial + tempo de espera · Protocolo de carga por torque/ISQ |
+| **Periodontia** | ★ Classificação AAP/EFP 2018 interativa · Sondagem e periograma · Recessões (Cairo RT1-3) e recobrimento · Raspagem × cirurgia | ★ Do periograma ao plano: estágio + grau → terapia e intervalo de manutenção |
+| **Endodontia** | ★ Diagnóstico pulpar e periapical · Protocolos de irrigação comparados · Trauma dentário (IADT) ilustrado · Retratamento × cirurgia parendodôntica | ★ Medicação intracanal: diagnóstico + sessões → substância e tempo · Anestesia na pulpite irreversível quando o bloqueio falha |
+| **Dentística** | ★ Seleção de resina por situação clínica · Protocolos adesivos passo a passo · Clareamento e sensibilidade · Escala de cor na prática | ★ Protocolo restaurador: cavidade/região/estética → resina + adesivo + passos · Clareamento por caso |
+| **Prótese** | ★ Coroa × onlay × faceta por remanescente · Qual cimento para qual material · Términos e preparos ilustrados · Zircônia × dissilicato × híbridas | ★ Assistente de cimentação: material da peça → tratamento de superfície + cimento + ordem dos passos |
+| **Bucomaxilofacial** | ★ Terceiros molares (Pell & Gregory/Winter) · Paciente anticoagulado/antiagregado · Protocolo MRONJ · Sinais radiográficos de fratura | ★ Terceiros molares: classificação → dificuldade, técnica, riscos, o que avisar · Anticoagulado: fármaco em uso → conduta pré/pós |
+| **Odontopediatria** | ★ Cronologia de erupção interativa · Trauma em decíduos (IADT) · Flúor por idade e risco de fluorose · ICDAS visual | ★ Calculadoras pediátricas: peso/idade → anestésico, flúor, antibiótico · Trauma no decíduo → conduta e o que dizer aos pais |
+| **DTM e Dor Orofacial** | ★ Diagnóstico diferencial da dor orofacial · Exame DC/TMD guiado · Placas oclusais por quadro | ★ Seleção de placa: quadro → tipo + protocolo de acompanhamento |
+| **Radiologia** | ★ Radiolúcidas × radiopacas: árvore diagnóstica · Qual exame pedir (doses comparadas) · Anatomia radiográfica que engana | ★ Qual exame pedir: suspeita clínica → exame + justificativa + dose |
+| **Estomatologia** | ★ Atlas de lesões da mucosa por cor com red flags · Rastreio de câncer bucal · Biópsia: quando, qual, como encaminhar | ★ Da lesão à conduta: características → hipóteses + biópsia sim/não + urgência do encaminhamento |
+
+**Totais:** 11 abas gerais (5 existentes + 6 novas) · 41 guias mapeados ·
+22 ferramentas mapeadas (2 aprovadas para já: Aparelhos Ortopédicos e
+Prescrição Segura).
+
+### 7.3 Ordem de produção sugerida
+
+| Onda | Entregas |
+|------|----------|
+| **1** | 💊 Prescrição Segura (transversal) + 🛠️ Aparelhos Ortopédicos + 📖 Guia de Cefalometria — as 3 já com protótipo/aprovação |
+| **2** | ⚖️ CFO & ANVISA: o que mudou (com o badge) |
+| **3** | 🧪 Comparador de Materiais (cache) |
+| **4** | 🩻 Resolver um Caso (visão + upload) |
+| **Contínuo** | 1 guia ou ferramenta nova por semana, seguindo o ciclo editorial das 11 especialidades — cada entrega vira pauta de divulgação |
 
 ---
 
