@@ -12,45 +12,30 @@
 const { test, describe } = require('node:test');
 const assert = require('node:assert/strict');
 
-const { isHealthSystemCost, isResultadosIndisponiveis, isHealthPromotionBehavior, isBibliometricScoping, isComparacaoSemVeredito } = require('../../daily-digest.js');
+const { isHealthSystemCost, isResultadosIndisponiveis, isHealthPromotionBehavior, isBibliometricScoping } = require('../../daily-digest.js');
 const { corrigirEspecialidade } = require('../claude.js');
 
-describe('B2. isComparacaoSemVeredito — comparação PRECISA declarar o vencedor', () => {
-  test('INCIDENTE 26/07: comparação de materiais sem dizer qual foi melhor → barra', () => {
-    assert.equal(isComparacaoSemVeredito({
-      titulo_pt: 'Enxerto ósseo alógeno desmineralizado versus mineral bovino em regeneração óssea guiada',
-      resumo_completo: 'O estudo comparou dois materiais de enxerto em regeneração óssea guiada. Ambos os grupos foram acompanhados por seis meses e apresentaram formação óssea, com variações entre os grupos ao longo do período.',
-    }), true);
-  });
-  test('comparação COM vencedor declarado → passa', () => {
-    assert.equal(isComparacaoSemVeredito({
-      titulo_pt: 'Enxerto alógeno versus bovino',
-      resumo_completo: 'O enxerto bovino foi superior ao alógeno em ganho ósseo aos seis meses.',
-    }), false);
-  });
-  test('comparação com EQUIVALÊNCIA explícita (veredito válido) → passa', () => {
-    assert.equal(isComparacaoSemVeredito({
-      titulo_pt: 'Adesivo universal versus convencional',
-      resumo_pt: 'Não houve diferença significativa entre os dois adesivos na resistência de união.',
-    }), false);
-  });
-  test('comparação com números comparados → passa', () => {
-    assert.equal(isComparacaoSemVeredito({
-      titulo_pt: 'Técnica A versus B',
-      resumo_pt: 'A sobrevivência foi de 95% no grupo A contra 82% no grupo B em cinco anos.',
-    }), false);
-  });
-  test('estudo NÃO comparativo não é afetado', () => {
-    assert.equal(isComparacaoSemVeredito({
-      titulo_pt: 'Sobrevivência de implantes curtos em cinco anos',
-      resumo_pt: 'A taxa de sobrevivência observada foi de 96%.',
-    }), false);
-  });
-  test('flui pelo isResultadosIndisponiveis (curadoria usa este)', () => {
+describe('B2. comparação sem veredito — via IA (resultados_disponiveis) + admissão', () => {
+  // A antiga trava de AUSÊNCIA-de-palavra foi removida (falso positivo). O rigor
+  // "só comparação com veredito explícito" agora vem da IA (flag) + admissão.
+  test('flag da IA (resultados_disponiveis=false) barra a comparação sem vencedor', () => {
     assert.equal(isResultadosIndisponiveis({
-      titulo_pt: 'Material X versus material Y',
-      resumo_completo: 'Comparou os dois materiais; ambos apresentaram bom comportamento clínico no acompanhamento.',
+      resultados_disponiveis: false,
+      titulo_pt: 'Enxerto alógeno versus bovino',
+      resumo_completo: 'Comparou os dois materiais; ambos apresentaram bom comportamento.',
     }), true);
+  });
+  test('admissão explícita no resumo ainda barra', () => {
+    assert.equal(isResultadosIndisponiveis({
+      resumo_completo: 'Comparou A e B, mas não é possível declarar qual foi superior com base no material.',
+    }), true);
+  });
+  test('NÃO derruba comparação boa por ausência das minhas palavras (fim do falso positivo)', () => {
+    // resumo vago, sem flag e sem admissão → NÃO barra (a IA é quem julga o abstract)
+    assert.equal(isResultadosIndisponiveis({
+      titulo_pt: 'Implantes de uma e duas peças: resultados após 15-17 anos',
+      resumo_completo: 'Acompanhamento de longo prazo dos dois tipos de implante com bons desfechos ao longo do período.',
+    }), false);
   });
 });
 

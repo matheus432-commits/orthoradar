@@ -274,36 +274,19 @@ function isResultadosIndisponiveis(a) {
   if (/acesso (restrito|pago|limitado)|paywall|somente (o |no )?(resumo|abstract)|apenas (o |no )?(resumo|abstract)|com base (apenas|somente|unicamente) (no|nas) (resumo|abstract|informa[çc][õo]es)/.test(t)) return true;
   if (/n[ãa]o (foi|foram|é|e) poss[íi]vel[^.]{0,60}(resultado|dado|desfecho|n[úu]mero|valor|declarar|afirmar|dizer|determinar|acesso ao (texto|artigo))/.test(t)) return true;
 
-  // (f) PROATIVO — comparação SEM VEREDITO declarado. Incidente 26/07: "Enxerto
-  // alógeno versus mineral bovino" saiu sem dizer qual material foi melhor, e
-  // SEM admitir isso (então (a)-(e) não pegam). Regra: se é um estudo
-  // comparativo e o nosso texto não declara direção do resultado (nem vencedor,
-  // nem equivalência explícita), o estudo NÃO pode ir ao ar.
-  if (isComparacaoSemVeredito(a)) return true;
   return false;
 }
 
-// Estudo COMPARATIVO cujo nosso resumo NÃO declara o veredito (qual grupo foi
-// melhor/pior — ou que foram equivalentes). O que o dentista mais quer saber.
-// Só dispara para comparações; declarar "não houve diferença" É um veredito
-// válido e PASSA.
-function isComparacaoSemVeredito(a) {
-  const titulo = `${a.titulo_pt || ''} ${a.titulo || a.title || ''}`.toLowerCase();
-  const corpo = `${a.resumo_pt || ''} ${a.resumo_completo || ''} ${a.impacto_pratico || ''} ${Array.isArray(a.achados_principais) ? a.achados_principais.join(' ') : ''}`.toLowerCase();
-  if (!corpo.trim()) return false; // sem texto p/ avaliar — outros filtros cuidam
-
-  // É comparação? (título ou corpo)
-  const ehComparacao = /\bversus\b|\bvs\.?\b|compara[çc]|comparou|comparativ|confront/.test(titulo + ' ' + corpo);
-  if (!ehComparacao) return false;
-
-  // Tem direção do resultado (vencedor OU equivalência explícita OU números
-  // comparados)? Qualquer um desses é um veredito válido e o estudo passa.
-  const temVencedor = /superior|inferior|\bmelhor\b|\bpior\b|\bmaior\b|\bmenor\b|mais efic|menos efic|mais efetiv|menos efetiv|favor[áa]ve|favorec|prevalec|super(ou|aram)|vantagem|apresentou (maior|menor|melhor|pior)|desempenho (superior|inferior|melhor|pior)|reduz(iu|iram)|aument(ou|aram)/.test(corpo);
-  const temEquivalencia = /sem diferen|n[ãa]o houve diferen|n[ãa]o apresentou diferen|sem diferen[çc]a (estat[íi]stica|significativa)|semelhant|similar(es)?|equivalent|compar[áa]ve(l|is)|n[ãa]o diferi|estatisticamente iguais|sem superioridade/.test(corpo);
-  const temNumerosComparados = /\d+[.,]?\d*\s*%[^.]{0,45}(vs\.?|versus|contra|ante|enquanto|\d+[.,]?\d*\s*%)/.test(corpo);
-
-  return !(temVencedor || temEquivalencia || temNumerosComparados);
-}
+// NOTA (26/07): a antiga trava isComparacaoSemVeredito foi REMOVIDA. Ela inferia
+// "não tem veredito" pela AUSÊNCIA das minhas palavras-chave no NOSSO resumo —
+// e dava falso positivo em massa (derrubava estudo BOM porque a redação usava
+// outras palavras), secando o funil e deixando especialidades com 1-2 estudos.
+// A regra "só usar comparação com veredito EXPLÍCITO" continua rígida, mas agora
+// pela via CONFIÁVEL: a IA lê o ABSTRACT no enriquecimento e marca
+// resultados_disponiveis=false quando a comparação não indica o vencedor
+// (claude.js) — checado no topo desta função — somada aos detectores de admissão
+// explícita (a-e) acima. Julgar o abstract é preciso; adivinhar pela ausência de
+// palavra no resumo não era.
 
 // Passa na CURADORIA DE CONTEÚDO? Reúne as travas de qualidade — enriquecido,
 // não é survey/questionário, é estudo COM resultados (não protocolo/em
@@ -785,22 +768,17 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
     total: selected.length, descartadosSemVeredito, ms: Date.now() - t,
   });
 
-  // ── GATE 4: publica com os artigos COMPLETOS que sobraram ───────────────────
-  // A trava de veredito descarta estudos sem resultado/direção (diretriz do
-  // fundador 25/07). MAS bloquear a especialidade inteira quando sobram 1-2 bons
-  // deixava o dia SEM edição e SEM podcast (incidente 26/07: Endodontia/
-  // Dentística com 2, Prótese com 1 → ficaram no ar ZERO episódios). Melhor
-  // publicar 1-2 estudos COMPLETOS do que nada — a garantia ("só estudo com
-  // veredito") é mantida; só o tamanho da edição encolhe. Bloqueia apenas quando
-  // NÃO sobra nenhum artigo completo.
-  if (selected.length === 0) {
-    log.warn('[digest][ESP] BLOCKED — nenhum artigo completo após a trava de veredito', { especialidade });
-    return null;
-  }
+  // ── GATE 4: a edição precisa dos MIN_ARTICLES completos ─────────────────────
+  // Diretriz do fundador 26/07: NÃO publicar edição reduzida (1-2 estudos) — a
+  // solução é garantir volume ANTES (funil restaurado ao remover a trava de
+  // ausência-de-palavra que dava falso positivo). Se ainda assim faltar, é
+  // melhor bloquear que entregar edição pobre. Com os falsos positivos
+  // removidos, este bloqueio volta a ser raro.
   if (selected.length < MIN_ARTICLES) {
-    log.info('[digest][ESP] edição REDUZIDA — publicando só os artigos completos (melhor que ficar sem)', {
-      especialidade, completos: selected.length, alvo: MIN_ARTICLES,
+    log.warn('[digest][ESP] BLOCKED — menos de MIN_ARTICLES completos (funil precisa de mais volume)', {
+      especialidade, completos: selected.length, minimo: MIN_ARTICLES,
     });
+    return null;
   }
 
   // 8. Persist shared digest (cache + anti-repeat history)
@@ -1421,7 +1399,6 @@ exports.isHealthPromotionBehavior = isHealthPromotionBehavior;
 exports.isBibliometricScoping = isBibliometricScoping;
 exports.isHealthSystemCost = isHealthSystemCost;
 exports.isResultadosIndisponiveis = isResultadosIndisponiveis;
-exports.isComparacaoSemVeredito = isComparacaoSemVeredito;
 
 if (require.main === module) {
   main()
