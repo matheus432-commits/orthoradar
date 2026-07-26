@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aparelhos Ortopédicos — Ferramenta de Decisão · OdontoFeed (protótipo)</title>
+<style>
+:root{
+  --papel:#F8F5EF; --carta:#FFFFFF; --tinta:#1B2440; --tinta-suave:#5B6478;
+  --ouro:#C9A227; --ouro-claro:#F3E7C4;
+  --orto:#6D8BFF; --orto-claro:#EDF1FF; --orto-escuro:#4A66D4;
+  --ok:#2E9E6B; --ok-bg:#E7F5EE;
+  --borda:#E7E2D6; --raio:18px;
+  --serif:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
+  --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Roboto,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--papel);color:var(--tinta);font-family:var(--sans);line-height:1.55;
+  -webkit-font-smoothing:antialiased}
+.pagina{max-width:760px;margin:0 auto;padding:28px 18px 60px}
+
+.selo{display:inline-flex;align-items:center;gap:8px;background:var(--orto-claro);
+  color:var(--orto-escuro);font-size:11px;font-weight:800;letter-spacing:1.6px;
+  text-transform:uppercase;padding:7px 14px;border-radius:999px;margin-bottom:16px}
+.selo::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--orto)}
+h1{font-family:var(--serif);font-size:clamp(30px,6vw,42px);font-weight:700;
+  letter-spacing:-0.5px;line-height:1.12}
+.sub{color:var(--tinta-suave);font-size:15.5px;margin-top:10px;max-width:56ch}
+.filete{height:3px;width:64px;background:linear-gradient(90deg,var(--ouro),var(--orto));
+  border-radius:2px;margin:22px 0 26px}
+
+/* ── Seleção do objetivo ─────────────────────────────────────────────────── */
+.pergunta{font-family:var(--serif);font-size:19px;font-weight:700;margin-bottom:14px}
+.objetivos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:30px}
+@media(max-width:520px){.objetivos{grid-template-columns:1fr}}
+.obj{background:var(--carta);border:1.5px solid var(--borda);border-radius:15px;
+  padding:16px 16px 14px;cursor:pointer;text-align:left;font-family:inherit;transition:.15s;
+  display:flex;gap:12px;align-items:flex-start}
+.obj:hover{border-color:var(--orto)}
+.obj.ativo{border-color:var(--orto-escuro);background:var(--orto-claro);
+  box-shadow:0 8px 22px rgba(109,139,255,.18)}
+.obj-ico{width:38px;height:38px;border-radius:11px;background:var(--orto-claro);
+  display:grid;place-items:center;font-size:19px;flex:0 0 auto}
+.obj.ativo .obj-ico{background:#fff}
+.obj-titulo{font-size:14.5px;font-weight:800}
+.obj-desc{font-size:12px;color:var(--tinta-suave);margin-top:2px}
+
+/* ── Resultado ───────────────────────────────────────────────────────────── */
+.res-cab{display:flex;align-items:center;gap:10px;margin:4px 0 16px}
+.res-cab .n{background:var(--tinta);color:#fff;font-size:12px;font-weight:800;
+  padding:4px 11px;border-radius:999px}
+.res-cab .t{font-size:13.5px;color:var(--tinta-suave)}
+.aparelho{background:var(--carta);border:1px solid var(--borda);border-radius:var(--raio);
+  padding:22px;margin-bottom:18px;box-shadow:0 10px 30px rgba(27,36,64,.06)}
+.ap-topo{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.ap-nome{font-family:var(--serif);font-size:21px;font-weight:700;color:var(--orto-escuro)}
+.chip{font-size:10.5px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;
+  padding:4px 10px;border-radius:999px}
+.chip.removivel{background:var(--ok-bg);color:var(--ok)}
+.chip.fixo{background:#EEE9FB;color:#7C5CD6}
+.chip.extra{background:#FCEDE3;color:#D97B1F}
+.janela{margin-left:auto;background:var(--ouro-claro);color:#8a6d10;font-size:11.5px;
+  font-weight:800;padding:5px 11px;border-radius:999px;white-space:nowrap}
+.ap-quando{font-size:13.8px;margin-top:10px}
+.ap-quando b{color:var(--orto-escuro)}
+.bloco{margin-top:13px;background:var(--papel);border-radius:12px;padding:13px 15px}
+.bloco-rotulo{font-size:10.5px;font-weight:800;letter-spacing:1.3px;text-transform:uppercase;
+  color:var(--ouro);margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.bloco-rotulo::before{content:'→';font-size:13px}
+.bloco li{font-size:13.2px;margin-left:17px;margin-top:4px}
+.evid{display:flex;gap:9px;margin-top:13px;font-size:12.6px;color:var(--tinta-suave);
+  border-left:3px solid var(--ouro);padding-left:11px}
+.rodape-nota{background:var(--carta);border:1px dashed var(--borda);border-radius:13px;
+  padding:14px 16px;font-size:12.5px;color:var(--tinta-suave);margin-top:8px}
+.marca{margin-top:34px;text-align:center;font-size:12px;color:var(--tinta-suave)}
+.marca b{color:var(--tinta);font-weight:800}
+.marca .ponto{color:var(--ouro)}
+</style>
+</head>
+<body>
+<div class="pagina">
+
+  <div class="selo">Ortodontia · Ferramenta de decisão OdontoFeed</div>
+  <h1>Aparelhos Ortopédicos</h1>
+  <p class="sub">Selecione o que você quer fazer no seu paciente — a ferramenta
+  entrega os aparelhos indicados, com o <b>protocolo de cada um</b> e as
+  orientações que importam na cadeira.</p>
+  <div class="filete"></div>
+
+  <div class="pergunta">O que você quer fazer no seu paciente?</div>
+  <div class="objetivos" id="objetivos"></div>
+
+  <div id="resultado"></div>
+
+  <div class="rodape-nota">Conteúdo de apoio à decisão, revisado a partir da
+  literatura citada em cada aparelho — a indicação final considera o exame
+  clínico completo e é sempre do ortodontista responsável.</div>
+
+  <div class="marca"><b>Odonto<span class="ponto">Feed</span></b> · Ferramentas · protótipo (não publicado)</div>
+</div>
+
+<script>
+const DADOS = {
+  avanco: {
+    titulo: 'Avanço mandibular (Classe II)',
+    icone: '↦', desc: 'Classe II por retrusão mandibular, paciente em crescimento',
+    aparelhos: [
+      { nome: 'Twin Block', tipo: 'removivel', janela: 'Pico de crescimento (CS3–CS4)',
+        quando: 'Classe II divisão 1 com <b>retrusão mandibular</b> e overjet aumentado, em paciente colaborador no surto de crescimento.',
+        protocolo: [
+          'Mordida construtiva com avanço de 5–7 mm (incremental, 2–3 mm por etapa, em overjets muito grandes)',
+          'Uso em tempo integral, inclusive nas refeições (mínimo 20–22 h/dia)',
+          'Desgaste seletivo dos blocos a cada 6–8 semanas para controle vertical posterior',
+          'Duração típica: 9–12 meses, seguida de fase com aparelho fixo',
+        ],
+        orientacoes: [
+          'Fala se adapta em ~1 semana — avisar antes, não depois da queixa',
+          'Higienizar o aparelho após cada refeição',
+        ],
+        evid: 'Ensaios clínicos mostram maior resposta esquelética quando o tratamento coincide com o surto; fora dele o efeito passa a ser majoritariamente dentoalveolar.' },
+      { nome: 'Ativador / Bionator', tipo: 'removivel', janela: 'Dentição mista → surto',
+        quando: 'Mesma indicação do Twin Block, com <b>sobremordida profunda</b> associada — o manejo do acrílico permite controlar a erupção posterior.',
+        protocolo: [
+          'Mordida construtiva topo a topo (ou avanço de ~2/3 do necessário)',
+          'Uso noturno + período diurno (14–16 h/dia)',
+          'Ajustes do acrílico a cada 6–8 semanas conforme a erupção desejada',
+        ],
+        orientacoes: [
+          'Depende fortemente de colaboração — combinar metas claras com paciente e responsáveis',
+        ],
+        evid: 'Resultados comparáveis aos de outros removíveis funcionais; horas de uso são o principal preditor de resposta nos estudos disponíveis.' },
+      { nome: 'Herbst', tipo: 'fixo', janela: 'Surto ou fim do crescimento',
+        quando: 'Classe II com <b>baixa colaboração</b> — por ser fixo, atua 24 h/dia sem depender do paciente. Útil também no fim do crescimento.',
+        protocolo: [
+          'Avanço inicial até relação topo a topo',
+          'Reativações de 2–3 mm com espaçadores (shims) conforme a correção',
+          'Duração típica: 8–12 meses',
+          'Monitorar proinclinação dos incisivos inferiores (efeito colateral esperado)',
+        ],
+        orientacoes: [
+          'Primeiros dias com desconforto mastigatório — orientar dieta mais macia',
+          'Procurar o consultório se um braço telescópico soltar',
+        ],
+        evid: 'É o funcional com maior corpo de evidência em não colaboradores; parte da correção é dentoalveolar (efeito distal em molares superiores).' },
+      { nome: 'Forsus (molas intermaxilares)', tipo: 'fixo', janela: 'Pós-pico, fase do fixo',
+        quando: 'Correção de Classe II <b>durante o aparelho fixo</b>, em paciente que já passou do pico de crescimento — correção principalmente dentoalveolar.',
+        protocolo: [
+          'Instalar após nivelamento, sobre fio retangular de aço',
+          'Reativações com clipes/avanços conforme a correção do overjet',
+          'Duração típica: 5–7 meses',
+        ],
+        orientacoes: [
+          'Avisar sobre o volume nas bochechas na primeira semana',
+        ],
+        evid: 'Estudos mostram correção efetiva do overjet às custas de movimento dentário; não esperar ganho mandibular esquelético relevante pós-pico.' },
+    ],
+  },
+  expansao: {
+    titulo: 'Expansão maxilar',
+    icone: '↔', desc: 'Deficiência transversal, mordida cruzada posterior',
+    aparelhos: [
+      { nome: 'Hyrax (disjunção — ERM)', tipo: 'fixo', janela: 'Antes da maturação da sutura (< 13–15 a)',
+        quando: 'Mordida cruzada posterior <b>esquelética</b> (deficiência transversal real da maxila), uni ou bilateral.',
+        protocolo: [
+          'Ativação clássica: 1/4 de volta 2x/dia (~0,5 mm/dia)',
+          'Expandir até sobrecorreção leve (cúspide palatina superior tocando a vestibular inferior)',
+          'Fase ativa típica: 2–3 semanas; depois travar o parafuso',
+          'Manter o aparelho como contenção por 4–6 meses (ossificação da sutura)',
+        ],
+        orientacoes: [
+          'O diastema entre os centrais é esperado e fecha sozinho — avisar os pais ANTES',
+          'Pressão no nariz/lacrimejamento nos primeiros dias é comum',
+        ],
+        evid: 'Na dentição mista a disjunção abre a sutura de forma previsível; após a maturação, a resistência desloca o efeito para inclinação dentária — daí o limite de idade.' },
+      { nome: 'Haas', tipo: 'fixo', janela: 'Mesma do Hyrax',
+        quando: 'Mesma indicação do Hyrax; o acrílico palatino (dentomucossuportado) é descrito como de <b>maior componente ortopédico</b>.',
+        protocolo: [
+          'Ativação idêntica à do Hyrax (1/4 de volta 2x/dia)',
+          'Atenção redobrada à higiene sob o acrílico (isquemia/hiperplasia palatina)',
+        ],
+        orientacoes: [
+          'Reforçar higiene com escova unitufo e irrigador sob o acrílico',
+        ],
+        evid: 'Comparações diretas Haas × Hyrax mostram resultados transversais semelhantes; a escolha costuma se apoiar em preferência clínica e higiene.' },
+      { nome: 'Quad-hélice', tipo: 'fixo', janela: 'Decídua / mista inicial',
+        quando: 'Cruzada posterior com contração <b>leve</b>, hábito de sucção associado, ou necessidade de expansão lenta/rotação de molares.',
+        protocolo: [
+          'Ativação inicial de ~1 largura de molar na instalação',
+          'Reativações a cada 6–8 semanas',
+          'Duração típica: 4–6 meses + contenção passiva',
+        ],
+        orientacoes: [
+          'Primeiros dias com marcas na língua — transitório',
+        ],
+        evid: 'Efeito predominantemente dentoalveolar; nos quadros esqueléticos verdadeiros a disjunção é mais indicada.' },
+      { nome: 'MARPE', tipo: 'fixo', janela: 'Pós-pico / adulto jovem',
+        quando: 'Deficiência transversal em paciente com <b>sutura madura</b> — alternativa não cirúrgica antes de indicar SARPE.',
+        protocolo: [
+          'Instalação com mini-implantes palatinos (2 a 4)',
+          'Ativação mais lenta que a ERM convencional, conforme o caso',
+          'Tomografia prévia obrigatória para planejamento dos mini-implantes',
+        ],
+        orientacoes: [
+          'Explicar que é a tentativa de evitar a expansão cirúrgica — e que a conversão para SARPE segue possível',
+        ],
+        evid: 'Séries clínicas mostram abertura sutural em boa parte dos adultos jovens; a taxa de sucesso cai com a idade — seleção de caso é decisiva.' },
+    ],
+  },
+  protracao: {
+    titulo: 'Protração maxilar (Classe III)',
+    icone: '↤', desc: 'Classe III por deficiência maxilar, intervenção precoce',
+    aparelhos: [
+      { nome: 'Máscara facial (Petit) + expansor', tipo: 'extra', janela: 'IDEAL 6–8 anos (antes dos 10)',
+        quando: 'Classe III com <b>deficiência maxilar</b> (SNA reduzido) — quanto mais cedo dentro da janela, maior o componente esquelético.',
+        protocolo: [
+          'ERM prévia (ou protocolo Alt-RAMEC) para "soltar" as suturas',
+          'Elásticos de ~300–500 g por lado, vetor 30° para baixo e para frente',
+          'Uso de 12–14 h/dia (tarde + noite)',
+          'Duração: 6–12 meses, com sobrecorreção até overjet positivo',
+        ],
+        orientacoes: [
+          'Adesão é o maior desafio — combinar rotina de uso com a família',
+          'Marcas na pele: ajustar apoios e higienizar diariamente',
+        ],
+        evid: 'A resposta ortopédica cai claramente com a idade nos estudos comparativos; após os 10 anos o efeito é cada vez mais dentoalveolar.' },
+      { nome: 'Mentoneira (chincup)', tipo: 'extra', janela: 'Crescimento ativo',
+        quando: 'Classe III por <b>prognatismo mandibular leve</b> em crescimento (não por deficiência maxilar).',
+        protocolo: [
+          'Uso noturno de 12–14 h/dia',
+          'Força moderada, vetor pelo côndilo',
+          'Reavaliação cefalométrica a cada 6 meses',
+        ],
+        orientacoes: [
+          'Explicar à família que o controle é do CRESCIMENTO — a retomada na adolescência é possível e será monitorada',
+        ],
+        evid: 'O controle a médio prazo é inconsistente nos acompanhamentos longos — por isso o monitoramento até o fim do crescimento faz parte do protocolo.' },
+      { nome: 'FR-3 de Fränkel', tipo: 'removivel', janela: 'Mista, casos leves',
+        quando: 'Classe III <b>leve</b> em dentição mista, com boa colaboração — os escudos vestibulares afastam a musculatura e liberam a maxila.',
+        protocolo: [
+          'Uso progressivo até tempo quase integral',
+          'Ajustes dos escudos a cada 2 meses',
+        ],
+        orientacoes: [
+          'Curva de adaptação maior que a dos demais removíveis — acompanhar de perto o primeiro mês',
+        ],
+        evid: 'Evidência limitada a casos leves e séries menores; nos quadros moderados a máscara facial tem suporte maior.' },
+    ],
+  },
+  habitos: {
+    titulo: 'Mordida aberta e hábitos',
+    icone: '◠', desc: 'Sucção digital/chupeta, interposição lingual, mordida aberta anterior',
+    aparelhos: [
+      { nome: 'Grade palatina fixa', tipo: 'fixo', janela: 'Dentição mista',
+        quando: 'Mordida aberta anterior por <b>hábito de sucção ou interposição lingual</b> persistente após abordagem comportamental.',
+        protocolo: [
+          'Grade soldada a bandas nos primeiros molares',
+          'Manter por 6–12 meses (o hábito precisa estar extinto ANTES da remoção)',
+          'Encaminhar à fonoaudiologia quando houver deglutição atípica',
+        ],
+        orientacoes: [
+          'Primeiras semanas com adaptação de fala e alimentação',
+          'A grade impede o hábito — não "empurra" os dentes; o fechamento vem da erupção natural',
+        ],
+        evid: 'Removido o hábito na mista, boa parte das mordidas abertas fecha espontaneamente — a grade cria a condição para isso.' },
+      { nome: 'Esporão colado', tipo: 'fixo', janela: 'Dentição mista',
+        quando: 'Alternativa pontual à grade para <b>interposição lingual</b>, com menor volume.',
+        protocolo: [
+          'Colagem na palatina dos incisivos superiores',
+          'Reavaliar postura lingual a cada consulta',
+        ],
+        orientacoes: [
+          'Explicar aos pais que é um "lembrete" para a língua, não um castigo',
+        ],
+        evid: 'Séries clínicas mostram fechamento comparável ao da grade em casos selecionados de interposição.' },
+      { nome: 'Bite-blocks posteriores', tipo: 'fixo', janela: 'Crescimento, padrão vertical',
+        quando: 'Mordida aberta com <b>componente esquelético hiperdivergente</b> (FMA aumentado) — controle da dimensão vertical.',
+        protocolo: [
+          'Blocos posteriores para intrusão relativa dos molares',
+          'Associar controle vertical na mecânica subsequente',
+        ],
+        orientacoes: [
+          'Casos esqueléticos verdadeiros: alinhar expectativa — pode haver necessidade ortocirúrgica no futuro',
+        ],
+        evid: 'O controle vertical precoce reduz a expressão do padrão nos acompanhamentos, mas não o elimina — seguimento até o fim do crescimento.' },
+    ],
+  },
+};
+
+const TIPO_LABEL = { removivel: 'Removível', fixo: 'Fixo', extra: 'Extrabucal' };
+
+function renderObjetivos() {
+  const el = document.getElementById('objetivos');
+  el.innerHTML = Object.entries(DADOS).map(([id, o]) => `
+    <button class="obj" id="obj-${id}" onclick="selecionar('${id}')">
+      <span class="obj-ico">${o.icone}</span>
+      <span><span class="obj-titulo">${o.titulo}</span><br>
+      <span class="obj-desc">${o.desc}</span></span>
+    </button>`).join('');
+}
+
+function selecionar(id) {
+  document.querySelectorAll('.obj').forEach(b => b.classList.remove('ativo'));
+  document.getElementById('obj-' + id).classList.add('ativo');
+  const o = DADOS[id];
+  document.getElementById('resultado').innerHTML = `
+    <div class="res-cab"><span class="n">${o.aparelhos.length} opções</span>
+      <span class="t"><b>${o.titulo}</b> — cada uma com protocolo e orientações</span></div>
+    ${o.aparelhos.map(a => `
+      <div class="aparelho">
+        <div class="ap-topo">
+          <span class="ap-nome">${a.nome}</span>
+          <span class="chip ${a.tipo}">${TIPO_LABEL[a.tipo]}</span>
+          <span class="janela">⏱ ${a.janela}</span>
+        </div>
+        <p class="ap-quando">${a.quando}</p>
+        <div class="bloco"><div class="bloco-rotulo">Protocolo</div>
+          <ul>${a.protocolo.map(p => `<li>${p}</li>`).join('')}</ul></div>
+        <div class="bloco"><div class="bloco-rotulo">Orientações ao paciente</div>
+          <ul>${a.orientacoes.map(p => `<li>${p}</li>`).join('')}</ul></div>
+        <div class="evid">🔬 ${a.evid}</div>
+      </div>`).join('')}`;
+  if (!primeiraCarga) document.getElementById('resultado').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+let primeiraCarga = true;
+renderObjetivos();
+selecionar('avanco');
+primeiraCarga = false;
+</script>
+</body>
+</html>

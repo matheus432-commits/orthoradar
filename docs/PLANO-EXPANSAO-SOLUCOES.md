@@ -17,7 +17,7 @@ ferramentas de trabalho** — o dentista deixa de só *receber* ciência e passa
 
 | # | Solução | Nome de trabalho | Status | Aproveita o que já existe |
 |---|---------|------------------|--------|---------------------------|
-| 1 | Resumo semanal de mudanças (CFO, ANVISA, artigos, materiais) | **Normas da Semana** (nome em decisão — ver seção 1) | Aprovado p/ construir | `weekly-digest.js`, pipeline de resumo, TTS |
+| 1 | Resumo semanal de mudanças (CFO, ANVISA, artigos, materiais) | **CFO & ANVISA: o que mudou** (nome DECIDIDO 26/07) | Aprovado p/ construir | `weekly-digest.js`, pipeline de resumo, TTS |
 | 2 | Resolver um caso específico (texto + foto/radiografia) | **Resolver um Caso** | Aprovado p/ construir | `clinical-query-engine`, ingestores PubMed/EuropePMC, Wakai |
 | 3 | Quanto devo cobrar | Precificador | **ADIADO** (decisão do fundador 26/07) — análise preservada p/ o futuro | — |
 | 4 | Qual material entrega melhor custo-benefício | **Comparador de Materiais** | Aprovado p/ construir | acervo `artigos`, ingestores, Wakai, `compare-studies.js` |
@@ -36,22 +36,26 @@ por usuário), Guias (conteúdo estático) e cache hits do Comparador.
 
 ---
 
-## 1) Normas da Semana — "o que mudou em 5 minutos"
+## 1) CFO & ANVISA: o que mudou — **nome e comportamento DECIDIDOS (26/07)**
 
-**O que é.** Toda semana, um resumo único e escaneável do que mudou na
-odontologia brasileira: resoluções e notícias do CFO, RDCs/alertas da ANVISA,
-os artigos mais relevantes da semana no acervo, e novidades de materiais.
-Formato pensado para 5 minutos de leitura (ou áudio de ~5 min no padrão do
-podcast).
+**O que é.** Avaliação **1x por semana** do que mudou na odontologia
+brasileira: resoluções e notícias do CFO, RDCs/alertas da ANVISA, artigos e
+materiais. Comportamento definido pelo fundador:
 
-**Nome.** Feedback do fundador (26/07): "Radar da Semana" ficou pouco
-sugestivo — o nome precisa evidenciar a dimensão jurídica/regulatória.
-Candidatos (decidir com o fundador):
-- **⚖️ Normas da Semana** ← recomendado (curto; "norma" diz na hora que é
-  CFO/ANVISA/resoluções)
-- Regulatório da Semana
-- CFO & ANVISA: o que mudou
-- Fique Legal (duplo sentido jurídico/informal — arriscado, mas memorável)
+- **Houve mudança na semana** → uma **bolinha vermelha** aparece sobre o ícone
+  da aba (badge de notificação, estilo app) para o dentista saber que teve
+  novidade. Dentro da aba, **cada mudança é explicada em um texto breve** (o
+  que mudou, a quem afeta, o que fazer, link para a fonte oficial).
+- **Não houve mudança** → sem bolinha; a aba mostra a **página de referência
+  permanente**: os termos/normas mais importantes em vigor + links oficiais
+  (ex.: resolução de prontuário, prescrição, publicidade CFO, RDCs de
+  esterilização/radiologia). Ou seja, a aba nunca fica vazia — vira a
+  biblioteca regulatória de bolso do dentista.
+
+**Mecânica do badge:** o job semanal grava `regulatorio/{ano-semana}` com
+`temMudanca: true|false` + itens. O dashboard mostra a bolinha se a semana
+corrente tem `temMudanca` e o usuário ainda não abriu a aba desde então
+(marca `visto` em localStorage/perfil). Some ao abrir.
 
 **Fontes por bloco:**
 
@@ -287,6 +291,55 @@ profissional é obrigatória: é material de conduta clínica.
 **Efeito colateral de marketing:** cada guia novo é um post/anúncio natural
 (exatamente como o anúncio que inspirou a ideia) — "guia completo no
 OdontoFeed Premium".
+
+---
+
+## 6) Ferramentas de Decisão por especialidade — "seleciono a situação, recebo o protocolo"
+
+**Origem (pedido do fundador, 26/07).** Além dos guias de leitura, abas
+**interativas** por especialidade, atacando as dúvidas mais frequentes de cada
+uma. O padrão de interação é sempre o mesmo:
+
+> o dentista **seleciona o que quer fazer / a situação do paciente** → a
+> ferramenta entrega **as opções disponíveis, com o protocolo de cada uma e
+> orientações** (indicação, timing, ativação, acompanhamento, ressalvas).
+
+São **árvores de decisão curadas e estáticas** (conteúdo revisado pelo
+fundador): zero custo de IA por uso, zero crédito, resposta instantânea.
+
+### ★ APROVADO P/ IMPLEMENTAR: Aparelhos Ortopédicos (Ortodontia)
+
+O exemplo dado pelo fundador. O ortodontista seleciona o **objetivo
+terapêutico** (ex.: avanço mandibular) e recebe os **aparelhos ortopédicos
+indicados**, cada um com: indicação precisa, janela ideal de tratamento
+(estágio de maturação), protocolo de uso/ativação, duração típica,
+orientações ao paciente e contexto da evidência.
+Objetivos da v1: avanço mandibular (Classe II) · expansão maxilar ·
+protração maxilar (Classe III) · distalização/ancoragem · controle de hábitos
+e mordida aberta.
+Protótipo de estética/interação: `docs/prototipos/ferramenta-aparelhos-ortopedicos.html`.
+
+### Sugestões de ferramentas por especialidade (dúvidas mais frequentes)
+
+| Especialidade | Ferramenta proposta (situação → opções + protocolo) |
+|---------------|------------------------------------------------------|
+| **Todas (transversal)** | 💊 **Prescrição Segura**: situação clínica (dor pós-op, abscesso, pericoronarite, profilaxia) + perfil do paciente (alergia à penicilina, gestante, criança/peso, renal) → fármaco, dose, posologia e modelo de receita. É a dúvida nº 1 de qualquer consultório. · 💉 **Calculadora de anestésico**: peso + comorbidade → dose máxima em tubetes por sal |
+| **Ortodontia** | ★ Aparelhos Ortopédicos (aprovado) · Timing de interceptação: achado no exame → tratar agora × monitorar |
+| **Implantodontia** | Enxertos e biomateriais: defeito ósseo (seio, deiscência, horizontal...) → técnica + biomaterial + tempo de espera · Protocolo de carga: torque/ISQ + situação → imediata × precoce × tardia |
+| **Periodontia** | Do periograma ao plano: estágio + grau → sequência de terapia (RAR, antimicrobianos, cirurgia, intervalo de manutenção) |
+| **Endodontia** | Medicação intracanal: diagnóstico + nº de sessões → substância, tempo, troca · Anestesia na pulpite irreversível: técnica suplementar quando o bloqueio falha |
+| **Dentística** | Protocolo restaurador: cavidade/região/exigência estética → resina + sistema adesivo + passo a passo · Clareamento: vitalidade + urgência + sensibilidade → protocolo e concentração |
+| **Prótese** | Assistente de cimentação: material da peça → tratamento de superfície + cimento + passos na ordem · Seleção de material por caso |
+| **Bucomaxilofacial** | Terceiros molares: classificação radiográfica → dificuldade, técnica, riscos, o que avisar ao paciente · Paciente anticoagulado/antiagregado: fármaco em uso → conduta pré/pós |
+| **Odontopediatria** | Calculadoras pediátricas: peso/idade → anestésico, flúor, antibiótico · Trauma no decíduo: tipo de trauma → conduta (IADT) e o que dizer aos pais |
+| **DTM e Dor Orofacial** | Seleção de placa: quadro (bruxismo, travamento, dor muscular) → tipo de placa + protocolo de acompanhamento |
+| **Radiologia** | Qual exame pedir: suspeita clínica → exame indicado + justificativa + dose comparada |
+| **Estomatologia** | Da lesão à conduta: características da lesão (cor, tempo, superfície) → hipóteses + biópsia sim/não + urgência do encaminhamento |
+
+**Priorização sugerida dentro desta frente:** 1º Aparelhos Ortopédicos
+(aprovado, protótipo pronto) · 2º Prescrição Segura (transversal — serve os 11
+públicos de uma vez) · depois 1 ferramenta por especialidade seguindo o ciclo
+editorial.
 
 ---
 
