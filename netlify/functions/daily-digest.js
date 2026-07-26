@@ -781,15 +781,22 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
     total: selected.length, descartadosSemVeredito, ms: Date.now() - t,
   });
 
-  // ── GATE 4: só publica com o mínimo de artigos COMPLETOS ────────────────────
-  // Se as reposições não recompuseram o mínimo, é melhor NÃO publicar a
-  // especialidade hoje do que entregar um estudo sem veredito (diretriz do
-  // fundador 25/07: "devem sempre ser selecionados estudos completos").
-  if (selected.length < MIN_ARTICLES) {
-    log.warn('[digest][ESP] BLOCKED — sem artigos completos suficientes após a trava de veredito', {
-      especialidade, restaram: selected.length, minimo: MIN_ARTICLES,
-    });
+  // ── GATE 4: publica com os artigos COMPLETOS que sobraram ───────────────────
+  // A trava de veredito descarta estudos sem resultado/direção (diretriz do
+  // fundador 25/07). MAS bloquear a especialidade inteira quando sobram 1-2 bons
+  // deixava o dia SEM edição e SEM podcast (incidente 26/07: Endodontia/
+  // Dentística com 2, Prótese com 1 → ficaram no ar ZERO episódios). Melhor
+  // publicar 1-2 estudos COMPLETOS do que nada — a garantia ("só estudo com
+  // veredito") é mantida; só o tamanho da edição encolhe. Bloqueia apenas quando
+  // NÃO sobra nenhum artigo completo.
+  if (selected.length === 0) {
+    log.warn('[digest][ESP] BLOCKED — nenhum artigo completo após a trava de veredito', { especialidade });
     return null;
+  }
+  if (selected.length < MIN_ARTICLES) {
+    log.info('[digest][ESP] edição REDUZIDA — publicando só os artigos completos (melhor que ficar sem)', {
+      especialidade, completos: selected.length, alvo: MIN_ARTICLES,
+    });
   }
 
   // 8. Persist shared digest (cache + anti-repeat history)
