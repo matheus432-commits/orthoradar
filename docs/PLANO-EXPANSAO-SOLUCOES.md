@@ -15,21 +15,28 @@ Wakai (IA Premium com orçamento diário de tokens). A expansão adiciona **4
 ferramentas de trabalho** — o dentista deixa de só *receber* ciência e passa a
 *usar* ciência no dia a dia do consultório:
 
-| # | Solução | Nome de trabalho | Complexidade | Aproveita o que já existe |
-|---|---------|------------------|--------------|---------------------------|
-| 1 | Resumo semanal de mudanças (CFO, ANVISA, artigos, materiais) | **Radar da Semana** | Média | `weekly-digest.js`, pipeline de resumo, TTS |
-| 2 | Resolver um caso específico (texto + foto/radiografia) | **Resolver um Caso** | Média-alta | `clinical-query-engine`, ingestores PubMed/EuropePMC, Wakai |
-| 3 | Quanto devo cobrar | **Precificador** | Alta (viabilidade limitada — ver análise) | pouco; ferramenta nova |
-| 4 | Qual material entrega melhor custo-benefício | **Comparador de Materiais** | Média | acervo `artigos`, ingestores, Wakai, `compare-studies.js` |
+| # | Solução | Nome de trabalho | Status | Aproveita o que já existe |
+|---|---------|------------------|--------|---------------------------|
+| 1 | Resumo semanal de mudanças (CFO, ANVISA, artigos, materiais) | **Normas da Semana** (nome em decisão — ver seção 1) | Aprovado p/ construir | `weekly-digest.js`, pipeline de resumo, TTS |
+| 2 | Resolver um caso específico (texto + foto/radiografia) | **Resolver um Caso** | Aprovado p/ construir | `clinical-query-engine`, ingestores PubMed/EuropePMC, Wakai |
+| 3 | Quanto devo cobrar | Precificador | **ADIADO** (decisão do fundador 26/07) — análise preservada p/ o futuro | — |
+| 4 | Qual material entrega melhor custo-benefício | **Comparador de Materiais** | Aprovado p/ construir | acervo `artigos`, ingestores, Wakai, `compare-studies.js` |
+| 5 | Guias clínicos visuais por especialidade (área de membro rica) | **Guias OdontoFeed** | Novo (pedido 26/07) — ver seção 5 | pipeline de ilustração (`imagen.js`), identidade por especialidade |
 
-Todas entram como abas/cartões dentro do dashboard (área logada), seguindo o
-padrão visual existente (`tab-btn` / `tab-content`). Gate Premium + orçamento de
-uso reaproveitam o mecanismo da Wakai (`wakai_usage`: orçamento diário de tokens
-por usuário, contado após a resposta).
+**REGRA DE CRÉDITOS (decisão do fundador, 26/07):** nenhuma ferramenta cria
+orçamento novo. **Tudo que usa IA debita do orçamento diário da Wakai**
+(`wakai_usage`, o mesmo doc e o mesmo teto). Estourou o orçamento em qualquer
+ferramenta → todas respondem com a mesma mensagem:
+
+> *"Muitas requisições hoje 😅 — seu limite de IA renova à meia-noite. Tente
+> novamente amanhã."*
+
+O que NÃO debita nada: Normas da Semana (gerado 1x/semana pelo pipeline, não
+por usuário), Guias (conteúdo estático) e cache hits do Comparador.
 
 ---
 
-## 1) Radar da Semana — "o que mudou em 5 minutos"
+## 1) Normas da Semana — "o que mudou em 5 minutos"
 
 **O que é.** Toda semana, um resumo único e escaneável do que mudou na
 odontologia brasileira: resoluções e notícias do CFO, RDCs/alertas da ANVISA,
@@ -37,11 +44,14 @@ os artigos mais relevantes da semana no acervo, e novidades de materiais.
 Formato pensado para 5 minutos de leitura (ou áudio de ~5 min no padrão do
 podcast).
 
-**Nome.** "O que mudou esta semana" é descritivo mas comprido para uma aba.
+**Nome.** Feedback do fundador (26/07): "Radar da Semana" ficou pouco
+sugestivo — o nome precisa evidenciar a dimensão jurídica/regulatória.
 Candidatos (decidir com o fundador):
-- **Radar da Semana** ← recomendado (curto, casa com a linguagem do produto)
-- Semana em 5 minutos
-- Resumo da Semana
+- **⚖️ Normas da Semana** ← recomendado (curto; "norma" diz na hora que é
+  CFO/ANVISA/resoluções)
+- Regulatório da Semana
+- CFO & ANVISA: o que mudou
+- Fique Legal (duplo sentido jurídico/informal — arriscado, mas memorável)
 
 **Fontes por bloco:**
 
@@ -113,9 +123,9 @@ dentista quer ver "alguém já enfrentou ISTO", não estatística agregada.
    caso."* (proteção jurídica; alinhar com docs/PENDENCIAS-JURIDICAS.md).
 
 **Custo por consulta:** 1 chamada com visão (Sonnet) + 1 síntese ≈ R$ 0,10-0,30.
-Controlado pelo orçamento diário de tokens por usuário (mesma mecânica Wakai,
-coleção própria `caso_usage` ou orçamento unificado — decidir no item
-"Créditos" abaixo).
+**Debita do orçamento da Wakai** (`wakai_usage` — decisão do fundador: nenhum
+orçamento novo). Estourou → mensagem padrão "Muitas requisições hoje 😅 — seu
+limite de IA renova à meia-noite. Tente novamente amanhã."
 
 **Riscos e mitigação:**
 - *Imagem de paciente = dado sensível (LGPD).* → Não armazenar; processar em
@@ -130,7 +140,10 @@ busca filtrada por tipo de publicação é trivial nos ingestores existentes).
 
 ---
 
-## 3) Precificador — "quanto devo cobrar"
+## 3) Precificador — "quanto devo cobrar" — **ADIADO**
+
+> **Decisão do fundador (26/07): não será implementado no momento.** A análise
+> abaixo fica preservada para quando (e se) o tema voltar.
 
 **Análise de viabilidade (honesta).** É a mais difícil das quatro, por dois
 motivos que não são técnicos:
@@ -209,7 +222,7 @@ praticamente a mesma para qualquer dentista, então:
 - **Cache hit:** devolve a resposta pronta, **não chama o Claude e não debita
   o orçamento de ninguém** (marca `cacheHit: true`, conta acesso p/ analytics).
 - **Cache miss:** roda a busca + síntese, grava no cache com a lista de PMIDs
-  usados, debita o orçamento só de quem gerou.
+  usados, debita o orçamento da Wakai só de quem gerou (regra: orçamento único).
 - **Validade:** 90 dias (evidência de materiais muda devagar) — ou invalidação
   antecipada se o pipeline diário ingerir artigo novo altamente relevante para
   um cache existente (fase 2; começar só com TTL).
@@ -226,29 +239,84 @@ fontes. Aba **🧪 Materiais** no dashboard.
 
 ---
 
-## Decisões transversais (a fechar com o fundador)
+## 5) Guias OdontoFeed — guias clínicos visuais por especialidade
 
-1. **Nome do guarda-chuva.** As 4 ferramentas podem virar abas soltas ou um
-   grupo "🛠️ Ferramentas" / "Consultório". Com o dashboard já tendo 5 abas,
-   recomendo um hub: aba única **"Ferramentas"** com 4 cartões dentro.
-2. **Créditos unificados ou por ferramenta?** Recomendo **um orçamento diário
-   único Premium** cobrindo Wakai + Resolver um Caso + Comparador (o Radar é
-   sem custo por uso; o Precificador é determinístico). Mais simples de
-   comunicar: "seu uso diário de IA".
-3. **Ordem de implementação sugerida** (menor risco → maior):
-   - Fase 1: **Radar da Semana** (rápido, alto valor percebido, sem custo por uso)
-   - Fase 2: **Comparador de Materiais** (cache torna barato; motor de busca reaproveitado)
-   - Fase 3: **Resolver um Caso** (adiciona visão + upload; mais superfície jurídica)
-   - Fase 4: **Precificador** (calculadora; sem IA na v1)
-4. **Premium ou gratuito?** Sugestão: Radar gratuito (isca de retenção/aquisição,
-   inclusive compartilhável); as outras 3 exclusivas Premium.
+**Origem (pedido do fundador, 26/07).** Referência: anúncio no Instagram de um
+guia de análise cefalométrica — cada parâmetro (ex.: FMA) com definição,
+diagrama, interpretação de valores aumentados/reduzidos e **orientação do que
+fazer**. A área de membro deve ficar rica nesse nível — não "página com abas e
+textos mal distribuídos". Exigências: material personalizado, estética MUITO
+agradável, fácil entendimento.
+
+**O que é.** Uma biblioteca de guias de referência clínica, um conjunto por
+especialidade (as 11 do ciclo editorial), no padrão visual OdontoFeed
+(cor da especialidade + ilustrações do pipeline `imagen.js`). Cada guia segue
+a mesma anatomia do exemplo da cefalometria:
+
+> parâmetro/situação → definição visual → valores/classificação → o que
+> significa quando está alterado → **conduta sugerida** → referências.
+
+**Formato técnico:** páginas HTML interativas dentro do dashboard (navegação
+por parâmetro, busca, responsivo, imprimível/exportável em PDF). Conteúdo
+estático gerado uma vez e revisado — **zero custo por uso, zero crédito**.
+Protótipo de estética: `docs/prototipos/guia-cefalometria-preview.html`.
+
+**Catálogo proposto por especialidade** (v1 = o guia marcado com ★; os demais
+entram no ritmo de 1 guia novo/semana, virando inclusive pauta de divulgação):
+
+| Especialidade | Guias propostos |
+|---------------|-----------------|
+| **Ortodontia** | ★ Análise cefalométrica parâmetro a parâmetro (FMA, SNA, SNB, ANB, IMPA, 1.NA/1.NB, overjet/overbite — interpretação + conduta) · Classificação de Angle visual + plano por classe · Análise de Bolton com calculadora embutida · Cronologia de erupção e janelas de interceptação · Guia de contenção (qual, quando, por quanto tempo) |
+| **Implantodontia** | ★ Fluxo de decisão carga imediata × precoce × tardia (com critérios de torque/ISQ) · Classificação de qualidade óssea (Lekholm & Zarb) ilustrada · Checklist de planejamento em tomografia · Diagnóstico e manejo de mucosite × peri-implantite |
+| **Periodontia** | ★ Classificação AAP/EFP 2018 interativa (estadiamento + graduação passo a passo) · Guia de sondagem e registro periograma · Recessões (Cairo RT1-3) + indicação de recobrimento · Decisão raspagem × cirurgia |
+| **Endodontia** | ★ Diagnóstico pulpar e periapical (testes, interpretação, nomenclatura) · Protocolos de irrigação comparados · Trauma dentário — guia IADT ilustrado por tipo de trauma · Decisão retratamento × cirurgia parendodôntica |
+| **Dentística** | ★ Seleção de resina por situação clínica (classe, região, exigência estética) · Protocolos adesivos (condicionamento total × autocondicionante, passo a passo) · Clareamento: concentrações, protocolos e manejo de sensibilidade · Escala de cor na prática |
+| **Prótese** | ★ Decisão coroa × onlay × faceta (por destruição remanescente) · Guia de cimentação: qual cimento para qual material · Términos e preparos ilustrados · Zircônia × dissilicato × híbridas: quando cada uma |
+| **Bucomaxilofacial** | ★ Terceiros molares: classificações Pell & Gregory/Winter + decisão de extrair × acompanhar · Manejo do paciente anticoagulado/antiagregado · Protocolo MRONJ (prevenção e conduta) · Sinais radiográficos de fratura |
+| **Odontopediatria** | ★ Cronologia de erupção interativa (decíduos + permanentes) · Trauma em dentes decíduos (IADT) — o que muda em relação ao permanente · Flúor por idade: doses, vernizes, risco de fluorose · ICDAS visual para decisão restaurar × remineralizar |
+| **DTM e Dor Orofacial** | ★ Diagnóstico diferencial da dor orofacial (árvore de decisão) · Exame DC/TMD guiado passo a passo · Placas oclusais: qual tipo para qual quadro |
+| **Radiologia** | ★ Lesões radiolúcidas × radiopacas: árvore diagnóstica por localização/relação com o dente · Qual exame pedir (periapical × panorâmica × TCFC) com doses comparadas · Anatomia radiográfica que engana (forames, sobreposições) |
+| **Estomatologia** | ★ Atlas de lesões da mucosa por cor (branca/vermelha/pigmentada/ulcerada) com red flags de encaminhamento · Exame sistemático de rastreio de câncer bucal · Biópsia: quando, qual tipo, como encaminhar |
+
+**Produção de cada guia:** conteúdo redigido com Claude a partir de
+referências consagradas + artigos do acervo, revisado pelo fundador
+(cirurgião-dentista) antes de publicar; ilustrações no estilo travado da marca;
+template HTML único → consistência estética e custo marginal baixo. A revisão
+profissional é obrigatória: é material de conduta clínica.
+
+**Efeito colateral de marketing:** cada guia novo é um post/anúncio natural
+(exatamente como o anúncio que inspirou a ideia) — "guia completo no
+OdontoFeed Premium".
+
+---
+
+## Decisões transversais
+
+1. **Créditos: DECIDIDO (26/07)** — orçamento único = o da Wakai, para tudo
+   que usa IA. Mensagem única de estouro: *"Muitas requisições hoje 😅 — seu
+   limite de IA renova à meia-noite. Tente novamente amanhã."*
+2. **Precificador: DECIDIDO (26/07)** — fora do escopo atual.
+3. **Nome do guarda-chuva.** Com Guias entrando, o dashboard ganha: aba
+   **"Ferramentas"** (Resolver um Caso + Comparador) e aba **"Guias"**
+   (biblioteca por especialidade) — ou um hub único. A decidir.
+4. **Ordem de implementação sugerida** (valor × risco):
+   - Fase 1: **Guia de Cefalometria (Ortodontia)** — é a referência estética
+     que define o padrão de TODA a área de membro nova; sem custo de IA por uso
+   - Fase 2: **Normas da Semana** (rápido, sem custo por uso)
+   - Fase 3: **Comparador de Materiais** (cache + orçamento Wakai)
+   - Fase 4: **Resolver um Caso** (visão + upload; maior superfície jurídica)
+   - Contínuo: 1 guia novo por semana até cobrir as 11 especialidades
+5. **Premium ou gratuito?** Sugestão: Normas da Semana gratuito (isca de
+   aquisição, compartilhável); Guias, Comparador e Resolver um Caso exclusivos
+   Premium.
 
 ## O que este plano ainda NÃO decide (iteraremos aqui)
 
-- Nome final de cada aba e do hub.
-- Fontes exatas CFO/ANVISA (vou mapear URLs/APIs reais antes de codar).
-- Valores default da calculadora de precificação (custos típicos de materiais).
-- Se o Radar ganha versão em áudio já na v1.
+- Nome final da aba regulatória (recomendação atual: "Normas da Semana").
+- Fontes exatas CFO/ANVISA (mapear URLs/APIs reais antes de codar).
+- Aprovação da estética do protótipo do guia de cefalometria → vira o template
+  de todos os guias.
+- Se Normas da Semana ganha versão em áudio já na v1.
 
 ---
 

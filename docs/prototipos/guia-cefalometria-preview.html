@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guia de Cefalometria — OdontoFeed · protótipo de estética</title>
+<style>
+/* ── Tokens: paleta editorial OdontoFeed + cor da Ortodontia ─────────────── */
+:root{
+  --papel:#F8F5EF; --carta:#FFFFFF; --tinta:#1B2440; --tinta-suave:#5B6478;
+  --ouro:#C9A227; --ouro-claro:#F3E7C4;
+  --orto:#6D8BFF; --orto-claro:#EDF1FF; --orto-escuro:#4A66D4;
+  --alto:#D97B1F; --alto-bg:#FCF1E3; --baixo:#2F7FB8; --baixo-bg:#E8F2FA;
+  --ok:#2E9E6B; --ok-bg:#E7F5EE;
+  --borda:#E7E2D6; --raio:18px;
+  --serif:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
+  --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Roboto,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--papel);color:var(--tinta);font-family:var(--sans);line-height:1.55;
+  -webkit-font-smoothing:antialiased}
+.pagina{max-width:760px;margin:0 auto;padding:28px 18px 60px}
+
+/* ── Cabeçalho ───────────────────────────────────────────────────────────── */
+.selo{display:inline-flex;align-items:center;gap:8px;background:var(--orto-claro);
+  color:var(--orto-escuro);font-size:11px;font-weight:800;letter-spacing:1.6px;
+  text-transform:uppercase;padding:7px 14px;border-radius:999px;margin-bottom:16px}
+.selo::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--orto)}
+h1{font-family:var(--serif);font-size:clamp(30px,6vw,42px);font-weight:700;
+  letter-spacing:-0.5px;line-height:1.12}
+.sub{color:var(--tinta-suave);font-size:15.5px;margin-top:10px;max-width:56ch}
+.filete{height:3px;width:64px;background:linear-gradient(90deg,var(--ouro),var(--orto));
+  border-radius:2px;margin:22px 0 26px}
+
+/* ── Navegação por parâmetro ─────────────────────────────────────────────── */
+.nav-param{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:30px;
+  scrollbar-width:none}
+.nav-param::-webkit-scrollbar{display:none}
+.pill{flex:0 0 auto;font-size:12.5px;font-weight:700;padding:8px 15px;border-radius:999px;
+  border:1.5px solid var(--borda);background:var(--carta);color:var(--tinta-suave);
+  cursor:pointer;transition:.15s}
+.pill.ativa{background:var(--tinta);border-color:var(--tinta);color:#fff}
+.pill:hover:not(.ativa){border-color:var(--orto);color:var(--orto-escuro)}
+
+/* ── Bloco do parâmetro ──────────────────────────────────────────────────── */
+.parametro{background:var(--carta);border:1px solid var(--borda);border-radius:var(--raio);
+  padding:26px 24px;margin-bottom:26px;box-shadow:0 10px 30px rgba(27,36,64,.06)}
+.par-topo{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.par-sigla{font-family:var(--serif);font-size:34px;font-weight:700;color:var(--orto-escuro)}
+.par-nome{font-size:14px;color:var(--tinta-suave);font-weight:600}
+.valor-normal{margin-left:auto;background:var(--ok-bg);color:var(--ok);font-size:12.5px;
+  font-weight:800;padding:6px 13px;border-radius:999px;white-space:nowrap}
+.par-def{margin-top:14px;font-size:14.5px;color:var(--tinta);max-width:60ch}
+.par-def b{color:var(--orto-escuro)}
+
+/* diagrama */
+.diagrama{margin:20px auto 6px;display:block;max-width:420px;width:100%}
+.legenda-diag{text-align:center;font-size:11.5px;color:var(--tinta-suave);
+  font-style:italic;margin-bottom:6px}
+
+/* ── Cartões de interpretação ────────────────────────────────────────────── */
+.interpreta{display:grid;grid-template-columns:1fr;gap:14px;margin-top:20px}
+@media(min-width:640px){.interpreta{grid-template-columns:1fr 1fr}}
+.carta-i{border-radius:14px;padding:18px 18px 16px;border:1px solid var(--borda);position:relative}
+.carta-i.alto{background:var(--alto-bg)} .carta-i.baixo{background:var(--baixo-bg)}
+.carta-i.ok{background:var(--ok-bg);grid-column:1/-1}
+.ci-cab{display:flex;align-items:center;gap:10px;margin-bottom:9px}
+.ci-ico{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;
+  color:#fff;font-size:16px;font-weight:800;flex:0 0 auto}
+.alto .ci-ico{background:var(--alto)} .baixo .ci-ico{background:var(--baixo)}
+.ok .ci-ico{background:var(--ok)}
+.ci-titulo{font-family:var(--serif);font-size:18px;font-weight:700}
+.alto .ci-titulo{color:var(--alto)} .baixo .ci-titulo{color:var(--baixo)} .ok .ci-titulo{color:var(--ok)}
+.ci-faixa{margin-left:auto;font-size:11.5px;font-weight:800;color:var(--tinta-suave);
+  background:rgba(255,255,255,.75);padding:3px 9px;border-radius:999px}
+.ci-texto{font-size:13.8px;color:var(--tinta)}
+.conduta{margin-top:12px;background:rgba(255,255,255,.8);border-radius:11px;padding:12px 14px}
+.conduta-rotulo{font-size:10.5px;font-weight:800;letter-spacing:1.3px;text-transform:uppercase;
+  color:var(--ouro);display:flex;align-items:center;gap:6px;margin-bottom:5px}
+.conduta-rotulo::before{content:'→';font-size:13px}
+.conduta li{font-size:13.3px;margin-left:17px;margin-top:3px}
+
+/* ── Nota de evidência ───────────────────────────────────────────────────── */
+.evidencia{display:flex;gap:12px;background:var(--ouro-claro);border-radius:13px;
+  padding:14px 16px;margin-top:18px;font-size:13px}
+.evidencia .icone{flex:0 0 auto;font-size:17px}
+.evidencia b{color:#8a6d10}
+
+/* ── Rodapé ──────────────────────────────────────────────────────────────── */
+.proximo{display:flex;align-items:center;justify-content:space-between;background:var(--tinta);
+  color:#fff;border-radius:var(--raio);padding:20px 22px;margin-top:6px}
+.proximo .rot{font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase;opacity:.65;font-weight:700}
+.proximo .nome{font-family:var(--serif);font-size:21px;font-weight:700;margin-top:3px}
+.proximo .seta{font-size:26px;color:var(--ouro)}
+.fontes{margin-top:26px;font-size:12px;color:var(--tinta-suave)}
+.fontes b{color:var(--tinta)}
+.marca{margin-top:34px;text-align:center;font-size:12px;color:var(--tinta-suave)}
+.marca b{color:var(--tinta);font-weight:800}
+.marca .ponto{color:var(--ouro)}
+</style>
+</head>
+<body>
+<div class="pagina">
+
+  <div class="selo">Ortodontia · Guia clínico OdontoFeed</div>
+  <h1>Análise Cefalométrica</h1>
+  <p class="sub">Interpretação parâmetro a parâmetro — o que cada medida significa
+  e <b>o que fazer</b> quando ela vem alterada. Baseado nas análises de Tweed,
+  Steiner e Ricketts.</p>
+  <div class="filete"></div>
+
+  <nav class="nav-param">
+    <button class="pill ativa">FMA</button>
+    <button class="pill">SNA</button>
+    <button class="pill">SNB</button>
+    <button class="pill">ANB</button>
+    <button class="pill">IMPA</button>
+    <button class="pill">1.NA</button>
+    <button class="pill">1.NB</button>
+    <button class="pill">Overjet</button>
+    <button class="pill">Overbite</button>
+  </nav>
+
+  <!-- ══ FMA ═══════════════════════════════════════════════════════════════ -->
+  <section class="parametro">
+    <div class="par-topo">
+      <span class="par-sigla">FMA</span>
+      <span class="par-nome">Ângulo do Plano Mandibular de Frankfurt</span>
+      <span class="valor-normal">Normal: 25° ± 3°</span>
+    </div>
+    <p class="par-def">Ângulo formado entre a <b>linha de Frankfurt</b> (Pório → Orbitário)
+    e o <b>plano mandibular</b> (Gônio → Mentoniano). É o principal indicador do
+    <b>padrão de crescimento vertical</b> da face.</p>
+
+    <svg class="diagrama" viewBox="0 0 420 300" role="img" aria-label="Traçado cefalométrico com o ângulo FMA">
+      <!-- cunha do ângulo (área entre as linhas, convergindo à direita) -->
+      <path d="M 310 127 L 405 118 L 405 191 L 310 214 Z" fill="#37D7E7" opacity=".12"/>
+      <!-- crânio (calota, perfil voltado para a direita) + nuca -->
+      <path d="M 255 36 C 205 12 135 18 96 58 C 62 94 54 146 70 188 C 80 214 98 232 118 244
+               C 124 260 127 272 125 286"
+            fill="none" stroke="#1B2440" stroke-width="1.6" opacity=".5"/>
+      <!-- perfil facial: testa, nariz, lábios, mento, linha da mandíbula -->
+      <path d="M 255 36 C 274 54 280 76 272 96 C 270 100 268 104 270 108
+               C 282 116 300 128 308 138 C 310 146 296 150 282 148
+               C 294 156 294 166 280 168 C 294 174 294 186 278 188
+               C 296 196 298 212 282 222 C 258 240 218 248 180 244 C 158 240 142 230 132 214"
+            fill="none" stroke="#1B2440" stroke-width="1.6" opacity=".5"/>
+      <!-- olho e orelha sugeridos -->
+      <path d="M 224 112 q 9 -6 18 0 q -9 6 -18 0" fill="none" stroke="#1B2440" stroke-width="1.2" opacity=".45"/>
+      <path d="M 136 128 q 16 0 16 16 q 0 14 -14 16" fill="none" stroke="#1B2440" stroke-width="1.2" opacity=".45"/>
+      <!-- linha de Frankfurt (Po → Or), quase horizontal -->
+      <line x1="60" y1="150" x2="405" y2="118" stroke="#4A66D4" stroke-width="2.4"/>
+      <circle cx="146" cy="142" r="4.5" fill="#4A66D4"/>
+      <circle cx="252" cy="132" r="4.5" fill="#4A66D4"/>
+      <text x="112" y="136" font-size="11.5" font-weight="700" fill="#4A66D4">Po</text>
+      <text x="256" y="122" font-size="11.5" font-weight="700" fill="#4A66D4">Or</text>
+      <text x="326" y="108" font-size="11" font-style="italic" fill="#4A66D4">Frankfurt (FH)</text>
+      <!-- plano mandibular (Go → Me), subindo para a direita -->
+      <line x1="90" y1="267" x2="405" y2="191" stroke="#C9A227" stroke-width="2.4"/>
+      <circle cx="185" cy="244" r="4.5" fill="#C9A227"/>
+      <circle cx="284" cy="220" r="4.5" fill="#C9A227"/>
+      <text x="170" y="264" font-size="11.5" font-weight="700" fill="#8a6d10">Go</text>
+      <text x="288" y="241" font-size="11.5" font-weight="700" fill="#8a6d10">Me</text>
+      <text x="94" y="288" font-size="11" font-style="italic" fill="#8a6d10">Plano mandibular (Go–Me)</text>
+      <!-- arco e rótulo do ângulo -->
+      <path d="M 385 123 Q 400 158 385 190" fill="none" stroke="#D97B1F" stroke-width="2.2"/>
+      <text x="338" y="164" font-size="14" font-weight="800" fill="#D97B1F">FMA</text>
+    </svg>
+    <p class="legenda-diag">As duas linhas convergem posteriormente — o ângulo entre elas é o FMA.</p>
+
+    <div class="interpreta">
+      <div class="carta-i alto">
+        <div class="ci-cab"><span class="ci-ico">↑</span>
+          <span class="ci-titulo">FMA aumentado</span><span class="ci-faixa">&gt; 28°</span></div>
+        <p class="ci-texto">Rotação mandibular <b>para baixo e para trás</b>: face
+        longa, tendência a mordida aberta, musculatura mais fraca. Padrão
+        <b>hiperdivergente</b>.</p>
+        <div class="conduta">
+          <div class="conduta-rotulo">O que fazer</div>
+          <ul>
+            <li>Evitar mecânicas extrusivas (elásticos verticais longos, CTP baixa)</li>
+            <li>Priorizar controle vertical: ancoragem esquelética, mordida construtiva</li>
+            <li>Extrações tendem a fechar melhor o padrão — avaliar discrepância</li>
+          </ul>
+        </div>
+      </div>
+      <div class="carta-i baixo">
+        <div class="ci-cab"><span class="ci-ico">↓</span>
+          <span class="ci-titulo">FMA reduzido</span><span class="ci-faixa">&lt; 22°</span></div>
+        <p class="ci-texto">Rotação mandibular <b>para cima e para frente</b>: face
+        curta, sobremordida profunda, musculatura potente. Padrão
+        <b>hipodivergente</b>.</p>
+        <div class="conduta">
+          <div class="conduta-rotulo">O que fazer</div>
+          <ul>
+            <li>Mecânicas extrusivas são bem toleradas — úteis p/ abrir a mordida</li>
+            <li>Nivelar curva de Spee com intrusão anterior + extrusão posterior</li>
+            <li>Cautela com extrações: risco de aprofundar ainda mais a mordida</li>
+          </ul>
+        </div>
+      </div>
+      <div class="carta-i ok">
+        <div class="ci-cab"><span class="ci-ico">✓</span>
+          <span class="ci-titulo">Dentro da norma</span><span class="ci-faixa">22°–28°</span></div>
+        <p class="ci-texto">Crescimento vertical equilibrado (normodivergente). O FMA
+        não impõe restrição à mecânica — a decisão passa aos parâmetros
+        ântero-posteriores (ANB) e dentários (IMPA, 1.NA).</p>
+      </div>
+    </div>
+
+    <div class="evidencia"><span class="icone">🔬</span>
+      <span><b>Contexto da evidência:</b> a norma de 25° vem da amostra de Tweed
+      (adultos brancos norte-americanos). Estudos com amostras brasileiras
+      encontram médias até ~2° maiores — considere o padrão facial da família
+      do paciente antes de tratar o número como alvo rígido.</span></div>
+  </section>
+
+  <div class="proximo">
+    <div><div class="rot">Próximo parâmetro</div><div class="nome">SNA — posição da maxila</div></div>
+    <div class="seta">→</div>
+  </div>
+
+  <p class="fontes"><b>Referências:</b> Tweed CH (1954) · Steiner CC (1953) ·
+  Ricketts RM (1981) · + 3 estudos do acervo OdontoFeed com amostras brasileiras.
+  Material de apoio à decisão — a conduta é sempre do ortodontista responsável.</p>
+
+  <div class="marca"><b>Odonto<span class="ponto">Feed</span></b> · Guias Clínicos · protótipo de estética (não publicado)</div>
+</div>
+</body>
+</html>
