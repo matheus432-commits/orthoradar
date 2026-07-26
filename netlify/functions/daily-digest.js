@@ -150,13 +150,17 @@ function isEnriched(a) {
 function isLowValueSurvey(a) {
   const t = `${a.titulo_pt || ''} ${a.titulo || a.title || ''}`.toLowerCase();
   const tipo = `${a.nivel_evidencia || ''} ${a.tipo_estudo || ''}`.toLowerCase();
-  // Marcadores fortes de questionário/survey de opinião.
+  // Marcadores fortes de questionário/survey/autoavaliação de opinião. Incluído
+  // 26/07: "Autoavaliação Clínica... Perspectivas de Estudantes Tunisianos"
+  // (self-assessment de percepção de um grupo em outro país) escapava.
   if (/question[áa]rio|questionnaire|\bsurvey(s|ed)?\b|\binqu[ée]rito\b/.test(t)) return true;
   if (/knowledge[\s,-]+attitude|atitude e pr[áa]tica|\bKAP\b/i.test(t)) return true;
-  if (/question[áa]rio|questionnaire|\bsurvey\b/.test(tipo)) return true;
-  // Percepção/opinião/conhecimento ENTRE profissionais/estudantes.
-  if (/(percep[çc][ãa]o|opini[ãa]o|conhecimento|awareness|perception|attitude|knowledge)\b/.test(t) &&
-      /\b(entre|among|de)\b[^.]*\b(especialista|dentist|odont[óo]log|student|estudante|cirurgi[ãa]|clinic|professional|practitioner)/.test(t)) return true;
+  if (/autoavalia[çc][ãa]o|auto-avalia|autopercep[çc][ãa]o|self-assess|self-report|self-perce|self-efficacy|autoefic[áa]cia/.test(t)) return true;
+  if (/question[áa]rio|questionnaire|\bsurvey\b|transversal descritiv|cross-sectional survey/.test(tipo)) return true;
+  // Percepção/opinião/conhecimento/experiência/perspectiva ENTRE um grupo de
+  // profissionais/estudantes/pacientes (pesquisa de percepção, não desfecho clínico).
+  if (/(percep[çc][ãa]o|opini[ãa]o|conhecimento|awareness|perception|attitude|attitudes|knowledge|perspectiv|vis[ãa]o|experi[êe]ncia|viv[êe]ncia|satisfa[çc][ãa]o|n[íi]vel de conforto|confian[çc]a|autoconfian[çc]a|preparo percebido)/.test(t) &&
+      /\b(entre|among|de|dos|das|of|in)\b[^.]*\b(especialista|dentist|odont[óo]log|student|estudante|aluno|cirurgi[ãa]|clinic|professional|practitioner|paciente|patient|resident|internos?)/.test(t)) return true;
   return false;
 }
 

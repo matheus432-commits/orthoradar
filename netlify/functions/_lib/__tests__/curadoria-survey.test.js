@@ -41,6 +41,19 @@ describe('isLowValueSurvey — remove questionários/surveys de opinião', () =>
     assert.equal(isLowValueSurvey({ nivel_evidencia: 'Survey', titulo_pt: 'Estudo transversal' }), true);
   });
 
+  test('INCIDENTE 26/07: autoavaliação/perspectivas de estudantes (Tunísia) → barra', () => {
+    assert.equal(isLowValueSurvey({ titulo_pt: 'Autoavaliação Clínica em Odontopediatria: Perspectivas de Estudantes Tunisianos' }), true);
+    assert.equal(isLowValueSurvey({ titulo: 'Self-assessment of clinical competence among dental students' }), true);
+    assert.equal(isLowValueSurvey({ titulo_pt: 'Perspectivas e experiências de residentes sobre teleodontologia' }), true);
+    assert.equal(isLowValueSurvey({ titulo_pt: 'Satisfação de pacientes com próteses removíveis: um levantamento' }), true);
+    assert.equal(isLowValueSurvey({ titulo_pt: 'Autoconfiança de alunos na realização de exodontias' }), true);
+  });
+
+  test('autoavaliação/perspectiva SEM grupo (contexto clínico) não dispara o ramo de percepção', () => {
+    // "perspectivas futuras do tratamento" — não é survey de um grupo
+    assert.equal(isLowValueSurvey({ titulo_pt: 'Perspectivas futuras da regeneração óssea guiada' }), false);
+  });
+
   test('NÃO derruba estudos clínicos legítimos (sem falso positivo)', () => {
     assert.equal(isLowValueSurvey({ ...enr,
       titulo: 'Bond strength of debonded orthodontic brackets after different reconditioning protocols: an in vitro study' }), false);
