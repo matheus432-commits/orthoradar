@@ -10,6 +10,15 @@
 .res-sub{font-size:13px;color:var(--suave);margin:2px 0 12px}
 .bloco-rot{font-size:10.5px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--acento);margin:14px 0 5px}
 .bloco-txt li{font-size:13.5px;color:var(--texto);margin-left:16px;margin-top:4px}
+.painel{border:1px solid var(--linha);border-radius:var(--raio);padding:16px 18px;margin-bottom:12px}
+.painel.destaque{border-left:2px solid var(--acento)}
+.p-rot{font-size:10.5px;font-weight:600;letter-spacing:1.3px;text-transform:uppercase;color:var(--acento);margin-bottom:7px}
+.p-txt{font-size:13.4px;color:var(--texto)}.p-txt b{color:var(--grafite);font-weight:600}
+.h-cuidados{font-family:var(--serif);font-size:19px;font-weight:400;color:var(--grafite);margin:26px 0 4px}
+.cuidado{display:flex;gap:13px;padding:14px 2px;border-bottom:1px solid var(--linha)}
+.c-num{font-family:var(--serif);font-size:19px;color:var(--acento);flex:0 0 auto;width:24px}
+.c-tit{font-size:14px;font-weight:600;color:var(--grafite)}
+.c-txt{font-size:13px;color:var(--texto);margin-top:2px}.c-txt b{color:var(--grafite);font-weight:600}
 </style>
 </head>
 <body>
@@ -21,6 +30,15 @@
   gravidade, o grau mede a velocidade. Preencha os achados.</p>
   <div class="filete"></div>
 
+  <div class="painel destaque">
+    <div class="p-rot">O que cada eixo mede</div>
+    <p class="p-txt"><b>Estágio (I a IV)</b> = gravidade e complexidade do dano já
+    instalado (perda de inserção, perda óssea, perda dentária). <b>Grau (A, B, C)</b>
+    = velocidade de progressão e risco futuro (perda óssea ÷ idade, mais
+    modificadores como tabagismo e diabetes). Um define "quão avançado"; o outro,
+    "quão rápido".</p>
+  </div>
+
   <div class="rot">Maior perda de inserção interproximal (PIC)</div>
   <div class="opcoes" id="pic"></div>
   <div class="rot">Perda óssea × idade (para o grau)</div>
@@ -29,6 +47,22 @@
   <div class="opcoes" id="perda"></div>
 
   <div id="resultado"></div>
+
+  <div class="h-cuidados">Cuidados na interpretação</div>
+  <div class="cuidado"><div class="c-num">01</div><div>
+    <div class="c-tit">Estágio não regride</div>
+    <div class="c-txt">O estágio reflete o dano acumulado — <b>não diminui</b> com o tratamento.
+    O que muda é a estabilidade e o grau. Um caso tratado segue "Estágio III estável",
+    não vira "Estágio I".</div></div></div>
+  <div class="cuidado"><div class="c-num">02</div><div>
+    <div class="c-tit">Grau ajusta a agressividade</div>
+    <div class="c-txt">Grau C (rápido) ou modificadores (tabagismo, diabetes descompensado)
+    encurtam o intervalo de manutenção e exigem controle dos fatores, não só raspagem.</div></div></div>
+  <div class="cuidado"><div class="c-num">03</div><div>
+    <div class="c-tit">Complexidade além dos números</div>
+    <div class="c-txt">Furcas, defeitos verticais, mobilidade e necessidade de reabilitação
+    elevam o estágio mesmo com perda moderada — a decisão considera a complexidade,
+    não só a profundidade.</div></div></div>
 
   <div class="nota-rodape">Estágio pela gravidade/complexidade (PIC, perda óssea,
   perda dentária); grau pela progressão (% perda óssea ÷ idade) e modificadores

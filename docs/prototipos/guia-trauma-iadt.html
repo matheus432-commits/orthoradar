@@ -5,9 +5,22 @@
 <title>Trauma Dentário (IADT) — OdontoFeed</title>
 <link rel="stylesheet" href="odontofeed.css">
 <style>:root{--acento:#B0863A}
-.b-nome2{font-family:var(--serif);font-size:18px;color:var(--acento);font-weight:400}
-.b-cond{font-size:10.5px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--acento);margin:11px 0 5px}
-.bloco li{font-size:13.6px;color:var(--texto);margin-left:16px;margin-top:4px}
+.intro{font-size:14.5px;color:var(--texto);margin-top:2px;max-width:62ch}
+.grade{display:grid;grid-template-columns:1fr;gap:14px;margin-top:20px}
+.painel{border:1px solid var(--linha);border-radius:var(--raio);padding:18px 19px}
+.painel.destaque{border-left:2px solid var(--acento)}
+.p-rot{font-size:10.5px;font-weight:600;letter-spacing:1.3px;text-transform:uppercase;color:var(--acento);margin-bottom:8px}
+.p-txt{font-size:13.6px;color:var(--texto)}.p-txt b{color:var(--grafite);font-weight:600}
+.tipo{border-bottom:1px solid var(--linha);padding:16px 2px}
+.t-nome{font-family:var(--serif);font-size:18px;color:var(--acento);font-weight:400}
+.t-rot{font-size:10.5px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--acento);margin:10px 0 4px}
+.tipo li{font-size:13.6px;color:var(--texto);margin-left:16px;margin-top:4px}
+.tipo b{color:var(--grafite);font-weight:600}
+.h-cuidados{font-family:var(--serif);font-size:20px;font-weight:400;color:var(--grafite);margin:30px 0 6px}
+.cuidado{display:flex;gap:14px;padding:15px 2px;border-bottom:1px solid var(--linha)}
+.c-num{font-family:var(--serif);font-size:20px;color:var(--acento);flex:0 0 auto;width:26px;line-height:1.3}
+.c-tit{font-size:14.5px;font-weight:600;color:var(--grafite)}
+.c-txt{font-size:13.3px;color:var(--texto);margin-top:2px}.c-txt b{color:var(--grafite);font-weight:600}
 </style>
 </head>
 <body>
@@ -15,47 +28,67 @@
   <a class="voltar" href="dashboard-com-ferramentas.html">‹ Ferramentas</a>
   <div class="selo">Endodontia · Guia clínico</div>
   <h1>Trauma Dentário — dente permanente</h1>
-  <p class="sub">Conduta por tipo de trauma, seguindo as diretrizes da IADT. O
-  tempo até o atendimento e o manejo do ligamento periodontal definem o prognóstico.</p>
+  <p class="intro">Conduta por tipo de trauma, segundo as diretrizes da IADT.</p>
   <div class="filete"></div>
 
-  <div class="bloco">
-    <div class="b-nome2">Concussão / subluxação</div>
-    <div class="b-cond">Conduta</div>
-    <ul><li>Sem deslocamento — acompanhar. Subluxação: contenção flexível por até 2 semanas se houver mobilidade</li>
-      <li>Dieta macia por 1–2 semanas; higiene com clorexidina</li>
+  <div class="grade">
+    <div class="painel destaque">
+      <div class="p-rot">O que orienta a conduta</div>
+      <p class="p-txt">Dois fatores definem o prognóstico em quase todos os tipos:
+      o <b>tempo e o meio</b> em que o dente/ligamento ficou fora do alvéolo, e o
+      <b>estágio de rizogênese</b> (ápice aberto × fechado). Toda decisão abaixo
+      gira em torno de proteger o ligamento periodontal e a polpa.</p>
+    </div>
+  </div>
+
+  <div class="tipo">
+    <div class="t-nome">Concussão / subluxação</div>
+    <div class="t-rot">Conduta</div>
+    <ul><li>Concussão: sem deslocamento — acompanhar. Subluxação: contenção flexível até 2 semanas se houver mobilidade</li>
+      <li>Dieta macia 1–2 semanas; higiene com clorexidina</li>
       <li>Testes de vitalidade seriados (podem falhar no início e recuperar)</li></ul>
   </div>
-
-  <div class="bloco">
-    <div class="b-nome2">Luxação (extrusiva / lateral / intrusiva)</div>
-    <div class="b-cond">Conduta</div>
+  <div class="tipo">
+    <div class="t-nome">Luxação (extrusiva / lateral / intrusiva)</div>
+    <div class="t-rot">Conduta</div>
     <ul><li>Extrusiva/lateral: reposicionar e contenção flexível 2–4 semanas</li>
       <li>Intrusiva: reposicionar (espontâneo, ortodôntico ou cirúrgico) conforme rizogênese</li>
-      <li>Dente com ápice fechado: alto risco de necrose — endodontia preventiva em 2 semanas</li></ul>
+      <li>Ápice fechado: alto risco de necrose — endodontia preventiva em ~2 semanas</li></ul>
   </div>
-
-  <div class="bloco">
-    <div class="b-nome2">Avulsão</div>
-    <div class="b-cond">O que orientar por telefone (antes de chegar)</div>
+  <div class="tipo">
+    <div class="t-nome">Avulsão</div>
+    <div class="t-rot">Orientar por telefone (antes de chegar)</div>
     <ul><li>Reimplantar imediatamente se possível, segurando pela coroa</li>
-      <li>Se não, transportar em meio adequado: leite, soro, saliva (nunca água ou seco)</li></ul>
-    <div class="b-cond">No consultório</div>
+      <li>Se não, transportar em <b>leite, soro ou saliva</b> — nunca água ou seco</li></ul>
+    <div class="t-rot">No consultório</div>
     <ul><li>Ápice fechado: reimplantar, contenção flexível 2 semanas, endodontia em 7–10 dias</li>
-      <li>Tempo seco &gt; 60 min: prognóstico reservado, remover ligamento necrótico antes de reimplantar</li>
+      <li>Tempo seco &gt; 60 min: prognóstico reservado; remover ligamento necrótico antes</li>
       <li>Antibiótico sistêmico + revisão da vacina antitetânica</li></ul>
   </div>
-
-  <div class="bloco">
-    <div class="b-nome2">Fratura (coronária / radicular)</div>
+  <div class="tipo">
+    <div class="t-nome">Fratura (coronária / radicular)</div>
     <ul><li>Esmalte/dentina: colar fragmento ou restaurar; proteger a dentina</li>
-      <li>Com exposição pulpar: pulpotomia parcial (Cvek) em ápice aberto; conforme o caso em fechado</li>
-      <li>Radicular: reposicionar e contenção RÍGIDA por 4 semanas (colo) ou até 4 meses (terço cervical)</li></ul>
+      <li>Com exposição pulpar: pulpotomia parcial (Cvek) em ápice aberto</li>
+      <li>Radicular: reposicionar e contenção <b>rígida</b> por 4 semanas (colo) ou até 4 meses (terço cervical)</li></ul>
   </div>
 
-  <div class="evid">Reabsorção e necrose são as complicações a vigiar — controles
-  clínico-radiográficos aos 2, 4 semanas, 3, 6 e 12 meses. O estágio de rizogênese
-  (ápice aberto × fechado) muda a conduta em quase todos os tipos.</div>
+  <div class="h-cuidados">Cuidados que mudam o prognóstico</div>
+  <div class="cuidado"><div class="c-num">01</div><div>
+    <div class="c-tit">Tempo extra-alveolar</div>
+    <div class="c-txt">Cada minuto seco reduz a viabilidade do ligamento. <b>Reimplante imediato</b>
+    é o maior determinante do sucesso na avulsão — orientar isso já ao telefone.</div></div></div>
+  <div class="cuidado"><div class="c-num">02</div><div>
+    <div class="c-tit">Meio de transporte</div>
+    <div class="c-txt">Leite, soro fisiológico ou saliva preservam as células do ligamento.
+    Água é hipotônica e as destrói — nunca usar.</div></div></div>
+  <div class="cuidado"><div class="c-num">03</div><div>
+    <div class="c-tit">Rizogênese (ápice aberto × fechado)</div>
+    <div class="c-txt">Ápice aberto pode revascularizar — evitar endodontia precoce e acompanhar.
+    Ápice fechado tem alto risco de necrose — a endodontia preventiva costuma ser indicada.</div></div></div>
+  <div class="cuidado"><div class="c-num">04</div><div>
+    <div class="c-tit">Acompanhamento</div>
+    <div class="c-txt">Controles aos 2 e 4 semanas, 3, 6 e 12 meses. As complicações a vigiar
+    são <b>necrose e reabsorção</b> — quanto antes detectadas, melhor o desfecho.</div></div></div>
 
   <div class="marca"><b>Odonto<span class="p">Feed</span></b> · Guias Clínicos · protótipo (não publicado)</div>
 </div>
