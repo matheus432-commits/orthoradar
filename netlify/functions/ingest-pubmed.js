@@ -59,21 +59,53 @@ const EXCLUI_SURVEY =
   ' OR "cross-sectional survey"[tiab] OR "knowledge attitude"[tiab] OR "knowledge, attitude"[tiab]' +
   ' OR "Surveys and Questionnaires"[Mesh])';
 
-async function searchPmids(query, retMax = 15) {
+// BUG DE ACERVO (achado 27/07): a janela é de 15 anos, mas com sort=date e
+// retmax=15 SEM retstart a busca devolvia TODO DIA os mesmos 15 artigos mais
+// recentes — o acervo profundo nunca era alcançado. Resultado nos logs: "all
+// already exist, count 15" em quase todas as especialidades, dia após dia, e a
+// ingestão passou a depender só do que o PubMed publicasse naquele dia (27/07:
+// 5 artigos novos no total; ZERO em Prótese, que por isso ficou sem edição).
+// Correção: retstart. Cada especialidade tem um CURSOR que avança a cada
+// execução, varrendo os 15 anos página a página. A busca dos frescos continua
+// (retstart=0), então nada de novo se perde.
+async function searchPmids(query, retMax = 15, retStart = 0) {
   await ncbiThrottle();
   const encodedQuery = encodeURIComponent(
     `(${query}) AND (English[lang])${EXCLUI_SURVEY}`
   );
   // datetype=pdat + reldate → últimos SEARCH_YEARS anos por data de publicação.
-  // sort=date traz os mais recentes primeiro; o dedup diário evita reingestão.
-  const path = `/entrez/eutils/esearch.fcgi?db=pubmed&term=${encodedQuery}&retmax=${retMax}&sort=date&datetype=pdat&reldate=${SEARCH_RELDATE}&retmode=json${NCBI_KEY}`;
+  // sort=date traz os mais recentes primeiro; retstart desloca a janela.
+  const path = `/entrez/eutils/esearch.fcgi?db=pubmed&term=${encodedQuery}&retmax=${retMax}&retstart=${retStart}&sort=date&datetype=pdat&reldate=${SEARCH_RELDATE}&retmode=json${NCBI_KEY}`;
   const res  = await request({ hostname: 'eutils.ncbi.nlm.nih.gov', path, method: 'GET' }, null);
   if (res.status !== 200) {
     log.warn('[pubmed] esearch failed', { status: res.status, query: query.slice(0, 80) });
-    return [];
+    return { pmids: [], total: 0 };
   }
   const json = JSON.parse(res.body);
-  return (json.esearchresult?.idlist || []).map(String);
+  return {
+    pmids: (json.esearchresult?.idlist || []).map(String),
+    total: Number(json.esearchresult?.count || 0),
+  };
+}
+
+// Cursor de varredura do acervo, por especialidade. Guardado no Firestore para
+// sobreviver entre execuções do workflow. Ao chegar ao fim do acervo, volta a 0
+// (o dedup contra o Firestore impede reingestão do que já entrou).
+const PAGE_FRESCOS = 15;  // topo da lista — publicações novas do dia
+const PAGE_ARQUIVO = 25;  // página profunda — varre os 15 anos
+
+function cursorId(specialty) {
+  return specialty.normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .toLowerCase().replace(/[^a-z0-9]+/g, '_');
+}
+async function lerCursor(db, specialty) {
+  const doc = await db.getDoc('ingest_cursor', cursorId(specialty)).catch(() => null);
+  return Number(doc?.retstart) || 0;
+}
+async function gravarCursor(db, specialty, retstart) {
+  await db.setDoc('ingest_cursor', cursorId(specialty), {
+    especialidade: specialty, retstart, atualizadoEm: new Date().toISOString(),
+  }).catch(e => log.warn('[pubmed] cursor não gravado', { specialty, err: e.message }));
 }
 
 async function fetchArticles(pmids) {
@@ -254,9 +286,21 @@ async function main() {
   for (const { specialty, query } of SPECIALTY_QUERIES) {
     log.info('[pubmed] searching specialty', { specialty });
 
-    let pmids;
+    // Duas frentes: (1) os frescos do topo — nada de novo se perde; (2) uma
+    // página profunda do acervo, que avança a cada execução até varrer os 15
+    // anos e então recomeça.
+    let pmids, total = 0, cursor = 0;
     try {
-      pmids = await searchPmids(query, 15);
+      cursor = await lerCursor(db, specialty);
+      const frescos = await searchPmids(query, PAGE_FRESCOS, 0);
+      total = frescos.total;
+      const arquivo = cursor > 0 || total > PAGE_FRESCOS
+        ? await searchPmids(query, PAGE_ARQUIVO, cursor)
+        : { pmids: [] };
+      pmids = [...new Set([...frescos.pmids, ...arquivo.pmids])];
+      const proximo = cursor + PAGE_ARQUIVO;
+      await gravarCursor(db, specialty, proximo >= total ? 0 : proximo);
+      log.info('[pubmed] varredura', { specialty, acervo: total, cursor, trazidos: pmids.length });
     } catch (err) {
       log.error('[pubmed] searchPmids error', { specialty, err: err.message });
       continue;
