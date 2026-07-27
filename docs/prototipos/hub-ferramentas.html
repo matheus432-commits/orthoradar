@@ -41,35 +41,25 @@ h1{font-family:var(--serif);font-size:clamp(27px,6vw,38px);font-weight:700;lette
 .chip-qt{font-size:11px;color:var(--tinta-suave)}
 
 /* ── Cabeçalho da lista ────────────────────────────────────────────────────── */
-.lista-cab{display:flex;align-items:center;gap:9px;margin-bottom:14px}
-.lc-bola{width:12px;height:12px;border-radius:50%;background:var(--sel)}
-.lc-tit{font-family:var(--serif);font-size:20px;font-weight:700}
+.lista-cab{display:flex;align-items:center;gap:9px;margin-bottom:6px}
+.lc-bola{width:11px;height:11px;border-radius:50%;background:var(--sel)}
+.lc-tit{font-family:var(--serif);font-size:19px;font-weight:700}
 .lc-qt{margin-left:auto;font-size:12px;color:var(--tinta-suave);font-weight:600}
 
-.grupo-rot{font-size:10.5px;font-weight:800;letter-spacing:1.3px;text-transform:uppercase;
-  color:var(--tinta-suave);margin:18px 2px 9px}
-
-/* ── Linha vertical (uma solução) ──────────────────────────────────────────── */
-.linha{display:flex;align-items:center;gap:14px;background:var(--carta);border:1px solid var(--borda);
-  border-radius:14px;padding:15px 16px;margin-bottom:10px;cursor:pointer;text-decoration:none;
-  color:inherit;transition:.15s;position:relative}
-.linha:hover{border-color:var(--sel);transform:translateX(2px);
-  box-shadow:0 8px 22px rgba(27,36,64,.07)}
-.linha.soon{cursor:default;opacity:.72}
-.linha.soon:hover{transform:none;border-color:var(--borda);box-shadow:none}
-.li-ico{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-size:21px;
-  flex:0 0 auto;background:color-mix(in srgb,var(--sel) 12%,white)}
-.li-meio{flex:1;min-width:0}
-.li-tit{font-size:15px;font-weight:800;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.li-desc{font-size:12.7px;color:var(--tinta-suave);margin-top:2px}
-.tag{font-size:9.5px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;
-  padding:2px 7px;border-radius:6px;white-space:nowrap}
-.tag.guia{background:#EEF2FF;color:#4A66D4}
-.tag.ferramenta{background:#E7F5EE;color:#1F7A50}
-.tag.pronto{background:#FCF4DC;color:#8a6d10}
-.li-seta{font-size:20px;color:var(--sel);flex:0 0 auto}
-.li-soon{font-size:10.5px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;
-  color:var(--tinta-suave);background:var(--papel);padding:4px 9px;border-radius:999px;flex:0 0 auto}
+/* ── Lista simples de títulos (estilo menu "Mais" do Instagram) ────────────── */
+.lista{background:var(--carta);border:1px solid var(--borda);border-radius:14px;
+  overflow:hidden;margin-top:12px}
+.linha{display:flex;align-items:center;gap:14px;padding:15px 16px;cursor:pointer;
+  text-decoration:none;color:inherit;transition:background .12s;
+  border-bottom:1px solid var(--borda)}
+.lista .linha:last-child{border-bottom:none}
+.linha:hover{background:color-mix(in srgb,var(--sel) 6%,white)}
+.linha.soon{cursor:default;color:var(--tinta-suave)}
+.linha.soon:hover{background:transparent}
+.li-ico{font-size:19px;width:24px;text-align:center;flex:0 0 auto}
+.li-tit{flex:1;min-width:0;font-size:15px;font-weight:600}
+.li-seta{font-size:18px;color:var(--tinta-suave);flex:0 0 auto}
+.li-soon{font-size:11px;font-weight:600;color:var(--tinta-suave);flex:0 0 auto}
 
 /* ── Faixa de ferramenta geral (transversal) ───────────────────────────────── */
 .geral{background:linear-gradient(180deg,#1B2440,#141B31);color:#fff;border-radius:var(--raio);
@@ -110,7 +100,7 @@ h1{font-family:var(--serif);font-size:clamp(27px,6vw,38px);font-weight:700;lette
     <span class="lc-tit" id="lcTit"></span>
     <span class="lc-qt" id="lcQt"></span>
   </div>
-  <div id="lista"></div>
+  <div class="lista" id="lista"></div>
 
   <div class="marca"><b>Odonto<span class="p">Feed</span></b> · protótipo do hub (não publicado)</div>
 </div>
@@ -174,22 +164,17 @@ function renderLista() {
   document.getElementById('lcQt').textContent = itens.length + ' ferramentas';
 
   const linha = (it) => {
-    const tagTipo = it.tipo === 'guia'
-      ? '<span class="tag guia">Guia</span>'
-      : '<span class="tag ferramenta">Interativa</span>';
-    const tagPronto = it.pronto ? '<span class="tag pronto">Disponível</span>' : '';
+    const ico = it.tipo === 'guia' ? '📖' : '🧰';
     if (it.href) {
       return `<a class="linha" href="${it.href}">
-        <span class="li-ico">${it.tipo==='guia'?'📖':'🧰'}</span>
-        <span class="li-meio"><span class="li-tit">${it.t} ${tagTipo}${tagPronto}</span>
-          <div class="li-desc">${it.d}</div></span>
-        <span class="li-seta">→</span></a>`;
+        <span class="li-ico">${ico}</span>
+        <span class="li-tit">${it.t}</span>
+        <span class="li-seta">›</span></a>`;
     }
     return `<div class="linha soon">
-      <span class="li-ico">${it.tipo==='guia'?'📖':'🧰'}</span>
-      <span class="li-meio"><span class="li-tit">${it.t} ${tagTipo}</span>
-        <div class="li-desc">${it.d}</div></span>
-      <span class="li-soon">Em breve</span></div>`;
+      <span class="li-ico">${ico}</span>
+      <span class="li-tit">${it.t}</span>
+      <span class="li-soon">em breve</span></div>`;
   };
 
   document.getElementById('lista').innerHTML = itens.map(linha).join('');
