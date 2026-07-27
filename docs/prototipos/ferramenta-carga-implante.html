@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Protocolo de Carga em Implantes — OdontoFeed</title>
+<link rel="stylesheet" href="odontofeed.css">
+<style>:root{--acento:#3E8F86}
+.res-nome{font-family:var(--serif);font-size:21px;font-weight:400;color:var(--acento)}
+.res-sub{font-size:13px;color:var(--suave);margin:2px 0 12px}
+.bloco-rot{font-size:10.5px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--acento);margin:14px 0 5px}
+.bloco-txt li{font-size:13.6px;color:var(--texto);margin-left:16px;margin-top:4px}
+.campo label small{max-width:none}
+</style>
+</head>
+<body>
+<div class="pagina">
+  <a class="voltar" href="dashboard-com-ferramentas.html">‹ Ferramentas</a>
+  <div class="selo">Implantodontia · Ferramenta</div>
+  <h1>Protocolo de Carga</h1>
+  <p class="sub">Informe torque de inserção, estabilidade (ISQ) e o contexto — a
+  ferramenta sugere carga imediata, precoce ou tardia, com o protocolo.</p>
+  <div class="filete"></div>
+
+  <div class="calc">
+    <div class="campo"><label>Torque de inserção <small>N·cm</small></label>
+      <input type="number" id="torque" value="35" min="0" max="80" oninput="calc()"></div>
+    <div class="campo"><label>ISQ <small>estabilidade — deixe 0 se não medir</small></label>
+      <input type="number" id="isq" value="70" min="0" max="90" oninput="calc()"></div>
+    <div class="campo"><label>Região estética? <small>zona anterior visível</small></label>
+      <input type="checkbox" id="estetica" onchange="calc()" style="width:auto;transform:scale(1.3)"></div>
+    <div class="campo"><label>Enxerto simultâneo? <small>regeneração / seio</small></label>
+      <input type="checkbox" id="enxerto" onchange="calc()" style="width:auto;transform:scale(1.3)"></div>
+  </div>
+
+  <div id="resultado"></div>
+
+  <div class="nota-rodape">Referências de consenso ITI/EAO: carga imediata ≥ 35 N·cm
+  e ISQ ≥ 70; ausência de micromovimento &gt; 150 µm. A decisão final integra
+  qualidade óssea, oclusão e o caso clínico completo.</div>
+  <div class="marca"><b>Odonto<span class="p">Feed</span></b> · Ferramentas · protótipo (não publicado)</div>
+</div>
+
+<script>
+function calc(){
+  const t = +document.getElementById('torque').value || 0;
+  const isq = +document.getElementById('isq').value || 0;
+  const est = document.getElementById('estetica').checked;
+  const enx = document.getElementById('enxerto').checked;
+
+  let via, protocolo, ressalva='';
+  const estavel = t >= 35 && (isq === 0 || isq >= 70);
+
+  if (enx && (t < 35)) {
+    via = 'Carga tardia'; ressalva = 'Enxerto associado com baixa estabilidade primária — priorize a maturação.';
+    protocolo = ['Aguardar 3–4 meses (mandíbula) a 6 meses (maxila/enxerto)',
+      'Manter o implante submerso ou com cicatrizador sem função',
+      'Reavaliar estabilidade (ISQ) antes de carregar'];
+  } else if (estavel && !enx) {
+    via = est ? 'Carga imediata (provisório sem contato)' : 'Carga imediata';
+    protocolo = est
+      ? ['Provisório imediato em INFRA-OCLUSÃO — sem contato em MIH nem em excursões',
+         'Contorno de emergência para condicionar tecido mole',
+         'Definitiva após maturação (8–12 semanas)']
+      : ['Provisório/definitivo com oclusão aliviada nas primeiras semanas',
+         'Sem cantiléver e sem contatos prematuros',
+         'Reforçar controle de placa e revisão em 1–2 semanas'];
+    ressalva = 'Estabilidade primária suficiente para carga imediata.';
+  } else if (t >= 25) {
+    via = 'Carga precoce (4–8 semanas)';
+    protocolo = ['Cicatrização submersa/transmucosa por 4–8 semanas',
+      'Confirmar ISQ em ascensão antes de carregar',
+      'Iniciar com provisório e progredir para definitivo'];
+    ressalva = 'Estabilidade intermediária — janela de segurança antes da função plena.';
+  } else {
+    via = 'Carga tardia';
+    protocolo = ['Cicatrização de 3 (mandíbula) a 6 meses (maxila)',
+      'Evitar qualquer função sobre o implante no período',
+      'Só carregar com estabilidade secundária confirmada'];
+    ressalva = 'Baixa estabilidade primária — carga precoce/imediata aumenta risco de falha.';
+  }
+
+  document.getElementById('resultado').innerHTML = `
+    <div class="bloco" style="margin-top:6px">
+      <div class="res-nome">${via}</div>
+      <div class="res-sub">${ressalva}</div>
+      <div class="bloco-rot">Protocolo</div>
+      <ul class="bloco-txt">${protocolo.map(p=>`<li>${p}</li>`).join('')}</ul>
+    </div>`;
+}
+calc();
+</script>
+</body>
+</html>

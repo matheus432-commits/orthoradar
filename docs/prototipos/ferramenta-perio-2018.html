@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Estadiamento e Graduação da Periodontite (2018) — OdontoFeed</title>
+<link rel="stylesheet" href="odontofeed.css">
+<style>:root{--acento:#B05A6B}
+.res-nome{font-family:var(--serif);font-size:22px;font-weight:400;color:var(--acento)}
+.res-sub{font-size:13px;color:var(--suave);margin:2px 0 12px}
+.bloco-rot{font-size:10.5px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--acento);margin:14px 0 5px}
+.bloco-txt li{font-size:13.5px;color:var(--texto);margin-left:16px;margin-top:4px}
+</style>
+</head>
+<body>
+<div class="pagina">
+  <a class="voltar" href="dashboard-com-ferramentas.html">‹ Ferramentas</a>
+  <div class="selo">Periodontia · Ferramenta</div>
+  <h1>Estadiamento e Graduação</h1>
+  <p class="sub">Classificação de periodontite AAP/EFP 2018: o estágio mede a
+  gravidade, o grau mede a velocidade. Preencha os achados.</p>
+  <div class="filete"></div>
+
+  <div class="rot">Maior perda de inserção interproximal (PIC)</div>
+  <div class="opcoes" id="pic"></div>
+  <div class="rot">Perda óssea × idade (para o grau)</div>
+  <div class="opcoes" id="grau"></div>
+  <div class="rot">Perda dentária por periodontite</div>
+  <div class="opcoes" id="perda"></div>
+
+  <div id="resultado"></div>
+
+  <div class="nota-rodape">Estágio pela gravidade/complexidade (PIC, perda óssea,
+  perda dentária); grau pela progressão (% perda óssea ÷ idade) e modificadores
+  (tabagismo, diabetes). Simplificado para triagem — o diagnóstico completo usa
+  o periograma inteiro.</div>
+  <div class="marca"><b>Odonto<span class="p">Feed</span></b> · Ferramentas · protótipo (não publicado)</div>
+</div>
+
+<script>
+const PIC = {
+  1:{rot:'1–2 mm', est:1}, 2:{rot:'3–4 mm', est:2}, 3:{rot:'≥ 5 mm', est:3},
+};
+const GRAU = {
+  A:{rot:'Lenta', nota:'< 0,25 — sem perda em anos', g:'A'},
+  B:{rot:'Moderada', nota:'0,25–1,0', g:'B'},
+  C:{rot:'Rápida', nota:'> 1,0 — progride apesar do controle', g:'C'},
+};
+const PERDA = {
+  0:{rot:'Nenhuma', est:0}, 4:{rot:'≤ 4 dentes', est:3}, 5:{rot:'≥ 5 dentes', est:4},
+};
+let pic='1', grau='B', perda='0';
+
+function chips(el,obj,sel,fn){
+  document.getElementById(el).innerHTML = Object.entries(obj).map(([id,o]) =>
+    `<button class="op ${id===sel?'ativo':''}" onclick="${fn}('${id}')"><b>${o.rot}</b>${o.nota?`<small>${o.nota}</small>`:''}</button>`).join('');
+}
+function sp(id){pic=id;render()} function sg(id){grau=id;render()} function spe(id){perda=id;render()}
+
+const CONDUTA = {
+  1:['Controle de biofilme e instrução de higiene','Raspagem supra e subgengival','Reavaliação em 6–8 semanas'],
+  2:['Raspagem e alisamento radicular (RAR) por quadrante','Reavaliar bolsas residuais','Manutenção a cada 6 meses'],
+  3:['RAR + reavaliação; cirurgia de acesso nas bolsas ≥ 6 mm residuais','Controle de fatores (tabagismo, diabetes)','Manutenção a cada 3–4 meses'],
+  4:['Terapia periodontal completa + reabilitação das perdas','Avaliar dentes de prognóstico duvidoso','Manutenção a cada 3 meses, individualizada'],
+};
+
+function render(){
+  chips('pic',PIC,pic,'sp'); chips('grau',GRAU,grau,'sg'); chips('perda',PERDA,perda,'spe');
+  const estagio = Math.max(PIC[pic].est, PERDA[perda].est) || 1;
+  const rom = {1:'I',2:'II',3:'III',4:'IV'}[estagio];
+  const cond = CONDUTA[estagio];
+  const modG = grau==='C' ? ' — reforce o controle: progressão rápida' : (grau==='A'?' — progressão lenta':'');
+  document.getElementById('resultado').innerHTML = `
+    <div class="bloco">
+      <div class="res-nome">Estágio ${rom} · Grau ${GRAU[grau].g}</div>
+      <div class="res-sub">Gravidade ${estagio<=2?'inicial/moderada':(estagio===3?'severa':'severa com risco de perda dentária')}${modG}</div>
+      <div class="bloco-rot">Conduta sugerida</div>
+      <ul class="bloco-txt">${cond.map(c=>`<li>${c}</li>`).join('')}</ul>
+    </div>`;
+}
+render();
+</script>
+</body>
+</html>

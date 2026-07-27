@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diagnóstico Pulpar e Periapical — OdontoFeed</title>
+<link rel="stylesheet" href="odontofeed.css">
+<style>:root{--acento:#B0863A}
+.res-nome{font-family:var(--serif);font-size:20px;font-weight:400;color:var(--acento);margin-bottom:2px}
+.res-cd{font-size:12px;color:var(--suave);margin-bottom:12px}
+.bloco-rot{font-size:10.5px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;
+  color:var(--acento);margin:14px 0 5px}
+.bloco-txt{font-size:13.6px;color:var(--texto)}
+.bloco-txt li{margin-left:16px;margin-top:4px}
+</style>
+</head>
+<body>
+<div class="pagina">
+  <a class="voltar" href="dashboard-com-ferramentas.html">‹ Ferramentas</a>
+  <div class="selo">Endodontia · Ferramenta</div>
+  <h1>Diagnóstico Pulpar e Periapical</h1>
+  <p class="sub">Selecione a resposta aos testes e o quadro clínico — a ferramenta
+  indica o diagnóstico correto (nomenclatura AAE) e a conduta.</p>
+  <div class="filete"></div>
+
+  <div class="rot">Como o dente responde ao teste térmico?</div>
+  <div class="opcoes" id="termico"></div>
+
+  <div id="resultado"></div>
+
+  <div class="nota-rodape">Nomenclatura da Associação Americana de Endodontia
+  (AAE). O diagnóstico final integra história, exame e imagem; a decisão é do
+  cirurgião-dentista.</div>
+  <div class="marca"><b>Odonto<span class="p">Feed</span></b> · Ferramentas · protótipo (não publicado)</div>
+</div>
+
+<script>
+const DX = {
+  normal: { rot:'Responde e alivia rápido', nome:'Polpa normal',
+    cd:'Resposta proporcional ao estímulo, some em segundos', achados:[
+      'Resposta breve ao frio, sem dor espontânea',
+      'Sem alteração periapical na radiografia'],
+    conduta:['Nenhum tratamento endodôntico. Investigar outra origem da queixa se houver sintoma.'] },
+  reversivel: { rot:'Dói ao frio, passa em segundos', nome:'Pulpite reversível',
+    cd:'Dor provocada, aguda e curta; cessa ao remover o estímulo', achados:[
+      'Dor some poucos segundos após retirar o frio',
+      'Sem dor espontânea ou noturna','Geralmente cárie ou restauração recente'],
+    conduta:['Remover o fator (cárie, trauma oclusal, restauração alta)',
+      'Selamento/forramento e reavaliação','Não indicar canal — a polpa tende a se recuperar'] },
+  irreversivelSint: { rot:'Dói ao frio e demora a passar', nome:'Pulpite irreversível sintomática',
+    cd:'Dor prolongada após o estímulo, espontânea, latejante, piora deitado', achados:[
+      'Dor persiste minutos após o frio','Dor espontânea/noturna, pode irradiar',
+      'Calor pode intensificar; frio às vezes alivia'],
+    conduta:['Tratamento endodôntico (ou pulpotomia em casos selecionados)',
+      'Anestesia pode exigir técnica suplementar (ver ferramenta de anestesia na pulpite)',
+      'Analgesia com AINE enquanto resolve a causa'] },
+  irreversivelAssint: { rot:'Sem dor, mas cárie/exposição profunda', nome:'Pulpite irreversível assintomática',
+    cd:'Achado sem sintoma, mas com exposição pulpar por cárie ou trauma', achados:[
+      'Cárie extensa até a polpa, sem dor relatada','Resposta ao frio ainda presente'],
+    conduta:['Tratamento endodôntico antes que evolua para necrose',
+      'Não postergar por ausência de dor'] },
+  necrose: { rot:'Não responde a nenhum teste', nome:'Necrose pulpar',
+    cd:'Ausência de resposta ao frio e ao teste elétrico', achados:[
+      'Sem resposta térmica/elétrica (confirmar em dente vizinho hígido)',
+      'Pode haver escurecimento coronário','Com ou sem lesão periapical'],
+    conduta:['Tratamento endodôntico','Classificar o periápice abaixo para definir urgência'] },
+};
+const PERIAPICE = {
+  info:'Depois do diagnóstico pulpar, o quadro periapical define a urgência:',
+  itens:[
+    ['Periodontite apical sintomática','Dor à percussão/mastigação; espessamento ou lesão periapical. Aliviar oclusão + endodontia.'],
+    ['Periodontite apical assintomática','Lesão periapical radiográfica sem sintoma. Endodontia eletiva.'],
+    ['Abscesso apical agudo','Dor intensa, edema, mobilidade, mal-estar. Drenagem + endodontia; antibiótico se sinal sistêmico (ver Prescrição Segura).'],
+    ['Abscesso apical crônico','Fístula/estoma com pouca dor. Endodontia; a fístula fecha ao resolver a causa.'],
+  ],
+};
+
+function renderOp(){
+  document.getElementById('termico').innerHTML = Object.entries(DX).map(([id,d]) =>
+    `<button class="op" id="op-${id}" onclick="sel('${id}')"><b>${d.nome}</b><small>${d.rot}</small></button>`
+  ).join('');
+}
+function sel(id){
+  document.querySelectorAll('.op').forEach(o=>o.classList.remove('ativo'));
+  document.getElementById('op-'+id).classList.add('ativo');
+  const d = DX[id];
+  document.getElementById('resultado').innerHTML = `
+    <div class="bloco" style="margin-top:8px">
+      <div class="res-nome">${d.nome}</div>
+      <div class="res-cd">${d.cd}</div>
+      <div class="bloco-rot">Achados que confirmam</div>
+      <ul class="bloco-txt">${d.achados.map(a=>`<li>${a}</li>`).join('')}</ul>
+      <div class="bloco-rot">Conduta</div>
+      <ul class="bloco-txt">${d.conduta.map(a=>`<li>${a}</li>`).join('')}</ul>
+    </div>
+    ${(id==='necrose'||id.startsWith('irrevers')) ? blocoPeri() : ''}`;
+}
+function blocoPeri(){
+  return `<div class="bloco"><div class="res-cd" style="margin-bottom:8px">${PERIAPICE.info}</div>
+    ${PERIAPICE.itens.map(i=>`<div style="padding:9px 0;border-bottom:1px solid var(--linha)">
+      <div style="font-size:14px;font-weight:600;color:var(--grafite)">${i[0]}</div>
+      <div style="font-size:13px;color:var(--texto);margin-top:2px">${i[1]}</div></div>`).join('')}</div>`;
+}
+renderOp(); sel('irreversivelSint');
+</script>
+</body>
+</html>

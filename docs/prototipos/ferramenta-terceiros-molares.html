@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terceiros Molares — OdontoFeed</title>
+<link rel="stylesheet" href="odontofeed.css">
+<style>:root{--acento:#7C5CD6}
+.res-nome{font-family:var(--serif);font-size:20px;font-weight:400;color:var(--acento)}
+.res-sub{font-size:13px;color:var(--suave);margin:2px 0 12px}
+.bloco-rot{font-size:10.5px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--acento);margin:14px 0 5px}
+.bloco-txt li{font-size:13.6px;color:var(--texto);margin-left:16px;margin-top:4px}
+.grau{display:inline-block;font-size:12px;color:var(--suave);margin-top:2px}
+</style>
+</head>
+<body>
+<div class="pagina">
+  <a class="voltar" href="dashboard-com-ferramentas.html">‹ Ferramentas</a>
+  <div class="selo">Bucomaxilofacial · Ferramenta</div>
+  <h1>Terceiros Molares Inferiores</h1>
+  <p class="sub">Classifique a posição pela radiografia (Winter + Pell & Gregory)
+  e receba a dificuldade esperada, a técnica e o que avisar ao paciente.</p>
+  <div class="filete"></div>
+
+  <div class="rot">Angulação (classificação de Winter)</div>
+  <div class="opcoes" id="winter"></div>
+
+  <div class="rot">Profundidade / relação com o ramo (Pell & Gregory)</div>
+  <div class="opcoes" id="pell"></div>
+
+  <div id="resultado"></div>
+
+  <div class="nota-rodape">A dificuldade estimada é um guia; proximidade com o
+  canal mandibular (sinais radiográficos de risco) e a experiência do operador
+  pesam na decisão. Considere TCFC quando houver sinais de contato com o canal.</div>
+  <div class="marca"><b>Odonto<span class="p">Feed</span></b> · Ferramentas · protótipo (não publicado)</div>
+</div>
+
+<script>
+const WINTER = {
+  vertical:  { rot:'Vertical', peso:1, nota:'Eixo paralelo ao 2º molar' },
+  mesio:     { rot:'Mesioangular', peso:1, nota:'Inclinado para mesial — em geral o mais simples' },
+  disto:     { rot:'Distoangular', peso:3, nota:'Inclinado para distal — costuma ser o mais difícil' },
+  horizontal:{ rot:'Horizontal', peso:2, nota:'Coroa voltada para o 2º molar' },
+};
+const PELL = {
+  A: { rot:'Classe A', peso:1, nota:'Coroa no nível do plano oclusal' },
+  B: { rot:'Classe B', peso:2, nota:'Entre o plano oclusal e a cervical do 2º molar' },
+  C: { rot:'Classe C', peso:3, nota:'Abaixo da cervical do 2º molar (retenção profunda)' },
+};
+let w='vertical', p='A';
+
+function chips(el, obj, sel, fn){
+  document.getElementById(el).innerHTML = Object.entries(obj).map(([id,o]) =>
+    `<button class="op ${id===sel?'ativo':''}" onclick="${fn}('${id}')"><b>${o.rot}</b><small>${o.nota}</small></button>`
+  ).join('');
+}
+function setW(id){ w=id; render(); } function setP(id){ p=id; render(); }
+
+function render(){
+  chips('winter', WINTER, w, 'setW'); chips('pell', PELL, p, 'setP');
+  const score = WINTER[w].peso + PELL[p].peso;
+  let nivel, tecnica, avisos;
+  if (score <= 2){ nivel='Dificuldade baixa';
+    tecnica=['Frequentemente sem osteotomia extensa','Elevador + fórceps; odontossecção raramente necessária','Anestesia troncular do alveolar inferior'];
+    avisos=['Edema e trismo leves por 2–3 dias','Analgesia simples costuma bastar'];
+  } else if (score <= 4){ nivel='Dificuldade moderada';
+    tecnica=['Osteotomia de acesso + odontossecção provável','Descolamento cuidadoso do retalho','Regularização óssea e sutura'];
+    avisos=['Edema e trismo por 3–5 dias','Reforçar higiene e crioterapia nas primeiras 24h','Analgesia com AINE — ver Prescrição Segura'];
+  } else { nivel='Dificuldade alta';
+    tecnica=['Osteotomia ampla + odontossecção coroa/raízes','Avaliar proximidade do canal mandibular na imagem','Considerar TCFC e, se muito próximo, coronectomia'];
+    avisos=['Maior risco de parestesia temporária do lábio/mento — CONSENTIR por escrito','Edema/trismo mais intensos','Revisão em 7 dias e remoção de sutura'];
+  }
+  document.getElementById('resultado').innerHTML = `
+    <div class="bloco">
+      <div class="res-nome">${nivel}</div>
+      <div class="res-sub">${WINTER[w].rot} · ${PELL[p].rot}</div>
+      <div class="bloco-rot">Técnica esperada</div>
+      <ul class="bloco-txt">${tecnica.map(t=>`<li>${t}</li>`).join('')}</ul>
+      <div class="bloco-rot">O que avisar ao paciente</div>
+      <ul class="bloco-txt">${avisos.map(t=>`<li>${t}</li>`).join('')}</ul>
+    </div>`;
+}
+render();
+</script>
+</body>
+</html>
