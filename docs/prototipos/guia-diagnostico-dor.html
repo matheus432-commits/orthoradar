@@ -9,6 +9,15 @@
 .b-sub{font-size:12.5px;color:var(--suave);margin:3px 0 2px}
 .bloco li{font-size:13.6px;color:var(--texto);margin-left:16px;margin-top:4px}
 .bloco b{color:var(--grafite);font-weight:600}
+
+.painel-i{border:1px solid var(--linha);border-radius:var(--raio);border-left:2px solid var(--acento);padding:17px 19px;margin:18px 0}
+.pi-rot{font-size:10.5px;font-weight:600;letter-spacing:1.3px;text-transform:uppercase;color:var(--acento);margin-bottom:7px}
+.pi-txt{font-size:13.6px;color:var(--texto)}.pi-txt b{color:var(--grafite);font-weight:600}
+.h-cuidados{font-family:var(--serif);font-size:20px;font-weight:400;color:var(--grafite);margin:28px 0 4px}
+.cuidado{display:flex;gap:14px;padding:15px 2px;border-bottom:1px solid var(--linha)}
+.c-num{font-family:var(--serif);font-size:20px;color:var(--acento);flex:0 0 auto;width:26px;line-height:1.3}
+.c-tit{font-size:14.5px;font-weight:600;color:var(--grafite)}
+.c-txt2{font-size:13.3px;color:var(--texto);margin-top:2px}.c-txt2 b{color:var(--grafite);font-weight:600}
 </style>
 </head>
 <body>
@@ -18,11 +27,19 @@
   <h1>Diagnóstico Diferencial da Dor Orofacial</h1>
   <p class="sub">Uma árvore de raciocínio para não confundir origens da dor.</p>
   <div class="filete"></div>
+  <div class="painel-i"><div class="pi-rot">O que separa as origens</div><p class="pi-txt">A dor orofacial tem origens que se confundem. O erro mais custoso é fazer procedimento irreversível (endodontia/exodontia) numa dor que é <b>muscular ou neuropática</b>.</p></div>
+
 
   <div class="bloco"><div class="b-nome2">Dor de origem dentária / pulpar</div><ul><li>Provocada por frio/calor, localizada, relacionada a cárie/restauração</li><li>Testa positivo no dente; melhora/piora com estímulo</li><li>Descartar antes de atribuir à ATM</li></ul></div>
   <div class="bloco"><div class="b-nome2">Dor muscular / articular (DTM)</div><ul><li>Piora à função (mastigar, abrir), palpação muscular dolorosa</li><li>Estalido/limitação de abertura na articular</li><li>Padrão de bruxismo/parafunção</li></ul></div>
   <div class="bloco"><div class="b-nome2">Dor neuropática</div><ul><li>Neuralgia do trigêmeo: choques breves, gatilhos cutâneos</li><li>Dor contínua em queimação, sem achado dentário</li><li>Não responde a tratamento odontológico — encaminhar</li></ul></div>
   <div class="bloco"><div class="b-nome2">Dor referida / outras</div><ul><li>Sinusite (dor em molares superiores que piora ao abaixar a cabeça)</li><li>Cefaleias primárias, dor cardíaca referida à mandíbula (emergência)</li><li>Sempre considerar causas médicas em dor atípica</li></ul></div>
+
+
+  <div class="h-cuidados">Cuidados</div>
+  <div class="cuidado"><div class="c-num">01</div><div><div class="c-tit">Testar o dente antes</div><div class="c-txt2">Dor pulpar responde a teste térmico localizado. Sem confirmação no dente, não indicar endodontia/exodontia.</div></div></div>
+  <div class="cuidado"><div class="c-num">02</div><div><div class="c-tit">Choque = neuropática</div><div class="c-txt2">Dor em choque com gatilho cutâneo (neuralgia do trigêmeo) não melhora com tratamento dentário — encaminhar.</div></div></div>
+  <div class="cuidado"><div class="c-num">03</div><div><div class="c-tit">Descartar causas médicas</div><div class="c-txt2">Dor atípica na mandíbula pode ser referida (sinusite, até cardíaca). Reavaliar a resposta ao tratamento antes de escalar.</div></div></div>
 
   <div class="evid">O erro mais custoso é tratar endodontia/exodontia numa dor que é muscular ou neuropática — teste o dente e reavalie a resposta ao tratamento antes de irreversibilidades.</div>
 
