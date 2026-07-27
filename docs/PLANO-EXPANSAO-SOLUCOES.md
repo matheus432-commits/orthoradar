@@ -404,6 +404,12 @@ ciclo editorial.
 > aberta pelo **menu de três tracinhos (hambúrguer)** no topo, deslizando como
 > gaveta sobre o conteúdo. Protótipo integrado:
 > `docs/prototipos/dashboard-com-ferramentas.html`.
+>
+> **Decisões 27/07:** (a) a barra fica **visível em TODAS as abas** (Recebidos,
+> Salvos, Amigos, Wakai, Preferências) — é um elemento permanente do layout, não
+> some ao trocar de aba. (b) O topo da barra tem um **menu suspenso
+> "Ortodontia ▾"** que lista as especialidades do dentista; ao escolher, a lista
+> de ferramentas troca para a da especialidade selecionada.
 
 ### 7.2 Conteúdo POR ESPECIALIDADE (dentro de 📖 Guias e 🛠️ Ferramentas)
 

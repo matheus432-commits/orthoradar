@@ -33,11 +33,26 @@ body{background:var(--papel);color:var(--texto);font-family:var(--sans);line-hei
 /* ── Barra de Ferramentas (esquerda) ────────────────────────────────────────── */
 .rail{position:sticky;top:16px;background:var(--carta);border:1px solid var(--linha);
   border-radius:14px;padding:20px 8px 12px;overflow:hidden}
-.rail-cab{padding:0 12px 12px;border-bottom:1px solid var(--linha);margin-bottom:8px}
+.rail-cab{padding:0 12px 12px;border-bottom:1px solid var(--linha);margin-bottom:8px;position:relative}
 .rail-rot{font-size:10.5px;letter-spacing:1.8px;text-transform:uppercase;color:var(--suave);
   font-weight:600}
-.rail-tit{font-family:var(--serif);font-size:20px;font-weight:400;color:var(--grafite);margin-top:3px}
+/* menu suspenso da especialidade */
+.esp-btn{display:flex;align-items:center;gap:8px;background:none;border:none;padding:3px 0 0;
+  cursor:pointer;font-family:var(--serif);font-size:20px;font-weight:400;color:var(--grafite)}
+.esp-btn .cx{font-size:13px;color:var(--suave);font-family:var(--sans);transition:transform .18s}
+.esp-btn.aberto .cx{transform:rotate(180deg)}
 .rail-esp{font-size:12px;color:var(--suave);margin-top:2px}
+.esp-menu{display:none;position:absolute;left:12px;right:12px;top:52px;z-index:10;background:var(--carta);
+  border:1px solid var(--linha);border-radius:10px;box-shadow:0 12px 30px rgba(20,24,38,.12);
+  overflow:hidden}
+.esp-menu.open{display:block}
+.esp-op{display:flex;align-items:center;gap:9px;padding:11px 13px;cursor:pointer;font-size:14px;
+  color:var(--texto);border-bottom:1px solid var(--linha)}
+.esp-menu .esp-op:last-child{border-bottom:none}
+.esp-op:hover{background:var(--papel)}
+.esp-op .dot{width:7px;height:7px;border-radius:50%;background:var(--c);flex:0 0 auto}
+.esp-op.sel{color:var(--grafite)}
+.esp-op .chk{margin-left:auto;color:var(--orto);font-size:13px}
 .rail-geral{display:block;padding:11px 12px;text-decoration:none;color:var(--grafite);
   font-size:13.5px;border-left:2px solid var(--ouro);margin:0 0 10px;background:color-mix(in srgb,var(--ouro) 5%,white)}
 .rail-geral small{display:block;color:var(--suave);font-size:11px;margin-top:1px}
@@ -100,19 +115,17 @@ body{background:var(--papel);color:var(--texto);font-family:var(--sans);line-hei
   <aside class="rail" id="rail">
     <div class="rail-cab">
       <div class="rail-rot">Ferramentas</div>
-      <div class="rail-tit">Ortodontia</div>
-      <div class="rail-esp">6 itens da sua especialidade</div>
+      <button class="esp-btn" id="espBtn" onclick="toggleMenu(event)">
+        <span id="espNome">Ortodontia</span><span class="cx">▾</span>
+      </button>
+      <div class="rail-esp" id="espQt"></div>
+      <div class="esp-menu" id="espMenu"></div>
     </div>
 
     <a class="rail-geral" href="ferramenta-prescricao-segura.html">Prescrição Segura
       <small>para todas as especialidades</small></a>
 
-    <a class="rail-item" href="guia-cefalometria-preview.html">Guia de Cefalometria <span class="seta">›</span></a>
-    <a class="rail-item" href="ferramenta-aparelhos-ortopedicos.html">Aparelhos Ortopédicos <span class="seta">›</span></a>
-    <div class="rail-item soon">Classificação de Angle <span class="soon-tag">em breve</span></div>
-    <div class="rail-item soon">Análise de Bolton <span class="soon-tag">em breve</span></div>
-    <div class="rail-item soon">Cronologia de erupção <span class="soon-tag">em breve</span></div>
-    <div class="rail-item soon">Guia de contenção <span class="soon-tag">em breve</span></div>
+    <div id="railLista"></div>
   </aside>
 
   <!-- CONTEÚDO PRINCIPAL (dashboard atual, resumido) -->
@@ -149,6 +162,72 @@ body{background:var(--papel);color:var(--texto);font-family:var(--sans);line-hei
 <script>
 function abrirRail(){ document.getElementById('rail').classList.add('open'); document.getElementById('overlay').classList.add('open'); }
 function fecharRail(){ document.getElementById('rail').classList.remove('open'); document.getElementById('overlay').classList.remove('open'); }
+
+// As 3 especialidades que o dentista escolheu no perfil (exemplo).
+const PERFIL = ['orto', 'implanto', 'endo'];
+const ESP = {
+  orto:     { nome:'Ortodontia',     cor:'#5B6BA8' },
+  implanto: { nome:'Implantodontia', cor:'#3E8F86' },
+  endo:     { nome:'Endodontia',     cor:'#B0863A' },
+};
+const CATALOGO = {
+  orto: [
+    { t:'Guia de Cefalometria', href:'guia-cefalometria-preview.html' },
+    { t:'Aparelhos Ortopédicos', href:'ferramenta-aparelhos-ortopedicos.html' },
+    { t:'Classificação de Angle' },
+    { t:'Análise de Bolton' },
+    { t:'Cronologia de erupção' },
+    { t:'Guia de contenção' },
+  ],
+  implanto: [
+    { t:'Carga imediata, precoce ou tardia' },
+    { t:'Enxertos e biomateriais' },
+    { t:'Qualidade óssea (Lekholm & Zarb)' },
+    { t:'Checklist em tomografia' },
+    { t:'Mucosite e peri-implantite' },
+  ],
+  endo: [
+    { t:'Diagnóstico pulpar e periapical' },
+    { t:'Medicação intracanal' },
+    { t:'Protocolos de irrigação' },
+    { t:'Trauma dentário (IADT)' },
+    { t:'Anestesia na pulpite irreversível' },
+    { t:'Retratamento ou cirurgia' },
+  ],
+};
+let atual = PERFIL[0];
+
+function toggleMenu(ev){
+  ev.stopPropagation();
+  document.getElementById('espMenu').classList.toggle('open');
+  document.getElementById('espBtn').classList.toggle('aberto');
+}
+document.addEventListener('click', () => {
+  document.getElementById('espMenu').classList.remove('open');
+  document.getElementById('espBtn').classList.remove('aberto');
+});
+
+function renderMenu(){
+  document.getElementById('espMenu').innerHTML = PERFIL.map(id => {
+    const e = ESP[id];
+    return `<div class="esp-op ${id===atual?'sel':''}" style="--c:${e.cor}" onclick="trocar('${id}')">
+      <span class="dot"></span>${e.nome}${id===atual?'<span class="chk">✓</span>':''}</div>`;
+  }).join('');
+}
+function renderLista(){
+  const e = ESP[atual], itens = CATALOGO[atual];
+  document.documentElement.style.setProperty('--orto', e.cor);
+  document.getElementById('espNome').textContent = e.nome;
+  document.getElementById('espQt').textContent = itens.length + ' itens da especialidade';
+  document.getElementById('railLista').innerHTML = itens.map(it =>
+    it.href
+      ? `<a class="rail-item" href="${it.href}">${it.t} <span class="seta">›</span></a>`
+      : `<div class="rail-item soon">${it.t} <span class="soon-tag">em breve</span></div>`
+  ).join('');
+}
+function trocar(id){ atual = id; renderMenu(); renderLista(); }
+
+renderMenu(); renderLista();
 </script>
 </body>
 </html>
