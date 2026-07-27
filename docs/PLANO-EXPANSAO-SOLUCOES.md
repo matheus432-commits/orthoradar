@@ -361,13 +361,25 @@ ciclo editorial.
 | 💊 **Prescrição Segura** | NOVA ★ aprovada | Situação + perfil do paciente → fármaco, dose, posologia, modelo de receita + calculadora de anestésico | nenhum (conteúdo curado) |
 | 🩻 **Resolver um Caso** | NOVA | Descrição + fotos/radiografias → casos clínicos similares na literatura | orçamento Wakai |
 | 🧪 **Comparador de Materiais** | NOVA | Material/categoria → ranking com justificativa por evidência (cache: pergunta repetida não gasta crédito) | orçamento Wakai (só no cache miss) |
-| 📖 **Guias** | NOVA | Biblioteca de guias visuais — abre nos da especialidade do usuário, com acesso a todas | nenhum |
-| 🛠️ **Ferramentas** | NOVA | Hub das ferramentas de decisão — abre nas da especialidade do usuário | nenhum |
+| 🛠️ **Ferramentas** | NOVA | Hub ÚNICO com guias + ferramentas por especialidade (ver fluxo abaixo) | nenhum |
 
-> **Como a especialidade entra:** Guias e Ferramentas são abas gerais que
-> **filtram pelo perfil do dentista** — o ortodontista abre e vê Ortodontia
-> primeiro, com um seletor para navegar nas outras. Isso evita 22 abas no menu
-> e mantém a área de membro enxuta.
+> **FLUXO DECIDIDO (27/07) — uma aba só, navegação em 3 níveis:**
+> Guias e Ferramentas foram FUNDIDOS numa única aba **"Ferramentas"** (não
+> vale separar; tudo é "ferramenta da especialidade").
+>
+> 1. **Seletor de especialidade** no topo: as **3 especialidades que o dentista
+>    já escolheu** no perfil (chips). Ele clica em uma.
+> 2. **Lista vertical**: abre a lista de todas as soluções daquela
+>    especialidade — cada linha é uma solução (ex.: em Ortodontia → *Guia de
+>    Cefalometria*, *Aparelhos Ortopédicos Funcionais*, *Análise de Bolton*…).
+>    Guias e ferramentas interativas convivem na mesma lista (tag discreta
+>    diferencia).
+> 3. **Página dedicada**: ao clicar numa linha, o dentista é **redirecionado
+>    para a página** daquela solução (o protótipo correspondente).
+>
+> Isso evita dezenas de abas no menu e mantém a área de membro enxuta: 1 aba →
+> 3 chips → lista vertical → página. Protótipo do hub:
+> `docs/prototipos/hub-ferramentas.html`.
 
 ### 7.2 Conteúdo POR ESPECIALIDADE (dentro de 📖 Guias e 🛠️ Ferramentas)
 
