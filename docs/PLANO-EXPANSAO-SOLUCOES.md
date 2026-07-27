@@ -397,6 +397,13 @@ ciclo editorial.
 > Isso evita dezenas de abas no menu e mantém a área de membro enxuta: 1 aba →
 > 3 chips → lista vertical → página. Protótipo do hub:
 > `docs/prototipos/hub-ferramentas.html`.
+>
+> **ONDE FICA NO DASHBOARD (decidido 27/07):** a faixa esquerda do dashboard
+> hoje está vazia. As Ferramentas viram uma **barra lateral fixa à esquerda**
+> no desktop (sticky, ao lado do conteúdo). No **celular**, a barra colapsa e é
+> aberta pelo **menu de três tracinhos (hambúrguer)** no topo, deslizando como
+> gaveta sobre o conteúdo. Protótipo integrado:
+> `docs/prototipos/dashboard-com-ferramentas.html`.
 
 ### 7.2 Conteúdo POR ESPECIALIDADE (dentro de 📖 Guias e 🛠️ Ferramentas)
 
