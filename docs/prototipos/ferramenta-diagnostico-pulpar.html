@@ -12,6 +12,15 @@
   color:var(--acento);margin:14px 0 5px}
 .bloco-txt{font-size:13.6px;color:var(--texto)}
 .bloco-txt li{margin-left:16px;margin-top:4px}
+.painel{border:1px solid var(--linha);border-radius:var(--raio);padding:16px 18px;margin-bottom:14px}
+.painel.destaque{border-left:2px solid var(--acento)}
+.p-rot{font-size:10.5px;font-weight:600;letter-spacing:1.3px;text-transform:uppercase;color:var(--acento);margin-bottom:7px}
+.p-txt{font-size:13.4px;color:var(--texto)}.p-txt b{color:var(--grafite);font-weight:600}
+.h-cuidados{font-family:var(--serif);font-size:19px;font-weight:400;color:var(--grafite);margin:26px 0 4px}
+.cuidado{display:flex;gap:13px;padding:14px 2px;border-bottom:1px solid var(--linha)}
+.c-num{font-family:var(--serif);font-size:19px;color:var(--acento);flex:0 0 auto;width:24px}
+.c-tit{font-size:14px;font-weight:600;color:var(--grafite)}
+.c-txt{font-size:13px;color:var(--texto);margin-top:2px}.c-txt b{color:var(--grafite);font-weight:600}
 </style>
 </head>
 <body>
@@ -23,10 +32,36 @@
   indica o diagnóstico correto (nomenclatura AAE) e a conduta.</p>
   <div class="filete"></div>
 
+  <div class="painel destaque">
+    <div class="p-rot">O que cada teste mede</div>
+    <p class="p-txt"><b>Testes térmicos e elétrico</b> avaliam a vitalidade da polpa
+    (há resposta nervosa?). <b>Percussão e palpação</b> avaliam o periápice
+    (há inflamação periodontal apical?). Diagnóstico completo = estado da polpa
+    <b>+</b> estado do periápice.</p>
+  </div>
+
   <div class="rot">Como o dente responde ao teste térmico?</div>
   <div class="opcoes" id="termico"></div>
 
   <div id="resultado"></div>
+
+  <div class="h-cuidados">Cuidados na interpretação</div>
+  <div class="cuidado"><div class="c-num">01</div><div>
+    <div class="c-tit">Sempre testar um dente controle</div>
+    <div class="c-txt">Compare a resposta com um dente hígido vizinho ou homólogo — a referência
+    do paciente evita falsos positivos/negativos.</div></div></div>
+  <div class="cuidado"><div class="c-num">02</div><div>
+    <div class="c-tit">Falso negativo é comum</div>
+    <div class="c-txt">Dente com ápice aberto, muito calcificado, recém-traumatizado ou com
+    coroa total pode <b>não responder</b> sem estar necrosado. Correlacione com a clínica.</div></div></div>
+  <div class="cuidado"><div class="c-num">03</div><div>
+    <div class="c-tit">Dor referida engana a localização</div>
+    <div class="c-txt">O paciente costuma errar o dente na dor pulpar difusa. O teste térmico
+    localizado é o que confirma qual dente é a origem.</div></div></div>
+  <div class="cuidado"><div class="c-num">04</div><div>
+    <div class="c-tit">Vitalidade ≠ ausência de doença</div>
+    <div class="c-txt">Polpa que responde ainda pode ter pulpite irreversível; polpa que não responde
+    ainda pode ter periápice normal. O par polpa + periápice fecha o diagnóstico.</div></div></div>
 
   <div class="nota-rodape">Nomenclatura da Associação Americana de Endodontia
   (AAE). O diagnóstico final integra história, exame e imagem; a decisão é do

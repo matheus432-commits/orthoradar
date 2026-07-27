@@ -6,13 +6,25 @@
 <title>Classificação de Angle — OdontoFeed</title>
 <link rel="stylesheet" href="odontofeed.css">
 <style>:root{--acento:#5B6BA8}
-.classe{border:1px solid var(--linha);border-radius:var(--raio);padding:20px 22px;margin-bottom:16px}
+.intro{font-size:14.5px;color:var(--texto);margin-top:2px;max-width:62ch}
+.grade{display:grid;grid-template-columns:1fr;gap:14px;margin-top:20px}
+.painel{border:1px solid var(--linha);border-radius:var(--raio);padding:18px 19px}
+.painel.destaque{border-left:2px solid var(--acento)}
+.p-rot{font-size:10.5px;font-weight:600;letter-spacing:1.3px;text-transform:uppercase;color:var(--acento);margin-bottom:8px}
+.p-txt{font-size:13.6px;color:var(--texto)}.p-txt b{color:var(--grafite);font-weight:600}
+.formula{font-size:12.5px;color:var(--suave);margin-top:10px;padding-top:9px;border-top:1px solid var(--linha)}
+.classe{border-bottom:1px solid var(--linha);padding:18px 2px}
 .c-topo{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
 .c-nome{font-family:var(--serif);font-size:20px;font-weight:400;color:var(--acento)}
 .c-rel{font-size:12.5px;color:var(--suave)}
-.c-def{font-size:14px;color:var(--texto);margin-top:10px}
-.c-rot{font-size:10.5px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--acento);margin:13px 0 5px}
-.c-def li,.c-plan li{font-size:13.4px;color:var(--texto);margin-left:16px;margin-top:4px}
+.c-def{font-size:14px;color:var(--texto);margin-top:10px}.c-def b{color:var(--grafite);font-weight:600}
+.c-rot{font-size:10.5px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--acento);margin:12px 0 5px}
+.c-plan li{font-size:13.4px;color:var(--texto);margin-left:16px;margin-top:4px}
+.h-cuidados{font-family:var(--serif);font-size:20px;font-weight:400;color:var(--grafite);margin:28px 0 6px}
+.cuidado{display:flex;gap:14px;padding:15px 2px;border-bottom:1px solid var(--linha)}
+.c-num{font-family:var(--serif);font-size:20px;color:var(--acento);flex:0 0 auto;width:26px;line-height:1.3}
+.c-tit{font-size:14.5px;font-weight:600;color:var(--grafite)}
+.c-txt{font-size:13.3px;color:var(--texto);margin-top:2px}.c-txt b{color:var(--grafite);font-weight:600}
 </style>
 </head>
 <body>
@@ -20,46 +32,67 @@
   <a class="voltar" href="dashboard-com-ferramentas.html">‹ Ferramentas</a>
   <div class="selo">Ortodontia · Guia clínico</div>
   <h1>Classificação de Angle</h1>
-  <p class="sub">A relação ântero-posterior dos primeiros molares permanentes,
-  com o que caracteriza cada classe e a linha de tratamento correspondente.</p>
+  <p class="intro">A relação ântero-posterior dos primeiros molares permanentes —
+  o ponto de partida do diagnóstico sagital.</p>
   <div class="filete"></div>
 
+  <div class="grade">
+    <div class="painel destaque">
+      <div class="p-rot">O que define a classe</div>
+      <p class="p-txt">A posição da <b>cúspide mésio-vestibular do 1º molar superior</b>
+      em relação ao <b>sulco mésio-vestibular do inferior</b>. É uma relação
+      DENTÁRIA — não diz, sozinha, se o problema é ósseo (para isso, o ANB no
+      atlas de cefalometria).</p>
+      <div class="formula">Referência: cúspide MV do molar superior × sulco MV do molar inferior</div>
+    </div>
+  </div>
+
   <div class="classe">
-    <div class="c-topo"><span class="c-nome">Classe I</span><span class="c-rel">Cúspide MV do 1º molar superior no sulco MV do inferior</span></div>
+    <div class="c-topo"><span class="c-nome">Classe I</span><span class="c-rel">Cúspide MV superior no sulco MV inferior</span></div>
     <p class="c-def">Relação molar normal. A má oclusão, quando existe, é de
-    <b>posição dentária</b> (apinhamento, giros, mordidas cruzadas localizadas),
-    não de base óssea ântero-posterior.</p>
+    <b>posição dentária</b> (apinhamento, giros, cruzadas localizadas), não de base sagital.</p>
     <div class="c-rot">Linha de tratamento</div>
     <ul class="c-plan"><li>Resolver apinhamento: expansão, desgaste ou extrações conforme discrepância</li>
-      <li>Alinhamento e nivelamento; corrigir mordidas cruzadas</li>
+      <li>Alinhamento, nivelamento e correção de cruzadas</li>
       <li>Sem necessidade de correção sagital de classe</li></ul>
   </div>
-
   <div class="classe">
-    <div class="c-topo"><span class="c-nome">Classe II</span><span class="c-rel">Sulco MV do inferior distal à cúspide MV do superior</span></div>
-    <p class="c-def">Arcada inferior <b>distalizada</b> em relação à superior.
-    <b>Divisão 1:</b> incisivos superiores vestibularizados, overjet aumentado.
-    <b>Divisão 2:</b> incisivos centrais superiores retroinclinados, sobremordida profunda.</p>
+    <div class="c-topo"><span class="c-nome">Classe II</span><span class="c-rel">Sulco inferior distal à cúspide superior</span></div>
+    <p class="c-def">Arcada inferior <b>distalizada</b>. <b>Divisão 1:</b> incisivos
+    superiores vestibularizados, overjet aumentado. <b>Divisão 2:</b> centrais superiores
+    retroinclinados, sobremordida profunda.</p>
     <div class="c-rot">Linha de tratamento</div>
     <ul class="c-plan"><li>Em crescimento: aparelho funcional para avanço mandibular (ver Aparelhos Ortopédicos)</li>
-      <li>Distalização de molares superiores / ancoragem esquelética</li>
-      <li>Camuflagem com extrações superiores ou cirurgia ortognática nos casos esqueléticos severos</li></ul>
+      <li>Distalização / ancoragem esquelética</li>
+      <li>Camuflagem com extrações ou ortognática nos casos esqueléticos severos</li></ul>
   </div>
-
   <div class="classe">
-    <div class="c-topo"><span class="c-nome">Classe III</span><span class="c-rel">Sulco MV do inferior mesial à cúspide MV do superior</span></div>
+    <div class="c-topo"><span class="c-nome">Classe III</span><span class="c-rel">Sulco inferior mesial à cúspide superior</span></div>
     <p class="c-def">Arcada inferior <b>mesializada</b> — por deficiência maxilar,
     excesso mandibular ou ambos. Pode haver mordida cruzada anterior.</p>
     <div class="c-rot">Linha de tratamento</div>
     <ul class="c-plan"><li>Precoce (deficiência maxilar): máscara facial + expansão (ver Aparelhos Ortopédicos)</li>
       <li>Compensação dentária em casos leves</li>
-      <li>Cirurgia ortognática nos casos esqueléticos de adulto</li></ul>
+      <li>Ortognática nos casos esqueléticos de adulto</li></ul>
   </div>
 
-  <div class="evid">Angle descreveu as classes com base no 1º molar como ponto
-  fixo — hoje sabe-se que ele também pode migrar. Por isso a classe molar é o
-  ponto de partida, complementada pela relação de caninos e pela análise
-  cefalométrica (ver o guia de Cefalometria).</div>
+  <div class="h-cuidados">Cuidados no diagnóstico</div>
+  <div class="cuidado"><div class="c-num">01</div><div>
+    <div class="c-tit">Classe dentária ≠ classe esquelética</div>
+    <div class="c-txt">Um molar em Classe II pode ter base óssea normal (só migração dentária).
+    Sempre <b>cruzar com o ANB</b> e a relação de caninos antes de definir a origem.</div></div></div>
+  <div class="cuidado"><div class="c-num">02</div><div>
+    <div class="c-tit">Molar não é ponto fixo</div>
+    <div class="c-txt">Perda precoce de decíduos e migração do 1º molar deslocam a referência.
+    Confirmar a relação com caninos e com o exame completo.</div></div></div>
+  <div class="cuidado"><div class="c-num">03</div><div>
+    <div class="c-tit">Divisão 1 × Divisão 2 muda a mecânica</div>
+    <div class="c-txt">Na Classe II div. 2, corrigir a inclinação dos incisivos e a sobremordida
+    ANTES de avançar a mandíbula — senão o funcional não assenta.</div></div></div>
+  <div class="cuidado"><div class="c-num">04</div><div>
+    <div class="c-tit">Timing na Classe III</div>
+    <div class="c-txt">Deficiência maxilar responde muito melhor à protração antes dos 10 anos —
+    diagnosticar cedo é decisivo (ver o guia de Cronologia de erupção).</div></div></div>
 
   <div class="marca"><b>Odonto<span class="p">Feed</span></b> · Guias Clínicos · protótipo (não publicado)</div>
 </div>
