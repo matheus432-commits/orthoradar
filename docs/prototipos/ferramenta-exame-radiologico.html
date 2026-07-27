@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Qual Exame de Imagem Pedir — OdontoFeed</title>
+<link rel="stylesheet" href="odontofeed.css">
+<style>:root{--acento:#3E8FA8}
+.res-nome{font-family:var(--serif);font-size:20px;font-weight:400;color:var(--acento)}
+.res-sub{font-size:13px;color:var(--suave);margin:2px 0 12px}
+.bloco-rot{font-size:10.5px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--acento);margin:14px 0 5px}
+.dose{display:flex;justify-content:space-between;font-size:13px;padding:7px 0;border-bottom:1px solid var(--linha)}
+.dose:last-child{border-bottom:none}.dose span:last-child{color:var(--suave)}
+.bloco-txt li{font-size:13.6px;color:var(--texto);margin-left:16px;margin-top:4px}
+</style>
+</head>
+<body>
+<div class="pagina">
+  <a class="voltar" href="dashboard-com-ferramentas.html">‹ Ferramentas</a>
+  <div class="selo">Radiologia · Ferramenta</div>
+  <h1>Qual Exame Pedir</h1>
+  <p class="sub">Escolha a suspeita clínica — a ferramenta indica o exame de
+  primeira escolha, quando escalar para TCFC e a dose comparada.</p>
+  <div class="filete"></div>
+
+  <div class="rot">Suspeita clínica</div>
+  <div class="opcoes" id="suspeitas"></div>
+
+  <div id="resultado"></div>
+
+  <div class="bloco">
+    <div class="bloco-rot">Dose efetiva comparada (referência)</div>
+    <div class="dose"><span>Periapical / bitewing</span><span>~1–8 µSv</span></div>
+    <div class="dose"><span>Panorâmica</span><span>~10–24 µSv</span></div>
+    <div class="dose"><span>TCFC campo pequeno</span><span>~20–80 µSv</span></div>
+    <div class="dose"><span>TCFC campo grande</span><span>~70–200 µSv</span></div>
+    <div class="dose"><span>TC multislice (médica)</span><span>~500–2000 µSv</span></div>
+  </div>
+
+  <div class="nota-rodape">Princípio ALADA: a menor dose que responde à pergunta
+  clínica. TCFC só quando muda a conduta — nunca como rotina.</div>
+  <div class="marca"><b>Odonto<span class="p">Feed</span></b> · Ferramentas · protótipo (não publicado)</div>
+</div>
+
+<script>
+const S = {
+  carie: { nome:'Cárie proximal', sub:'Rastreio / diagnóstico',
+    exame:'Bitewing (interproximal)', quando:'Não indicar TCFC — a radiografia interproximal é padrão-ouro para cárie proximal.',
+    just:['Melhor relação diagnóstico/dose para superfícies proximais','Panorâmica não substitui para cárie'] },
+  periapical: { nome:'Lesão periapical / endodontia', sub:'Diagnóstico e acompanhamento',
+    exame:'Radiografia periapical', quando:'TCFC campo pequeno se anatomia complexa, canal adicional, reabsorção ou fratura suspeita.',
+    just:['Periapical resolve a maioria dos casos','TCFC quando a 2D não responde e muda a conduta'] },
+  implante: { nome:'Planejamento de implante', sub:'Disponibilidade óssea',
+    exame:'TCFC campo pequeno da região', quando:'TCFC é indicada para medir altura/espessura e localizar canal mandibular e seio.',
+    just:['Panorâmica distorce e não dá espessura vestíbulo-lingual','TCFC de campo restrito reduz dose'] },
+  terceiroMolar: { nome:'Terceiro molar / relação com canal', sub:'Pré-cirúrgico',
+    exame:'Panorâmica; TCFC se sinais de risco', quando:'Escalar para TCFC quando a panorâmica mostra sinais de contato com o canal (escurecimento da raiz, desvio do canal).',
+    just:['Panorâmica é a triagem inicial','TCFC quando há sinal de proximidade com o alveolar inferior'] },
+  trauma: { nome:'Trauma facial / fratura', sub:'Extensão da lesão',
+    exame:'Panorâmica + periapicais; TCFC/TC conforme extensão', quando:'TCFC para fraturas radiculares e alveolares; TC médica em trauma de terço médio/complexo.',
+    just:['2D para triagem inicial','Fratura radicular horizontal pode escapar na 2D'] },
+  atm: { nome:'Alterações da ATM', sub:'Dor/disfunção articular',
+    exame:'TCFC das ATMs (osso); RM para disco', quando:'TCFC avalia componente ósseo; deslocamento de disco exige ressonância magnética.',
+    just:['TCFC mostra osso, não o disco','RM é o exame do disco e dos tecidos moles'] },
+};
+
+function render(sel){
+  document.getElementById('suspeitas').innerHTML = Object.entries(S).map(([id,s]) =>
+    `<button class="op ${id===sel?'ativo':''}" onclick="render('${id}')"><b>${s.nome}</b><small>${s.sub}</small></button>`).join('');
+  const s = S[sel];
+  document.getElementById('resultado').innerHTML = `
+    <div class="bloco">
+      <div class="res-nome">${s.exame}</div>
+      <div class="res-sub">${s.nome}</div>
+      <div class="bloco-rot">Por que</div>
+      <ul class="bloco-txt">${s.just.map(j=>`<li>${j}</li>`).join('')}</ul>
+      <div class="evid">Quando escalar: ${s.quando}</div>
+    </div>`;
+}
+render('carie');
+</script>
+</body>
+</html>

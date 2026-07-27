@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seleção de Resina Composta — OdontoFeed</title>
+<link rel="stylesheet" href="odontofeed.css">
+<style>:root{--acento:#3E7CA8}
+.res-nome{font-family:var(--serif);font-size:20px;font-weight:400;color:var(--acento)}
+.res-sub{font-size:13px;color:var(--suave);margin:2px 0 12px}
+.bloco-rot{font-size:10.5px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--acento);margin:14px 0 5px}
+.bloco-txt li{font-size:13.6px;color:var(--texto);margin-left:16px;margin-top:4px}
+</style>
+</head>
+<body>
+<div class="pagina">
+  <a class="voltar" href="dashboard-com-ferramentas.html">‹ Ferramentas</a>
+  <div class="selo">Dentística · Ferramenta</div>
+  <h1>Seleção de Resina</h1>
+  <p class="sub">Escolha a situação clínica — a ferramenta indica o tipo de resina
+  mais adequado, a técnica e as ressalvas de cada escolha.</p>
+  <div class="filete"></div>
+
+  <div class="rot">Situação restauradora</div>
+  <div class="opcoes" id="situacoes"></div>
+
+  <div id="resultado"></div>
+
+  <div class="nota-rodape">Recomendações por classe de resina e substrato. A cor,
+  a translucidez e a técnica de estratificação dependem também do caso e da marca.</div>
+  <div class="marca"><b>Odonto<span class="p">Feed</span></b> · Ferramentas · protótipo (não publicado)</div>
+</div>
+
+<script>
+const SIT = {
+  posterior: { nome:'Posterior — classe I/II', sub:'Carga mastigatória alta',
+    resina:'Resina composta nanohíbrida ou bulk-fill (base) + camada oclusal convencional',
+    tecnica:['Incrementos ≤ 2 mm (bulk-fill permite até 4–5 mm)','Fotoativação por incremento e final',
+      'Anatomia oclusal e ajuste de contato proximal com matriz seccional'],
+    ressalva:'Bulk-fill acelera, mas confira a profundidade de polimerização recomendada pela marca.' },
+  anteriorEst: { nome:'Anterior estético', sub:'Classe IV, facetas diretas',
+    resina:'Nanoparticulada / microhíbrida de alto polimento, com jogo de esmaltes e dentinas',
+    tecnica:['Estratificação: dentina opaca + esmalte translúcido','Guia de silicone palatino quando possível',
+      'Acabamento e polimento sequencial para brilho estável'],
+    ressalva:'Selecionar cor com o dente hidratado, antes do isolamento absoluto.' },
+  cervical: { nome:'Cervical — classe V / lesão não cariosa', sub:'Flexão, difícil isolamento',
+    resina:'Resina flow (baixo módulo) ou ionômero modificado por resina em campo úmido',
+    tecnica:['Isolamento relativo caprichado','Flow em fina camada para absorver a flexão',
+      'Acabamento sem sobrecontorno cervical'],
+    ressalva:'Em campo impossível de isolar, o ionômero modificado tolera melhor a umidade.' },
+  profunda: { nome:'Cavidade profunda / proximidade pulpar', sub:'Risco de sensibilidade',
+    resina:'Forramento seletivo (hidróxido de cálcio/ionômero no ponto mais profundo) + resina',
+    tecnica:['Proteger apenas o ponto de maior proximidade','Adesivo conforme o sistema',
+      'Restauração incremental para reduzir estresse de contração'],
+    ressalva:'Evitar forramento total: reduz área de adesão. Só o ponto crítico.' },
+};
+
+function render(sel){
+  document.getElementById('situacoes').innerHTML = Object.entries(SIT).map(([id,s]) =>
+    `<button class="op ${id===sel?'ativo':''}" onclick="render('${id}')"><b>${s.nome}</b><small>${s.sub}</small></button>`).join('');
+  const s = SIT[sel];
+  document.getElementById('resultado').innerHTML = `
+    <div class="bloco">
+      <div class="res-nome">${s.nome}</div>
+      <div class="res-sub">${s.sub}</div>
+      <div class="bloco-rot">Resina indicada</div>
+      <div style="font-size:14px;color:var(--grafite)">${s.resina}</div>
+      <div class="bloco-rot">Técnica</div>
+      <ul class="bloco-txt">${s.tecnica.map(t=>`<li>${t}</li>`).join('')}</ul>
+      <div class="evid">${s.ressalva}</div>
+    </div>`;
+}
+render('posterior');
+</script>
+</body>
+</html>

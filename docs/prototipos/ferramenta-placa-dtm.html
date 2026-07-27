@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seleção de Placa Oclusal — OdontoFeed</title>
+<link rel="stylesheet" href="odontofeed.css">
+<style>:root{--acento:#C77B3A}
+.res-nome{font-family:var(--serif);font-size:20px;font-weight:400;color:var(--acento)}
+.res-sub{font-size:13px;color:var(--suave);margin:2px 0 12px}
+.bloco-rot{font-size:10.5px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--acento);margin:14px 0 5px}
+.bloco-txt li{font-size:13.6px;color:var(--texto);margin-left:16px;margin-top:4px}
+</style>
+</head>
+<body>
+<div class="pagina">
+  <a class="voltar" href="dashboard-com-ferramentas.html">‹ Ferramentas</a>
+  <div class="selo">DTM e Dor Orofacial · Ferramenta</div>
+  <h1>Seleção de Placa</h1>
+  <p class="sub">Escolha o quadro predominante — a ferramenta indica o tipo de
+  placa, o protocolo de acompanhamento e o que evitar.</p>
+  <div class="filete"></div>
+
+  <div class="rot">Quadro predominante</div>
+  <div class="opcoes" id="quadros"></div>
+
+  <div id="resultado"></div>
+
+  <div class="nota-rodape">A placa é parte de um manejo que inclui orientação,
+  autocuidado e controle de parafunção. Placas devem ser ajustadas periodicamente
+  — nunca entregar sem acompanhamento.</div>
+  <div class="marca"><b>Odonto<span class="p">Feed</span></b> · Ferramentas · protótipo (não publicado)</div>
+</div>
+
+<script>
+const Q = {
+  bruxismo: { nome:'Bruxismo do sono', sub:'Desgaste, ruído noturno relatado',
+    placa:'Placa estabilizadora (miorrelaxante) rígida, cobertura total superior',
+    protocolo:['Contatos simultâneos e uniformes em RC','Guia canina/anterior em excursões, sem contato posterior',
+      'Uso noturno; reavaliar e ajustar em 2–4 semanas'],
+    evitar:'Placas moles em bruxismo intenso — podem aumentar a atividade muscular.' },
+  muscular: { nome:'Dor muscular (mialgia)', sub:'Dor à palpação de masseter/temporal',
+    placa:'Placa estabilizadora rígida de cobertura total',
+    protocolo:['Ajuste para contatos equilibrados','Associar autocuidado: calor, alongamento, controle de hábitos',
+      'Reavaliar dor e ajustar oclusão da placa periodicamente'],
+    evitar:'Placas parciais (só anterior) por tempo prolongado — risco de extrusão/mordida aberta.' },
+  travamento: { nome:'Travamento / deslocamento de disco', sub:'Limitação de abertura, estalido',
+    placa:'Placa estabilizadora; em casos selecionados, reposicionadora por tempo limitado',
+    protocolo:['Priorizar retorno da função e analgesia','Reposicionadora só com indicação e supervisão estrita',
+      'Fisioterapia e exercícios de abertura associados'],
+    evitar:'Reposicionadora por tempo indefinido — risco de alteração oclusal permanente.' },
+  cefaleia: { nome:'Cefaleia atribuída à DTM', sub:'Dor temporal associada a parafunção',
+    placa:'Placa estabilizadora rígida noturna',
+    protocolo:['Reduzir carga muscular noturna','Rastrear e tratar causas concomitantes de cefaleia',
+      'Acompanhar frequência/intensidade da dor'],
+    evitar:'Tratar como problema puramente oclusal — a cefaleia costuma ser multifatorial.' },
+};
+
+function render(sel){
+  document.getElementById('quadros').innerHTML = Object.entries(Q).map(([id,q]) =>
+    `<button class="op ${id===sel?'ativo':''}" onclick="render('${id}')"><b>${q.nome}</b><small>${q.sub}</small></button>`).join('');
+  const q = Q[sel];
+  document.getElementById('resultado').innerHTML = `
+    <div class="bloco">
+      <div class="res-nome">${q.nome}</div>
+      <div class="res-sub">${q.sub}</div>
+      <div class="bloco-rot">Placa indicada</div>
+      <div style="font-size:14px;color:var(--grafite)">${q.placa}</div>
+      <div class="bloco-rot">Protocolo</div>
+      <ul class="bloco-txt">${q.protocolo.map(p=>`<li>${p}</li>`).join('')}</ul>
+      <div class="evid">O que evitar: ${q.evitar}</div>
+    </div>`;
+}
+render('bruxismo');
+</script>
+</body>
+</html>

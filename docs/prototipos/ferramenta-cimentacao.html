@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Assistente de Cimentação — OdontoFeed</title>
+<link rel="stylesheet" href="odontofeed.css">
+<style>:root{--acento:#8a6d9c}
+.res-nome{font-family:var(--serif);font-size:20px;font-weight:400;color:var(--acento)}
+.res-sub{font-size:13px;color:var(--suave);margin:2px 0 12px}
+.bloco-rot{font-size:10.5px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--acento);margin:14px 0 5px}
+.passos{counter-reset:p}
+.passos li{list-style:none;font-size:13.8px;color:var(--texto);padding:8px 0 8px 30px;position:relative;border-bottom:1px solid var(--linha)}
+.passos li:last-child{border-bottom:none}
+.passos li::before{counter-increment:p;content:counter(p);position:absolute;left:0;top:8px;
+  width:20px;height:20px;border:1px solid var(--linha);border-radius:5px;font-size:11px;
+  display:grid;place-items:center;color:var(--suave)}
+</style>
+</head>
+<body>
+<div class="pagina">
+  <a class="voltar" href="dashboard-com-ferramentas.html">‹ Ferramentas</a>
+  <div class="selo">Prótese · Ferramenta</div>
+  <h1>Assistente de Cimentação</h1>
+  <p class="sub">Escolha o material da peça — a ferramenta indica o tratamento de
+  superfície, o cimento e a sequência de passos na ordem certa.</p>
+  <div class="filete"></div>
+
+  <div class="rot">Material da peça protética</div>
+  <div class="opcoes" id="materiais"></div>
+
+  <div id="resultado"></div>
+
+  <div class="nota-rodape">Baseado nas recomendações de adesão por substrato
+  (condicionamento + silano/primer + cimento). A escolha final considera
+  retenção do preparo, estética e umidade do campo.</div>
+  <div class="marca"><b>Odonto<span class="p">Feed</span></b> · Ferramentas · protótipo (não publicado)</div>
+</div>
+
+<script>
+const MAT = {
+  dissilicato: { nome:'Dissilicato de lítio (e.max)', sub:'Cerâmica vítrea — condicionável',
+    cimento:'Cimento resinoso adesivo (fotoativado em finas; dual em espessas)',
+    passos:['Condicionar a peça com ácido fluorídrico 5% por 20 s, lavar e secar',
+      'Aplicar silano por 60 s e secar','Preparo dentário: condicionamento e adesivo conforme o sistema',
+      'Cimento resinoso, assentar, remover excessos, fotoativar por face'] },
+  zirconia: { nome:'Zircônia', sub:'Cerâmica policristalina — NÃO condiciona com HF',
+    cimento:'Cimento resinoso com primer MDP (ou resinoso autoadesivo)',
+    passos:['Jateamento com óxido de alumínio 50 µm (baixa pressão) e limpeza',
+      'Primer contendo MDP na intaglio','Preparo: adesivo conforme o sistema',
+      'Cimento resinoso com MDP; assentar e remover excessos','Fotoativar/aguardar presa dual'] },
+  metalica: { nome:'Metalocerâmica / metálica', sub:'Retenção principalmente mecânica',
+    cimento:'Cimento de ionômero de vidro modificado por resina (ou fosfato de zinco)',
+    passos:['Jateamento interno da coroa metálica','Isolamento relativo e secagem do preparo',
+      'Cimento de ionômero modificado por resina','Assentar sob pressão, remover excessos após presa inicial'] },
+  feldspatica: { nome:'Cerâmica feldspática / faceta', sub:'Condicionável — sempre adesiva',
+    cimento:'Cimento resinoso fotoativado (translúcido, cor selecionada)',
+    passos:['Condicionar com HF 5–10% por 60 s, lavar, secar','Silano por 60 s',
+      'Preparo em esmalte: condicionamento total + adesivo','Cimento resinoso fotoativado, remover excessos, fotoativar'] },
+  fibra: { nome:'Pino de fibra de vidro', sub:'Intrarradicular',
+    cimento:'Cimento resinoso dual (autoadesivo ou com adesivo)',
+    passos:['Limpeza do conduto e prova do pino','Silano no pino, secar',
+      'Adesivo no conduto (autoadesivo dispensa)','Cimento dual no conduto, assentar o pino, fotoativar a porção coronária'] },
+};
+
+function render(sel){
+  document.getElementById('materiais').innerHTML = Object.entries(MAT).map(([id,m]) =>
+    `<button class="op ${id===sel?'ativo':''}" onclick="render('${id}')"><b>${m.nome}</b><small>${m.sub}</small></button>`).join('');
+  const m = MAT[sel];
+  document.getElementById('resultado').innerHTML = `
+    <div class="bloco">
+      <div class="res-nome">${m.nome}</div>
+      <div class="res-sub">${m.sub}</div>
+      <div class="bloco-rot">Cimento indicado</div>
+      <div style="font-size:14px;color:var(--grafite)">${m.cimento}</div>
+      <div class="bloco-rot">Sequência</div>
+      <ol class="passos">${m.passos.map(p=>`<li>${p}</li>`).join('')}</ol>
+    </div>`;
+}
+render('dissilicato');
+</script>
+</body>
+</html>
