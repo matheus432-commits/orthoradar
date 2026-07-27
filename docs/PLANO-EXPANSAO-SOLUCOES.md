@@ -8,6 +8,37 @@
 
 ---
 
+## 8) Biblioteca — acervo por especialidade (substitui a aba "Salvos")
+
+**Pedido do fundador (27/07).** A aba **Salvos** vira **Biblioteca**: o acervo
+completo de tudo que o OdontoFeed já curou, com resumo e áudio, navegável por
+especialidade e filtros.
+
+**Como funciona:**
+- **Separada por especialidade** — o dentista abre a Biblioteca e vê a sua
+  especialidade primeiro (mesmo seletor das Ferramentas).
+- **Filtros = os subtemas que a pessoa já escolhe no cadastro.** Reaproveita a
+  lista de temas por especialidade que já existe no `dashboard.html` (ex.:
+  Ortodontia → *Alinhadores invisíveis*, *Mini-implantes / TADs*, *Expansão
+  maxilar*, *Ortodontia interceptiva*…). São ~25 subtemas por especialidade,
+  já prontos.
+- **Filtro "com áudio"** e **"com resumo"** — o áudio é um dos filtros, como o
+  fundador pediu. A Biblioteca reúne tudo que já tem resumo escrito e/ou áudio.
+- **Ordenação por taxa de curtida** — os artigos mais curtidos aparecem no topo.
+  Usa o sinal de feedback 👍 que já coletamos (`artigo_feedback`), como taxa
+  (curtidas ÷ visualizações) para não privilegiar só os mais antigos.
+- Cada item mostra: título, revista/ano, tema, taxa de curtida, e os botões
+  **Ler o resumo** e **Ouvir o áudio** (quando existirem).
+
+**Arquitetura:** endpoint que lê a coleção `artigos` (status active) com resumo
+e/ou áudio, agrega o `artigo_feedback` para a taxa de curtida, e devolve por
+especialidade + subtema. Sem custo de IA (conteúdo já gerado). Aba **Biblioteca**
+no lugar de Salvos. Os artigos que o dentista salvar pessoalmente viram um
+filtro "Salvos por mim" dentro da própria Biblioteca (não perdemos a função de
+salvar). Protótipo: `docs/prototipos/biblioteca.html`.
+
+---
+
 ## Diretriz de estética (fundador, 27/07) — vale para TODAS as abas do OdontoFeed
 
 O visual da área de membro deve ser **sério, editorial e profissional** — nada

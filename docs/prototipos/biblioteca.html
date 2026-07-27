@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Biblioteca — OdontoFeed</title>
+<link rel="stylesheet" href="odontofeed.css">
+<style>:root{--acento:#5B6BA8}
+.chips-esp{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:20px;scrollbar-width:none}
+.chips-esp::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;display:flex;align-items:center;gap:8px;background:transparent;border:1px solid var(--linha);
+  border-radius:999px;padding:9px 15px;cursor:pointer;font-family:inherit;font-size:13.5px;color:var(--texto)}
+.chip.ativo{border-color:var(--acento);color:var(--grafite);background:color-mix(in srgb,var(--acento) 5%,white)}
+.chip .dot{width:7px;height:7px;border-radius:50%;background:var(--acento)}
+/* filtros */
+.filtros{border-top:1px solid var(--linha);border-bottom:1px solid var(--linha);padding:14px 0;margin-bottom:8px}
+.f-rot{font-size:10.5px;font-weight:600;letter-spacing:1.3px;text-transform:uppercase;color:var(--suave);margin-bottom:9px}
+.tags{display:flex;flex-wrap:wrap;gap:7px}
+.tag-f{font-size:12px;padding:6px 12px;border-radius:999px;border:1px solid var(--linha);background:var(--papel);
+  color:var(--texto);cursor:pointer;transition:.12s}
+.tag-f:hover{border-color:var(--suave)}
+.tag-f.on{background:var(--grafite);border-color:var(--grafite);color:#fff}
+.tag-f.destaque.on{background:var(--acento);border-color:var(--acento)}
+.ordena{display:flex;align-items:center;justify-content:space-between;margin:16px 0 4px}
+.ordena .lbl{font-size:12.5px;color:var(--suave)}
+.ordena .qt{font-size:12.5px;color:var(--suave)}
+/* artigo */
+.artigo{border-bottom:1px solid var(--linha);padding:16px 2px}
+.a-top{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.a-tema{font-size:11px;color:var(--acento);letter-spacing:.2px}
+.a-curtida{margin-left:auto;font-size:12px;color:var(--suave)}
+.a-tit{font-size:15.5px;color:var(--grafite);line-height:1.4}
+.a-rev{font-size:12px;color:var(--suave);margin-top:4px}
+.a-acoes{display:flex;gap:8px;margin-top:11px}
+.a-btn{font-size:12.5px;padding:7px 13px;border:1px solid var(--linha);border-radius:8px;background:none;
+  color:var(--grafite);cursor:pointer;font-family:inherit;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.a-btn:hover{border-color:var(--suave)}
+.a-btn.audio::before{content:'▶';font-size:9px;color:var(--acento)}
+</style>
+</head>
+<body>
+<div class="pagina">
+  <div class="selo">Área de membro</div>
+  <h1>Biblioteca</h1>
+  <p class="sub">Todo o acervo já curado pelo OdontoFeed — com resumo e áudio,
+  por especialidade e tema. Os mais curtidos aparecem primeiro.</p>
+  <div class="filete"></div>
+
+  <div class="rot">Especialidade</div>
+  <div class="chips-esp" id="chipsEsp"></div>
+
+  <div class="filtros">
+    <div class="f-rot">Filtrar</div>
+    <div class="tags" id="tagsFiltro"></div>
+  </div>
+
+  <div class="ordena">
+    <span class="lbl">Ordenado por taxa de curtida</span>
+    <span class="qt" id="qt"></span>
+  </div>
+  <div id="lista"></div>
+
+  <div class="marca"><b>Odonto<span class="p">Feed</span></b> · Biblioteca · protótipo (não publicado)</div>
+</div>
+
+<script>
+const PERFIL = ['orto','implanto','endo'];
+const ESP = { orto:{nome:'Ortodontia',cor:'#5B6BA8'}, implanto:{nome:'Implantodontia',cor:'#3E8F86'}, endo:{nome:'Endodontia',cor:'#B0863A'} };
+
+// Subtemas reais do cadastro (os mesmos filtros que a pessoa escolhe).
+const TEMAS = {
+  orto:['Alinhadores invisíveis','Mini-implantes / TADs','Cefalometria','Expansão maxilar','Ortodontia interceptiva','Contenção e recidiva'],
+  implanto:['Carga imediata','Enxertos com biomateriais','Peri-implantite','All-on-4 e All-on-X','Elevação de seio maxilar'],
+  endo:['Retratamento endodôntico','Instrumentação rotatória NiTi','Irrigação com hipoclorito de sódio','Medicação intracanal','Trauma dentário'],
+};
+
+// Acervo simulado (na produção vem de Firestore: artigos + agregação de artigo_feedback).
+const ACERVO = {
+  orto:[
+    {t:'Alinhadores vs. aparelho fixo em apinhamento moderado: ensaio clínico',tema:'Alinhadores invisíveis',rev:'AJODO · 2026',curtida:94,audio:true,resumo:true},
+    {t:'Sobrevivência de mini-implantes por sítio de instalação: coorte 5 anos',tema:'Mini-implantes / TADs',rev:'Angle Orthod · 2025',curtida:88,audio:true,resumo:true},
+    {t:'Expansão rápida assistida por mini-implantes (MARPE) em adultos jovens',tema:'Expansão maxilar',rev:'Prog Orthod · 2026',curtida:83,audio:true,resumo:true},
+    {t:'Recidiva de apinhamento inferior 10 anos após contenção fixa',tema:'Contenção e recidiva',rev:'EJO · 2025',curtida:71,audio:false,resumo:true},
+    {t:'Interceptação de mordida cruzada posterior na dentadura mista',tema:'Ortodontia interceptiva',rev:'JCO · 2026',curtida:64,audio:true,resumo:true},
+    {t:'Normas cefalométricas em amostra brasileira: revisão',tema:'Cefalometria',rev:'Dental Press · 2025',curtida:58,audio:false,resumo:true},
+  ],
+  implanto:[
+    {t:'Carga imediata em maxila atrófica: taxa de sobrevivência em 3 anos',tema:'Carga imediata',rev:'COIR · 2026',curtida:90,audio:true,resumo:true},
+    {t:'Enxerto com biomaterial xenógeno vs. autógeno em ROG horizontal',tema:'Enxertos com biomateriais',rev:'JOMI · 2025',curtida:79,audio:true,resumo:true},
+    {t:'Tratamento cirúrgico da peri-implantite: revisão sistemática',tema:'Peri-implantite',rev:'J Clin Perio · 2026',curtida:75,audio:false,resumo:true},
+    {t:'All-on-4: complicações protéticas em 5 anos',tema:'All-on-4 e All-on-X',rev:'IJP · 2025',curtida:61,audio:true,resumo:true},
+  ],
+  endo:[
+    {t:'Instrumentação reciprocante vs. rotatória: dor pós-operatória',tema:'Instrumentação rotatória NiTi',rev:'Int Endod J · 2026',curtida:86,audio:true,resumo:true},
+    {t:'Ativação ultrassônica do hipoclorito na desinfecção de istmos',tema:'Irrigação com hipoclorito de sódio',rev:'JOE · 2025',curtida:72,audio:true,resumo:true},
+    {t:'Reimplante tardio em avulsão: prognóstico a longo prazo',tema:'Trauma dentário',rev:'Dental Traumatol · 2026',curtida:66,audio:false,resumo:true},
+  ],
+};
+
+let esp='orto', temaSel=null, soAudio=false, soResumo=false, soSalvos=false;
+
+function renderChipsEsp(){
+  document.getElementById('chipsEsp').innerHTML = PERFIL.map(id =>
+    `<button class="chip ${id===esp?'ativo':''}" style="--acento:${ESP[id].cor}" onclick="setEsp('${id}')">
+      <span class="dot" style="background:${ESP[id].cor}"></span>${ESP[id].nome}</button>`).join('');
+  document.documentElement.style.setProperty('--acento', ESP[esp].cor);
+}
+function renderFiltros(){
+  const especiais = `
+    <button class="tag-f destaque ${soAudio?'on':''}" onclick="tgl('audio')">Com áudio</button>
+    <button class="tag-f destaque ${soResumo?'on':''}" onclick="tgl('resumo')">Com resumo</button>
+    <button class="tag-f destaque ${soSalvos?'on':''}" onclick="tgl('salvos')">Salvos por mim</button>`;
+  const temas = TEMAS[esp].map(t =>
+    `<button class="tag-f ${temaSel===t?'on':''}" onclick="setTema('${t.replace(/'/g,"\\'")}')">${t}</button>`).join('');
+  document.getElementById('tagsFiltro').innerHTML = especiais + temas;
+}
+function setEsp(id){ esp=id; temaSel=null; renderChipsEsp(); renderFiltros(); renderLista(); }
+function setTema(t){ temaSel = (temaSel===t?null:t); renderFiltros(); renderLista(); }
+function tgl(k){ if(k==='audio')soAudio=!soAudio; if(k==='resumo')soResumo=!soResumo; if(k==='salvos')soSalvos=!soSalvos; renderFiltros(); renderLista(); }
+
+function renderLista(){
+  let arts = ACERVO[esp].slice();
+  if (temaSel) arts = arts.filter(a=>a.tema===temaSel);
+  if (soAudio) arts = arts.filter(a=>a.audio);
+  if (soResumo) arts = arts.filter(a=>a.resumo);
+  if (soSalvos) arts = arts.filter((a,i)=>i%2===0); // simulação de "salvos por mim"
+  arts.sort((a,b)=>b.curtida-a.curtida);
+  document.getElementById('qt').textContent = arts.length + ' artigos';
+  document.getElementById('lista').innerHTML = arts.map(a => `
+    <div class="artigo">
+      <div class="a-top"><span class="a-tema">${a.tema}</span>
+        <span class="a-curtida">♥ ${a.curtida}% curtiram</span></div>
+      <div class="a-tit">${a.t}</div>
+      <div class="a-rev">${a.rev}</div>
+      <div class="a-acoes">
+        ${a.resumo?'<a class="a-btn" href="#">Ler o resumo</a>':''}
+        ${a.audio?'<a class="a-btn audio" href="#">Ouvir o áudio</a>':''}
+      </div>
+    </div>`).join('') || '<div class="a-rev" style="padding:16px 0">Nenhum artigo com esse filtro.</div>';
+}
+renderChipsEsp(); renderFiltros(); renderLista();
+</script>
+</body>
+</html>
