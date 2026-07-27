@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Guia de Cefalometria — OdontoFeed</title>
+<title>Atlas Cefalométrico — OdontoFeed</title>
 <link rel="stylesheet" href="odontofeed.css">
 <style>:root{--acento:#5B6BA8}
 .nav-param{display:flex;gap:7px;overflow-x:auto;padding-bottom:5px;margin-bottom:24px;scrollbar-width:none}
@@ -11,10 +11,36 @@
 .pilula{flex:0 0 auto;font-size:12.5px;padding:8px 14px;border-radius:999px;border:1px solid var(--linha);
   background:var(--carta);color:var(--suave);cursor:pointer;font-family:inherit}
 .pilula.ativa{border-color:var(--acento);color:var(--grafite);background:color-mix(in srgb,var(--acento) 5%,white)}
-.diagrama{margin:18px auto 4px;display:block;max-width:420px;width:100%}
+.kicker{font-size:11px;letter-spacing:1.6px;text-transform:uppercase;color:var(--acento)}
+.tit-med{font-family:var(--serif);font-size:clamp(24px,6vw,32px);font-weight:400;color:var(--grafite);line-height:1.1;margin-top:4px}
+.intro{font-size:14.5px;color:var(--texto);margin-top:10px;max-width:62ch}
+.diagrama{margin:20px auto 4px;display:block;max-width:430px;width:100%}
 .legenda{text-align:center;font-size:11.5px;color:var(--suave);font-style:italic;margin-bottom:4px}
+
+/* grade de painéis do atlas */
+.grade{display:grid;grid-template-columns:1fr;gap:14px;margin-top:22px}
+@media(min-width:640px){.grade.dois{grid-template-columns:1fr 1fr}}
+.painel{border:1px solid var(--linha);border-radius:var(--raio);padding:18px 19px}
+.painel.destaque{border-left:2px solid var(--acento)}
+.painel.alta{border-left:2px solid var(--alta)}
+.painel.baixa{border-left:2px solid var(--ok)}
+.p-rot{font-size:10.5px;font-weight:600;letter-spacing:1.3px;text-transform:uppercase;color:var(--acento);margin-bottom:8px}
+.p-rot.a{color:var(--alta)} .p-rot.b{color:var(--ok)}
+.p-txt{font-size:13.6px;color:var(--texto)}
+.p-txt b{color:var(--grafite);font-weight:600}
+.p-lista{margin-top:9px}
+.p-lista li{font-size:13px;color:var(--texto);margin-left:16px;margin-top:4px}
+.formula{font-size:12.5px;color:var(--suave);margin-top:10px;padding-top:9px;border-top:1px solid var(--linha)}
+
+/* cuidados numerados */
+.h-cuidados{font-family:var(--serif);font-size:20px;font-weight:400;color:var(--grafite);margin:30px 0 6px}
+.cuidado{display:flex;gap:14px;padding:15px 2px;border-bottom:1px solid var(--linha)}
+.c-num{font-family:var(--serif);font-size:20px;color:var(--acento);flex:0 0 auto;width:26px;line-height:1.3}
+.c-tit{font-size:14.5px;font-weight:600;color:var(--grafite)}
+.c-txt{font-size:13.3px;color:var(--texto);margin-top:2px}
+
 .proximo{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--linha);
-  padding-top:18px;margin-top:6px}
+  padding-top:18px;margin-top:24px}
 .proximo .r{font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--suave)}
 .proximo .n{font-family:var(--serif);font-size:18px;color:var(--grafite);margin-top:2px}
 .fontes{margin-top:22px;font-size:12px;color:var(--suave)}.fontes b{color:var(--texto);font-weight:600}
@@ -23,14 +49,9 @@
 <body>
 <div class="pagina">
   <a class="voltar" href="dashboard-com-ferramentas.html">‹ Ferramentas</a>
-  <div class="selo">Ortodontia · Guia clínico</div>
-  <h1>Análise Cefalométrica</h1>
-  <p class="sub">Interpretação parâmetro a parâmetro — o que cada medida significa
-  e o que fazer quando ela vem alterada. Baseado nas análises de Tweed, Steiner e
-  Ricketts.</p>
-  <div class="filete"></div>
+  <div class="selo">Ortodontia · Atlas cefalométrico</div>
 
-  <nav class="nav-param">
+  <nav class="nav-param" style="margin-top:14px">
     <button class="pilula ativa">FMA</button>
     <button class="pilula">SNA</button><button class="pilula">SNB</button>
     <button class="pilula">ANB</button><button class="pilula">IMPA</button>
@@ -38,72 +59,120 @@
     <button class="pilula">Overjet</button><button class="pilula">Overbite</button>
   </nav>
 
-  <section class="bloco">
-    <div class="b-topo">
-      <span class="b-sigla">FMA</span>
-      <span class="b-nome">Ângulo do Plano Mandibular de Frankfurt</span>
-      <span class="b-norma">Normal: 25° ± 3°</span>
+  <!-- ══ FMA ══════════════════════════════════════════════════════════════ -->
+  <div class="kicker">FMA · ângulo do plano mandibular de Frankfurt</div>
+  <div class="tit-med">Leitura do padrão vertical</div>
+  <p class="intro">O ângulo FMA relaciona o plano mandibular à linha de Frankfurt.
+  É um dos principais indicadores do padrão vertical facial e do sentido de
+  crescimento — e orienta boa parte das escolhas de mecânica.</p>
+
+  <svg class="diagrama" viewBox="0 0 420 300" role="img" aria-label="Traçado cefalométrico com o ângulo FMA">
+    <path d="M 310 127 L 405 118 L 405 191 L 310 214 Z" fill="#5B6BA8" opacity=".07"/>
+    <path d="M 255 36 C 205 12 135 18 96 58 C 62 94 54 146 70 188 C 82 214 100 232 120 240
+             C 126 258 127 272 125 286" fill="none" stroke="#2E3440" stroke-width="1.4" opacity=".4"/>
+    <path d="M 255 36 C 288 58 292 78 284 98 C 296 104 316 118 324 130 C 326 138 314 142 300 142
+             C 312 150 312 160 300 162 C 312 168 312 180 298 182 C 312 190 314 204 300 212
+             C 276 232 236 242 196 240 C 170 238 150 228 138 212" fill="none" stroke="#2E3440" stroke-width="1.4" opacity=".4"/>
+    <path d="M 243 112 q 8 -5 16 0 q -8 5 -16 0" fill="none" stroke="#2E3440" stroke-width="1" opacity=".35"/>
+    <path d="M 136 128 q 16 0 16 16 q 0 14 -14 16" fill="none" stroke="#2E3440" stroke-width="1" opacity=".35"/>
+    <line x1="60" y1="150" x2="405" y2="118" stroke="#5B6BA8" stroke-width="2"/>
+    <circle cx="150" cy="141" r="4" fill="#5B6BA8"/><circle cx="272" cy="131" r="4" fill="#5B6BA8"/>
+    <text x="112" y="136" font-size="11.5" fill="#5B6BA8">Po</text>
+    <text x="276" y="118" font-size="11.5" fill="#5B6BA8">Or</text>
+    <text x="326" y="110" font-size="11" font-style="italic" fill="#5B6BA8">Frankfurt</text>
+    <line x1="90" y1="267" x2="405" y2="181" stroke="#B9982E" stroke-width="2"/>
+    <circle cx="185" cy="244" r="4" fill="#B9982E"/><circle cx="300" cy="210" r="4" fill="#B9982E"/>
+    <text x="170" y="259" font-size="11.5" fill="#8a6d10">Go</text>
+    <text x="302" y="231" font-size="11.5" fill="#8a6d10">Me</text>
+    <text x="94" y="288" font-size="11" font-style="italic" fill="#8a6d10">Plano mandibular</text>
+    <path d="M 385 123 Q 400 158 385 190" fill="none" stroke="#B0863A" stroke-width="1.8"/>
+    <text x="338" y="164" font-size="13" fill="#B0863A">FMA</text>
+  </svg>
+  <p class="legenda">As duas linhas convergem posteriormente — o ângulo entre elas é o FMA. Norma: 25° ± 3°.</p>
+
+  <!-- O que mede -->
+  <div class="grade">
+    <div class="painel destaque">
+      <div class="p-rot">O que mede</div>
+      <p class="p-txt">Avalia a <b>inclinação do plano mandibular</b> em relação à
+      base do crânio, refletindo a direção do crescimento facial no sentido
+      vertical. Quanto mais aberto o ângulo, mais vertical o padrão.</p>
+      <div class="formula">FMA = ângulo entre FH (Po–Or) e o plano mandibular (Go–Me)</div>
     </div>
-    <p class="b-def">Ângulo formado entre a <b>linha de Frankfurt</b> (Pório → Orbitário)
-    e o <b>plano mandibular</b> (Gônio → Mentoniano). É o principal indicador do
-    <b>padrão de crescimento vertical</b> da face.</p>
+  </div>
 
-    <svg class="diagrama" viewBox="0 0 420 300" role="img" aria-label="Traçado cefalométrico com o ângulo FMA">
-      <path d="M 310 127 L 405 118 L 405 191 L 310 214 Z" fill="#5B6BA8" opacity=".08"/>
-      <path d="M 255 36 C 205 12 135 18 96 58 C 62 94 54 146 70 188 C 82 214 100 232 120 240
-               C 126 258 127 272 125 286" fill="none" stroke="#2E3440" stroke-width="1.5" opacity=".45"/>
-      <path d="M 255 36 C 288 58 292 78 284 98 C 296 104 316 118 324 130 C 326 138 314 142 300 142
-               C 312 150 312 160 300 162 C 312 168 312 180 298 182 C 312 190 314 204 300 212
-               C 276 232 236 242 196 240 C 170 238 150 228 138 212" fill="none" stroke="#2E3440" stroke-width="1.5" opacity=".45"/>
-      <path d="M 243 112 q 8 -5 16 0 q -8 5 -16 0" fill="none" stroke="#2E3440" stroke-width="1.1" opacity=".4"/>
-      <path d="M 136 128 q 16 0 16 16 q 0 14 -14 16" fill="none" stroke="#2E3440" stroke-width="1.1" opacity=".4"/>
-      <line x1="60" y1="150" x2="405" y2="118" stroke="#5B6BA8" stroke-width="2"/>
-      <circle cx="150" cy="141" r="4" fill="#5B6BA8"/><circle cx="272" cy="131" r="4" fill="#5B6BA8"/>
-      <text x="112" y="136" font-size="11.5" fill="#5B6BA8">Po</text>
-      <text x="276" y="118" font-size="11.5" fill="#5B6BA8">Or</text>
-      <text x="326" y="110" font-size="11" font-style="italic" fill="#5B6BA8">Frankfurt</text>
-      <line x1="90" y1="267" x2="405" y2="181" stroke="#B9982E" stroke-width="2"/>
-      <circle cx="185" cy="244" r="4" fill="#B9982E"/><circle cx="300" cy="210" r="4" fill="#B9982E"/>
-      <text x="170" y="259" font-size="11.5" fill="#8a6d10">Go</text>
-      <text x="302" y="231" font-size="11.5" fill="#8a6d10">Me</text>
-      <text x="94" y="288" font-size="11" font-style="italic" fill="#8a6d10">Plano mandibular</text>
-      <path d="M 385 123 Q 400 158 385 190" fill="none" stroke="#B0863A" stroke-width="1.8"/>
-      <text x="338" y="164" font-size="13" fill="#B0863A">FMA</text>
-    </svg>
-    <p class="legenda">As duas linhas convergem posteriormente — o ângulo entre elas é o FMA.</p>
-
-    <div class="interp dois">
-      <div class="ic alta">
-        <div class="ic-cab"><span class="ic-tit">FMA aumentado</span><span class="ic-faixa">&gt; 28°</span></div>
-        <p class="ic-txt">Rotação mandibular <b>para baixo e para trás</b>: face longa,
-        tendência a mordida aberta, musculatura mais fraca. Padrão hiperdivergente.</p>
-        <div class="conduta"><div class="conduta-rot">O que fazer</div>
-          <ul><li>Evitar mecânicas extrusivas (elásticos verticais longos)</li>
-          <li>Priorizar controle vertical: ancoragem esquelética</li>
-          <li>Extrações tendem a fechar melhor o padrão — avaliar discrepância</li></ul></div>
-      </div>
-      <div class="ic baixa">
-        <div class="ic-cab"><span class="ic-tit">FMA reduzido</span><span class="ic-faixa">&lt; 22°</span></div>
-        <p class="ic-txt">Rotação mandibular <b>para cima e para frente</b>: face curta,
-        sobremordida profunda, musculatura potente. Padrão hipodivergente.</p>
-        <div class="conduta"><div class="conduta-rot">O que fazer</div>
-          <ul><li>Mecânicas extrusivas são bem toleradas — úteis p/ abrir a mordida</li>
-          <li>Nivelar curva de Spee com intrusão anterior</li>
-          <li>Cautela com extrações: risco de aprofundar a mordida</li></ul></div>
-      </div>
-      <div class="ic norma" style="grid-column:1/-1">
-        <div class="ic-cab"><span class="ic-tit">Dentro da norma</span><span class="ic-faixa">22°–28°</span></div>
-        <p class="ic-txt">Crescimento vertical equilibrado (normodivergente). O FMA não
-        impõe restrição à mecânica — a decisão passa aos parâmetros ântero-posteriores
-        (ANB) e dentários (IMPA, 1.NA).</p>
-      </div>
+  <!-- Aumentado / Reduzido -->
+  <div class="grade dois">
+    <div class="painel alta">
+      <div class="p-rot a">FMA aumentado · &gt; 28°</div>
+      <p class="p-txt">Valores elevados indicam <b>rotação mandibular para baixo e
+      para trás</b>, associados ao aumento da dimensão vertical da face.</p>
+      <ul class="p-lista"><li>Padrão de crescimento vertical</li>
+        <li>Maior altura facial inferior</li><li>Tendência a face alongada</li>
+        <li>Risco aumentado de mordida aberta</li></ul>
     </div>
+    <div class="painel baixa">
+      <div class="p-rot b">FMA reduzido · &lt; 22°</div>
+      <p class="p-txt">Valores baixos indicam <b>rotação mandibular para cima e
+      para frente</b>, associados à redução da dimensão vertical da face.</p>
+      <ul class="p-lista"><li>Padrão de crescimento horizontal</li>
+        <li>Menor altura facial inferior</li><li>Tendência a face curta</li>
+        <li>Risco de sobremordida profunda</li></ul>
+    </div>
+  </div>
 
-    <div class="evid">A norma de 25° vem da amostra de Tweed (adultos brancos
-    norte-americanos). Estudos com amostras brasileiras encontram médias até ~2°
-    maiores — considere o padrão facial da família antes de tratar o número como
-    alvo rígido.</div>
-  </section>
+  <!-- Relação com padrão -->
+  <div class="grade dois">
+    <div class="painel">
+      <div class="p-rot">Relação com padrão hiperdivergente</div>
+      <p class="p-txt">FMA aumentado está fortemente associado ao padrão
+      hiperdivergente.</p>
+      <ul class="p-lista"><li>Aumento da altura facial inferior e inclinação do plano mandibular</li>
+        <li>Maior tendência a mordida aberta anterior e rotação posterior da mandíbula</li>
+        <li>Perfil mais convexo, lábio inferior mais distante da linha E</li></ul>
+    </div>
+    <div class="painel">
+      <div class="p-rot">Relação com padrão hipodivergente</div>
+      <p class="p-txt">FMA reduzido está associado ao padrão hipodivergente.</p>
+      <ul class="p-lista"><li>Redução da altura facial inferior e do plano mandibular</li>
+        <li>Maior tendência a sobremordida profunda e mordida cruzada posterior</li>
+        <li>Perfil mais reto, lábio inferior mais próximo da linha E</li></ul>
+    </div>
+  </div>
+
+  <!-- Impacto na mecânica -->
+  <div class="grade">
+    <div class="painel destaque">
+      <div class="p-rot">Impacto na mecânica ortodôntica</div>
+      <p class="p-txt">O FMA orienta escolhas biomecânicas e metas terapêuticas —
+      a dimensão vertical precisa ser <b>protegida ou controlada</b> conforme o padrão.</p>
+    </div>
+  </div>
+
+  <!-- Cuidados numerados -->
+  <div class="h-cuidados">Cuidados na mecânica</div>
+  <div class="cuidado">
+    <div class="c-num">01</div>
+    <div><div class="c-tit">Controle vertical</div>
+      <div class="c-txt">No hiperdivergente, <b>evitar extrusão</b> de molares (elásticos
+      verticais longos, curva de Spee acentuada). Ancoragem esquelética e mecânica de
+      intrusão ajudam a fechar a rotação. No hipodivergente, a extrusão é bem tolerada
+      e útil para abrir a mordida.</div></div>
+  </div>
+  <div class="cuidado">
+    <div class="c-num">02</div>
+    <div><div class="c-tit">Altura da face</div>
+      <div class="c-txt">FMA alto = face mais longa; FMA baixo = face mais curta. Atenção
+      à altura facial inferior ao planejar extrações e ao vetor de tração — decisões que
+      mudam a dimensão vertical devem respeitar o padrão facial da família.</div></div>
+  </div>
+  <div class="cuidado">
+    <div class="c-num">03</div>
+    <div><div class="c-tit">Mecânica de tratamento</div>
+      <div class="c-txt">Defina forças e controle vertical como parte central do plano.
+      Resultados estáveis e funcionais dependem de não agravar o padrão vertical existente:
+      no hiperdivergente, contenção vertical; no hipodivergente, ganho controlado de altura.</div></div>
+  </div>
 
   <div class="proximo">
     <div><div class="r">Próximo parâmetro</div><div class="n">SNA — posição da maxila</div></div>
@@ -111,10 +180,10 @@
   </div>
 
   <p class="fontes"><b>Referências:</b> Tweed CH (1954) · Steiner CC (1953) ·
-  Ricketts RM (1981) · + 3 estudos do acervo OdontoFeed com amostras brasileiras.
+  Ricketts RM (1981) · + estudos do acervo OdontoFeed com amostras brasileiras.
   Material de apoio à decisão — a conduta é sempre do ortodontista responsável.</p>
 
-  <div class="marca"><b>Odonto<span class="p">Feed</span></b> · Guias Clínicos · protótipo (não publicado)</div>
+  <div class="marca"><b>Odonto<span class="p">Feed</span></b> · Atlas Cefalométrico · protótipo (não publicado)</div>
 </div>
 </body>
 </html>
