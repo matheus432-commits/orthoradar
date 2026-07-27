@@ -6,18 +6,16 @@
 <title>Atlas Cefalométrico — OdontoFeed</title>
 <link rel="stylesheet" href="odontofeed.css">
 <style>:root{--acento:#5B6BA8}
-.nav-param{display:flex;gap:7px;overflow-x:auto;padding-bottom:5px;margin-bottom:24px;scrollbar-width:none}
+.nav-param{display:flex;gap:7px;overflow-x:auto;padding-bottom:5px;margin:14px 0 24px;scrollbar-width:none}
 .nav-param::-webkit-scrollbar{display:none}
 .pilula{flex:0 0 auto;font-size:12.5px;padding:8px 14px;border-radius:999px;border:1px solid var(--linha);
-  background:var(--carta);color:var(--suave);cursor:pointer;font-family:inherit}
+  background:var(--carta);color:var(--suave);cursor:pointer;font-family:inherit;transition:.12s}
 .pilula.ativa{border-color:var(--acento);color:var(--grafite);background:color-mix(in srgb,var(--acento) 5%,white)}
 .kicker{font-size:11px;letter-spacing:1.6px;text-transform:uppercase;color:var(--acento)}
 .tit-med{font-family:var(--serif);font-size:clamp(24px,6vw,32px);font-weight:400;color:var(--grafite);line-height:1.1;margin-top:4px}
 .intro{font-size:14.5px;color:var(--texto);margin-top:10px;max-width:62ch}
 .diagrama{margin:20px auto 4px;display:block;max-width:430px;width:100%}
 .legenda{text-align:center;font-size:11.5px;color:var(--suave);font-style:italic;margin-bottom:4px}
-
-/* grade de painéis do atlas */
 .grade{display:grid;grid-template-columns:1fr;gap:14px;margin-top:22px}
 @media(min-width:640px){.grade.dois{grid-template-columns:1fr 1fr}}
 .painel{border:1px solid var(--linha);border-radius:var(--raio);padding:18px 19px}
@@ -26,164 +24,207 @@
 .painel.baixa{border-left:2px solid var(--ok)}
 .p-rot{font-size:10.5px;font-weight:600;letter-spacing:1.3px;text-transform:uppercase;color:var(--acento);margin-bottom:8px}
 .p-rot.a{color:var(--alta)} .p-rot.b{color:var(--ok)}
-.p-txt{font-size:13.6px;color:var(--texto)}
-.p-txt b{color:var(--grafite);font-weight:600}
-.p-lista{margin-top:9px}
-.p-lista li{font-size:13px;color:var(--texto);margin-left:16px;margin-top:4px}
+.p-txt{font-size:13.6px;color:var(--texto)}.p-txt b{color:var(--grafite);font-weight:600}
+.p-lista{margin-top:9px}.p-lista li{font-size:13px;color:var(--texto);margin-left:16px;margin-top:4px}
 .formula{font-size:12.5px;color:var(--suave);margin-top:10px;padding-top:9px;border-top:1px solid var(--linha)}
-
-/* cuidados numerados */
 .h-cuidados{font-family:var(--serif);font-size:20px;font-weight:400;color:var(--grafite);margin:30px 0 6px}
 .cuidado{display:flex;gap:14px;padding:15px 2px;border-bottom:1px solid var(--linha)}
 .c-num{font-family:var(--serif);font-size:20px;color:var(--acento);flex:0 0 auto;width:26px;line-height:1.3}
 .c-tit{font-size:14.5px;font-weight:600;color:var(--grafite)}
-.c-txt{font-size:13.3px;color:var(--texto);margin-top:2px}
-
+.c-txt{font-size:13.3px;color:var(--texto);margin-top:2px}.c-txt b{color:var(--grafite);font-weight:600}
 .proximo{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--linha);
-  padding-top:18px;margin-top:24px}
+  padding-top:18px;margin-top:24px;cursor:pointer}
 .proximo .r{font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--suave)}
 .proximo .n{font-family:var(--serif);font-size:18px;color:var(--grafite);margin-top:2px}
 .fontes{margin-top:22px;font-size:12px;color:var(--suave)}.fontes b{color:var(--texto);font-weight:600}
+.pontos{font-size:12.5px;color:var(--suave);text-align:center;margin:16px 0 4px;padding:12px 14px;
+  border:1px dashed var(--linha);border-radius:10px}
 </style>
 </head>
 <body>
 <div class="pagina">
   <a class="voltar" href="dashboard-com-ferramentas.html">‹ Ferramentas</a>
   <div class="selo">Ortodontia · Atlas cefalométrico</div>
-
-  <nav class="nav-param" style="margin-top:14px">
-    <button class="pilula ativa">FMA</button>
-    <button class="pilula">SNA</button><button class="pilula">SNB</button>
-    <button class="pilula">ANB</button><button class="pilula">IMPA</button>
-    <button class="pilula">1.NA</button><button class="pilula">1.NB</button>
-    <button class="pilula">Overjet</button><button class="pilula">Overbite</button>
-  </nav>
-
-  <!-- ══ FMA ══════════════════════════════════════════════════════════════ -->
-  <div class="kicker">FMA · ângulo do plano mandibular de Frankfurt</div>
-  <div class="tit-med">Leitura do padrão vertical</div>
-  <p class="intro">O ângulo FMA relaciona o plano mandibular à linha de Frankfurt.
-  É um dos principais indicadores do padrão vertical facial e do sentido de
-  crescimento — e orienta boa parte das escolhas de mecânica.</p>
-
-  <svg class="diagrama" viewBox="0 0 420 300" role="img" aria-label="Traçado cefalométrico com o ângulo FMA">
-    <path d="M 310 127 L 405 118 L 405 191 L 310 214 Z" fill="#5B6BA8" opacity=".07"/>
-    <path d="M 255 36 C 205 12 135 18 96 58 C 62 94 54 146 70 188 C 82 214 100 232 120 240
-             C 126 258 127 272 125 286" fill="none" stroke="#2E3440" stroke-width="1.4" opacity=".4"/>
-    <path d="M 255 36 C 288 58 292 78 284 98 C 296 104 316 118 324 130 C 326 138 314 142 300 142
-             C 312 150 312 160 300 162 C 312 168 312 180 298 182 C 312 190 314 204 300 212
-             C 276 232 236 242 196 240 C 170 238 150 228 138 212" fill="none" stroke="#2E3440" stroke-width="1.4" opacity=".4"/>
-    <path d="M 243 112 q 8 -5 16 0 q -8 5 -16 0" fill="none" stroke="#2E3440" stroke-width="1" opacity=".35"/>
-    <path d="M 136 128 q 16 0 16 16 q 0 14 -14 16" fill="none" stroke="#2E3440" stroke-width="1" opacity=".35"/>
-    <line x1="60" y1="150" x2="405" y2="118" stroke="#5B6BA8" stroke-width="2"/>
-    <circle cx="150" cy="141" r="4" fill="#5B6BA8"/><circle cx="272" cy="131" r="4" fill="#5B6BA8"/>
-    <text x="112" y="136" font-size="11.5" fill="#5B6BA8">Po</text>
-    <text x="276" y="118" font-size="11.5" fill="#5B6BA8">Or</text>
-    <text x="326" y="110" font-size="11" font-style="italic" fill="#5B6BA8">Frankfurt</text>
-    <line x1="90" y1="267" x2="405" y2="181" stroke="#B9982E" stroke-width="2"/>
-    <circle cx="185" cy="244" r="4" fill="#B9982E"/><circle cx="300" cy="210" r="4" fill="#B9982E"/>
-    <text x="170" y="259" font-size="11.5" fill="#8a6d10">Go</text>
-    <text x="302" y="231" font-size="11.5" fill="#8a6d10">Me</text>
-    <text x="94" y="288" font-size="11" font-style="italic" fill="#8a6d10">Plano mandibular</text>
-    <path d="M 385 123 Q 400 158 385 190" fill="none" stroke="#B0863A" stroke-width="1.8"/>
-    <text x="338" y="164" font-size="13" fill="#B0863A">FMA</text>
-  </svg>
-  <p class="legenda">As duas linhas convergem posteriormente — o ângulo entre elas é o FMA. Norma: 25° ± 3°.</p>
-
-  <!-- O que mede -->
-  <div class="grade">
-    <div class="painel destaque">
-      <div class="p-rot">O que mede</div>
-      <p class="p-txt">Avalia a <b>inclinação do plano mandibular</b> em relação à
-      base do crânio, refletindo a direção do crescimento facial no sentido
-      vertical. Quanto mais aberto o ângulo, mais vertical o padrão.</p>
-      <div class="formula">FMA = ângulo entre FH (Po–Or) e o plano mandibular (Go–Me)</div>
-    </div>
-  </div>
-
-  <!-- Aumentado / Reduzido -->
-  <div class="grade dois">
-    <div class="painel alta">
-      <div class="p-rot a">FMA aumentado · &gt; 28°</div>
-      <p class="p-txt">Valores elevados indicam <b>rotação mandibular para baixo e
-      para trás</b>, associados ao aumento da dimensão vertical da face.</p>
-      <ul class="p-lista"><li>Padrão de crescimento vertical</li>
-        <li>Maior altura facial inferior</li><li>Tendência a face alongada</li>
-        <li>Risco aumentado de mordida aberta</li></ul>
-    </div>
-    <div class="painel baixa">
-      <div class="p-rot b">FMA reduzido · &lt; 22°</div>
-      <p class="p-txt">Valores baixos indicam <b>rotação mandibular para cima e
-      para frente</b>, associados à redução da dimensão vertical da face.</p>
-      <ul class="p-lista"><li>Padrão de crescimento horizontal</li>
-        <li>Menor altura facial inferior</li><li>Tendência a face curta</li>
-        <li>Risco de sobremordida profunda</li></ul>
-    </div>
-  </div>
-
-  <!-- Relação com padrão -->
-  <div class="grade dois">
-    <div class="painel">
-      <div class="p-rot">Relação com padrão hiperdivergente</div>
-      <p class="p-txt">FMA aumentado está fortemente associado ao padrão
-      hiperdivergente.</p>
-      <ul class="p-lista"><li>Aumento da altura facial inferior e inclinação do plano mandibular</li>
-        <li>Maior tendência a mordida aberta anterior e rotação posterior da mandíbula</li>
-        <li>Perfil mais convexo, lábio inferior mais distante da linha E</li></ul>
-    </div>
-    <div class="painel">
-      <div class="p-rot">Relação com padrão hipodivergente</div>
-      <p class="p-txt">FMA reduzido está associado ao padrão hipodivergente.</p>
-      <ul class="p-lista"><li>Redução da altura facial inferior e do plano mandibular</li>
-        <li>Maior tendência a sobremordida profunda e mordida cruzada posterior</li>
-        <li>Perfil mais reto, lábio inferior mais próximo da linha E</li></ul>
-    </div>
-  </div>
-
-  <!-- Impacto na mecânica -->
-  <div class="grade">
-    <div class="painel destaque">
-      <div class="p-rot">Impacto na mecânica ortodôntica</div>
-      <p class="p-txt">O FMA orienta escolhas biomecânicas e metas terapêuticas —
-      a dimensão vertical precisa ser <b>protegida ou controlada</b> conforme o padrão.</p>
-    </div>
-  </div>
-
-  <!-- Cuidados numerados -->
-  <div class="h-cuidados">Cuidados na mecânica</div>
-  <div class="cuidado">
-    <div class="c-num">01</div>
-    <div><div class="c-tit">Controle vertical</div>
-      <div class="c-txt">No hiperdivergente, <b>evitar extrusão</b> de molares (elásticos
-      verticais longos, curva de Spee acentuada). Ancoragem esquelética e mecânica de
-      intrusão ajudam a fechar a rotação. No hipodivergente, a extrusão é bem tolerada
-      e útil para abrir a mordida.</div></div>
-  </div>
-  <div class="cuidado">
-    <div class="c-num">02</div>
-    <div><div class="c-tit">Altura da face</div>
-      <div class="c-txt">FMA alto = face mais longa; FMA baixo = face mais curta. Atenção
-      à altura facial inferior ao planejar extrações e ao vetor de tração — decisões que
-      mudam a dimensão vertical devem respeitar o padrão facial da família.</div></div>
-  </div>
-  <div class="cuidado">
-    <div class="c-num">03</div>
-    <div><div class="c-tit">Mecânica de tratamento</div>
-      <div class="c-txt">Defina forças e controle vertical como parte central do plano.
-      Resultados estáveis e funcionais dependem de não agravar o padrão vertical existente:
-      no hiperdivergente, contenção vertical; no hipodivergente, ganho controlado de altura.</div></div>
-  </div>
-
-  <div class="proximo">
-    <div><div class="r">Próximo parâmetro</div><div class="n">SNA — posição da maxila</div></div>
-    <div class="li-seta">›</div>
-  </div>
-
-  <p class="fontes"><b>Referências:</b> Tweed CH (1954) · Steiner CC (1953) ·
-  Ricketts RM (1981) · + estudos do acervo OdontoFeed com amostras brasileiras.
-  Material de apoio à decisão — a conduta é sempre do ortodontista responsável.</p>
-
-  <div class="marca"><b>Odonto<span class="p">Feed</span></b> · Atlas Cefalométrico · protótipo (não publicado)</div>
+  <nav class="nav-param" id="nav"></nav>
+  <div id="conteudo"></div>
 </div>
+
+<script>
+// Diagrama do FMA (mantido). Demais parâmetros usam bloco de pontos de referência.
+const SVG_FMA = `<svg class="diagrama" viewBox="0 0 420 300" role="img" aria-label="Traçado cefalométrico com o ângulo FMA">
+  <path d="M 310 127 L 405 118 L 405 191 L 310 214 Z" fill="#5B6BA8" opacity=".07"/>
+  <path d="M 255 36 C 205 12 135 18 96 58 C 62 94 54 146 70 188 C 82 214 100 232 120 240 C 126 258 127 272 125 286" fill="none" stroke="#2E3440" stroke-width="1.4" opacity=".4"/>
+  <path d="M 255 36 C 288 58 292 78 284 98 C 296 104 316 118 324 130 C 326 138 314 142 300 142 C 312 150 312 160 300 162 C 312 168 312 180 298 182 C 312 190 314 204 300 212 C 276 232 236 242 196 240 C 170 238 150 228 138 212" fill="none" stroke="#2E3440" stroke-width="1.4" opacity=".4"/>
+  <line x1="60" y1="150" x2="405" y2="118" stroke="#5B6BA8" stroke-width="2"/>
+  <circle cx="150" cy="141" r="4" fill="#5B6BA8"/><circle cx="272" cy="131" r="4" fill="#5B6BA8"/>
+  <text x="112" y="136" font-size="11.5" fill="#5B6BA8">Po</text><text x="276" y="118" font-size="11.5" fill="#5B6BA8">Or</text>
+  <text x="326" y="110" font-size="11" font-style="italic" fill="#5B6BA8">Frankfurt</text>
+  <line x1="90" y1="267" x2="405" y2="181" stroke="#B9982E" stroke-width="2"/>
+  <circle cx="185" cy="244" r="4" fill="#B9982E"/><circle cx="300" cy="210" r="4" fill="#B9982E"/>
+  <text x="170" y="259" font-size="11.5" fill="#8a6d10">Go</text><text x="302" y="231" font-size="11.5" fill="#8a6d10">Me</text>
+  <text x="94" y="288" font-size="11" font-style="italic" fill="#8a6d10">Plano mandibular</text>
+  <path d="M 385 123 Q 400 158 385 190" fill="none" stroke="#B0863A" stroke-width="1.8"/><text x="338" y="164" font-size="13" fill="#B0863A">FMA</text>
+</svg><p class="legenda">As duas linhas convergem posteriormente — o ângulo entre elas é o FMA.</p>`;
+
+const P = [
+  { sig:'FMA', nome:'Ângulo do plano mandibular de Frankfurt', norma:'25° ± 3°',
+    titulo:'Leitura do padrão vertical', svg:SVG_FMA,
+    intro:'Relaciona o plano mandibular à linha de Frankfurt. É um dos principais indicadores do padrão vertical facial e do sentido de crescimento.',
+    mede:'Avalia a <b>inclinação do plano mandibular</b> em relação à base do crânio, refletindo a direção do crescimento facial no sentido vertical.',
+    formula:'FMA = ângulo entre FH (Po–Or) e o plano mandibular (Go–Me)',
+    aum:{f:'> 28°',t:'Rotação mandibular <b>para baixo e para trás</b>, com aumento da dimensão vertical.',b:['Padrão de crescimento vertical','Maior altura facial inferior','Tendência a face alongada','Risco de mordida aberta']},
+    red:{f:'< 22°',t:'Rotação mandibular <b>para cima e para frente</b>, com redução da dimensão vertical.',b:['Padrão de crescimento horizontal','Menor altura facial inferior','Tendência a face curta','Risco de sobremordida profunda']},
+    relA:{h:'Padrão hiperdivergente',t:'FMA aumentado.',b:['Maior altura facial inferior','Rotação posterior da mandíbula','Perfil mais convexo']},
+    relB:{h:'Padrão hipodivergente',t:'FMA reduzido.',b:['Menor altura facial inferior','Rotação anterior da mandíbula','Perfil mais reto']},
+    cuidados:[['Controle vertical','No hiperdivergente, <b>evitar extrusão</b> de molares; usar ancoragem esquelética e intrusão. No hipodivergente, a extrusão é bem tolerada.'],
+      ['Altura da face','FMA alto = face longa; baixo = face curta. Respeitar o padrão facial da família ao mudar a dimensão vertical.'],
+      ['Mecânica de tratamento','Controle vertical como parte central do plano; não agravar o padrão existente.']] },
+
+  { sig:'SNA', nome:'Posição ântero-posterior da maxila', norma:'82° ± 2°',
+    titulo:'Posição da maxila', pontos:'Pontos: S (sela) · N (násio) · A (subespinhal). SNA = ângulo S–N–A.',
+    intro:'Mede a posição ântero-posterior da maxila em relação à base do crânio.',
+    mede:'Indica se a <b>maxila</b> está bem posicionada, protruída ou retruída em relação à base craniana (linha S–N).',
+    formula:'SNA = ângulo formado por Sela–Násio–ponto A',
+    aum:{f:'> 84°',t:'<b>Maxila protruída</b> (prognatismo maxilar) — face média projetada.',b:['Contribui para perfil convexo','Pode gerar Classe II esquelética por maxila','Avaliar com SNB e ANB']},
+    red:{f:'< 80°',t:'<b>Maxila retruída</b> (retrognatismo maxilar) — deficiência de face média.',b:['Contribui para perfil côncavo/reto','Pode gerar Classe III por deficiência maxilar','Candidato a protração precoce']},
+    relA:{h:'Classe II por maxila',t:'SNA alto com SNB normal.',b:['Diferenciar de Classe II por mandíbula','ANB elevado confirma discrepância']},
+    relB:{h:'Classe III por maxila',t:'SNA baixo com SNB normal.',b:['Deficiência maxilar (comum em fissuras)','Máscara facial na janela de crescimento']},
+    cuidados:[['Ler junto com SNB','SNA isolado engana — a discrepância é o ANB (maxila vs. mandíbula). Sempre compare os dois.'],
+      ['Deficiência maxilar precoce','SNA baixo em criança: protração maxilar tem melhor resposta antes dos 10 anos (ver Aparelhos Ortopédicos).'],
+      ['Camuflagem × cirurgia','Grandes discrepâncias de base não se resolvem só com movimento dentário — avaliar ortognática no adulto.']] },
+
+  { sig:'SNB', nome:'Posição ântero-posterior da mandíbula', norma:'80° ± 2°',
+    titulo:'Posição da mandíbula', pontos:'Pontos: S (sela) · N (násio) · B (supramental). SNB = ângulo S–N–B.',
+    intro:'Mede a posição ântero-posterior da mandíbula em relação à base do crânio.',
+    mede:'Indica se a <b>mandíbula</b> está bem posicionada, protruída ou retruída em relação à base craniana.',
+    formula:'SNB = ângulo formado por Sela–Násio–ponto B',
+    aum:{f:'> 82°',t:'<b>Mandíbula protruída</b> (prognatismo mandibular).',b:['Contribui para Classe III esquelética','Perfil côncavo','Avaliar excesso de crescimento mandibular']},
+    red:{f:'< 78°',t:'<b>Mandíbula retruída</b> (retrognatismo mandibular).',b:['Contribui para Classe II esquelética','Perfil convexo','Candidato a avanço funcional em crescimento']},
+    relA:{h:'Classe III por mandíbula',t:'SNB alto.',b:['Prognatismo — controle limitado (mentoneira)','Monitorar até o fim do crescimento']},
+    relB:{h:'Classe II por mandíbula',t:'SNB baixo.',b:['Retrognatismo — melhor alvo dos funcionais','Twin Block/Herbst no surto de crescimento']},
+    cuidados:[['Retrognatismo é o melhor alvo funcional','Classe II por mandíbula retruída responde bem ao avanço no surto — timing é decisivo.'],
+      ['Prognatismo é imprevisível','SNB alto por excesso mandibular: o controle a longo prazo é limitado; reavaliar ao fim do crescimento.'],
+      ['Vetor de crescimento','Combinar com o FMA: mandíbula que roda para trás piora a Classe II aparente.']] },
+
+  { sig:'ANB', nome:'Relação ântero-posterior entre as bases', norma:'2° ± 2°',
+    titulo:'Discrepância esquelética sagital', pontos:'ANB = SNA − SNB. Sintetiza a relação entre maxila e mandíbula.',
+    intro:'Sintetiza a relação ântero-posterior entre maxila e mandíbula — o número que define a classe esquelética.',
+    mede:'Diferença entre SNA e SNB. Traduz a <b>discrepância sagital</b> entre as bases ósseas.',
+    formula:'ANB = SNA − SNB',
+    aum:{f:'> 4°',t:'<b>Classe II esquelética</b> — maxila à frente da mandíbula.',b:['Por maxila protruída, mandíbula retruída ou ambos','Perfil convexo','Definir a origem com SNA e SNB']},
+    red:{f:'< 0° (negativo)',t:'<b>Classe III esquelética</b> — mandíbula à frente da maxila.',b:['Por deficiência maxilar, excesso mandibular ou ambos','Perfil côncavo','Diferenciar origem para escolher a terapia']},
+    relA:{h:'Classe II',t:'ANB elevado.',b:['Funcionais/camuflagem em crescimento','Cirurgia nos casos severos de adulto']},
+    relB:{h:'Classe III',t:'ANB negativo.',b:['Protração se maxila deficiente','Ortognática se excesso mandibular']},
+    cuidados:[['A origem muda tudo','ANB igual pode vir de causas opostas — SNA e SNB dizem se tratar maxila ou mandíbula.'],
+      ['Influência da posição de N','Rotação da base craniana altera o ANB; considerar análises complementares (Wits) em casos limítrofes.'],
+      ['Metas realistas','Discrepância esquelética grande não se camufla com segurança — alinhar expectativa e considerar cirurgia.']] },
+
+  { sig:'IMPA', nome:'Inclinação do incisivo inferior', norma:'90° ± 5°',
+    titulo:'Inclinação do incisivo inferior', pontos:'IMPA = ângulo entre o longo eixo do incisivo inferior e o plano mandibular (Go–Me).',
+    intro:'Mede a inclinação do incisivo inferior em relação ao plano mandibular — chave para o limite de descompensação.',
+    mede:'Indica se os <b>incisivos inferiores</b> estão bem inclinados, vestibularizados (proinclinados) ou lingualizados (retroinclinados).',
+    formula:'IMPA = incisivo inferior × plano mandibular (Go–Me)',
+    aum:{f:'> 95°',t:'Incisivos inferiores <b>vestibularizados/proinclinados</b>.',b:['Compensação comum na Classe III','Risco de recessão gengival vestibular','Pouca margem para mais protrusão']},
+    red:{f:'< 85°',t:'Incisivos inferiores <b>retroinclinados</b>.',b:['Compensação comum na Classe II','Espaço para vestibularizar no alinhamento','Avaliar apinhamento']},
+    relA:{h:'Já compensado (proinclinado)',t:'IMPA alto.',b:['Extrair pode ser necessário para não piorar','Cuidar do periodonto vestibular']},
+    relB:{h:'Retroinclinado',t:'IMPA baixo.',b:['Alinhamento tende a vestibularizar','Ganho de perímetro sem extração em alguns casos']},
+    cuidados:[['Limite periodontal','IMPA alto com gengiva fina = risco de recessão. Não vestibularizar mais sem avaliar biotipo.'],
+      ['Descompensação pré-cirúrgica','Em cirurgia ortognática, os incisivos são descompensados (movidos ao ideal) antes — o IMPA guia isso.'],
+      ['Ancoragem','Decisão de extração e ancoragem depende de quanto os incisivos já estão inclinados.']] },
+
+  { sig:'1.NA', nome:'Posição do incisivo superior (linha NA)', norma:'22° e 4 mm',
+    titulo:'Incisivo superior', pontos:'Ângulo e distância do incisivo superior à linha N–A (Steiner).',
+    intro:'Posição e inclinação do incisivo superior em relação à linha NA (análise de Steiner).',
+    mede:'Avalia a inclinação (ângulo) e a projeção (mm) do <b>incisivo superior</b> — determinante da estética do sorriso e do overjet.',
+    formula:'1.NA angular ≈ 22° · linear ≈ 4 mm à frente de NA',
+    aum:{f:'> 22° / > 4 mm',t:'Incisivo superior <b>vestibularizado/projetado</b>.',b:['Aumenta o overjet e a exposição','Comum na Classe II divisão 1','Perfil com selamento labial forçado']},
+    red:{f:'< 22° / < 4 mm',t:'Incisivo superior <b>verticalizado/retruído</b>.',b:['Comum na Classe II divisão 2','Sorriso "para dentro"','Sobremordida associada']},
+    relA:{h:'Protruído',t:'Valores altos.',b:['Retração após criar espaço','Cuidar do torque radicular']},
+    relB:{h:'Verticalizado',t:'Valores baixos.',b:['Vestibularizar e dar torque','Abrir a sobremordida']},
+    cuidados:[['Estética do sorriso','A posição do incisivo superior domina a estética — mudanças aqui têm alto impacto visual.'],
+      ['Torque radicular','Vestibularizar sem torque leva a raiz para a cortical vestibular; controlar o torque na finalização.'],
+      ['Relação com o lábio','Definir a posição final considerando o lábio superior e a exposição do incisivo em repouso e sorriso.']] },
+
+  { sig:'1.NB', nome:'Posição do incisivo inferior (linha NB)', norma:'25° e 4 mm',
+    titulo:'Incisivo inferior (NB)', pontos:'Ângulo e distância do incisivo inferior à linha N–B (Steiner).',
+    intro:'Posição e inclinação do incisivo inferior em relação à linha NB (análise de Steiner).',
+    mede:'Avalia inclinação e projeção do <b>incisivo inferior</b>, complementando o IMPA na leitura da compensação.',
+    formula:'1.NB angular ≈ 25° · linear ≈ 4 mm à frente de NB',
+    aum:{f:'> 25° / > 4 mm',t:'Incisivo inferior <b>projetado</b>.',b:['Compensação de Classe III','Limite periodontal vestibular','Pouca margem de protrusão']},
+    red:{f:'< 25° / < 4 mm',t:'Incisivo inferior <b>retruído</b>.',b:['Compensação de Classe II','Espaço para alinhar vestibularizando']},
+    relA:{h:'Projetado',t:'Valores altos.',b:['Avaliar extração para não piorar','Proteger o periodonto']},
+    relB:{h:'Retruído',t:'Valores baixos.',b:['Alinhamento vestibulariza','Ganho de perímetro possível']},
+    cuidados:[['Confirma o IMPA','1.NB e IMPA devem contar a mesma história — divergência sugere revisar o traçado.'],
+      ['Estabilidade','O incisivo inferior é a referência de estabilidade — evitar grandes vestibularizações fora do osso.'],
+      ['Triângulo de Holdaway','A relação 1.NB com o pogônio (linha) equilibra a estética do terço inferior.']] },
+
+  { sig:'Overjet', nome:'Trespasse horizontal', norma:'2–3 mm',
+    titulo:'Trespasse horizontal', pontos:'Distância horizontal entre as bordas incisais dos incisivos superiores e inferiores.',
+    intro:'O trespasse horizontal entre incisivos superiores e inferiores — a expressão clínica direta da relação sagital anterior.',
+    mede:'Distância horizontal, em mm, entre a borda do <b>incisivo superior e a do inferior</b>.',
+    formula:'Overjet = distância horizontal incisivo superior ↔ inferior',
+    aum:{f:'> 4 mm',t:'<b>Sobressaliência aumentada</b> — típica da Classe II divisão 1.',b:['Risco de trauma dos incisivos','Selamento labial forçado','Pode ser dentário e/ou esquelético']},
+    red:{f:'≤ 0 mm (cruzada)',t:'<b>Mordida cruzada anterior</b> — incisivo inferior à frente.',b:['Comum na Classe III','Interferência funcional','Corrigir cedo se houver desvio funcional']},
+    relA:{h:'Classe II div. 1',t:'Overjet alto.',b:['Avançar mandíbula em crescimento','Retrair superiores com espaço']},
+    relB:{h:'Classe III / cruzada',t:'Overjet negativo.',b:['Protração/descompensação','Ortognática nos casos esqueléticos']},
+    cuidados:[['Dentário × esquelético','Overjet grande pode ser só inclinação dos incisivos ou discrepância de base — o ANB diferencia.'],
+      ['Proteção contra trauma','Overjet aumentado com incompetência labial eleva o risco de fratura — priorizar a correção em crianças.'],
+      ['Cruzada com desvio','Mordida cruzada anterior com desvio funcional deve ser corrigida assim que diagnosticada.']] },
+
+  { sig:'Overbite', nome:'Trespasse vertical', norma:'2–3 mm (~30%)',
+    titulo:'Trespasse vertical', pontos:'Sobreposição vertical dos incisivos superiores sobre os inferiores.',
+    intro:'O trespasse vertical dos incisivos — reflete a dimensão vertical anterior e o padrão de mordida.',
+    mede:'Quanto o <b>incisivo superior recobre o inferior</b> na vertical (mm ou % da coroa do inferior).',
+    formula:'Overbite = sobreposição vertical incisivo superior sobre o inferior',
+    aum:{f:'> 4 mm',t:'<b>Sobremordida profunda</b> — recobrimento vertical excessivo.',b:['Associada ao padrão hipodivergente','Curva de Spee acentuada','Trauma do palato em casos severos']},
+    red:{f:'≤ 0 mm',t:'<b>Mordida aberta anterior</b> — ausência de trespasse.',b:['Associada ao padrão hiperdivergente','Interposição lingual/hábitos','Difícil e sujeita a recidiva']},
+    relA:{h:'Sobremordida profunda',t:'Overbite alto.',b:['Intruir anteriores / nivelar Spee','Cautela com extrusão posterior']},
+    relB:{h:'Mordida aberta',t:'Overbite negativo.',b:['Controle vertical posterior','Tratar hábito/lingua (ver guias)']},
+    cuidados:[['Ligado ao padrão vertical','Overbite conversa diretamente com o FMA — ler os dois juntos.'],
+      ['Mordida aberta recidiva','Casos esqueléticos abertos são instáveis; controlar a dimensão vertical e a língua, alinhar expectativa.'],
+      ['Como abrir a mordida','Sobremordida profunda: intrusão de incisivos no hiperdivergente, extrusão de posteriores no hipodivergente.']] },
+];
+
+function bloco(cls, rot, txt, bullets, rotcls){
+  const li = (bullets||[]).map(b=>`<li>${b}</li>`).join('');
+  return `<div class="painel ${cls||''}"><div class="p-rot ${rotcls||''}">${rot}</div>
+    <p class="p-txt">${txt}</p>${li?`<ul class="p-lista">${li}</ul>`:''}</div>`;
+}
+
+function render(i){
+  const p = P[i], prox = P[(i+1)%P.length];
+  document.getElementById('nav').innerHTML = P.map((x,j)=>
+    `<button class="pilula ${j===i?'ativa':''}" onclick="render(${j})">${x.sig}</button>`).join('');
+  document.getElementById('conteudo').innerHTML = `
+    <div class="kicker">${p.sig} · ${p.nome}</div>
+    <div class="tit-med">${p.titulo}</div>
+    <p class="intro">${p.intro} <b style="color:var(--acento);font-weight:400">Norma: ${p.norma}.</b></p>
+    ${p.svg || `<div class="pontos">${p.pontos}</div>`}
+    <div class="grade">
+      ${bloco('destaque','O que mede', p.mede)}
+    </div>
+    <div class="grade dois">
+      ${bloco('alta', p.sig+' aumentado · '+p.aum.f, p.aum.t, p.aum.b, 'a')}
+      ${bloco('baixa', p.sig+' reduzido · '+p.red.f, p.red.t, p.red.b, 'b')}
+    </div>
+    <div class="grade dois">
+      ${bloco('', 'Relação · '+p.relA.h, p.relA.t, p.relA.b)}
+      ${bloco('', 'Relação · '+p.relB.h, p.relB.t, p.relB.b)}
+    </div>
+    ${p.formula?`<div class="grade"><div class="painel destaque"><div class="p-rot">Como se mede</div><div class="formula" style="border:none;margin:0;padding:0">${p.formula}</div></div></div>`:''}
+    <div class="h-cuidados">Cuidados na mecânica</div>
+    ${p.cuidados.map((c,n)=>`<div class="cuidado"><div class="c-num">0${n+1}</div>
+      <div><div class="c-tit">${c[0]}</div><div class="c-txt">${c[1]}</div></div></div>`).join('')}
+    <div class="proximo" onclick="render(${(i+1)%P.length})">
+      <div><div class="r">Próximo parâmetro</div><div class="n">${prox.sig} — ${prox.nome.toLowerCase()}</div></div>
+      <div class="li-seta">›</div>
+    </div>
+    <p class="fontes"><b>Referências:</b> Tweed CH (1954) · Steiner CC (1953) · Ricketts RM (1981) ·
+    + estudos do acervo OdontoFeed com amostras brasileiras. Material de apoio — a conduta é do ortodontista.</p>
+    <div class="marca"><b>Odonto<span class="p">Feed</span></b> · Atlas Cefalométrico · protótipo (não publicado)</div>`;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+render(0);
+</script>
 </body>
 </html>
