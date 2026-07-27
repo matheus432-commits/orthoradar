@@ -3,88 +3,50 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aparelhos Ortopédicos — Ferramenta de Decisão · OdontoFeed (protótipo)</title>
-<style>
-:root{
-  --papel:#F8F5EF; --carta:#FFFFFF; --tinta:#1B2440; --tinta-suave:#5B6478;
-  --ouro:#C9A227; --ouro-claro:#F3E7C4;
-  --orto:#6D8BFF; --orto-claro:#EDF1FF; --orto-escuro:#4A66D4;
-  --ok:#2E9E6B; --ok-bg:#E7F5EE;
-  --borda:#E7E2D6; --raio:18px;
-  --serif:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
-  --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Roboto,sans-serif;
-}
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--papel);color:var(--tinta);font-family:var(--sans);line-height:1.55;
-  -webkit-font-smoothing:antialiased}
-.pagina{max-width:760px;margin:0 auto;padding:28px 18px 60px}
-
-.selo{display:inline-flex;align-items:center;gap:8px;background:var(--orto-claro);
-  color:var(--orto-escuro);font-size:11px;font-weight:800;letter-spacing:1.6px;
-  text-transform:uppercase;padding:7px 14px;border-radius:999px;margin-bottom:16px}
-.selo::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--orto)}
-h1{font-family:var(--serif);font-size:clamp(30px,6vw,42px);font-weight:700;
-  letter-spacing:-0.5px;line-height:1.12}
-.sub{color:var(--tinta-suave);font-size:15.5px;margin-top:10px;max-width:56ch}
-.filete{height:3px;width:64px;background:linear-gradient(90deg,var(--ouro),var(--orto));
-  border-radius:2px;margin:22px 0 26px}
-
-/* ── Seleção do objetivo ─────────────────────────────────────────────────── */
-.pergunta{font-family:var(--serif);font-size:19px;font-weight:700;margin-bottom:14px}
-.objetivos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:30px}
+<title>Aparelhos Ortopédicos — OdontoFeed</title>
+<link rel="stylesheet" href="odontofeed.css">
+<style>:root{--acento:#5B6BA8}
+.pergunta{font-family:var(--serif);font-size:18px;font-weight:400;color:var(--grafite);margin-bottom:14px}
+.objetivos{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:30px}
 @media(max-width:520px){.objetivos{grid-template-columns:1fr}}
-.obj{background:var(--carta);border:1.5px solid var(--borda);border-radius:15px;
-  padding:16px 16px 14px;cursor:pointer;text-align:left;font-family:inherit;transition:.15s;
-  display:flex;gap:12px;align-items:flex-start}
-.obj:hover{border-color:var(--orto)}
-.obj.ativo{border-color:var(--orto-escuro);background:var(--orto-claro);
-  box-shadow:0 8px 22px rgba(109,139,255,.18)}
-.obj-ico{width:38px;height:38px;border-radius:11px;background:var(--orto-claro);
-  display:grid;place-items:center;font-size:19px;flex:0 0 auto}
-.obj.ativo .obj-ico{background:#fff}
-.obj-titulo{font-size:14.5px;font-weight:800}
-.obj-desc{font-size:12px;color:var(--tinta-suave);margin-top:2px}
-
-/* ── Resultado ───────────────────────────────────────────────────────────── */
-.res-cab{display:flex;align-items:center;gap:10px;margin:4px 0 16px}
-.res-cab .n{background:var(--tinta);color:#fff;font-size:12px;font-weight:800;
-  padding:4px 11px;border-radius:999px}
-.res-cab .t{font-size:13.5px;color:var(--tinta-suave)}
-.aparelho{background:var(--carta);border:1px solid var(--borda);border-radius:var(--raio);
-  padding:22px;margin-bottom:18px;box-shadow:0 10px 30px rgba(27,36,64,.06)}
-.ap-topo{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.ap-nome{font-family:var(--serif);font-size:21px;font-weight:700;color:var(--orto-escuro)}
-.chip{font-size:10.5px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;
-  padding:4px 10px;border-radius:999px}
-.chip.removivel{background:var(--ok-bg);color:var(--ok)}
-.chip.fixo{background:#EEE9FB;color:#7C5CD6}
-.chip.extra{background:#FCEDE3;color:#D97B1F}
-.janela{margin-left:auto;background:var(--ouro-claro);color:#8a6d10;font-size:11.5px;
-  font-weight:800;padding:5px 11px;border-radius:999px;white-space:nowrap}
-.ap-quando{font-size:13.8px;margin-top:10px}
-.ap-quando b{color:var(--orto-escuro)}
-.bloco{margin-top:13px;background:var(--papel);border-radius:12px;padding:13px 15px}
-.bloco-rotulo{font-size:10.5px;font-weight:800;letter-spacing:1.3px;text-transform:uppercase;
-  color:var(--ouro);margin-bottom:6px;display:flex;align-items:center;gap:6px}
-.bloco-rotulo::before{content:'→';font-size:13px}
-.bloco li{font-size:13.2px;margin-left:17px;margin-top:4px}
-.evid{display:flex;gap:9px;margin-top:13px;font-size:12.6px;color:var(--tinta-suave);
-  border-left:3px solid var(--ouro);padding-left:11px}
-.rodape-nota{background:var(--carta);border:1px dashed var(--borda);border-radius:13px;
-  padding:14px 16px;font-size:12.5px;color:var(--tinta-suave);margin-top:8px}
-.marca{margin-top:34px;text-align:center;font-size:12px;color:var(--tinta-suave)}
-.marca b{color:var(--tinta);font-weight:800}
-.marca .ponto{color:var(--ouro)}
+.obj{background:var(--carta);border:1px solid var(--linha);border-radius:10px;
+  padding:15px 16px;cursor:pointer;text-align:left;font-family:inherit;transition:.15s}
+.obj:hover{border-color:var(--suave)}
+.obj.ativo{border-color:var(--acento);background:color-mix(in srgb,var(--acento) 5%,white)}
+.obj-titulo{font-size:14.5px;font-weight:600;color:var(--grafite)}
+.obj-desc{font-size:12px;color:var(--suave);margin-top:3px}
+.res-cab{display:flex;align-items:baseline;gap:10px;margin:4px 0 16px}
+.res-cab .n{color:var(--grafite);font-size:15px;font-family:var(--serif)}
+.res-cab .t{font-size:13px;color:var(--suave)}
+.aparelho{background:var(--carta);border:1px solid var(--linha);border-radius:var(--raio);
+  padding:22px;margin-bottom:16px}
+.ap-topo{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.ap-nome{font-family:var(--serif);font-size:20px;font-weight:400;color:var(--acento)}
+.chip{font-size:11px;letter-spacing:.3px;color:var(--suave)}
+.chip.removivel::before{content:'Removível'} .chip.fixo::before{content:'Fixo'}
+.chip.extra::before{content:'Extrabucal'}
+.janela{margin-left:auto;font-size:11.5px;color:var(--alta);white-space:nowrap}
+.ap-quando{font-size:13.8px;margin-top:11px;color:var(--texto)}
+.ap-quando b{color:var(--grafite);font-weight:600}
+.bloco{margin-top:13px;padding-top:12px;border-top:1px solid var(--linha)}
+.bloco-rotulo{font-size:10.5px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;
+  color:var(--acento);margin-bottom:5px}
+.bloco li{font-size:13.2px;margin-left:16px;margin-top:4px}
+.evid{display:flex;gap:9px;margin-top:14px;font-size:12.6px;color:var(--suave);
+  border-left:2px solid var(--ouro);padding-left:11px}
+.rodape-nota{background:var(--carta);border:1px dashed var(--linha);border-radius:10px;
+  padding:14px 16px;font-size:12.5px;color:var(--suave);margin-top:8px}
 </style>
 </head>
 <body>
 <div class="pagina">
 
-  <div class="selo">Ortodontia · Ferramenta de decisão OdontoFeed</div>
+  <a class="voltar" href="dashboard-com-ferramentas.html">‹ Ferramentas</a>
+  <div class="selo">Ortodontia · Ferramenta</div>
   <h1>Aparelhos Ortopédicos</h1>
   <p class="sub">Selecione o que você quer fazer no seu paciente — a ferramenta
-  entrega os aparelhos indicados, com o <b>protocolo de cada um</b> e as
-  orientações que importam na cadeira.</p>
+  entrega os aparelhos indicados, com o protocolo de cada um e as orientações que
+  importam na cadeira.</p>
   <div class="filete"></div>
 
   <div class="pergunta">O que você quer fazer no seu paciente?</div>
@@ -96,7 +58,7 @@ h1{font-family:var(--serif);font-size:clamp(30px,6vw,42px);font-weight:700;
   literatura citada em cada aparelho — a indicação final considera o exame
   clínico completo e é sempre do ortodontista responsável.</div>
 
-  <div class="marca"><b>Odonto<span class="ponto">Feed</span></b> · Ferramentas · protótipo (não publicado)</div>
+  <div class="marca"><b>Odonto<span class="p">Feed</span></b> · Ferramentas · protótipo (não publicado)</div>
 </div>
 
 <script>
@@ -292,9 +254,8 @@ function renderObjetivos() {
   const el = document.getElementById('objetivos');
   el.innerHTML = Object.entries(DADOS).map(([id, o]) => `
     <button class="obj" id="obj-${id}" onclick="selecionar('${id}')">
-      <span class="obj-ico">${o.icone}</span>
-      <span><span class="obj-titulo">${o.titulo}</span><br>
-      <span class="obj-desc">${o.desc}</span></span>
+      <span class="obj-titulo">${o.titulo}</span>
+      <span class="obj-desc">${o.desc}</span>
     </button>`).join('');
 }
 
@@ -304,20 +265,20 @@ function selecionar(id) {
   const o = DADOS[id];
   document.getElementById('resultado').innerHTML = `
     <div class="res-cab"><span class="n">${o.aparelhos.length} opções</span>
-      <span class="t"><b>${o.titulo}</b> — cada uma com protocolo e orientações</span></div>
+      <span class="t">${o.titulo} — cada uma com protocolo e orientações</span></div>
     ${o.aparelhos.map(a => `
       <div class="aparelho">
         <div class="ap-topo">
           <span class="ap-nome">${a.nome}</span>
-          <span class="chip ${a.tipo}">${TIPO_LABEL[a.tipo]}</span>
-          <span class="janela">⏱ ${a.janela}</span>
+          <span class="chip ${a.tipo}"></span>
+          <span class="janela">${a.janela}</span>
         </div>
         <p class="ap-quando">${a.quando}</p>
         <div class="bloco"><div class="bloco-rotulo">Protocolo</div>
           <ul>${a.protocolo.map(p => `<li>${p}</li>`).join('')}</ul></div>
         <div class="bloco"><div class="bloco-rotulo">Orientações ao paciente</div>
           <ul>${a.orientacoes.map(p => `<li>${p}</li>`).join('')}</ul></div>
-        <div class="evid">🔬 ${a.evid}</div>
+        <div class="evid">${a.evid}</div>
       </div>`).join('')}`;
   if (!primeiraCarga) document.getElementById('resultado').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }

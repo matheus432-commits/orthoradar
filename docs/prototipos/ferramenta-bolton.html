@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Análise de Bolton — OdontoFeed</title>
+<link rel="stylesheet" href="odontofeed.css">
+<style>:root{--acento:#5B6BA8}
+.dentes{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin-top:6px}
+.dente label{font-size:10.5px;color:var(--suave);display:block;text-align:center;margin-bottom:3px}
+.dente input{width:100%;padding:8px 4px;border:1px solid var(--linha);border-radius:7px;
+  font-family:inherit;font-size:14px;text-align:center;color:var(--grafite);background:var(--papel)}
+.dente input:focus{outline:none;border-color:var(--acento)}
+.grupo-rot{font-size:11px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;
+  color:var(--suave);margin:18px 0 4px}
+.veredito{font-size:14px;color:var(--texto);margin-top:8px}
+.veredito b{color:var(--grafite);font-weight:600}
+</style>
+</head>
+<body>
+<div class="pagina">
+  <a class="voltar" href="dashboard-com-ferramentas.html">‹ Ferramentas</a>
+  <div class="selo">Ortodontia · Ferramenta</div>
+  <h1>Análise de Bolton</h1>
+  <p class="sub">Meça a largura mésio-distal dos dentes e receba as proporções
+  anterior e total, com o excesso em milímetros e onde ele está.</p>
+  <div class="filete"></div>
+
+  <div class="calc">
+    <div class="grupo-rot">Arcada superior — largura mésio-distal (mm)</div>
+    <div class="dentes" id="sup"></div>
+    <div class="grupo-rot">Arcada inferior — largura mésio-distal (mm)</div>
+    <div class="dentes" id="inf"></div>
+
+    <div class="resultado" id="resultado" style="display:none">
+      <div class="res-linha">
+        <span class="res-rot">Proporção total (12 dentes)<br><small class="tag">normal: 91,3% ± 1,9</small></span>
+        <span class="res-val" id="vTotal">—</span>
+      </div>
+      <div class="res-linha">
+        <span class="res-rot">Proporção anterior (6 dentes)<br><small class="tag">normal: 77,2% ± 1,7</small></span>
+        <span class="res-val" id="vAnt">—</span>
+      </div>
+      <div class="veredito" id="veredito"></div>
+    </div>
+  </div>
+
+  <div class="evid" id="evid" style="margin-top:20px">Preencha as larguras para ver a
+  análise. Some as larguras dos 6 dentes anteriores (canino a canino) e dos 12
+  dentes (até o primeiro molar) de cada arcada.</div>
+
+  <div class="nota-rodape">Os valores de referência são os originais de Bolton
+  (1958). Discrepâncias pequenas (&lt; 1,5 mm) raramente têm significado clínico;
+  a leitura final considera o objetivo do caso e é do ortodontista.</div>
+
+  <div class="marca"><b>Odonto<span class="p">Feed</span></b> · Ferramentas · protótipo (não publicado)</div>
+</div>
+
+<script>
+// Dentes por arcada, de um lado ao outro (canino a canino = os 6 anteriores).
+const SUP = [
+  ['13','Canino'],['12','Lateral'],['11','Central'],['21','Central'],['22','Lateral'],['23','Canino'],
+  ['14','1º pré'],['15','2º pré'],['16','1º molar'],['24','1º pré'],['25','2º pré'],['26','1º molar'],
+];
+const INF = [
+  ['43','Canino'],['42','Lateral'],['41','Central'],['31','Central'],['32','Lateral'],['33','Canino'],
+  ['44','1º pré'],['45','2º pré'],['46','1º molar'],['34','1º pré'],['35','2º pré'],['36','1º molar'],
+];
+// os 6 primeiros de cada lista são os anteriores (canino a canino)
+
+function montar(el, arr){
+  document.getElementById(el).innerHTML = arr.map((d,i) =>
+    `<div class="dente"><label>${d[0]} · ${d[1]}</label>
+     <input type="number" step="0.1" min="0" max="15" data-arc="${el}" data-i="${i}" oninput="calc()"></div>`
+  ).join('');
+}
+// grid de 6 colunas: renderizamos anteriores (6) numa fileira e posteriores (6) na outra
+montar('sup', SUP); montar('inf', INF);
+
+function soma(arc, ini, fim){
+  let s = 0, n = 0;
+  document.querySelectorAll(`[data-arc="${arc}"]`).forEach((inp,i) => {
+    if (i >= ini && i < fim) { const v = parseFloat(inp.value); if (!isNaN(v)) { s += v; n++; } }
+  });
+  return { s, completo: n === (fim - ini) };
+}
+
+function faixa(valor, alvo, dp){
+  if (valor > alvo + dp) return 'acima';
+  if (valor < alvo - dp) return 'abaixo';
+  return 'dentro';
+}
+
+function calc(){
+  const supTot = soma('sup',0,12), infTot = soma('inf',0,12);
+  const supAnt = soma('sup',0,6),  infAnt = soma('inf',0,6);
+  const res = document.getElementById('resultado');
+  const evid = document.getElementById('evid');
+
+  const temTotal = supTot.completo && infTot.completo && supTot.s > 0;
+  const temAnt   = supAnt.completo && infAnt.completo && supAnt.s > 0;
+  if (!temTotal && !temAnt) { res.style.display='none'; return; }
+  res.style.display='block'; evid.style.display='none';
+
+  let msgs = [];
+
+  if (temTotal){
+    const total = (infTot.s / supTot.s) * 100;
+    document.getElementById('vTotal').textContent = total.toFixed(1) + '%';
+    const f = faixa(total, 91.3, 1.9);
+    if (f === 'dentro') msgs.push('A proporção <b>total está dentro da norma</b> — sem discrepância global de tamanho.');
+    else {
+      // excesso em mm: quanto de dente sobra numa arcada para bater a proporção ideal
+      const infIdeal = supTot.s * 0.913;
+      const excInf = infTot.s - infIdeal;
+      if (f === 'acima') msgs.push(`Há <b>excesso inferior total de ${excInf.toFixed(1)} mm</b> (dentes inferiores largos demais para os superiores).`);
+      else msgs.push(`Há <b>excesso superior total de ${Math.abs(excInf).toFixed(1)} mm</b> (dentes superiores largos demais para os inferiores).`);
+    }
+  } else document.getElementById('vTotal').textContent = '—';
+
+  if (temAnt){
+    const ant = (infAnt.s / supAnt.s) * 100;
+    document.getElementById('vAnt').textContent = ant.toFixed(1) + '%';
+    const f = faixa(ant, 77.2, 1.7);
+    if (f === 'dentro') msgs.push('A proporção <b>anterior está dentro da norma</b>.');
+    else {
+      const infIdealAnt = supAnt.s * 0.772;
+      const excAntInf = infAnt.s - infIdealAnt;
+      if (f === 'acima') msgs.push(`Excesso <b>anterior inferior de ${excAntInf.toFixed(1)} mm</b> — considere desgaste interproximal inferior ou avaliar o formato dos incisivos.`);
+      else msgs.push(`Excesso <b>anterior superior de ${Math.abs(excAntInf).toFixed(1)} mm</b> — comum com incisivos laterais conoides; avalie desgaste/adição superior.`);
+    }
+  } else document.getElementById('vAnt').textContent = '—';
+
+  document.getElementById('veredito').innerHTML = msgs.join(' ');
+}
+</script>
+</body>
+</html>

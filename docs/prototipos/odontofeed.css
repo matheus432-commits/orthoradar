@@ -1,0 +1,128 @@
+/* ============================================================================
+   OdontoFeed — Sistema de design da área de membro (protótipos)
+   Diretriz do fundador (27/07), vale para TODAS as abas:
+   · sem emojis ao lado dos títulos;
+   · nada de negrito pesado / preto chapado (ar infantil);
+   · pesos de fonte leves (400–500), texto em grafite (não preto),
+     filetes de 1px, muito respiro. Ar sério, editorial, profissional.
+   Cada página define --acento (cor da especialidade) no :root ou inline.
+   ============================================================================ */
+:root{
+  --papel:#FBFAF7; --carta:#FFFFFF; --grafite:#2E3440; --texto:#3C4250;
+  --suave:#8A8F9C; --linha:#ECEAE3; --ouro:#B9982E;
+  --acento:#5B6BA8;                 /* cor da especialidade — sobrescrever por página */
+  --ok:#3E8F86; --ok-bg:#EEF6F4; --alta:#B0863A; --alta-bg:#F7F1E6;
+  --serif:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
+  --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Roboto,sans-serif;
+  --raio:12px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--papel);color:var(--texto);font-family:var(--sans);line-height:1.55;
+  -webkit-font-smoothing:antialiased;letter-spacing:.1px}
+.pagina{max-width:680px;margin:0 auto;padding:34px 20px 64px}
+
+/* ── Cabeçalho ─────────────────────────────────────────────────────────────── */
+.selo{font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;
+  color:var(--acento);margin-bottom:14px}
+h1{font-family:var(--serif);font-size:clamp(26px,6vw,34px);font-weight:400;
+  letter-spacing:.2px;color:var(--grafite)}
+.sub{color:var(--suave);font-size:14.5px;margin-top:9px;max-width:56ch;font-weight:400}
+.filete{height:1px;width:100%;background:var(--linha);margin:22px 0 26px}
+
+/* rótulos e títulos de seção */
+.rot{font-size:11px;font-weight:600;letter-spacing:1.6px;text-transform:uppercase;
+  color:var(--suave);margin-bottom:12px}
+.h-sec{font-family:var(--serif);font-size:19px;font-weight:400;color:var(--grafite);margin:6px 0 12px}
+
+/* ── Seletor horizontal (chips / opções) ───────────────────────────────────── */
+.opcoes{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:26px}
+.opcoes.scroll{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+.opcoes.scroll::-webkit-scrollbar{display:none}
+.op{flex:0 0 auto;background:var(--carta);border:1px solid var(--linha);border-radius:10px;
+  padding:12px 15px;cursor:pointer;font-family:inherit;font-size:13.5px;font-weight:400;
+  color:var(--texto);transition:.15s;text-align:left;line-height:1.35}
+.op:hover{border-color:var(--suave)}
+.op.ativo{border-color:var(--acento);background:color-mix(in srgb,var(--acento) 6%,white);color:var(--grafite)}
+.op b{font-weight:600;color:var(--grafite);display:block}
+.op small{color:var(--suave);font-size:11.5px}
+
+/* ── Lista de títulos (menu) ───────────────────────────────────────────────── */
+.lista{margin-top:10px;border-top:1px solid var(--linha)}
+.linha{display:flex;align-items:center;gap:14px;padding:16px 4px;cursor:pointer;
+  text-decoration:none;color:inherit;border-bottom:1px solid var(--linha);transition:padding-left .15s}
+.linha:hover{padding-left:9px}
+.li-tit{flex:1;min-width:0;font-size:15px;font-weight:400;color:var(--grafite)}
+.li-seta{font-size:17px;color:var(--acento);font-weight:300}
+
+/* ── Bloco de conteúdo / parâmetro ─────────────────────────────────────────── */
+.bloco{background:var(--carta);border:1px solid var(--linha);border-radius:var(--raio);
+  padding:22px 22px 20px;margin-bottom:18px}
+.b-topo{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.b-sigla{font-family:var(--serif);font-size:26px;font-weight:400;color:var(--acento)}
+.b-nome{font-size:13.5px;color:var(--suave)}
+.b-norma{margin-left:auto;font-size:12px;color:var(--ok);background:var(--ok-bg);
+  padding:5px 12px;border-radius:999px;white-space:nowrap}
+.b-def{margin-top:13px;font-size:14.5px;color:var(--texto);max-width:60ch}
+.b-def b{font-weight:600;color:var(--grafite)}
+
+/* cartões de interpretação (ex.: aumentado / reduzido / normal) */
+.interp{display:grid;grid-template-columns:1fr;gap:13px;margin-top:18px}
+@media(min-width:620px){.interp.dois{grid-template-columns:1fr 1fr}}
+.ic{border:1px solid var(--linha);border-radius:10px;padding:16px 17px}
+.ic.alta{border-left:2px solid var(--alta)} .ic.baixa{border-left:2px solid var(--acento)}
+.ic.norma{border-left:2px solid var(--ok)}
+.ic-cab{display:flex;align-items:center;gap:9px;margin-bottom:8px}
+.ic-tit{font-size:15px;font-weight:600;color:var(--grafite)}
+.ic-faixa{margin-left:auto;font-size:11.5px;color:var(--suave)}
+.ic-txt{font-size:13.5px;color:var(--texto)}
+.conduta{margin-top:11px;padding-top:11px;border-top:1px solid var(--linha)}
+.conduta-rot{font-size:10.5px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;
+  color:var(--acento);margin-bottom:5px}
+.conduta li{font-size:13.3px;margin-left:16px;margin-top:4px}
+
+/* nota de evidência */
+.evid{display:flex;gap:10px;margin-top:16px;font-size:12.8px;color:var(--suave);
+  border-left:2px solid var(--ouro);padding:2px 0 2px 12px}
+
+/* ── Calculadora ───────────────────────────────────────────────────────────── */
+.calc{background:var(--carta);border:1px solid var(--linha);border-radius:var(--raio);padding:22px}
+.campo{display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:12px 0;border-bottom:1px solid var(--linha)}
+.campo:last-of-type{border-bottom:none}
+.campo label{font-size:14px;color:var(--texto)}
+.campo label small{display:block;color:var(--suave);font-size:11.5px}
+.campo input{width:96px;padding:9px 12px;border:1px solid var(--linha);border-radius:8px;
+  font-family:inherit;font-size:15px;color:var(--grafite);background:var(--papel);text-align:right}
+.campo input:focus{outline:none;border-color:var(--acento)}
+.resultado{margin-top:18px;padding:18px 20px;border:1px solid var(--linha);border-radius:10px;
+  background:color-mix(in srgb,var(--acento) 4%,white)}
+.res-linha{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding:6px 0}
+.res-rot{font-size:13.5px;color:var(--texto)}
+.res-val{font-family:var(--serif);font-size:22px;font-weight:400;color:var(--grafite)}
+.res-val small{font-size:12px;color:var(--suave);font-family:var(--sans)}
+
+/* ── Receita / itens listados ──────────────────────────────────────────────── */
+.item{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--linha)}
+.item:last-child{border-bottom:none}
+.item-n{width:22px;height:22px;border-radius:6px;background:var(--papel);color:var(--suave);
+  font-size:12px;display:grid;place-items:center;flex:0 0 auto;margin-top:1px;border:1px solid var(--linha)}
+.item-nome{font-size:14.5px;font-weight:600;color:var(--grafite)}
+.item-pos{font-size:13.3px;color:var(--texto);margin-top:1px}
+.item-obs{font-size:12.3px;color:var(--suave);margin-top:3px}
+
+/* pílula/tag discreta */
+.tag{font-size:11px;color:var(--suave);letter-spacing:.3px}
+.aviso{display:flex;gap:9px;font-size:12.8px;color:var(--texto);background:var(--alta-bg);
+  border-radius:10px;padding:12px 14px;margin-top:12px}
+.aviso b{color:var(--alta)}
+
+/* ── Rodapé ────────────────────────────────────────────────────────────────── */
+.nota-rodape{background:var(--carta);border:1px dashed var(--linha);border-radius:10px;
+  padding:14px 16px;font-size:12.5px;color:var(--suave);margin-top:8px}
+.marca{margin-top:34px;text-align:center;font-size:11.5px;color:var(--suave);letter-spacing:.3px}
+.marca b{color:var(--texto);font-weight:600}.marca .p{color:var(--ouro)}
+
+/* ── Navegação de volta ao hub ─────────────────────────────────────────────── */
+.voltar{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--suave);
+  text-decoration:none;margin-bottom:18px}
+.voltar:hover{color:var(--grafite)}

@@ -3,115 +3,75 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Prescrição Segura — Ferramenta OdontoFeed (protótipo)</title>
-<style>
-:root{
-  --papel:#F8F5EF; --carta:#FFFFFF; --tinta:#1B2440; --tinta-suave:#5B6478;
-  --ouro:#C9A227; --ouro-claro:#F3E7C4;
-  --verde:#2E9E6B; --verde-claro:#E7F5EE; --verde-escuro:#1F7A50;
-  --alerta:#C0392B; --alerta-bg:#FCEDEB;
-  --borda:#E7E2D6; --raio:18px;
-  --serif:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
-  --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Roboto,sans-serif;
-}
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--papel);color:var(--tinta);font-family:var(--sans);line-height:1.55;
-  -webkit-font-smoothing:antialiased}
-.pagina{max-width:760px;margin:0 auto;padding:28px 18px 60px}
-
-.selo{display:inline-flex;align-items:center;gap:8px;background:var(--verde-claro);
-  color:var(--verde-escuro);font-size:11px;font-weight:800;letter-spacing:1.6px;
-  text-transform:uppercase;padding:7px 14px;border-radius:999px;margin-bottom:16px}
-.selo::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--verde)}
-h1{font-family:var(--serif);font-size:clamp(30px,6vw,42px);font-weight:700;
-  letter-spacing:-0.5px;line-height:1.12}
-.sub{color:var(--tinta-suave);font-size:15.5px;margin-top:10px;max-width:56ch}
-.filete{height:3px;width:64px;background:linear-gradient(90deg,var(--ouro),var(--verde));
-  border-radius:2px;margin:22px 0 26px}
-
+<title>Prescrição Segura — OdontoFeed</title>
+<link rel="stylesheet" href="odontofeed.css">
+<style>:root{--acento:#3E8F86}
 .passo{display:flex;align-items:center;gap:9px;margin:0 0 13px}
-.passo .num{width:24px;height:24px;border-radius:50%;background:var(--tinta);color:#fff;
-  font-size:12px;font-weight:800;display:grid;place-items:center;flex:0 0 auto}
-.passo .txt{font-family:var(--serif);font-size:18.5px;font-weight:700}
-
-/* situações */
-.situacoes{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:28px}
+.passo .num{width:22px;height:22px;border-radius:50%;border:1px solid var(--linha);color:var(--suave);
+  font-size:12px;display:grid;place-items:center;flex:0 0 auto}
+.passo .txt{font-family:var(--serif);font-size:18px;font-weight:400;color:var(--grafite)}
+.situacoes{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:28px}
 @media(max-width:520px){.situacoes{grid-template-columns:1fr}}
-.sit{background:var(--carta);border:1.5px solid var(--borda);border-radius:14px;padding:14px;
-  cursor:pointer;text-align:left;font-family:inherit;transition:.15s;display:flex;gap:11px;align-items:center}
-.sit:hover{border-color:var(--verde)}
-.sit.ativo{border-color:var(--verde-escuro);background:var(--verde-claro);
-  box-shadow:0 8px 22px rgba(46,158,107,.15)}
-.sit-ico{font-size:20px;flex:0 0 auto}
-.sit-nome{font-size:14px;font-weight:800}
-.sit-desc{font-size:11.5px;color:var(--tinta-suave)}
-
-/* perfil do paciente */
-.perfil{background:var(--carta);border:1px solid var(--borda);border-radius:var(--raio);
+.sit{background:var(--carta);border:1px solid var(--linha);border-radius:10px;padding:14px;
+  cursor:pointer;text-align:left;font-family:inherit;transition:.15s}
+.sit:hover{border-color:var(--suave)}
+.sit.ativo{border-color:var(--acento);background:color-mix(in srgb,var(--acento) 5%,white)}
+.sit-nome{font-size:14px;font-weight:600;color:var(--grafite)}
+.sit-desc{font-size:11.5px;color:var(--suave);margin-top:2px}
+.perfil{background:var(--carta);border:1px solid var(--linha);border-radius:var(--raio);
   padding:18px 20px;margin-bottom:28px}
 .perfil-linha{display:flex;flex-wrap:wrap;gap:8px;margin-top:11px}
-.tog{border:1.5px solid var(--borda);background:var(--papel);border-radius:999px;
-  padding:7px 14px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:inherit;
-  color:var(--tinta-suave);transition:.15s}
-.tog:hover{border-color:var(--verde)}
-.tog.on{background:var(--tinta);border-color:var(--tinta);color:#fff}
-.perfil-rot{font-size:10.5px;font-weight:800;letter-spacing:1.3px;text-transform:uppercase;
-  color:var(--tinta-suave)}
+.tog{border:1px solid var(--linha);background:var(--papel);border-radius:999px;
+  padding:7px 14px;font-size:12.5px;font-weight:400;cursor:pointer;font-family:inherit;
+  color:var(--texto);transition:.15s}
+.tog:hover{border-color:var(--suave)}
+.tog.on{background:var(--grafite);border-color:var(--grafite);color:#fff}
+.perfil-rot{font-size:10.5px;font-weight:600;letter-spacing:1.3px;text-transform:uppercase;color:var(--suave)}
 .peso-linha{display:flex;align-items:center;gap:10px;margin-top:13px;flex-wrap:wrap}
-.peso-linha input{width:88px;padding:8px 11px;border:1.5px solid var(--borda);border-radius:10px;
-  font-family:inherit;font-size:14px;font-weight:700;color:var(--tinta);background:var(--papel)}
-
-/* receita */
-.receita{background:var(--carta);border:1px solid var(--borda);border-radius:var(--raio);
-  padding:24px;box-shadow:0 10px 30px rgba(27,36,64,.06);margin-bottom:18px}
+.peso-linha input{width:84px;padding:8px 11px;border:1px solid var(--linha);border-radius:8px;
+  font-family:inherit;font-size:14px;color:var(--grafite);background:var(--papel)}
+.receita{background:var(--carta);border:1px solid var(--linha);border-radius:var(--raio);padding:24px;margin-bottom:18px}
 .rec-cab{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;
-  border-bottom:1px solid var(--borda);padding-bottom:13px;margin-bottom:15px}
-.rec-titulo{font-family:var(--serif);font-size:20px;font-weight:700;color:var(--verde-escuro)}
-.rec-tag{margin-left:auto;font-size:10.5px;font-weight:800;letter-spacing:.6px;
-  text-transform:uppercase;background:var(--verde-claro);color:var(--verde-escuro);
-  padding:4px 10px;border-radius:999px}
-.rec-tag.alt{background:var(--ouro-claro);color:#8a6d10}
-.item{display:flex;gap:12px;padding:11px 0;border-bottom:1px dashed var(--borda)}
+  border-bottom:1px solid var(--linha);padding-bottom:13px;margin-bottom:15px}
+.rec-titulo{font-family:var(--serif);font-size:20px;font-weight:400;color:var(--acento)}
+.rec-tag{margin-left:auto;font-size:11px;letter-spacing:.3px;color:var(--suave)}
+.item{display:flex;gap:12px;padding:11px 0;border-bottom:1px solid var(--linha)}
 .item:last-of-type{border-bottom:none}
-.item-n{width:22px;height:22px;border-radius:6px;background:var(--papel);color:var(--tinta-suave);
-  font-size:11px;font-weight:800;display:grid;place-items:center;flex:0 0 auto;margin-top:2px}
-.item-farmaco{font-size:14.5px;font-weight:800}
-.item-pos{font-size:13.3px;color:var(--tinta-suave);margin-top:1px}
-.item-obs{font-size:12.3px;color:var(--tinta-suave);font-style:italic;margin-top:3px}
-.motivo{background:var(--papel);border-radius:12px;padding:12px 14px;margin-top:14px;font-size:13px}
-.motivo b{color:var(--verde-escuro)}
-.alerta{display:flex;gap:10px;background:var(--alerta-bg);border-radius:12px;padding:13px 15px;
-  margin-top:12px;font-size:13px;color:#7d2419}
-.alerta b{color:var(--alerta)}
-.copiar{margin-top:15px;background:var(--tinta);color:#fff;border:none;border-radius:11px;
-  padding:11px 18px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer}
-
-/* calculadora */
-.calc{background:linear-gradient(180deg,#1B2440,#141B31);color:#fff;border-radius:var(--raio);
-  padding:24px;margin-top:26px}
-.calc h2{font-family:var(--serif);font-size:21px;font-weight:700;margin-bottom:4px}
-.calc .cs{font-size:13px;opacity:.7;margin-bottom:16px}
-.sais{display:grid;gap:9px}
-.sal{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.07);
-  border-radius:12px;padding:12px 14px}
-.sal-nome{font-size:13.5px;font-weight:700}
-.sal-det{font-size:11.5px;opacity:.65}
+.item-n{width:22px;height:22px;border-radius:6px;background:var(--papel);color:var(--suave);
+  font-size:11px;display:grid;place-items:center;flex:0 0 auto;margin-top:2px;border:1px solid var(--linha)}
+.item-farmaco{font-size:14.5px;font-weight:600;color:var(--grafite)}
+.item-pos{font-size:13.3px;color:var(--texto);margin-top:1px}
+.item-obs{font-size:12.3px;color:var(--suave);margin-top:3px}
+.motivo{border-top:1px solid var(--linha);padding-top:13px;margin-top:14px;font-size:13px;color:var(--texto)}
+.motivo b{color:var(--grafite);font-weight:600}
+.alerta{display:flex;gap:10px;background:var(--alta-bg);border-radius:10px;padding:13px 15px;
+  margin-top:12px;font-size:13px;color:var(--texto)}
+.alerta b{color:var(--alta)}
+.copiar{margin-top:15px;background:none;color:var(--grafite);border:1px solid var(--linha);border-radius:8px;
+  padding:10px 16px;font-family:inherit;font-size:13px;cursor:pointer}
+.copiar:hover{border-color:var(--suave)}
+/* calculadora — mesma estrutura, tom editorial claro */
+.calc{background:var(--carta);border:1px solid var(--linha);border-radius:var(--raio);padding:24px;margin-top:26px}
+.calc h2{font-family:var(--serif);font-size:20px;font-weight:400;color:var(--grafite);margin-bottom:3px}
+.calc .cs{font-size:12.5px;color:var(--suave);margin-bottom:16px}
+.sais{display:grid;gap:2px}
+.sal{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--linha)}
+.sal:last-child{border-bottom:none}
+.sal-nome{font-size:13.5px;color:var(--grafite)}
+.sal-det{font-size:11.5px;color:var(--suave)}
 .sal-tub{margin-left:auto;text-align:right;flex:0 0 auto}
-.sal-tub .n{font-family:var(--serif);font-size:26px;font-weight:700;color:#F3D577;line-height:1}
-.sal-tub .u{font-size:10.5px;opacity:.7;letter-spacing:.5px;text-transform:uppercase}
-.calc-nota{font-size:11.8px;opacity:.62;margin-top:14px}
-
-.rodape-nota{background:var(--carta);border:1px dashed var(--borda);border-radius:13px;
-  padding:14px 16px;font-size:12.5px;color:var(--tinta-suave);margin-top:20px}
-.marca{margin-top:32px;text-align:center;font-size:12px;color:var(--tinta-suave)}
-.marca b{color:var(--tinta);font-weight:800}
-.marca .ponto{color:var(--ouro)}
+.sal-tub .n{font-family:var(--serif);font-size:24px;color:var(--acento);line-height:1}
+.sal-tub .u{font-size:10.5px;color:var(--suave);letter-spacing:.5px;text-transform:uppercase}
+.calc-nota{font-size:11.8px;color:var(--suave);margin-top:14px}
+.rodape-nota{background:var(--carta);border:1px dashed var(--linha);border-radius:10px;
+  padding:14px 16px;font-size:12.5px;color:var(--suave);margin-top:20px}
 </style>
 </head>
 <body>
 <div class="pagina">
 
-  <div class="selo">Todas as especialidades · Ferramenta OdontoFeed</div>
+  <a class="voltar" href="dashboard-com-ferramentas.html">‹ Ferramentas</a>
+  <div class="selo">Todas as especialidades · Ferramenta</div>
   <h1>Prescrição Segura</h1>
   <p class="sub">Selecione a situação clínica e o perfil do paciente — a
   ferramenta monta a prescrição com dose, posologia e o que justifica cada
@@ -128,7 +88,7 @@ h1{font-family:var(--serif);font-size:clamp(30px,6vw,42px);font-weight:700;
     <div class="peso-linha">
       <span class="perfil-rot">Peso</span>
       <input type="number" id="peso" value="70" min="3" max="200" oninput="render()">
-      <span style="font-size:13px;color:var(--tinta-suave)">kg — usado nas doses pediátricas e no limite de anestésico</span>
+      <span style="font-size:13px;color:var(--suave)">kg — usado nas doses pediátricas e no limite de anestésico</span>
     </div>
   </div>
 
@@ -136,7 +96,7 @@ h1{font-family:var(--serif);font-size:clamp(30px,6vw,42px);font-weight:700;
   <div id="resultado"></div>
 
   <div class="calc">
-    <h2>💉 Dose máxima de anestésico</h2>
+    <h2>Dose máxima de anestésico</h2>
     <div class="cs" id="calcSub">Paciente de 70 kg, sem restrição cardiovascular</div>
     <div class="sais" id="sais"></div>
     <div class="calc-nota">Tubetes de 1,8 mL. Limites por dose máxima recomendada do sal e do
@@ -148,7 +108,7 @@ h1{font-family:var(--serif);font-size:clamp(30px,6vw,42px);font-weight:700;
   doses consagradas em bulário e diretrizes. A prescrição final — incluindo
   interações com medicamentos em uso — é responsabilidade do cirurgião-dentista.</div>
 
-  <div class="marca"><b>Odonto<span class="ponto">Feed</span></b> · Ferramentas · protótipo (não publicado)</div>
+  <div class="marca"><b>Odonto<span class="p">Feed</span></b> · Ferramentas · protótipo (não publicado)</div>
 </div>
 
 <script>
@@ -304,7 +264,6 @@ const ANESTESICOS = [
 function renderSituacoes() {
   document.getElementById('situacoes').innerHTML = Object.entries(SITUACOES).map(([id,s]) => `
     <button class="sit ${estado.situacao===id?'ativo':''}" onclick="setSit('${id}')">
-      <span class="sit-ico">${s.ico}</span>
       <span><span class="sit-nome">${s.nome}</span><br><span class="sit-desc">${s.desc}</span></span>
     </button>`).join('');
 }
@@ -337,9 +296,9 @@ function renderReceita() {
           <div class="item-pos">${i.pos}</div>
           <div class="item-obs">${i.obs}</div></span></div>`).join('')
         : '<div class="item-obs" style="padding:6px 0">Sem prescrição medicamentosa indicada para este perfil.</div>'}
-      <div class="motivo">💡 <b>Por que assim:</b> ${r.motivo.replace('<b>','<b>')}</div>
-      ${r.alerta ? `<div class="alerta">⚠️ <span><b>Atenção:</b> ${r.alerta}</span></div>` : ''}
-      ${r.itens.length ? '<button class="copiar">📋 Copiar como receituário</button>' : ''}
+      <div class="motivo"><b>Por que assim:</b> ${r.motivo.replace('<b>','<b>')}</div>
+      ${r.alerta ? `<div class="alerta"><span><b>Atenção:</b> ${r.alerta}</span></div>` : ''}
+      ${r.itens.length ? '<button class="copiar">Copiar como receituário</button>' : ''}
     </div>`;
 }
 
