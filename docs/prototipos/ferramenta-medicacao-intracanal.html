@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Medicação Intracanal — OdontoFeed</title>
+<link rel="stylesheet" href="odontofeed.css">
+<style>:root{--acento:#B0863A}
+.res-nome{font-family:var(--serif);font-size:20px;font-weight:400;color:var(--acento)}
+.res-sub{font-size:13px;color:var(--suave);margin:2px 0 12px}
+.bloco-rot{font-size:10.5px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--acento);margin:14px 0 5px}
+.bloco-txt li{font-size:13.6px;color:var(--texto);margin-left:16px;margin-top:4px}
+</style>
+</head>
+<body>
+<div class="pagina">
+  <a class="voltar" href="dashboard-com-ferramentas.html">‹ Ferramentas</a>
+  <div class="selo">Endodontia · Ferramenta</div>
+  <h1>Medicação Intracanal</h1>
+  <p class="sub">Escolha o diagnóstico e o número de sessões — a ferramenta indica
+  a substância, o tempo de permanência e as ressalvas.</p>
+  <div class="filete"></div>
+
+  <div class="rot">Situação clínica</div>
+  <div class="opcoes" id="situacoes"></div>
+
+  <div id="resultado"></div>
+
+  <div class="nota-rodape">O hidróxido de cálcio é a medicação intracanal padrão
+  entre sessões. Casos de sessão única bem selecionados dispensam medicação. A
+  decisão integra o preparo químico-mecânico completo.</div>
+  <div class="marca"><b>Odonto<span class="p">Feed</span></b> · Ferramentas · protótipo (não publicado)</div>
+</div>
+
+<script>
+const SIT = {
+  vitalUnica: { nome:'Polpa vital, sessão única', sub:'Pulpite irreversível, canal instrumentado e seco',
+    subst:'Nenhuma medicação — obturação na mesma sessão', tempo:'—',
+    obs:['Indicado quando não há exsudato nem sintomatologia persistente',
+      'Preparo químico-mecânico completo com hipoclorito','Secar e obturar'] },
+  vitalDuas: { nome:'Polpa vital, duas sessões', sub:'Preferência por medicar entre sessões',
+    subst:'Hidróxido de cálcio (pasta com veículo aquoso)', tempo:'7–14 dias',
+    obs:['Preenchimento total do canal com Ca(OH)₂','Selamento coronário hermético','Reavaliar sintomas na 2ª sessão'] },
+  necroseInfec: { nome:'Necrose com lesão periapical', sub:'Canal contaminado / infecção',
+    subst:'Hidróxido de cálcio', tempo:'14–30 dias (pode repetir)',
+    obs:['Ação antimicrobiana e dissolução de remanescentes','Trocar se persistir exsudato',
+      'Só obturar com canal seco e assintomático'] },
+  exsudato: { nome:'Exsudato persistente / drenagem', sub:'Canal que "não seca"',
+    subst:'Hidróxido de cálcio; associar clorexidina 2% gel se refratário', tempo:'14–30 dias, com trocas',
+    obs:['Reforçar irrigação e patência','Investigar fratura ou canal não localizado se refratário',
+      'Não obturar canal com exsudato'] },
+  reabsorcao: { nome:'Reabsorção inflamatória', sub:'Externa/interna ativa',
+    subst:'Hidróxido de cálcio (trocas seriadas)', tempo:'Trocas a cada 30 dias até estabilizar',
+    obs:['O pH alcalino ajuda a frear a reabsorção','Acompanhamento radiográfico','Obturar após sinais de estabilização'] },
+};
+
+function render(sel){
+  document.getElementById('situacoes').innerHTML = Object.entries(SIT).map(([id,s]) =>
+    `<button class="op ${id===sel?'ativo':''}" onclick="render('${id}')"><b>${s.nome}</b><small>${s.sub}</small></button>`).join('');
+  const s = SIT[sel];
+  document.getElementById('resultado').innerHTML = `
+    <div class="bloco">
+      <div class="res-nome">${s.subst}</div>
+      <div class="res-sub">Permanência: ${s.tempo}</div>
+      <div class="bloco-rot">Como conduzir</div>
+      <ul class="bloco-txt">${s.obs.map(o=>`<li>${o}</li>`).join('')}</ul>
+    </div>`;
+}
+render('necroseInfec');
+</script>
+</body>
+</html>

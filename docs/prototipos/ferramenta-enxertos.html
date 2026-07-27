@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enxertos e Biomateriais — OdontoFeed</title>
+<link rel="stylesheet" href="odontofeed.css">
+<style>:root{--acento:#3E8F86}
+.res-nome{font-family:var(--serif);font-size:20px;font-weight:400;color:var(--acento)}
+.res-sub{font-size:13px;color:var(--suave);margin:2px 0 12px}
+.bloco-rot{font-size:10.5px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--acento);margin:14px 0 5px}
+.bloco-txt li{font-size:13.6px;color:var(--texto);margin-left:16px;margin-top:4px}
+.espera{margin-left:auto;font-size:11.5px;color:var(--alta)}
+</style>
+</head>
+<body>
+<div class="pagina">
+  <a class="voltar" href="dashboard-com-ferramentas.html">‹ Ferramentas</a>
+  <div class="selo">Implantodontia · Ferramenta</div>
+  <h1>Enxertos e Biomateriais</h1>
+  <p class="sub">Escolha o tipo de defeito ósseo — a ferramenta indica a técnica,
+  o biomaterial mais adequado e o tempo de espera antes do implante.</p>
+  <div class="filete"></div>
+
+  <div class="rot">Tipo de defeito</div>
+  <div class="opcoes" id="defeitos"></div>
+
+  <div id="resultado"></div>
+
+  <div class="nota-rodape">Tempos de espera são referências médias — a maturação
+  depende do biomaterial, do tabagismo e da resposta individual. Reentrada só com
+  evidência clínica/tomográfica de consolidação.</div>
+  <div class="marca"><b>Odonto<span class="p">Feed</span></b> · Ferramentas · protótipo (não publicado)</div>
+</div>
+
+<script>
+const DEF = {
+  alveolar: { nome:'Preservação de alvéolo', sub:'Pós-extração, paredes íntegras', espera:'4–6 meses',
+    tecnica:'Preenchimento do alvéolo + selamento (ROG se parede ausente)',
+    material:'Xenógeno (osso bovino) ou aloplástico, com membrana reabsorvível',
+    obs:['Reduz a reabsorção da crista pós-extração','Ideal quando o implante será tardio','Membrana melhora o resultado em paredes deficientes'] },
+  horizontal: { nome:'Deiscência / defeito horizontal', sub:'Espessura vestíbulo-lingual insuficiente', espera:'4–9 meses',
+    tecnica:'Regeneração óssea guiada (ROG) com membrana; bloco em casos amplos',
+    material:'Autógeno particulado + xenógeno (mistura), membrana (reabsorvível ou e-PTFE)',
+    obs:['Estabilizar o enxerto — parafusos de tenda/telas em defeitos grandes','Fechamento primário sem tensão é decisivo','Bloco autógeno para ganhos horizontais extensos'] },
+  vertical: { nome:'Defeito vertical', sub:'Perda de altura da crista', espera:'6–9 meses',
+    tecnica:'ROG com reforço (tela de titânio) ou bloco; alta complexidade',
+    material:'Autógeno + xenógeno, membrana reforçada / tela de Ti',
+    obs:['Tecnicamente sensível — maior risco de exposição','Manejo de tecido mole é crítico','Considerar encaminhamento em ganhos verticais grandes'] },
+  seio: { nome:'Elevação de seio maxilar', sub:'Altura óssea reduzida em posterior superior', espera:'6–9 meses (lateral)',
+    tecnica:'Janela lateral (altura muito baixa) ou técnica transalveolar (Summers) se ≥ 5–6 mm',
+    material:'Xenógeno ou mistura com autógeno; membrana na janela',
+    obs:['Transalveolar permite implante simultâneo em altura suficiente','Cuidar da integridade da membrana sinusal','Contraindicar em sinusite ativa'] },
+};
+
+function render(sel){
+  document.getElementById('defeitos').innerHTML = Object.entries(DEF).map(([id,d]) =>
+    `<button class="op ${id===sel?'ativo':''}" onclick="render('${id}')"><b>${d.nome}</b><small>${d.sub}</small></button>`).join('');
+  const d = DEF[sel];
+  document.getElementById('resultado').innerHTML = `
+    <div class="bloco">
+      <div class="res-nome">${d.tecnica}</div>
+      <div class="res-sub">Espera antes do implante: ${d.espera}</div>
+      <div class="bloco-rot">Biomaterial</div>
+      <div style="font-size:14px;color:var(--grafite)">${d.material}</div>
+      <div class="bloco-rot">Pontos-chave</div>
+      <ul class="bloco-txt">${d.obs.map(o=>`<li>${o}</li>`).join('')}</ul>
+    </div>`;
+}
+render('alveolar');
+</script>
+</body>
+</html>

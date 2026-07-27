@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anestesia na Pulpite Irreversível — OdontoFeed</title>
+<link rel="stylesheet" href="odontofeed.css">
+<style>:root{--acento:#B0863A}
+.res-nome{font-family:var(--serif);font-size:20px;font-weight:400;color:var(--acento)}
+.res-sub{font-size:13px;color:var(--suave);margin:2px 0 12px}
+.bloco-rot{font-size:10.5px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--acento);margin:14px 0 5px}
+.bloco-txt li{font-size:13.6px;color:var(--texto);margin-left:16px;margin-top:4px}
+</style>
+</head>
+<body>
+<div class="pagina">
+  <a class="voltar" href="dashboard-com-ferramentas.html">‹ Ferramentas</a>
+  <div class="selo">Endodontia · Ferramenta</div>
+  <h1>Anestesia na Pulpite Irreversível</h1>
+  <p class="sub">O bloqueio do alveolar inferior falha com frequência no molar
+  inferior com pulpite. Escolha a arcada e o passo — a ferramenta indica a técnica
+  suplementar.</p>
+  <div class="filete"></div>
+
+  <div class="rot">Dente / arcada</div>
+  <div class="opcoes" id="arcadas"></div>
+  <div class="rot">O bloqueio inicial funcionou?</div>
+  <div class="opcoes" id="status"></div>
+
+  <div id="resultado"></div>
+
+  <div class="nota-rodape">Na pulpite irreversível de molar inferior, a taxa de
+  sucesso do bloqueio isolado é baixa. Pré-medicação com AINE 1 h antes aumenta o
+  sucesso. Técnicas suplementares são a regra, não a exceção.</div>
+  <div class="marca"><b>Odonto<span class="p">Feed</span></b> · Ferramentas · protótipo (não publicado)</div>
+</div>
+
+<script>
+let arc='inferior', st='falhou';
+const ARC = { inferior:{nome:'Molar/pré inferior'}, superior:{nome:'Dente superior'} };
+const ST = { funcionou:{nome:'Sim, mas dói ao acessar'}, falhou:{nome:'Não anestesiou'} };
+
+function chips(el,obj,sel,fn){
+  document.getElementById(el).innerHTML = Object.entries(obj).map(([id,o]) =>
+    `<button class="op ${id===sel?'ativo':''}" onclick="${fn}('${id}')"><b>${o.nome}</b></button>`).join('');
+}
+function sa(id){arc=id;render()} function ss(id){st=id;render()}
+
+function render(){
+  chips('arcadas',ARC,arc,'sa'); chips('status',ST,st,'ss');
+  let nome, passos, obs;
+  if (arc==='superior'){
+    nome='Infiltração suplementar + intraligamentar';
+    passos=['Reforço por infiltração vestibular (articaína 4% tem boa difusão)',
+      'Se persistir, injeção intraligamentar no dente','Intrapulpar como último recurso ao acessar a câmara'];
+    obs='No superior o osso poroso favorece a infiltração — costuma bastar reforçar.';
+  } else if (st==='falhou'){
+    nome='Repetir bloqueio + articaína, depois suplementar';
+    passos=['Confirmar sinais do bloqueio (lábio dormente) — se ausente, refazer',
+      'Bloqueio do alveolar inferior; considerar técnica de Gow-Gates/Vazirani-Akinosi',
+      'Reforço com infiltração vestibular de articaína 4%',
+      'Persistindo dor: intraligamentar e, ao acessar, intrapulpar'];
+    obs='Lábio dormente NÃO garante polpa anestesiada na pulpite — teste o dente antes de acessar.';
+  } else {
+    nome='Suplementar: intraligamentar / intraóssea / intrapulpar';
+    passos=['Infiltração vestibular de articaína 4% no dente',
+      'Injeção intraligamentar (mesial e distal)','Intraóssea se disponível',
+      'Intrapulpar sob pressão ao expor a polpa — alívio imediato'];
+    obs='A sequência escala conforme a necessidade; a intrapulpar é muito eficaz no acesso.';
+  }
+  document.getElementById('resultado').innerHTML = `
+    <div class="bloco">
+      <div class="res-nome">${nome}</div>
+      <div class="res-sub">${ARC[arc].nome} · ${ST[st].nome.toLowerCase()}</div>
+      <div class="bloco-rot">Sequência</div>
+      <ul class="bloco-txt">${passos.map(p=>`<li>${p}</li>`).join('')}</ul>
+      <div class="evid">${obs}</div>
+    </div>`;
+}
+render();
+</script>
+</body>
+</html>
