@@ -236,6 +236,33 @@ function isHealthSystemCost(a) {
   return false;
 }
 
+// PESQUISA EM SERVIÇOS DE SAÚDE / INFORMÁTICA EM SAÚDE: prontuário e registro
+// eletrônico, sistema de informação, vigilância, gestão/governança de dados,
+// interoperabilidade, organização e força de trabalho do serviço. Ex. (27/07):
+// "Registro eletrônico integrado de doenças orais: modelo de gestão de dados em
+// saúde bucal" (dados de Singapura, PLoS One) — passou por TODOS os filtros
+// anteriores porque não fala de SUS, não é promoção de saúde, não é bibliometria
+// e não menciona custo. Mede o SISTEMA/POPULAÇÃO, não o desfecho de um
+// tratamento. Diretriz do fundador: "não deveria entrar" — vale para qualquer
+// país. É a mesma família de Kosovo/Tunísia: dado populacional de outro país.
+//
+// CUIDADO COM FALSO POSITIVO (incidente 26/07): nada de termos genéricos.
+// "registro" sozinho é palavra clínica (registro de mordida, registro
+// oclusal em Prótese); "banco de dados" sozinho é método legítimo de coorte.
+// Por isso só barram as EXPRESSÕES COMPLETAS de sistema/informática abaixo.
+function isServicoSaudeDados(a) {
+  const t = `${a.titulo_pt || ''} ${a.titulo || a.title || ''} ${a.resumo_pt || ''}`.toLowerCase();
+  // (a) prontuário / registro eletrônico e sistemas de informação.
+  if (/prontu[áa]rio[s]? eletr[ôo]nico|registro[s]? eletr[ôo]nico|electronic (health|dental|medical) record|\behr\b|\bemr\b|sistema[s]? de informa[çc][ãa]o (em|de) sa[úu]de|health information system|health informatics|inform[áa]tica em sa[úu]de/.test(t)) return true;
+  // (b) gestão/governança de dados, interoperabilidade, padronização de dados.
+  if (/gest[ãa]o de dados|data (management|governance|warehouse|linkage)|governan[çc]a de dados|interoperabilidade|interoperability|padroniza[çc][ãa]o de dados|\bsnomed\b|terminologia cl[íi]nica/.test(t)) return true;
+  // (c) registro/vigilância de doenças em escala nacional ou de sistema.
+  if (/registro (nacional|integrado|populacional|de doen[çc]as)|national (registry|register)|disease registry|sistema[s]? de vigil[âa]ncia|surveillance system|vigil[âa]ncia epidemiol[óo]gica/.test(t)) return true;
+  // (d) pesquisa sobre a organização e a força de trabalho do serviço.
+  if (/pesquisa em servi[çc]os de sa[úu]de|health services research|for[çc]a de trabalho (em|d[aeo]) sa[úu]de|(dental|health|oral health) workforce|recursos humanos em sa[úu]de|organiza[çc][ãa]o d[oe]s? servi[çc]os?/.test(t)) return true;
+  return false;
+}
+
 // Estudo cujos RESULTADOS não estão no material que temos (abstract sem os dados
 // finais, texto completo pago/indisponível): o resumo acaba ADMITINDO isso —
 // "os resultados não foram disponibilizados", "consulte o texto completo para os
@@ -245,8 +272,24 @@ function isHealthSystemCost(a) {
 // dentista ao artigo original no lugar do resultado. Detector determinístico
 // (cobre o acervo já enriquecido); a IA também marca resultados_disponiveis=false
 // nas edições novas.
+// RELATO / SÉRIE DE CASO. Diretriz do fundador (27/07): "relato de caso pode
+// passar". Um relato não compara dois braços — o RESULTADO dele é a conduta
+// adotada e o desfecho daquele paciente. Cobrar "qual foi superior" de um
+// relato é cobrar algo que o desenho não produz: era o que derrubava a
+// Prótese (2 dos 3 artigos de 27/07 eram relatos e foram descartados por
+// "sem veredito", bloqueando a edição inteira).
+function isRelatoDeCaso(a) {
+  const t = `${a.titulo_pt || ''} ${a.titulo || a.title || ''} ${a.resumo_pt || ''} ${a.tipo_estudo || ''}`.toLowerCase();
+  return /relato[s]? de caso|s[ée]rie[s]? de casos?|caso cl[íi]nico|case report|case series|a case of\b/.test(t);
+}
+
 function isResultadosIndisponiveis(a) {
-  if (a.resultados_disponiveis === false) return true;
+  const relato = isRelatoDeCaso(a);
+  // Num relato de caso, resultados_disponiveis=false costuma significar
+  // "não há comparação com vencedor" — não que falte o desfecho. A trava
+  // binária da IA, desenhada para comparações, não vale aqui; só as admissões
+  // explícitas de material inacessível (a, b, d, e) continuam valendo.
+  if (!relato && a.resultados_disponiveis === false) return true;
   const t = `${a.resumo_pt || ''} ${a.resumo_completo || ''} ${a.impacto_pratico || ''} ${Array.isArray(a.achados_principais) ? a.achados_principais.join(' ') : ''}`.toLowerCase();
   if (!t.trim()) return false;
 
@@ -263,16 +306,23 @@ function isResultadosIndisponiveis(a) {
   // (c) NÃO CONSEGUE declarar o VENCEDOR/DIREÇÃO da comparação — o pior caso
   // (incidente 25/07: "não é possível... declarar qual técnica se mostrou
   // superior ou inferior"; "nem especifica qual... resultou no melhor ou pior").
-  if (/n[ãa]o (é|e|foi|fica|ficou|est[áa]|se torna|h[áa] como|d[áa] para|se pode|se consegue|permite|possibilita)[^.]{0,60}(poss[íi]vel|clar[oa]|vi[áa]vel)?[^.]{0,45}(dizer|afirmar|declarar|determinar|identificar|apontar|precisar|saber|concluir|estabelecer|indicar|definir|inferir)[^.]{0,45}(qual|quais|quem|se|a dire[çc][ãa]o|o vencedor)/.test(t)) return true;
-  if (/(n[ãa]o|nem|tampouco)[^.]{0,35}(especifica|indica|deixa claro|esclarece|informa|revela|aponta|define)[^.]{0,60}(qual|quais)[^.]{0,80}(melhor|pior|superior|inferior|venceu|eficaz|efic[áa]cia|se saiu)/.test(t)) return true;
-  if (/n[ãa]o (fica|ficou|est[áa]|é|e|se torna|tornou) clar[oa][^.]{0,70}(qual|quais|quem)[^.]{0,80}(melhor|pior|superior|inferior|venceu|eficaz|se saiu|desempenho)/.test(t)) return true;
+  // NÃO se aplica a relato de caso: não há dois braços para eleger um vencedor.
+  if (!relato) {
+    if (/n[ãa]o (é|e|foi|fica|ficou|est[áa]|se torna|h[áa] como|d[áa] para|se pode|se consegue|permite|possibilita)[^.]{0,60}(poss[íi]vel|clar[oa]|vi[áa]vel)?[^.]{0,45}(dizer|afirmar|declarar|determinar|identificar|apontar|precisar|saber|concluir|estabelecer|indicar|definir|inferir)[^.]{0,45}(qual|quais|quem|se|a dire[çc][ãa]o|o vencedor)/.test(t)) return true;
+    if (/(n[ãa]o|nem|tampouco)[^.]{0,35}(especifica|indica|deixa claro|esclarece|informa|revela|aponta|define)[^.]{0,60}(qual|quais)[^.]{0,80}(melhor|pior|superior|inferior|venceu|eficaz|efic[áa]cia|se saiu)/.test(t)) return true;
+    if (/n[ãa]o (fica|ficou|est[áa]|é|e|se torna|tornou) clar[oa][^.]{0,70}(qual|quais|quem)[^.]{0,80}(melhor|pior|superior|inferior|venceu|eficaz|se saiu|desempenho)/.test(t)) return true;
+  }
 
   // (d) remete o leitor ao TEXTO COMPLETO / ARTIGO ORIGINAL.
   if (/texto completo|artigo original|artigo na [íi]ntegra|artigo completo|publica[çc][ãa]o original|estudo (completo|na [íi]ntegra)|full text|full article|na [íi]ntegra (do|no) (artigo|estudo|texto)/.test(t)) return true;
 
   // (e) acesso restrito / baseado só no resumo/informações apresentadas.
   if (/acesso (restrito|pago|limitado)|paywall|somente (o |no )?(resumo|abstract)|apenas (o |no )?(resumo|abstract)|com base (apenas|somente|unicamente) (no|nas) (resumo|abstract|informa[çc][õo]es)/.test(t)) return true;
-  if (/n[ãa]o (foi|foram|é|e) poss[íi]vel[^.]{0,60}(resultado|dado|desfecho|n[úu]mero|valor|declarar|afirmar|dizer|determinar|acesso ao (texto|artigo))/.test(t)) return true;
+  // "não foi possível ..." — separado em duas metades: a de ACESSO/DADO vale
+  // sempre; a de VEREDITO ("não é possível dizer qual...") é comparativa e não
+  // se aplica a relato de caso (um único paciente nunca elege um vencedor).
+  if (/n[ãa]o (foi|foram|é|e) poss[íi]vel[^.]{0,60}(resultado|dado|desfecho|n[úu]mero|valor|acesso ao (texto|artigo))/.test(t)) return true;
+  if (!relato && /n[ãa]o (foi|foram|é|e) poss[íi]vel[^.]{0,60}(declarar|afirmar|dizer|determinar)/.test(t)) return true;
 
   return false;
 }
@@ -303,6 +353,7 @@ function passaCuradoria(a) {
          !isHealthPromotionBehavior(a) &&
          !isBibliometricScoping(a) &&
          !isHealthSystemCost(a) &&
+         !isServicoSaudeDados(a) &&
          !isResultadosIndisponiveis(a) &&
          !isUnfinishedStudy(a.titulo || a.title || a.titulo_pt || '', a.abstract || '', a.journal || '');
 }
@@ -598,6 +649,12 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
       });
       return false;
     }
+    if (isServicoSaudeDados(a)) {
+      log.info('[digest][ESP] pesquisa de serviços/informática em saúde descartada (registro eletrônico, gestão de dados, vigilância — sem impacto clínico)', {
+        especialidade, id: a.pmid || a.id, titulo: (a.titulo_pt || a.titulo || '').slice(0, 70),
+      });
+      return false;
+    }
     if (isResultadosIndisponiveis(a)) {
       log.info('[digest][ESP] estudo SEM resultados acessíveis descartado (remete ao texto completo / dados indisponíveis)', {
         especialidade, id: a.pmid || a.id, titulo: (a.titulo_pt || a.titulo || '').slice(0, 70),
@@ -639,7 +696,12 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
   if (candidates.length < MIN_ARTICLES) {
     log.info('[digest][ESP] Firestore sparse, falling back to PubMed direct', { especialidade, found: candidates.length });
     try {
-      const needed  = MAX_ARTICLES + 2;
+      // Reserva DIMENSIONADA PELO DESCARTE REAL (incidente 27/07): a trava de
+      // veredito descarta 1-3 artigos por edição depois do resumo. Pedir só
+      // MAX_ARTICLES+2 deixava reserva de 1 — quando o pool base vinha vazio
+      // (Prótese), dois descartes bloqueavam a edição inteira. As outras
+      // especialidades sobreviveram porque tinham 23-85 candidatos de base.
+      const needed  = MAX_ARTICLES * 3 + 2;
       const fbArts  = await pubmedFallbackArticles({ especialidade, temas: [] }, hist, needed, anthropicKey);
       // TRAVA (incidente 22-23/07): o fallback do PubMed traz artigos frescos que
       // só são traduzidos se o Claude responder. Se vierem CRUS (sem titulo_pt/
@@ -1398,6 +1460,8 @@ exports.isPublicHealthPolicy = isPublicHealthPolicy;
 exports.isHealthPromotionBehavior = isHealthPromotionBehavior;
 exports.isBibliometricScoping = isBibliometricScoping;
 exports.isHealthSystemCost = isHealthSystemCost;
+exports.isServicoSaudeDados = isServicoSaudeDados;
+exports.isRelatoDeCaso = isRelatoDeCaso;
 exports.isResultadosIndisponiveis = isResultadosIndisponiveis;
 
 if (require.main === module) {
