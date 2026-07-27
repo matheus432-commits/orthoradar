@@ -4,75 +4,75 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ferramentas — Hub por especialidade · OdontoFeed (protótipo)</title>
+<!--
+  DIRETRIZ DE ESTÉTICA OdontoFeed (fundador, 27/07) — vale para TODAS as abas:
+  · sem emojis ao lado dos títulos (texto limpo);
+  · nada de negrito muito pesado / preto chapado (dá ar infantil);
+  · pesos de fonte leves (400–500), cor de texto suavizada (grafite, não preto),
+    bastante respiro, filetes finos. Ar sério, editorial, profissional.
+-->
 <style>
 :root{
-  --papel:#F8F5EF; --carta:#FFFFFF; --tinta:#1B2440; --tinta-suave:#5B6478;
-  --ouro:#C9A227; --borda:#E7E2D6; --raio:18px;
+  --papel:#FBFAF7; --carta:#FFFFFF; --grafite:#2E3440; --texto:#3C4250;
+  --suave:#8A8F9C; --linha:#ECEAE3; --ouro:#B9982E; --sel:#5B6BA8;
   --serif:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
   --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Roboto,sans-serif;
 }
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--papel);color:var(--tinta);font-family:var(--sans);line-height:1.5;
-  -webkit-font-smoothing:antialiased}
-.pagina{max-width:720px;margin:0 auto;padding:26px 16px 60px}
+body{background:var(--papel);color:var(--texto);font-family:var(--sans);line-height:1.55;
+  -webkit-font-smoothing:antialiased;letter-spacing:.1px}
+.pagina{max-width:660px;margin:0 auto;padding:34px 20px 64px}
 
-.selo{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:800;
-  letter-spacing:1.6px;text-transform:uppercase;color:var(--tinta-suave);margin-bottom:12px}
-.selo::before{content:'🛠️';font-size:15px}
-h1{font-family:var(--serif);font-size:clamp(27px,6vw,38px);font-weight:700;letter-spacing:-0.5px}
-.sub{color:var(--tinta-suave);font-size:14.5px;margin-top:8px;max-width:52ch}
-.filete{height:3px;width:56px;border-radius:2px;margin:18px 0 22px;
-  background:linear-gradient(90deg,var(--ouro),var(--sel,#6D8BFF));transition:background .25s}
+.selo{font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;
+  color:var(--suave);margin-bottom:14px}
+h1{font-family:var(--serif);font-size:clamp(26px,6vw,34px);font-weight:400;
+  letter-spacing:.2px;color:var(--grafite)}
+.sub{color:var(--suave);font-size:14.5px;margin-top:9px;max-width:52ch;font-weight:400}
+.filete{height:1px;width:100%;background:var(--linha);margin:22px 0 26px}
 
-/* ── Seletor de especialidade (as 3 do perfil) ─────────────────────────────── */
-.rot-sel{font-size:10.5px;font-weight:800;letter-spacing:1.3px;text-transform:uppercase;
-  color:var(--tinta-suave);margin-bottom:10px}
-.chips{display:flex;gap:9px;overflow-x:auto;padding-bottom:4px;margin-bottom:26px;scrollbar-width:none}
+/* ── Ferramenta transversal (topo) ─────────────────────────────────────────── */
+.geral{display:flex;align-items:center;gap:12px;padding:16px 18px;margin-bottom:30px;
+  background:var(--carta);border:1px solid var(--linha);border-left:2px solid var(--ouro);
+  border-radius:8px;text-decoration:none;color:inherit;transition:border-color .15s}
+.geral:hover{border-color:var(--suave)}
+.g-tit{font-size:15px;font-weight:500;color:var(--grafite)}
+.g-desc{font-size:12.5px;color:var(--suave);margin-top:1px}
+.g-seta{margin-left:auto;font-size:17px;color:var(--suave);font-weight:300}
+
+/* ── Seletor de especialidade ──────────────────────────────────────────────── */
+.rot{font-size:11px;font-weight:600;letter-spacing:1.6px;text-transform:uppercase;
+  color:var(--suave);margin-bottom:12px}
+.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:30px;scrollbar-width:none}
 .chips::-webkit-scrollbar{display:none}
-.chip{flex:0 0 auto;display:flex;align-items:center;gap:9px;background:var(--carta);
-  border:1.5px solid var(--borda);border-radius:14px;padding:11px 16px 11px 12px;cursor:pointer;
-  font-family:inherit;transition:.15s}
-.chip:hover{border-color:var(--cor)}
-.chip.ativo{border-color:var(--cor);background:color-mix(in srgb,var(--cor) 9%,white);
-  box-shadow:0 8px 20px color-mix(in srgb,var(--cor) 22%,transparent)}
-.chip-dot{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;
-  background:color-mix(in srgb,var(--cor) 16%,white);font-size:15px;flex:0 0 auto}
-.chip-nome{font-size:13.5px;font-weight:800;color:var(--tinta)}
-.chip-qt{font-size:11px;color:var(--tinta-suave)}
+.chip{flex:0 0 auto;display:flex;align-items:center;gap:9px;background:transparent;
+  border:1px solid var(--linha);border-radius:999px;padding:9px 16px;cursor:pointer;
+  font-family:inherit;font-size:13.5px;font-weight:400;color:var(--texto);transition:.15s}
+.chip:hover{border-color:var(--suave)}
+.chip.ativo{border-color:var(--cor);color:var(--grafite);
+  background:color-mix(in srgb,var(--cor) 5%,white)}
+.chip-dot{width:7px;height:7px;border-radius:50%;background:var(--cor);flex:0 0 auto}
 
 /* ── Cabeçalho da lista ────────────────────────────────────────────────────── */
-.lista-cab{display:flex;align-items:center;gap:9px;margin-bottom:6px}
-.lc-bola{width:11px;height:11px;border-radius:50%;background:var(--sel)}
-.lc-tit{font-family:var(--serif);font-size:19px;font-weight:700}
-.lc-qt{margin-left:auto;font-size:12px;color:var(--tinta-suave);font-weight:600}
+.lista-cab{display:flex;align-items:baseline;gap:10px;margin-bottom:4px}
+.lc-tit{font-family:var(--serif);font-size:19px;font-weight:400;color:var(--grafite)}
+.lc-qt{margin-left:auto;font-size:12px;color:var(--suave)}
 
-/* ── Lista simples de títulos (estilo menu "Mais" do Instagram) ────────────── */
-.lista{background:var(--carta);border:1px solid var(--borda);border-radius:14px;
-  overflow:hidden;margin-top:12px}
-.linha{display:flex;align-items:center;gap:14px;padding:15px 16px;cursor:pointer;
-  text-decoration:none;color:inherit;transition:background .12s;
-  border-bottom:1px solid var(--borda)}
-.lista .linha:last-child{border-bottom:none}
-.linha:hover{background:color-mix(in srgb,var(--sel) 6%,white)}
-.linha.soon{cursor:default;color:var(--tinta-suave)}
-.linha.soon:hover{background:transparent}
-.li-ico{font-size:19px;width:24px;text-align:center;flex:0 0 auto}
-.li-tit{flex:1;min-width:0;font-size:15px;font-weight:600}
-.li-seta{font-size:18px;color:var(--tinta-suave);flex:0 0 auto}
-.li-soon{font-size:11px;font-weight:600;color:var(--tinta-suave);flex:0 0 auto}
+/* ── Lista de títulos (limpa, sem emoji) ───────────────────────────────────── */
+.lista{margin-top:10px;border-top:1px solid var(--linha)}
+.linha{display:flex;align-items:center;gap:14px;padding:17px 4px;cursor:pointer;
+  text-decoration:none;color:inherit;border-bottom:1px solid var(--linha);
+  transition:padding-left .15s}
+.linha:hover{padding-left:10px}
+.linha.soon{cursor:default}
+.linha.soon:hover{padding-left:4px}
+.li-tit{flex:1;min-width:0;font-size:15.5px;font-weight:400;color:var(--grafite)}
+.linha.soon .li-tit{color:var(--suave)}
+.li-tipo{font-size:11px;color:var(--suave);flex:0 0 auto;letter-spacing:.3px}
+.li-seta{font-size:17px;color:var(--sel);flex:0 0 auto;font-weight:300}
+.li-soon{font-size:11px;color:var(--suave);flex:0 0 auto;letter-spacing:.4px}
 
-/* ── Faixa de ferramenta geral (transversal) ───────────────────────────────── */
-.geral{background:linear-gradient(180deg,#1B2440,#141B31);color:#fff;border-radius:var(--raio);
-  padding:16px 18px;margin-bottom:26px;display:flex;align-items:center;gap:14px;
-  text-decoration:none}
-.geral .g-ico{width:42px;height:42px;border-radius:12px;background:rgba(255,255,255,.1);
-  display:grid;place-items:center;font-size:20px;flex:0 0 auto}
-.geral .g-tit{font-size:14.5px;font-weight:800}
-.geral .g-desc{font-size:12px;opacity:.72;margin-top:1px}
-.geral .g-seta{margin-left:auto;font-size:20px;color:#F3D577}
-
-.marca{margin-top:32px;text-align:center;font-size:12px;color:var(--tinta-suave)}
-.marca b{color:var(--tinta);font-weight:800}.marca .p{color:var(--ouro)}
+.marca{margin-top:38px;text-align:center;font-size:11.5px;color:var(--suave);letter-spacing:.3px}
+.marca b{color:var(--texto);font-weight:600}.marca .p{color:var(--ouro)}
 </style>
 </head>
 <body>
@@ -80,23 +80,20 @@ h1{font-family:var(--serif);font-size:clamp(27px,6vw,38px);font-weight:700;lette
 
   <div class="selo">Área de membro</div>
   <h1>Ferramentas</h1>
-  <p class="sub">Guias clínicos e ferramentas de decisão das suas especialidades,
-  num lugar só.</p>
-  <div class="filete" id="filete"></div>
+  <p class="sub">Guias clínicos e ferramentas de decisão das suas especialidades.</p>
+  <div class="filete"></div>
 
   <!-- Ferramenta transversal, fixada no topo -->
   <a class="geral" href="ferramenta-prescricao-segura.html">
-    <span class="g-ico">💊</span>
     <span><span class="g-tit">Prescrição Segura</span>
-    <div class="g-desc">Para todas as especialidades · dose, posologia e receita</div></span>
-    <span class="g-seta">→</span>
+    <div class="g-desc">Para todas as especialidades</div></span>
+    <span class="g-seta">›</span>
   </a>
 
-  <div class="rot-sel">Suas especialidades</div>
+  <div class="rot">Suas especialidades</div>
   <div class="chips" id="chips"></div>
 
   <div class="lista-cab">
-    <span class="lc-bola" id="lcBola"></span>
     <span class="lc-tit" id="lcTit"></span>
     <span class="lc-qt" id="lcQt"></span>
   </div>
@@ -110,36 +107,36 @@ h1{font-family:var(--serif);font-size:clamp(27px,6vw,38px);font-weight:700;lette
 const PERFIL = ['orto', 'implanto', 'endo'];
 
 const ESP = {
-  orto:     { nome:'Ortodontia',      ico:'📐', cor:'#6D8BFF' },
-  implanto: { nome:'Implantodontia',  ico:'🦿', cor:'#22D3C7' },
-  endo:     { nome:'Endodontia',      ico:'🩹', cor:'#FFB020' },
+  orto:     { nome:'Ortodontia',     cor:'#5B6BA8' },
+  implanto: { nome:'Implantodontia', cor:'#3E8F86' },
+  endo:     { nome:'Endodontia',     cor:'#B08a3a' },
 };
 
-// Catálogo por especialidade — guias e ferramentas na MESMA lista vertical.
-// href presente = página pronta (protótipo); pronto:true realça a tag.
+// Catálogo por especialidade — guias e ferramentas na MESMA lista.
+// href presente = página pronta (protótipo).
 const CATALOGO = {
   orto: [
-    { t:'Guia de Cefalometria', d:'Cada parâmetro (FMA, SNA, ANB…) com interpretação e conduta', tipo:'guia', pronto:true, href:'guia-cefalometria-preview.html' },
-    { t:'Aparelhos Ortopédicos Funcionais', d:'Escolha o objetivo → aparelhos indicados com protocolo', tipo:'ferramenta', pronto:true, href:'ferramenta-aparelhos-ortopedicos.html' },
-    { t:'Classificação de Angle', d:'Classe I/II/III visual + plano de tratamento por classe', tipo:'guia' },
-    { t:'Análise de Bolton', d:'Discrepância de tamanho dentário com calculadora', tipo:'ferramenta' },
-    { t:'Cronologia de erupção e interceptação', d:'Janelas ideais: tratar agora × monitorar', tipo:'guia' },
-    { t:'Guia de contenção', d:'Qual contentor, quando e por quanto tempo', tipo:'guia' },
+    { t:'Guia de Cefalometria', tipo:'Guia', href:'guia-cefalometria-preview.html' },
+    { t:'Aparelhos Ortopédicos Funcionais', tipo:'Ferramenta', href:'ferramenta-aparelhos-ortopedicos.html' },
+    { t:'Classificação de Angle', tipo:'Guia' },
+    { t:'Análise de Bolton', tipo:'Ferramenta' },
+    { t:'Cronologia de erupção e interceptação', tipo:'Guia' },
+    { t:'Guia de contenção', tipo:'Guia' },
   ],
   implanto: [
-    { t:'Carga imediata × precoce × tardia', d:'Fluxo de decisão por torque e ISQ', tipo:'guia' },
-    { t:'Enxertos e biomateriais', d:'Defeito ósseo → técnica + biomaterial + tempo de espera', tipo:'ferramenta' },
-    { t:'Qualidade óssea (Lekholm & Zarb)', d:'Classificação ilustrada e implicações clínicas', tipo:'guia' },
-    { t:'Checklist de planejamento em tomografia', d:'O que medir e conferir antes de operar', tipo:'guia' },
-    { t:'Mucosite × peri-implantite', d:'Diagnóstico diferencial e manejo', tipo:'guia' },
+    { t:'Carga imediata, precoce ou tardia', tipo:'Guia' },
+    { t:'Enxertos e biomateriais', tipo:'Ferramenta' },
+    { t:'Qualidade óssea (Lekholm & Zarb)', tipo:'Guia' },
+    { t:'Checklist de planejamento em tomografia', tipo:'Guia' },
+    { t:'Mucosite e peri-implantite', tipo:'Guia' },
   ],
   endo: [
-    { t:'Diagnóstico pulpar e periapical', d:'Testes, interpretação e nomenclatura correta', tipo:'guia' },
-    { t:'Medicação intracanal', d:'Diagnóstico + nº de sessões → substância e tempo', tipo:'ferramenta' },
-    { t:'Protocolos de irrigação comparados', d:'Soluções, concentrações e ativação', tipo:'guia' },
-    { t:'Trauma dentário (IADT)', d:'Conduta ilustrada por tipo de trauma', tipo:'guia' },
-    { t:'Anestesia na pulpite irreversível', d:'Técnicas suplementares quando o bloqueio falha', tipo:'ferramenta' },
-    { t:'Retratamento × cirurgia parendodôntica', d:'Quando cada caminho', tipo:'guia' },
+    { t:'Diagnóstico pulpar e periapical', tipo:'Guia' },
+    { t:'Medicação intracanal', tipo:'Ferramenta' },
+    { t:'Protocolos de irrigação', tipo:'Guia' },
+    { t:'Trauma dentário (IADT)', tipo:'Guia' },
+    { t:'Anestesia na pulpite irreversível', tipo:'Ferramenta' },
+    { t:'Retratamento ou cirurgia parendodôntica', tipo:'Guia' },
   ],
 };
 
@@ -147,32 +144,26 @@ let atual = PERFIL[0];
 
 function renderChips() {
   document.getElementById('chips').innerHTML = PERFIL.map(id => {
-    const e = ESP[id], n = CATALOGO[id].length;
+    const e = ESP[id];
     return `<button class="chip ${id===atual?'ativo':''}" style="--cor:${e.cor}" onclick="selecionar('${id}')">
-      <span class="chip-dot" style="--cor:${e.cor}">${e.ico}</span>
-      <span><span class="chip-nome">${e.nome}</span><br><span class="chip-qt">${n} ferramentas</span></span>
-    </button>`;
+      <span class="chip-dot" style="--cor:${e.cor}"></span>${e.nome}</button>`;
   }).join('');
 }
 
 function renderLista() {
   const e = ESP[atual], itens = CATALOGO[atual];
   document.documentElement.style.setProperty('--sel', e.cor);
-  document.getElementById('filete').style.setProperty('--sel', e.cor);
-  document.getElementById('lcBola').style.background = e.cor;
   document.getElementById('lcTit').textContent = e.nome;
-  document.getElementById('lcQt').textContent = itens.length + ' ferramentas';
+  document.getElementById('lcQt').textContent = itens.length + ' itens';
 
   const linha = (it) => {
-    const ico = it.tipo === 'guia' ? '📖' : '🧰';
     if (it.href) {
       return `<a class="linha" href="${it.href}">
-        <span class="li-ico">${ico}</span>
         <span class="li-tit">${it.t}</span>
+        <span class="li-tipo">${it.tipo}</span>
         <span class="li-seta">›</span></a>`;
     }
     return `<div class="linha soon">
-      <span class="li-ico">${ico}</span>
       <span class="li-tit">${it.t}</span>
       <span class="li-soon">em breve</span></div>`;
   };

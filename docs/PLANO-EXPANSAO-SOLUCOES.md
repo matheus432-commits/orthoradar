@@ -8,6 +8,23 @@
 
 ---
 
+## Diretriz de estética (fundador, 27/07) — vale para TODAS as abas do OdontoFeed
+
+O visual da área de membro deve ser **sério, editorial e profissional** — nada
+de "ar infantil". Regras a seguir em todo protótipo e em toda tela nova:
+
+- **Sem emojis ao lado dos títulos.** Texto limpo (só "Guia de Cefalometria",
+  não "📖 Guia de Cefalometria"). Ícone, quando existir, é decorativo e discreto
+  — nunca emoji colorido colado no texto.
+- **Sem negrito pesado / preto chapado.** Pesos de fonte leves (400–500); cor de
+  texto em grafite (#2E3440), não preto puro. Rótulos e títulos ganham
+  hierarquia por tamanho, cor e espaçamento — não por peso.
+- **Respiro e filetes finos.** Linhas de 1px, muito espaço em branco, títulos em
+  serifada de peso regular. Referência de tom: publicação clínica / editorial de
+  luxo, não app pop.
+
+Protótipo de referência do padrão: `docs/prototipos/hub-ferramentas.html`.
+
 ## Visão geral
 
 Hoje o OdontoFeed entrega curadoria diária (e-mail, site, Spotify, Instagram) e a
