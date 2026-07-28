@@ -32,8 +32,22 @@ const VERIFY_MODEL = process.env.PODCAST_VERIFY_MODEL || 'claude-haiku-4-5-20251
 // o limite de BYTES da API aqui — isso truncava roteiros densos e cortava o
 // áudio no meio (incidente 23/07). O limite de bytes da API agora é resolvido
 // no TTS por FATIAMENTO+concatenação (synthesizeLong), sem perder conteúdo.
+// FALA (pedido do fundador 28/07): o TTS lê "Classe III" como "i-i-i". No áudio,
+// algarismos romanos de classe/divisão viram arábicos para o narrador dizer
+// "Classe 3". Só afeta o TEXTO FALADO (o card escrito segue com "Classe III").
+// Restrito aos contextos "classe"/"divisão" para não tocar em outros usos.
+const ROMANO_ARABICO = { I: '1', II: '2', III: '3', IV: '4', V: '5' };
+function numeraisDeClasseParaFala(s) {
+  // Casa "classe(s)/divisão" + um ou mais romanos encadeados por separador
+  // (ex.: "classes II e III" → "classes 2 e 3"); converte cada romano do grupo.
+  return String(s || '').replace(
+    /\b(classes?|divis[ãa]o|divis[õo]es)\s+((?:III|IV|II|V|I)(?:\s*(?:,|\/|–|-|e|ou)\s+(?:III|IV|II|V|I))*)\b/gi,
+    (_m, palavra, grupo) => palavra + ' ' + grupo.replace(/\b(III|IV|II|V|I)\b/gi, r => ROMANO_ARABICO[r.toUpperCase()])
+  );
+}
+
 function capScript(text) {
-  let t = String(text || '').trim();
+  let t = numeraisDeClasseParaFala(String(text || '').trim());
   if (t.length > MAX_CHARS_PER_AUDIO) {
     const cut = t.slice(0, MAX_CHARS_PER_AUDIO);
     const lastStop = Math.max(cut.lastIndexOf('. '), cut.lastIndexOf('! '), cut.lastIndexOf('? '));
@@ -269,4 +283,4 @@ ${material.impacto ? `Relevância clínica: ${material.impacto}` : ''}`;
   return capScript(fallbackScript(article, especialidade));
 }
 
-module.exports = { generateScript, capScript, verifyScriptFidelity, buildMaterial, hasNarratableMaterial };
+module.exports = { generateScript, capScript, verifyScriptFidelity, buildMaterial, hasNarratableMaterial, numeraisDeClasseParaFala };
