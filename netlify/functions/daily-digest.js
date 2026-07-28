@@ -1003,7 +1003,7 @@ const PREMIUM_EXTRAS = 2;
 // Pool por especialidade (calculado UMA vez por grupo): candidatos frescos que
 // NÃO saíram no digest de hoje nem em nenhum anterior. Best-effort: sem pool,
 // o e-mail base segue normal (extras são bônus, nunca bloqueiam o envio).
-async function buildPremiumPool(db, especialidade) {
+async function buildPremiumPool(db, especialidade, anthropicKey = null) {
   try {
     const hist = await getEspHistory(db, especialidade); // inclui o digest de HOJE (já persistido)
     const brutos = await getCandidates(db, [especialidade]);
@@ -1026,6 +1026,30 @@ async function buildPremiumPool(db, especialidade) {
     log.info('[digest][PREMIUM] pool construído', {
       especialidade, candidatosBrutos: brutos.length, aposHistorico, poolFinal: pool.length,
     });
+    // RESERVA (28/07): se o acervo enriquecido esgotou para o histórico (todos já
+    // enviados — ex.: Ortodontia com pool 0), busca artigos NOVOS na reserva do
+    // PubMed (dezenas de milhares por especialidade) e os enriquece sob demanda —
+    // só os poucos necessários, custo controlado. Vale para TODAS as especialidades.
+    if (pool.length < PREMIUM_EXTRAS + 2 && anthropicKey) {
+      log.info('[digest][PREMIUM] acervo enriquecido escasso — completando da reserva PubMed', {
+        especialidade, poolAtual: pool.length,
+      });
+      try {
+        const need = 8; // reserva confortável para os extras, sem gerar custo alto
+        const fb   = await pubmedFallbackArticles({ especialidade, temas: [] }, hist, need, anthropicKey);
+        for (const a of fb) {
+          if (!passaCuradoria(a) || isRepeated(a, hist)) continue;
+          const ks = articleKeys(a);
+          if (ks.some(k => seen.has(k))) continue;
+          ks.forEach(k => seen.add(k));
+          pool.push(a);
+        }
+        log.info('[digest][PREMIUM] reserva adicionada', { especialidade, poolFinal: pool.length });
+      } catch (err) {
+        log.warn('[digest][PREMIUM] falha ao completar da reserva', { especialidade, err: err.message });
+      }
+    }
+
     if (!pool.length) {
       log.warn('[digest][PREMIUM] POOL VAZIO — assinantes desta especialidade ficarão sem extras hoje', {
         especialidade, candidatosBrutos: brutos.length,
@@ -1337,7 +1361,7 @@ async function main() {
       // Pool da Curadoria Premium — UMA vez por especialidade, e só se o grupo
       // tem pelo menos um assinante (evita queries à toa).
       espDigest.premiumPool = groupUsers.some(u => isPremium(u))
-        ? await buildPremiumPool(db, especialidade)
+        ? await buildPremiumPool(db, especialidade, anthropicKey)
         : [];
       if (espDigest.premiumPool.length) {
         console.log(`[PREMIUM] ${especialidade} — pool de ${espDigest.premiumPool.length} candidatos para extras`);

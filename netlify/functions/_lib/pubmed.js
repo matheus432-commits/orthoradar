@@ -1,7 +1,11 @@
 // PubMed REST helpers — shared by daily-digest.js (fallback) and ingest-pubmed.js.
 // Provides: TEMA_MAP, ESPECIALIDADE_FALLBACK, throttled search, evidence detection.
 
-const { request } = require('../_lib');
+const { request: _realRequest } = require('../_lib');
+// Seam de teste: a camada HTTP é injetável para testar a varredura da reserva
+// sem rede (o ambiente de CI local não alcança o NCBI). Em produção usa o real.
+let request = _realRequest;
+function _setHttpForTest(fn) { request = fn || _realRequest; }
 const log         = require('./logger');
 const { extractAnthropicText } = require('./anthropic-text');
 const { resolveModel } = require('./ai-config');
@@ -259,38 +263,41 @@ const EXCLUI_SURVEY =
   ' OR "cross-sectional survey"[tiab] OR "knowledge attitude"[tiab] OR "knowledge, attitude"[tiab]' +
   ' OR "Surveys and Questionnaires"[Mesh])';
 
-async function searchOne(query, excludePmids = new Set()) {
-  const encoded    = encodeURIComponent(query + EXCLUI_SURVEY);
-  // Janela ampla (15 anos) → acervo específico da área muito maior, tornando a
-  // repetição de artigos praticamente impossível. O excludePmids remove o que já
-  // foi enviado antes de escolher o candidato.
-  //
-  // PROFUNDIDADE (incidente Prótese/Ortodontia 27-28/07): antes só olhávamos os
-  // 20 MAIS RECENTES e testávamos 5 — em especialidades muito enviadas (Prótese,
-  // Ortodontia) esses recentes JÁ FORAM todos enviados, então o fallback voltava
-  // vazio e a edição era bloqueada. Agora: retmax maior + um retstart que ROTACIONA
-  // por dia, varrendo páginas mais fundas do acervo de 15 anos, e testamos mais
-  // candidatos frescos. Assim sempre há artigo novo para as especialidades
-  // esgotadas.
-  const dayOffset = Math.floor(Date.now() / 86400000);
-  const retStart  = (dayOffset % 5) * 60;   // páginas 0/60/120/180/240 ao longo dos dias
-  const searchPath = `/entrez/eutils/esearch.fcgi?db=pubmed&term=${encoded}&retmax=60&retstart=${retStart}&sort=date&retmode=json&datetype=pdat&reldate=5475${NCBI_API_PARAM}`;
-
+// Busca UMA página de PMIDs (retstart). esearch é barato — não enriquece nada.
+async function searchPage(encoded, retStart, retMax) {
+  const path = `/entrez/eutils/esearch.fcgi?db=pubmed&term=${encoded}&retmax=${retMax}&retstart=${retStart}&sort=date&retmode=json&datetype=pdat&reldate=5475${NCBI_API_PARAM}`;
   await throttle();
-  const res = await request({ hostname: 'eutils.ncbi.nlm.nih.gov', path: searchPath, method: 'GET' }, null);
-  if (res.status !== 200) return null;
+  const res = await request({ hostname: 'eutils.ncbi.nlm.nih.gov', path, method: 'GET' }, null);
+  if (res.status !== 200) return { ids: [], total: 0 };
+  const j = JSON.parse(res.body).esearchresult || {};
+  return { ids: j.idlist || [], total: Number(j.count || 0) };
+}
 
-  const ids   = JSON.parse(res.body).esearchresult?.idlist || [];
-  if (!ids.length) return null;
+// A RESERVA é o próprio acervo do PubMed (dezenas de milhares por especialidade).
+// Buscar PMIDs é gratuito; só o artigo ESCOLHIDO é enriquecido (a única parte
+// que gera custo). Por isso varremos PÁGINA POR PÁGINA até achar um artigo NOVO
+// (não enviado) com abstract útil — GARANTINDO que especialidades esgotadas
+// (Prótese, Ortodontia) nunca fiquem sem candidato. O ponto de partida rotaciona
+// por dia (diversidade) e a varredura avança em profundidade quando a página
+// atual só tem artigos já enviados.
+const RESERVA_PAGE   = 100;   // PMIDs por página (esearch, sem custo)
+const RESERVA_MAXPGS = 12;    // até 1200 artigos varridos por termo (equilíbrio profundidade × tempo do job)
+async function searchOne(query, excludePmids = new Set()) {
+  const encoded   = encodeURIComponent(query + EXCLUI_SURVEY);
+  const dayOffset = Math.floor(Date.now() / 86400000);
+  const startPage = dayOffset % RESERVA_MAXPGS;   // rotaciona o ponto de entrada
 
-  const fresh = ids.filter(id => !excludePmids.has(String(id)));
-  const pool  = fresh.length ? fresh : ids;
-
-  // Testa mais candidatos frescos (12) até um ter abstract útil — em vez de só 5.
-  for (const pmid of pool.slice(0, 12)) {
-    if (excludePmids.has(String(pmid))) continue;
-    const art = await fetchOne(pmid);
-    if (art && art.abstract && art.abstract.length > 80) return art;
+  for (let i = 0; i < RESERVA_MAXPGS; i++) {
+    const page     = (startPage + i) % RESERVA_MAXPGS;
+    const { ids, total } = await searchPage(encoded, page * RESERVA_PAGE, RESERVA_PAGE);
+    if (!ids.length) continue;                     // página vazia (além do acervo) — tenta a próxima
+    const fresh = ids.filter(id => !excludePmids.has(String(id)));
+    for (const pmid of fresh.slice(0, 12)) {       // testa até 12 frescos por página
+      const art = await fetchOne(pmid);
+      if (art && art.abstract && art.abstract.length > 80) return art;
+    }
+    // acervo menor que a janela varrida? não insistir além do total
+    if (total && (page + 1) * RESERVA_PAGE >= total && i >= 1) break;
   }
   return null;
 }
@@ -536,4 +543,6 @@ module.exports = {
   enrichWithClaude,
   pubmedFallbackArticles,
   toDigestArticle,
+  searchOne,
+  _setHttpForTest,
 };
