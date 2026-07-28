@@ -264,7 +264,17 @@ async function searchOne(query, excludePmids = new Set()) {
   // Janela ampla (15 anos) → acervo específico da área muito maior, tornando a
   // repetição de artigos praticamente impossível. O excludePmids remove o que já
   // foi enviado antes de escolher o candidato.
-  const searchPath = `/entrez/eutils/esearch.fcgi?db=pubmed&term=${encoded}&retmax=20&sort=date&retmode=json&datetype=pdat&reldate=5475${NCBI_API_PARAM}`;
+  //
+  // PROFUNDIDADE (incidente Prótese/Ortodontia 27-28/07): antes só olhávamos os
+  // 20 MAIS RECENTES e testávamos 5 — em especialidades muito enviadas (Prótese,
+  // Ortodontia) esses recentes JÁ FORAM todos enviados, então o fallback voltava
+  // vazio e a edição era bloqueada. Agora: retmax maior + um retstart que ROTACIONA
+  // por dia, varrendo páginas mais fundas do acervo de 15 anos, e testamos mais
+  // candidatos frescos. Assim sempre há artigo novo para as especialidades
+  // esgotadas.
+  const dayOffset = Math.floor(Date.now() / 86400000);
+  const retStart  = (dayOffset % 5) * 60;   // páginas 0/60/120/180/240 ao longo dos dias
+  const searchPath = `/entrez/eutils/esearch.fcgi?db=pubmed&term=${encoded}&retmax=60&retstart=${retStart}&sort=date&retmode=json&datetype=pdat&reldate=5475${NCBI_API_PARAM}`;
 
   await throttle();
   const res = await request({ hostname: 'eutils.ncbi.nlm.nih.gov', path: searchPath, method: 'GET' }, null);
@@ -276,8 +286,8 @@ async function searchOne(query, excludePmids = new Set()) {
   const fresh = ids.filter(id => !excludePmids.has(String(id)));
   const pool  = fresh.length ? fresh : ids;
 
-  // Try candidates until one has a useful abstract
-  for (const pmid of pool.slice(0, 5)) {
+  // Testa mais candidatos frescos (12) até um ter abstract útil — em vez de só 5.
+  for (const pmid of pool.slice(0, 12)) {
     if (excludePmids.has(String(pmid))) continue;
     const art = await fetchOne(pmid);
     if (art && art.abstract && art.abstract.length > 80) return art;
