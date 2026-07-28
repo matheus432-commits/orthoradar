@@ -358,6 +358,36 @@ function passaCuradoria(a) {
          !isUnfinishedStudy(a.titulo || a.title || a.titulo_pt || '', a.abstract || '', a.journal || '');
 }
 
+// REGRA (fundador 28/07): no máximo 1 relato de caso por edição — evita edições
+// dominadas por casos clínicos (ex.: Ortodontia com 3 relatos em 28/07). Relato
+// de caso continua PERMITIDO, mas limitado a 1; as vagas liberadas são
+// preenchidas por estudos NÃO-relato da reserva de candidatos.
+const MAX_RELATOS_POR_EDICAO = 1;
+function limitarRelatosDeCaso(selecionados, candidatos, maxArtigos) {
+  const usados = new Set(selecionados.map(a => String(a.pmid || a.id || '')));
+  let relatos = 0;
+  const final = [];
+  let removidos = 0;
+  for (const a of selecionados) {
+    if (isRelatoDeCaso(a)) {
+      if (relatos >= MAX_RELATOS_POR_EDICAO) { removidos++; continue; }
+      relatos++;
+    }
+    final.push(a);
+  }
+  // Repõe as vagas com estudos NÃO-relato ainda não usados.
+  if (removidos > 0) {
+    for (const a of candidatos) {
+      if (final.length >= maxArtigos) break;
+      const id = String(a.pmid || a.id || '');
+      if (usados.has(id) || isRelatoDeCaso(a)) continue;
+      usados.add(id);
+      final.push(a);
+    }
+  }
+  return { selecionados: final, removidos, relatos };
+}
+
 // Especialidades renomeadas: o histórico antigo foi gravado com o nome da época
 // e precisa continuar contando para a anti-repetição.
 const LEGACY_ESP_ALIASES = {
@@ -754,6 +784,14 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
     maxArticles: MAX_ARTICLES,
     minArticles: MIN_ARTICLES,
   });
+  // Máx. 1 relato de caso por edição (repõe com não-relato da reserva).
+  const capRelato = limitarRelatosDeCaso(selected, candidates, MAX_ARTICLES);
+  selected = capRelato.selecionados;
+  if (capRelato.removidos > 0) {
+    log.info('[digest][ESP] cap de relatos de caso aplicado', {
+      especialidade, removidos: capRelato.removidos, relatosMantidos: capRelato.relatos, total: selected.length,
+    });
+  }
   log.info('[digest][ESP][STAGE curation]', {
     especialidade, selected: selected.length, candidatesIn: candidates.length, ms: Date.now() - t,
   });
@@ -808,18 +846,23 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
   const reserva = candidates.filter(a => !usadosIds.has(String(a.pmid || a.id || '')) && passaCuradoria(a));
   const finais = [];
   let descartadosSemVeredito = 0;
+  // Mantém o cap de relatos de caso também na reposição pós-resumo.
+  let relatosEmFinais = selected.filter(isRelatoDeCaso).length;
   for (const art of selected) {
     if (Date.now() - t <= RESUMO_STAGE_BUDGET_MS) await ensureResumoCompleto(db, art);
     if (!isResultadosIndisponiveis(art)) { finais.push(art); continue; }
     descartadosSemVeredito++;
+    if (isRelatoDeCaso(art)) relatosEmFinais--; // o relato saiu; libera a cota
     log.warn('[digest][ESP] artigo DESCARTADO após resumo completo — sem resultados/veredito no material (repondo)', {
       especialidade, id: art.pmid || art.id, titulo: (art.titulo_pt || art.titulo || '').slice(0, 70),
     });
     let reposto = null;
     while (reserva.length && Date.now() - t <= RESUMO_STAGE_BUDGET_MS) {
       const cand = reserva.shift();
+      // Respeita o máximo de 1 relato por edição na reposição.
+      if (isRelatoDeCaso(cand) && relatosEmFinais >= MAX_RELATOS_POR_EDICAO) continue;
       await ensureResumoCompleto(db, cand);
-      if (!isResultadosIndisponiveis(cand)) { reposto = cand; break; }
+      if (!isResultadosIndisponiveis(cand)) { reposto = cand; if (isRelatoDeCaso(cand)) relatosEmFinais++; break; }
       log.info('[digest][ESP] reposição também sem veredito — tentando a próxima', { id: cand.pmid || cand.id });
     }
     if (reposto) finais.push(reposto);
@@ -1487,6 +1530,8 @@ exports.isHealthSystemCost = isHealthSystemCost;
 exports.isServicoSaudeDados = isServicoSaudeDados;
 exports.isRelatoDeCaso = isRelatoDeCaso;
 exports.isResultadosIndisponiveis = isResultadosIndisponiveis;
+exports.limitarRelatosDeCaso = limitarRelatosDeCaso;
+exports.MAX_RELATOS_POR_EDICAO = MAX_RELATOS_POR_EDICAO;
 
 if (require.main === module) {
   main()
