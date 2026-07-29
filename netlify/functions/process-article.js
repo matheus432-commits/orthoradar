@@ -40,7 +40,7 @@ async function rejectUnfinished(db, pmid, motivo, detalhe) {
   return false;
 }
 
-async function processOne(db, article) {
+async function processOne(db, article, opts = {}) {
   const pmid = article.id; // document ID = PMID (or doi_... fallback)
   const rawTitulo = article.titulo || article.title || '';
 
@@ -135,11 +135,17 @@ async function processOne(db, article) {
 
   // Resumo completo para o site (Sonnet + validador numérico) — best-effort:
   // se reprovar/falhar, a página usa o resumo curto; nunca bloqueia a ativação.
-  const resumoCompleto = await generateResumoCompleto({
-    pmid, titulo: article.titulo || article.title || '',
-    abstract: article.abstract || '', journal: article.journal || '', year: article.year || '',
-  }).catch(() => null);
-  if (resumoCompleto) updateFields.resumo_completo = resumoCompleto;
+  // PRÉ-AQUECIMENTO (opts.skipResumoCompleto): a reserva enriquece SÓ com Haiku
+  // (titulo_pt + resumo_pt) e pula o Sonnet aqui — o resumo_completo é gerado
+  // sob demanda no email (ensureResumoCompleto) apenas para os selecionados.
+  // Isso mantém o pré-aquecimento rápido e barato (Haiku), sem Sonnet à toa.
+  if (!opts.skipResumoCompleto) {
+    const resumoCompleto = await generateResumoCompleto({
+      pmid, titulo: article.titulo || article.title || '',
+      abstract: article.abstract || '', journal: article.journal || '', year: article.year || '',
+    }).catch(() => null);
+    if (resumoCompleto) updateFields.resumo_completo = resumoCompleto;
+  }
 
   await db.updateDoc('artigos', pmid, updateFields);
 
@@ -222,3 +228,7 @@ if (require.main === module) {
     .then(r => { console.log('Done:', JSON.stringify(r)); process.exit(0); })
     .catch(e => { console.error(e.message); process.exit(1); });
 }
+
+// Reutilizado pelo pré-aquecimento da reserva (prewarm-reserva.js): enriquece um
+// artigo já salvo, com a MESMA curadoria/gates/scoring da ingestão diária.
+exports.processOne = processOne;
