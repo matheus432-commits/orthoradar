@@ -43,6 +43,14 @@ const { request }                                  = require('./_lib');
 const BASE_URL        = process.env.SITE_URL || 'https://odontofeed.com';
 const MIN_ARTICLES    = 3;
 const MAX_ARTICLES    = 3;   // Padrão fixo: 3 artigos regulares por dia (o Achado da Semana entra à parte, podendo elevar o total)
+// BANCO DE RESERVA (incidente 29/07 — DTM bloqueou com 2 artigos SEM ter dado
+// timeout: rodou em 25s). A reserva do PubMed só era buscada quando o pool base
+// caía abaixo de MIN_ARTICLES (3). Mas a curadoria + a trava de veredito
+// descartam vários por edição — uma especialidade com 4-5 candidatos brutos
+// passava do gatilho e mesmo assim terminava com 2. Agora buscamos reserva
+// SEMPRE que o banco estiver abaixo deste alvo folgado, garantindo margem para
+// os descartes e a reposição em QUALQUER especialidade (nunca zera).
+const RESERVA_ALVO    = MAX_ARTICLES * 3 + 2; // 11 candidatos vivos de folga
 // Anti-repetição efetivamente permanente: um artigo já enviado a uma especialidade
 // nunca volta. Com o acervo ampliado (busca de 15 anos), há candidatos novos de
 // sobra, então não há motivo para "esquecer" o que já foi enviado.
@@ -731,8 +739,8 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
   // 3. Trending Firestore fallback — SÓ artigos da MESMA especialidade.
   // Sem este filtro, um digest escasso completava com artigos de outras áreas
   // (ex.: odontopediatria dentro do digest de Prótese).
-  if (candidates.length < MIN_ARTICLES) {
-    log.info('[digest][ESP] insufficient candidates, trying trending', { especialidade, found: candidates.length });
+  if (candidates.length < RESERVA_ALVO) {
+    log.info('[digest][ESP] banco abaixo do alvo, tentando trending', { especialidade, found: candidates.length, alvo: RESERVA_ALVO });
     const trending = await getTrendingArticles(db, 30);
     const trendNew = trending.filter(a =>
       a.especialidade === especialidade &&
@@ -743,16 +751,19 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
     candidates = [...candidates, ...trendNew];
   }
 
-  // 4. PubMed direct fallback
-  if (candidates.length < MIN_ARTICLES) {
-    log.info('[digest][ESP] Firestore sparse, falling back to PubMed direct', { especialidade, found: candidates.length });
+  // 4. PubMed direct fallback — dispara SEMPRE que o banco está abaixo do alvo
+  // folgado (não só quando zera), porque a curadoria + trava de veredito
+  // derrubam vários por edição. Foi o que faltou ao DTM em 29/07.
+  if (candidates.length < RESERVA_ALVO) {
+    log.info('[digest][ESP] banco abaixo do alvo, completando da reserva PubMed', { especialidade, found: candidates.length, alvo: RESERVA_ALVO });
     try {
-      // Reserva DIMENSIONADA PELO DESCARTE REAL (incidente 27/07): a trava de
-      // veredito descarta 1-3 artigos por edição depois do resumo. Pedir só
-      // MAX_ARTICLES+2 deixava reserva de 1 — quando o pool base vinha vazio
-      // (Prótese), dois descartes bloqueavam a edição inteira. As outras
-      // especialidades sobreviveram porque tinham 23-85 candidatos de base.
-      const needed  = MAX_ARTICLES * 3 + 2;
+      // Reserva DIMENSIONADA PELO DÉFICIT REAL (incidentes 27/07 e 29/07): a
+      // trava de veredito + curadoria descartam vários por edição, e o fresco do
+      // PubMed ainda perde ~metade na curadoria. Pedimos o que falta para o alvo
+      // MAIS uma folga de 8 para cobrir os descartes crus — assim o banco sobra
+      // acima de 3 mesmo na especialidade mais esgotada (custo: enriquecimento
+      // Haiku sob demanda de poucos artigos, barato).
+      const needed  = (RESERVA_ALVO - candidates.length) + 8;
       const fbArts  = await pubmedFallbackArticles({ especialidade, temas: [] }, hist, needed, anthropicKey);
       // TRAVA (incidente 22-23/07): o fallback do PubMed traz artigos frescos que
       // só são traduzidos se o Claude responder. Se vierem CRUS (sem titulo_pt/
