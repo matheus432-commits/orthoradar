@@ -56,7 +56,14 @@ const MAX_ARTICLES    = 3;   // Padrão fixo: 3 artigos regulares por dia (o Ach
 // passava do gatilho e mesmo assim terminava com 2. Agora buscamos reserva
 // SEMPRE que o banco estiver abaixo deste alvo folgado, garantindo margem para
 // os descartes e a reposição em QUALQUER especialidade (nunca zera).
-const RESERVA_ALVO    = MAX_ARTICLES * 3 + 2; // 11 candidatos vivos de folga
+// TAMANHO (30/07): com o enriquecimento da reserva agora PARALELO (pubmed.js),
+// um banco maior cabe no orçamento de 180s. Alvo elevado para 18 candidatos
+// vivos (~6× o que se entrega) — margem folgada mesmo se a curadoria derrubar
+// metade. O fetch é limitado (RESERVA_FETCH_MAX) porque as BUSCAS continuam
+// sequenciais: buscar 30+ artigos novos numa especialidade esgotada gastaria os
+// ~50s de janela pré-resumos. 18+8 cobre o pior caso real sem arriscar timeout.
+const RESERVA_ALVO      = 18;
+const RESERVA_FETCH_MAX = 22; // teto de artigos buscados por edição (buscas seq.)
 // Anti-repetição efetivamente permanente: um artigo já enviado a uma especialidade
 // nunca volta. Com o acervo ampliado (busca de 15 anos), há candidatos novos de
 // sobra, então não há motivo para "esquecer" o que já foi enviado.
@@ -771,10 +778,11 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
       // Reserva DIMENSIONADA PELO DÉFICIT REAL (incidentes 27/07 e 29/07): a
       // trava de veredito + curadoria descartam vários por edição, e o fresco do
       // PubMed ainda perde ~metade na curadoria. Pedimos o que falta para o alvo
-      // MAIS uma folga de 8 para cobrir os descartes crus — assim o banco sobra
-      // acima de 3 mesmo na especialidade mais esgotada (custo: enriquecimento
-      // Haiku sob demanda de poucos artigos, barato).
-      const needed  = (RESERVA_ALVO - candidates.length) + 8;
+      // MAIS uma folga de 8 para cobrir os descartes crus, com teto para não
+      // estourar a janela de tempo (as buscas são sequenciais; o enriquecimento
+      // é paralelo). Assim o banco sobra bem acima de 3 mesmo na especialidade
+      // mais esgotada.
+      const needed  = Math.min(RESERVA_FETCH_MAX, (RESERVA_ALVO - candidates.length) + 8);
       const fbArts  = await pubmedFallbackArticles({ especialidade, temas: [] }, hist, needed, anthropicKey);
       // TRAVA (incidente 22-23/07): o fallback do PubMed traz artigos frescos que
       // só são traduzidos se o Claude responder. Se vierem CRUS (sem titulo_pt/

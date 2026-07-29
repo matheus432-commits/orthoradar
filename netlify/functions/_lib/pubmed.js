@@ -482,51 +482,58 @@ async function pubmedFallbackArticles(user, sentPmids, targetCount = 5, anthropi
   });
   const temaPool = [...userTemas, ...shuffled];
 
-  // Try each tema in pool
+  // ── FASE 1: coleta os PMIDs crus (só busca, SEM enriquecer ainda) ───────────
+  // A busca é sequencial porque o dedup (usedPmids) precisa ser consistente e a
+  // varredura profunda para no primeiro artigo novo por tema. Guardamos {raw,tema}
+  // para enriquecer tudo de uma vez depois.
+  const brutos = [];
   for (const tema of temaPool) {
-    if (results.length >= targetCount) break;
+    if (brutos.length >= targetCount) break;
     const terms = TEMA_MAP[tema];
     if (!terms) continue;
     try {
       const raw = await searchPubMed(terms, usedPmids, `${esp}/${tema}`);
       if (!raw) continue;
-      const article = toDigestArticle(raw, tema, esp);
-      // Enrich with Claude (results-focused summaries in PT)
-      if (anthropicKey) {
-        const enriched = await enrichWithClaude(article, anthropicKey);
-        if (enriched) Object.assign(article, enriched);
-      }
-      // If no Claude enrichment, use English abstract as resumo fallback
-      if (!article.resumo_pt && raw.abstract) {
-        article.resumo_pt = raw.abstract.slice(0, 800);
-      }
-      results.push(article);
+      brutos.push({ raw, tema });
       usedPmids.add(String(raw.pmid));
     } catch (err) {
       log.warn('[pubmed] fallback tema error', { tema, err: err.message });
     }
   }
-
-  // Last resort: specialty-level generic terms
-  if (results.length < Math.min(targetCount, 3)) {
+  // Última cartada: termos genéricos da especialidade.
+  if (brutos.length < Math.min(targetCount, 3)) {
     const fbTerms = ESPECIALIDADE_FALLBACK[esp] || ['dental clinical trial randomized'];
     for (const term of fbTerms) {
-      if (results.length >= targetCount) break;
+      if (brutos.length >= targetCount) break;
       try {
         const raw = await searchPubMed([term], usedPmids, `${esp} generic fallback`);
         if (!raw) continue;
-        const article = toDigestArticle(raw, esp, esp);
-        if (anthropicKey) {
-          const enriched = await enrichWithClaude(article, anthropicKey);
-          if (enriched) Object.assign(article, enriched);
-        }
-        if (!article.resumo_pt && raw.abstract) article.resumo_pt = raw.abstract.slice(0, 800);
-        results.push(article);
+        brutos.push({ raw, tema: esp });
         usedPmids.add(String(raw.pmid));
       } catch (err) {
         log.warn('[pubmed] generic fallback error', { term, err: err.message });
       }
     }
+  }
+
+  // ── FASE 2: enriquece EM PARALELO (a parte cara, ~2-5s/artigo com o Claude) ──
+  // Antes era sequencial (cada artigo travava o próximo), o que limitava o banco
+  // a ~11 dentro do orçamento de 180s do buildEspDigest. Em lotes paralelos o
+  // enriquecimento de 20+ artigos cabe folgado, permitindo uma reserva bem maior.
+  const LOTE_ENRIQ = 6; // concorrência amigável ao rate limit da Anthropic/NCBI
+  for (let i = 0; i < brutos.length; i += LOTE_ENRIQ) {
+    const lote = brutos.slice(i, i + LOTE_ENRIQ);
+    const enriquecidos = await Promise.allSettled(lote.map(async ({ raw, tema }) => {
+      const article = toDigestArticle(raw, tema, esp);
+      if (anthropicKey) {
+        const enriched = await enrichWithClaude(article, anthropicKey);
+        if (enriched) Object.assign(article, enriched);
+      }
+      // Sem enriquecimento do Claude, usa o abstract em inglês como resumo bruto.
+      if (!article.resumo_pt && raw.abstract) article.resumo_pt = raw.abstract.slice(0, 800);
+      return article;
+    }));
+    for (const r of enriquecidos) if (r.status === 'fulfilled' && r.value) results.push(r.value);
   }
 
   log.info('[pubmed] fallback complete', { esp, requested: targetCount, found: results.length });
