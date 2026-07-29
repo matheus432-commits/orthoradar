@@ -1672,6 +1672,13 @@ exports.isResultadosIndisponiveis = isResultadosIndisponiveis;
 exports.limitarRelatosDeCaso = limitarRelatosDeCaso;
 exports.deveRegerar = deveRegerar;
 exports.MAX_RELATOS_POR_EDICAO = MAX_RELATOS_POR_EDICAO;
+// Reutilizados pelo pré-aquecimento da reserva (prewarm-reserva.js): a MESMA
+// definição de "candidato vivo" (enriquecido, curado e não repetido) do e-mail.
+exports.passaCuradoria = passaCuradoria;
+exports.isRepeated = isRepeated;
+exports.getEspHistory = getEspHistory;
+exports.getCandidates = getCandidates;
+exports.RESERVA_ALVO = RESERVA_ALVO;
 
 if (require.main === module) {
   main()

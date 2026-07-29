@@ -371,3 +371,10 @@ if (require.main === module) {
     .then(r => { console.log('Done:', JSON.stringify(r)); process.exit(0); })
     .catch(e => { console.error(e.message); process.exit(1); });
 }
+
+// Reutilizados pelo pré-aquecimento da reserva (prewarm-reserva.js) — mesma
+// busca profunda, mesmo fetch e mesmo formato de gravação da ingestão diária.
+exports.SPECIALTY_QUERIES = SPECIALTY_QUERIES;
+exports.searchPmids       = searchPmids;
+exports.fetchArticles     = fetchArticles;
+exports.saveArticle       = saveArticle;
