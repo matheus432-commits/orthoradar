@@ -861,32 +861,56 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
   // o veredito), DESCARTAMOS o artigo e REPOMOS por outro candidato bom. Só vai
   // ao ar estudo que conseguimos resumir por inteiro. O check determinístico
   // (isResultadosIndisponiveis) roda sempre — mesmo sem gerar, sobre o resumo_pt.
-  const RESUMO_STAGE_BUDGET_MS = 100000;
+  // PARALELISMO (incidente 29/07 — Ortodontia/Dentística/DTM bloquearam com 19
+  // usuários): antes os resumos eram gerados UM DE CADA VEZ (~25-40s cada). Em
+  // especialidades esgotadas, TODOS os artigos vêm frescos da reserva e precisam
+  // ter o resumo gerado do zero — 3 sequenciais + descartes + reposição
+  // estouravam os 100s e a edição saía SEM resumo (comResumo=0) → bloqueio.
+  // Agora os resumos de um lote são gerados EM PARALELO (Promise.allSettled),
+  // cortando o tempo ~3-5×. A trava de veredito e o cap de relato continuam.
+  const RESUMO_STAGE_BUDGET_MS = 120000;
   t = Date.now();
+  const dentroDoOrcamento = () => Date.now() - t <= RESUMO_STAGE_BUDGET_MS;
   const usadosIds = new Set(selected.map(a => String(a.pmid || a.id || '')));
   const reserva = candidates.filter(a => !usadosIds.has(String(a.pmid || a.id || '')) && passaCuradoria(a));
+
+  // 1) Gera os resumos dos selecionados EM PARALELO.
+  await Promise.allSettled(selected.map(a => ensureResumoCompleto(db, a)));
+
+  // 2) Aprova quem tem veredito; conta descartes; respeita o cap de relato.
   const finais = [];
   let descartadosSemVeredito = 0;
-  // Mantém o cap de relatos de caso também na reposição pós-resumo.
-  let relatosEmFinais = selected.filter(isRelatoDeCaso).length;
+  let relatosEmFinais = 0;
   for (const art of selected) {
-    if (Date.now() - t <= RESUMO_STAGE_BUDGET_MS) await ensureResumoCompleto(db, art);
-    if (!isResultadosIndisponiveis(art)) { finais.push(art); continue; }
-    descartadosSemVeredito++;
-    if (isRelatoDeCaso(art)) relatosEmFinais--; // o relato saiu; libera a cota
-    log.warn('[digest][ESP] artigo DESCARTADO após resumo completo — sem resultados/veredito no material (repondo)', {
-      especialidade, id: art.pmid || art.id, titulo: (art.titulo_pt || art.titulo || '').slice(0, 70),
-    });
-    let reposto = null;
-    while (reserva.length && Date.now() - t <= RESUMO_STAGE_BUDGET_MS) {
-      const cand = reserva.shift();
-      // Respeita o máximo de 1 relato por edição na reposição.
-      if (isRelatoDeCaso(cand) && relatosEmFinais >= MAX_RELATOS_POR_EDICAO) continue;
-      await ensureResumoCompleto(db, cand);
-      if (!isResultadosIndisponiveis(cand)) { reposto = cand; if (isRelatoDeCaso(cand)) relatosEmFinais++; break; }
-      log.info('[digest][ESP] reposição também sem veredito — tentando a próxima', { id: cand.pmid || cand.id });
+    if (isResultadosIndisponiveis(art)) {
+      descartadosSemVeredito++;
+      log.warn('[digest][ESP] artigo DESCARTADO após resumo completo — sem resultados/veredito no material (repondo)', {
+        especialidade, id: art.pmid || art.id, titulo: (art.titulo_pt || art.titulo || '').slice(0, 70),
+      });
+      continue;
     }
-    if (reposto) finais.push(reposto);
+    if (isRelatoDeCaso(art)) {
+      if (relatosEmFinais >= MAX_RELATOS_POR_EDICAO) { descartadosSemVeredito++; continue; }
+      relatosEmFinais++;
+    }
+    finais.push(art);
+  }
+
+  // 3) Repõe em LOTES PARALELOS da reserva até MAX_ARTICLES (respeitando budget).
+  while (finais.length < MAX_ARTICLES && reserva.length && dentroDoOrcamento()) {
+    const faltam = MAX_ARTICLES - finais.length;
+    const lote = reserva.splice(0, faltam + 3); // alguns a mais para cobrir descartes
+    await Promise.allSettled(lote.map(c => ensureResumoCompleto(db, c)));
+    for (const cand of lote) {
+      if (finais.length >= MAX_ARTICLES) break;
+      if (isResultadosIndisponiveis(cand)) {
+        log.info('[digest][ESP] reposição também sem veredito — tentando a próxima', { id: cand.pmid || cand.id });
+        continue;
+      }
+      if (isRelatoDeCaso(cand) && relatosEmFinais >= MAX_RELATOS_POR_EDICAO) continue;
+      if (isRelatoDeCaso(cand)) relatosEmFinais++;
+      finais.push(cand);
+    }
   }
   selected = finais;
   log.info('[digest][ESP][STAGE resumos]', {
