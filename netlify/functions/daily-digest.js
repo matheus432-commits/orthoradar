@@ -74,6 +74,23 @@ function getEspDigestKey(esp, dateStr) {
   return `${espDigestSlug(esp)}_${dateStr}`;
 }
 
+// REGENERAÇÃO CIRÚRGICA (28/07): especialidades listadas em REGEN_ESPECIALIDADES
+// (env do disparo manual, ex.: "Ortodontia,Prótese") furam DUAS proteções só
+// para elas: (a) o cache do digest do dia (força reconstrução com as regras
+// atuais — cap de relato, reserva) e (b) a idempotência de envio (reenvia a
+// edição corrigida a quem já a recebeu). As demais especialidades ficam
+// intactas: não reconstroem nem recebem e-mail duplicado.
+function _regenSlugs() {
+  return new Set(
+    String(process.env.REGEN_ESPECIALIDADES || '')
+      .split(',').map(s => espDigestSlug(s.trim())).filter(Boolean)
+  );
+}
+function deveRegerar(esp) {
+  const set = _regenSlugs();
+  return set.size > 0 && set.has(espDigestSlug(esp));
+}
+
 // ── Firestore helpers ─────────────────────────────────────────────────────────
 
 async function getActiveUsers(db) {
@@ -603,6 +620,10 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
     cached = await db.getDoc('digests_especialidade', key);
   } catch (err) {
     log.warn('[digest] esp digest cache check failed, rebuilding', { especialidade, err: err.message });
+  }
+  if (deveRegerar(especialidade)) {
+    log.info('[digest][ESP] REGEN forçado — ignorando cache e reconstruindo', { especialidade, key });
+    cached = null;
   }
   if (cached?.status === 'ready' && Array.isArray(cached.artigos) && cached.artigos.length >= MIN_ARTICLES) {
     log.info('[digest][ESP] reusing cached digest', { especialidade, key, articles: cached.artigos.length });
@@ -1236,10 +1257,13 @@ async function processUser(user, espDigest, db, resendKey, runId, dateStr) {
     log.warn('[digest] digest_logs check failed, proceeding', { email, err: err.message });
   }
 
-  if (existingLog?.status === 'sent') {
+  if (existingLog?.status === 'sent' && !deveRegerar(especialidade)) {
     log.info('[digest] SKIP (idempotent) — already sent today', { email, logKey });
     console.log(`[SKIP IDEMPOTENT] ${email}`);
     return 'skipped';
+  }
+  if (existingLog?.status === 'sent' && deveRegerar(especialidade)) {
+    log.info('[digest] REGEN forçado — reenviando edição corrigida', { email, especialidade });
   }
 
   // ── MARK PROCESSING ────────────────────────────────────────────────────────
@@ -1531,6 +1555,7 @@ exports.isServicoSaudeDados = isServicoSaudeDados;
 exports.isRelatoDeCaso = isRelatoDeCaso;
 exports.isResultadosIndisponiveis = isResultadosIndisponiveis;
 exports.limitarRelatosDeCaso = limitarRelatosDeCaso;
+exports.deveRegerar = deveRegerar;
 exports.MAX_RELATOS_POR_EDICAO = MAX_RELATOS_POR_EDICAO;
 
 if (require.main === module) {

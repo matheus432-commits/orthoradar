@@ -39,6 +39,11 @@ on:
         required: false
         default: 'false'
         type: boolean
+      regen_especialidades:
+        description: 'Regenerar edição de HOJE só destas especialidades (vírgula, ex.: Ortodontia,Prótese) — fura cache e reenvia'
+        required: false
+        default: ''
+        type: string
 
 # ── Job 1: Ingestão e Enriquecimento ─────────────────────────────────────────
 jobs:
@@ -153,6 +158,7 @@ jobs:
           UNSUBSCRIBE_SECRET:  ${{ secrets.UNSUBSCRIBE_SECRET }}
           SITE_URL:            https://odontofeed.com
           FORCE_SEND:          ${{ github.event.inputs.force_send || 'false' }}
+          REGEN_ESPECIALIDADES: ${{ github.event.inputs.regen_especialidades || '' }}
         run: node netlify/functions/daily-digest.js
 
 # ── Job 3: Podcasts (áudio) — JOB PRÓPRIO com timeout dedicado ────────────────
