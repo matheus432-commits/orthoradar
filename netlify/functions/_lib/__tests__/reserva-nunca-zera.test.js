@@ -65,6 +65,21 @@ test('pubmedFallbackArticles entrega os 3 exigidos com o topo esgotado (sem enri
   assert.ok(arts.every(a => !enviados.has(String(a.pmid))), 'todos devem ser novos');
 });
 
+test('banco GRANDE: pubmedFallbackArticles entrega ~18 quando pedido (enriquecimento paralelo)', async () => {
+  // Após paralelizar o enriquecimento, um alvo maior (18) cabe no orçamento.
+  // Prova que a função entrega o volume pedido, não só o mínimo de 3.
+  pubmed._setHttpForTest(mockHttp({ total: 80000, frescoNaPagina: 2 }));
+  const enviados = new Set();
+  for (let i = 0; i < 200; i++) enviados.add(String(i));
+  const arts = await pubmed.pubmedFallbackArticles({ especialidade: 'Ortodontia', temas: [] }, enviados, 18, null);
+  pubmed._setHttpForTest(null);
+  assert.ok(arts.length >= 12, `esperava um banco robusto (>=12), veio ${arts.length}`);
+  // Sem duplicados: cada PMID único.
+  const ids = new Set(arts.map(a => String(a.pmid)));
+  assert.strictEqual(ids.size, arts.length, 'não pode haver PMID duplicado no banco');
+  assert.ok(arts.every(a => !enviados.has(String(a.pmid))), 'todos devem ser novos');
+});
+
 test('reserva REALMENTE esgotada (nada novo) retorna vazio sem travar (bounded)', async () => {
   pubmed._setHttpForTest(mockHttp({ total: 2000, semFresco: true }));
   const enviados = new Set();
