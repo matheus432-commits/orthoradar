@@ -44,6 +44,11 @@ on:
         required: false
         default: ''
         type: string
+      dry_run:
+        description: 'ENSAIO: monta a edição de todas as especialidades SEM enviar e-mail e SEM gravar no site (relatório PASS/FALHA nos logs)'
+        required: false
+        default: 'false'
+        type: boolean
 
 # ── Job 1: Ingestão e Enriquecimento ─────────────────────────────────────────
 jobs:
@@ -51,8 +56,9 @@ jobs:
     name: Ingestão e Enriquecimento
     runs-on: ubuntu-latest
     timeout-minutes: 25
-    # Pula ingestão quando email_only=true (disparo manual só de email)
-    if: github.event.inputs.email_only != 'true'
+    # Pula ingestão quando email_only=true (disparo manual só de email) ou no
+    # ENSAIO (dry_run testa o acervo atual, sem ingerir e sem gastar créditos).
+    if: github.event.inputs.email_only != 'true' && github.event.inputs.dry_run != 'true'
 
     steps:
       - name: Checkout
@@ -159,6 +165,7 @@ jobs:
           SITE_URL:            https://odontofeed.com
           FORCE_SEND:          ${{ github.event.inputs.force_send || 'false' }}
           REGEN_ESPECIALIDADES: ${{ github.event.inputs.regen_especialidades || '' }}
+          DRY_RUN:             ${{ github.event.inputs.dry_run || 'false' }}
         run: node netlify/functions/daily-digest.js
 
 # ── Job 3: Podcasts (áudio) — JOB PRÓPRIO com timeout dedicado ────────────────
@@ -179,6 +186,7 @@ jobs:
       always() &&
       needs.ingest.result != 'cancelled' &&
       needs.email.result == 'success' &&
+      github.event.inputs.dry_run != 'true' &&
       github.event_name != 'push'
     steps:
       - name: Checkout
@@ -211,6 +219,7 @@ jobs:
     if: >-
       always() &&
       needs.email.result == 'success' &&
+      github.event.inputs.dry_run != 'true' &&
       github.event_name != 'push'
     steps:
       - name: Checkout

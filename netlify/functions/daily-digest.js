@@ -41,6 +41,12 @@ const log                                          = require('./_lib/logger');
 const { request }                                  = require('./_lib');
 
 const BASE_URL        = process.env.SITE_URL || 'https://odontofeed.com';
+// ENSAIO (DRY_RUN): roda o pipeline COMPLETO com dados reais — curadoria,
+// reserva, resumos (paralelos), pool premium — mas NÃO envia e-mail, NÃO grava
+// o cache do site (digests_especialidade), NÃO registra o run nem pega lock.
+// No fim imprime um relatório PASS/FALHA por especialidade. Serve para validar,
+// sem efeito colateral, que a edição de amanhã sairá completa em todas.
+const DRY_RUN         = process.env.DRY_RUN === 'true';
 const MIN_ARTICLES    = 3;
 const MAX_ARTICLES    = 3;   // Padrão fixo: 3 artigos regulares por dia (o Achado da Semana entra à parte, podendo elevar o total)
 // BANCO DE RESERVA (incidente 29/07 — DTM bloqueou com 2 artigos SEM ter dado
@@ -633,6 +639,11 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
     log.info('[digest][ESP] REGEN forçado — ignorando cache e reconstruindo', { especialidade, key });
     cached = null;
   }
+  if (DRY_RUN) {
+    // Ensaio precisa exercitar a construção FRESCA (curadoria+reserva+resumos),
+    // não devolver o cache de hoje — senão não testa nada.
+    cached = null;
+  }
   if (cached?.status === 'ready' && Array.isArray(cached.artigos) && cached.artigos.length >= MIN_ARTICLES) {
     log.info('[digest][ESP] reusing cached digest', { especialidade, key, articles: cached.artigos.length });
     return {
@@ -951,6 +962,16 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
 
   // FAIL-CLOSED: o histórico anti-repetição É este documento. Se não conseguirmos
   // gravá-lo, enviar mesmo assim garante repetição amanhã — então não enviamos.
+  // ENSAIO: não grava o cache do site (não muda a edição publicada nem avança
+  // o histórico anti-repetição da especialidade), mas devolve a edição montada
+  // para o relatório.
+  if (DRY_RUN) {
+    log.info('[digest][ESP] DRY_RUN — edição montada SEM persistir cache', {
+      especialidade, artigos: articles.length,
+    });
+    return { articles, achadoSemana, editorial };
+  }
+
   let persisted = false;
   for (let attempt = 1; attempt <= 3 && !persisted; attempt++) {
     try {
@@ -1377,8 +1398,9 @@ async function main() {
   const apiKey      = process.env.FIREBASE_API_KEY;
   const resendKey   = process.env.RESEND_API_KEY;
   if (!apiKey)    { log.error('[digest] FIREBASE_API_KEY not set'); process.exit(1); }
-  if (!resendKey) { log.error('[digest] RESEND_API_KEY not set');   process.exit(1); }
-  if (!process.env.UNSUBSCRIBE_SECRET) { log.error('[digest] UNSUBSCRIBE_SECRET not set'); process.exit(1); }
+  // No ENSAIO não enviamos e-mail, então RESEND/UNSUBSCRIBE não são exigidos.
+  if (!DRY_RUN && !resendKey) { log.error('[digest] RESEND_API_KEY not set');   process.exit(1); }
+  if (!DRY_RUN && !process.env.UNSUBSCRIBE_SECRET) { log.error('[digest] UNSUBSCRIBE_SECRET not set'); process.exit(1); }
 
   const anthropicKey = process.env.ANTHROPIC_API_KEY || null;
   if (!anthropicKey) log.warn('[digest] ANTHROPIC_API_KEY not set — editorial uses deterministic fallback');
@@ -1392,14 +1414,22 @@ async function main() {
   log.info('[digest] starting daily dispatch', { runId, dateStr, claude: !!anthropicKey });
 
   // ── LOCK ACQUISITION ────────────────────────────────────────────────────────
-  const locked = await acquireLock(db, runId);
-  if (!locked) {
-    log.error('[digest] run aborted — lock not acquired');
-    console.log('[ABORT] Another run is already in progress. Exiting safely.\n');
-    return { aborted: true, reason: 'lock_active' };
+  // No ENSAIO não pegamos lock (não escreve nada) nem concorremos com o run real.
+  if (DRY_RUN) {
+    console.log('\n========================================');
+    console.log('[DRY-RUN] ENSAIO — sem enviar e-mail, sem gravar cache do site.');
+    console.log('========================================');
+  } else {
+    const locked = await acquireLock(db, runId);
+    if (!locked) {
+      log.error('[digest] run aborted — lock not acquired');
+      console.log('[ABORT] Another run is already in progress. Exiting safely.\n');
+      return { aborted: true, reason: 'lock_active' };
+    }
   }
 
   let sent = 0, errors = 0, skipped = 0;
+  const dryReport = []; // { especialidade, artigos, comResumo, relatos, premiumPool, premiumUsers, ok }
 
   try {
     // ── LOAD USERS ─────────────────────────────────────────────────────────────
@@ -1433,7 +1463,7 @@ async function main() {
       groups: [...groups.entries()].map(([esp, us]) => ({ esp, users: us.length })),
     });
 
-    await createRunRecord(db, runId, dateStr, users.length, groups.size);
+    if (!DRY_RUN) await createRunRecord(db, runId, dateStr, users.length, groups.size);
 
     // ── PER-SPECIALTY PROCESSING ─────────────────────────────────────────────
     for (const [especialidade, groupUsers] of groups) {
@@ -1454,6 +1484,7 @@ async function main() {
       if (!espDigest) {
         console.log(`[ESP SKIP] ${especialidade} — no digest content, ${groupUsers.length} users skipped`);
         skipped += groupUsers.length;
+        if (DRY_RUN) dryReport.push({ especialidade, artigos: 0, comResumo: 0, relatos: 0, premiumPool: 0, premiumUsers: groupUsers.filter(isPremium).length, ok: false });
         continue;
       }
 
@@ -1467,6 +1498,21 @@ async function main() {
         : [];
       if (espDigest.premiumPool.length) {
         console.log(`[PREMIUM] ${especialidade} — pool de ${espDigest.premiumPool.length} candidatos para extras`);
+      }
+
+      // ── ENSAIO: registra o resultado e NÃO envia/persiste nada por usuário ──
+      if (DRY_RUN) {
+        const arts       = espDigest.articles || [];
+        const comResumo  = arts.filter(a => a.resumo_completo).length;
+        const relatos    = arts.filter(a => isRelatoDeCaso(a)).length;
+        const premUsers  = groupUsers.filter(isPremium).length;
+        // OK = 3 artigos, todos com resumo, <=1 relato e (se há premium) pool >= 2 extras.
+        const ok = arts.length >= MIN_ARTICLES && comResumo >= MIN_ARTICLES &&
+                   relatos <= MAX_RELATOS_POR_EDICAO &&
+                   (premUsers === 0 || espDigest.premiumPool.length >= PREMIUM_EXTRAS);
+        dryReport.push({ especialidade, artigos: arts.length, comResumo, relatos, premiumPool: espDigest.premiumPool.length, premiumUsers: premUsers, ok });
+        console.log(`[DRY-RUN][ESP] ${especialidade} — artigos:${arts.length} comResumo:${comResumo} relatos:${relatos} premiumPool:${espDigest.premiumPool.length} premiumUsers:${premUsers} → ${ok ? 'OK' : 'FALHA'}`);
+        continue; // não entra no envio por usuário
       }
 
       // ── BATCH PROCESSING within the specialty ──────────────────────────────
@@ -1539,9 +1585,18 @@ async function main() {
             USER_TIMEOUT_MS * 2,
             `esp-sec:${especialidade}`
           );
-          console.log(espDigest
-            ? `[ESP SECUNDÁRIA OK] ${especialidade} — edição gerada e persistida`
-            : `[ESP SECUNDÁRIA SKIP] ${especialidade} — sem conteúdo suficiente hoje`);
+          if (DRY_RUN) {
+            const arts = espDigest?.articles || [];
+            const comResumo = arts.filter(a => a.resumo_completo).length;
+            const relatos = arts.filter(a => isRelatoDeCaso(a)).length;
+            const ok = arts.length >= MIN_ARTICLES && comResumo >= MIN_ARTICLES && relatos <= MAX_RELATOS_POR_EDICAO;
+            dryReport.push({ especialidade, artigos: arts.length, comResumo, relatos, premiumPool: 0, premiumUsers: 0, ok });
+            console.log(`[DRY-RUN][ESP-SEC] ${especialidade} — artigos:${arts.length} comResumo:${comResumo} relatos:${relatos} → ${ok ? 'OK' : 'FALHA'}`);
+          } else {
+            console.log(espDigest
+              ? `[ESP SECUNDÁRIA OK] ${especialidade} — edição gerada e persistida`
+              : `[ESP SECUNDÁRIA SKIP] ${especialidade} — sem conteúdo suficiente hoje`);
+          }
         } catch (err) {
           log.error('[digest][ESP-SEC] buildEspDigest falhou', { especialidade, err: err.message });
         }
@@ -1556,15 +1611,32 @@ async function main() {
       elapsed_s: Number(elapsed),
     };
 
-    await finalizeRunRecord(db, runId, summary);
-    await releaseLock(db, runId);
+    if (!DRY_RUN) {
+      await finalizeRunRecord(db, runId, summary);
+      await releaseLock(db, runId);
+    }
 
-    console.log(`\n[RUN COMPLETE] runId=${runId}`);
-    console.log(`[STATS] sent=${sent} failed=${errors} skipped=${skipped} elapsed=${elapsed}s`);
-    log.info('[digest] dispatch complete', { runId, ...summary });
+    if (DRY_RUN) {
+      const okN = dryReport.filter(r => r.ok).length;
+      const falhas = dryReport.filter(r => !r.ok);
+      console.log('\n========================================');
+      console.log('[DRY-RUN][RELATÓRIO] edição simulada por especialidade:');
+      for (const r of dryReport.sort((a, b) => Number(a.ok) - Number(b.ok))) {
+        console.log(`  ${r.ok ? '✓' : '✗'} ${r.especialidade} — artigos:${r.artigos} comResumo:${r.comResumo} relatos:${r.relatos} premiumPool:${r.premiumPool} premiumUsers:${r.premiumUsers}`);
+      }
+      console.log(`\n[DRY-RUN][SUMMARY] especialidades:${dryReport.length} ok:${okN} falhas:${falhas.length}`);
+      if (falhas.length) console.log(`[DRY-RUN][FALHAS] ${falhas.map(f => f.especialidade).join(', ')}`);
+      console.log(`[DRY-RUN][RESULT] ${falhas.length === 0 ? 'PASS ✅' : 'FAIL ❌'}`);
+      console.log(`[STATS] elapsed=${elapsed}s (ENSAIO — nada enviado, nada persistido)`);
+      console.log('========================================');
+    } else {
+      console.log(`\n[RUN COMPLETE] runId=${runId}`);
+      console.log(`[STATS] sent=${sent} failed=${errors} skipped=${skipped} elapsed=${elapsed}s`);
+      log.info('[digest] dispatch complete', { runId, ...summary });
+    }
   }
 
-  return { sent, failed: errors, skipped, total: sent + errors + skipped };
+  return { sent, failed: errors, skipped, total: sent + errors + skipped, dryRun: DRY_RUN };
 }
 
 // ── Netlify Function handler ──────────────────────────────────────────────────
