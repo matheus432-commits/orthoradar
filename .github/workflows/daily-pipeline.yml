@@ -49,6 +49,11 @@ on:
         required: false
         default: 'false'
         type: boolean
+      regen_podcasts:
+        description: 'Regerar ÁUDIO de hoje: "true" = todas; ou lista por vírgula (ex.: Bucomaxilofacial,Prótese) = só estas'
+        required: false
+        default: ''
+        type: string
 
 # ── Job 1: Ingestão e Enriquecimento ─────────────────────────────────────────
 jobs:
@@ -225,6 +230,7 @@ jobs:
           GOOGLE_TTS_API_KEY:       ${{ secrets.GOOGLE_TTS_API_KEY }}
           GCP_SERVICE_ACCOUNT_JSON: ${{ secrets.GCP_SERVICE_ACCOUNT_JSON }}
           GCS_BUCKET:               ${{ secrets.GCS_BUCKET }}
+          FORCE_REGEN:              ${{ github.event.inputs.regen_podcasts || '' }}
         run: node netlify/functions/generate-podcasts.js
 
 # ── Job 4: Auditoria — roda SEMPRE (mesmo se o podcast falhou) e reporta ──────

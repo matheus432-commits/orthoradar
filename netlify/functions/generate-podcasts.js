@@ -148,7 +148,13 @@ async function main() {
       const s = slug(esp);
       if (!s) { log.warn('[podcasts] slug vazio — pulando', { esp }); skipped++; continue; }
       try {
-        const forceRegen = String(process.env.FORCE_REGEN || '').toLowerCase() === 'true';
+        // FORCE_REGEN: 'true' = todas; OU lista de especialidades por vírgula
+        // ("Bucomaxilofacial,Prótese") = regen CIRÚRGICA só daquelas (30/07:
+        // áudio com defeito numa especialidade não deve custar o TTS das 11).
+        const fr = String(process.env.FORCE_REGEN || '').trim();
+        const frLower = fr.toLowerCase();
+        const forceRegen = frLower === 'true' ||
+          (fr && frLower !== 'false' && fr.split(',').map(x => slug(x.trim())).includes(s));
 
         const artigos = await editionArticles(db, esp);
         if (!artigos.length) { log.warn('[podcasts] sem artigos', { esp }); skipped++; continue; }
