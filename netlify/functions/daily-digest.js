@@ -332,7 +332,7 @@ function isResultadosIndisponiveis(a) {
   if (!t.trim()) return false;
 
   // (a) admite que os resultados/dados/valores não estão disponíveis/relatados.
-  if (/(resultados?|dados|desfechos?|achados?|n[úu]meros?|valores?)[^.]{0,70}n[ãa]o (foram|est[ãa]o|se encontram|puderam ser|se acham|est[aã]o)\s*(dispon|relatad|apresentad|divulgad|reportad|especificad|quantificad|extra[íi]d|obtid|inclu[íi]d|detalhad|inform)/.test(t)) return true;
+  if (/(resultados?|dados|desfechos?|achados?|n[úu]meros?|valores?|correla[çc][õo]es|associa[çc][õo]es|vari[áa]veis|medidas|m[ée]dias|estat[íi]sticas)[^.]{0,70}n[ãa]o (foram|est[ãa]o|se encontram|puderam ser|se acham|est[aã]o|constam?|figuram?|aparecem?)\s*(dispon|relatad|apresentad|divulgad|reportad|especificad|quantificad|extra[íi]d|obtid|inclu[íi]d|detalhad|inform|descrit)/.test(t)) return true;
   if (/(results?|data|outcomes?|findings?)[^.]{0,70}(not|were not|are not|weren.t|aren.t)\s*(available|reported|presented|provided|disclosed|specified|detailed)/.test(t)) return true;
 
   // (b) o MATERIAL/ABSTRACT/RESUMO não traz/permite/especifica os dados —
@@ -1023,8 +1023,26 @@ async function _sendUserDigest(user, espDigest, db, resendKey) {
   if (isPremium(user)) {
     if (Array.isArray(espDigest.premiumPool) && espDigest.premiumPool.length) {
       try {
-        premiumExtras = await pickPremiumExtras(db, user, espDigest.premiumPool);
-        for (const extra of premiumExtras) await ensureResumoCompleto(db, extra);
+        // TRAVA PÓS-GERAÇÃO nos EXTRAS (incidente 30/07): a edição base já
+        // descartava artigo cujo resumo completo admite "o material não traz os
+        // valores/variáveis" — mas os extras geravam o resumo DEPOIS da seleção
+        // e nunca re-checavam. Um estudo de braço único de Ortodontia saiu como
+        // extra admitindo no próprio resumo que não trazia nenhum resultado.
+        // Agora: pedimos candidatos a mais, geramos os resumos em paralelo,
+        // descartamos quem admite material inacessível e repomos na hora.
+        const candidatosExtras = await pickPremiumExtras(db, user, espDigest.premiumPool, PREMIUM_EXTRAS + 3);
+        await Promise.allSettled(candidatosExtras.map(c => ensureResumoCompleto(db, c)));
+        premiumExtras = [];
+        for (const cand of candidatosExtras) {
+          if (premiumExtras.length >= PREMIUM_EXTRAS) break;
+          if (isResultadosIndisponiveis(cand)) {
+            log.warn('[digest][PREMIUM] extra DESCARTADO após resumo completo — sem resultados/veredito no material (repondo)', {
+              email, id: cand.pmid || cand.id, titulo: (cand.titulo_pt || cand.titulo || '').slice(0, 70),
+            });
+            continue;
+          }
+          premiumExtras.push(cand);
+        }
         log.info('[digest][PREMIUM] extras selected', {
           email, count: premiumExtras.length,
           temas: premiumExtras.map(e => e._premiumTema || '(recente)'),
@@ -1214,7 +1232,9 @@ function scoreForTemas(article, temas) {
 
 // Escolhe os extras do usuário: pelos temas quando há match; completa com os
 // mais recentes do pool. Exclui o que ESTE assinante já recebeu como extra.
-async function pickPremiumExtras(db, user, pool) {
+// `quantos` > PREMIUM_EXTRAS permite ao chamador pedir candidatos a mais para
+// cobrir descartes da trava pós-geração (só os aprovados são enviados/logados).
+async function pickPremiumExtras(db, user, pool, quantos = PREMIUM_EXTRAS) {
   if (!pool.length) return [];
 
   let jaRecebidas = new Set();
@@ -1255,7 +1275,7 @@ async function pickPremiumExtras(db, user, pool) {
 
   const extras = [];
   for (const { a, m } of ranked) {
-    if (extras.length >= PREMIUM_EXTRAS) break;
+    if (extras.length >= quantos) break;
     extras.push({ ...a, _premiumTema: m.score > 0 ? m.tema : '' });
   }
   return extras;

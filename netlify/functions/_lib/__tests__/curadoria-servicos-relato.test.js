@@ -106,3 +106,26 @@ test('estudo COMPARATIVO sem veredito continua barrado (regra do fundador intact
     resultados_disponiveis: false,
   }), true);
 });
+
+// ── Regressão 30/07: extra Premium de Ortodontia saiu com resumo que admite
+// "o material fornecido não traz de forma explícita quais variáveis..." ──────
+const { test: test3007 } = require('node:test');
+const assert3007 = require('node:assert');
+
+test3007('resumo que admite material sem variáveis/valores (texto real 30/07) é barrado', () => {
+  const texto = 'Quanto aos resultados, o material fornecido não traz de forma explícita ' +
+    'quais variáveis dentárias ou cefalométricas se mostraram estatisticamente associadas ' +
+    'à maior ou à menor abertura de overbite, nem os valores numéricos correspondentes a ' +
+    'essas associações. Como se trata de um estudo de braço único, sem comparação entre ' +
+    'diferentes técnicas, não há um vencedor a ser declarado nesse sentido; essas ' +
+    'correlações específicas não constam detalhadas no resumo disponível.';
+  const art = { titulo_pt: 'Fatores de variabilidade do overbite anterior', resumo_pt: 'r'.repeat(150), resumo_completo: texto };
+  assert3007.strictEqual(isResultadosIndisponiveis(art), true,
+    'a admissão de material inacessível DEVE ser barrada (base E extras premium)');
+});
+
+test3007('variação "não constam detalhadas no resumo disponível" sozinha também é barrada', () => {
+  const art = { titulo_pt: 'Estudo X', resumo_pt: 'r'.repeat(150),
+    resumo_completo: 'O estudo correlacionou variáveis, mas as correlações específicas não constam detalhadas no resumo disponível.' };
+  assert3007.strictEqual(isResultadosIndisponiveis(art), true);
+});
