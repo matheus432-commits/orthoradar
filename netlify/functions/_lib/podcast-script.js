@@ -46,14 +46,28 @@ function numeraisDeClasseParaFala(s) {
   );
 }
 
+// Despedida padrão — usada quando o corte por teto derruba o fecho original do
+// roteiro (incidente 30/07: áudio "cortado no meio" — terminava seco numa frase
+// de conteúdo porque a despedida ficava depois do ponto de corte).
+const DESPEDIDA_PADRAO = 'É isso por hoje. Bons estudos e até o próximo episódio.';
+const TEM_FECHO_RE = /(at[ée] (o pr[óo]ximo|a pr[óo]xima)|bons estudos|[ée] isso por hoje|encerramos|at[ée] amanh[ãa]|at[ée] logo)/i;
+
 function capScript(text) {
   let t = numeraisDeClasseParaFala(String(text || '').trim());
+  let cortado = false;
   if (t.length > MAX_CHARS_PER_AUDIO) {
-    const cut = t.slice(0, MAX_CHARS_PER_AUDIO);
+    // Reserva espaço para recolocar a despedida depois do corte.
+    const alvo = MAX_CHARS_PER_AUDIO - (DESPEDIDA_PADRAO.length + 1);
+    const cut = t.slice(0, alvo);
     const lastStop = Math.max(cut.lastIndexOf('. '), cut.lastIndexOf('! '), cut.lastIndexOf('? '));
-    t = (lastStop > MAX_CHARS_PER_AUDIO * 0.6 ? cut.slice(0, lastStop + 1) : cut).trim();
+    t = (lastStop > alvo * 0.6 ? cut.slice(0, lastStop + 1) : cut).trim();
+    cortado = true;
   }
-  return ensureCompleteEnding(t);
+  t = ensureCompleteEnding(t);
+  // Se o corte (por teto OU por geração truncada) derrubou o fecho, o áudio
+  // termina abrupto — recoloca a despedida padrão para fechar redondo.
+  if (cortado && !TEM_FECHO_RE.test(t.slice(-160))) t = `${t} ${DESPEDIDA_PADRAO}`;
+  return t;
 }
 
 // GARANTIA ABSOLUTA: o áudio NUNCA termina no meio de uma frase. Se o roteiro
@@ -156,8 +170,13 @@ ${material.achados.length ? `Achados listados: ${material.achados.join('; ')}` :
 ROTEIRO A VERIFICAR:
 ${roteiro}`;
 
+  let raw = null;
   try {
-    let raw = await callModel(anthropicKey, VERIFY_MODEL, system, user, 400);
+    // 1000 tokens (era 400 — incidente 30/07): quando reprova, o verificador
+    // escreve "problemas" longos e o JSON era TRUNCADO no meio de uma string
+    // ("Unterminated string in JSON") → parse quebrava → fail-closed → roteiro
+    // BOM caía para o fallback sem necessidade (5× num único run).
+    raw = await callModel(anthropicKey, VERIFY_MODEL, system, user, 1000);
     if (!raw) return { ok: false, problemas: ['verificador indisponível'] };
     if (raw.startsWith('```')) raw = raw.replace(/^```[a-z]*\n?/, '').replace(/\n?```$/, '').trim();
     // Parse TOLERANTE: o modelo às vezes anexa texto após o JSON ("{...} Nota:")
@@ -168,6 +187,13 @@ ${roteiro}`;
     const parsed = JSON.parse(ini >= 0 && fim > ini ? raw.slice(ini, fim + 1) : raw);
     return { ok: parsed.aprovado === true, problemas: Array.isArray(parsed.problemas) ? parsed.problemas : [] };
   } catch (err) {
+    // RESGATE: mesmo com o JSON truncado, o veredito costuma estar íntegro no
+    // começo ("aprovado": true/false). Antes de fail-closed, tenta lê-lo direto.
+    const m = /"aprovado"\s*:\s*(true|false)/.exec(raw || '');
+    if (m) {
+      log.warn('[podcast-script] JSON do verificador truncado — veredito resgatado', { aprovado: m[1] });
+      return { ok: m[1] === 'true', problemas: m[1] === 'true' ? [] : ['reprovado (detalhes truncados no JSON do verificador)'] };
+    }
     log.warn('[podcast-script] verificador falhou — fail-closed', { err: err.message });
     return { ok: false, problemas: ['verificador falhou: ' + err.message] };
   }
