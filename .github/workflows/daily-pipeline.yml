@@ -55,7 +55,11 @@ jobs:
   ingest:
     name: Ingestão e Enriquecimento
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    # 50 min (incidente 30/07): o enriquecimento diário sozinho leva ~24 min
+    # (45 artigos × ~30s, sequencial com Sonnet) e o pré-aquecimento da reserva
+    # tem orçamento próprio de 18 min — com 25 min o job era MORTO no meio do
+    # pré-aquecimento e o e-mail nem rodava. Pior caso real: ~24 + 18 + folga.
+    timeout-minutes: 50
     # Pula ingestão quando email_only=true (disparo manual só de email) ou no
     # ENSAIO (dry_run testa o acervo atual, sem ingerir e sem gastar créditos).
     if: github.event.inputs.email_only != 'true' && github.event.inputs.dry_run != 'true'
