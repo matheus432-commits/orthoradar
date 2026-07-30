@@ -168,6 +168,44 @@ function articleKeys(a) {
 }
 function isRepeated(a, hist) { return articleKeys(a).some(k => hist.has(k)); }
 
+// ── VEREDITO COMPARATIVO (diretriz 30/07): estudo que COMPARA grupos/técnicas e
+// NÃO diz qual foi melhor não entra. A trava por regex só pega ADMISSÕES
+// explícitas ("o material não traz..."); quando o resumo apenas OMITE a direção
+// (RCT de 3 técnicas sem vencedor), só leitura semântica pega — mesma checagem
+// que a auditoria já fazia nos roteiros, agora ANTES de publicar. Best-effort
+// FAIL-OPEN: sem chave/erro de API, o artigo segue (as demais travas continuam)
+// — checagem indisponível não pode bloquear a edição inteira.
+const MENCIONA_COMPARACAO_RE = /(diferen|compar|versus|\bvs\.?\b|superior|inferior)/i;
+async function faltaVereditoComparativo(art, anthropicKey) {
+  if (!anthropicKey) return false;
+  const t = `${art.resumo_completo || ''} ${art.resumo_pt || ''} ${Array.isArray(art.achados_principais) ? art.achados_principais.join('; ') : ''}`.trim();
+  if (!t || !MENCIONA_COMPARACAO_RE.test(t)) return false; // não compara → nada a verificar
+  if (isRelatoDeCaso(art)) return false; // relato não elege vencedor
+  try {
+    const body = Buffer.from(JSON.stringify({
+      model: 'claude-haiku-4-5-20251001', max_tokens: 200,
+      system: 'Você audita material de um digest científico odontológico. Responda APENAS JSON: {"ok": true|false}. ' +
+        'ok=false SOMENTE se o material afirmar que houve comparação/diferença entre grupos, técnicas ou materiais ' +
+        'e NÃO disser qual lado foi MELHOR ou PIOR em nenhum desfecho. ' +
+        'Se o material nomear o vencedor (ou disser explicitamente que houve equivalência entre os grupos), ok=true.',
+      messages: [{ role: 'user', content: `MATERIAL:\n${t.slice(0, 4000)}` }],
+    }), 'utf8');
+    const res = await request({
+      hostname: 'api.anthropic.com', path: '/v1/messages', method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Content-Length': body.length,
+        'x-api-key': anthropicKey, 'anthropic-version': '2023-06-01' },
+    }, body);
+    if (res.status !== 200) return false;
+    const parsed = JSON.parse(res.body);
+    const texto = (parsed.content || []).filter(b => b.type === 'text').map(b => b.text).join(' ');
+    const m = /"ok"\s*:\s*(true|false)/.exec(texto);
+    return m ? m[1] === 'false' : false;
+  } catch (err) {
+    log.warn('[digest] checagem de veredito comparativo indisponível — seguindo', { id: art.pmid || art.id, err: err.message });
+    return false;
+  }
+}
+
 // Artigo ENRIQUECIDO = tem título traduzido e resumo próprio substancial.
 // É o gate de elegibilidade da edição (incidente 15/07: artigo cru virou card
 // em inglês no site e áudio de 24s sem conteúdo no podcast).
@@ -912,7 +950,7 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
   let descartadosSemVeredito = 0;
   let relatosEmFinais = 0;
   for (const art of selected) {
-    if (isResultadosIndisponiveis(art)) {
+    if (isResultadosIndisponiveis(art) || await faltaVereditoComparativo(art, anthropicKey)) {
       descartadosSemVeredito++;
       log.warn('[digest][ESP] artigo DESCARTADO após resumo completo — sem resultados/veredito no material (repondo)', {
         especialidade, id: art.pmid || art.id, titulo: (art.titulo_pt || art.titulo || '').slice(0, 70),
@@ -933,7 +971,7 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
     await Promise.allSettled(lote.map(c => ensureResumoCompleto(db, c)));
     for (const cand of lote) {
       if (finais.length >= MAX_ARTICLES) break;
-      if (isResultadosIndisponiveis(cand)) {
+      if (isResultadosIndisponiveis(cand) || await faltaVereditoComparativo(cand, anthropicKey)) {
         log.info('[digest][ESP] reposição também sem veredito — tentando a próxima', { id: cand.pmid || cand.id });
         continue;
       }
@@ -1035,7 +1073,7 @@ async function _sendUserDigest(user, espDigest, db, resendKey) {
         premiumExtras = [];
         for (const cand of candidatosExtras) {
           if (premiumExtras.length >= PREMIUM_EXTRAS) break;
-          if (isResultadosIndisponiveis(cand)) {
+          if (isResultadosIndisponiveis(cand) || await faltaVereditoComparativo(cand, process.env.ANTHROPIC_API_KEY || null)) {
             log.warn('[digest][PREMIUM] extra DESCARTADO após resumo completo — sem resultados/veredito no material (repondo)', {
               email, id: cand.pmid || cand.id, titulo: (cand.titulo_pt || cand.titulo || '').slice(0, 70),
             });
@@ -1694,6 +1732,7 @@ exports.deveRegerar = deveRegerar;
 exports.MAX_RELATOS_POR_EDICAO = MAX_RELATOS_POR_EDICAO;
 // Reutilizados pelo pré-aquecimento da reserva (prewarm-reserva.js): a MESMA
 // definição de "candidato vivo" (enriquecido, curado e não repetido) do e-mail.
+exports.faltaVereditoComparativo = faltaVereditoComparativo;
 exports.passaCuradoria = passaCuradoria;
 exports.isRepeated = isRepeated;
 exports.getEspHistory = getEspHistory;

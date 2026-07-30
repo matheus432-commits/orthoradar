@@ -129,3 +129,23 @@ test3007('variação "não constam detalhadas no resumo disponível" sozinha tam
     resumo_completo: 'O estudo correlacionou variáveis, mas as correlações específicas não constam detalhadas no resumo disponível.' };
   assert3007.strictEqual(isResultadosIndisponiveis(art), true);
 });
+
+// ── Veredito comparativo semântico (diretriz 30/07): caminhos determinísticos ─
+const { faltaVereditoComparativo } = require('../../daily-digest.js');
+
+test3007('sem chave da API → fail-open (não descarta, não chama rede)', async () => {
+  const art = { resumo_completo: 'Comparação de três técnicas sem vencedor declarado.', resumo_pt: 'r'.repeat(150) };
+  assert3007.strictEqual(await faltaVereditoComparativo(art, null), false);
+});
+
+test3007('material que NEM menciona comparação → não verifica (false, sem rede)', async () => {
+  const art = { resumo_completo: 'Estudo descritivo de prevalência de lesões em 200 pacientes, com taxas por faixa etária.', resumo_pt: 'r'.repeat(150) };
+  // chave presente, mas o gate de regex retorna antes de qualquer chamada
+  assert3007.strictEqual(await faltaVereditoComparativo(art, 'sk-fake'), false);
+});
+
+test3007('relato de caso → não se aplica (false)', async () => {
+  const art = { titulo_pt: 'Relato de caso: reabilitação', tipo_estudo: 'relato de caso',
+    resumo_completo: 'Relato de caso comparando a evolução; conduta e desfecho descritos.', resumo_pt: 'r'.repeat(150) };
+  assert3007.strictEqual(await faltaVereditoComparativo(art, 'sk-fake'), false);
+});
