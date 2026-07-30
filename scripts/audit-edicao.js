@@ -86,8 +86,15 @@ const pausa = (ms) => new Promise(r => setTimeout(r, ms));
     }
   }
 
-  // B + C. Episódios do dia.
-  const eps = (await db.query('podcast_episodios', { limit: 300 }).catch(() => []))
+  // B + C. Episódios do dia — filtrados NO SERVIDOR por data (incidente 30/07:
+  // sem o where, o limit 300 devolvia os primeiros 300 IDs em ordem ALFABÉTICA
+  // de slug; com semanas de histórico, protese_* e radiologia_* — fim do
+  // alfabeto — nunca entravam e a auditoria acusava "SEM PODCAST" para
+  // episódios que EXISTIAM. Alarme falso determinístico.)
+  const eps = (await db.query('podcast_episodios', {
+    where: { fieldFilter: { field: { fieldPath: 'date' }, op: 'EQUAL', value: { stringValue: HOJE } } },
+    limit: 300,
+  }).catch(() => []))
     .filter(e => e.date === HOJE && e.tipo !== 'completo');
   console.log(`episódios de hoje: ${eps.length}`);
 
