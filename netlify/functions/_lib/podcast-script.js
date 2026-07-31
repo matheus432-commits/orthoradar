@@ -218,6 +218,7 @@ ESTRUTURA (nesta ordem, em prosa corrida — sem títulos, marcadores, asterisco
 6. UMA frase: o episódio é informativo e não substitui a leitura do artigo original nem o julgamento clínico. Despedida em UMA frase curta.
 
 PROIBIDO (enrolação): frases de enchimento ("isso é fascinante", "vamos mergulhar", "fique com a gente"), repetir a mesma ideia, promessas vagas, introduções longas. Se uma frase não traz informação do estudo, corte-a.
+PROIBIDO (moeda estrangeira): NUNCA narre valores monetários em moeda de outro país (rúpias, dólares, euros, libras, yuan...) — custo local não tem utilidade clínica para o ouvinte brasileiro e soa como erro. Se a comparação de CUSTO for um achado do estudo, diga apenas a direção ("a técnica X foi mais barata que a Y") sem citar cifras.
 
 REGRAS:
 - Português brasileiro, tom de locutor de podcast — natural e direto, sem soar acadêmico nem traduzido.
