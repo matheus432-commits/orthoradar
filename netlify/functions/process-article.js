@@ -62,16 +62,17 @@ async function processOne(db, article, opts = {}) {
   });
 
   if (!enriched) {
-    // Enrichment unavailable — activate with basic scoring so digest can still run
-    const basicScore = scoreRelevance({ ...article, nivel_evidencia: null, qualidadeIA: 0.5 });
+    // NUNCA ativar artigo CRU (incidente 30/07: extra Premium saiu como card
+    // "Sem título" — o doc estava active sem titulo_pt/resumo_pt). Sem
+    // enriquecimento não existe título/resumo em PT para NENHUMA superfície;
+    // o artigo fica pendente e tenta de novo no próximo run. Após 5 falhas,
+    // sai da fila como enrich_failed (nunca como active).
+    const tentativas = (article.enrichErrors || 0) + 1;
     await db.updateDoc('artigos', pmid, {
-      status:         'active',
-      qualidadeIA:    0.5,
-      relevanceScore: basicScore,
-      enrichedAt:     new Date().toISOString(),
-      enrichErrors:   (article.enrichErrors || 0) + 1,
-      enrichSkipped:  true,
-    }).catch(err => log.warn('[process] updateDoc fallback-active failed', { id: pmid, err: err.message }));
+      status:       tentativas >= 5 ? 'enrich_failed' : 'pending_enrichment',
+      enrichErrors: tentativas,
+      enrichedAt:   new Date().toISOString(),
+    }).catch(err => log.warn('[process] updateDoc re-pendente failed', { id: pmid, err: err.message }));
     return false;
   }
 

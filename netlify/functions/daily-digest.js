@@ -168,6 +168,41 @@ function articleKeys(a) {
 }
 function isRepeated(a, hist) { return articleKeys(a).some(k => hist.has(k)); }
 
+// PERSISTE no acervo um artigo da RESERVA enriquecido em memória (incidente
+// 30/07: o pubmedFallbackArticles enriquece só o objeto em memória — o e-mail
+// saía certo, mas o doc no Firestore ficava cru/ausente e o SITE, que relê o
+// doc pelo pmid, mostrava "Sem título"/título em inglês). Grava o doc completo
+// e ativo — o que foi enviado é exatamente o que o site lê.
+async function persistirArtigoReserva(db, a) {
+  const id = String(a.pmid || a.id || '');
+  if (!id || String(a.titulo_pt || '').trim().length < 10) return;
+  await db.setDoc('artigos', id, {
+    pmid: id,
+    titulo: a.titulo || a.title || '',
+    abstract: String(a.abstract || '').slice(0, 2000),
+    titulo_pt: a.titulo_pt || '',
+    resumo_pt: a.resumo_pt || '',
+    resumo_completo: a.resumo_completo || '',
+    impacto_pratico: a.impacto_pratico || '',
+    achados_principais: Array.isArray(a.achados_principais) ? a.achados_principais : [],
+    nivel_evidencia: a.nivel_evidencia || null,
+    tipo_estudo: a.tipo_estudo || '',
+    journal: a.journal || '',
+    year: a.year || null,
+    dataPublicacao: a.dataPublicacao || (a.year ? String(a.year) : null),
+    autores: a.autores || [],
+    especialidade: a.especialidade || '',
+    tema: a.tema || '',
+    fonte: a.fonte || 'pubmed',
+    pubmedUrl: a.pubmedUrl || `https://pubmed.ncbi.nlm.nih.gov/${id}/`,
+    relevanceScore: a.relevanceScore || 50,
+    status: 'active',
+    data: a.data || new Date().toISOString(),
+    criadoEm: new Date().toISOString(),
+    ativo: true,
+  }).catch(e => log.warn('[digest] persistir artigo da reserva falhou', { id, err: e.message }));
+}
+
 // ── VEREDITO COMPARATIVO (diretriz 30/07): estudo que COMPARA grupos/técnicas e
 // NÃO diz qual foi melhor não entra. A trava por regex só pega ADMISSÕES
 // explícitas ("o material não traz..."); quando o resumo apenas OMITE a direção
@@ -831,6 +866,8 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
         !isRepeated(a, hist) && !articleKeys(a).some(k => seenKeys.has(k)));
       const descartadosCrus = fbArts.length - newArts.length;
       newArts.forEach(a => articleKeys(a).forEach(k => seenKeys.add(k)));
+      // O site relê estes artigos pelo pmid — o doc precisa existir enriquecido.
+      for (const a of newArts) await persistirArtigoReserva(db, a);
       candidates = [...candidates, ...newArts];
       log.info('[digest][ESP] PubMed fallback added', { especialidade, added: newArts.length, descartados: descartadosCrus, total: candidates.length });
     } catch (err) {
@@ -1226,6 +1263,9 @@ async function buildPremiumPool(db, especialidade, anthropicKey = null) {
           const ks = articleKeys(a);
           if (ks.some(k => seen.has(k))) continue;
           ks.forEach(k => seen.add(k));
+          // Extra Premium: o dashboard relê o doc pelo pmid (incidente 30/07:
+          // "Sem título" — o enriquecimento só existia em memória).
+          await persistirArtigoReserva(db, a);
           pool.push(a);
         }
         log.info('[digest][PREMIUM] reserva adicionada', { especialidade, poolFinal: pool.length });
