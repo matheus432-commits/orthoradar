@@ -70,6 +70,7 @@ function buildPrompt(article) {
     'inteiramente com suas próprias palavras e estrutura.\n' +
     'REGRA DE RESULTADOS (obrigatória): baseie-se APENAS no material fornecido. É PROIBIDO inventar resultados ou remeter o leitor ao "texto completo"/"artigo original" para obter os achados. ' +
     'Se o material não trouxer os resultados concretos, NÃO os escreva e marque resultados_disponiveis=false (o estudo será descartado).\n' +
+    'REGRA DE MOEDA (obrigatória): NUNCA cite valores monetários em moeda estrangeira (rúpias, dólares, euros, libras...) — custo local de outro país não tem utilidade clínica para o leitor brasileiro. Se a comparação de custo for um achado, diga apenas a direção ("X foi mais barato que Y"), sem cifras.\n' +
     'QUALIDADE DE LINGUAGEM (obrigatória): use a terminologia odontológica consagrada no Brasil — ' +
     '"deciduous/primary teeth"→"dentes decíduos", "root canal treatment"→"tratamento endodôntico", ' +
     '"resin-based composite"→"resina composta", "survival rate"→"taxa de sobrevivência", ' +
