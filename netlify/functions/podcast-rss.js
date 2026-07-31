@@ -227,9 +227,17 @@ function pickForDate(eps, date, compiledOnly, avoidSlugs = new Set()) {
 // ou legado) é que tolera o episódio avulso — para o Spotify nunca ver um feed
 // vazio (o que marcaria o feed como quebrado).
 async function masterEpisodes(db) {
+  // FILTRO NO SERVIDOR (auditoria 30/07): sem o where, o limit 500 devolvia os
+  // primeiros 500 IDs em ordem ALFABÉTICA de slug — com a coleção quente em
+  // ~670 docs (14d × 12 esp × 4), protese_*/radiologia_*/saude-* (fim do
+  // alfabeto) começavam a SUMIR DO FEED do Spotify. Janela = retenção.
+  const cutoff = new Date(Date.now() - 14 * 86400000).toISOString().slice(0, 10);
   let docs = [];
   try {
-    docs = await db.query('podcast_episodios', { limit: 500 });
+    docs = await db.query('podcast_episodios', {
+      where: { fieldFilter: { field: { fieldPath: 'date' }, op: 'GREATER_THAN_OR_EQUAL', value: { stringValue: cutoff } } },
+      limit: 800,
+    });
   } catch { return []; }
 
   const byDate = new Map();
