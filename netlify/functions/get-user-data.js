@@ -71,9 +71,21 @@ exports.handler = async (event) => {
     try {
       const specs = Array.isArray(user.especialidade) ? user.especialidade.filter(Boolean) : (user.especialidade ? [user.especialidade] : []);
       if (specs.length) {
-        const whereClause = specs.length === 1
+        // SÓ artigos ATIVOS (incidente 31/07: a ingestão profunda + o
+        // pré-aquecimento gravam dezenas de docs crus/pendentes por dia; sem o
+        // filtro de status, eles entravam no topo da aba Recebidos com título
+        // em INGLÊS e SEM ÁUDIO, empurrando a edição enriquecida para baixo —
+        // "sumiram os áudios de Prótese"). Mesmo shape de índice do funil
+        // (especialidade+status+data), já implantado.
+        const espFilter = specs.length === 1
           ? { fieldFilter: { field: { fieldPath: 'especialidade' }, op: 'EQUAL', value: { stringValue: specs[0] } } }
           : { fieldFilter: { field: { fieldPath: 'especialidade' }, op: 'IN', value: { arrayValue: { values: specs.slice(0, 30).map(s => ({ stringValue: s })) } } } };
+        const whereClause = {
+          compositeFilter: { op: 'AND', filters: [
+            espFilter,
+            { fieldFilter: { field: { fieldPath: 'status' }, op: 'EQUAL', value: { stringValue: 'active' } } },
+          ] },
+        };
         const runQuery = async (withOrder) => {
           const q = { from: [{ collectionId: 'artigos' }], where: whereClause, limit: 50 };
           if (withOrder) q.orderBy = [{ field: { fieldPath: 'data' }, direction: 'DESCENDING' }];
@@ -105,6 +117,10 @@ exports.handler = async (event) => {
             }
             return out;
           });
+          // Defesa: docs 'active' LEGADOS sem título em PT (enrichSkipped de
+          // antes de 30/07) nunca viram card — título em inglês na aba
+          // Recebidos é sempre defeito, não conteúdo.
+          artigos = artigos.filter(a => String(a.titulo_pt || '').trim().length >= 10);
           artigos.sort((a, b) => (b.data || '') > (a.data || '') ? 1 : -1);
         }
       }
