@@ -23,15 +23,23 @@ const MAX_ITENS = 500;
 // completados na leitura (e persistidos), com teto de leituras por chamada.
 const MAX_BACKFILL = 25;
 
-// Último episódio de podcast deste artigo (se houver; retenção ~14 dias).
+// Último episódio de podcast deste artigo. AUDITORIA 30/07: buscava SÓ na
+// coleção quente (podcast_episodios, ~14 dias) — item salvo/backfillado depois
+// da retenção ficava SEM áudio, mesmo com o doc preservado em podcast_arquivo
+// e o MP3 intacto no Storage (diretriz 22/07: nada se apaga). Agora consulta o
+// arquivo permanente quando a quente não tem.
 async function findEpisode(db, pmid) {
-  const eps = await db.query('podcast_episodios', {
-    where: { fieldFilter: { field: { fieldPath: 'artigoId' }, op: 'EQUAL', value: { stringValue: String(pmid) } } },
-    limit: 5,
-  }).catch(() => []);
-  return eps
-    .filter(e => e.objectPath && e.downloadToken && e.tipo !== 'completo')
-    .sort((a, b) => (b.date || '').localeCompare(a.date || ''))[0] || null;
+  for (const colecao of ['podcast_episodios', 'podcast_arquivo']) {
+    const eps = await db.query(colecao, {
+      where: { fieldFilter: { field: { fieldPath: 'artigoId' }, op: 'EQUAL', value: { stringValue: String(pmid) } } },
+      limit: 5,
+    }).catch(() => []);
+    const hit = eps
+      .filter(e => e.objectPath && e.downloadToken && e.tipo !== 'completo')
+      .sort((a, b) => (b.date || '').localeCompare(a.date || ''))[0];
+    if (hit) return hit;
+  }
+  return null;
 }
 
 // Campos congelados do artigo no momento do save — o item da biblioteca precisa
