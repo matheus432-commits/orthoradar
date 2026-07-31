@@ -51,7 +51,13 @@ const pausa = (ms) => new Promise(r => setTimeout(r, ms));
   // A. Digests do dia: todo artigo precisa estar (1) enriquecido, (2) com o
   // título EM PORTUGUÊS e (3) com RESUMO COMPLETO. Incidente 24/07: card em
   // inglês, sem resumo completo.
-  const digests = (await db.query('digests_especialidade', { limit: 100 }).catch(() => []))
+  // FILTRO NO SERVIDOR (auditoria 30/07): a coleção acumula ~12 docs/dia; sem o
+  // where, o limit 100 alfabético deixaria de ver os digests de hoje dos slugs
+  // do fim do alfabeto em ~8 dias.
+  const digests = (await db.query('digests_especialidade', {
+    where: { fieldFilter: { field: { fieldPath: 'date' }, op: 'EQUAL', value: { stringValue: HOJE } } },
+    limit: 100,
+  }).catch(() => []))
     .filter(d => String(d.id || '').endsWith('_' + HOJE));
   console.log(`digests de hoje: ${digests.length}`);
   for (const d of digests) {

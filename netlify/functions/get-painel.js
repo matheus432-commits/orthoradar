@@ -35,11 +35,21 @@ exports.handler = async (event) => {
 
   try {
     // ── Edições do dia (todas as especialidades) ──
-    const digests = (await db.query('digests_especialidade', { limit: 100 }).catch(() => []))
+    // FILTRO NO SERVIDOR (auditoria 30/07): sem where, o limit devolvia os
+    // primeiros N IDs em ordem alfabética — com o histórico crescendo, os slugs
+    // do fim do alfabeto sumiam do painel (mesmo bug do alarme falso da
+    // auditoria de podcasts).
+    const digests = (await db.query('digests_especialidade', {
+      where: { fieldFilter: { field: { fieldPath: 'date' }, op: 'EQUAL', value: { stringValue: hoje } } },
+      limit: 100,
+    }).catch(() => []))
       .filter(d => String(d.id || '').endsWith('_' + hoje));
 
     // ── Episódios do dia: áudio por artigo + quais especialidades compilaram ──
-    const eps = (await db.query('podcast_episodios', { limit: 300 }).catch(() => []))
+    const eps = (await db.query('podcast_episodios', {
+      where: { fieldFilter: { field: { fieldPath: 'date' }, op: 'EQUAL', value: { stringValue: hoje } } },
+      limit: 300,
+    }).catch(() => []))
       .filter(e => e.date === hoje);
     const audioPorArtigo = new Map();
     const compiladas = new Set(); // especialidades que subiram a edição completa (Spotify)

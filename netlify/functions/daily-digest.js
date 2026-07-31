@@ -74,6 +74,11 @@ const CANDIDATE_LIMIT = 120;
 const BATCH_SIZE      = 5;     // users processed concurrently per batch
 const BATCH_PAUSE_MS  = 500;   // pause between batches (ms)
 const USER_TIMEOUT_MS = 90000; // max time per user before hard abort (ms)
+// Teto do buildEspDigest (auditoria 30/07): o pior caso interno LEGÍTIMO —
+// resumos paralelos (120s) + reserva profunda (~60-80s) + editorial — passa de
+// 180s. Com o teto antigo (USER_TIMEOUT_MS*2), a especialidade mais esgotada,
+// exatamente a que mais precisa do caminho completo, era MORTA pelo relógio.
+const ESP_BUILD_TIMEOUT_MS = 240000;
 const RESEND_RETRIES  = 3;     // max attempts for Resend 429 rate limit
 
 // ── Date helpers ──────────────────────────────────────────────────────────────
@@ -1580,7 +1585,7 @@ async function main() {
       try {
         espDigest = await withTimeout(
           buildEspDigest(db, especialidade, anthropicKey, dateStr),
-          USER_TIMEOUT_MS * 2,
+          ESP_BUILD_TIMEOUT_MS,
           `esp:${especialidade}`
         );
       } catch (err) {
@@ -1688,7 +1693,7 @@ async function main() {
         try {
           const espDigest = await withTimeout(
             buildEspDigest(db, especialidade, anthropicKey, dateStr),
-            USER_TIMEOUT_MS * 2,
+            ESP_BUILD_TIMEOUT_MS,
             `esp-sec:${especialidade}`
           );
           if (DRY_RUN) {
