@@ -132,6 +132,7 @@ async function main() {
   if (!locked) { log.warn('[podcasts] outro run em andamento — abortando'); return { aborted: true }; }
 
   let generated = 0, skipped = 0, total = 0;
+  const falhasPersistencia = []; // especialidades cujo ponteiro não pôde ser gravado/verificado
   try {
     const specialties = await activeSpecialties(db);
     total = specialties.length;
@@ -263,7 +264,12 @@ async function main() {
           log.warn('[podcasts] compilação da edição completa falhou', { esp, err: err.message });
         }
 
-        await db.setDoc('podcasts', s, {
+        // PERSISTÊNCIA COM RETRY + VERIFICAÇÃO (incidente 30/07: Prótese,
+        // Radiologia e Periodontia "geradas" no log mas SEM ÁUDIO no site — o
+        // setDoc do ponteiro falhava em silêncio pelo .catch(warn) e o job
+        // seguia como sucesso). Regra nova: o áudio só conta como gerado se o
+        // ponteiro FOI gravado e RELIDO com os episódios e tokens íntegros.
+        const docPonteiro = {
           especialidade: esp,
           date:          today,
           episodios,
@@ -274,7 +280,31 @@ async function main() {
           objectPath:    episodios[0].objectPath,
           downloadToken: episodios[0].downloadToken,
           geradoEm:      new Date().toISOString(),
-        }).catch(e => log.warn('[podcasts] setDoc falhou', { esp, err: e.message }));
+        };
+        let ponteiroOk = false;
+        for (let tent = 1; tent <= 3 && !ponteiroOk; tent++) {
+          try {
+            await db.setDoc('podcasts', s, docPonteiro);
+            // Verificação de leitura: o que o SITE vai ler está realmente lá?
+            const relido = await db.getDoc('podcasts', s);
+            ponteiroOk = relido?.date === today &&
+              Array.isArray(relido.episodios) &&
+              relido.episodios.length === episodios.length &&
+              relido.episodios.every(e => e.objectPath && e.downloadToken);
+            if (!ponteiroOk) log.warn('[podcasts] verificação pós-gravação reprovou — regravando', { esp, tent });
+          } catch (e) {
+            log.warn('[podcasts] setDoc falhou — tentando de novo', { esp, tent, err: e.message });
+            if (tent < 3) await new Promise(r => setTimeout(r, tent * 2000));
+          }
+        }
+        if (!ponteiroOk) {
+          // NÃO conta como gerado: o dentista ficaria sem botão de áudio. O run
+          // fica VERMELHO (exit 1 no final) para o problema aparecer no dia.
+          log.error('[podcasts] PERSISTÊNCIA FALHOU — especialidade ficará SEM ÁUDIO no site', { esp });
+          falhasPersistencia.push(esp);
+          skipped++;
+          continue;
+        }
 
         // Histórico permanente (até a retenção): um doc por episódio, id
         // determinístico ({slug}_{data}_ep{n}) — re-runs não duplicam.
@@ -324,8 +354,14 @@ async function main() {
     await releaseLock(db, runId, LOCK);
   }
 
-  log.info('[podcasts] concluído', { generated, skipped, total });
-  return { generated, skipped, total };
+  log.info('[podcasts] concluído', { generated, skipped, total, falhasPersistencia });
+  if (falhasPersistencia.length) {
+    // Fica VERMELHO no Actions: especialidade sem áudio visível é erro grave,
+    // não pode passar como sucesso (incidente 30/07).
+    console.error(`[podcasts] FALHA DE PERSISTÊNCIA: ${falhasPersistencia.join(', ')}`);
+    process.exitCode = 1;
+  }
+  return { generated, skipped, total, falhasPersistencia };
 }
 
 exports.handler = async (event) => {
