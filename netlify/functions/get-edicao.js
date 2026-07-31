@@ -100,7 +100,14 @@ async function getPremiumExtrasHoje(db, email) {
     const extras = [];
     for (const id of ids) {
       const a = await db.getDoc('artigos', id).catch(() => null);
-      if (a) extras.push({ ...publicArticle({ ...a, id }), premium: true });
+      // DEFESA (incidente 30/07: card "Sem título"): doc ausente ou cru
+      // (sem titulo_pt) NUNCA vira card — melhor 1 extra a menos que uma
+      // casca vazia na área Premium.
+      if (!a || String(a.titulo_pt || '').trim().length < 10) {
+        if (a) log.warn('[get-edicao] extra premium CRU omitido (doc sem titulo_pt)', { id });
+        continue;
+      }
+      extras.push({ ...publicArticle({ ...a, id }), premium: true });
     }
     return extras;
   } catch (err) {
