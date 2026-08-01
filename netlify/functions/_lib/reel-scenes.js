@@ -11,6 +11,7 @@
 
 const { request } = require('../_lib');
 const log = require('./logger');
+const { registrar } = require('./ai-meter');
 
 const SCENES_MODEL = process.env.REEL_SCENES_MODEL || 'claude-sonnet-5';
 
@@ -160,6 +161,7 @@ async function callSegmenter(roteiro, article, anthropicKey) {
 
   let json;
   try { json = JSON.parse(res.body); } catch { log.warn('[reel-scenes] corpo não-JSON da API'); return null; }
+  registrar(SCENES_MODEL, json.usage, 'reel_cenas'); // medidor central (31/07)
   const text = (json.content || []).filter(b => b.type === 'text').map(b => b.text).join('');
   if (!text) {
     // Diagnóstico do porquê veio vazio (ex.: stop_reason max_tokens, só thinking).

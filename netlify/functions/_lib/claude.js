@@ -2,6 +2,7 @@
 // Uses raw HTTPS via _lib.js (no npm dependency).
 
 const { request } = require('../_lib');
+const { registrar } = require('./ai-meter');
 const log = require('./logger');
 const { resolveModel } = require('./ai-config');
 const { extractAnthropicText } = require('./anthropic-text');
@@ -151,7 +152,7 @@ function corrigirEspecialidade(esp, article) {
 
 // ── Core API call ─────────────────────────────────────────────────────────────
 
-async function callClaude(prompt, attempt = 0, model = MODEL, maxTokens = MAX_TOKENS) {
+async function callClaude(prompt, attempt = 0, model = MODEL, maxTokens = MAX_TOKENS, etapa = 'enriquecimento') {
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) throw new Error('ANTHROPIC_API_KEY not set');
 
@@ -179,7 +180,7 @@ async function callClaude(prompt, attempt = 0, model = MODEL, maxTokens = MAX_TO
       const delay = 2000 * Math.pow(2, attempt);
       log.warn('[claude] Rate limited, retrying', { attempt, delay_ms: delay });
       await new Promise(r => setTimeout(r, delay));
-      return callClaude(prompt, attempt + 1, model);
+      return callClaude(prompt, attempt + 1, model, maxTokens, etapa);
     }
     throw new Error(`Claude rate limit after ${attempt} retries`);
   }
@@ -201,6 +202,7 @@ async function callClaude(prompt, attempt = 0, model = MODEL, maxTokens = MAX_TO
   const text = extractAnthropicText(json);
   const usage = json.usage || {};
   addCost(usage.input_tokens || 0, usage.output_tokens || 0);
+  registrar(model, usage, etapa); // medidor central por modelo/etapa (31/07)
 
   return { text, inputTokens: usage.input_tokens || 0, outputTokens: usage.output_tokens || 0 };
 }
@@ -342,7 +344,7 @@ async function generateResumoCompleto(article) {
       // resultados/relevância) não cabia nos 1024 padrão e saía CORTADO no
       // meio (incidente 23/07 "9 linhas e …"). O corte final de 4000 chars é
       // só a rede de segurança de tamanho.
-      raw = await callClaude(buildResumoCompletoPrompt(article, strictNote), 0, RESUMO_COMPLETO_MODEL, 2500);
+      raw = await callClaude(buildResumoCompletoPrompt(article, strictNote), 0, RESUMO_COMPLETO_MODEL, 2500, 'resumo_completo');
     } catch (err) {
       log.warn('[claude] resumo_completo falhou', { pmid: article.pmid, err: err.message });
       return null;
@@ -387,7 +389,7 @@ async function classifyEspecialidade(article) {
     `RÓTULO ATUAL (frequentemente errado — não confie nele): ${article.especialidade || ''}`;
 
   try {
-    const raw = await callClaude(prompt, 0, CLASSIFY_MODEL);
+    const raw = await callClaude(prompt, 0, CLASSIFY_MODEL, MAX_TOKENS, 'classificacao');
     const answer = raw.text.trim().split('\n')[0].trim();
     if (CANONICAL_ESPECIALIDADES.includes(answer)) return corrigirEspecialidade(answer, article);
     if (/^outra$/i.test(answer)) return 'Odontologia Geral';

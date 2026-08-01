@@ -18,6 +18,7 @@ const { request } = require('../_lib');
 const { MAX_CHARS_PER_AUDIO } = require('./tts-budget');
 const { corrigirTermosBR } = require('./claude');
 const { extractAnthropicText } = require('./anthropic-text');
+const { registrar } = require('./ai-meter');
 const log = require('./logger');
 
 const HOST = 'api.anthropic.com';
@@ -116,7 +117,7 @@ function fallbackScript(article, especialidade) {
 }
 
 // Chamada simples à API Anthropic. Retorna o texto ou null.
-async function callModel(anthropicKey, model, system, user, maxTokens) {
+async function callModel(anthropicKey, model, system, user, maxTokens, etapa = 'roteiro') {
   const payload = JSON.stringify({ model, max_tokens: maxTokens, system, messages: [{ role: 'user', content: user }] });
   const buf = Buffer.from(payload, 'utf8');
   const res = await request({
@@ -126,7 +127,9 @@ async function callModel(anthropicKey, model, system, user, maxTokens) {
   if (res.status !== 200) { log.warn('[podcast-script] Claude erro', { model, status: res.status }); return null; }
   // Junta todos os blocos de texto (content[0] pode ser bloco de raciocínio) —
   // ver _lib/anthropic-text.js. Roteiro vazio deixava a especialidade SEM PODCAST.
-  return extractAnthropicText(JSON.parse(res.body)) || null;
+  const json = JSON.parse(res.body);
+  registrar(model, json.usage, etapa); // medidor central (31/07)
+  return extractAnthropicText(json) || null;
 }
 
 // Material-fonte usado tanto para GERAR quanto para VERIFICAR o roteiro.
@@ -176,7 +179,7 @@ ${roteiro}`;
     // escreve "problemas" longos e o JSON era TRUNCADO no meio de uma string
     // ("Unterminated string in JSON") → parse quebrava → fail-closed → roteiro
     // BOM caía para o fallback sem necessidade (5× num único run).
-    raw = await callModel(anthropicKey, VERIFY_MODEL, system, user, 1000);
+    raw = await callModel(anthropicKey, VERIFY_MODEL, system, user, 1000, 'verificador');
     if (!raw) return { ok: false, problemas: ['verificador indisponível'] };
     if (raw.startsWith('```')) raw = raw.replace(/^```[a-z]*\n?/, '').replace(/\n?```$/, '').trim();
     // Parse TOLERANTE: o modelo às vezes anexa texto após o JSON ("{...} Nota:")

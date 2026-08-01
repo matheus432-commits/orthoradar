@@ -11,6 +11,7 @@ const { checkAdmin } = require('./_lib/admin-guard');
 const { enrichArticle, generateResumoCompleto, currentCost, resetCost } = require('./_lib/claude');
 const { scoreRelevance, estimateQualityScore, especialidadeOverride, isUnfinishedStudy } = require('./_lib/scoring');
 const log                     = require('./_lib/logger');
+const { logCusto } = require('./_lib/ai-meter');
 
 const MAX_ARTICLES_PER_RUN = parseInt(process.env.AI_BATCH_SIZE || '20', 10);
 
@@ -213,6 +214,7 @@ async function main() {
     cost_usd:   costUsd.toFixed(4),
   });
 
+  logCusto('enriquecimento-diario'); // custo real por etapa no log do run
   return { processed: success, errors, cost_usd: parseFloat(costUsd.toFixed(4)) };
 }
 
