@@ -19,6 +19,7 @@ const { Firestore } = require('./_lib/firestore');
 const { isPremium, WAKAI_DAILY_TOKEN_LIMIT } = require('./_lib/plans');
 const { request } = require('./_lib');
 const log = require('./_lib/logger');
+const { registrar } = require('./_lib/ai-meter');
 
 const WAKAI_MODEL = process.env.WAKAI_MODEL || 'claude-sonnet-5';
 const MAX_CONTEXT_ARTICLES = 8;
@@ -175,6 +176,7 @@ async function askClaude(modo, especialidade, contexto, pergunta) {
   }, buf, 0, 0 /* sem retry — ver comentário acima */);
   if (res.status !== 200) throw new Error('Claude ' + res.status + ': ' + res.body.slice(0, 200));
   const json = JSON.parse(res.body);
+  registrar(WAKAI_MODEL, json.usage, 'wakai'); // medidor central (31/07)
   const u = json.usage || {};
   const tokens = (u.input_tokens || 0) + (u.output_tokens || 0) +
                  (u.cache_read_input_tokens || 0) + (u.cache_creation_input_tokens || 0);

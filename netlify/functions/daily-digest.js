@@ -38,6 +38,7 @@ const { buildEdicaoUrl }                           = require('./_lib/edicao-toke
 const { isPremium }                                = require('./_lib/plans');
 const { getActiveAd }                              = require('./_lib/ads');
 const log                                          = require('./_lib/logger');
+const { registrar, logCusto, zerarCusto }            = require('./_lib/ai-meter');
 const { request }                                  = require('./_lib');
 
 const BASE_URL        = process.env.SITE_URL || 'https://odontofeed.com';
@@ -237,6 +238,7 @@ async function faltaVereditoComparativo(art, anthropicKey) {
     }, body);
     if (res.status !== 200) return false;
     const parsed = JSON.parse(res.body);
+    registrar('claude-haiku-4-5-20251001', parsed.usage, 'trava_veredito'); // medidor central
     const texto = (parsed.content || []).filter(b => b.type === 'text').map(b => b.text).join(' ');
     const m = /"ok"\s*:\s*(true|false)/.exec(texto);
     return m ? m[1] === 'false' : false;
@@ -1727,6 +1729,7 @@ async function main() {
       await releaseLock(db, runId);
     }
 
+    logCusto('edicao-do-dia'); // custo real por etapa (resumos, editorial, trava) no log
     if (DRY_RUN) {
       const okN = dryReport.filter(r => r.ok).length;
       const falhas = dryReport.filter(r => !r.ok);

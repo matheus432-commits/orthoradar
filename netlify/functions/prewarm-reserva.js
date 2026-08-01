@@ -23,6 +23,7 @@
 const { Firestore } = require('./_lib/firestore');
 const { checkAdmin } = require('./_lib/admin-guard');
 const log = require('./_lib/logger');
+const { logCusto } = require('./_lib/ai-meter');
 
 const { SPECIALTY_QUERIES, searchPmids, fetchArticles, saveArticle } = require('./ingest-pubmed');
 const { processOne } = require('./process-article');
@@ -175,6 +176,7 @@ async function main() {
   const elapsed = ((Date.now() - started) / 1000).toFixed(1);
   log.info('[prewarm] pré-aquecimento completo', { especialidades: relatorio.length, ativados: totalAtivados, elapsed_s: elapsed });
   console.log('[prewarm] resumo:', JSON.stringify(relatorio));
+  logCusto('pre-aquecimento');
   return { especialidades: relatorio.length, ativados: totalAtivados, elapsed_s: Number(elapsed) };
 }
 

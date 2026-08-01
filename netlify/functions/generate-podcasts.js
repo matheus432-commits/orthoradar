@@ -27,6 +27,7 @@ const { specialtySlug: slug, espDigestSlug } = require('./_lib/slug');
 const { acquireLock, releaseLock } = require('./_lib/pipeline-lock');
 const { getActiveAd } = require('./_lib/ads');
 const log = require('./_lib/logger');
+const { logCusto } = require('./_lib/ai-meter');
 
 const LOCK = 'podcast_lock';
 const MAX_EPISODES = 3;
@@ -354,6 +355,7 @@ async function main() {
     await releaseLock(db, runId, LOCK);
   }
 
+  logCusto('podcasts');
   log.info('[podcasts] concluído', { generated, skipped, total, falhasPersistencia });
   if (falhasPersistencia.length) {
     // Fica VERMELHO no Actions: especialidade sem áudio visível é erro grave,

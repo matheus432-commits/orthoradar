@@ -8,6 +8,7 @@
 const { request } = require('../_lib');
 const log         = require('./logger');
 const { extractAnthropicText } = require('./anthropic-text');
+const { registrar } = require('./ai-meter');
 const { resolveModel } = require('./ai-config');
 
 const HOST  = 'api.anthropic.com';
@@ -185,6 +186,7 @@ async function generateEditorial(articles, especialidade, topThemes = [], attemp
     return null;
   }
 
+  registrar(MODEL, json.usage, 'editorial'); // medidor central (31/07)
   const text = extractAnthropicText(json);
   if (!text) return null;
 

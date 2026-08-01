@@ -160,7 +160,11 @@ jobs:
     name: Envio de Digests
     needs: ingest
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    # 45 min (31/07): com o resumo Sonnet 100% sob demanda, TODA edição gera os
+    # seus 3 resumos na hora (~60-120s/especialidade em paralelo). O run típico
+    # fica em ~20-30 min; 30 min de teto deixava ZERO folga num dia de API
+    # lenta — e teto estourado = edição sem envio (o pior bug possível).
+    timeout-minutes: 45
 
     # Executa email se:
     #   A) ingest terminou (com sucesso OU falha — ainda há artigos no Firestore)

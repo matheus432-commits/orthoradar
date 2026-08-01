@@ -12,6 +12,7 @@ const { Firestore } = require('../netlify/functions/_lib/firestore');
 const { tituloEmIngles } = require('../netlify/functions/_lib/scoring');
 const { specialtySlug } = require('../netlify/functions/_lib/slug');
 const { extractAnthropicText } = require('../netlify/functions/_lib/anthropic-text');
+const { registrar, logCusto } = require('../netlify/functions/_lib/ai-meter');
 const { isHealthSystemCost, isResultadosIndisponiveis, isHealthPromotionBehavior, isBibliometricScoping } = require('../netlify/functions/daily-digest');
 
 const HOJE = process.env.AUDIT_DATE || new Date().toISOString().slice(0, 10);
@@ -28,7 +29,9 @@ async function haiku(key, system, user) {
       'x-api-key': key, 'anthropic-version': '2023-06-01' },
   }, body);
   if (res.status !== 200) return null;
-  let text = extractAnthropicText(JSON.parse(res.body));
+  const jsonBody = JSON.parse(res.body);
+  registrar(VERIFY_MODEL, jsonBody.usage, 'auditoria');
+  let text = extractAnthropicText(jsonBody);
   if (text.startsWith('```')) text = text.replace(/^```[a-z]*\n?/, '').replace(/\n?```$/, '').trim();
   // Parse tolerante: recorta do primeiro '{' ao último '}' (o modelo às vezes
   // anexa texto ao redor do JSON).
@@ -138,6 +141,7 @@ const pausa = (ms) => new Promise(r => setTimeout(r, ms));
   }
 
   // Relatório.
+  logCusto('auditoria');
   if (falhas.length) {
     console.log(`\n✗ AUDITORIA REPROVOU — ${falhas.length} problema(s):`);
     falhas.forEach(f => console.log('  -', f));
