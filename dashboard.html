@@ -890,6 +890,11 @@ function toggleResumoCard(btn,id){
 
 // ========== ARTICLE CARD ==========
 function articleCard(art,curtidos,lidos){
+  // Dados usados pelo Compartilhar (Stories/WhatsApp) — registrados por card.
+  _shareMap.set(String(art.id||''),{
+    titulo: art.titulo||'', resumo: String(art.resumo||'').slice(0,300),
+    especialidade: art.especialidade||'', nivel: art.nivel_evidencia||'',
+  });
   let date='';if(art.data){try{const _d=new Date(art.data);if(!isNaN(_d.getTime()))date=_d.toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'numeric'});}catch(e){}}
   // Prévia curta (o essencial) sempre visível; o RESUMO COMPLETO (formato
   // podcast: objetivo, métodos, resultados com veredito, relevância clínica)
@@ -926,10 +931,138 @@ function articleCard(art,curtidos,lidos){
       <button class="btn-lido ${_bibIds.has(String(art.id))?'lido':''}" onclick="salvarBiblioteca('${safeId(art.id)}',this)">${_bibIds.has(String(art.id))?'📚 Salvo':'📚 Salvar'}</button>
       <button class="btn-lido btn-fb ${_fbGet(art.id)==='util'?'fb-on':''}" onclick="votarArtigo('${safeId(art.id)}','util',this)" title="Este estudo foi relevante">👍 Interessante</button>
       <button class="btn-lido btn-fb ${_fbGet(art.id)==='nao_util'?'fb-on':''}" onclick="votarArtigo('${safeId(art.id)}','nao_util',this)" title="Pouco relevante para mim">👎 Pouco relevante</button>
+      <button class="btn-lido" onclick="abrirShare('${safeId(art.id)}',this)" title="Compartilhar este estudo">📤 Compartilhar</button>
     </div>
     ${resumoFull?`<div class="rc-panel-dash" id="${rcId}" hidden>${resumoCompletoHtml(resumoFull)}</div>`:''}
     ${_podcastMap.has(String(art.id))?`<audio controls preload="none" style="display:none;width:100%;margin-top:10px;"><source src="${escapeHtml(_podcastMap.get(String(art.id)).url)}" type="audio/mpeg"></audio>`:''}
   </div>`;
+}
+
+// ── Compartilhar estudo (Stories Instagram + WhatsApp) ───────────────────────
+// Decisões do fundador 31/07: Stories REVEZA entre os padrões A (editorial
+// claro) e B (card sobre grafite); WhatsApp REVEZA entre 3 mensagens; o link
+// compartilhado leva o ?ref= do dentista (cada share vira canal de indicação).
+const _shareMap = new Map();
+
+function _shareLink(){
+  // Preferência: link de indicação já carregado; senão dispara o load e usa o site.
+  if (_refData && _refData.link) return _refData.link;
+  try { loadReferral(); } catch(e){}
+  return 'https://odontofeed.com';
+}
+function _rodizio(chave, n){
+  const i = (parseInt(localStorage.getItem(chave)||'0',10)+1) % n;
+  localStorage.setItem(chave, String(i));
+  return i;
+}
+
+function abrirShare(id, btn){
+  const wrap=document.createElement('span');
+  wrap.style.cssText='display:inline-flex;gap:6px;';
+  wrap.innerHTML=
+    `<button class="btn-lido" onclick="compartilharWhats('${id}')">💬 WhatsApp</button>`+
+    `<button class="btn-lido" onclick="compartilharStories('${id}')">📸 Stories</button>`;
+  btn.replaceWith(wrap);
+}
+
+function compartilharWhats(id){
+  const a=_shareMap.get(String(id)); if(!a) return;
+  const link=_shareLink();
+  const msgs=[
+    `Achei esse estudo extremamente relevante e vim compartilhar com vocês 👇\n\n“${a.titulo}”\n\nClica aqui pra ouvir o resumo na íntegra: ${link}`,
+    `Acabei de ouvir esse estudo no OdontoFeed e lembrei de vocês: “${a.titulo}”.\n\nResumo em áudio de 2 min, vale a pena: ${link}`,
+    `“${a.titulo}” — resumo em áudio de 2 min. Achei muito bom, ouve aqui: ${link}`,
+  ];
+  const texto=msgs[_rodizio('of_share_msg', msgs.length)];
+  window.open('https://wa.me/?text='+encodeURIComponent(texto),'_blank','noopener');
+}
+
+// Quebra texto em linhas que cabem na largura (canvas).
+function _wrap(ctx, texto, maxW, maxLinhas){
+  const palavras=String(texto||'').split(/\s+/); const linhas=[]; let atual='';
+  for(const p of palavras){
+    const teste=atual?atual+' '+p:p;
+    if(ctx.measureText(teste).width<=maxW) atual=teste;
+    else { if(atual) linhas.push(atual); atual=p;
+      if(linhas.length===maxLinhas-1) break; }
+  }
+  if(atual&&linhas.length<maxLinhas) linhas.push(atual);
+  if(linhas.length===maxLinhas && palavras.join(' ').length>linhas.join(' ').length)
+    linhas[maxLinhas-1]=linhas[maxLinhas-1].replace(/\s+\S*$/,'')+'…';
+  return linhas;
+}
+
+async function compartilharStories(id){
+  const a=_shareMap.get(String(id)); if(!a) return;
+  const tpl=_rodizio('of_share_tpl',2); // 0 = A (editorial claro) · 1 = B (card grafite)
+  const cv=document.createElement('canvas'); cv.width=1080; cv.height=1920;
+  const x=cv.getContext('2d');
+  const trecho=a.resumo.replace(/\s+\S*$/,'')+'…';
+
+  if(tpl===0){ /* ── Padrão A: editorial claro ── */
+    x.fillStyle='#F7F2EA'; x.fillRect(0,0,1080,1920);
+    x.font='bold 46px Georgia';
+    x.fillStyle='#2E3440'; x.fillText('Odonto',90,160);
+    x.fillStyle='#C96F4A'; x.fillText('Feed',90+x.measureText('Odonto').width,160);
+    x.strokeStyle='#C96F4A'; x.lineWidth=3;
+    x.font='600 30px Arial'; x.fillStyle='#C96F4A';
+    const chip=(a.especialidade||'Odontologia').toUpperCase()+' · ESTUDO DO DIA';
+    const cw=x.measureText(chip).width+68;
+    x.beginPath(); x.roundRect(90,230,cw,74,37); x.stroke();
+    x.fillText(chip,124,278);
+    x.fillStyle='#23272E'; x.font='500 74px Georgia';
+    let y=430; for(const l of _wrap(x,a.titulo,900,5)){ x.fillText(l,90,y); y+=92; }
+    x.fillStyle='#C96F4A'; x.fillRect(90,y+20,120,4); y+=110;
+    x.fillStyle='#4C566A'; x.font='40px Georgia';
+    for(const l of _wrap(x,trecho,900,6)){ x.fillText(l,90,y); y+=62; }
+    x.fillStyle='#2E3440'; x.beginPath(); x.arc(145,1610,55,0,7); x.fill();
+    x.fillStyle='#F7F2EA'; x.beginPath(); x.moveTo(128,1580); x.lineTo(128,1640); x.lineTo(180,1610); x.fill();
+    x.fillStyle='#2E3440'; x.font='bold 36px Arial'; x.fillText('Ouça o resumo na íntegra',225,1600);
+    x.fillStyle='#8A8F98'; x.font='27px Arial'; x.fillText('Áudio de 2 a 3 minutos, por especialidade',225,1640);
+    x.fillStyle='#2E3440'; x.beginPath(); x.roundRect(90,1710,900,120,24); x.fill();
+    x.fillStyle='#F7F2EA'; x.font='bold 40px Arial'; x.textAlign='center';
+    x.fillText('odontofeed.com',540,1762);
+    x.fillStyle='#C9CDD4'; x.font='26px Arial'; x.fillText('toque no link acima ⬆ para ouvir',540,1805);
+    x.textAlign='left';
+  } else { /* ── Padrão B: card sobre grafite ── */
+    const g=x.createLinearGradient(0,0,1080,1920);
+    g.addColorStop(0,'#23272E'); g.addColorStop(.55,'#2E3440'); g.addColorStop(1,'#3B4252');
+    x.fillStyle=g; x.fillRect(0,0,1080,1920);
+    x.textAlign='center'; x.fillStyle='#ECEFF4'; x.font='bold 42px Georgia';
+    x.fillText('OdontoFeed · ciência diária para dentistas',540,150);
+    x.textAlign='left';
+    x.fillStyle='#F7F2EA'; x.beginPath(); x.roundRect(80,230,920,1250,40); x.fill();
+    x.fillStyle='#B0863A'; x.font='700 28px Arial';
+    x.fillText((a.especialidade||'Odontologia').toUpperCase()+(a.nivel?' · '+a.nivel.toUpperCase():''),150,330);
+    x.fillStyle='#23272E'; x.font='500 66px Georgia';
+    let y=430; for(const l of _wrap(x,a.titulo,780,5)){ x.fillText(l,150,y); y+=84; }
+    x.fillStyle='#B0863A'; x.fillRect(150,y+14,100,4); y+=90;
+    x.fillStyle='#4C566A'; x.font='38px Georgia';
+    for(const l of _wrap(x,trecho,780,6)){ x.fillText(l,150,y); y+=58; }
+    y+=50; x.fillStyle='#ECE5D8'; x.beginPath(); x.roundRect(150,y,780,120,60); x.fill();
+    x.fillStyle='#2E3440'; x.beginPath(); x.arc(230,y+60,42,0,7); x.fill();
+    x.fillStyle='#ECE5D8'; x.beginPath(); x.moveTo(217,y+38); x.lineTo(217,y+82); x.lineTo(256,y+60); x.fill();
+    x.fillStyle='#B0863A';
+    const alturas=[22,44,60,34,52,26,58,40,24,48,62,30,44,20];
+    alturas.forEach((h,i)=>{ x.beginPath(); x.roundRect(300+i*34,y+60-h/2,10,h,5); x.fill(); });
+    x.fillStyle='#4C566A'; x.font='30px Arial'; x.fillText('2:37',830,y+72);
+    x.textAlign='center'; x.fillStyle='#ECEFF4'; x.font='44px Arial'; x.fillText('⬇',540,1590);
+    x.fillStyle='#E2A25E'; x.beginPath(); x.roundRect(190,1630,700,110,55); x.fill();
+    x.fillStyle='#23272E'; x.font='bold 42px Arial'; x.fillText('ouvir em odontofeed.com',540,1700);
+    x.fillStyle='#AEB6C2'; x.font='28px Arial'; x.fillText('adicione o link pelo sticker ao postar',540,1790);
+    x.textAlign='left';
+  }
+
+  cv.toBlob(async blob=>{
+    const file=new File([blob],'odontofeed-story.png',{type:'image/png'});
+    if(navigator.canShare && navigator.canShare({files:[file]})){
+      try { await navigator.share({files:[file],title:a.titulo}); return; } catch(e){ /* cancelado */ }
+    }
+    // Desktop/fallback: baixa a imagem para postar manualmente.
+    const u=URL.createObjectURL(blob); const el=document.createElement('a');
+    el.href=u; el.download='odontofeed-story.png'; el.click();
+    setTimeout(()=>URL.revokeObjectURL(u),5000);
+  },'image/png');
 }
 
 // ── Feedback 👍/👎 por artigo ────────────────────────────────────────────────
