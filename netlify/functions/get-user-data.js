@@ -130,41 +130,49 @@ exports.handler = async (event) => {
     try {
       const specs = Array.isArray(user.especialidade) ? user.especialidade.filter(Boolean) : (user.especialidade ? [user.especialidade] : []);
       if (specs.length) {
-        const whereClause = specs.length === 1
+        // DUAS consultas (incidente 31/07 — "só 20 amigos"): a coleção tem
+        // cadastros com especialidade como ARRAY (multi-especialidade) E como
+        // STRING (legado). ARRAY_CONTAINS não enxerga os de string — colegas
+        // reais ficavam de fora. Consulta os dois formatos e junta por e-mail.
+        const rodar = async (whereClause) => {
+          const body = JSON.stringify({
+            structuredQuery: { from: [{ collectionId: 'cadastros' }], where: whereClause, limit: 500 },
+          });
+          const buf = Buffer.from(body, 'utf8');
+          const res = await request({
+            hostname: 'firestore.googleapis.com',
+            path: '/v1/projects/' + projectId + '/databases/(default)/documents:runQuery?key=' + apiKey,
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Content-Length': buf.length }
+          }, buf);
+          return res.status === 200 ? JSON.parse(res.body) : [];
+        };
+        const arrayWhere = specs.length === 1
           ? { fieldFilter: { field: { fieldPath: 'especialidade' }, op: 'ARRAY_CONTAINS', value: { stringValue: specs[0] } } }
           : { fieldFilter: { field: { fieldPath: 'especialidade' }, op: 'ARRAY_CONTAINS_ANY', value: { arrayValue: { values: specs.map(s => ({ stringValue: s })) } } } };
-        const body = JSON.stringify({
-          structuredQuery: {
-            from: [{ collectionId: 'cadastros' }],
-            where: whereClause,
-            limit: 50
-          }
-        });
-        const buf = Buffer.from(body, 'utf8');
-        const res = await request({
-          hostname: 'firestore.googleapis.com',
-          path: '/v1/projects/' + projectId + '/databases/(default)/documents:runQuery?key=' + apiKey,
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Content-Length': buf.length }
-        }, buf);
-        if (res.status === 200) {
-          const docs = JSON.parse(res.body);
-          amigos = docs
-            .filter(d => d.document)
-            .map(d => {
-              const f = d.document.fields || {};
-              return {
-                nome: f.nome?.stringValue || '',
-                especialidade: f.especialidade?.arrayValue?.values
-                  ? f.especialidade.arrayValue.values.map(v => v.stringValue || '').filter(Boolean)
-                  : f.especialidade?.stringValue || '',
-                _selfEmail: f.email?.stringValue || ''
-              };
-            })
-            .filter(u => u._selfEmail && u._selfEmail !== email)
-            .map(({ _selfEmail: _, ...rest }) => rest)
-            .slice(0, 20);
-        }
+        const stringWhere = specs.length === 1
+          ? { fieldFilter: { field: { fieldPath: 'especialidade' }, op: 'EQUAL', value: { stringValue: specs[0] } } }
+          : { fieldFilter: { field: { fieldPath: 'especialidade' }, op: 'IN', value: { arrayValue: { values: specs.slice(0, 30).map(s => ({ stringValue: s })) } } } };
+        const docs = [...await rodar(arrayWhere), ...await rodar(stringWhere)];
+        const vistos = new Set();
+        // SEM o teto artificial de 20 (o card "Amigos na rede" deve mostrar o
+        // número REAL de colegas da especialidade).
+        amigos = docs
+          .filter(d => d.document)
+          .map(d => {
+            const f = d.document.fields || {};
+            return {
+              nome: f.nome?.stringValue || '',
+              especialidade: f.especialidade?.arrayValue?.values
+                ? f.especialidade.arrayValue.values.map(v => v.stringValue || '').filter(Boolean)
+                : f.especialidade?.stringValue || '',
+              _selfEmail: f.email?.stringValue || ''
+            };
+          })
+          .filter(u => u._selfEmail && u._selfEmail !== email)
+          .filter(u => { const k = u._selfEmail.toLowerCase(); if (vistos.has(k)) return false; vistos.add(k); return true; })
+          .map(({ _selfEmail: _, ...rest }) => rest)
+          .slice(0, 500);
       }
     } catch(e) { console.warn('Could not fetch amigos:', e.message); }
 
