@@ -192,7 +192,12 @@ async function main() {
   let success = 0, errors = 0;
 
   for (const article of pending) {
-    const ok = await processOne(db, article);
+    // CUSTO (decisão do fundador 31/07): o resumo completo (Sonnet, o passo
+    // caro) NÃO é mais gerado na ingestão — só ~33 dos ~45 artigos/dia são
+    // publicados, e o funil da edição já gera sob demanda (paralelo, com
+    // cache no doc) exatamente para os selecionados. Corta ~30-40% do custo
+    // diário sem perda: os mesmos resumos, gerados só para quem vai ao ar.
+    const ok = await processOne(db, article, { skipResumoCompleto: true });
     if (ok) success++;
     else errors++;
 
