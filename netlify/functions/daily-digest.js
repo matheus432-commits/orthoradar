@@ -1110,20 +1110,38 @@ async function _sendUserDigest(user, espDigest, db, resendKey) {
         // valores/variáveis" — mas os extras geravam o resumo DEPOIS da seleção
         // e nunca re-checavam. Um estudo de braço único de Ortodontia saiu como
         // extra admitindo no próprio resumo que não trazia nenhum resultado.
-        // Agora: pedimos candidatos a mais, geramos os resumos em paralelo,
-        // descartamos quem admite material inacessível e repomos na hora.
+        // CUSTO (incidente 03/08 — medidor: 154 resumos Sonnet/dia p/ ~33
+        // publicados, US$4,60 só nesta etapa): (a) gerávamos resumo para os 5
+        // candidatos quando só 2 viram extras; (b) os candidatos são CÓPIAS do
+        // pool — o resumo gerado p/ um assinante não voltava ao pool e o
+        // próximo assinante da MESMA especialidade regenerava o mesmo resumo.
+        // Agora: resumo LAZY (só os 2 do topo em paralelo; substituto só se um
+        // for reprovado) + cache CROSS-ASSINANTE via write-back no pool.
         const candidatosExtras = await pickPremiumExtras(db, user, espDigest.premiumPool, PREMIUM_EXTRAS + 3);
-        await Promise.allSettled(candidatosExtras.map(c => ensureResumoCompleto(db, c)));
+        const _poolDe = (c) => espDigest.premiumPool.find(p => String(p.pmid || p.id) === String(c.pmid || c.id));
+        const _comCachePool = async (c) => {
+          const orig = _poolDe(c);
+          if (orig?.resumo_completo && !c.resumo_completo) c.resumo_completo = orig.resumo_completo;
+          await ensureResumoCompleto(db, c);
+          if (orig && c.resumo_completo && !orig.resumo_completo) orig.resumo_completo = c.resumo_completo;
+          return c;
+        };
+        const _aprovado = async (c) =>
+          !(isResultadosIndisponiveis(c) || await faltaVereditoComparativo(c, process.env.ANTHROPIC_API_KEY || null));
         premiumExtras = [];
-        for (const cand of candidatosExtras) {
-          if (premiumExtras.length >= PREMIUM_EXTRAS) break;
-          if (isResultadosIndisponiveis(cand) || await faltaVereditoComparativo(cand, process.env.ANTHROPIC_API_KEY || null)) {
-            log.warn('[digest][PREMIUM] extra DESCARTADO após resumo completo — sem resultados/veredito no material (repondo)', {
-              email, id: cand.pmid || cand.id, titulo: (cand.titulo_pt || cand.titulo || '').slice(0, 70),
-            });
-            continue;
-          }
-          premiumExtras.push(cand);
+        const topo = candidatosExtras.slice(0, PREMIUM_EXTRAS);
+        const resto = candidatosExtras.slice(PREMIUM_EXTRAS);
+        await Promise.allSettled(topo.map(_comCachePool));
+        for (const cand of topo) {
+          if (await _aprovado(cand)) { premiumExtras.push(cand); continue; }
+          log.warn('[digest][PREMIUM] extra DESCARTADO após resumo completo — sem resultados/veredito no material (repondo)', {
+            email, id: cand.pmid || cand.id, titulo: (cand.titulo_pt || cand.titulo || '').slice(0, 70),
+          });
+        }
+        // Substitutos SÓ se necessário (um por vez — o caso raro paga, o comum não).
+        while (premiumExtras.length < PREMIUM_EXTRAS && resto.length) {
+          const cand = await _comCachePool(resto.shift());
+          if (await _aprovado(cand)) premiumExtras.push(cand);
         }
         log.info('[digest][PREMIUM] extras selected', {
           email, count: premiumExtras.length,
