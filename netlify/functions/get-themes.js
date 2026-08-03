@@ -6,6 +6,7 @@
 
 // CATALOGO COMPLETO: PT display names agrupados por especialidade
 // Todos os temas aqui possuem termos EN validos no PubMed (validados em daily-articles.js)
+const { rateLimited } = require('./_lib/rate-limit');
 const THEMES_CATALOG = {
   "Ortodontia": [
     "Alinhadores invisíveis",
@@ -120,6 +121,7 @@ const headers = {
 };
 
 exports.handler = async function(event) {
+  const _rl = rateLimited(event, 'get-themes', { max: 60, windowMs: 60000 }); if (_rl) return _rl;
   if (event.httpMethod === "OPTIONS") {
     return { statusCode: 200, headers, body: "" };
   }

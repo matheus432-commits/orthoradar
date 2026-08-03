@@ -2,6 +2,7 @@
 // Endpoint: GET /.netlify/functions/track-click?d={digestId}&p={pmid}&e={ehash}&t={base64url(targetUrl)}
 
 const { recordClick, logEvent, updateBadges } = require('./_lib/engagement');
+const { rateLimited } = require('./_lib/rate-limit');
 const log                       = require('./_lib/logger');
 
 const FALLBACK_URL = process.env.SITE_URL || 'https://odontofeed.com';
@@ -37,6 +38,7 @@ function safeDecodeTarget(t) {
 }
 
 exports.handler = async (event) => {
+  const _rl = rateLimited(event, 'track-click', { max: 120, windowMs: 60000 }); if (_rl) return _rl;
   const qs       = event.queryStringParameters || {};
   const digestId = qs.d || null;
   const pmid     = qs.p || null;

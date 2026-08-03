@@ -7,6 +7,7 @@
 // Public endpoint — no auth required.
 
 const { Firestore }       = require('./_lib/firestore');
+const { rateLimited } = require('./_lib/rate-limit');
 const { classifyTrends }  = require('./_lib/trend-engine');
 const log                 = require('./_lib/logger');
 
@@ -24,6 +25,7 @@ const ARTICLE_FIELDS = [
 ];
 
 exports.handler = async (event) => {
+  const _rl = rateLimited(event, 'get-trend-intelligence', { max: 30, windowMs: 60000 }); if (_rl) return _rl;
   const headers = CORS;
 
   if (event.httpMethod === 'OPTIONS') {

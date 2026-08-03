@@ -1,6 +1,8 @@
 const { request } = require('./_lib');
 
+const { rateLimited } = require('./_lib/rate-limit');
 exports.handler = async (event) => {
+  const _rl = rateLimited(event, 'get-stats', { max: 30, windowMs: 60000 }); if (_rl) return _rl;
   const headers = {
     'Access-Control-Allow-Origin': '*',
     'Content-Type': 'application/json',

@@ -6,6 +6,7 @@
 // No auth required — the ehash is opaque and non-reversible.
 
 const { Firestore } = require('./_lib/firestore');
+const { rateLimited } = require('./_lib/rate-limit');
 const log           = require('./_lib/logger');
 
 const CORS_HEADERS = {
@@ -16,6 +17,7 @@ const CORS_HEADERS = {
 };
 
 exports.handler = async (event) => {
+  const _rl = rateLimited(event, 'get-engagement', { max: 60, windowMs: 60000 }); if (_rl) return _rl;
   if (event.httpMethod === 'OPTIONS') {
     return { statusCode: 200, headers: CORS_HEADERS, body: '' };
   }

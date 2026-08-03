@@ -13,6 +13,7 @@
 // Spotify marcar o feed como quebrado.
 
 const { Firestore } = require('./_lib/firestore');
+const { rateLimited } = require('./_lib/rate-limit');
 const { specialtySlug } = require('./_lib/slug');
 const { firebaseDownloadUrl } = require('./_lib/storage');
 
@@ -295,6 +296,7 @@ async function masterFallbackToday(db) {
 }
 
 exports.handler = async (event) => {
+  const _rl = rateLimited(event, 'podcast-rss', { max: 120, windowMs: 60000 }); if (_rl) return _rl;
   const headers = {
     'Content-Type': 'application/rss+xml; charset=UTF-8',
     'Cache-Control': 'public, max-age=1800',
