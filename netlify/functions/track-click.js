@@ -38,7 +38,7 @@ function safeDecodeTarget(t) {
 }
 
 exports.handler = async (event) => {
-  const _rl = rateLimited(event, 'track-click', { max: 120, windowMs: 60000 }); if (_rl) return _rl;
+  const _rl = rateLimited(event, 'track-click', { max: 300, windowMs: 60000 }); if (_rl) return _rl;
   const qs       = event.queryStringParameters || {};
   const digestId = qs.d || null;
   const pmid     = qs.p || null;

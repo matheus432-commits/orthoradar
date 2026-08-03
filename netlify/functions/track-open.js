@@ -18,7 +18,7 @@ const HEADERS = {
 const EHASH_RE = /^[a-f0-9]{16}$/;
 
 exports.handler = async (event) => {
-  const _rl = rateLimited(event, 'track-open', { max: 120, windowMs: 60000 }); if (_rl) return _rl;
+  const _rl = rateLimited(event, 'track-open', { max: 300, windowMs: 60000 }); if (_rl) return _rl;
   const qs       = event.queryStringParameters || {};
   const digestId = qs.d || null;
   const rawEhash = (qs.e || '').toLowerCase().trim();

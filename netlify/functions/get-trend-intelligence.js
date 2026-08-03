@@ -25,7 +25,7 @@ const ARTICLE_FIELDS = [
 ];
 
 exports.handler = async (event) => {
-  const _rl = rateLimited(event, 'get-trend-intelligence', { max: 30, windowMs: 60000 }); if (_rl) return _rl;
+  const _rl = rateLimited(event, 'get-trend-intelligence', { max: 120, windowMs: 60000 }); if (_rl) return _rl;
   const headers = CORS;
 
   if (event.httpMethod === 'OPTIONS') {

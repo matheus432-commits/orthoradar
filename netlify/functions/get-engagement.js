@@ -17,7 +17,7 @@ const CORS_HEADERS = {
 };
 
 exports.handler = async (event) => {
-  const _rl = rateLimited(event, 'get-engagement', { max: 60, windowMs: 60000 }); if (_rl) return _rl;
+  const _rl = rateLimited(event, 'get-engagement', { max: 240, windowMs: 60000 }); if (_rl) return _rl;
   if (event.httpMethod === 'OPTIONS') {
     return { statusCode: 200, headers: CORS_HEADERS, body: '' };
   }

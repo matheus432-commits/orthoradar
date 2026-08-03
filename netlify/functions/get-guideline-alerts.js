@@ -18,7 +18,7 @@ const CORS = {
 };
 
 exports.handler = async (event) => {
-  const _rl = rateLimited(event, 'get-guideline-alerts', { max: 60, windowMs: 60000 }); if (_rl) return _rl;
+  const _rl = rateLimited(event, 'get-guideline-alerts', { max: 240, windowMs: 60000 }); if (_rl) return _rl;
   const headers = CORS;
 
   if (event.httpMethod === 'OPTIONS') {

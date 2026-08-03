@@ -296,7 +296,7 @@ async function masterFallbackToday(db) {
 }
 
 exports.handler = async (event) => {
-  const _rl = rateLimited(event, 'podcast-rss', { max: 120, windowMs: 60000 }); if (_rl) return _rl;
+  const _rl = rateLimited(event, 'podcast-rss', { max: 300, windowMs: 60000 }); if (_rl) return _rl;
   const headers = {
     'Content-Type': 'application/rss+xml; charset=UTF-8',
     'Cache-Control': 'public, max-age=1800',

@@ -75,7 +75,7 @@ async function fetchLatestForSpecialty(projectId, apiKey, especialidade) {
 }
 
 exports.handler = async (event) => {
-  const _rl = rateLimited(event, 'get-public-articles', { max: 60, windowMs: 60000 }); if (_rl) return _rl;
+  const _rl = rateLimited(event, 'get-public-articles', { max: 240, windowMs: 60000 }); if (_rl) return _rl;
   const headers = {
     'Access-Control-Allow-Origin': '*',
     'Content-Type': 'application/json',
