@@ -1,5 +1,6 @@
 const { request } = require('./_lib');
 
+const { rateLimited } = require('./_lib/rate-limit');
 // Especialidades atribuídas aos artigos na ingestão (ver ingest-pubmed.js).
 // Buscamos o artigo mais recente de CADA uma para garantir que cada quadro da
 // seção "Publicações desta semana" mostre uma especialidade diferente — mesmo
@@ -74,6 +75,7 @@ async function fetchLatestForSpecialty(projectId, apiKey, especialidade) {
 }
 
 exports.handler = async (event) => {
+  const _rl = rateLimited(event, 'get-public-articles', { max: 60, windowMs: 60000 }); if (_rl) return _rl;
   const headers = {
     'Access-Control-Allow-Origin': '*',
     'Content-Type': 'application/json',

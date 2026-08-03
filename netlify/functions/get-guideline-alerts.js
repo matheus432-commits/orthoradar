@@ -5,6 +5,7 @@
 // Public — no auth required.
 
 const { Firestore }             = require('./_lib/firestore');
+const { rateLimited } = require('./_lib/rate-limit');
 const { detectGuidelineAlerts } = require('./_lib/guideline-tracker');
 const { logEvent }              = require('./_lib/engagement');
 const log                       = require('./_lib/logger');
@@ -17,6 +18,7 @@ const CORS = {
 };
 
 exports.handler = async (event) => {
+  const _rl = rateLimited(event, 'get-guideline-alerts', { max: 60, windowMs: 60000 }); if (_rl) return _rl;
   const headers = CORS;
 
   if (event.httpMethod === 'OPTIONS') {

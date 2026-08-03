@@ -3,6 +3,7 @@
 // GET /.netlify/functions/get-trending?specialty={name}&limit={n}
 
 const { Firestore }          = require('./_lib/firestore');
+const { rateLimited } = require('./_lib/rate-limit');
 const { computeCuratedScore } = require('./_lib/digest-ranking');
 const log                    = require('./_lib/logger');
 
@@ -13,6 +14,7 @@ const CORS = {
 };
 
 exports.handler = async (event) => {
+  const _rl = rateLimited(event, 'get-trending', { max: 60, windowMs: 60000 }); if (_rl) return _rl;
   if (event.httpMethod === 'OPTIONS') {
     return { statusCode: 200, headers: { ...CORS, 'Access-Control-Allow-Methods': 'GET, OPTIONS' }, body: '' };
   }

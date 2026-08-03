@@ -5,6 +5,7 @@
 // Query: ?email=&token=&specialty=&days=7
 
 const { Firestore }         = require('./_lib/firestore');
+const { rateLimited } = require('./_lib/rate-limit');
 const { getCachedBriefing } = require('./_lib/daily-briefing');
 const { getProfile }        = require('./_lib/user-profile');
 const { logEvent }          = require('./_lib/engagement');
@@ -39,6 +40,7 @@ async function validateAndGetUser(db, email, token) {
 }
 
 exports.handler = async (event) => {
+  const _rl = rateLimited(event, 'get-daily-briefing', { max: 30, windowMs: 60000 }); if (_rl) return _rl;
   const headers = CORS;
 
   if (event.httpMethod === 'OPTIONS') {

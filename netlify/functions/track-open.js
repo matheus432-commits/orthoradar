@@ -2,6 +2,7 @@
 // Endpoint: GET /.netlify/functions/track-open?d={digestId}&e={emailHash}
 
 const { recordOpen, logEvent, updateStreak } = require('./_lib/engagement');
+const { rateLimited } = require('./_lib/rate-limit');
 const log                      = require('./_lib/logger');
 
 // 1×1 transparent GIF (42 bytes)
@@ -17,6 +18,7 @@ const HEADERS = {
 const EHASH_RE = /^[a-f0-9]{16}$/;
 
 exports.handler = async (event) => {
+  const _rl = rateLimited(event, 'track-open', { max: 120, windowMs: 60000 }); if (_rl) return _rl;
   const qs       = event.queryStringParameters || {};
   const digestId = qs.d || null;
   const rawEhash = (qs.e || '').toLowerCase().trim();

@@ -6,6 +6,7 @@
 // Public — no auth required.
 
 const { Firestore }        = require('./_lib/firestore');
+const { rateLimited } = require('./_lib/rate-limit');
 const { analyzeConsensus } = require('./_lib/consensus-engine');
 const { buildSnapshot }    = require('./_lib/evidence-snapshot');
 const log                  = require('./_lib/logger');
@@ -46,6 +47,7 @@ async function saveToCache(db, specialty, data) {
 }
 
 exports.handler = async (event) => {
+  const _rl = rateLimited(event, 'get-consensus', { max: 30, windowMs: 60000 }); if (_rl) return _rl;
   const headers = CORS;
 
   if (event.httpMethod === 'OPTIONS') {

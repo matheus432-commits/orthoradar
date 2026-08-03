@@ -5,6 +5,7 @@
 // Body: { pmids: ["12345", "67890", ...] }
 
 const { Firestore }       = require('./_lib/firestore');
+const { rateLimited } = require('./_lib/rate-limit');
 const { compareStudies }  = require('./_lib/study-comparator');
 const { buildSnapshot }   = require('./_lib/evidence-snapshot');
 const { logEvent }        = require('./_lib/engagement');
@@ -17,6 +18,7 @@ const CORS = {
 };
 
 exports.handler = async (event) => {
+  const _rl = rateLimited(event, 'compare-studies', { max: 20, windowMs: 60000 }); if (_rl) return _rl;
   const headers = CORS;
 
   if (event.httpMethod === 'OPTIONS') {
