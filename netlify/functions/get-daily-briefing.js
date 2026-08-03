@@ -40,7 +40,7 @@ async function validateAndGetUser(db, email, token) {
 }
 
 exports.handler = async (event) => {
-  const _rl = rateLimited(event, 'get-daily-briefing', { max: 30, windowMs: 60000 }); if (_rl) return _rl;
+  const _rl = rateLimited(event, 'get-daily-briefing', { max: 120, windowMs: 60000 }); if (_rl) return _rl;
   const headers = CORS;
 
   if (event.httpMethod === 'OPTIONS') {
