@@ -8,6 +8,11 @@
 // Run: node --test netlify/functions/_lib/__tests__/wakai.test.js
 
 const { test, describe, beforeEach } = require('node:test');
+
+// SUSPENSÃO TEMPORÁRIA (03/08): a Wakai está suspensa por padrão até os planos
+// pagos. Os testes do comportamento NORMAL rodam com a flag ativa; o teste da
+// suspensão (abaixo) roda sem a flag.
+process.env.WAKAI_ATIVA = 'true';
 const assert = require('node:assert/strict');
 
 const lib      = require('../../_lib.js');
@@ -175,4 +180,22 @@ describe('wakai', () => {
     assert.equal(res.statusCode, 401);
     assert.equal(state.calls.length, 0);
   });
+});
+
+// ── Suspensão temporária (03/08): sem a flag, TODA pergunta recebe manutenção ─
+test('suspensa (WAKAI_ATIVA!=true) → 503 manutenção, sem chamar o Claude', async () => {
+  const anterior = process.env.WAKAI_ATIVA;
+  process.env.WAKAI_ATIVA = 'false';
+  try {
+    delete require.cache[wakaiPath];
+    const { handler } = require(wakaiPath);
+    const res = await handler({ httpMethod: 'POST', body: JSON.stringify({ email: 'x@x.com', token: 't', pergunta: 'oi' }) });
+    const body = JSON.parse(res.body);
+    require('node:assert/strict').equal(res.statusCode, 503);
+    require('node:assert/strict').equal(body.error, 'manutencao');
+    require('node:assert/strict').match(body.message, /manuten/i);
+  } finally {
+    process.env.WAKAI_ATIVA = anterior;
+    delete require.cache[wakaiPath];
+  }
 });
