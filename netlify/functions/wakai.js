@@ -203,6 +203,17 @@ exports.handler = async (event) => {
   }
   if (event.httpMethod !== 'POST') return { statusCode: 405, headers, body: JSON.stringify({ error: 'Method Not Allowed' }) };
 
+  // SUSPENSÃO TEMPORÁRIA (decisão do fundador 03/08 — controle de custo de IA):
+  // a Wakai volta junto com os planos pagos. Gate no SERVIDOR (vale até para
+  // chamada direta à API); o dashboard mostra o aviso de manutenção.
+  // Para reativar: WAKAI_ATIVA=true no Netlify OU trocar o default abaixo.
+  if (String(process.env.WAKAI_ATIVA || 'false') !== 'true') {
+    return { statusCode: 503, headers, body: JSON.stringify({
+      error: 'manutencao',
+      message: '🛠️ A Wakai está em manutenção — retorno em breve. Obrigado pela paciência!',
+    }) };
+  }
+
   let body;
   try { body = JSON.parse(event.body); } catch { return { statusCode: 400, headers, body: JSON.stringify({ error: 'JSON invalido' }) }; }
   const { email, token, modo, pergunta } = body;
