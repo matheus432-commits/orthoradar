@@ -62,12 +62,42 @@ async function contarVivos(db, especialidade) {
   return vivos.length;
 }
 
-// Busca PMIDs NOVOS (não no Firestore) varrendo o acervo em profundidade.
-async function coletarNovosPmids(db, query, quantos) {
+// ── CURSOR do pré-aquecimento (incidente 03/08 — Prótese secou): sem cursor, a
+// varredura recomeçava TODA noite da página 0 e batia sempre nos mesmos 250
+// artigos; quando todos já estavam no banco, achava 0 novos para sempre —
+// mesmo com milhares além da página 10 no acervo do PubMed. Agora cada
+// especialidade guarda onde a varredura parou (ingest_cursor/prewarm_{slug})
+// e a próxima noite CONTINUA dali; no fim do acervo, volta ao início.
+function cursorIdPrewarm(specialty) {
+  return 'prewarm_' + specialty.normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .toLowerCase().replace(/[^a-z0-9]+/g, '_');
+}
+async function lerCursorPrewarm(db, specialty) {
+  const doc = await db.getDoc('ingest_cursor', cursorIdPrewarm(specialty)).catch(() => null);
+  return Number(doc?.retstart) || 0;
+}
+async function gravarCursorPrewarm(db, specialty, retstart) {
+  await db.setDoc('ingest_cursor', cursorIdPrewarm(specialty), {
+    especialidade: specialty, retstart, tipo: 'prewarm', atualizadoEm: new Date().toISOString(),
+  }).catch(e => log.warn('[prewarm] cursor não gravado', { specialty, err: e.message }));
+}
+
+// Decide o próximo cursor após varrer `paginас` páginas a partir de `atual`.
+// Pura → testável. Passou do fim do acervo → recomeça do zero.
+function proximoCursor(atual, paginasVarridas, total, pageSize = PREWARM_PAGE) {
+  const prox = atual + paginasVarridas * pageSize;
+  return (total && prox >= total) ? 0 : prox;
+}
+
+// Busca PMIDs NOVOS (não no Firestore) varrendo o acervo A PARTIR DO CURSOR.
+async function coletarNovosPmids(db, query, quantos, specialty) {
   const novos = [];
   const vistos = new Set();
+  const base = specialty ? await lerCursorPrewarm(db, specialty) : 0;
+  let paginasVarridas = 0;
+  let totalAcervo = 0;
   for (let pagina = 0; pagina < PREWARM_MAX_PAGINAS && novos.length < quantos; pagina++) {
-    const retstart = pagina * PREWARM_PAGE;
+    const retstart = base + pagina * PREWARM_PAGE;
     let res;
     try {
       res = await searchPmids(query, PREWARM_PAGE, retstart);
@@ -75,6 +105,8 @@ async function coletarNovosPmids(db, query, quantos) {
       log.warn('[prewarm] searchPmids falhou', { retstart, err: err.message });
       break;
     }
+    paginasVarridas++;
+    totalAcervo = res.total || totalAcervo;
     const pmids = (res.pmids || []).filter(p => !vistos.has(p));
     pmids.forEach(p => vistos.add(p));
     if (!pmids.length) break; // fim do acervo
@@ -84,7 +116,12 @@ async function coletarNovosPmids(db, query, quantos) {
       if (!existentes.has(p)) novos.push(p);
       if (novos.length >= quantos) break;
     }
-    if (res.total && retstart + PREWARM_PAGE >= res.total) break; // varreu tudo
+    if (totalAcervo && retstart + PREWARM_PAGE >= totalAcervo) break; // varreu tudo
+  }
+  // AVANÇA o cursor mesmo quando tudo era repetido — página varrida não se
+  // repete; a próxima noite continua de onde esta parou.
+  if (specialty && paginasVarridas > 0) {
+    await gravarCursorPrewarm(db, specialty, proximoCursor(base, paginasVarridas, totalAcervo));
   }
   return novos;
 }
@@ -114,7 +151,14 @@ async function aquecerEspecialidade(db, specialty, query) {
   }
   log.info('[prewarm] banco fino — completando', { specialty, vivos: live, aIngerir });
 
-  const novos = await coletarNovosPmids(db, query, aIngerir);
+  // Até 3 saltos de cursor NA MESMA NOITE: uma faixa 100% repetida não pode
+  // custar um dia inteiro de espera (incidente 03/08 — a Prótese ficaria seca
+  // mais uma noite só esperando o cursor passar do território já varrido).
+  let novos = [];
+  for (let salto = 0; salto < 3 && !novos.length; salto++) {
+    novos = await coletarNovosPmids(db, query, aIngerir, specialty);
+    if (!novos.length) log.info('[prewarm] faixa toda repetida — saltando o cursor adiante', { specialty, salto: salto + 1 });
+  }
   if (!novos.length) {
     log.info('[prewarm] nenhum PMID novo na reserva', { specialty });
     return { specialty, vivos: live, ingeridos: 0, ativados: 0 };
@@ -133,7 +177,10 @@ async function aquecerEspecialidade(db, specialty, query) {
       const ok = await saveArticle(db, art, specialty);
       if (ok) salvos.push(art);
     } catch (err) {
-      log.warn('[prewarm] saveArticle falhou', { pmid: art.pmid, err: err.message });
+      // 409 = dedup por campo falhou mas o doc EXISTE (id igual) — duplicado
+      // esperado, não erro; o cursor já avançou, amanhã varre além.
+      if (/ALREADY_EXISTS|409/.test(err.message)) log.info('[prewarm] duplicado (doc já existe) — pulando', { pmid: art.pmid });
+      else log.warn('[prewarm] saveArticle falhou', { pmid: art.pmid, err: err.message });
     }
   }
 
@@ -193,6 +240,7 @@ exports.handler = async (event) => {
 
 // Expostos para teste.
 exports.planejarIngestao = planejarIngestao;
+exports.proximoCursor = proximoCursor;
 exports._internals = { PREWARM_ALVO, PREWARM_MAX_INGEST };
 
 if (require.main === module) {

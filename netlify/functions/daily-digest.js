@@ -980,7 +980,10 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
   // estouravam os 100s e a edição saía SEM resumo (comResumo=0) → bloqueio.
   // Agora os resumos de um lote são gerados EM PARALELO (Promise.allSettled),
   // cortando o tempo ~3-5×. A trava de veredito e o cap de relato continuam.
-  const RESUMO_STAGE_BUDGET_MS = 120000;
+  // 150s (incidente 03/08 — Periodontia: 131s > 120s e a reposição parou com 2
+  // artigos → bloqueio; a trava semântica adiciona ~2-4s por descarte+reposição).
+  // Cabe no teto de 240s do buildEspDigest com folga.
+  const RESUMO_STAGE_BUDGET_MS = 150000;
   t = Date.now();
   const dentroDoOrcamento = () => Date.now() - t <= RESUMO_STAGE_BUDGET_MS;
   const usadosIds = new Set(selected.map(a => String(a.pmid || a.id || '')));
