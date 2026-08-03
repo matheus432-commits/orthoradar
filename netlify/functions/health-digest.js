@@ -4,9 +4,14 @@
 // GET /.netlify/functions/health-digest
 
 const { Firestore } = require('./_lib/firestore');
+const { checkAdmin } = require('./_lib/admin-guard');
 const log           = require('./_lib/logger');
 
-exports.handler = async () => {
+exports.handler = async (event) => {
+  // SEGURANÇA (auditoria 03/08): este endpoint devolve e-mails de assinantes
+  // (recentFailures[].email) — era PÚBLICO, vazando PII a qualquer um com a URL.
+  // Agora exige o ADMIN_SECRET (mesmo guard do pipeline).
+  if (!checkAdmin(event)) return { statusCode: 403, body: JSON.stringify({ error: 'Forbidden' }) };
   const projectId = process.env.FIREBASE_PROJECT_ID || 'orthoradar';
   const apiKey    = process.env.FIREBASE_API_KEY;
 
