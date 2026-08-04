@@ -25,6 +25,23 @@ function firebaseDownloadUrl(bucket, objectPath, token) {
   return `https://${FB_HOST}/v0/b/${bucket}/o/${encodeURIComponent(objectPath)}?alt=media&token=${token}`;
 }
 
+// VERIFICA que a URL pública de download realmente SERVE o objeto (incidente
+// 04/08 — player 0:00 no site: doc apontava para áudio que o navegador não
+// carregava). Pede só o 1º byte (Range) — não baixa o arquivo. 200/206 = ok.
+async function verifyDownloadUrl(bucket, objectPath, token) {
+  try {
+    const res = await request({
+      hostname: FB_HOST,
+      path: `/v0/b/${bucket}/o/${encodeURIComponent(objectPath)}?alt=media&token=${token}`,
+      method: 'GET',
+      headers: { Range: 'bytes=0-0' },
+    }, null);
+    return { ok: res.status === 200 || res.status === 206, status: res.status };
+  } catch (err) {
+    return { ok: false, status: 0, err: err.message };
+  }
+}
+
 // Sobe um mp3 e retorna { ok, url, downloadToken } ou { skipped, reason }.
 // downloadToken é o UUID público do Firebase (NÃO o token de acesso OAuth) —
 // é ele que vai na URL de download e deve ser persistido pelo chamador.
@@ -165,4 +182,4 @@ async function deleteObject(objectPath) {
   return { ok: res.status === 200 || res.status === 204 || res.status === 404, status: res.status };
 }
 
-module.exports = { uploadMp3, uploadImage, copyObject, deleteObject, firebaseDownloadUrl, newDownloadToken, _bucketName: bucketName };
+module.exports = { uploadMp3, uploadImage, copyObject, deleteObject, firebaseDownloadUrl, verifyDownloadUrl, newDownloadToken, _bucketName: bucketName };
