@@ -927,7 +927,7 @@ function articleCard(art,curtidos,lidos){
       <span class="article-date">${date}</span>
     </div>
     ${temaTag}
-    <h3>${escapeHtml(art.titulo||'Sem título')}</h3>
+    <h3>${escapeHtml(art.titulo_pt||art.titulo||'Sem título')}</h3>
     ${journal?`<div class="article-journal">${journal}</div>`:''}
     <div class="${summaryCls}">${summary}</div>
     <div class="article-actions">
@@ -1103,6 +1103,10 @@ function _edicaoParaCard(e, artigos){
   // preserva-os sempre para o card poder expandir (o registro do feed não
   // traz resumo_completo).
   if(full) return {...full, premium:!!e.premium,
+    // TÍTULO SEMPRE EM PT (incidente 04/08): o registro cru da coleção tem
+    // `titulo` em INGLÊS (o PT fica em titulo_pt); o spread {...full} descartava
+    // o título já traduzido que a EDIÇÃO entrega — card saía em inglês.
+    titulo:e.titulo||full.titulo_pt||full.titulo||'',
     resumo:e.resumo||full.resumo||'',
     resumo_completo:e.resumo_completo||full.resumo_completo||'',
     impacto:e.impacto||full.impacto||''};

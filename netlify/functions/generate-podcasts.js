@@ -20,7 +20,7 @@ const { generateScript } = require('./_lib/podcast-script');
 const { synthesizeLong } = require('./_lib/tts');
 // DIRETRIZ 22/07: nenhum objeto de áudio é deletado do Storage (acervo da
 // futura biblioteca pública) — por isso não importamos deleteObject.
-const { uploadMp3 } = require('./_lib/storage');
+const { uploadMp3, verifyDownloadUrl } = require('./_lib/storage');
 const { billableChars } = require('./_lib/tts-budget');
 const { mp3DurationSecs, mp3Silence } = require('./_lib/mp3');
 const { specialtySlug: slug, espDigestSlug } = require('./_lib/slug');
@@ -292,6 +292,19 @@ async function main() {
               Array.isArray(relido.episodios) &&
               relido.episodios.length === episodios.length &&
               relido.episodios.every(e => e.objectPath && e.downloadToken);
+            // URL DE ÁUDIO precisa SERVIR de verdade (incidente 04/08: player
+            // 0:00 no site). Confere o 1º byte do 1º episódio via a MESMA URL
+            // pública que o navegador usa — doc certo com áudio inacessível
+            // também é falha de persistência.
+            if (ponteiroOk) {
+              const bkt = process.env.GCS_BUCKET || `${projectId}.appspot.com`;
+              const ep1 = relido.episodios[0];
+              const vu = await verifyDownloadUrl(bkt, ep1.objectPath, ep1.downloadToken);
+              if (!vu.ok) {
+                log.warn('[podcasts] URL de download NÃO serve o áudio', { esp, status: vu.status, err: vu.err });
+                ponteiroOk = false;
+              }
+            }
             if (!ponteiroOk) log.warn('[podcasts] verificação pós-gravação reprovou — regravando', { esp, tent });
           } catch (e) {
             log.warn('[podcasts] setDoc falhou — tentando de novo', { esp, tent, err: e.message });
