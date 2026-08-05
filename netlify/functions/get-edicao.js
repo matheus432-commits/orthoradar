@@ -15,7 +15,7 @@ const { CICLO, especialidadeDoDia } = require('./_lib/especialidade-identidade')
 const { verifyEdicaoToken } = require('./_lib/edicao-token');
 const { espDigestSlug, specialtySlug } = require('./_lib/slug');
 const { resolveArticleUrl } = require('./_lib/email-template');
-const { firebaseDownloadUrl } = require('./_lib/storage');
+const { audioUrlDe } = require('./_lib/storage');
 const { isPremium, featuresOf, PLANS } = require('./_lib/plans');
 const { especialidadesDe, escolherEspecialidade } = require('./_lib/especialidades');
 const { getActiveAd } = require('./_lib/ads');
@@ -66,16 +66,18 @@ async function getPodcast(db, especialidade) {
     if (!doc) return null;
     const projectId = process.env.FIREBASE_PROJECT_ID || 'orthoradar';
     const bucket    = process.env.GCS_BUCKET || (projectId + '.appspot.com');
+    // audioUrlDe: SEMPRE a URL persistida (verificada na geração); remontagem
+    // por bucket só para docs legados (incidente 05/08 — player 0:00).
     const episodios = (doc.episodios || [])
-      .filter(e => e.objectPath && e.downloadToken)
       .map(e => ({
         n: e.n, artigoId: String(e.artigoId || ''), titulo: e.titulo || '',
-        url: firebaseDownloadUrl(bucket, e.objectPath, e.downloadToken),
-      }));
+        url: audioUrlDe(e, bucket),
+      }))
+      .filter(e => e.url);
     // Compat com docs antigos (episódio único nos campos legados)
-    if (!episodios.length && doc.objectPath && doc.downloadToken) {
-      episodios.push({ n: 1, artigoId: String(doc.artigoId || ''), titulo: doc.titulo || '',
-        url: firebaseDownloadUrl(bucket, doc.objectPath, doc.downloadToken) });
+    if (!episodios.length) {
+      const legado = audioUrlDe(doc, bucket);
+      if (legado) episodios.push({ n: 1, artigoId: String(doc.artigoId || ''), titulo: doc.titulo || '', url: legado });
     }
     if (!episodios.length) return null;
     return { episodios, geradoEm: doc.geradoEm || '', date: doc.date || '' };

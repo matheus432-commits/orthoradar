@@ -8,7 +8,7 @@ const { request } = require('./_lib');
 const crypto = require('crypto');
 // (gate de plano removido — diretriz 07/2026: podcast é do plano Gratuito)
 const { specialtySlug } = require('./_lib/slug');
-const { firebaseDownloadUrl } = require('./_lib/storage');
+const { audioUrlDe } = require('./_lib/storage');
 const { especialidadesDe, escolherEspecialidade } = require('./_lib/especialidades');
 
 function tokenEqual(a, b) {
@@ -63,11 +63,13 @@ async function getPodcastDoc(projectId, apiKey, slug) {
       titulo:        e.titulo?.stringValue || '',
       objectPath:    e.objectPath?.stringValue || '',
       downloadToken: e.downloadToken?.stringValue || '',
+      url:           e.url?.stringValue || '', // URL persistida e verificada na geração
     };
-  }).filter(e => e.objectPath && e.downloadToken);
+  }).filter(e => e.url || (e.objectPath && e.downloadToken));
   return {
     objectPath:    f.objectPath?.stringValue || '',
     downloadToken: f.downloadToken?.stringValue || '',
+    url:           f.url?.stringValue || '',
     titulo:        f.titulo?.stringValue || '',
     especialidade: f.especialidade?.stringValue || '',
     geradoEm:      f.geradoEm?.stringValue || '',
@@ -115,7 +117,8 @@ exports.handler = async (event) => {
     if (!esp) return { statusCode: 404, headers, body: JSON.stringify({ error: 'Nenhuma especialidade configurada.' }) };
 
     const doc = await getPodcastDoc(projectId, apiKey, specialtySlug(esp));
-    if (!doc || !doc.objectPath || !doc.downloadToken) {
+    const urlLegado = doc ? audioUrlDe(doc, bucket) : null;
+    if (!doc || !urlLegado) {
       return { statusCode: 404, headers, body: JSON.stringify({ error: 'sem_podcast', message: 'O podcast de hoje ainda não está disponível.' }) };
     }
 
@@ -123,13 +126,13 @@ exports.handler = async (event) => {
       statusCode: 200,
       headers: { ...headers, 'Cache-Control': 'private, no-store' },
       body: JSON.stringify({
-        url:           firebaseDownloadUrl(bucket, doc.objectPath, doc.downloadToken),
+        url:           urlLegado,
         titulo:        doc.titulo,
         especialidade: doc.especialidade || esp,
         geradoEm:      doc.geradoEm,
         episodios:     (doc.episodios || []).map(e => ({
           n: e.n, artigoId: e.artigoId, titulo: e.titulo,
-          url: firebaseDownloadUrl(bucket, e.objectPath, e.downloadToken),
+          url: audioUrlDe(e, bucket),
         })),
       }),
     };

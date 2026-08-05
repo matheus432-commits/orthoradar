@@ -26,7 +26,7 @@ const { segmentScript, computeTimings, conceptSlug } = require('./_lib/reel-scen
 const { generateIllustration } = require('./_lib/imagen');
 const { buildReelHtml, assembleVideo, REEL_W, REEL_H } = require('./_lib/reel-builder');
 const { renderCarousel } = require('./_lib/instagram-render');
-const { uploadImage, firebaseDownloadUrl } = require('./_lib/storage');
+const { uploadImage, audioUrlDe } = require('./_lib/storage');
 const { publishReel, getValidToken, resolveIgUserId } = require('./_lib/instagram-api');
 const log = require('./_lib/logger');
 
@@ -55,9 +55,8 @@ async function sceneImage(db, bucket, cena) {
   const slug = conceptSlug(cena.conceito || cena.rotulo || 'cena');
   try {
     const cached = await db.getDoc('reel_cenas', slug);
-    if (cached?.objectPath && cached?.downloadToken) {
-      return firebaseDownloadUrl(bucket, cached.objectPath, cached.downloadToken);
-    }
+    const cachedUrl = cached ? audioUrlDe(cached, bucket) : null; // URL persistida > remontagem (05/08)
+    if (cachedUrl) return cachedUrl;
   } catch { /* sem cache */ }
 
   const gen = await generateIllustration(cena.visual || cena.conceito || '');
@@ -68,7 +67,7 @@ async function sceneImage(db, bucket, cena) {
   if (!up.ok) return null;
   await db.setDoc('reel_cenas', slug, {
     conceito: cena.conceito || '', visual: cena.visual || '',
-    objectPath, downloadToken: up.downloadToken, criadoEm: new Date().toISOString(),
+    objectPath, downloadToken: up.downloadToken, url: up.url, criadoEm: new Date().toISOString(),
   }).catch(() => {});
   return up.url;
 }
@@ -151,7 +150,7 @@ exports.handler = async () => {
     });
     const frames = await renderCarousel(html, totalFrames, { width: REEL_W, height: REEL_H, type: 'png' });
 
-    const audioUrl = firebaseDownloadUrl(bucket, ep.objectPath, ep.downloadToken);
+    const audioUrl = audioUrlDe(ep, bucket); // URL persistida > remontagem (05/08)
     const audioBuf = await downloadBinary(audioUrl);
     const tmpAudio = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'reel-audio-')), 'ep.mp3');
     fs.writeFileSync(tmpAudio, audioBuf);

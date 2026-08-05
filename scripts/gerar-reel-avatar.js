@@ -33,7 +33,7 @@ const { specialtySlug } = require('../netlify/functions/_lib/slug');
 const { segmentScript, computeTimings, conceptSlug } = require('../netlify/functions/_lib/reel-scenes');
 const { generateIllustration } = require('../netlify/functions/_lib/imagen');
 const { renderCarousel } = require('../netlify/functions/_lib/instagram-render');
-const { uploadImage, firebaseDownloadUrl } = require('../netlify/functions/_lib/storage');
+const { uploadImage, firebaseDownloadUrl, audioUrlDe } = require('../netlify/functions/_lib/storage');
 const { buildAvatarSpritesHtml, audioEnvelope, normalizeEnvelope, visemeTimeline, AVATAR_W, AVATAR_H, N_SPRITES } = require('../netlify/functions/_lib/avatar');
 const { buildTopHtml, assembleSplitVideo, TOP_W, TOP_H } = require('../netlify/functions/_lib/avatar-reel');
 const { generateTalkingHead, estimateCostUsd } = require('../netlify/functions/_lib/talking-head');
@@ -62,9 +62,8 @@ async function sceneImage(db, bucket, cena) {
   const slug = conceptSlug(cena.conceito || cena.rotulo || 'cena');
   try {
     const cached = await db.getDoc('reel_cenas', slug);
-    if (cached?.objectPath && cached?.downloadToken) {
-      return firebaseDownloadUrl(bucket, cached.objectPath, cached.downloadToken);
-    }
+    const cachedUrl = cached ? audioUrlDe(cached, bucket) : null; // URL persistida > remontagem (05/08)
+    if (cachedUrl) return cachedUrl;
   } catch { /* sem cache */ }
   const gen = await generateIllustration(cena.visual || cena.conceito || '');
   if (!gen.ok) { log.warn('[avatar-reel] ilustração pulada', { slug, reason: gen.reason }); return null; }
@@ -73,7 +72,7 @@ async function sceneImage(db, bucket, cena) {
   if (!up.ok) return null;
   await db.setDoc('reel_cenas', slug, {
     conceito: cena.conceito || '', visual: cena.visual || '',
-    objectPath, downloadToken: up.downloadToken, criadoEm: new Date().toISOString(),
+    objectPath, downloadToken: up.downloadToken, url: up.url, criadoEm: new Date().toISOString(),
   }).catch(() => {});
   return up.url;
 }
@@ -118,7 +117,7 @@ async function sceneImage(db, bucket, cena) {
   const topFrames = await renderCarousel(topHtml, totalFrames, { width: TOP_W, height: TOP_H, type: 'png' });
 
   // Áudio real do episódio.
-  const audioUrl = firebaseDownloadUrl(bucket, ep.objectPath, ep.downloadToken);
+  const audioUrl = audioUrlDe(ep, bucket); // URL persistida > remontagem (05/08)
   const audioBuf = await downloadBinary(audioUrl);
   const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'avatar-audio-'));
   const tmpAudio = path.join(tmpDir, 'ep.mp3');

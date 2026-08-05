@@ -13,6 +13,7 @@ const { tituloEmIngles } = require('../netlify/functions/_lib/scoring');
 const { specialtySlug } = require('../netlify/functions/_lib/slug');
 const { extractAnthropicText } = require('../netlify/functions/_lib/anthropic-text');
 const { registrar, logCusto } = require('../netlify/functions/_lib/ai-meter');
+const { verifyUrl } = require('../netlify/functions/_lib/storage');
 const { isHealthSystemCost, isResultadosIndisponiveis, isHealthPromotionBehavior, isBibliometricScoping } = require('../netlify/functions/daily-digest');
 
 const HOJE = process.env.AUDIT_DATE || new Date().toISOString().slice(0, 10);
@@ -122,6 +123,16 @@ const pausa = (ms) => new Promise(r => setTimeout(r, ms));
   for (const e of eps) {
     const secs = Number(e.secs) || 0;
     if (secs < 40) falhas.push(`[episódio ${e.id}] áudio curto demais (${secs}s) — casca vazia?`);
+    // E. URL PERSISTIDA (incidente 05/08 — player 0:00): todo episódio do dia
+    // precisa ter a URL de download gravada no doc E servindo o 1º byte. É a
+    // MESMA string que os leitores entregam ao navegador — se falhar aqui, o
+    // dentista está sem áudio agora, não importa o que o job de podcasts disse.
+    if (!e.url) {
+      falhas.push(`[episódio ${e.id}] SEM URL persistida — leitores caem na remontagem por env (causa dos players 0:00)`);
+    } else {
+      const vu = await verifyUrl(e.url);
+      if (!vu.ok) falhas.push(`[episódio ${e.id}] URL persistida NÃO serve o áudio (HTTP ${vu.status}) — dentista sem áudio AGORA`);
+    }
     if (!String(e.roteiro || '').trim()) { falhas.push(`[episódio ${e.id}] SEM roteiro gravado`); continue; }
 
     // C. Veredito: só roteiros que falam de comparação/diferença.

@@ -15,7 +15,7 @@
 const crypto = require('crypto');
 const { Firestore } = require('./_lib/firestore');
 const { isPremium } = require('./_lib/plans');
-const { firebaseDownloadUrl } = require('./_lib/storage');
+const { audioUrlDe } = require('./_lib/storage');
 const log = require('./_lib/logger');
 
 const MAX_ITENS = 500;
@@ -35,7 +35,7 @@ async function findEpisode(db, pmid) {
       limit: 5,
     }).catch(() => []);
     const hit = eps
-      .filter(e => e.objectPath && e.downloadToken && e.tipo !== 'completo')
+      .filter(e => (e.url || (e.objectPath && e.downloadToken)) && e.tipo !== 'completo')
       .sort((a, b) => (b.date || '').localeCompare(a.date || ''))[0];
     if (hit) return hit;
   }
@@ -60,12 +60,14 @@ function frozenFields(art) {
 // preservado pela retenção), senão o episódio congelado no item (válido ~14d).
 async function resolveAudio(db, bucket, item) {
   const salvo = await db.getDoc('podcast_salvos', String(item.pmid)).catch(() => null);
-  if (salvo?.objectPath && salvo?.downloadToken) {
-    return { url: firebaseDownloadUrl(bucket, salvo.objectPath, salvo.downloadToken), secs: salvo.secs || item.audioSecs || 0 };
+  const urlSalvo = salvo ? audioUrlDe(salvo, bucket) : null; // URL persistida > remontagem (05/08)
+  if (urlSalvo) {
+    return { url: urlSalvo, secs: salvo.secs || item.audioSecs || 0 };
   }
-  if (item.audioPath && item.audioToken) {
-    return { url: firebaseDownloadUrl(bucket, item.audioPath, item.audioToken), secs: item.audioSecs || 0 };
-  }
+  // Episódio congelado no item: a URL congelada (audioUrlSalva) vence; o par
+  // path/token remontado é só o legado.
+  const urlItem = audioUrlDe({ url: item.audioUrlSalva, objectPath: item.audioPath, downloadToken: item.audioToken }, bucket);
+  if (urlItem) return { url: urlItem, secs: item.audioSecs || 0 };
   return null;
 }
 
@@ -146,7 +148,7 @@ exports.handler = async (event) => {
           }
           if (precisaAudio) {
             const ep = await findEpisode(db, it.pmid);
-            if (ep) { patch.audioPath = ep.objectPath; patch.audioToken = ep.downloadToken; patch.audioSecs = ep.secs || 0; }
+            if (ep) { patch.audioPath = ep.objectPath; patch.audioToken = ep.downloadToken; patch.audioUrlSalva = ep.url || ''; patch.audioSecs = ep.secs || 0; }
           }
           if (Object.keys(patch).length) {
             Object.assign(it, patch);
@@ -193,6 +195,7 @@ exports.handler = async (event) => {
         ...frozenFields(art),
         audioPath:     ep?.objectPath || '',
         audioToken:    ep?.downloadToken || '',
+        audioUrlSalva: ep?.url || '', // URL verificada na geração — leitor prefere ela (05/08)
         audioSecs:     ep?.secs || 0,
         colecao:       '',
         nota:          '',

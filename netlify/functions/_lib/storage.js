@@ -29,10 +29,19 @@ function firebaseDownloadUrl(bucket, objectPath, token) {
 // 04/08 — player 0:00 no site: doc apontava para áudio que o navegador não
 // carregava). Pede só o 1º byte (Range) — não baixa o arquivo. 200/206 = ok.
 async function verifyDownloadUrl(bucket, objectPath, token) {
+  return verifyUrl(firebaseDownloadUrl(bucket, objectPath, token));
+}
+
+// Verifica uma URL de download JÁ PRONTA (a string persistida no doc — a mesma
+// que o navegador vai usar). Incidente 05/08: verificar uma URL REMONTADA no
+// job não prova nada sobre a URL que o leitor remonta em outro ambiente; a
+// prova válida é sobre a string exata que ficou gravada.
+async function verifyUrl(url) {
   try {
+    const u = new URL(String(url || ''));
     const res = await request({
-      hostname: FB_HOST,
-      path: `/v0/b/${bucket}/o/${encodeURIComponent(objectPath)}?alt=media&token=${token}`,
+      hostname: u.hostname,
+      path: u.pathname + u.search,
       method: 'GET',
       headers: { Range: 'bytes=0-0' },
     }, null);
@@ -40,6 +49,17 @@ async function verifyDownloadUrl(bucket, objectPath, token) {
   } catch (err) {
     return { ok: false, status: 0, err: err.message };
   }
+}
+
+// URL de áudio de um episódio/doc: SEMPRE a URL persistida (`url`, gravada e
+// verificada byte-a-byte na geração); a remontagem por bucket/token é só o
+// fallback para docs legados. Causa-raiz dos players 0:00 de 04-05/08: o job
+// gera com o bucket do Actions e cada leitor REMONTAVA com o bucket do
+// ambiente Netlify — qualquer divergência de env quebrava o áudio no site.
+function audioUrlDe(doc, bucket) {
+  if (doc && doc.url) return doc.url;
+  if (doc && doc.objectPath && doc.downloadToken) return firebaseDownloadUrl(bucket, doc.objectPath, doc.downloadToken);
+  return null;
 }
 
 // Sobe um mp3 e retorna { ok, url, downloadToken } ou { skipped, reason }.
@@ -182,4 +202,4 @@ async function deleteObject(objectPath) {
   return { ok: res.status === 200 || res.status === 204 || res.status === 404, status: res.status };
 }
 
-module.exports = { uploadMp3, uploadImage, copyObject, deleteObject, firebaseDownloadUrl, verifyDownloadUrl, newDownloadToken, _bucketName: bucketName };
+module.exports = { uploadMp3, uploadImage, copyObject, deleteObject, firebaseDownloadUrl, verifyDownloadUrl, verifyUrl, audioUrlDe, newDownloadToken, _bucketName: bucketName };

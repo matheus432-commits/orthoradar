@@ -13,7 +13,7 @@
 
 const { Firestore } = require('./_lib/firestore');
 const { checkAdmin } = require('./_lib/admin-guard');
-const { firebaseDownloadUrl } = require('./_lib/storage');
+const { audioUrlDe } = require('./_lib/storage');
 const log = require('./_lib/logger');
 
 const sel = (...paths) => ({ fields: paths.map(fieldPath => ({ fieldPath })) });
@@ -26,22 +26,24 @@ async function audioMap(db, bucket) {
   // Arquivo permanente (mais antigo) + coleção quente (recentes, sobrescreve).
   for (const coll of ['podcast_arquivo', 'podcast_episodios']) {
     const eps = await db.query(coll, {
-      select: sel('artigoId', 'objectPath', 'downloadToken', 'secs'), limit: 5000,
+      select: sel('artigoId', 'objectPath', 'downloadToken', 'url', 'secs'), limit: 5000,
     }).catch(() => []);
     for (const e of eps) {
       const k = String(e.artigoId || '');
-      if (k && e.objectPath && e.downloadToken) {
-        map.set(k, { url: firebaseDownloadUrl(bucket, e.objectPath, e.downloadToken), secs: Number(e.secs) || 0 });
+      const url = audioUrlDe(e, bucket); // URL persistida > remontagem (05/08)
+      if (k && url) {
+        map.set(k, { url, secs: Number(e.secs) || 0 });
       }
     }
   }
   // Preservados (acervo permanente) — têm prioridade (nunca somem).
   const salvos = await db.query('podcast_salvos', {
-    select: sel('objectPath', 'downloadToken', 'secs'), limit: 5000,
+    select: sel('objectPath', 'downloadToken', 'url', 'secs'), limit: 5000,
   }).catch(() => []);
   for (const s of salvos) {
-    if (s.id && s.objectPath && s.downloadToken) {
-      map.set(String(s.id), { url: firebaseDownloadUrl(bucket, s.objectPath, s.downloadToken), secs: Number(s.secs) || 0 });
+    const url = audioUrlDe(s, bucket);
+    if (s.id && url) {
+      map.set(String(s.id), { url, secs: Number(s.secs) || 0 });
     }
   }
   return map;
@@ -77,7 +79,7 @@ exports.handler = async (event) => {
       const pmid = String(a.pmid || a.id);
       let audio = await db.getDoc('podcast_salvos', pmid).catch(() => null);
       let audioUrl = null, secs = 0;
-      if (audio?.objectPath && audio?.downloadToken) { audioUrl = firebaseDownloadUrl(bucket, audio.objectPath, audio.downloadToken); secs = Number(audio.secs) || 0; }
+      if (audio) { audioUrl = audioUrlDe(audio, bucket); secs = audioUrl ? (Number(audio.secs) || 0) : 0; }
       return {
         statusCode: 200, headers,
         body: JSON.stringify({
