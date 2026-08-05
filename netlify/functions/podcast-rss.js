@@ -15,7 +15,7 @@
 const { Firestore } = require('./_lib/firestore');
 const { rateLimited } = require('./_lib/rate-limit');
 const { specialtySlug } = require('./_lib/slug');
-const { firebaseDownloadUrl } = require('./_lib/storage');
+const { audioUrlDe } = require('./_lib/storage');
 
 const BASE_URL = process.env.SITE_URL || 'https://odontofeed.com';
 const MAX_ITEMS = 50;
@@ -50,7 +50,7 @@ async function historyEpisodes(db, slug) {
       limit: MAX_ITEMS * 2,
     });
     return docs
-      .filter(e => e.objectPath && e.downloadToken && e.tipo !== 'completo')
+      .filter(e => (e.url || (e.objectPath && e.downloadToken)) && e.tipo !== 'completo')
       .sort((a, b) => (b.date || '').localeCompare(a.date || '') || (a.n || 0) - (b.n || 0))
       .slice(0, MAX_ITEMS);
   } catch {
@@ -64,11 +64,11 @@ async function todaysEpisodes(db, slug) {
     const doc = await db.getDoc('podcasts', slug);
     if (!doc) return [];
     const eps = (Array.isArray(doc.episodios) ? doc.episodios : [])
-      .filter(e => e.objectPath && e.downloadToken)
+      .filter(e => e.url || (e.objectPath && e.downloadToken))
       .map(e => ({ ...e, date: doc.date || '', especialidade: doc.especialidade || '' }));
-    if (!eps.length && doc.objectPath && doc.downloadToken) {
+    if (!eps.length && (doc.url || (doc.objectPath && doc.downloadToken))) {
       eps.push({ n: 1, titulo: doc.titulo || '', objectPath: doc.objectPath,
-                 downloadToken: doc.downloadToken, date: doc.date || '' });
+                 downloadToken: doc.downloadToken, url: doc.url || '', date: doc.date || '' });
     }
     return eps;
   } catch {
@@ -119,7 +119,7 @@ function buildFeed(especialidade, episodes, bucket, opts = {}) {
       <link>${BASE_URL}/</link>
       <guid isPermaLink="false">odontofeed-${escapeXml(ep.slug || specialtySlug(espEp || especialidade))}-${date}-${guidSuffix}</guid>
       <pubDate>${rfc2822(date)}</pubDate>
-      <enclosure url="${escapeXml(firebaseDownloadUrl(bucket, ep.objectPath, ep.downloadToken))}" type="audio/mpeg" length="${Number(ep.bytes) || 0}"/>
+      <enclosure url="${escapeXml(audioUrlDe(ep, bucket))}" type="audio/mpeg" length="${Number(ep.bytes) || 0}"/>
       <itunes:title>${escapeXml(titulo)}</itunes:title>${Number(ep.secs) > 0 ? `
       <itunes:duration>${Number(ep.secs)}</itunes:duration>` : ''}
       <itunes:episodeType>full</itunes:episodeType>

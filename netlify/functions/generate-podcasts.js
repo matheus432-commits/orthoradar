@@ -20,7 +20,7 @@ const { generateScript } = require('./_lib/podcast-script');
 const { synthesizeLong } = require('./_lib/tts');
 // DIRETRIZ 22/07: nenhum objeto de áudio é deletado do Storage (acervo da
 // futura biblioteca pública) — por isso não importamos deleteObject.
-const { uploadMp3, verifyDownloadUrl } = require('./_lib/storage');
+const { uploadMp3, verifyUrl } = require('./_lib/storage');
 const { billableChars } = require('./_lib/tts-budget');
 const { mp3DurationSecs, mp3Silence } = require('./_lib/mp3');
 const { specialtySlug: slug, espDigestSlug } = require('./_lib/slug');
@@ -221,6 +221,11 @@ async function main() {
             titulo:        art.titulo_pt || art.titulo || '',
             objectPath:    path,
             downloadToken: up.downloadToken,
+            // URL DEFINITIVA do áudio (incidente 05/08 — player 0:00): a URL é
+            // construída UMA vez aqui, com o bucket REAL do upload, verificada
+            // byte-a-byte e persistida. Os leitores usam ESTA string — nunca
+            // mais remontam a URL com o env de outro ambiente.
+            url:           up.url,
             chars:         billableChars(script),
             bytes:         audio.length,
             secs:          mp3DurationSecs(audio),
@@ -254,6 +259,7 @@ async function main() {
             compilado = {
               objectPath:    fullPath,
               downloadToken: upFull.downloadToken,
+              url:           upFull.url,
               bytes:         fullBuf.length,
               secs:          mp3DurationSecs(fullBuf),
               titulos:       episodios.map(e => e.titulo),
@@ -280,6 +286,7 @@ async function main() {
           titulo:        episodios[0].titulo,
           objectPath:    episodios[0].objectPath,
           downloadToken: episodios[0].downloadToken,
+          url:           episodios[0].url,
           geradoEm:      new Date().toISOString(),
         };
         let ponteiroOk = false;
@@ -291,18 +298,21 @@ async function main() {
             ponteiroOk = relido?.date === today &&
               Array.isArray(relido.episodios) &&
               relido.episodios.length === episodios.length &&
-              relido.episodios.every(e => e.objectPath && e.downloadToken);
-            // URL DE ÁUDIO precisa SERVIR de verdade (incidente 04/08: player
-            // 0:00 no site). Confere o 1º byte do 1º episódio via a MESMA URL
-            // pública que o navegador usa — doc certo com áudio inacessível
-            // também é falha de persistência.
+              relido.episodios.every(e => e.objectPath && e.downloadToken && e.url);
+            // URL DE ÁUDIO precisa SERVIR de verdade (incidentes 04-05/08:
+            // player 0:00 no site). Confere o 1º byte de CADA episódio usando a
+            // STRING PERSISTIDA relida do doc — a mesma que o navegador vai
+            // receber. Verificar uma URL remontada aqui não prova nada sobre o
+            // que os leitores entregam; a prova válida é sobre o que ficou
+            // gravado.
             if (ponteiroOk) {
-              const bkt = process.env.GCS_BUCKET || `${projectId}.appspot.com`;
-              const ep1 = relido.episodios[0];
-              const vu = await verifyDownloadUrl(bkt, ep1.objectPath, ep1.downloadToken);
-              if (!vu.ok) {
-                log.warn('[podcasts] URL de download NÃO serve o áudio', { esp, status: vu.status, err: vu.err });
-                ponteiroOk = false;
+              for (const ep of relido.episodios) {
+                const vu = await verifyUrl(ep.url);
+                if (!vu.ok) {
+                  log.warn('[podcasts] URL persistida NÃO serve o áudio', { esp, ep: ep.n, status: vu.status, err: vu.err });
+                  ponteiroOk = false;
+                  break;
+                }
               }
             }
             if (!ponteiroOk) log.warn('[podcasts] verificação pós-gravação reprovou — regravando', { esp, tent });
@@ -332,6 +342,7 @@ async function main() {
             titulo:        ep.titulo,
             objectPath:    ep.objectPath,
             downloadToken: ep.downloadToken,
+            url:           ep.url,
             bytes:         ep.bytes,
             secs:          ep.secs,
             roteiro:       ep.roteiro || '',
@@ -351,6 +362,7 @@ async function main() {
             titulos:       compilado.titulos,
             objectPath:    compilado.objectPath,
             downloadToken: compilado.downloadToken,
+            url:           compilado.url,
             bytes:         compilado.bytes,
             secs:          compilado.secs,
             geradoEm:      new Date().toISOString(),

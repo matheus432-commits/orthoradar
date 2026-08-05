@@ -1,0 +1,39 @@
+# Backfill das URLs de áudio persistidas (incidente 05/08 — player 0:00).
+#
+# SÓ manual (workflow_dispatch) e SEM custo de IA/TTS: apenas lê os docs de
+# podcast, monta a URL com o bucket REAL do upload, verifica o 1º byte e grava
+# o campo `url`. Cura os episódios já publicados sem regenerar nenhum áudio.
+# O relatório PASS/FAIL no log também prova (ou descarta) a hipótese de
+# divergência de bucket entre o Actions e o Netlify.
+
+name: Backfill URLs de Áudio
+
+on:
+  workflow_dispatch:
+    inputs:
+      date:
+        description: 'Só episódios desta data (YYYY-MM-DD); vazio = todas'
+        required: false
+        default: ''
+
+jobs:
+  backfill:
+    name: Backfill + verificação byte-a-byte
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Backfill das URLs
+        env:
+          FIREBASE_PROJECT_ID:      ${{ secrets.FIREBASE_PROJECT_ID }}
+          FIREBASE_API_KEY:         ${{ secrets.FIREBASE_API_KEY }}
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          GCP_SERVICE_ACCOUNT_JSON: ${{ secrets.GCP_SERVICE_ACCOUNT_JSON }}
+          GCS_BUCKET:               ${{ secrets.GCS_BUCKET }}
+          BACKFILL_DATE:            ${{ github.event.inputs.date || '' }}
+        run: node scripts/backfill-audio-urls.js

@@ -13,7 +13,7 @@
 
 const { Firestore } = require('./_lib/firestore');
 const { checkAdmin } = require('./_lib/admin-guard');
-const { firebaseDownloadUrl } = require('./_lib/storage');
+const { audioUrlDe } = require('./_lib/storage');
 const { specialtySlug } = require('./_lib/slug');
 const log = require('./_lib/logger');
 
@@ -58,8 +58,9 @@ exports.handler = async (event) => {
       if (e.tipo === 'completo') { if (e.especialidade) compiladas.add(e.especialidade); continue; }
       episodiosDia++;
       const k = String(e.artigoId || '');
-      if (k && e.objectPath && e.downloadToken) {
-        audioPorArtigo.set(k, { url: firebaseDownloadUrl(bucket, e.objectPath, e.downloadToken), secs: Number(e.secs) || 0 });
+      const url = audioUrlDe(e, bucket); // URL persistida > remontagem (05/08)
+      if (k && url) {
+        audioPorArtigo.set(k, { url, secs: Number(e.secs) || 0 });
       }
     }
 
