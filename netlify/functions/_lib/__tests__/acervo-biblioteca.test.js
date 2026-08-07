@@ -70,7 +70,7 @@ describe('biblioteca.html — página do acervo', () => {
 
   test('temas DEPENDEM da especialidade escolhida (bug 08/08: lista global só de Prótese)', () => {
     assert.ok(html.includes('function encherTemas()'), 'recalcula temas por especialidade');
-    assert.match(html, /filter\(a=>!esp\|\|a\.especialidade===esp\)/, 'temas vêm só da especialidade filtrada');
+    assert.match(html, /esp&&a\.especialidade!==esp/, 'temas vêm só da especialidade filtrada');
     assert.ok(html.includes("onchange=\"encherTemas();render()\""), 'trocar especialidade refaz os temas');
     // Feedback do fundador 08/08: o seletor NUNCA some — sem temas ele fica
     // visível porém desabilitado, com o aviso "em breve".
