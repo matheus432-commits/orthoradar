@@ -1,0 +1,33 @@
+# Migração retroativa de TEMAS por especialidade (fundador 08/08).
+# SÓ manual (workflow_dispatch) e SEM IA — classificador determinístico por
+# palavras-chave, custo zero. dry_run=true imprime só o relatório.
+
+name: Gerar Temas (Biblioteca)
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'true = só relatório, sem gravar'
+        required: false
+        default: 'false'
+
+jobs:
+  gerar:
+    name: Classificar temas (determinístico)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Classificar acervo
+        env:
+          FIREBASE_PROJECT_ID:      ${{ secrets.FIREBASE_PROJECT_ID }}
+          FIREBASE_API_KEY:         ${{ secrets.FIREBASE_API_KEY }}
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          DRY_RUN:                  ${{ github.event.inputs.dry_run || 'false' }}
+        run: node scripts/gerar-temas.js
