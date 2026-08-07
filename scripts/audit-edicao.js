@@ -119,6 +119,27 @@ const pausa = (ms) => new Promise(r => setTimeout(r, ms));
     if (n === 0) {
       falhas.push(`[${esp}] edição do dia SEM PODCAST — 0 episódios gerados (ERRO GRAVE: dentista sem áudio)`);
     }
+
+    // F. DOC PONTEIRO (incidente 07/08): o SITE lê podcasts/{slug} via
+    // get-edicao — auditar só o histórico (podcast_episodios) deixava o
+    // caminho do usuário sem cobertura. Confere: doc de HOJE, todo episódio
+    // com URL persistida SERVINDO, e artigoIds casando com a edição (o front
+    // só mostra o player quando o id bate com um artigo do digest).
+    const ponteiro = await db.getDoc('podcasts', slug).catch(() => null);
+    if (!ponteiro || ponteiro.date !== HOJE) {
+      falhas.push(`[${esp}] doc podcasts/${slug} ${ponteiro ? `é de ${ponteiro.date}` : 'NÃO EXISTE'} — site sem áudio de hoje`);
+    } else {
+      const pEps = Array.isArray(ponteiro.episodios) ? ponteiro.episodios : [];
+      const idsEdicao = new Set((d.artigos || []).map(a => String(a.pmid || a.id || '')));
+      for (const e of pEps) {
+        if (!e.url) { falhas.push(`[${esp}] ponteiro ep${e.n} SEM URL persistida — leitor cai na remontagem por env`); continue; }
+        const vu = await verifyUrl(e.url);
+        if (!vu.ok) falhas.push(`[${esp}] ponteiro ep${e.n}: URL persistida NÃO serve (HTTP ${vu.status}) — dentista sem áudio AGORA`);
+        if (!idsEdicao.has(String(e.artigoId || ''))) {
+          falhas.push(`[${esp}] ponteiro ep${e.n} aponta artigo ${e.artigoId} que NÃO está na edição — front não mostra o player`);
+        }
+      }
+    }
   }
   for (const e of eps) {
     const secs = Number(e.secs) || 0;
