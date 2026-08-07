@@ -101,7 +101,7 @@ function buildPrompt(article) {
   );
 }
 
-// ── Cost tracker (per process lifetime) ──────────────────────────────────────
+// ── Cost tracker (per process lifetime) ────────────────────────────────────
 
 let _runCostUsd = 0;
 
@@ -161,7 +161,7 @@ function corrigirEspecialidade(esp, article) {
   return esp;
 }
 
-// ── Core API call ─────────────────────────────────────────────────────────────
+// ── Core API call ──────────────────────────────────────────────────────────────────
 
 async function callClaude(prompt, attempt = 0, model = MODEL, maxTokens = MAX_TOKENS, etapa = 'enriquecimento') {
   const apiKey = process.env.ANTHROPIC_API_KEY;
@@ -218,7 +218,7 @@ async function callClaude(prompt, attempt = 0, model = MODEL, maxTokens = MAX_TO
   return { text, inputTokens: usage.input_tokens || 0, outputTokens: usage.output_tokens || 0 };
 }
 
-// ── Public interface ──────────────────────────────────────────────────────────
+// ── Public interface ──────────────────────────────────────────────────────────────
 
 /**
  * Enriches a raw article with Claude Haiku.
@@ -265,7 +265,21 @@ async function enrichArticle(article) {
     cost_usd:      _runCostUsd.toFixed(4),
   });
 
+  // Especialidade final primeiro — o TEMA (taxonomia da /biblioteca) é
+  // classificado de forma DETERMINÍSTICA sobre ela (decisão 08/08: sem
+  // chamada de IA — palavras-chave locais, custo zero, sem falha de rede).
+  const espFinal = corrigirEspecialidade(
+    CANONICAL_ESPECIALIDADES.includes(enriched.especialidade)
+      ? enriched.especialidade
+      : (enriched.especialidade ? 'Odontologia Geral' : null),
+    { ...article, titulo_pt: enriched.titulo_pt });
+  const { classificarTema } = require('./temas-classificador');
   return {
+    tema: classificarTema({
+      especialidade: espFinal,
+      titulo_pt: enriched.titulo_pt, titulo: article.titulo || article.title,
+      resumo_pt: enriched.resumo_pt, abstract: article.abstract,
+    }),
     titulo_pt:         corrigirTermosBR(String(enriched.titulo_pt || '').slice(0, 200)),
     resumo_pt:         corrigirTermosBR(String(enriched.resumo_pt  || '').slice(0, 2000)),
     impacto_pratico:   corrigirTermosBR(String(enriched.impacto_pratico || '').slice(0, 500)),
@@ -283,15 +297,11 @@ async function enrichArticle(article) {
     // true (não derruba o acervo antigo); o detector determinístico pega o resto.
     resultados_disponiveis: !(enriched.resultados_disponiveis === false || String(enriched.resultados_disponiveis).toLowerCase() === 'false'),
     // 'Odontologia Geral' (para 'Outra'/inválida) nunca casa com digest de especialidade
-    especialidade:     corrigirEspecialidade(
-      CANONICAL_ESPECIALIDADES.includes(enriched.especialidade)
-        ? enriched.especialidade
-        : (enriched.especialidade ? 'Odontologia Geral' : null),
-      { ...article, titulo_pt: enriched.titulo_pt }),
+    especialidade:     espFinal,
   };
 }
 
-// ── Resumo completo (site) ────────────────────────────────────────────────────
+// ── Resumo completo (site) ────────────────────────────────────────────────────────
 // Resumo detalhado (~350-450 palavras) exibido na /edicao.html pelo botão
 // "Ler o resumo". Diretriz 19/07/2026 (v2, pedido do fundador): PROSA FLUIDA —
 // sem títulos de seção nem tópicos — mas cobrindo obrigatoriamente as mesmas
