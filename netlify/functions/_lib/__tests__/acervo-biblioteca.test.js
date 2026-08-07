@@ -72,7 +72,11 @@ describe('biblioteca.html — página do acervo', () => {
     assert.ok(html.includes('function encherTemas()'), 'recalcula temas por especialidade');
     assert.match(html, /filter\(a=>!esp\|\|a\.especialidade===esp\)/, 'temas vêm só da especialidade filtrada');
     assert.ok(html.includes("onchange=\"encherTemas();render()\""), 'trocar especialidade refaz os temas');
-    assert.match(html, /style\.display=temas\.length\?'':'none'/, 'sem tema na seleção → filtro some (não engana)');
+    // Feedback do fundador 08/08: o seletor NUNCA some — sem temas ele fica
+    // visível porém desabilitado, com o aviso "em breve".
+    assert.ok(html.includes('sel.disabled=true'), 'sem temas → desabilitado, não oculto');
+    assert.ok(html.includes('Temas — em breve nesta especialidade'), 'aviso explica a ausência');
+    assert.ok(!html.includes("style.display=temas.length"), 'o comportamento de esconder foi removido');
   });
 
   test('403 premium_required → tela de convite Premium (não tela de erro)', () => {
