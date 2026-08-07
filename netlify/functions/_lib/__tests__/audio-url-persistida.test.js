@@ -118,7 +118,7 @@ describe('cadeia gravação → leitura usa a URL persistida', () => {
 
   test('nenhum leitor de episódio remonta URL diretamente (todos via audioUrlDe)', () => {
     const leitores = ['get-edicao.js', 'get-podcast.js', 'get-painel.js', 'get-arquivo.js',
-                      'biblioteca.js', 'podcast-rss.js', 'instagram-reel.js'];
+                      'biblioteca.js', 'podcast-rss.js', 'instagram-reel.js', 'health-audio.js'];
     for (const f of leitores) {
       const code = src(path.join(FUNCS, f));
       assert.ok(code.includes('audioUrlDe'), `${f} deve usar audioUrlDe`);
@@ -131,5 +131,23 @@ describe('cadeia gravação → leitura usa a URL persistida', () => {
     const audit = src(path.join(FUNCS, '..', '..', 'scripts', 'audit-edicao.js'));
     assert.match(audit, /SEM URL persistida/);
     assert.match(audit, /verifyUrl\(e\.url\)/);
+  });
+
+  test('auditoria cobre também o DOC PONTEIRO que o site lê (incidente 07/08)', () => {
+    // O get-edicao lê podcasts/{slug}; auditar só o histórico deixava o
+    // caminho do usuário sem cobertura — o áudio podia sumir do site com a
+    // auditoria verde. Agora: doc de hoje + URL persistida servindo + artigoId
+    // casando com a edição, tudo reprovável em vermelho.
+    const audit = src(path.join(FUNCS, '..', '..', 'scripts', 'audit-edicao.js'));
+    assert.match(audit, /getDoc\('podcasts', slug\)/);
+    assert.match(audit, /ponteiro\.date !== HOJE/);
+    assert.match(audit, /NÃO está na edição/);
+  });
+
+  test('health-audio existe, é admin-only e testa o caminho do get-edicao no Netlify', () => {
+    const h = src(path.join(FUNCS, 'health-audio.js'));
+    assert.ok(h.includes('checkAdmin(event)'), 'diagnóstico é exclusivo do admin');
+    assert.ok(h.includes('audioUrlDe(') && h.includes('verifyUrl('), 'testa a URL exatamente como o leitor entrega');
+    assert.match(h, /digests_especialidade/, 'confere o pareamento episódio↔edição');
   });
 });
