@@ -134,9 +134,13 @@ function encherTemas(){
   const sel=$('f-tema');
   const esp=$('f-esp').value;
   const atual=sel.value;
-  const temas=[...new Set(DADOS.artigos
-    .filter(a=>!esp||a.especialidade===esp)
-    .map(a=>a.tema).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'pt-BR'));
+  // Ordena por FREQUÊNCIA (tema com mais artigos primeiro; empate alfabético).
+  const freq=new Map();
+  for(const a of DADOS.artigos){
+    if((esp&&a.especialidade!==esp)||!a.tema)continue;
+    freq.set(a.tema,(freq.get(a.tema)||0)+1);
+  }
+  const temas=[...freq.keys()].sort((a,b)=>freq.get(b)-freq.get(a)||a.localeCompare(b,'pt-BR'));
   if(temas.length){
     sel.disabled=false;
     sel.innerHTML='<option value="">Todos os temas</option>'+temas.map(opt).join('');
