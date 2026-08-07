@@ -27,6 +27,14 @@
   to = "https://open.spotify.com/show/033SQ8fzusV57wuFNGXtde"
   status = 302
 
+# Página de preços: os planos vivem na home (#planos) — rota curta estável
+# para materiais/links. (/biblioteca dispensa redirect: pretty URL do Netlify
+# já serve biblioteca.html, como /dashboard.)
+[[redirects]]
+  from = "/precos"
+  to = "/#planos"
+  status = 302
+
 [functions."cleanup-articles"]
   schedule = "0 3 * * 0"
 
