@@ -16,6 +16,7 @@ const { TAXONOMIA, temaValido } = require('./temas-taxonomia');
 // vence o que define o estudo, não o acessório.
 const PADROES = {
   'Ortodontia': [
+    ['Distalização', /distaliza|distaliz/i],
     ['Expansão palatina', /expans[ãa]o (palatina|maxilar|r[áa]pida)|palatal expansion|maxillary expansion|\bmarpe\b|\brme\b/i],
     ['Alinhadores invisíveis', /alinhador|aligner|invisalign/i],
     ['Ancoragem esquelética e mini-implantes', /mini-?(implante|screw|parafuso)|\btads?\b|ancoragem esquel|skeletal anchorage|miniscrew/i],
@@ -31,7 +32,6 @@ const PADROES = {
     ['ATM e ortodontia', /\batm\b.*ortod|\btmj\b.*orthod|temporomandibular.*ortod/i],
     ['Surgery-first', /surgery-?first/i],
     ['Biomecânica ortodôntica', /biomec[âa]nic|fio ortod|archwire|torque|for[çc]a ortod/i],
-    ['Distalização', /distaliza|distaliz/i],
     ['Ortodontia e sono/apneia', /apneia|apnea|\bosa\b|sono|sleep/i],
   ],
   'Implantodontia': [
