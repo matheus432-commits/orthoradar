@@ -127,16 +127,25 @@ function encherFiltros(){
 // Temas DEPENDEM da especialidade escolhida (bug 08/08: a lista global
 // mostrava só os temas de Prótese para qualquer especialidade — os docs das
 // outras áreas ainda não têm `tema` preenchido). Sem tema na seleção atual,
-// o filtro fica oculto em vez de enganar.
+// o seletor CONTINUA VISÍVEL (feedback do fundador 08/08 — sumir parecia
+// bug), apenas desabilitado com o aviso; os temas povoam conforme os artigos
+// novos chegam com o campo preenchido.
 function encherTemas(){
+  const sel=$('f-tema');
   const esp=$('f-esp').value;
-  const atual=$('f-tema').value;
+  const atual=sel.value;
   const temas=[...new Set(DADOS.artigos
     .filter(a=>!esp||a.especialidade===esp)
     .map(a=>a.tema).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'pt-BR'));
-  $('f-tema').innerHTML='<option value="">Todos os temas</option>'+temas.map(opt).join('');
-  $('f-tema').value=temas.includes(atual)?atual:'';
-  $('f-tema').style.display=temas.length?'':'none';
+  if(temas.length){
+    sel.disabled=false;
+    sel.innerHTML='<option value="">Todos os temas</option>'+temas.map(opt).join('');
+    sel.value=temas.includes(atual)?atual:'';
+  }else{
+    sel.disabled=true;
+    sel.innerHTML='<option value="">Temas — em breve nesta especialidade</option>';
+    sel.value='';
+  }
 }
 
 function filtrar(){
