@@ -244,7 +244,13 @@ function wirePlayers(){
         // pausa qualquer outro áudio tocando
         document.querySelectorAll('audio').forEach(a => { if (a !== audio) a.pause(); });
         document.querySelectorAll('.player .pp').forEach(b => { if (b !== pp) b.textContent = '▶'; });
-        p.classList.add('open'); audio.play(); pp.textContent = '⏸';
+        // preload="none": garante o load() antes do play() (no mobile o play
+        // sem load falha em silêncio — incidentes 04-08/08) e só marca ⏸
+        // quando o áudio realmente começou.
+        p.classList.add('open');
+        if (audio.readyState === 0) audio.load();
+        audio.play().then(() => { pp.textContent = '⏸'; })
+                    .catch(() => { pp.textContent = '▶'; });
       } else { audio.pause(); pp.textContent = '▶'; }
     };
     btn.onclick = toggle;
