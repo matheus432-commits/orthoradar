@@ -22,6 +22,18 @@ describe('acervo.js — backend da biblioteca', () => {
     assert.ok(code.includes('rateLimited(event'), 'endpoint tem rate limit');
   });
 
+  test('EXCLUSIVO do Premium (diretriz 07/08): sem isPremium → 403 premium_required', () => {
+    assert.ok(code.includes('isPremium(user)'), 'gate de plano no servidor');
+    assert.ok(code.includes("'premium_required'"), 'erro estruturado p/ o convite de upgrade');
+    // O gate precisa vir ANTES de qualquer entrega de dados do acervo (a
+    // comparação mira a CHAMADA no handler, não a definição da função).
+    assert.ok(code.indexOf('premium_required') < code.indexOf('Promise.all([mapaDeAudios('), 'gate antes do catálogo');
+  });
+
+  test('data do card é só a DATA (docs com timestamp ISO não quebram o badge)', () => {
+    assert.match(code, /data:\s*String\(a\.data \|\| au\.date \|\| ''\)\.slice\(0, 10\)/);
+  });
+
   test('regra do fundador: só artigo ATIVO com PODCAST e título PT vira card', () => {
     assert.ok(code.includes("!au || a.status !== 'active'"), 'sem áudio ou inativo → fora');
     assert.match(code, /titulo_pt[\s\S]{0,40}length < 10/, 'artigo cru nunca vira card');
@@ -54,6 +66,18 @@ describe('biblioteca.html — página do acervo', () => {
       assert.ok(html.includes('id="' + id + '"'), 'filtro ausente: ' + id);
     }
     assert.match(html, /titulo\+' '\+a\.resumo/, 'busca cobre título E resumo');
+  });
+
+  test('temas DEPENDEM da especialidade escolhida (bug 08/08: lista global só de Prótese)', () => {
+    assert.ok(html.includes('function encherTemas()'), 'recalcula temas por especialidade');
+    assert.match(html, /filter\(a=>!esp\|\|a\.especialidade===esp\)/, 'temas vêm só da especialidade filtrada');
+    assert.ok(html.includes("onchange=\"encherTemas();render()\""), 'trocar especialidade refaz os temas');
+    assert.match(html, /style\.display=temas\.length\?'':'none'/, 'sem tema na seleção → filtro some (não engana)');
+  });
+
+  test('403 premium_required → tela de convite Premium (não tela de erro)', () => {
+    assert.ok(html.includes("b.error==='premium_required'"), 'front trata o 403 estruturado');
+    assert.ok(html.includes('id="premium"'), 'tela de convite existe');
   });
 
   test('player de áudio HTML5 nativo inline + seção separada de podcasts + indicação de lido', () => {
