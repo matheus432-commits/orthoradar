@@ -30,6 +30,12 @@
 [functions."cleanup-articles"]
   schedule = "0 3 * * 0"
 
+# Afiliados: encerra comissões que cumpriram 12 meses (dia 1 de cada mês, 6h
+# UTC = 3h BRT). O relatório também trata expirados na leitura — o job só
+# materializa o estado (idempotente; resposta só com contadores).
+[functions."afiliados-expiracao"]
+  schedule = "0 6 1 * *"
+
 # "O Que Ficou" — weekly top-articles recap: agendado via GitHub Actions
 # (.github/workflows/weekly-digest.yml, sábado 11h UTC = 8h BRT) porque o envio
 # percorre todos os usuários e não cabe no timeout de ~26s do Netlify.

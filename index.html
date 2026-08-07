@@ -1048,12 +1048,24 @@ function normalizeRef(raw){
   for(const ch of up) if(!REF_ALFABETO.includes(ch)) return '';
   return up;
 }
+// Persistência dupla: localStorage + COOKIE de 30 dias (programa de
+// afiliados, 07/08) — o cookie cobre quem clica no link hoje e só se cadastra
+// dias depois, inclusive noutra aba/fluxo onde o localStorage não sobreviveu.
+function refCookie(){
+  const m=document.cookie.match(/(?:^|;\s*)of_ref=([A-Z2-9]{7})(?:;|$)/);
+  return m?normalizeRef(m[1]):'';
+}
 let REF_CODE='';
 (function captureRef(){
   try{
     const url=normalizeRef(new URLSearchParams(location.search).get('ref'));
-    if(url){REF_CODE=url;localStorage.setItem('of_ref',url);}
-    else{REF_CODE=normalizeRef(localStorage.getItem('of_ref'));}
+    if(url){
+      REF_CODE=url;
+      localStorage.setItem('of_ref',url);
+      document.cookie='of_ref='+url+';max-age='+(30*86400)+';path=/;samesite=lax;secure';
+    }else{
+      REF_CODE=normalizeRef(localStorage.getItem('of_ref'))||refCookie();
+    }
   }catch(e){}
 })();
 
