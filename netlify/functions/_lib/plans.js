@@ -31,6 +31,11 @@ const PLANS = {
     nome:          'Premium',
     precoMensal:   59.90,
     precoCentavos: 5990,
+    // Plano ANUAL (07/08): R$ 574,08 à vista = R$ 47,84/mês equivalente.
+    // Comunicação visual SEMPRE "2 meses grátis" — nunca "20% off".
+    precoAnual:            574.08,
+    precoAnualCentavos:    57408,
+    precoAnualMensalEquiv: 47.84,
     features: {
       digestDiario:      true,
       resumoCompleto:    true,

@@ -62,7 +62,7 @@ tfoot td{font-weight:700;border-top:2px solid var(--border);}
 
   <div id="dash">
     <h1>OdontoFeed<em>.</em> Afiliados</h1>
-    <p class="sub">R$ 10,00/mês por Premium ativo indicado, por 12 meses a partir da ativação paga. Premium de cortesia não gera comissão. <a class="voltar" href="/admin.html">← voltar ao painel</a></p>
+    <p class="sub">Comissão mensal por Premium ativo indicado, por 12 meses a partir da ativação paga: <b>R$ 10,00</b> (plano mensal, R$ 59,90/mês) · <b>R$ 7,99</b> (plano anual, R$ 574,08/ano = R$ 47,84/mês). Premium de cortesia não gera comissão. <a class="voltar" href="/admin.html">← voltar ao painel</a></p>
 
     <!-- LISTA -->
     <div id="vista-lista">
@@ -84,7 +84,7 @@ tfoot td{font-weight:700;border-top:2px solid var(--border);}
         </div>
         <div class="card" style="overflow-x:auto;">
           <table id="tbl-relatorio">
-            <thead><tr><th>Afiliado</th><th>Código</th><th>Premiums ativos indicados</th><th>Valor a pagar este mês</th></tr></thead>
+            <thead><tr><th>Afiliado</th><th>Código</th><th>Mensais (R$ 10,00)</th><th>Anuais (R$ 7,99)</th><th>Total ativos</th><th>Valor a pagar este mês</th></tr></thead>
             <tbody></tbody>
             <tfoot></tfoot>
           </table>
@@ -113,12 +113,12 @@ tfoot td{font-weight:700;border-top:2px solid var(--border);}
         <div class="card"><div class="t-label">Premium ativos</div><div class="t-val" id="d-prem" style="color:var(--green);">—</div><div class="t-sufix">comissão correndo</div></div>
         <div class="card"><div class="t-label">Comissão encerrada</div><div class="t-val" id="d-enc" style="color:var(--yellow);">—</div><div class="t-sufix">12 meses cumpridos</div></div>
         <div class="card"><div class="t-label">Acumulada paga</div><div class="t-val dinheiro" id="d-acum">—</div><div class="t-sufix">estimativa (meses × R$10)</div></div>
-        <div class="card"><div class="t-label">A pagar este mês</div><div class="t-val dinheiro" id="d-mes" style="color:var(--gold);">—</div><div class="t-sufix">Premium ativos × R$10</div></div>
+        <div class="card"><div class="t-label">A pagar este mês</div><div class="t-val dinheiro" id="d-mes" style="color:var(--gold);">—</div><div class="t-sufix">R$ 10 (mensal) · R$ 7,99 (anual)</div></div>
       </div>
       <div class="sec-title">Indicações</div>
       <div class="card" style="overflow-x:auto;">
         <table id="tbl-indicacoes">
-          <thead><tr><th>Dentista</th><th>Cadastro</th><th>Status</th><th>Meses restantes de comissão</th><th>Valor a pagar este mês</th></tr></thead>
+          <thead><tr><th>Dentista</th><th>Cadastro</th><th>Status</th><th>Plano</th><th>Comissão/mês</th><th>Meses restantes de comissão</th><th>Valor a pagar este mês</th></tr></thead>
           <tbody></tbody>
         </table>
       </div>
@@ -181,9 +181,11 @@ async function abrirDetalhe(codigo){
     '<tr><td><b>'+esc(i.nome||'—')+'</b><br><span style="color:var(--muted);font-size:11.5px;">'+esc(i.email)+'</span></td>'
     +'<td>'+esc(i.cadastradoEm||'—')+'</td>'
     +'<td><span class="badge '+i.cor+'">'+(STATUS_LABEL[i.status]||i.status)+'</span></td>'
+    +'<td>'+(i.plano?(i.plano==='anual'?'Anual':'Mensal'):'—')+'</td>'
+    +'<td class="dinheiro">'+(i.comissaoMensal?brl(i.comissaoMensal):'—')+'</td>'
     +'<td>'+(i.mesesRestantes||0)+'</td>'
     +'<td class="dinheiro">'+brl(i.valorMesAtual)+'</td></tr>').join('')
-    ||'<tr><td colspan="5" style="color:var(--muted);">sem indicações</td></tr>';
+    ||'<tr><td colspan="7" style="color:var(--muted);">sem indicações</td></tr>';
 }
 
 function pintaToggle(){
@@ -208,8 +210,9 @@ async function gerarRelatorio(){
   $('rel-vazio').style.display=rows.length?'none':'block';
   tb.innerHTML=rows.map(l=>
     '<tr><td><b>'+esc(l.nome||'—')+'</b><br><span style="color:var(--muted);font-size:11.5px;">'+esc(l.email)+'</span></td>'
-    +'<td>'+esc(l.codigo)+'</td><td>'+l.premiumsAtivos+'</td><td class="dinheiro">'+brl(l.valor)+'</td></tr>').join('');
-  tf.innerHTML=rows.length?'<tr><td colspan="2">TOTAL GERAL</td><td>'+d.totalPremiums+'</td><td class="dinheiro">'+brl(d.totalGeral)+'</td></tr>':'';
+    +'<td>'+esc(l.codigo)+'</td><td>'+(l.premiumsMensais||0)+'</td><td>'+(l.premiumsAnuais||0)+'</td>'
+    +'<td>'+l.premiumsAtivos+'</td><td class="dinheiro">'+brl(l.valor)+'</td></tr>').join('');
+  tf.innerHTML=rows.length?'<tr><td colspan="2">TOTAL GERAL</td><td>'+(d.totalMensais||0)+'</td><td>'+(d.totalAnuais||0)+'</td><td>'+d.totalPremiums+'</td><td class="dinheiro">'+brl(d.totalGeral)+'</td></tr>':'';
   $('relatorio').scrollIntoView({behavior:'smooth'});
 }
 

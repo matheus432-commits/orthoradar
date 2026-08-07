@@ -9,8 +9,14 @@
 //        → planilha mensal de pagamento (só afiliados ATIVOS; CSV p/ Excel).
 // POST { secret, action:'ativar'|'desativar', codigo }
 //        → seleção manual do fundador: quem entra na planilha de pagamento.
-// POST { secret, action:'ativar_premium'|'cancelar_premium', email }
-//        → registra a ativação PAGA (inicia os 12 meses) ou o cancelamento.
+// POST { secret, action:'ativar_premium', email, plano:'mensal'|'anual' }
+//        → registra a ativação PAGA (inicia os 12 meses) com o plano escolhido
+//          — é ESTE o hook que o checkout chama ao assinar.
+// POST { secret, action:'migrar_plano', email, plano }
+//        → migração mensal↔anual na janela: comissão ajusta a partir do mês
+//          da mudança; os 12 meses NÃO reiniciam.
+// POST { secret, action:'cancelar_premium', email }
+//        → registra o cancelamento (comissão para naquele mês).
 //          IMPORTANTE (fundador, 07/08): o Premium de CORTESIA desta fase NÃO
 //          conta — este endpoint só será chamado quando o Premium pago existir
 //          (pelo fluxo de pagamento ou manualmente pelo admin).
@@ -25,9 +31,10 @@ const { Firestore } = require('./_lib/firestore');
 const { checkAdmin } = require('./_lib/admin-guard');
 const { linkDe, normalizeRefCode } = require('./_lib/referral');
 const {
-  COMISSAO_MENSAL, PREMIUM_PRECO,
+  COMISSAO_POR_PLANO, PREMIUM_PRECO, PREMIUM_PRECO_ANUAL,
+  normalizePlanoPremium, comissaoDe,
   statusIndicacao, mesesRestantes, valorMesAtual,
-  camposAtivacaoPremium, camposCancelamentoPremium,
+  camposAtivacaoPremium, camposCancelamentoPremium, camposMigracaoPlano,
   desempenhoAfiliado, relatorioMensal, relatorioCSV,
 } = require('./_lib/afiliados');
 const log = require('./_lib/logger');
@@ -90,6 +97,9 @@ function publicIndicado(u, hoje) {
     cadastradoEm: String(u.criadoEm || '').slice(0, 10),
     status: st.status,
     cor: st.cor,
+    // Plano só é exibido quando há comissão em jogo (gratuito não tem plano).
+    plano: st.status === 'gratuito' ? '' : normalizePlanoPremium(u.planoPremium),
+    comissaoMensal: st.status === 'gratuito' ? 0 : comissaoDe(u),
     dataAtivacaoPremium: String(u.dataAtivacaoPremium || '').slice(0, 10),
     dataExpiracaoComissao: String(u.dataExpiracaoComissao || '').slice(0, 10),
     mesesRestantes: mesesRestantes(u, hoje),
@@ -124,7 +134,7 @@ exports.handler = async (event) => {
         return { statusCode: 200, headers, body: JSON.stringify({ success: true, codigo, ativo: action === 'ativar' }) };
       }
 
-      if (action === 'ativar_premium' || action === 'cancelar_premium') {
+      if (action === 'ativar_premium' || action === 'cancelar_premium' || action === 'migrar_plano') {
         const email = String(body.email || '').trim().toLowerCase();
         if (!email) return { statusCode: 400, headers, body: JSON.stringify({ error: 'email obrigatorio' }) };
         const found = await db.query('cadastros', {
@@ -133,7 +143,14 @@ exports.handler = async (event) => {
         });
         const u = found[0];
         if (!u) return { statusCode: 404, headers, body: JSON.stringify({ error: 'usuario nao encontrado' }) };
-        const campos = action === 'ativar_premium' ? camposAtivacaoPremium(hoje) : camposCancelamentoPremium();
+        // migrar_plano: mensal↔anual DENTRO da janela — a comissão passa a
+        // valer o novo valor a partir deste mês; os 12 meses NÃO reiniciam.
+        if (action === 'migrar_plano' && String(u.comissaoStatus || '') !== 'premium_ativo') {
+          return { statusCode: 409, headers, body: JSON.stringify({ error: 'sem_comissao_ativa', message: 'Migração só se aplica a indicado com comissão ativa.' }) };
+        }
+        const campos = action === 'ativar_premium' ? camposAtivacaoPremium(hoje, body.plano)
+          : action === 'migrar_plano' ? camposMigracaoPlano(body.plano)
+          : camposCancelamentoPremium();
         await db.updateDoc('cadastros', u.id, campos);
         log.info('[afiliados] comissao atualizada', { email, action, campos });
         return { statusCode: 200, headers, body: JSON.stringify({ success: true, email, ...campos }) };
@@ -155,8 +172,9 @@ exports.handler = async (event) => {
       return {
         statusCode: 200, headers,
         body: JSON.stringify({
-          comissaoMensal: COMISSAO_MENSAL,
+          comissaoPorPlano: COMISSAO_POR_PLANO,
           premiumPreco: PREMIUM_PRECO,
+          premiumPrecoAnual: PREMIUM_PRECO_ANUAL,
           afiliados: afiliados.map(a => {
             const d = desempenhoAfiliado(a.indicados, hoje);
             return { codigo: a.codigo, nome: a.nome, email: a.email, link: a.link, ativo: a.ativo,
