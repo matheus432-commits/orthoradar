@@ -121,7 +121,18 @@ function corrigirTermosBR(s) {
   const cap = (repl, m) => (m[0] === m[0].toUpperCase() ? repl[0].toUpperCase() + repl.slice(1) : repl);
   return String(s)
     .replace(/prostodontistas/gi, m => cap('protesistas', m))
-    .replace(/prostodontista/gi,  m => cap('protesista', m));
+    .replace(/prostodontista/gi,  m => cap('protesista', m))
+    // "Distanciamento" (tradução literal de distalization) → "distalização",
+    // o termo que o dentista BUSCA (pedido do fundador 08/08: "se não o
+    // dentista procura e não encontra"). Sempre, em todas as formas — com a
+    // CONCORDÂNCIA do artigo (o→a, do→da, no→na, ao→à, pelo→pela, um→uma):
+    // trocar só o substantivo produziria "o distalização".
+    .replace(/\b(pelos|pelo|aos|ao|nos|no|dos|do|uns|um|os|o)( +)distanciamento(s?)\b/gi, (m, art, sp, pl) => {
+      const fem = { o: 'a', os: 'as', do: 'da', dos: 'das', no: 'na', nos: 'nas', ao: 'à', aos: 'às', pelo: 'pela', pelos: 'pelas', um: 'uma', uns: 'umas' }[art.toLowerCase()] || art;
+      return cap(fem, art) + sp + (pl ? 'distalizações' : 'distalização');
+    })
+    .replace(/distanciamentos\b/gi, m => cap('distalizações', m))
+    .replace(/distanciamento\b/gi,  m => cap('distalização', m));
 }
 
 // Rede de segurança DETERMINÍSTICA sobre a classificação da IA — corrige erros
