@@ -22,6 +22,7 @@ const { rateLimited } = require('./_lib/rate-limit');
 const { audioUrlDe } = require('./_lib/storage');
 const { resolveArticleUrl } = require('./_lib/email-template');
 const { logEvent } = require('./_lib/engagement');
+const { isPremium } = require('./_lib/plans');
 const log = require('./_lib/logger');
 
 const BASE_URL = process.env.SITE_URL || 'https://odontofeed.com';
@@ -118,6 +119,15 @@ exports.handler = async (event) => {
       return { statusCode: 401, headers, body: JSON.stringify({ error: 'sessao_expirada' }) };
     }
     if (user.ativo === false) return { statusCode: 403, headers, body: JSON.stringify({ error: 'conta_inativa' }) };
+    // DIRETRIZ DO FUNDADOR (07/08): a Biblioteca é EXCLUSIVA do plano Premium
+    // (hoje todos estão na cortesia Premium, então ninguém perde acesso agora;
+    // após o downgrade seletivo, vira benefício pago).
+    if (!isPremium(user)) {
+      return { statusCode: 403, headers, body: JSON.stringify({
+        error: 'premium_required',
+        message: 'A Biblioteca completa de artigos e podcasts é exclusiva do plano Premium.',
+      }) };
+    }
 
     const action = String(qs.action || 'catalogo');
 
@@ -166,7 +176,9 @@ exports.handler = async (event) => {
         pmid,
         titulo:        a.titulo_pt,
         especialidade: a.especialidade || au.especialidade || '',
-        data:          a.data || au.date || '',
+        // Só a DATA (alguns docs guardam timestamp ISO completo — o badge
+        // exibia "07T05:09:11.433Z/08/2026", incidente 08/08).
+        data:          String(a.data || au.date || '').slice(0, 10),
         nivel:         a.nivel_evidencia || '',
         journal:       a.journal || '', year: a.year || '',
         tema:          a.tema || '',

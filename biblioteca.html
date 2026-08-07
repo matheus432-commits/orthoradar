@@ -50,6 +50,13 @@ button:hover,.btn:hover{background:#F6F2E9;}
     <a href="/dashboard">Fazer login →</a>
   </div>
 
+  <!-- Biblioteca é EXCLUSIVA do plano Premium (diretriz 07/08). -->
+  <div class="login" id="premium" style="display:none;">
+    <h1>OdontoFeed<em>.</em> Biblioteca</h1>
+    <p class="sub" style="max-width:360px;margin:0 auto 4px;">O acervo completo — todos os artigos resumidos com podcast e todos os episódios em áudio desde o início — é exclusivo do plano <b>Premium</b>.</p>
+    <a href="/dashboard">Conhecer o Premium →</a>
+  </div>
+
   <div id="app" style="display:none;">
     <h1>OdontoFeed<em>.</em> Biblioteca</h1>
     <p class="sub">Todo o acervo da plataforma — artigos resumidos com podcast e todos os episódios em áudio, desde o início. <a href="/dashboard">← voltar à área de membro</a></p>
@@ -62,7 +69,7 @@ button:hover,.btn:hover{background:#F6F2E9;}
     <div id="vista-artigos">
       <div class="filtros">
         <input id="f-busca" placeholder="Buscar no título ou no resumo…" oninput="render()">
-        <select id="f-esp" onchange="render()"><option value="">Todas as especialidades</option></select>
+        <select id="f-esp" onchange="encherTemas();render()"><option value="">Todas as especialidades</option></select>
         <select id="f-nivel" onchange="render()"><option value="">Todos os níveis</option></select>
         <select id="f-tema" onchange="render()"><option value="">Todos os temas</option></select>
         <select id="f-data" onchange="render()">
@@ -87,7 +94,7 @@ button:hover,.btn:hover{background:#F6F2E9;}
 const $=(id)=>document.getElementById(id);
 const esc=(s)=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const NIVEL={'revisão sistemática':'Rev. sistemática','meta-análise':'Meta-análise','ensaio clínico randomizado':'ECR'};
-const fmtData=(d)=>d?d.split('-').reverse().join('/'):'';
+const fmtData=(d)=>{d=String(d||'').slice(0,10);return d?d.split('-').reverse().join('/'):'';};
 const fmtDur=(s)=>{s=Number(s)||0;if(!s)return'';const m=Math.floor(s/60);return m+':'+String(s%60).padStart(2,'0');};
 const EMAIL=localStorage.getItem('of_email'), TOKEN=localStorage.getItem('of_token');
 let DADOS=null;
@@ -95,6 +102,10 @@ let DADOS=null;
 async function api(qs){
   const r=await fetch('/.netlify/functions/acervo?email='+encodeURIComponent(EMAIL)+qs,{headers:{Authorization:'Bearer '+TOKEN}});
   if(r.status===401){$('app').style.display='none';$('login').style.display='block';throw new Error('sessao');}
+  if(r.status===403){
+    const b=await r.json().catch(()=>({}));
+    if(b.error==='premium_required'){$('app').style.display='none';$('premium').style.display='block';throw new Error('sessao');}
+  }
   if(!r.ok)throw new Error('HTTP '+r.status);
   return r.json();
 }
@@ -106,12 +117,26 @@ function mudarTab(t){
   $('vista-podcasts').style.display=t==='podcasts'?'block':'none';
 }
 
+const opt=(v)=>'<option value="'+esc(v)+'">'+esc(v)+'</option>';
 function encherFiltros(){
-  const opt=(v)=>'<option value="'+esc(v)+'">'+esc(v)+'</option>';
   $('f-esp').innerHTML='<option value="">Todas as especialidades</option>'+(DADOS.especialidades||[]).map(opt).join('');
-  $('f-tema').innerHTML='<option value="">Todos os temas</option>'+(DADOS.temas||[]).map(opt).join('');
   const niveis=[...new Set(DADOS.artigos.map(a=>a.nivel).filter(Boolean))].sort();
   $('f-nivel').innerHTML='<option value="">Todos os níveis</option>'+niveis.map(opt).join('');
+  encherTemas();
+}
+// Temas DEPENDEM da especialidade escolhida (bug 08/08: a lista global
+// mostrava só os temas de Prótese para qualquer especialidade — os docs das
+// outras áreas ainda não têm `tema` preenchido). Sem tema na seleção atual,
+// o filtro fica oculto em vez de enganar.
+function encherTemas(){
+  const esp=$('f-esp').value;
+  const atual=$('f-tema').value;
+  const temas=[...new Set(DADOS.artigos
+    .filter(a=>!esp||a.especialidade===esp)
+    .map(a=>a.tema).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'pt-BR'));
+  $('f-tema').innerHTML='<option value="">Todos os temas</option>'+temas.map(opt).join('');
+  $('f-tema').value=temas.includes(atual)?atual:'';
+  $('f-tema').style.display=temas.length?'':'none';
 }
 
 function filtrar(){
