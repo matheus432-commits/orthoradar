@@ -273,15 +273,20 @@ async function enrichArticle(article) {
       ? enriched.especialidade
       : (enriched.especialidade ? 'Odontologia Geral' : null),
     { ...article, titulo_pt: enriched.titulo_pt });
+  // Terminologia ANTES da classificação de tema (rodada 08/08): o resumo cru
+  // ainda diz "distanciamento" e o padrão de Distalização não pontuava — o
+  // tema deve ser classificado sobre o texto FINAL que o dentista lê e busca.
+  const tituloCorr = corrigirTermosBR(String(enriched.titulo_pt || '').slice(0, 200));
+  const resumoCorr = corrigirTermosBR(String(enriched.resumo_pt  || '').slice(0, 2000));
   const { classificarTema } = require('./temas-classificador');
   return {
     tema: classificarTema({
       especialidade: espFinal,
-      titulo_pt: enriched.titulo_pt, titulo: article.titulo || article.title,
-      resumo_pt: enriched.resumo_pt, abstract: article.abstract,
+      titulo_pt: tituloCorr, titulo: article.titulo || article.title,
+      resumo_pt: resumoCorr, abstract: article.abstract,
     }),
-    titulo_pt:         corrigirTermosBR(String(enriched.titulo_pt || '').slice(0, 200)),
-    resumo_pt:         corrigirTermosBR(String(enriched.resumo_pt  || '').slice(0, 2000)),
+    titulo_pt:         tituloCorr,
+    resumo_pt:         resumoCorr,
     impacto_pratico:   corrigirTermosBR(String(enriched.impacto_pratico || '').slice(0, 500)),
     achados_principais: Array.isArray(enriched.achados_principais) ? enriched.achados_principais.slice(0, 5).map(x => corrigirTermosBR(String(x))) : [],
     nivel_evidencia:   EVIDENCE_LEVELS.includes(enriched.nivel_evidencia) ? enriched.nivel_evidencia : 'Revisão Narrativa',

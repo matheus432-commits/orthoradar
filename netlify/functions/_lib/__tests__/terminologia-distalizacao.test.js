@@ -35,8 +35,14 @@ describe('distanciamento → distalização (corrigirTermosBR)', () => {
   test('cadeia de geração cobre o termo: enriquecimento + resumo completo + roteiro do podcast', () => {
     const claude = fs.readFileSync(path.join(__dirname, '..', 'claude.js'), 'utf8');
     assert.match(claude, /distanciamento\\b\/gi/, 'termo no corretor determinístico');
-    // Todos os campos escritos passam pelo corretor (já era assim; regressão).
-    for (const campo of ['titulo_pt', 'resumo_pt', 'impacto_pratico', 'limitacoes']) {
+    // Título e resumo são corrigidos ANTES da classificação de tema (rodada
+    // 08/08: o tema é classificado sobre o texto FINAL que o dentista busca).
+    assert.match(claude, /const tituloCorr = corrigirTermosBR\(/, 'título corrigido antes do tema');
+    assert.match(claude, /const resumoCorr = corrigirTermosBR\(/, 'resumo corrigido antes do tema');
+    assert.match(claude, /titulo_pt:\s+tituloCorr/, 'titulo_pt usa o texto corrigido');
+    assert.match(claude, /resumo_pt:\s+resumoCorr/, 'resumo_pt usa o texto corrigido');
+    assert.ok(claude.indexOf('const tituloCorr') < claude.indexOf('tema: classificarTema('), 'correção vem antes da classificação');
+    for (const campo of ['impacto_pratico', 'limitacoes']) {
       assert.match(claude, new RegExp(campo + ':\\s+corrigirTermosBR\\('), campo + ' passa pelo corretor');
     }
     const script = fs.readFileSync(path.join(__dirname, '..', 'podcast-script.js'), 'utf8');
