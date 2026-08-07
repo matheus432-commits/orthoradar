@@ -943,7 +943,7 @@ function articleCard(art,curtidos,lidos){
       <button class="btn-lido" onclick="abrirShare('${safeId(art.id)}',this)" title="Compartilhar este estudo">📤 Compartilhar</button>
     </div>
     ${resumoFull?`<div class="rc-panel-dash" id="${rcId}" hidden>${resumoCompletoHtml(resumoFull)}</div>`:''}
-    ${_podcastMap.has(String(art.id))?`<audio controls preload="none" style="display:none;width:100%;margin-top:10px;"><source src="${escapeHtml(_podcastMap.get(String(art.id)).url)}" type="audio/mpeg"></audio>`:''}
+    ${_podcastMap.has(String(art.id))?`<audio controls preload="none" style="display:none;width:100%;margin-top:10px;" src="${escapeHtml(_podcastMap.get(String(art.id)).url)}"></audio>`:''}
   </div>`;
 }
 
@@ -1090,10 +1090,21 @@ function votarArtigo(id,voto,btn){
 }
 
 // Mostra/oculta e toca o áudio do resumo (podcast do dia) do próprio card.
+// CAUSA-RAIZ do "sem áudio" no celular (incidentes 04-08/08): play() num
+// <audio preload="none"> com <source> filho falha em silêncio no mobile — o
+// .catch(()=>{}) engolia o erro e o botão dizia "Ouvindo…" com o player
+// parado em 0:00. Agora: src direto no elemento, load() antes do play() e o
+// botão SÓ vira "Ouvindo…" quando o áudio realmente começou; se o autoplay
+// falhar, os controles nativos ficam visíveis para o toque manual.
 function toggleAudioDash(btn){
   const a=btn.closest('.article-card').querySelector('audio');
   if(!a) return;
-  if(a.style.display==='none'){ a.style.display='block'; a.play().catch(()=>{}); btn.innerHTML='🎧 Ouvindo…'; }
+  if(a.style.display==='none'){
+    a.style.display='block';
+    if(a.readyState===0) a.load();
+    a.play().then(()=>{ btn.innerHTML='🎧 Ouvindo…'; })
+            .catch(()=>{ btn.innerHTML='🎧 Ouvir resumo'; });
+  }
   else{ a.pause(); a.style.display='none'; btn.innerHTML='🎧 Ouvir resumo'; }
 }
 
