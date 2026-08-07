@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Biblioteca — OdontoFeed</title>
+<style>
+:root{--bg:#FBF7EF;--card:#FFFFFF;--border:#EDE6D8;--text:#1A1A18;--muted:#8A8478;--gold:#B08968;--green:#3E7C4F;--red:#B4533B;--blue:#4A6B8A;--roxo:#4A2F80;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,-apple-system,sans-serif;padding:28px 16px 60px;}
+.wrap{max-width:960px;margin:0 auto;}
+h1{font-family:Georgia,'Times New Roman',serif;font-size:1.6rem;letter-spacing:-.4px;margin-bottom:4px;}
+h1 em{color:var(--gold);font-style:normal;}
+.sub{color:var(--muted);font-size:13px;margin-bottom:18px;}
+.sub a{color:var(--blue);text-decoration:none;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px 18px;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,0,.03);}
+.badge{display:inline-block;font-size:9.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:2px 8px;border-radius:9px;margin-right:6px;}
+.badge.nivel{background:#EEF1F4;color:var(--blue);}
+.badge.esp{background:#F4EEE4;color:var(--gold);}
+.badge.lido{background:#E8F2EA;color:var(--green);}
+.badge.data{background:#EFEDE8;color:var(--muted);}
+.tit{font-size:14.5px;font-weight:700;line-height:1.45;margin:7px 0 5px;}
+.prev{font-size:13px;color:var(--muted);line-height:1.55;}
+audio{width:100%;height:34px;margin-top:9px;}
+.acts{margin-top:9px;display:flex;gap:8px;flex-wrap:wrap;}
+button,.btn{border:1px solid var(--border);background:#fff;border-radius:9px;padding:7px 12px;cursor:pointer;font-size:12.5px;color:var(--text);font-weight:600;text-decoration:none;display:inline-block;}
+button:hover,.btn:hover{background:#F6F2E9;}
+.tabs{display:flex;gap:8px;margin:18px 0 14px;}
+.tab{border:1px solid var(--border);background:#fff;border-radius:99px;padding:8px 18px;cursor:pointer;font-size:13px;font-weight:700;}
+.tab.on{background:var(--text);color:#fff;border-color:var(--text);}
+.filtros{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;}
+.filtros select,.filtros input{border:1px solid var(--border);border-radius:9px;padding:8px 10px;font-size:13px;background:#fff;color:var(--text);}
+.filtros input{flex:1;min-width:180px;}
+.resumo-full{font-size:13.5px;line-height:1.7;white-space:pre-wrap;margin-top:10px;border-top:1px solid var(--border);padding-top:10px;display:none;}
+.impacto{background:#F4EEE4;border-radius:9px;padding:10px 12px;font-size:13px;margin-top:8px;}
+.vazio{color:var(--muted);font-size:13.5px;padding:24px;text-align:center;}
+.login{max-width:420px;margin:80px auto;text-align:center;}
+.login a{display:inline-block;margin-top:14px;background:var(--text);color:#fff;border-radius:10px;padding:12px 26px;font-weight:600;font-size:14px;text-decoration:none;}
+.contagem{font-size:12px;color:var(--muted);margin-bottom:10px;}
+@media(max-width:640px){body{padding:18px 10px 50px;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="login" id="login" style="display:none;">
+    <h1>OdontoFeed<em>.</em> Biblioteca</h1>
+    <p class="sub">Entre na sua conta para acessar o acervo completo de artigos e podcasts.</p>
+    <a href="/dashboard">Fazer login →</a>
+  </div>
+
+  <div id="app" style="display:none;">
+    <h1>OdontoFeed<em>.</em> Biblioteca</h1>
+    <p class="sub">Todo o acervo da plataforma — artigos resumidos com podcast e todos os episódios em áudio, desde o início. <a href="/dashboard">← voltar à área de membro</a></p>
+
+    <div class="tabs">
+      <button class="tab on" id="tab-artigos" onclick="mudarTab('artigos')">📚 Artigos</button>
+      <button class="tab" id="tab-podcasts" onclick="mudarTab('podcasts')">🎧 Podcasts</button>
+    </div>
+
+    <div id="vista-artigos">
+      <div class="filtros">
+        <input id="f-busca" placeholder="Buscar no título ou no resumo…" oninput="render()">
+        <select id="f-esp" onchange="render()"><option value="">Todas as especialidades</option></select>
+        <select id="f-nivel" onchange="render()"><option value="">Todos os níveis</option></select>
+        <select id="f-tema" onchange="render()"><option value="">Todos os temas</option></select>
+        <select id="f-data" onchange="render()">
+          <option value="">Qualquer data</option>
+          <option value="7">Últimos 7 dias</option>
+          <option value="30">Últimos 30 dias</option>
+          <option value="90">Últimos 90 dias</option>
+        </select>
+      </div>
+      <div class="contagem" id="contagem"></div>
+      <div id="lista"></div>
+    </div>
+
+    <div id="vista-podcasts" style="display:none;">
+      <div class="contagem" id="contagem-pod"></div>
+      <div id="lista-pod"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const $=(id)=>document.getElementById(id);
+const esc=(s)=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const NIVEL={'revisão sistemática':'Rev. sistemática','meta-análise':'Meta-análise','ensaio clínico randomizado':'ECR'};
+const fmtData=(d)=>d?d.split('-').reverse().join('/'):'';
+const fmtDur=(s)=>{s=Number(s)||0;if(!s)return'';const m=Math.floor(s/60);return m+':'+String(s%60).padStart(2,'0');};
+const EMAIL=localStorage.getItem('of_email'), TOKEN=localStorage.getItem('of_token');
+let DADOS=null;
+
+async function api(qs){
+  const r=await fetch('/.netlify/functions/acervo?email='+encodeURIComponent(EMAIL)+qs,{headers:{Authorization:'Bearer '+TOKEN}});
+  if(r.status===401){$('app').style.display='none';$('login').style.display='block';throw new Error('sessao');}
+  if(!r.ok)throw new Error('HTTP '+r.status);
+  return r.json();
+}
+
+function mudarTab(t){
+  $('tab-artigos').className='tab'+(t==='artigos'?' on':'');
+  $('tab-podcasts').className='tab'+(t==='podcasts'?' on':'');
+  $('vista-artigos').style.display=t==='artigos'?'block':'none';
+  $('vista-podcasts').style.display=t==='podcasts'?'block':'none';
+}
+
+function encherFiltros(){
+  const opt=(v)=>'<option value="'+esc(v)+'">'+esc(v)+'</option>';
+  $('f-esp').innerHTML='<option value="">Todas as especialidades</option>'+(DADOS.especialidades||[]).map(opt).join('');
+  $('f-tema').innerHTML='<option value="">Todos os temas</option>'+(DADOS.temas||[]).map(opt).join('');
+  const niveis=[...new Set(DADOS.artigos.map(a=>a.nivel).filter(Boolean))].sort();
+  $('f-nivel').innerHTML='<option value="">Todos os níveis</option>'+niveis.map(opt).join('');
+}
+
+function filtrar(){
+  const q=$('f-busca').value.trim().toLowerCase();
+  const esp=$('f-esp').value, nivel=$('f-nivel').value, tema=$('f-tema').value, dias=$('f-data').value;
+  const corte=dias?new Date(Date.now()-Number(dias)*86400000).toISOString().slice(0,10):'';
+  return DADOS.artigos.filter(a=>
+    (!esp||a.especialidade===esp)&&(!nivel||a.nivel===nivel)&&(!tema||a.tema===tema)
+    &&(!corte||String(a.data)>=corte)
+    &&(!q||(a.titulo+' '+a.resumo).toLowerCase().includes(q)));
+}
+
+function render(){
+  const arts=filtrar();
+  $('contagem').textContent=arts.length+' de '+DADOS.artigos.length+' artigos no acervo';
+  $('lista').innerHTML=arts.length?arts.map(a=>
+    '<div class="card">'
+    +'<span class="badge esp">'+esc(a.especialidade)+'</span>'
+    +(a.nivel?'<span class="badge nivel">'+esc(NIVEL[String(a.nivel).toLowerCase()]||a.nivel)+'</span>':'')
+    +'<span class="badge data">'+fmtData(a.data)+'</span>'
+    +(a.lido?'<span class="badge lido">✓ lido</span>':'')
+    +'<div class="tit">'+esc(a.titulo)+'</div>'
+    +'<div class="prev">'+esc(a.resumo)+(a.resumo.length>=400?'…':'')+'</div>'
+    +(a.journal?'<div class="prev" style="margin-top:4px;font-size:11.5px;">'+esc(a.journal)+(a.year?' · '+esc(a.year):'')+'</div>':'')
+    +(a.audioUrl?'<audio controls preload="none" src="'+esc(a.audioUrl)+'"></audio>':'')
+    +'<div class="acts">'
+    +'<button onclick="abrirResumo(this,\''+esc(a.pmid)+'\')">📖 Ler resumo completo</button>'
+    +'</div><div class="resumo-full" id="rf-'+esc(a.pmid)+'"></div>'
+    +'</div>').join('')
+    :'<div class="card vazio">Nenhum artigo com esses filtros.</div>';
+}
+
+async function abrirResumo(btn,pmid){
+  const box=$('rf-'+pmid);
+  if(box.style.display==='block'){box.style.display='none';btn.textContent='📖 Ler resumo completo';return;}
+  if(!box.dataset.ok){
+    btn.textContent='Carregando…';
+    try{
+      const d=await api('&action=artigo&id='+encodeURIComponent(pmid));
+      box.innerHTML=(d.resumo_completo?'<div>'+esc(d.resumo_completo)+'</div>':'<div class="prev">Resumo completo indisponível para este estudo.</div>')
+        +(d.impacto?'<div class="impacto"><b>Relevância clínica:</b> '+esc(d.impacto)+'</div>':'')
+        +(d.url?'<div class="acts"><a class="btn" href="'+esc(d.url)+'" target="_blank" rel="noopener">Ver no PubMed ↗</a></div>':'');
+      box.dataset.ok='1';
+      // marca lido localmente (o tracking do servidor já registrou)
+      const art=DADOS.artigos.find(a=>a.pmid===pmid); if(art&&!art.lido){art.lido=true;}
+    }catch(e){box.innerHTML='<div class="prev">Não foi possível carregar. Tente novamente.</div>';}
+  }
+  box.style.display='block';btn.textContent='Fechar resumo';
+}
+
+function renderPodcasts(){
+  const eps=DADOS.episodios||[];
+  $('contagem-pod').textContent=eps.length+' episódios no acervo';
+  $('lista-pod').innerHTML=eps.length?eps.map(e=>
+    '<div class="card">'
+    +'<span class="badge esp">'+esc(e.especialidade||'—')+'</span><span class="badge data">'+fmtData(e.date)+'</span>'
+    +(e.secs?'<span class="badge nivel">'+fmtDur(e.secs)+'</span>':'')
+    +'<div class="tit">'+esc(e.titulo||'Episódio')+'</div>'
+    +'<audio controls preload="none" src="'+esc(e.url)+'"></audio>'
+    +'</div>').join('')
+    :'<div class="card vazio">Nenhum episódio no acervo ainda.</div>';
+}
+
+(async()=>{
+  if(!EMAIL||!TOKEN){$('login').style.display='block';return;}
+  try{
+    DADOS=await api('&action=catalogo');
+    $('app').style.display='block';
+    encherFiltros(); render(); renderPodcasts();
+  }catch(e){ if(e.message!=='sessao'){$('login').style.display='block';} }
+})();
+</script>
+</body>
+</html>

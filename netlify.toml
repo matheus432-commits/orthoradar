@@ -27,8 +27,22 @@
   to = "https://open.spotify.com/show/033SQ8fzusV57wuFNGXtde"
   status = 302
 
+# Página de preços: os planos vivem na home (#planos) — rota curta estável
+# para materiais/links. (/biblioteca dispensa redirect: pretty URL do Netlify
+# já serve biblioteca.html, como /dashboard.)
+[[redirects]]
+  from = "/precos"
+  to = "/#planos"
+  status = 302
+
 [functions."cleanup-articles"]
   schedule = "0 3 * * 0"
+
+# Afiliados: encerra comissões que cumpriram 12 meses (dia 1 de cada mês, 6h
+# UTC = 3h BRT). O relatório também trata expirados na leitura — o job só
+# materializa o estado (idempotente; resposta só com contadores).
+[functions."afiliados-expiracao"]
+  schedule = "0 6 1 * *"
 
 # "O Que Ficou" — weekly top-articles recap: agendado via GitHub Actions
 # (.github/workflows/weekly-digest.yml, sábado 11h UTC = 8h BRT) porque o envio

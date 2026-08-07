@@ -118,7 +118,8 @@ describe('cadeia gravação → leitura usa a URL persistida', () => {
 
   test('nenhum leitor de episódio remonta URL diretamente (todos via audioUrlDe)', () => {
     const leitores = ['get-edicao.js', 'get-podcast.js', 'get-painel.js', 'get-arquivo.js',
-                      'biblioteca.js', 'podcast-rss.js', 'instagram-reel.js', 'health-audio.js'];
+                      'biblioteca.js', 'podcast-rss.js', 'instagram-reel.js', 'health-audio.js',
+                      'acervo.js'];
     for (const f of leitores) {
       const code = src(path.join(FUNCS, f));
       assert.ok(code.includes('audioUrlDe'), `${f} deve usar audioUrlDe`);
