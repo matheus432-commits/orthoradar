@@ -42,11 +42,11 @@ function ttsCostUsd(chars) {
   return (paid / 1_000_000) * PRICE.ttsPerMillion;
 }
 
-// Resend: 0 até o free tier; acima, o plano Pro fixo.
-function resendCostUsd(emails) {
-  const n = Number(emails) || 0;
-  if (n <= PRICE.resendFreeEmails) return 0;
-  return PRICE.resendProUsd; // até 50k — muito acima do nosso volume
+// Resend: ASSINATURA PRO ATIVA (upgrade do fundador em 08/08 — o free tier de
+// 3.000/mês + 100/dia estourou com o digest diário). Custo FIXO de US$20/mês,
+// independente do volume, até o teto de 50k e-mails do plano.
+function resendCostUsd() {
+  return PRICE.resendProUsd;
 }
 
 function imagenCostUsd(newImages) {
@@ -79,8 +79,8 @@ function buildCustos(m) {
       minUsd: PRICE.anthropicMinUsd, maxUsd: PRICE.anthropicMaxUsd,
     },
     {
-      id: 'resend', nome: 'Resend (e-mails)', tipo: 'medido',
-      detalhe: `${m.emailsSent} e-mails no mês (grátis até ${PRICE.resendFreeEmails})`,
+      id: 'resend', nome: 'Resend Pro (e-mails transacionais)', tipo: 'fixo',
+      detalhe: `Assinatura US$${PRICE.resendProUsd}/mês · ${m.emailsSent} e-mails no mês (teto ${(PRICE.resendProLimit / 1000)}k)`,
       mesAtualUsd: resend, projecaoUsd: resend,
     },
     {

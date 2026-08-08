@@ -15,8 +15,9 @@ describe('custos — tabelas de preço', () => {
   });
 
   test('Resend: grátis até 3000 e-mails; acima disso plano de US$20', () => {
-    assert.equal(resendCostUsd(0), 0);
-    assert.equal(resendCostUsd(3000), 0);
+    // Assinatura Pro ATIVA (upgrade 08/08): custo fixo, independente do volume.
+    assert.equal(resendCostUsd(0), 20);
+    assert.equal(resendCostUsd(3000), 20);
     assert.equal(resendCostUsd(3001), 20);
     assert.equal(resendCostUsd(45000), 20);
   });
@@ -61,8 +62,11 @@ describe('custos — buildCustos (payload do dashboard)', () => {
     assert.equal(d.porUsuarioBrl, null);
   });
 
-  test('e-mails dentro do free tier → Resend zera', () => {
+  test('Resend Pro é custo FIXO (assinatura ativa desde 08/08) — mesmo com volume baixo', () => {
     const d = buildCustos({ ...base, emailsSent: 2000 });
-    assert.equal(d.items.find(i => i.id === 'resend').mesAtualUsd, 0);
+    const r = d.items.find(i => i.id === 'resend');
+    assert.equal(r.mesAtualUsd, 20);
+    assert.equal(r.tipo, 'fixo');
+    assert.match(r.detalhe, /US\$20\/mês/);
   });
 });
