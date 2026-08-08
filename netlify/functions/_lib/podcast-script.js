@@ -55,19 +55,19 @@ const TEM_FECHO_RE = /(at[ée] (o pr[óo]ximo|a pr[óo]xima)|bons estudos|[ée] 
 
 function capScript(text) {
   let t = numeraisDeClasseParaFala(String(text || '').trim());
-  let cortado = false;
   if (t.length > MAX_CHARS_PER_AUDIO) {
     // Reserva espaço para recolocar a despedida depois do corte.
     const alvo = MAX_CHARS_PER_AUDIO - (DESPEDIDA_PADRAO.length + 1);
     const cut = t.slice(0, alvo);
     const lastStop = Math.max(cut.lastIndexOf('. '), cut.lastIndexOf('! '), cut.lastIndexOf('? '));
     t = (lastStop > alvo * 0.6 ? cut.slice(0, lastStop + 1) : cut).trim();
-    cortado = true;
   }
   t = ensureCompleteEnding(t);
-  // Se o corte (por teto OU por geração truncada) derrubou o fecho, o áudio
-  // termina abrupto — recoloca a despedida padrão para fechar redondo.
-  if (cortado && !TEM_FECHO_RE.test(t.slice(-160))) t = `${t} ${DESPEDIDA_PADRAO}`;
+  // FECHO GARANTIDO (incidente 08/08 — "áudio cortado no meio"): QUALQUER
+  // roteiro sem despedida ganha o fecho padrão — inclusive o truncado pelo
+  // teto de tokens do modelo, que o gate antigo (`cortado`, só o teto de
+  // chars) deixava passar e o áudio terminava abrupto no meio do argumento.
+  if (!TEM_FECHO_RE.test(t.slice(-160))) t = `${t} ${DESPEDIDA_PADRAO}`;
   return t;
 }
 
