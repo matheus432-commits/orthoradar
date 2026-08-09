@@ -1120,7 +1120,9 @@ async function _sendUserDigest(user, espDigest, db, resendKey) {
         // próximo assinante da MESMA especialidade regenerava o mesmo resumo.
         // Agora: resumo LAZY (só os 2 do topo em paralelo; substituto só se um
         // for reprovado) + cache CROSS-ASSINANTE via write-back no pool.
-        const candidatosExtras = await pickPremiumExtras(db, user, espDigest.premiumPool, PREMIUM_EXTRAS + 3);
+        // +6 (era +3): com o poço fundo do acervo, sobram candidatos — e a
+        // trava barata abaixo descarta sem custo, então a fila maior é grátis.
+        const candidatosExtras = await pickPremiumExtras(db, user, espDigest.premiumPool, PREMIUM_EXTRAS + 6);
         const _poolDe = (c) => espDigest.premiumPool.find(p => String(p.pmid || p.id) === String(c.pmid || c.id));
         const _comCachePool = async (c) => {
           const orig = _poolDe(c);
@@ -1129,22 +1131,43 @@ async function _sendUserDigest(user, espDigest, db, resendKey) {
           if (orig && c.resumo_completo && !orig.resumo_completo) orig.resumo_completo = c.resumo_completo;
           return c;
         };
-        const _aprovado = async (c) =>
-          !(isResultadosIndisponiveis(c) || await faltaVereditoComparativo(c, process.env.ANTHROPIC_API_KEY || null));
+        // TRAVA BARATA ANTES DO RESUMO CARO (incidente 08-09/08: o descarte
+        // acontecia DEPOIS do Sonnet — US$3,80/dia em resumos jogados fora — e
+        // esgotava a fila; assinantes fechavam com 1 ou 0 extras). A checagem
+        // de veredito (Haiku, ~centavos, sobre resumo_pt/abstract) roda ANTES;
+        // reprovado: (a) marca o pool em memória p/ os próximos assinantes do
+        // dia e (b) PERSISTE a flag no artigo p/ os próximos dias.
+        const _reprova = (c, orig, flag) => {
+          if (orig) orig[flag] = true;
+          if (flag === 'veredito_extra_reprovado') {
+            const id = String(c.pmid || c.id || '');
+            if (id) db.updateDoc('artigos', id, { veredito_extra_reprovado: true }).catch(() => {});
+          }
+        };
+        const _travaBarata = async (c) => {
+          const orig = _poolDe(c);
+          if (orig && (orig.veredito_extra_reprovado || orig._resumoReprovado)) return false;
+          if (c.veredito_extra_reprovado) return false;
+          const falta = await faltaVereditoComparativo(c, process.env.ANTHROPIC_API_KEY || null);
+          if (falta) {
+            _reprova(c, orig, 'veredito_extra_reprovado');
+            log.warn('[digest][PREMIUM] extra reprovado na trava de veredito (ANTES do resumo — sem custo Sonnet)', {
+              email, id: c.pmid || c.id, titulo: (c.titulo_pt || c.titulo || '').slice(0, 70),
+            });
+          }
+          return !falta;
+        };
         premiumExtras = [];
-        const topo = candidatosExtras.slice(0, PREMIUM_EXTRAS);
-        const resto = candidatosExtras.slice(PREMIUM_EXTRAS);
-        await Promise.allSettled(topo.map(_comCachePool));
-        for (const cand of topo) {
-          if (await _aprovado(cand)) { premiumExtras.push(cand); continue; }
-          log.warn('[digest][PREMIUM] extra DESCARTADO após resumo completo — sem resultados/veredito no material (repondo)', {
+        const fila = [...candidatosExtras];
+        while (premiumExtras.length < PREMIUM_EXTRAS && fila.length) {
+          const cand = fila.shift();
+          if (!(await _travaBarata(cand))) continue;
+          await _comCachePool(cand);
+          if (!isResultadosIndisponiveis(cand)) { premiumExtras.push(cand); continue; }
+          _reprova(cand, _poolDe(cand), '_resumoReprovado');
+          log.warn('[digest][PREMIUM] extra DESCARTADO após resumo completo — material sem resultados (repondo)', {
             email, id: cand.pmid || cand.id, titulo: (cand.titulo_pt || cand.titulo || '').slice(0, 70),
           });
-        }
-        // Substitutos SÓ se necessário (um por vez — o caso raro paga, o comum não).
-        while (premiumExtras.length < PREMIUM_EXTRAS && resto.length) {
-          const cand = await _comCachePool(resto.shift());
-          if (await _aprovado(cand)) premiumExtras.push(cand);
         }
         log.info('[digest][PREMIUM] extras selected', {
           email, count: premiumExtras.length,
@@ -1255,12 +1278,15 @@ const PREMIUM_EXTRAS = 2;
 async function buildPremiumPool(db, especialidade, anthropicKey = null) {
   try {
     const hist = await getEspHistory(db, especialidade); // inclui o digest de HOJE (já persistido)
+    _histPorEsp.set(especialidade, hist); // usado pelo poço fundo dos extras
     const brutos = await getCandidates(db, [especialidade]);
     // CURADORIA (incidente 22-23/07): extra Premium sem titulo_pt/resumo_pt saía
     // como card em inglês, sem resumo; e surveys/protocolos não devem entrar.
     // passaCuradoria é a MESMA trava da edição base (enriquecido + não-survey +
-    // com resultados).
-    let pool = brutos.filter(a => passaCuradoria(a) && !isRepeated(a, hist));
+    // com resultados). Reprovados na trava de veredito em dias anteriores
+    // (flag persistida) não voltam ao pool — o mesmo estudo era re-checado e
+    // re-descartado para CADA assinante, dia após dia (41797109, 42057092).
+    let pool = brutos.filter(a => passaCuradoria(a) && !isRepeated(a, hist) && !a.veredito_extra_reprovado);
     const aposHistorico = pool.length;
     const seen = new Set();
     pool = pool.filter(a => {
@@ -1340,6 +1366,11 @@ function scoreForTemas(article, temas) {
 // mais recentes do pool. Exclui o que ESTE assinante já recebeu como extra.
 // `quantos` > PREMIUM_EXTRAS permite ao chamador pedir candidatos a mais para
 // cobrir descartes da trava pós-geração (só os aprovados são enviados/logados).
+// Histórico da especialidade (edições passadas) por nome — preenchido em
+// buildPremiumPool e usado pelo POÇO FUNDO abaixo para nunca oferecer como
+// extra um artigo que já foi edição da área.
+const _histPorEsp = new Map();
+
 async function pickPremiumExtras(db, user, pool, quantos = PREMIUM_EXTRAS) {
   if (!pool.length) return [];
 
@@ -1358,6 +1389,46 @@ async function pickPremiumExtras(db, user, pool, quantos = PREMIUM_EXTRAS) {
   }
 
   const disponiveis = pool.filter(a => !articleKeys(a).some(k => jaRecebidas.has(k)));
+
+  // POÇO FUNDO (incidente 09/08 — "assinante SEM extras (pool tinha
+  // candidatos)": o pool RECENTE esgota para o assinante veterano, que já
+  // recebeu quase tudo dele; o matheus fechou com 0 extras com pool de 24).
+  // Quando o recente não basta, os extras passam a vir do ACERVO COMPLETO da
+  // especialidade (centenas de artigos ativos que ESTE assinante nunca
+  // recebeu; a maioria já tem resumo pronto = custo ~zero). Excluídos: já
+  // recebidos, edições passadas da área, reprovados na trava e crus.
+  if (disponiveis.length < quantos + 2) {
+    try {
+      const esp = pool[0]?.especialidade || user.especialidade;
+      const hist = _histPorEsp.get(esp) || [];
+      const chaves = new Set(pool.flatMap(a => articleKeys(a)));
+      const acervo = await db.query('artigos', {
+        where: { compositeFilter: { op: 'AND', filters: [
+          { fieldFilter: { field: { fieldPath: 'especialidade' }, op: 'EQUAL', value: { stringValue: esp } } },
+          { fieldFilter: { field: { fieldPath: 'status' }, op: 'EQUAL', value: { stringValue: 'active' } } },
+        ] } },
+        limit: 300,
+      });
+      acervo.sort((x, y) => String(y.data || '').localeCompare(String(x.data || '')));
+      let doAcervo = 0;
+      for (const a of acervo) {
+        if (disponiveis.length >= quantos + 6) break;
+        if (!passaCuradoria(a) || a.veredito_extra_reprovado) continue;
+        if (isRepeated(a, hist)) continue;
+        const ks = articleKeys(a);
+        if (ks.some(k => jaRecebidas.has(k) || chaves.has(k))) continue;
+        ks.forEach(k => chaves.add(k));
+        disponiveis.push(a);
+        doAcervo++;
+      }
+      if (doAcervo) log.info('[digest][PREMIUM] poço fundo — extras completados do acervo da especialidade', {
+        email: user.email, especialidade: esp, doAcervo, disponiveis: disponiveis.length,
+      });
+    } catch (err) {
+      log.warn('[digest][PREMIUM] poço fundo indisponível — seguindo só com o pool recente', { email: user.email, err: err.message });
+    }
+  }
+
   const temas = Array.isArray(user.temas) ? user.temas.filter(Boolean) : [];
 
   // Afinidade PESSOAL por tema dos votos 👍/👎 DESTE dentista (limitada a ±4.5
