@@ -196,7 +196,10 @@ async function copyObject(srcPath, destPath, downloadToken = newDownloadToken())
 // válida. Usado pelo backfill para curar os MP3 antigos gravados com
 // `no-store` (incidentes 04-10/08) sem rotacionar token nenhum.
 async function patchCacheControl(objectPath, cacheControl = 'public, max-age=3600') {
-  const accessToken = await getAccessToken('https://www.googleapis.com/auth/devstorage.read_write');
+  // full_control, não read_write: o PATCH de metadados de objeto no GCS pode
+  // tocar ACLs e por isso exige o escopo cheio — com read_write a API devolve
+  // 403 "Provided scope(s) are not authorized" (runs #2-#3 do backfill, 10/08).
+  const accessToken = await getAccessToken('https://www.googleapis.com/auth/devstorage.full_control');
   const bucket = bucketName();
   if (!accessToken || !bucket) return { skipped: true, reason: 'no_credentials' };
   const body = Buffer.from(JSON.stringify({ cacheControl }), 'utf8');

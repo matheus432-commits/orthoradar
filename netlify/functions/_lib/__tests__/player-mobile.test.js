@@ -48,6 +48,9 @@ describe('players de áudio à prova de mobile', () => {
     const s = src('netlify/functions/_lib/storage.js');
     assert.match(s, /cacheControl: 'public, max-age=3600',\n\s+metadata: \{ firebaseStorageDownloadTokens/, 'áudio cacheável por 1h');
     assert.ok(s.includes('async function patchCacheControl'), 'cura dos objetos antigos sem rotacionar token');
+    // Runs #2-#3 do backfill (10/08): PATCH de metadados exige full_control —
+    // com read_write o GCS devolve 403 "Provided scope(s) are not authorized".
+    assert.match(s, /patchCacheControl[\s\S]{0,400}devstorage\.full_control/, 'PATCH de metadados pede o escopo full_control');
   });
   test('vigia contínuo: URLs do dia re-verificadas de 2 em 2 horas, vermelho com timestamp', () => {
     const v = src('scripts/vigia-audio.js');
