@@ -1105,9 +1105,11 @@ function toggleAudioDash(btn){
   if(!a.dataset.guard){
     a.dataset.guard='1';
     a.addEventListener('error',()=>{
-      if(a.dataset.retry!=='1'){
+      if(a.dataset.retry!=='1'&&a.dataset.retry!=='2'){
         a.dataset.retry='1';
         setTimeout(()=>{ a.load(); a.play().catch(()=>{}); },600);
+      } else if(a.dataset.retry==='1'&&_audioViaProxy(a)){
+        a.dataset.retry='2';
       } else { btn.innerHTML='🎧 Tentar novamente'; diagAudioDash(a); }
     });
     a.addEventListener('playing',()=>{ clearTimeout(a._watchdog); btn.innerHTML='🎧 Ouvindo…'; a.dataset.retry=''; const dg=a.parentElement.querySelector('.audio-diag'); if(dg) dg.remove(); });
@@ -1119,6 +1121,11 @@ function toggleAudioDash(btn){
       clearTimeout(a._watchdog);
       a._watchdog=setTimeout(()=>{
         if(!a.paused && a.currentTime===0 && a.readyState<2){
+          // 1ª vez: troca sozinho para a rota pelo NOSSO domínio (celulares que
+          // não alcançam o Firebase — print 10/08: "demorou muito para
+          // responder"). O 'play' do proxy rearma este vigia; se nem o proxy
+          // tocar, aí sim vira falha visível.
+          if(_audioViaProxy(a)) return;
           a.dataset.retry='1';
           btn.innerHTML='🎧 Tentar novamente';
           diagAudioDash(a,'a rede não entregou o áudio em 10s — download pendurado');
@@ -1156,9 +1163,28 @@ function diagAudioDash(a, motivoForcado){
   const d=document.createElement('div');
   d.className='audio-diag';
   d.style.cssText='font-size:12px;color:#b45309;margin-top:6px;';
+  // O link de teste aponta para a URL ORIGINAL do Storage (mesmo depois do
+  // fallback trocar o src) — é ele que discrimina player × rede do aparelho.
   d.innerHTML='⚠️ O áudio não carregou neste aparelho ('+motivo+'). '+
-    '<a href="'+a.getAttribute('src')+'" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;">Abrir o áudio direto</a>';
+    '<a href="'+(a.dataset.srcOriginal||a.getAttribute('src'))+'" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;">Abrir o áudio direto</a>';
   a.insertAdjacentElement('afterend', d);
+}
+
+// FALLBACK PELO NOSSO DOMÍNIO (10/08 — celulares cuja operadora/DNS não
+// alcança firebasestorage.googleapis.com: download pendura sem evento de erro
+// e o player mora no 0:00). Troca o src UMA vez para a rota interna
+// /.netlify/functions/audio, que busca o MP3 do lado do servidor. A rota
+// direta segue sendo o padrão — o proxy só entra quando ela falha no aparelho.
+function _audioViaProxy(a){
+  if(a.dataset.proxied==='1') return false;
+  const src=a.getAttribute('src')||'';
+  if(!/^https:\/\/firebasestorage\.googleapis\.com\//.test(src)) return false;
+  a.dataset.proxied='1';
+  a.dataset.srcOriginal=src;
+  a.src='/.netlify/functions/audio?u='+encodeURIComponent(src);
+  a.load();
+  a.play().catch(()=>{});
+  return true;
 }
 
 // Converte um artigo da edição (get-edicao) para o formato do articleCard,

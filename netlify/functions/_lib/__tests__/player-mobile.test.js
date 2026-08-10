@@ -54,6 +54,23 @@ describe('players de áudio à prova de mobile', () => {
     assert.ok(d.includes('a._watchdog=setTimeout'), 'cão de guarda para download pendurado (sem evento de erro)');
     assert.ok(d.includes('a.currentTime===0 && a.readyState<2'), 'só dispara com zero mídia entregue');
   });
+  // ── Causa-raiz CONFIRMADA no print das 13:11 UTC de 10/08: o celular da
+  // dentista não alcança firebasestorage.googleapis.com ("demorou muito para
+  // responder") enquanto o Vigia via tudo servindo. Fallback: áudio pelo
+  // NOSSO domínio, automático quando a rota direta pendura no aparelho.
+  test('fallback pelo nosso domínio quando o aparelho não alcança o Firebase', () => {
+    const d = src('dashboard.html');
+    assert.ok(d.includes('function _audioViaProxy'), 'troca automática de rota no player');
+    assert.ok(d.includes("'/.netlify/functions/audio?u='+encodeURIComponent(src)"), 'rota interna com a URL original como parâmetro');
+    assert.ok(d.includes("if(_audioViaProxy(a)) return;"), 'cão de guarda tenta o proxy ANTES de declarar falha');
+    assert.ok(d.includes('a.dataset.srcOriginal'), 'link de diagnóstico continua apontando para a URL direta');
+    const f = src('netlify/functions/audio.js');
+    assert.ok(f.includes("alvo.hostname === HOST_PERMITIDO") && f.includes("'firebasestorage.googleapis.com'"), 'proxy restrito ao host do Storage');
+    assert.ok(f.includes("alvo.pathname.startsWith('/v0/b/')") && f.includes("includes('/o/podcasts')"), 'proxy restrito ao caminho de podcasts (não é proxy aberto)');
+    assert.ok(f.includes('isBase64Encoded: true') && f.includes("'audio/mpeg'"), 'entrega binária correta');
+    assert.ok(f.includes("'Cache-Control': 'public, max-age=3600'"), 'cacheável como a rota direta');
+    assert.ok(!f.includes('console.log'), 'sem log da URL — ela carrega o token de download');
+  });
   test('MP3 sobe CACHEÁVEL (no-store era herança do latest.mp3 e travava mobile)', () => {
     const s = src('netlify/functions/_lib/storage.js');
     assert.match(s, /cacheControl: 'public, max-age=3600',\n\s+metadata: \{ firebaseStorageDownloadTokens/, 'áudio cacheável por 1h');
