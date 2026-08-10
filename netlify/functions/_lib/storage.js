@@ -210,7 +210,8 @@ async function patchCacheControl(objectPath, cacheControl = 'public, max-age=360
       'Content-Length': body.length,
     },
   }, body);
-  return { ok: res.status === 200, status: res.status };
+  if (res.status !== 200) return { ok: false, status: res.status, body: (res.body || '').slice(0, 200) };
+  return { ok: true, status: 200 };
 }
 
 // Remove um objeto do bucket (usado para limpar podcasts de especialidades sem

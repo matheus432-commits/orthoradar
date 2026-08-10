@@ -28,11 +28,27 @@ const DATE = process.env.BACKFILL_DATE || '';
 // no-store — hostil ao mobile). PATCH de metadados preserva o token; a URL
 // persistida continua exatamente a mesma.
 const PATCH_CACHE = String(process.env.PATCH_CACHE || 'true') === 'true';
+// Run #2 (10/08): "0 objetos, 836 falhas" no VERDE — o motivo das falhas era
+// engolido e o run passava. Agora: dedupe por objeto (ponteiro/histórico/arquivo
+// apontam pro mesmo MP3), o 1º exemplo de cada motivo sai no log com status e
+// corpo da resposta, e falha TOTAL da cura derruba o run (vermelho).
 let cachePatch = 0, cachePatchFalha = 0;
+const cacheVisitados = new Set();
+const cacheFalhasPorMotivo = new Map(); // "HTTP 403" → quantas
 async function curarCache(objectPath) {
-  if (!PATCH_CACHE || !objectPath) return;
-  const r = await patchCacheControl(objectPath).catch(() => ({ ok: false }));
-  if (r.ok) cachePatch++; else cachePatchFalha++;
+  if (!PATCH_CACHE || !objectPath || cacheVisitados.has(objectPath)) return;
+  cacheVisitados.add(objectPath);
+  const r = await patchCacheControl(objectPath).catch(e => ({ ok: false, err: e.message }));
+  if (r.ok) { cachePatch++; return; }
+  cachePatchFalha++;
+  const motivo = r.skipped ? `credenciais ausentes (${r.reason})`
+    : r.err ? `erro de rede: ${r.err}`
+    : `HTTP ${r.status}`;
+  if (!cacheFalhasPorMotivo.has(motivo)) {
+    cacheFalhasPorMotivo.set(motivo, 0);
+    console.error(`  [cache] 1ª falha "${motivo}" em ${objectPath}${r.body ? ' — ' + String(r.body).replace(/\s+/g, ' ') : ''}`);
+  }
+  cacheFalhasPorMotivo.set(motivo, cacheFalhasPorMotivo.get(motivo) + 1);
 }
 
 async function main() {
@@ -110,9 +126,16 @@ async function main() {
   }
 
   console.log(`[backfill] concluído — gravadas: ${ok}, já tinham url: ${jaTinha}, sem path/token: ${semCampos}, falhas: ${falhas}`);
-  if (PATCH_CACHE) console.log(`[backfill] cache curado (no-store → public 1h, token preservado): ${cachePatch} objetos, ${cachePatchFalha} falhas`);
+  if (PATCH_CACHE) {
+    console.log(`[backfill] cache curado (no-store → public 1h, token preservado): ${cachePatch} objetos, ${cachePatchFalha} falhas`);
+    for (const [motivo, n] of cacheFalhasPorMotivo) console.error(`  [cache] ${n}× ${motivo}`);
+  }
   if (falhas) {
     console.error('[backfill] FALHAS: alguma URL montada com o bucket do upload NÃO serve o áudio — investigar o objeto no Storage.');
+    process.exit(1);
+  }
+  if (PATCH_CACHE && cachePatchFalha && !cachePatch) {
+    console.error('[backfill] CURA DE CACHE 100% FALHA — vermelho de propósito (as URLs seguem servindo; só o Cache-Control ficou como estava). O motivo exato está nas linhas [cache] acima.');
     process.exit(1);
   }
 }
