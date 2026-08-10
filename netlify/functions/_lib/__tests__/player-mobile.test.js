@@ -49,6 +49,10 @@ describe('players de áudio à prova de mobile', () => {
     assert.ok(d.includes('function diagAudioDash'), 'diagnóstico visível na falha persistente');
     assert.ok(d.includes('Abrir o áudio direto'), 'link direto do MP3 para isolar player × rede');
     assert.ok(d.includes("a.dataset.retry==='1'"), 'clique em Tentar novamente recarrega no mesmo card');
+    // Print 10/08 12:12 UTC: ⏸ com 0:00/0:00 e nenhum evento — request
+    // pendurada não dispara 'error'; o cão de guarda de 10s vira falha visível.
+    assert.ok(d.includes('a._watchdog=setTimeout'), 'cão de guarda para download pendurado (sem evento de erro)');
+    assert.ok(d.includes('a.currentTime===0 && a.readyState<2'), 'só dispara com zero mídia entregue');
   });
   test('MP3 sobe CACHEÁVEL (no-store era herança do latest.mp3 e travava mobile)', () => {
     const s = src('netlify/functions/_lib/storage.js');
