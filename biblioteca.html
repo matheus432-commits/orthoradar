@@ -213,6 +213,29 @@ function renderPodcasts(){
     :'<div class="card vazio">Nenhum episódio no acervo ainda.</div>';
 }
 
+// FALLBACK PELO NOSSO DOMÍNIO (10/08 — mesma lógica do dashboard): aparelhos
+// cuja operadora/DNS não alcança firebasestorage.googleapis.com penduram o
+// download SEM evento de erro e o player mora no 0:00. Delegação em captura
+// cobre todos os <audio>, inclusive os renderizados depois. 10s "tocando" com
+// zero bytes (ou erro de carga) → troca UMA vez para /.netlify/functions/audio.
+function _trocaRotaAudio(a){
+  if(a.dataset.proxied==='1') return;
+  const src=a.getAttribute('src')||'';
+  if(!/^https:\/\/firebasestorage\.googleapis\.com\//.test(src)) return;
+  a.dataset.proxied='1';
+  a.src='/.netlify/functions/audio?u='+encodeURIComponent(src);
+  a.load(); a.play().catch(()=>{});
+}
+document.addEventListener('play',ev=>{
+  const a=ev.target; if(!(a instanceof HTMLAudioElement)) return;
+  clearTimeout(a._watchdog);
+  a._watchdog=setTimeout(()=>{
+    if(!a.paused && a.currentTime===0 && a.readyState<2) _trocaRotaAudio(a);
+  },10000);
+},true);
+document.addEventListener('playing',ev=>{ if(ev.target instanceof HTMLAudioElement) clearTimeout(ev.target._watchdog); },true);
+document.addEventListener('error',ev=>{ if(ev.target instanceof HTMLAudioElement) _trocaRotaAudio(ev.target); },true);
+
 (async()=>{
   if(!EMAIL||!TOKEN){$('login').style.display='block';return;}
   try{

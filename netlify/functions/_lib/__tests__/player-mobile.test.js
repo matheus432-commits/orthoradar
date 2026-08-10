@@ -70,6 +70,15 @@ describe('players de áudio à prova de mobile', () => {
     assert.ok(f.includes('isBase64Encoded: true') && f.includes("'audio/mpeg'"), 'entrega binária correta');
     assert.ok(f.includes("'Cache-Control': 'public, max-age=3600'"), 'cacheável como a rota direta');
     assert.ok(!f.includes('console.log'), 'sem log da URL — ela carrega o token de download');
+    // Confirmado no celular da dentista ("voltou a funcionar!") — o fallback
+    // vale para TODA página com player, não só o dashboard.
+    for (const pg of ['biblioteca.html', 'edicao.html']) {
+      const h = src(pg);
+      assert.ok(h.includes('function _trocaRotaAudio'), `${pg}: fallback de rota presente`);
+      assert.ok(h.includes("'/.netlify/functions/audio?u='"), `${pg}: rota interna`);
+      assert.ok(h.includes('a._watchdog'), `${pg}: cão de guarda de download pendurado`);
+      assert.ok(h.includes("addEventListener('error'"), `${pg}: erro de carga também troca a rota`);
+    }
   });
   test('MP3 sobe CACHEÁVEL (no-store era herança do latest.mp3 e travava mobile)', () => {
     const s = src('netlify/functions/_lib/storage.js');
