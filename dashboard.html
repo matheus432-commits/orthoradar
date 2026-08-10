@@ -1108,9 +1108,9 @@ function toggleAudioDash(btn){
       if(a.dataset.retry!=='1'){
         a.dataset.retry='1';
         setTimeout(()=>{ a.load(); a.play().catch(()=>{}); },600);
-      } else { btn.innerHTML='🎧 Tentar novamente'; }
+      } else { btn.innerHTML='🎧 Tentar novamente'; diagAudioDash(a); }
     });
-    a.addEventListener('playing',()=>{ btn.innerHTML='🎧 Ouvindo…'; a.dataset.retry=''; });
+    a.addEventListener('playing',()=>{ btn.innerHTML='🎧 Ouvindo…'; a.dataset.retry=''; const dg=a.parentElement.querySelector('.audio-diag'); if(dg) dg.remove(); });
   }
   if(a.style.display==='none'){
     a.style.display='block';
@@ -1118,7 +1118,32 @@ function toggleAudioDash(btn){
     a.play().then(()=>{ btn.innerHTML='🎧 Ouvindo…'; })
             .catch(()=>{ btn.innerHTML='🎧 Ouvir resumo'; });
   }
+  else if(a.dataset.retry==='1'){
+    // "Tentar novamente": recarrega no MESMO card em vez de esconder o player.
+    a.dataset.retry='';
+    a.load();
+    a.play().then(()=>{ btn.innerHTML='🎧 Ouvindo…'; })
+            .catch(()=>{ btn.innerHTML='🎧 Tentar novamente'; });
+  }
   else{ a.pause(); a.style.display='none'; btn.innerHTML='🎧 Ouvir resumo'; }
+}
+
+// Diagnóstico visível (10/08 — "ainda sem áudio" sem nenhum dado do aparelho):
+// quando nem a recarga automática toca, o card mostra O MOTIVO (MediaError) e
+// um link para abrir o MP3 direto no navegador. O print do dentista passa a
+// dizer se a falha é de rede, de formato ou do elemento <audio> — se o link
+// direto tocar e o player não, o problema é o player; se nem o link tocar, é
+// rede/DNS do aparelho.
+function diagAudioDash(a){
+  if(a.parentElement.querySelector('.audio-diag')) return;
+  const M={1:'carregamento interrompido',2:'falha de rede ao baixar',3:'o arquivo não decodificou',4:'formato ou URL não suportado'};
+  const c=a.error&&a.error.code;
+  const d=document.createElement('div');
+  d.className='audio-diag';
+  d.style.cssText='font-size:12px;color:#b45309;margin-top:6px;';
+  d.innerHTML='⚠️ O áudio não carregou neste aparelho (erro '+(c||'?')+' — '+(M[c]||'motivo desconhecido')+'). '+
+    '<a href="'+a.getAttribute('src')+'" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;">Abrir o áudio direto</a>';
+  a.insertAdjacentElement('afterend', d);
 }
 
 // Converte um artigo da edição (get-edicao) para o formato do articleCard,

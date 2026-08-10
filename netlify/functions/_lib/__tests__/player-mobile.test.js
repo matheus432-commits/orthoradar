@@ -43,6 +43,12 @@ describe('players de áudio à prova de mobile', () => {
     assert.ok(d.includes('a.load(); a.play()'), 'retry recarrega e toca');
     assert.ok(d.includes('Tentar novamente'), 'falha persistente vira ação visível');
     assert.ok(d.includes("a.addEventListener('playing'"), 'rótulo só afirma Ouvindo com áudio rodando');
+    // 10/08 à tarde: "ainda não corrigiu" sem nenhum dado do aparelho — a
+    // falha persistente agora EXPÕE o MediaError e o link direto do MP3, e o
+    // botão "Tentar novamente" recarrega em vez de esconder o player.
+    assert.ok(d.includes('function diagAudioDash'), 'diagnóstico visível na falha persistente');
+    assert.ok(d.includes('Abrir o áudio direto'), 'link direto do MP3 para isolar player × rede');
+    assert.ok(d.includes("a.dataset.retry==='1'"), 'clique em Tentar novamente recarrega no mesmo card');
   });
   test('MP3 sobe CACHEÁVEL (no-store era herança do latest.mp3 e travava mobile)', () => {
     const s = src('netlify/functions/_lib/storage.js');
