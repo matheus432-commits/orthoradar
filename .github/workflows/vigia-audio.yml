@@ -1,0 +1,30 @@
+# Vigia contínuo do áudio (incidentes 04-10/08): de 2 em 2 horas (07-23h UTC),
+# refaz o GET de 1 byte em todas as URLs persistidas dos podcasts DO DIA.
+# Vermelho = alguma URL parou de servir DEPOIS da geração — com hora marcada.
+# Zero custo de IA/TTS (~35 requests de 1 byte por run).
+
+name: Vigia do Áudio
+
+on:
+  schedule:
+    - cron: '15 7-23/2 * * *'
+  workflow_dispatch:
+
+jobs:
+  vigiar:
+    name: Verificar URLs do dia (1 byte cada)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Vigiar áudios do dia
+        env:
+          FIREBASE_PROJECT_ID:      ${{ secrets.FIREBASE_PROJECT_ID }}
+          FIREBASE_API_KEY:         ${{ secrets.FIREBASE_API_KEY }}
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+        run: node scripts/vigia-audio.js

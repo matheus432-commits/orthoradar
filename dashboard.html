@@ -1099,6 +1099,19 @@ function votarArtigo(id,voto,btn){
 function toggleAudioDash(btn){
   const a=btn.closest('.article-card').querySelector('audio');
   if(!a) return;
+  // RESILIÊNCIA (incidente 10/08 — stream preso em 0:00 no celular): erro de
+  // carga faz UMA recarga automática; persistindo, o botão avisa e o controle
+  // nativo fica à mão. 'playing' mantém o rótulo verdadeiro.
+  if(!a.dataset.guard){
+    a.dataset.guard='1';
+    a.addEventListener('error',()=>{
+      if(a.dataset.retry!=='1'){
+        a.dataset.retry='1';
+        setTimeout(()=>{ a.load(); a.play().catch(()=>{}); },600);
+      } else { btn.innerHTML='🎧 Tentar novamente'; }
+    });
+    a.addEventListener('playing',()=>{ btn.innerHTML='🎧 Ouvindo…'; a.dataset.retry=''; });
+  }
   if(a.style.display==='none'){
     a.style.display='block';
     if(a.readyState===0) a.load();

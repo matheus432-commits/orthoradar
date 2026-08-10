@@ -21,9 +21,19 @@
 // o áudio (prova de que o problema não era só a falta do campo `url`).
 
 const { Firestore } = require('../netlify/functions/_lib/firestore');
-const { firebaseDownloadUrl, verifyUrl, _bucketName } = require('../netlify/functions/_lib/storage');
+const { firebaseDownloadUrl, verifyUrl, patchCacheControl, _bucketName } = require('../netlify/functions/_lib/storage');
 
 const DATE = process.env.BACKFILL_DATE || '';
+// 10/08: além das URLs, cura o Cache-Control dos MP3 antigos (gravados com
+// no-store — hostil ao mobile). PATCH de metadados preserva o token; a URL
+// persistida continua exatamente a mesma.
+const PATCH_CACHE = String(process.env.PATCH_CACHE || 'true') === 'true';
+let cachePatch = 0, cachePatchFalha = 0;
+async function curarCache(objectPath) {
+  if (!PATCH_CACHE || !objectPath) return;
+  const r = await patchCacheControl(objectPath).catch(() => ({ ok: false }));
+  if (r.ok) cachePatch++; else cachePatchFalha++;
+}
 
 async function main() {
   const projectId = process.env.FIREBASE_PROJECT_ID || 'orthoradar';
@@ -53,6 +63,7 @@ async function main() {
     const eps = Array.isArray(doc.episodios) ? doc.episodios : [];
     let mudou = false;
     for (const e of eps) {
+      await curarCache(e.objectPath);
       if (e.url) { jaTinha++; continue; }
       if (!e.objectPath || !e.downloadToken) { semCampos++; continue; }
       const url = await urlVerificada(`podcasts/${doc.id} ep${e.n}`, e.objectPath, e.downloadToken);
@@ -86,6 +97,7 @@ async function main() {
     console.log(`[backfill] ${coll}: ${docs.length} docs`);
     for (const e of docs) {
       if (!e.id) continue;
+      await curarCache(e.objectPath);
       if (e.url) { jaTinha++; continue; }
       if (!e.objectPath || !e.downloadToken) { semCampos++; continue; }
       const url = await urlVerificada(`${coll}/${e.id}`, e.objectPath, e.downloadToken);
@@ -98,6 +110,7 @@ async function main() {
   }
 
   console.log(`[backfill] concluído — gravadas: ${ok}, já tinham url: ${jaTinha}, sem path/token: ${semCampos}, falhas: ${falhas}`);
+  if (PATCH_CACHE) console.log(`[backfill] cache curado (no-store → public 1h, token preservado): ${cachePatch} objetos, ${cachePatchFalha} falhas`);
   if (falhas) {
     console.error('[backfill] FALHAS: alguma URL montada com o bucket do upload NÃO serve o áudio — investigar o objeto no Storage.');
     process.exit(1);

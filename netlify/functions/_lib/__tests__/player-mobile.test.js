@@ -25,12 +25,36 @@ describe('players de áudio à prova de mobile', () => {
     const d = src('dashboard.html');
     assert.ok(d.includes('if(a.readyState===0) a.load();'), 'preload=none exige load() antes do play()');
     assert.match(d, /a\.play\(\)\.then\(\(\)=>\{ btn\.innerHTML='🎧 Ouvindo…'/, 'estado "Ouvindo…" só após o play resolver');
-    assert.ok(!/a\.play\(\)\.catch\(\(\)=>\{\}\)/.test(d), 'erro de play não pode mais ser engolido');
+    // O único catch silencioso permitido é o da RECARGA automática — o
+    // listener de 'error' é quem decide o desfecho dela (Tentar novamente).
+    assert.ok(!/display='block';\s*a\.play\(\)\.catch\(\(\)=>\{\}\)/.test(d), 'o toggle principal não engole erro de play');
   });
 
   test('edicao.html: mesmo padrão (load antes, ⏸ só com play confirmado)', () => {
     const e = src('edicao.html');
     assert.ok(e.includes('if (audio.readyState === 0) audio.load();'));
     assert.match(e, /audio\.play\(\)\.then\(/);
+  });
+
+  // ── Incidente 10/08 (Prótese 0:00 recorrente) — camadas definitivas ────────
+  test('dashboard: erro de carga → recarga automática 1x; persistindo → "Tentar novamente"', () => {
+    const d = src('dashboard.html');
+    assert.ok(d.includes("a.addEventListener('error'"), 'listener de erro no player');
+    assert.ok(d.includes('a.load(); a.play()'), 'retry recarrega e toca');
+    assert.ok(d.includes('Tentar novamente'), 'falha persistente vira ação visível');
+    assert.ok(d.includes("a.addEventListener('playing'"), 'rótulo só afirma Ouvindo com áudio rodando');
+  });
+  test('MP3 sobe CACHEÁVEL (no-store era herança do latest.mp3 e travava mobile)', () => {
+    const s = src('netlify/functions/_lib/storage.js');
+    assert.match(s, /cacheControl: 'public, max-age=3600',\n\s+metadata: \{ firebaseStorageDownloadTokens/, 'áudio cacheável por 1h');
+    assert.ok(s.includes('async function patchCacheControl'), 'cura dos objetos antigos sem rotacionar token');
+  });
+  test('vigia contínuo: URLs do dia re-verificadas de 2 em 2 horas, vermelho com timestamp', () => {
+    const v = src('scripts/vigia-audio.js');
+    assert.ok(v.includes('verifyUrl(e.url)'), 'verifica a URL persistida, a mesma do navegador');
+    assert.ok(v.includes('process.exit(1)'), 'falha fica vermelha no Actions');
+    const wf = src('.github/workflows/vigia-audio.yml');
+    assert.match(wf, /cron: '15 7-23\/2 \* \* \*'/, 'agendado a cada 2h');
+    assert.ok(!wf.includes('ANTHROPIC_API_KEY') && !wf.includes('GOOGLE_TTS_API_KEY'), 'sem chaves de IA/TTS no vigia — custo zero');
   });
 });

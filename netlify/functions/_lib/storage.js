@@ -74,7 +74,12 @@ async function uploadMp3(objectPath, audioBuffer, downloadToken = newDownloadTok
   const metadata = JSON.stringify({
     name: objectPath,
     contentType: 'audio/mpeg',
-    cacheControl: 'private, max-age=0, no-store',
+    // CACHEÁVEL 1h (incidentes 04-10/08 — player 0:00 intermitente no celular):
+    // o `no-store` antigo era da época do path fixo latest.mp3 (sobrescrito
+    // diariamente); com paths DATADOS ele só restou como hostilidade ao mobile
+    // — stream sempre-fresco, sem cache parcial, sem Range eficiente. 1h de
+    // cache mantém regens cirúrgicas visíveis em até uma hora.
+    cacheControl: 'public, max-age=3600',
     metadata: { firebaseStorageDownloadTokens: downloadToken },
   });
 
@@ -186,6 +191,28 @@ async function copyObject(srcPath, destPath, downloadToken = newDownloadToken())
   return { ok: true, url: firebaseDownloadUrl(bucket, destPath, downloadToken), downloadToken };
 }
 
+// Atualiza SÓ o cacheControl de um objeto existente (PATCH de metadados) —
+// preserva o firebaseStorageDownloadTokens, então a URL persistida continua
+// válida. Usado pelo backfill para curar os MP3 antigos gravados com
+// `no-store` (incidentes 04-10/08) sem rotacionar token nenhum.
+async function patchCacheControl(objectPath, cacheControl = 'public, max-age=3600') {
+  const accessToken = await getAccessToken('https://www.googleapis.com/auth/devstorage.read_write');
+  const bucket = bucketName();
+  if (!accessToken || !bucket) return { skipped: true, reason: 'no_credentials' };
+  const body = Buffer.from(JSON.stringify({ cacheControl }), 'utf8');
+  const res = await request({
+    hostname: UPLOAD_HOST,
+    path: `/storage/v1/b/${bucket}/o/${encodeURIComponent(objectPath)}`,
+    method: 'PATCH',
+    headers: {
+      'Authorization': 'Bearer ' + accessToken,
+      'Content-Type': 'application/json',
+      'Content-Length': body.length,
+    },
+  }, body);
+  return { ok: res.status === 200, status: res.status };
+}
+
 // Remove um objeto do bucket (usado para limpar podcasts de especialidades sem
 // Pro ativo — invalida o token de download órfão). Best-effort.
 async function deleteObject(objectPath) {
@@ -202,4 +229,4 @@ async function deleteObject(objectPath) {
   return { ok: res.status === 200 || res.status === 204 || res.status === 404, status: res.status };
 }
 
-module.exports = { uploadMp3, uploadImage, copyObject, deleteObject, firebaseDownloadUrl, verifyDownloadUrl, verifyUrl, audioUrlDe, newDownloadToken, _bucketName: bucketName };
+module.exports = { uploadMp3, uploadImage, copyObject, deleteObject, patchCacheControl, firebaseDownloadUrl, verifyDownloadUrl, verifyUrl, audioUrlDe, newDownloadToken, _bucketName: bucketName };
