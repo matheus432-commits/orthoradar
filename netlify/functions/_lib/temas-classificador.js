@@ -53,7 +53,9 @@ const PADROES = {
   'Periodontia': [
     ['Raspagem e alisamento radicular', /raspagem|alisamento|scaling|root planing|debridament/i],
     ['Regeneração periodontal', /regenera[çc][ãa]o (periodontal|tecidual)|periodontal regeneration|emdogain|amelogenin/i],
-    ['Cirurgia mucogengival', /mucogengival|mucogingival/i],
+    // 10/08: cirurgia plástica do sorriso gengival é mucogengival — o caso
+    // "toxina botulínica + reposicionamento labial" caiu sem tema.
+    ['Cirurgia mucogengival', /mucogengival|mucogingival|lip repositioning|reposicionamento (?:labial|(?:cir[úu]rgico )?(?:de )?l[áa]bio)|gummy smile|sorriso gengival|excessive gingival display|aumento de coroa cl[íi]nica|crown lengthening/i],
     ['Recobrimento radicular', /recobrimento radicular|root coverage|recess[ãa]o gengival|gingival recession/i],
     ['Enxerto gengival', /enxerto (gengival|de tecido|conjuntivo)|gingival graft|connective tissue graft/i],
     ['Peri-implantite', /peri-?implantit/i],

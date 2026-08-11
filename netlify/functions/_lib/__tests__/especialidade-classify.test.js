@@ -88,3 +88,46 @@ describe('especialidadeOverride — palavra final sobre a IA', () => {
     );
   });
 });
+
+// ── Sorriso gengival / reposicionamento labial → Periodontia (incidente 10/08:
+// "Toxina botulínica antes do reposicionamento cirúrgico de lábio" caiu fora
+// de Periodontia — o botox adjuvante confundiu a IA; o procedimento é
+// cirurgia plástica periodontal) ─────────────────────────────────────────────
+const { describe: describe2, test: test2 } = require('node:test');
+describe2('override: cirurgia plástica periodontal do sorriso gengival', () => {
+  const { especialidadeOverride } = require('../scoring');
+  const assert2 = require('node:assert');
+
+  test2('lip repositioning (EN) rotulado fora → força Periodontia', () => {
+    assert2.equal(
+      especialidadeOverride('Botulinum toxin before surgical lip repositioning: a randomized clinical trial', '', 'Estomatologia'),
+      'Periodontia'
+    );
+  });
+  test2('reposicionamento cirúrgico de lábio (PT) → força Periodontia', () => {
+    assert2.equal(
+      especialidadeOverride('Toxina Botulínica Antes do Reposicionamento Cirúrgico de Lábio: Ensaio Clínico Randomizado', '', 'Bucomaxilofacial'),
+      'Periodontia'
+    );
+  });
+  test2('gummy smile / esthetic crown lengthening → força Periodontia', () => {
+    assert2.equal(
+      especialidadeOverride('Gummy smile management with esthetic crown lengthening', '', 'Dentística'),
+      'Periodontia'
+    );
+  });
+  test2('já em Periodontia → não interfere (null)', () => {
+    assert2.equal(especialidadeOverride('Lip repositioning surgery outcomes', '', 'Periodontia'), null);
+  });
+  test2('texto neutro sem sorriso gengival → não interfere (null)', () => {
+    assert2.equal(especialidadeOverride('Composite resin wear in posterior teeth', '', 'Dentística'), null);
+  });
+  test2('tema recalculado: caso do incidente cai em Cirurgia mucogengival', () => {
+    const { classificarTema } = require('../temas-classificador');
+    assert2.equal(classificarTema({
+      especialidade: 'Periodontia',
+      titulo_pt: 'Toxina Botulínica Antes do Reposicionamento Cirúrgico de Lábio: Ensaio Clínico Randomizado',
+      titulo: '', resumo_pt: '', abstract: '',
+    }), 'Cirurgia mucogengival');
+  });
+});

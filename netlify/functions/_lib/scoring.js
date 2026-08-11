@@ -63,8 +63,14 @@ const SPECIALTY_KEYWORDS = {
 //      não importa o procedimento (coroa, restauração, pulpotomia…).
 //   2. Restauração DIRETA (resina/amálgama/ionômero — ex.: substituir amálgama)
 //      rotulada como Prótese → Dentística.
+//   3. Cirurgia plástica periodontal do sorriso gengival (reposicionamento
+//      labial, gummy smile, aumento de coroa clínica estético) → Periodontia
+//      (incidente 10/08: "Toxina botulínica antes do reposicionamento
+//      cirúrgico de lábio" caiu fora de Periodontia — o botox adjuvante
+//      confundiu a IA; o procedimento é periodontal).
 const PEDIATRIC_RX = /\b(deciduous|primary (?:tooth|teeth|molar|molars|incisor|incisors|canine|canines|dentition)|paediatric dentistry|pediatric dentistry|preschool child|stainless.?steel crown|pulpotom|space maintainer|dec[ií]duo)/i;
 const DIRECT_RESTORATION_RX = /\b(amalgam|direct (?:resin |composite )?restoration|direct composite|resin.?based composite restoration|glass.?ionomer|composite restoration)\b/i;
+const PERIO_PLASTIC_RX = /\b(lip repositioning|reposicionamento (?:cir[úu]rgico )?(?:de )?l[áa]bio|reposicionamento labial|gummy smile|sorriso gengival|excessive gingival display|exposi[çc][ãa]o gengival excessiva|(?:esthetic|aesthetic) crown lengthening)\b/i;
 
 /**
  * Retorna a especialidade CORRIGIDA quando uma regra determinística se aplica,
@@ -74,6 +80,7 @@ function especialidadeOverride(title, abstract, label) {
   const text = `${title || ''} ${abstract || ''}`;
   if (PEDIATRIC_RX.test(text) && label !== 'Odontopediatria') return 'Odontopediatria';
   if (label === 'Prótese' && DIRECT_RESTORATION_RX.test(text) && !/\b(denture|prosthes|fixed partial|overdenture|pontic)\b/i.test(text)) return 'Dentística';
+  if (PERIO_PLASTIC_RX.test(text) && label !== 'Periodontia') return 'Periodontia';
   return null;
 }
 
