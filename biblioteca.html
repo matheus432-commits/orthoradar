@@ -6,70 +6,144 @@
 <meta name="robots" content="noindex">
 <title>Biblioteca — OdontoFeed</title>
 <style>
-:root{--bg:#FBF7EF;--card:#FFFFFF;--border:#EDE6D8;--text:#1A1A18;--muted:#8A8478;--gold:#B08968;--green:#3E7C4F;--red:#B4533B;--blue:#4A6B8A;--roxo:#4A2F80;}
+/* LAYOUT REVISTA (aprovado pelo fundador 10/08, protótipo v2): vitrine em cima
+   (destaque automático + continue ouvindo + novidades), produtividade embaixo
+   (acervo completo em lista densa). Ícones = os MESMOS SVGs sérios da home.
+   Zero emojis na interface (diretriz 10/08). */
+:root{--bg:#FBF7EF;--card:#FFFFFF;--border:#EDE6D8;--text:#1A1A18;--muted:#8A8478;--gold:#B08968;--gold-soft:#F4EEE4;--green:#3E7C4F;--blue:#4A6B8A;--ink:#23211C;}
 *{margin:0;padding:0;box-sizing:border-box;}
-body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,-apple-system,sans-serif;padding:28px 16px 60px;}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,-apple-system,sans-serif;padding:24px 14px 120px;}
+.serif{font-family:Georgia,'Times New Roman',serif;}
 .wrap{max-width:960px;margin:0 auto;}
-h1{font-family:Georgia,'Times New Roman',serif;font-size:1.6rem;letter-spacing:-.4px;margin-bottom:4px;}
+h1{font-size:1.55rem;letter-spacing:-.4px;}
 h1 em{color:var(--gold);font-style:normal;}
-.sub{color:var(--muted);font-size:13px;margin-bottom:18px;}
+.sub{color:var(--muted);font-size:13px;margin:2px 0 14px;}
 .sub a{color:var(--blue);text-decoration:none;}
-.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px 18px;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,0,.03);}
-.badge{display:inline-block;font-size:9.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:2px 8px;border-radius:9px;margin-right:6px;}
-.badge.nivel{background:#EEF1F4;color:var(--blue);}
-.badge.esp{background:#F4EEE4;color:var(--gold);}
-.badge.lido{background:#E8F2EA;color:var(--green);}
-.badge.data{background:#EFEDE8;color:var(--muted);}
-.tit{font-size:14.5px;font-weight:700;line-height:1.45;margin:7px 0 5px;}
-.prev{font-size:13px;color:var(--muted);line-height:1.55;}
-audio{width:100%;height:34px;margin-top:9px;}
-.acts{margin-top:9px;display:flex;gap:8px;flex-wrap:wrap;}
-button,.btn{border:1px solid var(--border);background:#fff;border-radius:9px;padding:7px 12px;cursor:pointer;font-size:12.5px;color:var(--text);font-weight:600;text-decoration:none;display:inline-block;}
-button:hover,.btn:hover{background:#F6F2E9;}
-.tabs{display:flex;gap:8px;margin:18px 0 14px;}
-.tab{border:1px solid var(--border);background:#fff;border-radius:99px;padding:8px 18px;cursor:pointer;font-size:13px;font-weight:700;}
-.tab.on{background:var(--text);color:#fff;border-color:var(--text);}
-.filtros{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;}
-.filtros select,.filtros input{border:1px solid var(--border);border-radius:9px;padding:8px 10px;font-size:13px;background:#fff;color:var(--text);}
-.filtros input{flex:1;min-width:180px;}
-.resumo-full{font-size:13.5px;line-height:1.7;white-space:pre-wrap;margin-top:10px;border-top:1px solid var(--border);padding-top:10px;display:none;}
-.impacto{background:#F4EEE4;border-radius:9px;padding:10px 12px;font-size:13px;margin-top:8px;}
-.vazio{color:var(--muted);font-size:13.5px;padding:24px;text-align:center;}
+.sub b{color:var(--text);}
+.busca{display:flex;align-items:center;gap:10px;background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:12px 16px;box-shadow:0 2px 10px rgba(0,0,0,.04);}
+.busca input{border:0;outline:0;flex:1;font-size:15px;background:transparent;color:var(--text);}
+.busca svg{width:17px;height:17px;stroke:var(--muted);fill:none;stroke-width:2;stroke-linecap:round;}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:14px 0 4px;-ms-overflow-style:none;scrollbar-width:none;}
+.chips::-webkit-scrollbar{display:none;}
+.chip{white-space:nowrap;display:inline-flex;align-items:center;gap:7px;border:1px solid var(--border);background:#fff;border-radius:99px;padding:8px 15px;font-size:12.5px;font-weight:600;cursor:pointer;color:var(--text);transition:.12s;}
+.chip:hover{border-color:var(--gold);}
+.chip.on{background:var(--text);color:#fff;border-color:var(--text);}
+.chip .n{opacity:.5;}
+.esp-icon{flex-shrink:0;display:flex;color:var(--gold);}
+.esp-icon svg{width:17px;height:17px;display:block;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;}
+.chip.on .esp-icon{color:#E8CDA8;}
+.hero{background:linear-gradient(135deg,#2E2A22,#4A3B2A);border-radius:18px;color:#fff;padding:24px 22px;margin-top:14px;position:relative;overflow:hidden;}
+.hero .marca{position:absolute;right:10px;bottom:6px;opacity:.09;color:#fff;}
+.hero .marca svg{width:130px;height:130px;fill:none;stroke:currentColor;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round;}
+.hero .rot{font-size:10.5px;font-weight:800;letter-spacing:1.4px;color:#E8CDA8;text-transform:uppercase;}
+.hero h2{font-size:1.3rem;line-height:1.3;margin:8px 0 6px;max-width:560px;position:relative;}
+.hero p{font-size:13px;color:#D8D2C6;max-width:560px;line-height:1.55;position:relative;}
+.hero .h-acts{margin-top:14px;display:flex;gap:12px;align-items:center;position:relative;flex-wrap:wrap;}
+.hero .h-play{background:var(--gold);border:0;color:#fff;border-radius:99px;padding:10px 20px;font-weight:800;font-size:13px;cursor:pointer;}
+.hero .h-dur{font-size:12px;color:#D8D2C6;}
+.sec{margin-top:20px;}
+.sec-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:9px;}
+.sec-head h3{font-size:1.02rem;}
+.sec-head a{font-size:12px;color:var(--blue);text-decoration:none;cursor:pointer;}
+.carrossel{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;-ms-overflow-style:none;scrollbar-width:none;}
+.carrossel::-webkit-scrollbar{display:none;}
+.c-card{min-width:205px;max-width:205px;background:#fff;border:1px solid var(--border);border-radius:14px;padding:0 0 12px;cursor:pointer;transition:.15s;}
+.c-card:hover{border-color:var(--gold);box-shadow:0 4px 14px rgba(176,137,104,.14);}
+.c-topo{height:56px;border-radius:13px 13px 0 0;background:linear-gradient(135deg,#F7F1E6,#EFE7D7);display:flex;align-items:center;justify-content:space-between;padding:0 14px;}
+.c-topo .esp-icon svg{width:25px;height:25px;stroke-width:1.5;}
+.c-topo .dur{font-size:10.5px;font-weight:700;background:#fff;border:1px solid var(--border);border-radius:8px;padding:2px 8px;color:var(--text);}
+.c-corpo{padding:10px 13px 0;}
+.c-corpo .t{font-weight:700;font-size:12.5px;line-height:1.35;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
+.c-corpo .m{font-size:10.5px;color:var(--muted);margin-top:5px;}
+.c-corpo .m b{color:var(--gold);}
+.cc{min-width:170px;max-width:170px;background:#fff;border:1px solid var(--border);border-radius:12px;padding:10px 12px;cursor:pointer;}
+.cc .t{font-size:11.5px;font-weight:700;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;height:2.6em;}
+.cc-bar{height:4px;background:var(--border);border-radius:3px;margin-top:8px;overflow:hidden;}
+.cc-fill{height:100%;background:var(--gold);border-radius:3px;}
+.cc-resta{font-size:10px;color:var(--muted);margin-top:5px;display:flex;align-items:center;gap:5px;}
+.cc-resta .esp-icon svg{width:12px;height:12px;}
+.filtros{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;}
+.filtros select{border:1px solid var(--border);border-radius:9px;padding:7px 9px;font-size:12px;background:#fff;color:var(--text);}
+.contagem{font-size:12px;color:var(--muted);margin-bottom:8px;}
+.b-item{background:#fff;border:1px solid var(--border);border-radius:12px;margin-bottom:7px;overflow:hidden;}
+.b-head{display:flex;gap:11px;align-items:center;padding:11px 13px;cursor:pointer;}
+.b-head:hover{background:#FDFAF4;}
+.pontinho{width:8px;height:8px;min-width:8px;border-radius:50%;background:var(--gold);}
+.pontinho.lido{background:transparent;border:1.5px solid var(--border);}
+.b-t{font-weight:700;font-size:13.5px;line-height:1.35;}
+.b-m{font-size:11.5px;color:var(--muted);margin-top:3px;display:flex;gap:7px;flex-wrap:wrap;align-items:center;}
+.tagmini{background:var(--gold-soft);color:var(--gold);font-size:9.5px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;border-radius:7px;padding:2px 7px;}
+.taglido{background:#E8F2EA;color:var(--green);font-size:9.5px;font-weight:800;border-radius:7px;padding:2px 7px;}
+.play{width:37px;height:37px;min-width:37px;border-radius:50%;background:var(--gold-soft);color:var(--gold);display:flex;align-items:center;justify-content:center;cursor:pointer;border:0;}
+.play svg{width:14px;height:14px;fill:currentColor;}
+.play.tocando{background:var(--gold);color:#fff;}
+.b-det{border-top:1px dashed var(--border);padding:12px 14px;font-size:13.5px;line-height:1.7;color:#3d3a33;display:none;white-space:pre-wrap;}
+.b-det .impacto{background:var(--gold-soft);border-radius:9px;padding:9px 12px;margin-top:9px;font-size:12.5px;white-space:normal;}
+.b-det .acts{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;white-space:normal;}
+.b-det .acts a{border:1px solid var(--border);background:#fff;border-radius:9px;padding:6px 11px;font-size:12px;font-weight:600;color:var(--text);text-decoration:none;}
+.b-det audio{width:100%;height:34px;margin-top:9px;}
+.vermais{width:100%;border:1px dashed var(--border);background:transparent;border-radius:12px;padding:11px;font-size:12.5px;font-weight:700;color:var(--blue);cursor:pointer;margin-top:2px;}
+.vazio{color:var(--muted);font-size:13.5px;padding:24px;text-align:center;background:#fff;border:1px solid var(--border);border-radius:12px;}
 .login{max-width:420px;margin:80px auto;text-align:center;}
 .login a{display:inline-block;margin-top:14px;background:var(--text);color:#fff;border-radius:10px;padding:12px 26px;font-weight:600;font-size:14px;text-decoration:none;}
-.contagem{font-size:12px;color:var(--muted);margin-bottom:10px;}
-@media(max-width:640px){body{padding:18px 10px 50px;}}
+.miniplayer{position:fixed;left:0;right:0;bottom:0;z-index:60;background:var(--ink);color:#fff;padding:10px 14px;display:none;align-items:center;gap:12px;box-shadow:0 -6px 24px rgba(0,0,0,.18);}
+.miniplayer.on{display:flex;}
+.mp-capa{width:40px;height:40px;min-width:40px;border-radius:9px;background:#3A342A;display:flex;align-items:center;justify-content:center;color:#E8CDA8;}
+.mp-capa svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;}
+.mp-meio{flex:1;min-width:0;}
+.mp-t{font-size:12.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.mp-linha{display:flex;align-items:center;gap:8px;margin-top:5px;}
+.mp-bar{flex:1;height:5px;border-radius:3px;background:#ffffff2b;overflow:hidden;cursor:pointer;}
+.mp-fill{height:100%;width:0%;background:var(--gold);border-radius:3px;}
+.mp-tempo{font-size:10px;color:#CFC9BD;min-width:66px;text-align:right;}
+.mp-b{border:0;background:transparent;color:#fff;cursor:pointer;display:flex;}
+.mp-b svg{width:26px;height:26px;fill:currentColor;}
+.mp-vel{border:1px solid #ffffff44;border-radius:8px;background:transparent;color:#fff;font-size:11px;padding:3px 8px;cursor:pointer;}
+@media(max-width:640px){body{padding:16px 10px 110px;}.hero h2{font-size:1.12rem;}.mp-tempo{display:none;}}
 </style>
 </head>
 <body>
 <div class="wrap">
 
   <div class="login" id="login" style="display:none;">
-    <h1>OdontoFeed<em>.</em> Biblioteca</h1>
+    <h1 class="serif">OdontoFeed<em>.</em> Biblioteca</h1>
     <p class="sub">Entre na sua conta para acessar o acervo completo de artigos e podcasts.</p>
     <a href="/dashboard">Fazer login →</a>
   </div>
 
   <!-- Biblioteca é EXCLUSIVA do plano Premium (diretriz 07/08). -->
   <div class="login" id="premium" style="display:none;">
-    <h1>OdontoFeed<em>.</em> Biblioteca</h1>
+    <h1 class="serif">OdontoFeed<em>.</em> Biblioteca</h1>
     <p class="sub" style="max-width:360px;margin:0 auto 4px;">O acervo completo — todos os artigos resumidos com podcast e todos os episódios em áudio desde o início — é exclusivo do plano <b>Premium</b>.</p>
     <a href="/dashboard">Conhecer o Premium →</a>
   </div>
 
   <div id="app" style="display:none;">
-    <h1>OdontoFeed<em>.</em> Biblioteca</h1>
-    <p class="sub">Todo o acervo da plataforma — artigos resumidos com podcast e todos os episódios em áudio, desde o início. <a href="/dashboard">← voltar à área de membro</a></p>
+    <h1 class="serif">Biblioteca<em>.</em></h1>
+    <p class="sub" id="stats"><a href="/dashboard">← voltar à área de membro</a></p>
 
-    <div class="tabs">
-      <button class="tab on" id="tab-artigos" onclick="mudarTab('artigos')">📚 Artigos</button>
-      <button class="tab" id="tab-podcasts" onclick="mudarTab('podcasts')">🎧 Podcasts</button>
+    <div class="busca"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg><input id="f-busca" placeholder="Busque por técnica, material, tema… ex.: distalização" oninput="render()"></div>
+
+    <!-- Chips de especialidade (fonte da verdade continua no select f-esp,
+         oculto: os testes e a lógica de temas dependem dele). -->
+    <div class="chips" id="chips-esp"></div>
+    <select id="f-esp" hidden onchange="encherTemas();render()"><option value="">Todas as especialidades</option></select>
+
+    <div class="hero" id="hero" style="display:none;"></div>
+
+    <div class="sec" id="sec-continuar" style="display:none;">
+      <div class="sec-head"><h3 class="serif">Continue ouvindo</h3></div>
+      <div class="carrossel" id="c-continuar"></div>
     </div>
 
-    <div id="vista-artigos">
+    <div class="sec" id="sec-novidades" style="display:none;">
+      <div class="sec-head"><h3 class="serif" id="tit-novidades">Novidades no acervo</h3><a onclick="document.getElementById('acervo').scrollIntoView({behavior:'smooth'})">ver no acervo ↓</a></div>
+      <div class="carrossel" id="c-novidades"></div>
+    </div>
+
+    <div class="sec" id="acervo">
+      <div class="sec-head"><h3 class="serif" id="tit-acervo">Acervo completo</h3></div>
       <div class="filtros">
-        <input id="f-busca" placeholder="Buscar no título ou no resumo…" oninput="render()">
-        <select id="f-esp" onchange="encherTemas();render()"><option value="">Todas as especialidades</option></select>
         <select id="f-nivel" onchange="render()"><option value="">Todos os níveis</option></select>
         <select id="f-tema" onchange="render()"><option value="">Todos os temas</option></select>
         <select id="f-data" onchange="render()">
@@ -78,26 +152,69 @@ button:hover,.btn:hover{background:#F6F2E9;}
           <option value="30">Últimos 30 dias</option>
           <option value="90">Últimos 90 dias</option>
         </select>
+        <select id="f-ord" onchange="render()">
+          <option value="recentes">Mais recentes</option>
+          <option value="naolidos">Não lidos primeiro</option>
+          <option value="antigos">Mais antigos</option>
+        </select>
       </div>
       <div class="contagem" id="contagem"></div>
       <div id="lista"></div>
+      <button class="vermais" id="vermais" style="display:none;" onclick="verMais()">Carregar mais 30 ↓</button>
     </div>
 
-    <div id="vista-podcasts" style="display:none;">
+    <!-- Edições diárias em áudio (antiga aba Podcasts — mesmo conteúdo). -->
+    <div class="sec" id="vista-podcasts">
+      <div class="sec-head"><h3 class="serif">Edições diárias em áudio</h3></div>
       <div class="contagem" id="contagem-pod"></div>
       <div id="lista-pod"></div>
+      <button class="vermais" id="vermais-pod" style="display:none;" onclick="verMaisPod()">Carregar mais 30 ↓</button>
     </div>
   </div>
 </div>
+
+<!-- Player fixo: UM único <audio> reaproveitado (o fallback de rota e o cão de
+     guarda por delegação cobrem este elemento como qualquer outro). -->
+<div class="miniplayer" id="mp">
+  <div class="mp-capa" id="mp-ico"></div>
+  <div class="mp-meio">
+    <div class="mp-t" id="mp-t">—</div>
+    <div class="mp-linha">
+      <div class="mp-bar" id="mp-bar"><div class="mp-fill" id="mp-fill"></div></div>
+      <span class="mp-tempo" id="mp-tempo">0:00 / 0:00</span>
+    </div>
+  </div>
+  <button class="mp-vel" id="mp-vel" onclick="mpVel()">1×</button>
+  <button class="mp-b" id="mp-pp" onclick="mpToggle()"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+</div>
+<audio id="mp-audio" preload="none"></audio>
 
 <script>
 const $=(id)=>document.getElementById(id);
 const esc=(s)=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const NIVEL={'revisão sistemática':'Rev. sistemática','meta-análise':'Meta-análise','ensaio clínico randomizado':'ECR'};
 const fmtData=(d)=>{d=String(d||'').slice(0,10);return d?d.split('-').reverse().join('/'):'';};
-const fmtDur=(s)=>{s=Number(s)||0;if(!s)return'';const m=Math.floor(s/60);return m+':'+String(s%60).padStart(2,'0');};
+const fmtDur=(s)=>{s=Math.round(Number(s)||0);if(!s)return'';const m=Math.floor(s/60);return m+':'+String(s%60).padStart(2,'0');};
 const EMAIL=localStorage.getItem('of_email'), TOKEN=localStorage.getItem('of_token');
 let DADOS=null;
+
+/* Ícones sérios por especialidade — os MESMOS SVGs de traço fino da home. */
+const SVG={
+'Ortodontia':'<svg viewBox="0 0 24 24"><path d="M3 12h18"/><rect x="4.7" y="9.7" width="3.7" height="4.6" rx=".5" fill="#FFFDF9"/><rect x="10.15" y="9.7" width="3.7" height="4.6" rx=".5" fill="#FFFDF9"/><rect x="15.6" y="9.7" width="3.7" height="4.6" rx=".5" fill="#FFFDF9"/><path d="M6.55 8.4v1.3M6.55 14.3v1.3M12 8.4v1.3M12 14.3v1.3M17.45 8.4v1.3M17.45 14.3v1.3"/></svg>',
+'Implantodontia':'<svg viewBox="0 0 24 24"><path d="M8 3.5h8"/><path d="M9 6.5h6"/><path d="M12 6.5v3"/><path d="M8.6 10.5l6.8 0-.7 2.2-5.4 0z"/><path d="M9 12.7l5.4 0-.6 2.1-4.2 0z"/><path d="M9.4 14.8l4.2 0-.7 2.3-2.8 0z"/><path d="M10.2 17.1l2.6 0L12 20.5z"/></svg>',
+'Periodontia':'<svg viewBox="0 0 24 24"><path d="M12 3.6c-2.9 0-5.3 2-5.3 5 0 2.2.6 4.2 1.3 6.4.4 1.6.6 3.7 1.7 3.7.9 0 1-1.7 1.3-3.1.2-.9.4-1.3 1-1.3s.8.4 1 1.3c.3 1.4.4 3.1 1.3 3.1 1.1 0 1.3-2.1 1.7-3.7.7-2.2 1.3-4.2 1.3-6.4 0-3-2.4-5-5.3-5Z"/><path d="M2.8 20v-3.1c0-.8.6-1.4 1.4-1.4 1 0 1.3 1.2 2.5 1.2s1.6-1.2 2.9-1.2 1.6 1.2 2.4 1.2 1.2-1.2 2.9-1.2 1.5 1.2 2.5 1.2c.8 0 1.4-.6 1.4-1.4V20z" fill="currentColor" stroke="none"/></svg>',
+'Dentística':'<svg viewBox="0 0 24 24"><path d="M9.5 5.2C8.2 5.2 7 6.6 7 8.8c0 1.6.5 2.6.9 4 .4 1.4.5 5.6 1.6 5.6.8 0 .9-2.2 1.2-3.6.2-1 .5-1.5 1.1-1.5"/><path d="M12.9 12.8c.6 0 .9.5 1.1 1.5.3 1.4.4 3.6 1.2 3.6 1.1 0 1.2-4.2 1.6-5.6.4-1.4.9-2.4.9-4 0-1.7-.7-3-1.8-3.4"/><path d="M11.6 4.2l.7 1.7 1.7.7-1.7.7-.7 1.7-.7-1.7-1.7-.7 1.7-.7z" fill="currentColor" stroke="none"/><path d="M16.3 9.3l.4 1 1 .4-1 .4-.4 1-.4-1-1-.4 1-.4z" fill="currentColor" stroke="none"/></svg>',
+'Bucomaxilofacial':'<svg viewBox="0 0 24 24"><path d="M4 20l8.5-8.5"/><path d="M12.5 11.5l5.7-5.7c.9-.9 2.3-.3 2.3 1v3.4c0 .9-.7 1.6-1.6 1.6h-3.6z"/><path d="M4 20l1.6-.5"/></svg>',
+'Prótese':'<svg viewBox="0 0 24 24"><path d="M4 6.5c0 6 2.4 11 8 11s8-5 8-11"/><path d="M8 6.5c0 3.4 1.2 6.6 4 6.6s4-3.2 4-6.6"/><path d="M4 6.5h4M20 6.5h-4"/><path d="M6 10.6l2.4-.7M18 10.6l-2.4-.7M9 14.4l.7-1.8M15 14.4l-.7-1.8M12 15.6v-2.5"/></svg>',
+'Endodontia':'<svg viewBox="0 0 24 24"><path d="M12 5.2C9.4 5.2 7.3 7 7.3 9.6c0 2 .6 3.5 1.1 5 .4 1.3.7 4.4 1.5 4.4.7 0 .7-2.6.9-3.9.15-1 .4-1.5 1.2-1.5s1.05.5 1.2 1.5c.2 1.3.2 3.9.9 3.9.8 0 1.1-3.1 1.5-4.4.5-1.5 1.1-3 1.1-5C16.7 7 14.6 5.2 12 5.2Z"/><path d="M10.2 11.2v3.4M13.8 11.2v3.4"/><rect x="10.8" y="2.4" width="2.4" height="2.3" rx=".5"/><path d="M12 4.7v6"/></svg>',
+'Odontopediatria':'<svg viewBox="0 0 24 24"><path d="M12 4.6c-2.3 0-4.4 1.8-4.4 4.5 0 1.7.6 3 1.1 4.5.5 1.4.7 5.8 2.1 5.8.9 0 1-1.9 1.2-3 M12 4.6c2.3 0 4.4 1.8 4.4 4.5 0 1.7-.6 3-1.1 4.5-.5 1.4-.7 5.8-2.1 5.8-.9 0-1-1.9-1.2-3"/><path d="M9.8 4.9c.7.5 1.5.5 2.2.5s1.5 0 2.2-.5"/><circle cx="10" cy="10" r=".55" fill="currentColor" stroke="none"/><circle cx="14" cy="10" r=".55" fill="currentColor" stroke="none"/><path d="M10.2 12.2c.6.7 3 .7 3.6 0"/></svg>',
+'DTM e Dor Orofacial':'<svg viewBox="0 0 24 24"><path d="M5 9.5C5 6.7 7.2 4.8 10 4.8s5 1.9 5 4.7"/><circle cx="10" cy="12.7" r="3.1"/><path d="M10 15.8v3.4"/><path d="M18 5.5l-2.4 3.7h2.6L15.7 13"/></svg>',
+'Radiologia':'<svg viewBox="0 0 24 24"><rect x="4.5" y="3.5" width="15" height="17" rx="2"/><path d="M4.5 7.2h1.8M17.7 7.2h1.8M4.5 16.8h1.8M17.7 16.8h1.8"/><path d="M12 7.4c-2 0-3.3 1.4-3.3 3.4 0 1.3.5 2.1.9 3.2.4 1.2 1 3.6 1.6 3.6.5 0 .5-1.6.8-2.6M12 7.4c2 0 3.3 1.4 3.3 3.4 0 1.3-.5 2.1-.9 3.2-.4 1.2-1 3.6-1.6 3.6-.5 0-.5-1.6-.8-2.6"/></svg>',
+'Estomatologia':'<svg viewBox="0 0 24 24"><path d="M3 9.6c1.3-1.4 2.6-1.4 3.4-.4.4.5 1.1.5 1.5 0 .8-1 2.1-1 3.4.4"/><path d="M3 9.6h8.3"/><path d="M3 9.6c1.7 2.1 6.6 2.1 8.3 0"/><circle cx="16.3" cy="14.3" r="3.4"/><path d="M18.8 16.8 21.5 19.5"/></svg>',
+'default':'<svg viewBox="0 0 24 24"><path d="M12 4.8c-2.6 0-4.7 1.8-4.7 4.4 0 2 .6 3.5 1.1 5 .4 1.3.7 4.6 1.6 4.6.7 0 .8-2.4 1-3.7.15-.9.4-1.4 1-1.4s.85.5 1 1.4c.2 1.3.3 3.7 1 3.7.9 0 1.2-3.3 1.6-4.6.5-1.5 1.1-3 1.1-5 0-2.6-2.1-4.4-4.7-4.4Z"/></svg>'};
+const ico=(e)=>'<span class="esp-icon">'+(SVG[e]||SVG['default'])+'</span>';
+const PLAY_SVG='<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+const PAUSE_SVG='<svg viewBox="0 0 24 24"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>';
 
 async function api(qs){
   const r=await fetch('/.netlify/functions/acervo?email='+encodeURIComponent(EMAIL)+qs,{headers:{Authorization:'Bearer '+TOKEN}});
@@ -110,18 +227,24 @@ async function api(qs){
   return r.json();
 }
 
-function mudarTab(t){
-  $('tab-artigos').className='tab'+(t==='artigos'?' on':'');
-  $('tab-podcasts').className='tab'+(t==='podcasts'?' on':'');
-  $('vista-artigos').style.display=t==='artigos'?'block':'none';
-  $('vista-podcasts').style.display=t==='podcasts'?'block':'none';
+/* ── chips de especialidade (escrevem no select f-esp, fonte da verdade) ── */
+function chipsEsp(){
+  const sel=$('f-esp').value;
+  const cont=new Map();
+  for(const a of DADOS.artigos) cont.set(a.especialidade,(cont.get(a.especialidade)||0)+1);
+  $('chips-esp').innerHTML='<span class="chip'+(sel?'':' on')+'" onclick="selEsp(\'\')">Todas <span class="n">'+DADOS.artigos.length+'</span></span>'
+    +(DADOS.especialidades||[]).map(e=>'<span class="chip'+(sel===e?' on':'')+'" onclick="selEsp(\''+esc(e)+'\')">'+ico(e)+esc(e)+' <span class="n">'+(cont.get(e)||0)+'</span></span>').join('');
+}
+function selEsp(e){
+  $('f-esp').value=e;
+  encherTemas();
+  chipsEsp();hero();novidades();render();
 }
 
-const opt=(v)=>'<option value="'+esc(v)+'">'+esc(v)+'</option>';
 function encherFiltros(){
-  $('f-esp').innerHTML='<option value="">Todas as especialidades</option>'+(DADOS.especialidades||[]).map(opt).join('');
+  $('f-esp').innerHTML='<option value="">Todas as especialidades</option>'+(DADOS.especialidades||[]).map(v=>'<option value="'+esc(v)+'">'+esc(v)+'</option>').join('');
   const niveis=[...new Set(DADOS.artigos.map(a=>a.nivel).filter(Boolean))].sort();
-  $('f-nivel').innerHTML='<option value="">Todos os níveis</option>'+niveis.map(opt).join('');
+  $('f-nivel').innerHTML='<option value="">Todos os níveis</option>'+niveis.map(v=>'<option value="'+esc(v)+'">'+esc(NIVEL[String(v).toLowerCase()]||v)+'</option>').join('');
   encherTemas();
 }
 // Temas DEPENDEM da especialidade escolhida (bug 08/08: a lista global
@@ -143,7 +266,7 @@ function encherTemas(){
   const temas=[...freq.keys()].sort((a,b)=>freq.get(b)-freq.get(a)||a.localeCompare(b,'pt-BR'));
   if(temas.length){
     sel.disabled=false;
-    sel.innerHTML='<option value="">Todos os temas</option>'+temas.map(opt).join('');
+    sel.innerHTML='<option value="">Todos os temas</option>'+temas.map(v=>'<option value="'+esc(v)+'">'+esc(v)+'</option>').join('');
     sel.value=temas.includes(atual)?atual:'';
   }else{
     sel.disabled=true;
@@ -152,77 +275,253 @@ function encherTemas(){
   }
 }
 
+/* ── destaque AUTOMÁTICO: maior nível de evidência mais recente ──────────── */
+function rankNivel(n){
+  n=String(n||'').toLowerCase();
+  if(n.includes('meta'))return 4;
+  if(n.includes('revis'))return 3;
+  if(n.includes('ensaio')||n.includes('random'))return 2;
+  return 1;
+}
+function escolherDestaque(arts){
+  let melhor=null,melhorRank=0;
+  for(const a of arts){ // arts já vêm por data desc — o 1º de maior rank vence
+    const r=rankNivel(a.nivel);
+    if(r>melhorRank){melhor=a;melhorRank=r;if(r===4)break;}
+  }
+  return melhor||arts[0]||null;
+}
+function hero(){
+  const esp=$('f-esp').value;
+  const pool=DADOS.artigos.filter(a=>!esp||a.especialidade===esp);
+  const d=escolherDestaque(pool);
+  if(!d){$('hero').style.display='none';return;}
+  $('hero').style.display='block';
+  $('hero').innerHTML='<div class="marca">'+(SVG[d.especialidade]||SVG['default'])+'</div>'
+    +'<div class="rot">Destaque '+(esp?'em '+esc(esp):'· '+esc(d.especialidade))+'</div>'
+    +'<h2 class="serif">'+esc(d.titulo)+'</h2>'
+    +'<p>'+esc(String(d.resumo||'').slice(0,180))+(String(d.resumo||'').length>180?'…':'')+'</p>'
+    +'<div class="h-acts"><button class="h-play" onclick="tocar(\''+esc(d.pmid)+'\')">Ouvir agora</button>'
+    +'<span class="h-dur">'+(d.secs?fmtDur(d.secs)+' · ':'')+esc(NIVEL[String(d.nivel).toLowerCase()]||d.nivel||'')+'</span></div>';
+}
+
+/* ── continue ouvindo (progresso salvo no aparelho — localStorage) ───────── */
+const PROG_KEY='of_bib_prog';
+const progLer=()=>{try{return JSON.parse(localStorage.getItem(PROG_KEY)||'{}');}catch(e){return{};}};
+function progSalvar(pmid,t,d){
+  if(!pmid||!d)return;
+  const p=progLer();
+  if(t<5||t/d>0.95){delete p[pmid];}
+  else{p[pmid]={t:Math.round(t),d:Math.round(d),ts:Date.now()};}
+  const ids=Object.keys(p).sort((a,b)=>p[b].ts-p[a].ts).slice(0,10);
+  const compacto={};ids.forEach(i=>compacto[i]=p[i]);
+  try{localStorage.setItem(PROG_KEY,JSON.stringify(compacto));}catch(e){}
+}
+function continuar(){
+  const p=progLer();
+  const itens=Object.keys(p)
+    .map(pmid=>({...(DADOS.artigos.find(a=>a.pmid===pmid)||{}),__p:p[pmid],pmid}))
+    .filter(i=>i.titulo)
+    .sort((a,b)=>b.__p.ts-a.__p.ts).slice(0,6);
+  $('sec-continuar').style.display=itens.length?'block':'none';
+  $('c-continuar').innerHTML=itens.map(i=>
+    '<div class="cc" onclick="tocar(\''+esc(i.pmid)+'\')"><div class="t">'+esc(i.titulo)+'</div>'
+    +'<div class="cc-bar"><div class="cc-fill" style="width:'+Math.round(i.__p.t/i.__p.d*100)+'%"></div></div>'
+    +'<div class="cc-resta">'+ico(i.especialidade)+'faltam '+fmtDur(i.__p.d-i.__p.t)+'</div></div>').join('');
+}
+
+/* ── novidades (carrossel) ───────────────────────────────────────────────── */
+function novidades(){
+  const esp=$('f-esp').value;
+  const hoje=new Date().toISOString().slice(0,10);
+  const pool=DADOS.artigos.filter(a=>!esp||a.especialidade===esp).slice(0,10);
+  $('tit-novidades').textContent='Novidades'+(esp?' em '+esp:' no acervo');
+  $('sec-novidades').style.display=pool.length?'block':'none';
+  $('c-novidades').innerHTML=pool.map(a=>
+    '<div class="c-card" onclick="tocar(\''+esc(a.pmid)+'\')">'
+    +'<div class="c-topo">'+ico(a.especialidade)+(a.secs?'<span class="dur">'+fmtDur(a.secs)+'</span>':'')+'</div>'
+    +'<div class="c-corpo"><div class="t">'+esc(a.titulo)+'</div><div class="m">'+esc(NIVEL[String(a.nivel).toLowerCase()]||a.nivel||'')+' · '+fmtData(a.data)+(String(a.data).slice(0,10)===hoje?' · <b>hoje</b>':'')+'</div></div></div>').join('');
+}
+
+/* ── acervo completo (lista densa) ───────────────────────────────────────── */
+let PAGINA=1;const POR_PAGINA=30;
 function filtrar(){
   const q=$('f-busca').value.trim().toLowerCase();
   const esp=$('f-esp').value, nivel=$('f-nivel').value, tema=$('f-tema').value, dias=$('f-data').value;
   const corte=dias?new Date(Date.now()-Number(dias)*86400000).toISOString().slice(0,10):'';
-  return DADOS.artigos.filter(a=>
+  let arts=DADOS.artigos.filter(a=>
     (!esp||a.especialidade===esp)&&(!nivel||a.nivel===nivel)&&(!tema||a.tema===tema)
     &&(!corte||String(a.data)>=corte)
     &&(!q||(a.titulo+' '+a.resumo).toLowerCase().includes(q)));
+  const ord=$('f-ord').value;
+  if(ord==='antigos')arts=[...arts].reverse();
+  else if(ord==='naolidos')arts=[...arts].sort((x,y)=>(x.lido?1:0)-(y.lido?1:0));
+  return arts;
 }
-
 function render(){
-  const arts=filtrar();
-  $('contagem').textContent=arts.length+' de '+DADOS.artigos.length+' artigos no acervo';
-  $('lista').innerHTML=arts.length?arts.map(a=>
-    '<div class="card">'
-    +'<span class="badge esp">'+esc(a.especialidade)+'</span>'
-    +(a.nivel?'<span class="badge nivel">'+esc(NIVEL[String(a.nivel).toLowerCase()]||a.nivel)+'</span>':'')
-    +'<span class="badge data">'+fmtData(a.data)+'</span>'
-    +(a.lido?'<span class="badge lido">✓ lido</span>':'')
-    +'<div class="tit">'+esc(a.titulo)+'</div>'
-    +'<div class="prev">'+esc(a.resumo)+(a.resumo.length>=400?'…':'')+'</div>'
-    +(a.journal?'<div class="prev" style="margin-top:4px;font-size:11.5px;">'+esc(a.journal)+(a.year?' · '+esc(a.year):'')+'</div>':'')
-    +(a.audioUrl?'<audio controls preload="none" src="'+esc(a.audioUrl)+'"></audio>':'')
-    +'<div class="acts">'
-    +'<button onclick="abrirResumo(this,\''+esc(a.pmid)+'\')">📖 Ler resumo completo</button>'
-    +'</div><div class="resumo-full" id="rf-'+esc(a.pmid)+'"></div>'
-    +'</div>').join('')
-    :'<div class="card vazio">Nenhum artigo com esses filtros.</div>';
+  PAGINA=1;renderLista();
 }
+function renderLista(){
+  const arts=filtrar();
+  const esp=$('f-esp').value;
+  $('tit-acervo').textContent='Acervo completo'+(esp?' — '+esp:'');
+  $('contagem').textContent=arts.length+' de '+DADOS.artigos.length+' artigos no acervo';
+  const fatia=arts.slice(0,PAGINA*POR_PAGINA);
+  $('lista').innerHTML=fatia.length?fatia.map(a=>
+    '<div class="b-item"><div class="b-head" onclick="expandir(\''+esc(a.pmid)+'\')">'
+    +'<span class="pontinho'+(a.lido?' lido':'')+'"></span>'
+    +'<div style="flex:1;min-width:0;"><div class="b-t">'+esc(a.titulo)+'</div>'
+    +'<div class="b-m"><span class="tagmini">'+esc(NIVEL[String(a.nivel).toLowerCase()]||a.nivel||'estudo')+'</span>'
+    +'<span>'+esc(a.especialidade)+'</span>'+(a.tema?'<span>·</span><span>'+esc(a.tema)+'</span>':'')
+    +'<span>·</span><span>'+fmtData(a.data)+'</span>'+(a.secs?'<span>·</span><span>'+fmtDur(a.secs)+'</span>':'')
+    +(a.lido?'<span class="taglido">✓ lido</span>':'')+'</div></div>'
+    +(a.audioUrl?'<button class="play" id="pl-'+esc(a.pmid)+'" onclick="event.stopPropagation();tocar(\''+esc(a.pmid)+'\')">'+PLAY_SVG+'</button>':'')
+    +'</div><div class="b-det" id="rf-'+esc(a.pmid)+'"></div></div>').join('')
+    :'<div class="vazio">Nenhum artigo com esses filtros.</div>';
+  $('vermais').style.display=arts.length>fatia.length?'block':'none';
+  marcarTocando();
+}
+function verMais(){PAGINA++;renderLista();}
 
-async function abrirResumo(btn,pmid){
+/* Expandir = carregar o resumo completo (registra 'context_opened' no
+   servidor — alimenta o "lido", mesmo tracking de sempre). */
+async function expandir(pmid){
   const box=$('rf-'+pmid);
-  if(box.style.display==='block'){box.style.display='none';btn.textContent='📖 Ler resumo completo';return;}
+  if(!box)return;
+  if(box.style.display==='block'){box.style.display='none';return;}
   if(!box.dataset.ok){
-    btn.textContent='Carregando…';
+    box.style.display='block';
+    box.innerHTML='Carregando…';
     try{
       const d=await api('&action=artigo&id='+encodeURIComponent(pmid));
-      box.innerHTML=(d.resumo_completo?'<div>'+esc(d.resumo_completo)+'</div>':'<div class="prev">Resumo completo indisponível para este estudo.</div>')
+      const a=DADOS.artigos.find(x=>x.pmid===pmid)||{};
+      box.innerHTML=(d.resumo_completo?esc(d.resumo_completo):'Resumo completo indisponível para este estudo.')
         +(d.impacto?'<div class="impacto"><b>Relevância clínica:</b> '+esc(d.impacto)+'</div>':'')
-        +(d.url?'<div class="acts"><a class="btn" href="'+esc(d.url)+'" target="_blank" rel="noopener">Ver no PubMed ↗</a></div>':'');
+        +(a.audioUrl?'<audio controls preload="none" src="'+esc(a.audioUrl)+'"></audio>':'')
+        +'<div class="acts">'+(d.url?'<a href="'+esc(d.url)+'" target="_blank" rel="noopener">Ver no PubMed ↗</a>':'')+'</div>';
       box.dataset.ok='1';
       // marca lido localmente (o tracking do servidor já registrou)
-      const art=DADOS.artigos.find(a=>a.pmid===pmid); if(art&&!art.lido){art.lido=true;}
-    }catch(e){box.innerHTML='<div class="prev">Não foi possível carregar. Tente novamente.</div>';}
+      if(a&&!a.lido){a.lido=true;}
+    }catch(e){box.innerHTML='Não foi possível carregar. Tente novamente.';}
   }
-  box.style.display='block';btn.textContent='Fechar resumo';
+  box.style.display='block';
 }
 
+/* ── edições diárias (antiga aba Podcasts) ───────────────────────────────── */
+let PAG_POD=1;
 function renderPodcasts(){
   const eps=DADOS.episodios||[];
   $('contagem-pod').textContent=eps.length+' episódios no acervo';
-  $('lista-pod').innerHTML=eps.length?eps.map(e=>
-    '<div class="card">'
-    +'<span class="badge esp">'+esc(e.especialidade||'—')+'</span><span class="badge data">'+fmtData(e.date)+'</span>'
-    +(e.secs?'<span class="badge nivel">'+fmtDur(e.secs)+'</span>':'')
-    +'<div class="tit">'+esc(e.titulo||'Episódio')+'</div>'
-    +'<audio controls preload="none" src="'+esc(e.url)+'"></audio>'
-    +'</div>').join('')
-    :'<div class="card vazio">Nenhum episódio no acervo ainda.</div>';
+  const fatia=eps.slice(0,PAG_POD*POR_PAGINA);
+  $('lista-pod').innerHTML=fatia.length?fatia.map((e,i)=>
+    '<div class="b-item"><div class="b-head" onclick="tocarEp('+i+')">'
+    +'<span class="esp-icon">'+(SVG[e.especialidade]||SVG['default'])+'</span>'
+    +'<div style="flex:1;min-width:0;"><div class="b-t">'+esc(e.titulo||'Episódio')+'</div>'
+    +'<div class="b-m"><span>'+esc(e.especialidade||'—')+'</span><span>·</span><span>'+fmtData(e.date)+'</span>'+(e.secs?'<span>·</span><span>'+fmtDur(e.secs)+'</span>':'')+'</div></div>'
+    +'<button class="play" id="plep-'+i+'" onclick="event.stopPropagation();tocarEp('+i+')">'+PLAY_SVG+'</button>'
+    +'</div></div>').join('')
+    :'<div class="vazio">Nenhum episódio no acervo ainda.</div>';
+  $('vermais-pod').style.display=eps.length>fatia.length?'block':'none';
+  marcarTocando();
 }
+function verMaisPod(){PAG_POD++;renderPodcasts();}
 
-// FALLBACK PELO NOSSO DOMÍNIO (10/08 — mesma lógica do dashboard): aparelhos
-// cuja operadora/DNS não alcança firebasestorage.googleapis.com penduram o
-// download SEM evento de erro e o player mora no 0:00. Delegação em captura
-// cobre todos os <audio>, inclusive os renderizados depois. 10s "tocando" com
-// zero bytes (ou erro de carga) → troca UMA vez para /.netlify/functions/audio.
+/* ── player fixo (um único <audio>, reaproveitado) ───────────────────────── */
+let MP_ATUAL=null; // {pmid|'ep:i', titulo, esp}
+const VELOCIDADES=[1,1.25,1.5,2];let VEL_I=0;
+function mpPrepara(src){
+  const a=$('mp-audio');
+  // Faixa NOVA: limpa o estado do fallback de rota (senão a 2ª faixa nunca
+  // teria direito ao proxy — o dataset.proxied ficaria travado em '1').
+  a.dataset.proxied='';a.dataset.srcOriginal='';a.dataset.retry='';
+  a.src=src;a.load();
+  return a;
+}
+function tocar(pmid){
+  const art=DADOS.artigos.find(x=>x.pmid===pmid);
+  if(!art||!art.audioUrl)return;
+  const a=$('mp-audio');
+  if(MP_ATUAL&&MP_ATUAL.pmid===pmid){mpToggle();return;}
+  MP_ATUAL={pmid,titulo:art.titulo,esp:art.especialidade};
+  const p=progLer()[pmid];
+  const seek=p&&p.t>5?p.t:0;
+  const el=mpPrepara(art.audioUrl);
+  if(seek)el.addEventListener('loadedmetadata',()=>{try{el.currentTime=seek;}catch(e){}},{once:true});
+  el.play().catch(()=>{});
+  mpMostrar();
+}
+function tocarEp(i){
+  const e=(DADOS.episodios||[])[i];
+  if(!e||!e.url)return;
+  if(MP_ATUAL&&MP_ATUAL.pmid==='ep:'+i){mpToggle();return;}
+  MP_ATUAL={pmid:'ep:'+i,titulo:(e.titulo||'Episódio')+' — '+(e.especialidade||''),esp:e.especialidade};
+  mpPrepara(e.url).play().catch(()=>{});
+  mpMostrar();
+}
+function mpMostrar(){
+  $('mp').classList.add('on');
+  $('mp-t').textContent=MP_ATUAL.titulo;
+  $('mp-ico').innerHTML=SVG[MP_ATUAL.esp]||SVG['default'];
+  marcarTocando();
+}
+function mpToggle(){
+  const a=$('mp-audio');
+  if(a.paused)a.play().catch(()=>{});else a.pause();
+}
+function mpVel(){
+  VEL_I=(VEL_I+1)%VELOCIDADES.length;
+  $('mp-audio').playbackRate=VELOCIDADES[VEL_I];
+  $('mp-vel').textContent=VELOCIDADES[VEL_I]+'×';
+}
+function marcarTocando(){
+  document.querySelectorAll('.play.tocando').forEach(b=>{b.classList.remove('tocando');b.innerHTML=PLAY_SVG;});
+  if(!MP_ATUAL)return;
+  const a=$('mp-audio');
+  const id=String(MP_ATUAL.pmid).startsWith('ep:')?'plep-'+MP_ATUAL.pmid.slice(3):'pl-'+MP_ATUAL.pmid;
+  const b=$(id);
+  if(b&&!a.paused){b.classList.add('tocando');b.innerHTML=PAUSE_SVG;}
+}
+(function(){
+  const a=$('mp-audio');
+  a.addEventListener('play',()=>{$('mp-pp').innerHTML=PAUSE_SVG;marcarTocando();});
+  a.addEventListener('pause',()=>{$('mp-pp').innerHTML=PLAY_SVG;marcarTocando();});
+  let ultimoSave=0;
+  a.addEventListener('timeupdate',()=>{
+    if(!a.duration)return;
+    $('mp-fill').style.width=(a.currentTime/a.duration*100)+'%';
+    $('mp-tempo').textContent=fmtDur(a.currentTime)+' / '+fmtDur(a.duration);
+    const agora=Date.now();
+    if(agora-ultimoSave>4000&&MP_ATUAL&&!String(MP_ATUAL.pmid).startsWith('ep:')){
+      // Só grava; NÃO re-renderiza o carrossel aqui (re-render a cada 4s
+      // resetaria o scroll de quem está navegando na trilha).
+      ultimoSave=agora;progSalvar(MP_ATUAL.pmid,a.currentTime,a.duration);
+    }
+  });
+  a.addEventListener('pause',()=>{continuar();});
+  a.addEventListener('ended',()=>{
+    // t=0,d=1 → abaixo do piso de 5s → remove da trilha (episódio concluído).
+    if(MP_ATUAL&&!String(MP_ATUAL.pmid).startsWith('ep:')){progSalvar(MP_ATUAL.pmid,0,1);continuar();}
+    $('mp-pp').innerHTML=PLAY_SVG;marcarTocando();
+  });
+  $('mp-bar').addEventListener('click',(ev)=>{
+    if(!a.duration)return;
+    const r=$('mp-bar').getBoundingClientRect();
+    a.currentTime=((ev.clientX-r.left)/r.width)*a.duration;
+  });
+})();
+
+/* FALLBACK PELO NOSSO DOMÍNIO (10/08 — mesma lógica do dashboard): aparelhos
+   cuja operadora/DNS não alcança firebasestorage.googleapis.com penduram o
+   download SEM evento de erro e o player mora no 0:00. Delegação em captura
+   cobre todos os <audio> — o do player fixo e os nativos dos cards. 10s
+   "tocando" com zero bytes (ou erro de carga) → troca UMA vez para
+   /.netlify/functions/audio. */
 function _trocaRotaAudio(a){
   if(a.dataset.proxied==='1') return;
   const src=a.getAttribute('src')||'';
   if(!/^https:\/\/firebasestorage\.googleapis\.com\//.test(src)) return;
   a.dataset.proxied='1';
+  a.dataset.srcOriginal=src;
   a.src='/.netlify/functions/audio?u='+encodeURIComponent(src);
   a.load(); a.play().catch(()=>{});
 }
@@ -236,12 +535,16 @@ document.addEventListener('play',ev=>{
 document.addEventListener('playing',ev=>{ if(ev.target instanceof HTMLAudioElement) clearTimeout(ev.target._watchdog); },true);
 document.addEventListener('error',ev=>{ if(ev.target instanceof HTMLAudioElement) _trocaRotaAudio(ev.target); },true);
 
+/* ── boot ────────────────────────────────────────────────────────────────── */
 (async()=>{
   if(!EMAIL||!TOKEN){$('login').style.display='block';return;}
   try{
     DADOS=await api('&action=catalogo');
     $('app').style.display='block';
-    encherFiltros(); render(); renderPodcasts();
+    const horas=Math.round(DADOS.artigos.reduce((s,a)=>s+(Number(a.secs)||0),0)/3600);
+    const lidos=DADOS.artigos.filter(a=>a.lido).length;
+    $('stats').innerHTML='<b>'+DADOS.artigos.length+' artigos</b> com podcast'+(horas?' · <b>'+horas+'h</b> de áudio':'')+(lidos?' · <b>'+lidos+'</b> lidos por você':'')+' · <a href="/dashboard">← voltar à área de membro</a>';
+    encherFiltros();chipsEsp();hero();continuar();novidades();render();renderPodcasts();
   }catch(e){ if(e.message!=='sessao'){$('login').style.display='block';} }
 })();
 </script>
