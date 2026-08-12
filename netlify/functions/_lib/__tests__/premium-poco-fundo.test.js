@@ -90,7 +90,7 @@ descSR('varredura retroativa limpar-extras-sem-resultados', () => {
     assertSR.ok(scriptSR.includes('isResultadosIndisponiveis(a)'), 'mesma função determinística');
   });
   testSR('dry-run por padrão; pulados os já reprovados; relatório por especialidade', () => {
-    assertSR.match(scriptSR, /DRY_RUN = String\(process\.env\.DRY_RUN \?\? 'true'\)/, 'padrão seguro');
+    assertSR.match(scriptSR, /DRY_RUN = !\/\^\(false\|0\|n\[a\ã\]o\|no\)\$\/i/, 'padrão seguro com parser tolerante a caixa/espaços (run #2 de 12/08: "false" digitado não gravou)');
     assertSR.ok(scriptSR.includes('a.extra_sem_resultados || a.veredito_extra_reprovado'), 'idempotente');
     assertSR.ok(scriptSR.includes('POR ESPECIALIDADE'), 'relatório por especialidade');
   });

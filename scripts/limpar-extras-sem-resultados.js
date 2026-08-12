@@ -19,7 +19,11 @@
 const { Firestore } = require('../netlify/functions/_lib/firestore');
 const { isResultadosIndisponiveis } = require('../netlify/functions/daily-digest');
 
-const DRY_RUN = String(process.env.DRY_RUN ?? 'true') !== 'false';
+// Parser TOLERANTE (12/08, run #2: o fundador rodou "false" e o run ficou em
+// dry-run mesmo assim — comparação sensível a caixa/espaços é pegadinha de
+// formulário). Aceita false/FALSE/False/0/não/nao/no; qualquer outra coisa é
+// dry-run, e o valor RECEBIDO sai no log para nunca mais restar dúvida.
+const DRY_RUN = !/^(false|0|n[aã]o|no)$/i.test(String(process.env.DRY_RUN ?? 'true').trim());
 
 async function main() {
   const projectId = process.env.FIREBASE_PROJECT_ID || 'orthoradar';
@@ -27,7 +31,7 @@ async function main() {
   if (!apiKey) { console.error('FIREBASE_API_KEY ausente'); process.exit(1); }
   const db = new Firestore(projectId, apiKey);
 
-  console.log(`[limpar-extras] modo: ${DRY_RUN ? 'DRY-RUN (nada será gravado)' : 'GRAVANDO'}`);
+  console.log(`[limpar-extras] modo: ${DRY_RUN ? 'DRY-RUN (nada será gravado)' : 'GRAVANDO'} — input recebido: "${process.env.DRY_RUN ?? '(vazio, padrão true)'}"`);
   const artigos = await db.query('artigos', { limit: 5000 });
   const ativos = artigos.filter(a => a.status === 'active');
   console.log(`[limpar-extras] ${ativos.length} artigos ativos avaliados (de ${artigos.length} no acervo)`);
