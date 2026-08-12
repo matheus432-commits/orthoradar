@@ -78,3 +78,25 @@ descSR('reprovação pós-resumo persistida (extra_sem_resultados)', () => {
     assertSR.match(srcSR, /fila de \$\{candidatosExtras\.length\}/, 'mensagem quantificada');
   });
 });
+
+// Varredura retroativa (12/08, pedido do fundador: "para todas as
+// especialidades"): antecipa a marcação no acervo INTEIRO com a MESMA função
+// do e-mail, em dry-run por padrão, sem nenhum custo de IA/TTS.
+descSR('varredura retroativa limpar-extras-sem-resultados', () => {
+  const scriptSR = fsSR.readFileSync(pathSR.join(__dirname, '..', '..', '..', '..', 'scripts', 'limpar-extras-sem-resultados.js'), 'utf8');
+  const wfSR = fsSR.readFileSync(pathSR.join(__dirname, '..', '..', '..', '..', '.github', 'workflows', 'limpar-extras-sem-resultados.yml'), 'utf8');
+  testSR('usa a MESMA checagem do e-mail (não uma cópia divergente)', () => {
+    assertSR.ok(scriptSR.includes("require('../netlify/functions/daily-digest')"), 'importa do digest');
+    assertSR.ok(scriptSR.includes('isResultadosIndisponiveis(a)'), 'mesma função determinística');
+  });
+  testSR('dry-run por padrão; pulados os já reprovados; relatório por especialidade', () => {
+    assertSR.match(scriptSR, /DRY_RUN = String\(process\.env\.DRY_RUN \?\? 'true'\)/, 'padrão seguro');
+    assertSR.ok(scriptSR.includes('a.extra_sem_resultados || a.veredito_extra_reprovado'), 'idempotente');
+    assertSR.ok(scriptSR.includes('POR ESPECIALIDADE'), 'relatório por especialidade');
+  });
+  testSR('workflow é SÓ dispatch manual e sem chaves de IA/TTS (custo zero)', () => {
+    assertSR.ok(wfSR.includes('workflow_dispatch'), 'dispatch manual');
+    assertSR.ok(!wfSR.includes('push:'), 'nunca roda em push');
+    assertSR.ok(!wfSR.includes('ANTHROPIC_API_KEY') && !wfSR.includes('GOOGLE_TTS_API_KEY'), 'sem chaves de IA/TTS');
+  });
+});
