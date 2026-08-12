@@ -35,6 +35,13 @@
   to = "/#planos"
   status = 302
 
+# Landing de resgate de parceria: /parceria/{slug} serve a página única, que
+# lê o slug do próprio path (rewrite 200 — a URL bonita fica na barra).
+[[redirects]]
+  from = "/parceria/*"
+  to = "/parceria.html"
+  status = 200
+
 [functions."cleanup-articles"]
   schedule = "0 3 * * 0"
 
@@ -43,6 +50,12 @@
 # materializa o estado (idempotente; resposta só com contadores).
 [functions."afiliados-expiracao"]
   schedule = "0 6 1 * *"
+
+# Parcerias: aviso de 7 dias e expiração dos 3 meses de cortesia (diária, 9h
+# UTC = 6h BRT). Nunca cobra automaticamente — só avisa e rebaixa ao Gratuito
+# quem veio de parceria; assinante pago vira "convertido" (protegido).
+[functions."parcerias-expiracao"]
+  schedule = "0 9 * * *"
 
 # "O Que Ficou" — weekly top-articles recap: agendado via GitHub Actions
 # (.github/workflows/weekly-digest.yml, sábado 11h UTC = 8h BRT) porque o envio

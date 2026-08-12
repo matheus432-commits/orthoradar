@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Parceria — OdontoFeed</title>
+<style>
+/* Identidade do OdontoFeed: fundo creme, títulos serifados, cards brancos,
+   verde #2D6A4F como accent (spec da página de resgate, 12/08). */
+:root{--bg:#F6F1E8;--card:#FFFFFF;--border:#EDE6D8;--text:#1A1A18;--muted:#8A8478;--green:#2D6A4F;--gold:#B08968;--red:#B4533B;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,-apple-system,sans-serif;padding:34px 16px 70px;}
+.wrap{max-width:520px;margin:0 auto;}
+.logo{font-family:Georgia,'Times New Roman',serif;font-size:1.15rem;letter-spacing:-.3px;margin-bottom:26px;}
+.logo em{color:var(--gold);font-style:normal;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:26px 24px;box-shadow:0 2px 12px rgba(0,0,0,.04);}
+.selo{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:var(--green);background:#E8F2EA;border-radius:9px;padding:4px 10px;margin-bottom:14px;}
+h1{font-family:Georgia,'Times New Roman',serif;font-size:1.5rem;line-height:1.3;letter-spacing:-.4px;margin-bottom:10px;}
+h1 b{color:var(--green);}
+.sub{font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:6px;}
+.produto{font-size:13px;color:var(--text);background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin:14px 0 4px;}
+.honesto{font-size:12.5px;color:var(--muted);line-height:1.65;border-left:3px solid var(--green);padding:2px 0 2px 12px;margin:16px 0 4px;}
+.tabs{display:flex;gap:8px;margin:20px 0 14px;}
+.tab{flex:1;border:1px solid var(--border);background:#fff;border-radius:99px;padding:9px 0;text-align:center;cursor:pointer;font-size:13px;font-weight:700;}
+.tab.on{background:var(--text);color:#fff;border-color:var(--text);}
+label{display:block;font-size:12px;font-weight:700;margin:12px 0 5px;color:var(--text);}
+input{width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:10px;font-size:14px;background:#fff;color:var(--text);}
+.especialidades{display:flex;gap:7px;flex-wrap:wrap;margin-top:4px;}
+.esp{border:1px solid var(--border);background:#fff;border-radius:99px;padding:7px 13px;font-size:12px;font-weight:600;cursor:pointer;}
+.esp.on{background:var(--green);color:#fff;border-color:var(--green);}
+.cta{width:100%;margin-top:20px;background:var(--green);color:#fff;border:0;border-radius:12px;padding:14px;font-size:15px;font-weight:700;cursor:pointer;}
+.cta:disabled{opacity:.6;cursor:default;}
+.err{color:var(--red);font-size:13px;margin-top:10px;display:none;line-height:1.5;}
+.ok-box{text-align:center;padding:10px 0;}
+.ok-box .ic{width:56px;height:56px;border-radius:50%;background:#E8F2EA;color:var(--green);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;}
+.ok-box .ic svg{width:28px;height:28px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;}
+.foot{font-size:11.5px;color:var(--muted);margin-top:18px;line-height:1.7;text-align:center;}
+.foot a{color:var(--green);}
+.aviso-cartao{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--green);font-weight:700;margin-top:14px;justify-content:center;}
+.aviso-cartao svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;}
+#estado-invalido,#estado-ok,#form{display:none;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="logo">OdontoFeed<em>.</em></div>
+
+  <div class="card" id="carregando"><p class="sub">Carregando a parceria…</p></div>
+
+  <div class="card" id="estado-invalido">
+    <h1>Este link não está disponível</h1>
+    <p class="sub" id="motivo-invalido">Este link de parceria não existe ou foi removido.</p>
+    <p class="foot" style="text-align:left;">Conhecer o OdontoFeed mesmo assim? <a href="/">Visite a página inicial</a>.</p>
+  </div>
+
+  <div class="card" id="conteudo" style="display:none;">
+    <span class="selo">Cortesia de parceiro</span>
+    <h1>Você recebeu <b>3 meses de OdontoFeed Premium</b>, cortesia de <span id="p-nome">…</span></h1>
+    <p class="sub">Ciência odontológica diária da sua especialidade, resumida e narrada — direto no seu e-mail e na área de membro.</p>
+    <div class="produto">🎓 Bônus exclusivo para alunos de <b id="p-produto">…</b></div>
+    <div class="honesto">
+      Seu acesso Premium fica ativo <b>desde já</b>. Os 3 meses de cortesia começarão a contar
+      <b>a partir do início da cobrança da plataforma</b> — avisaremos com antecedência,
+      e nada será cobrado automaticamente.
+    </div>
+
+    <div id="form">
+      <div class="tabs">
+        <div class="tab on" id="tab-nova" onclick="mudarModo('nova')">Criar minha conta</div>
+        <div class="tab" id="tab-login" onclick="mudarModo('login')">Já tenho conta</div>
+      </div>
+
+      <div id="campos-nova">
+        <label>Nome completo</label>
+        <input id="f-nome" placeholder="Nome e sobrenome" autocomplete="name">
+        <label>Especialidades (até 3 — a primeira define seu e-mail diário)</label>
+        <div class="especialidades" id="f-especialidades"></div>
+      </div>
+
+      <label>E-mail</label>
+      <input id="f-email" type="email" placeholder="voce@exemplo.com" autocomplete="email">
+      <label>Senha</label>
+      <input id="f-senha" type="password" placeholder="Sua senha" autocomplete="new-password">
+
+      <button class="cta" id="btn" onclick="resgatar()">Ativar meus 3 meses Premium</button>
+      <p class="err" id="err"></p>
+      <div class="aviso-cartao"><svg viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="12" rx="2"/><path d="M4 10h16"/><path d="M2 3l20 18"/></svg> Sem cartão de crédito — nenhuma cobrança automática</div>
+      <p class="foot" id="termos-nota">Ao criar a conta você aceita os <a href="/termos" target="_blank">Termos de Uso</a> e a <a href="/privacidade" target="_blank">Política de Privacidade</a>.</p>
+    </div>
+  </div>
+
+  <div class="card" id="estado-ok">
+    <div class="ok-box">
+      <div class="ic"><svg viewBox="0 0 24 24"><path d="M4.5 12.5l5 5L19.5 7"/></svg></div>
+      <h1>Resgate confirmado!</h1>
+      <p class="sub" id="ok-texto">
+        Seu acesso Premium já está ativo. Os 3 meses de cortesia começarão a contar a partir do
+        início da cobrança da plataforma — avisaremos com antecedência.
+      </p>
+      <button class="cta" onclick="location.href='/dashboard'">Ir para a minha área de membro →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const $=(id)=>document.getElementById(id);
+const ESPECIALIDADES=['Ortodontia','Implantodontia','Periodontia','Dentística','Endodontia','Prótese','Odontopediatria','Bucomaxilofacial','DTM e Dor Orofacial','Estomatologia','Radiologia'];
+// /parceria/{slug} (redirect do netlify.toml) ou ?slug= (fallback).
+const SLUG=(location.pathname.match(/\/parceria\/([a-z0-9-]+)/i)||[])[1]||new URLSearchParams(location.search).get('slug')||'';
+let MODO='nova';
+
+async function hashSHA256(txt){
+  const buf=new TextEncoder().encode(txt);
+  const h=await crypto.subtle.digest('SHA-256',buf);
+  return [...new Uint8Array(h)].map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+
+function mudarModo(m){
+  MODO=m;
+  $('tab-nova').className='tab'+(m==='nova'?' on':'');
+  $('tab-login').className='tab'+(m==='login'?' on':'');
+  $('campos-nova').style.display=m==='nova'?'block':'none';
+  $('termos-nota').style.display=m==='nova'?'block':'none';
+  $('f-senha').autocomplete=m==='nova'?'new-password':'current-password';
+  $('btn').textContent=m==='nova'?'Ativar meus 3 meses Premium':'Entrar e ativar meus 3 meses';
+}
+
+function selecionadas(){return [...document.querySelectorAll('.esp.on')].map(e=>e.textContent);}
+$('f-especialidades').innerHTML=ESPECIALIDADES.map(e=>'<span class="esp" onclick="alternarEsp(this)">'+e+'</span>').join('');
+function alternarEsp(el){
+  if(!el.classList.contains('on')&&selecionadas().length>=3){mostrarErro('Escolha no máximo 3 especialidades.');return;}
+  el.classList.toggle('on');$('err').style.display='none';
+}
+function mostrarErro(msg){$('err').textContent=msg;$('err').style.display='block';}
+
+async function resgatar(){
+  $('err').style.display='none';
+  const email=$('f-email').value.trim().toLowerCase();
+  const senha=$('f-senha').value;
+  if(!email||!senha)return mostrarErro('Preencha e-mail e senha.');
+  const btn=$('btn');btn.disabled=true;btn.textContent='Ativando…';
+  try{
+    const senhaHash=await hashSHA256(senha);
+    if(MODO==='nova'){
+      const nome=$('f-nome').value.trim();
+      const esp=selecionadas();
+      if(!nome||!nome.includes(' '))throw new Error('Informe seu nome completo (nome e sobrenome).');
+      if(!esp.length)throw new Error('Escolha ao menos 1 especialidade.');
+      const reg=await fetch('/.netlify/functions/register',{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({nome,email,especialidade:esp,senhaHash,aceiteTermos:true})});
+      const rb=await reg.json().catch(()=>({}));
+      // Conta já existente não é erro fatal aqui: seguimos para o login.
+      if(!reg.ok&&!/existe|cadastrad/i.test(String(rb.error||'')))throw new Error(rb.error||'Não foi possível criar a conta.');
+    }
+    const lg=await fetch('/.netlify/functions/login',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({email,senhaHash})});
+    const lb=await lg.json().catch(()=>({}));
+    if(!lg.ok)throw new Error(lb.error||'E-mail ou senha incorretos.');
+    const token=lb.sessionToken||lb.token;
+    localStorage.setItem('of_email',email);
+    if(token)localStorage.setItem('of_token',token);
+    const rs=await fetch('/.netlify/functions/parceria',{method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
+      body:JSON.stringify({action:'resgatar',slug:SLUG,email})});
+    const sb=await rs.json().catch(()=>({}));
+    if(!rs.ok)throw new Error(sb.mensagem||sb.error||'Não foi possível concluir o resgate.');
+    if(sb.beneficio_ja_contando&&sb.data_fim_beneficio){
+      $('ok-texto').innerHTML='Seu acesso Premium já está ativo e os seus 3 meses de cortesia já estão contando — vão até <b>'
+        +String(sb.data_fim_beneficio).split('-').reverse().join('/')+'</b>. Avisaremos antes do fim; nada será cobrado automaticamente.';
+    }
+    $('conteudo').style.display='none';$('estado-ok').style.display='block';
+  }catch(e){mostrarErro(e.message);}
+  btn.disabled=false;mudarModo(MODO);
+}
+
+(async()=>{
+  try{
+    const r=await fetch('/.netlify/functions/parceria?slug='+encodeURIComponent(SLUG));
+    const d=await r.json();
+    $('carregando').style.display='none';
+    if(!d.valido){
+      $('motivo-invalido').textContent=d.mensagem||'Este link de parceria não existe ou foi removido.';
+      $('estado-invalido').style.display='block';return;
+    }
+    $('p-nome').textContent=d.nome_parceiro;
+    $('p-produto').textContent=d.nome_produto;
+    $('conteudo').style.display='block';$('form').style.display='block';
+    // Aluno da especialidade do produto: pré-seleciona (pode trocar).
+    if(d.especialidade){
+      const alvo=[...document.querySelectorAll('.esp')].find(e=>e.textContent===d.especialidade);
+      if(alvo)alvo.classList.add('on');
+    }
+  }catch(e){
+    $('carregando').style.display='none';
+    $('estado-invalido').style.display='block';
+  }
+})();
+</script>
+</body>
+</html>

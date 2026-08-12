@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Parcerias — OdontoFeed (admin)</title>
+<style>
+:root{--bg:#FBF7EF;--card:#FFFFFF;--border:#EDE6D8;--text:#1A1A18;--muted:#8A8478;--gold:#B08968;--green:#3E7C4F;--red:#B4533B;--blue:#4A6B8A;--yellow:#A07C1F;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,-apple-system,sans-serif;padding:28px 16px 60px;}
+.wrap{max-width:960px;margin:0 auto;}
+h1{font-family:Georgia,'Times New Roman',serif;font-size:1.6rem;letter-spacing:-.4px;margin-bottom:4px;}
+h1 em{color:var(--gold);font-style:normal;}
+.sub{color:var(--muted);font-size:13px;margin-bottom:22px;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px 20px;margin-bottom:14px;box-shadow:0 1px 4px rgba(0,0,0,.03);}
+.sec-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.4px;color:var(--muted);margin:26px 0 10px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.t-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--muted);margin-bottom:6px;}
+.t-val{font-family:Georgia,serif;font-size:1.7rem;letter-spacing:-.5px;}
+.total-row{display:flex;gap:12px;flex-wrap:wrap;}
+.total-row .card{flex:1;min-width:140px;margin-bottom:0;}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+th{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);text-align:left;padding:8px 10px;border-bottom:1px solid var(--border);}
+td{padding:10px;border-bottom:1px solid var(--border);vertical-align:middle;}
+tr:last-child td{border-bottom:none;}
+tr.clic{cursor:pointer;}
+tr.clic:hover td{background:#FBF8F1;}
+.badge{display:inline-block;font-size:9.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:3px 8px;border-radius:9px;white-space:nowrap;}
+.badge.cinza{background:#EFEDE8;color:var(--muted);}
+.badge.verde{background:#E8F2EA;color:var(--green);}
+.badge.amarelo{background:#F7F0DC;color:var(--yellow);}
+.badge.azul{background:#EEF1F4;color:var(--blue);}
+.badge.off{background:#F6E7E2;color:var(--red);}
+button,.btn{border:1px solid var(--border);background:#fff;border-radius:9px;padding:7px 12px;cursor:pointer;font-size:12.5px;color:var(--text);font-weight:600;}
+button:hover{background:#F6F2E9;}
+button.primary{background:var(--text);color:#fff;border-color:var(--text);}
+button.perigo{background:var(--red);color:#fff;border-color:var(--red);}
+.copy{font-family:ui-monospace,Consolas,monospace;font-size:12px;background:#F6F2E9;border-radius:7px;padding:4px 8px;cursor:pointer;white-space:nowrap;}
+.copy:active{background:#EAE2D2;}
+.login{max-width:400px;margin:80px auto;text-align:center;}
+.login input{width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:10px;font-size:14px;margin:14px 0 10px;background:#fff;}
+.login button{background:var(--text);color:#fff;border:none;border-radius:10px;padding:12px 26px;font-weight:600;font-size:14px;cursor:pointer;}
+.err{color:var(--red);font-size:13px;margin-top:10px;display:none;}
+#dash{display:none;}
+.voltar{font-size:13px;color:var(--blue);text-decoration:none;}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.form-grid label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);display:block;margin-bottom:4px;}
+.form-grid input,.form-grid select{width:100%;padding:9px 11px;border:1px solid var(--border);border-radius:9px;font-size:13px;background:#fff;color:var(--text);}
+.form-grid .full{grid-column:1/-1;}
+.filtros{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;}
+.filtros select,.filtros input{border:1px solid var(--border);border-radius:9px;padding:7px 9px;font-size:12px;background:#fff;color:var(--text);}
+.cob-banner{border-left:4px solid var(--yellow);}
+.cob-banner.ativa{border-left-color:var(--green);}
+@media(max-width:640px){table{font-size:12px;} td,th{padding:7px 6px;} .form-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="login" id="login">
+    <h1>OdontoFeed<em>.</em> Parcerias</h1>
+    <p class="sub">Painel de parceiros e resgates — informe o segredo do admin.</p>
+    <input type="password" id="secret" placeholder="ADMIN_SECRET" onkeydown="if(event.key==='Enter')entrar()">
+    <button onclick="entrar()">Entrar</button>
+    <p class="err" id="err-login">Segredo inválido.</p>
+  </div>
+
+  <div id="dash">
+    <a class="voltar" href="/admin.html">← voltar ao painel</a>
+    <h1 style="margin-top:10px;">Parcerias<em>.</em></h1>
+    <p class="sub">Cupons de parceiros: 3 meses de Premium por aluno, contando a partir do início da cobrança.</p>
+
+    <!-- Estado da cobrança global + ativação (dupla confirmação) -->
+    <div class="card cob-banner" id="cob-card">
+      <div class="t-label">Cobrança da plataforma</div>
+      <div id="cob-estado" style="font-size:14px;margin:6px 0 10px;">…</div>
+      <div id="cob-acao"></div>
+    </div>
+
+    <!-- Cadastro / edição de parceiro -->
+    <div class="sec-title">Cadastrar parceiro <button onclick="limparForm()">novo</button></div>
+    <div class="card">
+      <div class="form-grid">
+        <input type="hidden" id="p-id">
+        <div><label>Nome do parceiro</label><input id="p-nome" placeholder="Nayara Silva"></div>
+        <div><label>E-mail</label><input id="p-email" placeholder="nayara@exemplo.com"></div>
+        <div><label>Instagram</label><input id="p-insta" placeholder="@nayara"></div>
+        <div><label>Nome do produto</label><input id="p-produto" placeholder="Implantodontia do Zero"></div>
+        <div><label>Especialidade</label><select id="p-esp"></select></div>
+        <div><label>Código do cupom</label><input id="p-cupom" placeholder="IMPL-NAYARA"></div>
+        <div><label>Slug do link</label><input id="p-slug" placeholder="nayara-idz"></div>
+        <div><label>Validade do cupom (padrão: +6 meses)</label><input id="p-validade" type="date"></div>
+        <div><label>Limite de resgates (vazio = ilimitado)</label><input id="p-limite" type="number" min="1" placeholder="ilimitado"></div>
+        <div class="full" style="display:flex;gap:8px;align-items:center;justify-content:flex-end;">
+          <span class="err" id="err-form" style="margin:0;"></span>
+          <button class="primary" id="btn-salvar" onclick="salvarParceiro()">Salvar parceiro</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lista de parceiros -->
+    <div class="sec-title">Parceiros <span id="n-parceiros"></span></div>
+    <div class="card" style="overflow-x:auto;">
+      <table id="tb-parceiros">
+        <thead><tr><th>Parceiro</th><th>Produto</th><th>Cupom</th><th>Link</th><th>Resgates</th><th>Status</th><th></th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <!-- Detalhe do parceiro -->
+    <div id="detalhe" style="display:none;">
+      <div class="sec-title"><span id="d-titulo">Parceiro</span>
+        <span><button onclick="baixarCSV()">Exportar CSV</button> <button onclick="document.getElementById('detalhe').style.display='none'">fechar</button></span>
+      </div>
+      <div class="total-row">
+        <div class="card"><div class="t-label">Resgates</div><div class="t-val" id="d-total">0</div></div>
+        <div class="card"><div class="t-label">Aguardando cobrança</div><div class="t-val" id="d-aguardando">0</div></div>
+        <div class="card"><div class="t-label">Benefício ativo</div><div class="t-val" id="d-ativos">0</div></div>
+        <div class="card"><div class="t-label">Encerrados</div><div class="t-val" id="d-encerrados">0</div></div>
+        <div class="card"><div class="t-label">Converteram (pago)</div><div class="t-val" id="d-convertidos">0</div></div>
+      </div>
+      <div class="card" style="margin-top:12px;overflow-x:auto;">
+        <div class="filtros">
+          <input id="fd-busca" placeholder="Buscar aluno…" oninput="renderAlunos()">
+          <select id="fd-status" onchange="renderAlunos()">
+            <option value="">Todos os status</option>
+            <option value="aguardando_inicio_cobranca">Aguardando cobrança</option>
+            <option value="beneficio_ativo">Benefício ativo</option>
+            <option value="beneficio_encerrado">Encerrado</option>
+            <option value="convertido_pago">Convertido (pago)</option>
+          </select>
+          <select id="fd-periodo" onchange="renderAlunos()">
+            <option value="">Qualquer período</option>
+            <option value="30">Resgates dos últimos 30 dias</option>
+            <option value="90">Últimos 90 dias</option>
+          </select>
+        </div>
+        <table><thead><tr><th>Aluno</th><th>E-mail</th><th>Resgate</th><th>Status</th><th>Dias restantes</th></tr></thead>
+        <tbody id="tb-alunos"></tbody></table>
+      </div>
+    </div>
+
+    <p class="sub" style="margin-top:22px;">A expiração roda diariamente: aviso 7 dias antes do fim, e-mail no dia e rebaixamento automático para o Gratuito — nunca cobrança automática.</p>
+  </div>
+</div>
+
+<script>
+const $=(id)=>document.getElementById(id);
+const esc=(s)=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt=(d)=>d?String(d).slice(0,10).split('-').reverse().join('/'):'—';
+const ESPECIALIDADES=['Ortodontia','Implantodontia','Periodontia','Dentística','Endodontia','Prótese','Odontopediatria','Bucomaxilofacial','DTM e Dor Orofacial','Estomatologia','Radiologia'];
+const BADGE={aguardando_inicio_cobranca:'cinza',beneficio_ativo:'verde',beneficio_encerrado:'amarelo',convertido_pago:'azul'};
+let SECRET='',DADOS=null,DET=null;
+
+$('p-esp').innerHTML=ESPECIALIDADES.map(e=>'<option>'+e+'</option>').join('');
+
+async function api(qs,opts){
+  const url='/.netlify/functions/parcerias?secret='+encodeURIComponent(SECRET)+(qs||'');
+  const r=await fetch(url,opts);
+  if(r.status===401)throw new Error('auth');
+  return r;
+}
+
+async function entrar(){
+  SECRET=$('secret').value.trim();
+  try{
+    const r=await api('&action=list');
+    DADOS=await r.json();
+    $('login').style.display='none';$('dash').style.display='block';
+    render();
+  }catch(e){$('err-login').style.display='block';}
+}
+
+function render(){
+  // Banner da cobrança global.
+  const ativa=DADOS.cobranca_ativa;
+  $('cob-card').className='card cob-banner'+(ativa?' ativa':'');
+  $('cob-estado').innerHTML=ativa
+    ?'<b style="color:var(--green)">ATIVA</b> desde '+fmt(DADOS.data_inicio_cobranca)+' — os benefícios de 90 dias estão contando.'
+    :'<b style="color:var(--yellow)">AINDA NÃO ATIVADA</b> — resgates ficam "aguardando"; os 3 meses só começam a contar quando você ativar.';
+  $('cob-acao').innerHTML=ativa?'' :
+    '<button class="perigo" onclick="ativarCobranca()">Ativar cobrança global…</button> '+
+    '<span style="font-size:11.5px;color:var(--muted)">irreversível — recalcula todos os resgates aguardando (início = hoje, fim = +90 dias)</span>';
+
+  $('n-parceiros').textContent=DADOS.parceiros.length+' cadastrados';
+  $('tb-parceiros').querySelector('tbody').innerHTML=DADOS.parceiros.map(p=>
+    '<tr class="clic" onclick="abrirDetalhe(\''+esc(p.id)+'\')">'
+    +'<td><b>'+esc(p.nome_parceiro)+'</b><br><span style="font-size:11px;color:var(--muted)">'+esc(p.especialidade)+'</span></td>'
+    +'<td>'+esc(p.nome_produto)+'</td>'
+    +'<td><span class="copy" onclick="event.stopPropagation();copiar(\''+esc(p.codigo_cupom)+'\',this)">'+esc(p.codigo_cupom)+'</span></td>'
+    +'<td><span class="copy" onclick="event.stopPropagation();copiar(\''+esc(p.link)+'\',this)">copiar link</span></td>'
+    +'<td><b>'+p.resgates+'</b></td>'
+    +'<td><span class="badge '+(p.ativo?'verde':'off')+'">'+(p.ativo?'ativo':'inativo')+'</span></td>'
+    +'<td style="white-space:nowrap;">'
+    +'<button onclick="event.stopPropagation();editarParceiro(\''+esc(p.id)+'\')">editar</button> '
+    +'<button onclick="event.stopPropagation();alternarAtivo(\''+esc(p.id)+'\','+(p.ativo?'false':'true')+')">'+(p.ativo?'desativar':'ativar')+'</button>'
+    +'</td></tr>').join('')||'<tr><td colspan="7" style="color:var(--muted)">Nenhum parceiro ainda — cadastre o primeiro acima.</td></tr>';
+}
+
+function copiar(txt,el){navigator.clipboard.writeText(txt);const t=el.textContent;el.textContent='copiado!';setTimeout(()=>el.textContent=t,900);}
+
+function limparForm(){['p-id','p-nome','p-email','p-insta','p-produto','p-cupom','p-slug','p-validade','p-limite'].forEach(i=>$(i).value='');$('btn-salvar').textContent='Salvar parceiro';}
+function editarParceiro(id){
+  const p=DADOS.parceiros.find(x=>x.id===id);if(!p)return;
+  $('p-id').value=p.id;$('p-nome').value=p.nome_parceiro;$('p-email').value=p.email;$('p-insta').value=p.instagram;
+  $('p-produto').value=p.nome_produto;$('p-esp').value=p.especialidade||'Ortodontia';$('p-cupom').value=p.codigo_cupom;
+  $('p-slug').value=p.slug_link;$('p-validade').value=p.validade_cupom;$('p-limite').value=p.limite_resgates??'';
+  $('btn-salvar').textContent='Salvar alterações';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+async function salvarParceiro(){
+  $('err-form').style.display='none';
+  const id=$('p-id').value;
+  const parceiro={id:id||undefined,nome_parceiro:$('p-nome').value,email:$('p-email').value,instagram:$('p-insta').value,
+    nome_produto:$('p-produto').value,especialidade:$('p-esp').value,codigo_cupom:$('p-cupom').value,
+    slug_link:$('p-slug').value,validade_cupom:$('p-validade').value,limite_resgates:$('p-limite').value||null};
+  const r=await api('',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({secret:SECRET,action:id?'editar':'criar',parceiro})});
+  const b=await r.json().catch(()=>({}));
+  if(!r.ok){$('err-form').textContent=b.error==='cupom_ou_slug_ja_existe'?'Cupom ou slug já usado por: '+b.conflito:(b.error||'Erro ao salvar');$('err-form').style.display='inline';return;}
+  limparForm();await recarregar();
+}
+
+async function alternarAtivo(id,ativar){
+  await api('',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({secret:SECRET,action:ativar==='true'?'ativar':'desativar',id})});
+  await recarregar();
+}
+
+async function recarregar(){const r=await api('&action=list');DADOS=await r.json();render();}
+
+async function abrirDetalhe(id){
+  const r=await api('&action=detalhe&id='+encodeURIComponent(id));
+  DET=await r.json();
+  $('detalhe').style.display='block';
+  $('d-titulo').textContent=DET.parceiro.nome_parceiro+' — '+DET.parceiro.nome_produto;
+  $('d-total').textContent=DET.resumo.total;
+  $('d-aguardando').textContent=DET.resumo.aguardando;
+  $('d-ativos').textContent=DET.resumo.ativos;
+  $('d-encerrados').textContent=DET.resumo.encerrados;
+  $('d-convertidos').textContent=DET.resumo.convertidos;
+  renderAlunos();
+  $('detalhe').scrollIntoView({behavior:'smooth'});
+}
+
+function renderAlunos(){
+  if(!DET)return;
+  const q=($('fd-busca').value||'').toLowerCase(), st=$('fd-status').value, dias=$('fd-periodo').value;
+  const corte=dias?new Date(Date.now()-Number(dias)*86400000).toISOString().slice(0,10):'';
+  const rows=DET.alunos.filter(a=>
+    (!st||a.status===st)
+    &&(!corte||String(a.data_resgate)>=corte)
+    &&(!q||(a.nome+' '+a.email).toLowerCase().includes(q)));
+  $('tb-alunos').innerHTML=rows.map(a=>
+    '<tr><td>'+esc(a.nome||'—')+'</td><td>'+esc(a.email)+'</td><td>'+fmt(a.data_resgate)+'</td>'
+    +'<td><span class="badge '+(BADGE[a.status]||'cinza')+'">'+esc(a.status_label)+'</span></td>'
+    +'<td>'+(a.dias_restantes==null?'—':a.dias_restantes)+'</td></tr>').join('')
+    ||'<tr><td colspan="5" style="color:var(--muted)">Nenhum aluno com esses filtros.</td></tr>';
+}
+
+function baixarCSV(){
+  if(!DET)return;
+  location.href='/.netlify/functions/parcerias?secret='+encodeURIComponent(SECRET)+'&action=csv&id='+encodeURIComponent(DET.parceiro.id);
+}
+
+// DUPLA CONFIRMAÇÃO da ativação global (irreversível): confirm() + digitar a frase.
+async function ativarCobranca(){
+  if(!confirm('Ativar a cobrança global? Esta ação é IRREVERSÍVEL e inicia a contagem dos 3 meses de TODOS os resgates que aguardam.'))return;
+  const frase=prompt('Para confirmar, digite exatamente:\n\nATIVAR COBRANCA');
+  if(frase===null)return;
+  const r=await api('',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({secret:SECRET,action:'ativar_cobranca',confirmar:frase})});
+  const b=await r.json().catch(()=>({}));
+  if(!r.ok){alert(b.error==='confirmacao_necessaria'?'Frase incorreta — nada foi ativado.':(b.error||'Erro'));return;}
+  alert(b.ja_ativa?'A cobrança já estava ativa desde '+fmt(b.data_inicio_cobranca)+'.':'Cobrança ativada! '+b.atualizados+' resgate(s) passaram a contar os 90 dias.');
+  await recarregar();
+}
+</script>
+</body>
+</html>
