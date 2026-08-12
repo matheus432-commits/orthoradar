@@ -1139,15 +1139,23 @@ async function _sendUserDigest(user, espDigest, db, resendKey) {
         // dia e (b) PERSISTE a flag no artigo p/ os próximos dias.
         const _reprova = (c, orig, flag) => {
           if (orig) orig[flag] = true;
+          const id = String(c.pmid || c.id || '');
+          if (!id) return;
           if (flag === 'veredito_extra_reprovado') {
-            const id = String(c.pmid || c.id || '');
-            if (id) db.updateDoc('artigos', id, { veredito_extra_reprovado: true }).catch(() => {});
+            db.updateDoc('artigos', id, { veredito_extra_reprovado: true }).catch(() => {});
+          } else if (flag === '_resumoReprovado') {
+            // 12/08 (fundador com 0 extras): a reprovação PÓS-resumo ("material
+            // sem resultados") era só em memória — o mesmo candidato ruim
+            // voltava à fila TODO dia, comia as vagas e queimava Sonnet (6
+            // descartes seguidos estouraram o teto de 90s do usuário). Agora
+            // persiste e sai dos pools para sempre, como a de veredito.
+            db.updateDoc('artigos', id, { extra_sem_resultados: true }).catch(() => {});
           }
         };
         const _travaBarata = async (c) => {
           const orig = _poolDe(c);
-          if (orig && (orig.veredito_extra_reprovado || orig._resumoReprovado)) return false;
-          if (c.veredito_extra_reprovado) return false;
+          if (orig && (orig.veredito_extra_reprovado || orig._resumoReprovado || orig.extra_sem_resultados)) return false;
+          if (c.veredito_extra_reprovado || c.extra_sem_resultados) return false;
           const falta = await faltaVereditoComparativo(c, process.env.ANTHROPIC_API_KEY || null);
           if (falta) {
             _reprova(c, orig, 'veredito_extra_reprovado');
@@ -1158,14 +1166,16 @@ async function _sendUserDigest(user, espDigest, db, resendKey) {
           return !falta;
         };
         premiumExtras = [];
+        let descartesTrava = 0, descartesPosResumo = 0;
         const fila = [...candidatosExtras];
         while (premiumExtras.length < PREMIUM_EXTRAS && fila.length) {
           const cand = fila.shift();
-          if (!(await _travaBarata(cand))) continue;
+          if (!(await _travaBarata(cand))) { descartesTrava++; continue; }
           await _comCachePool(cand);
           if (!isResultadosIndisponiveis(cand)) { premiumExtras.push(cand); continue; }
+          descartesPosResumo++;
           _reprova(cand, _poolDe(cand), '_resumoReprovado');
-          log.warn('[digest][PREMIUM] extra DESCARTADO após resumo completo — material sem resultados (repondo)', {
+          log.warn('[digest][PREMIUM] extra DESCARTADO após resumo completo — material sem resultados (persistido, não volta)', {
             email, id: cand.pmid || cand.id, titulo: (cand.titulo_pt || cand.titulo || '').slice(0, 70),
           });
         }
@@ -1174,9 +1184,13 @@ async function _sendUserDigest(user, espDigest, db, resendKey) {
           temas: premiumExtras.map(e => e._premiumTema || '(recente)'),
         });
         if (!premiumExtras.length) {
+          // 12/08: causa com NÚMEROS — a mensagem genérica antiga mandava a
+          // investigação para o lado errado (culpava o histórico quando a fila
+          // tinha sido comida por descartes pós-resumo).
           log.warn('[digest][PREMIUM] assinante SEM extras (pool tinha candidatos)', {
             email, especialidade, poolLen: espDigest.premiumPool.length,
-            causa: 'todos os candidatos do pool já foram enviados como extra a este assinante, ou histórico pessoal ilegível',
+            fila: candidatosExtras.length, descartesTrava, descartesPosResumo,
+            causa: `fila de ${candidatosExtras.length}: ${descartesTrava} barrados na trava/flags, ${descartesPosResumo} sem resultados pós-resumo (persistidos — não voltam amanhã); o restante do pool já foi enviado a este assinante`,
           });
         }
       } catch (err) {
@@ -1286,7 +1300,7 @@ async function buildPremiumPool(db, especialidade, anthropicKey = null) {
     // com resultados). Reprovados na trava de veredito em dias anteriores
     // (flag persistida) não voltam ao pool — o mesmo estudo era re-checado e
     // re-descartado para CADA assinante, dia após dia (41797109, 42057092).
-    let pool = brutos.filter(a => passaCuradoria(a) && !isRepeated(a, hist) && !a.veredito_extra_reprovado);
+    let pool = brutos.filter(a => passaCuradoria(a) && !isRepeated(a, hist) && !a.veredito_extra_reprovado && !a.extra_sem_resultados);
     const aposHistorico = pool.length;
     const seen = new Set();
     pool = pool.filter(a => {
@@ -1413,7 +1427,7 @@ async function pickPremiumExtras(db, user, pool, quantos = PREMIUM_EXTRAS) {
       let doAcervo = 0;
       for (const a of acervo) {
         if (disponiveis.length >= quantos + 6) break;
-        if (!passaCuradoria(a) || a.veredito_extra_reprovado) continue;
+        if (!passaCuradoria(a) || a.veredito_extra_reprovado || a.extra_sem_resultados) continue;
         if (isRepeated(a, hist)) continue;
         const ks = articleKeys(a);
         if (ks.some(k => jaRecebidas.has(k) || chaves.has(k))) continue;

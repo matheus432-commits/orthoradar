@@ -53,3 +53,28 @@ describe('extras premium — trava barata antes do resumo caro', () => {
     assert.match(src, /passaCuradoria\(a\) && !isRepeated\(a, hist\) && !a\.veredito_extra_reprovado/);
   });
 });
+
+// ── 12/08: fundador fechou com 0 extras — a reprovação PÓS-resumo ("material
+// sem resultados") era só em memória; o mesmo candidato ruim voltava à fila
+// todos os dias, comia as vagas (6 descartes seguidos → teto de 90s estourado)
+// e queimava Sonnet. Agora ela persiste e sai de TODOS os pools. ─────────────
+const { describe: descSR, test: testSR } = require('node:test');
+const assertSR = require('node:assert');
+const fsSR = require('fs');
+const pathSR = require('path');
+descSR('reprovação pós-resumo persistida (extra_sem_resultados)', () => {
+  const srcSR = fsSR.readFileSync(pathSR.join(__dirname, '..', '..', 'daily-digest.js'), 'utf8');
+  testSR('descarte pós-resumo grava extra_sem_resultados no artigo', () => {
+    assertSR.ok(srcSR.includes("{ extra_sem_resultados: true }"), 'flag persistida via updateDoc');
+    assertSR.match(srcSR, /_reprova\(cand, _poolDe\(cand\), '_resumoReprovado'\)/, 'descarte chama a reprovação persistente');
+  });
+  testSR('flag filtrada nas TRÊS pontas: pool, poço fundo e trava barata', () => {
+    assertSR.match(srcSR, /!a\.veredito_extra_reprovado && !a\.extra_sem_resultados/, 'pool exclui');
+    assertSR.match(srcSR, /a\.veredito_extra_reprovado \|\| a\.extra_sem_resultados\) continue/, 'poço fundo exclui');
+    assertSR.match(srcSR, /c\.veredito_extra_reprovado \|\| c\.extra_sem_resultados/, 'trava barata pula sem custo');
+  });
+  testSR('causa do SEM extras traz números (fila, trava, pós-resumo), não suposição', () => {
+    assertSR.ok(srcSR.includes('descartesTrava, descartesPosResumo'), 'contadores no log');
+    assertSR.match(srcSR, /fila de \$\{candidatosExtras\.length\}/, 'mensagem quantificada');
+  });
+});
