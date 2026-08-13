@@ -10,6 +10,7 @@
 const { request } = require('../netlify/functions/_lib');
 const { Firestore } = require('../netlify/functions/_lib/firestore');
 const { tituloEmIngles } = require('../netlify/functions/_lib/scoring');
+const { terminaFraseCompleta } = require('../netlify/functions/_lib/claude');
 const { specialtySlug } = require('../netlify/functions/_lib/slug');
 const { extractAnthropicText } = require('../netlify/functions/_lib/anthropic-text');
 const { registrar, logCusto } = require('../netlify/functions/_lib/ai-meter');
@@ -79,6 +80,11 @@ const pausa = (ms) => new Promise(r => setTimeout(r, ms));
       }
       if (String(a.resumo_completo || '').trim().length < 200) {
         falhas.push(`[digest ${d.id}] artigo ${id} SEM RESUMO COMPLETO (o "Ler resumo completo" ficaria vazio) — "${String(a.titulo_pt || '').slice(0, 60)}"`);
+      }
+      // (H, 12/08 — NiTi cortado em "— molares,"): resumo PRESENTE porém sem
+      // fim de frase = truncado na geração; ninguém via até o dentista abrir.
+      else if (!terminaFraseCompleta(a.resumo_completo)) {
+        falhas.push(`[digest ${d.id}] artigo ${id} RESUMO COMPLETO CORTADO no meio da frase (cauda: "…${String(a.resumo_completo).trim().slice(-40)}") — "${String(a.titulo_pt || '').slice(0, 60)}"`);
       }
       // Curadoria (diretriz 24/07): custo/economia no sistema de saúde e estudos
       // sem resultados acessíveis (remetem ao texto completo) NÃO entram.

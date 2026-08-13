@@ -359,6 +359,31 @@ function buildResumoCompletoPrompt(article, strictNote) {
   );
 }
 
+// ── Frase completa (incidente 12/08: resumo salvo cortado em "— molares,") ──
+// Duas facas cortavam texto no MEIO da frase sem ninguém detectar:
+//   (a) o slice(0, 4000) seco da rede de segurança de tamanho;
+//   (b) o teto de 2500 tokens do modelo (a resposta já chega truncada).
+// Regra: NUNCA persistir resumo que não termina em pontuação final.
+const FIM_DE_FRASE_RE = /[.!?…]["')\]]?\s*$/;
+
+function terminaFraseCompleta(texto) {
+  return FIM_DE_FRASE_RE.test(String(texto || '').trim());
+}
+
+// Apara no último fim de frase (devolve '' se não houver nenhum).
+function apararNaUltimaFrase(texto) {
+  const m = String(texto || '').match(/[\s\S]*[.!?…]["')\]]?/);
+  return m ? m[0].trim() : '';
+}
+
+// Corte de tamanho SEM partir frase: recua até o último fim de frase que
+// caiba em `max`; sem nenhum, mantém o corte seco (validador pega depois).
+function ateUltimaFraseCompleta(texto, max) {
+  const t = String(texto || '').trim();
+  if (t.length <= max) return t;
+  return apararNaUltimaFrase(t.slice(0, max)) || t.slice(0, max);
+}
+
 async function generateResumoCompleto(article) {
   const sourceText = [article.titulo, article.title, article.abstract, article.journal, article.year].join(' ');
   let strictNote = null;
@@ -369,13 +394,15 @@ async function generateResumoCompleto(article) {
       // max_tokens ALTO (2500): o resumo estruturado (objetivo/métodos/
       // resultados/relevância) não cabia nos 1024 padrão e saía CORTADO no
       // meio (incidente 23/07 "9 linhas e …"). O corte final de 4000 chars é
-      // só a rede de segurança de tamanho.
+      // a rede de segurança de tamanho — agora SEM partir frase.
       raw = await callClaude(buildResumoCompletoPrompt(article, strictNote), 0, RESUMO_COMPLETO_MODEL, 2500, 'resumo_completo');
     } catch (err) {
       log.warn('[claude] resumo_completo falhou', { pmid: article.pmid, err: err.message });
       return null;
     }
-    const texto = corrigirTermosBR(raw.text.trim().slice(0, 4000));
+    const bruto = corrigirTermosBR(raw.text.trim());
+    const truncadoPeloModelo = !terminaFraseCompleta(bruto);
+    let texto = ateUltimaFraseCompleta(bruto, 4000);
     // Resposta VAZIA/curta demais nunca é aceita em silêncio (incidente 24/07:
     // o Sonnet devolvia bloco de raciocínio e o texto vinha vazio — o resumo
     // "sumia" sem erro). Loga e tenta de novo; persistindo, retorna null e a
@@ -385,6 +412,18 @@ async function generateResumoCompleto(article) {
         pmid: article.pmid, tentativa: tentativa + 1, len: texto.length,
       });
       continue;
+    }
+    // Truncado pelo teto de tokens (12/08 — NiTi "— molares,"): 1ª vez tenta
+    // de novo; na última, publica aparado na última frase completa — NUNCA
+    // meio-frase no site.
+    if (truncadoPeloModelo) {
+      log.warn('[claude] resumo_completo TRUNCADO pelo teto de tokens (não termina frase)', {
+        pmid: article.pmid, tentativa: tentativa + 1, len: bruto.length, cauda: bruto.slice(-60),
+      });
+      if (tentativa === 0) continue;
+      const aparado = apararNaUltimaFrase(texto);
+      if (aparado.length < 200) continue;
+      texto = aparado;
     }
     const check = numbersConsistent(sourceText, texto);
     if (check.ok) return texto;
@@ -427,4 +466,4 @@ async function classifyEspecialidade(article) {
   }
 }
 
-module.exports = { enrichArticle, generateResumoCompleto, isResumoEstruturado, RESUMO_SECOES, classifyEspecialidade, corrigirEspecialidade, CANONICAL_ESPECIALIDADES, corrigirTermosBR, currentCost, resetCost, MODEL };
+module.exports = { enrichArticle, generateResumoCompleto, isResumoEstruturado, RESUMO_SECOES, classifyEspecialidade, corrigirEspecialidade, CANONICAL_ESPECIALIDADES, corrigirTermosBR, terminaFraseCompleta, apararNaUltimaFrase, ateUltimaFraseCompleta, currentCost, resetCost, MODEL };
