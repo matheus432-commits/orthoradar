@@ -100,3 +100,31 @@ descSR('varredura retroativa limpar-extras-sem-resultados', () => {
     assertSR.ok(!wfSR.includes('ANTHROPIC_API_KEY') && !wfSR.includes('GOOGLE_TTS_API_KEY'), 'sem chaves de IA/TTS');
   });
 });
+
+// ── 14-15/08: "edição de Ortodontia sem resumos premium" — três causas ─────
+// (1) FUSO: após 21h BRT o site servia a edição do dia via fallback, mas os
+//     extras eram filtrados por "hoje UTC" → todo Premium via a edição sem os
+//     estudos à noite; (2) POOL VAZIO pulava o bloco inteiro dos extras (o
+//     poço fundo nunca rodava — Dentística 14/08 com pool 0 pós-varredura);
+// (3) fallback do histórico era Array e isRepeated usa .has → poço fundo
+//     "indisponível" em silêncio no caminho novo.
+descSR('extras premium: fuso da edição + pool vazio + hist Set', () => {
+  const digestSrc = fsSR.readFileSync(pathSR.join(__dirname, '..', '..', 'daily-digest.js'), 'utf8');
+  const edicaoSrc = fsSR.readFileSync(pathSR.join(__dirname, '..', '..', 'get-edicao.js'), 'utf8');
+  testSR('site: extras ancorados na DATA DA EDIÇÃO exibida, não no hoje-UTC', () => {
+    assertSR.ok(edicaoSrc.includes('getPremiumExtrasHoje(db, email, edicao.date)'), 'data da edição passa para o filtro');
+    assertSR.match(edicaoSrc, /String\(dataEdicao \|\| ''\)\.slice\(0, 10\) \|\| new Date\(\)/, 'edição manda; hoje é só fallback');
+  });
+  testSR('pool vazio ainda tenta os extras (poço fundo do acervo)', () => {
+    assertSR.ok(!digestSrc.includes('if (!pool.length) return [];'), 'early-return do pool vazio removido');
+    assertSR.ok(digestSrc.includes('Array.isArray(espDigest.premiumPool) ? espDigest.premiumPool : []'), 'chamador normaliza e SEMPRE tenta');
+    assertSR.ok(!digestSrc.includes('pool vazio para a especialidade'), 'o antigo desvio silencioso morreu');
+  });
+  testSR('histórico do poço fundo é Set (isRepeated usa .has)', () => {
+    assertSR.ok(digestSrc.includes('_histPorEsp.get(esp) || new Set()'), 'fallback correto');
+    assertSR.ok(!digestSrc.includes('_histPorEsp.get(esp) || []'), 'fallback Array removido');
+  });
+  testSR('pickPremiumExtras exportada para o teste de runtime', () => {
+    assertSR.ok(digestSrc.includes('exports.pickPremiumExtras = pickPremiumExtras'));
+  });
+});

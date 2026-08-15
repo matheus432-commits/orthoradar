@@ -1106,7 +1106,13 @@ async function _sendUserDigest(user, espDigest, db, resendKey) {
   // 1. Curadoria Premium: +2 artigos pelas preferências (assinantes; best-effort)
   let premiumExtras = [];
   if (isPremium(user)) {
-    if (Array.isArray(espDigest.premiumPool) && espDigest.premiumPool.length) {
+    // 15/08: pool VAZIO não pula mais os extras — o poço fundo dentro do
+    // pickPremiumExtras completa direto do acervo da especialidade. Incidente
+    // 14/08: Dentística ficou com pool 0 após a varredura de sem-resultados e
+    // o bloco inteiro era pulado SEM nenhuma tentativa (assinante pagou por 5
+    // e recebeu 3, com o acervo cheio de candidatos elegíveis).
+    const pool = Array.isArray(espDigest.premiumPool) ? espDigest.premiumPool : [];
+    {
       try {
         // TRAVA PÓS-GERAÇÃO nos EXTRAS (incidente 30/07): a edição base já
         // descartava artigo cujo resumo completo admite "o material não traz os
@@ -1122,8 +1128,8 @@ async function _sendUserDigest(user, espDigest, db, resendKey) {
         // for reprovado) + cache CROSS-ASSINANTE via write-back no pool.
         // +6 (era +3): com o poço fundo do acervo, sobram candidatos — e a
         // trava barata abaixo descarta sem custo, então a fila maior é grátis.
-        const candidatosExtras = await pickPremiumExtras(db, user, espDigest.premiumPool, PREMIUM_EXTRAS + 6);
-        const _poolDe = (c) => espDigest.premiumPool.find(p => String(p.pmid || p.id) === String(c.pmid || c.id));
+        const candidatosExtras = await pickPremiumExtras(db, user, pool, PREMIUM_EXTRAS + 6);
+        const _poolDe = (c) => pool.find(p => String(p.pmid || p.id) === String(c.pmid || c.id));
         const _comCachePool = async (c) => {
           const orig = _poolDe(c);
           if (orig?.resumo_completo && !c.resumo_completo) c.resumo_completo = orig.resumo_completo;
@@ -1187,8 +1193,8 @@ async function _sendUserDigest(user, espDigest, db, resendKey) {
           // 12/08: causa com NÚMEROS — a mensagem genérica antiga mandava a
           // investigação para o lado errado (culpava o histórico quando a fila
           // tinha sido comida por descartes pós-resumo).
-          log.warn('[digest][PREMIUM] assinante SEM extras (pool tinha candidatos)', {
-            email, especialidade, poolLen: espDigest.premiumPool.length,
+          log.warn('[digest][PREMIUM] assinante SEM extras (poço fundo incluído na tentativa)', {
+            email, especialidade, poolLen: pool.length,
             fila: candidatosExtras.length, descartesTrava, descartesPosResumo,
             causa: `fila de ${candidatosExtras.length}: ${descartesTrava} barrados na trava/flags, ${descartesPosResumo} sem resultados pós-resumo (persistidos — não voltam amanhã); o restante do pool já foi enviado a este assinante`,
           });
@@ -1197,10 +1203,6 @@ async function _sendUserDigest(user, espDigest, db, resendKey) {
         log.warn('[digest][PREMIUM] extras failed — base email proceeds', { email, err: err.message });
         premiumExtras = [];
       }
-    } else {
-      // Sem pool nenhum: o assinante paga por 5 e vai receber 3 — isso PRECISA
-      // aparecer no log com a causa (incidente 19/07: aconteceu em silêncio).
-      log.warn('[digest][PREMIUM] assinante SEM extras — pool vazio para a especialidade', { email, especialidade });
     }
   }
 
@@ -1386,7 +1388,9 @@ function scoreForTemas(article, temas) {
 const _histPorEsp = new Map();
 
 async function pickPremiumExtras(db, user, pool, quantos = PREMIUM_EXTRAS) {
-  if (!pool.length) return [];
+  // 15/08: pool vazio NÃO retorna mais cedo — o poço fundo abaixo completa
+  // direto do acervo (Dentística 14/08: pool 0 pós-varredura e este return
+  // engolia a única chance de extras do assinante).
 
   let jaRecebidas = new Set();
   try {
@@ -1414,7 +1418,11 @@ async function pickPremiumExtras(db, user, pool, quantos = PREMIUM_EXTRAS) {
   if (disponiveis.length < quantos + 2) {
     try {
       const esp = pool[0]?.especialidade || user.especialidade;
-      const hist = _histPorEsp.get(esp) || [];
+      // Set, não Array (15/08): isRepeated usa hist.has — o fallback antigo
+      // ([]) estourava "hist.has is not a function" e o catch declarava o poço
+      // fundo "indisponível" em silêncio sempre que o cache da especialidade
+      // não estava populado.
+      const hist = _histPorEsp.get(esp) || new Set();
       const chaves = new Set(pool.flatMap(a => articleKeys(a)));
       const acervo = await db.query('artigos', {
         where: { compositeFilter: { op: 'AND', filters: [
@@ -1887,6 +1895,8 @@ exports.MAX_RELATOS_POR_EDICAO = MAX_RELATOS_POR_EDICAO;
 // Reutilizados pelo pré-aquecimento da reserva (prewarm-reserva.js): a MESMA
 // definição de "candidato vivo" (enriquecido, curado e não repetido) do e-mail.
 exports.faltaVereditoComparativo = faltaVereditoComparativo;
+// Exportada para o teste de runtime do poço fundo (pool vazio, 15/08).
+exports.pickPremiumExtras = pickPremiumExtras;
 exports.passaCuradoria = passaCuradoria;
 exports.isRepeated = isRepeated;
 exports.getEspHistory = getEspHistory;
