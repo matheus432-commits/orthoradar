@@ -284,8 +284,23 @@ document.addEventListener('play', ev => {
     if (!a.paused && a.currentTime === 0 && a.readyState < 2) _trocaRotaAudio(a);
   }, 10000);
 }, true);
-document.addEventListener('playing', ev => { if (ev.target instanceof HTMLAudioElement) clearTimeout(ev.target._watchdog); }, true);
+document.addEventListener('playing', ev => { if (ev.target instanceof HTMLAudioElement) { clearTimeout(ev.target._watchdog); _trackAudioPlay(ev.target); } }, true);
 document.addEventListener('error', ev => { if (ev.target instanceof HTMLAudioElement) _trocaRotaAudio(ev.target); }, true);
+
+// MÉTRICA "quantos áudios abriram" (15/08): 1 'audio_play' por faixa no
+// primeiro 'playing' real. Só com sessão do site (of_email/of_token) — quem
+// abre pelo link do e-mail (?e&t) ou modo admin não tem sessão e não conta.
+// O pmid sai do id "audio-{pid}" do elemento. Fire-and-forget.
+function _trackAudioPlay(a){
+  if (!a || a.dataset.trackedPlay === '1') return;
+  const email = localStorage.getItem('of_email'), token = localStorage.getItem('of_token');
+  if (!email || !token) return;
+  a.dataset.trackedPlay = '1';
+  const pmid = String(a.id || '').startsWith('audio-') ? a.id.slice(6) : null;
+  fetch('/.netlify/functions/track-audio', { method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+    body: JSON.stringify({ email, pmid }) }).catch(() => {});
+}
 
 function render(data){
   const u = data.user, ed = data.edicao;

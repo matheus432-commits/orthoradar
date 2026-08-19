@@ -943,7 +943,7 @@ function articleCard(art,curtidos,lidos){
       <button class="btn-lido" onclick="abrirShare('${safeId(art.id)}',this)" title="Compartilhar este estudo">📤 Compartilhar</button>
     </div>
     ${resumoFull?`<div class="rc-panel-dash" id="${rcId}" hidden>${resumoCompletoHtml(resumoFull)}</div>`:''}
-    ${_podcastMap.has(String(art.id))?`<audio controls preload="none" style="display:none;width:100%;margin-top:10px;" src="${escapeHtml(_podcastMap.get(String(art.id)).url)}"></audio>`:''}
+    ${_podcastMap.has(String(art.id))?`<audio controls preload="none" data-pmid="${safeId(art.id)}" style="display:none;width:100%;margin-top:10px;" src="${escapeHtml(_podcastMap.get(String(art.id)).url)}"></audio>`:''}
   </div>`;
 }
 
@@ -1112,7 +1112,7 @@ function toggleAudioDash(btn){
         a.dataset.retry='2';
       } else { btn.innerHTML='🎧 Tentar novamente'; diagAudioDash(a); }
     });
-    a.addEventListener('playing',()=>{ clearTimeout(a._watchdog); btn.innerHTML='🎧 Ouvindo…'; a.dataset.retry=''; const dg=a.parentElement.querySelector('.audio-diag'); if(dg) dg.remove(); });
+    a.addEventListener('playing',()=>{ clearTimeout(a._watchdog); btn.innerHTML='🎧 Ouvindo…'; a.dataset.retry=''; const dg=a.parentElement.querySelector('.audio-diag'); if(dg) dg.remove(); _trackAudioPlay(a); });
     // CÃO DE GUARDA (print 10/08 12:12 UTC — ⏸ com 0:00/0:00 e NENHUM evento):
     // requisição pendurada não dispara 'error' — o player fica "tocando" para
     // sempre sem 1 byte. Se em 10s não chegou mídia, vira falha visível.
@@ -1175,6 +1175,19 @@ function diagAudioDash(a, motivoForcado){
 // e o player mora no 0:00). Troca o src UMA vez para a rota interna
 // /.netlify/functions/audio, que busca o MP3 do lado do servidor. A rota
 // direta segue sendo o padrão — o proxy só entra quando ela falha no aparelho.
+// MÉTRICA "quantos áudios abriram" (pedido 15/08): 1 evento por faixa por
+// carregamento de página, no primeiro 'playing' real (não no clique — clique
+// com stream pendurado não é áudio ouvido). Fire-and-forget: nunca trava o player.
+function _trackAudioPlay(a){
+  if(!a || a.dataset.trackedPlay==='1') return;
+  const email=getEmail(), token=getToken();
+  if(!email||!token) return;
+  a.dataset.trackedPlay='1';
+  fetch('/.netlify/functions/track-audio',{method:'POST',
+    headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
+    body:JSON.stringify({email,pmid:a.dataset.pmid||null})}).catch(()=>{});
+}
+
 function _audioViaProxy(a){
   if(a.dataset.proxied==='1') return false;
   const src=a.getAttribute('src')||'';

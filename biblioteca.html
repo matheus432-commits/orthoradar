@@ -397,7 +397,7 @@ async function expandir(pmid){
       const a=DADOS.artigos.find(x=>x.pmid===pmid)||{};
       box.innerHTML=(d.resumo_completo?esc(d.resumo_completo):'Resumo completo indisponível para este estudo.')
         +(d.impacto?'<div class="impacto"><b>Relevância clínica:</b> '+esc(d.impacto)+'</div>':'')
-        +(a.audioUrl?'<audio controls preload="none" src="'+esc(a.audioUrl)+'"></audio>':'')
+        +(a.audioUrl?'<audio controls preload="none" data-pmid="'+esc(pmid)+'" src="'+esc(a.audioUrl)+'"></audio>':'')
         +'<div class="acts">'+(d.url?'<a href="'+esc(d.url)+'" target="_blank" rel="noopener">Ver no PubMed ↗</a>':'')+'</div>';
       box.dataset.ok='1';
       // marca lido localmente (o tracking do servidor já registrou)
@@ -432,8 +432,9 @@ const VELOCIDADES=[1,1.25,1.5,2];let VEL_I=0;
 function mpPrepara(src){
   const a=$('mp-audio');
   // Faixa NOVA: limpa o estado do fallback de rota (senão a 2ª faixa nunca
-  // teria direito ao proxy — o dataset.proxied ficaria travado em '1').
-  a.dataset.proxied='';a.dataset.srcOriginal='';a.dataset.retry='';
+  // teria direito ao proxy — o dataset.proxied ficaria travado em '1') e o
+  // dedupe da métrica (cada faixa conta o próprio 'audio_play').
+  a.dataset.proxied='';a.dataset.srcOriginal='';a.dataset.retry='';a.dataset.trackedPlay='';a.dataset.pmid='';
   a.src=src;a.load();
   return a;
 }
@@ -446,6 +447,7 @@ function tocar(pmid){
   const p=progLer()[pmid];
   const seek=p&&p.t>5?p.t:0;
   const el=mpPrepara(art.audioUrl);
+  el.dataset.pmid=pmid;
   if(seek)el.addEventListener('loadedmetadata',()=>{try{el.currentTime=seek;}catch(e){}},{once:true});
   el.play().catch(()=>{});
   mpMostrar();
@@ -532,8 +534,21 @@ document.addEventListener('play',ev=>{
     if(!a.paused && a.currentTime===0 && a.readyState<2) _trocaRotaAudio(a);
   },10000);
 },true);
-document.addEventListener('playing',ev=>{ if(ev.target instanceof HTMLAudioElement) clearTimeout(ev.target._watchdog); },true);
+document.addEventListener('playing',ev=>{ if(ev.target instanceof HTMLAudioElement){ clearTimeout(ev.target._watchdog); _trackAudioPlay(ev.target); } },true);
 document.addEventListener('error',ev=>{ if(ev.target instanceof HTMLAudioElement) _trocaRotaAudio(ev.target); },true);
+
+/* MÉTRICA "quantos áudios abriram" (15/08): 1 'audio_play' por faixa, no
+   primeiro 'playing' REAL (clique com stream pendurado não conta). A delegação
+   em captura cobre o player fixo E os nativos dos cards; o dedupe do player
+   fixo é limpo a cada faixa nova no mpPrepara. Fire-and-forget. */
+function _trackAudioPlay(a){
+  if(!a || a.dataset.trackedPlay==='1') return;
+  if(!EMAIL||!TOKEN) return;
+  a.dataset.trackedPlay='1';
+  fetch('/.netlify/functions/track-audio',{method:'POST',
+    headers:{'Content-Type':'application/json','Authorization':'Bearer '+TOKEN},
+    body:JSON.stringify({email:EMAIL,pmid:a.dataset.pmid||null})}).catch(()=>{});
+}
 
 /* ── boot ────────────────────────────────────────────────────────────────── */
 (async()=>{

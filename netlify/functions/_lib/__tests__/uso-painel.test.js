@@ -61,3 +61,69 @@ describe('admin-uso.html — página de gráficos', () => {
     assert.ok(src(path.join(RAIZ, 'admin.html')).includes('/admin-uso.html'));
   });
 });
+
+// ── 15/08: "coloque também uma métrica para abertura de audio no site" ──────
+// Cadeia nova: player ('playing' real, dedupe por faixa) → track-audio
+// (sessão do site) → digest_metrics 'audio_play' → get-uso → 4ª série/coluna.
+describe('métrica de áudio no site — track-audio.js', () => {
+  const code = src(path.join(FUNCS, 'track-audio.js'));
+  test('POST com sessão do site: timingSafeEqual + expiração, antes do logEvent', () => {
+    assert.ok(code.includes('timingSafeEqual'), 'comparação de token em tempo constante');
+    assert.ok(code.includes('sessionExpiry'), 'sessão expirada não registra');
+    assert.ok(code.indexOf('tokenEqual(user.sessionToken, token)') < code.indexOf('logEvent('), 'auth antes do registro');
+  });
+  test('grava audio_play na MESMA fonte do painel (digest_metrics via logEvent)', () => {
+    assert.ok(code.includes("require('./_lib/engagement')"), 'reusa o logEvent existente — sem coleção nova');
+    assert.match(code, /eventType: 'audio_play'/);
+  });
+  test('rate limit presente; PRIVACIDADE: email/pmid nunca em console/log', () => {
+    assert.ok(code.includes("rateLimited(event, 'track-audio'"));
+    assert.ok(!/console\.log/.test(code));
+    assert.ok(!/log\.(info|warn|error)\([^)]*(email|pmid)/.test(code), 'nenhum log com email/pmid');
+  });
+});
+
+describe('métrica de áudio — instrumentação nas 3 páginas', () => {
+  test('dashboard: track no primeiro playing REAL, com pmid do card e dedupe', () => {
+    const html = src(path.join(RAIZ, 'dashboard.html'));
+    assert.ok(html.includes('_trackAudioPlay(a)'), 'chamado no listener de playing');
+    assert.match(html, /data-pmid="\$\{safeId\(art\.id\)\}"/, 'pmid no <audio> do card');
+    assert.ok(html.includes("dataset.trackedPlay==='1'"), 'dedupe por faixa');
+    assert.ok(html.includes("'/.netlify/functions/track-audio'"), 'endpoint certo');
+  });
+  test('biblioteca: cobre player fixo E nativos; dedupe limpo a cada faixa nova', () => {
+    const html = src(path.join(RAIZ, 'biblioteca.html'));
+    assert.ok(html.includes('_trackAudioPlay(ev.target)'), 'delegação em captura no playing');
+    assert.ok(html.includes("a.dataset.trackedPlay='';a.dataset.pmid='';"), 'mpPrepara zera o dedupe da faixa anterior');
+    assert.ok(html.includes('el.dataset.pmid=pmid'), 'pmid do artigo vai no player fixo');
+    assert.match(html, /data-pmid="'\+esc\(pmid\)\+'"/, 'pmid no áudio nativo do card expandido');
+  });
+  test('edição: só com sessão do site (link de e-mail ?e&t e admin não contam)', () => {
+    const html = src(path.join(RAIZ, 'edicao.html'));
+    assert.ok(html.includes('_trackAudioPlay(ev.target)'), 'delegação em captura no playing');
+    assert.match(html, /if \(!email \|\| !token\) return;/, 'sem sessão → sem evento');
+    assert.match(html, /startsWith\('audio-'\) \? a\.id\.slice\(6\)/, 'pmid extraído do id do player');
+  });
+});
+
+describe('métrica de áudio — agregação e painel', () => {
+  test('get-uso classifica audio_play e devolve o campo nas duas visões', () => {
+    const code = src(path.join(FUNCS, 'get-uso.js'));
+    assert.match(code, /t === 'audio_play' \? 'audio'/, 'tipoDe conhece o evento novo');
+    assert.match(code, /d, open: v\.open, click: v\.click, resumo: v\.resumo, audio: v\.audio/, 'série diária com audio');
+    assert.match(code, /resumo: v\.resumo, audio: v\.audio, outros: v\.outros,\n/, 'linha do dentista com audio');
+  });
+  test('painel: 4ª série com paleta validada, legenda, KPI, coluna ordenável e CSV', () => {
+    const html = src(path.join(RAIZ, 'admin-uso.html'));
+    assert.ok(html.includes('#eda100'), '4ª cor da paleta validada (validate_palette PASS)');
+    assert.ok(html.includes('Áudios no site'), 'legenda + série de linhas');
+    assert.ok(html.includes('k-audios'), 'KPI de áudios tocados');
+    assert.ok(html.includes("ordenar('audio')"), 'coluna ordenável na tabela (alívio do WARN de contraste)');
+    assert.ok(html.includes("'Áudios'"), 'coluna no CSV');
+    assert.match(html, /\['audio','Áudios no site'\]/, 'série no gráfico de linhas');
+  });
+  test('painel tolera resposta de servidor antigo sem o campo audio', () => {
+    const html = src(path.join(RAIZ, 'admin-uso.html'));
+    assert.ok(html.includes('Number(x&&x.audio)||0'), 'normalização au() na entrada');
+  });
+});

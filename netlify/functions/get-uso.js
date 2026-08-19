@@ -3,9 +3,10 @@
 // GET ?secret=ADMIN_SECRET[&desde=2026-07-20]
 //   → agrega o digest_metrics desde a data (padrão 20/07/26 — pedido do
 //     fundador 15/08) e devolve:
-//     • dias:      [{ d, open, click, resumo, outros, ativos }]  (série diária)
+//     • dias:      [{ d, open, click, resumo, audio, outros, ativos }]
 //     • dentistas: [{ nome, email, especialidade, total, open, click, resumo,
-//                     outros, diasAtivos, ultimo }]              (por dentista)
+//                     audio, outros, diasAtivos, ultimo }]       (por dentista)
+//     ('audio' = plays no site via track-audio — pedido do fundador 15/08)
 //     • naoAtribuidos: eventos sem dentista identificável
 //
 // Atribuição: 'open'/'click' do E-MAIL chegam sem email (só digestId) — o
@@ -65,7 +66,7 @@ exports.handler = async (event) => {
     } while (pageToken);
 
     // 4. Agregação.
-    const tipoDe = (t) => (t === 'open' ? 'open' : t === 'click' ? 'click' : t === 'context_opened' ? 'resumo' : 'outros');
+    const tipoDe = (t) => (t === 'open' ? 'open' : t === 'click' ? 'click' : t === 'context_opened' ? 'resumo' : t === 'audio_play' ? 'audio' : 'outros');
     const porDia = new Map();      // d → {open, click, resumo, outros, ativos:Set}
     const porDentista = new Map(); // email → acumuladores
     let naoAtribuidos = 0;
@@ -76,13 +77,13 @@ exports.handler = async (event) => {
       const tipo = tipoDe(String(ev.eventType || ''));
       const email = String(ev.email || emailDoDigest.get(String(ev.digestId || '')) || '').toLowerCase();
 
-      const dia = porDia.get(d) || { open: 0, click: 0, resumo: 0, outros: 0, ativos: new Set() };
+      const dia = porDia.get(d) || { open: 0, click: 0, resumo: 0, audio: 0, outros: 0, ativos: new Set() };
       dia[tipo]++;
       if (email) dia.ativos.add(email);
       porDia.set(d, dia);
 
       if (!email) { naoAtribuidos++; continue; }
-      const den = porDentista.get(email) || { total: 0, open: 0, click: 0, resumo: 0, outros: 0, dias: new Set(), ultimo: '' };
+      const den = porDentista.get(email) || { total: 0, open: 0, click: 0, resumo: 0, audio: 0, outros: 0, dias: new Set(), ultimo: '' };
       den.total++;
       den[tipo]++;
       den.dias.add(d);
@@ -92,7 +93,7 @@ exports.handler = async (event) => {
 
     const dias = [...porDia.entries()]
       .sort((a, b) => a[0].localeCompare(b[0]))
-      .map(([d, v]) => ({ d, open: v.open, click: v.click, resumo: v.resumo, outros: v.outros, ativos: v.ativos.size }));
+      .map(([d, v]) => ({ d, open: v.open, click: v.click, resumo: v.resumo, audio: v.audio, outros: v.outros, ativos: v.ativos.size }));
 
     const dentistas = [...porDentista.entries()]
       .map(([email, v]) => {
@@ -101,7 +102,7 @@ exports.handler = async (event) => {
           nome: cad.nome || '(sem cadastro)',
           email,
           especialidade: Array.isArray(cad.especialidade) ? (cad.especialidade[0] || '') : (cad.especialidade || ''),
-          total: v.total, open: v.open, click: v.click, resumo: v.resumo, outros: v.outros,
+          total: v.total, open: v.open, click: v.click, resumo: v.resumo, audio: v.audio, outros: v.outros,
           diasAtivos: v.dias.size,
           ultimo: v.ultimo.slice(0, 10),
         };
