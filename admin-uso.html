@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Uso — OdontoFeed (admin)</title>
+<style>
+/* Painel de USO por dentista (pedido do fundador 15/08): frequência de
+   uso/abertura/cliques desde 20/07/26, em gráficos + tabela + CSV.
+   Paleta das séries VALIDADA (validate_palette: PASS em CVD/luminância;
+   o WARN de contraste do aqua é aliviado por rótulos diretos + tabela). */
+:root{--bg:#FBF7EF;--card:#FFFFFF;--border:#EDE6D8;--text:#1A1A18;--muted:#8A8478;--gold:#B08968;--green:#3E7C4F;--red:#B4533B;--blue:#4A6B8A;
+--s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;--grid:#F0EBE0;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,-apple-system,sans-serif;padding:28px 16px 60px;}
+.wrap{max-width:1020px;margin:0 auto;}
+h1{font-family:Georgia,'Times New Roman',serif;font-size:1.6rem;letter-spacing:-.4px;margin-bottom:4px;}
+h1 em{color:var(--gold);font-style:normal;}
+.sub{color:var(--muted);font-size:13px;margin-bottom:18px;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px 20px;margin-bottom:14px;box-shadow:0 1px 4px rgba(0,0,0,.03);}
+.sec-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.4px;color:var(--muted);margin:24px 0 10px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;}
+.t-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--muted);margin-bottom:6px;}
+.t-val{font-family:Georgia,serif;font-size:1.8rem;letter-spacing:-.5px;}
+.t-sufix{font-size:12px;color:var(--muted);margin-top:3px;}
+.total-row{display:flex;gap:12px;flex-wrap:wrap;}
+.total-row .card{flex:1;min-width:150px;margin-bottom:0;}
+.filtros{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:14px 0;}
+.chip{border:1px solid var(--border);background:#fff;border-radius:99px;padding:7px 15px;font-size:12.5px;font-weight:700;cursor:pointer;color:var(--text);}
+.chip.on{background:var(--text);color:#fff;border-color:var(--text);}
+.legenda{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-bottom:8px;}
+.legenda b{color:var(--text);font-weight:600;}
+.lg{display:inline-flex;align-items:center;gap:6px;}
+.lg i{width:14px;height:3px;border-radius:2px;display:inline-block;}
+svg{display:block;width:100%;height:auto;}
+svg text{font-family:'Segoe UI',system-ui,sans-serif;}
+.tip{position:fixed;z-index:50;background:#23211C;color:#fff;border-radius:9px;padding:8px 11px;font-size:12px;line-height:1.55;pointer-events:none;display:none;max-width:280px;box-shadow:0 4px 16px rgba(0,0,0,.25);}
+.tip b{color:#E8CDA8;}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+th{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);text-align:left;padding:8px 10px;border-bottom:1px solid var(--border);cursor:pointer;white-space:nowrap;}
+th.num,td.num{text-align:right;}
+td{padding:9px 10px;border-bottom:1px solid var(--border);}
+tr:last-child td{border-bottom:none;}
+button{border:1px solid var(--border);background:#fff;border-radius:9px;padding:7px 12px;cursor:pointer;font-size:12.5px;color:var(--text);font-weight:600;}
+button:hover{background:#F6F2E9;}
+input.busca{border:1px solid var(--border);border-radius:9px;padding:7px 11px;font-size:12.5px;background:#fff;color:var(--text);min-width:200px;}
+.login{max-width:400px;margin:80px auto;text-align:center;}
+.login input{width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:10px;font-size:14px;margin:14px 0 10px;background:#fff;}
+.login button{background:var(--text);color:#fff;border:none;border-radius:10px;padding:12px 26px;font-weight:600;font-size:14px;}
+.err{color:var(--red);font-size:13px;margin-top:10px;display:none;}
+#dash{display:none;}
+.voltar{font-size:13px;color:var(--blue);text-decoration:none;}
+.scroll-x{overflow-x:auto;}
+@media(max-width:640px){td,th{padding:7px 6px;} table{font-size:12px;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="login" id="login">
+    <h1>OdontoFeed<em>.</em> Uso</h1>
+    <p class="sub">Uso por dentista — informe o segredo do admin.</p>
+    <input type="password" id="secret" placeholder="ADMIN_SECRET" onkeydown="if(event.key==='Enter')entrar()">
+    <button onclick="entrar()">Entrar</button>
+    <p class="err" id="err-login">Segredo inválido.</p>
+  </div>
+
+  <div id="dash">
+    <a class="voltar" href="/admin.html">← voltar ao painel</a>
+    <h1 style="margin-top:10px;">Uso por dentista<em>.</em></h1>
+    <p class="sub" id="periodo-sub"></p>
+
+    <div class="filtros" id="filtros">
+      <span style="font-size:12px;color:var(--muted);font-weight:700;">PERÍODO:</span>
+      <span class="chip on" data-dias="" onclick="mudarPeriodo(this)">Desde 20/07</span>
+      <span class="chip" data-dias="30" onclick="mudarPeriodo(this)">30 dias</span>
+      <span class="chip" data-dias="14" onclick="mudarPeriodo(this)">14 dias</span>
+      <span class="chip" data-dias="7" onclick="mudarPeriodo(this)">7 dias</span>
+    </div>
+
+    <div class="total-row">
+      <div class="card"><div class="t-label">Dentistas que usaram</div><div class="t-val" style="color:var(--gold);" id="k-dentistas">—</div><div class="t-sufix" id="k-dentistas-suf"></div></div>
+      <div class="card"><div class="t-label">Interações totais</div><div class="t-val" id="k-eventos">—</div><div class="t-sufix">aberturas + cliques + site</div></div>
+      <div class="card"><div class="t-label">Cliques em artigos</div><div class="t-val" style="color:var(--s2);" id="k-cliques">—</div><div class="t-sufix">no e-mail diário</div></div>
+      <div class="card"><div class="t-label">Resumos abertos no site</div><div class="t-val" style="color:var(--green);" id="k-resumos">—</div><div class="t-sufix">"Ler resumo completo"</div></div>
+    </div>
+
+    <div class="sec-title">Atividade por dia</div>
+    <div class="card">
+      <div class="legenda">
+        <span class="lg"><i style="background:var(--s1)"></i><b>Aberturas de e-mail</b></span>
+        <span class="lg"><i style="background:var(--s2)"></i><b>Cliques em artigos</b></span>
+        <span class="lg"><i style="background:var(--s3)"></i><b>Resumos no site</b></span>
+      </div>
+      <div id="ch-linhas"></div>
+    </div>
+
+    <div class="sec-title">Dentistas ativos por dia</div>
+    <div class="card"><div id="ch-ativos"></div></div>
+
+    <div class="sec-title">Quem mais usou no período</div>
+    <div class="card"><div id="ch-top"></div></div>
+
+    <div class="sec-title">Todos os dentistas
+      <span style="display:flex;gap:8px;align-items:center;">
+        <input class="busca" id="t-busca" placeholder="Buscar nome ou e-mail…" oninput="renderTabela()">
+        <button onclick="baixarCSV()">Exportar CSV</button>
+      </span>
+    </div>
+    <div class="card scroll-x">
+      <table>
+        <thead><tr>
+          <th onclick="ordenar('nome')">Dentista</th><th onclick="ordenar('especialidade')">Especialidade</th>
+          <th class="num" onclick="ordenar('total')">Interações ↓</th>
+          <th class="num" onclick="ordenar('open')">Aberturas</th>
+          <th class="num" onclick="ordenar('click')">Cliques</th>
+          <th class="num" onclick="ordenar('resumo')">Resumos</th>
+          <th class="num" onclick="ordenar('diasAtivos')">Dias ativos</th>
+          <th onclick="ordenar('ultimo')">Último uso</th>
+        </tr></thead>
+        <tbody id="tb-dentistas"></tbody>
+      </table>
+    </div>
+    <p class="sub" id="rodape-nota"></p>
+  </div>
+</div>
+<div class="tip" id="tip"></div>
+
+<script>
+const $=(id)=>document.getElementById(id);
+const esc=(s)=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt=(d)=>d?String(d).slice(0,10).split('-').reverse().join('/'):'—';
+const fmtCurto=(d)=>{const p=String(d).slice(5,10).split('-');return p[1]+'/'+p[0];};
+const S={open:'#2a78d6',click:'#eb6834',resumo:'#1baf7a'};
+let SECRET='',BRUTO=null,DIAS=[],DENTISTAS=[],ORD={campo:'total',asc:false};
+
+async function entrar(){
+  SECRET=$('secret').value.trim();
+  try{
+    const r=await fetch('/.netlify/functions/get-uso?secret='+encodeURIComponent(SECRET));
+    if(!r.ok)throw new Error('auth');
+    BRUTO=await r.json();
+    $('login').style.display='none';$('dash').style.display='block';
+    aplicarPeriodo();
+  }catch(e){$('err-login').style.display='block';}
+}
+
+// Filtro de período REFAZ a consulta com &desde — a tabela, o ranking e as
+// séries reagregam juntos no servidor (nada de recorte parcial enganoso).
+async function mudarPeriodo(el){
+  document.querySelectorAll('#filtros .chip').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on');
+  const dias=el.dataset.dias;
+  const piso='2026-07-20';
+  const desde=dias?[piso,new Date(Date.now()-Number(dias)*86400000).toISOString().slice(0,10)].sort()[1]:piso;
+  const r=await fetch('/.netlify/functions/get-uso?secret='+encodeURIComponent(SECRET)+'&desde='+desde);
+  if(r.ok){BRUTO=await r.json();aplicarPeriodo();}
+}
+
+function aplicarPeriodo(){
+  DIAS=BRUTO.dias;
+  DENTISTAS=BRUTO.dentistas;
+  const totalPeriodo=DIAS.reduce((s,x)=>s+x.open+x.click+x.resumo+x.outros,0);
+  $('periodo-sub').textContent='Eventos desde '+fmt(BRUTO.desde)+' · gerado em '+new Date(BRUTO.geradoEm).toLocaleString('pt-BR')+(BRUTO.naoAtribuidos?' · '+BRUTO.naoAtribuidos+' eventos sem dentista identificado':'');
+  $('k-dentistas').textContent=DENTISTAS.length;
+  $('k-dentistas-suf').textContent='de '+BRUTO.cadastrosTotal+' cadastrados ('+Math.round(DENTISTAS.length/Math.max(1,BRUTO.cadastrosTotal)*100)+'%)';
+  $('k-eventos').textContent=totalPeriodo.toLocaleString('pt-BR');
+  $('k-cliques').textContent=DIAS.reduce((s,x)=>s+x.click,0).toLocaleString('pt-BR');
+  $('k-resumos').textContent=DIAS.reduce((s,x)=>s+x.resumo,0).toLocaleString('pt-BR');
+  $('rodape-nota').textContent='Fontes: aberturas e cliques do e-mail diário + aberturas de resumo no site (digest_metrics). Piso do período: 20/07/26.';
+  desenharLinhas();desenharAtivos();desenharTop();renderTabela();
+}
+
+/* ── Tooltip compartilhado ──────────────────────────────────────────────── */
+function tip(html,x,y){const t=$('tip');t.innerHTML=html;t.style.display='block';
+  const w=t.offsetWidth,vw=window.innerWidth;
+  t.style.left=Math.min(x+14,vw-w-10)+'px';t.style.top=(y+14)+'px';}
+function tipOff(){$('tip').style.display='none';}
+
+/* ── Gráfico 1: linhas (3 séries, 2px, grid recessivo, crosshair) ───────── */
+function desenharLinhas(){
+  const W=960,H=260,M={t:14,r:118,b:26,l:38};
+  const iw=W-M.l-M.r,ih=H-M.t-M.b;
+  const max=Math.max(4,...DIAS.map(x=>Math.max(x.open,x.click,x.resumo)));
+  const X=(i)=>M.l+(DIAS.length<2?iw/2:i*iw/(DIAS.length-1));
+  const Y=(v)=>M.t+ih-(v/max)*ih;
+  const series=[['open','Aberturas de e-mail'],['click','Cliques em artigos'],['resumo','Resumos no site']];
+  let g='';
+  // grid horizontal recessivo (4 linhas) + eixo Y em texto muted
+  for(let i=0;i<=4;i++){const v=Math.round(max*i/4),y=Y(v);
+    g+='<line x1="'+M.l+'" y1="'+y+'" x2="'+(W-M.r)+'" y2="'+y+'" stroke="var(--grid)" stroke-width="1"/>';
+    g+='<text x="'+(M.l-8)+'" y="'+(y+4)+'" text-anchor="end" font-size="10" fill="var(--muted)">'+v+'</text>';}
+  // eixo X: ~6 marcas
+  const passo=Math.max(1,Math.ceil(DIAS.length/6));
+  DIAS.forEach((x,i)=>{if(i%passo===0||i===DIAS.length-1)
+    g+='<text x="'+X(i)+'" y="'+(H-8)+'" text-anchor="middle" font-size="10" fill="var(--muted)">'+fmtCurto(x.d)+'</text>';});
+  for(const [k,rotulo] of series){
+    const pts=DIAS.map((x,i)=>X(i)+','+Y(x[k])).join(' ');
+    g+='<polyline points="'+pts+'" fill="none" stroke="'+S[k]+'" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>';
+    if(DIAS.length){ // rótulo direto no fim da linha (texto em tom de texto, marca colorida)
+      const i=DIAS.length-1;
+      g+='<circle cx="'+X(i)+'" cy="'+Y(DIAS[i][k])+'" r="3" fill="'+S[k]+'"/>';
+      g+='<text x="'+(X(i)+8)+'" y="'+(Y(DIAS[i][k])+4)+'" font-size="11" fill="var(--text)">'+rotulo.split(' ')[0]+' '+DIAS[i][k]+'</text>';
+    }
+  }
+  // camada de hover: crosshair + marcador ≥8px por série
+  g+='<line id="ln-cross" x1="0" y1="'+M.t+'" x2="0" y2="'+(M.t+ih)+'" stroke="var(--muted)" stroke-width="1" stroke-dasharray="3 3" opacity="0"/>';
+  for(const [k] of series)g+='<circle id="ln-m-'+k+'" r="4.5" fill="'+S[k]+'" stroke="#fff" stroke-width="2" opacity="0"/>';
+  g+='<rect id="ln-hit" x="'+M.l+'" y="'+M.t+'" width="'+iw+'" height="'+ih+'" fill="transparent"/>';
+  $('ch-linhas').innerHTML='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Atividade por dia">'+g+'</svg>';
+  const svg=$('ch-linhas').querySelector('svg');
+  const hit=svg.getElementById('ln-hit');
+  hit.addEventListener('mousemove',(ev)=>{
+    const r=svg.getBoundingClientRect(),sx=W/r.width;
+    const px=(ev.clientX-r.left)*sx;
+    const i=Math.max(0,Math.min(DIAS.length-1,Math.round((px-M.l)/(iw/Math.max(1,DIAS.length-1)))));
+    const x=X(i),d=DIAS[i];
+    svg.getElementById('ln-cross').setAttribute('x1',x);svg.getElementById('ln-cross').setAttribute('x2',x);
+    svg.getElementById('ln-cross').setAttribute('opacity','1');
+    for(const [k] of series){const m=svg.getElementById('ln-m-'+k);m.setAttribute('cx',x);m.setAttribute('cy',Y(d[k]));m.setAttribute('opacity','1');}
+    tip('<b>'+fmt(d.d)+'</b><br>Aberturas de e-mail: <b>'+d.open+'</b><br>Cliques em artigos: <b>'+d.click+'</b><br>Resumos no site: <b>'+d.resumo+'</b><br>Dentistas ativos: <b>'+d.ativos+'</b>',ev.clientX,ev.clientY);
+  });
+  hit.addEventListener('mouseleave',()=>{tipOff();
+    svg.getElementById('ln-cross').setAttribute('opacity','0');
+    for(const [k] of series)svg.getElementById('ln-m-'+k).setAttribute('opacity','0');});
+}
+
+/* ── Gráfico 2: colunas (série única — sem legenda; topo arredondado 4px,
+      vão de 2px, tooltip por marca) ──────────────────────────────────────── */
+function desenharAtivos(){
+  const W=960,H=200,M={t:14,r:16,b:26,l:38};
+  const iw=W-M.l-M.r,ih=H-M.t-M.b;
+  const max=Math.max(2,...DIAS.map(x=>x.ativos));
+  const n=Math.max(1,DIAS.length);
+  const bw=Math.max(3,Math.floor(iw/n)-2); // vão de 2px entre colunas
+  let g='';
+  for(let i=0;i<=3;i++){const v=Math.round(max*i/3),y=M.t+ih-(v/max)*ih;
+    g+='<line x1="'+M.l+'" y1="'+y+'" x2="'+(W-M.r)+'" y2="'+y+'" stroke="var(--grid)"/>';
+    g+='<text x="'+(M.l-8)+'" y="'+(y+4)+'" text-anchor="end" font-size="10" fill="var(--muted)">'+v+'</text>';}
+  const passo=Math.max(1,Math.ceil(n/6));
+  DIAS.forEach((x,i)=>{
+    const h=Math.max(1,(x.ativos/max)*ih),bx=M.l+i*(iw/n)+1,by=M.t+ih-h;
+    const rr=Math.min(4,bw/2,h); // arredondado só no topo, ancorado na base
+    g+='<path class="col" data-i="'+i+'" d="M'+bx+' '+(M.t+ih)+' V'+(by+rr)+' Q'+bx+' '+by+' '+(bx+rr)+' '+by+' H'+(bx+bw-rr)+' Q'+(bx+bw)+' '+by+' '+(bx+bw)+' '+(by+rr)+' V'+(M.t+ih)+' Z" fill="#2a78d6"/>';
+    if(i%passo===0||i===n-1)g+='<text x="'+(bx+bw/2)+'" y="'+(H-8)+'" text-anchor="middle" font-size="10" fill="var(--muted)">'+fmtCurto(x.d)+'</text>';
+  });
+  $('ch-ativos').innerHTML='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Dentistas ativos por dia">'+g+'</svg>';
+  $('ch-ativos').querySelectorAll('.col').forEach(el=>{
+    el.addEventListener('mousemove',(ev)=>{const d=DIAS[Number(el.dataset.i)];
+      tip('<b>'+fmt(d.d)+'</b><br>Dentistas ativos: <b>'+d.ativos+'</b>',ev.clientX,ev.clientY);});
+    el.addEventListener('mouseleave',tipOff);
+  });
+}
+
+/* ── Gráfico 3: barras horizontais — top 15 (magnitude, um matiz; nome em
+      texto, valor em rótulo direto, tooltip com o detalhamento) ──────────── */
+function desenharTop(){
+  const top=DENTISTAS.slice(0,15);
+  const W=960,rh=26,M={t:6,r:60,l:230},H=M.t+top.length*rh+6;
+  const iw=W-M.l-M.r;
+  const max=Math.max(1,...top.map(d=>d.total));
+  let g='';
+  top.forEach((d,i)=>{
+    const y=M.t+i*rh,bw=Math.max(2,(d.total/max)*iw),rr=Math.min(4,rh/2-4);
+    g+='<text x="'+(M.l-10)+'" y="'+(y+rh/2+4)+'" text-anchor="end" font-size="12" fill="var(--text)">'+esc(d.nome.split(' ').slice(0,2).join(' '))+'</text>';
+    g+='<path class="bar" data-i="'+i+'" d="M'+M.l+' '+(y+4)+' H'+(M.l+bw-rr)+' Q'+(M.l+bw)+' '+(y+4)+' '+(M.l+bw)+' '+(y+4+rr)+' V'+(y+rh-4-rr)+' Q'+(M.l+bw)+' '+(y+rh-4)+' '+(M.l+bw-rr)+' '+(y+rh-4)+' H'+M.l+' Z" fill="#2a78d6"/>';
+    g+='<text x="'+(M.l+bw+8)+'" y="'+(y+rh/2+4)+'" font-size="12" fill="var(--text)">'+d.total+'</text>';
+  });
+  $('ch-top').innerHTML=top.length
+    ?'<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Dentistas que mais usaram">'+g+'</svg>'
+    :'<p class="sub">Sem eventos no período.</p>';
+  $('ch-top').querySelectorAll('.bar').forEach(el=>{
+    el.addEventListener('mousemove',(ev)=>{const d=DENTISTAS[Number(el.dataset.i)];
+      tip('<b>'+esc(d.nome)+'</b><br>'+esc(d.email)+'<br>Aberturas: <b>'+d.open+'</b> · Cliques: <b>'+d.click+'</b> · Resumos: <b>'+d.resumo+'</b><br>Dias ativos: <b>'+d.diasAtivos+'</b> · Último uso: <b>'+fmt(d.ultimo)+'</b>',ev.clientX,ev.clientY);});
+    el.addEventListener('mouseleave',tipOff);
+  });
+}
+
+/* ── Tabela completa (a visão-tabela obrigatória) + CSV ─────────────────── */
+function ordenar(campo){
+  ORD.asc=ORD.campo===campo?!ORD.asc:false;ORD.campo=campo;renderTabela();
+}
+function renderTabela(){
+  const q=($('t-busca').value||'').toLowerCase();
+  const rows=DENTISTAS.filter(d=>!q||(d.nome+' '+d.email).toLowerCase().includes(q))
+    .sort((a,b)=>{const va=a[ORD.campo],vb=b[ORD.campo];
+      const c=typeof va==='number'?va-vb:String(va).localeCompare(String(vb),'pt-BR');
+      return ORD.asc?c:-c;});
+  $('tb-dentistas').innerHTML=rows.map(d=>
+    '<tr><td><b>'+esc(d.nome)+'</b><br><span style="font-size:11px;color:var(--muted)">'+esc(d.email)+'</span></td>'
+    +'<td>'+esc(d.especialidade)+'</td>'
+    +'<td class="num"><b>'+d.total+'</b></td>'
+    +'<td class="num">'+d.open+'</td><td class="num">'+d.click+'</td><td class="num">'+d.resumo+'</td>'
+    +'<td class="num">'+d.diasAtivos+'</td><td>'+fmt(d.ultimo)+'</td></tr>').join('')
+    ||'<tr><td colspan="8" style="color:var(--muted)">Nenhum dentista com esse filtro.</td></tr>';
+}
+function baixarCSV(){
+  const esc2=(v)=>{const s=String(v??'');return /[";\n]/.test(s)?'"'+s.replace(/"/g,'""')+'"':s;};
+  const linhas=[['Dentista','E-mail','Especialidade','Interações','Aberturas','Cliques','Resumos','Dias ativos','Último uso'].join(';')];
+  for(const d of DENTISTAS)linhas.push([esc2(d.nome),d.email,esc2(d.especialidade),d.total,d.open,d.click,d.resumo,d.diasAtivos,fmt(d.ultimo)].join(';'));
+  const blob=new Blob(['﻿'+linhas.join('\n')],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='uso-odontofeed-desde-'+BRUTO.desde+'.csv';a.click();
+}
+</script>
+</body>
+</html>
