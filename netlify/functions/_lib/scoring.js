@@ -84,6 +84,48 @@ function especialidadeOverride(title, abstract, label) {
   return null;
 }
 
+// ── Estudo de bancada sobre PROPRIEDADES DE MATERIAIS ────────────────────────
+// Diretriz do fundador (22/08, print da edição de Ortodontia com 3 estudos
+// sobre braquetes/resina no mesmo dia — nanomateriais antibacterianos, plasma
+// melhorando adesão, nanopartículas reduzindo atrito): "evite este tipo de
+// estudos". Ciência de materiais em bancada não muda a conduta clínica de
+// amanhã — é DEMOVIDA no ranking e LIMITADA a 1 por edição (nunca banida:
+// especialidade escassa ainda pode usá-la para fechar a edição).
+// Detector de alta precisão: exige CONTEXTO de material/dispositivo E
+// (nano* OU propriedade físico-mecânica medida em bancada). Estudo CLÍNICO
+// em pacientes que só menciona resina/braquete NÃO dispara.
+const NANO_RX = /\b(nanopart[íi]cul\w*|nanoparticle\w*|nanomateri\w*|nanotubos?|nanotubes?|nanocomposites?|nanocomp[óo]sitos?|nano-?(?:hydroxyapatite|hidroxiapatita)|nanocristal\w*|nanocrystal\w*|nanoestrutur\w*|nanostructur\w*)/i;
+const PROPRIEDADE_MATERIAL_RX = new RegExp([
+  'bond strength', 'shear bond', 'micro-?tensile',
+  'resist[êe]ncia (?:de |da |ao |à )?(?:uni[ãa]o|ades[ãa]o|cisalhamento|tra[çc][ãa]o|flex[ãa]o|desgaste|fratura|corros[ãa]o)',
+  'ades[ãa]o (?:de|do|dos) braquetes?', 'adhesion of brackets?', 'bracket bond',
+  'frictional', 'friction(?:al)? (?:force|resistance|behaviou?r)', '\\batritos?\\b',
+  'surface roughness', 'rugosidade', 'flexural (?:strength|modulus)',
+  'microhardness', 'microdureza', 'micro-?leakage', 'microinfiltra[çc]',
+  'corrosion', 'corros[ãa]o', 'wear (?:resistance|behaviou?r)',
+  'anti(?:bacterial|microbial) (?:propert|effect|activit|coating)',
+  '(?:propriedades?|efeitos?|atividade) (?:antibacterian|antimicrobian|mec[âa]nic|f[íi]sico-qu[íi]mic|tribol[óo]gic)',
+  'revestimentos? (?:antibacterian|antimicrobian)', 'citotoxic', 'cytotoxic',
+  'sor[çp][ãt]ion|sor[çc][ãa]o', 'polymerization shrinkage', 'contra[çc][ãa]o de polimeriza[çc][ãa]o',
+].join('|'), 'i');
+const MATERIAL_CONTEXT_RX = /(brackets?|braquetes?|archwires?|arcos? ortod[ôo]ntic|fios? ortod[ôo]ntic|orthodontic wires?|aligners?|alinhador\w*|aparelhos? ortod[ôo]ntic|resin\w*|adhesives?|adesivos?|cimentos?|cements?|ion[ôo]meros?|ionomers?|zirc[ôo]nia|zirconia|cer[âa]mic\w*|ceramics?|tit[âa]nio|titanium|ligas? met[áa]lic\w*|alloys?|pol[íi]meros?|polymers?|comp[óo]sitos?|composites?|elastom[ée]r\w*|elastomeric|selantes?|sealants?|esmalte|enamel)/i;
+const BANCADA_RX = /\bin vitro\b|laborat[óo]r|laboratory|bench(?:top)? stud|corpos? de prova|specimens?\b|typodont|saliva artificial|artificial saliva|thermocycl|termocicla|universal testing machine|m[áa]quina de ensaios?/i;
+
+/**
+ * true quando o artigo é um estudo de PROPRIEDADES DE MATERIAIS (bancada):
+ * ensaio in vitro de adesão/atrito/dureza/etc. de braquetes, fios, resinas,
+ * cimentos… ou nano-materiais aplicados a dispositivos. Estudo clínico em
+ * pacientes nunca dispara (contexto de material sozinho não basta).
+ */
+function isEstudoDeMateriais(title, abstract, nivelEvidencia) {
+  const text = `${title || ''} ${abstract || ''}`;
+  if (!MATERIAL_CONTEXT_RX.test(text)) return false;
+  const bancada = nivelEvidencia === 'In Vitro' || nivelEvidencia === 'Estudo Animal' || BANCADA_RX.test(text);
+  const propriedade = PROPRIEDADE_MATERIAL_RX.test(text);
+  if (NANO_RX.test(text) && (bancada || propriedade)) return true;
+  return bancada && propriedade;
+}
+
 // ── Estudo não concluído (protocolo / em andamento) ──────────────────────────
 // Regra editorial: o OdontoFeed só publica estudos COM resultados. Protocolos,
 // registros de ensaio e trabalhos "em andamento" ainda não têm achados — narrá-
@@ -252,4 +294,4 @@ function estimateQualityScore(enriched) {
   return Math.min(1.0, score);
 }
 
-module.exports = { detectEvidenceLevel, classifySpecialty, especialidadeOverride, isUnfinishedStudy, tituloEmIngles, scoreRelevance, estimateQualityScore };
+module.exports = { detectEvidenceLevel, classifySpecialty, especialidadeOverride, isUnfinishedStudy, isEstudoDeMateriais, tituloEmIngles, scoreRelevance, estimateQualityScore };

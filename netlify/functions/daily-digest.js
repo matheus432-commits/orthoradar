@@ -32,7 +32,7 @@ const { withTimeout }                              = require('./_lib/retry-utils
 // (Achado da Semana cancelado em 19/07/2026 — módulo não é mais usado.)
 const { generateResumoCompleto, isResumoEstruturado } = require('./_lib/claude');
 const { aggregateStats, feedbackMultiplier, personalTemaAffinity } = require('./_lib/feedback-signal');
-const { isUnfinishedStudy, tituloEmIngles }         = require('./_lib/scoring');
+const { isUnfinishedStudy, tituloEmIngles, isEstudoDeMateriais } = require('./_lib/scoring');
 const { espDigestSlug }                            = require('./_lib/slug');
 const { buildEdicaoUrl }                           = require('./_lib/edicao-token');
 const { isPremium }                                = require('./_lib/plans');
@@ -481,6 +481,51 @@ function passaCuradoria(a) {
 // de caso continua PERMITIDO, mas limitado a 1; as vagas liberadas são
 // preenchidas por estudos NÃO-relato da reserva de candidatos.
 const MAX_RELATOS_POR_EDICAO = 1;
+
+// REGRA (fundador 22/08): "evite este tipo de estudos" — a edição de Ortodontia
+// saiu com os 3 cards sobre propriedades de materiais de braquetes/resina
+// (nanomateriais, plasma/adesão, nanopartículas/atrito). Estudo de bancada de
+// materiais é DEMOVIDO no ranking e limitado a 1 por edição; se faltar estudo
+// clínico para fechar a edição, o excedente volta (edição pobre > edição
+// bloqueada — diretriz 26/07 vale para o mínimo, não para a mistura).
+const MAX_MATERIAIS_POR_EDICAO = 1;
+const DEMOCAO_MATERIAIS = 0.5; // multiplicador do relevanceScore no ranking
+function isEstudoMateriais(a) {
+  return isEstudoDeMateriais(
+    `${a.titulo_pt || ''} ${a.titulo || a.title || ''}`,
+    `${a.resumo_pt || ''} ${a.abstract || ''}`,
+    a.nivel_evidencia || '');
+}
+function limitarEstudosDeMateriais(selecionados, candidatos, maxArtigos, minArtigos) {
+  const usados = new Set(selecionados.map(a => String(a.pmid || a.id || '')));
+  let materiais = 0, removidos = 0;
+  const final = [];
+  const excedentes = [];
+  for (const a of selecionados) {
+    if (isEstudoMateriais(a)) {
+      if (materiais >= MAX_MATERIAIS_POR_EDICAO) { excedentes.push(a); removidos++; continue; }
+      materiais++;
+    }
+    final.push(a);
+  }
+  // Repõe as vagas com estudos que não estouram NENHUM cap (nem materiais,
+  // nem relato — o cap de relato já rodou e não pode ser furado aqui).
+  if (removidos > 0) {
+    for (const a of candidatos) {
+      if (final.length >= maxArtigos) break;
+      const id = String(a.pmid || a.id || '');
+      if (usados.has(id) || isEstudoMateriais(a) || isRelatoDeCaso(a)) continue;
+      usados.add(id);
+      final.push(a);
+    }
+    // PISO: sem reposição clínica suficiente, o excedente de materiais volta —
+    // nunca bloquear a edição por causa da mistura.
+    let readmitidos = 0;
+    while (final.length < minArtigos && excedentes.length) { final.push(excedentes.shift()); readmitidos++; }
+    removidos -= readmitidos;
+  }
+  return { selecionados: final, removidos, materiais };
+}
 function limitarRelatosDeCaso(selecionados, candidatos, maxArtigos) {
   const usados = new Set(selecionados.map(a => String(a.pmid || a.id || '')));
   let relatos = 0;
@@ -911,6 +956,18 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
     log.warn('[digest][ESP] sinal de feedback indisponível — seguindo sem', { especialidade, err: err.message });
   }
 
+  // 4c. DEMOÇÃO de estudos de bancada de materiais (fundador 22/08: "evite este
+  // tipo de estudos") — estudo clínico vence a vaga; o de materiais só entra
+  // quando sobra espaço (e no máximo 1, cap adiante). Em memória, como o
+  // multiplicador de feedback acima.
+  {
+    let materiaisDemovidos = 0;
+    for (const art of candidates) {
+      if (isEstudoMateriais(art)) { art.relevanceScore = (art.relevanceScore || 50) * DEMOCAO_MATERIAIS; materiaisDemovidos++; }
+    }
+    if (materiaisDemovidos) log.info('[digest][ESP] estudos de materiais demovidos no ranking', { especialidade, materiaisDemovidos, de: candidates.length });
+  }
+
   // 5. Curated selection (shared — sem perfil individual)
   t = Date.now();
   let selected = recommendArticles(candidates, null, {
@@ -923,6 +980,14 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
   if (capRelato.removidos > 0) {
     log.info('[digest][ESP] cap de relatos de caso aplicado', {
       especialidade, removidos: capRelato.removidos, relatosMantidos: capRelato.relatos, total: selected.length,
+    });
+  }
+  // Máx. 1 estudo de materiais por edição (fundador 22/08 — repõe com clínico).
+  const capMateriais = limitarEstudosDeMateriais(selected, candidates, MAX_ARTICLES, MIN_ARTICLES);
+  selected = capMateriais.selecionados;
+  if (capMateriais.removidos > 0) {
+    log.info('[digest][ESP] cap de estudos de materiais aplicado', {
+      especialidade, removidos: capMateriais.removidos, materiaisMantidos: capMateriais.materiais, total: selected.length,
     });
   }
   log.info('[digest][ESP][STAGE curation]', {
@@ -988,6 +1053,8 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
   const dentroDoOrcamento = () => Date.now() - t <= RESUMO_STAGE_BUDGET_MS;
   const usadosIds = new Set(selected.map(a => String(a.pmid || a.id || '')));
   const reserva = candidates.filter(a => !usadosIds.has(String(a.pmid || a.id || '')) && passaCuradoria(a));
+  // Reposição prefere estudo clínico: materiais vão para o fim da fila (22/08).
+  reserva.sort((a, b) => (isEstudoMateriais(a) ? 1 : 0) - (isEstudoMateriais(b) ? 1 : 0));
 
   // 1) Gera os resumos dos selecionados EM PARALELO.
   await Promise.allSettled(selected.map(a => ensureResumoCompleto(db, a)));
@@ -996,6 +1063,7 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
   const finais = [];
   let descartadosSemVeredito = 0;
   let relatosEmFinais = 0;
+  let materiaisEmFinais = 0;
   for (const art of selected) {
     if (isResultadosIndisponiveis(art) || await faltaVereditoComparativo(art, anthropicKey)) {
       descartadosSemVeredito++;
@@ -1008,6 +1076,9 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
       if (relatosEmFinais >= MAX_RELATOS_POR_EDICAO) { descartadosSemVeredito++; continue; }
       relatosEmFinais++;
     }
+    // Selecionados já passaram pelo cap de materiais — aqui só CONTA, para a
+    // reposição abaixo respeitar o teto da edição.
+    if (isEstudoMateriais(art)) materiaisEmFinais++;
     finais.push(art);
   }
 
@@ -1023,7 +1094,9 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
         continue;
       }
       if (isRelatoDeCaso(cand) && relatosEmFinais >= MAX_RELATOS_POR_EDICAO) continue;
+      if (isEstudoMateriais(cand) && materiaisEmFinais >= MAX_MATERIAIS_POR_EDICAO) continue;
       if (isRelatoDeCaso(cand)) relatosEmFinais++;
+      if (isEstudoMateriais(cand)) materiaisEmFinais++;
       finais.push(cand);
     }
   }
@@ -1468,6 +1541,10 @@ async function pickPremiumExtras(db, user, pool, quantos = PREMIUM_EXTRAS) {
     .map(a => {
       const m = scoreForTemas(a, temas);
       m.score += afinidade[String(a.tema || '').trim()] || 0;
+      // 22/08 ("evite este tipo de estudos"): bancada de materiais atrás de
+      // QUALQUER estudo clínico — -10 supera o match perfeito de tema (5) +
+      // afinidade máxima (4.5); só entra como extra quando o clínico acabou.
+      if (isEstudoMateriais(a)) m.score -= 10;
       return { a, m };
     })
     .sort((x, y) => y.m.score - x.m.score || ((y.a.data || '') > (x.a.data || '') ? 1 : -1));
@@ -1890,8 +1967,11 @@ exports.isServicoSaudeDados = isServicoSaudeDados;
 exports.isRelatoDeCaso = isRelatoDeCaso;
 exports.isResultadosIndisponiveis = isResultadosIndisponiveis;
 exports.limitarRelatosDeCaso = limitarRelatosDeCaso;
+exports.isEstudoMateriais = isEstudoMateriais;
+exports.limitarEstudosDeMateriais = limitarEstudosDeMateriais;
 exports.deveRegerar = deveRegerar;
 exports.MAX_RELATOS_POR_EDICAO = MAX_RELATOS_POR_EDICAO;
+exports.MAX_MATERIAIS_POR_EDICAO = MAX_MATERIAIS_POR_EDICAO;
 // Reutilizados pelo pré-aquecimento da reserva (prewarm-reserva.js): a MESMA
 // definição de "candidato vivo" (enriquecido, curado e não repetido) do e-mail.
 exports.faltaVereditoComparativo = faltaVereditoComparativo;
