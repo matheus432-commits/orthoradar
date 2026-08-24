@@ -1,0 +1,36 @@
+# FASE 1 da spec 2 (24/08) — diagnóstico biblioteca/áudio. SÓ LEITURA.
+# Zero IA, zero TTS, zero escrita: mede as hipóteses H1-H7 com dados
+# (reconciliação temporal, funil, cruzamento e-mail×biblioteca, cobertura e
+# existência real dos áudios no storage). SÓ dispatch manual.
+
+name: Diagnostico do Pipeline (leitura)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  diagnostico:
+    name: Relatório biblioteca/áudio
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Gerar relatório (nada é alterado)
+        env:
+          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+          FIREBASE_API_KEY:    ${{ secrets.FIREBASE_API_KEY }}
+          GCS_BUCKET:          ${{ secrets.GCS_BUCKET }}
+        run: node scripts/diagnostico-pipeline.js
+      - name: Publicar JSON + CSV
+        uses: actions/upload-artifact@v4
+        with:
+          name: diagnostico-pipeline
+          path: |
+            diagnostico-pipeline.json
+            diagnostico-pipeline.csv
+          retention-days: 30

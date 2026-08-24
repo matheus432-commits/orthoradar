@@ -1,0 +1,58 @@
+# FASE 3 da spec 2 (24/08) — backfill de podcast p/ artigos fora da biblioteca.
+# SÓ dispatch manual; DRY-RUN por padrão (lista candidatos + custo estimado,
+# nada é gerado). CUSTO REAL fora do dry-run: roteiro (IA) + TTS por artigo —
+# rodar com dry_run=false SÓ depois de o fundador aprovar o número.
+# Idempotente: quem já tem episódio é pulado; pode rodar em várias levas.
+
+name: Backfill Biblioteca (Fase 3)
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'true = só relatar candidatos/custo; false = GERAR áudio'
+        required: false
+        default: 'true'
+      limit:
+        description: 'artigos processados neste run'
+        required: false
+        default: '20'
+      especialidade:
+        description: 'opcional: só uma especialidade'
+        required: false
+        default: ''
+      data_de:
+        description: 'opcional: YYYY-MM-DD inicial (data do artigo)'
+        required: false
+        default: ''
+      data_ate:
+        description: 'opcional: YYYY-MM-DD final'
+        required: false
+        default: ''
+
+jobs:
+  backfill:
+    name: Backfill de podcasts
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Backfill
+        env:
+          FIREBASE_PROJECT_ID:  ${{ secrets.FIREBASE_PROJECT_ID }}
+          FIREBASE_API_KEY:     ${{ secrets.FIREBASE_API_KEY }}
+          GCS_BUCKET:           ${{ secrets.GCS_BUCKET }}
+          ANTHROPIC_API_KEY:    ${{ secrets.ANTHROPIC_API_KEY }}
+          GOOGLE_TTS_API_KEY:   ${{ secrets.GOOGLE_TTS_API_KEY }}
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          DRY_RUN:              ${{ inputs.dry_run }}
+          LIMIT:                ${{ inputs.limit }}
+          ESPECIALIDADE:        ${{ inputs.especialidade }}
+          DATA_DE:              ${{ inputs.data_de }}
+          DATA_ATE:             ${{ inputs.data_ate }}
+        run: node scripts/backfill-biblioteca.js

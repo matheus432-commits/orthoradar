@@ -1,0 +1,34 @@
+# FASE 4 da spec 2 (24/08) — health check diário do pipeline.
+# SÓ LEITURA (custo zero de IA/TTS): confere se o job do dia produziu edições
+# e se os artigos dos últimos 7 dias completaram TODAS as etapas (inclui
+# áudio → biblioteca). Falha o run e envia e-mail ao admin (Resend) quando
+# algo está abaixo do esperado.
+# Cron 08:30 UTC (~05:30 BRT), depois da janela do pipeline (04:50-06:00 UTC).
+
+name: Saude do Pipeline
+
+on:
+  schedule:
+    - cron: '30 8 * * *'
+  workflow_dispatch:
+
+jobs:
+  saude:
+    name: Health check diário
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Avaliar saúde (falha = alerta)
+        env:
+          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+          FIREBASE_API_KEY:    ${{ secrets.FIREBASE_API_KEY }}
+          GCS_BUCKET:          ${{ secrets.GCS_BUCKET }}
+          RESEND_API_KEY:      ${{ secrets.RESEND_API_KEY }}
+          ALERT_EMAIL:         ${{ secrets.ALERT_EMAIL }}
+        run: node scripts/saude-pipeline.js

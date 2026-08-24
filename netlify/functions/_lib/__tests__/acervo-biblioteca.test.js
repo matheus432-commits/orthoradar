@@ -72,9 +72,13 @@ describe('biblioteca.html — página do acervo', () => {
     assert.ok(html.includes('function encherTemas()'), 'recalcula temas por especialidade');
     assert.match(html, /esp&&a\.especialidade!==esp/, 'temas vêm só da especialidade filtrada');
     assert.ok(html.includes("onchange=\"encherTemas();render()\""), 'trocar especialidade refaz os temas');
+    // v2 (24/08): chips por ID canônico com contagem, multisseleção OU.
+    assert.ok(html.includes('TEMAS_SEL'), 'multisseleção de temas');
+    assert.match(html, /\(a\.temas\|\|\[\]\)\.some\(t=>TEMAS_SEL\.has\(t\)\)/, 'filtro casa por id com lógica OU');
+    assert.ok(html.includes('rotuloTema(id)') && html.includes('freq.get(id)'), 'chip mostra label + contagem');
     // Feedback do fundador 08/08: o seletor NUNCA some — sem temas ele fica
     // visível porém desabilitado, com o aviso "em breve".
-    assert.ok(html.includes('sel.disabled=true'), 'sem temas → desabilitado, não oculto');
+    assert.ok(html.includes('Temas — em breve nesta especialidade'), 'sem temas → aviso visível, não oculto');
     assert.ok(html.includes('Temas — em breve nesta especialidade'), 'aviso explica a ausência');
     assert.ok(!html.includes("style.display=temas.length"), 'o comportamento de esconder foi removido');
   });

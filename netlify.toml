@@ -35,6 +35,28 @@
   to = "/#planos"
   status = 302
 
+# Endpoints admin das specs de 24/08 (diagnóstico/migração de temas e
+# diagnóstico/backfill do pipeline) — caminho pedido na spec: /api/admin/*.
+[[redirects]]
+  from = "/api/admin/diagnostico-temas"
+  to = "/.netlify/functions/diagnostico-temas"
+  status = 200
+
+[[redirects]]
+  from = "/api/admin/migrar-temas"
+  to = "/.netlify/functions/migrar-temas"
+  status = 200
+
+[[redirects]]
+  from = "/api/admin/diagnostico-pipeline"
+  to = "/.netlify/functions/diagnostico-pipeline"
+  status = 200
+
+[[redirects]]
+  from = "/api/admin/backfill-biblioteca"
+  to = "/.netlify/functions/backfill-biblioteca"
+  status = 200
+
 # Landing de resgate de parceria: /parceria/{slug} serve a página única, que
 # lê o slug do próprio path (rewrite 200 — a URL bonita fica na barra).
 [[redirects]]

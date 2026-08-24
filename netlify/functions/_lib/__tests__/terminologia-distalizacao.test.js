@@ -41,7 +41,10 @@ describe('distanciamento → distalização (corrigirTermosBR)', () => {
     assert.match(claude, /const resumoCorr = corrigirTermosBR\(/, 'resumo corrigido antes do tema');
     assert.match(claude, /titulo_pt:\s+tituloCorr/, 'titulo_pt usa o texto corrigido');
     assert.match(claude, /resumo_pt:\s+resumoCorr/, 'resumo_pt usa o texto corrigido');
-    assert.ok(claude.indexOf('const tituloCorr') < claude.indexOf('tema: classificarTema('), 'correção vem antes da classificação');
+    // 24/08: a classificação virou canônica (temas-pipeline), mas continua
+    // recebendo o texto JÁ corrigido — a ordem correção → classificação segue.
+    assert.ok(claude.indexOf('const tituloCorr') < claude.indexOf('classificarTemasCanonicos('), 'correção vem antes da classificação');
+    assert.ok(claude.indexOf('titulo_pt: tituloCorr,') > -1 && claude.indexOf('classificarTemasCanonicos({') < claude.indexOf('tema: temasCanon.tema'), 'classificação usa o texto corrigido');
     for (const campo of ['impacto_pratico', 'limitacoes']) {
       assert.match(claude, new RegExp(campo + ':\\s+corrigirTermosBR\\('), campo + ' passa pelo corretor');
     }

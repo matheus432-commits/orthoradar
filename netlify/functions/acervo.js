@@ -22,6 +22,7 @@ const { rateLimited } = require('./_lib/rate-limit');
 const { audioUrlDe } = require('./_lib/storage');
 const { resolveArticleUrl } = require('./_lib/email-template');
 const { logEvent } = require('./_lib/engagement');
+const { mapearLista, ehIdValido, labelDe } = require('./_lib/taxonomia');
 const { isPremium } = require('./_lib/plans');
 const log = require('./_lib/logger');
 
@@ -160,7 +161,7 @@ exports.handler = async (event) => {
     // ── Catálogo completo (leve) ────────────────────────────────────────────
     const [audios, lidos] = await Promise.all([mapaDeAudios(db, bucket), pmidsLidos(db, email)]);
     const arts = await db.query('artigos', {
-      select: sel('pmid', 'titulo_pt', 'especialidade', 'data', 'nivel_evidencia', 'journal', 'year', 'tema', 'resumo_pt', 'status'),
+      select: sel('pmid', 'titulo_pt', 'especialidade', 'data', 'nivel_evidencia', 'journal', 'year', 'tema', 'temas', 'resumo_pt', 'status'),
       limit: 5000,
     }).catch(() => []);
 
@@ -182,6 +183,12 @@ exports.handler = async (event) => {
         nivel:         a.nivel_evidencia || '',
         journal:       a.journal || '', year: a.year || '',
         tema:          a.tema || '',
+        // TEMAS CANÔNICOS (Fase 5 da spec 24/08): ids do artigo já migrado,
+        // ou o legado `tema` mapeado por sinônimo NA HORA — o filtro novo
+        // funciona antes mesmo de a migração retroativa rodar.
+        temas:         (Array.isArray(a.temas) && a.temas.length)
+                         ? a.temas.filter(id => ehIdValido(id, a.especialidade || au.especialidade || ''))
+                         : mapearLista(a.tema, a.especialidade || au.especialidade || ''),
         resumo:        String(a.resumo_pt || '').slice(0, 400), // busca + prévia do card
         audioUrl:      au.url, secs: au.secs,
         lido:          lidos.has(pmid),
@@ -203,6 +210,8 @@ exports.handler = async (event) => {
         episodios,
         especialidades: [...new Set(artigos.map(a => a.especialidade).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'pt-BR')),
         temas:          [...new Set(artigos.map(a => a.tema).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'pt-BR')),
+        // id → label para os chips de tema (só os ids presentes no acervo).
+        temasCatalogo:  Object.fromEntries([...new Set(artigos.flatMap(a => a.temas))].map(id => [id, labelDe(id)])),
       }),
     };
   } catch (err) {

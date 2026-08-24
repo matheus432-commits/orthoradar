@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Pipeline — OdontoFeed (admin)</title>
+<style>
+/* Painel de SAÚDE DO PIPELINE (Fase 4 da spec 2, 24/08): série temporal de
+   edições/dia, cobertura de áudio por especialidade e última execução.
+   Mesma paleta validada do /admin-uso (WARNs de contraste aliviados por
+   rótulos diretos + tabela). Fonte de dados: diagnostico-pipeline (leitura). */
+:root{--bg:#FBF7EF;--card:#FFFFFF;--border:#EDE6D8;--text:#1A1A18;--muted:#8A8478;--gold:#B08968;--green:#3E7C4F;--red:#B4533B;--blue:#4A6B8A;
+--s1:#2a78d6;--s3:#1baf7a;--grid:#F0EBE0;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,-apple-system,sans-serif;padding:28px 16px 60px;}
+.wrap{max-width:1020px;margin:0 auto;}
+h1{font-family:Georgia,'Times New Roman',serif;font-size:1.6rem;letter-spacing:-.4px;margin-bottom:4px;}
+h1 em{color:var(--gold);font-style:normal;}
+.sub{color:var(--muted);font-size:13px;margin-bottom:18px;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px 20px;margin-bottom:14px;box-shadow:0 1px 4px rgba(0,0,0,.03);}
+.sec-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.4px;color:var(--muted);margin:24px 0 10px;}
+.t-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--muted);margin-bottom:6px;}
+.t-val{font-family:Georgia,serif;font-size:1.8rem;letter-spacing:-.5px;}
+.t-sufix{font-size:12px;color:var(--muted);margin-top:3px;}
+.total-row{display:flex;gap:12px;flex-wrap:wrap;}
+.total-row .card{flex:1;min-width:150px;margin-bottom:0;}
+svg{display:block;width:100%;height:auto;}
+svg text{font-family:'Segoe UI',system-ui,sans-serif;}
+.tip{position:fixed;z-index:50;background:#23211C;color:#fff;border-radius:9px;padding:8px 11px;font-size:12px;line-height:1.55;pointer-events:none;display:none;max-width:280px;box-shadow:0 4px 16px rgba(0,0,0,.25);}
+.tip b{color:#E8CDA8;}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+th{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);text-align:left;padding:8px 10px;border-bottom:1px solid var(--border);white-space:nowrap;}
+th.num,td.num{text-align:right;}
+td{padding:9px 10px;border-bottom:1px solid var(--border);}
+tr:last-child td{border-bottom:none;}
+.login{max-width:400px;margin:80px auto;text-align:center;}
+.login input{width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:10px;font-size:14px;margin:14px 0 10px;background:#fff;}
+.login button{background:var(--text);color:#fff;border:none;border-radius:10px;padding:12px 26px;font-weight:600;font-size:14px;cursor:pointer;}
+.err{color:var(--red);font-size:13px;margin-top:10px;display:none;}
+.aviso{background:#FDF3E7;border:1px solid #EBD9BC;border-radius:10px;padding:10px 14px;font-size:12.5px;color:#7A5A2E;margin-bottom:14px;}
+#dash{display:none;}
+.voltar{font-size:13px;color:var(--blue);text-decoration:none;}
+.scroll-x{overflow-x:auto;}
+@media(max-width:640px){td,th{padding:7px 6px;} table{font-size:12px;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="login" id="login">
+    <h1>OdontoFeed<em>.</em> Pipeline</h1>
+    <p class="sub">Saúde do pipeline — informe o segredo do admin.</p>
+    <input type="password" id="secret" placeholder="ADMIN_SECRET" onkeydown="if(event.key==='Enter')entrar()">
+    <button onclick="entrar()">Entrar</button>
+    <p class="err" id="err-login">Segredo inválido.</p>
+  </div>
+
+  <div id="dash">
+    <a class="voltar" href="/admin.html">← voltar ao painel</a>
+    <h1 style="margin-top:10px;">Saúde do pipeline<em>.</em></h1>
+    <p class="sub" id="periodo-sub"></p>
+    <div class="aviso">Relatório de leitura (nada é alterado). A biblioteca deriva de artigo ativo + título PT + <b>ter podcast</b> — artigo sem áudio fica fora dela por design; extras premium não têm áudio.</div>
+
+    <div class="total-row">
+      <div class="card"><div class="t-label">Última execução</div><div class="t-val" style="color:var(--gold);" id="k-ultima">—</div><div class="t-sufix">edição mais recente persistida</div></div>
+      <div class="card"><div class="t-label">Dias sem nenhuma edição</div><div class="t-val" style="color:var(--red);" id="k-buracos">—</div><div class="t-sufix" id="k-buracos-suf"></div></div>
+      <div class="card"><div class="t-label">Artigos com áudio</div><div class="t-val" style="color:var(--s3);" id="k-audio">—</div><div class="t-sufix">no acervo inteiro</div></div>
+      <div class="card"><div class="t-label">URLs de áudio quebradas</div><div class="t-val" id="k-storage">—</div><div class="t-sufix" id="k-storage-suf"></div></div>
+    </div>
+
+    <div class="sec-title">Edições persistidas por dia</div>
+    <div class="card"><div id="ch-edicoes"></div></div>
+
+    <div class="sec-title">Episódios de áudio por dia</div>
+    <div class="card"><div id="ch-audio"></div></div>
+
+    <div class="sec-title">Funil por especialidade</div>
+    <div class="card scroll-x">
+      <table>
+        <thead><tr>
+          <th>Especialidade</th>
+          <th class="num">Total</th><th class="num">Ativos</th><th class="num">Resumo</th>
+          <th class="num">Tema</th><th class="num">Resumo completo</th>
+          <th class="num">Áudio</th><th class="num">Na biblioteca</th><th class="num">Em edição</th>
+        </tr></thead>
+        <tbody id="tb-funil"></tbody>
+      </table>
+    </div>
+
+    <div class="sec-title">Divergências e-mail × biblioteca</div>
+    <div class="card">
+      <p class="sub" id="div-resumo" style="margin-bottom:8px;"></p>
+      <div class="scroll-x"><table>
+        <thead><tr><th>PMID</th><th>Motivo de estar fora da biblioteca</th></tr></thead>
+        <tbody id="tb-div"></tbody>
+      </table></div>
+    </div>
+  </div>
+</div>
+<div class="tip" id="tip"></div>
+
+<script>
+const $=(id)=>document.getElementById(id);
+const esc=(s)=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt=(d)=>d?String(d).slice(0,10).split('-').reverse().join('/'):'—';
+const fmtCurto=(d)=>{const p=String(d).slice(5,10).split('-');return p[1]+'/'+p[0];};
+let D=null;
+
+async function entrar(){
+  const secret=$('secret').value.trim();
+  try{
+    const r=await fetch('/.netlify/functions/diagnostico-pipeline?secret='+encodeURIComponent(secret));
+    if(!r.ok)throw new Error('auth');
+    D=await r.json();
+    $('login').style.display='none';$('dash').style.display='block';
+    montar();
+  }catch(e){$('err-login').style.display='block';}
+}
+
+function tip(html,x,y){const t=$('tip');t.innerHTML=html;t.style.display='block';
+  const w=t.offsetWidth,vw=window.innerWidth;
+  t.style.left=Math.min(x+14,vw-w-10)+'px';t.style.top=(y+14)+'px';}
+function tipOff(){$('tip').style.display='none';}
+
+/* Colunas de série única — mesmo desenho do /admin-uso: topo arredondado 4px
+   ancorado na base, vão de 2px, grid recessivo, tooltip por marca. */
+function colunas(alvo,serie,cor,rotulo){
+  const W=960,H=200,M={t:14,r:16,b:26,l:38};
+  const iw=W-M.l-M.r,ih=H-M.t-M.b;
+  const max=Math.max(2,...serie.map(x=>x.n));
+  const n=Math.max(1,serie.length);
+  const bw=Math.max(3,Math.floor(iw/n)-2);
+  let g='';
+  for(let i=0;i<=3;i++){const v=Math.round(max*i/3),y=M.t+ih-(v/max)*ih;
+    g+='<line x1="'+M.l+'" y1="'+y+'" x2="'+(W-M.r)+'" y2="'+y+'" stroke="var(--grid)"/>';
+    g+='<text x="'+(M.l-8)+'" y="'+(y+4)+'" text-anchor="end" font-size="10" fill="var(--muted)">'+v+'</text>';}
+  const passo=Math.max(1,Math.ceil(n/6));
+  serie.forEach((x,i)=>{
+    const h=Math.max(1,(x.n/max)*ih),bx=M.l+i*(iw/n)+1,by=M.t+ih-h;
+    const rr=Math.min(4,bw/2,h);
+    g+='<path class="col" data-i="'+i+'" d="M'+bx+' '+(M.t+ih)+' V'+(by+rr)+' Q'+bx+' '+by+' '+(bx+rr)+' '+by+' H'+(bx+bw-rr)+' Q'+(bx+bw)+' '+by+' '+(bx+bw)+' '+(by+rr)+' V'+(M.t+ih)+' Z" fill="'+cor+'"/>';
+    if(i%passo===0||i===n-1)g+='<text x="'+(bx+bw/2)+'" y="'+(H-8)+'" text-anchor="middle" font-size="10" fill="var(--muted)">'+fmtCurto(x.d)+'</text>';
+  });
+  $(alvo).innerHTML=serie.length
+    ?'<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+esc(rotulo)+'">'+g+'</svg>'
+    :'<p class="sub">Sem dados.</p>';
+  $(alvo).querySelectorAll('.col').forEach(el=>{
+    el.addEventListener('mousemove',(ev)=>{const x=serie[Number(el.dataset.i)];
+      tip('<b>'+fmt(x.d)+'</b><br>'+esc(rotulo)+': <b>'+x.n+'</b>',ev.clientX,ev.clientY);});
+    el.addEventListener('mouseleave',tipOff);
+  });
+}
+
+function montar(){
+  $('periodo-sub').textContent='Gerado em '+new Date(D.geradoEm).toLocaleString('pt-BR')+' · execuções de '+fmt(D.execucoes.primeiro)+' a '+fmt(D.execucoes.ultimo);
+  $('k-ultima').textContent=fmt(D.execucoes.ultimo);
+  $('k-buracos').textContent=D.execucoes.diasSemNenhumaEdicao.length;
+  $('k-buracos-suf').textContent=D.execucoes.diasSemNenhumaEdicao.slice(0,4).map(fmt).join(', ')+(D.execucoes.diasSemNenhumaEdicao.length>4?'…':'');
+  $('k-audio').textContent=D.audio.artigosComAudio;
+  $('k-storage').textContent=D.audio.storage.quebradas;
+  $('k-storage-suf').textContent='de '+D.audio.storage.verificadas+' verificadas (HEAD)';
+
+  colunas('ch-edicoes',D.execucoes.seriePorDia||[],'#2a78d6','Edições no dia');
+  colunas('ch-audio',D.audio.seriePorDia||[],'#1baf7a','Episódios no dia');
+
+  $('tb-funil').innerHTML=Object.entries(D.funilPorEspecialidade)
+    .sort((a,b)=>b[1].total-a[1].total)
+    .map(([esp,f])=>'<tr><td><b>'+esc(esp)+'</b></td>'
+      +'<td class="num">'+f.total+'</td><td class="num">'+f.ativos+'</td><td class="num">'+f.comResumo+'</td>'
+      +'<td class="num">'+f.comTema+'</td><td class="num">'+f.comResumoCompleto+'</td>'
+      +'<td class="num"><b>'+f.comAudio+'</b></td><td class="num"><b>'+f.naBiblioteca+'</b></td><td class="num">'+f.enviadoEmEdicao+'</td></tr>').join('');
+
+  const c=D.cruzamento;
+  $('div-resumo').textContent='Enviados em edição e fora da biblioteca: '+c.enviadosSemBiblioteca.total
+    +' · na biblioteca sem constar em edição: '+c.bibliotecaSemEnvio.total+' (primeiros 50 abaixo).';
+  $('tb-div').innerHTML=c.enviadosSemBiblioteca.primeiros50
+    .map(x=>'<tr><td>'+esc(x.pmid)+'</td><td>'+esc(x.motivo)+'</td></tr>').join('')
+    ||'<tr><td colspan="2" style="color:var(--muted)">Nenhuma divergência.</td></tr>';
+}
+</script>
+</body>
+</html>

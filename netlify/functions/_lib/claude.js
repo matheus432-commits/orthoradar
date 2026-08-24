@@ -278,13 +278,24 @@ async function enrichArticle(article) {
   // tema deve ser classificado sobre o texto FINAL que o dentista lê e busca.
   const tituloCorr = corrigirTermosBR(String(enriched.titulo_pt || '').slice(0, 200));
   const resumoCorr = corrigirTermosBR(String(enriched.resumo_pt  || '').slice(0, 2000));
-  const { classificarTema } = require('./temas-classificador');
+  // TEMAS CANÔNICOS v2 (Fase 4 da spec 24/08): mesma taxonomia + mesmo prompt
+  // da migração, validação estrita contra o enum (id fora da lista nunca é
+  // gravado). IA (Haiku, ~US$0,002/artigo) com fallback determinístico em
+  // qualquer falha — desligável via TEMAS_IA=false (volta ao custo zero 08/08).
+  const { classificarTemasCanonicos } = require('./temas-pipeline');
+  const usarIA = process.env.TEMAS_IA !== 'false' && !!process.env.ANTHROPIC_API_KEY;
+  const temasCanon = await classificarTemasCanonicos({
+    pmid: article.pmid,
+    especialidade: espFinal,
+    titulo_pt: tituloCorr, titulo: article.titulo || article.title,
+    resumo_pt: resumoCorr, abstract: article.abstract,
+  }, usarIA ? {
+    classificarIA: async (p) => (await callClaude(p, 0, process.env.TEMAS_MODEL || require('./ai-config').DEFAULT_MODEL, 200, 'temas')).text,
+  } : {});
   return {
-    tema: classificarTema({
-      especialidade: espFinal,
-      titulo_pt: tituloCorr, titulo: article.titulo || article.title,
-      resumo_pt: resumoCorr, abstract: article.abstract,
-    }),
+    tema: temasCanon.tema,
+    temas: temasCanon.temas,
+    versao_taxonomia: temasCanon.versao_taxonomia,
     titulo_pt:         tituloCorr,
     resumo_pt:         resumoCorr,
     impacto_pratico:   corrigirTermosBR(String(enriched.impacto_pratico || '').slice(0, 500)),
@@ -466,4 +477,4 @@ async function classifyEspecialidade(article) {
   }
 }
 
-module.exports = { enrichArticle, generateResumoCompleto, isResumoEstruturado, RESUMO_SECOES, classifyEspecialidade, corrigirEspecialidade, CANONICAL_ESPECIALIDADES, corrigirTermosBR, terminaFraseCompleta, apararNaUltimaFrase, ateUltimaFraseCompleta, currentCost, resetCost, MODEL };
+module.exports = { enrichArticle, generateResumoCompleto, isResumoEstruturado, RESUMO_SECOES, classifyEspecialidade, corrigirEspecialidade, CANONICAL_ESPECIALIDADES, corrigirTermosBR, terminaFraseCompleta, apararNaUltimaFrase, ateUltimaFraseCompleta, currentCost, resetCost, MODEL, callClaude };

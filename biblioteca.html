@@ -145,7 +145,6 @@ h1 em{color:var(--gold);font-style:normal;}
       <div class="sec-head"><h3 class="serif" id="tit-acervo">Acervo completo</h3></div>
       <div class="filtros">
         <select id="f-nivel" onchange="render()"><option value="">Todos os níveis</option></select>
-        <select id="f-tema" onchange="render()"><option value="">Todos os temas</option></select>
         <select id="f-data" onchange="render()">
           <option value="">Qualquer data</option>
           <option value="7">Últimos 7 dias</option>
@@ -158,6 +157,10 @@ h1 em{color:var(--gold);font-style:normal;}
           <option value="antigos">Mais antigos</option>
         </select>
       </div>
+      <!-- Temas CANÔNICOS (Fase 5 da spec 24/08): chips com contagem,
+           multisseleção (OU), ocultos os de zero artigo, ordenados por
+           frequência. A fonte da verdade é o Set TEMAS_SEL. -->
+      <div class="chips chips-tema" id="f-tema"></div>
       <div class="contagem" id="contagem"></div>
       <div id="lista"></div>
       <button class="vermais" id="vermais" style="display:none;" onclick="verMais()">Carregar mais 30 ↓</button>
@@ -247,33 +250,40 @@ function encherFiltros(){
   $('f-nivel').innerHTML='<option value="">Todos os níveis</option>'+niveis.map(v=>'<option value="'+esc(v)+'">'+esc(NIVEL[String(v).toLowerCase()]||v)+'</option>').join('');
   encherTemas();
 }
-// Temas DEPENDEM da especialidade escolhida (bug 08/08: a lista global
-// mostrava só os temas de Prótese para qualquer especialidade — os docs das
-// outras áreas ainda não têm `tema` preenchido). Sem tema na seleção atual,
-// o seletor CONTINUA VISÍVEL (feedback do fundador 08/08 — sumir parecia
-// bug), apenas desabilitado com o aviso; os temas povoam conforme os artigos
-// novos chegam com o campo preenchido.
+// Temas CANÔNICOS v2 (Fase 5 da spec 24/08): chips por ID (nunca por label
+// — era a causa do "Alinhadores invisíveis com só 6 artigos": variantes de
+// string quebravam a correspondência exata). Regras: contagem ao lado,
+// zero artigo não aparece, ordem por frequência desc, MULTISSELEÇÃO com
+// lógica OU. Temas DEPENDEM da especialidade escolhida (bug 08/08) e o
+// bloco NUNCA some (feedback do fundador 08/08 — sumir parecia bug): sem
+// temas ele mostra o aviso desabilitado.
+let TEMAS_SEL=new Set();
+function rotuloTema(id){return (DADOS.temasCatalogo&&DADOS.temasCatalogo[id])||id;}
 function encherTemas(){
-  const sel=$('f-tema');
+  const box=$('f-tema');
   const esp=$('f-esp').value;
-  const atual=sel.value;
-  // Ordena por FREQUÊNCIA (tema com mais artigos primeiro; empate alfabético).
   const freq=new Map();
   for(const a of DADOS.artigos){
-    if((esp&&a.especialidade!==esp)||!a.tema)continue;
-    freq.set(a.tema,(freq.get(a.tema)||0)+1);
+    if(esp&&a.especialidade!==esp)continue;
+    for(const t of (a.temas||[]))freq.set(t,(freq.get(t)||0)+1);
   }
-  const temas=[...freq.keys()].sort((a,b)=>freq.get(b)-freq.get(a)||a.localeCompare(b,'pt-BR'));
-  if(temas.length){
-    sel.disabled=false;
-    sel.innerHTML='<option value="">Todos os temas</option>'+temas.map(v=>'<option value="'+esc(v)+'">'+esc(v)+'</option>').join('');
-    sel.value=temas.includes(atual)?atual:'';
-  }else{
-    sel.disabled=true;
-    sel.innerHTML='<option value="">Temas — em breve nesta especialidade</option>';
-    sel.value='';
+  // Seleção sobrevive só ao que existe no recorte atual (trocou de
+  // especialidade → temas de outra área saem da seleção).
+  TEMAS_SEL=new Set([...TEMAS_SEL].filter(t=>freq.has(t)));
+  const ids=[...freq.keys()].sort((a,b)=>freq.get(b)-freq.get(a)||rotuloTema(a).localeCompare(rotuloTema(b),'pt-BR'));
+  if(!ids.length){
+    box.innerHTML='<span class="chip" style="opacity:.5;cursor:default;">Temas — em breve nesta especialidade</span>';
+    return;
   }
+  box.innerHTML='<span class="chip'+(TEMAS_SEL.size?'':' on')+'" onclick="limparTemas()">Todos os temas</span>'
+    +ids.map(id=>'<span class="chip'+(TEMAS_SEL.has(id)?' on':'')+'" onclick="alternarTema(\''+esc(id)+'\')">'
+      +esc(rotuloTema(id))+' <span class="n">'+freq.get(id)+'</span></span>').join('');
 }
+function alternarTema(id){
+  if(TEMAS_SEL.has(id))TEMAS_SEL.delete(id);else TEMAS_SEL.add(id);
+  encherTemas();render();
+}
+function limparTemas(){TEMAS_SEL.clear();encherTemas();render();}
 
 /* ── destaque AUTOMÁTICO: maior nível de evidência mais recente ──────────── */
 function rankNivel(n){
@@ -347,12 +357,15 @@ function novidades(){
 let PAGINA=1;const POR_PAGINA=30;
 function filtrar(){
   const q=$('f-busca').value.trim().toLowerCase();
-  const esp=$('f-esp').value, nivel=$('f-nivel').value, tema=$('f-tema').value, dias=$('f-data').value;
+  const esp=$('f-esp').value, nivel=$('f-nivel').value, dias=$('f-data').value;
   const corte=dias?new Date(Date.now()-Number(dias)*86400000).toISOString().slice(0,10):'';
+  // Tema: casa por ID canônico com lógica OU — artigo com múltiplos temas
+  // aparece em TODOS os filtros correspondentes.
   let arts=DADOS.artigos.filter(a=>
-    (!esp||a.especialidade===esp)&&(!nivel||a.nivel===nivel)&&(!tema||a.tema===tema)
+    (!esp||a.especialidade===esp)&&(!nivel||a.nivel===nivel)
+    &&(!TEMAS_SEL.size||(a.temas||[]).some(t=>TEMAS_SEL.has(t)))
     &&(!corte||String(a.data)>=corte)
-    &&(!q||(a.titulo+' '+a.resumo).toLowerCase().includes(q)));
+    &&(!q||(a.titulo+' '+a.resumo+' '+(a.temas||[]).map(rotuloTema).join(' ')).toLowerCase().includes(q)));
   const ord=$('f-ord').value;
   if(ord==='antigos')arts=[...arts].reverse();
   else if(ord==='naolidos')arts=[...arts].sort((x,y)=>(x.lido?1:0)-(y.lido?1:0));
@@ -372,7 +385,7 @@ function renderLista(){
     +'<span class="pontinho'+(a.lido?' lido':'')+'"></span>'
     +'<div style="flex:1;min-width:0;"><div class="b-t">'+esc(a.titulo)+'</div>'
     +'<div class="b-m"><span class="tagmini">'+esc(NIVEL[String(a.nivel).toLowerCase()]||a.nivel||'estudo')+'</span>'
-    +'<span>'+esc(a.especialidade)+'</span>'+(a.tema?'<span>·</span><span>'+esc(a.tema)+'</span>':'')
+    +'<span>'+esc(a.especialidade)+'</span>'+((a.temas&&a.temas.length)?a.temas.map(t=>'<span>·</span><span>'+esc(rotuloTema(t))+'</span>').join(''):(a.tema?'<span>·</span><span>'+esc(a.tema)+'</span>':''))
     +'<span>·</span><span>'+fmtData(a.data)+'</span>'+(a.secs?'<span>·</span><span>'+fmtDur(a.secs)+'</span>':'')
     +(a.lido?'<span class="taglido">✓ lido</span>':'')+'</div></div>'
     +(a.audioUrl?'<button class="play" id="pl-'+esc(a.pmid)+'" onclick="event.stopPropagation();tocar(\''+esc(a.pmid)+'\')">'+PLAY_SVG+'</button>':'')

@@ -80,10 +80,15 @@ describe('classificação determinística — títulos realistas', () => {
 });
 
 describe('fiação prospectiva e dropdown', () => {
-  test('enriquecimento grava tema determinístico (novo artigo NUNCA chega sem classificar)', () => {
+  test('enriquecimento classifica tema — v2 canônico com fallback determinístico (24/08)', () => {
     const claude = fs.readFileSync(path.join(__dirname, '..', 'claude.js'), 'utf8');
-    assert.ok(claude.includes("require('./temas-classificador')"), 'classificador plugado no enriquecimento');
-    assert.match(claude, /tema:\s*classificarTema\(/, 'campo tema sai do classificador');
+    assert.ok(claude.includes("require('./temas-pipeline')"), 'classificação canônica plugada no enriquecimento');
+    assert.match(claude, /tema:\s*temasCanon\.tema/, 'campo tema sai da classificação canônica');
+    assert.match(claude, /temas:\s*temasCanon\.temas/, 'ids canônicos gravados');
+    assert.match(claude, /versao_taxonomia:\s*temasCanon\.versao_taxonomia/, 'versão gravada em todo artigo novo');
+    // O determinístico de 08/08 segue vivo como FALLBACK dentro do pipeline.
+    const pipeline = fs.readFileSync(path.join(__dirname, '..', 'temas-pipeline.js'), 'utf8');
+    assert.ok(pipeline.includes("require('./temas-classificador')"), 'fallback determinístico preservado');
   });
   test('dropdown da biblioteca ordena temas por FREQUÊNCIA (mais artigos primeiro)', () => {
     const html = fs.readFileSync(path.join(__dirname, '..', '..', '..', '..', 'biblioteca.html'), 'utf8');
