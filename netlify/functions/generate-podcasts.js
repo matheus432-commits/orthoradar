@@ -201,13 +201,39 @@ async function main() {
           const tts = await synthesizeLong(db, { text: script });
           if (!tts.ok) { log.warn('[podcasts] TTS pulado', { esp, ep: i + 1, reason: tts.reason }); continue; }
 
-          const audio = Buffer.from(tts.audioBase64, 'base64');
+          let audio = Buffer.from(tts.audioBase64, 'base64');
           // Cinto e suspensório: áudio anormalmente curto (<40s) = narração sem
           // conteúdo real; descarta em vez de publicar.
-          const secsCheck = mp3DurationSecs(audio);
+          let secsCheck = mp3DurationSecs(audio);
           if (secsCheck > 0 && secsCheck < 40) {
             log.warn('[podcasts] áudio curto demais — descartado', { esp, ep: i + 1, secs: secsCheck, artigo: art.pmid || art.id });
             continue;
+          }
+          // TRUNCAMENTO DA VOZ (incidente 08/08 — "áudio cortado no meio, ~2:10",
+          // recorrente entre especialidades): a voz generativa (Chirp3-HD) às
+          // vezes devolve HTTP 200 com o áudio parando ANTES do fim do texto —
+          // nenhum log acusa. Detecção determinística: pt-BR narra ~15-19
+          // chars/s; duração < 82% do esperado = áudio truncado. É estocástico,
+          // então UMA resíntese costuma resolver; publica a mais longa e, se
+          // ainda vier curta, o log/auditoria acusam (nunca mais em silêncio).
+          const secsEsperado = tts.chars / 17;
+          if (secsCheck > 0 && secsCheck < secsEsperado * 0.82) {
+            log.warn('[podcasts] áudio mais curto que o roteiro — possível truncamento da voz; resintetizando', {
+              esp, ep: i + 1, secs: secsCheck, esperado: Math.round(secsEsperado), chars: tts.chars,
+            });
+            const tts2 = await synthesizeLong(db, { text: script });
+            if (tts2.ok) {
+              const audio2 = Buffer.from(tts2.audioBase64, 'base64');
+              const secs2 = mp3DurationSecs(audio2);
+              if (secs2 > secsCheck) { audio = audio2; secsCheck = secs2; }
+            }
+            if (secsCheck < secsEsperado * 0.82) {
+              log.error('[podcasts] áudio AINDA curto após resíntese — publicando o melhor disponível (auditoria vai acusar)', {
+                esp, ep: i + 1, secs: secsCheck, esperado: Math.round(secsEsperado), artigo: art.pmid || art.id,
+              });
+            } else {
+              log.info('[podcasts] resíntese recuperou a duração esperada', { esp, ep: i + 1, secs: secsCheck });
+            }
           }
           // Path datado: o áudio de cada dia é um objeto próprio — o de ontem
           // continua válido p/ o feed RSS (Spotify) até a retenção limpar.

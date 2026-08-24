@@ -39,6 +39,11 @@ describe('classificação determinística — títulos realistas', () => {
   const casos = [
     ['Ortodontia', 'Expansão rápida da maxila assistida por mini-implantes em adultos', 'Expansão palatina'],
     ['Ortodontia', 'Distalização de molares superiores: novo dispositivo', 'Distalização'],
+    // Rodada 08/08 (smoke do enriquecimento): com mini-implantes no título o
+    // empate caía em Ancoragem — mas o que define o estudo é a distalização
+    // (o movimento clínico buscado), não o dispositivo acessório.
+    ['Ortodontia', 'Distalização de molares superiores com mini-implantes: ensaio clínico', 'Distalização'],
+    ['Ortodontia', 'Ancoragem esquelética com mini-implantes: estabilidade primária', 'Ancoragem esquelética e mini-implantes'],
     ['Implantodontia', 'Peri-implantite: protocolo de descontaminação da superfície', 'Peri-implantite'],
     ['Implantodontia', 'Levantamento de seio maxilar com enxerto em bloco', 'Levantamento de seio maxilar'],
     ['Periodontia', 'Recobrimento radicular com enxerto de tecido conjuntivo', 'Recobrimento radicular'],

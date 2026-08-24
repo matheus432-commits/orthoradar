@@ -1,0 +1,38 @@
+# Regenera resumos completos CORTADOS no meio da frase (incidente 12/08).
+# SÓ dispatch manual — regenerar custa Sonnet (~US$0,03/artigo); dry-run padrão.
+
+name: Regenerar Resumos Cortados
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'true = só listar; false = regenerar (custa Sonnet)'
+        required: false
+        default: 'true'
+      limit:
+        description: 'Máximo de regenerações nesta execução'
+        required: false
+        default: '40'
+
+jobs:
+  regen:
+    name: Varrer e regenerar resumos cortados
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Regenerar
+        env:
+          FIREBASE_PROJECT_ID:      ${{ secrets.FIREBASE_PROJECT_ID }}
+          FIREBASE_API_KEY:         ${{ secrets.FIREBASE_API_KEY }}
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          ANTHROPIC_API_KEY:        ${{ secrets.ANTHROPIC_API_KEY }}
+          DRY_RUN:                  ${{ inputs.dry_run }}
+          REGEN_LIMIT:              ${{ inputs.limit }}
+        run: node scripts/regenerar-resumos-cortados.js

@@ -28,11 +28,14 @@ function b64url(input) {
   return Buffer.from(input).toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
 }
 
-let _cache = { token: null, exp: 0 };
+// Cache POR ESCOPO (10/08): o cache único devolvia um token read_write cacheado
+// para quem pedia full_control (patchCacheControl) — 403 de escopo mascarado.
+const _cache = new Map(); // scope → { token, exp }
 
 async function getAccessToken(scope = 'https://www.googleapis.com/auth/devstorage.read_write') {
   const now = Math.floor(Date.now() / 1000);
-  if (_cache.token && _cache.exp - 60 > now) return _cache.token;
+  const hit = _cache.get(scope);
+  if (hit && hit.exp - 60 > now) return hit.token;
 
   const sa = loadServiceAccount();
   if (!sa || !sa.client_email || !sa.private_key) return null;
@@ -59,8 +62,8 @@ async function getAccessToken(scope = 'https://www.googleapis.com/auth/devstorag
   if (res.status !== 200) return null;
 
   const tok = JSON.parse(res.body);
-  _cache = { token: tok.access_token, exp: now + (tok.expires_in || 3600) };
-  return _cache.token;
+  _cache.set(scope, { token: tok.access_token, exp: now + (tok.expires_in || 3600) });
+  return tok.access_token;
 }
 
 // Bucket do Storage: env GCS_BUCKET ou o padrão do Firebase ({projectId}.appspot.com).

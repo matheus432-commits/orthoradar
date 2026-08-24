@@ -32,7 +32,7 @@ const { withTimeout }                              = require('./_lib/retry-utils
 // (Achado da Semana cancelado em 19/07/2026 — módulo não é mais usado.)
 const { generateResumoCompleto, isResumoEstruturado } = require('./_lib/claude');
 const { aggregateStats, feedbackMultiplier, personalTemaAffinity } = require('./_lib/feedback-signal');
-const { isUnfinishedStudy, tituloEmIngles }         = require('./_lib/scoring');
+const { isUnfinishedStudy, tituloEmIngles, isEstudoDeMateriais } = require('./_lib/scoring');
 const { espDigestSlug }                            = require('./_lib/slug');
 const { buildEdicaoUrl }                           = require('./_lib/edicao-token');
 const { isPremium }                                = require('./_lib/plans');
@@ -481,6 +481,51 @@ function passaCuradoria(a) {
 // de caso continua PERMITIDO, mas limitado a 1; as vagas liberadas são
 // preenchidas por estudos NÃO-relato da reserva de candidatos.
 const MAX_RELATOS_POR_EDICAO = 1;
+
+// REGRA (fundador 22/08): "evite este tipo de estudos" — a edição de Ortodontia
+// saiu com os 3 cards sobre propriedades de materiais de braquetes/resina
+// (nanomateriais, plasma/adesão, nanopartículas/atrito). Estudo de bancada de
+// materiais é DEMOVIDO no ranking e limitado a 1 por edição; se faltar estudo
+// clínico para fechar a edição, o excedente volta (edição pobre > edição
+// bloqueada — diretriz 26/07 vale para o mínimo, não para a mistura).
+const MAX_MATERIAIS_POR_EDICAO = 1;
+const DEMOCAO_MATERIAIS = 0.5; // multiplicador do relevanceScore no ranking
+function isEstudoMateriais(a) {
+  return isEstudoDeMateriais(
+    `${a.titulo_pt || ''} ${a.titulo || a.title || ''}`,
+    `${a.resumo_pt || ''} ${a.abstract || ''}`,
+    a.nivel_evidencia || '');
+}
+function limitarEstudosDeMateriais(selecionados, candidatos, maxArtigos, minArtigos) {
+  const usados = new Set(selecionados.map(a => String(a.pmid || a.id || '')));
+  let materiais = 0, removidos = 0;
+  const final = [];
+  const excedentes = [];
+  for (const a of selecionados) {
+    if (isEstudoMateriais(a)) {
+      if (materiais >= MAX_MATERIAIS_POR_EDICAO) { excedentes.push(a); removidos++; continue; }
+      materiais++;
+    }
+    final.push(a);
+  }
+  // Repõe as vagas com estudos que não estouram NENHUM cap (nem materiais,
+  // nem relato — o cap de relato já rodou e não pode ser furado aqui).
+  if (removidos > 0) {
+    for (const a of candidatos) {
+      if (final.length >= maxArtigos) break;
+      const id = String(a.pmid || a.id || '');
+      if (usados.has(id) || isEstudoMateriais(a) || isRelatoDeCaso(a)) continue;
+      usados.add(id);
+      final.push(a);
+    }
+    // PISO: sem reposição clínica suficiente, o excedente de materiais volta —
+    // nunca bloquear a edição por causa da mistura.
+    let readmitidos = 0;
+    while (final.length < minArtigos && excedentes.length) { final.push(excedentes.shift()); readmitidos++; }
+    removidos -= readmitidos;
+  }
+  return { selecionados: final, removidos, materiais };
+}
 function limitarRelatosDeCaso(selecionados, candidatos, maxArtigos) {
   const usados = new Set(selecionados.map(a => String(a.pmid || a.id || '')));
   let relatos = 0;
@@ -911,6 +956,18 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
     log.warn('[digest][ESP] sinal de feedback indisponível — seguindo sem', { especialidade, err: err.message });
   }
 
+  // 4c. DEMOÇÃO de estudos de bancada de materiais (fundador 22/08: "evite este
+  // tipo de estudos") — estudo clínico vence a vaga; o de materiais só entra
+  // quando sobra espaço (e no máximo 1, cap adiante). Em memória, como o
+  // multiplicador de feedback acima.
+  {
+    let materiaisDemovidos = 0;
+    for (const art of candidates) {
+      if (isEstudoMateriais(art)) { art.relevanceScore = (art.relevanceScore || 50) * DEMOCAO_MATERIAIS; materiaisDemovidos++; }
+    }
+    if (materiaisDemovidos) log.info('[digest][ESP] estudos de materiais demovidos no ranking', { especialidade, materiaisDemovidos, de: candidates.length });
+  }
+
   // 5. Curated selection (shared — sem perfil individual)
   t = Date.now();
   let selected = recommendArticles(candidates, null, {
@@ -923,6 +980,14 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
   if (capRelato.removidos > 0) {
     log.info('[digest][ESP] cap de relatos de caso aplicado', {
       especialidade, removidos: capRelato.removidos, relatosMantidos: capRelato.relatos, total: selected.length,
+    });
+  }
+  // Máx. 1 estudo de materiais por edição (fundador 22/08 — repõe com clínico).
+  const capMateriais = limitarEstudosDeMateriais(selected, candidates, MAX_ARTICLES, MIN_ARTICLES);
+  selected = capMateriais.selecionados;
+  if (capMateriais.removidos > 0) {
+    log.info('[digest][ESP] cap de estudos de materiais aplicado', {
+      especialidade, removidos: capMateriais.removidos, materiaisMantidos: capMateriais.materiais, total: selected.length,
     });
   }
   log.info('[digest][ESP][STAGE curation]', {
@@ -988,6 +1053,8 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
   const dentroDoOrcamento = () => Date.now() - t <= RESUMO_STAGE_BUDGET_MS;
   const usadosIds = new Set(selected.map(a => String(a.pmid || a.id || '')));
   const reserva = candidates.filter(a => !usadosIds.has(String(a.pmid || a.id || '')) && passaCuradoria(a));
+  // Reposição prefere estudo clínico: materiais vão para o fim da fila (22/08).
+  reserva.sort((a, b) => (isEstudoMateriais(a) ? 1 : 0) - (isEstudoMateriais(b) ? 1 : 0));
 
   // 1) Gera os resumos dos selecionados EM PARALELO.
   await Promise.allSettled(selected.map(a => ensureResumoCompleto(db, a)));
@@ -996,6 +1063,7 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
   const finais = [];
   let descartadosSemVeredito = 0;
   let relatosEmFinais = 0;
+  let materiaisEmFinais = 0;
   for (const art of selected) {
     if (isResultadosIndisponiveis(art) || await faltaVereditoComparativo(art, anthropicKey)) {
       descartadosSemVeredito++;
@@ -1008,6 +1076,9 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
       if (relatosEmFinais >= MAX_RELATOS_POR_EDICAO) { descartadosSemVeredito++; continue; }
       relatosEmFinais++;
     }
+    // Selecionados já passaram pelo cap de materiais — aqui só CONTA, para a
+    // reposição abaixo respeitar o teto da edição.
+    if (isEstudoMateriais(art)) materiaisEmFinais++;
     finais.push(art);
   }
 
@@ -1023,7 +1094,9 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
         continue;
       }
       if (isRelatoDeCaso(cand) && relatosEmFinais >= MAX_RELATOS_POR_EDICAO) continue;
+      if (isEstudoMateriais(cand) && materiaisEmFinais >= MAX_MATERIAIS_POR_EDICAO) continue;
       if (isRelatoDeCaso(cand)) relatosEmFinais++;
+      if (isEstudoMateriais(cand)) materiaisEmFinais++;
       finais.push(cand);
     }
   }
@@ -1106,7 +1179,13 @@ async function _sendUserDigest(user, espDigest, db, resendKey) {
   // 1. Curadoria Premium: +2 artigos pelas preferências (assinantes; best-effort)
   let premiumExtras = [];
   if (isPremium(user)) {
-    if (Array.isArray(espDigest.premiumPool) && espDigest.premiumPool.length) {
+    // 15/08: pool VAZIO não pula mais os extras — o poço fundo dentro do
+    // pickPremiumExtras completa direto do acervo da especialidade. Incidente
+    // 14/08: Dentística ficou com pool 0 após a varredura de sem-resultados e
+    // o bloco inteiro era pulado SEM nenhuma tentativa (assinante pagou por 5
+    // e recebeu 3, com o acervo cheio de candidatos elegíveis).
+    const pool = Array.isArray(espDigest.premiumPool) ? espDigest.premiumPool : [];
+    {
       try {
         // TRAVA PÓS-GERAÇÃO nos EXTRAS (incidente 30/07): a edição base já
         // descartava artigo cujo resumo completo admite "o material não traz os
@@ -1120,8 +1199,10 @@ async function _sendUserDigest(user, espDigest, db, resendKey) {
         // próximo assinante da MESMA especialidade regenerava o mesmo resumo.
         // Agora: resumo LAZY (só os 2 do topo em paralelo; substituto só se um
         // for reprovado) + cache CROSS-ASSINANTE via write-back no pool.
-        const candidatosExtras = await pickPremiumExtras(db, user, espDigest.premiumPool, PREMIUM_EXTRAS + 3);
-        const _poolDe = (c) => espDigest.premiumPool.find(p => String(p.pmid || p.id) === String(c.pmid || c.id));
+        // +6 (era +3): com o poço fundo do acervo, sobram candidatos — e a
+        // trava barata abaixo descarta sem custo, então a fila maior é grátis.
+        const candidatosExtras = await pickPremiumExtras(db, user, pool, PREMIUM_EXTRAS + 6);
+        const _poolDe = (c) => pool.find(p => String(p.pmid || p.id) === String(c.pmid || c.id));
         const _comCachePool = async (c) => {
           const orig = _poolDe(c);
           if (orig?.resumo_completo && !c.resumo_completo) c.resumo_completo = orig.resumo_completo;
@@ -1129,41 +1210,72 @@ async function _sendUserDigest(user, espDigest, db, resendKey) {
           if (orig && c.resumo_completo && !orig.resumo_completo) orig.resumo_completo = c.resumo_completo;
           return c;
         };
-        const _aprovado = async (c) =>
-          !(isResultadosIndisponiveis(c) || await faltaVereditoComparativo(c, process.env.ANTHROPIC_API_KEY || null));
+        // TRAVA BARATA ANTES DO RESUMO CARO (incidente 08-09/08: o descarte
+        // acontecia DEPOIS do Sonnet — US$3,80/dia em resumos jogados fora — e
+        // esgotava a fila; assinantes fechavam com 1 ou 0 extras). A checagem
+        // de veredito (Haiku, ~centavos, sobre resumo_pt/abstract) roda ANTES;
+        // reprovado: (a) marca o pool em memória p/ os próximos assinantes do
+        // dia e (b) PERSISTE a flag no artigo p/ os próximos dias.
+        const _reprova = (c, orig, flag) => {
+          if (orig) orig[flag] = true;
+          const id = String(c.pmid || c.id || '');
+          if (!id) return;
+          if (flag === 'veredito_extra_reprovado') {
+            db.updateDoc('artigos', id, { veredito_extra_reprovado: true }).catch(() => {});
+          } else if (flag === '_resumoReprovado') {
+            // 12/08 (fundador com 0 extras): a reprovação PÓS-resumo ("material
+            // sem resultados") era só em memória — o mesmo candidato ruim
+            // voltava à fila TODO dia, comia as vagas e queimava Sonnet (6
+            // descartes seguidos estouraram o teto de 90s do usuário). Agora
+            // persiste e sai dos pools para sempre, como a de veredito.
+            db.updateDoc('artigos', id, { extra_sem_resultados: true }).catch(() => {});
+          }
+        };
+        const _travaBarata = async (c) => {
+          const orig = _poolDe(c);
+          if (orig && (orig.veredito_extra_reprovado || orig._resumoReprovado || orig.extra_sem_resultados)) return false;
+          if (c.veredito_extra_reprovado || c.extra_sem_resultados) return false;
+          const falta = await faltaVereditoComparativo(c, process.env.ANTHROPIC_API_KEY || null);
+          if (falta) {
+            _reprova(c, orig, 'veredito_extra_reprovado');
+            log.warn('[digest][PREMIUM] extra reprovado na trava de veredito (ANTES do resumo — sem custo Sonnet)', {
+              email, id: c.pmid || c.id, titulo: (c.titulo_pt || c.titulo || '').slice(0, 70),
+            });
+          }
+          return !falta;
+        };
         premiumExtras = [];
-        const topo = candidatosExtras.slice(0, PREMIUM_EXTRAS);
-        const resto = candidatosExtras.slice(PREMIUM_EXTRAS);
-        await Promise.allSettled(topo.map(_comCachePool));
-        for (const cand of topo) {
-          if (await _aprovado(cand)) { premiumExtras.push(cand); continue; }
-          log.warn('[digest][PREMIUM] extra DESCARTADO após resumo completo — sem resultados/veredito no material (repondo)', {
+        let descartesTrava = 0, descartesPosResumo = 0;
+        const fila = [...candidatosExtras];
+        while (premiumExtras.length < PREMIUM_EXTRAS && fila.length) {
+          const cand = fila.shift();
+          if (!(await _travaBarata(cand))) { descartesTrava++; continue; }
+          await _comCachePool(cand);
+          if (!isResultadosIndisponiveis(cand)) { premiumExtras.push(cand); continue; }
+          descartesPosResumo++;
+          _reprova(cand, _poolDe(cand), '_resumoReprovado');
+          log.warn('[digest][PREMIUM] extra DESCARTADO após resumo completo — material sem resultados (persistido, não volta)', {
             email, id: cand.pmid || cand.id, titulo: (cand.titulo_pt || cand.titulo || '').slice(0, 70),
           });
-        }
-        // Substitutos SÓ se necessário (um por vez — o caso raro paga, o comum não).
-        while (premiumExtras.length < PREMIUM_EXTRAS && resto.length) {
-          const cand = await _comCachePool(resto.shift());
-          if (await _aprovado(cand)) premiumExtras.push(cand);
         }
         log.info('[digest][PREMIUM] extras selected', {
           email, count: premiumExtras.length,
           temas: premiumExtras.map(e => e._premiumTema || '(recente)'),
         });
         if (!premiumExtras.length) {
-          log.warn('[digest][PREMIUM] assinante SEM extras (pool tinha candidatos)', {
-            email, especialidade, poolLen: espDigest.premiumPool.length,
-            causa: 'todos os candidatos do pool já foram enviados como extra a este assinante, ou histórico pessoal ilegível',
+          // 12/08: causa com NÚMEROS — a mensagem genérica antiga mandava a
+          // investigação para o lado errado (culpava o histórico quando a fila
+          // tinha sido comida por descartes pós-resumo).
+          log.warn('[digest][PREMIUM] assinante SEM extras (poço fundo incluído na tentativa)', {
+            email, especialidade, poolLen: pool.length,
+            fila: candidatosExtras.length, descartesTrava, descartesPosResumo,
+            causa: `fila de ${candidatosExtras.length}: ${descartesTrava} barrados na trava/flags, ${descartesPosResumo} sem resultados pós-resumo (persistidos — não voltam amanhã); o restante do pool já foi enviado a este assinante`,
           });
         }
       } catch (err) {
         log.warn('[digest][PREMIUM] extras failed — base email proceeds', { email, err: err.message });
         premiumExtras = [];
       }
-    } else {
-      // Sem pool nenhum: o assinante paga por 5 e vai receber 3 — isso PRECISA
-      // aparecer no log com a causa (incidente 19/07: aconteceu em silêncio).
-      log.warn('[digest][PREMIUM] assinante SEM extras — pool vazio para a especialidade', { email, especialidade });
     }
   }
 
@@ -1255,12 +1367,15 @@ const PREMIUM_EXTRAS = 2;
 async function buildPremiumPool(db, especialidade, anthropicKey = null) {
   try {
     const hist = await getEspHistory(db, especialidade); // inclui o digest de HOJE (já persistido)
+    _histPorEsp.set(especialidade, hist); // usado pelo poço fundo dos extras
     const brutos = await getCandidates(db, [especialidade]);
     // CURADORIA (incidente 22-23/07): extra Premium sem titulo_pt/resumo_pt saía
     // como card em inglês, sem resumo; e surveys/protocolos não devem entrar.
     // passaCuradoria é a MESMA trava da edição base (enriquecido + não-survey +
-    // com resultados).
-    let pool = brutos.filter(a => passaCuradoria(a) && !isRepeated(a, hist));
+    // com resultados). Reprovados na trava de veredito em dias anteriores
+    // (flag persistida) não voltam ao pool — o mesmo estudo era re-checado e
+    // re-descartado para CADA assinante, dia após dia (41797109, 42057092).
+    let pool = brutos.filter(a => passaCuradoria(a) && !isRepeated(a, hist) && !a.veredito_extra_reprovado && !a.extra_sem_resultados);
     const aposHistorico = pool.length;
     const seen = new Set();
     pool = pool.filter(a => {
@@ -1340,8 +1455,15 @@ function scoreForTemas(article, temas) {
 // mais recentes do pool. Exclui o que ESTE assinante já recebeu como extra.
 // `quantos` > PREMIUM_EXTRAS permite ao chamador pedir candidatos a mais para
 // cobrir descartes da trava pós-geração (só os aprovados são enviados/logados).
+// Histórico da especialidade (edições passadas) por nome — preenchido em
+// buildPremiumPool e usado pelo POÇO FUNDO abaixo para nunca oferecer como
+// extra um artigo que já foi edição da área.
+const _histPorEsp = new Map();
+
 async function pickPremiumExtras(db, user, pool, quantos = PREMIUM_EXTRAS) {
-  if (!pool.length) return [];
+  // 15/08: pool vazio NÃO retorna mais cedo — o poço fundo abaixo completa
+  // direto do acervo (Dentística 14/08: pool 0 pós-varredura e este return
+  // engolia a única chance de extras do assinante).
 
   let jaRecebidas = new Set();
   try {
@@ -1358,6 +1480,50 @@ async function pickPremiumExtras(db, user, pool, quantos = PREMIUM_EXTRAS) {
   }
 
   const disponiveis = pool.filter(a => !articleKeys(a).some(k => jaRecebidas.has(k)));
+
+  // POÇO FUNDO (incidente 09/08 — "assinante SEM extras (pool tinha
+  // candidatos)": o pool RECENTE esgota para o assinante veterano, que já
+  // recebeu quase tudo dele; o matheus fechou com 0 extras com pool de 24).
+  // Quando o recente não basta, os extras passam a vir do ACERVO COMPLETO da
+  // especialidade (centenas de artigos ativos que ESTE assinante nunca
+  // recebeu; a maioria já tem resumo pronto = custo ~zero). Excluídos: já
+  // recebidos, edições passadas da área, reprovados na trava e crus.
+  if (disponiveis.length < quantos + 2) {
+    try {
+      const esp = pool[0]?.especialidade || user.especialidade;
+      // Set, não Array (15/08): isRepeated usa hist.has — o fallback antigo
+      // ([]) estourava "hist.has is not a function" e o catch declarava o poço
+      // fundo "indisponível" em silêncio sempre que o cache da especialidade
+      // não estava populado.
+      const hist = _histPorEsp.get(esp) || new Set();
+      const chaves = new Set(pool.flatMap(a => articleKeys(a)));
+      const acervo = await db.query('artigos', {
+        where: { compositeFilter: { op: 'AND', filters: [
+          { fieldFilter: { field: { fieldPath: 'especialidade' }, op: 'EQUAL', value: { stringValue: esp } } },
+          { fieldFilter: { field: { fieldPath: 'status' }, op: 'EQUAL', value: { stringValue: 'active' } } },
+        ] } },
+        limit: 300,
+      });
+      acervo.sort((x, y) => String(y.data || '').localeCompare(String(x.data || '')));
+      let doAcervo = 0;
+      for (const a of acervo) {
+        if (disponiveis.length >= quantos + 6) break;
+        if (!passaCuradoria(a) || a.veredito_extra_reprovado || a.extra_sem_resultados) continue;
+        if (isRepeated(a, hist)) continue;
+        const ks = articleKeys(a);
+        if (ks.some(k => jaRecebidas.has(k) || chaves.has(k))) continue;
+        ks.forEach(k => chaves.add(k));
+        disponiveis.push(a);
+        doAcervo++;
+      }
+      if (doAcervo) log.info('[digest][PREMIUM] poço fundo — extras completados do acervo da especialidade', {
+        email: user.email, especialidade: esp, doAcervo, disponiveis: disponiveis.length,
+      });
+    } catch (err) {
+      log.warn('[digest][PREMIUM] poço fundo indisponível — seguindo só com o pool recente', { email: user.email, err: err.message });
+    }
+  }
+
   const temas = Array.isArray(user.temas) ? user.temas.filter(Boolean) : [];
 
   // Afinidade PESSOAL por tema dos votos 👍/👎 DESTE dentista (limitada a ±4.5
@@ -1375,6 +1541,10 @@ async function pickPremiumExtras(db, user, pool, quantos = PREMIUM_EXTRAS) {
     .map(a => {
       const m = scoreForTemas(a, temas);
       m.score += afinidade[String(a.tema || '').trim()] || 0;
+      // 22/08 ("evite este tipo de estudos"): bancada de materiais atrás de
+      // QUALQUER estudo clínico — -10 supera o match perfeito de tema (5) +
+      // afinidade máxima (4.5); só entra como extra quando o clínico acabou.
+      if (isEstudoMateriais(a)) m.score -= 10;
       return { a, m };
     })
     .sort((x, y) => y.m.score - x.m.score || ((y.a.data || '') > (x.a.data || '') ? 1 : -1));
@@ -1797,11 +1967,16 @@ exports.isServicoSaudeDados = isServicoSaudeDados;
 exports.isRelatoDeCaso = isRelatoDeCaso;
 exports.isResultadosIndisponiveis = isResultadosIndisponiveis;
 exports.limitarRelatosDeCaso = limitarRelatosDeCaso;
+exports.isEstudoMateriais = isEstudoMateriais;
+exports.limitarEstudosDeMateriais = limitarEstudosDeMateriais;
 exports.deveRegerar = deveRegerar;
 exports.MAX_RELATOS_POR_EDICAO = MAX_RELATOS_POR_EDICAO;
+exports.MAX_MATERIAIS_POR_EDICAO = MAX_MATERIAIS_POR_EDICAO;
 // Reutilizados pelo pré-aquecimento da reserva (prewarm-reserva.js): a MESMA
 // definição de "candidato vivo" (enriquecido, curado e não repetido) do e-mail.
 exports.faltaVereditoComparativo = faltaVereditoComparativo;
+// Exportada para o teste de runtime do poço fundo (pool vazio, 15/08).
+exports.pickPremiumExtras = pickPremiumExtras;
 exports.passaCuradoria = passaCuradoria;
 exports.isRepeated = isRepeated;
 exports.getEspHistory = getEspHistory;

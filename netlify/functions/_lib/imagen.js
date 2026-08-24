@@ -30,12 +30,10 @@ const STYLE = 'Flat vector editorial illustration for a dental science brand. ' 
 
 const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
-// Núcleo genérico: gera 1 imagem a partir de um PROMPT COMPLETO (o chamador
-// controla o estilo). Usado pelas ilustrações (STYLE travado abaixo) e pelo
-// retrato fotorrealista da apresentadora (scripts/gerar-avatar-retrato.js —
-// única exceção autorizada ao "sem foto realista": é a IDENTIDADE do avatar,
-// não conteúdo clínico). Retorna { ok, buffer, mime } ou { skipped, reason }.
-async function generateImage(promptText) {
+// Gera 1 ilustração (PNG/JPEG Buffer) a partir da descrição visual da cena.
+// 429 (limite por minuto — 5 cenas em sequência estouram) → espera e tenta de
+// novo. Retorna { ok, buffer, mime } ou { skipped, reason }.
+async function generateIllustration(visualDesc) {
   const sa = loadServiceAccount();
   if (!sa?.project_id) return { skipped: true, reason: 'no_service_account' };
 
@@ -43,7 +41,7 @@ async function generateImage(promptText) {
   if (!token) return { skipped: true, reason: 'no_access_token' };
 
   const body = Buffer.from(JSON.stringify({
-    contents: [{ role: 'user', parts: [{ text: String(promptText || '').slice(0, 1200) }] }],
+    contents: [{ role: 'user', parts: [{ text: STYLE + String(visualDesc || '').slice(0, 400) }] }],
     generationConfig: { responseModalities: ['TEXT', 'IMAGE'] },
   }), 'utf8');
 
@@ -84,9 +82,4 @@ async function generateImage(promptText) {
   }
 }
 
-// Ilustração de cena: SEMPRE com o estilo travado da marca (nunca foto).
-function generateIllustration(visualDesc) {
-  return generateImage(STYLE + String(visualDesc || '').slice(0, 400));
-}
-
-module.exports = { generateIllustration, generateImage, _STYLE: STYLE, _MODEL: MODEL };
+module.exports = { generateIllustration, _STYLE: STYLE, _MODEL: MODEL };

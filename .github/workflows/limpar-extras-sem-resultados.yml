@@ -1,0 +1,33 @@
+# Varredura retroativa dos extras "sem resultados" — TODAS as especialidades.
+# Determinística (mesma checagem do e-mail sobre textos já gravados): zero IA,
+# zero TTS. SÓ manual; padrão em DRY-RUN (só relata; nada é gravado).
+
+name: Limpar Extras Sem Resultados
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'true = só relatar; false = gravar as flags'
+        required: false
+        default: 'true'
+
+jobs:
+  limpar:
+    name: Varredura do acervo (determinística)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Varrer e marcar
+        env:
+          FIREBASE_PROJECT_ID:      ${{ secrets.FIREBASE_PROJECT_ID }}
+          FIREBASE_API_KEY:         ${{ secrets.FIREBASE_API_KEY }}
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          DRY_RUN:                  ${{ inputs.dry_run }}
+        run: node scripts/limpar-extras-sem-resultados.js

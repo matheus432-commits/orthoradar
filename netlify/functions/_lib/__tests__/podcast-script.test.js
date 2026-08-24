@@ -7,19 +7,21 @@ const assert = require('node:assert/strict');
 const { generateScript, hasNarratableMaterial, buildMaterial, capScript } = require('../podcast-script');
 
 describe('capScript — áudio nunca corta no meio de uma frase', () => {
-  test('roteiro truncado (sem pontuação final) é fechado na última frase completa', () => {
+  test('roteiro truncado (sem pontuação final) é fechado na última frase completa + despedida', () => {
+    // Incidente 08/08: além de recuar à última frase completa, o fecho padrão
+    // é GARANTIDO — o áudio nunca termina abrupto no meio do argumento.
     const truncado = 'Primeira frase completa. Segunda frase também completa. E aqui o roteiro foi cortado no meio de uma ideia sem';
     const out = capScript(truncado);
     assert.ok(/[.!?…]$/.test(out), `deveria terminar em pontuação; veio: "${out.slice(-40)}"`);
-    assert.equal(out, 'Primeira frase completa. Segunda frase também completa.');
+    assert.equal(out, 'Primeira frase completa. Segunda frase também completa. É isso por hoje. Bons estudos e até o próximo episódio.');
   });
   test('roteiro já completo é preservado (inclui a despedida)', () => {
     const ok = 'Olá! Hoje falamos sobre X. Os resultados mostraram Y. É isso por hoje. Até o próximo episódio.';
     assert.equal(capScript(ok), ok);
   });
-  test('termina em pontuação seguida de aspas/fecho é aceito', () => {
+  test('pontuação seguida de aspas é aceita; sem fecho, ganha a despedida padrão', () => {
     const s = 'O autor conclui que "a técnica é superior."';
-    assert.equal(capScript(s), s);
+    assert.equal(capScript(s), s + ' É isso por hoje. Bons estudos e até o próximo episódio.');
   });
 });
 

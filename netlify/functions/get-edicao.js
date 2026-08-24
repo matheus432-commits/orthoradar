@@ -87,8 +87,14 @@ async function getPodcast(db, especialidade) {
 // Extras Premium enviados HOJE a este assinante (registrados pelo daily-digest
 // em artigos_enviados_premium). Devolve os artigos completos para o dashboard
 // exibir os 5 do dia (3 da edição + 2 exclusivos). Best-effort: falha → [].
-async function getPremiumExtrasHoje(db, email) {
-  const today = new Date().toISOString().slice(0, 10);
+//
+// 15/08: os extras seguem a DATA DA EDIÇÃO EXIBIDA, não o "hoje" em UTC.
+// Depois das 21h BRT (meia-noite UTC) o getEdicao continua servindo a edição
+// do dia via fallback, mas o filtro por hoje-UTC zerava os extras — TODO
+// assinante Premium via a edição "sem os estudos premium" à noite (incidente
+// 14/08, fundador às 22h01 BRT). Um único dia de referência para os dois.
+async function getPremiumExtrasHoje(db, email, dataEdicao) {
+  const today = String(dataEdicao || '').slice(0, 10) || new Date().toISOString().slice(0, 10);
   try {
     const sent = await db.query('artigos_enviados_premium', {
       where: { fieldFilter: { field: { fieldPath: 'email' }, op: 'EQUAL', value: { stringValue: email } } },
@@ -226,7 +232,7 @@ exports.handler = async (event) => {
     const features = featuresOf(user);
     const podcast  = await getPodcast(db, especialidade);
     const anuncio  = features.semPublicidade ? null : await getActiveAd(db, 'site', especialidade);
-    const premiumExtras = premium ? await getPremiumExtrasHoje(db, email) : [];
+    const premiumExtras = premium ? await getPremiumExtrasHoje(db, email, edicao.date) : [];
 
     // Total de artigos recebidos HOJE somando TODAS as especialidades do
     // dentista (o tile "Artigos recebidos" reflete a soma — até 3). A edição já

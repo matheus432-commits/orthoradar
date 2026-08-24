@@ -16,6 +16,7 @@ const { TAXONOMIA, temaValido } = require('./temas-taxonomia');
 // vence o que define o estudo, não o acessório.
 const PADROES = {
   'Ortodontia': [
+    ['Distalização', /distaliza|distaliz/i],
     ['Expansão palatina', /expans[ãa]o (palatina|maxilar|r[áa]pida)|palatal expansion|maxillary expansion|\bmarpe\b|\brme\b/i],
     ['Alinhadores invisíveis', /alinhador|aligner|invisalign/i],
     ['Ancoragem esquelética e mini-implantes', /mini-?(implante|screw|parafuso)|\btads?\b|ancoragem esquel|skeletal anchorage|miniscrew/i],
@@ -31,7 +32,6 @@ const PADROES = {
     ['ATM e ortodontia', /\batm\b.*ortod|\btmj\b.*orthod|temporomandibular.*ortod/i],
     ['Surgery-first', /surgery-?first/i],
     ['Biomecânica ortodôntica', /biomec[âa]nic|fio ortod|archwire|torque|for[çc]a ortod/i],
-    ['Distalização', /distaliza|distaliz/i],
     ['Ortodontia e sono/apneia', /apneia|apnea|\bosa\b|sono|sleep/i],
   ],
   'Implantodontia': [
@@ -53,7 +53,9 @@ const PADROES = {
   'Periodontia': [
     ['Raspagem e alisamento radicular', /raspagem|alisamento|scaling|root planing|debridament/i],
     ['Regeneração periodontal', /regenera[çc][ãa]o (periodontal|tecidual)|periodontal regeneration|emdogain|amelogenin/i],
-    ['Cirurgia mucogengival', /mucogengival|mucogingival/i],
+    // 10/08: cirurgia plástica do sorriso gengival é mucogengival — o caso
+    // "toxina botulínica + reposicionamento labial" caiu sem tema.
+    ['Cirurgia mucogengival', /mucogengival|mucogingival|lip repositioning|reposicionamento (?:labial|(?:cir[úu]rgico )?(?:de )?l[áa]bio)|gummy smile|sorriso gengival|excessive gingival display|aumento de coroa cl[íi]nica|crown lengthening/i],
     ['Recobrimento radicular', /recobrimento radicular|root coverage|recess[ãa]o gengival|gingival recession/i],
     ['Enxerto gengival', /enxerto (gengival|de tecido|conjuntivo)|gingival graft|connective tissue graft/i],
     ['Peri-implantite', /peri-?implantit/i],

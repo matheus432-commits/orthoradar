@@ -25,12 +25,75 @@ describe('players de áudio à prova de mobile', () => {
     const d = src('dashboard.html');
     assert.ok(d.includes('if(a.readyState===0) a.load();'), 'preload=none exige load() antes do play()');
     assert.match(d, /a\.play\(\)\.then\(\(\)=>\{ btn\.innerHTML='🎧 Ouvindo…'/, 'estado "Ouvindo…" só após o play resolver');
-    assert.ok(!/a\.play\(\)\.catch\(\(\)=>\{\}\)/.test(d), 'erro de play não pode mais ser engolido');
+    // O único catch silencioso permitido é o da RECARGA automática — o
+    // listener de 'error' é quem decide o desfecho dela (Tentar novamente).
+    assert.ok(!/display='block';\s*a\.play\(\)\.catch\(\(\)=>\{\}\)/.test(d), 'o toggle principal não engole erro de play');
   });
 
   test('edicao.html: mesmo padrão (load antes, ⏸ só com play confirmado)', () => {
     const e = src('edicao.html');
     assert.ok(e.includes('if (audio.readyState === 0) audio.load();'));
     assert.match(e, /audio\.play\(\)\.then\(/);
+  });
+
+  // ── Incidente 10/08 (Prótese 0:00 recorrente) — camadas definitivas ────────
+  test('dashboard: erro de carga → recarga automática 1x; persistindo → "Tentar novamente"', () => {
+    const d = src('dashboard.html');
+    assert.ok(d.includes("a.addEventListener('error'"), 'listener de erro no player');
+    assert.ok(d.includes('a.load(); a.play()'), 'retry recarrega e toca');
+    assert.ok(d.includes('Tentar novamente'), 'falha persistente vira ação visível');
+    assert.ok(d.includes("a.addEventListener('playing'"), 'rótulo só afirma Ouvindo com áudio rodando');
+    // 10/08 à tarde: "ainda não corrigiu" sem nenhum dado do aparelho — a
+    // falha persistente agora EXPÕE o MediaError e o link direto do MP3, e o
+    // botão "Tentar novamente" recarrega em vez de esconder o player.
+    assert.ok(d.includes('function diagAudioDash'), 'diagnóstico visível na falha persistente');
+    assert.ok(d.includes('Abrir o áudio direto'), 'link direto do MP3 para isolar player × rede');
+    assert.ok(d.includes("a.dataset.retry==='1'"), 'clique em Tentar novamente recarrega no mesmo card');
+    // Print 10/08 12:12 UTC: ⏸ com 0:00/0:00 e nenhum evento — request
+    // pendurada não dispara 'error'; o cão de guarda de 10s vira falha visível.
+    assert.ok(d.includes('a._watchdog=setTimeout'), 'cão de guarda para download pendurado (sem evento de erro)');
+    assert.ok(d.includes('a.currentTime===0 && a.readyState<2'), 'só dispara com zero mídia entregue');
+  });
+  // ── Causa-raiz CONFIRMADA no print das 13:11 UTC de 10/08: o celular da
+  // dentista não alcança firebasestorage.googleapis.com ("demorou muito para
+  // responder") enquanto o Vigia via tudo servindo. Fallback: áudio pelo
+  // NOSSO domínio, automático quando a rota direta pendura no aparelho.
+  test('fallback pelo nosso domínio quando o aparelho não alcança o Firebase', () => {
+    const d = src('dashboard.html');
+    assert.ok(d.includes('function _audioViaProxy'), 'troca automática de rota no player');
+    assert.ok(d.includes("'/.netlify/functions/audio?u='+encodeURIComponent(src)"), 'rota interna com a URL original como parâmetro');
+    assert.ok(d.includes("if(_audioViaProxy(a)) return;"), 'cão de guarda tenta o proxy ANTES de declarar falha');
+    assert.ok(d.includes('a.dataset.srcOriginal'), 'link de diagnóstico continua apontando para a URL direta');
+    const f = src('netlify/functions/audio.js');
+    assert.ok(f.includes("alvo.hostname === HOST_PERMITIDO") && f.includes("'firebasestorage.googleapis.com'"), 'proxy restrito ao host do Storage');
+    assert.ok(f.includes("alvo.pathname.startsWith('/v0/b/')") && f.includes("includes('/o/podcasts')"), 'proxy restrito ao caminho de podcasts (não é proxy aberto)');
+    assert.ok(f.includes('isBase64Encoded: true') && f.includes("'audio/mpeg'"), 'entrega binária correta');
+    assert.ok(f.includes("'Cache-Control': 'public, max-age=3600'"), 'cacheável como a rota direta');
+    assert.ok(!f.includes('console.log'), 'sem log da URL — ela carrega o token de download');
+    // Confirmado no celular da dentista ("voltou a funcionar!") — o fallback
+    // vale para TODA página com player, não só o dashboard.
+    for (const pg of ['biblioteca.html', 'edicao.html']) {
+      const h = src(pg);
+      assert.ok(h.includes('function _trocaRotaAudio'), `${pg}: fallback de rota presente`);
+      assert.ok(h.includes("'/.netlify/functions/audio?u='"), `${pg}: rota interna`);
+      assert.ok(h.includes('a._watchdog'), `${pg}: cão de guarda de download pendurado`);
+      assert.ok(h.includes("addEventListener('error'"), `${pg}: erro de carga também troca a rota`);
+    }
+  });
+  test('MP3 sobe CACHEÁVEL (no-store era herança do latest.mp3 e travava mobile)', () => {
+    const s = src('netlify/functions/_lib/storage.js');
+    assert.match(s, /cacheControl: 'public, max-age=3600',\n\s+metadata: \{ firebaseStorageDownloadTokens/, 'áudio cacheável por 1h');
+    assert.ok(s.includes('async function patchCacheControl'), 'cura dos objetos antigos sem rotacionar token');
+    // Runs #2-#3 do backfill (10/08): PATCH de metadados exige full_control —
+    // com read_write o GCS devolve 403 "Provided scope(s) are not authorized".
+    assert.match(s, /patchCacheControl[\s\S]{0,400}devstorage\.full_control/, 'PATCH de metadados pede o escopo full_control');
+  });
+  test('vigia contínuo: URLs do dia re-verificadas de 2 em 2 horas, vermelho com timestamp', () => {
+    const v = src('scripts/vigia-audio.js');
+    assert.ok(v.includes('verifyUrl(e.url)'), 'verifica a URL persistida, a mesma do navegador');
+    assert.ok(v.includes('process.exit(1)'), 'falha fica vermelha no Actions');
+    const wf = src('.github/workflows/vigia-audio.yml');
+    assert.match(wf, /cron: '15 7-23\/2 \* \* \*'/, 'agendado a cada 2h');
+    assert.ok(!wf.includes('ANTHROPIC_API_KEY') && !wf.includes('GOOGLE_TTS_API_KEY'), 'sem chaves de IA/TTS no vigia — custo zero');
   });
 });

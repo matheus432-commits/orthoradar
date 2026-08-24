@@ -10,10 +10,12 @@
 const { request } = require('../netlify/functions/_lib');
 const { Firestore } = require('../netlify/functions/_lib/firestore');
 const { tituloEmIngles } = require('../netlify/functions/_lib/scoring');
+const { terminaFraseCompleta } = require('../netlify/functions/_lib/claude');
 const { specialtySlug } = require('../netlify/functions/_lib/slug');
 const { extractAnthropicText } = require('../netlify/functions/_lib/anthropic-text');
 const { registrar, logCusto } = require('../netlify/functions/_lib/ai-meter');
 const { verifyUrl } = require('../netlify/functions/_lib/storage');
+const { billableChars } = require('../netlify/functions/_lib/tts-budget');
 const { isHealthSystemCost, isResultadosIndisponiveis, isHealthPromotionBehavior, isBibliometricScoping } = require('../netlify/functions/daily-digest');
 
 const HOJE = process.env.AUDIT_DATE || new Date().toISOString().slice(0, 10);
@@ -78,6 +80,11 @@ const pausa = (ms) => new Promise(r => setTimeout(r, ms));
       }
       if (String(a.resumo_completo || '').trim().length < 200) {
         falhas.push(`[digest ${d.id}] artigo ${id} SEM RESUMO COMPLETO (o "Ler resumo completo" ficaria vazio) — "${String(a.titulo_pt || '').slice(0, 60)}"`);
+      }
+      // (H, 12/08 — NiTi cortado em "— molares,"): resumo PRESENTE porém sem
+      // fim de frase = truncado na geração; ninguém via até o dentista abrir.
+      else if (!terminaFraseCompleta(a.resumo_completo)) {
+        falhas.push(`[digest ${d.id}] artigo ${id} RESUMO COMPLETO CORTADO no meio da frase (cauda: "…${String(a.resumo_completo).trim().slice(-40)}") — "${String(a.titulo_pt || '').slice(0, 60)}"`);
       }
       // Curadoria (diretriz 24/07): custo/economia no sistema de saúde e estudos
       // sem resultados acessíveis (remetem ao texto completo) NÃO entram.
@@ -144,6 +151,13 @@ const pausa = (ms) => new Promise(r => setTimeout(r, ms));
   for (const e of eps) {
     const secs = Number(e.secs) || 0;
     if (secs < 40) falhas.push(`[episódio ${e.id}] áudio curto demais (${secs}s) — casca vazia?`);
+    // G. TRUNCAMENTO DA VOZ (incidente 08/08 — "cortado no meio, ~2:10"): a
+    // duração precisa condizer com o roteiro narrado (~17 chars/s em pt-BR).
+    // Áudio < 80% do esperado = a voz parou antes do fim do texto.
+    const charsRoteiro = billableChars(String(e.roteiro || ''));
+    if (secs > 0 && charsRoteiro > 400 && secs < (charsRoteiro / 17) * 0.8) {
+      falhas.push(`[episódio ${e.id}] áudio TRUNCADO pela voz (${secs}s narrados vs ~${Math.round(charsRoteiro / 17)}s de roteiro) — dentista ouve corte no meio`);
+    }
     // E. URL PERSISTIDA (incidente 05/08 — player 0:00): todo episódio do dia
     // precisa ter a URL de download gravada no doc E servindo o 1º byte. É a
     // MESMA string que os leitores entregam ao navegador — se falhar aqui, o

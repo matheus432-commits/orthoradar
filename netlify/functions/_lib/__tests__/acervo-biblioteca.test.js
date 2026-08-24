@@ -90,6 +90,38 @@ describe('biblioteca.html — página do acervo', () => {
     assert.ok(html.includes('✓ lido'), 'indicação visual de já lido');
     assert.ok(html.includes('escapeHtml') || html.includes('esc('), 'saída escapada');
   });
+
+  // ── Layout REVISTA (aprovado 10/08, protótipo v2) ─────────────────────────
+  test('destaque automático determinístico: maior nível de evidência mais recente (sem IA)', () => {
+    assert.ok(html.includes('function rankNivel'), 'ranking de nível de evidência');
+    assert.ok(html.includes('function escolherDestaque'), 'seleção determinística do destaque');
+    assert.match(html, /meta[\s\S]{0,40}4/, 'meta-análise no topo do ranking');
+  });
+  test('especialidades como chips que escrevem no select f-esp (fonte da verdade preservada)', () => {
+    assert.ok(html.includes('id="chips-esp"'), 'fila de chips presente');
+    assert.ok(html.includes("$('f-esp').value=e"), 'chip seleciona via f-esp — temas/filtros continuam funcionando');
+    assert.ok(html.includes('<select id="f-esp" hidden'), 'select segue existindo (lógica de temas depende dele)');
+  });
+  test('ícones sérios: SVGs da home em vez de emojis (diretriz 10/08)', () => {
+    assert.ok(html.includes("'Ortodontia':'<svg") && html.includes("'Radiologia':'<svg"), 'mapa de SVGs por especialidade');
+    assert.ok(html.includes("'default':'<svg"), 'especialidade fora do mapa ganha ícone genérico, nunca quebra');
+    assert.ok(!/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/u.test(html.replace(/✓/g, '')), 'nenhum emoji na página');
+  });
+  test('player fixo: UM <audio> reaproveitado; faixa nova limpa o estado do fallback de rota', () => {
+    assert.ok(html.includes('id="mp-audio"'), 'áudio único do player fixo');
+    assert.match(html, /dataset\.proxied='';a\.dataset\.srcOriginal='';a\.dataset\.retry=''/, 'sem estado de proxy preso entre faixas');
+    assert.ok(html.includes('playbackRate'), 'controle de velocidade');
+  });
+  test('continue ouvindo: progresso salvo no aparelho, com piso/teto e limpeza ao concluir', () => {
+    assert.ok(html.includes("PROG_KEY='of_bib_prog'"), 'chave própria no localStorage');
+    assert.match(html, /t<5\|\|t\/d>0\.95/, 'menos de 5s ou mais de 95% não fica na trilha');
+    assert.ok(html.includes("progSalvar(MP_ATUAL.pmid,0,1)"), 'episódio concluído sai da trilha');
+  });
+  test('acervo completo paginado (lista densa) — vitrine em cima, produtividade embaixo', () => {
+    assert.ok(html.includes('POR_PAGINA=30'), 'paginação da lista densa');
+    assert.ok(html.includes('id="vermais"'), 'carregar mais');
+    assert.ok(html.includes('id="c-novidades"') && html.includes('id="hero"'), 'prateleiras e destaque presentes');
+  });
 });
 
 describe('rotas e integração', () => {

@@ -1,0 +1,36 @@
+# Correção pontual de especialidade — SÓ DADOS (sem IA, sem TTS, sem regen).
+# Disparo EXCLUSIVAMENTE manual: nunca roda em push (regra do fundador — nada
+# de custo sem clique consciente; este aqui custa zero, mas a regra é a regra).
+
+name: Mover Especialidade (pontual)
+
+on:
+  workflow_dispatch:
+    inputs:
+      query:
+        description: 'Trecho do título do artigo (case/acento-insensível)'
+        required: true
+      especialidade:
+        description: 'Especialidade de destino (ex.: Periodontia)'
+        required: true
+
+jobs:
+  mover:
+    name: Mover artigo de especialidade
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Mover
+        env:
+          FIREBASE_PROJECT_ID:      ${{ secrets.FIREBASE_PROJECT_ID }}
+          FIREBASE_API_KEY:         ${{ secrets.FIREBASE_API_KEY }}
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          MOVER_QUERY:              ${{ inputs.query }}
+          MOVER_ESP:                ${{ inputs.especialidade }}
+        run: node scripts/mover-especialidade.js
