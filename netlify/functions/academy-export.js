@@ -38,6 +38,21 @@ exports.handler = async (event) => {
       return { statusCode: 409, headers, body: JSON.stringify({ error: 'pacote_indisponivel', message: 'O pacote fecha depois que você escolher o periódico — é ele que define formato e exigências.' }) };
     }
 
+    // ── PAYWALL (diretriz 08/2026): o uso do Academy é gratuito; a EXPORTAÇÃO
+    // é paga. O ZIP só sai com a exportação PAGA (fluxo: academy-exportacao.js
+    // confirma com memória de cálculo → pagamento confirma → download).
+    const exportacao = await db.getDoc('academy_exportacoes', String(qs.id || '')).catch(() => null);
+    if (!exportacao || exportacao.status !== 'paga') {
+      return {
+        statusCode: 402, headers,
+        body: JSON.stringify({
+          error: 'exportacao_nao_paga',
+          status: exportacao ? exportacao.status : 'nao_confirmada',
+          message: 'A construção do trabalho é gratuita; o download do pacote final é pago. Confirme a exportação para ver a memória de cálculo (assinantes têm crédito das mensalidades).',
+        }),
+      };
+    }
+
     const zip = montarPacote(p);
     return {
       statusCode: 200,

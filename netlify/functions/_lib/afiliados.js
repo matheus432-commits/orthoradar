@@ -1,7 +1,7 @@
 // Programa de AFILIADOS — regras de comissão (diretriz do fundador, 07/08).
 //
 // Modelo de negócio:
-//   • Premium: R$ 59,90/mês; comissão de R$ 10,00/mês por assinante Premium
+//   • Premium: R$ 29,90/mês (tabela 08/2026); comissão de R$ 10,00/mês por assinante Premium
 //     ATIVO indicado, durante 12 meses A PARTIR DA ATIVAÇÃO PAGA (não do
 //     cadastro gratuito).
 //   • Enquanto o Premium pago não existe, indicações ficam "pendentes"
@@ -18,16 +18,21 @@
 //   dataExpiracaoComissao ISO = ativação + 365 dias
 // A ligação com o afiliado é o `referredBy` (refCode) que o cadastro já grava.
 //
-// PLANO ANUAL (07/08): R$ 574,08 à vista (R$ 47,84/mês equivalente — "2 meses
-// grátis" na comunicação). Comissão por regra de 3 sobre o mensal equivalente:
-// 47,84 × 10 ÷ 59,90 = 7,99/mês. O pagamento ao afiliado é SEMPRE mensal por
-// 12 meses; migração de plano ajusta o valor a partir do mês da mudança (o
-// relatório calcula sobre o plano VIGENTE, nunca sobre o histórico).
+// PLANO ANUAL: derivado do desconto % em _lib/precos.js ("2 meses grátis" na
+// comunicação). Comissão do anual por regra de 3 sobre o mensal equivalente:
+// tabela 08/2026 → 23,92 × 10 ÷ 29,90 = R$ 8,00/mês. O pagamento ao afiliado
+// é SEMPRE mensal por 12 meses; migração de plano ajusta o valor a partir do
+// mês da mudança (o relatório calcula sobre o plano VIGENTE, nunca histórico).
 
-const COMISSAO_POR_PLANO = { mensal: 10.00, anual: 7.99 }; // R$/mês ao afiliado
-const COMISSAO_MENSAL = COMISSAO_POR_PLANO.mensal;         // compat (plano mensal)
-const PREMIUM_PRECO        = 59.90;   // R$/mês do plano mensal
-const PREMIUM_PRECO_ANUAL  = 574.08;  // R$/ano à vista (= 47,84/mês)
+const { DEFAULTS: PRECOS, premiumAnual } = require('./precos');
+const PREMIUM_PRECO       = PRECOS.premium_mensal;      // 29,90 (tabela 08/2026)
+const PREMIUM_PRECO_ANUAL = premiumAnual(PRECOS).valor; // 287,04 (derivado)
+const _EQUIV_ANUAL        = premiumAnual(PRECOS).mensalEquiv; // 23,92/mês
+const COMISSAO_POR_PLANO = {
+  mensal: 10.00, // R$/mês ao afiliado (regra do fundador, 07/08)
+  anual:  Math.round(_EQUIV_ANUAL * 10.00 / PREMIUM_PRECO * 100) / 100, // 8,00
+};
+const COMISSAO_MENSAL = COMISSAO_POR_PLANO.mensal;      // compat (plano mensal)
 const DIAS_COMISSAO   = 365;          // 12 meses a partir da ativação paga
 
 // 'mensal' | 'anual' — qualquer valor desconhecido/vazio cai em 'mensal'
@@ -162,7 +167,7 @@ function relatorioCSV(rel, mes) {
   const money = (v) => v.toFixed(2).replace('.', ',');
   const esc = (s) => { const t = String(s ?? ''); return /[;"\n]/.test(t) ? '"' + t.replace(/"/g, '""') + '"' : t; };
   const out = [`Relatório de comissões — ${mes}`,
-    'Afiliado;E-mail;Código;Premiums mensais (R$ 10,00);Premiums anuais (R$ 7,99);Total ativos;Valor a pagar (R$)'];
+    'Afiliado;E-mail;Código;Premiums mensais (R$ ' + COMISSAO_POR_PLANO.mensal.toFixed(2).replace('.', ',') + ');Premiums anuais (R$ ' + COMISSAO_POR_PLANO.anual.toFixed(2).replace('.', ',') + ');Total ativos;Valor a pagar (R$)'];
   for (const l of rel.linhas) {
     out.push([esc(l.nome), esc(l.email), l.codigo, l.premiumsMensais, l.premiumsAnuais, l.premiumsAtivos, money(l.valor)].join(';'));
   }

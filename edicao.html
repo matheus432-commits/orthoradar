@@ -201,7 +201,7 @@ function adSection(anuncio){
 // Upsell Premium — inteligência, não conteúdo (o conteúdo é grátis)
 function premiumSection(data){
   if (data.user.isPremium) return '';
-  const preco = (data.premiumPreco || 59.90).toFixed(2).replace('.', ',');
+  const preco = (data.premiumPreco || 29.90).toFixed(2).replace('.', ',');
   return '<div class="audio-card upgrade">'
     + '<h3>🧠 Construa seu segundo cérebro científico</h3>'
     + '<p>No Premium (R$ '+preco+'/mês), tudo que você lê e ouve vira uma biblioteca inteligente: salve artigos e podcasts, '

@@ -282,3 +282,26 @@ jobs:
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
           ANTHROPIC_API_KEY:   ${{ secrets.ANTHROPIC_API_KEY }}
         run: node scripts/audit-edicao.js
+
+  # ── Academy: manutenção do crédito de exportação ─────────────────────────────
+  # Diário: expira o saldo de assinaturas canceladas além da carência (30d) e
+  # reconcilia o espelho meses_pagos/credito_acumulado com o histórico de
+  # pagamentos (o acúmulo oficial acontece a cada pagamento confirmado).
+  academy-credito:
+    name: Academy — crédito (expiração + reconciliação)
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    if: github.event.inputs.dry_run != 'true' && github.event_name != 'push'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Expirar e reconciliar créditos
+        env:
+          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+          FIREBASE_API_KEY:    ${{ secrets.FIREBASE_API_KEY }}
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+        run: node netlify/functions/academy-credito-jobs.js

@@ -107,7 +107,7 @@ describe('relatorioMensal — planilha de pagamento', () => {
     const csv = relatorioCSV(rel, '2026-08');
     const linhas = csv.split('\r\n');
     assert.equal(linhas[0], 'Relatório de comissões — 2026-08');
-    assert.match(linhas[1], /^Afiliado;E-mail;Código;Premiums mensais \(R\$ 10,00\);Premiums anuais \(R\$ 7,99\);Total ativos;Valor a pagar/);
+    assert.match(linhas[1], /^Afiliado;E-mail;Código;Premiums mensais \(R\$ 10,00\);Premiums anuais \(R\$ 8,00\);Total ativos;Valor a pagar/);
     assert.ok(linhas[2].startsWith('"Clínica; ""Sorriso"""'), 'campo com ; e aspas deve ser escapado');
     assert.ok(linhas[2].endsWith(';1;0;1;10,00'), 'contagem por plano + valor com vírgula decimal');
     assert.equal(linhas[3], 'TOTAL GERAL;;;1;0;1;10,00');
@@ -120,15 +120,15 @@ describe('plano anual — comissão proporcional', () => {
   const anualAtivo  = { comissaoStatus: 'premium_ativo', planoPremium: 'anual',  dataAtivacaoPremium: '2026-06-01', dataExpiracaoComissao: '2027-06-01' };
   const mensalAtivo = { comissaoStatus: 'premium_ativo', planoPremium: 'mensal', dataAtivacaoPremium: '2026-06-01', dataExpiracaoComissao: '2027-06-01' };
 
-  test('valores do fundador: mensal R$10,00; anual R$7,99 (47,84×10÷59,90)', () => {
+  test('valores do fundador: mensal R$10,00; anual R$8,00 (23,92×10÷29,90)', () => {
     assert.equal(COMISSAO_POR_PLANO.mensal, 10.00);
-    assert.equal(COMISSAO_POR_PLANO.anual, 7.99);
-    assert.equal(comissaoDe(anualAtivo), 7.99);
+    assert.equal(COMISSAO_POR_PLANO.anual, 8.00);
+    assert.equal(comissaoDe(anualAtivo), 8.00);
     assert.equal(comissaoDe(mensalAtivo), 10.00);
   });
-  test('12 meses totais: mensal R$120,00; anual R$95,88', () => {
+  test('12 meses totais: mensal R$120,00; anual R$96,00', () => {
     assert.equal(Number((12 * COMISSAO_POR_PLANO.mensal).toFixed(2)), 120.00);
-    assert.equal(Number((12 * COMISSAO_POR_PLANO.anual).toFixed(2)), 95.88);
+    assert.equal(Number((12 * COMISSAO_POR_PLANO.anual).toFixed(2)), 96.00);
   });
   test('doc antigo sem planoPremium cai em mensal (compat)', () => {
     assert.equal(normalizePlanoPremium(undefined), 'mensal');
@@ -137,7 +137,7 @@ describe('plano anual — comissão proporcional', () => {
     assert.equal(comissaoDe({ comissaoStatus: 'premium_ativo' }), 10.00);
   });
   test('valorMesAtual usa o plano vigente; cancelado/encerrado = 0 em ambos', () => {
-    assert.equal(valorMesAtual(anualAtivo, HOJE), 7.99);
+    assert.equal(valorMesAtual(anualAtivo, HOJE), 8.00);
     assert.equal(valorMesAtual(mensalAtivo, HOJE), 10.00);
     assert.equal(valorMesAtual({ ...anualAtivo, comissaoStatus: 'premium_cancelado' }, HOJE), 0);
   });
@@ -154,26 +154,26 @@ describe('plano anual — comissão proporcional', () => {
     const u = { ...mensalAtivo };
     assert.equal(valorMesAtual(u, HOJE), 10.00);
     Object.assign(u, { planoPremium: 'anual' }); // migrou mensal → anual
-    assert.equal(valorMesAtual(u, HOJE), 7.99);
+    assert.equal(valorMesAtual(u, HOJE), 8.00);
     assert.equal(u.dataExpiracaoComissao, '2027-06-01', 'janela de 12 meses preservada');
   });
-  test('relatório mistura planos e fecha no centavo (2 mensais + 3 anuais = R$43,97)', () => {
+  test('relatório mistura planos e fecha no centavo (2 mensais + 3 anuais = R$44,00)', () => {
     const rel = relatorioMensal([{
       codigo: 'AAAAAAA', nome: 'Ana', email: 'a@x.com', ativo: true,
       indicados: [mensalAtivo, mensalAtivo, anualAtivo, anualAtivo, anualAtivo],
     }], HOJE);
     assert.equal(rel.linhas[0].premiumsMensais, 2);
     assert.equal(rel.linhas[0].premiumsAnuais, 3);
-    assert.equal(rel.linhas[0].valor, 43.97);
+    assert.equal(rel.linhas[0].valor, 44.00);
     assert.equal(rel.totalMensais, 2);
     assert.equal(rel.totalAnuais, 3);
-    assert.equal(rel.totalGeral, 43.97);
+    assert.equal(rel.totalGeral, 44.00);
   });
   test('preços do plano anual na fonte única (plans.js) — "2 meses grátis" na comunicação', () => {
     const { PLANS } = require('../plans');
-    assert.equal(PLANS.premium.precoAnual, 574.08);
-    assert.equal(PLANS.premium.precoAnualMensalEquiv, 47.84);
-    assert.equal(Number((574.08 / 12).toFixed(2)), 47.84, 'anual à vista ÷ 12 = mensal equivalente');
+    assert.equal(PLANS.premium.precoAnual, 287.04);
+    assert.equal(PLANS.premium.precoAnualMensalEquiv, 23.92);
+    assert.equal(Number((287.04 / 12).toFixed(2)), 23.92, 'anual à vista ÷ 12 = mensal equivalente');
   });
 });
 

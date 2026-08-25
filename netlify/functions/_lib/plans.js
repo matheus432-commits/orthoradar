@@ -7,6 +7,12 @@
 // individual, a assistente Wakai (fair use por orçamento de tokens/dia),
 // revisão inteligente e comparação de estudos. Sem publicidade.
 
+// Preços: fonte única em _lib/precos.js (tabela 08/2026 — Premium R$ 29,90;
+// anual derivado do desconto %, comunicado como "2 meses grátis"). Nada de
+// valor digitado aqui: mudou o preço, muda em precos.js/config_precos.
+const { DEFAULTS: PRECOS, premiumAnual, centavos } = require('./precos');
+const ANUAL = premiumAnual(PRECOS);
+
 const PLANS = {
   gratuito: {
     id:            'gratuito',
@@ -29,13 +35,13 @@ const PLANS = {
   premium: {
     id:            'premium',
     nome:          'Premium',
-    precoMensal:   59.90,
-    precoCentavos: 5990,
-    // Plano ANUAL (07/08): R$ 574,08 à vista = R$ 47,84/mês equivalente.
-    // Comunicação visual SEMPRE "2 meses grátis" — nunca "20% off".
-    precoAnual:            574.08,
-    precoAnualCentavos:    57408,
-    precoAnualMensalEquiv: 47.84,
+    precoMensal:   PRECOS.premium_mensal,            // 29,90 (tabela 08/2026)
+    precoCentavos: centavos(PRECOS.premium_mensal),
+    // Plano ANUAL derivado do desconto % (20% = "2 meses grátis" — nunca
+    // comunicar como "20% off"): 29,90×12×0,80 = R$ 287,04 (R$ 23,92/mês).
+    precoAnual:            ANUAL.valor,
+    precoAnualCentavos:    ANUAL.valorCentavos,
+    precoAnualMensalEquiv: ANUAL.mensalEquiv,
     features: {
       digestDiario:      true,
       resumoCompleto:    true,
@@ -66,11 +72,11 @@ function signupPlan() {
 // teto com o custo real da API: perguntas com contexto grande ou respostas
 // longas consomem mais orçamento.
 // Dimensionamento: preço cheio do Sonnet 5 (US$ 3/1M entrada, US$ 15/1M saída)
-// dá custo médio ponderado ~US$ 6,4/1M tokens. Teto de 16k tok/dia → ~480k
-// tok/mês → ~US$ 3,1 (~R$ 18) no PIOR caso de uso pesado, mantendo a Wakai
-// dentro da margem dos R$ 59,90. ~5-6 perguntas típicas/dia. Ajustável por env
-// WAKAI_DAILY_TOKEN_LIMIT.
-const WAKAI_DAILY_TOKEN_LIMIT = 16000;
+// dá custo médio ponderado ~US$ 6,4/1M tokens. Com o Premium a R$ 29,90
+// (tabela 08/2026), o teto caiu para 8k tok/dia → ~240k tok/mês → ~US$ 1,5
+// (~R$ 9) no PIOR caso de uso pesado — a Wakai segue dentro da margem.
+// ~3 perguntas típicas/dia. Ajustável por env WAKAI_DAILY_TOKEN_LIMIT.
+const WAKAI_DAILY_TOKEN_LIMIT = 8000;
 
 // Planos legados de antes da diretriz atual — nunca houve contratação paga,
 // então qualquer valor antigo ('basico'/'pro') é normalizado com generosidade:

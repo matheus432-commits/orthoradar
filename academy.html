@@ -65,6 +65,23 @@ h1 em{color:var(--verde);font-style:normal;}
 .proj .t{font-weight:700;font-size:13.5px;}
 .proj .m{font-size:11.5px;color:var(--muted);margin-top:2px;}
 .digitando{font-size:12px;color:var(--muted);padding:0 18px 8px;display:none;}
+
+/* monetização — transparência desde o primeiro contato */
+.preco-box{background:#fff;border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin:16px auto 0;max-width:480px;text-align:left;font-size:13px;line-height:1.65;}
+.preco-box b{color:var(--verde);}
+.preco-box .destaque{font-family:Georgia,serif;font-size:15px;}
+.widget-credito{background:var(--verde-claro);border:1px solid #D5E6DC;border-radius:10px;padding:10px 12px;font-size:12.5px;line-height:1.55;margin-bottom:12px;}
+.widget-credito b{color:var(--verde);}
+.widget-credito .links{margin-top:6px;font-size:11.5px;}
+.widget-credito .links a{color:var(--verde);cursor:pointer;text-decoration:underline;}
+.modal-fundo{position:fixed;inset:0;background:rgba(20,18,14,.45);display:none;align-items:center;justify-content:center;z-index:50;padding:16px;}
+.modal{background:#fff;border-radius:14px;max-width:440px;width:100%;padding:20px 22px;box-shadow:0 12px 40px rgba(0,0,0,.25);}
+.modal h3{font-family:Georgia,serif;font-size:1.1rem;margin-bottom:10px;}
+.memoria{border:1px solid var(--border);border-radius:10px;padding:10px 12px;font-size:13px;margin:10px 0;}
+.memoria .linha{display:flex;justify-content:space-between;padding:3px 0;}
+.memoria .linha.total{border-top:1px solid var(--border);margin-top:6px;padding-top:8px;font-weight:800;}
+.memoria .din{font-family:Georgia,serif;}
+.modal .acts{display:flex;gap:8px;margin-top:14px;justify-content:flex-end;}
 </style>
 </head>
 <body>
@@ -77,11 +94,20 @@ h1 em{color:var(--verde);font-style:normal;}
 <div class="login" id="login" style="display:none;">
   <h1 class="serif">Entre para começar</h1>
   <p class="posic" style="margin:8px auto;">O Academy usa a mesma conta do OdontoFeed.</p>
+  <!-- TRANSPARÊNCIA (diretriz): modelo de cobrança visível ANTES de qualquer cadastro -->
+  <div class="preco-box" id="preco-box-login">
+    <span class="destaque">Construir seu trabalho é <b>gratuito</b>, do primeiro rascunho ao manuscrito.</span><br>
+    Você só paga na <b>exportação</b> do pacote final: <b id="pl-exp">R$ 497,00</b> por trabalho.<br>
+    Assinantes do Academy (<b id="pl-mensal">R$ 59,90</b>/mês) acumulam o valor de cada mensalidade como <b>crédito</b>, que abate até <b id="pl-teto">50%</b> da exportação.
+  </div>
   <a href="/dashboard">Fazer login →</a>
 </div>
 
 <div class="lista" id="lista" style="display:none;">
   <h1 class="serif">Seus projetos</h1>
+  <div class="preco-box" id="preco-box-lista" style="max-width:none;">
+    Construir é <b>gratuito</b>; a exportação do pacote final custa <b class="pl-exp">R$ 497,00</b> por trabalho — e a assinatura (<b class="pl-mensal">R$ 59,90</b>/mês) vira crédito que abate até <b class="pl-teto">50%</b> desse valor.
+  </div>
   <div id="lista-projetos"></div>
   <button class="novo" onclick="criarProjeto()">Começar um trabalho novo →</button>
 </div>
@@ -99,6 +125,8 @@ h1 em{color:var(--verde);font-style:normal;}
   </div>
 
   <div class="card painel">
+    <!-- WIDGET DE CRÉDITO — permanentemente visível durante o projeto -->
+    <div class="widget-credito" id="widget-credito" style="display:none;"></div>
     <div class="p-tit">Etapas</div>
     <div id="etapas"></div>
     <div id="bloco-busca" style="display:none;">
@@ -116,6 +144,45 @@ h1 em{color:var(--verde);font-style:normal;}
       <div class="aviso">O pacote traz manuscrito (DOCX+PDF), cover letter com a declaração de uso de IA (exigência ICMJE), checklist preenchida, modelo de TCLE, declarações e o passo a passo de submissão.</div>
     </div>
     <div class="aviso" style="margin-top:14px;">Figuras têm os metadados (EXIF/GPS) removidos no upload. A anonimização <b>visual</b> — rosto, nome em radiografia — é sua responsabilidade e será lembrada no roteiro.</div>
+  </div>
+</div>
+
+<!-- MODAL: confirmação da exportação com memória de cálculo detalhada -->
+<div class="modal-fundo" id="modal-exportar">
+  <div class="modal">
+    <h3>Exportar este trabalho</h3>
+    <p style="font-size:13px;color:var(--muted);">A construção foi gratuita; a exportação do pacote final é paga. Confira a memória de cálculo:</p>
+    <div class="memoria" id="memoria-calculo"></div>
+    <p style="font-size:12px;color:var(--muted);" id="aviso-consumo"></p>
+    <div class="acts">
+      <button class="btn" onclick="fecharModal('modal-exportar')">Voltar</button>
+      <button class="btn verde" id="btn-confirmar-exp" onclick="confirmarExportacao()">Confirmar exportação →</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: cancelamento da assinatura com crédito em risco -->
+<div class="modal-fundo" id="modal-cancelar">
+  <div class="modal">
+    <h3>Cancelar assinatura do Academy</h3>
+    <p style="font-size:13px;line-height:1.6;" id="cancelar-texto"></p>
+    <div class="acts">
+      <button class="btn" onclick="fecharModal('modal-cancelar')">Manter assinatura</button>
+      <button class="btn" style="color:var(--vermelho);border-color:var(--vermelho);" onclick="cancelarAssinatura()">Cancelar mesmo assim</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: assinar com simulação de 1/3/6 meses -->
+<div class="modal-fundo" id="modal-assinar">
+  <div class="modal">
+    <h3>Assinar o Academy</h3>
+    <p style="font-size:13px;line-height:1.6;">Cada mensalidade paga (<b class="pl-mensal">R$ 59,90</b>) vira crédito para a exportação, até <b class="pl-teto">50%</b> do valor. Sua exportação custaria:</p>
+    <div class="memoria" id="simulacao-meses"></div>
+    <div class="acts">
+      <button class="btn" onclick="fecharModal('modal-assinar')">Agora não</button>
+      <button class="btn verde" onclick="assinarAcademy()">Assinar por <span class="pl-mensal">R$ 59,90</span>/mês →</button>
+    </div>
   </div>
 </div>
 
@@ -142,6 +209,7 @@ async function carregarLista(){
     '<div class="proj" onclick="abrirProjeto(\''+esc(p.id)+'\')"><div class="t">'+esc(p.titulo)+'</div>'
     +'<div class="m">'+esc(ETAPA_NOME[p.etapa_atual]||p.etapa_atual)+' · atualizado '+String(p.atualizado_em).slice(0,10)+'</div></div>').join('')
     ||'<p class="posic" style="margin-top:10px;">Nenhum projeto ainda — comece agora: bastam as fotos de um caso ou uma ideia.</p>';
+  carregarAssinatura(); // atualiza os preços exibidos com o config_precos vigente
 }
 async function criarProjeto(){
   const r=await api('academy-projeto',{method:'POST',body:JSON.stringify({email:EMAIL,acao:'criar'})});
@@ -160,6 +228,7 @@ async function abrirProjeto(id){
   }
   for(const m of (j.mensagens||[]))bolha(m.de,m.texto);
   pintarPainel(j.progresso);
+  carregarAssinatura(); // widget de crédito sempre visível durante o projeto
 }
 
 /* ── chat ── */
@@ -259,13 +328,98 @@ function pintarRefs(refs,aviso){
     +'. <a target="_blank" rel="noopener" href="https://pubmed.ncbi.nlm.nih.gov/'+esc(r.pmid)+'/">PMID '+esc(r.pmid)+'</a>'
     +(r.doi?' · <a target="_blank" rel="noopener" href="https://doi.org/'+esc(r.doi)+'">DOI</a>':'')+'</div>').join('');
 }
+/* ── monetização: crédito, assinatura e exportação paga ── */
+const brl=v=>'R$ '+Number(v||0).toFixed(2).replace('.',',');
+let ASSINATURA=null;
+
+function aplicarPrecos(p){
+  if(!p)return;
+  document.querySelectorAll('.pl-exp,#pl-exp').forEach(el=>el.textContent=brl(p.exportacao_valor));
+  document.querySelectorAll('.pl-mensal,#pl-mensal').forEach(el=>el.textContent=brl(p.academy_mensal));
+  document.querySelectorAll('.pl-teto,#pl-teto').forEach(el=>el.textContent=p.teto_credito_pct+'%');
+}
+
+async function carregarAssinatura(){
+  try{
+    const r=await api('academy-assinatura?email='+encodeURIComponent(EMAIL));
+    ASSINATURA=await r.json();
+    aplicarPrecos(ASSINATURA.precos);
+    const w=$('widget-credito');
+    w.style.display='block';
+    w.innerHTML='<b>'+esc(ASSINATURA.texto)+'</b>'
+      +'<div class="links">'+(ASSINATURA.assinante
+        ?'<a onclick="abrirModalCancelar()">gerenciar assinatura</a>'
+        :'assinando ('+brl(ASSINATURA.precos.academy_mensal)+'/mês), cada mensalidade vira crédito — <a onclick="abrirModalAssinar()">simular e assinar</a>')+'</div>';
+  }catch(e){/* widget é informativo — nunca trava o fluxo */}
+}
+
+function fecharModal(id){$(id).style.display='none';}
+
+function abrirModalAssinar(){
+  if(!ASSINATURA)return;
+  $('simulacao-meses').innerHTML=(ASSINATURA.simulacao||[]).map(s=>
+    '<div class="linha"><span>após '+s.meses+' '+(s.meses===1?'mês':'meses')+' de assinatura</span><span class="din"><b>'+brl(s.valor_final)+'</b>'+(s.teto_atingido?' (teto)':'')+'</span></div>').join('');
+  $('modal-assinar').style.display='flex';
+}
+async function assinarAcademy(){
+  const r=await api('academy-assinatura',{method:'POST',body:JSON.stringify({email:EMAIL,acao:'assinar'})});
+  const j=await r.json();
+  fecharModal('modal-assinar');
+  if(j.ok){bolha('academy','Assinatura ativa! '+j.aviso+' O crédito entra a cada mensalidade confirmada — acompanhe no painel ao lado.');carregarAssinatura();}
+  else bolha('academy',j.error==='ja_assinante'?'Você já é assinante do Academy.':'Não consegui ativar agora — tente de novo.');
+}
+
+function abrirModalCancelar(){
+  if(!ASSINATURA)return;
+  const risco=ASSINATURA.memoria?ASSINATURA.memoria.credito_acumulado:0;
+  $('cancelar-texto').innerHTML=risco>0
+    ?'Você tem <b>'+brl(risco)+'</b> de crédito acumulado. Ao cancelar, ele continua válido por <b>'+ASSINATURA.precos.carencia_credito_dias+' dias</b>; depois disso <b>expira integralmente</b> e reativar não o restaura.'
+    :'Sem crédito acumulado no momento. Você pode voltar quando quiser — o acúmulo recomeça do zero.';
+  $('modal-cancelar').style.display='flex';
+}
+async function cancelarAssinatura(){
+  const r=await api('academy-assinatura',{method:'POST',body:JSON.stringify({email:EMAIL,acao:'cancelar'})});
+  const j=await r.json();
+  fecharModal('modal-cancelar');
+  bolha('academy',j.aviso||'Assinatura cancelada.');
+  carregarAssinatura();
+}
+
 async function baixarPacote(){
+  // 1) situação da exportação deste projeto
+  const rs=await api('academy-exportacao?email='+encodeURIComponent(EMAIL)+'&id='+encodeURIComponent(PID));
+  const st=await rs.json();
+  if(st.status!=='paga'){
+    // paywall transparente: memória de cálculo ANTES de qualquer cobrança
+    const m=st.memoria;
+    $('memoria-calculo').innerHTML=
+      '<div class="linha"><span>Exportação do trabalho</span><span class="din">'+brl(m.valor_cheio)+'</span></div>'
+      +'<div class="linha"><span>Crédito de assinatura aplicado'+(m.teto_atingido?' (teto de '+m.teto_credito_pct+'% — '+brl(m.teto_credito)+')':'')+'</span><span class="din">− '+brl(m.credito_aplicado)+'</span></div>'
+      +'<div class="linha total"><span>Você paga</span><span class="din">'+brl(m.valor_final)+'</span></div>';
+    $('aviso-consumo').textContent=m.credito_aplicado>0
+      ?'Ao confirmar e pagar, o crédito aplicado é consumido e o saldo volta a zero — o acúmulo recomeça para o próximo trabalho.'
+      :'Assinantes acumulam crédito das mensalidades e pagam menos na exportação.';
+    $('btn-confirmar-exp').style.display=st.status==='aguardando_pagamento'?'none':'inline-block';
+    if(st.status==='aguardando_pagamento'){
+      $('aviso-consumo').textContent='Exportação já confirmada — aguardando a confirmação do pagamento para liberar o download.';
+    }
+    $('modal-exportar').style.display='flex';
+    return;
+  }
+  // 2) paga → baixa o ZIP
   const r=await api('academy-export?email='+encodeURIComponent(EMAIL)+'&id='+encodeURIComponent(PID));
   if(!r.ok){const j=await r.json().catch(()=>({}));bolha('academy',j.message||'O pacote ainda não está pronto.');return;}
   const blob=await r.blob();
   const u=URL.createObjectURL(blob);const a=document.createElement('a');
   a.href=u;a.download='odontofeed-academy-pacote.zip';a.click();
   setTimeout(()=>URL.revokeObjectURL(u),5000);
+}
+async function confirmarExportacao(){
+  const r=await api('academy-exportacao',{method:'POST',body:JSON.stringify({email:EMAIL,acao:'confirmar',id:PID})});
+  const j=await r.json();
+  fecharModal('modal-exportar');
+  if(j.ok)bolha('academy',j.mensagem+' Referência do pagamento: '+j.referencia_pagamento+'.');
+  else bolha('academy',j.message||j.error||'Não consegui confirmar agora — tente de novo.');
 }
 
 /* ── boot ── */

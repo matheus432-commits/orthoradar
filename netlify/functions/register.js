@@ -181,7 +181,7 @@ exports.handler = async (event) => {
       planoOrigem: plano === 'premium' ? 'cortesia' : 'padrao',
       planoAtualizadoEm: new Date().toISOString(),
       aceitouTermosEm: new Date().toISOString(),
-      termosVersao: '1.0-2026-07-14',
+      termosVersao: '1.3-2026-08-25',
       criadoEm: new Date().toISOString(),
       // Indicações: meu código (para eu indicar) e de quem me indicou (se veio de link).
       refCode: meuRefCode,
