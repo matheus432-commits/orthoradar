@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Academy — OdontoFeed (admin)</title>
+<style>
+/* Painel de MONETIZAÇÃO do Academy (spec 25/08): assinantes, passivo de
+   crédito, exportações e receita por origem — + editor da config de preços
+   (fonte única config/precos; nada hardcoded). Mesma linguagem dos demais
+   painéis admin. */
+:root{--bg:#FBF7EF;--card:#FFFFFF;--border:#EDE6D8;--text:#1A1A18;--muted:#8A8478;--gold:#B08968;--green:#3E7C4F;--red:#B4533B;--blue:#4A6B8A;--verde:#2D6A4F;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,-apple-system,sans-serif;padding:28px 16px 60px;}
+.wrap{max-width:1020px;margin:0 auto;}
+h1{font-family:Georgia,'Times New Roman',serif;font-size:1.6rem;letter-spacing:-.4px;margin-bottom:4px;}
+h1 em{color:var(--gold);font-style:normal;}
+.sub{color:var(--muted);font-size:13px;margin-bottom:18px;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px 20px;margin-bottom:14px;box-shadow:0 1px 4px rgba(0,0,0,.03);}
+.sec-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.4px;color:var(--muted);margin:24px 0 10px;}
+.t-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--muted);margin-bottom:6px;}
+.t-val{font-family:Georgia,serif;font-size:1.8rem;letter-spacing:-.5px;}
+.t-sufix{font-size:12px;color:var(--muted);margin-top:3px;}
+.total-row{display:flex;gap:12px;flex-wrap:wrap;}
+.total-row .card{flex:1;min-width:170px;margin-bottom:0;}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+th{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);text-align:left;padding:8px 10px;border-bottom:1px solid var(--border);}
+th.num,td.num{text-align:right;}
+td{padding:9px 10px;border-bottom:1px solid var(--border);}
+tr:last-child td{border-bottom:none;}
+input.preco{width:110px;border:1px solid var(--border);border-radius:8px;padding:7px 9px;font-size:13px;text-align:right;}
+button{border:1px solid var(--border);background:#fff;border-radius:9px;padding:8px 14px;cursor:pointer;font-size:12.5px;color:var(--text);font-weight:700;}
+button.salvar{background:var(--verde);color:#fff;border-color:var(--verde);}
+.login{max-width:400px;margin:80px auto;text-align:center;}
+.login input{width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:10px;font-size:14px;margin:14px 0 10px;background:#fff;}
+.login button{background:var(--text);color:#fff;border:none;border-radius:10px;padding:12px 26px;font-weight:600;font-size:14px;}
+.err{color:var(--red);font-size:13px;margin-top:10px;display:none;}
+#dash{display:none;}
+.voltar{font-size:13px;color:var(--blue);text-decoration:none;}
+.nota{font-size:12px;color:var(--muted);line-height:1.6;margin-top:8px;}
+.okmsg{color:var(--green);font-size:12.5px;font-weight:700;display:none;margin-left:10px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="login" id="login">
+    <h1>OdontoFeed<em>.</em> Academy</h1>
+    <p class="sub">Monetização do Academy — informe o segredo do admin.</p>
+    <input type="password" id="secret" placeholder="ADMIN_SECRET" onkeydown="if(event.key==='Enter')entrar()">
+    <button onclick="entrar()">Entrar</button>
+    <p class="err" id="err-login">Segredo inválido.</p>
+  </div>
+
+  <div id="dash">
+    <a class="voltar" href="/admin.html">← voltar ao painel</a>
+    <h1 style="margin-top:10px;">Monetização do Academy<em>.</em></h1>
+    <p class="sub" id="periodo-sub"></p>
+
+    <div class="total-row">
+      <div class="card"><div class="t-label">Assinantes ativos</div><div class="t-val" style="color:var(--verde);" id="k-ativos">—</div><div class="t-sufix" id="k-ativos-suf"></div></div>
+      <div class="card"><div class="t-label">Crédito em circulação</div><div class="t-val" style="color:var(--red);" id="k-passivo">—</div><div class="t-sufix">passivo — abatível em exportações</div></div>
+      <div class="card"><div class="t-label">Exportações no mês</div><div class="t-val" id="k-exp">—</div><div class="t-sufix" id="k-exp-suf"></div></div>
+      <div class="card"><div class="t-label">Ticket médio de exportação</div><div class="t-val" style="color:var(--gold);" id="k-ticket">—</div><div class="t-sufix" id="k-teto-suf"></div></div>
+    </div>
+
+    <div class="sec-title">Receita do mês por origem</div>
+    <div class="card">
+      <table>
+        <thead><tr><th>Origem</th><th class="num">Receita</th></tr></thead>
+        <tbody id="tb-receita"></tbody>
+      </table>
+      <div class="nota" id="nota-credito"></div>
+    </div>
+
+    <div class="sec-title">Config de preços (fonte única — nada hardcoded)</div>
+    <div class="card">
+      <table>
+        <tbody>
+          <tr><td>Premium mensal (R$)</td><td class="num"><input class="preco" id="p-premium_mensal"></td></tr>
+          <tr><td>Desconto do anual do Premium (%) <span style="color:var(--muted);font-size:11px;">— comunicado sempre como “2 meses grátis”</span></td><td class="num"><input class="preco" id="p-premium_anual_desconto_pct"></td></tr>
+          <tr><td>Academy mensal (R$)</td><td class="num"><input class="preco" id="p-academy_mensal"></td></tr>
+          <tr><td>Exportação (R$ por trabalho)</td><td class="num"><input class="preco" id="p-exportacao_valor"></td></tr>
+          <tr><td>Teto do crédito (% da exportação)</td><td class="num"><input class="preco" id="p-teto_credito_pct"></td></tr>
+          <tr><td>Carência do crédito ao cancelar (dias)</td><td class="num"><input class="preco" id="p-carencia_credito_dias"></td></tr>
+        </tbody>
+      </table>
+      <div style="margin-top:12px;display:flex;align-items:center;">
+        <button class="salvar" onclick="salvarPrecos()">Salvar preços</button>
+        <span class="okmsg" id="ok-precos">Salvo ✓</span>
+      </div>
+      <div class="nota" id="nota-derivados"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const $=(id)=>document.getElementById(id);
+const brl=(n)=>'R$ '+Number(n||0).toFixed(2).replace('.',',');
+const CAMPOS=['premium_mensal','premium_anual_desconto_pct','academy_mensal','exportacao_valor','teto_credito_pct','carencia_credito_dias'];
+let SECRET='';
+
+async function entrar(){
+  SECRET=$('secret').value.trim();
+  try{
+    const r=await fetch('/.netlify/functions/get-academy-financeiro?secret='+encodeURIComponent(SECRET));
+    if(!r.ok)throw new Error('auth');
+    montar(await r.json());
+    $('login').style.display='none';$('dash').style.display='block';
+  }catch(e){$('err-login').style.display='block';}
+}
+
+function montar(d){
+  $('periodo-sub').textContent='Mês '+d.mes+' · gerado em '+new Date(d.geradoEm).toLocaleString('pt-BR');
+  $('k-ativos').textContent=d.assinantes.ativos;
+  $('k-ativos-suf').textContent=d.assinantes.em_carencia+' em carência de crédito';
+  $('k-passivo').textContent=brl(d.credito_em_circulacao);
+  $('k-exp').textContent=d.exportacoes_mes.quantidade;
+  $('k-exp-suf').textContent=brl(d.exportacoes_mes.receita)+' no mês · '+d.exportacoes_total+' desde o início';
+  $('k-ticket').textContent=brl(d.exportacoes_mes.ticket_medio);
+  $('k-teto-suf').textContent=d.exportacoes_mes.com_teto_atingido+' exportações bateram o teto do crédito';
+  $('tb-receita').innerHTML=
+    '<tr><td>Assinaturas do Academy</td><td class="num">'+brl(d.receita_por_origem_mes.assinatura)+'</td></tr>'
+    +'<tr><td>Exportações de trabalhos</td><td class="num">'+brl(d.receita_por_origem_mes.exportacao)+'</td></tr>'
+    +'<tr><td><b>Total do mês</b></td><td class="num"><b>'+brl(d.receita_por_origem_mes.total)+'</b></td></tr>';
+  $('nota-credito').textContent='Crédito consumido em exportações no mês: '+brl(d.exportacoes_mes.credito_consumido)+' — desconto concedido, não receita.';
+  for(const c of CAMPOS)$('p-'+c).value=d.precos[c];
+  derivados(d.precos);
+}
+function derivados(p){
+  const anual=(p.premium_mensal*12*(1-p.premium_anual_desconto_pct/100));
+  const teto=(p.exportacao_valor*p.teto_credito_pct/100);
+  $('nota-derivados').textContent='Derivados automáticos: Premium anual '+brl(anual)+' ('+brl(anual/12)+'/mês equivalente) · teto do crédito '+brl(teto)+' · mínimo pago na exportação '+brl(p.exportacao_valor-teto)+'. O teto é percentual: mudou o preço da exportação, ele acompanha sozinho.';
+}
+async function salvarPrecos(){
+  const precos={};
+  for(const c of CAMPOS)precos[c]=Number($('p-'+c).value);
+  const r=await fetch('/.netlify/functions/get-academy-financeiro?secret='+encodeURIComponent(SECRET),{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({acao:'salvar_precos',precos})});
+  const j=await r.json();
+  if(j.ok){derivados(j.precos);$('ok-precos').style.display='inline';setTimeout(()=>$('ok-precos').style.display='none',2500);}
+}
+</script>
+</body>
+</html>

@@ -79,6 +79,11 @@
 [functions."parcerias-expiracao"]
   schedule = "0 9 * * *"
 
+# Academy: expiração diária do crédito de assinaturas canceladas além da
+# carência (regra 4 da monetização, 25/08). Reativar não restaura.
+[functions."academy-expiracao"]
+  schedule = "0 10 * * *"
+
 # "O Que Ficou" — weekly top-articles recap: agendado via GitHub Actions
 # (.github/workflows/weekly-digest.yml, sábado 11h UTC = 8h BRT) porque o envio
 # percorre todos os usuários e não cabe no timeout de ~26s do Netlify.

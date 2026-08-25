@@ -29,13 +29,14 @@ const PLANS = {
   premium: {
     id:            'premium',
     nome:          'Premium',
-    precoMensal:   59.90,
-    precoCentavos: 5990,
-    // Plano ANUAL (07/08): R$ 574,08 à vista = R$ 47,84/mês equivalente.
+    // Tabela 25/08 (lançamento do Academy): Premium mensal R$ 29,90.
+    precoMensal:   29.90,
+    precoCentavos: 2990,
+    // Plano ANUAL: R$ 287,04 à vista = R$ 23,92/mês equivalente.
     // Comunicação visual SEMPRE "2 meses grátis" — nunca "20% off".
-    precoAnual:            574.08,
-    precoAnualCentavos:    57408,
-    precoAnualMensalEquiv: 47.84,
+    precoAnual:            287.04,
+    precoAnualCentavos:    28704,
+    precoAnualMensalEquiv: 23.92,
     features: {
       digestDiario:      true,
       resumoCompleto:    true,
@@ -67,8 +68,9 @@ function signupPlan() {
 // longas consomem mais orçamento.
 // Dimensionamento: preço cheio do Sonnet 5 (US$ 3/1M entrada, US$ 15/1M saída)
 // dá custo médio ponderado ~US$ 6,4/1M tokens. Teto de 16k tok/dia → ~480k
-// tok/mês → ~US$ 3,1 (~R$ 18) no PIOR caso de uso pesado, mantendo a Wakai
-// dentro da margem dos R$ 59,90. ~5-6 perguntas típicas/dia. Ajustável por env
+// tok/mês → ~US$ 3,1 (~R$ 18) no PIOR caso de uso pesado. Com o Premium a
+// R$ 29,90 (tabela 25/08) esse pior caso consome boa parte da margem —
+// redimensionar o teto antes de reativar a Wakai. Ajustável por env
 // WAKAI_DAILY_TOKEN_LIMIT.
 const WAKAI_DAILY_TOKEN_LIMIT = 16000;
 

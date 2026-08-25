@@ -65,6 +65,22 @@ h1 em{color:var(--verde);font-style:normal;}
 .proj .t{font-weight:700;font-size:13.5px;}
 .proj .m{font-size:11.5px;color:var(--muted);margin-top:2px;}
 .digitando{font-size:12px;color:var(--muted);padding:0 18px 8px;display:none;}
+
+/* monetização (spec 25/08): transparência SEMPRE visível — landing, widget
+   permanente de crédito, simulação ao assinar e memória de cálculo na
+   exportação. Nenhum valor escrito aqui: tudo vem de config/precos via API. */
+.modelo{background:var(--verde-claro);border:1px solid #D5E6DC;border-radius:12px;padding:12px 16px;font-size:12.5px;line-height:1.7;text-align:left;margin:14px auto 4px;max-width:440px;}
+.modelo b{color:var(--verde);}
+.widget{border:1px solid #D5E6DC;background:var(--verde-claro);border-radius:10px;padding:10px 12px;font-size:12.5px;line-height:1.6;}
+.widget .cred-linha b{color:var(--verde);}
+.widget .cred-nota{font-size:11.5px;color:var(--muted);margin-top:5px;}
+.widget .cred-sim{display:flex;flex-direction:column;gap:2px;margin:7px 0;font-size:11.5px;}
+.widget .btn{margin-top:7px;}
+.memoria{border:1px solid var(--border);background:#FDFBF7;border-radius:10px;padding:10px 12px;font-size:12.5px;margin-top:8px;}
+.memoria .lin{display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px dashed var(--border);}
+.memoria .lin:last-child{border-bottom:none;font-weight:800;}
+.memoria .lin .desc{color:var(--muted);}
+.memoria .lin.abate span:last-child{color:var(--verde);font-weight:700;}
 </style>
 </head>
 <body>
@@ -77,6 +93,11 @@ h1 em{color:var(--verde);font-style:normal;}
 <div class="login" id="login" style="display:none;">
   <h1 class="serif">Entre para começar</h1>
   <p class="posic" style="margin:8px auto;">O Academy usa a mesma conta do OdontoFeed.</p>
+  <!-- TRANSPARÊNCIA (spec): o modelo aparece ANTES de qualquer cadastro,
+       com valores lidos de config/precos (endpoint público, sem sessão). -->
+  <div class="modelo" id="modelo-precos">
+    <b>Como funciona a cobrança:</b> usar o Academy é <b>gratuito</b> do início ao fim — entrevista, busca de literatura, manuscrito, revisão. Você só paga na <b>exportação do pacote final</b><span id="mp-valores"></span>.
+  </div>
   <a href="/dashboard">Fazer login →</a>
 </div>
 
@@ -99,6 +120,10 @@ h1 em{color:var(--verde);font-style:normal;}
   </div>
 
   <div class="card painel">
+    <!-- WIDGET PERMANENTE (spec): crédito acumulado + por quanto a exportação
+         sairia HOJE — visível o tempo todo, não só na hora de exportar. -->
+    <div class="p-tit">Crédito de exportação</div>
+    <div class="widget" id="widget-credito"><span style="color:var(--muted);">Carregando…</span></div>
     <div class="p-tit">Etapas</div>
     <div id="etapas"></div>
     <div id="bloco-busca" style="display:none;">
@@ -112,7 +137,10 @@ h1 em{color:var(--verde);font-style:normal;}
     <div id="figuras"></div>
     <div id="bloco-pacote" style="display:none;">
       <div class="p-tit">Entrega</div>
-      <button class="btn verde" onclick="baixarPacote()">Baixar pacote completo (.zip) →</button>
+      <button class="btn verde" id="btn-pacote" onclick="baixarPacote()">Baixar pacote completo (.zip) →</button>
+      <!-- MEMÓRIA DE CÁLCULO (spec): valor cheio, crédito aplicado, teto e
+           valor final aparecem AQUI antes de qualquer confirmação de cobrança. -->
+      <div id="confirma-export" style="display:none;"></div>
       <div class="aviso">O pacote traz manuscrito (DOCX+PDF), cover letter com a declaração de uso de IA (exigência ICMJE), checklist preenchida, modelo de TCLE, declarações e o passo a passo de submissão.</div>
     </div>
     <div class="aviso" style="margin-top:14px;">Figuras têm os metadados (EXIF/GPS) removidos no upload. A anonimização <b>visual</b> — rosto, nome em radiografia — é sua responsabilidade e será lembrada no roteiro.</div>
@@ -125,11 +153,71 @@ const esc=(s)=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':
 const EMAIL=localStorage.getItem('of_email'), TOKEN=localStorage.getItem('of_token');
 const ETAPA_NOME={entrada:'Seu material',triagem:'Tipo de trabalho',conformidade:'Ética (TCLE/CEP)',pergunta:'Pergunta de pesquisa',busca:'Literatura',manuscrito:'Manuscrito',periodico:'Periódico',entrega:'Entrega'};
 const SECAO_NOME={metodos:'Relato do caso (métodos)',resultados:'Resultados',discussao:'Discussão',introducao:'Introdução',conclusao:'Conclusão',resumo:'Resumo',titulo:'Título'};
-let PROJETO=null, PID=null;
+let PROJETO=null, PID=null, ASSIN=null;
+const brl=(n)=>'R$ '+Number(n||0).toFixed(2).replace('.',',');
+
+/* ── monetização: transparência (spec 25/08 — nenhum valor hardcoded aqui) ── */
+// Landing: o modelo com valores visíveis ANTES de qualquer cadastro (endpoint
+// público, sem sessão).
+async function mostrarModeloPrecos(){
+  try{
+    const r=await fetch('/.netlify/functions/academy-precos');
+    if(!r.ok)return;
+    const p=await r.json();
+    $('mp-valores').innerHTML=': <b>'+brl(p.exportacao_valor)+'</b> por trabalho. Assinantes ('+brl(p.academy_mensal)+'/mês) acumulam crédito que abate até '+p.teto_credito_pct+'% da exportação ('+brl(p.teto_credito)+') — assinando, ela sai por a partir de <b>'+brl(p.minimo_pago_exportacao)+'</b>. Assinar nunca é obrigatório para concluir um trabalho';
+  }catch(e){/* sem rede: o texto base já explica o modelo */}
+}
+
+// Widget permanente: crédito acumulado + por quanto a exportação sairia hoje.
+async function carregarAssinatura(){
+  try{
+    const r=await api('academy-assinatura?email='+encodeURIComponent(EMAIL));
+    if(!r.ok)return;
+    ASSIN=await r.json();
+    pintarWidget();
+  }catch(e){/* widget fica no "Carregando…" — nada quebra */}
+}
+function pintarWidget(){
+  const w=$('widget-credito');
+  if(!ASSIN||!w)return;
+  const m=ASSIN.memoria,p=ASSIN.precos,a=ASSIN.assinatura;
+  let h='<div class="cred-linha">Crédito acumulado: <b>'+brl(m.credito_disponivel)+'</b> · Sua exportação sairá por <b>'+brl(m.valor_pago)+'</b></div>';
+  if(m.teto_atingido)h+='<div class="cred-nota">Você atingiu o teto do crédito ('+brl(m.teto_credito)+' = '+p.teto_credito_pct+'% da exportação) — este é o menor valor possível.</div>';
+  if(!a||(!a.ativa&&a.situacao_credito!=='carencia')){
+    // Simulação 1/3/6 meses (spec): o dentista vê o efeito de assinar ANTES.
+    h+='<div class="cred-nota">Assinando por '+brl(p.academy_mensal)+'/mês, cada mensalidade vira crédito (até '+p.teto_credito_pct+'% da exportação de '+brl(p.exportacao_valor)+'):</div>'
+      +'<div class="cred-sim">'+(ASSIN.simulacao||[]).map(s=>'<span>'+s.meses+(s.meses>1?' meses':' mês')+' de assinatura → exportação por <b>'+brl(s.exportacao_por)+'</b>'+(s.teto_atingido?' (teto)':'')+'</span>').join('')+'</div>'
+      +'<button class="btn verde" onclick="assinar()">'+(a?'Reativar assinatura':'Assinar o Academy')+' →</button>';
+  }else if(a.ativa){
+    h+='<div class="cred-nota">'+a.meses_pagos+' mensalidade(s) creditada(s). Ao exportar, o crédito aplicado é consumido e o saldo zera — o próximo trabalho recomeça o acúmulo.</div>'
+      +'<button class="btn" onclick="cancelarAssinatura()">Cancelar assinatura</button>';
+  }else{
+    h+='<div class="cred-nota">Assinatura cancelada — seu crédito de '+brl(a.credito_acumulado)+' vale até <b>'+String(a.credito_expira_em||'').slice(0,10)+'</b>. Depois disso expira por completo (reativar não o traz de volta).</div>'
+      +'<button class="btn verde" onclick="assinar()">Reativar assinatura →</button>';
+  }
+  w.innerHTML=h;
+}
+async function assinar(){
+  const r=await api('academy-assinatura',{method:'POST',body:JSON.stringify({email:EMAIL,acao:ASSIN&&ASSIN.assinatura?'reativar':'assinar'})});
+  const j=await r.json();
+  if(j.ok!==undefined?j.ok:!j.error){bolha('academy',j.mensagem||('Assinatura ativa ✓ Crédito acumulado: '+brl(j.credito_acumulado)+'.'));await carregarAssinatura();}
+  else bolha('academy','Não consegui ativar a assinatura agora — tente de novo.');
+}
+async function cancelarAssinatura(){
+  // TRANSPARÊNCIA (spec): a prévia mostra o crédito em risco e a carência
+  // ANTES de confirmar — o servidor só cancela com confirmar:true.
+  const r=await api('academy-assinatura',{method:'POST',body:JSON.stringify({email:EMAIL,acao:'cancelar'})});
+  const j=await r.json();
+  if(!j.previa){bolha('academy','Não consegui abrir o cancelamento agora — tente de novo.');return;}
+  if(!confirm(j.aviso+'\n\nConfirmar o cancelamento?'))return;
+  const r2=await api('academy-assinatura',{method:'POST',body:JSON.stringify({email:EMAIL,acao:'cancelar',confirmar:true})});
+  const j2=await r2.json();
+  if(j2.ok){bolha('academy','Assinatura cancelada. Seu crédito continua válido até '+String(j2.credito_valido_ate||'').slice(0,10)+' — dá para exportar com ele até lá.');await carregarAssinatura();}
+}
 
 async function api(fn,opts={}){
   const r=await fetch('/.netlify/functions/'+fn,{...opts,headers:{'Content-Type':'application/json',Authorization:'Bearer '+TOKEN,...(opts.headers||{})}});
-  if(r.status===401){$('app').style.display='none';$('lista').style.display='none';$('login').style.display='block';throw new Error('sessao');}
+  if(r.status===401){$('app').style.display='none';$('lista').style.display='none';$('login').style.display='block';mostrarModeloPrecos();throw new Error('sessao');}
   return r;
 }
 
@@ -154,6 +242,7 @@ async function abrirProjeto(id){
   const j=await r.json();
   PROJETO=j.projeto;
   $('lista').style.display='none';$('app').style.display='grid';
+  carregarAssinatura();
   $('msgs').innerHTML='';
   if(!(j.mensagens||[]).length){
     bolha('academy','Bem-vindo(a) ao Academy! Me conta com suas palavras: o que você tem em mãos? Pode ser um caso que deu muito certo, fotos de um tratamento diferente, uma dúvida clínica… Não precisa estar organizado — organizar é comigo.');
@@ -261,17 +350,45 @@ function pintarRefs(refs,aviso){
 }
 async function baixarPacote(){
   const r=await api('academy-export?email='+encodeURIComponent(EMAIL)+'&id='+encodeURIComponent(PID));
+  if(r.status===402){
+    // PAYWALL (spec): a exportação é o ÚNICO momento pago — a memória de
+    // cálculo completa aparece antes da confirmação explícita.
+    const j=await r.json().catch(()=>({}));
+    if(j.memoria)mostrarMemoria(j.memoria);
+    return;
+  }
   if(!r.ok){const j=await r.json().catch(()=>({}));bolha('academy',j.message||'O pacote ainda não está pronto.');return;}
+  $('confirma-export').style.display='none';
   const blob=await r.blob();
   const u=URL.createObjectURL(blob);const a=document.createElement('a');
   a.href=u;a.download='odontofeed-academy-pacote.zip';a.click();
   setTimeout(()=>URL.revokeObjectURL(u),5000);
 }
+function mostrarMemoria(m){
+  const c=$('confirma-export');
+  c.innerHTML='<div class="memoria">'
+    +'<div class="lin"><span class="desc">Exportação do trabalho</span><span>'+brl(m.valor_cheio)+'</span></div>'
+    +'<div class="lin abate"><span class="desc">Crédito de assinatura aplicado'+(m.teto_atingido?' (teto de '+brl(m.teto_credito)+' atingido)':'')+'</span><span>− '+brl(m.credito_aplicado)+'</span></div>'
+    +'<div class="lin"><span>Você paga</span><span>'+brl(m.valor_pago)+'</span></div>'
+    +'</div>'
+    +(m.credito_aplicado>0?'<div class="cred-nota" style="font-size:11.5px;color:var(--muted);margin-top:5px;">Ao confirmar, o crédito aplicado é consumido e seu saldo zera — o acúmulo recomeça para o próximo trabalho.</div>':'')
+    +'<div class="acts" style="margin-top:8px;"><button class="btn verde" onclick="confirmarExportacao()">Confirmar e exportar por '+brl(m.valor_pago)+' →</button>'
+    +'<button class="btn" onclick="$(\'confirma-export\').style.display=\'none\'">Agora não</button></div>';
+  c.style.display='block';
+}
+async function confirmarExportacao(){
+  const r=await api('academy-export',{method:'POST',body:JSON.stringify({email:EMAIL,id:PID,confirmar:true})});
+  const j=await r.json().catch(()=>({}));
+  if(!j.ok){bolha('academy','A confirmação falhou agora — tente de novo (nada foi cobrado).');return;}
+  bolha('academy','Exportação confirmada ✓ Valor: '+brl(j.memoria.valor_pago)+(j.memoria.credito_aplicado>0?' (crédito de '+brl(j.memoria.credito_aplicado)+' aplicado e consumido)':'')+'. O download começa agora — e fica liberado para baixar de novo quando quiser, sem nova cobrança.');
+  await carregarAssinatura();
+  await baixarPacote();
+}
 
 /* ── boot ── */
 (function(){
-  if(!EMAIL||!TOKEN){$('login').style.display='block';return;}
-  carregarLista().catch(e=>{if(e.message!=='sessao'){$('login').style.display='block';}});
+  if(!EMAIL||!TOKEN){$('login').style.display='block';mostrarModeloPrecos();return;}
+  carregarLista().catch(e=>{if(e.message!=='sessao'){$('login').style.display='block';mostrarModeloPrecos();}});
 })();
 </script>
 </body>

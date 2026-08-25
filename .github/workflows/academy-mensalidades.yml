@@ -1,0 +1,37 @@
+# ACADEMY — job mensal de acúmulo de crédito (spec de monetização 25/08).
+# Idempotente por mês (rodar de novo não duplica); DRY-RUN por padrão no
+# disparo manual; o agendado roda valendo no dia 1. Sem chaves de IA/TTS.
+# Log SÓ com contadores — nunca e-mail de assinante (log de Actions é público).
+
+name: Academy Mensalidades
+
+on:
+  schedule:
+    - cron: '0 9 1 * *'   # dia 1 de cada mês, 09:00 UTC (06:00 BRT)
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'true = só relatar; false = creditar'
+        required: false
+        default: 'true'
+
+jobs:
+  mensalidades:
+    name: Creditar mensalidades do mês
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Creditar
+        env:
+          FIREBASE_PROJECT_ID:      ${{ secrets.FIREBASE_PROJECT_ID }}
+          FIREBASE_API_KEY:         ${{ secrets.FIREBASE_API_KEY }}
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          # Agendado roda valendo; dispatch manual respeita o input (padrão dry).
+          DRY_RUN:                  ${{ github.event_name == 'schedule' && 'false' || inputs.dry_run }}
+        run: node scripts/academy-mensalidades.js
