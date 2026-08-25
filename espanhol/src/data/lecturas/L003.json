@@ -1,0 +1,74 @@
+{
+ "id": "L003",
+ "tema": "negocios",
+ "nivel": "B1",
+ "titulo": "Negociar el precio de un tratamiento",
+ "fuente": "Texto didáctico (OrthoRadar)",
+ "url": "",
+ "resumen": "Diálogo de negociação de orçamento: defender valor sem baixar preço.",
+ "frases": [
+  {
+   "es": "Le agradezco que me diga con franqueza que el presupuesto le parece alto.",
+   "pt": "Agradeço que me diga com franqueza que o orçamento lhe parece alto."
+  },
+  {
+   "es": "Permítame explicarle qué incluye exactamente el precio.",
+   "pt": "Permita-me explicar o que exatamente o preço inclui."
+  },
+  {
+   "es": "El importe cubre la cirugía, el implante, la corona y todas las revisiones del primer año.",
+   "pt": "O valor cobre a cirurgia, o implante, a coroa e todos os retornos do primeiro ano."
+  },
+  {
+   "es": "Trabajamos con materiales de primera calidad y con garantía escrita.",
+   "pt": "Trabalhamos com materiais de primeira qualidade e com garantia por escrito."
+  },
+  {
+   "es": "Entiendo que sea una inversión importante para usted.",
+   "pt": "Entendo que seja um investimento importante para você."
+  },
+  {
+   "es": "Podemos dividir el pago en seis cuotas sin intereses.",
+   "pt": "Podemos dividir o pagamento em seis parcelas sem juros."
+  },
+  {
+   "es": "También existe una alternativa más económica, aunque con menor durabilidad.",
+   "pt": "Também existe uma alternativa mais econômica, embora com menor durabilidade."
+  },
+  {
+   "es": "Prefiero que decida con calma antes que con prisa.",
+   "pt": "Prefiro que decida com calma, e não com pressa."
+  },
+  {
+   "es": "Le dejo el presupuesto por escrito, válido durante treinta días.",
+   "pt": "Deixo o orçamento por escrito, válido por trinta dias."
+  },
+  {
+   "es": "Si le parece bien, le llamo el jueves para resolver cualquier duda.",
+   "pt": "Se lhe parecer bem, ligo na quinta para resolver qualquer dúvida."
+  }
+ ],
+ "glosario": [
+  {
+   "es": "con franqueza",
+   "pt": "com franqueza"
+  },
+  {
+   "es": "el importe",
+   "pt": "o valor"
+  },
+  {
+   "es": "cuotas",
+   "pt": "parcelas"
+  },
+  {
+   "es": "con prisa",
+   "pt": "com pressa"
+  }
+ ],
+ "preguntas": [
+  "¿Qué incluye el presupuesto?",
+  "¿Qué opción de pago ofrece el profesional?",
+  "Practique: defienda su precio en tres frases."
+ ]
+}

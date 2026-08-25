@@ -1,0 +1,353 @@
+diente|dente|odonto|anatomía|El diente veintiuno presenta una fractura.|O dente vinte e um apresenta uma fratura.
+muela|molar, dente do fundo|odonto|anatomía|Me duele la muela de abajo a la derecha.|Dói o molar de baixo do lado direito.
+incisivo|incisivo|odonto|anatomía|Los incisivos superiores están desgastados.|Os incisivos superiores estão desgastados.
+canino|canino|odonto|anatomía|El canino está retenido en el hueso.|O canino está retido no osso.
+premolar|pré-molar|odonto|anatomía|Vamos a restaurar el primer premolar.|Vamos restaurar o primeiro pré-molar.
+molar|molar|odonto|anatomía|El molar tiene tres raíces.|O molar tem três raízes.
+cordal|siso|odonto|anatomía|La cordal está incluida.|O siso está incluso.
+esmalte|esmalte|odonto|anatomía|El esmalte se desmineraliza con el ácido.|O esmalte se desmineraliza com o ácido.
+dentina|dentina|odonto|anatomía|La dentina expuesta causa sensibilidad.|A dentina exposta causa sensibilidade.
+pulpa|polpa|odonto|anatomía|La pulpa está inflamada.|A polpa está inflamada.
+raíz|raiz|odonto|anatomía|La raíz está fracturada en el tercio medio.|A raiz está fraturada no terço médio.
+corona clínica|coroa clínica|odonto|anatomía|La corona clínica es muy corta.|A coroa clínica é muito curta.
+cúspide|cúspide|odonto|anatomía|Se fracturó la cúspide vestibular.|Fraturou a cúspide vestibular.
+encía|gengiva|odonto|anatomía|La encía sangra al cepillarse.|A gengiva sangra ao escovar.
+mucosa|mucosa|odonto|anatomía|La mucosa está irritada por la prótesis.|A mucosa está irritada pela prótese.
+paladar|palato|odonto|anatomía|El paladar blando duele al tragar.|O palato mole dói ao engolir.
+lengua|língua|odonto|anatomía|Saque la lengua, por favor.|Ponha a língua para fora, por favor.
+mandíbula|mandíbula|odonto|anatomía|La mandíbula se desvía al abrir.|A mandíbula desvia ao abrir.
+maxilar|maxila|odonto|anatomía|El seno maxilar está neumatizado.|O seio maxilar está pneumatizado.
+hueso alveolar|osso alveolar|odonto|anatomía|Hay pérdida de hueso alveolar.|Há perda de osso alveolar.
+articulación temporomandibular|ATM|odonto|anatomía|La articulación temporomandibular chasquea.|A ATM estala.
+mordida|mordida, oclusão|odonto|diagnóstico|Tiene una mordida cruzada posterior.|Tem uma mordida cruzada posterior.
+oclusión|oclusão|odonto|diagnóstico|La oclusión quedó alta tras la restauración.|A oclusão ficou alta após a restauração.
+sobremordida|sobremordida|odonto|diagnóstico|Presenta sobremordida profunda.|Apresenta sobremordida profunda.
+apiñamiento|apinhamento|odonto|diagnóstico|Hay apiñamiento en el sector anteroinferior.|Há apinhamento na região ântero-inferior.
+diastema|diastema|odonto|diagnóstico|Quiere cerrar el diastema central.|Ele quer fechar o diastema central.
+caries|cárie|odonto|diagnóstico|Detecté caries interproximal en la radiografía.|Detectei cárie interproximal na radiografia.
+sensibilidad|sensibilidade|odonto|diagnóstico|¿Siente sensibilidad al frío?|Sente sensibilidade ao frio?
+absceso|abscesso|odonto|diagnóstico|Hay un absceso periapical activo.|Há um abscesso periapical ativo.
+flemón|inchaço purulento, flegmão|odonto|diagnóstico|Llegó con un flemón en la mejilla.|Chegou com um inchaço purulento na bochecha.
+inflamación|inflamação|odonto|diagnóstico|La inflamación bajará en dos días.|A inflamação vai baixar em dois dias.
+hinchazón|inchaço|odonto|diagnóstico|Es normal algo de hinchazón el primer día.|É normal um pouco de inchaço no primeiro dia.
+sangrado|sangramento|odonto|diagnóstico|El sangrado debe parar en una hora.|O sangramento deve parar em uma hora.
+gingivitis|gengivite|odonto|diagnóstico|La gingivitis es reversible con higiene.|A gengivite é reversível com higiene.
+periodontitis|periodontite|odonto|diagnóstico|La periodontitis avanzó al estadio tres.|A periodontite avançou para o estágio três.
+bolsa periodontal|bolsa periodontal|odonto|diagnóstico|Hay bolsas de cinco milímetros.|Há bolsas de cinco milímetros.
+retracción gingival|retração gengival|odonto|diagnóstico|La retracción gingival expone la raíz.|A retração gengival expõe a raiz.
+bruxismo|bruxismo|odonto|diagnóstico|El bruxismo desgastó los caninos.|O bruxismo desgastou os caninos.
+desgaste|desgaste|odonto|diagnóstico|Hay desgaste severo en los molares.|Há desgaste severo nos molares.
+fractura|fratura|odonto|diagnóstico|La fractura llega hasta la furca.|A fratura chega até a furca.
+halitosis|halitose|odonto|diagnóstico|La halitosis mejoró con la limpieza.|A halitose melhorou com a limpeza.
+mal aliento|mau hálito|odonto|diagnóstico|El mal aliento suele venir de la lengua.|O mau hálito costuma vir da língua.
+placa bacteriana|placa bacteriana|odonto|diagnóstico|Hay placa bacteriana en el cuello del diente.|Há placa bacteriana no colo do dente.
+sarro|tártaro|odonto|diagnóstico|El sarro se acumula detrás de los incisivos.|O tártaro se acumula atrás dos incisivos.
+manchas|manchas|odonto|diagnóstico|Las manchas son por el café y el tabaco.|As manchas são do café e do cigarro.
+limpieza dental|limpeza, profilaxia|odonto|procedimientos|La limpieza dental dura media hora.|A limpeza dura meia hora.
+profilaxis|profilaxia|odonto|procedimientos|Recomiendo profilaxis cada seis meses.|Recomendo profilaxia a cada seis meses.
+empaste|restauração, obturação|odonto|procedimientos|El empaste quedó bien adaptado.|A restauração ficou bem adaptada.
+obturación|obturação|odonto|procedimientos|La obturación es de resina compuesta.|A obturação é de resina composta.
+endodoncia|endodontia, tratamento de canal|odonto|procedimientos|Necesita endodoncia en el molar inferior.|Precisa de canal no molar inferior.
+tratamiento de conducto|tratamento de canal|odonto|procedimientos|El tratamiento de conducto lleva dos sesiones.|O tratamento de canal leva duas sessões.
+extracción|extração|odonto|procedimientos|La extracción será con anestesia local.|A extração será com anestesia local.
+exodoncia|exodontia|odonto|procedimientos|La exodoncia del cordal fue simple.|A exodontia do siso foi simples.
+blanqueamiento|clareamento|odonto|procedimientos|El blanqueamiento aclara tres tonos.|O clareamento clareia três tons.
+carilla|faceta|odonto|procedimientos|Las carillas se cementan la próxima semana.|As facetas serão cimentadas semana que vem.
+funda|coroa|odonto|procedimientos|La funda de zirconio queda muy natural.|A coroa de zircônia fica bem natural.
+corona|coroa|odonto|procedimientos|Vamos a tallar el diente para la corona.|Vamos preparar o dente para a coroa.
+puente|ponte|odonto|procedimientos|El puente sustituye tres dientes.|A ponte substitui três dentes.
+implante|implante|odonto|procedimientos|El implante se integra en tres meses.|O implante osseointegra em três meses.
+injerto óseo|enxerto ósseo|odonto|procedimientos|Hará falta un injerto óseo previo.|Será necessário um enxerto ósseo prévio.
+elevación de seno|levantamento de seio|odonto|procedimientos|La elevación de seno se hace por ventana lateral.|O levantamento de seio é feito por janela lateral.
+sutura|sutura|odonto|procedimientos|Retiramos la sutura en siete días.|Removemos a sutura em sete dias.
+punto|ponto (sutura)|odonto|procedimientos|Le puse tres puntos.|Coloquei três pontos.
+férula|placa, splint|odonto|procedimientos|Use la férula de descarga por la noche.|Use a placa de mordida à noite.
+alineador|alinhador|odonto|ortodoncia|Los alineadores se cambian cada diez días.|Os alinhadores são trocados a cada dez dias.
+brackets|aparelho fixo, braquetes|odonto|ortodoncia|Los brackets son de zafiro.|Os braquetes são de safira.
+frenos|aparelho (LatAm)|odonto|ortodoncia|Mi hija quiere frenos de colores.|Minha filha quer aparelho colorido.
+arco|arco|odonto|ortodoncia|Hoy cambiamos el arco a uno más grueso.|Hoje trocamos o arco por um mais grosso.
+ligadura|amarrilho, ligadura|odonto|ortodoncia|Se soltó una ligadura.|Soltou um amarrilho.
+retenedor|contenção|odonto|ortodoncia|Use el retenedor todas las noches.|Use a contenção todas as noites.
+aparato removible|aparelho removível|odonto|ortodoncia|El aparato removible se quita para comer.|O aparelho removível se tira para comer.
+expansor|expansor|odonto|ortodoncia|Active el expansor una vez al día.|Ative o expansor uma vez ao dia.
+elástico|elástico|odonto|ortodoncia|Los elásticos se usan veinte horas al día.|Os elásticos são usados vinte horas por dia.
+mini implante|mini-implante|odonto|ortodoncia|Colocamos un mini implante como anclaje.|Colocamos um mini-implante como ancoragem.
+anclaje|ancoragem|odonto|ortodoncia|Necesitamos anclaje absoluto en este caso.|Precisamos de ancoragem absoluta neste caso.
+cefalometría|cefalometria|odonto|ortodoncia|La cefalometría muestra clase dos esquelética.|A cefalometria mostra classe II esquelética.
+prótesis|prótese|odonto|prótesis|La prótesis completa necesita rebase.|A prótese total precisa de reembasamento.
+dentadura postiza|dentadura|odonto|prótesis|La dentadura postiza se afloja al hablar.|A dentadura se solta ao falar.
+prótesis removible|prótese removível|odonto|prótesis|La prótesis removible tiene ganchos.|A prótese removível tem grampos.
+sobredentadura|overdenture|odonto|prótesis|La sobredentadura va sobre dos implantes.|A overdenture vai sobre dois implantes.
+muñón|núcleo, remanescente|odonto|prótesis|El muñón quedó muy corto.|O remanescente ficou muito curto.
+provisional|provisório|odonto|prótesis|Le coloco un provisional hasta la próxima cita.|Coloco um provisório até a próxima consulta.
+cementar|cimentar|odonto|prótesis|Vamos a cementar la corona definitiva.|Vamos cimentar a coroa definitiva.
+impresión|moldagem|odonto|prótesis|Tomamos una impresión con silicona.|Fazemos uma moldagem com silicone.
+escaneado intraoral|escaneamento intraoral|odonto|prótesis|El escaneado intraoral evita la cubeta.|O escaneamento intraoral evita a moldeira.
+cubeta|moldeira|odonto|prótesis|Elija una cubeta del tamaño correcto.|Escolha uma moldeira do tamanho certo.
+modelo de yeso|modelo de gesso|odonto|prótesis|El modelo de yeso está en el laboratorio.|O modelo de gesso está no laboratório.
+laboratorio dental|laboratório dental|odonto|prótesis|El laboratorio dental entrega el viernes.|O laboratório entrega na sexta.
+color|cor (escala)|odonto|prótesis|Tomamos el color con luz natural.|Tiramos a cor com luz natural.
+anestesia local|anestesia local|odonto|materiales|La anestesia local dura dos horas.|A anestesia local dura duas horas.
+anestésico|anestésico|odonto|materiales|Uso anestésico con vasoconstrictor.|Uso anestésico com vasoconstritor.
+aguja|agulha|odonto|materiales|Cambio la aguja en cada paciente.|Troco a agulha a cada paciente.
+jeringa|seringa|odonto|materiales|Cargue la jeringa con un carpule.|Carregue a seringa com um tubete.
+resina compuesta|resina composta|odonto|materiales|La resina compuesta se fotopolimeriza.|A resina composta é fotopolimerizada.
+composite|compósito|odonto|materiales|Uso composite de nanopartículas.|Uso compósito nanoparticulado.
+amalgama|amálgama|odonto|materiales|Ya casi no usamos amalgama.|Já quase não usamos amálgama.
+adhesivo|adesivo|odonto|materiales|Aplique el adhesivo y sople suavemente.|Aplique o adesivo e sopre suavemente.
+ácido grabador|ácido condicionador|odonto|materiales|El ácido grabador actúa quince segundos.|O ácido condicionador age quinze segundos.
+flúor|flúor|odonto|materiales|Aplicamos flúor barniz al final.|Aplicamos verniz de flúor no final.
+sellador|selante|odonto|materiales|El sellador protege las fosas y fisuras.|O selante protege fóssulas e fissuras.
+cemento|cimento|odonto|materiales|El cemento de ionómero libera flúor.|O cimento de ionômero libera flúor.
+zirconio|zircônia|odonto|materiales|El zirconio es muy resistente.|A zircônia é bem resistente.
+porcelana|porcelana|odonto|materiales|La porcelana refleja mejor la luz.|A porcelana reflete melhor a luz.
+guantes|luvas|odonto|materiales|Póngase guantes nuevos, por favor.|Coloque luvas novas, por favor.
+mascarilla|máscara|odonto|materiales|La mascarilla es obligatoria en el box.|A máscara é obrigatória no consultório.
+babero|babador|odonto|materiales|Le pongo el babero antes de empezar.|Vou colocar o babador antes de começar.
+gasa|gaze|odonto|materiales|Muerda la gasa durante treinta minutos.|Morda a gaze por trinta minutos.
+algodón|algodão|odonto|materiales|Coloque un rollo de algodón vestibular.|Coloque um rolete de algodão vestibular.
+dique de goma|isolamento absoluto|odonto|materiales|Trabajo siempre con dique de goma.|Trabalho sempre com isolamento absoluto.
+turbina|caneta de alta rotação|odonto|instrumental|La turbina necesita mantenimiento.|A alta rotação precisa de manutenção.
+micromotor|micromotor|odonto|instrumental|Use el micromotor a baja velocidad.|Use o micromotor em baixa rotação.
+fresa|broca|odonto|instrumental|Cambie la fresa, ya está gastada.|Troque a broca, já está gasta.
+pieza de mano|peça de mão|odonto|instrumental|Esterilice la pieza de mano después de cada uso.|Esterilize a peça de mão após cada uso.
+sonda|sonda exploradora|odonto|instrumental|Con la sonda detecto la lesión.|Com a sonda detecto a lesão.
+espejo|espelho clínico|odonto|instrumental|El espejo se empaña con el vapor.|O espelho embaça com o vapor.
+pinza|pinça|odonto|instrumental|Páseme la pinza, por favor.|Me passe a pinça, por favor.
+fórceps|fórceps|odonto|instrumental|Este fórceps es para molares inferiores.|Este fórceps é para molares inferiores.
+elevador|alavanca|odonto|instrumental|Use el elevador antes del fórceps.|Use a alavanca antes do fórceps.
+ultrasonido|ultrassom|odonto|instrumental|El ultrasonido retira el cálculo rápido.|O ultrassom remove o cálculo rápido.
+lámpara de fotocurado|fotopolimerizador|odonto|instrumental|La lámpara de fotocurado perdió potencia.|O fotopolimerizador perdeu potência.
+sillón dental|cadeira odontológica|odonto|instrumental|El sillón dental está en reparación.|A cadeira odontológica está em conserto.
+autoclave|autoclave|odonto|instrumental|El ciclo del autoclave tarda cuarenta minutos.|O ciclo da autoclave leva quarenta minutos.
+esterilización|esterilização|odonto|instrumental|La esterilización sigue un protocolo estricto.|A esterilização segue um protocolo rígido.
+radiografía periapical|radiografia periapical|odonto|imagen|Necesito una periapical del cuarto seis.|Preciso de uma periapical do dente 46.
+panorámica|panorâmica|odonto|imagen|La panorámica muestra los cordales.|A panorâmica mostra os sisos.
+aleta de mordida|bitewing|odonto|imagen|Las aletas de mordida detectan caries ocultas.|As bitewings detectam cáries ocultas.
+tomografía|tomografia|odonto|imagen|La tomografía confirma el volumen óseo.|A tomografia confirma o volume ósseo.
+escáner|escâner|odonto|imagen|El escáner sustituye la impresión.|O escâner substitui a moldagem.
+cepillado|escovação|odonto|prevención|El cepillado debe durar dos minutos.|A escovação deve durar dois minutos.
+hilo dental|fio dental|odonto|prevención|Use hilo dental antes de dormir.|Use fio dental antes de dormir.
+cepillo interdental|escova interdental|odonto|prevención|El cepillo interdental limpia mejor los espacios.|A escova interdental limpa melhor os espaços.
+enjuague bucal|enxaguante bucal|odonto|prevención|El enjuague bucal no sustituye el cepillado.|O enxaguante não substitui a escovação.
+pasta de dientes|creme dental|odonto|prevención|Use pasta de dientes con mil quinientas partes por millón de flúor.|Use creme dental com 1500 ppm de flúor.
+higiene oral|higiene bucal|odonto|prevención|La higiene oral es la base de todo.|A higiene bucal é a base de tudo.
+revisión|revisão, retorno|odonto|prevención|Le espero en la revisión de seis meses.|Espero você no retorno de seis meses.
+control|controle, acompanhamento|odonto|prevención|Volvemos a control en un mes.|Voltamos para controle em um mês.
+consentimiento informado|consentimento informado|odonto|clínica|Firme el consentimiento informado, por favor.|Assine o consentimento informado, por favor.
+historia clínica|prontuário, anamnese|odonto|clínica|Actualizamos la historia clínica cada año.|Atualizamos o prontuário todo ano.
+anamnesis|anamnese|odonto|clínica|En la anamnesis pregunto por alergias.|Na anamnese pergunto sobre alergias.
+alergia|alergia|odonto|clínica|¿Tiene alergia a la penicilina?|Tem alergia a penicilina?
+antecedente|antecedente|odonto|clínica|¿Algún antecedente de problemas cardíacos?|Algum antecedente de problema cardíaco?
+diagnóstico|diagnóstico|odonto|clínica|El diagnóstico es pulpitis irreversible.|O diagnóstico é pulpite irreversível.
+pronóstico|prognóstico|odonto|clínica|El pronóstico del diente es reservado.|O prognóstico do dente é reservado.
+plan de tratamiento|plano de tratamento|odonto|clínica|Le explico el plan de tratamiento en tres fases.|Explico o plano de tratamento em três fases.
+seguimiento|acompanhamento|odonto|clínica|Haremos seguimiento radiográfico anual.|Faremos acompanhamento radiográfico anual.
+urgencia|urgência|odonto|clínica|Atiendo urgencias de nueve a once.|Atendo urgências das nove às onze.
+derivación|encaminhamento|odonto|clínica|Le hago una derivación al cirujano.|Faço um encaminhamento ao cirurgião.
+receta médica|receita médica|odonto|clínica|Aquí tiene la receta médica.|Aqui está a receita médica.
+antibiótico|antibiótico|odonto|clínica|Tome el antibiótico cada ocho horas.|Tome o antibiótico a cada oito horas.
+analgésico|analgésico|odonto|clínica|Si duele, tome un analgésico.|Se doer, tome um analgésico.
+antiinflamatorio|anti-inflamatório|odonto|clínica|El antiinflamatorio se toma con comida.|O anti-inflamatório se toma com comida.
+enjuagarse|enxaguar|odonto|clínica|Enjuáguese, por favor.|Enxágue, por favor.
+abrir la boca|abrir a boca|odonto|clínica|Abra bien la boca, por favor.|Abra bem a boca, por favor.
+cerrar despacio|fechar devagar|odonto|clínica|Cierre despacio y muerda.|Feche devagar e morda.
+morder|morder|odonto|clínica|Muerda aquí con fuerza.|Morda aqui com força.
+avisar si duele|avisar se doer|odonto|clínica|Levante la mano si le duele.|Levante a mão se doer.
+¿le molesta?|está incomodando?|odonto|clínica|¿Le molesta el agua fría?|A água fria está incomodando?
+no va a doler|não vai doer|odonto|clínica|Va a sentir presión, pero no va a doler.|Vai sentir pressão, mas não vai doer.
+odontólogo|odontólogo|odonto|clínica|El odontólogo llega a las ocho.|O odontólogo chega às oito.
+higienista|higienista|odonto|clínica|La higienista hace la profilaxis.|A higienista faz a profilaxia.
+auxiliar|auxiliar|odonto|clínica|Mi auxiliar prepara el material.|Minha auxiliar prepara o material.
+protésico|protético|odonto|clínica|Hablo con el protésico mañana.|Falo com o protético amanhã.
+reunión|reunião|negocios|encuentros|Tenemos una reunión a las diez.|Temos uma reunião às dez.
+agenda|pauta, agenda|negocios|encuentros|¿Me envía la agenda de la reunión?|Pode me enviar a pauta da reunião?
+acta|ata|negocios|encuentros|Redacté el acta de la reunión.|Redigi a ata da reunião.
+convocar|convocar|negocios|encuentros|Convoqué al equipo para el lunes.|Convoquei a equipe para segunda.
+posponer|adiar|negocios|encuentros|Tenemos que posponer la cita.|Temos que adiar o compromisso.
+aplazar|adiar|negocios|encuentros|Aplazamos la entrega una semana.|Adiamos a entrega uma semana.
+adelantar|antecipar|negocios|encuentros|¿Podemos adelantar la reunión?|Podemos antecipar a reunião?
+disponibilidad|disponibilidade|negocios|encuentros|¿Cuál es su disponibilidad esta semana?|Qual é sua disponibilidade esta semana?
+socio|sócio|negocios|empresa|Mi socio se encarga de las finanzas.|Meu sócio cuida das finanças.
+plantilla|quadro de funcionários|negocios|empresa|La plantilla creció a doce personas.|O quadro cresceu para doze pessoas.
+personal|equipe, pessoal|negocios|empresa|El personal recibió formación nueva.|A equipe recebeu treinamento novo.
+contratar|contratar|negocios|empresa|Voy a contratar una recepcionista.|Vou contratar uma recepcionista.
+capacitación|capacitação, treinamento|negocios|empresa|La capacitación es online.|O treinamento é online.
+desempeño|desempenho|negocios|empresa|El desempeño del equipo mejoró.|O desempenho da equipe melhorou.
+rendimiento|rendimento, desempenho|negocios|empresa|El rendimiento del mes superó la meta.|O rendimento do mês superou a meta.
+facturación|faturamento|negocios|finanzas|La facturación subió un quince por ciento.|O faturamento subiu quinze por cento.
+ingresos|receita|negocios|finanzas|Los ingresos cubren los gastos fijos.|A receita cobre os gastos fixos.
+gastos fijos|custos fixos|negocios|finanzas|Los gastos fijos son el alquiler y los sueldos.|Os custos fixos são o aluguel e os salários.
+rentabilidad|rentabilidade|negocios|finanzas|La rentabilidad por sillón es baja.|A rentabilidade por cadeira é baixa.
+margen|margem|negocios|finanzas|El margen de esa prótesis es pequeño.|A margem dessa prótese é pequena.
+flujo de caja|fluxo de caixa|negocios|finanzas|Cuido el flujo de caja todas las semanas.|Cuido do fluxo de caixa toda semana.
+morosidad|inadimplência|negocios|finanzas|La morosidad bajó con el pago anticipado.|A inadimplência caiu com o pagamento antecipado.
+cobro|cobrança|negocios|finanzas|El cobro se hace al finalizar la sesión.|A cobrança é feita ao final da sessão.
+pago anticipado|pagamento antecipado|negocios|finanzas|Con pago anticipado hay descuento.|Com pagamento antecipado há desconto.
+a plazos|parcelado|negocios|finanzas|Puede pagar a plazos en seis cuotas.|Pode pagar parcelado em seis vezes.
+cuota|parcela|negocios|finanzas|La cuota mensual es de cien euros.|A parcela mensal é de cem euros.
+sin intereses|sem juros|negocios|finanzas|Ofrecemos tres cuotas sin intereses.|Oferecemos três parcelas sem juros.
+recargo|acréscimo|negocios|finanzas|Hay un recargo por pago tardío.|Há um acréscimo por atraso.
+impuesto|imposto|negocios|finanzas|El precio ya incluye impuestos.|O preço já inclui impostos.
+presupuesto|orçamento|negocios|ventas|Le preparo un presupuesto sin compromiso.|Preparo um orçamento sem compromisso.
+propuesta|proposta|negocios|ventas|Le envío la propuesta hoy mismo.|Envio a proposta hoje mesmo.
+oferta|oferta|negocios|ventas|La oferta es válida hasta fin de mes.|A oferta vale até o fim do mês.
+descuento|desconto|negocios|ventas|Puedo hacerle un diez por ciento de descuento.|Posso dar dez por cento de desconto.
+negociar|negociar|negocios|ventas|Vamos a negociar el plazo de pago.|Vamos negociar o prazo de pagamento.
+cerrar el trato|fechar negócio|negocios|ventas|Cerramos el trato esta tarde.|Fechamos o negócio hoje à tarde.
+cliente potencial|cliente em potencial|negocios|ventas|Ese es un cliente potencial importante.|Esse é um cliente potencial importante.
+fidelizar|fidelizar|negocios|ventas|Fidelizamos con seguimiento posventa.|Fidelizamos com acompanhamento pós-venda.
+captación|captação|negocios|ventas|La captación viene del boca a boca.|A captação vem do boca a boca.
+tasa de conversión|taxa de conversão|negocios|ventas|La tasa de conversión de presupuestos es del sesenta por ciento.|A taxa de conversão de orçamentos é de sessenta por cento.
+proveedor|fornecedor|negocios|operaciones|Cambiamos de proveedor de insumos.|Trocamos de fornecedor de insumos.
+pedido|pedido|negocios|operaciones|El pedido llega el jueves.|O pedido chega quinta.
+inventario|estoque, inventário|negocios|operaciones|Hacemos inventario cada mes.|Fazemos inventário todo mês.
+existencias|estoque|negocios|operaciones|Nos quedamos sin existencias de anestésico.|Ficamos sem estoque de anestésico.
+plazo de entrega|prazo de entrega|negocios|operaciones|El plazo de entrega es de diez días.|O prazo de entrega é de dez dias.
+garantía|garantia|negocios|operaciones|El equipo tiene dos años de garantía.|O equipamento tem dois anos de garantia.
+contrato|contrato|negocios|legal|Revise el contrato antes de firmar.|Revise o contrato antes de assinar.
+cláusula|cláusula|negocios|legal|Esa cláusula no me convence.|Essa cláusula não me convence.
+rescindir|rescindir|negocios|legal|Podemos rescindir con treinta días de aviso.|Podemos rescindir com trinta dias de aviso.
+normativa|normativa, regulamentação|negocios|legal|La normativa sanitaria cambió este año.|A regulamentação sanitária mudou este ano.
+licencia|licença, alvará|negocios|legal|Renovamos la licencia sanitaria.|Renovamos o alvará sanitário.
+seguro de responsabilidad|seguro de responsabilidade|negocios|legal|Todo profesional necesita seguro de responsabilidad.|Todo profissional precisa de seguro de responsabilidade.
+correo electrónico|e-mail|negocios|comunicación|Le escribo un correo electrónico ahora.|Escrevo um e-mail agora.
+adjunto|anexo|negocios|comunicación|Le envío el informe adjunto.|Envio o relatório em anexo.
+quedo a la espera|fico no aguardo|negocios|comunicación|Quedo a la espera de su respuesta.|Fico no aguardo da sua resposta.
+saludos cordiales|atenciosamente|negocios|comunicación|Saludos cordiales, Mateo.|Atenciosamente, Mateus.
+según lo acordado|conforme combinado|negocios|comunicación|Según lo acordado, empezamos el lunes.|Conforme combinado, começamos segunda.
+me pongo en contacto|entro em contato|negocios|comunicación|Me pongo en contacto la semana que viene.|Entro em contato semana que vem.
+darle seguimiento|dar seguimento|negocios|comunicación|Voy a darle seguimiento al presupuesto.|Vou dar seguimento ao orçamento.
+a la mayor brevedad|com a maior brevidade|negocios|comunicación|Responderé a la mayor brevedad.|Responderei com a maior brevidade.
+lanzamiento|lançamento|negocios|marketing|El lanzamiento de la clínica es en mayo.|O lançamento da clínica é em maio.
+posicionamiento|posicionamento|negocios|marketing|Trabajamos el posicionamiento de marca.|Trabalhamos o posicionamento de marca.
+público objetivo|público-alvo|negocios|marketing|Nuestro público objetivo son familias.|Nosso público-alvo são famílias.
+alcance|alcance|negocios|marketing|La publicación tuvo mucho alcance.|A publicação teve muito alcance.
+boca a boca|boca a boca|negocios|marketing|El boca a boca sigue siendo el mejor canal.|O boca a boca ainda é o melhor canal.
+reseña|avaliação, review|negocios|marketing|Pedimos una reseña tras el alta.|Pedimos uma avaliação após a alta.
+encuesta de satisfacción|pesquisa de satisfação|negocios|marketing|Enviamos una encuesta de satisfacción.|Enviamos uma pesquisa de satisfação.
+indicador|indicador|negocios|gestión|Seguimos cinco indicadores clave.|Acompanhamos cinco indicadores-chave.
+informe mensual|relatório mensal|negocios|gestión|El informe mensual sale el día cinco.|O relatório mensal sai no dia cinco.
+toma de decisiones|tomada de decisão|negocios|gestión|La toma de decisiones se basa en datos.|A tomada de decisão é baseada em dados.
+delegar|delegar|negocios|gestión|Aprendí a delegar tareas administrativas.|Aprendi a delegar tarefas administrativas.
+priorizar|priorizar|negocios|gestión|Hay que priorizar lo urgente.|É preciso priorizar o urgente.
+cuello de botella|gargalo|negocios|gestión|La esterilización es el cuello de botella.|A esterilização é o gargalo.
+plazo|prazo|negocios|gestión|El plazo vence el viernes.|O prazo vence na sexta.
+a corto plazo|a curto prazo|negocios|gestión|A corto plazo, mantenemos los precios.|A curto prazo, mantemos os preços.
+a largo plazo|a longo prazo|negocios|gestión|A largo plazo queremos dos sedes.|A longo prazo queremos duas unidades.
+llevar a cabo|levar a cabo, realizar|negocios|gestión|Llevamos a cabo el plan sin retrasos.|Realizamos o plano sem atrasos.
+poner en marcha|colocar em prática|negocios|gestión|Pusimos en marcha el nuevo protocolo.|Colocamos em prática o novo protocolo.
+tener en cuenta|levar em conta|negocios|gestión|Hay que tener en cuenta el coste fijo.|É preciso levar em conta o custo fixo.
+estar al tanto|estar por dentro|negocios|gestión|Manténgame al tanto del avance.|Me mantenha por dentro do andamento.
+a mi juicio|na minha opinião|negocios|opinión|A mi juicio, conviene esperar.|Na minha opinião, convém esperar.
+desde mi punto de vista|do meu ponto de vista|negocios|opinión|Desde mi punto de vista, el precio es justo.|Do meu ponto de vista, o preço é justo.
+estoy de acuerdo|concordo|negocios|opinión|Estoy de acuerdo con la propuesta.|Concordo com a proposta.
+no estoy de acuerdo|não concordo|negocios|opinión|No estoy de acuerdo con ese plazo.|Não concordo com esse prazo.
+me parece que|me parece que|negocios|opinión|Me parece que falta información.|Acho que falta informação.
+en mi experiencia|na minha experiência|negocios|opinión|En mi experiencia, funciona mejor así.|Na minha experiência, funciona melhor assim.
+por un lado... por otro|por um lado... por outro|negocios|opinión|Por un lado es caro, por otro dura más.|Por um lado é caro, por outro dura mais.
+en resumen|em resumo|negocios|opinión|En resumen, avanzamos con el proyecto.|Em resumo, seguimos com o projeto.
+facturación de equipaje|despacho de bagagem|viajes|aeropuerto|La facturación de equipaje cierra una hora antes.|O despacho de bagagem fecha uma hora antes.
+mostrador|balcão|viajes|aeropuerto|El mostrador de la aerolínea está al fondo.|O balcão da companhia fica no fundo.
+tarjeta de embarque|cartão de embarque|viajes|aeropuerto|Tengo la tarjeta de embarque en el móvil.|Tenho o cartão de embarque no celular.
+puerta de embarque|portão de embarque|viajes|aeropuerto|Cambiaron la puerta de embarque.|Mudaram o portão de embarque.
+equipaje de mano|bagagem de mão|viajes|aeropuerto|Solo llevo equipaje de mano.|Só levo bagagem de mão.
+cinta de equipajes|esteira de bagagem|viajes|aeropuerto|Mi maleta no salió en la cinta.|Minha mala não saiu na esteira.
+escala|conexão, escala|viajes|aeropuerto|El vuelo tiene una escala en Bogotá.|O voo tem uma conexão em Bogotá.
+retraso|atraso|viajes|aeropuerto|El vuelo lleva dos horas de retraso.|O voo está com duas horas de atraso.
+despegar|decolar|viajes|aeropuerto|Despegamos a las seis en punto.|Decolamos às seis em ponto.
+aterrizar|aterrissar|viajes|aeropuerto|Aterrizamos con media hora de adelanto.|Pousamos com meia hora de antecedência.
+alojamiento|hospedagem|viajes|hotel|El alojamiento incluye desayuno.|A hospedagem inclui café da manhã.
+habitación doble|quarto de casal|viajes|hotel|Reservé una habitación doble.|Reservei um quarto de casal.
+llave de la habitación|chave do quarto|viajes|hotel|Perdí la llave de la habitación.|Perdi a chave do quarto.
+recepción|recepção|viajes|hotel|Deje la maleta en recepción.|Deixe a mala na recepção.
+salida tardía|late check-out|viajes|hotel|¿Es posible una salida tardía?|É possível fazer late check-out?
+aire acondicionado|ar-condicionado|viajes|hotel|El aire acondicionado no enfría.|O ar-condicionado não gela.
+toalla|toalha|viajes|hotel|¿Me trae una toalla más?|Pode me trazer mais uma toalha?
+sábana|lençol|viajes|hotel|Las sábanas están limpias.|Os lençóis estão limpos.
+almohada|travesseiro|viajes|hotel|¿Tiene una almohada más blanda?|Tem um travesseiro mais macio?
+caja fuerte|cofre|viajes|hotel|Guardé el pasaporte en la caja fuerte.|Guardei o passaporte no cofre.
+carta|cardápio|viajes|restaurante|¿Nos trae la carta, por favor?|Pode trazer o cardápio, por favor?
+menú del día|prato feito do dia|viajes|restaurante|El menú del día cuesta doce euros.|O prato do dia custa doze euros.
+plato principal|prato principal|viajes|restaurante|De plato principal quiero pescado.|De prato principal quero peixe.
+entrante|entrada (comida)|viajes|restaurante|De entrante, una ensalada.|De entrada, uma salada.
+la cuenta|a conta|viajes|restaurante|La cuenta, por favor.|A conta, por favor.
+para llevar|para viagem|viajes|restaurante|¿Me lo pone para llevar?|Pode embalar para viagem?
+sin gluten|sem glúten|viajes|restaurante|¿Tienen opciones sin gluten?|Vocês têm opções sem glúten?
+soy alérgico a|sou alérgico a|viajes|restaurante|Soy alérgico a los frutos secos.|Sou alérgico a oleaginosas.
+está riquísimo|está delicioso|viajes|restaurante|Todo está riquísimo, gracias.|Está tudo delicioso, obrigado.
+propina incluida|gorjeta incluída|viajes|restaurante|¿La propina está incluida?|A gorjeta está incluída?
+cómo llego a|como chego a|viajes|orientación|¿Cómo llego a la plaza mayor?|Como chego à praça principal?
+está lejos|é longe|viajes|orientación|¿Está lejos de aquí?|É longe daqui?
+a pie|a pé|viajes|orientación|Se puede ir a pie en diez minutos.|Dá para ir a pé em dez minutos.
+gire a la derecha|vire à direita|viajes|orientación|Gire a la derecha en la esquina.|Vire à direita na esquina.
+siga recto|siga reto|viajes|orientación|Siga recto dos calles.|Siga reto duas quadras.
+manzana|quarteirão|viajes|orientación|Está a tres manzanas de aquí.|Fica a três quarteirões daqui.
+parada de autobús|ponto de ônibus|viajes|orientación|La parada de autobús está enfrente.|O ponto de ônibus fica em frente.
+billete de ida y vuelta|passagem de ida e volta|viajes|orientación|Compré un billete de ida y vuelta.|Comprei uma passagem de ida e volta.
+andén|plataforma|viajes|orientación|El tren sale del andén cuatro.|O trem sai da plataforma quatro.
+alquilar un coche|alugar um carro|viajes|orientación|Quiero alquilar un coche por tres días.|Quero alugar um carro por três dias.
+probarse|experimentar (roupa)|viajes|compras|¿Me puedo probar esta camisa?|Posso experimentar esta camisa?
+probador|provador|viajes|compras|El probador está al fondo.|O provador fica no fundo.
+talla|tamanho (roupa)|viajes|compras|¿Tiene una talla más grande?|Tem um tamanho maior?
+número|número (calçado)|viajes|compras|Calzo el cuarenta y dos.|Calço quarenta e dois.
+rebajas|liquidação|viajes|compras|Las rebajas empiezan en enero.|A liquidação começa em janeiro.
+ganga|pechincha|viajes|compras|Esto es una ganga.|Isto é uma pechincha.
+¿cuánto cuesta?|quanto custa?|viajes|compras|¿Cuánto cuesta el conjunto?|Quanto custa o conjunto?
+¿me hace un descuento?|me dá um desconto?|viajes|compras|¿Me hace un descuento si llevo dos?|Me dá um desconto se eu levar dois?
+devolver|devolver|viajes|compras|¿Puedo devolverlo sin ticket?|Posso devolver sem o comprovante?
+factura|nota fiscal|viajes|compras|¿Me da factura, por favor?|Pode me dar a nota fiscal?
+seguro de viaje|seguro viagem|viajes|imprevistos|El seguro de viaje cubre urgencias dentales.|O seguro viagem cobre urgências odontológicas.
+me robaron|fui roubado|viajes|imprevistos|Me robaron la cartera en el metro.|Roubaram minha carteira no metrô.
+denuncia|boletim de ocorrência|viajes|imprevistos|Puse una denuncia en la comisaría.|Fiz um boletim de ocorrência na delegacia.
+farmacia de guardia|farmácia de plantão|viajes|imprevistos|Busco una farmacia de guardia.|Procuro uma farmácia de plantão.
+urgencias|pronto-socorro|viajes|imprevistos|Fui a urgencias por un dolor de muelas.|Fui ao pronto-socorro por dor de dente.
+perdí el vuelo|perdi o voo|viajes|imprevistos|Perdí el vuelo por el tráfico.|Perdi o voo por causa do trânsito.
+no funciona|não funciona|viajes|imprevistos|La ducha no funciona.|O chuveiro não funciona.
+¿puede repetir?|pode repetir?|viajes|comunicación|¿Puede repetir más despacio, por favor?|Pode repetir mais devagar, por favor?
+no entendí|não entendi|viajes|comunicación|Perdón, no entendí la última parte.|Desculpe, não entendi a última parte.
+¿cómo se dice?|como se diz?|viajes|comunicación|¿Cómo se dice esto en español?|Como se diz isso em espanhol?
+hablo un poco de español|falo um pouco de espanhol|viajes|comunicación|Hablo un poco de español, disculpe los errores.|Falo um pouco de espanhol, desculpe os erros.
+despertarse|acordar|rutina|mañana|Me despierto a las seis y media.|Acordo às seis e meia.
+levantarse|levantar-se|rutina|mañana|Me levanto enseguida, sin snooze.|Levanto na hora, sem soneca.
+ducharse|tomar banho|rutina|mañana|Me ducho antes de salir.|Tomo banho antes de sair.
+lavarse los dientes|escovar os dentes|rutina|mañana|Me lavo los dientes después de desayunar.|Escovo os dentes depois do café.
+afeitarse|barbear-se|rutina|mañana|Me afeito día por medio.|Me barbeio dia sim, dia não.
+peinarse|pentear-se|rutina|mañana|Me peino rápido y salgo.|Me penteio rápido e saio.
+vestirse|vestir-se|rutina|mañana|Me visto con ropa cómoda.|Me visto com roupa confortável.
+desayunar|tomar café da manhã|rutina|mañana|Desayuno café con tostadas.|Tomo café com torradas.
+salir de casa|sair de casa|rutina|mañana|Salgo de casa a las siete y cuarto.|Saio de casa às sete e quinze.
+ir al trabajo|ir para o trabalho|rutina|mañana|Voy al trabajo en coche.|Vou para o trabalho de carro.
+tardar|demorar|rutina|mañana|Tardo veinte minutos en llegar.|Demoro vinte minutos para chegar.
+atascado|preso no trânsito|rutina|mañana|Me quedé atascado en el tráfico.|Fiquei preso no trânsito.
+horario de atención|horário de atendimento|rutina|trabajo|Mi horario de atención es de nueve a seis.|Meu horário de atendimento é das nove às seis.
+jornada|jornada, expediente|rutina|trabajo|La jornada de hoy fue larga.|O expediente de hoje foi longo.
+descanso|pausa, descanso|rutina|trabajo|Hago un descanso de veinte minutos.|Faço uma pausa de vinte minutos.
+hora de comer|hora do almoço|rutina|trabajo|A la hora de comer voy a casa.|Na hora do almoço vou para casa.
+turno de tarde|turno da tarde|rutina|trabajo|El martes hago turno de tarde.|Terça faço o turno da tarde.
+día libre|dia de folga|rutina|trabajo|El miércoles es mi día libre.|Quarta é meu dia de folga.
+hacer recados|resolver coisas, fazer tarefas|rutina|casa|Los sábados hago recados.|Aos sábados resolvo pendências.
+hacer la compra|fazer compras (mercado)|rutina|casa|Hago la compra los domingos.|Faço as compras aos domingos.
+poner la lavadora|colocar roupa na máquina|rutina|casa|Pongo la lavadora por la noche.|Coloco a máquina de lavar à noite.
+tender la ropa|estender a roupa|rutina|casa|Tiendo la ropa en el balcón.|Estendo a roupa na sacada.
+fregar los platos|lavar a louça|rutina|casa|Friego los platos después de cenar.|Lavo a louça depois do jantar.
+barrer|varrer|rutina|casa|Barro la cocina todos los días.|Varro a cozinha todos os dias.
+sacar la basura|tirar o lixo|rutina|casa|Saco la basura antes de dormir.|Tiro o lixo antes de dormir.
+ordenar|arrumar, organizar|rutina|casa|Ordeno el escritorio los viernes.|Organizo a escrivaninha às sextas.
+hacer ejercicio|fazer exercício|rutina|ocio|Hago ejercicio tres veces por semana.|Faço exercício três vezes por semana.
+salir a correr|sair para correr|rutina|ocio|Salgo a correr por la mañana.|Saio para correr de manhã.
+quedar con amigos|combinar com amigos|rutina|ocio|Quedé con amigos el sábado.|Combinei com amigos no sábado.
+tomar algo|tomar alguma coisa (sair)|rutina|ocio|¿Vamos a tomar algo después?|Vamos tomar alguma coisa depois?
+ver una serie|ver uma série|rutina|ocio|Veo una serie antes de dormir.|Vejo uma série antes de dormir.
+descansar|descansar|rutina|ocio|El domingo descanso de verdad.|Domingo eu descanso de verdade.
+acostarse|deitar-se|rutina|noche|Me acuesto sobre las once.|Deito por volta das onze.
+dormirse|adormecer|rutina|noche|Me duermo enseguida.|Adormeço rapidinho.
+poner el despertador|colocar o despertador|rutina|noche|Pongo el despertador a las seis.|Coloco o despertador para as seis.
+madrugar|acordar cedo|rutina|noche|Odio madrugar los lunes.|Odeio acordar cedo na segunda.
+trasnochar|virar a noite|rutina|noche|No me gusta trasnochar.|Não gosto de virar a noite.
+soler|costumar|rutina|frecuencia|Suelo estudiar por la mañana.|Costumo estudar de manhã.
+de vez en cuando|de vez em quando|rutina|frecuencia|De vez en cuando voy al cine.|De vez em quando vou ao cinema.
+casi nunca|quase nunca|rutina|frecuencia|Casi nunca como fuera.|Quase nunca como fora.
+todos los días|todos os dias|rutina|frecuencia|Estudio español todos los días.|Estudo espanhol todos os dias.
+una vez por semana|uma vez por semana|rutina|frecuencia|Tengo clase una vez por semana.|Tenho aula uma vez por semana.
+a menudo|com frequência|rutina|frecuencia|A menudo trabajo hasta tarde.|Com frequência trabalho até tarde.

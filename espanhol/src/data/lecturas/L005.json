@@ -1,0 +1,74 @@
+{
+ "id": "L005",
+ "tema": "rutina",
+ "nivel": "A2",
+ "titulo": "Un martes cualquiera",
+ "fuente": "Texto didáctico (OrthoRadar)",
+ "url": "",
+ "resumen": "Rotina completa de um dia de trabalho, em primeira pessoa.",
+ "frases": [
+  {
+   "es": "Me despierto a las seis y media y pongo café antes que nada.",
+   "pt": "Acordo às seis e meia e faço café antes de tudo."
+  },
+  {
+   "es": "Me ducho, me visto y salgo de casa sobre las siete y cuarto.",
+   "pt": "Tomo banho, me visto e saio de casa por volta das sete e quinze."
+  },
+  {
+   "es": "Suelo llegar a la clínica veinte minutos antes del primer paciente.",
+   "pt": "Costumo chegar à clínica vinte minutos antes do primeiro paciente."
+  },
+  {
+   "es": "Reviso la agenda del día y hablo con mi auxiliar.",
+   "pt": "Reviso a agenda do dia e converso com minha auxiliar."
+  },
+  {
+   "es": "Por la mañana atiendo cuatro pacientes, casi siempre revisiones.",
+   "pt": "De manhã atendo quatro pacientes, quase sempre retornos."
+  },
+  {
+   "es": "A la hora de comer aprovecho para estudiar español media hora.",
+   "pt": "Na hora do almoço aproveito para estudar espanhol meia hora."
+  },
+  {
+   "es": "Por la tarde suele haber alguna urgencia sin cita.",
+   "pt": "À tarde costuma aparecer alguma urgência sem hora marcada."
+  },
+  {
+   "es": "Termino sobre las seis y ordeno el material antes de irme.",
+   "pt": "Termino por volta das seis e organizo o material antes de ir embora."
+  },
+  {
+   "es": "Al llegar a casa hago ejercicio si no estoy muy cansado.",
+   "pt": "Ao chegar em casa faço exercício se não estiver muito cansado."
+  },
+  {
+   "es": "Me acuesto a las once y leo un poco antes de dormirme.",
+   "pt": "Deito às onze e leio um pouco antes de adormecer."
+  }
+ ],
+ "glosario": [
+  {
+   "es": "antes que nada",
+   "pt": "antes de tudo"
+  },
+  {
+   "es": "sobre las siete",
+   "pt": "por volta das sete"
+  },
+  {
+   "es": "suelo",
+   "pt": "costumo"
+  },
+  {
+   "es": "sin cita",
+   "pt": "sem hora marcada"
+  }
+ ],
+ "preguntas": [
+  "¿A qué hora llega a la clínica y por qué?",
+  "¿Qué hace a la hora de comer?",
+  "Cuente su propio martes en español, con seis frases."
+ ]
+}

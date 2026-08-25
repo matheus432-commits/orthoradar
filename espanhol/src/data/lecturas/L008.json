@@ -1,0 +1,74 @@
+{
+ "id": "L008",
+ "tema": "negocios",
+ "nivel": "B2",
+ "titulo": "Reunión de equipo: los números del mes",
+ "resumen": "Reunião de resultados com a equipe da clínica.",
+ "frases": [
+  {
+   "es": "Gracias por venir; vamos a repasar los indicadores del mes.",
+   "pt": "Obrigado por virem; vamos revisar os indicadores do mês."
+  },
+  {
+   "es": "La facturación creció un doce por ciento respecto a julio.",
+   "pt": "O faturamento cresceu doze por cento em relação a julho."
+  },
+  {
+   "es": "Sin embargo, la tasa de conversión de presupuestos bajó al cincuenta por ciento.",
+   "pt": "No entanto, a taxa de conversão de orçamentos caiu para cinquenta por cento."
+  },
+  {
+   "es": "Eso significa que la mitad de los pacientes no acepta el plan.",
+   "pt": "Isso significa que metade dos pacientes não aceita o plano."
+  },
+  {
+   "es": "A mi juicio, el problema no es el precio, sino la explicación.",
+   "pt": "Na minha opinião, o problema não é o preço, e sim a explicação."
+  },
+  {
+   "es": "Propongo que dediquemos diez minutos a explicar cada presupuesto.",
+   "pt": "Proponho que dediquemos dez minutos a explicar cada orçamento."
+  },
+  {
+   "es": "También quiero reducir las ausencias sin aviso previo.",
+   "pt": "Também quero reduzir as faltas sem aviso prévio."
+  },
+  {
+   "es": "Enviaremos un recordatorio por mensaje el día anterior.",
+   "pt": "Enviaremos um lembrete por mensagem no dia anterior."
+  },
+  {
+   "es": "¿Alguien tiene otra propuesta o alguna objeción?",
+   "pt": "Alguém tem outra proposta ou alguma objeção?"
+  },
+  {
+   "es": "Quedamos así y lo revisamos dentro de un mes.",
+   "pt": "Ficamos assim e revisamos daqui a um mês."
+  }
+ ],
+ "glosario": [
+  {
+   "es": "repasar",
+   "pt": "revisar"
+  },
+  {
+   "es": "respecto a",
+   "pt": "em relação a"
+  },
+  {
+   "es": "ausencias",
+   "pt": "faltas"
+  },
+  {
+   "es": "recordatorio",
+   "pt": "lembrete"
+  }
+ ],
+ "preguntas": [
+  "¿Qué indicador empeoró?",
+  "¿Qué dos medidas propone el responsable?",
+  "Presente sus propios números en español."
+ ],
+ "fuente": "Texto didáctico (OrthoRadar)",
+ "url": ""
+}

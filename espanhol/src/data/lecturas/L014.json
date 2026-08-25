@@ -1,0 +1,74 @@
+{
+ "id": "L014",
+ "tema": "negocios",
+ "nivel": "B2",
+ "titulo": "Contratar y formar al equipo",
+ "resumen": "Entrevista de emprego e feedback com a equipe.",
+ "frases": [
+  {
+   "es": "Hemos revisado su currículum y nos interesa su experiencia.",
+   "pt": "Analisamos seu currículo e nos interessa sua experiência."
+  },
+  {
+   "es": "¿Por qué le gustaría trabajar en nuestra clínica?",
+   "pt": "Por que você gostaria de trabalhar na nossa clínica?"
+  },
+  {
+   "es": "¿Cómo reacciona ante un paciente enfadado?",
+   "pt": "Como você reage diante de um paciente irritado?"
+  },
+  {
+   "es": "Buscamos a alguien resolutivo y con buen trato.",
+   "pt": "Buscamos alguém resolutivo e com bom trato."
+  },
+  {
+   "es": "El horario es de nueve a seis, con una hora para comer.",
+   "pt": "O horário é das nove às seis, com uma hora de almoço."
+  },
+  {
+   "es": "Hay un período de prueba de tres meses.",
+   "pt": "Há um período de experiência de três meses."
+  },
+  {
+   "es": "Le daremos formación en el software de gestión.",
+   "pt": "Daremos treinamento no software de gestão."
+  },
+  {
+   "es": "Cada mes tenemos una reunión individual de seguimiento.",
+   "pt": "Todo mês temos uma reunião individual de acompanhamento."
+  },
+  {
+   "es": "Valoro mucho que se avise de los errores a tiempo.",
+   "pt": "Valorizo muito que os erros sejam avisados a tempo."
+  },
+  {
+   "es": "Le confirmamos la decisión antes del viernes.",
+   "pt": "Confirmamos a decisão antes de sexta-feira."
+  }
+ ],
+ "glosario": [
+  {
+   "es": "resolutivo",
+   "pt": "que resolve"
+  },
+  {
+   "es": "buen trato",
+   "pt": "boa educação/trato"
+  },
+  {
+   "es": "período de prueba",
+   "pt": "período de experiência"
+  },
+  {
+   "es": "formación",
+   "pt": "treinamento"
+  }
+ ],
+ "preguntas": [
+  "¿Qué perfil busca la clínica?",
+  "¿Cómo es el proceso después de la entrevista?",
+  "Haga tres preguntas de entrevista en español."
+ ],
+ "fuente": "Texto didáctico (OrthoRadar)",
+ "url": ""
+}

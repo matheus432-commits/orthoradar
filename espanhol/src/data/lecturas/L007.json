@@ -1,0 +1,74 @@
+{
+ "id": "L007",
+ "tema": "odonto",
+ "nivel": "B1",
+ "titulo": "Urgencia: dolor de muelas un domingo",
+ "resumen": "Atendimento de urgência por telefone e no consultório.",
+ "frases": [
+  {
+   "es": "Doctor, llevo toda la noche con un dolor insoportable.",
+   "pt": "Doutor, passei a noite toda com uma dor insuportável."
+  },
+  {
+   "es": "¿El dolor aparece solo con el frío o también de forma espontánea?",
+   "pt": "A dor aparece só com o frio ou também de forma espontânea?"
+  },
+  {
+   "es": "Si le duele al acostarse, suele indicar afectación del nervio.",
+   "pt": "Se dói ao deitar, costuma indicar comprometimento do nervo."
+  },
+  {
+   "es": "¿Ha tomado algún analgésico y le ha hecho efecto?",
+   "pt": "Tomou algum analgésico e fez efeito?"
+  },
+  {
+   "es": "Venga en una hora, le hago un hueco entre pacientes.",
+   "pt": "Venha em uma hora, abro um espaço entre pacientes."
+  },
+  {
+   "es": "Voy a abrir el diente para aliviar la presión.",
+   "pt": "Vou abrir o dente para aliviar a pressão."
+  },
+  {
+   "es": "Hoy resolvemos el dolor y la semana que viene terminamos el conducto.",
+   "pt": "Hoje resolvemos a dor e na semana que vem terminamos o canal."
+  },
+  {
+   "es": "Le receto un antiinflamatorio cada ocho horas durante tres días.",
+   "pt": "Receito um anti-inflamatório a cada oito horas por três dias."
+  },
+  {
+   "es": "No mastique de ese lado hasta la próxima cita.",
+   "pt": "Não mastigue desse lado até a próxima consulta."
+  },
+  {
+   "es": "Si el dolor vuelve con fiebre, llámeme enseguida.",
+   "pt": "Se a dor voltar com febre, me ligue imediatamente."
+  }
+ ],
+ "glosario": [
+  {
+   "es": "insoportable",
+   "pt": "insuportável"
+  },
+  {
+   "es": "hueco",
+   "pt": "brecha na agenda"
+  },
+  {
+   "es": "aliviar",
+   "pt": "aliviar"
+  },
+  {
+   "es": "masticar",
+   "pt": "mastigar"
+  }
+ ],
+ "preguntas": [
+  "¿Qué indica el dolor al acostarse?",
+  "¿Qué hace el dentista en la urgencia?",
+  "Simule la llamada del paciente y su respuesta."
+ ],
+ "fuente": "Texto didáctico (OrthoRadar)",
+ "url": ""
+}

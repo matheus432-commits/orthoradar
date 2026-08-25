@@ -1,0 +1,74 @@
+{
+ "id": "L001",
+ "tema": "odonto",
+ "nivel": "A2",
+ "titulo": "La primera consulta",
+ "fuente": "Texto didáctico (OrthoRadar)",
+ "url": "",
+ "resumen": "Uma primeira consulta odontológica do início ao fim, com as frases que o dentista realmente usa.",
+ "frases": [
+  {
+   "es": "Buenos días, soy el doctor Mateo, encantado de conocerle.",
+   "pt": "Bom dia, sou o doutor Mateus, prazer em conhecê-lo."
+  },
+  {
+   "es": "Antes de empezar, voy a hacerle unas preguntas sobre su salud.",
+   "pt": "Antes de começar, vou fazer algumas perguntas sobre sua saúde."
+  },
+  {
+   "es": "¿Toma algún medicamento de forma habitual?",
+   "pt": "O senhor toma algum medicamento com regularidade?"
+  },
+  {
+   "es": "¿Tiene alergia a algún antibiótico o a la anestesia?",
+   "pt": "Tem alergia a algum antibiótico ou à anestesia?"
+  },
+  {
+   "es": "¿Desde cuándo siente ese dolor?",
+   "pt": "Desde quando sente essa dor?"
+  },
+  {
+   "es": "Ahora abra la boca, por favor, y avise si le molesta algo.",
+   "pt": "Agora abra a boca, por favor, e avise se algo incomodar."
+  },
+  {
+   "es": "Veo una caries profunda en el molar inferior derecho.",
+   "pt": "Vejo uma cárie profunda no molar inferior direito."
+  },
+  {
+   "es": "Vamos a hacer una radiografía para confirmar el diagnóstico.",
+   "pt": "Vamos fazer uma radiografia para confirmar o diagnóstico."
+  },
+  {
+   "es": "El tratamiento son dos sesiones de una hora cada una.",
+   "pt": "O tratamento são duas sessões de uma hora cada."
+  },
+  {
+   "es": "Le preparo un presupuesto y se lo envío por correo hoy mismo.",
+   "pt": "Preparo um orçamento e envio por e-mail hoje mesmo."
+  }
+ ],
+ "glosario": [
+  {
+   "es": "molesta",
+   "pt": "incomoda"
+  },
+  {
+   "es": "caries profunda",
+   "pt": "cárie profunda"
+  },
+  {
+   "es": "sesión",
+   "pt": "sessão"
+  },
+  {
+   "es": "presupuesto",
+   "pt": "orçamento"
+  }
+ ],
+ "preguntas": [
+  "¿Qué pregunta el dentista antes de empezar?",
+  "¿Cuántas sesiones necesita el tratamiento?",
+  "Explique en español lo que usted diría a un paciente nuevo."
+ ]
+}

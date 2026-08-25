@@ -1,0 +1,74 @@
+{
+ "id": "L015",
+ "tema": "rutina",
+ "nivel": "B2",
+ "titulo": "Conversación en la sobremesa",
+ "resumen": "Small talk pós-almoço: opiniões, discordar com educação, mudar de assunto.",
+ "frases": [
+  {
+   "es": "¿Qué tal el fin de semana? ¿Hiciste algo interesante?",
+   "pt": "Como foi o fim de semana? Fez algo interessante?"
+  },
+  {
+   "es": "Pues mira, estuve en la playa con la familia, aunque llovió el domingo.",
+   "pt": "Olha, estive na praia com a família, embora tenha chovido no domingo."
+  },
+  {
+   "es": "A mí me pasa lo mismo, siempre que planeo algo, cambia el tiempo.",
+   "pt": "Comigo é a mesma coisa, sempre que planejo algo, o tempo muda."
+  },
+  {
+   "es": "Oye, ¿tú qué opinas de trabajar los sábados?",
+   "pt": "Escuta, o que você acha de trabalhar aos sábados?"
+  },
+  {
+   "es": "Sinceramente, no lo veo claro, prefiero concentrar la semana.",
+   "pt": "Sinceramente, não me convence, prefiro concentrar a semana."
+  },
+  {
+   "es": "Entiendo tu punto, pero yo lo veo de otra manera.",
+   "pt": "Entendo seu ponto, mas eu vejo de outra maneira."
+  },
+  {
+   "es": "Puede ser, no lo había pensado así.",
+   "pt": "Pode ser, eu não tinha pensado assim."
+  },
+  {
+   "es": "Bueno, cambiando de tema, ¿ya reservaste las vacaciones?",
+   "pt": "Bom, mudando de assunto, você já reservou as férias?"
+  },
+  {
+   "es": "Se me está haciendo tarde, tengo paciente a las tres.",
+   "pt": "Está ficando tarde, tenho paciente às três."
+  },
+  {
+   "es": "Nos vemos mañana, que vaya bien.",
+   "pt": "A gente se vê amanhã, tudo de bom."
+  }
+ ],
+ "glosario": [
+  {
+   "es": "pues mira",
+   "pt": "olha"
+  },
+  {
+   "es": "no lo veo claro",
+   "pt": "não me convence"
+  },
+  {
+   "es": "oye",
+   "pt": "escuta"
+  },
+  {
+   "es": "se me hace tarde",
+   "pt": "está ficando tarde"
+  }
+ ],
+ "preguntas": [
+  "¿Cómo discrepa con educación el hablante?",
+  "¿Qué expresión usa para cambiar de tema?",
+  "Mantenga una sobremesa de dos minutos en español."
+ ],
+ "fuente": "Texto didáctico (OrthoRadar)",
+ "url": ""
+}

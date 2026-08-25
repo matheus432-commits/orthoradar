@@ -1,0 +1,74 @@
+{
+ "id": "L013",
+ "tema": "odonto",
+ "nivel": "B2",
+ "titulo": "Cuando el paciente no está satisfecho",
+ "resumen": "Lidar com reclamação clínica com firmeza e empatia.",
+ "frases": [
+  {
+   "es": "Entiendo su malestar y quiero escucharle con calma.",
+   "pt": "Entendo seu desconforto e quero ouvi-lo com calma."
+  },
+  {
+   "es": "Cuénteme exactamente qué es lo que no le convence del resultado.",
+   "pt": "Conte-me exatamente o que não lhe agrada no resultado."
+  },
+  {
+   "es": "Tiene razón en que el color no coincide del todo con el diente vecino.",
+   "pt": "Você tem razão que a cor não coincide totalmente com o dente vizinho."
+  },
+  {
+   "es": "Le propongo repetir la carilla sin coste adicional.",
+   "pt": "Proponho refazer a faceta sem custo adicional."
+  },
+  {
+   "es": "Lo que no puedo garantizar es un resultado idéntico al de la foto.",
+   "pt": "O que não posso garantir é um resultado idêntico ao da foto."
+  },
+  {
+   "es": "Prefiero ser honesto antes que prometer algo imposible.",
+   "pt": "Prefiro ser honesto a prometer algo impossível."
+  },
+  {
+   "es": "Voy a documentar todo en su historia clínica.",
+   "pt": "Vou documentar tudo no seu prontuário."
+  },
+  {
+   "es": "Si prefiere una segunda opinión, se la facilito sin problema.",
+   "pt": "Se preferir uma segunda opinião, providencio sem problema."
+  },
+  {
+   "es": "Mi objetivo es que salga de aquí conforme con el trabajo.",
+   "pt": "Meu objetivo é que você saia daqui satisfeito com o trabalho."
+  },
+  {
+   "es": "¿Le parece bien que lo veamos de nuevo el martes?",
+   "pt": "Acha bom revermos isso na terça?"
+  }
+ ],
+ "glosario": [
+  {
+   "es": "malestar",
+   "pt": "desconforto/incômodo"
+  },
+  {
+   "es": "no le convence",
+   "pt": "não lhe agrada"
+  },
+  {
+   "es": "sin coste adicional",
+   "pt": "sem custo adicional"
+  },
+  {
+   "es": "conforme",
+   "pt": "satisfeito"
+  }
+ ],
+ "preguntas": [
+  "¿Qué reconoce el profesional?",
+  "¿Qué no puede garantizar?",
+  "Responda a una queja en español, con cinco frases."
+ ],
+ "fuente": "Texto didáctico (OrthoRadar)",
+ "url": ""
+}

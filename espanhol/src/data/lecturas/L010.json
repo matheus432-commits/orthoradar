@@ -1,0 +1,74 @@
+{
+ "id": "L010",
+ "tema": "viajes",
+ "nivel": "B1",
+ "titulo": "Congreso de odontología en Madrid",
+ "resumen": "Viagem profissional: credenciamento, networking e apresentação.",
+ "frases": [
+  {
+   "es": "Vengo al congreso como asistente, no como ponente.",
+   "pt": "Venho ao congresso como participante, não como palestrante."
+  },
+  {
+   "es": "¿Dónde recojo la acreditación y el programa?",
+   "pt": "Onde retiro o credenciamento e a programação?"
+  },
+  {
+   "es": "La conferencia sobre regeneración ósea empieza a las diez.",
+   "pt": "A conferência sobre regeneração óssea começa às dez."
+  },
+  {
+   "es": "¿Está muy lleno el taller práctico de la tarde?",
+   "pt": "O workshop prático da tarde está muito cheio?"
+  },
+  {
+   "es": "Me interesa hablar con el representante de esa casa comercial.",
+   "pt": "Tenho interesse em falar com o representante daquela empresa."
+  },
+  {
+   "es": "Encantado, soy Mateo Silva, ortodoncista de São Paulo.",
+   "pt": "Prazer, sou Mateus Silva, ortodontista de São Paulo."
+  },
+  {
+   "es": "Trabajo sobre todo con alineadores y ortodoncia de adultos.",
+   "pt": "Trabalho principalmente com alinhadores e ortodontia de adultos."
+  },
+  {
+   "es": "¿Me pasa su tarjeta y le escribo la semana que viene?",
+   "pt": "Pode me passar seu cartão que eu escrevo na semana que vem?"
+  },
+  {
+   "es": "La cena de clausura es a las nueve, ¿va a ir?",
+   "pt": "O jantar de encerramento é às nove, você vai?"
+  },
+  {
+   "es": "Ha sido un placer, seguimos en contacto.",
+   "pt": "Foi um prazer, seguimos em contato."
+  }
+ ],
+ "glosario": [
+  {
+   "es": "ponente",
+   "pt": "palestrante"
+  },
+  {
+   "es": "acreditación",
+   "pt": "credenciamento"
+  },
+  {
+   "es": "casa comercial",
+   "pt": "empresa/fornecedor"
+  },
+  {
+   "es": "clausura",
+   "pt": "encerramento"
+  }
+ ],
+ "preguntas": [
+  "¿A qué viene el protagonista al congreso?",
+  "¿Cómo se presenta?",
+  "Preséntese usted en español en cuatro frases."
+ ],
+ "fuente": "Texto didáctico (OrthoRadar)",
+ "url": ""
+}

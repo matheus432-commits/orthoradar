@@ -1,0 +1,1159 @@
+<title>Español 90</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0f172a">
+<style>
+:root{
+  --bg:#f6f7f9; --surface:#ffffff; --surface-2:#eef1f5; --border:#dfe3ea;
+  --text:#16202e; --muted:#5f6b7d; --accent:#c1121f; --accent-2:#1d4ed8;
+  --ok:#166534; --warn:#92400e; --gold:#b45309;
+  --shadow:0 1px 2px rgba(16,32,56,.06),0 8px 24px rgba(16,32,56,.06);
+  --r:14px; --mono:ui-monospace,SFMono-Regular,Menlo,monospace;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
+}
+:root:not([data-theme="light"]){}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0d1117; --surface:#161b22; --surface-2:#1c232d; --border:#2a323d;
+  --text:#e6edf3; --muted:#9aa7b6; --accent:#ff6b6b; --accent-2:#7aa2ff;
+  --ok:#4ade80; --warn:#fbbf24; --gold:#fbbf24;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.3);
+}}
+:root[data-theme="dark"]{
+  --bg:#0d1117; --surface:#161b22; --surface-2:#1c232d; --border:#2a323d;
+  --text:#e6edf3; --muted:#9aa7b6; --accent:#ff6b6b; --accent-2:#7aa2ff;
+  --ok:#4ade80; --warn:#fbbf24; --gold:#fbbf24;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.3);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);
+  font-size:16px;line-height:1.55;-webkit-text-size-adjust:100%;padding-bottom:90px}
+.wrap{max-width:900px;margin:0 auto;padding:0 14px}
+header{position:sticky;top:0;z-index:30;background:var(--bg);
+  border-bottom:1px solid var(--border);padding-top:env(safe-area-inset-top)}
+.brand{display:flex;align-items:center;gap:10px;padding:12px 0 8px}
+.brand h1{font-size:18px;margin:0;letter-spacing:-.02em;font-weight:700}
+.brand .flag{font-size:20px}
+.brand .spacer{flex:1}
+.pill{font-size:12px;font-weight:600;padding:4px 9px;border-radius:999px;
+  background:var(--surface-2);border:1px solid var(--border);color:var(--muted);white-space:nowrap}
+.pill.hot{color:var(--accent);border-color:color-mix(in srgb,var(--accent) 35%,var(--border))}
+nav{display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+nav button{flex:0 0 auto;background:transparent;border:1px solid transparent;color:var(--muted);
+  font:inherit;font-size:14px;font-weight:600;padding:7px 12px;border-radius:999px;cursor:pointer}
+nav button:hover{color:var(--text);background:var(--surface-2)}
+nav button[aria-selected="true"]{background:var(--text);color:var(--bg);border-color:var(--text)}
+main{padding-top:16px}
+section[hidden]{display:none}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);
+  padding:16px;box-shadow:var(--shadow);margin-bottom:14px}
+.card h2{margin:0 0 4px;font-size:16px;letter-spacing:-.01em}
+.card h3{margin:18px 0 8px;font-size:14px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.sub{color:var(--muted);font-size:14px;margin:0 0 12px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.grid{display:grid;gap:12px}
+@media(min-width:640px){.grid.g2{grid-template-columns:1fr 1fr}.grid.g3{grid-template-columns:repeat(3,1fr)}}
+button.btn{font:inherit;font-weight:600;font-size:14px;padding:9px 14px;border-radius:10px;
+  border:1px solid var(--border);background:var(--surface-2);color:var(--text);cursor:pointer}
+button.btn:hover{border-color:var(--muted)}
+button.btn.primary{background:var(--text);color:var(--bg);border-color:var(--text)}
+button.btn.ghost{background:transparent}
+button.btn.sm{padding:5px 10px;font-size:13px}
+button.btn:disabled{opacity:.45;cursor:not-allowed}
+input,select,textarea{font:inherit;font-size:15px;padding:9px 11px;border-radius:10px;
+  border:1px solid var(--border);background:var(--surface);color:var(--text);width:100%}
+label.fld{display:block;font-size:13px;font-weight:600;color:var(--muted);margin-bottom:4px}
+.es{font-weight:600}
+.pt{color:var(--muted)}
+.tag{display:inline-block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
+  padding:2px 7px;border-radius:6px;background:var(--surface-2);color:var(--muted);border:1px solid var(--border)}
+.tag.odonto{color:#0e7490;border-color:#0e749055}
+.tag.negocios{color:var(--accent-2);border-color:color-mix(in srgb,var(--accent-2) 40%,transparent)}
+.tag.viajes{color:var(--gold);border-color:color-mix(in srgb,var(--gold) 40%,transparent)}
+.tag.rutina{color:var(--ok);border-color:color-mix(in srgb,var(--ok) 40%,transparent)}
+.tag.falso{color:var(--accent);border-color:color-mix(in srgb,var(--accent) 40%,transparent)}
+/* blocos do dia */
+.block{display:flex;gap:12px;align-items:flex-start;padding:12px;border:1px solid var(--border);
+  border-radius:12px;background:var(--surface);margin-bottom:8px}
+.block.done{opacity:.55}
+.block .mins{font-variant-numeric:tabular-nums;font-weight:700;font-size:13px;color:var(--muted);
+  min-width:46px;text-align:center;padding-top:2px}
+.block .body{flex:1;min-width:0}
+.block .body b{display:block;font-size:15px}
+.block .body span{font-size:13px;color:var(--muted)}
+.check{width:26px;height:26px;border-radius:8px;border:1.5px solid var(--border);background:transparent;
+  cursor:pointer;display:grid;place-items:center;font-size:15px;color:var(--ok);flex:0 0 auto}
+.check[aria-pressed="true"]{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 14%,transparent)}
+/* barra progresso */
+.bar{height:8px;border-radius:99px;background:var(--surface-2);overflow:hidden;border:1px solid var(--border)}
+.bar>i{display:block;height:100%;background:var(--accent-2);border-radius:99px;transition:width .4s}
+.bar.ok>i{background:var(--ok)}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px}
+.stat b{display:block;font-size:24px;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.stat span{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-weight:600}
+/* anki */
+.flash{min-height:210px;display:flex;flex-direction:column;justify-content:center;align-items:center;
+  text-align:center;gap:14px;padding:26px 16px;background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r);box-shadow:var(--shadow)}
+.flash .q{font-size:22px;font-weight:600;line-height:1.35;max-width:34ch}
+.flash .a{font-size:17px;color:var(--muted);max-width:36ch;border-top:1px dashed var(--border);padding-top:14px}
+.grades{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+.grades button{font:inherit;font-weight:700;font-size:13px;padding:12px 4px;border-radius:10px;
+  border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;line-height:1.2}
+.grades button small{display:block;font-weight:500;font-size:11px;color:var(--muted);margin-top:2px}
+.grades button:nth-child(1){border-color:color-mix(in srgb,var(--accent) 45%,var(--border));color:var(--accent)}
+.grades button:nth-child(4){border-color:color-mix(in srgb,var(--ok) 45%,var(--border));color:var(--ok)}
+/* listas */
+.list{border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--surface)}
+.item{display:flex;gap:10px;align-items:center;padding:10px 12px;border-bottom:1px solid var(--border)}
+.item:last-child{border-bottom:none}
+.item .main{flex:1;min-width:0}
+.item .main .es{display:block}
+.item .main .pt{display:block;font-size:14px}
+.dot{width:9px;height:9px;border-radius:99px;background:var(--border);flex:0 0 auto}
+.dot.s1{background:var(--warn)} .dot.s2{background:var(--ok)}
+.spk{background:none;border:none;cursor:pointer;font-size:16px;color:var(--muted);padding:4px}
+.frase{padding:9px 11px;border:1px solid var(--border);border-radius:10px;margin-bottom:7px;
+  background:var(--surface);cursor:pointer;transition:border-color .15s}
+.frase:hover{border-color:var(--accent-2)}
+.frase.added{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 8%,var(--surface))}
+.frase .pt{font-size:14px;display:none}
+.frase.open .pt{display:block}
+.fa{border:1px solid var(--border);border-radius:12px;padding:13px;background:var(--surface);margin-bottom:10px}
+.fa .w{font-size:19px;font-weight:700}
+.fa .trap{color:var(--accent);font-size:13px;font-weight:600}
+.fa .def{margin:6px 0}
+.fa .fix{font-size:13px;color:var(--muted);background:var(--surface-2);padding:6px 9px;border-radius:8px;margin-top:6px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.chip{font:inherit;font-size:13px;font-weight:600;padding:5px 11px;border-radius:999px;
+  border:1px solid var(--border);background:var(--surface);color:var(--muted);cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--text);color:var(--bg);border-color:var(--text)}
+.empty{text-align:center;color:var(--muted);padding:34px 12px;font-size:15px}
+.spark{display:flex;align-items:flex-end;gap:2px;height:56px}
+.spark i{flex:1;background:var(--accent-2);border-radius:2px 2px 0 0;min-height:2px;opacity:.85}
+.spark i.z{background:var(--border)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--border)}
+th{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.timer{font-variant-numeric:tabular-nums;font-size:34px;font-weight:700;letter-spacing:-.03em}
+.notice{font-size:13px;color:var(--muted);background:var(--surface-2);border:1px solid var(--border);
+  border-radius:10px;padding:10px 12px}
+.overflow{overflow-x:auto}
+footer{color:var(--muted);font-size:12px;text-align:center;padding:20px 0 40px}
+</style>
+
+<header>
+  <div class="wrap">
+    <div class="brand">
+      <span class="flag">🇪🇸</span>
+      <h1>Español 90</h1>
+      <span class="spacer"></span>
+      <span class="pill hot" id="pill-streak">—</span>
+      <span class="pill" id="pill-dia">—</span>
+    </div>
+    <nav id="nav" role="tablist"></nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section id="tab-hoy"></section>
+  <section id="tab-lectura" hidden></section>
+  <section id="tab-anki" hidden></section>
+  <section id="tab-mil" hidden></section>
+  <section id="tab-falsos" hidden></section>
+  <section id="tab-tema" hidden></section>
+  <section id="tab-conversa" hidden></section>
+  <section id="tab-progreso" hidden></section>
+</main>
+<footer class="wrap">Español 90 · dados salvos no seu navegador · faça backup na aba Progresso</footer>
+
+<script>window.DB={"frequencia":"de|de|prep\nla|a (artigo)|art\nque|que|conj\nel|o (artigo)|art\nen|em|prep\ny|e|conj\na|a / para|prep\nlos|os|art\nse|se|pron\nno|não|adv\nun|um|art\npor|por|prep\ncon|com|prep\nuna|uma|art\nsu|seu / dele|pron\npara|para|prep\nes|é|verbo\nal|ao|contr\nlo|o (neutro)|pron\ncomo|como|adv\nmás|mais|adv\no|ou|conj\npero|mas|conj\nsus|seus|pron\nle|lhe|pron\nha|há / tem (auxiliar)|verbo\nme|me|pron\nsi|se (condicional)|conj\nsin|sem|prep\nsobre|sobre|prep\neste|este|pron\nya|já|adv\nentre|entre|prep\ncuando|quando|conj\ntodo|tudo / todo|pron\nesta|esta|pron\nser|ser|verbo\nson|são|verbo\ndos|dois|num\ntambién|também|adv\nfue|foi|verbo\nhabía|havia|verbo\nmuy|muito|adv\nhasta|até|prep\ndesde|desde|prep\nestá|está|verbo\nmi|meu|pron\nporque|porque|conj\nqué|o quê|pron\nsolo|apenas / sozinho|adv\nhan|têm (auxiliar)|verbo\nyo|eu|pron\nhay|há / existe|verbo\nvez|vez|subst\npuede|pode|verbo\ntodos|todos|pron\nasí|assim|adv\nnos|nos|pron\nni|nem|conj\nparte|parte|subst\ntiene|tem|verbo\nél|ele|pron\nuno|um|num\ndonde|onde|adv\nbien|bem|adv\ntiempo|tempo|subst\nmismo|mesmo|adj\nese|esse|pron\nahora|agora|adv\ncada|cada|adj\nvida|vida|subst\notro|outro|adj\ndespués|depois|adv\nte|te|pron\notros|outros|adj\naunque|embora / ainda que|conj\nesa|essa|pron\neso|isso|pron\nhace|faz|verbo\notra|outra|adj\ntan|tão|adv\ndurante|durante|prep\nsiempre|sempre|adv\ndía|dia|subst\ntanto|tanto|adv\nella|ela|pron\ntres|três|num\nsí|sim|adv\ndijo|disse|verbo\nsido|sido|verbo\ngran|grande|adj\npaís|país|subst\nsegún|segundo / conforme|prep\nmenos|menos|adv\nmundo|mundo|subst\naño|ano|subst\nantes|antes|adv\nestado|estado|subst\ncontra|contra|prep\nsino|mas sim|conj\nforma|forma|subst\ncaso|caso|subst\nnada|nada|pron\nhacer|fazer|verbo\ngeneral|geral|adj\nestaba|estava|verbo\npoco|pouco|adv\nestos|estes|pron\nmayor|maior|adj\nante|diante de|prep\nunos|uns|art\nles|lhes|pron\nalgo|algo|pron\ncasa|casa|subst\nhombre|homem|subst\nmujer|mulher|subst\nniño|menino|subst\nniña|menina|subst\npersona|pessoa|subst\ngente|gente / pessoas|subst\nfamilia|família|subst\npadre|pai|subst\nmadre|mãe|subst\nhijo|filho|subst\nhija|filha|subst\nhermano|irmão|subst\nhermana|irmã|subst\namigo|amigo|subst\namiga|amiga|subst\nesposo|marido|subst\nesposa|esposa|subst\npareja|casal / parceiro(a)|subst\nabuelo|avô|subst\nnieto|neto|subst\ntío|tio|subst\nprimo|primo|subst\nseñor|senhor|subst\nseñora|senhora|subst\ngrupo|grupo|subst\nequipo|equipe / equipamento|subst\ntrabajo|trabalho|subst\nempresa|empresa|subst\nnegocio|negócio|subst\ndinero|dinheiro|subst\nprecio|preço|subst\npago|pagamento|subst\ncuenta|conta|subst\nmercado|mercado|subst\ncliente|cliente|subst\nproducto|produto|subst\nservicio|serviço|subst\nproyecto|projeto|subst\nreunión|reunião|subst\noficina|escritório|subst\njefe|chefe|subst\nsueldo|salário|subst\ncontrato|contrato|subst\nfactura|nota fiscal / fatura|subst\nsocio|sócio|subst\nplazo|prazo|subst\nmeta|meta|subst\nriesgo|risco|subst\nventaja|vantagem|subst\nacuerdo|acordo|subst\npropuesta|proposta|subst\ninforme|relatório|subst\ndato|dado|subst\nnúmero|número|subst\ncifra|cifra / número|subst\nejemplo|exemplo|subst\nproblema|problema|subst\nsolución|solução|subst\nrazón|razão / motivo|subst\nmotivo|motivo|subst\nresultado|resultado|subst\ncambio|mudança / troco|subst\nnivel|nível|subst\npunto|ponto|subst\nlugar|lugar|subst\nzona|zona / área|subst\nciudad|cidade|subst\ncalle|rua|subst\ncamino|caminho|subst\ncarretera|estrada|subst\npueblo|povoado / povo|subst\nregión|região|subst\nfrontera|fronteira|subst\nplaya|praia|subst\nmontaña|montanha|subst\nrío|rio|subst\nmar|mar|subst\ncampo|campo|subst\ntierra|terra|subst\nagua|água|subst\naire|ar|subst\nfuego|fogo|subst\nsol|sol|subst\nluna|lua|subst\ncielo|céu|subst\nnoche|noite|subst\nmañana|manhã / amanhã|subst\ntarde|tarde|subst\nhora|hora|subst\nminuto|minuto|subst\nsemana|semana|subst\nmes|mês|subst\nsiglo|século|subst\nmomento|momento|subst\nhoy|hoje|adv\nayer|ontem|adv\ntemprano|cedo|adv\nluego|logo / depois|adv\npronto|logo / em breve|adv\ntodavía|ainda|adv\naún|ainda|adv\nnunca|nunca|adv\njamás|jamais|adv\nsiquiera|sequer|adv\napenas|mal / apenas|adv\ncasi|quase|adv\ndemasiado|demais|adv\nbastante|bastante|adv\nmucho|muito|adv\nademás|além disso|adv\nsobre todo|sobretudo|adv\nincluso|inclusive / até mesmo|adv\nquizá|talvez|adv\ntal vez|talvez|adv\nacaso|por acaso|adv\nentonces|então|adv\nmientras|enquanto|conj\nmientras tanto|enquanto isso|adv\nantes de|antes de|prep\ndespués de|depois de|prep\ntener|ter|verbo\nestar|estar|verbo\nhaber|haver|verbo\npoder|poder|verbo\nir|ir|verbo\ndecir|dizer|verbo\nver|ver|verbo\ndar|dar|verbo\nsaber|saber|verbo\nquerer|querer|verbo\nllegar|chegar|verbo\npasar|passar / acontecer|verbo\ndeber|dever (verbo e substantivo)|verbo\nponer|pôr / colocar|verbo\nparecer|parecer|verbo\nquedar|ficar|verbo\ncreer|acreditar|verbo\nhablar|falar|verbo\nllevar|levar|verbo\ndejar|deixar|verbo\nseguir|seguir / continuar|verbo\nencontrar|encontrar|verbo\nllamar|chamar / ligar|verbo\nvenir|vir|verbo\npensar|pensar|verbo\nsalir|sair|verbo\nvolver|voltar|verbo\ntomar|tomar / pegar|verbo\nconocer|conhecer|verbo\nvivir|viver / morar|verbo\nsentir|sentir|verbo\ntratar|tratar|verbo\nmirar|olhar|verbo\ncontar|contar|verbo\nempezar|começar|verbo\ncomenzar|começar|verbo\nesperar|esperar|verbo\nbuscar|procurar|verbo\nexistir|existir|verbo\nentrar|entrar|verbo\ntrabajar|trabalhar|verbo\nescribir|escrever|verbo\nperder|perder|verbo\nproducir|produzir|verbo\nocurrir|ocorrer|verbo\nentender|entender|verbo\npedir|pedir|verbo\nrecibir|receber|verbo\nrecordar|lembrar|verbo\nterminar|terminar|verbo\npermitir|permitir|verbo\naparecer|aparecer|verbo\nconseguir|conseguir|verbo\nservir|servir|verbo\nsacar|tirar|verbo\nnecesitar|precisar|verbo\nmantener|manter|verbo\nresultar|resultar|verbo\nleer|ler|verbo\ncaer|cair|verbo\ncambiar|mudar / trocar|verbo\npresentar|apresentar|verbo\ncrear|criar|verbo\nabrir|abrir|verbo\nconsiderar|considerar|verbo\noír|ouvir|verbo\nescuchar|escutar|verbo\nacabar|acabar|verbo\nconvertir|converter / transformar|verbo\nganar|ganhar|verbo\nformar|formar|verbo\ntraer|trazer|verbo\npartir|partir|verbo\nmorir|morrer|verbo\naceptar|aceitar|verbo\nrealizar|realizar|verbo\nsuponer|supor|verbo\ncomprender|compreender|verbo\nlograr|conseguir / alcançar|verbo\nexplicar|explicar|verbo\npreguntar|perguntar|verbo\ntocar|tocar|verbo\nreconocer|reconhecer|verbo\nestudiar|estudar|verbo\nalcanzar|alcançar|verbo\nnacer|nascer|verbo\ndirigir|dirigir / liderar|verbo\ncorrer|correr|verbo\nutilizar|utilizar|verbo\npagar|pagar|verbo\nayudar|ajudar|verbo\ngustar|gostar (agradar)|verbo\njugar|jogar / brincar|verbo\ncomprar|comprar|verbo\nvender|vender|verbo\ncomer|comer|verbo\nbeber|beber|verbo\ndormir|dormir|verbo\ndespertar|acordar|verbo\nlevantarse|levantar-se|verbo\nducharse|tomar banho|verbo\nvestirse|vestir-se|verbo\ndesayunar|tomar café da manhã|verbo\nalmorzar|almoçar|verbo\ncenar|jantar|verbo\ndescansar|descansar|verbo\ncaminar|caminhar|verbo\nviajar|viajar|verbo\nvolar|voar|verbo\nconducir|dirigir (carro)|verbo\nmanejar|dirigir / manejar|verbo\nenviar|enviar|verbo\nmandar|mandar|verbo\nfirmar|assinar|verbo\napuntar|anotar|verbo\nanotar|anotar|verbo\navisar|avisar|verbo\ncuidar|cuidar|verbo\nlimpiar|limpar|verbo\ncocinar|cozinhar|verbo\nlavar|lavar|verbo\nenseñar|ensinar / mostrar|verbo\naprender|aprender|verbo\npracticar|praticar|verbo\nmejorar|melhorar|verbo\nevitar|evitar|verbo\nelegir|escolher|verbo\ndecidir|decidir|verbo\nintentar|tentar|verbo\nprobar|provar / experimentar|verbo\nusar|usar|verbo\nllenar|encher / preencher|verbo\nsubir|subir|verbo\nbajar|descer / baixar|verbo\ncerrar|fechar|verbo\nromper|quebrar|verbo\narreglar|consertar / arrumar|verbo\nguardar|guardar|verbo\nolvidar|esquecer|verbo\nodiar|odiar|verbo\namar|amar|verbo\nreír|rir|verbo\nllorar|chorar|verbo\ngritar|gritar|verbo\ncallar|calar|verbo\nresponder|responder|verbo\ncontestar|responder|verbo\nrepetir|repetir|verbo\nsonar|soar / tocar (som)|verbo\nsoñar|sonhar|verbo\ncrecer|crescer|verbo\ndoler|doer|verbo\ncurar|curar|verbo\nsanar|sarar|verbo\nbueno|bom|adj\nmalo|ruim / mau|adj\nnuevo|novo|adj\nviejo|velho|adj\njoven|jovem|adj\ngrande|grande|adj\npequeño|pequeno|adj\nalto|alto|adj\nbajo|baixo|adj\nlargo|comprido / longo|adj\ncorto|curto|adj\nancho|largo|adj\nestrecho|estreito|adj\ngordo|gordo|adj\ndelgado|magro|adj\nfuerte|forte|adj\ndébil|fraco|adj\nrápido|rápido|adj\nlento|lento|adj\nfácil|fácil|adj\ndifícil|difícil|adj\nimportante|importante|adj\nnecesario|necessário|adj\nposible|possível|adj\nimposible|impossível|adj\nseguro|seguro / certo|adj\npeligroso|perigoso|adj\nclaro|claro|adj\noscuro|escuro|adj\nlimpio|limpo|adj\nsucio|sujo|adj\ncaro|caro|adj\nbarato|barato|adj\nlibre|livre|adj\nocupado|ocupado|adj\nlleno|cheio|adj\nvacío|vazio|adj\nabierto|aberto|adj\ncerrado|fechado|adj\ncaliente|quente|adj\nfrío|frio|adj\ntibio|morno|adj\nduro|duro|adj\nblando|mole|adj\nsuave|suave / macio|adj\náspero|áspero|adj\ndulce|doce|adj\nsalado|salgado|adj\namargo|amargo|adj\nácido|ácido|adj\nrico|rico / gostoso|adj\npobre|pobre|adj\nfeliz|feliz|adj\ntriste|triste|adj\ncontento|contente|adj\nenojado|bravo / irritado|adj\ntranquilo|tranquilo|adj\nnervioso|nervoso|adj\ncansado|cansado|adj\nenfermo|doente|adj\nsano|saudável|adj\nguapo|bonito (pessoa)|adj\nbonito|bonito|adj\nfeo|feio|adj\namable|gentil|adj\nsimpático|simpático|adj\nserio|sério|adj\nlisto|pronto / esperto|adj\ntonto|bobo|adj\njusto|justo|adj\ncierto|certo / verdadeiro|adj\nfalso|falso|adj\nverdadero|verdadeiro|adj\ndistinto|distinto / diferente|adj\ndiferente|diferente|adj\nigual|igual|adj\nparecido|parecido|adj\npropio|próprio|adj\najeno|alheio|adj\núnico|único|adj\nvarios|vários|adj\ndemás|demais / restantes|adj\nsiguiente|seguinte|adj\núltimo|último|adj\nprimero|primeiro|adj\nsegundo|segundo|adj\ntercero|terceiro|adj\ncuarto|quarto (cômodo) / quarto (1/4)|subst\nquinto|quinto|adj\nfinal|final|adj\nprincipal|principal|adj\npúblico|público|adj\nprivado|privado|adj\nsocial|social|adj\nnacional|nacional|adj\ninternacional|internacional|adj\nlocal|local|adj\nmundial|mundial|adj\nactual|atual|adj\nantiguo|antigo|adj\nmoderno|moderno|adj\nnatural|natural|adj\nhumano|humano|adj\npersonal|pessoal|adj\nprofesional|profissional|adj\ntécnico|técnico|adj\nmédico|médico|adj\nlegal|legal (jurídico)|adj\npolítico|político|adj\neconómico|econômico|adj\nfinanciero|financeiro|adj\ncomercial|comercial|adj\ndigital|digital|adj\ngratis|de graça|adj\ngratuito|gratuito|adj\ncabeza|cabeça|subst\ncara|rosto|subst\nojo|olho|subst\noreja|orelha|subst\noído|ouvido|subst\nnariz|nariz|subst\nboca|boca|subst\nlabio|lábio|subst\nlengua|língua (órgão e idioma)|subst\ndiente|dente|subst\nmuela|molar / dente do fundo|subst\nencía|gengiva|subst\nmandíbula|mandíbula|subst\ncuello|pescoço|subst\ngarganta|garganta|subst\nhombro|ombro|subst\nbrazo|braço|subst\nmano|mão|subst\ndedo|dedo|subst\nuña|unha|subst\npecho|peito|subst\nespalda|costas|subst\ncintura|cintura|subst\npierna|perna|subst\nrodilla|joelho|subst\npie|pé|subst\npiel|pele|subst\nhueso|osso|subst\nsangre|sangue|subst\ncorazón|coração|subst\ncerebro|cérebro|subst\nestómago|estômago|subst\ndolor|dor|subst\nsalud|saúde|subst\nenfermedad|doença|subst\nfiebre|febre|subst\nherida|ferida|subst\nmedicina|remédio / medicina|subst\nmedicamento|medicamento|subst\nreceta|receita|subst\nconsulta|consulta|subst\ncita|consulta marcada / encontro|subst\nturno|turno / horário marcado|subst\nhospital|hospital|subst\nclínica|clínica|subst\nconsultorio|consultório|subst\npaciente|paciente|subst\nenfermera|enfermeira|subst\ntratamiento|tratamento|subst\ncirugía|cirurgia|subst\nanestesia|anestesia|subst\nradiografía|radiografia|subst\nlimpieza|limpeza|subst\ncaries|cárie|subst\ndentista|dentista|subst\nodontólogo|odontólogo|subst\nortodoncia|ortodontia|subst\nimplante|implante|subst\ncorona|coroa|subst\nprótesis|prótese|subst\nbrackets|aparelho fixo|subst\ncomida|comida|subst\ndesayuno|café da manhã|subst\nalmuerzo|almoço|subst\ncena|jantar|subst\npan|pão|subst\nqueso|queijo|subst\ncarne|carne|subst\npollo|frango|subst\npescado|peixe|subst\nhuevo|ovo|subst\narroz|arroz|subst\nfrijol|feijão|subst\nverdura|verdura|subst\nfruta|fruta|subst\nmanzana|maçã|subst\nnaranja|laranja (fruta e cor)|subst\nplátano|banana|subst\nfresa|morango|subst\nensalada|salada|subst\nsopa|sopa|subst\npostre|sobremesa|subst\nazúcar|açúcar|subst\nsal|sal|subst\naceite|óleo / azeite|subst\nleche|leite|subst\ncafé|café|subst\nté|chá|subst\njugo|suco|subst\nzumo|suco (Espanha)|subst\nvino|vinho|subst\ncerveza|cerveja|subst\nhielo|gelo|subst\nplato|prato|subst\nvaso|copo|subst\ntaza|xícara|subst\ncuchara|colher|subst\ntenedor|garfo|subst\ncuchillo|faca|subst\nservilleta|guardanapo|subst\nmesa|mesa|subst\nsilla|cadeira|subst\ncama|cama|subst\npuerta|porta|subst\nventana|janela|subst\npared|parede|subst\ntecho|teto|subst\nsuelo|chão|subst\npiso|andar / apartamento|subst\nllave|chave|subst\nluz|luz|subst\nbaño|banheiro|subst\ncocina|cozinha|subst\nsala|sala|subst\nhabitación|quarto (hotel)|subst\nedificio|prédio|subst\napartamento|apartamento|subst\ndepartamento|apartamento (LatAm)|subst\nascensor|elevador|subst\nescalera|escada|subst\njardín|jardim|subst\nropa|roupa|subst\ncamisa|camisa|subst\npantalón|calça|subst\nfalda|saia|subst\nvestido|vestido|subst\nzapato|sapato|subst\nbolso|bolsa|subst\nbolsillo|bolso|subst\nsombrero|chapéu|subst\ngafas|óculos|subst\nreloj|relógio|subst\nmaleta|mala|subst\nequipaje|bagagem|subst\nmochila|mochila|subst\nbillete|passagem / cédula|subst\nboleto|passagem / ingresso|subst\npasaporte|passaporte|subst\nvisado|visto|subst\naeropuerto|aeroporto|subst\navión|avião|subst\nvuelo|voo|subst\ntren|trem|subst\nestación|estação|subst\nautobús|ônibus|subst\ncoche|carro|subst\ncarro|carro|subst\ntaxi|táxi|subst\nbarco|barco|subst\npuerto|porto|subst\nviaje|viagem|subst\nhotel|hotel|subst\nreserva|reserva|subst\nrecepción|recepção|subst\nllegada|chegada|subst\nsalida|saída / partida|subst\nretraso|atraso|subst\ndemora|demora|subst\nasiento|assento|subst\nventanilla|guichê / janela (avião)|subst\npasillo|corredor|subst\naduana|alfândega|subst\nseguro de viaje|seguro viagem|subst\nmapa|mapa|subst\nesquina|esquina|subst\nplaza|praça|subst\navenida|avenida|subst\nparada|ponto (de ônibus)|subst\ntienda|loja|subst\nsupermercado|supermercado|subst\nfarmacia|farmácia|subst\nbanco|banco|subst\ntarjeta|cartão|subst\nefectivo|dinheiro em espécie|subst\nmoneda|moeda|subst\npropina|gorjeta|subst\ndescuento|desconto|subst\noferta|oferta|subst\nrecibo|recibo|subst\ncuatro|quatro|num\ncinco|cinco|num\nseis|seis|num\nsiete|sete|num\nocho|oito|num\nnueve|nove|num\ndiez|dez|num\nonce|onze|num\ndoce|doze|num\ntrece|treze|num\ncatorce|catorze|num\nquince|quinze|num\nveinte|vinte|num\ntreinta|trinta|num\ncuarenta|quarenta|num\ncincuenta|cinquenta|num\nsesenta|sessenta|num\nsetenta|setenta|num\nochenta|oitenta|num\nnoventa|noventa|num\ncien|cem|num\nciento|cento|num\ndoscientos|duzentos|num\nquinientos|quinhentos|num\nmil|mil|num\nmillón|milhão|num\nmedio|meio|num\nmitad|metade|num\ndoble|dobro|num\nlunes|segunda-feira|subst\nmartes|terça-feira|subst\nmiércoles|quarta-feira|subst\njueves|quinta-feira|subst\nviernes|sexta-feira|subst\nsábado|sábado|subst\ndomingo|domingo|subst\nenero|janeiro|subst\nfebrero|fevereiro|subst\nmarzo|março|subst\nabril|abril|subst\nmayo|maio|subst\njunio|junho|subst\njulio|julho|subst\nagosto|agosto|subst\nseptiembre|setembro|subst\noctubre|outubro|subst\nnoviembre|novembro|subst\ndiciembre|dezembro|subst\nprimavera|primavera|subst\nverano|verão|subst\notoño|outono|subst\ninvierno|inverno|subst\nfecha|data|subst\ncumpleaños|aniversário|subst\nfiesta|festa|subst\nvacaciones|férias|subst\nferiado|feriado|subst\nfinde|fim de semana (coloq.)|subst\nfin de semana|fim de semana|subst\nblanco|branco|adj\nnegro|preto|adj\nrojo|vermelho|adj\nazul|azul|adj\nverde|verde|adj\namarillo|amarelo|adj\ngris|cinza|adj\nmarrón|marrom|adj\nrosa|rosa|adj\nmorado|roxo|adj\ncolor|cor|subst\nquién|quem|pron\ncuál|qual|pron\ncuánto|quanto|pron\ncuándo|quando|adv\ndónde|onde|adv\ncómo|como|adv\npor qué|por quê|adv\npara qué|para quê|adv\nadónde|para onde|adv\nalguien|alguém|pron\nnadie|ninguém|pron\nalguno|algum|pron\nninguno|nenhum|pron\ncualquiera|qualquer|pron\nambos|ambos|pron\nsuficiente|suficiente|adj\nnosotros|nós|pron\nvosotros|vós (Espanha)|pron\nustedes|vocês|pron\nellos|eles|pron\nellas|elas|pron\nusted|você (formal)|pron\ntú|tu / você|pron\nmío|meu|pron\ntuyo|teu|pron\nsuyo|seu / dele|pron\nnuestro|nosso|pron\naquí|aqui|adv\nahí|aí|adv\nallí|ali|adv\nallá|lá|adv\nacá|cá|adv\narriba|em cima|adv\nabajo|embaixo|adv\nadelante|adiante|adv\natrás|atrás|adv\ndetrás|atrás de|prep\ndelante|na frente|prep\nenfrente|em frente|adv\ncerca|perto|adv\nlejos|longe|adv\ndentro|dentro|adv\nfuera|fora|adv\nalrededor|ao redor|adv\njunto|junto|adv\nencima|em cima de|prep\ndebajo|embaixo de|prep\nhacia|em direção a|prep\nmediante|mediante|prep\nsalvo|exceto|prep\nexcepto|exceto|prep\nrespecto a|a respeito de|prep\na través de|através de|prep\npalabra|palavra|subst\nfrase|frase|subst\nidioma|idioma|subst\nlibro|livro|subst\npágina|página|subst\ncarta|carta|subst\ncorreo|e-mail / correio|subst\nmensaje|mensagem|subst\nllamada|ligação|subst\nteléfono|telefone|subst\nmóvil|celular (Espanha)|subst\ncelular|celular|subst\nordenador|computador (Espanha)|subst\ncomputadora|computador|subst\npantalla|tela|subst\narchivo|arquivo|subst\ncarpeta|pasta|subst\nred|rede|subst\nsitio web|site|subst\nenlace|link|subst\ncontraseña|senha|subst\nusuario|usuário|subst\nnoticia|notícia|subst\nperiódico|jornal|subst\nrevista|revista|subst\ntelevisión|televisão|subst\npelícula|filme|subst\nmúsica|música|subst\ncanción|canção|subst\njuego|jogo|subst\ndeporte|esporte|subst\npartido|partida / partido|subst\nescuela|escola|subst\ncolegio|colégio|subst\nuniversidad|universidade|subst\ncurso|curso|subst\nclase|aula / classe|subst\nalumno|aluno|subst\nmaestro|professor / mestre|subst\nprofesor|professor|subst\nexamen|prova / exame|subst\nnota|nota|subst\ntítulo|título / diploma|subst\ncarrera|carreira / curso superior|subst\nbeca|bolsa de estudos|subst\ninvestigación|pesquisa|subst\nestudio|estudo|subst\nprueba|teste / prova|subst\nerror|erro|subst\nfallo|falha|subst\nduda|dúvida|subst\npregunta|pergunta|subst\nrespuesta|resposta|subst\nidea|ideia|subst\nopinión|opinião|subst\nconsejo|conselho|subst\nayuda|ajuda|subst\napoyo|apoio|subst\nesfuerzo|esforço|subst\ncostumbre|costume|subst\nhábito|hábito|subst\nrutina|rotina|subst\nhorario|horário|subst\nagenda|agenda|subst\ntarea|tarefa|subst\nderecho|direito|subst\nley|lei|subst\nnorma|norma|subst\nregla|regra|subst\norden|ordem|subst\npermiso|permissão|subst\ncuidado|cuidado|subst\npeligro|perigo|subst\nmiedo|medo|subst\nsuerte|sorte|subst\néxito|sucesso|subst\nfracaso|fracasso|subst\nesperanza|esperança|subst\nsueño|sonho / sono|subst\ndeseo|desejo|subst\ngusto|gosto / prazer|subst\nsabor|sabor|subst\nolor|cheiro|subst\nruido|barulho|subst\nsilencio|silêncio|subst\nsonrisa|sorriso|subst\nmirada|olhar|subst\nvoz|voz|subst\npaso|passo|subst\nmanera|maneira|subst\nmodo|modo|subst\nsentido|sentido|subst\nvalor|valor / coragem|subst\ncalidad|qualidade|subst\ncantidad|quantidade|subst\ntamaño|tamanho|subst\npeso|peso|subst\nmedida|medida|subst\ntemperatura|temperatura|subst\nespacio|espaço|subst\nmaterial|material|subst\nherramienta|ferramenta|subst\nmáquina|máquina|subst\naparato|aparelho|subst\nsistema|sistema|subst\nproceso|processo|subst\nmétodo|método|subst\nplan|plano|subst\nprograma|programa|subst\nactividad|atividade|subst\nacción|ação|subst\nhecho|fato|subst\nsuceso|acontecimento|subst\nsituación|situação|subst\ncondición|condição|subst\nestado de ánimo|estado de espírito|subst\nrelación|relação|subst\ndiferencia|diferença|subst\ncomparación|comparação|subst\naumento|aumento|subst\ncrecimiento|crescimento|subst\ndisminución|diminuição|subst\nmejora|melhora|subst\ndesarrollo|desenvolvimento|subst\navance|avanço|subst\nhistoria|história|subst\nmemoria|memória|subst\nrecuerdo|lembrança|subst\nfuturo|futuro|subst\npasado|passado|subst\npresente|presente|subst\nprincipio|princípio / começo|subst\ncomienzo|começo|subst\nfin|fim|subst\nresto|resto|subst\ntotal|total|subst\nconjunto|conjunto|subst\nserie|série|subst\nlista|lista|subst\ndetalle|detalhe|subst\nresumen|resumo|subst\ntema|tema|subst\nasunto|assunto|subst\ncuestión|questão|subst\naspecto|aspecto|subst\nobjetivo|objetivo|subst\npropósito|propósito|subst\ninterés|interesse|subst\nbeneficio|benefício|subst\ncoste|custo (Espanha)|subst\ncosto|custo|subst\ngasto|gasto|subst\nahorro|economia (poupança)|subst\ninversión|investimento|subst\ningreso|receita / entrada|subst\nganancia|lucro|subst\npérdida|perda / prejuízo|subst\ndeuda|dívida|subst\npréstamo|empréstimo|subst\nimpuesto|imposto|subst\npresupuesto|orçamento|subst\nventa|venda|subst\ncompra|compra|subst\nentrega|entrega|subst\nenvío|envio|subst\npedido|pedido|subst\nalmacén|depósito / armazém|subst\nexistencias|estoque|subst\nproveedor|fornecedor|subst\ncompetencia|concorrência / competência|subst\nmarca|marca|subst\npublicidad|publicidade|subst\ncampaña|campanha|subst\nencuesta|pesquisa (de opinião)|subst\nfirma|assinatura / firma|subst\nsede|sede|subst\nsucursal|filial|subst\nempleado|funcionário|subst\nempleo|emprego|subst\npuesto|cargo|subst\ncargo|cargo / cobrança|subst\nentrevista|entrevista|subst\ncurrículum|currículo|subst\ndespido|demissão|subst\njubilación|aposentadoria|subst\nsindicato|sindicato|subst\nhuelga|greve|subst\nenseguida|em seguida|adv\nde repente|de repente|adv\na menudo|com frequência|adv\na veces|às vezes|adv\nen cuanto|assim que|conj\npor lo tanto|portanto|conj\nsin embargo|no entanto|conj\npor supuesto|claro que sim|adv\nde hecho|de fato|adv\nen realidad|na verdade|adv\na lo mejor|talvez|adv\nojalá|tomara que|interj\n","falsos":"embarazada|embaraçada|grávida|\"embaraçada\" = avergonzada / incómoda|Mi asistente está embarazada de seis meses.|Minha auxiliar está grávida de seis meses.|geral\nmolestia|moléstia (doença)|incômodo, desconforto|\"moléstia\" = enfermedad / dolencia|¿Siente alguna molestia al morder?|Sente algum incômodo ao morder?|odonto\nconstipado|constipado (intestino)|resfriado, gripado|\"constipação intestinal\" = estreñimiento|Hoy vengo constipado, disculpe la voz.|Hoje vim resfriado, desculpe a voz.|odonto\nexquisito|esquisito|delicioso, refinado|\"esquisito\" = raro / extraño|El almuerzo estuvo exquisito.|O almoço estava delicioso.|geral\nlargo|largo|comprido, longo|\"largo\" = ancho|El tratamiento es largo pero seguro.|O tratamento é longo, mas seguro.|geral\nvaso|vaso|copo|\"vaso de flores\" = florero / maceta|¿Me trae un vaso de agua, por favor?|Pode me trazer um copo de água?|viajes\ntaza|taça|xícara|\"taça\" = copa|Tomo una taza de café antes de operar.|Tomo uma xícara de café antes de operar.|rutina\ncopa|copa|taça|\"copa (torneio)\" = copa também|Brindamos con una copa de vino.|Brindamos com uma taça de vinho.|viajes\nborracha|borracha|bêbada|\"borracha\" = goma de borrar|No estaba borracha, estaba mareada.|Ela não estava bêbada, estava tonta.|geral\npolvo|polvo|pó|\"polvo\" = pulpo|Hay polvo en el equipo de rayos X.|Há pó no aparelho de raio-X.|odonto\ncena|cena|jantar|\"cena\" = escena|La cena es a las nueve en España.|O jantar é às nove na Espanha.|viajes\nrato|rato|momento, tempinho|\"rato\" = ratón|Espere un rato en la sala.|Espere um pouco na sala.|rutina\noficina|oficina|escritório|\"oficina mecânica\" = taller|La oficina del gerente está arriba.|O escritório do gerente fica em cima.|negocios\ntaller|talher|oficina, workshop|\"talher\" = cubiertos|Voy a un taller de implantes el sábado.|Vou a um workshop de implantes no sábado.|negocios\napellido|apelido|sobrenome|\"apelido\" = apodo / sobrenombre|¿Cuál es su apellido completo?|Qual é o seu sobrenome completo?|rutina\nsalsa|salsa (a erva)|molho|\"salsinha\" = perejil|La salsa de tomate está muy salada.|O molho de tomate está muito salgado.|viajes\nbrincar|brincar|pular, saltar|\"brincar\" = jugar|Los niños brincan en la sala de espera.|As crianças pulam na sala de espera.|rutina\ncachorro|cachorro|filhote|\"cachorro adulto\" = perro|Tengo un perro y un cachorro en casa.|Tenho um cachorro e um filhote em casa.|rutina\ncarpeta|carpete|pasta (de documentos)|\"carpete\" = moqueta / alfombra|Guarde la radiografía en la carpeta del paciente.|Guarde a radiografia na pasta do paciente.|negocios\ncola|cola|fila, rabo|\"cola (adesivo)\" = pegamento|Hay mucha cola en la recepción.|Tem muita fila na recepção.|rutina\nescoba|escova|vassoura|\"escova\" = cepillo|La escoba está detrás de la puerta.|A vassoura está atrás da porta.|rutina\ncepillo|—|escova|escova de dentes = cepillo de dientes|Use el cepillo de dientes dos veces al día.|Use a escova de dentes duas vezes ao dia.|odonto\ndespido|despido (nu)|demissão|\"despido/nu\" = desnudo|El despido fue una sorpresa para el equipo.|A demissão foi uma surpresa para a equipe.|negocios\ndoce|doce|doze|\"doce (sabor)\" = dulce|Tengo doce pacientes hoy.|Tenho doze pacientes hoje.|rutina\nfecha|fecha (do verbo fechar)|data|\"fecha (verbo)\" = cierra|¿Qué fecha le queda mejor?|Que data fica melhor para você?|rutina\nfirma|firma|assinatura|\"firma (empresa)\" = empresa também|Necesito su firma en el consentimiento.|Preciso da sua assinatura no consentimento.|negocios\nflaco|fraco|magro|\"fraco\" = débil / flojo|Está muy flaco desde la cirugía.|Ele está bem magro desde a cirurgia.|geral\ngrasa|graça|gordura|\"graça\" = gracia|Hay grasa acumulada en el motor.|Há gordura acumulada no motor.|geral\ngracioso|gracioso|engraçado|\"gracioso/elegante\" = elegante|Tu jefe es muy gracioso.|Seu chefe é muito engraçado.|geral\njubilado|jubilado|aposentado|\"aposentado\" mesmo|Mi padre está jubilado desde marzo.|Meu pai está aposentado desde março.|rutina\nlatir|latir (cachorro)|bater (coração)|\"latir (cão)\" = ladrar|El corazón late muy rápido por la ansiedad.|O coração bate muito rápido pela ansiedade.|odonto\noso|osso|urso|\"osso\" = hueso|El injerto de hueso cicatrizó bien.|O enxerto ósseo cicatrizou bem.|odonto\npalco|palco|camarote|\"palco\" = escenario|Vimos el show desde el palco.|Vimos o show do camarote.|viajes\npastel|pastel|bolo, torta|\"pastel (salgado)\" = empanada|Compré un pastel de cumpleaños.|Comprei um bolo de aniversário.|viajes\npegar|pegar|colar, bater|\"pegar/agarrar\" = coger / tomar|Voy a pegar el aviso en la pared.|Vou colar o aviso na parede.|rutina\npelo|pelo (preposição)|cabelo|\"pelo (preposição)\" = por el|Tiene el pelo muy largo.|Ele tem o cabelo bem comprido.|geral\npresunto|presunto|suposto, presumido|\"presunto (frios)\" = jamón|El presunto responsable ya declaró.|O suposto responsável já depôs.|negocios\npropina|propina (suborno)|gorjeta|\"suborno\" = soborno|Dejé una propina del diez por ciento.|Deixei dez por cento de gorjeta.|viajes\nquitar|quitar (pagar)|tirar, remover|\"quitar dívida\" = saldar / liquidar|Voy a quitar el exceso de material.|Vou remover o excesso de material.|odonto\nreto|reto|desafio|\"reto (linha)\" = recto|Aprender español en tres meses es un reto.|Aprender espanhol em três meses é um desafio.|geral\nrojo|roxo|vermelho|\"roxo\" = morado / lila|La encía está roja e inflamada.|A gengiva está vermelha e inflamada.|odonto\nrubio|ruivo|loiro|\"ruivo\" = pelirrojo|La recepcionista es rubia.|A recepcionista é loira.|geral\nseta|seta|cogumelo|\"seta\" = flecha|Pedí una pizza de setas.|Pedi uma pizza de cogumelos.|viajes\nsitio|sítio|lugar, local|\"sítio (chácara)\" = finca|No hay sitio en la agenda de hoy.|Não há lugar na agenda de hoje.|rutina\nsobremesa|sobremesa|conversa após a refeição|\"sobremesa (doce)\" = postre|La sobremesa duró más que el almuerzo.|A conversa pós-almoço durou mais que o almoço.|viajes\nsuceso|sucesso|acontecimento, fato|\"sucesso\" = éxito|El congreso fue un éxito, no un simple suceso.|O congresso foi um sucesso, não um simples acontecimento.|negocios\ntodavía|todavia|ainda|\"todavia\" = sin embargo|Todavía no llega el paciente.|O paciente ainda não chegou.|geral\naula|aula|sala de aula|\"aula\" = clase|La clase de hoy es en el aula tres.|A aula de hoje é na sala três.|rutina\nbalcón|balcão|sacada, varanda|\"balcão\" = mostrador|El hotel tiene habitaciones con balcón.|O hotel tem quartos com sacada.|viajes\ncalzada|calçada|pista, leito da rua|\"calçada\" = acera|No cruce por la calzada, use el paso de cebra.|Não atravesse pela pista, use a faixa.|viajes\ncana|cana|cabelo branco|\"cana (planta)\" = caña|Ya tengo muchas canas.|Já tenho muitos cabelos brancos.|geral\nprejuicio|prejuízo|preconceito|\"prejuízo\" = perjuicio / pérdida|Hay mucho prejuicio contra los dentistas.|Há muito preconceito contra os dentistas.|negocios\npronto|pronto|logo, em breve|\"pronto (preparado)\" = listo|El resultado llega pronto.|O resultado chega em breve.|rutina\nlisto|listo|pronto, esperto|\"lista (rol)\" = lista|¿Está listo para empezar?|Está pronto para começar?|rutina\nsino|sino|mas sim; destino|\"sino (igreja)\" = campana|No es caries, sino sensibilidad.|Não é cárie, mas sim sensibilidade.|odonto\ntapa|tapa|tampa; petisco|\"tapa (bofetada)\" = bofetada|Pedimos unas tapas antes de la cena.|Pedimos uns petiscos antes do jantar.|viajes\ntirar|tirar|jogar fora, puxar|\"tirar/remover\" = sacar / quitar|No tire las agujas en la basura común.|Não jogue as agulhas no lixo comum.|odonto\nzurdo|—|canhoto|\"canhoto\" mesmo|Soy zurdo, uso instrumental adaptado.|Sou canhoto, uso instrumental adaptado.|odonto\nacordarse|acordar (do sono)|lembrar-se|\"acordar\" = despertarse|No me acuerdo del nombre del paciente.|Não lembro o nome do paciente.|rutina\nasignatura|assinatura|matéria, disciplina|\"assinatura\" = firma|La asignatura más difícil fue anatomía.|A matéria mais difícil foi anatomia.|rutina\nbasura|vassoura|lixo|\"vassoura\" = escoba|Saque la basura del consultorio.|Tire o lixo do consultório.|rutina\nbillón|bilhão|trilhão (10¹²)|\"bilhão\" = mil millones|El mercado mueve mil millones de dólares.|O mercado movimenta um bilhão de dólares.|negocios\ndirección|direção|endereço|\"direção (rumo)\" = sentido / rumbo|¿Me confirma su dirección, por favor?|Confirma seu endereço, por favor?|rutina\nexprimir|exprimir|espremer|\"exprimir (ideias)\" = expresar|Exprimo un limón en el agua.|Espremo um limão na água.|rutina\nladrillo|ladrilho|tijolo|\"ladrilho\" = azulejo / baldosa|La pared es de ladrillo visto.|A parede é de tijolo aparente.|geral\nlograr|lograr (enganar)|conseguir, alcançar|\"lograr/enganar\" = engañar|Logré atender a todos hoy.|Consegui atender todos hoje.|negocios\npipa|pipa|cachimbo; semente de girassol|\"pipa (papagaio)\" = cometa|Fuma en pipa desde joven.|Ele fuma cachimbo desde jovem.|geral\nbarata|barata (inseto)|barata (fem. de barato)|\"barata (inseto)\" = cucaracha|Esta clínica es más barata.|Esta clínica é mais barata.|negocios\ncrianza|criança|criação, educação|\"criança\" = niño / niña|La crianza de los hijos cambia todo.|A criação dos filhos muda tudo.|rutina\nescritorio|escritório|escrivaninha|\"escritório\" = oficina / despacho|Dejé el informe en el escritorio.|Deixei o relatório na escrivaninha.|negocios\nextrañar|estranhar|sentir falta de|\"estranhar\" = resultar raro|Extraño trabajar con ese material.|Sinto falta de trabalhar com esse material.|geral\nsalado|salada|salgado|\"salada\" = ensalada|El caldo está muy salado.|O caldo está muito salgado.|viajes\nmala|mala|má, ruim|\"mala\" = maleta|Fue una mala experiencia.|Foi uma experiência ruim.|viajes\nmaleta|maleta|mala de viagem|\"maleta médica\" = maletín|Mi maleta no llegó al aeropuerto.|Minha mala não chegou ao aeroporto.|viajes\nembarazo|embaraço|gravidez|\"embaraço\" = vergüenza / apuro|El embarazo cambia el plan de tratamiento.|A gravidez muda o plano de tratamento.|odonto\ncontestar|contestar (discordar)|responder|\"contestar/impugnar\" = impugnar|Contesté el correo del proveedor.|Respondi o e-mail do fornecedor.|negocios\ncompetencia|competência|concorrência|\"competência (habilidade)\" = competencia também|La competencia bajó los precios.|A concorrência baixou os preços.|negocios\nconcurrido|concorrido|movimentado, cheio|\"concorrido (disputado)\" = disputado|El congreso estuvo muy concurrido.|O congresso estava bem cheio.|negocios\noficio|ofício (documento)|profissão, ofício|\"ofício (carta)\" = oficio também|La odontología es un oficio de precisión.|A odontologia é um ofício de precisão.|odonto\nraro|raro|estranho|\"raro (incomum)\" = poco común|Es raro que sangre tanto.|É estranho que sangre tanto.|odonto\npelado|pelado (nu)|careca; descascado|\"pelado/nu\" = desnudo|Quedó pelado después del tratamiento.|Ele ficou careca depois do tratamento.|geral\nsaco|saco|paletó; saco|\"saco (bolsa)\" = bolsa|Vino con saco y corbata a la reunión.|Veio de paletó e gravata à reunião.|negocios\ncrema|creme|creme; nata|creme dental = pasta de dientes / crema dental|Use crema dental con flúor.|Use creme dental com flúor.|odonto\nenjuague|enxágue|enxaguante bucal|—|Use enjuague bucal sin alcohol.|Use enxaguante bucal sem álcool.|odonto\nsarro|sarro|tártaro|\"tártaro\" = sarro / cálculo|Vamos a retirar el sarro con ultrasonido.|Vamos remover o tártaro com ultrassom.|odonto\nempaste|empastar|restauração, obturação|\"restauração\" = empaste / obturación|El empaste se cayó al comer.|A restauração caiu ao comer.|odonto\ncarilla|—|faceta|\"faceta\" = carilla / carilla de porcelana|Las carillas mejoran la sonrisa.|As facetas melhoram o sorriso.|odonto\nfunda|funda|coroa; capa|\"coroa\" = funda / corona|Le colocamos una funda de porcelana.|Colocamos uma coroa de porcelana.|odonto\nbrackets|braquetes|aparelho fixo|\"aparelho\" = brackets / frenos / frenillos|Los brackets se ajustan cada mes.|O aparelho é ajustado todo mês.|odonto\nmuela del juicio|—|dente do siso|\"siso\" = muela del juicio / cordal|Hay que extraer la muela del juicio.|É preciso extrair o siso.|odonto\npresupuesto|pressuposto|orçamento|\"pressuposto\" = supuesto / premisa|Le envío el presupuesto por correo.|Envio o orçamento por e-mail.|negocios\nplazo|prazo|prazo|\"a prazo\" = a plazos (parcelado)|Puede pagar a plazos sin intereses.|Pode pagar parcelado sem juros.|negocios\nfactura|fatura|nota fiscal|\"fatura do cartão\" = estado de cuenta|¿Necesita factura con datos fiscales?|Precisa de nota fiscal com dados fiscais?|negocios\ntarjeta|tarjeta|cartão|\"cartão de visita\" = tarjeta de visita|¿Paga con tarjeta o en efectivo?|Paga no cartão ou em dinheiro?|viajes\nefectivo|efetivo|dinheiro em espécie|\"efetivo (funcionário)\" = de planta / fijo|Solo aceptamos efectivo hasta las seis.|Só aceitamos dinheiro em espécie até as seis.|viajes\ncita|citação|consulta marcada, compromisso|\"citação\" = cita também|Tengo una cita a las tres.|Tenho uma consulta marcada às três.|odonto\nturno|turno|horário marcado (LatAm)|\"turno (plantão)\" = guardia|Pedí turno para el martes.|Marquei horário para terça.|odonto\nreceta|receita (culinária)|receita médica; receita culinária|\"receita/faturamento\" = ingresos|Le hago una receta de antibiótico.|Faço uma receita de antibiótico.|odonto\ningresos|ingressos|receitas, faturamento|\"ingresso (bilhete)\" = entrada / boleto|Los ingresos de la clínica crecieron.|A receita da clínica cresceu.|negocios\nentrada|entrada|entrada; ingresso|\"entrada (de comida)\" = entrante|Compré dos entradas para el teatro.|Comprei dois ingressos para o teatro.|viajes\napurar|apurar|apressar, esgotar|\"apurar (verificar)\" = averiguar|No me apures, falta pulir.|Não me apresse, falta polir.|odonto\nesposas|esposas|algemas; esposas|\"algemas\" = esposas|La policía le puso las esposas.|A polícia colocou as algemas nele.|geral\nembargo|embargo|embargo; sin embargo = no entanto|—|Sin embargo, el caso mejoró.|No entanto, o caso melhorou.|geral\nmanteca|manteiga|banha; manteiga (LatAm)|\"manteiga (Espanha)\" = mantequilla|Prefiero pan con mantequilla.|Prefiro pão com manteiga.|viajes\npadre|padre|pai|\"padre (sacerdote)\" = cura / sacerdote|Mi padre también es dentista.|Meu pai também é dentista.|rutina\nvaso sanguíneo|—|vaso sanguíneo|—|Cuidado con el vaso sanguíneo al anestesiar.|Cuidado com o vaso sanguíneo ao anestesiar.|odonto\npaladar|paladar|palato; paladar|\"paladar (gosto)\" = paladar também|El paladar duro está inflamado.|O palato duro está inflamado.|odonto\nseguro|seguro|seguro; certamente|\"seguro-saúde\" = seguro médico|Seguro que el seguro cubre la limpieza.|Com certeza o plano cobre a limpeza.|odonto\nsalir|sair|sair; dar certo|\"salir caro\" = sair caro|Todo salió bien en la cirugía.|Tudo deu certo na cirurgia.|odonto\ncoger|coçar|pegar (Espanha; vulgar na LatAm)|na LatAm use \"tomar\" ou \"agarrar\"|En México se dice \"tomar el taxi\", no \"coger\".|No México se diz \"tomar o táxi\", não \"coger\".|viajes\nratón|ratão|rato; mouse|\"mouse\" = ratón|El ratón del ordenador no funciona.|O mouse do computador não funciona.|negocios\n","tematico":"diente|dente|odonto|anatomía|El diente veintiuno presenta una fractura.|O dente vinte e um apresenta uma fratura.\nmuela|molar, dente do fundo|odonto|anatomía|Me duele la muela de abajo a la derecha.|Dói o molar de baixo do lado direito.\nincisivo|incisivo|odonto|anatomía|Los incisivos superiores están desgastados.|Os incisivos superiores estão desgastados.\ncanino|canino|odonto|anatomía|El canino está retenido en el hueso.|O canino está retido no osso.\npremolar|pré-molar|odonto|anatomía|Vamos a restaurar el primer premolar.|Vamos restaurar o primeiro pré-molar.\nmolar|molar|odonto|anatomía|El molar tiene tres raíces.|O molar tem três raízes.\ncordal|siso|odonto|anatomía|La cordal está incluida.|O siso está incluso.\nesmalte|esmalte|odonto|anatomía|El esmalte se desmineraliza con el ácido.|O esmalte se desmineraliza com o ácido.\ndentina|dentina|odonto|anatomía|La dentina expuesta causa sensibilidad.|A dentina exposta causa sensibilidade.\npulpa|polpa|odonto|anatomía|La pulpa está inflamada.|A polpa está inflamada.\nraíz|raiz|odonto|anatomía|La raíz está fracturada en el tercio medio.|A raiz está fraturada no terço médio.\ncorona clínica|coroa clínica|odonto|anatomía|La corona clínica es muy corta.|A coroa clínica é muito curta.\ncúspide|cúspide|odonto|anatomía|Se fracturó la cúspide vestibular.|Fraturou a cúspide vestibular.\nencía|gengiva|odonto|anatomía|La encía sangra al cepillarse.|A gengiva sangra ao escovar.\nmucosa|mucosa|odonto|anatomía|La mucosa está irritada por la prótesis.|A mucosa está irritada pela prótese.\npaladar|palato|odonto|anatomía|El paladar blando duele al tragar.|O palato mole dói ao engolir.\nlengua|língua|odonto|anatomía|Saque la lengua, por favor.|Ponha a língua para fora, por favor.\nmandíbula|mandíbula|odonto|anatomía|La mandíbula se desvía al abrir.|A mandíbula desvia ao abrir.\nmaxilar|maxila|odonto|anatomía|El seno maxilar está neumatizado.|O seio maxilar está pneumatizado.\nhueso alveolar|osso alveolar|odonto|anatomía|Hay pérdida de hueso alveolar.|Há perda de osso alveolar.\narticulación temporomandibular|ATM|odonto|anatomía|La articulación temporomandibular chasquea.|A ATM estala.\nmordida|mordida, oclusão|odonto|diagnóstico|Tiene una mordida cruzada posterior.|Tem uma mordida cruzada posterior.\noclusión|oclusão|odonto|diagnóstico|La oclusión quedó alta tras la restauración.|A oclusão ficou alta após a restauração.\nsobremordida|sobremordida|odonto|diagnóstico|Presenta sobremordida profunda.|Apresenta sobremordida profunda.\napiñamiento|apinhamento|odonto|diagnóstico|Hay apiñamiento en el sector anteroinferior.|Há apinhamento na região ântero-inferior.\ndiastema|diastema|odonto|diagnóstico|Quiere cerrar el diastema central.|Ele quer fechar o diastema central.\ncaries|cárie|odonto|diagnóstico|Detecté caries interproximal en la radiografía.|Detectei cárie interproximal na radiografia.\nsensibilidad|sensibilidade|odonto|diagnóstico|¿Siente sensibilidad al frío?|Sente sensibilidade ao frio?\nabsceso|abscesso|odonto|diagnóstico|Hay un absceso periapical activo.|Há um abscesso periapical ativo.\nflemón|inchaço purulento, flegmão|odonto|diagnóstico|Llegó con un flemón en la mejilla.|Chegou com um inchaço purulento na bochecha.\ninflamación|inflamação|odonto|diagnóstico|La inflamación bajará en dos días.|A inflamação vai baixar em dois dias.\nhinchazón|inchaço|odonto|diagnóstico|Es normal algo de hinchazón el primer día.|É normal um pouco de inchaço no primeiro dia.\nsangrado|sangramento|odonto|diagnóstico|El sangrado debe parar en una hora.|O sangramento deve parar em uma hora.\ngingivitis|gengivite|odonto|diagnóstico|La gingivitis es reversible con higiene.|A gengivite é reversível com higiene.\nperiodontitis|periodontite|odonto|diagnóstico|La periodontitis avanzó al estadio tres.|A periodontite avançou para o estágio três.\nbolsa periodontal|bolsa periodontal|odonto|diagnóstico|Hay bolsas de cinco milímetros.|Há bolsas de cinco milímetros.\nretracción gingival|retração gengival|odonto|diagnóstico|La retracción gingival expone la raíz.|A retração gengival expõe a raiz.\nbruxismo|bruxismo|odonto|diagnóstico|El bruxismo desgastó los caninos.|O bruxismo desgastou os caninos.\ndesgaste|desgaste|odonto|diagnóstico|Hay desgaste severo en los molares.|Há desgaste severo nos molares.\nfractura|fratura|odonto|diagnóstico|La fractura llega hasta la furca.|A fratura chega até a furca.\nhalitosis|halitose|odonto|diagnóstico|La halitosis mejoró con la limpieza.|A halitose melhorou com a limpeza.\nmal aliento|mau hálito|odonto|diagnóstico|El mal aliento suele venir de la lengua.|O mau hálito costuma vir da língua.\nplaca bacteriana|placa bacteriana|odonto|diagnóstico|Hay placa bacteriana en el cuello del diente.|Há placa bacteriana no colo do dente.\nsarro|tártaro|odonto|diagnóstico|El sarro se acumula detrás de los incisivos.|O tártaro se acumula atrás dos incisivos.\nmanchas|manchas|odonto|diagnóstico|Las manchas son por el café y el tabaco.|As manchas são do café e do cigarro.\nlimpieza dental|limpeza, profilaxia|odonto|procedimientos|La limpieza dental dura media hora.|A limpeza dura meia hora.\nprofilaxis|profilaxia|odonto|procedimientos|Recomiendo profilaxis cada seis meses.|Recomendo profilaxia a cada seis meses.\nempaste|restauração, obturação|odonto|procedimientos|El empaste quedó bien adaptado.|A restauração ficou bem adaptada.\nobturación|obturação|odonto|procedimientos|La obturación es de resina compuesta.|A obturação é de resina composta.\nendodoncia|endodontia, tratamento de canal|odonto|procedimientos|Necesita endodoncia en el molar inferior.|Precisa de canal no molar inferior.\ntratamiento de conducto|tratamento de canal|odonto|procedimientos|El tratamiento de conducto lleva dos sesiones.|O tratamento de canal leva duas sessões.\nextracción|extração|odonto|procedimientos|La extracción será con anestesia local.|A extração será com anestesia local.\nexodoncia|exodontia|odonto|procedimientos|La exodoncia del cordal fue simple.|A exodontia do siso foi simples.\nblanqueamiento|clareamento|odonto|procedimientos|El blanqueamiento aclara tres tonos.|O clareamento clareia três tons.\ncarilla|faceta|odonto|procedimientos|Las carillas se cementan la próxima semana.|As facetas serão cimentadas semana que vem.\nfunda|coroa|odonto|procedimientos|La funda de zirconio queda muy natural.|A coroa de zircônia fica bem natural.\ncorona|coroa|odonto|procedimientos|Vamos a tallar el diente para la corona.|Vamos preparar o dente para a coroa.\npuente|ponte|odonto|procedimientos|El puente sustituye tres dientes.|A ponte substitui três dentes.\nimplante|implante|odonto|procedimientos|El implante se integra en tres meses.|O implante osseointegra em três meses.\ninjerto óseo|enxerto ósseo|odonto|procedimientos|Hará falta un injerto óseo previo.|Será necessário um enxerto ósseo prévio.\nelevación de seno|levantamento de seio|odonto|procedimientos|La elevación de seno se hace por ventana lateral.|O levantamento de seio é feito por janela lateral.\nsutura|sutura|odonto|procedimientos|Retiramos la sutura en siete días.|Removemos a sutura em sete dias.\npunto|ponto (sutura)|odonto|procedimientos|Le puse tres puntos.|Coloquei três pontos.\nférula|placa, splint|odonto|procedimientos|Use la férula de descarga por la noche.|Use a placa de mordida à noite.\nalineador|alinhador|odonto|ortodoncia|Los alineadores se cambian cada diez días.|Os alinhadores são trocados a cada dez dias.\nbrackets|aparelho fixo, braquetes|odonto|ortodoncia|Los brackets son de zafiro.|Os braquetes são de safira.\nfrenos|aparelho (LatAm)|odonto|ortodoncia|Mi hija quiere frenos de colores.|Minha filha quer aparelho colorido.\narco|arco|odonto|ortodoncia|Hoy cambiamos el arco a uno más grueso.|Hoje trocamos o arco por um mais grosso.\nligadura|amarrilho, ligadura|odonto|ortodoncia|Se soltó una ligadura.|Soltou um amarrilho.\nretenedor|contenção|odonto|ortodoncia|Use el retenedor todas las noches.|Use a contenção todas as noites.\naparato removible|aparelho removível|odonto|ortodoncia|El aparato removible se quita para comer.|O aparelho removível se tira para comer.\nexpansor|expansor|odonto|ortodoncia|Active el expansor una vez al día.|Ative o expansor uma vez ao dia.\nelástico|elástico|odonto|ortodoncia|Los elásticos se usan veinte horas al día.|Os elásticos são usados vinte horas por dia.\nmini implante|mini-implante|odonto|ortodoncia|Colocamos un mini implante como anclaje.|Colocamos um mini-implante como ancoragem.\nanclaje|ancoragem|odonto|ortodoncia|Necesitamos anclaje absoluto en este caso.|Precisamos de ancoragem absoluta neste caso.\ncefalometría|cefalometria|odonto|ortodoncia|La cefalometría muestra clase dos esquelética.|A cefalometria mostra classe II esquelética.\nprótesis|prótese|odonto|prótesis|La prótesis completa necesita rebase.|A prótese total precisa de reembasamento.\ndentadura postiza|dentadura|odonto|prótesis|La dentadura postiza se afloja al hablar.|A dentadura se solta ao falar.\nprótesis removible|prótese removível|odonto|prótesis|La prótesis removible tiene ganchos.|A prótese removível tem grampos.\nsobredentadura|overdenture|odonto|prótesis|La sobredentadura va sobre dos implantes.|A overdenture vai sobre dois implantes.\nmuñón|núcleo, remanescente|odonto|prótesis|El muñón quedó muy corto.|O remanescente ficou muito curto.\nprovisional|provisório|odonto|prótesis|Le coloco un provisional hasta la próxima cita.|Coloco um provisório até a próxima consulta.\ncementar|cimentar|odonto|prótesis|Vamos a cementar la corona definitiva.|Vamos cimentar a coroa definitiva.\nimpresión|moldagem|odonto|prótesis|Tomamos una impresión con silicona.|Fazemos uma moldagem com silicone.\nescaneado intraoral|escaneamento intraoral|odonto|prótesis|El escaneado intraoral evita la cubeta.|O escaneamento intraoral evita a moldeira.\ncubeta|moldeira|odonto|prótesis|Elija una cubeta del tamaño correcto.|Escolha uma moldeira do tamanho certo.\nmodelo de yeso|modelo de gesso|odonto|prótesis|El modelo de yeso está en el laboratorio.|O modelo de gesso está no laboratório.\nlaboratorio dental|laboratório dental|odonto|prótesis|El laboratorio dental entrega el viernes.|O laboratório entrega na sexta.\ncolor|cor (escala)|odonto|prótesis|Tomamos el color con luz natural.|Tiramos a cor com luz natural.\nanestesia local|anestesia local|odonto|materiales|La anestesia local dura dos horas.|A anestesia local dura duas horas.\nanestésico|anestésico|odonto|materiales|Uso anestésico con vasoconstrictor.|Uso anestésico com vasoconstritor.\naguja|agulha|odonto|materiales|Cambio la aguja en cada paciente.|Troco a agulha a cada paciente.\njeringa|seringa|odonto|materiales|Cargue la jeringa con un carpule.|Carregue a seringa com um tubete.\nresina compuesta|resina composta|odonto|materiales|La resina compuesta se fotopolimeriza.|A resina composta é fotopolimerizada.\ncomposite|compósito|odonto|materiales|Uso composite de nanopartículas.|Uso compósito nanoparticulado.\namalgama|amálgama|odonto|materiales|Ya casi no usamos amalgama.|Já quase não usamos amálgama.\nadhesivo|adesivo|odonto|materiales|Aplique el adhesivo y sople suavemente.|Aplique o adesivo e sopre suavemente.\nácido grabador|ácido condicionador|odonto|materiales|El ácido grabador actúa quince segundos.|O ácido condicionador age quinze segundos.\nflúor|flúor|odonto|materiales|Aplicamos flúor barniz al final.|Aplicamos verniz de flúor no final.\nsellador|selante|odonto|materiales|El sellador protege las fosas y fisuras.|O selante protege fóssulas e fissuras.\ncemento|cimento|odonto|materiales|El cemento de ionómero libera flúor.|O cimento de ionômero libera flúor.\nzirconio|zircônia|odonto|materiales|El zirconio es muy resistente.|A zircônia é bem resistente.\nporcelana|porcelana|odonto|materiales|La porcelana refleja mejor la luz.|A porcelana reflete melhor a luz.\nguantes|luvas|odonto|materiales|Póngase guantes nuevos, por favor.|Coloque luvas novas, por favor.\nmascarilla|máscara|odonto|materiales|La mascarilla es obligatoria en el box.|A máscara é obrigatória no consultório.\nbabero|babador|odonto|materiales|Le pongo el babero antes de empezar.|Vou colocar o babador antes de começar.\ngasa|gaze|odonto|materiales|Muerda la gasa durante treinta minutos.|Morda a gaze por trinta minutos.\nalgodón|algodão|odonto|materiales|Coloque un rollo de algodón vestibular.|Coloque um rolete de algodão vestibular.\ndique de goma|isolamento absoluto|odonto|materiales|Trabajo siempre con dique de goma.|Trabalho sempre com isolamento absoluto.\nturbina|caneta de alta rotação|odonto|instrumental|La turbina necesita mantenimiento.|A alta rotação precisa de manutenção.\nmicromotor|micromotor|odonto|instrumental|Use el micromotor a baja velocidad.|Use o micromotor em baixa rotação.\nfresa|broca|odonto|instrumental|Cambie la fresa, ya está gastada.|Troque a broca, já está gasta.\npieza de mano|peça de mão|odonto|instrumental|Esterilice la pieza de mano después de cada uso.|Esterilize a peça de mão após cada uso.\nsonda|sonda exploradora|odonto|instrumental|Con la sonda detecto la lesión.|Com a sonda detecto a lesão.\nespejo|espelho clínico|odonto|instrumental|El espejo se empaña con el vapor.|O espelho embaça com o vapor.\npinza|pinça|odonto|instrumental|Páseme la pinza, por favor.|Me passe a pinça, por favor.\nfórceps|fórceps|odonto|instrumental|Este fórceps es para molares inferiores.|Este fórceps é para molares inferiores.\nelevador|alavanca|odonto|instrumental|Use el elevador antes del fórceps.|Use a alavanca antes do fórceps.\nultrasonido|ultrassom|odonto|instrumental|El ultrasonido retira el cálculo rápido.|O ultrassom remove o cálculo rápido.\nlámpara de fotocurado|fotopolimerizador|odonto|instrumental|La lámpara de fotocurado perdió potencia.|O fotopolimerizador perdeu potência.\nsillón dental|cadeira odontológica|odonto|instrumental|El sillón dental está en reparación.|A cadeira odontológica está em conserto.\nautoclave|autoclave|odonto|instrumental|El ciclo del autoclave tarda cuarenta minutos.|O ciclo da autoclave leva quarenta minutos.\nesterilización|esterilização|odonto|instrumental|La esterilización sigue un protocolo estricto.|A esterilização segue um protocolo rígido.\nradiografía periapical|radiografia periapical|odonto|imagen|Necesito una periapical del cuarto seis.|Preciso de uma periapical do dente 46.\npanorámica|panorâmica|odonto|imagen|La panorámica muestra los cordales.|A panorâmica mostra os sisos.\naleta de mordida|bitewing|odonto|imagen|Las aletas de mordida detectan caries ocultas.|As bitewings detectam cáries ocultas.\ntomografía|tomografia|odonto|imagen|La tomografía confirma el volumen óseo.|A tomografia confirma o volume ósseo.\nescáner|escâner|odonto|imagen|El escáner sustituye la impresión.|O escâner substitui a moldagem.\ncepillado|escovação|odonto|prevención|El cepillado debe durar dos minutos.|A escovação deve durar dois minutos.\nhilo dental|fio dental|odonto|prevención|Use hilo dental antes de dormir.|Use fio dental antes de dormir.\ncepillo interdental|escova interdental|odonto|prevención|El cepillo interdental limpia mejor los espacios.|A escova interdental limpa melhor os espaços.\nenjuague bucal|enxaguante bucal|odonto|prevención|El enjuague bucal no sustituye el cepillado.|O enxaguante não substitui a escovação.\npasta de dientes|creme dental|odonto|prevención|Use pasta de dientes con mil quinientas partes por millón de flúor.|Use creme dental com 1500 ppm de flúor.\nhigiene oral|higiene bucal|odonto|prevención|La higiene oral es la base de todo.|A higiene bucal é a base de tudo.\nrevisión|revisão, retorno|odonto|prevención|Le espero en la revisión de seis meses.|Espero você no retorno de seis meses.\ncontrol|controle, acompanhamento|odonto|prevención|Volvemos a control en un mes.|Voltamos para controle em um mês.\nconsentimiento informado|consentimento informado|odonto|clínica|Firme el consentimiento informado, por favor.|Assine o consentimento informado, por favor.\nhistoria clínica|prontuário, anamnese|odonto|clínica|Actualizamos la historia clínica cada año.|Atualizamos o prontuário todo ano.\nanamnesis|anamnese|odonto|clínica|En la anamnesis pregunto por alergias.|Na anamnese pergunto sobre alergias.\nalergia|alergia|odonto|clínica|¿Tiene alergia a la penicilina?|Tem alergia a penicilina?\nantecedente|antecedente|odonto|clínica|¿Algún antecedente de problemas cardíacos?|Algum antecedente de problema cardíaco?\ndiagnóstico|diagnóstico|odonto|clínica|El diagnóstico es pulpitis irreversible.|O diagnóstico é pulpite irreversível.\npronóstico|prognóstico|odonto|clínica|El pronóstico del diente es reservado.|O prognóstico do dente é reservado.\nplan de tratamiento|plano de tratamento|odonto|clínica|Le explico el plan de tratamiento en tres fases.|Explico o plano de tratamento em três fases.\nseguimiento|acompanhamento|odonto|clínica|Haremos seguimiento radiográfico anual.|Faremos acompanhamento radiográfico anual.\nurgencia|urgência|odonto|clínica|Atiendo urgencias de nueve a once.|Atendo urgências das nove às onze.\nderivación|encaminhamento|odonto|clínica|Le hago una derivación al cirujano.|Faço um encaminhamento ao cirurgião.\nreceta médica|receita médica|odonto|clínica|Aquí tiene la receta médica.|Aqui está a receita médica.\nantibiótico|antibiótico|odonto|clínica|Tome el antibiótico cada ocho horas.|Tome o antibiótico a cada oito horas.\nanalgésico|analgésico|odonto|clínica|Si duele, tome un analgésico.|Se doer, tome um analgésico.\nantiinflamatorio|anti-inflamatório|odonto|clínica|El antiinflamatorio se toma con comida.|O anti-inflamatório se toma com comida.\nenjuagarse|enxaguar|odonto|clínica|Enjuáguese, por favor.|Enxágue, por favor.\nabrir la boca|abrir a boca|odonto|clínica|Abra bien la boca, por favor.|Abra bem a boca, por favor.\ncerrar despacio|fechar devagar|odonto|clínica|Cierre despacio y muerda.|Feche devagar e morda.\nmorder|morder|odonto|clínica|Muerda aquí con fuerza.|Morda aqui com força.\navisar si duele|avisar se doer|odonto|clínica|Levante la mano si le duele.|Levante a mão se doer.\n¿le molesta?|está incomodando?|odonto|clínica|¿Le molesta el agua fría?|A água fria está incomodando?\nno va a doler|não vai doer|odonto|clínica|Va a sentir presión, pero no va a doler.|Vai sentir pressão, mas não vai doer.\nodontólogo|odontólogo|odonto|clínica|El odontólogo llega a las ocho.|O odontólogo chega às oito.\nhigienista|higienista|odonto|clínica|La higienista hace la profilaxis.|A higienista faz a profilaxia.\nauxiliar|auxiliar|odonto|clínica|Mi auxiliar prepara el material.|Minha auxiliar prepara o material.\nprotésico|protético|odonto|clínica|Hablo con el protésico mañana.|Falo com o protético amanhã.\nreunión|reunião|negocios|encuentros|Tenemos una reunión a las diez.|Temos uma reunião às dez.\nagenda|pauta, agenda|negocios|encuentros|¿Me envía la agenda de la reunión?|Pode me enviar a pauta da reunião?\nacta|ata|negocios|encuentros|Redacté el acta de la reunión.|Redigi a ata da reunião.\nconvocar|convocar|negocios|encuentros|Convoqué al equipo para el lunes.|Convoquei a equipe para segunda.\nposponer|adiar|negocios|encuentros|Tenemos que posponer la cita.|Temos que adiar o compromisso.\naplazar|adiar|negocios|encuentros|Aplazamos la entrega una semana.|Adiamos a entrega uma semana.\nadelantar|antecipar|negocios|encuentros|¿Podemos adelantar la reunión?|Podemos antecipar a reunião?\ndisponibilidad|disponibilidade|negocios|encuentros|¿Cuál es su disponibilidad esta semana?|Qual é sua disponibilidade esta semana?\nsocio|sócio|negocios|empresa|Mi socio se encarga de las finanzas.|Meu sócio cuida das finanças.\nplantilla|quadro de funcionários|negocios|empresa|La plantilla creció a doce personas.|O quadro cresceu para doze pessoas.\npersonal|equipe, pessoal|negocios|empresa|El personal recibió formación nueva.|A equipe recebeu treinamento novo.\ncontratar|contratar|negocios|empresa|Voy a contratar una recepcionista.|Vou contratar uma recepcionista.\ncapacitación|capacitação, treinamento|negocios|empresa|La capacitación es online.|O treinamento é online.\ndesempeño|desempenho|negocios|empresa|El desempeño del equipo mejoró.|O desempenho da equipe melhorou.\nrendimiento|rendimento, desempenho|negocios|empresa|El rendimiento del mes superó la meta.|O rendimento do mês superou a meta.\nfacturación|faturamento|negocios|finanzas|La facturación subió un quince por ciento.|O faturamento subiu quinze por cento.\ningresos|receita|negocios|finanzas|Los ingresos cubren los gastos fijos.|A receita cobre os gastos fixos.\ngastos fijos|custos fixos|negocios|finanzas|Los gastos fijos son el alquiler y los sueldos.|Os custos fixos são o aluguel e os salários.\nrentabilidad|rentabilidade|negocios|finanzas|La rentabilidad por sillón es baja.|A rentabilidade por cadeira é baixa.\nmargen|margem|negocios|finanzas|El margen de esa prótesis es pequeño.|A margem dessa prótese é pequena.\nflujo de caja|fluxo de caixa|negocios|finanzas|Cuido el flujo de caja todas las semanas.|Cuido do fluxo de caixa toda semana.\nmorosidad|inadimplência|negocios|finanzas|La morosidad bajó con el pago anticipado.|A inadimplência caiu com o pagamento antecipado.\ncobro|cobrança|negocios|finanzas|El cobro se hace al finalizar la sesión.|A cobrança é feita ao final da sessão.\npago anticipado|pagamento antecipado|negocios|finanzas|Con pago anticipado hay descuento.|Com pagamento antecipado há desconto.\na plazos|parcelado|negocios|finanzas|Puede pagar a plazos en seis cuotas.|Pode pagar parcelado em seis vezes.\ncuota|parcela|negocios|finanzas|La cuota mensual es de cien euros.|A parcela mensal é de cem euros.\nsin intereses|sem juros|negocios|finanzas|Ofrecemos tres cuotas sin intereses.|Oferecemos três parcelas sem juros.\nrecargo|acréscimo|negocios|finanzas|Hay un recargo por pago tardío.|Há um acréscimo por atraso.\nimpuesto|imposto|negocios|finanzas|El precio ya incluye impuestos.|O preço já inclui impostos.\npresupuesto|orçamento|negocios|ventas|Le preparo un presupuesto sin compromiso.|Preparo um orçamento sem compromisso.\npropuesta|proposta|negocios|ventas|Le envío la propuesta hoy mismo.|Envio a proposta hoje mesmo.\noferta|oferta|negocios|ventas|La oferta es válida hasta fin de mes.|A oferta vale até o fim do mês.\ndescuento|desconto|negocios|ventas|Puedo hacerle un diez por ciento de descuento.|Posso dar dez por cento de desconto.\nnegociar|negociar|negocios|ventas|Vamos a negociar el plazo de pago.|Vamos negociar o prazo de pagamento.\ncerrar el trato|fechar negócio|negocios|ventas|Cerramos el trato esta tarde.|Fechamos o negócio hoje à tarde.\ncliente potencial|cliente em potencial|negocios|ventas|Ese es un cliente potencial importante.|Esse é um cliente potencial importante.\nfidelizar|fidelizar|negocios|ventas|Fidelizamos con seguimiento posventa.|Fidelizamos com acompanhamento pós-venda.\ncaptación|captação|negocios|ventas|La captación viene del boca a boca.|A captação vem do boca a boca.\ntasa de conversión|taxa de conversão|negocios|ventas|La tasa de conversión de presupuestos es del sesenta por ciento.|A taxa de conversão de orçamentos é de sessenta por cento.\nproveedor|fornecedor|negocios|operaciones|Cambiamos de proveedor de insumos.|Trocamos de fornecedor de insumos.\npedido|pedido|negocios|operaciones|El pedido llega el jueves.|O pedido chega quinta.\ninventario|estoque, inventário|negocios|operaciones|Hacemos inventario cada mes.|Fazemos inventário todo mês.\nexistencias|estoque|negocios|operaciones|Nos quedamos sin existencias de anestésico.|Ficamos sem estoque de anestésico.\nplazo de entrega|prazo de entrega|negocios|operaciones|El plazo de entrega es de diez días.|O prazo de entrega é de dez dias.\ngarantía|garantia|negocios|operaciones|El equipo tiene dos años de garantía.|O equipamento tem dois anos de garantia.\ncontrato|contrato|negocios|legal|Revise el contrato antes de firmar.|Revise o contrato antes de assinar.\ncláusula|cláusula|negocios|legal|Esa cláusula no me convence.|Essa cláusula não me convence.\nrescindir|rescindir|negocios|legal|Podemos rescindir con treinta días de aviso.|Podemos rescindir com trinta dias de aviso.\nnormativa|normativa, regulamentação|negocios|legal|La normativa sanitaria cambió este año.|A regulamentação sanitária mudou este ano.\nlicencia|licença, alvará|negocios|legal|Renovamos la licencia sanitaria.|Renovamos o alvará sanitário.\nseguro de responsabilidad|seguro de responsabilidade|negocios|legal|Todo profesional necesita seguro de responsabilidad.|Todo profissional precisa de seguro de responsabilidade.\ncorreo electrónico|e-mail|negocios|comunicación|Le escribo un correo electrónico ahora.|Escrevo um e-mail agora.\nadjunto|anexo|negocios|comunicación|Le envío el informe adjunto.|Envio o relatório em anexo.\nquedo a la espera|fico no aguardo|negocios|comunicación|Quedo a la espera de su respuesta.|Fico no aguardo da sua resposta.\nsaludos cordiales|atenciosamente|negocios|comunicación|Saludos cordiales, Mateo.|Atenciosamente, Mateus.\nsegún lo acordado|conforme combinado|negocios|comunicación|Según lo acordado, empezamos el lunes.|Conforme combinado, começamos segunda.\nme pongo en contacto|entro em contato|negocios|comunicación|Me pongo en contacto la semana que viene.|Entro em contato semana que vem.\ndarle seguimiento|dar seguimento|negocios|comunicación|Voy a darle seguimiento al presupuesto.|Vou dar seguimento ao orçamento.\na la mayor brevedad|com a maior brevidade|negocios|comunicación|Responderé a la mayor brevedad.|Responderei com a maior brevidade.\nlanzamiento|lançamento|negocios|marketing|El lanzamiento de la clínica es en mayo.|O lançamento da clínica é em maio.\nposicionamiento|posicionamento|negocios|marketing|Trabajamos el posicionamiento de marca.|Trabalhamos o posicionamento de marca.\npúblico objetivo|público-alvo|negocios|marketing|Nuestro público objetivo son familias.|Nosso público-alvo são famílias.\nalcance|alcance|negocios|marketing|La publicación tuvo mucho alcance.|A publicação teve muito alcance.\nboca a boca|boca a boca|negocios|marketing|El boca a boca sigue siendo el mejor canal.|O boca a boca ainda é o melhor canal.\nreseña|avaliação, review|negocios|marketing|Pedimos una reseña tras el alta.|Pedimos uma avaliação após a alta.\nencuesta de satisfacción|pesquisa de satisfação|negocios|marketing|Enviamos una encuesta de satisfacción.|Enviamos uma pesquisa de satisfação.\nindicador|indicador|negocios|gestión|Seguimos cinco indicadores clave.|Acompanhamos cinco indicadores-chave.\ninforme mensual|relatório mensal|negocios|gestión|El informe mensual sale el día cinco.|O relatório mensal sai no dia cinco.\ntoma de decisiones|tomada de decisão|negocios|gestión|La toma de decisiones se basa en datos.|A tomada de decisão é baseada em dados.\ndelegar|delegar|negocios|gestión|Aprendí a delegar tareas administrativas.|Aprendi a delegar tarefas administrativas.\npriorizar|priorizar|negocios|gestión|Hay que priorizar lo urgente.|É preciso priorizar o urgente.\ncuello de botella|gargalo|negocios|gestión|La esterilización es el cuello de botella.|A esterilização é o gargalo.\nplazo|prazo|negocios|gestión|El plazo vence el viernes.|O prazo vence na sexta.\na corto plazo|a curto prazo|negocios|gestión|A corto plazo, mantenemos los precios.|A curto prazo, mantemos os preços.\na largo plazo|a longo prazo|negocios|gestión|A largo plazo queremos dos sedes.|A longo prazo queremos duas unidades.\nllevar a cabo|levar a cabo, realizar|negocios|gestión|Llevamos a cabo el plan sin retrasos.|Realizamos o plano sem atrasos.\nponer en marcha|colocar em prática|negocios|gestión|Pusimos en marcha el nuevo protocolo.|Colocamos em prática o novo protocolo.\ntener en cuenta|levar em conta|negocios|gestión|Hay que tener en cuenta el coste fijo.|É preciso levar em conta o custo fixo.\nestar al tanto|estar por dentro|negocios|gestión|Manténgame al tanto del avance.|Me mantenha por dentro do andamento.\na mi juicio|na minha opinião|negocios|opinión|A mi juicio, conviene esperar.|Na minha opinião, convém esperar.\ndesde mi punto de vista|do meu ponto de vista|negocios|opinión|Desde mi punto de vista, el precio es justo.|Do meu ponto de vista, o preço é justo.\nestoy de acuerdo|concordo|negocios|opinión|Estoy de acuerdo con la propuesta.|Concordo com a proposta.\nno estoy de acuerdo|não concordo|negocios|opinión|No estoy de acuerdo con ese plazo.|Não concordo com esse prazo.\nme parece que|me parece que|negocios|opinión|Me parece que falta información.|Acho que falta informação.\nen mi experiencia|na minha experiência|negocios|opinión|En mi experiencia, funciona mejor así.|Na minha experiência, funciona melhor assim.\npor un lado... por otro|por um lado... por outro|negocios|opinión|Por un lado es caro, por otro dura más.|Por um lado é caro, por outro dura mais.\nen resumen|em resumo|negocios|opinión|En resumen, avanzamos con el proyecto.|Em resumo, seguimos com o projeto.\nfacturación de equipaje|despacho de bagagem|viajes|aeropuerto|La facturación de equipaje cierra una hora antes.|O despacho de bagagem fecha uma hora antes.\nmostrador|balcão|viajes|aeropuerto|El mostrador de la aerolínea está al fondo.|O balcão da companhia fica no fundo.\ntarjeta de embarque|cartão de embarque|viajes|aeropuerto|Tengo la tarjeta de embarque en el móvil.|Tenho o cartão de embarque no celular.\npuerta de embarque|portão de embarque|viajes|aeropuerto|Cambiaron la puerta de embarque.|Mudaram o portão de embarque.\nequipaje de mano|bagagem de mão|viajes|aeropuerto|Solo llevo equipaje de mano.|Só levo bagagem de mão.\ncinta de equipajes|esteira de bagagem|viajes|aeropuerto|Mi maleta no salió en la cinta.|Minha mala não saiu na esteira.\nescala|conexão, escala|viajes|aeropuerto|El vuelo tiene una escala en Bogotá.|O voo tem uma conexão em Bogotá.\nretraso|atraso|viajes|aeropuerto|El vuelo lleva dos horas de retraso.|O voo está com duas horas de atraso.\ndespegar|decolar|viajes|aeropuerto|Despegamos a las seis en punto.|Decolamos às seis em ponto.\naterrizar|aterrissar|viajes|aeropuerto|Aterrizamos con media hora de adelanto.|Pousamos com meia hora de antecedência.\nalojamiento|hospedagem|viajes|hotel|El alojamiento incluye desayuno.|A hospedagem inclui café da manhã.\nhabitación doble|quarto de casal|viajes|hotel|Reservé una habitación doble.|Reservei um quarto de casal.\nllave de la habitación|chave do quarto|viajes|hotel|Perdí la llave de la habitación.|Perdi a chave do quarto.\nrecepción|recepção|viajes|hotel|Deje la maleta en recepción.|Deixe a mala na recepção.\nsalida tardía|late check-out|viajes|hotel|¿Es posible una salida tardía?|É possível fazer late check-out?\naire acondicionado|ar-condicionado|viajes|hotel|El aire acondicionado no enfría.|O ar-condicionado não gela.\ntoalla|toalha|viajes|hotel|¿Me trae una toalla más?|Pode me trazer mais uma toalha?\nsábana|lençol|viajes|hotel|Las sábanas están limpias.|Os lençóis estão limpos.\nalmohada|travesseiro|viajes|hotel|¿Tiene una almohada más blanda?|Tem um travesseiro mais macio?\ncaja fuerte|cofre|viajes|hotel|Guardé el pasaporte en la caja fuerte.|Guardei o passaporte no cofre.\ncarta|cardápio|viajes|restaurante|¿Nos trae la carta, por favor?|Pode trazer o cardápio, por favor?\nmenú del día|prato feito do dia|viajes|restaurante|El menú del día cuesta doce euros.|O prato do dia custa doze euros.\nplato principal|prato principal|viajes|restaurante|De plato principal quiero pescado.|De prato principal quero peixe.\nentrante|entrada (comida)|viajes|restaurante|De entrante, una ensalada.|De entrada, uma salada.\nla cuenta|a conta|viajes|restaurante|La cuenta, por favor.|A conta, por favor.\npara llevar|para viagem|viajes|restaurante|¿Me lo pone para llevar?|Pode embalar para viagem?\nsin gluten|sem glúten|viajes|restaurante|¿Tienen opciones sin gluten?|Vocês têm opções sem glúten?\nsoy alérgico a|sou alérgico a|viajes|restaurante|Soy alérgico a los frutos secos.|Sou alérgico a oleaginosas.\nestá riquísimo|está delicioso|viajes|restaurante|Todo está riquísimo, gracias.|Está tudo delicioso, obrigado.\npropina incluida|gorjeta incluída|viajes|restaurante|¿La propina está incluida?|A gorjeta está incluída?\ncómo llego a|como chego a|viajes|orientación|¿Cómo llego a la plaza mayor?|Como chego à praça principal?\nestá lejos|é longe|viajes|orientación|¿Está lejos de aquí?|É longe daqui?\na pie|a pé|viajes|orientación|Se puede ir a pie en diez minutos.|Dá para ir a pé em dez minutos.\ngire a la derecha|vire à direita|viajes|orientación|Gire a la derecha en la esquina.|Vire à direita na esquina.\nsiga recto|siga reto|viajes|orientación|Siga recto dos calles.|Siga reto duas quadras.\nmanzana|quarteirão|viajes|orientación|Está a tres manzanas de aquí.|Fica a três quarteirões daqui.\nparada de autobús|ponto de ônibus|viajes|orientación|La parada de autobús está enfrente.|O ponto de ônibus fica em frente.\nbillete de ida y vuelta|passagem de ida e volta|viajes|orientación|Compré un billete de ida y vuelta.|Comprei uma passagem de ida e volta.\nandén|plataforma|viajes|orientación|El tren sale del andén cuatro.|O trem sai da plataforma quatro.\nalquilar un coche|alugar um carro|viajes|orientación|Quiero alquilar un coche por tres días.|Quero alugar um carro por três dias.\nprobarse|experimentar (roupa)|viajes|compras|¿Me puedo probar esta camisa?|Posso experimentar esta camisa?\nprobador|provador|viajes|compras|El probador está al fondo.|O provador fica no fundo.\ntalla|tamanho (roupa)|viajes|compras|¿Tiene una talla más grande?|Tem um tamanho maior?\nnúmero|número (calçado)|viajes|compras|Calzo el cuarenta y dos.|Calço quarenta e dois.\nrebajas|liquidação|viajes|compras|Las rebajas empiezan en enero.|A liquidação começa em janeiro.\nganga|pechincha|viajes|compras|Esto es una ganga.|Isto é uma pechincha.\n¿cuánto cuesta?|quanto custa?|viajes|compras|¿Cuánto cuesta el conjunto?|Quanto custa o conjunto?\n¿me hace un descuento?|me dá um desconto?|viajes|compras|¿Me hace un descuento si llevo dos?|Me dá um desconto se eu levar dois?\ndevolver|devolver|viajes|compras|¿Puedo devolverlo sin ticket?|Posso devolver sem o comprovante?\nfactura|nota fiscal|viajes|compras|¿Me da factura, por favor?|Pode me dar a nota fiscal?\nseguro de viaje|seguro viagem|viajes|imprevistos|El seguro de viaje cubre urgencias dentales.|O seguro viagem cobre urgências odontológicas.\nme robaron|fui roubado|viajes|imprevistos|Me robaron la cartera en el metro.|Roubaram minha carteira no metrô.\ndenuncia|boletim de ocorrência|viajes|imprevistos|Puse una denuncia en la comisaría.|Fiz um boletim de ocorrência na delegacia.\nfarmacia de guardia|farmácia de plantão|viajes|imprevistos|Busco una farmacia de guardia.|Procuro uma farmácia de plantão.\nurgencias|pronto-socorro|viajes|imprevistos|Fui a urgencias por un dolor de muelas.|Fui ao pronto-socorro por dor de dente.\nperdí el vuelo|perdi o voo|viajes|imprevistos|Perdí el vuelo por el tráfico.|Perdi o voo por causa do trânsito.\nno funciona|não funciona|viajes|imprevistos|La ducha no funciona.|O chuveiro não funciona.\n¿puede repetir?|pode repetir?|viajes|comunicación|¿Puede repetir más despacio, por favor?|Pode repetir mais devagar, por favor?\nno entendí|não entendi|viajes|comunicación|Perdón, no entendí la última parte.|Desculpe, não entendi a última parte.\n¿cómo se dice?|como se diz?|viajes|comunicación|¿Cómo se dice esto en español?|Como se diz isso em espanhol?\nhablo un poco de español|falo um pouco de espanhol|viajes|comunicación|Hablo un poco de español, disculpe los errores.|Falo um pouco de espanhol, desculpe os erros.\ndespertarse|acordar|rutina|mañana|Me despierto a las seis y media.|Acordo às seis e meia.\nlevantarse|levantar-se|rutina|mañana|Me levanto enseguida, sin snooze.|Levanto na hora, sem soneca.\nducharse|tomar banho|rutina|mañana|Me ducho antes de salir.|Tomo banho antes de sair.\nlavarse los dientes|escovar os dentes|rutina|mañana|Me lavo los dientes después de desayunar.|Escovo os dentes depois do café.\nafeitarse|barbear-se|rutina|mañana|Me afeito día por medio.|Me barbeio dia sim, dia não.\npeinarse|pentear-se|rutina|mañana|Me peino rápido y salgo.|Me penteio rápido e saio.\nvestirse|vestir-se|rutina|mañana|Me visto con ropa cómoda.|Me visto com roupa confortável.\ndesayunar|tomar café da manhã|rutina|mañana|Desayuno café con tostadas.|Tomo café com torradas.\nsalir de casa|sair de casa|rutina|mañana|Salgo de casa a las siete y cuarto.|Saio de casa às sete e quinze.\nir al trabajo|ir para o trabalho|rutina|mañana|Voy al trabajo en coche.|Vou para o trabalho de carro.\ntardar|demorar|rutina|mañana|Tardo veinte minutos en llegar.|Demoro vinte minutos para chegar.\natascado|preso no trânsito|rutina|mañana|Me quedé atascado en el tráfico.|Fiquei preso no trânsito.\nhorario de atención|horário de atendimento|rutina|trabajo|Mi horario de atención es de nueve a seis.|Meu horário de atendimento é das nove às seis.\njornada|jornada, expediente|rutina|trabajo|La jornada de hoy fue larga.|O expediente de hoje foi longo.\ndescanso|pausa, descanso|rutina|trabajo|Hago un descanso de veinte minutos.|Faço uma pausa de vinte minutos.\nhora de comer|hora do almoço|rutina|trabajo|A la hora de comer voy a casa.|Na hora do almoço vou para casa.\nturno de tarde|turno da tarde|rutina|trabajo|El martes hago turno de tarde.|Terça faço o turno da tarde.\ndía libre|dia de folga|rutina|trabajo|El miércoles es mi día libre.|Quarta é meu dia de folga.\nhacer recados|resolver coisas, fazer tarefas|rutina|casa|Los sábados hago recados.|Aos sábados resolvo pendências.\nhacer la compra|fazer compras (mercado)|rutina|casa|Hago la compra los domingos.|Faço as compras aos domingos.\nponer la lavadora|colocar roupa na máquina|rutina|casa|Pongo la lavadora por la noche.|Coloco a máquina de lavar à noite.\ntender la ropa|estender a roupa|rutina|casa|Tiendo la ropa en el balcón.|Estendo a roupa na sacada.\nfregar los platos|lavar a louça|rutina|casa|Friego los platos después de cenar.|Lavo a louça depois do jantar.\nbarrer|varrer|rutina|casa|Barro la cocina todos los días.|Varro a cozinha todos os dias.\nsacar la basura|tirar o lixo|rutina|casa|Saco la basura antes de dormir.|Tiro o lixo antes de dormir.\nordenar|arrumar, organizar|rutina|casa|Ordeno el escritorio los viernes.|Organizo a escrivaninha às sextas.\nhacer ejercicio|fazer exercício|rutina|ocio|Hago ejercicio tres veces por semana.|Faço exercício três vezes por semana.\nsalir a correr|sair para correr|rutina|ocio|Salgo a correr por la mañana.|Saio para correr de manhã.\nquedar con amigos|combinar com amigos|rutina|ocio|Quedé con amigos el sábado.|Combinei com amigos no sábado.\ntomar algo|tomar alguma coisa (sair)|rutina|ocio|¿Vamos a tomar algo después?|Vamos tomar alguma coisa depois?\nver una serie|ver uma série|rutina|ocio|Veo una serie antes de dormir.|Vejo uma série antes de dormir.\ndescansar|descansar|rutina|ocio|El domingo descanso de verdad.|Domingo eu descanso de verdade.\nacostarse|deitar-se|rutina|noche|Me acuesto sobre las once.|Deito por volta das onze.\ndormirse|adormecer|rutina|noche|Me duermo enseguida.|Adormeço rapidinho.\nponer el despertador|colocar o despertador|rutina|noche|Pongo el despertador a las seis.|Coloco o despertador para as seis.\nmadrugar|acordar cedo|rutina|noche|Odio madrugar los lunes.|Odeio acordar cedo na segunda.\ntrasnochar|virar a noite|rutina|noche|No me gusta trasnochar.|Não gosto de virar a noite.\nsoler|costumar|rutina|frecuencia|Suelo estudiar por la mañana.|Costumo estudar de manhã.\nde vez en cuando|de vez em quando|rutina|frecuencia|De vez en cuando voy al cine.|De vez em quando vou ao cinema.\ncasi nunca|quase nunca|rutina|frecuencia|Casi nunca como fuera.|Quase nunca como fora.\ntodos los días|todos os dias|rutina|frecuencia|Estudio español todos los días.|Estudo espanhol todos os dias.\nuna vez por semana|uma vez por semana|rutina|frecuencia|Tengo clase una vez por semana.|Tenho aula uma vez por semana.\na menudo|com frequência|rutina|frecuencia|A menudo trabajo hasta tarde.|Com frequência trabalho até tarde.\n","conversa":{"guiones":[{"titulo":"Presentarse (profesional)","tema":"negocios","lineas":["Hola, encantado. Soy Mateo Silva, ortodoncista de São Paulo.","Llevo doce años en consulta privada y trabajo sobre todo con alineadores.","Además, desarrollo un proyecto de tecnología para clínicas dentales.","Estoy aprendiendo español porque cada vez trabajo más con colegas de Hispanoamérica.","¿Y tú, a qué te dedicas exactamente?"],"preguntas":["¿A qué te dedicas?","¿Cuánto tiempo llevas en esto?","¿Cómo empezaste?","¿En qué estás trabajando ahora?"]},{"titulo":"Recibir a un paciente nuevo","tema":"odonto","lineas":["Buenos días, pase y siéntese, por favor.","Antes de mirarle la boca, cuénteme qué le trae por aquí.","¿Desde cuándo le pasa? ¿Es un dolor constante o va y viene?","Voy a revisarle y luego le explico con calma lo que veo.","Cualquier cosa que le moleste, avíseme y paramos."],"preguntas":["¿Qué le trae por aquí?","¿Desde cuándo le duele?","¿Toma alguna medicación?","¿Ha tenido alguna mala experiencia en el dentista?"]},{"titulo":"Presentar un presupuesto","tema":"negocios","lineas":["Le explico el plan en tres fases para que se entienda mejor.","La primera fase resuelve el dolor; la segunda, la función; la tercera, la estética.","El importe total incluye materiales, sesiones y las revisiones del primer año.","Podemos empezar por lo urgente y planificar el resto con calma.","¿Qué le parece si empezamos la semana que viene?"],"preguntas":["¿Qué incluye el precio?","¿Se puede pagar a plazos?","¿Cuánto dura el tratamiento?","¿Hay alguna alternativa más económica?"]},{"titulo":"Check-in y pedidos de viaje","tema":"viajes","lineas":["Buenas tardes, tengo una reserva a nombre de Silva, para tres noches.","¿El desayuno está incluido y a qué hora se sirve?","¿Sería posible una habitación más tranquila, por favor?","Necesitaría factura con los datos de mi empresa.","¿Me recomienda algo bueno para cenar cerca de aquí?"],"preguntas":["¿Tiene reserva?","¿Cuántas noches se queda?","¿Necesita ayuda con el equipaje?","¿Prefiere cama doble o dos camas?"]},{"titulo":"Small talk que no muere en dos frases","tema":"rutina","lineas":["¿Qué tal todo? ¿Mucho lío esta semana?","Pues yo bien, con la agenda llena, pero contento.","Oye, ¿tú de dónde eres exactamente?","Anda, no lo sabía. ¿Y qué tal se vive allí?","Pues nada, cuando quieras te enseño la clínica."],"preguntas":["¿Qué tal el fin de semana?","¿Llevas mucho tiempo aquí?","¿Qué haces cuando no trabajas?","¿Has estado alguna vez en Brasil?"]}],"muletas":[{"es":"A ver...","pt":"Deixa eu ver...","uso":"ganhar tempo"},{"es":"Pues mira,","pt":"Olha,","uso":"começar uma resposta"},{"es":"Es que...","pt":"É que...","uso":"justificar"},{"es":"O sea,","pt":"Ou seja,","uso":"reformular"},{"es":"Bueno,","pt":"Bom,","uso":"transição"},{"es":"La verdad es que","pt":"A verdade é que","uso":"dar opinião sincera"},{"es":"Ahora que lo dices,","pt":"Agora que você falou,","uso":"reagir"},{"es":"No sé cómo se dice, pero es algo así como...","pt":"Não sei como se diz, mas é algo tipo...","uso":"contornar palavra desconhecida"},{"es":"¿Me sigues?","pt":"Está me acompanhando?","uso":"checar compreensão"},{"es":"Perdona, ¿puedes repetir más despacio?","pt":"Desculpe, pode repetir mais devagar?","uso":"pedir repetição"},{"es":"Corrígeme si me equivoco.","pt":"Me corrija se eu estiver errado.","uso":"convidar correção"},{"es":"Dicho esto,","pt":"Dito isso,","uso":"virar o argumento"}],"conectores":[{"es":"además","pt":"além disso"},{"es":"sin embargo","pt":"no entanto"},{"es":"por lo tanto","pt":"portanto"},{"es":"en cambio","pt":"por outro lado"},{"es":"a pesar de","pt":"apesar de"},{"es":"aunque","pt":"embora"},{"es":"por eso","pt":"por isso"},{"es":"de hecho","pt":"na verdade / de fato"},{"es":"en primer lugar","pt":"em primeiro lugar"},{"es":"por último","pt":"por último"},{"es":"en resumen","pt":"em resumo"},{"es":"es decir","pt":"quer dizer"},{"es":"mientras que","pt":"enquanto que"},{"es":"siempre que","pt":"sempre que / desde que"},{"es":"en cuanto a","pt":"quanto a"},{"es":"por cierto","pt":"por sinal"}],"armadilhas":[{"regra":"Verbo GUSTAR funciona ao contrário","es":"Me gusta el café / Me gustan los implantes","pt":"O café me agrada — o sujeito é a coisa, não a pessoa"},{"regra":"MUY vs MUCHO","es":"Muy bueno / Trabajo mucho","pt":"MUY antes de adjetivo/advérbio; MUCHO com verbo ou substantivo"},{"regra":"Nada de artigo antes de possessivo","es":"Mi paciente (não 'el mi paciente')","pt":"Em espanhol não se usa artigo + possessivo"},{"regra":"Gerúndio é menos usado que em português","es":"Voy a llamar (não 'estoy llamando' o tempo todo)","pt":"Prefira futuro perifrástico e presente"},{"regra":"Pretérito perfecto na Espanha","es":"Hoy he trabajado mucho","pt":"Na Espanha, para hoje/esta semana usa-se HE + particípio"},{"regra":"Uso de USTED","es":"¿Usted siente dolor? — com pacientes é o padrão","pt":"Com paciente/cliente novo, use USTED até que peçam TÚ"},{"regra":"Ç, LH, NH não existem","es":"ñ = nh, ll = lh, z/c = ç","pt":"España = Espanha; llave = chave; corazón = coração"},{"regra":"Ditongo onde o português tem vogal simples","es":"puedo, quiero, tiene, duele","pt":"posso, quero, tem, dói — verbos com mudança de raiz"},{"regra":"POR vs PARA","es":"Gracias por venir / Esto es para usted","pt":"POR = causa, meio, troca; PARA = destino, finalidade, prazo"},{"regra":"Não existe 'a gente' como 'nós'","es":"Nosotros trabajamos (não 'la gente trabaja' com sentido de nós)","pt":"Use NOSOTROS"}]},"lecturas":[{"id":"L001","tema":"odonto","nivel":"A2","titulo":"La primera consulta","fuente":"Texto didáctico (OrthoRadar)","url":"","resumen":"Uma primeira consulta odontológica do início ao fim, com as frases que o dentista realmente usa.","frases":[{"es":"Buenos días, soy el doctor Mateo, encantado de conocerle.","pt":"Bom dia, sou o doutor Mateus, prazer em conhecê-lo."},{"es":"Antes de empezar, voy a hacerle unas preguntas sobre su salud.","pt":"Antes de começar, vou fazer algumas perguntas sobre sua saúde."},{"es":"¿Toma algún medicamento de forma habitual?","pt":"O senhor toma algum medicamento com regularidade?"},{"es":"¿Tiene alergia a algún antibiótico o a la anestesia?","pt":"Tem alergia a algum antibiótico ou à anestesia?"},{"es":"¿Desde cuándo siente ese dolor?","pt":"Desde quando sente essa dor?"},{"es":"Ahora abra la boca, por favor, y avise si le molesta algo.","pt":"Agora abra a boca, por favor, e avise se algo incomodar."},{"es":"Veo una caries profunda en el molar inferior derecho.","pt":"Vejo uma cárie profunda no molar inferior direito."},{"es":"Vamos a hacer una radiografía para confirmar el diagnóstico.","pt":"Vamos fazer uma radiografia para confirmar o diagnóstico."},{"es":"El tratamiento son dos sesiones de una hora cada una.","pt":"O tratamento são duas sessões de uma hora cada."},{"es":"Le preparo un presupuesto y se lo envío por correo hoy mismo.","pt":"Preparo um orçamento e envio por e-mail hoje mesmo."}],"glosario":[{"es":"molesta","pt":"incomoda"},{"es":"caries profunda","pt":"cárie profunda"},{"es":"sesión","pt":"sessão"},{"es":"presupuesto","pt":"orçamento"}],"preguntas":["¿Qué pregunta el dentista antes de empezar?","¿Cuántas sesiones necesita el tratamiento?","Explique en español lo que usted diría a un paciente nuevo."]},{"id":"L002","tema":"odonto","nivel":"A2","titulo":"Explicar una extracción sin asustar al paciente","fuente":"Texto didáctico (OrthoRadar)","url":"","resumen":"Como explicar uma extração com calma, em espanhol claro.","frases":[{"es":"Entiendo que esté nervioso, es una reacción muy normal.","pt":"Entendo que esteja nervoso, é uma reação bem normal."},{"es":"Le explico paso a paso lo que vamos a hacer.","pt":"Vou explicar passo a passo o que vamos fazer."},{"es":"Primero le pongo anestesia local; va a sentir un pinchazo muy breve.","pt":"Primeiro aplico anestesia local; vai sentir uma picadinha bem breve."},{"es":"Cuando la zona esté dormida, no va a doler, solo sentirá presión.","pt":"Quando a região estiver dormente, não vai doer, só vai sentir pressão."},{"es":"Si en algún momento le molesta, levante la mano y paro.","pt":"Se em algum momento incomodar, levante a mão e eu paro."},{"es":"La extracción en sí dura unos diez minutos.","pt":"A extração em si dura uns dez minutos."},{"es":"Después muerda la gasa durante media hora sin escupir.","pt":"Depois morda a gaze por meia hora sem cuspir."},{"es":"Hoy no fume ni tome bebidas calientes.","pt":"Hoje não fume nem tome bebidas quentes."},{"es":"Es normal que haya algo de hinchazón mañana.","pt":"É normal que haja um pouco de inchaço amanhã."},{"es":"Cualquier duda, me llama al consultorio sin problema.","pt":"Qualquer dúvida, me liga no consultório sem problema."}],"glosario":[{"es":"pinchazo","pt":"picada"},{"es":"dormida","pt":"dormente/anestesiada"},{"es":"escupir","pt":"cuspir"},{"es":"hinchazón","pt":"inchaço"}],"preguntas":["¿Qué debe hacer el paciente si le molesta durante el procedimiento?","¿Qué recomendaciones da el dentista para después?","Diga en español tres cosas que el paciente no debe hacer hoy."]},{"id":"L003","tema":"negocios","nivel":"B1","titulo":"Negociar el precio de un tratamiento","fuente":"Texto didáctico (OrthoRadar)","url":"","resumen":"Diálogo de negociação de orçamento: defender valor sem baixar preço.","frases":[{"es":"Le agradezco que me diga con franqueza que el presupuesto le parece alto.","pt":"Agradeço que me diga com franqueza que o orçamento lhe parece alto."},{"es":"Permítame explicarle qué incluye exactamente el precio.","pt":"Permita-me explicar o que exatamente o preço inclui."},{"es":"El importe cubre la cirugía, el implante, la corona y todas las revisiones del primer año.","pt":"O valor cobre a cirurgia, o implante, a coroa e todos os retornos do primeiro ano."},{"es":"Trabajamos con materiales de primera calidad y con garantía escrita.","pt":"Trabalhamos com materiais de primeira qualidade e com garantia por escrito."},{"es":"Entiendo que sea una inversión importante para usted.","pt":"Entendo que seja um investimento importante para você."},{"es":"Podemos dividir el pago en seis cuotas sin intereses.","pt":"Podemos dividir o pagamento em seis parcelas sem juros."},{"es":"También existe una alternativa más económica, aunque con menor durabilidad.","pt":"Também existe uma alternativa mais econômica, embora com menor durabilidade."},{"es":"Prefiero que decida con calma antes que con prisa.","pt":"Prefiro que decida com calma, e não com pressa."},{"es":"Le dejo el presupuesto por escrito, válido durante treinta días.","pt":"Deixo o orçamento por escrito, válido por trinta dias."},{"es":"Si le parece bien, le llamo el jueves para resolver cualquier duda.","pt":"Se lhe parecer bem, ligo na quinta para resolver qualquer dúvida."}],"glosario":[{"es":"con franqueza","pt":"com franqueza"},{"es":"el importe","pt":"o valor"},{"es":"cuotas","pt":"parcelas"},{"es":"con prisa","pt":"com pressa"}],"preguntas":["¿Qué incluye el presupuesto?","¿Qué opción de pago ofrece el profesional?","Practique: defienda su precio en tres frases."]},{"id":"L004","tema":"viajes","nivel":"A2","titulo":"Llegada al hotel en Buenos Aires","fuente":"Texto didáctico (OrthoRadar)","url":"","resumen":"Check-in, problemas com o quarto e pedidos na recepção.","frases":[{"es":"Buenas tardes, tengo una reserva a nombre de Mateo Silva.","pt":"Boa tarde, tenho uma reserva no nome de Mateus Silva."},{"es":"Son tres noches, con salida el domingo por la mañana.","pt":"São três noites, com saída no domingo de manhã."},{"es":"¿El desayuno está incluido en la tarifa?","pt":"O café da manhã está incluído na diária?"},{"es":"¿A qué hora abre el comedor?","pt":"A que horas abre o restaurante?"},{"es":"Necesito una factura con los datos de mi empresa.","pt":"Preciso de uma nota fiscal com os dados da minha empresa."},{"es":"La habitación es muy ruidosa, da a la avenida.","pt":"O quarto é muito barulhento, dá para a avenida."},{"es":"¿Sería posible cambiarme a una habitación interior?","pt":"Seria possível me mudar para um quarto interno?"},{"es":"El aire acondicionado no enfría bien.","pt":"O ar-condicionado não gela direito."},{"es":"¿Me pueden guardar la maleta hasta las seis?","pt":"Podem guardar minha mala até as seis?"},{"es":"¿Me recomienda algún restaurante cerca para cenar?","pt":"Recomenda algum restaurante perto para jantar?"}],"glosario":[{"es":"tarifa","pt":"diária/tarifa"},{"es":"da a","pt":"dá para (vista)"},{"es":"ruidosa","pt":"barulhenta"},{"es":"comedor","pt":"refeitório/restaurante"}],"preguntas":["¿Cuál es el problema con la habitación?","¿Qué pide el huésped en recepción?","Haga un check-in completo en español, en voz alta."]},{"id":"L005","tema":"rutina","nivel":"A2","titulo":"Un martes cualquiera","fuente":"Texto didáctico (OrthoRadar)","url":"","resumen":"Rotina completa de um dia de trabalho, em primeira pessoa.","frases":[{"es":"Me despierto a las seis y media y pongo café antes que nada.","pt":"Acordo às seis e meia e faço café antes de tudo."},{"es":"Me ducho, me visto y salgo de casa sobre las siete y cuarto.","pt":"Tomo banho, me visto e saio de casa por volta das sete e quinze."},{"es":"Suelo llegar a la clínica veinte minutos antes del primer paciente.","pt":"Costumo chegar à clínica vinte minutos antes do primeiro paciente."},{"es":"Reviso la agenda del día y hablo con mi auxiliar.","pt":"Reviso a agenda do dia e converso com minha auxiliar."},{"es":"Por la mañana atiendo cuatro pacientes, casi siempre revisiones.","pt":"De manhã atendo quatro pacientes, quase sempre retornos."},{"es":"A la hora de comer aprovecho para estudiar español media hora.","pt":"Na hora do almoço aproveito para estudar espanhol meia hora."},{"es":"Por la tarde suele haber alguna urgencia sin cita.","pt":"À tarde costuma aparecer alguma urgência sem hora marcada."},{"es":"Termino sobre las seis y ordeno el material antes de irme.","pt":"Termino por volta das seis e organizo o material antes de ir embora."},{"es":"Al llegar a casa hago ejercicio si no estoy muy cansado.","pt":"Ao chegar em casa faço exercício se não estiver muito cansado."},{"es":"Me acuesto a las once y leo un poco antes de dormirme.","pt":"Deito às onze e leio um pouco antes de adormecer."}],"glosario":[{"es":"antes que nada","pt":"antes de tudo"},{"es":"sobre las siete","pt":"por volta das sete"},{"es":"suelo","pt":"costumo"},{"es":"sin cita","pt":"sem hora marcada"}],"preguntas":["¿A qué hora llega a la clínica y por qué?","¿Qué hace a la hora de comer?","Cuente su propio martes en español, con seis frases."]},{"id":"L006","tema":"odonto","nivel":"B1","titulo":"Ortodoncia: la primera cita con alineadores","resumen":"Explicar tratamento com alinhadores, adesão e prazos.","frases":[{"es":"El tratamiento con alineadores dura entre doce y dieciocho meses.","pt":"O tratamento com alinhadores dura entre doze e dezoito meses."},{"es":"Debe llevarlos veintidós horas al día, solo se quitan para comer.","pt":"Você deve usá-los vinte e duas horas por dia, só tira para comer."},{"es":"Cada juego se cambia cada diez días, siguiendo el orden numerado.","pt":"Cada jogo é trocado a cada dez dias, seguindo a ordem numerada."},{"es":"Al principio notará presión, sobre todo las primeras cuarenta y ocho horas.","pt":"No começo vai sentir pressão, principalmente nas primeiras quarenta e oito horas."},{"es":"Es fundamental cepillarse antes de volver a colocarlos.","pt":"É fundamental escovar os dentes antes de recolocá-los."},{"es":"Si no los usa el tiempo indicado, el tratamiento se alarga.","pt":"Se não usar o tempo indicado, o tratamento se estende."},{"es":"Colocaremos unos pequeños ataches de resina en algunos dientes.","pt":"Vamos colocar pequenos attachments de resina em alguns dentes."},{"es":"Al terminar, necesitará un retenedor para mantener el resultado.","pt":"Ao terminar, você vai precisar de uma contenção para manter o resultado."},{"es":"Vendrá a revisión cada seis u ocho semanas.","pt":"Você virá para revisão a cada seis ou oito semanas."},{"es":"Le muestro ahora la simulación del resultado final.","pt":"Vou mostrar agora a simulação do resultado final."}],"glosario":[{"es":"llevarlos","pt":"usá-los"},{"es":"juego","pt":"jogo/conjunto"},{"es":"se alarga","pt":"se prolonga"},{"es":"ataches","pt":"attachments"}],"preguntas":["¿Cuántas horas al día se usan los alineadores?","¿Qué pasa si el paciente no cumple?","Explique el tratamiento a un paciente en cinco frases."],"fuente":"Texto didáctico (OrthoRadar)","url":""},{"id":"L007","tema":"odonto","nivel":"B1","titulo":"Urgencia: dolor de muelas un domingo","resumen":"Atendimento de urgência por telefone e no consultório.","frases":[{"es":"Doctor, llevo toda la noche con un dolor insoportable.","pt":"Doutor, passei a noite toda com uma dor insuportável."},{"es":"¿El dolor aparece solo con el frío o también de forma espontánea?","pt":"A dor aparece só com o frio ou também de forma espontânea?"},{"es":"Si le duele al acostarse, suele indicar afectación del nervio.","pt":"Se dói ao deitar, costuma indicar comprometimento do nervo."},{"es":"¿Ha tomado algún analgésico y le ha hecho efecto?","pt":"Tomou algum analgésico e fez efeito?"},{"es":"Venga en una hora, le hago un hueco entre pacientes.","pt":"Venha em uma hora, abro um espaço entre pacientes."},{"es":"Voy a abrir el diente para aliviar la presión.","pt":"Vou abrir o dente para aliviar a pressão."},{"es":"Hoy resolvemos el dolor y la semana que viene terminamos el conducto.","pt":"Hoje resolvemos a dor e na semana que vem terminamos o canal."},{"es":"Le receto un antiinflamatorio cada ocho horas durante tres días.","pt":"Receito um anti-inflamatório a cada oito horas por três dias."},{"es":"No mastique de ese lado hasta la próxima cita.","pt":"Não mastigue desse lado até a próxima consulta."},{"es":"Si el dolor vuelve con fiebre, llámeme enseguida.","pt":"Se a dor voltar com febre, me ligue imediatamente."}],"glosario":[{"es":"insoportable","pt":"insuportável"},{"es":"hueco","pt":"brecha na agenda"},{"es":"aliviar","pt":"aliviar"},{"es":"masticar","pt":"mastigar"}],"preguntas":["¿Qué indica el dolor al acostarse?","¿Qué hace el dentista en la urgencia?","Simule la llamada del paciente y su respuesta."],"fuente":"Texto didáctico (OrthoRadar)","url":""},{"id":"L008","tema":"negocios","nivel":"B2","titulo":"Reunión de equipo: los números del mes","resumen":"Reunião de resultados com a equipe da clínica.","frases":[{"es":"Gracias por venir; vamos a repasar los indicadores del mes.","pt":"Obrigado por virem; vamos revisar os indicadores do mês."},{"es":"La facturación creció un doce por ciento respecto a julio.","pt":"O faturamento cresceu doze por cento em relação a julho."},{"es":"Sin embargo, la tasa de conversión de presupuestos bajó al cincuenta por ciento.","pt":"No entanto, a taxa de conversão de orçamentos caiu para cinquenta por cento."},{"es":"Eso significa que la mitad de los pacientes no acepta el plan.","pt":"Isso significa que metade dos pacientes não aceita o plano."},{"es":"A mi juicio, el problema no es el precio, sino la explicación.","pt":"Na minha opinião, o problema não é o preço, e sim a explicação."},{"es":"Propongo que dediquemos diez minutos a explicar cada presupuesto.","pt":"Proponho que dediquemos dez minutos a explicar cada orçamento."},{"es":"También quiero reducir las ausencias sin aviso previo.","pt":"Também quero reduzir as faltas sem aviso prévio."},{"es":"Enviaremos un recordatorio por mensaje el día anterior.","pt":"Enviaremos um lembrete por mensagem no dia anterior."},{"es":"¿Alguien tiene otra propuesta o alguna objeción?","pt":"Alguém tem outra proposta ou alguma objeção?"},{"es":"Quedamos así y lo revisamos dentro de un mes.","pt":"Ficamos assim e revisamos daqui a um mês."}],"glosario":[{"es":"repasar","pt":"revisar"},{"es":"respecto a","pt":"em relação a"},{"es":"ausencias","pt":"faltas"},{"es":"recordatorio","pt":"lembrete"}],"preguntas":["¿Qué indicador empeoró?","¿Qué dos medidas propone el responsable?","Presente sus propios números en español."],"fuente":"Texto didáctico (OrthoRadar)","url":""},{"id":"L009","tema":"negocios","nivel":"B2","titulo":"Correo a un proveedor internacional","resumen":"E-mail formal de negócios: cotação, prazo e reclamação.","frases":[{"es":"Estimados señores, me pongo en contacto con ustedes desde Brasil.","pt":"Prezados senhores, entro em contato com vocês desde o Brasil."},{"es":"Somos una clínica dental con dos sedes y doce profesionales.","pt":"Somos uma clínica odontológica com duas unidades e doze profissionais."},{"es":"Quisiera solicitar un presupuesto para el material que detallo abajo.","pt":"Gostaria de solicitar um orçamento para o material que detalho abaixo."},{"es":"Les agradecería que incluyeran el plazo de entrega y los gastos de envío.","pt":"Agradeceria se incluíssem o prazo de entrega e os custos de envio."},{"es":"¿Ofrecen algún descuento por volumen a partir de cien unidades?","pt":"Vocês oferecem algum desconto por volume a partir de cem unidades?"},{"es":"En el pedido anterior, dos cajas llegaron con el precinto roto.","pt":"No pedido anterior, duas caixas chegaram com o lacre rompido."},{"es":"Adjunto las fotografías y el número de albarán.","pt":"Anexo as fotografias e o número da nota de entrega."},{"es":"Les ruego que me confirmen la sustitución antes del viernes.","pt":"Peço que me confirmem a substituição antes de sexta-feira."},{"es":"Quedo a la espera de su respuesta.","pt":"Fico no aguardo da resposta de vocês."},{"es":"Saludos cordiales, doctor Mateo Silva.","pt":"Atenciosamente, doutor Mateus Silva."}],"glosario":[{"es":"quisiera","pt":"gostaria"},{"es":"precinto","pt":"lacre"},{"es":"albarán","pt":"nota de entrega"},{"es":"les ruego","pt":"peço a vocês"}],"preguntas":["¿Qué dos cosas pide el remitente?","¿Cuál es la queja?","Escriba un correo similar con sus datos."],"fuente":"Texto didáctico (OrthoRadar)","url":""},{"id":"L010","tema":"viajes","nivel":"B1","titulo":"Congreso de odontología en Madrid","resumen":"Viagem profissional: credenciamento, networking e apresentação.","frases":[{"es":"Vengo al congreso como asistente, no como ponente.","pt":"Venho ao congresso como participante, não como palestrante."},{"es":"¿Dónde recojo la acreditación y el programa?","pt":"Onde retiro o credenciamento e a programação?"},{"es":"La conferencia sobre regeneración ósea empieza a las diez.","pt":"A conferência sobre regeneração óssea começa às dez."},{"es":"¿Está muy lleno el taller práctico de la tarde?","pt":"O workshop prático da tarde está muito cheio?"},{"es":"Me interesa hablar con el representante de esa casa comercial.","pt":"Tenho interesse em falar com o representante daquela empresa."},{"es":"Encantado, soy Mateo Silva, ortodoncista de São Paulo.","pt":"Prazer, sou Mateus Silva, ortodontista de São Paulo."},{"es":"Trabajo sobre todo con alineadores y ortodoncia de adultos.","pt":"Trabalho principalmente com alinhadores e ortodontia de adultos."},{"es":"¿Me pasa su tarjeta y le escribo la semana que viene?","pt":"Pode me passar seu cartão que eu escrevo na semana que vem?"},{"es":"La cena de clausura es a las nueve, ¿va a ir?","pt":"O jantar de encerramento é às nove, você vai?"},{"es":"Ha sido un placer, seguimos en contacto.","pt":"Foi um prazer, seguimos em contato."}],"glosario":[{"es":"ponente","pt":"palestrante"},{"es":"acreditación","pt":"credenciamento"},{"es":"casa comercial","pt":"empresa/fornecedor"},{"es":"clausura","pt":"encerramento"}],"preguntas":["¿A qué viene el protagonista al congreso?","¿Cómo se presenta?","Preséntese usted en español en cuatro frases."],"fuente":"Texto didáctico (OrthoRadar)","url":""},{"id":"L011","tema":"viajes","nivel":"B1","titulo":"Un problema en el aeropuerto","resumen":"Voo atrasado, conexão perdida e reclamação.","frases":[{"es":"Mi vuelo salió con dos horas de retraso y perdí la conexión.","pt":"Meu voo saiu com duas horas de atraso e perdi a conexão."},{"es":"¿Cuál es la próxima opción para llegar hoy a Santiago?","pt":"Qual é a próxima opção para chegar hoje a Santiago?"},{"es":"¿La aerolínea se hace cargo del hotel?","pt":"A companhia aérea se responsabiliza pelo hotel?"},{"es":"Necesito un comprobante del retraso para el seguro.","pt":"Preciso de um comprovante do atraso para o seguro."},{"es":"Mi maleta quedó facturada hasta el destino final.","pt":"Minha mala foi despachada até o destino final."},{"es":"¿Puedo recuperarla o sigue el itinerario original?","pt":"Posso recuperá-la ou ela segue o itinerário original?"},{"es":"Tengo un compromiso profesional mañana a primera hora.","pt":"Tenho um compromisso profissional amanhã bem cedo."},{"es":"Le agradecería cualquier alternativa, aunque sea con otra compañía.","pt":"Agradeceria qualquer alternativa, mesmo que com outra companhia."},{"es":"Prefiero un asiento de pasillo si es posible.","pt":"Prefiro um assento no corredor, se possível."},{"es":"Muchas gracias por la ayuda, ha sido muy amable.","pt":"Muito obrigado pela ajuda, você foi muito gentil."}],"glosario":[{"es":"se hace cargo","pt":"se responsabiliza"},{"es":"comprobante","pt":"comprovante"},{"es":"facturada","pt":"despachada"},{"es":"a primera hora","pt":"bem cedo"}],"preguntas":["¿Qué pasó con el vuelo?","¿Qué documentos pide el pasajero?","Resuelva la situación en español, en voz alta."],"fuente":"Texto didáctico (OrthoRadar)","url":""},{"id":"L012","tema":"rutina","nivel":"B1","titulo":"Hablar de uno mismo sin sonar a currículum","resumen":"Falar de si, da carreira e da família de forma natural.","frases":[{"es":"Soy de São Paulo, aunque nací en el interior del estado.","pt":"Sou de São Paulo, embora tenha nascido no interior do estado."},{"es":"Estudié odontología y me especialicé en ortodoncia.","pt":"Estudei odontologia e me especializei em ortodontia."},{"es":"Llevo doce años trabajando en consulta privada.","pt":"Trabalho há doze anos em consultório particular."},{"es":"Además de la clínica, tengo un proyecto de tecnología para dentistas.","pt":"Além da clínica, tenho um projeto de tecnologia para dentistas."},{"es":"Estoy casado y tengo dos hijos pequeños.","pt":"Sou casado e tenho dois filhos pequenos."},{"es":"Los fines de semana intento desconectar del trabajo.","pt":"Nos fins de semana tento desconectar do trabalho."},{"es":"Me gusta cocinar, aunque no se me da especialmente bien.","pt":"Gosto de cozinhar, embora não seja lá muito bom nisso."},{"es":"Estoy aprendiendo español porque trabajo con colegas de Hispanoamérica.","pt":"Estou aprendendo espanhol porque trabalho com colegas da América Hispânica."},{"es":"Todavía me cuesta seguir una conversación rápida.","pt":"Ainda tenho dificuldade em acompanhar uma conversa rápida."},{"es":"Pero entiendo casi todo y cada semana hablo un poco mejor.","pt":"Mas entendo quase tudo e cada semana falo um pouco melhor."}],"glosario":[{"es":"llevo doce años","pt":"faz doze anos que"},{"es":"desconectar","pt":"desligar"},{"es":"no se me da bien","pt":"não sou bom nisso"},{"es":"me cuesta","pt":"tenho dificuldade"}],"preguntas":["¿Cuánto tiempo lleva trabajando?","¿Por qué aprende español?","Preséntese usted con diez frases propias."],"fuente":"Texto didáctico (OrthoRadar)","url":""},{"id":"L013","tema":"odonto","nivel":"B2","titulo":"Cuando el paciente no está satisfecho","resumen":"Lidar com reclamação clínica com firmeza e empatia.","frases":[{"es":"Entiendo su malestar y quiero escucharle con calma.","pt":"Entendo seu desconforto e quero ouvi-lo com calma."},{"es":"Cuénteme exactamente qué es lo que no le convence del resultado.","pt":"Conte-me exatamente o que não lhe agrada no resultado."},{"es":"Tiene razón en que el color no coincide del todo con el diente vecino.","pt":"Você tem razão que a cor não coincide totalmente com o dente vizinho."},{"es":"Le propongo repetir la carilla sin coste adicional.","pt":"Proponho refazer a faceta sem custo adicional."},{"es":"Lo que no puedo garantizar es un resultado idéntico al de la foto.","pt":"O que não posso garantir é um resultado idêntico ao da foto."},{"es":"Prefiero ser honesto antes que prometer algo imposible.","pt":"Prefiro ser honesto a prometer algo impossível."},{"es":"Voy a documentar todo en su historia clínica.","pt":"Vou documentar tudo no seu prontuário."},{"es":"Si prefiere una segunda opinión, se la facilito sin problema.","pt":"Se preferir uma segunda opinião, providencio sem problema."},{"es":"Mi objetivo es que salga de aquí conforme con el trabajo.","pt":"Meu objetivo é que você saia daqui satisfeito com o trabalho."},{"es":"¿Le parece bien que lo veamos de nuevo el martes?","pt":"Acha bom revermos isso na terça?"}],"glosario":[{"es":"malestar","pt":"desconforto/incômodo"},{"es":"no le convence","pt":"não lhe agrada"},{"es":"sin coste adicional","pt":"sem custo adicional"},{"es":"conforme","pt":"satisfeito"}],"preguntas":["¿Qué reconoce el profesional?","¿Qué no puede garantizar?","Responda a una queja en español, con cinco frases."],"fuente":"Texto didáctico (OrthoRadar)","url":""},{"id":"L014","tema":"negocios","nivel":"B2","titulo":"Contratar y formar al equipo","resumen":"Entrevista de emprego e feedback com a equipe.","frases":[{"es":"Hemos revisado su currículum y nos interesa su experiencia.","pt":"Analisamos seu currículo e nos interessa sua experiência."},{"es":"¿Por qué le gustaría trabajar en nuestra clínica?","pt":"Por que você gostaria de trabalhar na nossa clínica?"},{"es":"¿Cómo reacciona ante un paciente enfadado?","pt":"Como você reage diante de um paciente irritado?"},{"es":"Buscamos a alguien resolutivo y con buen trato.","pt":"Buscamos alguém resolutivo e com bom trato."},{"es":"El horario es de nueve a seis, con una hora para comer.","pt":"O horário é das nove às seis, com uma hora de almoço."},{"es":"Hay un período de prueba de tres meses.","pt":"Há um período de experiência de três meses."},{"es":"Le daremos formación en el software de gestión.","pt":"Daremos treinamento no software de gestão."},{"es":"Cada mes tenemos una reunión individual de seguimiento.","pt":"Todo mês temos uma reunião individual de acompanhamento."},{"es":"Valoro mucho que se avise de los errores a tiempo.","pt":"Valorizo muito que os erros sejam avisados a tempo."},{"es":"Le confirmamos la decisión antes del viernes.","pt":"Confirmamos a decisão antes de sexta-feira."}],"glosario":[{"es":"resolutivo","pt":"que resolve"},{"es":"buen trato","pt":"boa educação/trato"},{"es":"período de prueba","pt":"período de experiência"},{"es":"formación","pt":"treinamento"}],"preguntas":["¿Qué perfil busca la clínica?","¿Cómo es el proceso después de la entrevista?","Haga tres preguntas de entrevista en español."],"fuente":"Texto didáctico (OrthoRadar)","url":""},{"id":"L015","tema":"rutina","nivel":"B2","titulo":"Conversación en la sobremesa","resumen":"Small talk pós-almoço: opiniões, discordar com educação, mudar de assunto.","frases":[{"es":"¿Qué tal el fin de semana? ¿Hiciste algo interesante?","pt":"Como foi o fim de semana? Fez algo interessante?"},{"es":"Pues mira, estuve en la playa con la familia, aunque llovió el domingo.","pt":"Olha, estive na praia com a família, embora tenha chovido no domingo."},{"es":"A mí me pasa lo mismo, siempre que planeo algo, cambia el tiempo.","pt":"Comigo é a mesma coisa, sempre que planejo algo, o tempo muda."},{"es":"Oye, ¿tú qué opinas de trabajar los sábados?","pt":"Escuta, o que você acha de trabalhar aos sábados?"},{"es":"Sinceramente, no lo veo claro, prefiero concentrar la semana.","pt":"Sinceramente, não me convence, prefiro concentrar a semana."},{"es":"Entiendo tu punto, pero yo lo veo de otra manera.","pt":"Entendo seu ponto, mas eu vejo de outra maneira."},{"es":"Puede ser, no lo había pensado así.","pt":"Pode ser, eu não tinha pensado assim."},{"es":"Bueno, cambiando de tema, ¿ya reservaste las vacaciones?","pt":"Bom, mudando de assunto, você já reservou as férias?"},{"es":"Se me está haciendo tarde, tengo paciente a las tres.","pt":"Está ficando tarde, tenho paciente às três."},{"es":"Nos vemos mañana, que vaya bien.","pt":"A gente se vê amanhã, tudo de bom."}],"glosario":[{"es":"pues mira","pt":"olha"},{"es":"no lo veo claro","pt":"não me convence"},{"es":"oye","pt":"escuta"},{"es":"se me hace tarde","pt":"está ficando tarde"}],"preguntas":["¿Cómo discrepa con educación el hablante?","¿Qué expresión usa para cambiar de tema?","Mantenga una sobremesa de dos minutos en español."],"fuente":"Texto didáctico (OrthoRadar)","url":""}],"build":"2026-08-25"};</script>
+<script>
+/* ---------- Español 90 · núcleo ---------- */
+const DB = window.DB; // injetado no build
+
+/* ---------- utilidades ---------- */
+const $ = (s, r=document) => r.querySelector(s);
+const el = (t, a={}, ...kids) => {
+  const n = document.createElement(t);
+  for (const [k,v] of Object.entries(a)) {
+    if (v === null || v === undefined || v === false) continue;
+    if (k === 'class') n.className = v;
+    else if (k === 'html') n.innerHTML = v;
+    else if (k.startsWith('on')) n.addEventListener(k.slice(2), v);
+    else n.setAttribute(k, v);
+  }
+  for (const k of kids.flat()) if (k !== null && k !== undefined && k !== false)
+    n.append(k.nodeType ? k : document.createTextNode(k));
+  return n;
+};
+const hoje = () => new Date().toLocaleDateString('sv-SE'); // YYYY-MM-DD local
+const diaISO = (d) => d.toLocaleDateString('sv-SE');
+const addDias = (iso, n) => { const d = new Date(iso+'T12:00:00'); d.setDate(d.getDate()+n); return diaISO(d); };
+const diffDias = (a, b) => Math.round((new Date(b+'T12:00:00') - new Date(a+'T12:00:00'))/864e5);
+const plural = (n, s, p) => `${n} ${n === 1 ? s : p}`;
+const norm = (s) => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z ]/g,'');
+const fmtData = (iso) => new Date(iso+'T12:00:00').toLocaleDateString('pt-BR',{day:'2-digit',month:'short'});
+
+/* semelhança PT/ES — Levenshtein normalizado */
+function lev(a, b) {
+  const m = a.length, n = b.length;
+  if (!m) return n; if (!n) return m;
+  let prev = Array.from({length:n+1}, (_,i)=>i), cur = new Array(n+1);
+  for (let i=1;i<=m;i++){
+    cur[0]=i;
+    for (let j=1;j<=n;j++)
+      cur[j] = Math.min(prev[j]+1, cur[j-1]+1, prev[j-1] + (a[i-1]===b[j-1]?0:1));
+    [prev,cur] = [cur,prev];
+  }
+  return prev[n];
+}
+function semelhanca(es, pt) {
+  const a = norm(es), b = norm(pt.split(/[,/(]/)[0].trim());
+  if (!a || !b) return 0;
+  return 1 - lev(a,b) / Math.max(a.length, b.length);
+}
+const CLASSES_SEM = [
+  {id:'identica', label:'Idêntica',   min:.95, dica:'Palavra de graça — só cuidado com a pronúncia.'},
+  {id:'quase',    label:'Quase igual',min:.75, dica:'Muda pouco: atenção à letra que troca.'},
+  {id:'parecida', label:'Parecida',   min:.50, dica:'Dá para deduzir, mas erre uma vez e vira vício.'},
+  {id:'diferente',label:'Diferente',  min:0,   dica:'Prioridade máxima: não dá para adivinhar.'},
+];
+const classeSem = (v) => CLASSES_SEM.find(c => v >= c.min);
+
+/* ---------- carga dos dados ---------- */
+function parseLinhas(txt, campos) {
+  return txt.trim().split('\n').filter(Boolean).map(l => {
+    const p = l.split('|');
+    const o = {};
+    campos.forEach((c,i) => o[c] = (p[i]||'').trim());
+    return o;
+  });
+}
+const FREQ = parseLinhas(DB.frequencia, ['es','pt','classe']).map((w,i) => {
+  const sim = semelhanca(w.es, w.pt);
+  return {...w, rank:i+1, id:'f'+i, sim, simClasse: classeSem(sim).id};
+});
+const FALSOS = parseLinhas(DB.falsos, ['es','parece','significa','comoDizer','exES','exPT','tema'])
+  .map((f,i) => ({...f, id:'x'+i}));
+const TEMATICO = parseLinhas(DB.tematico, ['es','pt','tema','sub','exES','exPT']).map((t,i) => {
+  const sim = semelhanca(t.es, t.pt);
+  return {...t, id:'t'+i, sim, simClasse: classeSem(sim).id};
+});
+const LECTURAS = DB.lecturas.slice().sort((a,b) => a.id.localeCompare(b.id));
+const CONVERSA = DB.conversa;
+const TEMAS = {odonto:'Odontologia', negocios:'Negócios', viajes:'Viagens', rutina:'Rotina', geral:'Geral'};
+
+/* índice palavra -> objeto, usado para marcar vocabulário */
+const VOCAB_ALL = [
+  ...FREQ.map(w => ({...w, fonte:'freq'})),
+  ...TEMATICO.map(w => ({...w, fonte:'tema'})),
+];
+
+/* ---------- estado ---------- */
+const clonar = (o) => JSON.parse(JSON.stringify(o));
+const CHAVE = 'esp90.v1';
+const ESTADO_PADRAO = {
+  inicio: hoje(),
+  meta: 60,                 // minutos/dia
+  novasPorDia: 15,          // palavras da lista de 1000 por dia
+  vocab: {},                // es -> {s:0|1|2, v:vistas, u:ultimaISO}
+  cards: {},                // id -> card SRS
+  dias: {},                 // ISO -> {min, blocos:{}, revisados, novas, cardsNovos}
+  lecturasFeitas: {},       // idLeitura -> ISO
+  ultimoAcesso: hoje(),
+  tema: 'auto',
+  v: 1,
+};
+let S = carregar();
+
+function carregar() {
+  try {
+    const raw = localStorage.getItem(CHAVE);
+    if (!raw) return clonar(ESTADO_PADRAO);
+    const s = JSON.parse(raw);
+    return {...clonar(ESTADO_PADRAO), ...s};
+  } catch (e) { return clonar(ESTADO_PADRAO); }
+}
+let salvarPend = null;
+function salvar() {
+  clearTimeout(salvarPend);
+  salvarPend = setTimeout(() => {
+    try { localStorage.setItem(CHAVE, JSON.stringify(S)); } catch (e) {}
+  }, 120);
+}
+function dia(iso = hoje()) {
+  if (!S.dias[iso]) S.dias[iso] = {min:0, blocos:{}, revisados:0, novas:0, cardsNovos:0};
+  return S.dias[iso];
+}
+
+/* ---------- vocabulário ---------- */
+function vStat(es) { return S.vocab[es]?.s ?? 0; }
+function verVocab(es) {
+  const v = S.vocab[es] || (S.vocab[es] = {s:0, v:0, u:''});
+  if (v.u !== hoje()) { v.v++; v.u = hoje(); if (v.s === 0) { v.s = 1; dia().novas++; } }
+  salvar();
+}
+function setVocab(es, s) {
+  const v = S.vocab[es] || (S.vocab[es] = {s:0, v:0, u:''});
+  v.s = s; v.u = hoje(); salvar();
+}
+const contaVocab = (lista, s) => lista.filter(w => vStat(w.es) === s).length;
+
+/* ---------- SRS (SM-2 adaptado) ---------- */
+const INTERVALOS_NOVOS = [0, 1, 3];   // aprendendo: hoje -> +1d -> +3d
+function novoCard({front, back, tags=[], fonte='', extra=''}) {
+  const id = 'c' + (front + '|' + back).split('').reduce((h,c)=>((h<<5)-h+c.charCodeAt(0))|0, 0);
+  if (S.cards[id]) return S.cards[id];
+  S.cards[id] = {id, front, back, tags, fonte, extra,
+    ef:2.5, int:0, passo:0, due:hoje(), reps:0, lapsos:0, criado:hoje()};
+  dia().cardsNovos++;
+  salvar();
+  return S.cards[id];
+}
+function temCard(front) {
+  return Object.values(S.cards).some(c => c.front === front);
+}
+function avaliar(card, nota) { // 0 de novo, 1 difícil, 2 bom, 3 fácil
+  const c = card;
+  c.reps++;
+  if (nota === 0) {
+    c.lapsos++; c.passo = 0; c.int = 0; c.ef = Math.max(1.3, c.ef - 0.2);
+    c.due = hoje();
+  } else if (c.passo < INTERVALOS_NOVOS.length - 1 && c.int === 0) {
+    c.passo++;
+    const d = INTERVALOS_NOVOS[c.passo] || 1;
+    c.due = addDias(hoje(), nota === 3 ? Math.max(d,2) : d);
+    if (c.passo >= INTERVALOS_NOVOS.length - 1) c.int = INTERVALOS_NOVOS[c.passo];
+  } else {
+    const q = [0, 3, 4, 5][nota];
+    c.ef = Math.max(1.3, c.ef + (0.1 - (5-q) * (0.08 + (5-q) * 0.02)));
+    const base = c.int || 3;
+    let f = nota === 1 ? 1.25 : nota === 3 ? c.ef * 1.35 : c.ef;
+    c.int = Math.max(1, Math.round(base * f));
+    c.due = addDias(hoje(), c.int);
+  }
+  dia().revisados++;
+  salvar();
+}
+const cardsDevidos = () => Object.values(S.cards)
+  .filter(c => c.due <= hoje())
+  .sort((a,b) => (a.due < b.due ? -1 : a.due > b.due ? 1 : a.reps - b.reps));
+const estagio = (c) => c.int >= 21 ? 'maduro' : c.int > 0 ? 'jovem' : c.reps ? 'aprendendo' : 'novo';
+
+/* ---------- plano do dia (determinístico) ---------- */
+function indiceDia(iso = hoje()) { return Math.max(0, diffDias(S.inicio, iso)); }
+function planoDoDia(iso = hoje()) {
+  const d = indiceDia(iso);
+  const n = S.novasPorDia;
+  const ini = (d * n) % FREQ.length;
+  const mil = [];
+  for (let i = 0; i < n; i++) mil.push(FREQ[(ini + i) % FREQ.length]);
+  const temaDoDia = ['odonto','negocios','odonto','viajes','odonto','rutina','negocios'][d % 7];
+  const pool = TEMATICO.filter(t => t.tema === temaDoDia);
+  const tem = [];
+  for (let i = 0; i < 8; i++) tem.push(pool[(d * 8 + i) % pool.length]);
+  const fal = [FALSOS[(d*3) % FALSOS.length], FALSOS[(d*3+1) % FALSOS.length], FALSOS[(d*3+2) % FALSOS.length]];
+  const lec = LECTURAS[d % LECTURAS.length];
+  return {d, mil, tem, fal, lec, temaDoDia, ciclo: Math.floor((d*n)/FREQ.length) + 1};
+}
+const BLOCOS = [
+  {id:'anki',  min:12, titulo:'Revisão Anki',           desc:'Frases devidas hoje. Fale em voz alta antes de virar a carta.', aba:'anki'},
+  {id:'lect',  min:15, titulo:'Leitura do dia',          desc:'Leia em voz alta, traduza mentalmente e mande 4–8 frases para o Anki.', aba:'lectura'},
+  {id:'mil',   min:12, titulo:'Lote das 1000 palavras',  desc:'Passe pelas palavras novas do dia e marque o que já domina.', aba:'mil'},
+  {id:'falso', min:8,  titulo:'Falsos amigos',           desc:'3 armadilhas do dia. Diga a frase-exemplo em voz alta.', aba:'falsos'},
+  {id:'tema',  min:8,  titulo:'Vocabulário temático',    desc:'Bloco do dia: odontologia, negócios, viagens ou rotina.', aba:'tema'},
+  {id:'fala',  min:5,  titulo:'Produção oral',           desc:'Grave 60–90 s falando sobre o tema do dia. Sem consultar nada.', aba:'conversa'},
+];
+
+</script>
+<script>
+/* ---------- Español 90 · interface ---------- */
+const ABAS = [
+  {id:'hoy',      nome:'Hoje'},
+  {id:'lectura',  nome:'Leitura'},
+  {id:'anki',     nome:'Anki'},
+  {id:'mil',      nome:'1000 palavras'},
+  {id:'falsos',   nome:'Falsos amigos'},
+  {id:'tema',     nome:'Temático'},
+  {id:'conversa', nome:'Conversa'},
+  {id:'progreso', nome:'Progresso'},
+];
+let abaAtual = 'hoy';
+
+function irPara(id) {
+  abaAtual = id;
+  for (const a of ABAS) {
+    $('#tab-'+a.id).hidden = a.id !== id;
+    $('#nav-'+a.id).setAttribute('aria-selected', a.id === id);
+  }
+  location.hash = id;
+  window.scrollTo({top:0});
+  RENDER[id]();
+}
+function montarNav() {
+  const nav = $('#nav');
+  nav.replaceChildren(...ABAS.map(a =>
+    el('button', {id:'nav-'+a.id, role:'tab', 'aria-selected':a.id===abaAtual, onclick:()=>irPara(a.id)}, a.nome)));
+}
+
+/* ---------- áudio ---------- */
+let vozES = null;
+function carregarVoz() {
+  const vs = speechSynthesis?.getVoices?.() || [];
+  vozES = vs.find(v => /^es[-_]ES/i.test(v.lang)) || vs.find(v => /^es/i.test(v.lang)) || null;
+}
+if (window.speechSynthesis) { carregarVoz(); speechSynthesis.onvoiceschanged = carregarVoz; }
+function falar(texto) {
+  if (!window.speechSynthesis) return;
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(texto);
+  u.lang = 'es-ES'; u.rate = .92; if (vozES) u.voice = vozES;
+  speechSynthesis.speak(u);
+}
+const btnSom = (txt) => el('button', {class:'spk', title:'Ouvir em espanhol',
+  'aria-label':'Ouvir', onclick:(e)=>{e.stopPropagation(); falar(txt);}}, '🔊');
+
+/* ---------- componentes ---------- */
+function barra(pct, ok=false) {
+  return el('div', {class:'bar'+(ok?' ok':'')}, el('i', {style:`width:${Math.max(0,Math.min(100,pct))}%`}));
+}
+function stat(valor, rotulo) { return el('div', {class:'stat'}, el('b', {}, String(valor)), el('span', {}, rotulo)); }
+function tagTema(t) { return el('span', {class:'tag '+t}, TEMAS[t] || t); }
+function cabecalho(sec, titulo, sub) {
+  sec.replaceChildren();
+  return el('div', {}, el('h2', {}, titulo), sub && el('p', {class:'sub'}, sub));
+}
+function linhaVocab(w, {mostrarSim=true} = {}) {
+  const st = vStat(w.es);
+  const item = el('div', {class:'item'},
+    el('span', {class:'dot s'+st, title:['não vista','aprendendo','dominada'][st]}),
+    el('div', {class:'main'},
+      el('span', {class:'es'}, w.es, w.classe ? el('span',{class:'pt'},'') : ''),
+      el('span', {class:'pt'}, w.pt)),
+    mostrarSim ? el('span', {class:'tag', title:classeSem(w.sim).dica}, classeSem(w.sim).label) : null,
+    btnSom(w.es),
+    el('button', {class:'btn sm', onclick:(e)=>{
+      const novo = (vStat(w.es)+1) % 3; setVocab(w.es, novo);
+      e.target.textContent = ['marcar','aprendendo','dominada'][novo];
+      item.querySelector('.dot').className = 'dot s'+novo;
+    }}, ['marcar','aprendendo','dominada'][st]));
+  return item;
+}
+
+/* ---------- ABA: HOJE ---------- */
+function renderHoy() {
+  const sec = $('#tab-hoy'); const p = planoDoDia(); const d = dia();
+  const devidos = cardsDevidos().length;
+  sec.replaceChildren();
+
+  const feitos = BLOCOS.filter(b => d.blocos[b.id]).length;
+  const head = el('div', {class:'card'},
+    el('h2', {}, `Dia ${p.d+1} de 90 · ${fmtData(hoje())}`),
+    el('p', {class:'sub'}, `Bloco temático de hoje: ${TEMAS[p.temaDoDia]} · lote ${p.ciclo}ª passada nas 1000 palavras`),
+    barra(feitos/BLOCOS.length*100, feitos===BLOCOS.length),
+    el('div', {class:'row', style:'margin-top:10px;justify-content:space-between'},
+      el('span', {class:'pt'}, `${feitos}/${BLOCOS.length} blocos · ${d.min} de ${S.meta} min`),
+      el('span', {class:'pt'}, devidos ? `${plural(devidos,'card devido','cards devidos')}` : 'Anki em dia ✓')));
+  sec.append(head);
+
+  const lista = el('div', {class:'card'}, el('h2', {}, 'Plano de 60 minutos'),
+    el('p', {class:'sub'}, 'Toque no bloco para ir direto. Marque o quadrado ao terminar.'));
+  for (const b of BLOCOS) {
+    const done = !!d.blocos[b.id];
+    const bl = el('div', {class:'block'+(done?' done':'')},
+      el('span', {class:'mins'}, b.min+"'"),
+      el('div', {class:'body', onclick:()=>irPara(b.aba)},
+        el('b', {}, b.titulo + (b.id==='anki' && devidos ? ` · ${devidos}` : '')),
+        el('span', {}, b.desc)),
+      el('button', {class:'check', 'aria-pressed':done, 'aria-label':'Concluir bloco', onclick:(e)=>{
+        const agora = !d.blocos[b.id];
+        d.blocos[b.id] = agora;
+        if (agora) d.min = Math.min(180, d.min + b.min); else d.min = Math.max(0, d.min - b.min);
+        salvar(); renderHoy(); atualizarPills();
+      }}, done ? '✓' : ''));
+    lista.append(bl);
+  }
+  sec.append(lista);
+
+  sec.append(cronometro());
+
+  const prev = el('div', {class:'card'},
+    el('h2', {}, 'Prévia do dia'),
+    el('p', {class:'sub'}, 'O que você vai encontrar em cada bloco.'),
+    el('div', {class:'grid g2'},
+      el('div', {},
+        el('h3', {}, 'Leitura'),
+        el('div', {class:'row'}, tagTema(p.lec.tema), el('span', {class:'tag'}, p.lec.nivel)),
+        el('p', {style:'margin:6px 0 2px'}, el('b', {}, p.lec.titulo)),
+        el('p', {class:'pt', style:'font-size:14px;margin:0'}, p.lec.resumen),
+        el('button', {class:'btn sm', style:'margin-top:8px', onclick:()=>irPara('lectura')}, 'Abrir leitura →')),
+      el('div', {},
+        el('h3', {}, 'Falsos amigos de hoje'),
+        ...p.fal.map(f => el('p', {style:'margin:4px 0;font-size:14px'},
+          el('b', {}, f.es), ' — ', f.significa,
+          el('span', {class:'trap', style:'color:var(--accent);font-size:12px'}, ` (≠ ${f.parece})`))))));
+  sec.append(prev);
+
+  const palavras = el('div', {class:'card'},
+    el('h2', {}, `Lote de hoje · ${p.mil.length} palavras frequentes`),
+    el('p', {class:'sub'}, 'Leia em voz alta. As "diferentes" são as que exigem trabalho real.'),
+    el('div', {class:'list'}, ...p.mil.map(w => { verVocabSilencioso(w.es); return linhaVocab(w); })),
+    el('button', {class:'btn', style:'margin-top:10px', onclick:()=>{
+      let n=0; for (const w of p.mil) if (!temCard(w.es)) { novoCard({front:w.es, back:w.pt, tags:['1000'], fonte:'Lista de frequência'}); n++; }
+      alert(n ? `${n} palavras adicionadas ao Anki.` : 'Todas já estavam no Anki.'); renderHoy();
+    }}, '+ Mandar lote para o Anki'));
+  sec.append(palavras);
+}
+function verVocabSilencioso(es) {
+  const v = S.vocab[es] || (S.vocab[es] = {s:0, v:0, u:''});
+  if (v.u !== hoje()) { v.v++; v.u = hoje(); if (v.s === 0) v.s = 1; }
+  salvar();
+}
+
+/* cronômetro de sessão */
+let cronId = null, cronSeg = 0, cronRodando = false;
+function cronometro() {
+  const disp = el('div', {class:'timer'}, '00:00');
+  const pinta = () => disp.textContent =
+    `${String(Math.floor(cronSeg/60)).padStart(2,'0')}:${String(cronSeg%60).padStart(2,'0')}`;
+  pinta();
+  const btn = el('button', {class:'btn primary', onclick:()=>{
+    cronRodando = !cronRodando;
+    btn.textContent = cronRodando ? 'Pausar' : 'Iniciar';
+    clearInterval(cronId);
+    if (cronRodando) cronId = setInterval(()=>{ cronSeg++; pinta(); }, 1000);
+  }}, cronRodando ? 'Pausar' : 'Iniciar');
+  return el('div', {class:'card'},
+    el('h2', {}, 'Cronômetro da sessão'),
+    el('p', {class:'sub'}, 'Opcional. Ao parar, os minutos entram no seu registro do dia.'),
+    el('div', {class:'row'}, disp, btn,
+      el('button', {class:'btn', onclick:()=>{
+        const m = Math.round(cronSeg/60);
+        if (m > 0) { dia().min += m; salvar(); }
+        cronSeg = 0; cronRodando = false; clearInterval(cronId); renderHoy(); atualizarPills();
+      }}, 'Registrar e zerar')));
+}
+
+/* ---------- ABA: LEITURA ---------- */
+let lecturaAtual = null;
+function renderLectura() {
+  const sec = $('#tab-lectura');
+  const p = planoDoDia();
+  const lec = lecturaAtual ? LECTURAS.find(l => l.id === lecturaAtual) || p.lec : p.lec;
+  sec.replaceChildren();
+
+  const sel = el('select', {onchange:(e)=>{ lecturaAtual = e.target.value; renderLectura(); }},
+    ...LECTURAS.map(l => el('option', {value:l.id, selected:l.id===lec.id},
+      `${l.id} · ${l.titulo} (${TEMAS[l.tema]}, ${l.nivel})`)));
+
+  sec.append(el('div', {class:'card'},
+    el('h2', {}, lec.titulo),
+    el('div', {class:'row', style:'margin-bottom:8px'}, tagTema(lec.tema), el('span',{class:'tag'},lec.nivel),
+      el('span', {class:'tag'}, S.lecturasFeitas[lec.id] ? 'lida ✓' : 'não lida')),
+    el('p', {class:'sub'}, lec.resumen),
+    lec.fuente ? el('p', {class:'notice'},
+      'Fonte: ' + lec.fuente + (lec.url ? ' — ' : ''),
+      lec.url ? el('a', {href:lec.url, target:'_blank', rel:'noopener'}, lec.url) : '') : null,
+    el('div', {style:'margin-top:12px'}, el('label', {class:'fld'}, 'Trocar de texto'), sel)));
+
+  const bloco = el('div', {class:'card'},
+    el('h2', {}, 'Texto'),
+    el('p', {class:'sub'}, 'Toque na frase para ver a tradução. Toque em "+ Anki" para virar card.'));
+  for (const f of lec.frases) {
+    const jaTem = temCard(f.es);
+    const linha = el('div', {class:'frase'+(jaTem?' added':''), onclick:(e)=>{ if(!e.target.closest('button')) linha.classList.toggle('open'); }},
+      el('div', {class:'row', style:'justify-content:space-between;align-items:flex-start;gap:8px'},
+        el('span', {class:'es', style:'flex:1'}, f.es),
+        el('span', {class:'row', style:'gap:2px;flex:0 0 auto'},
+          btnSom(f.es),
+          el('button', {class:'btn sm', onclick:()=>{
+            novoCard({front:f.es, back:f.pt, tags:['leitura', lec.tema], fonte:lec.titulo});
+            linha.classList.add('added'); renderLectura();
+          }}, jaTem ? 'no Anki ✓' : '+ Anki'))),
+      el('div', {class:'pt'}, f.pt));
+    bloco.append(linha);
+  }
+  bloco.append(el('div', {class:'row', style:'margin-top:12px'},
+    el('button', {class:'btn primary', onclick:()=>{
+      let n=0; for (const f of lec.frases) if (!temCard(f.es)) { novoCard({front:f.es, back:f.pt, tags:['leitura', lec.tema], fonte:lec.titulo}); n++; }
+      S.lecturasFeitas[lec.id] = hoje(); salvar();
+      alert(n ? `${n} frases adicionadas ao Anki.` : 'Todas as frases já estavam no Anki.'); renderLectura();
+    }}, '+ Todas as frases para o Anki'),
+    el('button', {class:'btn', onclick:()=>{ falar(lec.frases.map(f=>f.es).join(' ')); }}, '🔊 Ouvir o texto'),
+    el('button', {class:'btn ghost', onclick:()=>{ S.lecturasFeitas[lec.id]=hoje(); salvar(); renderLectura(); }}, 'Marcar como lida')));
+  sec.append(bloco);
+
+  if (lec.glosario?.length) sec.append(el('div', {class:'card'},
+    el('h2', {}, 'Glossário'),
+    el('div', {class:'list'}, ...lec.glosario.map(g =>
+      el('div', {class:'item'}, el('div', {class:'main'},
+        el('span', {class:'es'}, g.es), el('span', {class:'pt'}, g.pt)), btnSom(g.es))))));
+
+  if (lec.preguntas?.length) sec.append(el('div', {class:'card'},
+    el('h2', {}, 'Para responder em voz alta'),
+    el('p', {class:'sub'}, 'Responda sem escrever. É este bloco que vira conversa na aula presencial.'),
+    el('ol', {style:'margin:0;padding-left:20px'}, ...lec.preguntas.map(q => el('li', {style:'margin:6px 0'}, q)))));
+}
+
+/* ---------- ABA: ANKI ---------- */
+let cardAtual = null, mostrandoResposta = false, filaSessao = [];
+function renderAnki() {
+  const sec = $('#tab-anki');
+  sec.replaceChildren();
+  const todos = Object.values(S.cards);
+  const devidos = cardsDevidos();
+
+  sec.append(el('div', {class:'card'},
+    el('h2', {}, 'Revisão espaçada'),
+    el('p', {class:'sub'}, 'Algoritmo SM-2. Fale a frase em voz alta antes de virar a carta.'),
+    el('div', {class:'grid g3'},
+      stat(devidos.length, 'devidos hoje'),
+      stat(todos.filter(c => estagio(c)==='maduro').length, 'maduros (21d+)'),
+      stat(todos.length, 'total de cards'))));
+
+  if (!todos.length) {
+    sec.append(el('div', {class:'card'}, el('div', {class:'empty'},
+      'Nenhum card ainda. Vá à aba Leitura e mande as frases do texto do dia para cá.'),
+      el('div', {class:'row', style:'justify-content:center'},
+        el('button', {class:'btn primary', onclick:()=>irPara('lectura')}, 'Ir para a leitura'))));
+    sec.append(formCard());
+    return;
+  }
+  if (!devidos.length) {
+    sec.append(el('div', {class:'card'}, el('div', {class:'empty'},
+      '✓ Revisão do dia concluída. Volte amanhã — ou adicione frases novas.')));
+    sec.append(formCard()); sec.append(listaCards()); return;
+  }
+  if (!cardAtual || !S.cards[cardAtual.id] || cardAtual.due > hoje()) { cardAtual = devidos[0]; mostrandoResposta = false; }
+
+  const c = cardAtual;
+  const face = el('div', {class:'flash'},
+    el('div', {class:'q'}, c.front),
+    el('div', {class:'row'}, btnSom(c.front),
+      c.fonte ? el('span', {class:'tag'}, c.fonte) : null,
+      ...c.tags.map(t => el('span', {class:'tag'}, t))),
+    mostrandoResposta ? el('div', {class:'a'}, c.back) : null);
+  sec.append(face);
+
+  if (!mostrandoResposta) {
+    sec.append(el('div', {class:'row', style:'margin-top:12px;justify-content:center'},
+      el('button', {class:'btn primary', style:'width:100%;padding:14px', onclick:()=>{ mostrandoResposta = true; renderAnki(); }},
+        'Mostrar resposta  (espaço)')));
+  } else {
+    const g = el('div', {class:'grades'});
+    [['De novo','< 1 min',0], ['Difícil','1–2 d',1], ['Bom', proximoTexto(c,2), 2], ['Fácil', proximoTexto(c,3), 3]]
+      .forEach(([nome, sub, nota]) => g.append(el('button', {onclick:()=>{
+        avaliar(c, nota); cardAtual = null; mostrandoResposta = false; renderAnki(); atualizarPills();
+      }}, nome, el('small', {}, sub))));
+    sec.append(g);
+    sec.append(el('p', {class:'sub', style:'text-align:center;margin-top:10px'}, 'Atalhos: 1 · 2 · 3 · 4'));
+  }
+  sec.append(el('p', {class:'sub', style:'text-align:center'},
+    `${devidos.length} restantes hoje · ${plural(dia().revisados,'revisão feita','revisões feitas')}`));
+  sec.append(formCard());
+  sec.append(listaCards());
+}
+function proximoTexto(c, nota) {
+  const sim = JSON.parse(JSON.stringify(c));
+  const guarda = dia().revisados;
+  avaliar(sim, nota);
+  dia().revisados = guarda;
+  const d = diffDias(hoje(), sim.due);
+  return d <= 0 ? 'hoje' : d === 1 ? '1 dia' : d < 30 ? d+' dias' : Math.round(d/30)+' meses';
+}
+function formCard() {
+  const f = el('input', {placeholder:'Frase em espanhol'});
+  const b = el('input', {placeholder:'Tradução em português'});
+  return el('div', {class:'card'},
+    el('h2', {}, 'Adicionar frase manualmente'),
+    el('p', {class:'sub'}, 'Ouviu algo na aula presencial? Registre aqui na hora.'),
+    el('div', {class:'grid g2'},
+      el('div', {}, el('label', {class:'fld'}, 'Frente (ES)'), f),
+      el('div', {}, el('label', {class:'fld'}, 'Verso (PT)'), b)),
+    el('button', {class:'btn primary', style:'margin-top:10px', onclick:()=>{
+      if (!f.value.trim() || !b.value.trim()) return alert('Preencha os dois campos.');
+      novoCard({front:f.value.trim(), back:b.value.trim(), tags:['manual'], fonte:'Aula/anotação'});
+      f.value = b.value = ''; renderAnki();
+    }}, '+ Criar card'));
+}
+let filtroCards = 'todos';
+function listaCards() {
+  const todos = Object.values(S.cards).sort((a,b) => a.due.localeCompare(b.due));
+  const filtrados = filtroCards === 'todos' ? todos : todos.filter(c => estagio(c) === filtroCards);
+  const box = el('div', {class:'card'},
+    el('h2', {}, 'Todos os cards'),
+    el('div', {class:'chips'}, ...['todos','novo','aprendendo','jovem','maduro'].map(k =>
+      el('button', {class:'chip', 'aria-pressed':filtroCards===k, onclick:()=>{ filtroCards=k; renderAnki(); }},
+        k === 'todos' ? 'todos' : k))),
+    el('div', {class:'list'}, ...filtrados.slice(0,120).map(c =>
+      el('div', {class:'item'},
+        el('div', {class:'main'}, el('span', {class:'es'}, c.front), el('span', {class:'pt'}, c.back)),
+        el('span', {class:'tag'}, estagio(c)),
+        el('span', {class:'tag'}, c.due <= hoje() ? 'hoje' : fmtData(c.due)),
+        btnSom(c.front),
+        el('button', {class:'btn sm ghost', title:'Excluir', onclick:()=>{
+          if (confirm('Excluir este card?')) { delete S.cards[c.id]; salvar(); renderAnki(); }
+        }}, '✕')))));
+  if (filtrados.length > 120) box.append(el('p', {class:'sub', style:'margin-top:8px'},
+    `mostrando 120 de ${filtrados.length}`));
+  return box;
+}
+
+/* ---------- ABA: 1000 PALAVRAS ---------- */
+let milFiltro = {sim:'todas', st:'todos', q:'', lote:0};
+function renderMil() {
+  const sec = $('#tab-mil'); sec.replaceChildren();
+  const p = planoDoDia();
+  const vistas = FREQ.filter(w => vStat(w.es) > 0).length;
+  const dom = FREQ.filter(w => vStat(w.es) === 2).length;
+
+  sec.append(el('div', {class:'card'},
+    el('h2', {}, 'As 1000 palavras mais faladas'),
+    el('p', {class:'sub'}, `${FREQ.length} palavras em ordem de frequência. No ritmo de ${S.novasPorDia}/dia você passa por todas em ${Math.ceil(FREQ.length/S.novasPorDia)} dias — e recomeça.`),
+    barra(vistas/FREQ.length*100),
+    el('div', {class:'grid g3', style:'margin-top:12px'},
+      stat(vistas, 'já vistas'), stat(dom, 'dominadas'),
+      stat(FREQ.length - vistas, 'ainda intocadas'))));
+
+  const busca = el('input', {placeholder:'Buscar em espanhol ou português…', value:milFiltro.q,
+    oninput:(e)=>{ milFiltro.q = e.target.value; pintarLista(); }});
+  const chipsSim = el('div', {class:'chips'},
+    ...[['todas','Todas'],...CLASSES_SEM.map(c=>[c.id,c.label])].map(([k,rot]) =>
+      el('button', {class:'chip', 'aria-pressed':milFiltro.sim===k, onclick:()=>{ milFiltro.sim=k; renderMil(); }}, rot)));
+  const chipsSt = el('div', {class:'chips'},
+    ...[['todos','Qualquer status'],['0','Não vistas'],['1','Aprendendo'],['2','Dominadas']].map(([k,rot]) =>
+      el('button', {class:'chip', 'aria-pressed':milFiltro.st===k, onclick:()=>{ milFiltro.st=k; renderMil(); }}, rot)));
+
+  const listaBox = el('div', {class:'list'});
+  const contador = el('p', {class:'sub'});
+  function filtrar() {
+    const q = norm(milFiltro.q);
+    return FREQ.filter(w =>
+      (milFiltro.sim === 'todas' || w.simClasse === milFiltro.sim) &&
+      (milFiltro.st === 'todos' || String(vStat(w.es)) === milFiltro.st) &&
+      (!q || norm(w.es).includes(q) || norm(w.pt).includes(q)));
+  }
+  function pintarLista() {
+    const r = filtrar();
+    contador.textContent = `${r.length} palavras — mostrando até 200`;
+    listaBox.replaceChildren(...r.slice(0,200).map(w => linhaVocab(w)));
+  }
+  const card = el('div', {class:'card'},
+    el('h2', {}, 'Explorar'),
+    el('p', {class:'sub'}, 'O filtro "Diferente" mostra o que realmente precisa ser decorado — o resto o português já te deu.'),
+    busca, chipsSim, chipsSt, contador, listaBox,
+    el('button', {class:'btn', style:'margin-top:10px', onclick:()=>{
+      const r = filtrar().filter(w => !temCard(w.es)).slice(0,30);
+      r.forEach(w => novoCard({front:w.es, back:w.pt, tags:['1000'], fonte:'Lista de frequência'}));
+      alert(`${r.length} palavras enviadas ao Anki.`);
+    }}, '+ Mandar 30 do filtro atual para o Anki'));
+  sec.append(card); pintarLista();
+
+  sec.append(quizBox('mil', () => {
+    const pool = FREQ.filter(w => vStat(w.es) > 0);
+    return (pool.length >= 4 ? pool : FREQ).slice();
+  }));
+
+  sec.append(el('div', {class:'card'},
+    el('h2', {}, 'Lote de hoje'),
+    el('p', {class:'sub'}, `Palavras ${(p.d*S.novasPorDia)%FREQ.length+1}–${(p.d*S.novasPorDia)%FREQ.length+S.novasPorDia} da lista.`),
+    el('div', {class:'list'}, ...p.mil.map(w => linhaVocab(w)))));
+}
+
+/* ---------- ABA: FALSOS AMIGOS ---------- */
+let falsoTema = 'todos';
+function renderFalsos() {
+  const sec = $('#tab-falsos'); sec.replaceChildren();
+  const p = planoDoDia();
+
+  sec.append(el('div', {class:'card'},
+    el('h2', {}, 'Falsos amigos e armadilhas'),
+    el('p', {class:'sub'}, `${FALSOS.length} palavras que parecem português e não são. É aqui que o brasileiro escorrega falando espanhol — e é aqui que você ganha credibilidade.`)));
+
+  sec.append(el('div', {class:'card'},
+    el('h2', {}, 'As 3 de hoje'),
+    ...p.fal.map(f => cartaoFalso(f))));
+
+  const chips = el('div', {class:'chips'},
+    ...[['todos','Todos'],['odonto','Odontologia'],['negocios','Negócios'],['viajes','Viagens'],['rutina','Rotina'],['geral','Geral']]
+      .map(([k,rot]) => el('button', {class:'chip', 'aria-pressed':falsoTema===k,
+        onclick:()=>{ falsoTema=k; renderFalsos(); }}, rot)));
+  const lista = FALSOS.filter(f => falsoTema==='todos' || f.tema===falsoTema);
+  sec.append(el('div', {class:'card'},
+    el('h2', {}, 'Lista completa'), chips,
+    el('p', {class:'sub'}, `${lista.length} armadilhas`),
+    ...lista.map(f => cartaoFalso(f))));
+
+  sec.append(quizFalsos());
+}
+function cartaoFalso(f) {
+  return el('div', {class:'fa'},
+    el('div', {class:'row', style:'justify-content:space-between'},
+      el('span', {class:'w'}, f.es), el('span', {class:'row'}, tagTema(f.tema), btnSom(f.es))),
+    f.parece !== '—' ? el('div', {class:'trap'}, `parece "${f.parece}" — mas NÃO é`) : null,
+    el('div', {class:'def'}, el('b', {}, 'significa: '), f.significa),
+    f.comoDizer !== '—' ? el('div', {class:'fix'}, f.comoDizer) : null,
+    f.exES !== '—' ? el('div', {style:'margin-top:8px'},
+      el('div', {class:'es'}, f.exES), el('div', {class:'pt', style:'font-size:14px'}, f.exPT)) : null,
+    el('div', {class:'row', style:'margin-top:8px'},
+      btnSom(f.exES),
+      el('button', {class:'btn sm', onclick:()=>{
+        novoCard({front:f.exES, back:f.exPT, tags:['falso amigo'], fonte:f.es+' ≠ '+f.parece});
+        novoCard({front:f.es, back:f.significa+'  (≠ '+f.parece+')', tags:['falso amigo'], fonte:'Falsos amigos'});
+        alert('Adicionado ao Anki (palavra + frase).');
+      }}, '+ Anki')));
+}
+
+/* ---------- ABA: TEMÁTICO ---------- */
+let temaSel = 'odonto', subSel = 'todos';
+function renderTema() {
+  const sec = $('#tab-tema'); sec.replaceChildren();
+  sec.append(el('div', {class:'card'},
+    el('h2', {}, 'Vocabulário temático'),
+    el('p', {class:'sub'}, `${TEMATICO.length} termos com frase de exemplo, divididos nos quatro mundos que você vai usar.`),
+    el('div', {class:'chips'}, ...['odonto','negocios','viajes','rutina'].map(t =>
+      el('button', {class:'chip', 'aria-pressed':temaSel===t, onclick:()=>{ temaSel=t; subSel='todos'; renderTema(); }}, TEMAS[t])))));
+
+  const doTema = TEMATICO.filter(t => t.tema === temaSel);
+  const subs = [...new Set(doTema.map(t => t.sub))];
+  const lista = doTema.filter(t => subSel === 'todos' || t.sub === subSel);
+  const dom = doTema.filter(t => vStat(t.es) === 2).length;
+
+  const box = el('div', {class:'card'},
+    el('h2', {}, TEMAS[temaSel]),
+    barra(dom/doTema.length*100, dom===doTema.length),
+    el('p', {class:'sub', style:'margin-top:8px'}, `${dom} de ${doTema.length} marcadas como dominadas`),
+    el('div', {class:'chips'}, ...[['todos','Tudo'],...subs.map(s=>[s,s])].map(([k,rot]) =>
+      el('button', {class:'chip', 'aria-pressed':subSel===k, onclick:()=>{ subSel=k; renderTema(); }}, rot))));
+  for (const t of lista) {
+    box.append(el('div', {class:'fa'},
+      el('div', {class:'row', style:'justify-content:space-between'},
+        el('span', {}, el('span', {class:'es', style:'font-size:17px'}, t.es), ' ',
+          el('span', {class:'pt'}, '· '+t.pt)),
+        el('span', {class:'row'},
+          el('span', {class:'tag', title:classeSem(t.sim).dica}, classeSem(t.sim).label), btnSom(t.es))),
+      t.exES ? el('div', {style:'margin-top:6px'},
+        el('div', {}, t.exES), el('div', {class:'pt', style:'font-size:14px'}, t.exPT)) : null,
+      el('div', {class:'row', style:'margin-top:8px'},
+        el('button', {class:'btn sm', onclick:(e)=>{
+          const novo = (vStat(t.es)+1)%3; setVocab(t.es, novo); e.target.textContent = ['marcar','aprendendo','dominada'][novo];
+        }}, ['marcar','aprendendo','dominada'][vStat(t.es)]),
+        t.exES ? el('button', {class:'btn sm', onclick:()=>{
+          novoCard({front:t.exES, back:t.exPT, tags:[temaSel], fonte:t.es}); alert('Frase adicionada ao Anki.');
+        }}, '+ Anki') : null,
+        t.exES ? btnSom(t.exES) : null)));
+  }
+  sec.append(box);
+  sec.append(el('div', {class:'card'},
+    el('button', {class:'btn primary', onclick:()=>{
+      const r = lista.filter(t => t.exES && !temCard(t.exES)).slice(0,25);
+      r.forEach(t => novoCard({front:t.exES, back:t.exPT, tags:[temaSel], fonte:t.es}));
+      alert(`${r.length} frases enviadas ao Anki.`);
+    }}, `+ Mandar 25 frases de ${TEMAS[temaSel]} para o Anki`)));
+}
+
+/* ---------- QUIZ genérico ---------- */
+function embaralhar(a) { const b=a.slice(); for (let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];} return b; }
+const quizEstado = {};
+function quizBox(chave, poolFn) {
+  const q = quizEstado[chave] || (quizEstado[chave] = {acertos:0, erros:0, atual:null, dir:'es-pt'});
+  const box = el('div', {class:'card'});
+  function novaPergunta() {
+    const pool = poolFn();
+    if (pool.length < 4) { box.replaceChildren(el('div',{class:'empty'},'Poucas palavras para o quiz.')); return; }
+    const certo = pool[Math.floor(Math.random()*pool.length)];
+    const opcoes = embaralhar([certo, ...embaralhar(pool.filter(w=>w!==certo)).slice(0,3)]);
+    q.atual = certo;
+    const pergunta = q.dir === 'es-pt' ? certo.es : certo.pt;
+    box.replaceChildren(
+      el('h2', {}, 'Quiz relâmpago'),
+      el('div', {class:'row', style:'justify-content:space-between'},
+        el('p', {class:'sub', style:'margin:0'}, `✓ ${q.acertos} · ✕ ${q.erros}`),
+        el('button', {class:'btn sm ghost', onclick:()=>{ q.dir = q.dir==='es-pt'?'pt-es':'es-pt'; novaPergunta(); }},
+          q.dir==='es-pt' ? 'ES → PT' : 'PT → ES')),
+      el('div', {class:'flash', style:'min-height:90px'},
+        el('div', {class:'q'}, pergunta),
+        q.dir==='es-pt' ? btnSom(certo.es) : null),
+      el('div', {class:'grid g2', style:'margin-top:10px'},
+        ...opcoes.map(o => el('button', {class:'btn', style:'text-align:left', onclick:(e)=>{
+          const acertou = o === certo;
+          if (acertou) { q.acertos++; if (vStat(certo.es)<2) setVocab(certo.es, 2); }
+          else { q.erros++; setVocab(certo.es, 1);
+            novoCard({front:certo.es, back:certo.pt, tags:['errei'], fonte:'Quiz'}); }
+          e.target.style.borderColor = acertou ? 'var(--ok)' : 'var(--accent)';
+          setTimeout(novaPergunta, acertou ? 380 : 1400);
+          if (!acertou) box.append(el('p', {class:'sub', style:'text-align:center'},
+            `Era: ${certo.es} = ${certo.pt} — card criado no Anki.`));
+        }}, q.dir==='es-pt' ? o.pt : o.es))));
+  }
+  novaPergunta();
+  return box;
+}
+function quizFalsos() {
+  const q = quizEstado.falsos || (quizEstado.falsos = {acertos:0, erros:0});
+  const box = el('div', {class:'card'});
+  function nova() {
+    const certo = FALSOS[Math.floor(Math.random()*FALSOS.length)];
+    const distratores = embaralhar(FALSOS.filter(f=>f!==certo)).slice(0,3);
+    const opcoes = embaralhar([certo.significa, ...distratores.map(d=>d.significa)]);
+    box.replaceChildren(
+      el('h2', {}, 'Quiz: o que significa de verdade?'),
+      el('p', {class:'sub'}, `✓ ${q.acertos} · ✕ ${q.erros}`),
+      el('div', {class:'flash', style:'min-height:90px'}, el('div', {class:'q'}, certo.es), btnSom(certo.es)),
+      el('div', {class:'grid g2', style:'margin-top:10px'},
+        ...opcoes.map(o => el('button', {class:'btn', style:'text-align:left', onclick:(e)=>{
+          const ok = o === certo.significa;
+          ok ? q.acertos++ : q.erros++;
+          e.target.style.borderColor = ok ? 'var(--ok)' : 'var(--accent)';
+          if (!ok) {
+            novoCard({front:certo.es, back:certo.significa+'  (≠ '+certo.parece+')', tags:['falso amigo','errei'], fonte:'Quiz'});
+            box.append(el('p', {class:'sub', style:'text-align:center'},
+              `${certo.es} = ${certo.significa}. Parece "${certo.parece}", mas não é.`));
+          }
+          setTimeout(nova, ok ? 400 : 1800);
+        }}, o))));
+  }
+  nova();
+  return box;
+}
+
+/* ---------- ABA: CONVERSA ---------- */
+function renderConversa() {
+  const sec = $('#tab-conversa'); sec.replaceChildren();
+  const p = planoDoDia();
+  sec.append(el('div', {class:'card'},
+    el('h2', {}, 'Conduzir a conversa'),
+    el('p', {class:'sub'}, 'Não é vocabulário: é o esqueleto que segura uma conversa de pé enquanto você procura a palavra.')));
+
+  sec.append(el('div', {class:'card'},
+    el('h2', {}, 'Tarefa oral de hoje'),
+    el('p', {class:'sub'}, 'Grave 60–90 segundos no celular, sem consultar nada. Depois ouça e anote o que faltou.'),
+    el('div', {class:'notice'},
+      el('b', {}, `Tema: ${TEMAS[p.temaDoDia]}`), el('br'),
+      tarefaOral(p))));
+
+  for (const g of CONVERSA.guiones) {
+    sec.append(el('div', {class:'card'},
+      el('div', {class:'row', style:'justify-content:space-between'},
+        el('h2', {style:'margin:0'}, g.titulo), tagTema(g.tema)),
+      el('h3', {}, 'Roteiro'),
+      ...g.lineas.map(l => el('div', {class:'frase', onclick:()=>falar(l)},
+        el('div', {class:'row', style:'justify-content:space-between'},
+          el('span', {class:'es'}, l), btnSom(l)))),
+      el('h3', {}, 'Perguntas que você faz (para o outro falar)'),
+      el('ul', {style:'margin:0;padding-left:20px'}, ...g.preguntas.map(q => el('li', {}, q))),
+      el('button', {class:'btn sm', style:'margin-top:10px', onclick:()=>{
+        g.lineas.forEach(l => novoCard({front:l, back:'(roteiro: '+g.titulo+')', tags:['roteiro'], fonte:g.titulo}));
+        alert('Roteiro adicionado ao Anki.');
+      }}, '+ Roteiro para o Anki')));
+  }
+
+  sec.append(el('div', {class:'card'},
+    el('h2', {}, 'Muletas para ganhar tempo'),
+    el('p', {class:'sub'}, 'Quem tem estas na ponta da língua nunca trava — e soa fluente mesmo errando.'),
+    el('div', {class:'list'}, ...CONVERSA.muletas.map(m =>
+      el('div', {class:'item'},
+        el('div', {class:'main'}, el('span', {class:'es'}, m.es),
+          el('span', {class:'pt'}, m.pt + ' · ' + m.uso)),
+        btnSom(m.es))))));
+
+  sec.append(el('div', {class:'card'},
+    el('h2', {}, 'Conectores'),
+    el('p', {class:'sub'}, 'Ligam duas ideias e transformam frases soltas em argumento.'),
+    el('div', {class:'list'}, ...CONVERSA.conectores.map(c =>
+      el('div', {class:'item'}, el('div', {class:'main'},
+        el('span', {class:'es'}, c.es), el('span', {class:'pt'}, c.pt)), btnSom(c.es))))));
+
+  sec.append(el('div', {class:'card'},
+    el('h2', {}, 'Erros que denunciam o brasileiro'),
+    el('p', {class:'sub'}, 'Corrigir estes dez pontos vale mais que decorar cem palavras.'),
+    ...CONVERSA.armadilhas.map(a => el('div', {class:'fa'},
+      el('div', {class:'w', style:'font-size:15px'}, a.regra),
+      el('div', {class:'es', style:'margin-top:6px'}, a.es),
+      el('div', {class:'pt', style:'font-size:14px'}, a.pt)))));
+}
+function tarefaOral(p) {
+  const tarefas = {
+    odonto: 'Explique, em espanhol, um plano de tratamento completo para um paciente que chegou com dor. Diga o diagnóstico, o que vai fazer, quanto tempo leva e o que ele deve fazer em casa.',
+    negocios: 'Apresente os números do seu mês e defenda uma decisão: um preço, uma contratação ou um investimento. Use pelo menos três conectores.',
+    viajes: 'Conte uma viagem: o que deu errado, como você resolveu e o que faria diferente. Sem consultar o texto.',
+    rutina: 'Descreva sua semana real, do acordar ao dormir, e termine dizendo o que você mudaria nela.',
+  };
+  return tarefas[p.temaDoDia];
+}
+
+/* ---------- ABA: PROGRESSO ---------- */
+function renderProgreso() {
+  const sec = $('#tab-progreso'); sec.replaceChildren();
+  const d = indiceDia();
+  const dias = Object.entries(S.dias).sort();
+  const totalMin = dias.reduce((a,[,v]) => a + (v.min||0), 0);
+  const totalRev = dias.reduce((a,[,v]) => a + (v.revisados||0), 0);
+  const diasAtivos = dias.filter(([,v]) => v.min > 0 || v.revisados > 0).length;
+  const vistas = FREQ.filter(w => vStat(w.es) > 0).length;
+  const dom = FREQ.filter(w => vStat(w.es) === 2).length;
+  const temDom = TEMATICO.filter(w => vStat(w.es) === 2).length;
+  const cards = Object.values(S.cards);
+  const maduros = cards.filter(c => estagio(c) === 'maduro').length;
+
+  sec.append(el('div', {class:'card'},
+    el('h2', {}, `Dia ${d+1} de 90`),
+    barra((d+1)/90*100),
+    el('p', {class:'sub', style:'margin-top:10px'},
+      `Início em ${fmtData(S.inicio)} · meta em ${fmtData(addDias(S.inicio, 89))}`),
+    el('div', {class:'grid g3', style:'margin-top:8px'},
+      stat(streak(), 'dias seguidos'),
+      stat(diasAtivos, 'dias estudados'),
+      stat(Math.round(totalMin/60*10)/10 + 'h', 'tempo total'))));
+
+  /* termômetro de prontidão */
+  const notas = prontidao({vistas, dom, temDom, maduros, diasAtivos, totalRev});
+  sec.append(el('div', {class:'card'},
+    el('h2', {}, 'Termômetro de conversa'),
+    el('p', {class:'sub'}, 'Estimativa de quão perto você está de conduzir uma conversa com confiança nos quatro temas.'),
+    el('div', {class:'timer', style:'font-size:44px'}, notas.total + '%'),
+    barra(notas.total, notas.total >= 80),
+    el('p', {class:'sub', style:'margin-top:12px'}, notas.veredito),
+    el('div', {class:'overflow'}, el('table', {},
+      el('tr', {}, el('th', {}, 'Componente'), el('th', {}, 'Onde você está'), el('th', {}, 'Peso')),
+      ...notas.itens.map(i => el('tr', {},
+        el('td', {}, i.nome), el('td', {}, i.valor), el('td', {}, i.peso+'%')))))));
+
+  sec.append(el('div', {class:'card'},
+    el('h2', {}, 'Vocabulário'),
+    el('div', {class:'grid g2'},
+      el('div', {},
+        el('h3', {}, `1000 palavras · ${vistas}/${FREQ.length}`), barra(vistas/FREQ.length*100),
+        el('p', {class:'sub', style:'margin-top:6px'}, `${dom} dominadas`)),
+      el('div', {},
+        el('h3', {}, `Temático · ${temDom}/${TEMATICO.length}`), barra(temDom/TEMATICO.length*100),
+        el('p', {class:'sub', style:'margin-top:6px'}, 'odonto + negócios + viagens + rotina'))),
+    el('h3', {}, 'Por grau de semelhança com o português'),
+    el('div', {class:'overflow'}, el('table', {},
+      el('tr', {}, el('th', {}, 'Tipo'), el('th', {}, 'Total'), el('th', {}, 'Vistas'), el('th', {}, 'Dominadas')),
+      ...CLASSES_SEM.map(c => {
+        const g = FREQ.filter(w => w.simClasse === c.id);
+        return el('tr', {}, el('td', {}, c.label), el('td', {}, g.length),
+          el('td', {}, g.filter(w=>vStat(w.es)>0).length), el('td', {}, g.filter(w=>vStat(w.es)===2).length));
+      })))));
+
+  sec.append(el('div', {class:'card'},
+    el('h2', {}, 'Anki'),
+    el('div', {class:'grid g3'},
+      stat(cards.length, 'cards'), stat(maduros, 'maduros'), stat(totalRev, 'revisões totais')),
+    el('h3', {}, 'Distribuição'),
+    el('div', {class:'overflow'}, el('table', {},
+      el('tr', {}, el('th', {}, 'Estágio'), el('th', {}, 'Cards'), el('th', {}, 'Significado')),
+      ...[['novo','nunca revisado'],['aprendendo','em ciclo curto'],['jovem','1 a 20 dias'],['maduro','21 dias ou mais']]
+        .map(([k,expl]) => el('tr', {}, el('td', {}, k),
+          el('td', {}, cards.filter(c=>estagio(c)===k).length), el('td', {class:'pt'}, expl)))))));
+
+  /* histórico 30 dias */
+  const ult = [];
+  for (let i = 29; i >= 0; i--) { const iso = addDias(hoje(), -i); ult.push([iso, S.dias[iso]?.min || 0]); }
+  const max = Math.max(S.meta, ...ult.map(([,m]) => m));
+  sec.append(el('div', {class:'card'},
+    el('h2', {}, 'Últimos 30 dias'),
+    el('p', {class:'sub'}, 'Minutos registrados por dia. Constância vale mais que maratona.'),
+    el('div', {class:'spark'}, ...ult.map(([iso,m]) =>
+      el('i', {class: m ? '' : 'z', style:`height:${m ? Math.max(6, m/max*100) : 4}%`, title:`${fmtData(iso)}: ${m} min`}))),
+    el('div', {class:'row', style:'justify-content:space-between;margin-top:6px'},
+      el('span', {class:'sub'}, fmtData(ult[0][0])), el('span', {class:'sub'}, 'hoje'))));
+
+  sec.append(configBox());
+}
+function streak() {
+  let n = 0, iso = hoje();
+  const ativo = (i) => { const v = S.dias[i]; return v && (v.min > 0 || v.revisados > 0); };
+  if (!ativo(iso)) iso = addDias(iso, -1);
+  while (ativo(iso)) { n++; iso = addDias(iso, -1); }
+  return n;
+}
+function prontidao({vistas, dom, temDom, maduros, diasAtivos, totalRev}) {
+  const itens = [
+    {nome:'Núcleo das 1000 palavras', peso:25, p: Math.min(1, vistas/FREQ.length), valor:`${vistas}/${FREQ.length} vistas`},
+    {nome:'Vocabulário temático dominado', peso:20, p: Math.min(1, temDom/200), valor:`${temDom} termos`},
+    {nome:'Frases maduras no Anki', peso:25, p: Math.min(1, maduros/250), valor:`${maduros} de 250`},
+    {nome:'Volume de revisão', peso:15, p: Math.min(1, totalRev/2000), valor:`${totalRev} revisões`},
+    {nome:'Constância', peso:15, p: Math.min(1, diasAtivos/75), valor:`${diasAtivos} de 75 dias`},
+  ];
+  const total = Math.round(itens.reduce((a,i) => a + i.p * i.peso, 0));
+  const veredito =
+    total >= 85 ? 'Você já sustenta uma conversa longa nos quatro temas. Foque em nuance e velocidade.' :
+    total >= 65 ? 'Você conduz uma conversa com apoio das muletas. Aumente as frases maduras no Anki.' :
+    total >= 40 ? 'Base montada. O gargalo agora é volume de frases revisadas, não vocabulário novo.' :
+    total >= 15 ? 'Começo consistente. Não pule a revisão do Anki — é ela que fixa.' :
+    'Fase inicial. Mantenha os 60 minutos e o número sobe sozinho.';
+  return {itens, total, veredito};
+}
+function configBox() {
+  const inicio = el('input', {type:'date', value:S.inicio, onchange:(e)=>{ S.inicio = e.target.value; salvar(); renderProgreso(); atualizarPills(); }});
+  const novas = el('input', {type:'number', min:5, max:40, value:S.novasPorDia,
+    onchange:(e)=>{ S.novasPorDia = Math.max(5, Math.min(40, +e.target.value||15)); salvar(); }});
+  return el('div', {class:'card'},
+    el('h2', {}, 'Configuração e backup'),
+    el('p', {class:'sub'}, 'Seus dados ficam só neste navegador. Exporte de vez em quando — se você limpar o Safari, tudo se perde.'),
+    el('div', {class:'grid g2'},
+      el('div', {}, el('label', {class:'fld'}, 'Data de início'), inicio),
+      el('div', {}, el('label', {class:'fld'}, 'Palavras novas por dia'), novas)),
+    el('div', {class:'row', style:'margin-top:12px'},
+      el('button', {class:'btn primary', onclick:exportar}, '⬇︎ Exportar backup'),
+      el('button', {class:'btn', onclick:importar}, '⬆︎ Importar backup'),
+      el('button', {class:'btn ghost', onclick:()=>{
+        if (confirm('Apagar TODO o progresso e recomeçar? Isto não tem volta.')) {
+          localStorage.removeItem(CHAVE); location.reload();
+        }
+      }}, 'Zerar tudo')),
+    el('p', {class:'sub', style:'margin-top:12px'},
+      'Dica: no Safari do iPhone, toque em Compartilhar → "Adicionar à Tela de Início" para abrir como app.'));
+}
+function exportar() {
+  const blob = new Blob([JSON.stringify(S, null, 1)], {type:'application/json'});
+  const a = el('a', {href:URL.createObjectURL(blob), download:`espanol90-${hoje()}.json`});
+  document.body.append(a); a.click(); a.remove();
+}
+function importar() {
+  const inp = el('input', {type:'file', accept:'.json', style:'display:none'});
+  inp.addEventListener('change', () => {
+    const f = inp.files[0]; if (!f) return;
+    const r = new FileReader();
+    r.onload = () => {
+      try {
+        const novo = JSON.parse(r.result);
+        if (!novo.cards || !novo.vocab) throw new Error('formato');
+        S = {...clonar(ESTADO_PADRAO), ...novo};
+        salvar(); alert('Backup restaurado.'); location.reload();
+      } catch (e) { alert('Arquivo inválido.'); }
+    };
+    r.readAsText(f);
+  });
+  document.body.append(inp); inp.click(); inp.remove();
+}
+
+/* ---------- roteador e boot ---------- */
+const RENDER = {hoy:renderHoy, lectura:renderLectura, anki:renderAnki, mil:renderMil,
+  falsos:renderFalsos, tema:renderTema, conversa:renderConversa, progreso:renderProgreso};
+
+function atualizarPills() {
+  $('#pill-streak').textContent = `🔥 ${plural(streak(),'dia','dias')}`;
+  const dev = cardsDevidos().length;
+  $('#pill-dia').textContent = dev ? `${dev} p/ revisar` : 'revisão em dia';
+}
+document.addEventListener('keydown', (e) => {
+  if (abaAtual !== 'anki' || e.target.matches('input,textarea,select')) return;
+  if (e.key === ' ' && !mostrandoResposta) { e.preventDefault(); mostrandoResposta = true; renderAnki(); }
+  else if (mostrandoResposta && ['1','2','3','4'].includes(e.key) && cardAtual) {
+    e.preventDefault(); avaliar(cardAtual, +e.key - 1);
+    cardAtual = null; mostrandoResposta = false; renderAnki(); atualizarPills();
+  }
+});
+(function boot() {
+  if (S.ultimoAcesso !== hoje()) { S.ultimoAcesso = hoje(); salvar(); }
+  montarNav();
+  const h = location.hash.replace('#','');
+  irPara(ABAS.some(a => a.id === h) ? h : 'hoy');
+  atualizarPills();
+})();
+
+</script>

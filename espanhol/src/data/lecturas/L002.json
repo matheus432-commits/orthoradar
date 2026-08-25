@@ -1,0 +1,74 @@
+{
+ "id": "L002",
+ "tema": "odonto",
+ "nivel": "A2",
+ "titulo": "Explicar una extracción sin asustar al paciente",
+ "fuente": "Texto didáctico (OrthoRadar)",
+ "url": "",
+ "resumen": "Como explicar uma extração com calma, em espanhol claro.",
+ "frases": [
+  {
+   "es": "Entiendo que esté nervioso, es una reacción muy normal.",
+   "pt": "Entendo que esteja nervoso, é uma reação bem normal."
+  },
+  {
+   "es": "Le explico paso a paso lo que vamos a hacer.",
+   "pt": "Vou explicar passo a passo o que vamos fazer."
+  },
+  {
+   "es": "Primero le pongo anestesia local; va a sentir un pinchazo muy breve.",
+   "pt": "Primeiro aplico anestesia local; vai sentir uma picadinha bem breve."
+  },
+  {
+   "es": "Cuando la zona esté dormida, no va a doler, solo sentirá presión.",
+   "pt": "Quando a região estiver dormente, não vai doer, só vai sentir pressão."
+  },
+  {
+   "es": "Si en algún momento le molesta, levante la mano y paro.",
+   "pt": "Se em algum momento incomodar, levante a mão e eu paro."
+  },
+  {
+   "es": "La extracción en sí dura unos diez minutos.",
+   "pt": "A extração em si dura uns dez minutos."
+  },
+  {
+   "es": "Después muerda la gasa durante media hora sin escupir.",
+   "pt": "Depois morda a gaze por meia hora sem cuspir."
+  },
+  {
+   "es": "Hoy no fume ni tome bebidas calientes.",
+   "pt": "Hoje não fume nem tome bebidas quentes."
+  },
+  {
+   "es": "Es normal que haya algo de hinchazón mañana.",
+   "pt": "É normal que haja um pouco de inchaço amanhã."
+  },
+  {
+   "es": "Cualquier duda, me llama al consultorio sin problema.",
+   "pt": "Qualquer dúvida, me liga no consultório sem problema."
+  }
+ ],
+ "glosario": [
+  {
+   "es": "pinchazo",
+   "pt": "picada"
+  },
+  {
+   "es": "dormida",
+   "pt": "dormente/anestesiada"
+  },
+  {
+   "es": "escupir",
+   "pt": "cuspir"
+  },
+  {
+   "es": "hinchazón",
+   "pt": "inchaço"
+  }
+ ],
+ "preguntas": [
+  "¿Qué debe hacer el paciente si le molesta durante el procedimiento?",
+  "¿Qué recomendaciones da el dentista para después?",
+  "Diga en español tres cosas que el paciente no debe hacer hoy."
+ ]
+}

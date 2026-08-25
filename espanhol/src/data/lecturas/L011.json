@@ -1,0 +1,74 @@
+{
+ "id": "L011",
+ "tema": "viajes",
+ "nivel": "B1",
+ "titulo": "Un problema en el aeropuerto",
+ "resumen": "Voo atrasado, conexão perdida e reclamação.",
+ "frases": [
+  {
+   "es": "Mi vuelo salió con dos horas de retraso y perdí la conexión.",
+   "pt": "Meu voo saiu com duas horas de atraso e perdi a conexão."
+  },
+  {
+   "es": "¿Cuál es la próxima opción para llegar hoy a Santiago?",
+   "pt": "Qual é a próxima opção para chegar hoje a Santiago?"
+  },
+  {
+   "es": "¿La aerolínea se hace cargo del hotel?",
+   "pt": "A companhia aérea se responsabiliza pelo hotel?"
+  },
+  {
+   "es": "Necesito un comprobante del retraso para el seguro.",
+   "pt": "Preciso de um comprovante do atraso para o seguro."
+  },
+  {
+   "es": "Mi maleta quedó facturada hasta el destino final.",
+   "pt": "Minha mala foi despachada até o destino final."
+  },
+  {
+   "es": "¿Puedo recuperarla o sigue el itinerario original?",
+   "pt": "Posso recuperá-la ou ela segue o itinerário original?"
+  },
+  {
+   "es": "Tengo un compromiso profesional mañana a primera hora.",
+   "pt": "Tenho um compromisso profissional amanhã bem cedo."
+  },
+  {
+   "es": "Le agradecería cualquier alternativa, aunque sea con otra compañía.",
+   "pt": "Agradeceria qualquer alternativa, mesmo que com outra companhia."
+  },
+  {
+   "es": "Prefiero un asiento de pasillo si es posible.",
+   "pt": "Prefiro um assento no corredor, se possível."
+  },
+  {
+   "es": "Muchas gracias por la ayuda, ha sido muy amable.",
+   "pt": "Muito obrigado pela ajuda, você foi muito gentil."
+  }
+ ],
+ "glosario": [
+  {
+   "es": "se hace cargo",
+   "pt": "se responsabiliza"
+  },
+  {
+   "es": "comprobante",
+   "pt": "comprovante"
+  },
+  {
+   "es": "facturada",
+   "pt": "despachada"
+  },
+  {
+   "es": "a primera hora",
+   "pt": "bem cedo"
+  }
+ ],
+ "preguntas": [
+  "¿Qué pasó con el vuelo?",
+  "¿Qué documentos pide el pasajero?",
+  "Resuelva la situación en español, en voz alta."
+ ],
+ "fuente": "Texto didáctico (OrthoRadar)",
+ "url": ""
+}

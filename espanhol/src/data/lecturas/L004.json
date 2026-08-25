@@ -1,0 +1,74 @@
+{
+ "id": "L004",
+ "tema": "viajes",
+ "nivel": "A2",
+ "titulo": "Llegada al hotel en Buenos Aires",
+ "fuente": "Texto didáctico (OrthoRadar)",
+ "url": "",
+ "resumen": "Check-in, problemas com o quarto e pedidos na recepção.",
+ "frases": [
+  {
+   "es": "Buenas tardes, tengo una reserva a nombre de Mateo Silva.",
+   "pt": "Boa tarde, tenho uma reserva no nome de Mateus Silva."
+  },
+  {
+   "es": "Son tres noches, con salida el domingo por la mañana.",
+   "pt": "São três noites, com saída no domingo de manhã."
+  },
+  {
+   "es": "¿El desayuno está incluido en la tarifa?",
+   "pt": "O café da manhã está incluído na diária?"
+  },
+  {
+   "es": "¿A qué hora abre el comedor?",
+   "pt": "A que horas abre o restaurante?"
+  },
+  {
+   "es": "Necesito una factura con los datos de mi empresa.",
+   "pt": "Preciso de uma nota fiscal com os dados da minha empresa."
+  },
+  {
+   "es": "La habitación es muy ruidosa, da a la avenida.",
+   "pt": "O quarto é muito barulhento, dá para a avenida."
+  },
+  {
+   "es": "¿Sería posible cambiarme a una habitación interior?",
+   "pt": "Seria possível me mudar para um quarto interno?"
+  },
+  {
+   "es": "El aire acondicionado no enfría bien.",
+   "pt": "O ar-condicionado não gela direito."
+  },
+  {
+   "es": "¿Me pueden guardar la maleta hasta las seis?",
+   "pt": "Podem guardar minha mala até as seis?"
+  },
+  {
+   "es": "¿Me recomienda algún restaurante cerca para cenar?",
+   "pt": "Recomenda algum restaurante perto para jantar?"
+  }
+ ],
+ "glosario": [
+  {
+   "es": "tarifa",
+   "pt": "diária/tarifa"
+  },
+  {
+   "es": "da a",
+   "pt": "dá para (vista)"
+  },
+  {
+   "es": "ruidosa",
+   "pt": "barulhenta"
+  },
+  {
+   "es": "comedor",
+   "pt": "refeitório/restaurante"
+  }
+ ],
+ "preguntas": [
+  "¿Cuál es el problema con la habitación?",
+  "¿Qué pide el huésped en recepción?",
+  "Haga un check-in completo en español, en voz alta."
+ ]
+}

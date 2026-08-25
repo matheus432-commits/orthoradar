@@ -1,0 +1,1004 @@
+de|de|prep
+la|a (artigo)|art
+que|que|conj
+el|o (artigo)|art
+en|em|prep
+y|e|conj
+a|a / para|prep
+los|os|art
+se|se|pron
+no|não|adv
+un|um|art
+por|por|prep
+con|com|prep
+una|uma|art
+su|seu / dele|pron
+para|para|prep
+es|é|verbo
+al|ao|contr
+lo|o (neutro)|pron
+como|como|adv
+más|mais|adv
+o|ou|conj
+pero|mas|conj
+sus|seus|pron
+le|lhe|pron
+ha|há / tem (auxiliar)|verbo
+me|me|pron
+si|se (condicional)|conj
+sin|sem|prep
+sobre|sobre|prep
+este|este|pron
+ya|já|adv
+entre|entre|prep
+cuando|quando|conj
+todo|tudo / todo|pron
+esta|esta|pron
+ser|ser|verbo
+son|são|verbo
+dos|dois|num
+también|também|adv
+fue|foi|verbo
+había|havia|verbo
+muy|muito|adv
+hasta|até|prep
+desde|desde|prep
+está|está|verbo
+mi|meu|pron
+porque|porque|conj
+qué|o quê|pron
+solo|apenas / sozinho|adv
+han|têm (auxiliar)|verbo
+yo|eu|pron
+hay|há / existe|verbo
+vez|vez|subst
+puede|pode|verbo
+todos|todos|pron
+así|assim|adv
+nos|nos|pron
+ni|nem|conj
+parte|parte|subst
+tiene|tem|verbo
+él|ele|pron
+uno|um|num
+donde|onde|adv
+bien|bem|adv
+tiempo|tempo|subst
+mismo|mesmo|adj
+ese|esse|pron
+ahora|agora|adv
+cada|cada|adj
+vida|vida|subst
+otro|outro|adj
+después|depois|adv
+te|te|pron
+otros|outros|adj
+aunque|embora / ainda que|conj
+esa|essa|pron
+eso|isso|pron
+hace|faz|verbo
+otra|outra|adj
+tan|tão|adv
+durante|durante|prep
+siempre|sempre|adv
+día|dia|subst
+tanto|tanto|adv
+ella|ela|pron
+tres|três|num
+sí|sim|adv
+dijo|disse|verbo
+sido|sido|verbo
+gran|grande|adj
+país|país|subst
+según|segundo / conforme|prep
+menos|menos|adv
+mundo|mundo|subst
+año|ano|subst
+antes|antes|adv
+estado|estado|subst
+contra|contra|prep
+sino|mas sim|conj
+forma|forma|subst
+caso|caso|subst
+nada|nada|pron
+hacer|fazer|verbo
+general|geral|adj
+estaba|estava|verbo
+poco|pouco|adv
+estos|estes|pron
+mayor|maior|adj
+ante|diante de|prep
+unos|uns|art
+les|lhes|pron
+algo|algo|pron
+casa|casa|subst
+hombre|homem|subst
+mujer|mulher|subst
+niño|menino|subst
+niña|menina|subst
+persona|pessoa|subst
+gente|gente / pessoas|subst
+familia|família|subst
+padre|pai|subst
+madre|mãe|subst
+hijo|filho|subst
+hija|filha|subst
+hermano|irmão|subst
+hermana|irmã|subst
+amigo|amigo|subst
+amiga|amiga|subst
+esposo|marido|subst
+esposa|esposa|subst
+pareja|casal / parceiro(a)|subst
+abuelo|avô|subst
+nieto|neto|subst
+tío|tio|subst
+primo|primo|subst
+señor|senhor|subst
+señora|senhora|subst
+grupo|grupo|subst
+equipo|equipe / equipamento|subst
+trabajo|trabalho|subst
+empresa|empresa|subst
+negocio|negócio|subst
+dinero|dinheiro|subst
+precio|preço|subst
+pago|pagamento|subst
+cuenta|conta|subst
+mercado|mercado|subst
+cliente|cliente|subst
+producto|produto|subst
+servicio|serviço|subst
+proyecto|projeto|subst
+reunión|reunião|subst
+oficina|escritório|subst
+jefe|chefe|subst
+sueldo|salário|subst
+contrato|contrato|subst
+factura|nota fiscal / fatura|subst
+socio|sócio|subst
+plazo|prazo|subst
+meta|meta|subst
+riesgo|risco|subst
+ventaja|vantagem|subst
+acuerdo|acordo|subst
+propuesta|proposta|subst
+informe|relatório|subst
+dato|dado|subst
+número|número|subst
+cifra|cifra / número|subst
+ejemplo|exemplo|subst
+problema|problema|subst
+solución|solução|subst
+razón|razão / motivo|subst
+motivo|motivo|subst
+resultado|resultado|subst
+cambio|mudança / troco|subst
+nivel|nível|subst
+punto|ponto|subst
+lugar|lugar|subst
+zona|zona / área|subst
+ciudad|cidade|subst
+calle|rua|subst
+camino|caminho|subst
+carretera|estrada|subst
+pueblo|povoado / povo|subst
+región|região|subst
+frontera|fronteira|subst
+playa|praia|subst
+montaña|montanha|subst
+río|rio|subst
+mar|mar|subst
+campo|campo|subst
+tierra|terra|subst
+agua|água|subst
+aire|ar|subst
+fuego|fogo|subst
+sol|sol|subst
+luna|lua|subst
+cielo|céu|subst
+noche|noite|subst
+mañana|manhã / amanhã|subst
+tarde|tarde|subst
+hora|hora|subst
+minuto|minuto|subst
+semana|semana|subst
+mes|mês|subst
+siglo|século|subst
+momento|momento|subst
+hoy|hoje|adv
+ayer|ontem|adv
+temprano|cedo|adv
+luego|logo / depois|adv
+pronto|logo / em breve|adv
+todavía|ainda|adv
+aún|ainda|adv
+nunca|nunca|adv
+jamás|jamais|adv
+siquiera|sequer|adv
+apenas|mal / apenas|adv
+casi|quase|adv
+demasiado|demais|adv
+bastante|bastante|adv
+mucho|muito|adv
+además|além disso|adv
+sobre todo|sobretudo|adv
+incluso|inclusive / até mesmo|adv
+quizá|talvez|adv
+tal vez|talvez|adv
+acaso|por acaso|adv
+entonces|então|adv
+mientras|enquanto|conj
+mientras tanto|enquanto isso|adv
+antes de|antes de|prep
+después de|depois de|prep
+tener|ter|verbo
+estar|estar|verbo
+haber|haver|verbo
+poder|poder|verbo
+ir|ir|verbo
+decir|dizer|verbo
+ver|ver|verbo
+dar|dar|verbo
+saber|saber|verbo
+querer|querer|verbo
+llegar|chegar|verbo
+pasar|passar / acontecer|verbo
+deber|dever (verbo e substantivo)|verbo
+poner|pôr / colocar|verbo
+parecer|parecer|verbo
+quedar|ficar|verbo
+creer|acreditar|verbo
+hablar|falar|verbo
+llevar|levar|verbo
+dejar|deixar|verbo
+seguir|seguir / continuar|verbo
+encontrar|encontrar|verbo
+llamar|chamar / ligar|verbo
+venir|vir|verbo
+pensar|pensar|verbo
+salir|sair|verbo
+volver|voltar|verbo
+tomar|tomar / pegar|verbo
+conocer|conhecer|verbo
+vivir|viver / morar|verbo
+sentir|sentir|verbo
+tratar|tratar|verbo
+mirar|olhar|verbo
+contar|contar|verbo
+empezar|começar|verbo
+comenzar|começar|verbo
+esperar|esperar|verbo
+buscar|procurar|verbo
+existir|existir|verbo
+entrar|entrar|verbo
+trabajar|trabalhar|verbo
+escribir|escrever|verbo
+perder|perder|verbo
+producir|produzir|verbo
+ocurrir|ocorrer|verbo
+entender|entender|verbo
+pedir|pedir|verbo
+recibir|receber|verbo
+recordar|lembrar|verbo
+terminar|terminar|verbo
+permitir|permitir|verbo
+aparecer|aparecer|verbo
+conseguir|conseguir|verbo
+servir|servir|verbo
+sacar|tirar|verbo
+necesitar|precisar|verbo
+mantener|manter|verbo
+resultar|resultar|verbo
+leer|ler|verbo
+caer|cair|verbo
+cambiar|mudar / trocar|verbo
+presentar|apresentar|verbo
+crear|criar|verbo
+abrir|abrir|verbo
+considerar|considerar|verbo
+oír|ouvir|verbo
+escuchar|escutar|verbo
+acabar|acabar|verbo
+convertir|converter / transformar|verbo
+ganar|ganhar|verbo
+formar|formar|verbo
+traer|trazer|verbo
+partir|partir|verbo
+morir|morrer|verbo
+aceptar|aceitar|verbo
+realizar|realizar|verbo
+suponer|supor|verbo
+comprender|compreender|verbo
+lograr|conseguir / alcançar|verbo
+explicar|explicar|verbo
+preguntar|perguntar|verbo
+tocar|tocar|verbo
+reconocer|reconhecer|verbo
+estudiar|estudar|verbo
+alcanzar|alcançar|verbo
+nacer|nascer|verbo
+dirigir|dirigir / liderar|verbo
+correr|correr|verbo
+utilizar|utilizar|verbo
+pagar|pagar|verbo
+ayudar|ajudar|verbo
+gustar|gostar (agradar)|verbo
+jugar|jogar / brincar|verbo
+comprar|comprar|verbo
+vender|vender|verbo
+comer|comer|verbo
+beber|beber|verbo
+dormir|dormir|verbo
+despertar|acordar|verbo
+levantarse|levantar-se|verbo
+ducharse|tomar banho|verbo
+vestirse|vestir-se|verbo
+desayunar|tomar café da manhã|verbo
+almorzar|almoçar|verbo
+cenar|jantar|verbo
+descansar|descansar|verbo
+caminar|caminhar|verbo
+viajar|viajar|verbo
+volar|voar|verbo
+conducir|dirigir (carro)|verbo
+manejar|dirigir / manejar|verbo
+enviar|enviar|verbo
+mandar|mandar|verbo
+firmar|assinar|verbo
+apuntar|anotar|verbo
+anotar|anotar|verbo
+avisar|avisar|verbo
+cuidar|cuidar|verbo
+limpiar|limpar|verbo
+cocinar|cozinhar|verbo
+lavar|lavar|verbo
+enseñar|ensinar / mostrar|verbo
+aprender|aprender|verbo
+practicar|praticar|verbo
+mejorar|melhorar|verbo
+evitar|evitar|verbo
+elegir|escolher|verbo
+decidir|decidir|verbo
+intentar|tentar|verbo
+probar|provar / experimentar|verbo
+usar|usar|verbo
+llenar|encher / preencher|verbo
+subir|subir|verbo
+bajar|descer / baixar|verbo
+cerrar|fechar|verbo
+romper|quebrar|verbo
+arreglar|consertar / arrumar|verbo
+guardar|guardar|verbo
+olvidar|esquecer|verbo
+odiar|odiar|verbo
+amar|amar|verbo
+reír|rir|verbo
+llorar|chorar|verbo
+gritar|gritar|verbo
+callar|calar|verbo
+responder|responder|verbo
+contestar|responder|verbo
+repetir|repetir|verbo
+sonar|soar / tocar (som)|verbo
+soñar|sonhar|verbo
+crecer|crescer|verbo
+doler|doer|verbo
+curar|curar|verbo
+sanar|sarar|verbo
+bueno|bom|adj
+malo|ruim / mau|adj
+nuevo|novo|adj
+viejo|velho|adj
+joven|jovem|adj
+grande|grande|adj
+pequeño|pequeno|adj
+alto|alto|adj
+bajo|baixo|adj
+largo|comprido / longo|adj
+corto|curto|adj
+ancho|largo|adj
+estrecho|estreito|adj
+gordo|gordo|adj
+delgado|magro|adj
+fuerte|forte|adj
+débil|fraco|adj
+rápido|rápido|adj
+lento|lento|adj
+fácil|fácil|adj
+difícil|difícil|adj
+importante|importante|adj
+necesario|necessário|adj
+posible|possível|adj
+imposible|impossível|adj
+seguro|seguro / certo|adj
+peligroso|perigoso|adj
+claro|claro|adj
+oscuro|escuro|adj
+limpio|limpo|adj
+sucio|sujo|adj
+caro|caro|adj
+barato|barato|adj
+libre|livre|adj
+ocupado|ocupado|adj
+lleno|cheio|adj
+vacío|vazio|adj
+abierto|aberto|adj
+cerrado|fechado|adj
+caliente|quente|adj
+frío|frio|adj
+tibio|morno|adj
+duro|duro|adj
+blando|mole|adj
+suave|suave / macio|adj
+áspero|áspero|adj
+dulce|doce|adj
+salado|salgado|adj
+amargo|amargo|adj
+ácido|ácido|adj
+rico|rico / gostoso|adj
+pobre|pobre|adj
+feliz|feliz|adj
+triste|triste|adj
+contento|contente|adj
+enojado|bravo / irritado|adj
+tranquilo|tranquilo|adj
+nervioso|nervoso|adj
+cansado|cansado|adj
+enfermo|doente|adj
+sano|saudável|adj
+guapo|bonito (pessoa)|adj
+bonito|bonito|adj
+feo|feio|adj
+amable|gentil|adj
+simpático|simpático|adj
+serio|sério|adj
+listo|pronto / esperto|adj
+tonto|bobo|adj
+justo|justo|adj
+cierto|certo / verdadeiro|adj
+falso|falso|adj
+verdadero|verdadeiro|adj
+distinto|distinto / diferente|adj
+diferente|diferente|adj
+igual|igual|adj
+parecido|parecido|adj
+propio|próprio|adj
+ajeno|alheio|adj
+único|único|adj
+varios|vários|adj
+demás|demais / restantes|adj
+siguiente|seguinte|adj
+último|último|adj
+primero|primeiro|adj
+segundo|segundo|adj
+tercero|terceiro|adj
+cuarto|quarto (cômodo) / quarto (1/4)|subst
+quinto|quinto|adj
+final|final|adj
+principal|principal|adj
+público|público|adj
+privado|privado|adj
+social|social|adj
+nacional|nacional|adj
+internacional|internacional|adj
+local|local|adj
+mundial|mundial|adj
+actual|atual|adj
+antiguo|antigo|adj
+moderno|moderno|adj
+natural|natural|adj
+humano|humano|adj
+personal|pessoal|adj
+profesional|profissional|adj
+técnico|técnico|adj
+médico|médico|adj
+legal|legal (jurídico)|adj
+político|político|adj
+económico|econômico|adj
+financiero|financeiro|adj
+comercial|comercial|adj
+digital|digital|adj
+gratis|de graça|adj
+gratuito|gratuito|adj
+cabeza|cabeça|subst
+cara|rosto|subst
+ojo|olho|subst
+oreja|orelha|subst
+oído|ouvido|subst
+nariz|nariz|subst
+boca|boca|subst
+labio|lábio|subst
+lengua|língua (órgão e idioma)|subst
+diente|dente|subst
+muela|molar / dente do fundo|subst
+encía|gengiva|subst
+mandíbula|mandíbula|subst
+cuello|pescoço|subst
+garganta|garganta|subst
+hombro|ombro|subst
+brazo|braço|subst
+mano|mão|subst
+dedo|dedo|subst
+uña|unha|subst
+pecho|peito|subst
+espalda|costas|subst
+cintura|cintura|subst
+pierna|perna|subst
+rodilla|joelho|subst
+pie|pé|subst
+piel|pele|subst
+hueso|osso|subst
+sangre|sangue|subst
+corazón|coração|subst
+cerebro|cérebro|subst
+estómago|estômago|subst
+dolor|dor|subst
+salud|saúde|subst
+enfermedad|doença|subst
+fiebre|febre|subst
+herida|ferida|subst
+medicina|remédio / medicina|subst
+medicamento|medicamento|subst
+receta|receita|subst
+consulta|consulta|subst
+cita|consulta marcada / encontro|subst
+turno|turno / horário marcado|subst
+hospital|hospital|subst
+clínica|clínica|subst
+consultorio|consultório|subst
+paciente|paciente|subst
+enfermera|enfermeira|subst
+tratamiento|tratamento|subst
+cirugía|cirurgia|subst
+anestesia|anestesia|subst
+radiografía|radiografia|subst
+limpieza|limpeza|subst
+caries|cárie|subst
+dentista|dentista|subst
+odontólogo|odontólogo|subst
+ortodoncia|ortodontia|subst
+implante|implante|subst
+corona|coroa|subst
+prótesis|prótese|subst
+brackets|aparelho fixo|subst
+comida|comida|subst
+desayuno|café da manhã|subst
+almuerzo|almoço|subst
+cena|jantar|subst
+pan|pão|subst
+queso|queijo|subst
+carne|carne|subst
+pollo|frango|subst
+pescado|peixe|subst
+huevo|ovo|subst
+arroz|arroz|subst
+frijol|feijão|subst
+verdura|verdura|subst
+fruta|fruta|subst
+manzana|maçã|subst
+naranja|laranja (fruta e cor)|subst
+plátano|banana|subst
+fresa|morango|subst
+ensalada|salada|subst
+sopa|sopa|subst
+postre|sobremesa|subst
+azúcar|açúcar|subst
+sal|sal|subst
+aceite|óleo / azeite|subst
+leche|leite|subst
+café|café|subst
+té|chá|subst
+jugo|suco|subst
+zumo|suco (Espanha)|subst
+vino|vinho|subst
+cerveza|cerveja|subst
+hielo|gelo|subst
+plato|prato|subst
+vaso|copo|subst
+taza|xícara|subst
+cuchara|colher|subst
+tenedor|garfo|subst
+cuchillo|faca|subst
+servilleta|guardanapo|subst
+mesa|mesa|subst
+silla|cadeira|subst
+cama|cama|subst
+puerta|porta|subst
+ventana|janela|subst
+pared|parede|subst
+techo|teto|subst
+suelo|chão|subst
+piso|andar / apartamento|subst
+llave|chave|subst
+luz|luz|subst
+baño|banheiro|subst
+cocina|cozinha|subst
+sala|sala|subst
+habitación|quarto (hotel)|subst
+edificio|prédio|subst
+apartamento|apartamento|subst
+departamento|apartamento (LatAm)|subst
+ascensor|elevador|subst
+escalera|escada|subst
+jardín|jardim|subst
+ropa|roupa|subst
+camisa|camisa|subst
+pantalón|calça|subst
+falda|saia|subst
+vestido|vestido|subst
+zapato|sapato|subst
+bolso|bolsa|subst
+bolsillo|bolso|subst
+sombrero|chapéu|subst
+gafas|óculos|subst
+reloj|relógio|subst
+maleta|mala|subst
+equipaje|bagagem|subst
+mochila|mochila|subst
+billete|passagem / cédula|subst
+boleto|passagem / ingresso|subst
+pasaporte|passaporte|subst
+visado|visto|subst
+aeropuerto|aeroporto|subst
+avión|avião|subst
+vuelo|voo|subst
+tren|trem|subst
+estación|estação|subst
+autobús|ônibus|subst
+coche|carro|subst
+carro|carro|subst
+taxi|táxi|subst
+barco|barco|subst
+puerto|porto|subst
+viaje|viagem|subst
+hotel|hotel|subst
+reserva|reserva|subst
+recepción|recepção|subst
+llegada|chegada|subst
+salida|saída / partida|subst
+retraso|atraso|subst
+demora|demora|subst
+asiento|assento|subst
+ventanilla|guichê / janela (avião)|subst
+pasillo|corredor|subst
+aduana|alfândega|subst
+seguro de viaje|seguro viagem|subst
+mapa|mapa|subst
+esquina|esquina|subst
+plaza|praça|subst
+avenida|avenida|subst
+parada|ponto (de ônibus)|subst
+tienda|loja|subst
+supermercado|supermercado|subst
+farmacia|farmácia|subst
+banco|banco|subst
+tarjeta|cartão|subst
+efectivo|dinheiro em espécie|subst
+moneda|moeda|subst
+propina|gorjeta|subst
+descuento|desconto|subst
+oferta|oferta|subst
+recibo|recibo|subst
+cuatro|quatro|num
+cinco|cinco|num
+seis|seis|num
+siete|sete|num
+ocho|oito|num
+nueve|nove|num
+diez|dez|num
+once|onze|num
+doce|doze|num
+trece|treze|num
+catorce|catorze|num
+quince|quinze|num
+veinte|vinte|num
+treinta|trinta|num
+cuarenta|quarenta|num
+cincuenta|cinquenta|num
+sesenta|sessenta|num
+setenta|setenta|num
+ochenta|oitenta|num
+noventa|noventa|num
+cien|cem|num
+ciento|cento|num
+doscientos|duzentos|num
+quinientos|quinhentos|num
+mil|mil|num
+millón|milhão|num
+medio|meio|num
+mitad|metade|num
+doble|dobro|num
+lunes|segunda-feira|subst
+martes|terça-feira|subst
+miércoles|quarta-feira|subst
+jueves|quinta-feira|subst
+viernes|sexta-feira|subst
+sábado|sábado|subst
+domingo|domingo|subst
+enero|janeiro|subst
+febrero|fevereiro|subst
+marzo|março|subst
+abril|abril|subst
+mayo|maio|subst
+junio|junho|subst
+julio|julho|subst
+agosto|agosto|subst
+septiembre|setembro|subst
+octubre|outubro|subst
+noviembre|novembro|subst
+diciembre|dezembro|subst
+primavera|primavera|subst
+verano|verão|subst
+otoño|outono|subst
+invierno|inverno|subst
+fecha|data|subst
+cumpleaños|aniversário|subst
+fiesta|festa|subst
+vacaciones|férias|subst
+feriado|feriado|subst
+finde|fim de semana (coloq.)|subst
+fin de semana|fim de semana|subst
+blanco|branco|adj
+negro|preto|adj
+rojo|vermelho|adj
+azul|azul|adj
+verde|verde|adj
+amarillo|amarelo|adj
+gris|cinza|adj
+marrón|marrom|adj
+rosa|rosa|adj
+morado|roxo|adj
+color|cor|subst
+quién|quem|pron
+cuál|qual|pron
+cuánto|quanto|pron
+cuándo|quando|adv
+dónde|onde|adv
+cómo|como|adv
+por qué|por quê|adv
+para qué|para quê|adv
+adónde|para onde|adv
+alguien|alguém|pron
+nadie|ninguém|pron
+alguno|algum|pron
+ninguno|nenhum|pron
+cualquiera|qualquer|pron
+ambos|ambos|pron
+suficiente|suficiente|adj
+nosotros|nós|pron
+vosotros|vós (Espanha)|pron
+ustedes|vocês|pron
+ellos|eles|pron
+ellas|elas|pron
+usted|você (formal)|pron
+tú|tu / você|pron
+mío|meu|pron
+tuyo|teu|pron
+suyo|seu / dele|pron
+nuestro|nosso|pron
+aquí|aqui|adv
+ahí|aí|adv
+allí|ali|adv
+allá|lá|adv
+acá|cá|adv
+arriba|em cima|adv
+abajo|embaixo|adv
+adelante|adiante|adv
+atrás|atrás|adv
+detrás|atrás de|prep
+delante|na frente|prep
+enfrente|em frente|adv
+cerca|perto|adv
+lejos|longe|adv
+dentro|dentro|adv
+fuera|fora|adv
+alrededor|ao redor|adv
+junto|junto|adv
+encima|em cima de|prep
+debajo|embaixo de|prep
+hacia|em direção a|prep
+mediante|mediante|prep
+salvo|exceto|prep
+excepto|exceto|prep
+respecto a|a respeito de|prep
+a través de|através de|prep
+palabra|palavra|subst
+frase|frase|subst
+idioma|idioma|subst
+libro|livro|subst
+página|página|subst
+carta|carta|subst
+correo|e-mail / correio|subst
+mensaje|mensagem|subst
+llamada|ligação|subst
+teléfono|telefone|subst
+móvil|celular (Espanha)|subst
+celular|celular|subst
+ordenador|computador (Espanha)|subst
+computadora|computador|subst
+pantalla|tela|subst
+archivo|arquivo|subst
+carpeta|pasta|subst
+red|rede|subst
+sitio web|site|subst
+enlace|link|subst
+contraseña|senha|subst
+usuario|usuário|subst
+noticia|notícia|subst
+periódico|jornal|subst
+revista|revista|subst
+televisión|televisão|subst
+película|filme|subst
+música|música|subst
+canción|canção|subst
+juego|jogo|subst
+deporte|esporte|subst
+partido|partida / partido|subst
+escuela|escola|subst
+colegio|colégio|subst
+universidad|universidade|subst
+curso|curso|subst
+clase|aula / classe|subst
+alumno|aluno|subst
+maestro|professor / mestre|subst
+profesor|professor|subst
+examen|prova / exame|subst
+nota|nota|subst
+título|título / diploma|subst
+carrera|carreira / curso superior|subst
+beca|bolsa de estudos|subst
+investigación|pesquisa|subst
+estudio|estudo|subst
+prueba|teste / prova|subst
+error|erro|subst
+fallo|falha|subst
+duda|dúvida|subst
+pregunta|pergunta|subst
+respuesta|resposta|subst
+idea|ideia|subst
+opinión|opinião|subst
+consejo|conselho|subst
+ayuda|ajuda|subst
+apoyo|apoio|subst
+esfuerzo|esforço|subst
+costumbre|costume|subst
+hábito|hábito|subst
+rutina|rotina|subst
+horario|horário|subst
+agenda|agenda|subst
+tarea|tarefa|subst
+derecho|direito|subst
+ley|lei|subst
+norma|norma|subst
+regla|regra|subst
+orden|ordem|subst
+permiso|permissão|subst
+cuidado|cuidado|subst
+peligro|perigo|subst
+miedo|medo|subst
+suerte|sorte|subst
+éxito|sucesso|subst
+fracaso|fracasso|subst
+esperanza|esperança|subst
+sueño|sonho / sono|subst
+deseo|desejo|subst
+gusto|gosto / prazer|subst
+sabor|sabor|subst
+olor|cheiro|subst
+ruido|barulho|subst
+silencio|silêncio|subst
+sonrisa|sorriso|subst
+mirada|olhar|subst
+voz|voz|subst
+paso|passo|subst
+manera|maneira|subst
+modo|modo|subst
+sentido|sentido|subst
+valor|valor / coragem|subst
+calidad|qualidade|subst
+cantidad|quantidade|subst
+tamaño|tamanho|subst
+peso|peso|subst
+medida|medida|subst
+temperatura|temperatura|subst
+espacio|espaço|subst
+material|material|subst
+herramienta|ferramenta|subst
+máquina|máquina|subst
+aparato|aparelho|subst
+sistema|sistema|subst
+proceso|processo|subst
+método|método|subst
+plan|plano|subst
+programa|programa|subst
+actividad|atividade|subst
+acción|ação|subst
+hecho|fato|subst
+suceso|acontecimento|subst
+situación|situação|subst
+condición|condição|subst
+estado de ánimo|estado de espírito|subst
+relación|relação|subst
+diferencia|diferença|subst
+comparación|comparação|subst
+aumento|aumento|subst
+crecimiento|crescimento|subst
+disminución|diminuição|subst
+mejora|melhora|subst
+desarrollo|desenvolvimento|subst
+avance|avanço|subst
+historia|história|subst
+memoria|memória|subst
+recuerdo|lembrança|subst
+futuro|futuro|subst
+pasado|passado|subst
+presente|presente|subst
+principio|princípio / começo|subst
+comienzo|começo|subst
+fin|fim|subst
+resto|resto|subst
+total|total|subst
+conjunto|conjunto|subst
+serie|série|subst
+lista|lista|subst
+detalle|detalhe|subst
+resumen|resumo|subst
+tema|tema|subst
+asunto|assunto|subst
+cuestión|questão|subst
+aspecto|aspecto|subst
+objetivo|objetivo|subst
+propósito|propósito|subst
+interés|interesse|subst
+beneficio|benefício|subst
+coste|custo (Espanha)|subst
+costo|custo|subst
+gasto|gasto|subst
+ahorro|economia (poupança)|subst
+inversión|investimento|subst
+ingreso|receita / entrada|subst
+ganancia|lucro|subst
+pérdida|perda / prejuízo|subst
+deuda|dívida|subst
+préstamo|empréstimo|subst
+impuesto|imposto|subst
+presupuesto|orçamento|subst
+venta|venda|subst
+compra|compra|subst
+entrega|entrega|subst
+envío|envio|subst
+pedido|pedido|subst
+almacén|depósito / armazém|subst
+existencias|estoque|subst
+proveedor|fornecedor|subst
+competencia|concorrência / competência|subst
+marca|marca|subst
+publicidad|publicidade|subst
+campaña|campanha|subst
+encuesta|pesquisa (de opinião)|subst
+firma|assinatura / firma|subst
+sede|sede|subst
+sucursal|filial|subst
+empleado|funcionário|subst
+empleo|emprego|subst
+puesto|cargo|subst
+cargo|cargo / cobrança|subst
+entrevista|entrevista|subst
+currículum|currículo|subst
+despido|demissão|subst
+jubilación|aposentadoria|subst
+sindicato|sindicato|subst
+huelga|greve|subst
+enseguida|em seguida|adv
+de repente|de repente|adv
+a menudo|com frequência|adv
+a veces|às vezes|adv
+en cuanto|assim que|conj
+por lo tanto|portanto|conj
+sin embargo|no entanto|conj
+por supuesto|claro que sim|adv
+de hecho|de fato|adv
+en realidad|na verdade|adv
+a lo mejor|talvez|adv
+ojalá|tomara que|interj

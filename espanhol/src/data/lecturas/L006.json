@@ -1,0 +1,74 @@
+{
+ "id": "L006",
+ "tema": "odonto",
+ "nivel": "B1",
+ "titulo": "Ortodoncia: la primera cita con alineadores",
+ "resumen": "Explicar tratamento com alinhadores, adesão e prazos.",
+ "frases": [
+  {
+   "es": "El tratamiento con alineadores dura entre doce y dieciocho meses.",
+   "pt": "O tratamento com alinhadores dura entre doze e dezoito meses."
+  },
+  {
+   "es": "Debe llevarlos veintidós horas al día, solo se quitan para comer.",
+   "pt": "Você deve usá-los vinte e duas horas por dia, só tira para comer."
+  },
+  {
+   "es": "Cada juego se cambia cada diez días, siguiendo el orden numerado.",
+   "pt": "Cada jogo é trocado a cada dez dias, seguindo a ordem numerada."
+  },
+  {
+   "es": "Al principio notará presión, sobre todo las primeras cuarenta y ocho horas.",
+   "pt": "No começo vai sentir pressão, principalmente nas primeiras quarenta e oito horas."
+  },
+  {
+   "es": "Es fundamental cepillarse antes de volver a colocarlos.",
+   "pt": "É fundamental escovar os dentes antes de recolocá-los."
+  },
+  {
+   "es": "Si no los usa el tiempo indicado, el tratamiento se alarga.",
+   "pt": "Se não usar o tempo indicado, o tratamento se estende."
+  },
+  {
+   "es": "Colocaremos unos pequeños ataches de resina en algunos dientes.",
+   "pt": "Vamos colocar pequenos attachments de resina em alguns dentes."
+  },
+  {
+   "es": "Al terminar, necesitará un retenedor para mantener el resultado.",
+   "pt": "Ao terminar, você vai precisar de uma contenção para manter o resultado."
+  },
+  {
+   "es": "Vendrá a revisión cada seis u ocho semanas.",
+   "pt": "Você virá para revisão a cada seis ou oito semanas."
+  },
+  {
+   "es": "Le muestro ahora la simulación del resultado final.",
+   "pt": "Vou mostrar agora a simulação do resultado final."
+  }
+ ],
+ "glosario": [
+  {
+   "es": "llevarlos",
+   "pt": "usá-los"
+  },
+  {
+   "es": "juego",
+   "pt": "jogo/conjunto"
+  },
+  {
+   "es": "se alarga",
+   "pt": "se prolonga"
+  },
+  {
+   "es": "ataches",
+   "pt": "attachments"
+  }
+ ],
+ "preguntas": [
+  "¿Cuántas horas al día se usan los alineadores?",
+  "¿Qué pasa si el paciente no cumple?",
+  "Explique el tratamiento a un paciente en cinco frases."
+ ],
+ "fuente": "Texto didáctico (OrthoRadar)",
+ "url": ""
+}

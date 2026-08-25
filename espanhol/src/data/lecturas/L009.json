@@ -1,0 +1,74 @@
+{
+ "id": "L009",
+ "tema": "negocios",
+ "nivel": "B2",
+ "titulo": "Correo a un proveedor internacional",
+ "resumen": "E-mail formal de negócios: cotação, prazo e reclamação.",
+ "frases": [
+  {
+   "es": "Estimados señores, me pongo en contacto con ustedes desde Brasil.",
+   "pt": "Prezados senhores, entro em contato com vocês desde o Brasil."
+  },
+  {
+   "es": "Somos una clínica dental con dos sedes y doce profesionales.",
+   "pt": "Somos uma clínica odontológica com duas unidades e doze profissionais."
+  },
+  {
+   "es": "Quisiera solicitar un presupuesto para el material que detallo abajo.",
+   "pt": "Gostaria de solicitar um orçamento para o material que detalho abaixo."
+  },
+  {
+   "es": "Les agradecería que incluyeran el plazo de entrega y los gastos de envío.",
+   "pt": "Agradeceria se incluíssem o prazo de entrega e os custos de envio."
+  },
+  {
+   "es": "¿Ofrecen algún descuento por volumen a partir de cien unidades?",
+   "pt": "Vocês oferecem algum desconto por volume a partir de cem unidades?"
+  },
+  {
+   "es": "En el pedido anterior, dos cajas llegaron con el precinto roto.",
+   "pt": "No pedido anterior, duas caixas chegaram com o lacre rompido."
+  },
+  {
+   "es": "Adjunto las fotografías y el número de albarán.",
+   "pt": "Anexo as fotografias e o número da nota de entrega."
+  },
+  {
+   "es": "Les ruego que me confirmen la sustitución antes del viernes.",
+   "pt": "Peço que me confirmem a substituição antes de sexta-feira."
+  },
+  {
+   "es": "Quedo a la espera de su respuesta.",
+   "pt": "Fico no aguardo da resposta de vocês."
+  },
+  {
+   "es": "Saludos cordiales, doctor Mateo Silva.",
+   "pt": "Atenciosamente, doutor Mateus Silva."
+  }
+ ],
+ "glosario": [
+  {
+   "es": "quisiera",
+   "pt": "gostaria"
+  },
+  {
+   "es": "precinto",
+   "pt": "lacre"
+  },
+  {
+   "es": "albarán",
+   "pt": "nota de entrega"
+  },
+  {
+   "es": "les ruego",
+   "pt": "peço a vocês"
+  }
+ ],
+ "preguntas": [
+  "¿Qué dos cosas pide el remitente?",
+  "¿Cuál es la queja?",
+  "Escriba un correo similar con sus datos."
+ ],
+ "fuente": "Texto didáctico (OrthoRadar)",
+ "url": ""
+}

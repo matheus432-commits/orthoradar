@@ -1,0 +1,74 @@
+{
+ "id": "L012",
+ "tema": "rutina",
+ "nivel": "B1",
+ "titulo": "Hablar de uno mismo sin sonar a currículum",
+ "resumen": "Falar de si, da carreira e da família de forma natural.",
+ "frases": [
+  {
+   "es": "Soy de São Paulo, aunque nací en el interior del estado.",
+   "pt": "Sou de São Paulo, embora tenha nascido no interior do estado."
+  },
+  {
+   "es": "Estudié odontología y me especialicé en ortodoncia.",
+   "pt": "Estudei odontologia e me especializei em ortodontia."
+  },
+  {
+   "es": "Llevo doce años trabajando en consulta privada.",
+   "pt": "Trabalho há doze anos em consultório particular."
+  },
+  {
+   "es": "Además de la clínica, tengo un proyecto de tecnología para dentistas.",
+   "pt": "Além da clínica, tenho um projeto de tecnologia para dentistas."
+  },
+  {
+   "es": "Estoy casado y tengo dos hijos pequeños.",
+   "pt": "Sou casado e tenho dois filhos pequenos."
+  },
+  {
+   "es": "Los fines de semana intento desconectar del trabajo.",
+   "pt": "Nos fins de semana tento desconectar do trabalho."
+  },
+  {
+   "es": "Me gusta cocinar, aunque no se me da especialmente bien.",
+   "pt": "Gosto de cozinhar, embora não seja lá muito bom nisso."
+  },
+  {
+   "es": "Estoy aprendiendo español porque trabajo con colegas de Hispanoamérica.",
+   "pt": "Estou aprendendo espanhol porque trabalho com colegas da América Hispânica."
+  },
+  {
+   "es": "Todavía me cuesta seguir una conversación rápida.",
+   "pt": "Ainda tenho dificuldade em acompanhar uma conversa rápida."
+  },
+  {
+   "es": "Pero entiendo casi todo y cada semana hablo un poco mejor.",
+   "pt": "Mas entendo quase tudo e cada semana falo um pouco melhor."
+  }
+ ],
+ "glosario": [
+  {
+   "es": "llevo doce años",
+   "pt": "faz doze anos que"
+  },
+  {
+   "es": "desconectar",
+   "pt": "desligar"
+  },
+  {
+   "es": "no se me da bien",
+   "pt": "não sou bom nisso"
+  },
+  {
+   "es": "me cuesta",
+   "pt": "tenho dificuldade"
+  }
+ ],
+ "preguntas": [
+  "¿Cuánto tiempo lleva trabajando?",
+  "¿Por qué aprende español?",
+  "Preséntese usted con diez frases propias."
+ ],
+ "fuente": "Texto didáctico (OrthoRadar)",
+ "url": ""
+}

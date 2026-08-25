@@ -1,0 +1,269 @@
+{
+ "guiones": [
+  {
+   "titulo": "Presentarse (profesional)",
+   "tema": "negocios",
+   "lineas": [
+    "Hola, encantado. Soy Mateo Silva, ortodoncista de São Paulo.",
+    "Llevo doce años en consulta privada y trabajo sobre todo con alineadores.",
+    "Además, desarrollo un proyecto de tecnología para clínicas dentales.",
+    "Estoy aprendiendo español porque cada vez trabajo más con colegas de Hispanoamérica.",
+    "¿Y tú, a qué te dedicas exactamente?"
+   ],
+   "preguntas": [
+    "¿A qué te dedicas?",
+    "¿Cuánto tiempo llevas en esto?",
+    "¿Cómo empezaste?",
+    "¿En qué estás trabajando ahora?"
+   ]
+  },
+  {
+   "titulo": "Recibir a un paciente nuevo",
+   "tema": "odonto",
+   "lineas": [
+    "Buenos días, pase y siéntese, por favor.",
+    "Antes de mirarle la boca, cuénteme qué le trae por aquí.",
+    "¿Desde cuándo le pasa? ¿Es un dolor constante o va y viene?",
+    "Voy a revisarle y luego le explico con calma lo que veo.",
+    "Cualquier cosa que le moleste, avíseme y paramos."
+   ],
+   "preguntas": [
+    "¿Qué le trae por aquí?",
+    "¿Desde cuándo le duele?",
+    "¿Toma alguna medicación?",
+    "¿Ha tenido alguna mala experiencia en el dentista?"
+   ]
+  },
+  {
+   "titulo": "Presentar un presupuesto",
+   "tema": "negocios",
+   "lineas": [
+    "Le explico el plan en tres fases para que se entienda mejor.",
+    "La primera fase resuelve el dolor; la segunda, la función; la tercera, la estética.",
+    "El importe total incluye materiales, sesiones y las revisiones del primer año.",
+    "Podemos empezar por lo urgente y planificar el resto con calma.",
+    "¿Qué le parece si empezamos la semana que viene?"
+   ],
+   "preguntas": [
+    "¿Qué incluye el precio?",
+    "¿Se puede pagar a plazos?",
+    "¿Cuánto dura el tratamiento?",
+    "¿Hay alguna alternativa más económica?"
+   ]
+  },
+  {
+   "titulo": "Check-in y pedidos de viaje",
+   "tema": "viajes",
+   "lineas": [
+    "Buenas tardes, tengo una reserva a nombre de Silva, para tres noches.",
+    "¿El desayuno está incluido y a qué hora se sirve?",
+    "¿Sería posible una habitación más tranquila, por favor?",
+    "Necesitaría factura con los datos de mi empresa.",
+    "¿Me recomienda algo bueno para cenar cerca de aquí?"
+   ],
+   "preguntas": [
+    "¿Tiene reserva?",
+    "¿Cuántas noches se queda?",
+    "¿Necesita ayuda con el equipaje?",
+    "¿Prefiere cama doble o dos camas?"
+   ]
+  },
+  {
+   "titulo": "Small talk que no muere en dos frases",
+   "tema": "rutina",
+   "lineas": [
+    "¿Qué tal todo? ¿Mucho lío esta semana?",
+    "Pues yo bien, con la agenda llena, pero contento.",
+    "Oye, ¿tú de dónde eres exactamente?",
+    "Anda, no lo sabía. ¿Y qué tal se vive allí?",
+    "Pues nada, cuando quieras te enseño la clínica."
+   ],
+   "preguntas": [
+    "¿Qué tal el fin de semana?",
+    "¿Llevas mucho tiempo aquí?",
+    "¿Qué haces cuando no trabajas?",
+    "¿Has estado alguna vez en Brasil?"
+   ]
+  }
+ ],
+ "muletas": [
+  {
+   "es": "A ver...",
+   "pt": "Deixa eu ver...",
+   "uso": "ganhar tempo"
+  },
+  {
+   "es": "Pues mira,",
+   "pt": "Olha,",
+   "uso": "começar uma resposta"
+  },
+  {
+   "es": "Es que...",
+   "pt": "É que...",
+   "uso": "justificar"
+  },
+  {
+   "es": "O sea,",
+   "pt": "Ou seja,",
+   "uso": "reformular"
+  },
+  {
+   "es": "Bueno,",
+   "pt": "Bom,",
+   "uso": "transição"
+  },
+  {
+   "es": "La verdad es que",
+   "pt": "A verdade é que",
+   "uso": "dar opinião sincera"
+  },
+  {
+   "es": "Ahora que lo dices,",
+   "pt": "Agora que você falou,",
+   "uso": "reagir"
+  },
+  {
+   "es": "No sé cómo se dice, pero es algo así como...",
+   "pt": "Não sei como se diz, mas é algo tipo...",
+   "uso": "contornar palavra desconhecida"
+  },
+  {
+   "es": "¿Me sigues?",
+   "pt": "Está me acompanhando?",
+   "uso": "checar compreensão"
+  },
+  {
+   "es": "Perdona, ¿puedes repetir más despacio?",
+   "pt": "Desculpe, pode repetir mais devagar?",
+   "uso": "pedir repetição"
+  },
+  {
+   "es": "Corrígeme si me equivoco.",
+   "pt": "Me corrija se eu estiver errado.",
+   "uso": "convidar correção"
+  },
+  {
+   "es": "Dicho esto,",
+   "pt": "Dito isso,",
+   "uso": "virar o argumento"
+  }
+ ],
+ "conectores": [
+  {
+   "es": "además",
+   "pt": "além disso"
+  },
+  {
+   "es": "sin embargo",
+   "pt": "no entanto"
+  },
+  {
+   "es": "por lo tanto",
+   "pt": "portanto"
+  },
+  {
+   "es": "en cambio",
+   "pt": "por outro lado"
+  },
+  {
+   "es": "a pesar de",
+   "pt": "apesar de"
+  },
+  {
+   "es": "aunque",
+   "pt": "embora"
+  },
+  {
+   "es": "por eso",
+   "pt": "por isso"
+  },
+  {
+   "es": "de hecho",
+   "pt": "na verdade / de fato"
+  },
+  {
+   "es": "en primer lugar",
+   "pt": "em primeiro lugar"
+  },
+  {
+   "es": "por último",
+   "pt": "por último"
+  },
+  {
+   "es": "en resumen",
+   "pt": "em resumo"
+  },
+  {
+   "es": "es decir",
+   "pt": "quer dizer"
+  },
+  {
+   "es": "mientras que",
+   "pt": "enquanto que"
+  },
+  {
+   "es": "siempre que",
+   "pt": "sempre que / desde que"
+  },
+  {
+   "es": "en cuanto a",
+   "pt": "quanto a"
+  },
+  {
+   "es": "por cierto",
+   "pt": "por sinal"
+  }
+ ],
+ "armadilhas": [
+  {
+   "regra": "Verbo GUSTAR funciona ao contrário",
+   "es": "Me gusta el café / Me gustan los implantes",
+   "pt": "O café me agrada — o sujeito é a coisa, não a pessoa"
+  },
+  {
+   "regra": "MUY vs MUCHO",
+   "es": "Muy bueno / Trabajo mucho",
+   "pt": "MUY antes de adjetivo/advérbio; MUCHO com verbo ou substantivo"
+  },
+  {
+   "regra": "Nada de artigo antes de possessivo",
+   "es": "Mi paciente (não 'el mi paciente')",
+   "pt": "Em espanhol não se usa artigo + possessivo"
+  },
+  {
+   "regra": "Gerúndio é menos usado que em português",
+   "es": "Voy a llamar (não 'estoy llamando' o tempo todo)",
+   "pt": "Prefira futuro perifrástico e presente"
+  },
+  {
+   "regra": "Pretérito perfecto na Espanha",
+   "es": "Hoy he trabajado mucho",
+   "pt": "Na Espanha, para hoje/esta semana usa-se HE + particípio"
+  },
+  {
+   "regra": "Uso de USTED",
+   "es": "¿Usted siente dolor? — com pacientes é o padrão",
+   "pt": "Com paciente/cliente novo, use USTED até que peçam TÚ"
+  },
+  {
+   "regra": "Ç, LH, NH não existem",
+   "es": "ñ = nh, ll = lh, z/c = ç",
+   "pt": "España = Espanha; llave = chave; corazón = coração"
+  },
+  {
+   "regra": "Ditongo onde o português tem vogal simples",
+   "es": "puedo, quiero, tiene, duele",
+   "pt": "posso, quero, tem, dói — verbos com mudança de raiz"
+  },
+  {
+   "regra": "POR vs PARA",
+   "es": "Gracias por venir / Esto es para usted",
+   "pt": "POR = causa, meio, troca; PARA = destino, finalidade, prazo"
+  },
+  {
+   "regra": "Não existe 'a gente' como 'nós'",
+   "es": "Nosotros trabajamos (não 'la gente trabaja' com sentido de nós)",
+   "pt": "Use NOSOTROS"
+  }
+ ]
+}
