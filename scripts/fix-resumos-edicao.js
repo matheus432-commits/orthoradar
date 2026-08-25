@@ -1,10 +1,21 @@
-// Gera o resumo_completo FALTANTE dos artigos da edição de HOJE (incidente
-// 24/07: madrugada de API Claude lenta deixou vários artigos sem o resumo
-// completo). Grava no doc `artigos` E atualiza o snapshot do digest (é dele que
-// o site lê a edição). NÃO mexe em áudio — o generate-podcasts cuida disso.
+// Gera o resumo_completo FALTANTE dos artigos das edições recentes (incidente
+// 24/07: madrugada de API lenta; incidentes 22-25/08: validador numérico
+// reprovava número fiel com formatação de milhar pt-BR — corrigido em
+// numeric-check.js — e o artigo saía no e-mail com o "Ler resumo completo"
+// vazio PARA SEMPRE, porque nada re-tentava depois).
+//
+// Agora com LOOKBACK: um run varre as edições dos últimos N dias (padrão 7) e
+// completa só o que falta — idempotente e barato (re-gera apenas as falhas,
+// normalmente 0-3 artigos). Também roda TODO DIA como passo de auto-cura do
+// pipeline (daily-pipeline.yml, antes da auditoria): a falha de ontem se
+// corrige na madrugada seguinte, com outro sorteio da API e o strictNote.
+//
+// Grava no doc `artigos` E atualiza o snapshot do digest (é dele que o site
+// lê a edição). NÃO mexe em áudio — o generate-podcasts cuida disso.
 //
 // Envs: FIREBASE_* (+ SERVICE_ACCOUNT p/ escrita), ANTHROPIC_API_KEY.
-// FIX_DATE opcional (YYYY-MM-DD; default hoje).
+//   FIX_DATE (YYYY-MM-DD)  — corrige SÓ aquele dia (modo antigo, via input);
+//   FIX_LOOKBACK (número)  — sem FIX_DATE: dias cobertos até hoje (padrão 7).
 
 const { Firestore } = require('../netlify/functions/_lib/firestore');
 const { generateResumoCompleto } = require('../netlify/functions/_lib/claude');
@@ -16,11 +27,22 @@ const MIN_RC = 200; // mesmo piso da auditoria
   const apiKey = process.env.FIREBASE_API_KEY;
   if (!apiKey || !process.env.ANTHROPIC_API_KEY) { console.log('FALTAM_SECRETS'); process.exit(1); }
   const db = new Firestore(projectId, apiKey);
-  const HOJE = process.env.FIX_DATE || new Date().toISOString().slice(0, 10);
 
-  const digests = (await db.query('digests_especialidade', { limit: 100 }).catch(() => []))
-    .filter(d => String(d.id || '').endsWith('_' + HOJE));
-  console.log(`digests de ${HOJE}: ${digests.length}`);
+  // Datas cobertas: FIX_DATE exato, ou a janela de lookback terminando hoje.
+  const datas = new Set();
+  if (process.env.FIX_DATE) {
+    datas.add(String(process.env.FIX_DATE).slice(0, 10));
+  } else {
+    const n = Number(process.env.FIX_LOOKBACK) > 0 ? Number(process.env.FIX_LOOKBACK) : 7;
+    for (let i = 0; i < n; i++) {
+      datas.add(new Date(Date.now() - i * 86400000).toISOString().slice(0, 10));
+    }
+  }
+  console.log('datas cobertas:', [...datas].sort().join(', '));
+
+  const digests = (await db.query('digests_especialidade', { limit: 300 }).catch(() => []))
+    .filter(d => [...datas].some(dt => String(d.id || '').endsWith('_' + dt)));
+  console.log(`digests na janela: ${digests.length}`);
 
   let gerados = 0, jaTinha = 0, falhou = 0;
   for (const d of digests) {
@@ -50,7 +72,3 @@ const MIN_RC = 200; // mesmo piso da auditoria
   console.log(`\nFIM: gerados=${gerados} jaTinha=${jaTinha} falhou=${falhou}`);
   process.exit(falhou ? 1 : 0);
 })().catch(e => { console.error('ERRO_FATAL', e.message); process.exit(1); });
-
-// rerun 2026-07-24T10:55Z: reprocessa a edição de hoje com o teto de 180s (34aaa1a).
-
-// rerun 2026-07-24T11:08Z: teto 180s + extração robusta de content[] (ccdd8d1).

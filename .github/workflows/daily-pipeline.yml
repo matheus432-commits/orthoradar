@@ -261,6 +261,20 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+      # AUTO-CURA (25/08): completa resumos que falharam em edições dos
+      # últimos 7 dias ANTES de auditar — a falha de ontem (API lenta ou
+      # validador) se corrige sozinha na madrugada seguinte. Custo marginal:
+      # só re-gera as falhas (normalmente 0-3 artigos). continue-on-error:
+      # a auditoria abaixo SEMPRE roda e reporta o estado final.
+      - name: Auto-cura de resumos faltantes (últimos 7 dias)
+        continue-on-error: true
+        env:
+          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+          FIREBASE_API_KEY:    ${{ secrets.FIREBASE_API_KEY }}
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          ANTHROPIC_API_KEY:   ${{ secrets.ANTHROPIC_API_KEY }}
+          FIX_LOOKBACK:        '7'
+        run: node scripts/fix-resumos-edicao.js
       - name: Auditar qualidade da edição
         env:
           FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}

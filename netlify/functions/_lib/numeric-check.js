@@ -7,19 +7,29 @@
 // Conservador por desenho: números ausentes na ORIGEM (a IA inventou ou derivou)
 // reprovam; números da origem ausentes no resumo são permitidos (resumir é omitir).
 
+// Formas EQUIVALENTES de um número bruto: "4.765" é o mesmo dado escrito como
+// "4765" (milhar pt-BR) ou "4,765" (milhar en) — e vice-versa. Todas entram
+// normalizadas (vírgula decimal → ponto).
+function numberVariants(raw) {
+  const v = new Set([raw.replace(',', '.')]);
+  // separador de milhar (pt usa ponto, en usa vírgula) ↔ forma sem separador
+  if (/^\d{1,3}[.,]\d{3}$/.test(raw)) v.add(raw.replace(/[.,]/, ''));
+  if (/^\d{4,6}$/.test(raw)) {
+    v.add(raw.slice(0, -3) + '.' + raw.slice(-3)); // "4765" também casa "4.765"
+  }
+  return v;
+}
+
 // Extrai números "clinicamente relevantes" de um texto pt/en: inteiros, decimais
-// (vírgula ou ponto) e percentuais. Normaliza vírgula decimal para ponto.
+// (vírgula, ponto ou PONTO MÉDIO — "0·78" em periódicos de estilo Lancet) e
+// percentuais. Devolve um Set com TODAS as formas equivalentes.
 function extractNumbers(text) {
-  const s = String(text || '');
+  const s = String(text || '').replace(/[·∙]/g, '.'); // ponto médio → decimal
   const out = new Set();
   const re = /\d+(?:[.,]\d+)?/g;
   let m;
   while ((m = re.exec(s)) !== null) {
-    const raw = m[0];
-    out.add(raw.replace(',', '.'));
-    // "1.234" pode ser milhar (en) — aceita também a forma sem separador
-    if (/^\d{1,3}\.\d{3}$/.test(raw)) out.add(raw.replace('.', ''));
-    if (/^\d{1,3},\d{3}$/.test(raw)) out.add(raw.replace(',', ''));
+    for (const v of numberVariants(m[0])) out.add(v);
   }
   return out;
 }
@@ -52,16 +62,28 @@ function writtenNumbers(text) {
 }
 
 // true se todos os números do resumo existem na origem.
-// Retorna { ok, offending: [...] }.
+// Um número do resumo é válido quando QUALQUER forma equivalente dele existe
+// na origem (incidente 25/08: o resumo escrevia "4.765" — milhar pt-BR — e a
+// origem trazia "4765"; o validador exigia a forma exata e reprovava um número
+// perfeitamente fiel, deixando o card sem resumo completo).
+// Retorna { ok, offending: [...] } — offending lista a forma BRUTA escrita no
+// resumo (sem as variantes sintéticas, que só poluíam o log).
 function numbersConsistent(sourceText, summaryText) {
   const source  = extractNumbers(sourceText);
   for (const n of writtenNumbers(sourceText)) source.add(n); // "three" → "3"
-  const summary = extractNumbers(summaryText);
   const offending = [];
-  for (const n of summary) {
-    if (!source.has(n)) offending.push(n);
+  const vistos = new Set();
+  const re = /\d+(?:[.,]\d+)?/g;
+  const s = String(summaryText || '').replace(/[·∙]/g, '.');
+  let m;
+  while ((m = re.exec(s)) !== null) {
+    const raw = m[0];
+    if (vistos.has(raw)) continue;
+    vistos.add(raw);
+    const okRaw = [...numberVariants(raw)].some(v => source.has(v));
+    if (!okRaw) offending.push(raw.replace(',', '.'));
   }
   return { ok: offending.length === 0, offending };
 }
 
-module.exports = { extractNumbers, writtenNumbers, numbersConsistent };
+module.exports = { extractNumbers, writtenNumbers, numberVariants, numbersConsistent };
