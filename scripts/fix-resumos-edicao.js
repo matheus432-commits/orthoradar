@@ -72,3 +72,5 @@ const MIN_RC = 200; // mesmo piso da auditoria
   console.log(`\nFIM: gerados=${gerados} jaTinha=${jaTinha} falhou=${falhou}`);
   process.exit(falhou ? 1 : 0);
 })().catch(e => { console.error('ERRO_FATAL', e.message); process.exit(1); });
+
+// rerun 2026-08-25T11:45Z: nova tentativa dos 4 restantes com o extenso composto (385079e).
