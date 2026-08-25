@@ -1,7 +1,7 @@
 // Programa de AFILIADOS — regras de comissão (diretriz do fundador, 07/08).
 //
 // Modelo de negócio:
-//   • Premium: R$ 29,90/mês (tabela 25/08); comissão de R$ 10,00/mês por assinante Premium
+//   • Premium: R$ 29,90/mês (tabela 25/08); comissão de R$ 5,00/mês por assinante Premium
 //     ATIVO indicado, durante 12 meses A PARTIR DA ATIVAÇÃO PAGA (não do
 //     cadastro gratuito).
 //   • Enquanto o Premium pago não existe, indicações ficam "pendentes"
@@ -20,13 +20,13 @@
 //
 // PLANO ANUAL (tabela 25/08): R$ 287,04 à vista (R$ 23,92/mês equivalente —
 // "2 meses grátis" na comunicação). Comissão por regra de 3 sobre o mensal
-// equivalente: 23,92 × 10 ÷ 29,90 = 8,00/mês. O pagamento ao afiliado é SEMPRE
+// equivalente: 23,92 × 5 ÷ 29,90 = 4,00/mês. O pagamento ao afiliado é SEMPRE
 // mensal por 12 meses; migração de plano ajusta o valor a partir do mês da
 // mudança (o relatório calcula sobre o plano VIGENTE, nunca sobre o histórico).
-// ATENÇÃO: a comissão mensal de R$ 10,00 foi MANTIDA na queda do preço
-// (59,90→29,90) — hoje equivale a ~33% do mensal; rever com o fundador.
+// Comissão mensal reduzida 10,00 → 5,00 pelo fundador (25/08), acompanhando a
+// queda do preço 59,90 → 29,90 (mantém ~17% do mensal).
 
-const COMISSAO_POR_PLANO = { mensal: 10.00, anual: 8.00 }; // R$/mês ao afiliado
+const COMISSAO_POR_PLANO = { mensal: 5.00, anual: 4.00 };  // R$/mês ao afiliado
 const COMISSAO_MENSAL = COMISSAO_POR_PLANO.mensal;         // compat (plano mensal)
 const PREMIUM_PRECO        = 29.90;   // R$/mês do plano mensal
 const PREMIUM_PRECO_ANUAL  = 287.04;  // R$/ano à vista (= 23,92/mês)
@@ -113,7 +113,7 @@ function desempenhoAfiliado(indicados, hojeISO) {
     comissaoEncerrada: 0,
     cancelados: 0,
     comissaoMesAtual: 0,       // R$ a pagar este mês
-    comissaoAcumuladaPaga: 0,  // R$ estimados já pagos (meses decorridos × R$10)
+    comissaoAcumuladaPaga: 0,  // R$ estimados já pagos (meses decorridos × comissão mensal)
   };
   const hoje = new Date(String(hojeISO || new Date().toISOString()).slice(0, 10) + 'T00:00:00Z');
   for (const u of indicados) {
@@ -164,7 +164,7 @@ function relatorioCSV(rel, mes) {
   const money = (v) => v.toFixed(2).replace('.', ',');
   const esc = (s) => { const t = String(s ?? ''); return /[;"\n]/.test(t) ? '"' + t.replace(/"/g, '""') + '"' : t; };
   const out = [`Relatório de comissões — ${mes}`,
-    'Afiliado;E-mail;Código;Premiums mensais (R$ 10,00);Premiums anuais (R$ 8,00);Total ativos;Valor a pagar (R$)'];
+    'Afiliado;E-mail;Código;Premiums mensais (R$ 5,00);Premiums anuais (R$ 4,00);Total ativos;Valor a pagar (R$)'];
   for (const l of rel.linhas) {
     out.push([esc(l.nome), esc(l.email), l.codigo, l.premiumsMensais, l.premiumsAnuais, l.premiumsAtivos, money(l.valor)].join(';'));
   }
