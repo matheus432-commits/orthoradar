@@ -1,0 +1,13 @@
+{
+  "artboards": [
+    { "file": "Projetos.dc.html", "title": "1 · Início e projetos", "x": 0, "y": 0, "w": 1280, "h": 800 },
+    { "file": "Main.dc.html", "title": "2 · Entrevista (início)", "x": 1380, "y": 0, "w": 1280, "h": 880 },
+    { "file": "TravaEtica.dc.html", "title": "3 · Trava ética (bloqueada)", "x": 2760, "y": 0, "w": 1280, "h": 880 },
+    { "file": "RevisaoSecao.dc.html", "title": "4 · Revisão e aprovação de seção", "x": 1380, "y": 1020, "w": 1280, "h": 880 },
+    { "file": "Entrega.dc.html", "title": "5 · Entrega do pacote", "x": 2760, "y": 1020, "w": 1280, "h": 880 }
+  ],
+  "annotations": [
+    { "id": "fluxo-leitura", "x": 0, "y": 1020, "w": 300, "text": "Fluxo do dentista, na ordem dos números:\n1 começa (ou retoma) um projeto\n2 entrevista — uma pergunta por vez\n3 a ética trava com franqueza quando falta o termo\n4 cada seção só entra com a aprovação dele\n5 pacote final no formato da revista\n\nTudo texto real do produto — nada de lorem ipsum. Edite à vontade e me diga o que mudar." }
+  ],
+  "launch": { "view": "canvas" }
+}
