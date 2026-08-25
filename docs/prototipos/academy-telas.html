@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>OdontoFeed Academy — todas as telas (prévia estática)</title>
+<style>
+/* PRÉVIA ESTÁTICA de TODAS as telas do OdontoFeed Academy (25/08).
+   Mesmo CSS da página real (academy.html) + estilos do painel admin
+   (admin-academy.html) escopados em #tela-admin. Dados de EXEMPLO com os
+   valores-semente da config (Academy 59,90/mês · exportação 497,00 · teto
+   50% = 248,50 · carência 30 dias) — no produto tudo vem de config/precos. */
+:root{--bg:#F6F1E8;--card:#FFFFFF;--border:#E7DFD0;--text:#22211D;--muted:#8A8478;--verde:#2D6A4F;--verde-claro:#EAF3EE;--dourado:#B08968;--vermelho:#B4533B;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,-apple-system,sans-serif;padding-bottom:80px;}
+.serif{font-family:Georgia,'Times New Roman',serif;}
+h1{font-family:Georgia,serif;font-size:1.5rem;letter-spacing:-.3px;}
+h1 em{color:var(--verde);font-style:normal;}
+.posic{font-size:12.5px;color:var(--muted);margin-top:3px;max-width:720px;}
+.posic b{color:var(--verde);}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;box-shadow:0 1px 4px rgba(0,0,0,.04);}
+
+/* ── chrome da prévia ── */
+.pv-top{max-width:1080px;margin:0 auto;padding:26px 16px 8px;}
+.pv-top h1{font-size:1.7rem;}
+.pv-idx{max-width:1080px;margin:10px auto 0;padding:0 16px;font-size:12.5px;color:var(--muted);line-height:2;}
+.pv-idx a{color:var(--verde);text-decoration:none;font-weight:700;white-space:nowrap;margin-right:14px;}
+.tela{max-width:1080px;margin:34px auto 0;padding:0 16px;}
+.tela-tit{font-size:11px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--dourado);margin-bottom:4px;}
+.tela-desc{font-size:12.5px;color:var(--muted);margin-bottom:12px;max-width:760px;line-height:1.6;}
+.moldura{border:2px dashed #D8CDB8;border-radius:18px;padding:18px 14px 26px;background:linear-gradient(180deg,#F9F5EC,#F6F1E8);}
+
+/* ── estilos REAIS do academy.html ── */
+header.acad{padding:6px 6px 4px;}
+.wrap{display:grid;grid-template-columns:1.5fr 1fr;gap:14px;align-items:start;margin-top:12px;}
+@media(max-width:860px){.wrap{grid-template-columns:1fr;}}
+.chat{display:flex;flex-direction:column;min-height:420px;}
+.msgs{flex:1;overflow-y:auto;padding:18px;}
+.msg{max-width:88%;margin-bottom:12px;padding:11px 14px;border-radius:13px;font-size:14px;line-height:1.6;white-space:pre-wrap;}
+.msg.academy{background:var(--verde-claro);border:1px solid #D5E6DC;border-radius:13px 13px 13px 4px;}
+.msg.dentista{background:#F4EEE4;border:1px solid #EBE2D2;margin-left:auto;border-radius:13px 13px 4px 13px;}
+.msg .quem{font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--verde);margin-bottom:4px;}
+.msg.dentista .quem{color:var(--dourado);}
+.entrada{display:flex;gap:8px;padding:12px;border-top:1px solid var(--border);}
+.entrada textarea{flex:1;border:1.5px solid var(--border);border-radius:11px;padding:10px 12px;font-size:14px;font-family:inherit;resize:none;height:52px;background:#FDFBF7;}
+.entrada button{background:var(--verde);color:#fff;border:0;border-radius:11px;padding:0 20px;font-weight:800;font-size:14px;cursor:pointer;}
+.anexo{border:1px dashed var(--border);background:transparent;border-radius:11px;padding:0 12px;cursor:pointer;color:var(--muted);font-size:12px;}
+.painel{padding:16px 18px;}
+.p-tit{font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:var(--muted);margin:14px 0 8px;}
+.p-tit:first-child{margin-top:0;}
+.etp{display:flex;align-items:center;gap:8px;font-size:12.5px;padding:4px 0;color:var(--muted);}
+.etp .b{width:16px;height:16px;border-radius:50%;border:2px solid var(--border);display:inline-flex;align-items:center;justify-content:center;font-size:9px;color:#fff;flex-shrink:0;}
+.etp.feita{color:var(--text);} .etp.feita .b{background:var(--verde);border-color:var(--verde);}
+.etp.atual{color:var(--text);font-weight:700;} .etp.atual .b{border-color:var(--verde);}
+.sec{border:1px solid var(--border);border-radius:10px;padding:9px 11px;margin-bottom:7px;}
+.sec .nome{font-size:12.5px;font-weight:700;display:flex;justify-content:space-between;align-items:center;}
+.sec .ok{color:var(--verde);font-size:10.5px;font-weight:800;}
+.sec textarea{width:100%;border:1px solid var(--border);border-radius:8px;margin-top:7px;padding:8px;font-size:12.5px;font-family:inherit;min-height:90px;background:#FDFBF7;}
+.sec .acts{display:flex;gap:6px;margin-top:7px;}
+.btn{border:1px solid var(--border);background:#fff;border-radius:9px;padding:6px 12px;font-size:12px;font-weight:700;cursor:pointer;color:var(--text);}
+.btn.verde{background:var(--verde);color:#fff;border-color:var(--verde);}
+.btn:disabled{opacity:.5;cursor:default;}
+.fig{display:flex;gap:8px;align-items:center;font-size:12px;margin-bottom:6px;}
+.fig input{flex:1;border:1px solid var(--border);border-radius:8px;padding:6px 8px;font-size:12px;}
+.aviso{background:#FBF3E4;border:1px solid #EBDDBB;border-radius:10px;padding:9px 12px;font-size:12px;color:#7A5A2E;margin-top:8px;}
+.ref{font-size:12px;border-bottom:1px dashed var(--border);padding:7px 0;line-height:1.5;}
+.ref a{color:var(--verde);}
+.login,.lista{max-width:480px;margin:26px auto;text-align:center;padding:0 16px;}
+.login a,.lista .novo{display:inline-block;margin-top:14px;background:var(--verde);color:#fff;border-radius:10px;padding:12px 26px;font-weight:700;font-size:14px;text-decoration:none;border:0;cursor:pointer;}
+.proj{background:#fff;border:1px solid var(--border);border-radius:12px;padding:12px 15px;margin-top:9px;text-align:left;cursor:pointer;}
+.proj:hover{border-color:var(--verde);}
+.proj .t{font-weight:700;font-size:13.5px;}
+.proj .m{font-size:11.5px;color:var(--muted);margin-top:2px;}
+.modelo{background:var(--verde-claro);border:1px solid #D5E6DC;border-radius:12px;padding:12px 16px;font-size:12.5px;line-height:1.7;text-align:left;margin:14px auto 4px;max-width:440px;}
+.modelo b{color:var(--verde);}
+.widget{border:1px solid #D5E6DC;background:var(--verde-claro);border-radius:10px;padding:10px 12px;font-size:12.5px;line-height:1.6;}
+.widget .cred-linha b{color:var(--verde);}
+.widget .cred-nota{font-size:11.5px;color:var(--muted);margin-top:5px;}
+.widget .cred-sim{display:flex;flex-direction:column;gap:2px;margin:7px 0;font-size:11.5px;}
+.widget .btn{margin-top:7px;}
+.memoria{border:1px solid var(--border);background:#FDFBF7;border-radius:10px;padding:10px 12px;font-size:12.5px;margin-top:8px;}
+.memoria .lin{display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px dashed var(--border);}
+.memoria .lin:last-child{border-bottom:none;font-weight:800;}
+.memoria .lin .desc{color:var(--muted);}
+.memoria .lin.abate span:last-child{color:var(--verde);font-weight:700;}
+.trio{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+@media(max-width:860px){.trio{grid-template-columns:1fr;}}
+
+/* ── estilos do admin-academy.html (escopados) ── */
+#tela-admin .moldura{--bg:#FBF7EF;--border:#EDE6D8;--text:#1A1A18;--gold:#B08968;--green:#3E7C4F;--red:#B4533B;--blue:#4A6B8A;background:var(--bg);}
+#tela-admin h2{font-family:Georgia,serif;font-size:1.4rem;letter-spacing:-.4px;margin:8px 0 2px;}
+#tela-admin h2 em{color:#B08968;font-style:normal;}
+#tela-admin .sub{color:#8A8478;font-size:13px;margin-bottom:14px;}
+#tela-admin .a-card{background:#fff;border:1px solid #EDE6D8;border-radius:14px;padding:16px 18px;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,0,.03);}
+#tela-admin .t-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:#8A8478;margin-bottom:6px;}
+#tela-admin .t-val{font-family:Georgia,serif;font-size:1.7rem;letter-spacing:-.5px;}
+#tela-admin .t-sufix{font-size:12px;color:#8A8478;margin-top:3px;}
+#tela-admin .total-row{display:flex;gap:12px;flex-wrap:wrap;}
+#tela-admin .total-row .a-card{flex:1;min-width:170px;margin-bottom:0;}
+#tela-admin table{width:100%;border-collapse:collapse;font-size:13px;}
+#tela-admin th{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#8A8478;text-align:left;padding:8px 10px;border-bottom:1px solid #EDE6D8;}
+#tela-admin th.num,#tela-admin td.num{text-align:right;}
+#tela-admin td{padding:9px 10px;border-bottom:1px solid #EDE6D8;}
+#tela-admin tr:last-child td{border-bottom:none;}
+#tela-admin input.preco{width:110px;border:1px solid #EDE6D8;border-radius:8px;padding:7px 9px;font-size:13px;text-align:right;background:#fff;}
+#tela-admin .salvar{background:#2D6A4F;color:#fff;border:1px solid #2D6A4F;border-radius:9px;padding:8px 14px;font-size:12.5px;font-weight:700;cursor:pointer;}
+#tela-admin .nota{font-size:12px;color:#8A8478;line-height:1.6;margin-top:8px;}
+#tela-admin .sec-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.4px;color:#8A8478;margin:18px 0 10px;}
+</style>
+</head>
+<body>
+
+<div class="pv-top">
+  <h1>OdontoFeed <em>Academy</em> — todas as telas</h1>
+  <p class="posic">Prévia estática (25/08) de cada tela/estado que a plataforma pode abrir, com dados de exemplo. No produto real é uma página única (<b>academy.html</b>) que troca de estado + o painel <b>admin-academy.html</b>; os valores exibidos vêm sempre de <b>config/precos</b> (aqui, os valores-semente: Academy R$ 59,90/mês · exportação R$ 497,00 · teto 50% = R$ 248,50 · carência 30 dias).</p>
+</div>
+<div class="pv-idx">
+  <a href="#t1">1. Entrada</a><a href="#t2">2. Seus projetos</a><a href="#t3">3. Entrevista</a><a href="#t4">4. Trava ética</a><a href="#t5">5. Literatura</a><a href="#t6">6. Revisão de seções</a><a href="#t7">7. Exportação (memória)</a><a href="#t8">8. Estados do crédito</a><a href="#t9">9. Cancelamento</a><a href="#t10">10. Painel admin</a>
+</div>
+
+<!-- 1 ─ ENTRADA -->
+<div class="tela" id="t1">
+  <div class="tela-tit">Tela 1 · Entrada (sem sessão)</div>
+  <p class="tela-desc">Quem chega sem estar logado. TRANSPARÊNCIA da spec: o modelo de cobrança aparece com os valores <b>antes de qualquer cadastro</b> (endpoint público <code>academy-precos</code>, sem sessão). O login é o mesmo do OdontoFeed.</p>
+  <div class="moldura">
+    <header class="acad">
+      <h1>OdontoFeed <em>Academy</em></h1>
+      <p class="posic"><b>Orientação metodológica, não redação terceirizada:</b> você responde, revisa e aprova cada seção. A plataforma guia o método, busca literatura verificável e monta os documentos — o trabalho é seu.</p>
+    </header>
+    <div class="login">
+      <h1 class="serif">Entre para começar</h1>
+      <p class="posic" style="margin:8px auto;">O Academy usa a mesma conta do OdontoFeed.</p>
+      <div class="modelo">
+        <b>Como funciona a cobrança:</b> usar o Academy é <b>gratuito</b> do início ao fim — entrevista, busca de literatura, manuscrito, revisão. Você só paga na <b>exportação do pacote final</b>: <b>R$ 497,00</b> por trabalho. Assinantes (R$ 59,90/mês) acumulam crédito que abate até 50% da exportação (R$ 248,50) — assinando, ela sai por a partir de <b>R$ 248,50</b>. Assinar nunca é obrigatório para concluir um trabalho.
+      </div>
+      <a href="#t2">Fazer login →</a>
+    </div>
+  </div>
+</div>
+
+<!-- 2 ─ LISTA DE PROJETOS -->
+<div class="tela" id="t2">
+  <div class="tela-tit">Tela 2 · Seus projetos</div>
+  <p class="tela-desc">Primeira tela após o login: os trabalhos em andamento e o botão de começar um novo. Cada card mostra a etapa em que o projeto parou.</p>
+  <div class="moldura">
+    <div class="lista">
+      <h1 class="serif">Seus projetos</h1>
+      <div class="proj"><div class="t">Recessão gengival tratada com enxerto de matriz — caso clínico</div><div class="m">Manuscrito · atualizado 2026-08-24</div></div>
+      <div class="proj"><div class="t">Trabalho novo</div><div class="m">Seu material · atualizado 2026-08-25</div></div>
+      <button class="novo">Começar um trabalho novo →</button>
+    </div>
+  </div>
+</div>
+
+<!-- 3 ─ ÁREA DE TRABALHO / ENTREVISTA -->
+<div class="tela" id="t3">
+  <div class="tela-tit">Tela 3 · Área de trabalho — entrevista</div>
+  <p class="tela-desc">A tela principal: conversa à esquerda (a entrevista conduz o método), painel à direita com o <b>widget permanente de crédito</b> (aqui: dentista que ainda não assina, com a simulação 1/3/6 meses), etapas, seções, figuras e os avisos de privacidade.</p>
+  <div class="moldura">
+    <div class="wrap">
+      <div class="card chat">
+        <div class="msgs">
+          <div class="msg academy"><div class="quem">Academy</div>Bem-vindo(a) ao Academy! Me conta com suas palavras: o que você tem em mãos? Pode ser um caso que deu muito certo, fotos de um tratamento diferente, uma dúvida clínica… Não precisa estar organizado — organizar é comigo.</div>
+          <div class="msg dentista"><div class="quem">Você</div>Tenho um caso de recessão gengival que tratei com enxerto de matriz colágena, com fotos do antes e depois de 6 meses. Acho que daria um relato de caso.</div>
+          <div class="msg academy"><div class="quem">Academy</div>Ótimo material! Pelas suas fotos e acompanhamento de 6 meses, um relato de caso é mesmo o formato certo. Antes de tudo, duas perguntas rápidas: o paciente pode ser identificado nas fotos? E você já tem o consentimento dele por escrito para publicação?</div>
+        </div>
+        <div class="entrada">
+          <button class="anexo">+ figura</button>
+          <textarea placeholder="Responda aqui… (Enter envia, Shift+Enter quebra linha)"></textarea>
+          <button>Enviar</button>
+        </div>
+      </div>
+      <div class="card painel">
+        <div class="p-tit">Crédito de exportação</div>
+        <div class="widget">
+          <div class="cred-linha">Crédito acumulado: <b>R$ 0,00</b> · Sua exportação sairá por <b>R$ 497,00</b></div>
+          <div class="cred-nota">Assinando por R$ 59,90/mês, cada mensalidade vira crédito (até 50% da exportação de R$ 497,00):</div>
+          <div class="cred-sim">
+            <span>1 mês de assinatura → exportação por <b>R$ 437,10</b></span>
+            <span>3 meses de assinatura → exportação por <b>R$ 317,30</b></span>
+            <span>6 meses de assinatura → exportação por <b>R$ 248,50</b> (teto)</span>
+          </div>
+          <button class="btn verde">Assinar o Academy →</button>
+        </div>
+        <div class="p-tit">Etapas</div>
+        <div class="etp feita"><span class="b">✓</span>Seu material</div>
+        <div class="etp atual"><span class="b"></span>Tipo de trabalho</div>
+        <div class="etp"><span class="b"></span>Ética (TCLE/CEP)</div>
+        <div class="etp"><span class="b"></span>Pergunta de pesquisa</div>
+        <div class="etp"><span class="b"></span>Literatura</div>
+        <div class="etp"><span class="b"></span>Manuscrito</div>
+        <div class="etp"><span class="b"></span>Periódico</div>
+        <div class="etp"><span class="b"></span>Entrega</div>
+        <div class="p-tit">Seções do manuscrito</div>
+        <p style="font-size:12px;color:var(--muted);">Os rascunhos aparecem aqui conforme a entrevista avança — você revisa e aprova um a um.</p>
+        <div class="p-tit">Figuras</div>
+        <p style="font-size:12px;color:var(--muted);">Envie fotos/radiografias pelo botão “+ figura”.</p>
+        <div class="aviso">Figuras têm os metadados (EXIF/GPS) removidos no upload. A anonimização <b>visual</b> — rosto, nome em radiografia — é sua responsabilidade e será lembrada no roteiro.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 4 ─ TRAVA ÉTICA -->
+<div class="tela" id="t4">
+  <div class="tela-tit">Tela 4 · Trava ética (bloqueante)</div>
+  <p class="tela-desc">Sem os requisitos éticos (TCLE quando o paciente é identificável; CEP quando vai além do relato — Lei 14.874/2024 e CNS 466/510), a entrevista <b>não avança</b>: o servidor trava a etapa, a conversa explica o porquê e entrega o modelo de TCLE.</p>
+  <div class="moldura">
+    <div class="wrap">
+      <div class="card chat">
+        <div class="msgs">
+          <div class="msg dentista"><div class="quem">Você</div>Não tenho o consentimento assinado ainda, as fotos mostram o sorriso dele.</div>
+          <div class="msg academy"><div class="quem">Academy</div>Então precisamos resolver isso antes de qualquer outra coisa — e é rápido. Como o paciente é identificável nas fotos, a publicação exige o TCLE assinado (Lei 14.874/2024 e Resolução CNS 466/12). Sem ele, nenhum periódico sério aceita o trabalho, e eu não posso te levar adiante.
+
+Já deixei um modelo de TCLE pronto no seu pacote, com os campos [PREENCHER] marcados. Imprima, colha a assinatura do paciente e me avise — daí seguimos para a pergunta de pesquisa. Seu projeto fica salvo exatamente onde parou.</div>
+        </div>
+        <div class="entrada">
+          <button class="anexo">+ figura</button>
+          <textarea placeholder="Responda aqui…"></textarea>
+          <button>Enviar</button>
+        </div>
+      </div>
+      <div class="card painel">
+        <div class="p-tit">Etapas</div>
+        <div class="etp feita"><span class="b">✓</span>Seu material</div>
+        <div class="etp feita"><span class="b">✓</span>Tipo de trabalho</div>
+        <div class="etp atual"><span class="b"></span>Ética (TCLE/CEP)</div>
+        <div class="etp"><span class="b"></span>Pergunta de pesquisa</div>
+        <div class="etp"><span class="b"></span>Literatura</div>
+        <div class="etp"><span class="b"></span>Manuscrito</div>
+        <div class="etp"><span class="b"></span>Periódico</div>
+        <div class="etp"><span class="b"></span>Entrega</div>
+        <div class="aviso" style="margin-top:12px;"><b>Etapa bloqueada:</b> paciente identificável sem TCLE disponível. O avanço é liberado pelo servidor quando o requisito for confirmado — não há como pular.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 5 ─ LITERATURA -->
+<div class="tela" id="t5">
+  <div class="tela-tit">Tela 5 · Busca de literatura</div>
+  <p class="tela-desc">Busca real no PubMed (estratégia montada do PICO). Só entra referência <b>verificável com PMID</b> — nada inventado; se a pergunta já foi respondida na literatura, o Academy fala com honestidade.</p>
+  <div class="moldura">
+    <div class="wrap">
+      <div class="card chat">
+        <div class="msgs">
+          <div class="msg academy"><div class="quem">Academy</div>Busca feita: 6 estudos reais encontrados (todos com PMID — nada inventado). Veja no painel; me diga quais parecem conversar com o seu caso, ou me pergunte sobre qualquer um.</div>
+          <div class="msg dentista"><div class="quem">Você</div>O segundo parece muito com o meu caso. O que ele concluiu?</div>
+        </div>
+        <div class="entrada">
+          <button class="anexo">+ figura</button>
+          <textarea placeholder="Responda aqui…"></textarea>
+          <button>Enviar</button>
+        </div>
+      </div>
+      <div class="card painel">
+        <div class="p-tit">Literatura</div>
+        <button class="btn verde">Buscar literatura (PubMed) →</button>
+        <div style="margin-top:8px;">
+          <div class="ref">[1] Silva A, Costa B. <b>Collagen matrix graft for gingival recession: 12-month outcomes.</b> Braz Oral Res, 2024. <a href="#t5">PMID 38412345</a> · <a href="#t5">DOI</a></div>
+          <div class="ref">[2] Oliveira C, et al. <b>Xenogeneic matrices versus connective tissue graft: a case series.</b> J Appl Oral Sci, 2023. <a href="#t5">PMID 37201928</a> · <a href="#t5">DOI</a></div>
+        </div>
+        <div class="p-tit">Seções do manuscrito</div>
+        <p style="font-size:12px;color:var(--muted);">Os rascunhos aparecem aqui conforme a entrevista avança.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 6 ─ REVISÃO DE SEÇÕES -->
+<div class="tela" id="t6">
+  <div class="tela-tit">Tela 6 · Revisão e aprovação de seções</div>
+  <p class="tela-desc">Guardrail inegociável: <b>cada seção só entra no manuscrito com a aprovação explícita do autor</b> — o botão Aprovar é humano, o chat nunca aprova nada sozinho. Dá para editar o texto antes de aprovar.</p>
+  <div class="moldura">
+    <div class="wrap">
+      <div class="card chat">
+        <div class="msgs">
+          <div class="msg academy"><div class="quem">Academy</div>Escrevi o rascunho do Relato do caso (métodos) com o que você me contou — está no painel. Leia com calma: corrija qualquer detalhe clínico que eu tenha entendido errado e, quando estiver do seu jeito, clique em Aprovar. Sem a sua aprovação a seção não entra no manuscrito.</div>
+        </div>
+        <div class="entrada">
+          <button class="anexo">+ figura</button>
+          <textarea placeholder="Responda aqui…"></textarea>
+          <button>Enviar</button>
+        </div>
+      </div>
+      <div class="card painel">
+        <div class="p-tit">Seções do manuscrito</div>
+        <div class="sec">
+          <div class="nome">Relato do caso (métodos)<span style="font-size:10.5px;color:var(--muted);">aguardando sua revisão</span></div>
+          <textarea>Paciente do sexo masculino, 42 anos, compareceu à clínica com queixa de sensibilidade e recessão gengival no elemento 23 (Cairo RT1). Após anamnese e exame periodontal completo…</textarea>
+          <div class="acts"><button class="btn">Salvar edição</button><button class="btn verde">Aprovar seção</button></div>
+        </div>
+        <div class="sec">
+          <div class="nome">Resultados<span class="ok">APROVADA ✓</span></div>
+          <textarea>Aos 6 meses de acompanhamento observou-se recobrimento radicular de 90%, com ganho de tecido queratinizado e resolução completa da sensibilidade relatada…</textarea>
+          <div class="acts"><button class="btn">Salvar edição</button><button class="btn verde" disabled>Aprovar seção</button></div>
+        </div>
+        <div class="p-tit">Figuras</div>
+        <div class="fig"><span>Fig. 1</span><input value="Aspecto clínico inicial — recessão RT1 no elemento 23"></div>
+        <div class="fig"><span>Fig. 2</span><input value="Controle de 6 meses — recobrimento radicular"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 7 ─ EXPORTAÇÃO -->
+<div class="tela" id="t7">
+  <div class="tela-tit">Tela 7 · Entrega — memória de cálculo e confirmação</div>
+  <p class="tela-desc">O <b>único momento pago</b>. Ao clicar em Baixar, o servidor responde com a memória de cálculo completa (valor cheio − crédito aplicado, com o teto quando atingido) e só exporta com a confirmação explícita. Depois de pago, o re-download é livre — a cobrança é por trabalho, não por download. Exemplo: assinante com 3 mensalidades (R$ 179,70 de crédito).</p>
+  <div class="moldura">
+    <div class="wrap">
+      <div class="card chat">
+        <div class="msgs">
+          <div class="msg academy"><div class="quem">Academy</div>Todas as seções aprovadas e o periódico escolhido (Journal of Applied Oral Science — nacional, acesso aberto, sem taxa de publicação). Seu pacote está fechado: manuscrito nas normas, cover letter com a declaração de uso de IA, checklist, TCLE e o passo a passo de submissão. Quando quiser, exporte pelo painel.</div>
+        </div>
+        <div class="entrada">
+          <button class="anexo">+ figura</button>
+          <textarea placeholder="Responda aqui…"></textarea>
+          <button>Enviar</button>
+        </div>
+      </div>
+      <div class="card painel">
+        <div class="p-tit">Crédito de exportação</div>
+        <div class="widget">
+          <div class="cred-linha">Crédito acumulado: <b>R$ 179,70</b> · Sua exportação sairá por <b>R$ 317,30</b></div>
+          <div class="cred-nota">3 mensalidade(s) creditada(s). Ao exportar, o crédito aplicado é consumido e o saldo zera — o próximo trabalho recomeça o acúmulo.</div>
+          <button class="btn">Cancelar assinatura</button>
+        </div>
+        <div class="p-tit">Entrega</div>
+        <button class="btn verde">Baixar pacote completo (.zip) →</button>
+        <div class="memoria">
+          <div class="lin"><span class="desc">Exportação do trabalho</span><span>R$ 497,00</span></div>
+          <div class="lin abate"><span class="desc">Crédito de assinatura aplicado</span><span>− R$ 179,70</span></div>
+          <div class="lin"><span>Você paga</span><span>R$ 317,30</span></div>
+        </div>
+        <div class="cred-nota" style="font-size:11.5px;color:var(--muted);margin-top:5px;">Ao confirmar, o crédito aplicado é consumido e seu saldo zera — o acúmulo recomeça para o próximo trabalho.</div>
+        <div class="acts" style="display:flex;gap:6px;margin-top:8px;"><button class="btn verde">Confirmar e exportar por R$ 317,30 →</button><button class="btn">Agora não</button></div>
+        <div class="aviso">O pacote traz manuscrito (DOCX+PDF), cover letter com a declaração de uso de IA (exigência ICMJE), checklist preenchida, modelo de TCLE, declarações e o passo a passo de submissão.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 8 ─ ESTADOS DO WIDGET -->
+<div class="tela" id="t8">
+  <div class="tela-tit">Tela 8 · Os três estados do widget de crédito</div>
+  <p class="tela-desc">O mesmo widget do painel, nos três estados possíveis: sem assinatura (com a simulação), assinante ativo e assinatura cancelada em carência (o crédito ainda vale por 30 dias — depois expira de vez e reativar não o traz de volta).</p>
+  <div class="moldura">
+    <div class="trio">
+      <div>
+        <div class="p-tit">Não assinante</div>
+        <div class="widget">
+          <div class="cred-linha">Crédito acumulado: <b>R$ 0,00</b> · Sua exportação sairá por <b>R$ 497,00</b></div>
+          <div class="cred-nota">Assinando por R$ 59,90/mês, cada mensalidade vira crédito (até 50% da exportação de R$ 497,00):</div>
+          <div class="cred-sim"><span>1 mês → exportação por <b>R$ 437,10</b></span><span>3 meses → <b>R$ 317,30</b></span><span>6 meses → <b>R$ 248,50</b> (teto)</span></div>
+          <button class="btn verde">Assinar o Academy →</button>
+        </div>
+      </div>
+      <div>
+        <div class="p-tit">Assinante ativo (5 meses — teto)</div>
+        <div class="widget">
+          <div class="cred-linha">Crédito acumulado: <b>R$ 299,50</b> · Sua exportação sairá por <b>R$ 248,50</b></div>
+          <div class="cred-nota">Você atingiu o teto do crédito (R$ 248,50 = 50% da exportação) — este é o menor valor possível.</div>
+          <div class="cred-nota">5 mensalidade(s) creditada(s). Ao exportar, o crédito aplicado é consumido e o saldo zera.</div>
+          <button class="btn">Cancelar assinatura</button>
+        </div>
+      </div>
+      <div>
+        <div class="p-tit">Cancelada — em carência</div>
+        <div class="widget">
+          <div class="cred-linha">Crédito acumulado: <b>R$ 119,80</b> · Sua exportação sairá por <b>R$ 377,20</b></div>
+          <div class="cred-nota">Assinatura cancelada — seu crédito de R$ 119,80 vale até <b>2026-09-24</b>. Depois disso expira por completo (reativar não o traz de volta).</div>
+          <button class="btn verde">Reativar assinatura →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 9 ─ CANCELAMENTO -->
+<div class="tela" id="t9">
+  <div class="tela-tit">Tela 9 · Cancelamento com prévia</div>
+  <p class="tela-desc">Cancelar tem duas etapas: primeiro o servidor devolve a <b>prévia</b> com o crédito em risco e a carência — nada é cancelado ainda; só a confirmação explícita aplica. Depois, a conversa registra até quando o crédito vale.</p>
+  <div class="moldura" style="max-width:640px;margin:0 auto;">
+    <div class="aviso" style="margin:0 0 12px;">
+      <b>Antes de confirmar:</b> Você tem R$ 119,80 de crédito acumulado. Ao cancelar, ele continua válido por 30 dias — depois disso expira por completo e reativar não o traz de volta. Sua exportação hoje sairia por R$ 377,20.
+      <div style="display:flex;gap:6px;margin-top:10px;"><button class="btn" style="background:var(--vermelho);color:#fff;border-color:var(--vermelho);">Confirmar o cancelamento</button><button class="btn">Manter minha assinatura</button></div>
+    </div>
+    <div class="card chat" style="min-height:0;">
+      <div class="msgs" style="padding:14px 18px;">
+        <div class="msg academy" style="margin-bottom:0;"><div class="quem">Academy</div>Assinatura cancelada. Seu crédito continua válido até 2026-09-24 — dá para exportar com ele até lá.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 10 ─ PAINEL ADMIN -->
+<div class="tela" id="t10">
+  <div class="tela-tit">Tela 10 · Painel admin — monetização (admin-academy.html)</div>
+  <p class="tela-desc">Exclusivo do fundador (ADMIN_SECRET), linkado no hub admin: assinantes, <b>crédito em circulação</b> (passivo), exportações e receita por origem do mês — e o editor da config de preços, com os derivados calculados na hora. Números de exemplo.</p>
+  <div class="moldura" id="tela-admin-inner">
+    <div id="tela-admin" style="display:contents;">
+    <div class="moldura" style="border:none;padding:6px 4px;">
+      <h2>Monetização do Academy<em>.</em></h2>
+      <p class="sub">Mês 2026-08 · gerado em 25/08/2026, 14:30</p>
+      <div class="total-row">
+        <div class="a-card"><div class="t-label">Assinantes ativos</div><div class="t-val" style="color:#2D6A4F;">14</div><div class="t-sufix">2 em carência de crédito</div></div>
+        <div class="a-card"><div class="t-label">Crédito em circulação</div><div class="t-val" style="color:#B4533B;">R$ 1.437,60</div><div class="t-sufix">passivo — abatível em exportações</div></div>
+        <div class="a-card"><div class="t-label">Exportações no mês</div><div class="t-val">3</div><div class="t-sufix">R$ 1.011,90 no mês · 7 desde o início</div></div>
+        <div class="a-card"><div class="t-label">Ticket médio de exportação</div><div class="t-val" style="color:#B08968;">R$ 337,30</div><div class="t-sufix">1 exportação bateu o teto do crédito</div></div>
+      </div>
+      <div class="sec-title">Receita do mês por origem</div>
+      <div class="a-card">
+        <table>
+          <thead><tr><th>Origem</th><th class="num">Receita</th></tr></thead>
+          <tbody>
+            <tr><td>Assinaturas do Academy</td><td class="num">R$ 838,60</td></tr>
+            <tr><td>Exportações de trabalhos</td><td class="num">R$ 1.011,90</td></tr>
+            <tr><td><b>Total do mês</b></td><td class="num"><b>R$ 1.850,50</b></td></tr>
+          </tbody>
+        </table>
+        <div class="nota">Crédito consumido em exportações no mês: R$ 479,10 — desconto concedido, não receita.</div>
+      </div>
+      <div class="sec-title">Config de preços (fonte única — nada hardcoded)</div>
+      <div class="a-card">
+        <table>
+          <tbody>
+            <tr><td>Premium mensal (R$)</td><td class="num"><input class="preco" value="29.90"></td></tr>
+            <tr><td>Desconto do anual do Premium (%) <span style="color:#8A8478;font-size:11px;">— comunicado sempre como “2 meses grátis”</span></td><td class="num"><input class="preco" value="20"></td></tr>
+            <tr><td>Academy mensal (R$)</td><td class="num"><input class="preco" value="59.90"></td></tr>
+            <tr><td>Exportação (R$ por trabalho)</td><td class="num"><input class="preco" value="497.00"></td></tr>
+            <tr><td>Teto do crédito (% da exportação)</td><td class="num"><input class="preco" value="50"></td></tr>
+            <tr><td>Carência do crédito ao cancelar (dias)</td><td class="num"><input class="preco" value="30"></td></tr>
+          </tbody>
+        </table>
+        <div style="margin-top:12px;"><button class="salvar">Salvar preços</button></div>
+        <div class="nota">Derivados automáticos: Premium anual R$ 287,04 (R$ 23,92/mês equivalente) · teto do crédito R$ 248,50 · mínimo pago na exportação R$ 248,50. O teto é percentual: mudou o preço da exportação, ele acompanha sozinho.</div>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
