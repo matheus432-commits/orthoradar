@@ -45,6 +45,17 @@ describe('numeric-check — formas equivalentes do MESMO número', () => {
   test('extractNumbers normaliza ponto médio', () => {
     assert.ok(extractNumbers('OR de 0·78').has('0.78'));
   });
+  test('caso 41553066: extenso COMPOSTO na origem ("twenty-three") casa "23" no resumo', () => {
+    assert.ok(numbersConsistent('twenty-three patients were enrolled', 'Foram incluídos 23 pacientes.').ok);
+    assert.ok(numbersConsistent('a amostra teve sessenta e cinco dentes', 'Foram avaliados 65 dentes.').ok);
+    assert.ok(numbersConsistent('forty two implants placed', 'Foram instalados 42 implantes.').ok);
+  });
+  test('composto não cria número que a origem não sustenta', () => {
+    // "twenty" e "five" separados por outra palavra NÃO viram 25.
+    const r = numbersConsistent('twenty implants in five patients', 'Foram 25 implantes.');
+    assert.ok(!r.ok);
+    assert.deepEqual(r.offending, ['25']);
+  });
 });
 
 describe('auto-cura de resumos faltantes (fecha o vazamento)', () => {

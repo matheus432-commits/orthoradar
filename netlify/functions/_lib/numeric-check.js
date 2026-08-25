@@ -54,9 +54,24 @@ const EXTENSO = {
 function writtenNumbers(text) {
   const out = new Set();
   const s = String(text || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
-  for (const m of s.match(/[a-z]+/g) || []) {
-    const chave = m.normalize('NFD').replace(/[̀-ͯ]/g, '');
-    if (chave in EXTENSO) out.add(String(EXTENSO[chave]));
+  const tokens = s.match(/[a-z]+/g) || [];
+  for (let i = 0; i < tokens.length; i++) {
+    const chave = tokens[i];
+    if (!(chave in EXTENSO)) continue;
+    const v = EXTENSO[chave];
+    out.add(String(v));
+    // COMPOSTOS (run de cura 25/08 — 41553066 reprovado por "23"): o abstract
+    // dizia "twenty-three patients"; o expansor punha 20 e 3 na origem, nunca
+    // 23 — e o resumo fiel reprovava. Dezenas + unidade em EN ("twenty three",
+    // o hífen já vira separador) e PT ("vinte e três") entram combinados.
+    if (v >= 20 && v <= 90 && v % 10 === 0) {
+      let j = i + 1;
+      while (j < tokens.length && (tokens[j] === 'e' || tokens[j] === 'and')) j++;
+      const prox = tokens[j];
+      if (prox in EXTENSO && EXTENSO[prox] >= 1 && EXTENSO[prox] <= 9) {
+        out.add(String(v + EXTENSO[prox]));
+      }
+    }
   }
   return out;
 }
