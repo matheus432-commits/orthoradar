@@ -1,0 +1,35 @@
+# FASE 1 da spec de temas (24/08) — DIAGNÓSTICO, SÓ LEITURA.
+# Zero IA, zero TTS, zero escrita no banco: mede a fragmentação do campo
+# `tema` (variantes, vazios, formato, falso negativo dos alinhadores) e
+# publica JSON+CSV como artifacts. SÓ dispatch manual.
+
+name: Diagnostico de Temas (leitura)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  diagnostico:
+    name: Relatório de temas do acervo
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Gerar relatório (nada é alterado)
+        env:
+          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+          FIREBASE_API_KEY:    ${{ secrets.FIREBASE_API_KEY }}
+        run: node scripts/diagnostico-temas.js
+      - name: Publicar JSON + CSV
+        uses: actions/upload-artifact@v4
+        with:
+          name: diagnostico-temas
+          path: |
+            diagnostico-temas.json
+            diagnostico-temas.csv
+          retention-days: 30
