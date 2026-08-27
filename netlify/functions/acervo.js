@@ -48,9 +48,10 @@ async function getUser(db, email) {
 async function mapaDeAudios(db, bucket) {
   const map = new Map();
   for (const coll of ['podcast_arquivo', 'podcast_episodios']) {
-    const eps = await db.query(coll, {
+    // queryAll (27/08): pagina até o fim — o limit fixo de 5.000 truncava a
+    // coleção em silêncio e a biblioteca encolhia conforme o acervo crescia.
+    const eps = await db.queryAll(coll, {
       select: sel('artigoId', 'objectPath', 'downloadToken', 'url', 'secs', 'date', 'especialidade', 'tipo', 'titulo'),
-      limit: 5000,
     }).catch(() => []);
     for (const e of eps) {
       if (e.tipo === 'completo') continue;
@@ -59,8 +60,8 @@ async function mapaDeAudios(db, bucket) {
       if (k && url) map.set(k, { url, secs: Number(e.secs) || 0, date: e.date || '', especialidade: e.especialidade || '', titulo: e.titulo || '' });
     }
   }
-  const salvos = await db.query('podcast_salvos', {
-    select: sel('objectPath', 'downloadToken', 'url', 'secs'), limit: 5000,
+  const salvos = await db.queryAll('podcast_salvos', {
+    select: sel('objectPath', 'downloadToken', 'url', 'secs'),
   }).catch(() => []);
   for (const s of salvos) {
     const url = audioUrlDe(s, bucket);
@@ -75,10 +76,9 @@ async function mapaDeAudios(db, bucket) {
 // (digest_metrics: click no e-mail, context_opened no site).
 async function pmidsLidos(db, email) {
   try {
-    const evs = await db.query('digest_metrics', {
+    const evs = await db.queryAll('digest_metrics', {
       where: { fieldFilter: { field: { fieldPath: 'email' }, op: 'EQUAL', value: { stringValue: email } } },
       select: sel('eventType', 'pmid'),
-      limit: 5000,
     });
     const lidos = new Set();
     for (const ev of evs) {
@@ -160,9 +160,11 @@ exports.handler = async (event) => {
 
     // ── Catálogo completo (leve) ────────────────────────────────────────────
     const [audios, lidos] = await Promise.all([mapaDeAudios(db, bucket), pmidsLidos(db, email)]);
-    const arts = await db.query('artigos', {
+    // queryAll (27/08): a coleção artigos passou de 5.000 docs e o limit fixo
+    // cortava exatamente os artigos NOVOS (pmid alto = nome "maior" no corte
+    // por __name__) — a biblioteca encolhia em vez de crescer.
+    const arts = await db.queryAll('artigos', {
       select: sel('pmid', 'titulo_pt', 'especialidade', 'data', 'nivel_evidencia', 'journal', 'year', 'tema', 'temas', 'resumo_pt', 'status'),
-      limit: 5000,
     }).catch(() => []);
 
     const artigos = [];

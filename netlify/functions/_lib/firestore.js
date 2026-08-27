@@ -148,6 +148,37 @@ class Firestore {
     return JSON.parse(res.body).filter(d => d.document).map(d => fromDoc(d.document));
   }
 
+  // Consulta a coleção INTEIRA, paginando por cursor de __name__ — sem teto
+  // silencioso. Motivo (incidente 27/08): query() com limit fixo devolve os N
+  // primeiros docs POR NOME e descarta o resto sem avisar. Quando `artigos`
+  // passou de 5.000 docs, a biblioteca começou a ENCOLHER: artigos novos (pmid
+  // alto → nome "maior") ficavam fora do corte, e a reserva diária de estudos
+  // antigos (pmid baixo) empurrava mais artigos para fora a cada dia.
+  // `max` é só um freio contra loop infinito — bem acima de qualquer coleção.
+  async queryAll(collection, { where, select, batch = 1000, max = 50000 } = {}) {
+    const out = [];
+    let startAt = null;
+    for (;;) {
+      const q = {
+        from: [{ collectionId: collection }],
+        orderBy: [{ field: { fieldPath: '__name__' }, direction: 'ASCENDING' }],
+        limit: batch,
+      };
+      if (where)   q.where   = where;
+      if (select)  q.select  = select;
+      if (startAt) q.startAt = startAt;
+
+      const path = `${this._base}:runQuery?${this._qs()}`;
+      const res  = await this._send(path, 'POST', { structuredQuery: q });
+      if (res.status !== 200) throw new Error(`Firestore queryAll ${res.status}: ${res.body.slice(0, 200)}`);
+      const rows = JSON.parse(res.body).filter(d => d.document);
+      for (const d of rows) out.push(fromDoc(d.document));
+      if (rows.length < batch || out.length >= max) return out;
+      // Cursor: o ÚLTIMO doc da página, pelo nome completo do recurso.
+      startAt = { values: [{ referenceValue: rows[rows.length - 1].document.name }], before: false };
+    }
+  }
+
   // List collection with optional pageToken (paginated)
   async listDocs(collection, { pageSize = 300, pageToken } = {}) {
     let qs = `pageSize=${pageSize}&${this._qs()}`;

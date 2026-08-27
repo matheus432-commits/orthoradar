@@ -57,9 +57,9 @@ function detectarVariantes(strings) {
 }
 
 async function construirDiagnostico(db) {
-  const arts = await db.query('artigos', {
+  // queryAll (27/08): sem teto silencioso — ver nota em diagnostico-pipeline.
+  const arts = await db.queryAll('artigos', {
     select: sel('pmid', 'titulo_pt', 'titulo', 'resumo_pt', 'especialidade', 'tema', 'temas', 'temas_raw', 'versao_taxonomia', 'status'),
-    limit: 5000,
   });
 
   const porEsp = new Map(); // esp → agregadores

@@ -70,22 +70,22 @@ async function construirDiagnosticoPipeline(db, opts = {}) {
   const bucket = opts.bucket || ((process.env.FIREBASE_PROJECT_ID || 'orthoradar') + '.appspot.com');
 
   // ── Fontes ────────────────────────────────────────────────────────────────
-  const arts = await db.query('artigos', {
+  // queryAll (27/08): o diagnóstico existe para dar o número VERDADEIRO —
+  // com limit fixo ele herdaria o mesmo corte silencioso que encolheu a
+  // biblioteca quando artigos passou de 5.000 docs.
+  const arts = await db.queryAll('artigos', {
     select: sel('pmid', 'titulo_pt', 'resumo_pt', 'impacto_pratico', 'nivel_evidencia', 'especialidade', 'tema', 'temas', 'status', 'data', 'resumo_completo'),
-    limit: 5000,
   });
   const episodios = [];
   for (const coll of ['podcast_arquivo', 'podcast_episodios']) {
-    const eps = await db.query(coll, {
+    const eps = await db.queryAll(coll, {
       select: sel('artigoId', 'objectPath', 'downloadToken', 'url', 'date', 'especialidade', 'tipo'),
-      limit: 5000,
     }).catch(() => []);
     for (const e of eps) if (e.tipo !== 'completo') episodios.push({ ...e, _coll: coll });
   }
-  const salvos = await db.query('podcast_salvos', { select: sel('objectPath', 'downloadToken', 'url'), limit: 5000 }).catch(() => []);
-  const edicoes = await db.query('digests_especialidade', {
+  const salvos = await db.queryAll('podcast_salvos', { select: sel('objectPath', 'downloadToken', 'url') }).catch(() => []);
+  const edicoes = await db.queryAll('digests_especialidade', {
     select: sel('date', 'especialidade', 'pmids'),
-    limit: 5000,
   }).catch(() => []);
 
   // Mapa pmid → áudio (mesma derivação do acervo/biblioteca).

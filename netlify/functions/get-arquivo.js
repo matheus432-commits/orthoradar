@@ -25,8 +25,9 @@ async function audioMap(db, bucket) {
   const map = new Map();
   // Arquivo permanente (mais antigo) + coleção quente (recentes, sobrescreve).
   for (const coll of ['podcast_arquivo', 'podcast_episodios']) {
-    const eps = await db.query(coll, {
-      select: sel('artigoId', 'objectPath', 'downloadToken', 'url', 'secs'), limit: 5000,
+    // queryAll (27/08): sem teto — o limit fixo truncava o acervo em silêncio.
+    const eps = await db.queryAll(coll, {
+      select: sel('artigoId', 'objectPath', 'downloadToken', 'url', 'secs'),
     }).catch(() => []);
     for (const e of eps) {
       const k = String(e.artigoId || '');
@@ -37,8 +38,8 @@ async function audioMap(db, bucket) {
     }
   }
   // Preservados (acervo permanente) — têm prioridade (nunca somem).
-  const salvos = await db.query('podcast_salvos', {
-    select: sel('objectPath', 'downloadToken', 'url', 'secs'), limit: 5000,
+  const salvos = await db.queryAll('podcast_salvos', {
+    select: sel('objectPath', 'downloadToken', 'url', 'secs'),
   }).catch(() => []);
   for (const s of salvos) {
     const url = audioUrlDe(s, bucket);
@@ -92,9 +93,8 @@ exports.handler = async (event) => {
 
     // ── Catálogo completo (leve — sem o texto do resumo) ──
     const audio = await audioMap(db, bucket);
-    const arts = await db.query('artigos', {
+    const arts = await db.queryAll('artigos', {
       select: sel('pmid', 'titulo_pt', 'titulo', 'especialidade', 'data', 'nivel_evidencia', 'journal', 'year'),
-      limit: 5000,
     }).catch(() => []);
 
     const artigos = arts.map(a => {
