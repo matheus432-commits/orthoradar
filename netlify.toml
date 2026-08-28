@@ -44,6 +44,16 @@
 [functions."afiliados-expiracao"]
   schedule = "0 6 1 * *"
 
+# VIGIA do pipeline diário (28/08): o agendador do GitHub Actions vinha
+# descartando/atrasando o cron (27/08: 11h de atraso; 28/08: não disparou).
+# Diariamente às 06:30 UTC (03:30 BRT) — depois das duas janelas de cron do
+# workflow — o vigia confere se a edição de hoje existe e, se não existir,
+# dispara o daily-pipeline via API do GitHub (precisa do env
+# GITHUB_DISPATCH_TOKEN; sem ele, só registra o alerta). Idempotente: no
+# máximo 1 disparo/dia, e o run ainda passa pela guarda de duplicidade.
+[functions."pipeline-watchdog"]
+  schedule = "30 6 * * *"
+
 # "O Que Ficou" — weekly top-articles recap: agendado via GitHub Actions
 # (.github/workflows/weekly-digest.yml, sábado 11h UTC = 8h BRT) porque o envio
 # percorre todos os usuários e não cabe no timeout de ~26s do Netlify.

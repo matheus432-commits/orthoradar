@@ -2,12 +2,17 @@ name: OdontoFeed Daily Pipeline
 
 # Pipeline completo: ingestão → enriquecimento → perfis → envio de emails.
 #
-# Triggers (diretriz 22/07 — controle de custos):
-#   schedule   — 03:00 UTC (00:00 BRT): a ÚNICA execução automática. Ingestão +
-#                enriquecimento + envio roda de madrugada, então o dentista
-#                acorda com o digest no inbox. Esta é a única cobrança de
-#                créditos "automática" esperada por dia.
-#   workflow_dispatch — disparo manual (force_send / skip_ai / email_only).
+# Triggers (diretriz 22/07 — controle de custos; redundância 28/08):
+#   schedule   — DOIS horários (03:17 e 04:43 UTC = 00:17 e 01:43 BRT), em
+#                minutos fora de pico: o agendador do GitHub é "melhor
+#                esforço" e vinha descartando/atrasando o cron único de 03:00
+#                (27/08: 11h de atraso; 28/08: não disparou). O job "Guarda de
+#                duplicidade" garante que só a PRIMEIRA execução do dia faz
+#                trabalho — a redundância custa ~10s de VM, nunca uma segunda
+#                rodada de IA/e-mail. Terceira rede: pipeline-watchdog no
+#                Netlify (06:30 UTC), fora da infra do GitHub.
+#   workflow_dispatch — disparo manual (force_send / skip_ai / email_only);
+#                roda SEMPRE, sem passar pela guarda.
 #
 # NÃO existe mais gatilho por PUSH. Publicar código (deploy) NÃO re-executa o
 # pipeline: antes, qualquer push em netlify/functions/** re-rodava ingestão +
@@ -20,7 +25,8 @@ env:
 
 on:
   schedule:
-    - cron: '0 3 * * *'
+    - cron: '17 3 * * *'
+    - cron: '43 4 * * *'
 
   workflow_dispatch:
     inputs:
@@ -55,19 +61,51 @@ on:
         default: ''
         type: string
 
-# ── Job 1: Ingestão e Enriquecimento ─────────────────────────────────────────
+# ── Job 0: Guarda de duplicidade (28/08) ──────────────────────────────────────
+# Com DOIS crons + o vigia do Netlify, o mesmo dia pode receber mais de um
+# disparo agendado. Este job decide em ~10s se ainda há trabalho: edição de
+# hoje já no Firestore → todos os jobs seguintes são pulados (custo zero de
+# IA/e-mail). Disparo MANUAL nunca passa por aqui: clique do fundador roda
+# sempre (force_send/regen/dry_run intactos).
 jobs:
+  guard:
+    name: Guarda de duplicidade
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      rodar: ${{ steps.decidir.outputs.rodar }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Edição de hoje já existe?
+        id: decidir
+        env:
+          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+          FIREBASE_API_KEY:    ${{ secrets.FIREBASE_API_KEY }}
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+        run: node scripts/edicao-do-dia-existe.js
+
+# ── Job 1: Ingestão e Enriquecimento ─────────────────────────────────────────
   ingest:
     name: Ingestão e Enriquecimento
+    needs: guard
     runs-on: ubuntu-latest
     # 50 min (incidente 30/07): o enriquecimento diário sozinho leva ~24 min
     # (45 artigos × ~30s, sequencial com Sonnet) e o pré-aquecimento da reserva
     # tem orçamento próprio de 18 min — com 25 min o job era MORTO no meio do
     # pré-aquecimento e o e-mail nem rodava. Pior caso real: ~24 + 18 + folga.
     timeout-minutes: 50
-    # Pula ingestão quando email_only=true (disparo manual só de email) ou no
-    # ENSAIO (dry_run testa o acervo atual, sem ingerir e sem gastar créditos).
-    if: github.event.inputs.email_only != 'true' && github.event.inputs.dry_run != 'true'
+    # Pula ingestão quando a guarda diz que a edição de hoje já existe, quando
+    # email_only=true (disparo manual só de email) ou no ENSAIO (dry_run testa
+    # o acervo atual, sem ingerir e sem gastar créditos).
+    if: >-
+      needs.guard.outputs.rodar == 'true' &&
+      github.event.inputs.email_only != 'true' &&
+      github.event.inputs.dry_run != 'true'
 
     steps:
       - name: Checkout
@@ -158,7 +196,7 @@ jobs:
 # ── Job 2: Envio de Emails ────────────────────────────────────────────────────
   email:
     name: Envio de Digests
-    needs: ingest
+    needs: [guard, ingest]
     runs-on: ubuntu-latest
     # 45 min (31/07): com o resumo Sonnet 100% sob demanda, TODA edição gera os
     # seus 3 resumos na hora (~60-120s/especialidade em paralelo). O run típico
@@ -167,11 +205,14 @@ jobs:
     timeout-minutes: 45
 
     # Executa email se:
-    #   A) ingest terminou (com sucesso OU falha — ainda há artigos no Firestore)
-    #      exceto se foi cancelado pelo usuário.
-    #   B) E o evento NÃO é push de código (push só atualiza artigos, nunca envia email).
+    #   A) a guarda liberou o dia (edição de hoje ainda não existe, ou é
+    #      disparo manual);
+    #   B) ingest terminou (com sucesso OU falha — ainda há artigos no
+    #      Firestore) exceto se foi cancelado pelo usuário;
+    #   C) E o evento NÃO é push de código (push só atualiza artigos, nunca envia email).
     if: >-
       always() &&
+      needs.guard.outputs.rodar == 'true' &&
       needs.ingest.result != 'cancelled' &&
       github.event_name != 'push'
 
@@ -210,12 +251,12 @@ jobs:
 # faltou.
   podcasts:
     name: Gerar Podcasts
-    needs: email
+    needs: [guard, email]
     runs-on: ubuntu-latest
     timeout-minutes: 40
     if: >-
       always() &&
-      needs.ingest.result != 'cancelled' &&
+      needs.guard.outputs.rodar == 'true' &&
       needs.email.result == 'success' &&
       github.event.inputs.dry_run != 'true' &&
       github.event_name != 'push'
@@ -246,11 +287,12 @@ jobs:
 # incidente 24/07: a auditoria foi SKIPPED porque o job de podcast foi cancelado.
   audit:
     name: Auditoria da Edição
-    needs: [email, podcasts]
+    needs: [guard, email, podcasts]
     runs-on: ubuntu-latest
     timeout-minutes: 12
     if: >-
       always() &&
+      needs.guard.outputs.rodar == 'true' &&
       needs.email.result == 'success' &&
       github.event.inputs.dry_run != 'true' &&
       github.event_name != 'push'
