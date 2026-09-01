@@ -23,6 +23,7 @@ const { audioUrlDe } = require('./_lib/storage');
 const { resolveArticleUrl } = require('./_lib/email-template');
 const { logEvent } = require('./_lib/engagement');
 const { isPremium } = require('./_lib/plans');
+const { blocoDeBusca } = require('./_lib/busca-texto');
 const log = require('./_lib/logger');
 
 const BASE_URL = process.env.SITE_URL || 'https://odontofeed.com';
@@ -163,7 +164,10 @@ exports.handler = async (event) => {
     // cortava exatamente os artigos NOVOS (pmid alto = nome "maior" no corte
     // por __name__) — a biblioteca encolhia em vez de crescer.
     const arts = await db.queryAll('artigos', {
-      select: sel('pmid', 'titulo_pt', 'especialidade', 'data', 'nivel_evidencia', 'journal', 'year', 'tema', 'resumo_pt', 'status'),
+      // impacto_pratico e resumo_completo entram (01/09) para a BUSCA da
+      // biblioteca enxergar o texto inteiro do artigo, não só o começo do
+      // resumo — eles não vão crus para o cliente, viram o bloco `busca`.
+      select: sel('pmid', 'titulo_pt', 'titulo', 'especialidade', 'data', 'nivel_evidencia', 'journal', 'year', 'tema', 'resumo_pt', 'impacto_pratico', 'resumo_completo', 'status'),
     }).catch(() => []);
 
     const artigos = [];
@@ -184,7 +188,13 @@ exports.handler = async (event) => {
         nivel:         a.nivel_evidencia || '',
         journal:       a.journal || '', year: a.year || '',
         tema:          a.tema || '',
-        resumo:        String(a.resumo_pt || '').slice(0, 400), // busca + prévia do card
+        resumo:        String(a.resumo_pt || '').slice(0, 400), // prévia do card
+        // BLOCO DE BUSCA (01/09): título (PT e original), tema, periódico,
+        // nível, resumo, relevância clínica e resumo completo — normalizado
+        // (sem acento, sem hífen) e sem palavra repetida. É o que faz
+        // "miniimplante" achar quem escreveu "mini-implante" em QUALQUER
+        // campo, e não só nos 400 primeiros caracteres do resumo.
+        busca:         blocoDeBusca(a),
         audioUrl:      au.url, secs: au.secs,
         lido:          lidos.has(pmid),
       });
