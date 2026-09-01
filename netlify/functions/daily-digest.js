@@ -23,7 +23,7 @@
 const crypto   = require('crypto');
 const { Firestore }                                = require('./_lib/firestore');
 const { buildDigestEmail, emailHash }              = require('./_lib/email-template');
-const { generateEditorial }                        = require('./_lib/editorial-generator');
+const { saudacaoDoDia }                            = require('./_lib/saudacao');
 const { recommendArticles }                        = require('./_lib/recommendation-engine');
 const { runValidation }                            = require('./_lib/digest-validator');
 const { pubmedFallbackArticles }                   = require('./_lib/pubmed');
@@ -1050,14 +1050,12 @@ async function buildEspDigest(db, especialidade, anthropicKey, dateStr) {
   // Não geramos, não enviamos e não exibimos mais o achado em lugar nenhum.
   const achadoSemana = null;
 
-  // 7. Editorial via Claude — UMA chamada por especialidade (não por usuário);
-  //    falls back to deterministic on failure.
-  t = Date.now();
-  const editorial = await generateEditorial(selected, especialidade, [])
-    .catch(err => { log.warn('[digest][ESP] generateEditorial threw', { err: err.message }); return null; });
-  log.info('[digest][ESP][STAGE editorial]', {
-    especialidade, generated: !!editorial, chars: editorial?.length ?? 0, ms: Date.now() - t,
-  });
+  // 7. Saudação de abertura — DETERMINÍSTICA (01/09). Era uma chamada ao
+  //    Claude por especialidade por dia gerando a "Nota Editorial" de 4-5
+  //    parágrafos; diretriz do fundador: adoção muito baixa para o crédito
+  //    que consumia. Agora é uma frase montada em código: custo zero, sem
+  //    latência e sem mais um ponto de falha antes do envio.
+  const editorial = saudacaoDoDia({ especialidade, n: selected.length, data: dateStr });
 
   // 7b. Resumo completo de CADA artigo da edição (botão "Ler o resumo" no
   // site). Cacheado no artigo e salvo no doc do digest; best-effort: sem
