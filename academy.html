@@ -6,73 +6,134 @@
 <meta name="robots" content="noindex">
 <title>OdontoFeed Academy</title>
 <style>
-/* ODONTOFEED ACADEMY — identidade da casa: creme, serifas, cards brancos,
-   verde #2D6A4F de acento (mesma família visual da landing de parcerias).
-   POSICIONAMENTO no topo da tela: orientação metodológica — o dentista
-   responde, revisa e aprova; a plataforma guia o método. */
-:root{--bg:#F6F1E8;--card:#FFFFFF;--border:#E7DFD0;--text:#22211D;--muted:#8A8478;--verde:#2D6A4F;--verde-claro:#EAF3EE;--dourado:#B08968;--vermelho:#B4533B;}
+/* ODONTOFEED ACADEMY — identidade DA CASA (01/09, diretriz do fundador: "tudo
+   baseado no formato já do OdontoFeed, cores, layout"): os mesmos tokens da
+   Biblioteca — creme #FBF7EF, cards brancos com borda #EDE6D8, dourado
+   #B08968, títulos em Georgia, zero emojis (diretriz 10/08).
+   MECÂNICA: facilitar ao máximo a publicação para quem NÃO tem expertise —
+   então a interface é autoexplicativa: sempre diz onde a pessoa está, o que
+   acontece agora, por que este passo existe e o que ela precisa fazer.
+   POSICIONAMENTO: orientação metodológica — o dentista responde, revisa e
+   aprova; a plataforma guia o método. */
+:root{--bg:#FBF7EF;--card:#FFFFFF;--border:#EDE6D8;--text:#1A1A18;--muted:#8A8478;--gold:#B08968;--gold-soft:#F4EEE4;--green:#3E7C4F;--green-soft:#E8F2EA;--blue:#4A6B8A;--red:#B4533B;--red-soft:#F6E7E2;--ink:#23211C;}
 *{margin:0;padding:0;box-sizing:border-box;}
-body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,-apple-system,sans-serif;}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,-apple-system,sans-serif;padding:24px 14px 80px;}
 .serif{font-family:Georgia,'Times New Roman',serif;}
-header{padding:18px 20px 6px;max-width:1080px;margin:0 auto;}
-h1{font-family:Georgia,serif;font-size:1.5rem;letter-spacing:-.3px;}
-h1 em{color:var(--verde);font-style:normal;}
-.posic{font-size:12.5px;color:var(--muted);margin-top:3px;max-width:720px;}
-.posic b{color:var(--verde);}
-.wrap{max-width:1080px;margin:12px auto 60px;padding:0 14px;display:grid;grid-template-columns:1.5fr 1fr;gap:14px;align-items:start;}
-@media(max-width:860px){.wrap{grid-template-columns:1fr;}}
-.card{background:var(--card);border:1px solid var(--border);border-radius:14px;box-shadow:0 1px 4px rgba(0,0,0,.04);}
+.wrap{max-width:1080px;margin:0 auto;}
+h1{font-family:Georgia,'Times New Roman',serif;font-size:1.55rem;letter-spacing:-.4px;}
+h1 em{color:var(--gold);font-style:normal;}
+.sub{color:var(--muted);font-size:13px;margin:2px 0 14px;line-height:1.6;}
+.sub a{color:var(--blue);text-decoration:none;}
+.sub b{color:var(--text);}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;box-shadow:0 1px 4px rgba(0,0,0,.03);}
+.btn{border:1px solid var(--border);background:#fff;border-radius:9px;padding:7px 13px;font-size:12.5px;font-weight:700;cursor:pointer;color:var(--text);font-family:inherit;}
+.btn.primario{background:var(--ink);color:#fff;border-color:var(--ink);}
+.btn.ouro{background:var(--gold);color:#fff;border-color:var(--gold);}
+.btn:disabled{opacity:.5;cursor:default;}
+.btn:hover:not(:disabled){filter:brightness(.97);}
 
-/* chat */
-.chat{display:flex;flex-direction:column;min-height:70vh;}
-.msgs{flex:1;overflow-y:auto;padding:18px;max-height:64vh;}
+/* ── telas de entrada (login / lista) — mesmo padrão da Biblioteca ── */
+.entrada-tela{max-width:560px;margin:40px auto;text-align:center;}
+.entrada-tela .sub{max-width:440px;margin:6px auto 12px;}
+.entrada-tela a.cta,.entrada-tela button.cta{display:inline-block;margin-top:12px;background:var(--ink);color:#fff;border-radius:10px;padding:12px 26px;font-weight:700;font-size:14px;text-decoration:none;border:0;cursor:pointer;font-family:inherit;}
+/* "Como funciona" em 3 passos — o estado vazio ENSINA (princípio 6) */
+.como{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0 6px;text-align:left;}
+@media(max-width:640px){.como{grid-template-columns:1fr;}}
+.passo{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 15px;}
+.passo .n{font-family:Georgia,serif;font-size:1.3rem;color:var(--gold);line-height:1;margin-bottom:6px;}
+.passo .t{font-weight:700;font-size:13.5px;margin-bottom:4px;}
+.passo .d{font-size:12.5px;color:var(--muted);line-height:1.55;}
+.precisa{font-size:12.5px;color:var(--muted);text-align:left;background:var(--gold-soft);border:1px solid var(--border);border-radius:12px;padding:11px 14px;margin-top:10px;line-height:1.6;}
+.precisa b{color:var(--text);}
+.modelo{font-size:12.5px;color:var(--muted);text-align:left;border:1px dashed var(--border);border-radius:12px;padding:10px 14px;margin-top:10px;line-height:1.65;}
+.modelo b{color:var(--text);}
+.proj{background:#fff;border:1px solid var(--border);border-radius:12px;padding:13px 16px;margin-top:9px;text-align:left;cursor:pointer;display:flex;justify-content:space-between;gap:12px;align-items:center;}
+.proj:hover{border-color:var(--gold);}
+.proj .t{font-weight:700;font-size:13.5px;}
+.proj .m{font-size:11.5px;color:var(--muted);margin-top:3px;}
+.proj .prox{font-size:11.5px;color:var(--gold);font-weight:700;white-space:nowrap;}
+
+/* ── área de trabalho ── */
+.topo{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;}
+/* FAIXA "ONDE ESTOU" (princípio 2): etapa X de 8, o que fazemos agora, o que vem depois */
+.onde{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:12px 16px;margin:12px 0;}
+@media(max-width:760px){.onde{grid-template-columns:1fr;}}
+.onde .num{font-family:Georgia,serif;font-size:1.15rem;color:var(--gold);white-space:nowrap;}
+.onde .agora{font-size:13px;line-height:1.5;}
+.onde .agora b{display:block;font-size:14px;}
+.onde .depois{font-size:12px;color:var(--muted);text-align:right;line-height:1.5;}
+@media(max-width:760px){.onde .depois{text-align:left;}}
+.barra{height:6px;border-radius:4px;background:#EFEAE0;overflow:hidden;margin-top:6px;}
+.barra>div{height:100%;border-radius:4px;background:var(--gold);transition:width .3s;}
+.grade{display:grid;grid-template-columns:1.45fr 1fr;gap:14px;align-items:start;}
+@media(max-width:860px){.grade{grid-template-columns:1fr;}}
+
+/* conversa */
+.chat{display:flex;flex-direction:column;min-height:62vh;}
+.chat-dica{font-size:12px;color:var(--muted);padding:10px 16px;border-bottom:1px solid var(--border);line-height:1.5;}
+.chat-dica b{color:var(--text);}
+.msgs{flex:1;overflow-y:auto;padding:16px;max-height:56vh;}
 .msg{max-width:88%;margin-bottom:12px;padding:11px 14px;border-radius:13px;font-size:14px;line-height:1.6;white-space:pre-wrap;}
-.msg.academy{background:var(--verde-claro);border:1px solid #D5E6DC;border-radius:13px 13px 13px 4px;}
-.msg.dentista{background:#F4EEE4;border:1px solid #EBE2D2;margin-left:auto;border-radius:13px 13px 4px 13px;}
-.msg .quem{font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--verde);margin-bottom:4px;}
-.msg.dentista .quem{color:var(--dourado);}
+.msg.academy{background:var(--gold-soft);border:1px solid #EBE2D2;border-radius:13px 13px 13px 4px;}
+.msg.dentista{background:#fff;border:1px solid var(--border);margin-left:auto;border-radius:13px 13px 4px 13px;}
+.msg .quem{font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--gold);margin-bottom:4px;}
+.msg.dentista .quem{color:var(--muted);}
 .entrada{display:flex;gap:8px;padding:12px;border-top:1px solid var(--border);}
 .entrada textarea{flex:1;border:1.5px solid var(--border);border-radius:11px;padding:10px 12px;font-size:14px;font-family:inherit;resize:none;height:52px;background:#FDFBF7;}
-.entrada button{background:var(--verde);color:#fff;border:0;border-radius:11px;padding:0 20px;font-weight:800;font-size:14px;cursor:pointer;}
-.entrada button:disabled{opacity:.5;cursor:default;}
+.entrada button{font-family:inherit;}
 .anexo{border:1px dashed var(--border);background:transparent;border-radius:11px;padding:0 12px;cursor:pointer;color:var(--muted);font-size:12px;}
+.digitando{font-size:12px;color:var(--muted);padding:0 16px 8px;display:none;}
 
-/* painel */
-.painel{padding:16px 18px;}
-.p-tit{font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:var(--muted);margin:14px 0 8px;}
+/* painel: trilha autoexplicativa */
+.painel{padding:14px 16px;}
+.p-tit{font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:var(--muted);margin:16px 0 8px;}
 .p-tit:first-child{margin-top:0;}
-.etp{display:flex;align-items:center;gap:8px;font-size:12.5px;padding:4px 0;color:var(--muted);}
-.etp .b{width:16px;height:16px;border-radius:50%;border:2px solid var(--border);display:inline-flex;align-items:center;justify-content:center;font-size:9px;color:#fff;flex-shrink:0;}
-.etp.feita{color:var(--text);} .etp.feita .b{background:var(--verde);border-color:var(--verde);}
-.etp.atual{color:var(--text);font-weight:700;} .etp.atual .b{border-color:var(--verde);}
-.sec{border:1px solid var(--border);border-radius:10px;padding:9px 11px;margin-bottom:7px;}
-.sec .nome{font-size:12.5px;font-weight:700;display:flex;justify-content:space-between;align-items:center;}
-.sec .ok{color:var(--verde);font-size:10.5px;font-weight:800;}
-.sec textarea{width:100%;border:1px solid var(--border);border-radius:8px;margin-top:7px;padding:8px;font-size:12.5px;font-family:inherit;min-height:110px;background:#FDFBF7;}
-.sec .acts{display:flex;gap:6px;margin-top:7px;}
-.btn{border:1px solid var(--border);background:#fff;border-radius:9px;padding:6px 12px;font-size:12px;font-weight:700;cursor:pointer;color:var(--text);}
-.btn.verde{background:var(--verde);color:#fff;border-color:var(--verde);}
-.btn:disabled{opacity:.5;cursor:default;}
-.fig{display:flex;gap:8px;align-items:center;font-size:12px;margin-bottom:6px;}
-.fig input{flex:1;border:1px solid var(--border);border-radius:8px;padding:6px 8px;font-size:12px;}
-.aviso{background:#FBF3E4;border:1px solid #EBDDBB;border-radius:10px;padding:9px 12px;font-size:12px;color:#7A5A2E;margin-top:8px;}
-.ref{font-size:12px;border-bottom:1px dashed var(--border);padding:7px 0;line-height:1.5;}
-.ref a{color:var(--verde);}
-.login,.lista{max-width:480px;margin:70px auto;text-align:center;padding:0 16px;}
-.login a,.lista button.novo{display:inline-block;margin-top:14px;background:var(--verde);color:#fff;border-radius:10px;padding:12px 26px;font-weight:700;font-size:14px;text-decoration:none;border:0;cursor:pointer;}
-.proj{background:#fff;border:1px solid var(--border);border-radius:12px;padding:12px 15px;margin-top:9px;text-align:left;cursor:pointer;}
-.proj:hover{border-color:var(--verde);}
-.proj .t{font-weight:700;font-size:13.5px;}
-.proj .m{font-size:11.5px;color:var(--muted);margin-top:2px;}
-.digitando{font-size:12px;color:var(--muted);padding:0 18px 8px;display:none;}
+.trilha{display:flex;flex-direction:column;gap:4px;}
+.etp{border:1px solid transparent;border-radius:10px;padding:7px 9px;}
+.etp .cab{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--muted);}
+.etp .b{width:18px;height:18px;border-radius:50%;border:2px solid var(--border);display:inline-flex;align-items:center;justify-content:center;font-size:10px;color:#fff;flex-shrink:0;font-weight:800;}
+.etp.feita .cab{color:var(--text);} .etp.feita .b{background:var(--green);border-color:var(--green);}
+.etp.atual{border-color:var(--border);background:var(--gold-soft);}
+.etp.atual .cab{color:var(--text);font-weight:700;} .etp.atual .b{border-color:var(--gold);background:var(--gold);}
+.etp .exp{display:none;margin:7px 0 2px 27px;font-size:12.5px;line-height:1.55;color:var(--text);}
+.etp.atual .exp{display:block;}
+.etp .exp .lbl{font-size:10.5px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--gold);margin-top:6px;}
+.etp .exp .lbl:first-child{margin-top:0;}
+.etp .tempo{font-size:11px;color:var(--muted);margin-left:auto;font-weight:400;}
+/* "entenda em 30 segundos" — ajuda dobrável, sem jargão */
+details.entenda{margin-top:6px;border:1px solid var(--border);border-radius:10px;background:#fff;}
+details.entenda summary{cursor:pointer;font-size:12.5px;font-weight:700;padding:8px 11px;color:var(--blue);list-style:none;}
+details.entenda summary::-webkit-details-marker{display:none;}
+details.entenda summary::before{content:'+ ';color:var(--gold);}
+details.entenda[open] summary::before{content:'– ';}
+details.entenda .corpo{padding:0 11px 10px;font-size:12.5px;line-height:1.6;color:var(--text);}
+details.entenda .corpo p{margin-bottom:6px;}
+.trava{background:var(--red-soft);border:1px solid #E6C6BC;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#7A3A28;line-height:1.55;margin-top:6px;}
+.libera{background:var(--green-soft);border:1px solid #C6DCC9;border-radius:10px;padding:9px 12px;font-size:12.5px;color:#2E5A36;line-height:1.55;margin-top:6px;}
 
-/* monetização (spec 25/08): transparência SEMPRE visível — landing, widget
-   permanente de crédito, simulação ao assinar e memória de cálculo na
-   exportação. Nenhum valor escrito aqui: tudo vem de config/precos via API. */
-.modelo{background:var(--verde-claro);border:1px solid #D5E6DC;border-radius:12px;padding:12px 16px;font-size:12.5px;line-height:1.7;text-align:left;margin:14px auto 4px;max-width:440px;}
-.modelo b{color:var(--verde);}
-.widget{border:1px solid #D5E6DC;background:var(--verde-claro);border-radius:10px;padding:10px 12px;font-size:12.5px;line-height:1.6;}
-.widget .cred-linha b{color:var(--verde);}
+/* seções para aprovar */
+.sec{border:1px solid var(--border);border-radius:10px;padding:10px 12px;margin-bottom:8px;background:#fff;}
+.sec .nome{font-size:13px;font-weight:700;display:flex;justify-content:space-between;align-items:center;gap:8px;}
+.sec .ok{color:var(--green);font-size:10.5px;font-weight:800;}
+.sec .espera{font-size:10.5px;color:var(--muted);}
+.sec textarea{width:100%;border:1px solid var(--border);border-radius:8px;margin-top:8px;padding:9px;font-size:12.5px;font-family:inherit;min-height:120px;background:#FDFBF7;line-height:1.55;}
+.sec .acts{display:flex;gap:6px;margin-top:8px;align-items:center;flex-wrap:wrap;}
+.sec .oque{font-size:11.5px;color:var(--muted);margin-top:7px;line-height:1.5;}
+.fig{display:flex;gap:8px;align-items:center;font-size:12px;margin-bottom:6px;}
+.fig input{flex:1;border:1px solid var(--border);border-radius:8px;padding:6px 8px;font-size:12px;font-family:inherit;}
+.aviso{background:var(--gold-soft);border:1px solid var(--border);border-radius:10px;padding:9px 12px;font-size:12px;color:#6B5A3E;margin-top:8px;line-height:1.55;}
+.vazio{font-size:12.5px;color:var(--muted);line-height:1.55;}
+.ref{font-size:12px;border-bottom:1px dashed var(--border);padding:7px 0;line-height:1.5;}
+.ref a{color:var(--blue);}
+/* pacote: cada peça com sua função (princípio 4) */
+.pecas{display:flex;flex-direction:column;gap:5px;margin-top:8px;}
+.peca{display:grid;grid-template-columns:auto 1fr;gap:9px;font-size:12.5px;line-height:1.5;}
+.peca .n{font-weight:700;color:var(--text);white-space:nowrap;}
+.peca .f{color:var(--muted);}
+
+/* crédito (monetização 25/08): transparência permanente, no padrão da casa */
+.widget{border:1px solid var(--border);background:#fff;border-radius:10px;padding:10px 12px;font-size:12.5px;line-height:1.6;}
+.widget .cred-linha b{color:var(--gold);}
 .widget .cred-nota{font-size:11.5px;color:var(--muted);margin-top:5px;}
 .widget .cred-sim{display:flex;flex-direction:column;gap:2px;margin:7px 0;font-size:11.5px;}
 .widget .btn{margin-top:7px;}
@@ -80,70 +141,107 @@ h1 em{color:var(--verde);font-style:normal;}
 .memoria .lin{display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px dashed var(--border);}
 .memoria .lin:last-child{border-bottom:none;font-weight:800;}
 .memoria .lin .desc{color:var(--muted);}
-.memoria .lin.abate span:last-child{color:var(--verde);font-weight:700;}
+.memoria .lin.abate span:last-child{color:var(--green);font-weight:700;}
 </style>
 </head>
 <body>
+<div class="wrap">
 
-<header>
-  <h1>OdontoFeed <em>Academy</em></h1>
-  <p class="posic"><b>Orientação metodológica, não redação terceirizada:</b> você responde, revisa e aprova cada seção. A plataforma guia o método, busca literatura verificável e monta os documentos — o trabalho é seu.</p>
-</header>
-
-<div class="login" id="login" style="display:none;">
-  <h1 class="serif">Entre para começar</h1>
-  <p class="posic" style="margin:8px auto;">O Academy usa a mesma conta do OdontoFeed.</p>
-  <!-- TRANSPARÊNCIA (spec): o modelo aparece ANTES de qualquer cadastro,
-       com valores lidos de config/precos (endpoint público, sem sessão). -->
-  <div class="modelo" id="modelo-precos">
-    <b>Como funciona a cobrança:</b> usar o Academy é <b>gratuito</b> do início ao fim — entrevista, busca de literatura, manuscrito, revisão. Você só paga na <b>exportação do pacote final</b><span id="mp-valores"></span>.
-  </div>
-  <a href="/dashboard">Fazer login →</a>
-</div>
-
-<div class="lista" id="lista" style="display:none;">
-  <h1 class="serif">Seus projetos</h1>
-  <div id="lista-projetos"></div>
-  <button class="novo" onclick="criarProjeto()">Começar um trabalho novo →</button>
-</div>
-
-<div class="wrap" id="app" style="display:none;">
-  <div class="card chat">
-    <div class="msgs" id="msgs"></div>
-    <div class="digitando" id="digitando">o Academy está escrevendo…</div>
-    <div class="entrada">
-      <button class="anexo" onclick="document.getElementById('arq').click()" title="Enviar foto/radiografia (metadados são removidos automaticamente)">+ figura</button>
-      <input type="file" id="arq" accept="image/*" hidden onchange="subirFigura(this)">
-      <textarea id="txt" placeholder="Responda aqui… (Enter envia, Shift+Enter quebra linha)" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();enviar();}"></textarea>
-      <button id="btn-enviar" onclick="enviar()">Enviar</button>
+  <!-- ══ ENTRADA (sem sessão) — o modelo e o funcionamento ANTES de pedir login ══ -->
+  <div class="entrada-tela" id="login" style="display:none;">
+    <h1 class="serif">OdontoFeed<em>.</em> Academy</h1>
+    <p class="sub"><b>Orientação metodológica, não redação terceirizada:</b> você responde, revisa e aprova cada seção. A plataforma guia o método, busca literatura verificável e monta os documentos — o trabalho é seu.</p>
+    <div class="como">
+      <div class="passo"><div class="n">1</div><div class="t">Você conta o caso</div><div class="d">Com suas palavras, numa conversa. Fotos, radiografias, uma ideia solta. Não precisa estar organizado nem em linguagem científica.</div></div>
+      <div class="passo"><div class="n">2</div><div class="t">A plataforma estrutura</div><div class="d">Transforma o relato em artigo: garante a parte ética, busca estudos reais no PubMed, escreve seção por seção seguindo o padrão internacional.</div></div>
+      <div class="passo"><div class="n">3</div><div class="t">Você aprova e envia</div><div class="d">Cada trecho só entra com o seu OK. No fim, o pacote completo para a revista, pronto para submeter.</div></div>
     </div>
+    <div class="precisa"><b>O que você precisa ter em mãos:</b> um caso clínico que deu certo (ou ensinou algo) e, se houver fotos em que o paciente possa ser reconhecido, o consentimento dele para publicação — a plataforma te entrega o modelo pronto para imprimir.</div>
+    <!-- TRANSPARÊNCIA (spec 25/08): o modelo de cobrança aparece ANTES de
+         qualquer cadastro, com valores lidos de config/precos. -->
+    <div class="modelo" id="modelo-precos">
+      <b>Quanto custa:</b> usar o Academy é <b>gratuito</b> do início ao fim. Você só paga na <b>exportação do pacote final</b><span id="mp-valores"></span>.
+    </div>
+    <a class="cta" href="/dashboard">Entrar com minha conta OdontoFeed →</a>
   </div>
 
-  <div class="card painel">
-    <!-- WIDGET PERMANENTE (spec): crédito acumulado + por quanto a exportação
-         sairia HOJE — visível o tempo todo, não só na hora de exportar. -->
-    <div class="p-tit">Crédito de exportação</div>
-    <div class="widget" id="widget-credito"><span style="color:var(--muted);">Carregando…</span></div>
-    <div class="p-tit">Etapas</div>
-    <div id="etapas"></div>
-    <div id="bloco-busca" style="display:none;">
-      <div class="p-tit">Literatura</div>
-      <button class="btn verde" id="btn-busca" onclick="buscar()">Buscar literatura (PubMed) →</button>
-      <div id="refs"></div>
+  <!-- ══ SEUS PROJETOS ══ -->
+  <div class="entrada-tela" id="lista" style="display:none;">
+    <h1 class="serif">Seus trabalhos<em>.</em></h1>
+    <p class="sub"><a href="/dashboard">← voltar à área de membro</a></p>
+    <div id="lista-projetos"></div>
+    <button class="cta" onclick="criarProjeto()">Começar um trabalho novo →</button>
+  </div>
+
+  <!-- ══ ÁREA DE TRABALHO ══ -->
+  <div id="app" style="display:none;">
+    <div class="topo">
+      <div>
+        <h1 class="serif" id="titulo-projeto">Trabalho novo<em>.</em></h1>
+        <p class="sub" style="margin-bottom:0;"><a href="#" onclick="voltarLista();return false;">← seus trabalhos</a> · <a href="/dashboard">área de membro</a></p>
+      </div>
     </div>
-    <div class="p-tit">Seções do manuscrito</div>
-    <div id="secoes"></div>
-    <div class="p-tit">Figuras</div>
-    <div id="figuras"></div>
-    <div id="bloco-pacote" style="display:none;">
-      <div class="p-tit">Entrega</div>
-      <button class="btn verde" id="btn-pacote" onclick="baixarPacote()">Baixar pacote completo (.zip) →</button>
-      <!-- MEMÓRIA DE CÁLCULO (spec): valor cheio, crédito aplicado, teto e
-           valor final aparecem AQUI antes de qualquer confirmação de cobrança. -->
-      <div id="confirma-export" style="display:none;"></div>
-      <div class="aviso">O pacote traz manuscrito (DOCX+PDF), cover letter com a declaração de uso de IA (exigência ICMJE), checklist preenchida, modelo de TCLE, declarações e o passo a passo de submissão.</div>
+
+    <!-- FAIXA "ONDE ESTOU" — respondida o tempo todo, sem ser perguntada -->
+    <div class="onde" id="onde">
+      <div class="num" id="onde-num">Etapa 1 de 8</div>
+      <div class="agora"><b id="onde-titulo">Conte o caso</b><span id="onde-agora">Descreva o que você tem em mãos.</span><div class="barra"><div id="onde-barra" style="width:12%"></div></div></div>
+      <div class="depois" id="onde-depois">Depois: que tipo de trabalho é</div>
     </div>
-    <div class="aviso" style="margin-top:14px;">Figuras têm os metadados (EXIF/GPS) removidos no upload. A anonimização <b>visual</b> — rosto, nome em radiografia — é sua responsabilidade e será lembrada no roteiro.</div>
+
+    <div class="grade">
+      <div class="card chat">
+        <div class="chat-dica"><b>Converse como se estivesse contando o caso a um colega.</b> Não precisa de linguagem científica — transformar isso em texto de artigo é trabalho da plataforma. Uma pergunta por vez.</div>
+        <div class="msgs" id="msgs"></div>
+        <div class="digitando" id="digitando">o Academy está escrevendo…</div>
+        <div class="entrada">
+          <button class="anexo" onclick="document.getElementById('arq').click()" title="Enviar foto ou radiografia — os metadados (EXIF/GPS) são removidos automaticamente">+ foto ou radiografia</button>
+          <input type="file" id="arq" accept="image/*" hidden onchange="subirFigura(this)">
+          <textarea id="txt" placeholder="Responda aqui… (Enter envia, Shift+Enter quebra linha)" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();enviar();}"></textarea>
+          <button class="btn primario" id="btn-enviar" onclick="enviar()">Enviar</button>
+        </div>
+      </div>
+
+      <div class="card painel">
+        <div class="p-tit">Seu caminho até a publicação</div>
+        <div class="trilha" id="etapas"></div>
+
+        <div id="bloco-busca" style="display:none;">
+          <div class="p-tit">Estudos já publicados</div>
+          <button class="btn ouro" id="btn-busca" onclick="buscar()">Buscar no PubMed →</button>
+          <p class="vazio" style="margin-top:7px;">Só entram estudos que existem de verdade, cada um com seu número no PubMed (PMID). Nada é inventado.</p>
+          <div id="refs"></div>
+        </div>
+
+        <div class="p-tit">Texto do artigo, seção por seção</div>
+        <div id="secoes"></div>
+
+        <div class="p-tit">Figuras</div>
+        <div id="figuras"></div>
+
+        <div id="bloco-pacote" style="display:none;">
+          <div class="p-tit">Pacote para a revista</div>
+          <button class="btn ouro" id="btn-pacote" onclick="baixarPacote()">Baixar o pacote completo (.zip) →</button>
+          <!-- MEMÓRIA DE CÁLCULO (spec 25/08): valor cheio, crédito, teto e
+               valor final aparecem AQUI antes de qualquer confirmação. -->
+          <div id="confirma-export" style="display:none;"></div>
+          <div class="pecas">
+            <div class="peca"><span class="n">Manuscrito (DOCX + PDF)</span><span class="f">o artigo em si, já no formato que a revista pede</span></div>
+            <div class="peca"><span class="n">Carta de apresentação</span><span class="f">o texto que acompanha o envio — inclui a declaração de uso de IA que as revistas exigem (ICMJE)</span></div>
+            <div class="peca"><span class="n">Checklist da revista preenchida</span><span class="f">a lista de 13 itens que revistas usam para avaliar relatos de caso — já marcada</span></div>
+            <div class="peca"><span class="n">Termo de consentimento (TCLE)</span><span class="f">o modelo para o paciente assinar, com os campos a preencher destacados</span></div>
+            <div class="peca"><span class="n">Declarações</span><span class="f">conflito de interesse, autoria e originalidade, prontas para assinar</span></div>
+            <div class="peca"><span class="n">Roteiro de submissão</span><span class="f">o passo a passo de como enviar no site da revista escolhida</span></div>
+          </div>
+        </div>
+
+        <div class="p-tit">Crédito de exportação</div>
+        <!-- WIDGET PERMANENTE (spec 25/08) -->
+        <div class="widget" id="widget-credito"><span class="vazio">Carregando…</span></div>
+
+        <div class="aviso" style="margin-top:14px;">Fotos e radiografias têm os dados ocultos do arquivo — metadados (EXIF/GPS) removidos no envio, junto com o modelo do aparelho. Cobrir rosto ou nome que apareça na imagem é responsabilidade sua — a plataforma lembra disso na hora certa.</div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -151,14 +249,71 @@ h1 em{color:var(--verde);font-style:normal;}
 const $=(id)=>document.getElementById(id);
 const esc=(s)=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const EMAIL=localStorage.getItem('of_email'), TOKEN=localStorage.getItem('of_token');
-const ETAPA_NOME={entrada:'Seu material',triagem:'Tipo de trabalho',conformidade:'Ética (TCLE/CEP)',pergunta:'Pergunta de pesquisa',busca:'Literatura',manuscrito:'Manuscrito',periodico:'Periódico',entrega:'Entrega'};
-const SECAO_NOME={metodos:'Relato do caso (métodos)',resultados:'Resultados',discussao:'Discussão',introducao:'Introdução',conclusao:'Conclusão',resumo:'Resumo',titulo:'Título'};
+
+/* TRILHA AUTOEXPLICATIVA — a mesma ordem do motor (_lib/academy/estado.js),
+   traduzida para a língua de quem nunca publicou: nome comum, o que acontece,
+   por que o passo existe e o que a pessoa faz. Siglas só DEPOIS da palavra
+   comum. É isto que permite usar o Academy sem vocabulário prévio. */
+const ETAPAS_INFO=[
+  {id:'entrada',     nome:'Conte o caso',                 tempo:'5 min',
+   agora:'Descreva o que você tem em mãos e envie as fotos.',
+   oque:'Você conta o caso com suas palavras: o que o paciente tinha, o que foi feito, o que aconteceu. Fotos e radiografias entram aqui.',
+   porque:'É daqui que sai o artigo inteiro. Não precisa estar organizado — organizar é trabalho da plataforma.',
+   voce:'Responder às perguntas e enviar as imagens que tiver.'},
+  {id:'triagem',     nome:'Que tipo de trabalho é',       tempo:'2 min',
+   agora:'Descobrimos, na conversa, que tipo de artigo o seu caso vira.',
+   oque:'Pela conversa, a plataforma identifica o formato: um paciente com evolução interessante é um relato de caso — o formato mais publicado por clínicos.',
+   porque:'Cada formato tem regras próprias de estrutura e de ética. Acertar isso cedo evita reescrever depois.',
+   voce:'Nada além de continuar conversando. Hoje o Academy conduz de ponta a ponta o relato de caso; outros formatos chegam em breve.'},
+  {id:'conformidade',nome:'Ética e consentimento',        tempo:'3 min',
+   agora:'Antes de escrever, garantimos que o caso pode ser publicado.',
+   oque:'Algumas perguntas simples: o paciente pode ser reconhecido nas imagens? Existe o consentimento dele para publicar? O trabalho vai além de um caso só?',
+   porque:'Nenhuma revista séria aceita relato sem consentimento do paciente, e no Brasil isso é lei (Lei 14.874/2024). Resolver agora evita descobrir no fim.',
+   voce:'Responder com franqueza. Se faltar o consentimento, a plataforma entrega o modelo pronto para imprimir e assinar — e o projeto fica salvo esperando.',
+   entenda:'<p><b>TCLE</b> é o Termo de Consentimento Livre e Esclarecido: o paciente autoriza, por escrito, que o caso dele seja publicado. É obrigatório sempre que ele puder ser reconhecido (rosto, radiografia com nome, detalhe raro).</p><p><b>CEP</b> é o Comitê de Ética em Pesquisa. Um relato de <b>um</b> caso, com consentimento, normalmente não precisa passar por ele. Se o trabalho reúne vários pacientes ou coleta dados de propósito, precisa — e aí a plataforma explica o caminho.</p>',
+   trava:'O que trava: paciente reconhecível sem consentimento, ou pesquisa com vários pacientes sem aprovação ética.',
+   libera:'O que libera: consentimento assinado (a plataforma te dá o modelo) ou imagens em que ninguém é reconhecível.'},
+  {id:'pergunta',    nome:'A pergunta que o caso responde',tempo:'3 min',
+   agora:'Transformamos o seu caso em uma pergunta clara e respondível.',
+   oque:'Todo artigo responde a uma pergunta. A plataforma te ajuda a formulá-la em português simples — "em pacientes com X, a técnica Y melhora Z?" — e pede sua confirmação.',
+   porque:'É a pergunta que define o que buscar na literatura e o que a discussão precisa provar. Sem ela o texto fica sem eixo.',
+   voce:'Confirmar quando a pergunta soar certa — ou corrigir.'},
+  {id:'busca',       nome:'O que já foi publicado',        tempo:'5 min',
+   agora:'Buscamos no PubMed os estudos que conversam com o seu caso.',
+   oque:'A plataforma pesquisa a literatura real e traz os estudos relacionados, cada um com seu número no PubMed. Você escolhe quais fazem sentido citar.',
+   porque:'A revista exige que o caso seja situado no que já se sabe. E, se a pergunta já foi respondida, é melhor saber agora — com honestidade.',
+   voce:'Ler os achados em português e apontar os que se parecem com o seu caso. Nada é inventado: referência sem PMID não entra.'},
+  {id:'manuscrito',  nome:'Escrever, seção por seção',     tempo:'20–40 min',
+   agora:'A plataforma rascunha cada seção a partir do que você contou; você revisa e aprova.',
+   oque:'Uma seção por vez, na ordem que dá menos retrabalho: primeiro o relato do caso e os resultados, depois a discussão, e só no fim introdução, resumo e título.',
+   porque:'Escrever o começo por último é o segredo dos autores experientes: você só sabe o que apresentar depois de saber o que encontrou.',
+   voce:'Ler cada rascunho, corrigir o que estiver diferente do que aconteceu e clicar em Aprovar. Só entra no artigo o que você aprovou.'},
+  {id:'periodico',   nome:'Escolher a revista',            tempo:'5 min',
+   agora:'Escolhemos juntos para qual revista enviar.',
+   oque:'A plataforma lista revistas compatíveis com o seu trabalho, dizendo idioma, se é acesso aberto, se cobra taxa de publicação e se é indexada.',
+   porque:'Uma revista errada é rejeição certa — e há revistas predatórias que cobram e não valem nada. Para quem começa, nacional, aberta e sem taxa costuma ser o melhor caminho.',
+   voce:'Escolher uma. A plataforma alerta se algo parecer predatório.'},
+  {id:'entrega',     nome:'Pacote para a revista',         tempo:'2 min',
+   agora:'Tudo pronto: baixe o pacote e siga o roteiro de envio.',
+   oque:'Manuscrito em DOCX e PDF, carta de apresentação com a declaração de uso de IA, checklist preenchida, modelo de consentimento, declarações e o passo a passo para submeter.',
+   porque:'É o conjunto exato que a revista pede. Montar isso à mão é o que mais faz gente desistir de publicar.',
+   voce:'Baixar, assinar o que precisa de assinatura e seguir o roteiro no site da revista. O trabalho é seu — você revisou e aprovou cada parte.'},
+];
+const ETAPA_NOME=Object.fromEntries(ETAPAS_INFO.map(e=>[e.id,e.nome]));
+const SECAO_NOME={metodos:'Relato do caso',resultados:'Resultados',discussao:'Discussão',introducao:'Introdução',conclusao:'Conclusão',resumo:'Resumo',titulo:'Título'};
+const SECAO_DICA={
+  metodos:'O que o paciente tinha, o que foi feito e como. Confira datas, materiais e sequência.',
+  resultados:'O que aconteceu depois. Confira números, prazos e o que as imagens mostram.',
+  discussao:'Por que deu certo (ou não) e como o caso conversa com os estudos encontrados.',
+  introducao:'Por que este caso vale ser lido — escrita agora que já sabemos o que ele mostra.',
+  conclusao:'A mensagem em duas ou três frases. Nada que não esteja nos resultados.',
+  resumo:'O artigo em um parágrafo, para quem só vai ler isso.',
+  titulo:'Curto, específico, dizendo o quê e em quem.',
+};
 let PROJETO=null, PID=null, ASSIN=null;
 const brl=(n)=>'R$ '+Number(n||0).toFixed(2).replace('.',',');
 
 /* ── monetização: transparência (spec 25/08 — nenhum valor hardcoded aqui) ── */
-// Landing: o modelo com valores visíveis ANTES de qualquer cadastro (endpoint
-// público, sem sessão).
 async function mostrarModeloPrecos(){
   try{
     const r=await fetch('/.netlify/functions/academy-precos');
@@ -167,8 +322,6 @@ async function mostrarModeloPrecos(){
     $('mp-valores').innerHTML=': <b>'+brl(p.exportacao_valor)+'</b> por trabalho. Assinantes ('+brl(p.academy_mensal)+'/mês) acumulam crédito que abate até '+p.teto_credito_pct+'% da exportação ('+brl(p.teto_credito)+') — assinando, ela sai por a partir de <b>'+brl(p.minimo_pago_exportacao)+'</b>. Assinar nunca é obrigatório para concluir um trabalho';
   }catch(e){/* sem rede: o texto base já explica o modelo */}
 }
-
-// Widget permanente: crédito acumulado + por quanto a exportação sairia hoje.
 async function carregarAssinatura(){
   try{
     const r=await api('academy-assinatura?email='+encodeURIComponent(EMAIL));
@@ -184,28 +337,25 @@ function pintarWidget(){
   let h='<div class="cred-linha">Crédito acumulado: <b>'+brl(m.credito_disponivel)+'</b> · Sua exportação sairá por <b>'+brl(m.valor_pago)+'</b></div>';
   if(m.teto_atingido)h+='<div class="cred-nota">Você atingiu o teto do crédito ('+brl(m.teto_credito)+' = '+p.teto_credito_pct+'% da exportação) — este é o menor valor possível.</div>';
   if(!a||(!a.ativa&&a.situacao_credito!=='carencia')){
-    // Simulação 1/3/6 meses (spec): o dentista vê o efeito de assinar ANTES.
     h+='<div class="cred-nota">Assinando por '+brl(p.academy_mensal)+'/mês, cada mensalidade vira crédito (até '+p.teto_credito_pct+'% da exportação de '+brl(p.exportacao_valor)+'):</div>'
       +'<div class="cred-sim">'+(ASSIN.simulacao||[]).map(s=>'<span>'+s.meses+(s.meses>1?' meses':' mês')+' de assinatura → exportação por <b>'+brl(s.exportacao_por)+'</b>'+(s.teto_atingido?' (teto)':'')+'</span>').join('')+'</div>'
-      +'<button class="btn verde" onclick="assinar()">'+(a?'Reativar assinatura':'Assinar o Academy')+' →</button>';
+      +'<button class="btn ouro" onclick="assinar()">'+(a?'Reativar assinatura':'Assinar o Academy')+' →</button>';
   }else if(a.ativa){
     h+='<div class="cred-nota">'+a.meses_pagos+' mensalidade(s) creditada(s). Ao exportar, o crédito aplicado é consumido e o saldo zera — o próximo trabalho recomeça o acúmulo.</div>'
       +'<button class="btn" onclick="cancelarAssinatura()">Cancelar assinatura</button>';
   }else{
     h+='<div class="cred-nota">Assinatura cancelada — seu crédito de '+brl(a.credito_acumulado)+' vale até <b>'+String(a.credito_expira_em||'').slice(0,10)+'</b>. Depois disso expira por completo (reativar não o traz de volta).</div>'
-      +'<button class="btn verde" onclick="assinar()">Reativar assinatura →</button>';
+      +'<button class="btn ouro" onclick="assinar()">Reativar assinatura →</button>';
   }
   w.innerHTML=h;
 }
 async function assinar(){
   const r=await api('academy-assinatura',{method:'POST',body:JSON.stringify({email:EMAIL,acao:ASSIN&&ASSIN.assinatura?'reativar':'assinar'})});
   const j=await r.json();
-  if(j.ok!==undefined?j.ok:!j.error){bolha('academy',j.mensagem||('Assinatura ativa ✓ Crédito acumulado: '+brl(j.credito_acumulado)+'.'));await carregarAssinatura();}
+  if(j.ok!==undefined?j.ok:!j.error){bolha('academy',j.mensagem||('Assinatura ativa. Crédito acumulado: '+brl(j.credito_acumulado)+'.'));await carregarAssinatura();}
   else bolha('academy','Não consegui ativar a assinatura agora — tente de novo.');
 }
 async function cancelarAssinatura(){
-  // TRANSPARÊNCIA (spec): a prévia mostra o crédito em risco e a carência
-  // ANTES de confirmar — o servidor só cancela com confirmar:true.
   const r=await api('academy-assinatura',{method:'POST',body:JSON.stringify({email:EMAIL,acao:'cancelar'})});
   const j=await r.json();
   if(!j.previa){bolha('academy','Não consegui abrir o cancelamento agora — tente de novo.');return;}
@@ -222,30 +372,47 @@ async function api(fn,opts={}){
 }
 
 /* ── lista / criação ── */
+function comoFuncionaHtml(){
+  return '<div class="como">'
+    +'<div class="passo"><div class="n">1</div><div class="t">Você conta o caso</div><div class="d">Com suas palavras, numa conversa. Fotos, radiografias, uma ideia solta.</div></div>'
+    +'<div class="passo"><div class="n">2</div><div class="t">A plataforma estrutura</div><div class="d">Ética, busca de estudos reais, texto seção por seção no padrão internacional.</div></div>'
+    +'<div class="passo"><div class="n">3</div><div class="t">Você aprova e envia</div><div class="d">Cada trecho só entra com o seu OK. No fim, o pacote pronto para a revista.</div></div>'
+    +'</div>';
+}
 async function carregarLista(){
   const r=await api('academy-projeto?acao=listar&email='+encodeURIComponent(EMAIL));
   const j=await r.json();
   $('lista').style.display='block';
-  $('lista-projetos').innerHTML=(j.projetos||[]).map(p=>
-    '<div class="proj" onclick="abrirProjeto(\''+esc(p.id)+'\')"><div class="t">'+esc(p.titulo)+'</div>'
-    +'<div class="m">'+esc(ETAPA_NOME[p.etapa_atual]||p.etapa_atual)+' · atualizado '+String(p.atualizado_em).slice(0,10)+'</div></div>').join('')
-    ||'<p class="posic" style="margin-top:10px;">Nenhum projeto ainda — comece agora: bastam as fotos de um caso ou uma ideia.</p>';
+  const projetos=j.projetos||[];
+  $('lista-projetos').innerHTML=projetos.length
+    ? projetos.map(p=>{
+        const i=ETAPAS_INFO.findIndex(e=>e.id===p.etapa_atual);
+        const info=ETAPAS_INFO[i]||ETAPAS_INFO[0];
+        return '<div class="proj" onclick="abrirProjeto(\''+esc(p.id)+'\')"><div><div class="t">'+esc(p.titulo)+'</div>'
+          +'<div class="m">Etapa '+(i+1)+' de '+ETAPAS_INFO.length+' · '+esc(info.nome)+' · atualizado '+String(p.atualizado_em).slice(0,10)+'</div></div>'
+          +'<div class="prox">continuar →</div></div>';
+      }).join('')
+    /* ESTADO VAZIO ENSINA: primeiro acesso vê como funciona antes de clicar */
+    : '<p class="sub" style="margin-top:6px;">Você ainda não começou nenhum trabalho. É assim que funciona:</p>'+comoFuncionaHtml()
+      +'<div class="precisa"><b>Para começar, basta ter</b> um caso clínico que deu certo ou ensinou algo. O resto — ética, literatura, formato, revista — a plataforma conduz com você, um passo por vez.</div>';
 }
 async function criarProjeto(){
   const r=await api('academy-projeto',{method:'POST',body:JSON.stringify({email:EMAIL,acao:'criar'})});
   const j=await r.json();
   abrirProjeto(j.id);
 }
+function voltarLista(){ $('app').style.display='none'; PID=null; carregarLista(); }
 async function abrirProjeto(id){
   PID=id;
   const r=await api('academy-projeto?acao=carregar&email='+encodeURIComponent(EMAIL)+'&id='+encodeURIComponent(id));
   const j=await r.json();
   PROJETO=j.projeto;
-  $('lista').style.display='none';$('app').style.display='grid';
+  $('lista').style.display='none';$('app').style.display='block';
+  $('titulo-projeto').innerHTML=esc(PROJETO.titulo||'Trabalho novo')+'<em>.</em>';
   carregarAssinatura();
   $('msgs').innerHTML='';
   if(!(j.mensagens||[]).length){
-    bolha('academy','Bem-vindo(a) ao Academy! Me conta com suas palavras: o que você tem em mãos? Pode ser um caso que deu muito certo, fotos de um tratamento diferente, uma dúvida clínica… Não precisa estar organizado — organizar é comigo.');
+    bolha('academy','Bem-vindo ao Academy. Me conte, com suas palavras: o que você tem em mãos? Pode ser um caso que deu muito certo, fotos de um tratamento diferente, uma dúvida clínica… Não precisa estar organizado — organizar é comigo.');
   }
   for(const m of (j.mensagens||[]))bolha(m.de,m.texto);
   pintarPainel(j.progresso);
@@ -273,25 +440,51 @@ async function enviar(){
   $('btn-enviar').disabled=false;$('digitando').style.display='none';
 }
 
-/* ── painel ── */
+/* ── painel: onde estou + trilha + seções + figuras ── */
+function pintarOnde(){
+  const i=Math.max(0,ETAPAS_INFO.findIndex(e=>e.id===PROJETO.etapa_atual));
+  const info=ETAPAS_INFO[i], prox=ETAPAS_INFO[i+1];
+  $('onde-num').textContent='Etapa '+(i+1)+' de '+ETAPAS_INFO.length;
+  $('onde-titulo').textContent=info.nome;
+  $('onde-agora').textContent=info.agora;
+  $('onde-barra').style.width=Math.round(((i+1)/ETAPAS_INFO.length)*100)+'%';
+  $('onde-depois').innerHTML=prox?('Depois: <b>'+esc(prox.nome)+'</b><br>~'+esc(info.tempo)+' nesta etapa'):'Última etapa — o trabalho está pronto para enviar.';
+}
 function pintarPainel(prog){
-  $('etapas').innerHTML=(prog.etapas||[]).map(e=>
-    '<div class="etp '+(e.feita?'feita':'')+(e.atual?' atual':'')+'"><span class="b">'+(e.feita?'✓':'')+'</span>'+esc(ETAPA_NOME[e.id]||e.id)+'</div>').join('');
-  const etapa=PROJETO.etapa_atual;
-  $('bloco-busca').style.display=etapa==='busca'?'block':'none';
-  $('bloco-pacote').style.display=(PROJETO.periodico_alvo&&(etapa==='periodico'||etapa==='entrega'))?'block':'none';
+  pintarOnde();
+  const atual=PROJETO.etapa_atual;
+  const feitas=new Set((prog.etapas||[]).filter(e=>e.feita).map(e=>e.id));
+  $('etapas').innerHTML=ETAPAS_INFO.map((info,i)=>{
+    const feita=feitas.has(info.id), ehAtual=info.id===atual;
+    let exp='';
+    if(ehAtual){
+      exp='<div class="exp">'
+        +'<div class="lbl">O que acontece agora</div>'+esc(info.oque)
+        +'<div class="lbl">Por que este passo existe</div>'+esc(info.porque)
+        +'<div class="lbl">O que você faz</div>'+esc(info.voce)
+        +(info.entenda?'<details class="entenda"><summary>Entenda em 30 segundos: TCLE e CEP</summary><div class="corpo">'+info.entenda+'</div></details>':'')
+        +(info.trava?'<div class="trava">'+esc(info.trava)+'</div><div class="libera">'+esc(info.libera)+'</div>':'')
+        +'</div>';
+    }
+    return '<div class="etp '+(feita?'feita':'')+(ehAtual?' atual':'')+'"><div class="cab"><span class="b">'+(feita?'✓':(i+1))+'</span>'+esc(info.nome)+(ehAtual?'<span class="tempo">~'+esc(info.tempo)+'</span>':'')+'</div>'+exp+'</div>';
+  }).join('');
+  $('bloco-busca').style.display=atual==='busca'?'block':'none';
+  $('bloco-pacote').style.display=(PROJETO.periodico_alvo&&(atual==='periodico'||atual==='entrega'))?'block':'none';
   // seções: só as com texto aparecem para revisão/aprovação (guardrail 7)
   $('secoes').innerHTML=(prog.secoes||[]).filter(s=>s.temTexto||s.aprovada).map(s=>{
     const sec=(PROJETO.secoes||{})[s.id]||{};
     return '<div class="sec"><div class="nome">'+esc(SECAO_NOME[s.id]||s.id)
-      +(s.aprovada?'<span class="ok">APROVADA ✓</span>':'<span style="font-size:10.5px;color:var(--muted);">aguardando sua revisão</span>')+'</div>'
+      +(s.aprovada?'<span class="ok">APROVADA POR VOCÊ</span>':'<span class="espera">aguardando sua revisão</span>')+'</div>'
+      +'<div class="oque">'+esc(SECAO_DICA[s.id]||'')+'</div>'
       +'<textarea id="sec-'+s.id+'">'+esc(sec.texto||'')+'</textarea>'
-      +'<div class="acts"><button class="btn" onclick="salvarSecao(\''+s.id+'\')">Salvar edição</button>'
-      +'<button class="btn verde" onclick="aprovarSecao(\''+s.id+'\')" '+(s.aprovada?'disabled':'')+'>Aprovar seção</button></div></div>';
-  }).join('')||'<p style="font-size:12px;color:var(--muted);">Os rascunhos aparecem aqui conforme a entrevista avança — você revisa e aprova um a um.</p>';
+      +'<div class="acts"><button class="btn" onclick="salvarSecao(\''+s.id+'\')">Salvar minha edição</button>'
+      +'<button class="btn primario" onclick="aprovarSecao(\''+s.id+'\')" '+(s.aprovada?'disabled':'')+'>Aprovar seção</button></div>'
+      +(s.aprovada?'':'<div class="oque">Ao aprovar, você confirma que o texto descreve o que de fato aconteceu. Você é o autor; a plataforma é a ferramenta — e isso fica declarado na carta de apresentação.</div>')
+      +'</div>';
+  }).join('')||'<p class="vazio">Os rascunhos aparecem aqui conforme a conversa avança — um por vez, para você revisar e aprovar. Só entra no artigo o que você aprovar.</p>';
   $('figuras').innerHTML=(PROJETO.imagens||[]).map((f,i)=>
-    '<div class="fig"><span>Fig. '+(i+1)+'</span><input placeholder="legenda da figura" value="'+esc(f.legenda||'')+'" onblur="salvarLegenda('+i+',this.value)"></div>').join('')
-    ||'<p style="font-size:12px;color:var(--muted);">Envie fotos/radiografias pelo botão “+ figura”.</p>';
+    '<div class="fig"><span>Fig. '+(i+1)+'</span><input placeholder="o que a imagem mostra (vira a legenda)" value="'+esc(f.legenda||'')+'" onblur="salvarLegenda('+i+',this.value)"></div>').join('')
+    ||'<p class="vazio">Envie fotos ou radiografias pelo botão ao lado da caixa de resposta. Cada imagem ganha uma legenda aqui.</p>';
   if((PROJETO.referencias||[]).length)pintarRefs(PROJETO.referencias,PROJETO.ja_respondida);
 }
 async function salvarSecao(s){
@@ -303,7 +496,7 @@ async function aprovarSecao(s){
   const r=await api('academy-projeto',{method:'POST',body:JSON.stringify({email:EMAIL,acao:'aprovar_secao',id:PID,secao:s})});
   const j=await r.json();
   if(j.ok){PROJETO.secoes[s]={...(PROJETO.secoes[s]||{}),aprovada:true};PROJETO.etapa_atual=j.etapa_atual;
-    bolha('academy','Seção "'+(SECAO_NOME[s]||s)+'" aprovada por você ✓'+(j.etapa_atual==='periodico'?' Todas as seções aprovadas — vamos escolher o periódico! Me diga sua especialidade que eu trago as opções.':''));
+    bolha('academy','Seção "'+(SECAO_NOME[s]||s)+'" aprovada por você.'+(j.etapa_atual==='periodico'?' Todas as seções aprovadas — agora vamos escolher a revista. Me diga sua especialidade que eu trago as opções.':''));
     abrirProjeto(PID);}
 }
 async function salvarLegenda(i,v){
@@ -314,17 +507,17 @@ async function salvarLegenda(i,v){
 function subirFigura(input){
   const f=input.files&&input.files[0];
   if(!f||!PID)return;
-  if(f.size>4*1024*1024){bolha('academy','Essa figura passa de 4 MB — reduza a resolução e tente de novo.');return;}
+  if(f.size>4*1024*1024){bolha('academy','Essa imagem passa de 4 MB — reduza a resolução e tente de novo.');return;}
   const fr=new FileReader();
   fr.onload=async()=>{
     const b64=String(fr.result).split(',')[1];
-    bolha('dentista','[enviou a figura: '+esc(f.name)+']');
+    bolha('dentista','[enviou a imagem: '+esc(f.name)+']');
     const r=await api('academy-upload',{method:'POST',body:JSON.stringify({email:EMAIL,id:PID,nome:f.name,base64:b64})});
     const j=await r.json();
     if(j.ok){PROJETO.imagens=PROJETO.imagens||[];PROJETO.imagens.push({legenda:''});
-      bolha('academy','Figura recebida ✓ ('+j.metadadosRemovidos+' bloco(s) de metadados removidos). '+j.aviso+' Escreva a legenda no painel ao lado.');
+      bolha('academy','Imagem recebida ('+j.metadadosRemovidos+' bloco(s) de dados ocultos removidos). '+j.aviso+' Escreva no painel ao lado o que ela mostra — vira a legenda.');
       abrirProjeto(PID);}
-    else bolha('academy','O upload falhou — tente novamente.');
+    else bolha('academy','O envio falhou — tente novamente.');
   };
   fr.readAsDataURL(f);
   input.value='';
@@ -340,7 +533,7 @@ async function buscar(){
       pintarRefs(j.referencias,j.ja_respondida);
       bolha('academy','Busca feita: '+j.total+' estudos reais encontrados (todos com PMID — nada inventado). Veja no painel; me diga quais parecem conversar com o seu caso, ou me pergunte sobre qualquer um.'+(j.ja_respondida?'\n\nPreciso ser honesto: '+j.ja_respondida:''));}
   }catch(e){bolha('academy','A busca falhou agora — tente de novo em instantes.');}
-  $('btn-busca').disabled=false;$('btn-busca').textContent='Buscar literatura (PubMed) →';
+  $('btn-busca').disabled=false;$('btn-busca').textContent='Buscar no PubMed →';
 }
 function pintarRefs(refs,aviso){
   $('refs').innerHTML=(aviso?'<div class="aviso">'+esc(aviso)+'</div>':'')
@@ -372,7 +565,7 @@ function mostrarMemoria(m){
     +'<div class="lin"><span>Você paga</span><span>'+brl(m.valor_pago)+'</span></div>'
     +'</div>'
     +(m.credito_aplicado>0?'<div class="cred-nota" style="font-size:11.5px;color:var(--muted);margin-top:5px;">Ao confirmar, o crédito aplicado é consumido e seu saldo zera — o acúmulo recomeça para o próximo trabalho.</div>':'')
-    +'<div class="acts" style="margin-top:8px;"><button class="btn verde" onclick="confirmarExportacao()">Confirmar e exportar por '+brl(m.valor_pago)+' →</button>'
+    +'<div class="acts" style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;"><button class="btn ouro" onclick="confirmarExportacao()">Confirmar e exportar por '+brl(m.valor_pago)+' →</button>'
     +'<button class="btn" onclick="$(\'confirma-export\').style.display=\'none\'">Agora não</button></div>';
   c.style.display='block';
 }
@@ -380,7 +573,7 @@ async function confirmarExportacao(){
   const r=await api('academy-export',{method:'POST',body:JSON.stringify({email:EMAIL,id:PID,confirmar:true})});
   const j=await r.json().catch(()=>({}));
   if(!j.ok){bolha('academy','A confirmação falhou agora — tente de novo (nada foi cobrado).');return;}
-  bolha('academy','Exportação confirmada ✓ Valor: '+brl(j.memoria.valor_pago)+(j.memoria.credito_aplicado>0?' (crédito de '+brl(j.memoria.credito_aplicado)+' aplicado e consumido)':'')+'. O download começa agora — e fica liberado para baixar de novo quando quiser, sem nova cobrança.');
+  bolha('academy','Exportação confirmada. Valor: '+brl(j.memoria.valor_pago)+(j.memoria.credito_aplicado>0?' (crédito de '+brl(j.memoria.credito_aplicado)+' aplicado e consumido)':'')+'. O download começa agora — e fica liberado para baixar de novo quando quiser, sem nova cobrança.');
   await carregarAssinatura();
   await baixarPacote();
 }

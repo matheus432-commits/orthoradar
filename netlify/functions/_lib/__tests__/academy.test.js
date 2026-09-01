@@ -257,10 +257,11 @@ describe('academy — functions e interface (guardrails de fiação)', () => {
     const ex = src(path.join(FUNCS, 'academy-export.js'));
     assert.ok(ex.includes('409') && ex.includes('pacote_indisponivel'));
   });
-  test('interface: posicionamento explícito + identidade da casa (#2D6A4F, creme, serif)', () => {
+  test('interface: posicionamento explícito + identidade da casa (creme #FBF7EF, dourado #B08968, serif)', () => {
     const html = src(path.join(RAIZ, 'academy.html'));
     assert.ok(html.includes('não redação terceirizada'));
-    assert.ok(html.includes('#2D6A4F') && html.includes('#F6F1E8') && html.includes('Georgia'));
+    // Mesmos tokens da Biblioteca (padrão OdontoFeed) — a paleta própria (#2D6A4F) saiu em 01/09.
+    assert.ok(html.includes('#FBF7EF') && html.includes('#B08968') && html.includes('Georgia'));
     assert.ok(html.includes('Aprovar seção'), 'botão de aprovação humana');
     assert.ok(html.includes('metadados (EXIF/GPS) removidos'), 'aviso de anonimização');
     assert.ok(!/\bPICO\b|\bCARE\b|STROBE|CONSORT|PRISMA/.test(html.replace(/<!--[\s\S]*?-->/g, '').replace(/\/\*[\s\S]*?\*\//g, '')), 'siglas acadêmicas nunca na interface');
