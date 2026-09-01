@@ -50,7 +50,10 @@ describe('extras premium — trava barata antes do resumo caro', () => {
     assert.ok(!bloco.includes('await faltaVereditoComparativo(cand'), 'sem 2ª chamada de veredito pós-resumo');
   });
   test('pool do dia também filtra a flag persistida', () => {
-    assert.match(src, /passaCuradoria\(a\) && !isRepeated\(a, hist\) && !a\.veredito_extra_reprovado/);
+    // 31/08: entrou !isEstudoMateriais(a) no meio da cadeia (bancada de
+    // materiais não pode virar extra Premium) — a intenção do teste continua
+    // sendo a flag persistida sair do pool do dia.
+    assert.match(src, /passaCuradoria\(a\) &&[^\n]*!isRepeated\(a, hist\) && !a\.veredito_extra_reprovado/);
   });
 });
 

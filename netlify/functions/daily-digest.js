@@ -464,8 +464,42 @@ function isResultadosIndisponiveis(a) {
 // candidatos (seleção base E fallbacks), para nada escapar (incidente 22-24/07:
 // crus, surveys, protocolos, estudos de SUS, projeções de custo e estudos sem
 // resultados acessíveis entravam pelos fallbacks, que rodam depois do filtro base).
+// Artigo HISTÓRICO / BIOGRÁFICO / DE HOMENAGEM: perspectiva histórica de uma
+// área, trajetória de uma escola ou pesquisador, memorial, retrospectiva de
+// aniversário. Diretriz do fundador (31/08, print da edição de Ortodontia com
+// "A contribuição italiana à biomecânica ortodôntica: uma perspectiva
+// histórica"): "estudos deste tipo não devem entrar na seleção". É a mesma
+// família de survey/bibliometria — não muda a conduta clínica de amanhã, então
+// é EXCLUSÃO (não demoção), na edição base e nos extras Premium.
+//
+// GUARDA DE FALSO-POSITIVO: "história clínica", "história natural da doença",
+// "história de cárie", "medical/dental history" são termos CLÍNICOS legítimos e
+// nunca podem disparar — por isso os marcadores exigem contexto de artigo
+// historiográfico, e as expressões clínicas são vetadas explicitamente.
+const HISTORIA_CLINICA_RX = /hist[óo]ri(?:a|co)s? (?:cl[íi]nic|natural|m[ée]dic|odontol[óo]gic|familiar|de (?:c[áa]rie|dor|trauma|fratura|doen[çc]a|tratamento|sangramento|tabagismo|uso)|do paciente|pr[ée]via|pregressa)|(?:medical|dental|clinical|family|natural) history|patient history/i;
+const HISTORICO_RX = new RegExp([
+  'perspectiva hist[óo]ric', 'historical perspective', 'vis[ãa]o hist[óo]ric',
+  'evolu[çc][ãa]o hist[óo]ric', 'historical (?:evolution|overview|review|account|development|note)',
+  'retrospectiva hist[óo]ric', 'hist[óo]ria d[aeo]s? (?:ortodontia|odontologia|implantodontia|periodontia|endodontia|especialidade|profiss[ãa]o|t[ée]cnica|disciplina)',
+  'history of (?:orthodontic|dentistr|dental|implantolog|periodontolog|endodontic|the specialty|the profession)',
+  'marcos hist[óo]ric', 'milestones in the history', 'through the (?:centuries|ages|decades)',
+  'in memoriam', 'obitu[áa]r', 'obituary', 'homenagem a\\b', 'tribute to\\b',
+  'biografia\\b', 'biograph(?:y|ical)', 'legado d[eo]\\b', 'legacy of\\b',
+  'pioneiros? d[aeo]', 'pioneers? (?:of|in)\\b', 'founding fathers?',
+  '\\d{2,3} anos d[eo]\\b', '\\d{2,3} years of\\b', 'centen[áa]rio', 'jubileu',
+].join('|'), 'i');
+function isHistoricoBiografico(a) {
+  const titulo = `${a.titulo_pt || ''} ${a.titulo || a.title || ''}`;
+  const texto = `${titulo} ${a.resumo_pt || ''}`;
+  if (!HISTORICO_RX.test(texto)) return false;
+  // Se o único gatilho vier de expressão clínica legítima, não é artigo histórico.
+  const semClinico = texto.replace(HISTORIA_CLINICA_RX, ' ');
+  return HISTORICO_RX.test(semClinico);
+}
+
 function passaCuradoria(a) {
   return isEnriched(a) &&
+         !isHistoricoBiografico(a) &&
          !isLowValueSurvey(a) &&
          !isPublicHealthPolicy(a) &&
          !isHealthPromotionBehavior(a) &&
@@ -1201,7 +1235,11 @@ async function _sendUserDigest(user, espDigest, db, resendKey) {
         // for reprovado) + cache CROSS-ASSINANTE via write-back no pool.
         // +6 (era +3): com o poço fundo do acervo, sobram candidatos — e a
         // trava barata abaixo descarta sem custo, então a fila maior é grátis.
-        const candidatosExtras = await pickPremiumExtras(db, user, pool, PREMIUM_EXTRAS + 6);
+        // Profundidade da fila: +10 (era +6). A trava de veredito reprova
+        // candidatos ANTES do resumo (custo zero), então pedir mais só ajuda —
+        // a geração para assim que os 2 extras aprovam. Fila rasa era um dos
+        // motivos de assinante fechar com 1 extra (31/08).
+        const candidatosExtras = await pickPremiumExtras(db, user, pool, PREMIUM_EXTRAS + 10);
         const _poolDe = (c) => pool.find(p => String(p.pmid || p.id) === String(c.pmid || c.id));
         const _comCachePool = async (c) => {
           const orig = _poolDe(c);
@@ -1375,7 +1413,14 @@ async function buildPremiumPool(db, especialidade, anthropicKey = null) {
     // com resultados). Reprovados na trava de veredito em dias anteriores
     // (flag persistida) não voltam ao pool — o mesmo estudo era re-checado e
     // re-descartado para CADA assinante, dia após dia (41797109, 42057092).
-    let pool = brutos.filter(a => passaCuradoria(a) && !isRepeated(a, hist) && !a.veredito_extra_reprovado && !a.extra_sem_resultados);
+    // EXTRAS ≠ EDIÇÃO BASE (31/08): na edição base, bancada de materiais é só
+    // demovida e limitada a 1 — porque edição pobre é melhor que edição
+    // bloqueada (diretriz 26/07). No extra Premium a conta é outra: é o
+    // diferencial pago e são só 2 artigos, então um extra ruim é pior que
+    // nenhum. Diretriz do fundador (31/08, grafeno in vitro + modelo animal
+    // como único extra de Ortodontia): "estudos deste tipo não devem entrar na
+    // seleção" → aqui é EXCLUSÃO, não demoção.
+    let pool = brutos.filter(a => passaCuradoria(a) && !isEstudoMateriais(a) && !isRepeated(a, hist) && !a.veredito_extra_reprovado && !a.extra_sem_resultados);
     const aposHistorico = pool.length;
     const seen = new Set();
     pool = pool.filter(a => {
@@ -1460,6 +1505,24 @@ function scoreForTemas(article, temas) {
 // extra um artigo que já foi edição da área.
 const _histPorEsp = new Map();
 
+// Acervo COMPLETO e ativo de uma especialidade, mais recente primeiro. Lido uma
+// única vez por especialidade por run (o poço fundo roda por assinante, e todos
+// do mesmo grupo compartilham o resultado).
+const _acervoPorEsp = new Map();
+async function acervoDaEspecialidade(db, esp) {
+  if (_acervoPorEsp.has(esp)) return _acervoPorEsp.get(esp);
+  const docs = await db.queryAll('artigos', {
+    where: { compositeFilter: { op: 'AND', filters: [
+      { fieldFilter: { field: { fieldPath: 'especialidade' }, op: 'EQUAL', value: { stringValue: esp } } },
+      { fieldFilter: { field: { fieldPath: 'status' }, op: 'EQUAL', value: { stringValue: 'active' } } },
+    ] } },
+  });
+  docs.sort((x, y) => String(y.data || '').localeCompare(String(x.data || '')));
+  _acervoPorEsp.set(esp, docs);
+  log.info('[digest][PREMIUM] acervo da especialidade carregado para o poço fundo', { especialidade: esp, artigos: docs.length });
+  return docs;
+}
+
 async function pickPremiumExtras(db, user, pool, quantos = PREMIUM_EXTRAS) {
   // 15/08: pool vazio NÃO retorna mais cedo — o poço fundo abaixo completa
   // direto do acervo (Dentística 14/08: pool 0 pós-varredura e este return
@@ -1497,18 +1560,18 @@ async function pickPremiumExtras(db, user, pool, quantos = PREMIUM_EXTRAS) {
       // não estava populado.
       const hist = _histPorEsp.get(esp) || new Set();
       const chaves = new Set(pool.flatMap(a => articleKeys(a)));
-      const acervo = await db.query('artigos', {
-        where: { compositeFilter: { op: 'AND', filters: [
-          { fieldFilter: { field: { fieldPath: 'especialidade' }, op: 'EQUAL', value: { stringValue: esp } } },
-          { fieldFilter: { field: { fieldPath: 'status' }, op: 'EQUAL', value: { stringValue: 'active' } } },
-        ] } },
-        limit: 300,
-      });
-      acervo.sort((x, y) => String(y.data || '').localeCompare(String(x.data || '')));
+      // 31/08: era `limit: 300` SEM orderBy — o Firestore devolve por __name__
+      // (pmid), então o poço fundo só enxergava os 300 artigos de pmid mais
+      // baixo (os mais ANTIGOS) e ordenava por data DEPOIS, dentro dessa fatia
+      // errada. Para uma especialidade veterana como Ortodontia o poço nascia
+      // seco — foi o que deixou o fundador com 1 extra só. queryAll pagina a
+      // especialidade inteira; cache por especialidade para não repetir a
+      // leitura a cada assinante do mesmo grupo.
+      const acervo = await acervoDaEspecialidade(db, esp);
       let doAcervo = 0;
       for (const a of acervo) {
         if (disponiveis.length >= quantos + 6) break;
-        if (!passaCuradoria(a) || a.veredito_extra_reprovado || a.extra_sem_resultados) continue;
+        if (!passaCuradoria(a) || isEstudoMateriais(a) || a.veredito_extra_reprovado || a.extra_sem_resultados) continue;
         if (isRepeated(a, hist)) continue;
         const ks = articleKeys(a);
         if (ks.some(k => jaRecebidas.has(k) || chaves.has(k))) continue;
@@ -1978,6 +2041,7 @@ exports.faltaVereditoComparativo = faltaVereditoComparativo;
 // Exportada para o teste de runtime do poço fundo (pool vazio, 15/08).
 exports.pickPremiumExtras = pickPremiumExtras;
 exports.passaCuradoria = passaCuradoria;
+exports.isHistoricoBiografico = isHistoricoBiografico;
 exports.isRepeated = isRepeated;
 exports.getEspHistory = getEspHistory;
 exports.getCandidates = getCandidates;
