@@ -122,7 +122,7 @@ h1 em{color:var(--gold);font-style:normal;}
     <h1 class="serif">Biblioteca<em>.</em></h1>
     <p class="sub" id="stats"><a href="/dashboard">← voltar à área de membro</a></p>
 
-    <div class="busca"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg><input id="f-busca" placeholder="Busque por técnica, material, tema… ex.: distalização" oninput="render()"></div>
+    <div class="busca"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg><input id="f-busca" placeholder="Busque em todo o texto dos artigos — técnica, material, tema… ex.: miniimplante" oninput="render()"></div>
 
     <!-- Chips de especialidade (fonte da verdade continua no select f-esp,
          oculto: os testes e a lógica de temas dependem dele). -->
@@ -355,8 +355,37 @@ function novidades(){
 
 /* ── acervo completo (lista densa) ───────────────────────────────────────── */
 let PAGINA=1;const POR_PAGINA=30;
+/* BUSCA (01/09) — precisa achar o termo em QUALQUER lugar do artigo.
+   Antes olhava só titulo+resumo, e o resumo vinha cortado em 400 caracteres.
+   Agora o servidor manda o campo `busca` (título PT e original, tema,
+   periódico, nível, resumo, relevância clínica e resumo completo), já
+   normalizado. Aqui normalizamos só a CONSULTA, com as MESMAS regras de
+   _lib/busca-texto.js — se estas duas divergirem, a busca passa a errar:
+   minúsculas, sem acento, hífen/ponto removidos ("mini-implante" e
+   "miniimplante" viram a mesma coisa), resto da pontuação vira espaço.
+   Cada termo precisa aparecer (E lógico), casando por substring. */
+function normalizarBusca(s){
+  return String(s==null?'':s)
+    .normalize('NFD').replace(/[̀-ͯ]/g,'')
+    .toLowerCase()
+    .replace(/[-_.\u2010-\u2015\u2018\u2019']/g,'')
+    .replace(/[^a-z0-9]+/g,' ')
+    .trim();
+}
+/* Bloco em que a busca procura: o `busca` que vem do servidor (texto inteiro
+   do artigo, já normalizado) MAIS os rótulos dos temas canônicos, que só o
+   cliente sabe traduzir de id para nome. Cacheado por artigo — o filtro roda
+   a cada tecla. Se um artigo vier de cache antigo sem `busca`, cai no que
+   existe em vez de sumir da lista. */
+function blocoDe(a){
+  if(a._blob==null){
+    a._blob=(a.busca||normalizarBusca(a.titulo+' '+a.resumo))
+      +' '+normalizarBusca((a.temas||[]).map(rotuloTema).join(' '));
+  }
+  return a._blob;
+}
 function filtrar(){
-  const q=$('f-busca').value.trim().toLowerCase();
+  const termos=normalizarBusca($('f-busca').value).split(' ').filter(Boolean);
   const esp=$('f-esp').value, nivel=$('f-nivel').value, dias=$('f-data').value;
   const corte=dias?new Date(Date.now()-Number(dias)*86400000).toISOString().slice(0,10):'';
   // Tema: casa por ID canônico com lógica OU — artigo com múltiplos temas
@@ -365,7 +394,7 @@ function filtrar(){
     (!esp||a.especialidade===esp)&&(!nivel||a.nivel===nivel)
     &&(!TEMAS_SEL.size||(a.temas||[]).some(t=>TEMAS_SEL.has(t)))
     &&(!corte||String(a.data)>=corte)
-    &&(!q||(a.titulo+' '+a.resumo+' '+(a.temas||[]).map(rotuloTema).join(' ')).toLowerCase().includes(q)));
+    &&(!termos.length||termos.every(t=>blocoDe(a).includes(t))));
   const ord=$('f-ord').value;
   if(ord==='antigos')arts=[...arts].reverse();
   else if(ord==='naolidos')arts=[...arts].sort((x,y)=>(x.lido?1:0)-(y.lido?1:0));
@@ -378,7 +407,12 @@ function renderLista(){
   const arts=filtrar();
   const esp=$('f-esp').value;
   $('tit-acervo').textContent='Acervo completo'+(esp?' — '+esp:'');
-  $('contagem').textContent=arts.length+' de '+DADOS.artigos.length+' artigos no acervo';
+  /* Contagem que explica o resultado: com busca ativa, dizer o que foi
+     procurado e onde (a especialidade filtrada) evita o "sumiu tudo". */
+  const termo=$('f-busca').value.trim();
+  $('contagem').textContent = termo
+    ? arts.length+(arts.length===1?' artigo menciona “':' artigos mencionam “')+termo+'”'+(esp?' em '+esp:'')
+    : arts.length+' de '+DADOS.artigos.length+' artigos no acervo';
   const fatia=arts.slice(0,PAGINA*POR_PAGINA);
   $('lista').innerHTML=fatia.length?fatia.map(a=>
     '<div class="b-item"><div class="b-head" onclick="expandir(\''+esc(a.pmid)+'\')">'
@@ -390,7 +424,9 @@ function renderLista(){
     +(a.lido?'<span class="taglido">✓ lido</span>':'')+'</div></div>'
     +(a.audioUrl?'<button class="play" id="pl-'+esc(a.pmid)+'" onclick="event.stopPropagation();tocar(\''+esc(a.pmid)+'\')">'+PLAY_SVG+'</button>':'')
     +'</div><div class="b-det" id="rf-'+esc(a.pmid)+'"></div></div>').join('')
-    :'<div class="vazio">Nenhum artigo com esses filtros.</div>';
+    :'<div class="vazio">'+(termo
+        ? 'Nenhum artigo menciona “'+esc(termo)+'”'+(esp?' em '+esc(esp):'')+'. Tente um termo mais curto — “implante” encontra também “mini-implante”.'
+        : 'Nenhum artigo com esses filtros.')+'</div>';
   $('vermais').style.display=arts.length>fatia.length?'block':'none';
   marcarTocando();
 }
