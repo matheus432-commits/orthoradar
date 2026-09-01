@@ -162,9 +162,13 @@ describe('monetização — ciclo completo nos handlers reais', () => {
     r = JSON.parse((await assinaturaFn.handler(ev('POST', {}, { acao: 'assinar' }))).body);
     assert.equal(r.ok, true);
     assert.equal(r.credito_acumulado, 59.90);
-    for (const m of ['2026-09', '2026-10']) {
+    // ids FIXOS e sem mês: usar `mens-{email}-{AAAA-MM}` aqui colidia com a
+    // mensalidade que o `assinar` acabou de registrar sempre que o mês real
+    // batia com o do teste — a idempotência recusava (corretamente) e o
+    // crédito ficava em 2 meses. O teste não pode depender da data de hoje.
+    for (const id of ['mens-teste-mes2', 'mens-teste-mes3']) {
       state.academy_assinaturas[EMAIL] = aplicarPagamento(
-        state.academy_assinaturas[EMAIL], { academy_mensal: 59.90 }, { id_transacao: `mens-${EMAIL}-${m}` }).assinatura;
+        state.academy_assinaturas[EMAIL], { academy_mensal: 59.90 }, { id_transacao: id }).assinatura;
     }
 
     // GET do widget: exemplo exato da spec (3 meses → 179,70 → sai por 317,30).
