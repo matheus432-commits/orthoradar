@@ -10,7 +10,7 @@
    crédito, exportações e receita por origem — + editor da config de preços
    (fonte única config/precos; nada hardcoded). Mesma linguagem dos demais
    painéis admin. */
-:root{--bg:#FBF7EF;--card:#FFFFFF;--border:#EDE6D8;--text:#1A1A18;--muted:#8A8478;--gold:#B08968;--green:#3E7C4F;--red:#B4533B;--blue:#4A6B8A;--verde:#2D6A4F;}
+:root{--bg:#FBF7EF;--card:#FFFFFF;--border:#EDE6D8;--text:#1A1A18;--muted:#8A8478;--gold:#B08968;--green:#3E7C4F;--red:#B4533B;--blue:#4A6B8A;--ink:#23211C;}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,-apple-system,sans-serif;padding:28px 16px 60px;}
 .wrap{max-width:1020px;margin:0 auto;}
@@ -31,7 +31,7 @@ td{padding:9px 10px;border-bottom:1px solid var(--border);}
 tr:last-child td{border-bottom:none;}
 input.preco{width:110px;border:1px solid var(--border);border-radius:8px;padding:7px 9px;font-size:13px;text-align:right;}
 button{border:1px solid var(--border);background:#fff;border-radius:9px;padding:8px 14px;cursor:pointer;font-size:12.5px;color:var(--text);font-weight:700;}
-button.salvar{background:var(--verde);color:#fff;border-color:var(--verde);}
+button.salvar{background:var(--ink);color:#fff;border-color:var(--ink);}
 .login{max-width:400px;margin:80px auto;text-align:center;}
 .login input{width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:10px;font-size:14px;margin:14px 0 10px;background:#fff;}
 .login button{background:var(--text);color:#fff;border:none;border-radius:10px;padding:12px 26px;font-weight:600;font-size:14px;}
@@ -59,7 +59,7 @@ button.salvar{background:var(--verde);color:#fff;border-color:var(--verde);}
     <p class="sub" id="periodo-sub"></p>
 
     <div class="total-row">
-      <div class="card"><div class="t-label">Assinantes ativos</div><div class="t-val" style="color:var(--verde);" id="k-ativos">—</div><div class="t-sufix" id="k-ativos-suf"></div></div>
+      <div class="card"><div class="t-label">Assinantes ativos</div><div class="t-val" style="color:var(--green);" id="k-ativos">—</div><div class="t-sufix" id="k-ativos-suf"></div></div>
       <div class="card"><div class="t-label">Crédito em circulação</div><div class="t-val" style="color:var(--red);" id="k-passivo">—</div><div class="t-sufix">passivo — abatível em exportações</div></div>
       <div class="card"><div class="t-label">Exportações no mês</div><div class="t-val" id="k-exp">—</div><div class="t-sufix" id="k-exp-suf"></div></div>
       <div class="card"><div class="t-label">Ticket médio de exportação</div><div class="t-val" style="color:var(--gold);" id="k-ticket">—</div><div class="t-sufix" id="k-teto-suf"></div></div>
