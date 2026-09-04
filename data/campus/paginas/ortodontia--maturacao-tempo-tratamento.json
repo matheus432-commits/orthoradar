@@ -35,9 +35,20 @@
     {
       "titulo": "Cada problema tem um relógio",
       "blocos": [
-        { "tipo": "p", "texto": "Não existe \"a idade certa para o aparelho\". Existe o mecanismo que você quer usar e a fase em que ele responde. A pergunta que organiza toda a decisão é: qual tecido vou estimular, e ele ainda responde na fase em que este paciente está?" },
-        { "tipo": "p", "texto": "Suturas respondem ao afastamento enquanto estão abertas, e interdigitam na adolescência. A cartilagem condilar responde à posição principalmente no surto puberal. A superfície óssea remodela em qualquer idade, e é por isso que dente se move a vida inteira." },
-        { "tipo": "visual", "formato": "linha-do-tempo", "titulo": "O que se faz em cada fase do crescimento", "descricao": "Linha do tempo horizontal com cinco fases: dentição mista precoce, pré-pico, aceleração, pós-pico e fim do crescimento. Sob cada fase, as intervenções mais adequadas: tração reversa e expansão na dentição mista precoce; acompanhamento e interceptação no pré-pico; aparelho funcional na aceleração; ortodontia corretiva no pós-pico; cirurgia ortognática e implantes no fim.", "viewBox": "0 0 720 340",
+        {
+          "tipo": "p",
+          "texto": "Não existe \"a idade certa para o aparelho\". Existe o mecanismo que você quer usar e a fase em que ele responde. A pergunta que organiza toda a decisão é: qual tecido vou estimular, e ele ainda responde na fase em que este paciente está?"
+        },
+        {
+          "tipo": "p",
+          "texto": "Suturas respondem ao afastamento enquanto estão abertas, e interdigitam na adolescência. A cartilagem condilar responde à posição principalmente no surto puberal. A superfície óssea remodela em qualquer idade, e é por isso que dente se move a vida inteira."
+        },
+        {
+          "tipo": "visual",
+          "formato": "linha-do-tempo",
+          "titulo": "O que se faz em cada fase do crescimento",
+          "descricao": "Linha do tempo horizontal com cinco fases: dentição mista precoce, pré-pico, aceleração, pós-pico e fim do crescimento. Sob cada fase, as intervenções mais adequadas: tração reversa e expansão na dentição mista precoce; acompanhamento e interceptação no pré-pico; aparelho funcional na aceleração; ortodontia corretiva no pós-pico; cirurgia ortognática e implantes no fim.",
+          "viewBox": "0 0 720 340",
           "svg": [
             "<line x1='40' y1='100' x2='700' y2='100' stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'/>",
             "<g font-size='13' font-weight='700' fill='var(--ink,#23211C)'>",
@@ -64,28 +75,68 @@
             "<text x='360' y='284' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>estatura seriada, vértebras cervicais, mão e punho</text>",
             "<text x='360' y='318' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>a mesma criança passa por todas as fases; o que muda é o que cada fase permite</text>"
           ],
-          "legenda": "Sutura primeiro, côndilo no surto, superfície sempre, cirurgia no fim. É a espinha dorsal do planejamento por idade biológica." },
-        { "tipo": "destaque", "estilo": "frase", "texto": "Não se pergunta \"que idade tem o paciente\"; pergunta-se \"que tecido eu quero mover e ele ainda responde\". O indicador de maturação responde as duas metades." }
+          "legenda": "Sutura primeiro, côndilo no surto, superfície sempre, cirurgia no fim. É a espinha dorsal do planejamento por idade biológica."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "frase",
+          "texto": "Não se pergunta \"que idade tem o paciente\"; pergunta-se \"que tecido eu quero mover e ele ainda responde\". O indicador de maturação responde as duas metades."
+        }
       ],
-      "checagem": { "pergunta": "Por que a expansão rápida e a tração reversa ficam no começo da linha do tempo e a cirurgia no fim?", "resposta": "Porque expansão e tração dependem de suturas abertas, que interdigitam na adolescência, enquanto a cirurgia precisa de crescimento encerrado para o resultado não ser desfeito pelo crescimento residual." }
+      "checagem": {
+        "pergunta": "Por que a expansão rápida e a tração reversa ficam no começo da linha do tempo e a cirurgia no fim?",
+        "resposta": "Porque expansão e tração dependem de suturas abertas, que interdigitam na adolescência, enquanto a cirurgia precisa de crescimento encerrado para o resultado não ser desfeito pelo crescimento residual."
+      }
     },
     {
       "titulo": "Classe II: o surto, e a lição das duas fases",
       "blocos": [
-        { "tipo": "p", "texto": "Durante décadas se defendeu tratar a Classe II em duas fases: uma ortopédica, cedo, na dentição mista, e uma corretiva depois, com aparelho fixo. A lógica parecia boa. Ensaios clínicos randomizados nos Estados Unidos e no Reino Unido testaram a ideia e a resposta mudou a prática." },
-        { "tipo": "p", "texto": "Os pacientes tratados em duas fases não terminaram melhor do que os tratados em uma fase só, iniciada no surto. A relação esquelética final, a oclusão e a taxa de extrações foram semelhantes; a diferença foi mais tempo de tratamento, mais consultas e mais custo para o grupo precoce [VERIFICAR]." },
-        { "tipo": "destaque", "estilo": "prova", "texto": "Os ensaios da Carolina do Norte (Tulloch e colaboradores) e da Flórida (Keeling e colaboradores), e o britânico (O'Brien e colaboradores), são a base da afirmação de que tratamento precoce da Classe II em duas fases não traz vantagem final sobre uma fase no surto. Banca cobra o conceito, não os nomes." },
-        { "tipo": "p", "texto": "Isso não proíbe tratar cedo. Há motivos legítimos para uma primeira fase: incisivos superiores muito protruídos com risco de trauma, sofrimento psicossocial, hábitos que precisam ser interrompidos. O que a evidência derruba é a promessa de que começar cedo garante resultado esquelético melhor." },
-        { "tipo": "destaque", "estilo": "mito", "mito": "Na Classe II, quanto mais cedo começar, melhor o resultado.", "verdade": "Uma fase iniciada na aceleração do surto (CS3) chega ao mesmo resultado final com menos tempo e custo. Cedo se justifica por trauma, sofrimento ou hábito, não por vantagem esquelética." }
+        {
+          "tipo": "p",
+          "texto": "Durante décadas se defendeu tratar a Classe II em duas fases: uma ortopédica, cedo, na dentição mista, e uma corretiva depois, com aparelho fixo. A lógica parecia boa. Ensaios clínicos randomizados nos Estados Unidos e no Reino Unido testaram a ideia e a resposta mudou a prática."
+        },
+        {
+          "tipo": "p",
+          "texto": "Os pacientes tratados em duas fases não terminaram melhor do que os tratados em uma fase só, iniciada no surto. A relação esquelética final, a oclusão e a taxa de extrações foram semelhantes; a diferença foi mais tempo de tratamento, mais consultas e mais custo para o grupo precoce [VERIFICAR]."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "prova",
+          "texto": "Os ensaios da Carolina do Norte (Tulloch e colaboradores) e da Flórida (Keeling e colaboradores), e o britânico (O'Brien e colaboradores), são a base da afirmação de que tratamento precoce da Classe II em duas fases não traz vantagem final sobre uma fase no surto. Banca cobra o conceito, não os nomes."
+        },
+        {
+          "tipo": "p",
+          "texto": "Isso não proíbe tratar cedo. Há motivos legítimos para uma primeira fase: incisivos superiores muito protruídos com risco de trauma, sofrimento psicossocial, hábitos que precisam ser interrompidos. O que a evidência derruba é a promessa de que começar cedo garante resultado esquelético melhor."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "mito",
+          "mito": "Na Classe II, quanto mais cedo começar, melhor o resultado.",
+          "verdade": "Uma fase iniciada na aceleração do surto (CS3) chega ao mesmo resultado final com menos tempo e custo. Cedo se justifica por trauma, sofrimento ou hábito, não por vantagem esquelética."
+        }
       ],
-      "checagem": { "pergunta": "Quando uma primeira fase precoce na Classe II continua justificada apesar da evidência das duas fases?", "resposta": "Quando há risco de trauma nos incisivos protruídos, sofrimento psicossocial importante ou hábito que precisa ser interrompido. A justificativa é de proteção, não de ganho esquelético." }
+      "checagem": {
+        "pergunta": "Quando uma primeira fase precoce na Classe II continua justificada apesar da evidência das duas fases?",
+        "resposta": "Quando há risco de trauma nos incisivos protruídos, sofrimento psicossocial importante ou hábito que precisa ser interrompido. A justificativa é de proteção, não de ganho esquelético."
+      }
     },
     {
       "titulo": "Classe III: cedo para a maxila, paciência para a mandíbula",
       "blocos": [
-        { "tipo": "p", "texto": "A Classe III inverte a lógica da Classe II. Quando o problema é deficiência maxilar, o motor disponível é a sutura, e ele fecha cedo: a tração reversa com máscara facial rende mais na dentição mista precoce, por volta dos 7 a 9 anos [VERIFICAR], com ou sem expansão prévia." },
-        { "tipo": "p", "texto": "Quando o problema é excesso mandibular, não há aparelho que freie o côndilo de forma confiável, e a mandíbula é o osso que cresce por mais tempo. O caminho é acompanhar até o fim do crescimento e decidir entre camuflagem e cirurgia com o esqueleto pronto." },
-        { "tipo": "visual", "formato": "comparativo", "titulo": "Problema, melhor momento, indicador e o que acontece se atrasar", "descricao": "Tabela com cinco problemas em linhas: Classe II esquelética, Classe III maxilar, Classe III mandibular, deficiência transversal e discrepância grande para cirurgia. Colunas: melhor momento, indicador que confirma e consequência do atraso.", "viewBox": "0 0 720 360",
+        {
+          "tipo": "p",
+          "texto": "A Classe III inverte a lógica da Classe II. Quando o problema é deficiência maxilar, o motor disponível é a sutura, e ele fecha cedo: a tração reversa com máscara facial rende mais na dentição mista precoce, por volta dos 7 a 9 anos [VERIFICAR], com ou sem expansão prévia."
+        },
+        {
+          "tipo": "p",
+          "texto": "Quando o problema é excesso mandibular, não há aparelho que freie o côndilo de forma confiável, e a mandíbula é o osso que cresce por mais tempo. O caminho é acompanhar até o fim do crescimento e decidir entre camuflagem e cirurgia com o esqueleto pronto."
+        },
+        {
+          "tipo": "visual",
+          "formato": "comparativo",
+          "titulo": "Problema, melhor momento, indicador e o que acontece se atrasar",
+          "descricao": "Tabela com cinco problemas em linhas: Classe II esquelética, Classe III maxilar, Classe III mandibular, deficiência transversal e discrepância grande para cirurgia. Colunas: melhor momento, indicador que confirma e consequência do atraso.",
+          "viewBox": "0 0 720 360",
           "svg": [
             "<use href='#c-caixa-ink' x='16' y='16' width='176' height='44'/><text x='104' y='44' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>Problema</text>",
             "<use href='#c-caixa-ink' x='200' y='16' width='166' height='44'/><text x='283' y='44' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>Melhor momento</text>",
@@ -106,37 +157,80 @@
             "</g>",
             "<text x='360' y='346' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>a última linha é o que justifica tratar cedo independentemente da maturação</text>"
           ],
-          "legenda": "Um problema, um momento. A última linha lembra que nem tudo espera o surto." },
-        { "tipo": "destaque", "estilo": "dica", "titulo": "A alta na Classe III", "text": "", "texto": "Na Classe III tratada cedo, escreva no plano, desde o início, que a alta será condicional até o fim do crescimento mandibular e que a cirurgia continua no horizonte. É mais fácil dizer isso aos 8 anos do que explicar a recidiva aos 17." }
+          "legenda": "Um problema, um momento. A última linha lembra que nem tudo espera o surto."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "dica",
+          "titulo": "A alta na Classe III",
+          "texto": "Na Classe III tratada cedo, escreva no plano, desde o início, que a alta será condicional até o fim do crescimento mandibular e que a cirurgia continua no horizonte. É mais fácil dizer isso aos 8 anos do que explicar a recidiva aos 17."
+        }
       ],
-      "checagem": { "pergunta": "Por que a Classe III maxilar se trata cedo e a Classe III mandibular se trata tarde?", "resposta": "Porque a maxilar depende de sutura, que fecha cedo, e a mandibular depende de um crescimento que não se freia e termina tarde: o esqueleto precisa estar pronto para a decisão definitiva." }
+      "checagem": {
+        "pergunta": "Por que a Classe III maxilar se trata cedo e a Classe III mandibular se trata tarde?",
+        "resposta": "Porque a maxilar depende de sutura, que fecha cedo, e a mandibular depende de um crescimento que não se freia e termina tarde: o esqueleto precisa estar pronto para a decisão definitiva."
+      }
     },
     {
       "titulo": "Transversal, vertical e o que não espera",
       "blocos": [
-        { "tipo": "p", "texto": "A deficiência transversal da maxila se corrige por expansão rápida enquanto a sutura palatina mediana responde ao afastamento. A resposta esquelética cai com a interdigitação, que avança na adolescência; em adultos jovens a discussão passa a ser expansão assistida cirurgicamente ou com ancoragem esquelética." },
-        { "tipo": "p", "texto": "No padrão vertical e na mordida aberta, separe o funcional do esquelético. Hábito, respiração bucal e postura de língua se tratam assim que identificados, porque a matriz funcional continua pedindo a mesma forma enquanto durarem. O componente esquelético grande, com rotação posterior instalada, espera a maturidade para a cirurgia." },
-        { "tipo": "lista", "itens": [
-          "Não espera o surto: hábito, respiração bucal, mordida cruzada anterior funcional, trauma iminente em incisivos, perda precoce com perda de espaço, sofrimento psicossocial.",
-          "Espera a aceleração: aparelho funcional na Classe II esquelética.",
-          "Espera o fim: cirurgia ortognática, implantes, alta definitiva na Classe III e nos padrões verticais."
-        ] },
-        { "tipo": "destaque", "estilo": "erro", "texto": "Prometer cirurgia ortognática \"assim que terminar o aparelho\" para uma jovem de 16 anos sem indicador de maturação. Se a mandíbula ainda crescer depois da cirurgia, o resultado recidiva. A liberação vem do esqueleto, não do calendário." }
+        {
+          "tipo": "p",
+          "texto": "A deficiência transversal da maxila se corrige por expansão rápida enquanto a sutura palatina mediana responde ao afastamento. A resposta esquelética cai com a interdigitação, que avança na adolescência; em adultos jovens a discussão passa a ser expansão assistida cirurgicamente ou com ancoragem esquelética."
+        },
+        {
+          "tipo": "p",
+          "texto": "No padrão vertical e na mordida aberta, separe o funcional do esquelético. Hábito, respiração bucal e postura de língua se tratam assim que identificados, porque a matriz funcional continua pedindo a mesma forma enquanto durarem. O componente esquelético grande, com rotação posterior instalada, espera a maturidade para a cirurgia."
+        },
+        {
+          "tipo": "lista",
+          "itens": [
+            "Não espera o surto: hábito, respiração bucal, mordida cruzada anterior funcional, trauma iminente em incisivos, perda precoce com perda de espaço, sofrimento psicossocial.",
+            "Espera a aceleração: aparelho funcional na Classe II esquelética.",
+            "Espera o fim: cirurgia ortognática, implantes, alta definitiva na Classe III e nos padrões verticais."
+          ]
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "erro",
+          "texto": "Prometer cirurgia ortognática \"assim que terminar o aparelho\" para uma jovem de 16 anos sem indicador de maturação. Se a mandíbula ainda crescer depois da cirurgia, o resultado recidiva. A liberação vem do esqueleto, não do calendário."
+        }
       ],
-      "checagem": { "pergunta": "Qual indicador libera um paciente para cirurgia ortognática, e por que a idade não basta?", "resposta": "Um indicador de fim de crescimento, como CS6 nas vértebras ou a fusão da epífise distal do rádio na mão e punho. A variação individual de anos torna a idade insuficiente." }
+      "checagem": {
+        "pergunta": "Qual indicador libera um paciente para cirurgia ortognática, e por que a idade não basta?",
+        "resposta": "Um indicador de fim de crescimento, como CS6 nas vértebras ou a fusão da epífise distal do rádio na mão e punho. A variação individual de anos torna a idade insuficiente."
+      }
     },
     {
       "titulo": "Os três pacientes da tarde",
       "blocos": [
-        { "tipo": "p", "texto": "A criança de 8 anos com Classe II: \"agora\" é cedo, salvo trauma, sofrimento ou hábito. O plano é acompanhar com estatura seriada e telerradiografia quando indicada, e começar o funcional na aceleração. O menino de 7 anos com mordida cruzada anterior: \"agora\" é a resposta certa; se for deficiência maxilar, a janela da tração reversa é esta." },
-        { "tipo": "p", "texto": "A jovem de 16 anos com mordida aberta esquelética: \"agora\" vale para a ortodontia pré-cirúrgica e para o que for funcional, mas a cirurgia espera a confirmação de que o crescimento terminou. Prometer a data pela idade seria o erro mais caro dos três." },
-        { "tipo": "destaque", "estilo": "dica", "titulo": "A frase que organiza a consulta", "texto": "\"O que eu quero mover, com que mecanismo, e ele ainda responde nesta fase?\" Se você consegue responder às três partes, o momento do tratamento está decidido." }
+        {
+          "tipo": "p",
+          "texto": "A criança de 8 anos com Classe II: \"agora\" é cedo, salvo trauma, sofrimento ou hábito. O plano é acompanhar com estatura seriada e telerradiografia quando indicada, e começar o funcional na aceleração. O menino de 7 anos com mordida cruzada anterior: \"agora\" é a resposta certa; se for deficiência maxilar, a janela da tração reversa é esta."
+        },
+        {
+          "tipo": "p",
+          "texto": "A jovem de 16 anos com mordida aberta esquelética: \"agora\" vale para a ortodontia pré-cirúrgica e para o que for funcional, mas a cirurgia espera a confirmação de que o crescimento terminou. Prometer a data pela idade seria o erro mais caro dos três."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "dica",
+          "titulo": "A frase que organiza a consulta",
+          "texto": "\"O que eu quero mover, com que mecanismo, e ele ainda responde nesta fase?\" Se você consegue responder às três partes, o momento do tratamento está decidido."
+        }
       ],
-      "checagem": { "pergunta": "Dos três pacientes, qual perde mais se esperar e qual perde mais se apressar?", "resposta": "O menino de 7 anos com deficiência maxilar perde a janela sutural se esperar. A jovem de 16 perde o resultado cirúrgico se apressar antes do fim do crescimento." }
+      "checagem": {
+        "pergunta": "Dos três pacientes, qual perde mais se esperar e qual perde mais se apressar?",
+        "resposta": "O menino de 7 anos com deficiência maxilar perde a janela sutural se esperar. A jovem de 16 perde o resultado cirúrgico se apressar antes do fim do crescimento."
+      }
     }
   ],
   "fechamento": {
-    "visual": { "formato": "mapa", "titulo": "Mapa da página", "descricao": "Nó central: quando tratar. Seis nós: cada problema tem um relógio; Classe II na aceleração, uma fase basta; Classe III maxilar cedo; Classe III mandibular no fim; expansão antes da interdigitação; cirurgia e implantes com crescimento encerrado.", "viewBox": "0 0 560 360",
+    "visual": {
+      "formato": "mapa",
+      "titulo": "Mapa da página",
+      "descricao": "Nó central: quando tratar. Seis nós: cada problema tem um relógio; Classe II na aceleração, uma fase basta; Classe III maxilar cedo; Classe III mandibular no fim; expansão antes da interdigitação; cirurgia e implantes com crescimento encerrado.",
+      "viewBox": "0 0 560 360",
       "svg": [
         "<g stroke='var(--border,#EDE6D8)' stroke-width='1.5'><line x1='280' y1='180' x2='100' y2='60'/><line x1='280' y1='180' x2='460' y2='60'/><line x1='280' y1='180' x2='70' y2='180'/><line x1='280' y1='180' x2='490' y2='180'/><line x1='280' y1='180' x2='100' y2='300'/><line x1='280' y1='180' x2='460' y2='300'/></g>",
         "<use href='#c-no-central' x='190' y='150' width='180' height='60'/>",
@@ -147,69 +241,215 @@
         "<use href='#c-no' x='410' y='158' width='150' height='44'/><text x='485' y='185' text-anchor='middle' font-size='13' font-weight='700'>Classe III mandibular: fim</text>",
         "<use href='#c-no' x='20' y='278' width='160' height='44'/><text x='100' y='305' text-anchor='middle' font-size='13' font-weight='700'>Expansão antes de fechar</text>",
         "<use href='#c-no' x='380' y='278' width='160' height='44'/><text x='460' y='305' text-anchor='middle' font-size='13' font-weight='700'>Cirurgia: crescimento zero</text>"
-      ] },
+      ]
+    },
     "flashcards": [
-      { "frente": "O que os ensaios clínicos randomizados mostraram sobre tratar a Classe II em duas fases?", "verso": "Resultado final semelhante ao de uma fase só iniciada no surto, com mais tempo, consultas e custo. Cedo se justifica por trauma, sofrimento ou hábito." },
-      { "frente": "Por que a Classe III maxilar se trata cedo e a mandibular se decide tarde?", "verso": "A maxilar depende de suturas que fecham cedo (tração reversa na dentição mista precoce); a mandibular depende de crescimento que não se freia e termina tarde." },
-      { "frente": "O que libera um paciente para cirurgia ortognática?", "verso": "Indicador de fim de crescimento (CS6, fusão do rádio), nunca a idade cronológica isolada." }
+      {
+        "frente": "O que os ensaios clínicos randomizados mostraram sobre tratar a Classe II em duas fases?",
+        "verso": "Resultado final semelhante ao de uma fase só iniciada no surto, com mais tempo, consultas e custo. Cedo se justifica por trauma, sofrimento ou hábito."
+      },
+      {
+        "frente": "Por que a Classe III maxilar se trata cedo e a mandibular se decide tarde?",
+        "verso": "A maxilar depende de suturas que fecham cedo (tração reversa na dentição mista precoce); a mandibular depende de crescimento que não se freia e termina tarde."
+      },
+      {
+        "frente": "O que libera um paciente para cirurgia ortognática?",
+        "verso": "Indicador de fim de crescimento (CS6, fusão do rádio), nunca a idade cronológica isolada."
+      }
     ]
   },
   "infografico": {
     "titulo": "Momento certo em seis cartões",
     "itens": [
-      { "rotulo": "A pergunta", "texto": "Que tecido quero mover, com que mecanismo, e ele ainda responde nesta fase?" },
-      { "rotulo": "Classe II", "texto": "Funcional na aceleração (CS3). Duas fases não melhoram o resultado final; cedo só por trauma, sofrimento ou hábito." },
-      { "rotulo": "Classe III maxilar", "texto": "Tração reversa na dentição mista precoce, enquanto as suturas respondem. Alta condicional até o fim." },
-      { "rotulo": "Classe III mandibular", "texto": "Acompanhar até o fim do crescimento; camuflagem ou cirurgia com o esqueleto pronto." },
-      { "rotulo": "Transversal e vertical", "texto": "Expandir antes da interdigitação; tratar o funcional já; o esquelético grande espera a cirurgia." },
-      { "rotulo": "Fim do crescimento", "texto": "Cirurgia, implantes e alta definitiva só com CS6 ou rádio fundido." }
+      {
+        "rotulo": "A pergunta",
+        "texto": "Que tecido quero mover, com que mecanismo, e ele ainda responde nesta fase?"
+      },
+      {
+        "rotulo": "Classe II",
+        "texto": "Funcional na aceleração (CS3). Duas fases não melhoram o resultado final; cedo só por trauma, sofrimento ou hábito."
+      },
+      {
+        "rotulo": "Classe III maxilar",
+        "texto": "Tração reversa na dentição mista precoce, enquanto as suturas respondem. Alta condicional até o fim."
+      },
+      {
+        "rotulo": "Classe III mandibular",
+        "texto": "Acompanhar até o fim do crescimento; camuflagem ou cirurgia com o esqueleto pronto."
+      },
+      {
+        "rotulo": "Transversal e vertical",
+        "texto": "Expandir antes da interdigitação; tratar o funcional já; o esquelético grande espera a cirurgia."
+      },
+      {
+        "rotulo": "Fim do crescimento",
+        "texto": "Cirurgia, implantes e alta definitiva só com CS6 ou rádio fundido."
+      }
     ]
   },
   "fluxograma": {
     "titulo": "Agora, depois ou no fim?",
     "nos": [
-      { "id": "n1", "tipo": "inicio", "texto": "Problema identificado em paciente em crescimento" },
-      { "id": "n2", "tipo": "decisao", "texto": "Há trauma iminente, sofrimento, hábito ou mordida cruzada funcional?" },
-      { "id": "n3", "tipo": "acao", "texto": "Tratar agora, independentemente do surto" },
-      { "id": "n4", "tipo": "decisao", "texto": "O alvo é sutura (maxila, transversal)?" },
-      { "id": "n5", "tipo": "acao", "texto": "Tratar enquanto a sutura responde: dentição mista precoce" },
-      { "id": "n6", "tipo": "decisao", "texto": "O alvo é o côndilo (Classe II esquelética)?" },
-      { "id": "n7", "tipo": "acao", "texto": "Esperar a aceleração (CS3) e tratar em uma fase" },
-      { "id": "n8", "tipo": "acao", "texto": "Alvo cirúrgico ou implante: aguardar indicador de fim de crescimento" },
-      { "id": "n9", "tipo": "fim", "texto": "Momento definido pelo mecanismo e pelo estágio" }
+      {
+        "id": "n1",
+        "tipo": "inicio",
+        "texto": "Problema identificado em paciente em crescimento"
+      },
+      {
+        "id": "n2",
+        "tipo": "decisao",
+        "texto": "Há trauma iminente, sofrimento, hábito ou mordida cruzada funcional?"
+      },
+      {
+        "id": "n3",
+        "tipo": "acao",
+        "texto": "Tratar agora, independentemente do surto"
+      },
+      {
+        "id": "n4",
+        "tipo": "decisao",
+        "texto": "O alvo é sutura (maxila, transversal)?"
+      },
+      {
+        "id": "n5",
+        "tipo": "acao",
+        "texto": "Tratar enquanto a sutura responde: dentição mista precoce"
+      },
+      {
+        "id": "n6",
+        "tipo": "decisao",
+        "texto": "O alvo é o côndilo (Classe II esquelética)?"
+      },
+      {
+        "id": "n7",
+        "tipo": "acao",
+        "texto": "Esperar a aceleração (CS3) e tratar em uma fase"
+      },
+      {
+        "id": "n8",
+        "tipo": "acao",
+        "texto": "Alvo cirúrgico ou implante: aguardar indicador de fim de crescimento"
+      },
+      {
+        "id": "n9",
+        "tipo": "fim",
+        "texto": "Momento definido pelo mecanismo e pelo estágio"
+      }
     ],
     "arestas": [
-      { "de": "n1", "para": "n2" },
-      { "de": "n2", "para": "n3", "rotulo": "sim" },
-      { "de": "n2", "para": "n4", "rotulo": "não" },
-      { "de": "n4", "para": "n5", "rotulo": "sim" },
-      { "de": "n4", "para": "n6", "rotulo": "não" },
-      { "de": "n6", "para": "n7", "rotulo": "sim" },
-      { "de": "n6", "para": "n8", "rotulo": "não" },
-      { "de": "n3", "para": "n9" },
-      { "de": "n5", "para": "n9" },
-      { "de": "n7", "para": "n9" },
-      { "de": "n8", "para": "n9" }
+      {
+        "de": "n1",
+        "para": "n2"
+      },
+      {
+        "de": "n2",
+        "para": "n3",
+        "rotulo": "sim"
+      },
+      {
+        "de": "n2",
+        "para": "n4",
+        "rotulo": "não"
+      },
+      {
+        "de": "n4",
+        "para": "n5",
+        "rotulo": "sim"
+      },
+      {
+        "de": "n4",
+        "para": "n6",
+        "rotulo": "não"
+      },
+      {
+        "de": "n6",
+        "para": "n7",
+        "rotulo": "sim"
+      },
+      {
+        "de": "n6",
+        "para": "n8",
+        "rotulo": "não"
+      },
+      {
+        "de": "n3",
+        "para": "n9"
+      },
+      {
+        "de": "n5",
+        "para": "n9"
+      },
+      {
+        "de": "n7",
+        "para": "n9"
+      },
+      {
+        "de": "n8",
+        "para": "n9"
+      }
     ]
   },
   "passoAPasso": [
-    { "passo": "Nomeie o problema pelo tecido: sutura, côndilo, superfície, ou discrepância que só cirurgia resolve.", "confira": "O nome do tecido está no plano, não só o nome da má oclusão?" },
-    { "passo": "Procure o que não espera: trauma, sofrimento, hábito, cruzada funcional, perda de espaço.", "confira": "Algum item exige começar hoje?" },
-    { "passo": "Situe o paciente na fase com indicador de maturação, e não pela idade.", "confira": "Estatura seriada, vértebras ou mão e punho registrados?" },
-    { "passo": "Cruze tecido e fase: o mecanismo ainda responde? Se sim, agora; se ainda não, quando; se não mais, alternativa.", "confira": "O plano diz o que se faz e o que se espera?" },
-    { "passo": "Escreva a expectativa e a alta: condicional enquanto houver crescimento relevante.", "confira": "A família ouviu a diferença entre efeito ósseo e dentário e entre alta condicional e definitiva?" }
+    {
+      "passo": "Nomeie o problema pelo tecido: sutura, côndilo, superfície, ou discrepância que só cirurgia resolve.",
+      "confira": "O nome do tecido está no plano, não só o nome da má oclusão?"
+    },
+    {
+      "passo": "Procure o que não espera: trauma, sofrimento, hábito, cruzada funcional, perda de espaço.",
+      "confira": "Algum item exige começar hoje?"
+    },
+    {
+      "passo": "Situe o paciente na fase com indicador de maturação, e não pela idade.",
+      "confira": "Estatura seriada, vértebras ou mão e punho registrados?"
+    },
+    {
+      "passo": "Cruze tecido e fase: o mecanismo ainda responde? Se sim, agora; se ainda não, quando; se não mais, alternativa.",
+      "confira": "O plano diz o que se faz e o que se espera?"
+    },
+    {
+      "passo": "Escreva a expectativa e a alta: condicional enquanto houver crescimento relevante.",
+      "confira": "A família ouviu a diferença entre efeito ósseo e dentário e entre alta condicional e definitiva?"
+    }
   ],
   "macetes": [
-    { "titulo": "Sutura cedo, côndilo no surto, cirurgia no fim", "texto": "A ordem dos três motores é a ordem do calendário. Superfície, a qualquer hora." },
-    { "titulo": "Classe II espera, Classe III maxilar não", "texto": "Na II o motor é o côndilo (surto); na III maxilar é a sutura (dentição mista). Inverter as duas é o erro clássico." },
-    { "titulo": "Duas fases, mesmo fim, mais custo", "texto": "A evidência dos ensaios: começar cedo a Classe II não melhora o resultado final. Cedo é por trauma, sofrimento ou hábito." },
-    { "titulo": "Idade não libera cirurgia; osso libera", "texto": "CS6 ou rádio fundido. Sem isso, a cirurgia corre atrás de um crescimento que ainda não acabou." }
+    {
+      "titulo": "Sutura cedo, côndilo no surto, cirurgia no fim",
+      "texto": "A ordem dos três motores é a ordem do calendário. Superfície, a qualquer hora."
+    },
+    {
+      "titulo": "Classe II espera, Classe III maxilar não",
+      "texto": "Na II o motor é o côndilo (surto); na III maxilar é a sutura (dentição mista). Inverter as duas é o erro clássico."
+    },
+    {
+      "titulo": "Duas fases, mesmo fim, mais custo",
+      "texto": "A evidência dos ensaios: começar cedo a Classe II não melhora o resultado final. Cedo é por trauma, sofrimento ou hábito."
+    },
+    {
+      "titulo": "Idade não libera cirurgia; osso libera",
+      "texto": "CS6 ou rádio fundido. Sem isso, a cirurgia corre atrás de um crescimento que ainda não acabou."
+    }
   ],
   "ondeErra": [
-    { "erro": "Começar o aparelho funcional na Classe II aos 8 anos \"para aproveitar o crescimento\".", "porque": "O pico está longe e a evidência mostra que duas fases não melhoram o resultado final.", "certo": "Acompanhar e iniciar na aceleração (CS3), em uma fase." },
-    { "erro": "Esperar a dentição permanente para tratar a deficiência maxilar da Classe III.", "porque": "As suturas interdigitam e a tração reversa perde o efeito esquelético.", "certo": "Tração reversa na dentição mista precoce, com alta condicional." },
-    { "erro": "Marcar cirurgia ortognática pela idade.", "porque": "A variação individual do fim do crescimento é de anos; crescimento residual desfaz a cirurgia.", "certo": "Liberar por indicador de fim de crescimento." },
-    { "erro": "Adiar a remoção de um hábito ou a correção de uma cruzada funcional \"até a hora do aparelho\".", "porque": "Esses problemas não dependem do surto e o dano continua enquanto se espera.", "certo": "Tratar assim que identificados." }
+    {
+      "erro": "Começar o aparelho funcional na Classe II aos 8 anos \"para aproveitar o crescimento\".",
+      "porque": "O pico está longe e a evidência mostra que duas fases não melhoram o resultado final.",
+      "certo": "Acompanhar e iniciar na aceleração (CS3), em uma fase."
+    },
+    {
+      "erro": "Esperar a dentição permanente para tratar a deficiência maxilar da Classe III.",
+      "porque": "As suturas interdigitam e a tração reversa perde o efeito esquelético.",
+      "certo": "Tração reversa na dentição mista precoce, com alta condicional."
+    },
+    {
+      "erro": "Marcar cirurgia ortognática pela idade.",
+      "porque": "A variação individual do fim do crescimento é de anos; crescimento residual desfaz a cirurgia.",
+      "certo": "Liberar por indicador de fim de crescimento."
+    },
+    {
+      "erro": "Adiar a remoção de um hábito ou a correção de uma cruzada funcional \"até a hora do aparelho\".",
+      "porque": "Esses problemas não dependem do surto e o dano continua enquanto se espera.",
+      "certo": "Tratar assim que identificados."
+    }
   ],
   "autoteste": [
     {
@@ -293,7 +533,14 @@
       ]
     }
   ],
-  "pesquisa": { "termos": ["momento do tratamento ortodôntico", "tratamento precoce Classe II", "duas fases", "tração reversa"] },
+  "pesquisa": {
+    "termos": [
+      "momento do tratamento ortodôntico",
+      "tratamento precoce Classe II",
+      "duas fases",
+      "tração reversa"
+    ]
+  },
   "referenciasBase": [
     "Proffit WR, Fields HW, Larson BE, Sarver DM. Ortodontia Contemporânea. 6ª ed. Momento do tratamento.",
     "Tulloch JFC, Proffit WR, Phillips C. Outcomes in a 2-phase randomized clinical trial of early Class II treatment. Am J Orthod Dentofacial Orthop. 2004.",
@@ -301,5 +548,8 @@
     "O'Brien K et al. Early treatment for Class II Division 1 malocclusion with the Twin-block appliance: a multi-center, randomized, controlled trial. Am J Orthod Dentofacial Orthop. 2009.",
     "Baccetti T, Franchi L, McNamara JA Jr. The Cervical Vertebral Maturation (CVM) method. Semin Orthod. 2005."
   ],
-  "validacao": { "validadoPor": null, "data": null }
+  "validacao": {
+    "validadoPor": null,
+    "data": null
+  }
 }

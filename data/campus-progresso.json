@@ -1,10 +1,10 @@
 {
  "atualizadoEm": "2026-09-04",
  "totalPaginas": 3387,
- "concluidas": 14,
+ "concluidas": 15,
  "porStatus": {
-  "pendente": 3373,
-  "rascunho": 14,
+  "pendente": 3372,
+  "rascunho": 15,
   "revisado": 0,
   "publicado": 0
  },
@@ -12,7 +12,7 @@
   "id": "ortodontia/crescimento-e-desenvolvimento",
   "area": "Ortodontia",
   "modulo": "Crescimento e desenvolvimento",
-  "faltam": 5
+  "faltam": 4
  },
  "imagensPendentes": [
   {
@@ -224,6 +224,16 @@
    "pagina": "ortodontia/crescimento-e-desenvolvimento/maturacao/vertebras-cervicais",
    "onde": "infografico.itens[2].texto",
    "trecho": "anas ou só C2 côncava; corpos trapezoides. Pico em cerca de 2 e 1 ano [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/maturacao/implicacoes-no-tempo-de-tratamento",
+   "onde": "Seção \"Classe II: o surto, e a lição das duas fases\".blocos[1].texto",
+   "trecho": "tempo de tratamento, mais consultas e mais custo para o grupo precoce [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/maturacao/implicacoes-no-tempo-de-tratamento",
+   "onde": "Seção \"Classe III: cedo para a maxila, paciência para a mandíbula\".blocos[0].texto",
+   "trecho": "facial rende mais na dentição mista precoce, por volta dos 7 a 9 anos [VERIFICAR]"
   }
  ],
  "modulos": [
@@ -233,11 +243,11 @@
    "area": "Ortodontia",
    "modulo": "Crescimento e desenvolvimento",
    "total": 14,
-   "concluidas": 9,
-   "palavras": 25153,
-   "visuais": 32,
+   "concluidas": 10,
+   "palavras": 27982,
+   "visuais": 35,
    "imagensClinicas": 7,
-   "verificar": 29,
+   "verificar": 31,
    "paginas": [
     {
      "id": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/conceitos-crescimento-e-desenvolvimento",
@@ -315,7 +325,9 @@
      "id": "ortodontia/crescimento-e-desenvolvimento/maturacao/implicacoes-no-tempo-de-tratamento",
      "nome": "Implicações no tempo de tratamento",
      "tema": "Maturação",
-     "status": "pendente"
+     "status": "rascunho",
+     "palavras": 2829,
+     "visuais": 3
     },
     {
      "id": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-decidua",
@@ -25242,6 +25254,46 @@
     {
      "onde": "infografico.itens[2].texto",
      "trecho": "anas ou só C2 côncava; corpos trapezoides. Pico em cerca de 2 e 1 ano [VERIFICAR]"
+    }
+   ]
+  },
+  "ortodontia/crescimento-e-desenvolvimento/maturacao/implicacoes-no-tempo-de-tratamento": {
+   "titulo": "Quando tratar: o que a maturação decide em cada tipo de problema",
+   "arquivo": "data/campus/paginas/ortodontia--maturacao-tempo-tratamento.json",
+   "formato": 2,
+   "status": "rascunho",
+   "estado": "rascunho",
+   "palavras": 2829,
+   "visuais": [
+    {
+     "formato": "linha-do-tempo",
+     "titulo": "O que se faz em cada fase do crescimento"
+    },
+    {
+     "formato": "comparativo",
+     "titulo": "Problema, melhor momento, indicador e o que acontece se atrasar"
+    },
+    {
+     "formato": "mapa",
+     "titulo": "Mapa da página"
+    }
+   ],
+   "quadros": {
+    "frase": 1,
+    "prova": 1,
+    "mito": 1,
+    "dica": 2,
+    "erro": 1
+   },
+   "imagensClinicas": [],
+   "verificar": [
+    {
+     "onde": "Seção \"Classe II: o surto, e a lição das duas fases\".blocos[1].texto",
+     "trecho": "tempo de tratamento, mais consultas e mais custo para o grupo precoce [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Classe III: cedo para a maxila, paciência para a mandíbula\".blocos[0].texto",
+     "trecho": "facial rende mais na dentição mista precoce, por volta dos 7 a 9 anos [VERIFICAR]"
     }
    ]
   },
