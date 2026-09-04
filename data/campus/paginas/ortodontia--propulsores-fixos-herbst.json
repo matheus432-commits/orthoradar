@@ -1,0 +1,174 @@
+{
+  "id": "ortodontia/ortopedia-funcional-e-mecanica/classe-ii/propulsores-fixos-herbst-e-outros",
+  "areaId": "ortodontia",
+  "area": "Ortodontia",
+  "modulo": "Ortopedia funcional e mecânica",
+  "tema": "Classe II",
+  "titulo": "Propulsores mandibulares fixos: Herbst e aparelhos derivados",
+  "estado": "rascunho",
+  "versao": 1,
+  "autoria": "Rascunho escrito pela plataforma para validação; nada aqui é visível ao aluno antes da assinatura de um ortodontista.",
+  "umMinuto": {
+    "frases": [
+      "Propulsor fixo é um aparelho que mantém a mandíbula avançada 24 horas por dia, sem depender da colaboração do paciente, para corrigir a Classe II por retrusão mandibular.",
+      "O Herbst, descrito em 1905 e resgatado por Pancherz nos anos 1970, é o protótipo: um mecanismo telescópico bilateral, ancorado em bandas ou esplintes nos molares superiores e nos pré-molares ou caninos inferiores.",
+      "O efeito é misto: uma parte esquelética (estímulo ao crescimento condilar e remodelação da fossa) e uma parte dentoalveolar (mesialização dos inferiores e Distalização dos superiores), que na maioria dos estudos responde pela maior fatia da correção.",
+      "O melhor momento é o surto de crescimento puberal, avaliado por vértebras cervicais ou mão e punho; fora dele o efeito é quase todo dentário.",
+      "Alternativas fixas com a mesma lógica: Forsus, Jasper Jumper, Twin Force e molas intermaxilares, que se prendem ao aparelho fixo já instalado e cabem melhor na segunda fase do tratamento."
+    ],
+    "caiNaProva": [
+      "Diferença entre propulsor fixo e removível quanto à colaboração e ao tempo de uso",
+      "Componentes do Herbst e efeitos esqueléticos versus dentoalveolares",
+      "Momento ideal: surto de crescimento",
+      "Efeitos colaterais: vestibularização dos incisivos inferiores",
+      "Quando preferir Forsus ao Herbst"
+    ],
+    "porQueImporta": "A Classe II é a má oclusão que mais leva o paciente ao ortodontista, e a maior parte é por mandíbula retruída. Saber quando avançar a mandíbula, com o quê e em que idade, muda o resultado facial e evita extrações ou cirurgia."
+  },
+  "infografico": {
+    "titulo": "Anatomia de um Herbst e o que cada efeito significa",
+    "itens": [
+      { "rotulo": "Ancoragem superior", "texto": "Bandas nos primeiros molares superiores, quase sempre unidas por barra transpalatina ou esplinte acrílico, para distribuir a força de reação." },
+      { "rotulo": "Ancoragem inferior", "texto": "Bandas nos primeiros pré-molares ou esplinte de canino a molar; quanto mais dentes unidos, menor a vestibularização dos incisivos." },
+      { "rotulo": "Mecanismo telescópico", "texto": "Tubo no superior, pistão no inferior, articulados por pivôs; comprimento do tubo define o avanço, normalmente 5 a 7 mm ou até topo a topo." },
+      { "rotulo": "Efeito esquelético", "texto": "Aumento do comprimento mandibular de 1 a 3 mm além do crescimento normal no surto puberal; retenção parcial a longo prazo." },
+      { "rotulo": "Efeito dentoalveolar", "texto": "Mesialização de molares inferiores, vestibularização dos incisivos inferiores e Distalização dos superiores: respondem por metade ou mais da correção molar." },
+      { "rotulo": "Tempo de uso", "texto": "6 a 9 meses de avanço contínuo, seguidos de fase de aparelho fixo para alinhar e detalhar." },
+      { "rotulo": "Sinal de sucesso", "texto": "Relação molar e de caninos em Classe I ou sobrecorrigida ao final da fase de avanço, com perfil melhorado." }
+    ]
+  },
+  "fluxograma": {
+    "titulo": "Classe II por retrusão mandibular: propulsor fixo, removível ou outra rota?",
+    "nos": [
+      { "id": "n1", "tipo": "inicio", "texto": "Diagnóstico: Classe II esquelética por retrusão mandibular" },
+      { "id": "n2", "tipo": "decisao", "texto": "O paciente está antes ou durante o surto de crescimento?" },
+      { "id": "n3", "tipo": "decisao", "texto": "Adulto: aceita efeito dentoalveolar (camuflagem) ou o caso é cirúrgico?" },
+      { "id": "n4", "tipo": "acao", "texto": "Camuflagem com propulsor fixo (Forsus ou Herbst) sobre aparelho fixo, ou extrações" },
+      { "id": "n5", "tipo": "acao", "texto": "Encaminhar para preparo ortodôntico e cirurgia ortognática" },
+      { "id": "n6", "tipo": "decisao", "texto": "Colaboração confiável para aparelho removível 14 h por dia?" },
+      { "id": "n7", "tipo": "acao", "texto": "Propulsor removível (Twin Block ou Bionator) e controle a cada 6 semanas" },
+      { "id": "n8", "tipo": "acao", "texto": "Propulsor fixo: Herbst na fase 1 ou Forsus sobre o aparelho fixo" },
+      { "id": "n9", "tipo": "fim", "texto": "Fase 2: aparelho fixo, detalhamento e contenção" }
+    ],
+    "arestas": [
+      { "de": "n1", "para": "n2" },
+      { "de": "n2", "para": "n3", "rotulo": "já passou" },
+      { "de": "n3", "para": "n4", "rotulo": "camuflagem" },
+      { "de": "n3", "para": "n5", "rotulo": "cirúrgico" },
+      { "de": "n2", "para": "n6", "rotulo": "sim" },
+      { "de": "n6", "para": "n7", "rotulo": "sim" },
+      { "de": "n6", "para": "n8", "rotulo": "não" },
+      { "de": "n7", "para": "n9" },
+      { "de": "n8", "para": "n9" },
+      { "de": "n4", "para": "n9" }
+    ]
+  },
+  "passoAPasso": [
+    { "passo": "Confirme o diagnóstico: Classe II com mandíbula retruída (ANB aumentado por SNB reduzido, perfil convexo, mento retroposicionado) e não por protrusão maxilar.", "confira": "Se a maxila é que está protruída, o propulsor está indicado? Reveja a cefalometria antes de decidir." },
+    { "passo": "Avalie a maturação: vértebras cervicais na telerradiografia ou radiografia de mão e punho. O alvo é o surto de crescimento.", "confira": "Estágio vertebral 3 ou 4? Fora disso, informe o paciente que o efeito será principalmente dentário." },
+    { "passo": "Adeque o meio bucal e instale bandas nos molares superiores e nos pré-molares inferiores; molde para o laboratório com registro de mordida avançada, incisivos topo a topo ou avanço de 5 a 7 mm.", "confira": "O registro foi feito com a linha média mandibular coincidente e sem desvio lateral?" },
+    { "passo": "Cimente as ancoragens, monte o mecanismo telescópico e verifique abertura, fechamento e lateralidade sem travamento.", "confira": "O paciente consegue fechar em contato posterior sem que o pistão saia do tubo em abertura máxima?" },
+    { "passo": "Oriente: dieta pastosa nos primeiros dias, higiene ao redor das bandas, o que fazer se um pistão sair.", "confira": "O paciente sabe que não deve tentar reencaixar sozinho com força?" },
+    { "passo": "Controle mensal: integridade das bandas, cimentação, mucosa da bochecha e avanço da relação molar. Reative com espaçadores no pistão a cada 3 meses se a mordida ainda não estiver sobrecorrigida.", "confira": "Os incisivos inferiores estão vestibularizando além do planejado? Reforce a ancoragem inferior." },
+    { "passo": "Após 6 a 9 meses com molar em Classe I sobrecorrigida, remova o Herbst e siga imediatamente para aparelho fixo com elásticos de Classe II de suporte.", "confira": "Houve intervalo sem aparelho entre as fases? Evite: a recidiva inicial é rápida." }
+  ],
+  "macetes": [
+    { "titulo": "Fixo é para quem não usa removível", "texto": "A indicação clássica do propulsor fixo não é biomecânica, é comportamental: adolescente que não colabora com Twin Block. O efeito final dos dois é parecido." },
+    { "titulo": "Metade dente, metade osso, no melhor cenário", "texto": "Mesmo no surto de crescimento, espere que metade da correção molar venha de movimento dentário. Em adulto, quase tudo é dentário." },
+    { "titulo": "Herbst na fase 1, Forsus na fase 2", "texto": "Herbst funciona sozinho antes do aparelho fixo; Forsus e similares se encaixam no fio do aparelho fixo já instalado e aproveitam a segunda fase." },
+    { "titulo": "Incisivo inferior é o termômetro", "texto": "Vestibularização acima de 5 graus nos incisivos inferiores indica que a ancoragem inferior está fraca ou o avanço foi excessivo." }
+  ],
+  "ondeErra": [
+    { "erro": "Indicar propulsor para Classe II por protrusão maxilar.", "porque": "Avançar uma mandíbula bem posicionada agrava a biprotrusão e não corrige a causa.", "certo": "Distalização de molares superiores ou extrabucal, conforme a idade, quando o problema é a maxila." },
+    { "erro": "Esperar o fim do crescimento para usar o Herbst porque o paciente é jovem demais.", "porque": "O efeito esquelético depende do surto; depois dele, sobra efeito dentário.", "certo": "Iniciar no estágio vertebral 3 ou 4, normalmente entre 11 e 14 anos, variando por sexo." },
+    { "erro": "Prometer ao paciente crescimento mandibular de 8 a 10 mm.", "porque": "O ganho esquelético além do crescimento normal é de 1 a 3 mm e parte se perde na retenção.", "certo": "Explicar que a correção da mordida é previsível, mas o ganho de mento é modesto." },
+    { "erro": "Deixar intervalo sem aparelho entre a remoção do Herbst e o aparelho fixo.", "porque": "A relação corrigida recidiva rápido nas primeiras semanas.", "certo": "Transição imediata para fixo com elásticos de Classe II." },
+    { "erro": "Confundir Herbst com aparelho removível na prova.", "porque": "O Herbst é cimentado e age 24 horas; Bionator, Twin Block e Fränkel são removíveis.", "certo": "Fixos: Herbst, Forsus, Jasper Jumper, Twin Force. Removíveis: Twin Block, Bionator, Fränkel, ativador." }
+  ],
+  "autoteste": [
+    {
+      "pergunta": "Adolescente de 12 anos, Classe II divisão 1 por retrusão mandibular, estágio vertebral 3, com histórico de não usar o aparelho removível prescrito. A melhor opção é:",
+      "alternativas": [
+        "Trocar por outro aparelho removível com mais retenção",
+        "Propulsor fixo do tipo Herbst",
+        "Aguardar o fim do crescimento e planejar cirurgia",
+        "Extrair pré-molares superiores"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "O problema é adesão, não retenção; outro removível tende a falhar do mesmo modo.",
+        "Correta: no surto de crescimento e sem colaboração, o propulsor fixo mantém o avanço 24 horas.",
+        "Esperar desperdiça o surto de crescimento, quando o efeito esquelético é possível.",
+        "Extrações camuflam, mas não aproveitam o potencial de crescimento mandibular."
+      ]
+    },
+    {
+      "pergunta": "Sobre os efeitos do Herbst, a maior parte da correção da relação molar costuma vir de:",
+      "alternativas": [
+        "Crescimento condilar puro",
+        "Remodelação da fossa articular",
+        "Efeitos dentoalveolares: mesialização inferior e Distalização superior",
+        "Rotação horária da maxila"
+      ],
+      "correta": 2,
+      "explicacoes": [
+        "Há estímulo condilar, mas ele responde por uma fração do total.",
+        "A remodelação da fossa contribui pouco e é parcialmente reversível.",
+        "Correta: os movimentos dentários somam metade ou mais da correção molar na maioria dos estudos.",
+        "Rotação da maxila não é o mecanismo principal de correção."
+      ]
+    },
+    {
+      "pergunta": "O efeito colateral dentário mais característico dos propulsores fixos é:",
+      "alternativas": [
+        "Intrusão de molares superiores",
+        "Vestibularização dos incisivos inferiores",
+        "Extrusão de incisivos superiores",
+        "Expansão da mandíbula"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Não é o efeito característico; pode haver alguma alteração vertical, mas não intrusão sistemática.",
+        "Correta: a força de reação empurra o arco inferior para anterior e vestibulariza os incisivos.",
+        "Os incisivos superiores tendem a retroinclinar, não a extruir.",
+        "Propulsores não expandem a mandíbula."
+      ]
+    },
+    {
+      "pergunta": "Qual aparelho abaixo NÃO é um propulsor mandibular fixo?",
+      "alternativas": ["Forsus", "Jasper Jumper", "Twin Block", "Herbst"],
+      "correta": 2,
+      "explicacoes": [
+        "Forsus é fixo, preso ao aparelho ortodôntico.",
+        "Jasper Jumper é fixo, com módulo flexível intermaxilar.",
+        "Correta: Twin Block é removível, com blocos de mordida em placas superior e inferior.",
+        "Herbst é o protótipo dos fixos, com mecanismo telescópico cimentado."
+      ]
+    },
+    {
+      "pergunta": "Ao remover o Herbst após 8 meses com molares em Classe I sobrecorrigida, a conduta que reduz a recidiva é:",
+      "alternativas": [
+        "Deixar 3 meses sem aparelho para acomodação da oclusão",
+        "Instalar placa de Hawley superior",
+        "Passar imediatamente ao aparelho fixo com elásticos de Classe II",
+        "Encaminhar para cirurgia de avanço"
+      ],
+      "correta": 2,
+      "explicacoes": [
+        "O intervalo sem aparelho é justamente quando a relação corrigida recidiva mais rápido.",
+        "A placa de Hawley não mantém a relação sagital obtida com o avanço.",
+        "Correta: a transição imediata para fixo com elásticos mantém a correção enquanto a oclusão se ajusta.",
+        "Um caso corrigido pelo propulsor não tem indicação cirúrgica."
+      ]
+    }
+  ],
+  "pesquisa": {
+    "termos": ["herbst", "propulsor mandibular", "classe ii", "forsus"]
+  },
+  "referenciasBase": [
+    "Pancherz H. The Herbst appliance: its biologic effects and clinical use. Am J Orthod. 1985.",
+    "Proffit WR, Fields HW, Larson BE, Sarver DM. Ortodontia Contemporânea. 6ª ed.",
+    "McNamara JA, Brudon WL. Orthodontics and Dentofacial Orthopedics."
+  ],
+  "validacao": { "validadoPor": null, "data": null }
+}

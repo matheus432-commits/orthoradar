@@ -1,0 +1,180 @@
+{
+  "id": "ortodontia/finalizacao-e-contencao/contencao/por-que-ha-recidiva",
+  "areaId": "ortodontia",
+  "area": "Ortodontia",
+  "modulo": "Finalização e contenção",
+  "tema": "Contenção",
+  "titulo": "Por que há recidiva e como a contenção evita",
+  "estado": "rascunho",
+  "versao": 1,
+  "autoria": "Rascunho escrito pela plataforma para validação; nada aqui é visível ao aluno antes da assinatura de um ortodontista.",
+  "umMinuto": {
+    "frases": [
+      "Recidiva é a tendência dos dentes de voltar em direção à posição original depois que o aparelho sai, e alguma recidiva acontece em praticamente todo caso.",
+      "As causas se somam: as fibras gengivais supracrestais levam meses para se reorganizar, o osso ao redor da raiz movida ainda está imaturo, a musculatura e os hábitos continuam os mesmos, e o crescimento tardio, sobretudo o mandibular, muda a oclusão até a vida adulta.",
+      "O apinhamento dos incisivos inferiores é a recidiva mais frequente e é considerado parte do envelhecimento normal da dentição: acontece mesmo em quem nunca usou aparelho.",
+      "Contenção é o conjunto de aparelhos e condutas que segura os dentes até que os tecidos se adaptem e o crescimento termine: fixa, colada por lingual, ou removível, como Hawley e placas termoplásticas.",
+      "A tendência atual é contenção por tempo indefinido nos incisivos inferiores, porque não existe um ponto em que a estabilidade fique garantida."
+    ],
+    "caiNaProva": [
+      "As quatro causas biológicas da recidiva",
+      "Reorganização das fibras periodontais e gengivais: prazos",
+      "Movimentos mais instáveis: rotações, expansão e abertura de mordida",
+      "Tipos de contenção e indicação de cada um",
+      "Contenção por tempo indefinido e o apinhamento tardio dos inferiores"
+    ],
+    "porQueImporta": "Um caso perfeito na remoção do aparelho e apinhado dois anos depois é a queixa mais comum contra o ortodontista. Entender por que os dentes voltam é o que sustenta a conversa com o paciente sobre usar contenção pelo resto da vida."
+  },
+  "infografico": {
+    "titulo": "Os relógios da recidiva: quanto tempo cada tecido leva",
+    "itens": [
+      { "rotulo": "Ligamento periodontal", "texto": "Fibras principais se reorganizam em 3 a 4 meses; nesse período o dente tem mobilidade fisiológica aumentada e volta com facilidade." },
+      { "rotulo": "Fibras gengivais supracrestais", "texto": "Fibras colágenas levam 4 a 6 meses; as fibras elásticas do grupo supracrestal, mais de 8 meses a um ano. São a memória das rotações." },
+      { "rotulo": "Osso alveolar", "texto": "O osso novo ao redor da raiz movida mineraliza ao longo de meses; expansão além do envelope alveolar tende a voltar." },
+      { "rotulo": "Musculatura e hábitos", "texto": "Língua, lábios e bochechas continuam exercendo as mesmas forças; se a causa da má oclusão era funcional, ela volta a agir no dia seguinte." },
+      { "rotulo": "Crescimento tardio", "texto": "A mandíbula cresce e roda até depois dos 20 anos; a rotação anterior aperta os incisivos inferiores e mudanças de Classe III podem aparecer no fim da adolescência." },
+      { "rotulo": "Movimentos mais instáveis", "texto": "Rotações, expansão transversal, fechamento de diastema mediano, abertura de mordida e correção de sobressaliência por vestibularização." },
+      { "rotulo": "Movimentos mais estáveis", "texto": "Correção de cruzada anterior com trespasse vertical positivo, fechamento de espaços após extração bem finalizado e intrusão moderada." }
+    ]
+  },
+  "fluxograma": {
+    "titulo": "Qual contenção para este paciente?",
+    "nos": [
+      { "id": "n1", "tipo": "inicio", "texto": "Aparelho removido com finalização adequada" },
+      { "id": "n2", "tipo": "decisao", "texto": "Arco inferior: houve apinhamento inicial, rotações ou expansão?" },
+      { "id": "n3", "tipo": "acao", "texto": "Contenção fixa inferior de canino a canino, por tempo indefinido" },
+      { "id": "n4", "tipo": "decisao", "texto": "Arco superior: diastema fechado, rotações ou expansão significativa?" },
+      { "id": "n5", "tipo": "acao", "texto": "Contenção fixa superior, mais placa removível noturna" },
+      { "id": "n6", "tipo": "acao", "texto": "Placa removível superior: uso contínuo por 6 meses, depois noturno" },
+      { "id": "n7", "tipo": "decisao", "texto": "Mordida aberta ou paciente ainda em crescimento com padrão vertical?" },
+      { "id": "n8", "tipo": "acao", "texto": "Placa com grade ou cobertura oclusal e controle de hábito, até o fim do crescimento" },
+      { "id": "n9", "tipo": "fim", "texto": "Controles: 1, 3, 6 e 12 meses, depois anual" }
+    ],
+    "arestas": [
+      { "de": "n1", "para": "n2" },
+      { "de": "n2", "para": "n3", "rotulo": "sim" },
+      { "de": "n2", "para": "n4", "rotulo": "não" },
+      { "de": "n3", "para": "n4" },
+      { "de": "n4", "para": "n5", "rotulo": "sim" },
+      { "de": "n4", "para": "n6", "rotulo": "não" },
+      { "de": "n5", "para": "n7" },
+      { "de": "n6", "para": "n7" },
+      { "de": "n7", "para": "n8", "rotulo": "sim" },
+      { "de": "n7", "para": "n9", "rotulo": "não" },
+      { "de": "n8", "para": "n9" }
+    ]
+  },
+  "passoAPasso": [
+    { "passo": "Antes de remover o aparelho, confira a finalização: contatos oclusais, raízes paralelas na panorâmica, sobrecorreção discreta das rotações e incisivos inferiores na posição do início ou perto dela.", "confira": "Os incisivos inferiores foram vestibularizados mais de 2 mm em relação ao início? Isso é instável; discuta com o paciente antes de remover." },
+    { "passo": "Decida o tipo de contenção para cada arco com base no que foi movido, na idade e na colaboração esperada.", "confira": "Houve rotação, expansão ou fechamento de diastema? Esses movimentos pedem contenção fixa." },
+    { "passo": "Contenção fixa inferior: fio trançado ou redondo de 0,0175 a 0,0215 polegada, adaptado passivamente de canino a canino, colado com resina em cada dente após profilaxia e condicionamento.", "confira": "O fio está passivo, sem tensão, e fora dos contatos oclusais? Fio ativo move dentes e fio em oclusão quebra." },
+    { "passo": "Contenção removível superior: moldagem no dia da remoção e instalação em até 48 horas; Hawley quando precisar de ajuste de posição, termoplástica quando a estética importa.", "confira": "A placa assenta sem balanço e o paciente consegue colocar e tirar sozinho?" },
+    { "passo": "Oriente o uso: tempo integral por 3 a 6 meses, depois noturno; contenção fixa não tem prazo de remoção. Entregue por escrito.", "confira": "O paciente entendeu que a contenção fixa fica por tempo indefinido e que o fio pode soltar de um dente sem ele perceber?" },
+    { "passo": "Ensine a higiene do fio: passa-fio ou escova interdental por baixo da contenção, todos os dias.", "confira": "Demonstrou na boca do paciente e ele repetiu?" },
+    { "passo": "Controles em 1, 3, 6 e 12 meses, depois anuais: integridade do fio, cálculo, contatos oclusais e mudanças de posição.", "confira": "Fio solto em um dente? Recole no mesmo dia: dente solto do fio gira em semanas." }
+  ],
+  "macetes": [
+    { "titulo": "Fibra é memória, osso é tempo, músculo é para sempre", "texto": "As fibras gengivais guardam a rotação por até um ano; o osso amadurece em meses; a musculatura nunca muda de opinião. A contenção precisa vencer os três." },
+    { "titulo": "Regra de ouro dos incisivos inferiores", "texto": "Devolva os incisivos inferiores para onde a natureza os colocou; cada milímetro para vestibular é uma dívida que a recidiva cobra." },
+    { "titulo": "Roda hoje, volta amanhã", "texto": "Rotações são o movimento mais instável; sobrecorrija discretamente e segure com contenção fixa." },
+    { "titulo": "Fixa por baixo, removível por cima", "texto": "Esquema mais usado: fio colado de canino a canino inferior por tempo indefinido e placa noturna superior." }
+  ],
+  "ondeErra": [
+    { "erro": "Prometer que a contenção sai depois de dois anos.", "porque": "O apinhamento tardio dos inferiores faz parte do envelhecimento da dentição e continua depois dos 20 anos; sem contenção, ele acontece.", "certo": "Informar desde o início que a contenção fixa inferior é por tempo indefinido." },
+    { "erro": "Colar o fio com tensão para melhorar um pequeno apinhamento.", "porque": "Fio ativo é aparelho, não contenção: move dentes e pode causar torque indesejado ou recessão.", "certo": "Adaptar passivamente; se falta finalização, finalize antes de remover o aparelho." },
+    { "erro": "Deixar o fio passando por contatos oclusais em mordida profunda.", "porque": "O fio quebra ou descola e o paciente só percebe quando o dente já girou.", "certo": "Verificar com papel articular e aliviar; se não couber, usar contenção removível superior com plano de mordida." },
+    { "erro": "Atribuir toda recidiva à falta de uso da placa.", "porque": "Parte da recidiva é crescimento tardio e adaptação tecidual, e acontece mesmo com uso correto.", "certo": "Explicar que a contenção reduz muito, mas não zera, as mudanças ao longo da vida." },
+    { "erro": "Dizer em prova que a contenção removível é sempre melhor porque permite ajuste.", "porque": "Depende da colaboração; para o arco inferior e para rotações, a fixa é mais previsível.", "certo": "Removível quando há colaboração e necessidade de ajuste; fixa para inferiores, rotações, diastemas e expansões." }
+  ],
+  "autoteste": [
+    {
+      "pergunta": "A estrutura tecidual cuja reorganização mais lenta explica a recidiva de rotações dentárias é:",
+      "alternativas": [
+        "Ligamento periodontal",
+        "Fibras gengivais supracrestais, em especial as elásticas",
+        "Osso alveolar",
+        "Cemento radicular"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "As fibras do ligamento se reorganizam em 3 a 4 meses.",
+        "Correta: as fibras supracrestais, principalmente as elásticas, levam mais de 8 meses e puxam o dente de volta à rotação original.",
+        "O osso amadurece em meses, mas não é a memória da rotação.",
+        "O cemento não armazena a posição anterior do dente."
+      ]
+    },
+    {
+      "pergunta": "Paciente de 16 anos terminou o tratamento com correção de apinhamento inferior de 6 mm por vestibularização dos incisivos. A conduta de contenção mais adequada para o arco inferior é:",
+      "alternativas": [
+        "Placa de Hawley por 6 meses",
+        "Nenhuma contenção, pois o crescimento acabou",
+        "Contenção fixa de canino a canino por tempo indefinido",
+        "Elásticos intermaxilares noturnos"
+      ],
+      "correta": 2,
+      "explicacoes": [
+        "Seis meses de removível não seguram incisivos vestibularizados em paciente em crescimento.",
+        "Aos 16 anos a mandíbula ainda cresce e o apinhamento tardio é esperado.",
+        "Correta: incisivos inferiores movidos para vestibular são altamente instáveis e pedem contenção fixa sem prazo.",
+        "Elásticos não são contenção."
+      ]
+    },
+    {
+      "pergunta": "Qual dos movimentos abaixo é considerado o mais estável após o tratamento ortodôntico?",
+      "alternativas": [
+        "Expansão transversal do arco inferior",
+        "Fechamento de diastema mediano superior",
+        "Correção de mordida cruzada anterior com bom trespasse vertical final",
+        "Rotação de pré-molares"
+      ],
+      "correta": 2,
+      "explicacoes": [
+        "Expandir o arco inferior além do envelope alveolar é um dos movimentos que mais recidivam.",
+        "O diastema mediano tende a reabrir, sobretudo com freio labial baixo.",
+        "Correta: o trespasse vertical positivo trava os incisivos na nova posição.",
+        "Rotações são o movimento mais instável."
+      ]
+    },
+    {
+      "pergunta": "O apinhamento tardio dos incisivos inferiores em adultos jovens é explicado principalmente por:",
+      "alternativas": [
+        "Erupção dos terceiros molares",
+        "Crescimento e rotação mandibular tardios com redução do perímetro do arco",
+        "Uso de contenção removível",
+        "Desgaste oclusal"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "A evidência não sustenta os terceiros molares como causa principal; extraí-los não previne o apinhamento.",
+        "Correta: o crescimento residual da mandíbula e a rotação anterior reduzem o perímetro do arco e apertam os incisivos.",
+        "A contenção removível reduz o apinhamento; não o causa.",
+        "O desgaste não explica o apinhamento tardio."
+      ]
+    },
+    {
+      "pergunta": "Sobre a contenção fixa inferior de canino a canino, é correto:",
+      "alternativas": [
+        "Deve ser instalada com leve tensão para corrigir pequenas irregularidades",
+        "Deve ser removida obrigatoriamente após 2 anos",
+        "Deve ser adaptada de forma passiva e mantida por tempo indefinido, com controles periódicos",
+        "Dispensa higiene interdental"
+      ],
+      "correta": 2,
+      "explicacoes": [
+        "Fio com tensão é aparelho ativo e pode causar movimentos indesejados.",
+        "Não há prazo biológico para a estabilidade dos incisivos inferiores.",
+        "Correta: fio passivo, por tempo indefinido, com controle de integridade e higiene.",
+        "A contenção fixa acumula biofilme e cálculo e exige higiene interdental diária."
+      ]
+    }
+  ],
+  "pesquisa": {
+    "termos": ["contenção ortodôntica", "recidiva", "retenção", "apinhamento tardio"]
+  },
+  "referenciasBase": [
+    "Reitan K. Tissue rearrangement during retention of orthodontically rotated teeth. Angle Orthod. 1959.",
+    "Little RM, Riedel RA, Artun J. An evaluation of changes in mandibular anterior alignment from 10 to 20 years postretention. Am J Orthod Dentofacial Orthop. 1988.",
+    "Proffit WR, Fields HW, Larson BE, Sarver DM. Ortodontia Contemporânea. 6ª ed."
+  ],
+  "validacao": { "validadoPor": null, "data": null }
+}

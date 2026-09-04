@@ -1,0 +1,175 @@
+{
+  "id": "ortodontia/biomecanica/ancoragem/ancoragem-esqueletica-mini-implantes",
+  "areaId": "ortodontia",
+  "area": "Ortodontia",
+  "modulo": "Biomecânica",
+  "tema": "Ancoragem",
+  "titulo": "Mini-implantes ortodônticos: ancoragem esquelética na prática",
+  "estado": "rascunho",
+  "versao": 1,
+  "autoria": "Rascunho escrito pela plataforma para validação; nada aqui é visível ao aluno antes da assinatura de um ortodontista.",
+  "umMinuto": {
+    "frases": [
+      "Mini-implante é um parafuso de titânio de 1,2 a 2,0 mm de diâmetro e 6 a 12 mm de comprimento, instalado no osso alveolar ou basal para servir de ponto fixo de apoio à mecânica ortodôntica.",
+      "Ele não osseointegra: fica retido mecanicamente, por isso pode ser instalado e removido sem cirurgia de retalho, e por isso também pode falhar por mobilidade.",
+      "Resolve o problema clássico da ancoragem: mover os dentes que você quer sem mover os que você não quer, o que antes dependia de extrabucal, colaboração do paciente ou perda de espaço.",
+      "As aplicações mais frequentes são retração em massa de anteriores, intrusão de molares e incisivos, Distalização de molares, verticalização e correção de assimetrias.",
+      "A taxa de sucesso gira em torno de 80 a 90 por cento; a falha quase sempre acontece nas primeiras semanas e está ligada a inflamação, contato com raiz, osso fino e carga mal planejada."
+    ],
+    "caiNaProva": [
+      "Diferença entre ancoragem esquelética e ancoragem dentária convencional",
+      "Sítios de instalação mais seguros na maxila e na mandíbula",
+      "Ângulo de inserção e distância mínima das raízes",
+      "Estabilidade primária: por que o mini-implante não osseointegra",
+      "Principais causas de falha e como preveni-las"
+    ],
+    "porQueImporta": "Sem ancoragem esquelética, casos de retração máxima, mordida aberta e intrusão de molares extruídos dependem da colaboração do paciente ou vão para cirurgia. Com ela, viram mecânica previsível de consultório."
+  },
+  "infografico": {
+    "titulo": "Onde e como instalar: os sítios de eleição",
+    "itens": [
+      { "rotulo": "Maxila, vestibular", "texto": "Entre segundo pré-molar e primeiro molar, 5 a 8 mm acima da junção cemento-esmalte, na mucosa inserida ou perto dela. Sítio mais usado para retração de anteriores." },
+      { "rotulo": "Maxila, palatina", "texto": "Palato anterior (região paramediana, 3 a 6 mm atrás do forame incisivo) tem osso espesso e ausência de raízes: sítio de escolha para Distalização e aparelhos de apoio palatino." },
+      { "rotulo": "Mandíbula, vestibular", "texto": "Entre primeiro e segundo molar, ou entre pré-molares; cortical mais espessa, mais torque de inserção, maior risco de fratura do parafuso." },
+      { "rotulo": "Zona infrazigomática e shelf mandibular", "texto": "Osso basal, longe das raízes: permitem mover o arco inteiro (Distalização em massa) sem interferir na trajetória dos dentes." },
+      { "rotulo": "Diâmetro e comprimento", "texto": "1,4 a 1,6 mm de diâmetro é o padrão; comprimento de 6 a 8 mm na maxila vestibular e 8 a 10 mm no palato e na mandíbula." },
+      { "rotulo": "Ângulo", "texto": "30 a 45 graus em relação ao longo eixo do dente na maxila vestibular, para ganhar cortical e fugir das raízes; mais perpendicular no palato e na mandíbula." },
+      { "rotulo": "Distância das raízes", "texto": "Ao menos 1 mm de osso entre o parafuso e cada raiz vizinha. Radiografia periapical prévia e, se em dúvida, tomografia." }
+    ]
+  },
+  "fluxograma": {
+    "titulo": "Preciso de mini-implante neste caso?",
+    "nos": [
+      { "id": "n1", "tipo": "inicio", "texto": "Objetivo de movimento definido no plano" },
+      { "id": "n2", "tipo": "decisao", "texto": "A ancoragem dentária disponível aguenta a reação sem efeito colateral?" },
+      { "id": "n3", "tipo": "acao", "texto": "Use ancoragem convencional (barra transpalatina, arco lingual, elásticos) e monitore" },
+      { "id": "n4", "tipo": "decisao", "texto": "O movimento exige ancoragem absoluta (intrusão, retração máxima, Distalização em massa, assimetria)?" },
+      { "id": "n5", "tipo": "decisao", "texto": "Há sítio com osso suficiente e espaço interradicular de ao menos 3 mm?" },
+      { "id": "n6", "tipo": "acao", "texto": "Escolha sítio alternativo: palato, infrazigomático ou shelf mandibular" },
+      { "id": "n7", "tipo": "acao", "texto": "Instale o mini-implante, carregue com força leve e imediata (até 200 g) e revise em 2 semanas" },
+      { "id": "n8", "tipo": "fim", "texto": "Mecânica com ancoragem esquelética em curso" },
+      { "id": "n9", "tipo": "fim", "texto": "Mecânica convencional em curso" }
+    ],
+    "arestas": [
+      { "de": "n1", "para": "n2" },
+      { "de": "n2", "para": "n3", "rotulo": "sim" },
+      { "de": "n3", "para": "n9" },
+      { "de": "n2", "para": "n4", "rotulo": "não" },
+      { "de": "n4", "para": "n3", "rotulo": "não" },
+      { "de": "n4", "para": "n5", "rotulo": "sim" },
+      { "de": "n5", "para": "n6", "rotulo": "não" },
+      { "de": "n6", "para": "n7" },
+      { "de": "n5", "para": "n7", "rotulo": "sim" },
+      { "de": "n7", "para": "n8" }
+    ]
+  },
+  "passoAPasso": [
+    { "passo": "Planeje o sítio no modelo e na radiografia periapical: marque o espaço interradicular, a altura em relação à junção cemento-esmalte e o ângulo de entrada.", "confira": "Existem ao menos 3 mm entre as raízes vizinhas no nível da inserção? Se não, mude de sítio." },
+    { "passo": "Anestesia infiltrativa local, só na mucosa do sítio; o osso não precisa de anestesia profunda.", "confira": "O paciente relata dor à pressão apenas, não dor aguda: dor aguda durante a inserção pode indicar contato com ligamento periodontal." },
+    { "passo": "Antissepsia com clorexidina 0,12 por cento por 1 minuto. Se o sítio estiver em mucosa alveolar móvel, prefira reposicionar para mucosa inserida.", "confira": "O ponto de entrada está em gengiva inserida ou até 2 mm da linha mucogengival?" },
+    { "passo": "Perfure a mucosa com o próprio parafuso autoperfurante ou com broca-piloto se a cortical for espessa (mandíbula, palato). Mantenha o ângulo planejado desde o primeiro giro.", "confira": "O parafuso entrou reto no ângulo planejado, sem oscilar? Oscilação alarga o orifício e reduz a estabilidade primária." },
+    { "passo": "Insira com chave manual, em giros lentos e contínuos, até que a cabeça fique 1 a 2 mm acima da mucosa. Pare se sentir resistência súbita.", "confira": "Resistência súbita ou dor: pode ser raiz. Recue e mude o ângulo ou o sítio." },
+    { "passo": "Teste a estabilidade primária: sem mobilidade ao toque lateral com a pinça. Faça radiografia periapical de controle.", "confira": "Osso de ao menos 1 mm entre o parafuso e cada raiz? Se houver contato, remova e reinstale." },
+    { "passo": "Aplique a força na mesma sessão: mola fechada de níquel-titânio ou elástico em cadeia, entre 100 e 200 g. Oriente higiene com escova macia e clorexidina por 7 dias.", "confira": "A força está leve, contínua e na direção planejada? Carga alta ou oblíqua nas primeiras semanas é a maior causa de perda." },
+    { "passo": "Revise em 2 semanas e a cada consulta: mobilidade, inflamação ao redor, integridade da cabeça.", "confira": "Mucosa saudável e parafuso firme? Inflamação persistente pede limpeza e, se houver mobilidade, remoção." }
+  ],
+  "macetes": [
+    { "titulo": "Regra dos três", "texto": "3 mm de espaço interradicular, 1 mm de osso de cada lado da raiz, 30 graus de inclinação na maxila vestibular. Se um dos três falha, o sítio não serve." },
+    { "titulo": "Alto e inclinado na maxila, baixo e reto na mandíbula", "texto": "Na maxila vestibular as raízes convergem para apical, então quanto mais alto e mais inclinado, mais espaço. Na mandíbula a cortical é espessa e o parafuso entra quase perpendicular." },
+    { "titulo": "Falhou nas primeiras 4 semanas? Foi instalação, não paciente", "texto": "Falha precoce quase sempre é técnica: sítio em mucosa móvel, contato radicular, osso fino ou carga pesada. Falha tardia costuma ser inflamação por higiene." },
+    { "titulo": "Palato para Distalização, vestibular para retração", "texto": "Quando o objetivo é empurrar o arco inteiro para trás, o palato anterior é o sítio; quando é fechar espaço puxando os anteriores, o vestibular entre pré-molar e molar." }
+  ],
+  "ondeErra": [
+    { "erro": "Instalar na mucosa alveolar móvel para ganhar espaço interradicular.", "porque": "A mucosa móvel se enrola na cabeça do parafuso, inflama e afrouxa o mini-implante em poucas semanas.", "certo": "Entrar em gengiva inserida, inclinando o parafuso para apical se precisar ganhar espaço entre raízes." },
+    { "erro": "Confundir mini-implante com implante dentário e esperar osseointegração antes de carregar.", "porque": "O mini-implante depende de retenção mecânica; esperar não aumenta a estabilidade e a carga leve imediata é a conduta padrão.", "certo": "Carregar na mesma sessão com força leve e contínua." },
+    { "erro": "Usar força pesada porque a ancoragem é absoluta.", "porque": "Ancoragem absoluta não significa tolerância a força alta; carga acima de 200 a 250 g nas primeiras semanas aumenta a perda.", "certo": "Força leve e contínua, revisando a cada consulta." },
+    { "erro": "Pular a radiografia de controle após a instalação.", "porque": "Contato com raiz pode ser assintomático no início e leva a reabsorção e perda do parafuso.", "certo": "Periapical logo após a inserção; tomografia se a periapical não esclarecer." },
+    { "erro": "Dizer em prova que o mini-implante fica no osso basal por padrão.", "porque": "O padrão é osso alveolar interradicular; osso basal (infrazigomático e shelf) é indicação específica para movimentos de arco inteiro.", "certo": "Sítio alveolar para a maioria dos casos; basal para Distalização em massa e intrusão de segmentos posteriores." }
+  ],
+  "autoteste": [
+    {
+      "pergunta": "Paciente de 24 anos, Classe II divisão 1 com protrusão de incisivos superiores, plano de extração de primeiros pré-molares e retração máxima dos anteriores. O sítio de instalação de mini-implante mais indicado para essa retração é:",
+      "alternativas": [
+        "Palato anterior paramediano",
+        "Vestibular de maxila, entre segundo pré-molar e primeiro molar, 5 a 8 mm acima da junção cemento-esmalte",
+        "Vestibular de mandíbula, entre primeiro e segundo molar",
+        "Região infrazigomática"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "O palato anterior é excelente para Distalização e aparelhos de apoio palatino, mas fica longe do vetor de retração vestibular dos anteriores superiores.",
+        "Correta: é o sítio clássico para retração em massa de anteriores superiores, com espaço interradicular adequado e vetor de força na direção desejada.",
+        "O caso pede ancoragem na maxila; a mandíbula não participa dessa retração.",
+        "A zona infrazigomática é indicada para movimento de arco inteiro (Distalização em massa), não é o primeiro sítio para retração após extração."
+      ]
+    },
+    {
+      "pergunta": "Sobre a estabilidade dos mini-implantes ortodônticos, é correto afirmar:",
+      "alternativas": [
+        "Dependem de osseointegração, por isso devem ficar sem carga por 3 meses",
+        "A estabilidade é mecânica, e a carga leve pode ser aplicada na mesma sessão",
+        "A estabilidade aumenta com o uso de forças acima de 300 g nas primeiras semanas",
+        "Só ficam estáveis em osso basal"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Mini-implantes não osseointegram; esperar 3 meses não melhora a retenção.",
+        "Correta: retenção mecânica na cortical permite carga leve imediata, que é o protocolo padrão.",
+        "Força alta nas primeiras semanas é causa de perda, não de estabilidade.",
+        "A maioria é instalada em osso alveolar interradicular com bons resultados."
+      ]
+    },
+    {
+      "pergunta": "Durante a inserção de um mini-implante na maxila, o paciente refere dor aguda e o operador sente resistência súbita. A conduta mais adequada é:",
+      "alternativas": [
+        "Aumentar o torque para vencer a cortical",
+        "Completar a inserção e radiografar depois",
+        "Interromper, recuar e mudar o ângulo ou o sítio",
+        "Anestesiar novamente e continuar no mesmo trajeto"
+      ],
+      "correta": 2,
+      "explicacoes": [
+        "Forçar o torque contra resistência súbita agrava o contato radicular ou fratura o parafuso.",
+        "Completar a inserção com sinal de contato radicular produz lesão do ligamento e provável perda.",
+        "Correta: dor aguda e resistência súbita indicam contato com raiz; recua-se e muda-se o trajeto.",
+        "A anestesia profunda mascara o sinal de alerta que protege a raiz."
+      ]
+    },
+    {
+      "pergunta": "Qual espaço interradicular mínimo, no nível de inserção, costuma ser exigido para instalar um mini-implante de 1,5 mm de diâmetro com segurança?",
+      "alternativas": ["1 mm", "2 mm", "3 mm", "5 mm"],
+      "correta": 2,
+      "explicacoes": [
+        "Com 1 mm não há osso de segurança de nenhum dos lados do parafuso.",
+        "Com 2 mm o parafuso de 1,5 mm deixaria apenas 0,25 mm de cada lado.",
+        "Correta: 3 mm permitem o diâmetro do parafuso mais cerca de 1 mm de osso em cada lado das raízes vizinhas.",
+        "5 mm são confortáveis, mas não são o mínimo; exigir 5 mm inviabilizaria muitos sítios úteis."
+      ]
+    },
+    {
+      "pergunta": "Mini-implante instalado há 3 semanas apresenta mobilidade discreta e mucosa ao redor edemaciada, mas o paciente mantém a higiene. A causa mais provável da falha é:",
+      "alternativas": [
+        "Rejeição imunológica ao titânio",
+        "Erro de instalação: sítio em mucosa móvel, osso fino, contato radicular ou carga pesada",
+        "Falta de osseointegração por tempo insuficiente",
+        "Uso de clorexidina no pós-operatório"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Rejeição ao titânio é excepcional e não se apresenta assim.",
+        "Correta: falha precoce, nas primeiras 4 a 6 semanas, é quase sempre técnica de instalação ou carga.",
+        "Mini-implantes não dependem de osseointegração.",
+        "A clorexidina é recomendada nos primeiros dias e reduz a inflamação."
+      ]
+    }
+  ],
+  "pesquisa": {
+    "termos": ["mini-implante", "ancoragem esquelética", "miniscrew"]
+  },
+  "referenciasBase": [
+    "Proffit WR, Fields HW, Larson BE, Sarver DM. Ortodontia Contemporânea. 6ª ed.",
+    "Graber LW, Vanarsdall RL, Vig KWL, Huang GJ. Ortodontia: princípios e técnicas atuais. 6ª ed.",
+    "Papadopoulos MA, Tarawneh F. The use of miniscrew implants for temporary skeletal anchorage in orthodontics: a comprehensive review. Oral Surg Oral Med Oral Pathol Oral Radiol Endod. 2007."
+  ],
+  "validacao": { "validadoPor": null, "data": null }
+}

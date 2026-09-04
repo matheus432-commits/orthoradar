@@ -1,0 +1,181 @@
+{
+  "id": "ortodontia/diagnostico/cefalometria/analise-de-steiner",
+  "areaId": "ortodontia",
+  "area": "Ortodontia",
+  "modulo": "Diagnóstico",
+  "tema": "Cefalometria",
+  "titulo": "Análise de Steiner: as medidas e o que cada uma diz",
+  "estado": "rascunho",
+  "versao": 1,
+  "autoria": "Rascunho escrito pela plataforma para validação; nada aqui é visível ao aluno antes da assinatura de um ortodontista.",
+  "umMinuto": {
+    "frases": [
+      "A análise de Steiner, publicada nos anos 1950, é a mais ensinada na graduação porque usa poucas medidas, todas em relação à base do crânio anterior, a linha SN, que é estável e fácil de marcar.",
+      "Ela responde três perguntas em sequência: onde está a maxila (SNA), onde está a mandíbula (SNB) e como as duas se relacionam (ANB), e depois onde estão os incisivos em relação às suas bases (1.NA, 1-NA, 1.NB, 1-NB).",
+      "Os valores de referência clássicos são SNA 82 graus, SNB 80 graus, ANB 2 graus, incisivo superior a 22 graus e 4 mm de NA, incisivo inferior a 25 graus e 4 mm de NB, e SN.GoGn de 32 graus para o padrão vertical.",
+      "O ANB é o número mais citado e o mais mal interpretado: ele depende da posição do násio e da rotação da base do crânio, então um ANB alto pode ser uma mandíbula pequena, uma maxila grande ou apenas um násio para frente.",
+      "Steiner nunca deve ser lida sozinha: ela orienta o diagnóstico sagital e a posição dos incisivos, mas a decisão de tratamento vem do exame facial, dos modelos e do padrão de crescimento."
+    ],
+    "caiNaProva": [
+      "Valores de referência de SNA, SNB, ANB e SN.GoGn",
+      "Classificação esquelética pelo ANB e suas limitações",
+      "Interpretação de 1.NA, 1-NA, 1.NB e 1-NB",
+      "Diferença entre problema maxilar e mandibular na Classe II",
+      "Ângulo interincisal e padrão vertical"
+    ],
+    "porQueImporta": "É com Steiner que o aluno aprende a dizer se a Classe II está na maxila ou na mandíbula e se os incisivos estão protruídos ou retruídos; e é aqui que ele aprende a desconfiar de um número isolado."
+  },
+  "infografico": {
+    "titulo": "As medidas de Steiner e o valor de referência de cada uma",
+    "itens": [
+      { "rotulo": "SNA: 82 graus", "texto": "Posição anteroposterior da maxila em relação à base do crânio. Acima de 84: maxila protruída; abaixo de 80: retruída." },
+      { "rotulo": "SNB: 80 graus", "texto": "Posição da mandíbula em relação à base do crânio. Abaixo de 78: mandíbula retruída, a causa mais comum de Classe II." },
+      { "rotulo": "ANB: 2 graus", "texto": "Diferença entre SNA e SNB. Acima de 4: padrão de Classe II; abaixo de 0: Classe III. Sofre com a posição do násio e a inclinação de SN." },
+      { "rotulo": "1.NA: 22 graus e 1-NA: 4 mm", "texto": "Inclinação e protrusão do incisivo superior em relação à maxila. Ângulo alto com distância alta: incisivo vestibularizado e protruído." },
+      { "rotulo": "1.NB: 25 graus e 1-NB: 4 mm", "texto": "Inclinação e protrusão do incisivo inferior em relação à mandíbula. É o número que decide extração e limite de expansão." },
+      { "rotulo": "Ângulo interincisal: 131 graus", "texto": "Entre os longos eixos dos incisivos. Baixo: biprotrusão; alto: incisivos verticalizados, típico da Classe II divisão 2." },
+      { "rotulo": "SN.GoGn: 32 graus", "texto": "Padrão vertical. Acima de 37: crescimento vertical, mordida aberta provável; abaixo de 27: horizontal, mordida profunda provável." },
+      { "rotulo": "Pog-NB e S-linha", "texto": "Mento ósseo em relação a NB e perfil de tecidos moles: lábios devem tocar a linha S, do mento mole ao meio do nariz." }
+    ]
+  },
+  "fluxograma": {
+    "titulo": "Lendo a Steiner: onde está o problema sagital?",
+    "nos": [
+      { "id": "n1", "tipo": "inicio", "texto": "Telerradiografia traçada, medidas obtidas" },
+      { "id": "n2", "tipo": "decisao", "texto": "ANB entre 0 e 4 graus?" },
+      { "id": "n3", "tipo": "acao", "texto": "Padrão esquelético de Classe I: avalie só a posição dos incisivos" },
+      { "id": "n4", "tipo": "decisao", "texto": "ANB acima de 4: SNA alto ou SNB baixo?" },
+      { "id": "n5", "tipo": "acao", "texto": "Classe II por maxila protruída: pensar em Distalização, extrabucal ou extrações superiores" },
+      { "id": "n6", "tipo": "acao", "texto": "Classe II por mandíbula retruída: pensar em propulsor se em crescimento, camuflagem ou cirurgia se adulto" },
+      { "id": "n7", "tipo": "decisao", "texto": "ANB abaixo de 0: SNA baixo ou SNB alto?" },
+      { "id": "n8", "tipo": "acao", "texto": "Classe III por maxila retruída: máscara facial se em crescimento" },
+      { "id": "n9", "tipo": "acao", "texto": "Classe III por mandíbula protruída: acompanhar crescimento, compensar ou cirurgia" },
+      { "id": "n10", "tipo": "fim", "texto": "Confirme com o exame facial, o padrão vertical e os modelos antes de decidir" }
+    ],
+    "arestas": [
+      { "de": "n1", "para": "n2" },
+      { "de": "n2", "para": "n3", "rotulo": "sim" },
+      { "de": "n3", "para": "n10" },
+      { "de": "n2", "para": "n4", "rotulo": "acima de 4" },
+      { "de": "n4", "para": "n5", "rotulo": "SNA alto" },
+      { "de": "n4", "para": "n6", "rotulo": "SNB baixo" },
+      { "de": "n2", "para": "n7", "rotulo": "abaixo de 0" },
+      { "de": "n7", "para": "n8", "rotulo": "SNA baixo" },
+      { "de": "n7", "para": "n9", "rotulo": "SNB alto" },
+      { "de": "n5", "para": "n10" },
+      { "de": "n6", "para": "n10" },
+      { "de": "n8", "para": "n10" },
+      { "de": "n9", "para": "n10" }
+    ]
+  },
+  "passoAPasso": [
+    { "passo": "Marque os pontos: sela (S), násio (N), ponto A, ponto B, pogônio (Pog), gônio (Go), gnátio (Gn), bordas incisais e ápices dos incisivos superior e inferior.", "confira": "O ponto A está na concavidade mais profunda entre a espinha nasal anterior e o próstio? É o ponto que mais muda a análise quando mal marcado." },
+    { "passo": "Trace a linha SN e meça SNA e SNB com o transferidor ou no software.", "confira": "SN está inclinada mais de 10 graus em relação ao plano de Frankfurt? Se sim, todos os ângulos com SN ficam distorcidos." },
+    { "passo": "Calcule ANB como SNA menos SNB e classifique o padrão sagital.", "confira": "ANB fora da faixa combina com o perfil do paciente? Se o perfil é reto e o ANB é 6, desconfie da base do crânio." },
+    { "passo": "Trace NA e NB, meça a inclinação e a distância de cada incisivo em relação à sua linha.", "confira": "As duas medidas do mesmo incisivo contam a mesma história? Ângulo alto com distância baixa indica dente inclinado mas não protruído." },
+    { "passo": "Meça SN.GoGn e o ângulo interincisal para o padrão vertical e a relação entre os incisivos.", "confira": "Padrão vertical alto com mordida aberta? A mecânica precisará de controle vertical." },
+    { "passo": "Aplique a compensação de Steiner: para cada ANB acima ou abaixo de 2, ajuste a meta dos incisivos, aceitando mais protrusão inferior em Classe II compensada e menos em Classe III.", "confira": "As metas dos incisivos são alcançáveis sem sair do osso alveolar? Se não, o caso é cirúrgico ou de extração." },
+    { "passo": "Escreva o diagnóstico em uma frase: padrão sagital, causa (maxila ou mandíbula), posição dos incisivos e padrão vertical.", "confira": "Alguém que não viu a radiografia entende o problema pela sua frase?" }
+  ],
+  "macetes": [
+    { "titulo": "82, 80, 2", "texto": "SNA 82, SNB 80, ANB 2. Os três números que abrem qualquer prova de cefalometria." },
+    { "titulo": "22 e 4, 25 e 4", "texto": "Incisivo superior: 22 graus e 4 mm de NA. Inferior: 25 graus e 4 mm de NB. Ângulo é inclinação, milímetro é protrusão." },
+    { "titulo": "ANB é diferença, não diagnóstico", "texto": "ANB alto só diz que há discrepância; quem diz de quem é a culpa é o par SNA e SNB." },
+    { "titulo": "Násio para frente, ANB para cima", "texto": "Násio protruído ou base do crânio rodada para cima aumenta o ANB sem que exista Classe II de verdade; confira com Wits ou com o perfil." },
+    { "titulo": "32 é o divisor vertical", "texto": "SN.GoGn acima de 32 tende a vertical; abaixo, horizontal. Anote o padrão junto com o sagital, sempre." }
+  ],
+  "ondeErra": [
+    { "erro": "Classificar o paciente como Classe II esquelética só pelo ANB.", "porque": "O ANB varia com a posição do násio, a rotação de SN e a idade; um ANB de 5 pode ser normal em criança e artefato em adulto com násio protruído.", "certo": "Ler SNA e SNB, confirmar no perfil e, se houver dúvida, usar uma medida independente da base do crânio, como Wits." },
+    { "erro": "Confundir 1.NA (ângulo) com 1-NA (distância).", "porque": "São informações diferentes: o ângulo é inclinação, a distância é posição; um dente pode estar inclinado sem estar protruído.", "certo": "Ler as duas juntas e descrever separadamente inclinação e protrusão." },
+    { "erro": "Usar os valores de referência norte-americanos como normais para todo paciente.", "porque": "Os valores de Steiner vieram de uma amostra pequena e específica; grupos étnicos diferentes têm médias diferentes, sobretudo na posição dos incisivos.", "certo": "Usar os valores como orientação e a face do paciente como meta." },
+    { "erro": "Marcar o ponto A na espinha nasal anterior.", "porque": "O ponto A é o ponto mais profundo da concavidade, abaixo da espinha; marcá-lo alto aumenta o SNA e cria uma falsa protrusão maxilar.", "certo": "Percorrer o contorno anterior da maxila e marcar a concavidade máxima." },
+    { "erro": "Decidir extração pela Steiner sem olhar os modelos.", "porque": "A cefalometria mostra a posição dos incisivos, mas a discrepância de espaço e a estética facial decidem a extração.", "certo": "Cruzar 1-NB com a discrepância de modelo, o perfil e o padrão vertical antes de decidir." }
+  ],
+  "autoteste": [
+    {
+      "pergunta": "Paciente com SNA de 82 graus, SNB de 74 graus e perfil convexo. A interpretação mais adequada é:",
+      "alternativas": [
+        "Classe II por protrusão maxilar",
+        "Classe II por retrusão mandibular",
+        "Classe I esquelética com incisivos protruídos",
+        "Classe III por retrusão maxilar"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "SNA está no valor de referência; a maxila não está protruída.",
+        "Correta: SNB reduzido com SNA normal produz ANB de 8 e indica mandíbula retruída.",
+        "ANB de 8 não é Classe I.",
+        "ANB positivo alto indica Classe II, não Classe III."
+      ]
+    },
+    {
+      "pergunta": "Os valores de referência clássicos da análise de Steiner para SNA, SNB e ANB são, respectivamente:",
+      "alternativas": ["80, 78 e 2 graus", "82, 80 e 2 graus", "84, 82 e 4 graus", "82, 78 e 4 graus"],
+      "correta": 1,
+      "explicacoes": [
+        "SNA de 80 já indicaria tendência à retrusão maxilar.",
+        "Correta: 82, 80 e 2 graus são os valores clássicos.",
+        "84 e 82 estariam no limite da protrusão.",
+        "A combinação não corresponde aos valores de Steiner."
+      ]
+    },
+    {
+      "pergunta": "Incisivo superior com 1.NA de 32 graus e 1-NA de 8 mm indica:",
+      "alternativas": [
+        "Incisivo retroinclinado e retruído",
+        "Incisivo vestibularizado e protruído",
+        "Incisivo bem posicionado",
+        "Incisivo verticalizado, típico de Classe II divisão 2"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Os dois valores estão acima da referência, não abaixo.",
+        "Correta: ângulo acima de 22 e distância acima de 4 mm indicam inclinação vestibular com protrusão.",
+        "Ambos os valores estão bem acima da referência.",
+        "Na divisão 2 o incisivo é retroinclinado, com 1.NA baixo."
+      ]
+    },
+    {
+      "pergunta": "Uma limitação reconhecida do ângulo ANB é:",
+      "alternativas": [
+        "Não poder ser medido em adultos",
+        "Depender da posição do násio e da inclinação da base do crânio",
+        "Exigir tomografia para ser calculado",
+        "Não distinguir Classe II de Classe III"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "O ANB é medido em qualquer idade.",
+        "Correta: variações no násio e na rotação de SN alteram o ANB sem mudança real na relação das bases.",
+        "É medido na telerradiografia lateral convencional.",
+        "O sinal do ANB distingue as duas classes; a limitação é outra."
+      ]
+    },
+    {
+      "pergunta": "SN.GoGn de 40 graus em um adolescente sugere:",
+      "alternativas": [
+        "Padrão de crescimento horizontal com tendência a mordida profunda",
+        "Padrão de crescimento vertical com tendência a mordida aberta",
+        "Padrão equilibrado",
+        "Maxila protruída"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Padrão horizontal corresponde a valores abaixo de 27.",
+        "Correta: SN.GoGn acima de 37 indica rotação horária da mandíbula e tendência à mordida aberta.",
+        "O valor equilibrado é próximo de 32.",
+        "SN.GoGn é medida vertical, não diz nada sobre a posição sagital da maxila."
+      ]
+    }
+  ],
+  "pesquisa": {
+    "termos": ["cefalometria", "análise de Steiner", "ANB", "diagnóstico ortodôntico"]
+  },
+  "referenciasBase": [
+    "Steiner CC. Cephalometrics for you and me. Am J Orthod. 1953.",
+    "Steiner CC. The use of cephalometrics as an aid to planning and assessing orthodontic treatment. Am J Orthod. 1960.",
+    "Proffit WR, Fields HW, Larson BE, Sarver DM. Ortodontia Contemporânea. 6ª ed.",
+    "Jacobson A, Jacobson RL. Radiographic Cephalometry: From Basics to 3-D Imaging. 2ª ed."
+  ],
+  "validacao": { "validadoPor": null, "data": null }
+}

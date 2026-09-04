@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>OdontoFeed Campus</title>
+<style>
+/* OdontoFeed CAMPUS — porta do aluno. Mesmos tokens da Biblioteca (padrão da
+   casa), zero emojis, sem fotos: as capas são tipográficas. */
+:root{--bg:#FBF7EF;--card:#FFFFFF;--border:#EDE6D8;--text:#1A1A18;--muted:#8A8478;--gold:#B08968;--gold-soft:#F4EEE4;--green:#3E7C4F;--green-soft:#E8F2EA;--blue:#4A6B8A;--red:#B4533B;--red-soft:#F6E7E2;--ink:#23211C;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,-apple-system,sans-serif;padding:26px 16px 80px;}
+.wrap{max-width:1080px;margin:0 auto;}
+.serif{font-family:Georgia,'Times New Roman',serif;}
+h1{font-family:Georgia,'Times New Roman',serif;font-size:1.6rem;letter-spacing:-.4px;font-weight:400;}
+h1 em,h2 em{color:var(--gold);font-style:normal;}
+h2{font-family:Georgia,serif;font-size:1.3rem;font-weight:400;letter-spacing:-.3px;}
+.sub{color:var(--muted);font-size:13px;line-height:1.6;}
+.sub a,.volta{color:var(--blue);text-decoration:none;font-size:13px;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;box-shadow:0 1px 4px rgba(0,0,0,.03);}
+.btn{border:1px solid var(--border);background:#fff;border-radius:9px;padding:8px 14px;font-size:13px;font-weight:700;cursor:pointer;color:var(--text);font-family:inherit;}
+.btn.primario{background:var(--ink);color:#fff;border-color:var(--ink);}
+.btn.ouro{background:var(--gold);color:#fff;border-color:var(--gold);}
+.btn:disabled{opacity:.5;cursor:default;}
+.topo{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:16px;}
+.tela{display:none;} .tela.on{display:block;}
+.eyebrow{font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+/* home */
+.portas{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px;}
+@media(max-width:700px){.portas{grid-template-columns:1fr;}}
+.porta{padding:22px 24px;display:flex;flex-direction:column;gap:10px;}
+.porta h2{font-size:1.4rem;}
+.porta p{font-size:13.5px;color:var(--muted);line-height:1.6;}
+.porta .acao{margin-top:auto;}
+.porta.breve{opacity:.75;}
+.breve-tag{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--gold);border:1px solid var(--border);border-radius:999px;padding:3px 9px;}
+/* abas */
+.abas{display:flex;gap:6px;flex-wrap:wrap;margin:14px 0 18px;border-bottom:1px solid var(--border);}
+.aba{border:0;background:transparent;padding:10px 14px;font-size:13.5px;font-weight:700;color:var(--muted);cursor:pointer;font-family:inherit;border-bottom:2px solid transparent;margin-bottom:-1px;}
+.aba.on{color:var(--text);border-bottom-color:var(--gold);}
+/* especialidades */
+.grade{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px;}
+.esp{padding:14px 16px;cursor:pointer;text-align:left;font-family:inherit;color:var(--text);}
+.esp:hover{border-color:var(--gold);}
+.esp .n{font-weight:700;font-size:14px;line-height:1.3;}
+.esp .m{font-size:11.5px;color:var(--muted);margin-top:4px;font-variant-numeric:tabular-nums;}
+.esp .m b{color:var(--green);}
+.filtros{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;}
+.chip{border:1px solid var(--border);background:#fff;color:var(--text);border-radius:999px;padding:5px 11px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;}
+.chip.on{background:var(--gold);border-color:var(--gold);color:#fff;}
+/* busca + prateleiras */
+.busca{display:flex;gap:8px;margin:12px 0 6px;}
+.busca input{flex:1;border:1.5px solid var(--border);border-radius:11px;padding:11px 14px;font-size:14px;font-family:inherit;background:#fff;}
+.busca input:focus{outline:2px solid var(--gold);outline-offset:1px;}
+.contagem{font-size:12.5px;color:var(--muted);margin:4px 0 14px;font-variant-numeric:tabular-nums;}
+.prateleira{margin-bottom:22px;}
+.prateleira .titulo{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:8px;}
+.prateleira .titulo h3{font-family:Georgia,serif;font-weight:400;font-size:1.1rem;}
+.prateleira .titulo small{color:var(--muted);font-size:12px;}
+.fila{display:flex;gap:12px;overflow-x:auto;padding:4px 2px 10px;scroll-snap-type:x mandatory;}
+.capa{flex:0 0 200px;scroll-snap-align:start;cursor:pointer;border:1px solid var(--border);border-radius:14px;background:#fff;overflow:hidden;text-align:left;font-family:inherit;color:var(--text);display:flex;flex-direction:column;}
+.capa:hover{border-color:var(--gold);}
+.capa .banner{height:122px;padding:12px 14px;color:#fff;display:flex;flex-direction:column;justify-content:space-between;}
+.capa .banner .a{font-size:10px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;opacity:.85;}
+.capa .banner .t{font-family:Georgia,serif;font-size:1.05rem;line-height:1.2;}
+.capa .corpo{padding:10px 12px 12px;display:flex;flex-direction:column;gap:6px;flex:1;}
+.capa .p{font-weight:700;font-size:13px;line-height:1.3;}
+.capa .r{font-size:11.5px;color:var(--muted);line-height:1.45;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
+.capa .e{margin-top:auto;font-size:10.5px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--gold);}
+.capa .e.ok{color:var(--green);}
+.preparo{margin-top:8px;}
+.preparo summary{cursor:pointer;font-size:12.5px;color:var(--muted);}
+.preparo .lista{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+.preparo .lista span{font-size:11.5px;color:var(--muted);border:1px dashed var(--border);border-radius:999px;padding:3px 9px;}
+.vazio{padding:22px;text-align:center;color:var(--muted);font-size:13.5px;}
+/* leitura */
+.leitura{display:grid;grid-template-columns:200px 1fr;gap:18px;align-items:start;}
+@media(max-width:860px){.leitura{grid-template-columns:1fr;}.nav-blocos{position:static!important;}}
+.nav-blocos{position:sticky;top:12px;padding:12px 10px;}
+.nav-blocos a{display:block;padding:7px 8px;border-radius:8px;font-size:12.5px;color:var(--text);text-decoration:none;}
+.nav-blocos a:hover{background:var(--gold-soft);}
+.nav-blocos a b{display:inline-block;width:18px;color:var(--gold);font-family:Georgia,serif;}
+.pagina{padding:26px 28px;}
+.pagina h1{font-size:1.7rem;margin:4px 0 6px;}
+.pagina .cam{font-size:12px;color:var(--muted);}
+.bloco{margin-top:28px;padding-top:18px;border-top:1px solid var(--border);}
+.bloco .bt{display:flex;align-items:baseline;gap:10px;margin-bottom:10px;}
+.bloco .bt b{font-family:Georgia,serif;font-size:1.4rem;color:var(--gold);font-weight:400;}
+.bloco .bt h2{font-size:1.15rem;}
+.bloco .bt small{color:var(--muted);font-size:12px;}
+.frases li{margin:0 0 6px 18px;font-size:14px;line-height:1.55;}
+.caixa{background:var(--gold-soft);border:1px solid var(--border);border-radius:12px;padding:12px 14px;font-size:13.5px;line-height:1.55;margin-top:10px;}
+.caixa b{color:var(--gold);font-size:11px;letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:4px;}
+.info{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;}
+.info .it{border:1px solid var(--border);border-radius:12px;padding:12px 14px;background:#fff;border-top:3px solid var(--gold);}
+.info .it .r{font-weight:800;font-size:13px;margin-bottom:4px;}
+.info .it .x{font-size:12.5px;color:var(--text);line-height:1.5;}
+.fluxo{overflow-x:auto;border:1px solid var(--border);border-radius:12px;background:#fff;padding:8px;}
+.fluxo svg{display:block;font-family:'Segoe UI',system-ui,sans-serif;}
+.passos{counter-reset:p;}
+.passo{display:grid;grid-template-columns:34px 1fr;gap:10px;padding:10px 0;border-bottom:1px dashed var(--border);}
+.passo::before{counter-increment:p;content:counter(p);font-family:Georgia,serif;font-size:1.3rem;color:var(--gold);line-height:1;}
+.passo .x{font-size:14px;line-height:1.55;}
+.passo .c{font-size:12.5px;color:var(--green);margin-top:4px;}
+.macs{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;}
+.mac{background:var(--gold-soft);border:1px solid var(--border);border-radius:12px;padding:12px 14px;}
+.mac .t{font-weight:800;font-size:13px;margin-bottom:4px;}
+.mac .x{font-size:12.5px;line-height:1.5;}
+.erros .er{border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:8px;background:#fff;}
+.erros .er .e{font-weight:700;color:var(--red);font-size:13.5px;}
+.erros .er .p{font-size:12.5px;color:var(--muted);margin:4px 0;}
+.erros .er .c{font-size:13px;color:var(--green);}
+.quest{border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:12px;background:#fff;}
+.quest .q{font-weight:700;font-size:14px;line-height:1.5;margin-bottom:8px;}
+.alt{display:block;width:100%;text-align:left;border:1px solid var(--border);background:#fff;border-radius:9px;padding:9px 12px;font-size:13.5px;margin-bottom:6px;cursor:pointer;font-family:inherit;color:var(--text);}
+.alt:hover{border-color:var(--gold);}
+.alt.ok{background:var(--green-soft);border-color:var(--green);}
+.alt.nao{background:var(--red-soft);border-color:var(--red);}
+.alt .exp{display:none;font-size:12.5px;color:var(--muted);margin-top:4px;}
+.quest.resp .alt .exp{display:block;}
+.ref{font-size:12.5px;color:var(--muted);line-height:1.6;}
+.pesq .art{border-bottom:1px dashed var(--border);padding:7px 0;font-size:13px;}
+.pesq .art small{color:var(--muted);}
+.valid{background:var(--gold-soft);border:1px solid var(--border);border-radius:12px;padding:12px 14px;font-size:13px;line-height:1.55;}
+.valid.ok{background:var(--green-soft);}
+/* simulados */
+.simul .placar{font-family:Georgia,serif;font-size:1.6rem;margin:8px 0;}
+/* calculadoras */
+.calcs{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px;}
+.calc{padding:16px 18px;}
+.calc h3{font-family:Georgia,serif;font-weight:400;font-size:1.1rem;margin-bottom:4px;}
+.calc .d{font-size:12.5px;color:var(--muted);margin-bottom:10px;line-height:1.5;}
+.calc label{display:block;font-size:12px;color:var(--muted);margin:8px 0 3px;}
+.calc input,.calc select{width:100%;border:1px solid var(--border);border-radius:9px;padding:8px 10px;font-size:13.5px;font-family:inherit;background:#fff;}
+.calc .res{margin-top:10px;background:var(--gold-soft);border:1px solid var(--border);border-radius:10px;padding:10px 12px;font-size:13.5px;line-height:1.55;}
+.calc .res b{color:var(--gold);}
+.calc .fonte{font-size:11px;color:var(--muted);margin-top:8px;}
+table.crono{width:100%;border-collapse:collapse;font-size:12.5px;}
+table.crono th{text-align:left;font-size:10.5px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);padding:6px;border-bottom:1px solid var(--border);}
+table.crono td{padding:5px 6px;border-bottom:1px solid var(--border);}
+@media print{body{padding:0;background:#fff;} .no-print,.nav-blocos,.topo,.abas{display:none!important;} .leitura{grid-template-columns:1fr;} .pagina{border:0;box-shadow:none;padding:0;} .fila{display:block;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topo">
+    <div><h1>OdontoFeed<em>.</em> Campus</h1><p class="sub" id="topo-sub"><a href="/dashboard.html">← voltar à área de membro</a></p></div>
+    <div id="topo-acoes" class="no-print"></div>
+  </div>
+
+  <!-- HOME: duas portas -->
+  <section class="tela on" id="home">
+    <p class="sub" style="max-width:640px;">Um lugar só, com duas portas. Quem estuda encontra a apostila do tema em qualquer especialidade. Quem ensina encontra a aula pronta, o guia e a prova, do mesmo tema.</p>
+    <div class="portas">
+      <div class="card porta">
+        <div class="eyebrow">Para quem estuda</div>
+        <h2>Aluno<em>.</em></h2>
+        <p>Apostilas ilustradas por especialidade e tema, com infográfico, fluxograma, passo a passo, macetes, erros comuns e autoteste. Simulados no estilo ENADE e residência. Calculadoras de bolso.</p>
+        <div class="acao"><button class="btn primario" onclick="irAluno()">Entrar na área do aluno →</button></div>
+      </div>
+      <div class="card porta breve">
+        <div class="eyebrow">Para quem ensina</div>
+        <h2>Professor<em>.</em> <span class="breve-tag">em breve</span></h2>
+        <p>Aula pronta para editar, guia de como dar a aula com o que o aluno mais erra, e o executor de prova com validação questão a questão. Nasce das mesmas páginas validadas da área do aluno.</p>
+        <div class="acao"><button class="btn" disabled>Abre depois da primeira especialidade validada</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ALUNO -->
+  <section class="tela" id="aluno">
+    <div class="abas no-print">
+      <button class="aba on" data-aba="apostilas" onclick="aba('apostilas')">Apostilas</button>
+      <button class="aba" data-aba="simulados" onclick="aba('simulados')">Simulados</button>
+      <button class="aba" data-aba="calculadoras" onclick="aba('calculadoras')">Calculadoras de bolso</button>
+    </div>
+
+    <!-- APOSTILAS: passo 1, especialidade -->
+    <div class="sub-tela on" id="apostilas">
+      <div id="escolha-esp">
+        <p class="sub">Escolha a especialidade. O número verde é o de apostilas prontas; o cinza, o que ainda está em preparação na árvore de temas.</p>
+        <div class="filtros" id="filtros-ciclo"></div>
+        <div class="grade" id="grade-esp"></div>
+      </div>
+
+      <!-- passo 2: prateleiras da especialidade -->
+      <div id="prateleiras" style="display:none;">
+        <p class="sub"><a href="#" onclick="voltarEsp();return false;">← todas as especialidades</a></p>
+        <h2 id="esp-titulo" style="margin-top:6px;"></h2>
+        <p class="sub" id="esp-desc"></p>
+        <div class="busca"><input id="q" type="search" placeholder="" aria-label="Buscar nas apostilas"></div>
+        <div class="contagem" id="contagem"></div>
+        <div id="filas"></div>
+      </div>
+    </div>
+
+    <!-- SIMULADOS -->
+    <div class="sub-tela" id="simulados" style="display:none;">
+      <p class="sub">Questões no estilo ENADE e residência, tiradas dos autotestes das apostilas validadas. Escolha a especialidade; cada tentativa embaralha as questões e mostra a explicação de cada alternativa.</p>
+      <div class="filtros" id="sim-esp" style="margin-top:12px;"></div>
+      <div id="sim-area"></div>
+    </div>
+
+    <!-- CALCULADORAS -->
+    <div class="sub-tela" id="calculadoras" style="display:none;">
+      <p class="sub">Ferramentas pequenas, sem inteligência artificial, para a hora da clínica. Os valores de referência seguem os livros-texto indicados em cada uma; confira sempre a bula e o protocolo da sua instituição.</p>
+      <div class="calcs" style="margin-top:14px;">
+        <div class="card calc">
+          <h3>Dose máxima de anestésico local</h3>
+          <div class="d">Quantos tubetes de 1,8 mL o paciente pode receber.</div>
+          <label>Anestésico</label>
+          <select id="an-tipo" onchange="calcAnestesico()">
+            <option value="lido">Lidocaína 2% com epinefrina (7,0 mg/kg, máx. 500 mg)</option>
+            <option value="arti">Articaína 4% com epinefrina (7,0 mg/kg, máx. 500 mg)</option>
+            <option value="mepi">Mepivacaína 3% sem vasoconstritor (6,6 mg/kg, máx. 400 mg)</option>
+            <option value="prilo">Prilocaína 3% com felipressina (8,0 mg/kg, máx. 600 mg)</option>
+            <option value="bupi">Bupivacaína 0,5% com epinefrina (2,0 mg/kg, máx. 90 mg)</option>
+          </select>
+          <label>Peso do paciente (kg)</label>
+          <input id="an-peso" type="number" min="5" max="200" value="70" oninput="calcAnestesico()">
+          <div class="res" id="an-res"></div>
+          <div class="fonte">Referência: Malamed SF, Manual de Anestesia Local, 7ª ed. Em cardiopatas, limite também a epinefrina (0,04 mg, cerca de 2 tubetes de 1:100.000).</div>
+        </div>
+        <div class="card calc">
+          <h3>Dose pediátrica por peso</h3>
+          <div class="d">Converte mg/kg em mL por tomada, a partir da concentração do frasco.</div>
+          <label>Peso da criança (kg)</label>
+          <input id="pd-peso" type="number" min="2" max="80" value="20" oninput="calcPediatrica()">
+          <label>Dose prescrita (mg/kg por tomada)</label>
+          <input id="pd-dose" type="number" min="0.1" step="0.1" value="10" oninput="calcPediatrica()">
+          <label>Concentração do medicamento (mg/mL)</label>
+          <input id="pd-conc" type="number" min="1" step="1" value="50" oninput="calcPediatrica()">
+          <label>Tomadas por dia</label>
+          <input id="pd-vezes" type="number" min="1" max="6" value="3" oninput="calcPediatrica()">
+          <div class="res" id="pd-res"></div>
+          <div class="fonte">Exemplo padrão: amoxicilina 50 mg/mL, 10 a 15 mg/kg por tomada, 3 vezes ao dia. Nunca ultrapasse a dose máxima do adulto.</div>
+        </div>
+        <div class="card calc">
+          <h3>Índices CPO-D e ceo-d</h3>
+          <div class="d">Dentes cariados, perdidos e obturados na dentição permanente; cariados, com extração indicada e obturados na decídua.</div>
+          <label>Permanentes: cariados (C)</label><input id="cp-c" type="number" min="0" max="32" value="2" oninput="calcCpo()">
+          <label>Permanentes: perdidos por cárie (P)</label><input id="cp-p" type="number" min="0" max="32" value="1" oninput="calcCpo()">
+          <label>Permanentes: obturados (O)</label><input id="cp-o" type="number" min="0" max="32" value="4" oninput="calcCpo()">
+          <label>Decíduos: cariados / extração indicada / obturados (c, e, o)</label>
+          <div style="display:flex;gap:6px;"><input id="ce-c" type="number" min="0" max="20" value="0" oninput="calcCpo()"><input id="ce-e" type="number" min="0" max="20" value="0" oninput="calcCpo()"><input id="ce-o" type="number" min="0" max="20" value="0" oninput="calcCpo()"></div>
+          <div class="res" id="cp-res"></div>
+          <div class="fonte">Referência: Organização Mundial da Saúde, Oral Health Surveys: Basic Methods, 5ª ed. Faixas de severidade aos 12 anos: muito baixa (até 1,1), baixa (1,2 a 2,6), moderada (2,7 a 4,4), alta (4,5 a 6,5), muito alta (acima de 6,5).</div>
+        </div>
+        <div class="card calc">
+          <h3>Cronologia de erupção</h3>
+          <div class="d">Idades médias de erupção. Variação normal de 6 meses nos decíduos e de 1 ano nos permanentes.</div>
+          <label>Dentição</label>
+          <select id="cr-tipo" onchange="tabelaCrono()"><option value="dec">Decídua</option><option value="perm">Permanente</option></select>
+          <div id="cr-tab" style="margin-top:10px;"></div>
+          <div class="fonte">Referência: Logan e Kronfeld, revisados por Lunt e Law; American Dental Association, tabelas de erupção.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LEITURA -->
+  <section class="tela" id="leitura">
+    <p class="sub no-print" style="margin-bottom:12px;"><a href="#" onclick="fecharLeitura();return false;">← voltar às apostilas</a></p>
+    <div class="leitura">
+      <nav class="card nav-blocos" id="nav-blocos"></nav>
+      <article class="card pagina" id="pagina"></article>
+    </div>
+  </section>
+
+</div>
+
+<script>
+/* ───────── dados ───────── */
+const $=(id)=>document.getElementById(id);
+const esc=(s)=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const norm=(s)=>String(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[-_.‐-―‘’']/g,'').replace(/[^a-z0-9]+/g,' ').trim();
+const CICLO={'básico':'Ciclo básico','pré-clínico':'Pré-clínico','clínico':'Clínico','pós':'Especialização'};
+// Em produção só entram páginas validadas/publicadas; ?rascunhos=1 (ou a prévia) mostra rascunhos, marcados como tal.
+const MOSTRAR_RASCUNHOS=!!(window.CAMPUS_DADOS)||/[?&]rascunhos=1/.test(location.search);
+let ARVORE=[],INDICE={apostilas:[]},PAGINAS={},ESP=null,ciclo='';
+
+async function carregar(){
+  if(window.CAMPUS_DADOS){ARVORE=CAMPUS_DADOS.arvore;INDICE=CAMPUS_DADOS.indice;PAGINAS=CAMPUS_DADOS.paginas||{};}
+  else{
+    const [t,i]=await Promise.all([fetch('/data/ensino-temas.json').then(r=>r.json()),fetch('/data/campus/indice.json').then(r=>r.json())]);
+    ARVORE=t.areas.map(a=>({id:a.id,nome:a.nome,ciclo:a.ciclo,status:a.statusRotulo,descricao:a.descricao,nota:a.nota||'',modulos:a.modulos.map(m=>({nome:m.nome,temas:m.temas.map(x=>({nome:x.nome,paginas:x.paginas.map(p=>({id:p.id,nome:p.nome}))}))}))}));
+    INDICE=i;
+  }
+  INDICE.apostilas=(INDICE.apostilas||[]).filter(c=>MOSTRAR_RASCUNHOS||c.estado!=='rascunho');
+  montarEsp();montarSimEsp();calcAnestesico();calcPediatrica();calcCpo();tabelaCrono();
+  const h=location.hash.slice(1);
+  if(h==='aluno')irAluno();
+}
+async function pagina(id){
+  if(PAGINAS[id])return PAGINAS[id];
+  const c=INDICE.apostilas.find(x=>x.id===id);
+  const p=await fetch('/data/campus/'+c.arquivo).then(r=>r.json());
+  PAGINAS[id]=p;return p;
+}
+
+/* ───────── navegação ───────── */
+function mostrar(tela){document.querySelectorAll('.tela').forEach(t=>t.classList.toggle('on',t.id===tela));window.scrollTo(0,0);}
+function irAluno(){mostrar('aluno');location.hash='aluno';}
+function aba(nome){document.querySelectorAll('.aba').forEach(b=>b.classList.toggle('on',b.dataset.aba===nome));document.querySelectorAll('.sub-tela').forEach(s=>s.style.display=s.id===nome?'block':'none');}
+
+/* ───────── especialidades ───────── */
+function contagens(a){const prontas=INDICE.apostilas.filter(c=>c.areaId===a.id).length;let total=0;a.modulos.forEach(m=>m.temas.forEach(t=>total+=t.paginas.length));return {prontas,total};}
+function montarEsp(){
+  $('filtros-ciclo').innerHTML=['','básico','pré-clínico','clínico','pós'].map(c=>'<button class="chip'+(c===ciclo?' on':'')+'" onclick="filtrarCiclo(\''+c+'\')">'+(c?CICLO[c]:'Todas')+'</button>').join('');
+  const vis=ARVORE.filter(a=>!ciclo||a.ciclo===ciclo).sort((x,y)=>contagens(y).prontas-contagens(x).prontas||x.nome.localeCompare(y.nome,'pt-BR'));
+  $('grade-esp').innerHTML=vis.map(a=>{const c=contagens(a);return '<button class="card esp" onclick="abrirEsp(\''+a.id+'\')"><div class="n">'+esc(a.nome)+'</div><div class="m"><b>'+c.prontas+'</b> pronta'+(c.prontas===1?'':'s')+' · '+(c.total-c.prontas)+' em preparação · '+esc(CICLO[a.ciclo])+'</div></button>';}).join('');
+}
+function filtrarCiclo(c){ciclo=c;montarEsp();}
+function abrirEsp(id){
+  ESP=ARVORE.find(a=>a.id===id);
+  $('escolha-esp').style.display='none';$('prateleiras').style.display='block';
+  $('esp-titulo').innerHTML=esc(ESP.nome)+'<em>.</em>';
+  $('esp-desc').textContent=ESP.descricao+' · '+ESP.status+(ESP.nota?' · '+ESP.nota:'');
+  $('q').value='';$('q').placeholder='Busque em todo o texto das apostilas de '+ESP.nome+' — ex.: '+exemploBusca(ESP);
+  prateleiras();
+}
+function exemploBusca(a){const ex={ortodontia:'miniimplante',cariologia:'streptococcus mutans',endodontia:'hipoclorito',periodontia:'sondagem',dentistica:'isolamento absoluto'};return ex[a.id]||(a.modulos[0]&&a.modulos[0].temas[0]?a.modulos[0].temas[0].nome.toLowerCase():'tema');}
+function voltarEsp(){ESP=null;$('prateleiras').style.display='none';$('escolha-esp').style.display='block';montarEsp();}
+function capaHtml(c){
+  return '<button class="capa" onclick="abrirPagina(\''+c.id+'\')"><div class="banner" style="background:'+c.cor+';"><div class="a">'+esc(c.area)+' · '+esc(c.modulo)+'</div><div class="t">'+esc(c.tema)+'</div></div><div class="corpo"><div class="p">'+esc(c.titulo)+'</div><div class="r">'+esc(c.resumo)+'</div><div class="e'+(c.estado==='rascunho'?'':' ok')+'">'+(c.estado==='rascunho'?'rascunho para validação':(c.validadoPor?'validada por '+esc(c.validadoPor):'validada'))+'</div></div></button>';
+}
+function prateleiras(){
+  const termos=norm($('q').value).split(' ').filter(t=>t.length>=2);
+  const minhas=INDICE.apostilas.filter(c=>c.areaId===ESP.id);
+  const filas=$('filas');
+  if(termos.length){
+    const r=minhas.filter(c=>termos.every(t=>c.busca.includes(t)));
+    $('contagem').textContent=r.length?(r.length+(r.length>1?' apostilas mencionam “':' apostila menciona “')+$('q').value.trim()+'” em '+ESP.nome):'Nenhuma apostila pronta de '+ESP.nome+' menciona “'+$('q').value.trim()+'”. Tente uma palavra mais curta, ou veja abaixo se o tema está em preparação.';
+    const prep=[];ESP.modulos.forEach(m=>m.temas.forEach(t=>t.paginas.forEach(p=>{if(termos.every(x=>norm(m.nome+' '+t.nome+' '+p.nome).includes(x))&&!minhas.some(c=>c.id===p.id))prep.push(t.nome+': '+p.nome);})));
+    filas.innerHTML=(r.length?'<div class="prateleira"><div class="fila">'+r.map(capaHtml).join('')+'</div></div>':'')+(prep.length?'<details class="preparo" open><summary>'+prep.length+' página'+(prep.length>1?'s':'')+' em preparação com esse termo</summary><div class="lista">'+prep.map(x=>'<span>'+esc(x)+'</span>').join('')+'</div></details>':'');
+    return;
+  }
+  $('contagem').textContent=minhas.length+' apostila'+(minhas.length===1?'':'s')+' pronta'+(minhas.length===1?'':'s')+' em '+ESP.nome+'. Role cada prateleira para o lado.';
+  // Prateleiras (estilo estante): só os módulos com apostila pronta; o resto
+  // da árvore fica em uma única seção "em preparação", dobrada, no fim.
+  let h='',prepTotal=0,prepHtml='';
+  for(const m of ESP.modulos){
+    const capas=minhas.filter(c=>c.modulo===m.nome);
+    const prep=[];m.temas.forEach(t=>t.paginas.forEach(p=>{if(!minhas.some(c=>c.id===p.id))prep.push(t.nome+': '+p.nome);}));
+    prepTotal+=prep.length;
+    if(capas.length)h+='<div class="prateleira"><div class="titulo"><h3>'+esc(m.nome)+'</h3><small>'+capas.length+' pronta'+(capas.length===1?'':'s')+(prep.length?' · '+prep.length+' em preparação':'')+'</small></div><div class="fila">'+capas.map(capaHtml).join('')+'</div></div>';
+    if(prep.length)prepHtml+='<div class="sub" style="margin:10px 0 4px;font-weight:700;color:var(--text);">'+esc(m.nome)+'</div><div class="lista">'+prep.map(x=>'<span>'+esc(x)+'</span>').join('')+'</div>';
+  }
+  if(!h)h='<div class="card vazio">Ainda não há apostilas prontas em '+esc(ESP.nome)+'. Veja abaixo o que está em preparação.</div>';
+  if(prepTotal)h+='<details class="preparo card" style="padding:12px 16px;"><summary>Em preparação: '+prepTotal+' página'+(prepTotal>1?'s':'')+' de '+esc(ESP.nome)+' na árvore de temas</summary>'+prepHtml+'</details>';
+  filas.innerHTML=h;
+}
+$('q').addEventListener('input',prateleiras);
+
+/* ───────── leitura ───────── */
+const BLOCOS=[['umMinuto','Em um minuto'],['infografico','Infográfico'],['fluxograma','Fluxograma de decisão'],['passoAPasso','Passo a passo'],['macetes','Macetes e dicas'],['ondeErra','Onde todo mundo erra'],['autoteste','Autoteste'],['pesquisa','O que a pesquisa diz hoje'],['validacao','Quem validou']];
+async function abrirPagina(id){
+  const p=await pagina(id);
+  mostrar('leitura');
+  $('nav-blocos').innerHTML='<div class="eyebrow" style="padding:0 8px 6px;">Nesta apostila</div>'+BLOCOS.map(([k,n],i)=>'<a href="#b-'+k+'"><b>'+(i+1)+'</b>'+esc(n)+'</a>').join('')+'<div style="padding:10px 8px 0;display:flex;flex-direction:column;gap:6px;" class="no-print"><button class="btn primario" onclick="window.print()">Baixar em PDF</button></div>';
+  $('pagina').innerHTML=renderPagina(p);
+  fluxograma(p.fluxograma,$('fluxo-svg'));
+  pesquisa(p);
+}
+function fecharLeitura(){mostrar('aluno');}
+function bloco(k,i,nome,corpo,sub){return '<section class="bloco" id="b-'+k+'"><div class="bt"><b>'+(i+1)+'</b><h2>'+esc(nome)+'</h2>'+(sub?'<small>'+esc(sub)+'</small>':'')+'</div>'+corpo+'</section>';}
+function renderPagina(p){
+  const u=p.umMinuto;
+  let h='<div class="cam">'+esc(p.area)+' · '+esc(p.modulo)+' · '+esc(p.tema)+'</div><h1>'+esc(p.titulo)+'<em>.</em></h1>';
+  h+=bloco('umMinuto',0,'Em um minuto','<ol class="frases">'+u.frases.map(f=>'<li>'+esc(f)+'</li>').join('')+'</ol><div class="caixa"><b>O que cai na prova</b>'+u.caiNaProva.map(esc).join(' · ')+'</div><div class="caixa"><b>Por que importa na clínica</b>'+esc(u.porQueImporta)+'</div>','o que ler no ônibus antes da prova');
+  h+=bloco('infografico',1,'Infográfico','<div class="caixa" style="margin:0 0 10px;"><b>'+esc(p.infografico.titulo)+'</b></div><div class="info">'+p.infografico.itens.map(i=>'<div class="it"><div class="r">'+esc(i.rotulo)+'</div><div class="x">'+esc(i.texto)+'</div></div>').join('')+'</div>','desenhado a partir do texto, sem foto');
+  h+=bloco('fluxograma',2,'Fluxograma de decisão','<div class="caixa" style="margin:0 0 10px;"><b>'+esc(p.fluxograma.titulo)+'</b></div><div class="fluxo"><svg id="fluxo-svg"></svg></div>','se isso, então aquilo');
+  h+=bloco('passoAPasso',3,'Passo a passo','<div class="passos">'+p.passoAPasso.map(s=>'<div class="passo"><div><div class="x">'+esc(s.passo)+'</div><div class="c">Confira: '+esc(s.confira)+'</div></div></div>').join('')+'</div>','serve de checklist no laboratório e na clínica');
+  h+=bloco('macetes',4,'Macetes e dicas','<div class="macs">'+p.macetes.map(m=>'<div class="mac"><div class="t">'+esc(m.titulo)+'</div><div class="x">'+esc(m.texto)+'</div></div>').join('')+'</div>');
+  h+=bloco('ondeErra',5,'Onde todo mundo erra','<div class="erros">'+p.ondeErra.map(e=>'<div class="er"><div class="e">'+esc(e.erro)+'</div><div class="p">Por quê: '+esc(e.porque)+'</div><div class="c">O certo: '+esc(e.certo)+'</div></div>').join('')+'</div>','erros clássicos de prova e de clínica');
+  h+=bloco('autoteste',6,'Autoteste',p.autoteste.map((q,qi)=>questaoHtml(q,'p'+qi)).join(''),'cinco questões no estilo ENADE e residência');
+  h+=bloco('pesquisa',7,'O que a pesquisa diz hoje','<div class="pesq" id="pesq"><p class="sub">Buscando na Biblioteca do OdontoFeed por: '+p.pesquisa.termos.map(esc).join(', ')+'…</p></div>'+(p.referenciasBase&&p.referenciasBase.length?'<div class="caixa"><b>Base de livro-texto e artigos clássicos</b>'+p.referenciasBase.map(esc).join('<br>')+'</div>':''),'atualiza sozinho');
+  const v=p.validacao||{};
+  h+=bloco('validacao',8,'Quem validou',p.estado==='rascunho'?'<div class="valid">Rascunho para validação. Esta página não fica visível ao aluno até que um dentista da especialidade a leia, corrija e assine. '+esc(p.autoria||'')+'</div>':'<div class="valid ok">Validada por '+esc(v.validadoPor)+' em '+esc(String(v.data||'').slice(0,10))+'. Achou um erro? Escreva para contato@odontofeed.com com o título da apostila.</div>');
+  return h;
+}
+function questaoHtml(q,key){
+  return '<div class="quest" id="q-'+key+'"><div class="q">'+esc(q.pergunta)+'</div>'+q.alternativas.map((a,i)=>'<button class="alt" onclick="responder(\''+key+'\','+i+','+q.correta+')"><span>'+String.fromCharCode(65+i)+') '+esc(a)+'</span><div class="exp">'+esc(q.explicacoes[i])+'</div></button>').join('')+'</div>';
+}
+function responder(key,i,correta){
+  const q=$('q-'+key);if(q.classList.contains('resp'))return;
+  q.classList.add('resp');const alts=q.querySelectorAll('.alt');
+  alts[correta].classList.add('ok');if(i!==correta)alts[i].classList.add('nao');
+  if(window.SIM)SIM.registrar(key,i===correta);
+}
+/* fluxograma: layout em camadas (BFS a partir do início), desenhado em SVG */
+function fluxograma(f,svg){
+  if(!svg)return;
+  const nos=f.nos,ar=f.arestas||[];const nivel={};const ini=nos.find(n=>n.tipo==='inicio');
+  const fila=[ini.id];nivel[ini.id]=0;
+  while(fila.length){const a=fila.shift();for(const e of ar){if(e.de===a&&nivel[e.para]===undefined){nivel[e.para]=nivel[a]+1;fila.push(e.para);}}}
+  nos.forEach(n=>{if(nivel[n.id]===undefined)nivel[n.id]=0;});
+  const camadas={};nos.forEach(n=>{(camadas[nivel[n.id]]=camadas[nivel[n.id]]||[]).push(n);});
+  const W=236,H=78,GX=40,GY=58,PAD=16;const maxCol=Math.max(...Object.values(camadas).map(c=>c.length));
+  const largura=PAD*2+maxCol*W+(maxCol-1)*GX;const altura=PAD*2+Object.keys(camadas).length*H+(Object.keys(camadas).length-1)*GY;
+  const pos={};
+  Object.entries(camadas).forEach(([lv,lista])=>{const total=lista.length*W+(lista.length-1)*GX;const x0=(largura-total)/2;lista.forEach((n,i)=>{pos[n.id]={x:x0+i*(W+GX),y:PAD+lv*(H+GY)};});});
+  const quebra=(t,max)=>{const w=t.split(' '),l=[];let c='';for(const x of w){if((c+' '+x).trim().length>max){l.push(c.trim());c=x;}else c=(c+' '+x);}if(c.trim())l.push(c.trim());if(l.length>4){l.length=4;l[3]=l[3].replace(/\s?\S*$/,'…');}return l;};
+  const cor={inicio:['#23211C','#fff','#23211C'],decisao:['#F4EEE4','#1A1A18','#B08968'],acao:['#fff','#1A1A18','#EDE6D8'],fim:['#E8F2EA','#1A1A18','#3E7C4F']};
+  let s='<defs><marker id="seta" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#8A8478"/></marker></defs>';
+  for(const e of ar){const a=pos[e.de],b=pos[e.para];if(!a||!b)continue;const x1=a.x+W/2,y1=a.y+H,x2=b.x+W/2,y2=b.y;const volta=y2<=y1;
+    const d=volta?('M'+x1+','+(y1-H)+' C '+(x1+W)+','+(y1-H)+' '+(x2+W)+','+y2+' '+(x2+W/2+4)+','+(y2+H/2)):('M'+x1+','+y1+' C '+x1+','+((y1+y2)/2)+' '+x2+','+((y1+y2)/2)+' '+x2+','+y2);
+    s+='<path d="'+d+'" fill="none" stroke="#8A8478" stroke-width="1.4" marker-end="url(#seta)"/>';
+    if(e.rotulo){const mx=volta?(x2+W/2+14):((x1+x2)/2),my=volta?((y1+y2)/2):((y1+y2)/2);s+='<rect x="'+(mx-esc(e.rotulo).length*3.4-5)+'" y="'+(my-9)+'" width="'+(esc(e.rotulo).length*6.8+10)+'" height="18" rx="9" fill="#fff" stroke="#EDE6D8"/><text x="'+mx+'" y="'+(my+4)+'" font-size="11" text-anchor="middle" fill="#B08968" font-weight="700">'+esc(e.rotulo)+'</text>';}
+  }
+  for(const n of nos){const p=pos[n.id],c=cor[n.tipo]||cor.acao;const linhas=quebra(n.texto,34);
+    s+='<g><rect x="'+p.x+'" y="'+p.y+'" width="'+W+'" height="'+H+'" rx="'+(n.tipo==='decisao'?30:12)+'" fill="'+c[0]+'" stroke="'+c[2]+'" stroke-width="1.5"/>'+linhas.map((l,i)=>'<text x="'+(p.x+W/2)+'" y="'+(p.y+H/2-(linhas.length-1)*6.5+i*13+4)+'" font-size="11" text-anchor="middle" fill="'+c[1]+'"'+(n.tipo==='decisao'?' font-weight="700"':'')+'>'+esc(l)+'</text>').join('')+'</g>';}
+  svg.setAttribute('viewBox','0 0 '+largura+' '+altura);svg.setAttribute('width',largura);svg.setAttribute('height',altura);svg.innerHTML=s;
+}
+/* bloco 8: artigos reais da Biblioteca que mencionam os termos (nunca fixo na página) */
+async function pesquisa(p){
+  const el=$('pesq');if(!el)return;
+  if(window.CAMPUS_DADOS){el.innerHTML='<p class="sub">Na plataforma, este bloco lista os artigos da Biblioteca do OdontoFeed que mencionam: <b>'+p.pesquisa.termos.map(esc).join('</b>, <b>')+'</b>, atualizados a cada edição. Na prévia local não há conexão com a Biblioteca.</p>';return;}
+  try{
+    const r=await fetch('/.netlify/functions/acervo?esp='+encodeURIComponent(p.area),{credentials:'include'});
+    if(!r.ok)throw new Error();
+    const j=await r.json();const termos=p.pesquisa.termos.map(norm);
+    const arts=(j.artigos||[]).filter(a=>termos.some(t=>(a.busca||'').includes(t))).sort((a,b)=>String(b.data).localeCompare(String(a.data))).slice(0,6);
+    el.innerHTML=arts.length?arts.map(a=>'<div class="art"><a href="/biblioteca.html#'+esc(a.pmid)+'" style="color:var(--text);text-decoration:none;font-weight:600;">'+esc(a.titulo)+'</a><br><small>'+esc(a.journal||'')+' · '+esc(String(a.data||'').slice(0,10))+'</small></div>').join(''):'<p class="sub">Nenhum artigo recente da Biblioteca menciona estes termos ainda.</p>';
+  }catch(e){el.innerHTML='<p class="sub">Entre na área de membro para ver os artigos recentes da Biblioteca sobre este tema.</p>';}
+}
+
+/* ───────── simulados ───────── */
+const SIM={area:null,questoes:[],acertos:0,respondidas:0,registrar(key,ok){this.respondidas++;if(ok)this.acertos++;$('sim-placar').textContent=this.acertos+' de '+this.respondidas+' certas'+(this.respondidas===this.questoes.length?' · simulado concluído':'');}};
+function montarSimEsp(){
+  const areas=[...new Set(INDICE.apostilas.map(c=>c.areaId))].map(id=>ARVORE.find(a=>a.id===id)).filter(Boolean);
+  $('sim-esp').innerHTML=areas.length?areas.map(a=>'<button class="chip" onclick="simular(\''+a.id+'\')">'+esc(a.nome)+'</button>').join(''):'<span class="sub">Ainda não há apostilas validadas para montar simulados.</span>';
+}
+async function simular(areaId){
+  const capas=INDICE.apostilas.filter(c=>c.areaId===areaId);const pool=[];
+  for(const c of capas){const p=await pagina(c.id);p.autoteste.forEach(q=>pool.push({...q,de:p.titulo}));}
+  for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]];}
+  SIM.area=areaId;SIM.questoes=pool.slice(0,10);SIM.acertos=0;SIM.respondidas=0;
+  const a=ARVORE.find(x=>x.id===areaId);
+  $('sim-area').innerHTML='<div class="card simul" style="padding:18px 20px;margin-top:12px;"><div class="eyebrow">Simulado de '+esc(a.nome)+'</div><div class="placar" id="sim-placar">0 de 0 certas</div><p class="sub" style="margin-bottom:12px;">'+SIM.questoes.length+' questões, uma explicação por alternativa. Clique na alternativa que considera correta.</p>'+SIM.questoes.map((q,i)=>'<div class="sub" style="margin:10px 0 4px;">Questão '+(i+1)+' · da apostila “'+esc(q.de)+'”</div>'+questaoHtml(q,'s'+i)).join('')+'<button class="btn" onclick="simular(\''+areaId+'\')">Novo simulado</button></div>';
+  window.scrollTo(0,$('sim-area').offsetTop-20);
+}
+
+/* ───────── calculadoras ───────── */
+const ANEST={lido:{mgkg:7,max:500,mgml:20,nome:'Lidocaína 2%'},arti:{mgkg:7,max:500,mgml:40,nome:'Articaína 4%'},mepi:{mgkg:6.6,max:400,mgml:30,nome:'Mepivacaína 3%'},prilo:{mgkg:8,max:600,mgml:30,nome:'Prilocaína 3%'},bupi:{mgkg:2,max:90,mgml:5,nome:'Bupivacaína 0,5%'}};
+const br=(n,d)=>Number(n).toFixed(d).replace('.',',');
+function calcAnestesico(){const a=ANEST[$('an-tipo').value],peso=+$('an-peso').value||0;const mg=Math.min(a.mgkg*peso,a.max);const tub=mg/(a.mgml*1.8);$('an-res').innerHTML='<b>'+a.nome+'</b> para '+peso+' kg: dose máxima de <b>'+br(mg,0)+' mg</b>, o que corresponde a <b>'+br(tub,1)+' tubetes</b> de 1,8 mL ('+br(a.mgml*1.8,0)+' mg por tubete).'+(a.mgkg*peso>a.max?' Limitado pelo teto absoluto de '+a.max+' mg.':'');}
+function calcPediatrica(){const peso=+$('pd-peso').value||0,dose=+$('pd-dose').value||0,conc=+$('pd-conc').value||1,vezes=+$('pd-vezes').value||1;const mg=peso*dose;const ml=mg/conc;$('pd-res').innerHTML='Por tomada: <b>'+br(mg,0)+' mg</b> = <b>'+br(ml,1)+' mL</b>. Por dia: '+br(mg*vezes,0)+' mg em '+vezes+' tomada'+(vezes>1?'s':'')+' ('+br(ml*vezes,1)+' mL).';}
+function calcCpo(){const c=+$('cp-c').value||0,p=+$('cp-p').value||0,o=+$('cp-o').value||0;const cc=+$('ce-c').value||0,ce=+$('ce-e').value||0,co=+$('ce-o').value||0;const cpo=c+p+o,ceo=cc+ce+co;const sev=cpo<=1.1?'muito baixa':cpo<=2.6?'baixa':cpo<=4.4?'moderada':cpo<=6.5?'alta':'muito alta';$('cp-res').innerHTML='<b>CPO-D = '+cpo+'</b> ('+c+' cariados + '+p+' perdidos + '+o+' obturados) · severidade aos 12 anos: '+sev+'.<br><b>ceo-d = '+ceo+'</b>'+(cpo?' · componente cariado: '+Math.round(c/cpo*100)+'% do índice':'');}
+const CRONO={dec:[['Incisivo central inferior','6 a 10 meses'],['Incisivo central superior','8 a 12 meses'],['Incisivo lateral superior','9 a 13 meses'],['Incisivo lateral inferior','10 a 16 meses'],['Primeiro molar superior','13 a 19 meses'],['Primeiro molar inferior','14 a 18 meses'],['Canino superior','16 a 22 meses'],['Canino inferior','17 a 23 meses'],['Segundo molar inferior','23 a 31 meses'],['Segundo molar superior','25 a 33 meses']],perm:[['Primeiro molar inferior','6 a 7 anos'],['Primeiro molar superior','6 a 7 anos'],['Incisivo central inferior','6 a 7 anos'],['Incisivo central superior','7 a 8 anos'],['Incisivo lateral inferior','7 a 8 anos'],['Incisivo lateral superior','8 a 9 anos'],['Canino inferior','9 a 10 anos'],['Primeiro pré-molar superior','10 a 11 anos'],['Primeiro pré-molar inferior','10 a 12 anos'],['Segundo pré-molar superior','10 a 12 anos'],['Segundo pré-molar inferior','11 a 12 anos'],['Canino superior','11 a 12 anos'],['Segundo molar inferior','11 a 13 anos'],['Segundo molar superior','12 a 13 anos'],['Terceiros molares','17 a 21 anos']]};
+function tabelaCrono(){const t=CRONO[$('cr-tipo').value];$('cr-tab').innerHTML='<table class="crono"><thead><tr><th>Dente</th><th>Erupção</th></tr></thead><tbody>'+t.map(r=>'<tr><td>'+r[0]+'</td><td>'+r[1]+'</td></tr>').join('')+'</tbody></table>';}
+
+carregar();
+</script>
+</body>
+</html>
