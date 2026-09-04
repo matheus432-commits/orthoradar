@@ -1,0 +1,512 @@
+{
+  "id": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/crescimento-da-mandibula",
+  "areaId": "ortodontia",
+  "area": "Ortodontia",
+  "modulo": "Crescimento e desenvolvimento",
+  "tema": "Crescimento craniofacial",
+  "titulo": "Crescimento da mandíbula: cresce para trás, anda para a frente",
+  "estado": "rascunho",
+  "versao": 1,
+  "formato": 2,
+  "autoria": "Rascunho escrito pela plataforma para validação; nada aqui é visível ao aluno antes da assinatura de um ortodontista.",
+  "abertura": {
+    "situacao": "Rapaz de 15 anos terminou o tratamento da Classe III com a mordida corrigida. Aos 17, o queixo voltou a passar na frente e a mordida cruzou de novo. A família pergunta o que deu errado.",
+    "pergunta": "Como a mandíbula cresce, e por que ela é o último osso da face a parar?"
+  },
+  "umMinuto": {
+    "frases": [
+      "A mandíbula é osso intramembranoso que se forma ao lado da cartilagem de Meckel; a cartilagem não vira mandíbula, some, e sobra o côndilo como cartilagem secundária.",
+      "O côndilo cresce para cima e para trás contra a fossa, e o resultado é o deslocamento primário da mandíbula inteira para baixo e para a frente: cresce para trás, anda para a frente.",
+      "O ramo se reloca: deposita na borda posterior e reabsorve na anterior; o que hoje é ramo amanhã é corpo, e é isso que alonga o arco e abre espaço para os molares.",
+      "O processo alveolar cresce com a erupção e o mento muda pouco por aposição; a sínfise se funde no primeiro ano e depois a mandíbula é um osso só.",
+      "A mandíbula cresce por mais tempo que a maxila: o surto é mais tardio e prolongado, sobretudo em meninos, e pode seguir até o fim da adolescência [VERIFICAR].",
+      "Na clínica, Classe III corrigida cedo pode recidivar no surto mandibular tardio; Classe II depende de aproveitar o mesmo surto com aparelho funcional."
+    ],
+    "caiNaProva": [
+      "Cartilagem de Meckel e origem da mandíbula",
+      "Côndilo cresce para cima e para trás; deslocamento para baixo e para a frente",
+      "Relocação do ramo: aposição posterior, reabsorção anterior",
+      "Espaço para molares inferiores e para o terceiro molar",
+      "Crescimento mandibular tardio e prolongado, mais em meninos"
+    ],
+    "porQueImporta": "A mandíbula decide o final de quase todo tratamento: é o último osso a parar e o que mais muda a relação entre os arcos depois que você achou que tinha terminado."
+  },
+  "secoes": [
+    {
+      "titulo": "Um osso que nasce ao lado de uma cartilagem que não vira osso",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "A mandíbula é um osso intramembranoso: forma-se em tecido conjuntivo, ao lado da cartilagem de Meckel, que serve de molde e depois desaparece. Só pequenas partes dela persistem, como os ossículos do ouvido médio e o ligamento esfenomandibular."
+        },
+        {
+          "tipo": "p",
+          "texto": "Mais tarde surgem cartilagens secundárias, sem relação com Meckel: a condilar, a coronoide e a sinfisária. As duas últimas somem cedo; a sínfise se funde no primeiro ano de vida [VERIFICAR], e a mandíbula passa a ser um osso único. A cartilagem condilar fica, e é ela que faz a diferença."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "prova",
+          "texto": "Banca gosta de perguntar o que resta da cartilagem de Meckel (martelo, bigorna e ligamento esfenomandibular) e qual cartilagem da mandíbula persiste até o fim do crescimento (a condilar, secundária)."
+        },
+        {
+          "tipo": "p",
+          "texto": "Por ser secundária, a cartilagem condilar não é uma placa epifisária: tem uma camada fibrosa, uma camada proliferativa que fornece as células, e uma zona de cartilagem que vai sendo substituída por osso. Responde a hormônio, mas também à posição e à função, dentro de limites."
+        }
+      ],
+      "checagem": {
+        "pergunta": "A cartilagem de Meckel é o precursor ósseo da mandíbula?",
+        "resposta": "Não. A mandíbula se ossifica ao lado dela, por via intramembranosa; Meckel serve de guia e desaparece, restando ossículos do ouvido e o ligamento esfenomandibular."
+      }
+    },
+    {
+      "titulo": "Cresce para trás, anda para a frente",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "O côndilo cresce em direção à fossa, para cima e para trás. Como a fossa não cede, a mandíbula inteira é empurrada no sentido oposto: para baixo e para a frente. É o exemplo mais claro de deslocamento primário, e é por isso que o queixo avança mesmo que nenhuma superfície da frente deposite osso."
+        },
+        {
+          "tipo": "visual",
+          "formato": "anatomico",
+          "titulo": "Onde a mandíbula deposita, onde reabsorve, e para onde vai",
+          "descricao": "Mandíbula esquemática em perfil. Sinais de mais no côndilo, na borda posterior do ramo e no processo alveolar; sinais de menos na borda anterior do ramo. Uma seta no côndilo aponta para cima e para trás (crescimento) e uma seta maior no corpo aponta para baixo e para a frente (deslocamento).",
+          "viewBox": "0 0 560 320",
+          "svg": [
+            "<use href='#c-mandibula' x='80' y='80' width='360' height='216'/>",
+            "<use href='#c-vetor-green' x='112' y='95' width='50' height='14' transform='rotate(-120 112 102)'/>",
+            "<text x='128' y='44' font-size='13' font-weight='700' fill='var(--green,#3E7C4F)'>côndilo cresce</text><text x='128' y='62' font-size='13' font-weight='700' fill='var(--green,#3E7C4F)'>para cima e para trás</text>",
+            "<g font-size='22' font-weight='700'>",
+            "<text x='88' y='150' fill='var(--green,#3E7C4F)'>+</text>",
+            "<text x='170' y='150' fill='var(--red,#B4533B)'>−</text>",
+            "<text x='300' y='200' fill='var(--green,#3E7C4F)'>+</text>",
+            "<text x='412' y='236' fill='var(--green,#3E7C4F)'>+</text>",
+            "</g>",
+            "<g font-size='12'>",
+            "<text x='4' y='198' fill='var(--green,#3E7C4F)'>borda posterior</text>",
+            "<text x='186' y='176' fill='var(--red,#B4533B)'>borda anterior</text>",
+            "<text x='250' y='232' fill='var(--green,#3E7C4F)'>alvéolo com a erupção</text>",
+            "<text x='436' y='246' fill='var(--green,#3E7C4F)'>mento: pouco</text>",
+            "</g>",
+            "<use href='#c-vetor' x='300' y='250' width='90' height='18' transform='rotate(25 300 259)'/>",
+            "<text x='120' y='316' font-size='14' font-weight='700' fill='var(--gold,#B08968)'>deslocamento: baixo e frente</text>"
+          ],
+          "legenda": "O côndilo empurra contra a fossa; a mandíbula inteira é deslocada no sentido contrário. Crescer para trás é o jeito de andar para a frente."
+        },
+        {
+          "tipo": "p",
+          "texto": "Enquanto isso, o ramo se reloca. A borda posterior deposita, a anterior reabsorve, e o ramo inteiro migra para trás. A região que era ramo passa a ser corpo. O arco inferior se alonga por trás, exatamente onde os molares permanentes precisam de lugar."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "frase",
+          "texto": "Côndilo empurra a mandíbula para a frente; ramo anda para trás e vira corpo. O arco cresce por trás e o queixo aparece na frente."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Se a superfície anterior do ramo é reabsortiva, como o corpo da mandíbula fica mais comprido?",
+        "resposta": "Por relocação: o ramo migra para trás (deposita atrás, reabsorve na frente) e a área que era ramo passa a ser corpo. O comprimento vem do ramo cedendo lugar, não de deposição no corpo."
+      }
+    },
+    {
+      "titulo": "O espaço dos molares e o terceiro molar",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "O espaço para os molares inferiores vem da reabsorção da borda anterior do ramo. Se essa relocação é insuficiente para o tamanho dos dentes, o segundo molar e, sobretudo, o terceiro ficam presos contra o ramo. É o mecanismo mais comum de impacção do terceiro molar inferior."
+        },
+        {
+          "tipo": "imagem",
+          "imagem": "radiografia panorâmica de adolescente com terceiro molar inferior em formação",
+          "mostrar": "A relação entre a coroa do terceiro molar inferior e a borda anterior do ramo, com o espaço retromolar disponível atrás do segundo molar",
+          "legenda": "O espaço retromolar depende da relocação do ramo: pouco ramo reabsorvido, terceiro molar contra a borda anterior.",
+          "destacar": "Borda anterior do ramo, distal do segundo molar, posição e angulação do germe do terceiro molar"
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "dica",
+          "titulo": "Na clínica",
+          "texto": "Ao prever o terceiro molar inferior, olhe o espaço retromolar em relação ao tamanho da coroa e lembre que o ramo ainda vai relocar até o fim do crescimento. Prever impacção aos 12 anos é chute; aos 16 é estimativa."
+        },
+        {
+          "tipo": "p",
+          "texto": "O mesmo raciocínio serve para a Distalização de molares inferiores: o limite é a borda anterior do ramo. Não há para onde distalizar se não houver osso atrás, e a relocação do ramo é lenta demais para o tempo de um tratamento."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Por que a Distalização de molares inferiores é mais limitada do que a de superiores?",
+        "resposta": "Porque o limite posterior é a borda anterior do ramo, cortical densa e próxima; na maxila, a tuberosidade oferece mais osso posterior."
+      }
+    },
+    {
+      "titulo": "O último osso a parar",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "A maxila termina de crescer antes; a mandíbula continua. O surto de crescimento mandibular acompanha o surto puberal, é mais tardio e mais prolongado em meninos, e pode seguir em ritmo lento até o fim da adolescência ou o início da vida adulta [VERIFICAR]. É o osso que mais muda a relação entre os arcos depois que o resto parou."
+        },
+        {
+          "tipo": "visual",
+          "formato": "comparativo",
+          "titulo": "Maxila e mandíbula: dois calendários",
+          "descricao": "Tabela com duas colunas. Maxila: cresce por deslocamento e sutura, sem cartilagem própria, surto mais precoce, termina antes, responde a tração na dentição mista. Mandíbula: cresce no côndilo (cartilagem secundária) e por relocação do ramo, surto mais tardio e prolongado, termina depois, responde à posição no surto.",
+          "viewBox": "0 0 560 320",
+          "svg": [
+            "<use href='#c-caixa-gold' x='16' y='16' width='256' height='48'/><text x='144' y='45' text-anchor='middle' font-size='17' font-weight='700'>Maxila</text>",
+            "<use href='#c-caixa-blue' x='288' y='16' width='256' height='48'/><text x='416' y='45' text-anchor='middle' font-size='17' font-weight='700'>Mandíbula</text>",
+            "<g font-size='14' fill='var(--ink,#23211C)'>",
+            "<text x='30' y='96' font-weight='700'>Motor</text><text x='30' y='116' font-size='13'>deslocamento + suturas</text><text x='30' y='133' font-size='12' fill='var(--muted,#8A8478)'>sem cartilagem própria</text>",
+            "<text x='302' y='96' font-weight='700'>Motor</text><text x='302' y='116' font-size='13'>côndilo + relocação do ramo</text><text x='302' y='133' font-size='12' fill='var(--muted,#8A8478)'>cartilagem secundária</text>",
+            "<line x1='16' y1='148' x2='544' y2='148' stroke='var(--border,#EDE6D8)'/>",
+            "<text x='30' y='176' font-weight='700'>Surto</text><text x='30' y='196' font-size='13'>mais precoce, termina antes</text>",
+            "<text x='302' y='176' font-weight='700'>Surto</text><text x='302' y='196' font-size='13'>mais tardio e prolongado</text><text x='302' y='213' font-size='12' fill='var(--muted,#8A8478)'>sobretudo em meninos</text>",
+            "<line x1='16' y1='228' x2='544' y2='228' stroke='var(--border,#EDE6D8)'/>",
+            "<text x='30' y='256' font-weight='700'>Responde a</text><text x='30' y='276' font-size='13'>tração, na dentição mista</text>",
+            "<text x='302' y='256' font-weight='700'>Responde a</text><text x='302' y='276' font-size='13'>posição e função, no surto</text>",
+            "</g>",
+            "<text x='280' y='308' text-anchor='middle' font-size='13' font-weight='700' fill='var(--gold,#B08968)'>Quem para por último decide o resultado final</text>"
+          ],
+          "legenda": "A diferença de calendário explica a Classe III que volta aos 17 e a Classe II que se trata no surto."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "mito",
+          "mito": "Terminou o tratamento na adolescência, terminou o crescimento.",
+          "verdade": "A mandíbula pode continuar crescendo depois da alta, especialmente em meninos e na Classe III. O acompanhamento até a maturidade esquelética faz parte do tratamento."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Entre maxila e mandíbula, qual tem o surto mais tardio, e o que isso significa para um caso de Classe III tratado aos 10 anos?",
+        "resposta": "A mandíbula. O crescimento mandibular tardio pode reexpressar o padrão de Classe III depois da correção; por isso o caso é acompanhado até o fim do crescimento e a família é avisada da possibilidade de cirurgia."
+      }
+    },
+    {
+      "titulo": "De volta ao rapaz de 17 anos",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "Nada deu errado no tratamento. O que aconteceu foi o calendário da mandíbula: o padrão de Classe III se expressou de novo no surto tardio, depois que a maxila já tinha parado. É o desfecho mais previsível da Classe III esquelética, e o motivo de a alta na Classe III ser sempre condicional."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "erro",
+          "texto": "Dar alta definitiva a um paciente de Classe III aos 15 anos, sem indicador de maturação e sem aviso de recidiva. A mandíbula ainda pode crescer; o prontuário precisa registrar que o crescimento não terminou e o que se faz se o padrão voltar."
+        },
+        {
+          "tipo": "p",
+          "texto": "A conduta agora depende do quanto cresceu e do quanto ainda vai crescer: indicador de maturação, reavaliação em intervalo curto e, se a discrepância for grande com o crescimento terminado, o planejamento ortodôntico-cirúrgico."
+        }
+      ],
+      "checagem": {
+        "pergunta": "O que precisa constar na alta de um paciente de Classe III tratado na infância?",
+        "resposta": "Que o crescimento mandibular ainda não terminou, o indicador de maturação usado, o intervalo de reavaliação e a possibilidade de recidiva e de cirurgia após a maturidade."
+      }
+    }
+  ],
+  "fechamento": {
+    "visual": {
+      "formato": "mapa",
+      "titulo": "Mapa da página",
+      "descricao": "Nó central: crescimento da mandíbula. Seis nós: intramembranosa ao lado de Meckel; côndilo é cartilagem secundária; cresce para trás, anda para a frente; relocação do ramo abre espaço para molares; surto tardio e prolongado; Classe III recidiva no surto.",
+      "viewBox": "0 0 560 360",
+      "svg": [
+        "<g stroke='var(--border,#EDE6D8)' stroke-width='1.5'><line x1='280' y1='180' x2='100' y2='60'/><line x1='280' y1='180' x2='460' y2='60'/><line x1='280' y1='180' x2='70' y2='180'/><line x1='280' y1='180' x2='490' y2='180'/><line x1='280' y1='180' x2='100' y2='300'/><line x1='280' y1='180' x2='460' y2='300'/></g>",
+        "<use href='#c-no-central' x='190' y='150' width='180' height='60'/>",
+        "<text x='280' y='176' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>Crescimento</text><text x='280' y='194' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>da mandíbula</text>",
+        "<use href='#c-no' x='20' y='38' width='160' height='44'/><text x='100' y='65' text-anchor='middle' font-size='13' font-weight='700'>Ao lado de Meckel</text>",
+        "<use href='#c-no' x='380' y='38' width='160' height='44'/><text x='460' y='65' text-anchor='middle' font-size='13' font-weight='700'>Côndilo: cartilagem 2ª</text>",
+        "<use href='#c-no' x='0' y='158' width='150' height='44'/><text x='75' y='185' text-anchor='middle' font-size='13' font-weight='700'>Trás cresce, frente anda</text>",
+        "<use href='#c-no' x='410' y='158' width='150' height='44'/><text x='485' y='185' text-anchor='middle' font-size='13' font-weight='700'>Ramo reloca: molares</text>",
+        "<use href='#c-no' x='20' y='278' width='160' height='44'/><text x='100' y='305' text-anchor='middle' font-size='13' font-weight='700'>Surto tardio e longo</text>",
+        "<use href='#c-no' x='380' y='278' width='160' height='44'/><text x='460' y='305' text-anchor='middle' font-size='13' font-weight='700'>Classe III volta no surto</text>"
+      ]
+    },
+    "flashcards": [
+      {
+        "frente": "Em que direção o côndilo cresce e em que direção a mandíbula é deslocada?",
+        "verso": "O côndilo cresce para cima e para trás; a mandíbula é deslocada para baixo e para a frente (deslocamento primário)."
+      },
+      {
+        "frente": "Como o corpo da mandíbula ganha comprimento se a borda anterior do ramo reabsorve?",
+        "verso": "Por relocação: o ramo deposita atrás e reabsorve na frente, migra para trás, e o que era ramo vira corpo."
+      },
+      {
+        "frente": "O que sobra da cartilagem de Meckel no adulto?",
+        "verso": "Martelo, bigorna e o ligamento esfenomandibular. A mandíbula em si é intramembranosa."
+      }
+    ]
+  },
+  "infografico": {
+    "titulo": "A mandíbula em seis cartões",
+    "itens": [
+      {
+        "rotulo": "Origem",
+        "texto": "Intramembranosa, ao lado da cartilagem de Meckel, que some. Sínfise funde no primeiro ano [VERIFICAR]."
+      },
+      {
+        "rotulo": "Côndilo",
+        "texto": "Cartilagem secundária: camada fibrosa, proliferativa e cartilagem que vira osso. Responde a hormônio, posição e função."
+      },
+      {
+        "rotulo": "Direção",
+        "texto": "Côndilo cresce para cima e para trás; mandíbula é deslocada para baixo e para a frente."
+      },
+      {
+        "rotulo": "Ramo",
+        "texto": "Deposita atrás, reabsorve na frente: reloca para trás e abre espaço para os molares."
+      },
+      {
+        "rotulo": "Alvéolo e mento",
+        "texto": "Alvéolo cresce com a erupção; mento muda pouco, por aposição discreta."
+      },
+      {
+        "rotulo": "Calendário",
+        "texto": "Surto mais tardio e prolongado que o da maxila, sobretudo em meninos; último osso a parar."
+      }
+    ]
+  },
+  "fluxograma": {
+    "titulo": "Classe III corrigida: posso dar alta?",
+    "nos": [
+      {
+        "id": "n1",
+        "tipo": "inicio",
+        "texto": "Classe III esquelética com mordida corrigida"
+      },
+      {
+        "id": "n2",
+        "tipo": "decisao",
+        "texto": "O crescimento mandibular terminou (indicador de maturação)?"
+      },
+      {
+        "id": "n3",
+        "tipo": "acao",
+        "texto": "Alta condicional: contenção, aviso de recidiva e reavaliação a cada 6 meses"
+      },
+      {
+        "id": "n4",
+        "tipo": "decisao",
+        "texto": "Houve recidiva com o crescimento terminado?"
+      },
+      {
+        "id": "n5",
+        "tipo": "acao",
+        "texto": "Discrepância grande: planejamento ortodôntico-cirúrgico"
+      },
+      {
+        "id": "n6",
+        "tipo": "acao",
+        "texto": "Discrepância leve: camuflagem ou nova fase ortodôntica"
+      },
+      {
+        "id": "n7",
+        "tipo": "fim",
+        "texto": "Alta definitiva com crescimento encerrado e relação estável"
+      }
+    ],
+    "arestas": [
+      {
+        "de": "n1",
+        "para": "n2"
+      },
+      {
+        "de": "n2",
+        "para": "n3",
+        "rotulo": "não"
+      },
+      {
+        "de": "n2",
+        "para": "n4",
+        "rotulo": "sim"
+      },
+      {
+        "de": "n3",
+        "para": "n2"
+      },
+      {
+        "de": "n4",
+        "para": "n5",
+        "rotulo": "sim, grande"
+      },
+      {
+        "de": "n4",
+        "para": "n6",
+        "rotulo": "sim, leve"
+      },
+      {
+        "de": "n4",
+        "para": "n7",
+        "rotulo": "não"
+      },
+      {
+        "de": "n5",
+        "para": "n7"
+      },
+      {
+        "de": "n6",
+        "para": "n7"
+      }
+    ]
+  },
+  "passoAPasso": [
+    {
+      "passo": "Identifique o padrão mandibular: tamanho, posição em relação à base do crânio e direção de crescimento.",
+      "confira": "Está claro se o problema é de tamanho, de posição ou dos dois?"
+    },
+    {
+      "passo": "Situe o paciente no calendário mandibular com um indicador de maturação, lembrando que meninos param mais tarde.",
+      "confira": "O indicador e o estágio estão no prontuário?"
+    },
+    {
+      "passo": "Avalie o espaço posterior: borda anterior do ramo, espaço retromolar, germes dos molares.",
+      "confira": "Existe osso atrás para o que você pretende mover ou para o que ainda vai erupcionar?"
+    },
+    {
+      "passo": "Decida o momento da intervenção pelo mecanismo: posição e função no surto para Classe II; acompanhar até o fim para Classe III.",
+      "confira": "O momento escolhido corresponde à fase em que o côndilo responde?"
+    },
+    {
+      "passo": "Registre a alta como condicional enquanto houver crescimento, com o que muda a conduta.",
+      "confira": "A família sabe que a mandíbula pode continuar crescendo depois do aparelho?"
+    }
+  ],
+  "macetes": [
+    {
+      "titulo": "Cresce para trás, anda para a frente",
+      "texto": "Côndilo cresce para cima e para trás contra a fossa; a mandíbula é empurrada para baixo e para a frente. Se decorar uma frase da página, é esta."
+    },
+    {
+      "titulo": "Ramo anda para trás e vira corpo",
+      "texto": "Deposita atrás, reabsorve na frente: relocação. É de onde vem o espaço dos molares e o comprimento do arco."
+    },
+    {
+      "titulo": "Meckel some, Meckel deixa ouvido",
+      "texto": "A cartilagem de Meckel não vira mandíbula; deixa martelo, bigorna e o ligamento esfenomandibular."
+    },
+    {
+      "titulo": "Mandíbula: a última a sair da festa",
+      "texto": "Surto mais tardio e mais longo que o da maxila, ainda mais em meninos. Alta de Classe III é condicional até o fim."
+    }
+  ],
+  "ondeErra": [
+    {
+      "erro": "Dizer que a mandíbula se ossifica a partir da cartilagem de Meckel.",
+      "porque": "A ossificação é intramembranosa, ao lado da cartilagem, que desaparece.",
+      "certo": "Meckel é molde; a mandíbula é osso de membrana com cartilagens secundárias posteriores."
+    },
+    {
+      "erro": "Achar que o queixo avança porque deposita osso na frente.",
+      "porque": "O avanço é deslocamento primário pelo crescimento condilar; o mento deposita pouco.",
+      "certo": "Côndilo empurra; a mandíbula inteira é deslocada."
+    },
+    {
+      "erro": "Prometer que o terceiro molar inferior vai erupcionar porque \"ainda tem tempo\".",
+      "porque": "O espaço depende da relocação do ramo, que é limitada e lenta; a previsão só é razoável perto do fim do crescimento.",
+      "certo": "Avaliar o espaço retromolar em relação à coroa e reavaliar mais tarde."
+    },
+    {
+      "erro": "Alta definitiva de Classe III na adolescência.",
+      "porque": "O surto mandibular tardio pode reexpressar o padrão e cruzar a mordida de novo.",
+      "certo": "Alta condicional com indicador de maturação, reavaliação e aviso de recidiva."
+    }
+  ],
+  "autoteste": [
+    {
+      "pergunta": "Sobre o crescimento do côndilo mandibular, é correto afirmar que ele cresce:",
+      "alternativas": [
+        "Para baixo e para a frente, empurrando o mento",
+        "Para cima e para trás, com deslocamento da mandíbula para baixo e para a frente",
+        "Apenas em altura, sem efeito sobre a posição mandibular",
+        "Para a frente, alongando o corpo diretamente"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Confunde a direção do crescimento com a direção do deslocamento.",
+        "Correta: o côndilo cresce contra a fossa e a mandíbula inteira é deslocada no sentido oposto.",
+        "O crescimento condilar é o principal responsável pelo deslocamento mandibular.",
+        "O comprimento do corpo vem da relocação do ramo, não do côndilo."
+      ]
+    },
+    {
+      "pergunta": "O espaço para a erupção dos molares permanentes inferiores é criado principalmente por:",
+      "alternativas": [
+        "Aposição na borda anterior do ramo",
+        "Reabsorção da borda anterior do ramo e aposição na posterior (relocação)",
+        "Crescimento da sínfise mentoniana",
+        "Aposição no mento"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "A borda anterior reabsorve; a posterior deposita.",
+        "Correta: o ramo migra para trás e o que era ramo vira corpo, abrindo espaço atrás.",
+        "A sínfise se funde no primeiro ano e não contribui para o comprimento posterior.",
+        "O mento deposita pouco e não abre espaço posterior."
+      ]
+    },
+    {
+      "pergunta": "Quais estruturas do adulto derivam da cartilagem de Meckel?",
+      "alternativas": [
+        "Côndilo e processo coronoide",
+        "Corpo da mandíbula e sínfise",
+        "Martelo, bigorna e ligamento esfenomandibular",
+        "Ramo da mandíbula e ângulo"
+      ],
+      "correta": 2,
+      "explicacoes": [
+        "São cartilagens secundárias, independentes de Meckel.",
+        "Ossificação intramembranosa ao lado de Meckel, não a partir dela.",
+        "Correta: são os remanescentes da cartilagem de Meckel.",
+        "Ramo e ângulo são osso de membrana remodelado."
+      ]
+    },
+    {
+      "pergunta": "Comparando os calendários de crescimento, a mandíbula em relação à maxila:",
+      "alternativas": [
+        "Tem surto mais precoce e termina antes",
+        "Tem surto mais tardio e prolongado, terminando depois",
+        "Cresce no mesmo ritmo e para ao mesmo tempo",
+        "Não tem surto puberal"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "É a maxila que termina antes.",
+        "Correta: a mandíbula é o último osso da face a parar, sobretudo em meninos.",
+        "Os calendários são diferentes, e a diferença explica recidivas de Classe III.",
+        "A mandíbula acompanha o surto puberal de forma marcante."
+      ]
+    },
+    {
+      "pergunta": "Menino de 15 anos, Classe III esquelética corrigida na infância, mordida estável hoje. A conduta mais adequada é:",
+      "alternativas": [
+        "Alta definitiva, pois a mordida está corrigida",
+        "Alta condicional com indicador de maturação, contenção, reavaliação periódica e aviso de possível recidiva",
+        "Cirurgia ortognática imediata para evitar recidiva",
+        "Novo aparelho funcional de avanço mandibular"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "O crescimento mandibular provavelmente não terminou aos 15 em um menino.",
+        "Correta: enquanto houver crescimento, a alta é condicional e a família é avisada.",
+        "Cirurgia se planeja após o fim do crescimento e só se a discrepância justificar.",
+        "Avanço mandibular agrava a Classe III."
+      ]
+    }
+  ],
+  "pesquisa": {
+    "termos": [
+      "crescimento mandibular",
+      "cartilagem condilar",
+      "terceiro molar inferior",
+      "Classe III recidiva"
+    ]
+  },
+  "referenciasBase": [
+    "Enlow DH, Hans MG. Noções básicas sobre crescimento facial.",
+    "Proffit WR, Fields HW, Larson BE, Sarver DM. Ortodontia Contemporânea. 6ª ed. Crescimento da mandíbula.",
+    "Björk A. Variations in the growth pattern of the human mandible: longitudinal radiographic study by the implant method. J Dent Res. 1963.",
+    "Moyers RE. Ortodontia. 4ª ed."
+  ],
+  "validacao": {
+    "validadoPor": null,
+    "data": null
+  }
+}

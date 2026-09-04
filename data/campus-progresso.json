@@ -1,10 +1,10 @@
 {
  "atualizadoEm": "2026-09-04",
  "totalPaginas": 3387,
- "concluidas": 9,
+ "concluidas": 10,
  "porStatus": {
-  "pendente": 3378,
-  "rascunho": 9,
+  "pendente": 3377,
+  "rascunho": 10,
   "revisado": 0,
   "publicado": 0
  },
@@ -12,7 +12,7 @@
   "id": "ortodontia/crescimento-e-desenvolvimento",
   "area": "Ortodontia",
   "modulo": "Crescimento e desenvolvimento",
-  "faltam": 10
+  "faltam": 9
  },
  "imagensPendentes": [
   {
@@ -41,6 +41,15 @@
    "mostrar": "Superposição de dois traçados da mesma criança sobre os implantes maxilares, evidenciando que a superfície anterior da maxila pouco muda de posição em relação aos implantes enquanto a maxila inteira se desloca para a frente em relação à base do crânio",
    "legenda": "Superposição em implantes: a maxila inteira avança; a superfície anterior é reabsortiva e quase não deposita.",
    "destacar": "Implantes estáveis, ponto A quase parado em relação a eles, deslocamento do conjunto em relação a SN"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/crescimento-da-mandibula",
+   "modulo": "Crescimento e desenvolvimento",
+   "secao": "O espaço dos molares e o terceiro molar",
+   "imagem": "radiografia panorâmica de adolescente com terceiro molar inferior em formação",
+   "mostrar": "A relação entre a coroa do terceiro molar inferior e a borda anterior do ramo, com o espaço retromolar disponível atrás do segundo molar",
+   "legenda": "O espaço retromolar depende da relocação do ramo: pouco ramo reabsorvido, terceiro molar contra a borda anterior.",
+   "destacar": "Borda anterior do ramo, distal do segundo molar, posição e angulação do germe do terceiro molar"
   }
  ],
  "verificarPendentes": [
@@ -83,6 +92,26 @@
    "pagina": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/crescimento-da-maxila",
    "onde": "macetes[3].texto",
    "trecho": "do crânio. Depois, suturas. É a justificativa da pressa na Classe III [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/crescimento-da-mandibula",
+   "onde": "umMinuto.frases[4]",
+   "trecho": "ongado, sobretudo em meninos, e pode seguir até o fim da adolescência [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/crescimento-da-mandibula",
+   "onde": "Seção \"Um osso que nasce ao lado de uma cartilagem que não vira osso\".blocos[1].texto",
+   "trecho": "s duas últimas somem cedo; a sínfise se funde no primeiro ano de vida [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/crescimento-da-mandibula",
+   "onde": "Seção \"O último osso a parar\".blocos[0].texto",
+   "trecho": "r em ritmo lento até o fim da adolescência ou o início da vida adulta [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/crescimento-da-mandibula",
+   "onde": "infografico.itens[0].texto",
+   "trecho": "lado da cartilagem de Meckel, que some. Sínfise funde no primeiro ano [VERIFICAR]"
   }
  ],
  "modulos": [
@@ -92,11 +121,11 @@
    "area": "Ortodontia",
    "modulo": "Crescimento e desenvolvimento",
    "total": 14,
-   "concluidas": 4,
-   "palavras": 11416,
-   "visuais": 15,
-   "imagensClinicas": 3,
-   "verificar": 8,
+   "concluidas": 5,
+   "palavras": 14108,
+   "visuais": 18,
+   "imagensClinicas": 4,
+   "verificar": 12,
    "paginas": [
     {
      "id": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/conceitos-crescimento-e-desenvolvimento",
@@ -134,7 +163,9 @@
      "id": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/crescimento-da-mandibula",
      "nome": "Crescimento da mandíbula",
      "tema": "Crescimento craniofacial",
-     "status": "pendente"
+     "status": "rascunho",
+     "palavras": 2692,
+     "visuais": 3
     },
     {
      "id": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/rotacoes-de-crescimento",
@@ -24807,6 +24838,62 @@
     {
      "onde": "macetes[3].texto",
      "trecho": "do crânio. Depois, suturas. É a justificativa da pressa na Classe III [VERIFICAR]"
+    }
+   ]
+  },
+  "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/crescimento-da-mandibula": {
+   "titulo": "Crescimento da mandíbula: cresce para trás, anda para a frente",
+   "arquivo": "data/campus/paginas/ortodontia--crescimento-mandibula.json",
+   "formato": 2,
+   "status": "rascunho",
+   "estado": "rascunho",
+   "palavras": 2692,
+   "visuais": [
+    {
+     "formato": "anatomico",
+     "titulo": "Onde a mandíbula deposita, onde reabsorve, e para onde vai"
+    },
+    {
+     "formato": "comparativo",
+     "titulo": "Maxila e mandíbula: dois calendários"
+    },
+    {
+     "formato": "mapa",
+     "titulo": "Mapa da página"
+    }
+   ],
+   "quadros": {
+    "prova": 1,
+    "frase": 1,
+    "dica": 1,
+    "mito": 1,
+    "erro": 1
+   },
+   "imagensClinicas": [
+    {
+     "secao": "O espaço dos molares e o terceiro molar",
+     "imagem": "radiografia panorâmica de adolescente com terceiro molar inferior em formação",
+     "mostrar": "A relação entre a coroa do terceiro molar inferior e a borda anterior do ramo, com o espaço retromolar disponível atrás do segundo molar",
+     "legenda": "O espaço retromolar depende da relocação do ramo: pouco ramo reabsorvido, terceiro molar contra a borda anterior.",
+     "destacar": "Borda anterior do ramo, distal do segundo molar, posição e angulação do germe do terceiro molar"
+    }
+   ],
+   "verificar": [
+    {
+     "onde": "umMinuto.frases[4]",
+     "trecho": "ongado, sobretudo em meninos, e pode seguir até o fim da adolescência [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Um osso que nasce ao lado de uma cartilagem que não vira osso\".blocos[1].texto",
+     "trecho": "s duas últimas somem cedo; a sínfise se funde no primeiro ano de vida [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"O último osso a parar\".blocos[0].texto",
+     "trecho": "r em ritmo lento até o fim da adolescência ou o início da vida adulta [VERIFICAR]"
+    },
+    {
+     "onde": "infografico.itens[0].texto",
+     "trecho": "lado da cartilagem de Meckel, que some. Sínfise funde no primeiro ano [VERIFICAR]"
     }
    ]
   },
