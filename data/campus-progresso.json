@@ -1,18 +1,18 @@
 {
  "atualizadoEm": "2026-09-04",
  "totalPaginas": 3387,
- "concluidas": 18,
+ "concluidas": 19,
  "porStatus": {
-  "pendente": 3369,
-  "rascunho": 18,
+  "pendente": 3368,
+  "rascunho": 19,
   "revisado": 0,
   "publicado": 0
  },
  "proximoModulo": {
-  "id": "ortodontia/crescimento-e-desenvolvimento",
+  "id": "ortodontia/mas-oclusoes",
   "area": "Ortodontia",
-  "modulo": "Crescimento e desenvolvimento",
-  "faltam": 1
+  "modulo": "Más oclusões",
+  "faltam": 16
  },
  "imagensPendentes": [
   {
@@ -95,6 +95,15 @@
    "mostrar": "Diastema entre os centrais superiores, laterais com coroas inclinadas para distal, e na panorâmica os caninos permanentes altos, com as coroas apoiadas nas raízes dos laterais",
    "legenda": "Patinho feio: o diastema e a inclinação dos laterais vêm da posição dos caninos permanentes ainda no osso.",
    "destacar": "Diastema mediano, divergência das coroas dos laterais, posição alta dos caninos na panorâmica"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/chaves-de-oclusao-de-andrews",
+   "modulo": "Crescimento e desenvolvimento",
+   "secao": "Chaves IV, V e VI: rotação, contato e Spee",
+   "imagem": "fotografia lateral de modelos de gesso em oclusão normal",
+   "mostrar": "Vista lateral direita de modelos articulados mostrando relação molar de chave I, coroas com angulação positiva visível, contatos justos e curva de Spee plana",
+   "legenda": "Oclusão normal em modelos: relação molar completa, angulação positiva, sem rotações, contatos justos e Spee plana.",
+   "destacar": "Encaixe das cúspides do primeiro molar superior, longo eixo das coroas dos caninos e pré-molares, planicidade da curva de Spee"
   }
  ],
  "verificarPendentes": [
@@ -281,7 +290,7 @@
   {
    "pagina": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-mista-primeira-e-segunda-fase",
    "onde": "Seção \"O espaço livre de Nance: a folga que fecha a conta\".blocos[1].svg[12]",
-   "trecho": "em valores absolutos; o inferior é maior porque o E inferior é grande [VERIFICAR]"
+   "trecho": "var(--muted,#8A8478)'>o inferior é maior porque o E inferior é grande [VERIFICAR]"
   },
   {
    "pagina": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-mista-primeira-e-segunda-fase",
@@ -317,6 +326,11 @@
    "pagina": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-permanente",
    "onde": "infografico.itens[0].texto",
    "trecho": "13 anos, com os segundos molares. Terceiros entre 17 e 21, quando vêm [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/chaves-de-oclusao-de-andrews",
+   "onde": "Seção \"De onde vieram as chaves\".blocos[3].texto",
+   "trecho": "vel, aparece em textos posteriores e não faz parte das seis originais [VERIFICAR]"
   }
  ],
  "modulos": [
@@ -326,11 +340,11 @@
    "area": "Ortodontia",
    "modulo": "Crescimento e desenvolvimento",
    "total": 14,
-   "concluidas": 13,
-   "palavras": 36630,
-   "visuais": 47,
-   "imagensClinicas": 9,
-   "verificar": 44,
+   "concluidas": 14,
+   "palavras": 39518,
+   "visuais": 51,
+   "imagensClinicas": 10,
+   "verificar": 45,
    "paginas": [
     {
      "id": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/conceitos-crescimento-e-desenvolvimento",
@@ -440,7 +454,9 @@
      "id": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/chaves-de-oclusao-de-andrews",
      "nome": "Chaves de oclusão de Andrews",
      "tema": "Desenvolvimento da oclusão",
-     "status": "pendente"
+     "status": "rascunho",
+     "palavras": 2888,
+     "visuais": 4
     }
    ]
   },
@@ -25494,7 +25510,7 @@
     },
     {
      "onde": "Seção \"O espaço livre de Nance: a folga que fecha a conta\".blocos[1].svg[12]",
-     "trecho": "em valores absolutos; o inferior é maior porque o E inferior é grande [VERIFICAR]"
+     "trecho": "var(--muted,#8A8478)'>o inferior é maior porque o E inferior é grande [VERIFICAR]"
     },
     {
      "onde": "infografico.itens[0].texto",
@@ -25559,6 +25575,54 @@
     {
      "onde": "infografico.itens[0].texto",
      "trecho": "13 anos, com os segundos molares. Terceiros entre 17 e 21, quando vêm [VERIFICAR]"
+    }
+   ]
+  },
+  "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/chaves-de-oclusao-de-andrews": {
+   "titulo": "As seis chaves de Andrews: o que uma oclusão normal tem em comum",
+   "arquivo": "data/campus/paginas/ortodontia--oclusao-chaves-andrews.json",
+   "formato": 2,
+   "status": "rascunho",
+   "estado": "rascunho",
+   "palavras": 2888,
+   "visuais": [
+    {
+     "formato": "classificacao",
+     "titulo": "As seis chaves da oclusão normal"
+    },
+    {
+     "formato": "anatomico",
+     "titulo": "Chave I: onde cada cúspide do primeiro molar superior encaixa"
+    },
+    {
+     "formato": "comparativo",
+     "titulo": "Angulação (chave II) e inclinação (chave III), lado a lado"
+    },
+    {
+     "formato": "mapa",
+     "titulo": "Mapa da página"
+    }
+   ],
+   "quadros": {
+    "prova": 1,
+    "frase": 2,
+    "mito": 1,
+    "dica": 1,
+    "erro": 1
+   },
+   "imagensClinicas": [
+    {
+     "secao": "Chaves IV, V e VI: rotação, contato e Spee",
+     "imagem": "fotografia lateral de modelos de gesso em oclusão normal",
+     "mostrar": "Vista lateral direita de modelos articulados mostrando relação molar de chave I, coroas com angulação positiva visível, contatos justos e curva de Spee plana",
+     "legenda": "Oclusão normal em modelos: relação molar completa, angulação positiva, sem rotações, contatos justos e Spee plana.",
+     "destacar": "Encaixe das cúspides do primeiro molar superior, longo eixo das coroas dos caninos e pré-molares, planicidade da curva de Spee"
+    }
+   ],
+   "verificar": [
+    {
+     "onde": "Seção \"De onde vieram as chaves\".blocos[3].texto",
+     "trecho": "vel, aparece em textos posteriores e não faz parte das seis originais [VERIFICAR]"
     }
    ]
   },
