@@ -51,9 +51,13 @@ describe('cobertura', () => {
   });
   test('volume mínimo para valer como catálogo (não uma lista de capítulos)', () => {
     const r = resumo();
-    assert.ok(r.areas >= 38, 'áreas: ' + r.areas);
-    assert.ok(r.temas >= 250, 'temas: ' + r.temas);
-    assert.ok(r.paginas >= 1000, 'páginas: ' + r.paginas);
+    // Profundidade de programa real: um módulo é um bloco de aulas, um tema é
+    // uma aula, uma página é um assunto da aula (fundador, 01/09: "poucos
+    // módulos e pouco tema para abranger todas as áreas").
+    assert.ok(r.areas >= 39, 'áreas: ' + r.areas);
+    assert.ok(r.modulos >= 200, 'módulos: ' + r.modulos);
+    assert.ok(r.temas >= 750, 'temas: ' + r.temas);
+    assert.ok(r.paginas >= 3000, 'páginas: ' + r.paginas);
     assert.equal(r.cfo, ESPECIALIDADES_CFO.length);
   });
   test('toda área tem descrição e ao menos um módulo; todo tema tem ao menos uma página', () => {

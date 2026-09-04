@@ -11,7 +11,9 @@
 
 const FONTES = [
   ...require('./temas-base'),
-  ...require('./temas-clinicas'),
+  ...require('./temas-clinicas-1'),
+  ...require('./temas-clinicas-2'),
+  ...require('./temas-clinicas-3'),
   ...require('./temas-especialidades'),
 ];
 
