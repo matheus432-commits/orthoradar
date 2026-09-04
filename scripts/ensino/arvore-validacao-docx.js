@@ -33,19 +33,19 @@ children.push(muted(`Versão ${doc.versao} · 1 de setembro de 2026 · ${r.areas
 children.push(new Paragraph({ spacing: { before: 400 }, children: [new TextRun({ text: 'Como validar', bold: true, size: 26 })] }));
 for (const t of [
   'Cada área é uma disciplina da graduação ou uma especialidade reconhecida pelo CFO. Dentro dela, um módulo é um bloco de aulas, um tema é uma aula e uma página é um assunto dentro da aula. Cada página vai virar uma apostila ilustrada para o aluno e uma aula pronta com prova para o professor.',
-  'O que precisamos de você, na sua especialidade: (1) falta algum tema ou página que se ensina hoje? (2) sobra algo que não se ensina mais ou não pertence a esta área? (3) algum nome está errado, desatualizado ou fora do jargão da sala de aula? (4) a ordem dos módulos faz sentido para dar a disciplina? (5) o nível está certo para graduação, ou é conteúdo só de especialização?',
-  'Anote direto neste documento (comentários ou texto ao lado) ou na planilha que acompanha, uma linha por página, marcando na coluna "avaliação": OK, FALTA, SOBRA, RENOMEAR ou MOVER, com o comentário.',
-  'Termo padronizado: Distalização (nunca Distanciamento). Nomes em linguagem comum, sigla só depois da palavra por extenso.',
+  'O que precisamos de você, na sua especialidade, em seis perguntas. (1) FALTA: existe tema ou assunto que um aluno de graduação ou especialização deveria obrigatoriamente saber e que não aparece? (2) SOBRA: existe conteúdo errado, que não é mais ensinado ou que pertence a outra área? Conteúdo apenas específico ou avançado não é sobra: a apostila prefere ter a mais. (3) RENOMEAR: existe termo errado, antigo, pouco usado ou diferente do jargão atual? (4) MOVER: algo está na disciplina errada ou deveria vir antes ou depois na sequência? (5) NÍVEL: classifique como Graduação essencial, Graduação complementar, Especialização, Avançado ou Histórico. (6) EVIDÊNCIA: algum conteúdo é controverso, baseado em tradição de escola, ou exige que a apostila separe prática tradicional de evidência atual?',
+  'Anote direto neste documento (comentários ou texto ao lado) ou na planilha que acompanha, uma linha por página, preenchendo as colunas "avaliação" (OK, FALTA, SOBRA, RENOMEAR ou MOVER), "nível", "evidência" e "comentário".',
+  'Termo padronizado: Distalização (nunca Distanciamento). Nomes em linguagem comum, sigla só depois da palavra por extenso. O rótulo de cada área diz se ela é especialidade reconhecida pelo CFO ou disciplina de formação; a última seção de toda área, "Prática baseada em evidências", é transversal e igual para todas.',
 ]) children.push(new Paragraph({ spacing: { after: 120 }, children: [new TextRun({ text: t, size: 21 })] }));
 
 // ── sumário por área
 children.push(new Paragraph({ children: [new PageBreak()] }));
 children.push(new Paragraph({ heading: HeadingLevel.HEADING_1, children: [new TextRun({ text: 'Resumo por área' })] }));
 const W = [3600, 1700, 900, 900, 1000, 1260];
-const rows = [new TableRow({ tableHeader: true, children: ['Área', 'Ciclo', 'Módulos', 'Temas', 'Páginas', 'CFO'].map((h, i) => cell(h, W[i], { bold: true, shade: SUTIL, color: MUTED, right: i >= 2 && i <= 4 })) })];
+const rows = [new TableRow({ tableHeader: true, children: ['Área', 'Ciclo', 'Módulos', 'Temas', 'Páginas', 'Status'].map((h, i) => cell(h, W[i], { bold: true, shade: SUTIL, color: MUTED, right: i >= 2 && i <= 4 })) })];
 for (const a of doc.areas) {
   let t = 0, pg = 0; for (const m of a.modulos) for (const te of m.temas) { t++; pg += te.paginas.length; }
-  rows.push(new TableRow({ children: [cell(a.nome, W[0], { bold: true }), cell(CICLO[a.ciclo], W[1]), cell(a.modulos.length, W[2], { right: true }), cell(t, W[3], { right: true }), cell(pg, W[4], { right: true }), cell(a.cfo ? 'especialidade' : 'base', W[5], { color: a.cfo ? GOLD : MUTED })] }));
+  rows.push(new TableRow({ children: [cell(a.nome, W[0], { bold: true }), cell(CICLO[a.ciclo], W[1]), cell(a.modulos.length, W[2], { right: true }), cell(t, W[3], { right: true }), cell(pg, W[4], { right: true }), cell(a.cfo ? 'Especialidade CFO' : 'Disciplina', W[5], { color: a.cfo ? GOLD : MUTED })] }));
 }
 children.push(new Table({ width: { size: W.reduce((s, x) => s + x, 0), type: WidthType.DXA }, columnWidths: W, rows }));
 
@@ -54,9 +54,10 @@ let nA = 0;
 for (const a of doc.areas) {
   nA++;
   children.push(new Paragraph({ children: [new PageBreak()] }));
-  children.push(new Paragraph({ spacing: { after: 40 }, children: [new TextRun({ text: `${CICLO[a.ciclo]}${a.cfo ? ' · especialidade reconhecida pelo CFO' : ' · disciplina de base'}`, color: GOLD, size: 18, bold: true, allCaps: true, characterSpacing: 30 })] }));
+  children.push(new Paragraph({ spacing: { after: 40 }, children: [new TextRun({ text: `${CICLO[a.ciclo]} · ${a.statusRotulo || (a.cfo ? 'Especialidade reconhecida pelo CFO' : 'Disciplina de formação odontológica')}`, color: GOLD, size: 18, bold: true, allCaps: true, characterSpacing: 30 })] }));
   children.push(new Paragraph({ heading: HeadingLevel.HEADING_1, children: [new TextRun({ text: `${nA}. ${a.nome}` })] }));
   children.push(muted(a.descricao, 21));
+  if (a.nota) children.push(new Paragraph({ spacing: { after: 100 }, shading: { type: ShadingType.CLEAR, fill: SUTIL, color: 'auto' }, children: [new TextRun({ text: 'Nota editorial: ', bold: true, size: 19 }), new TextRun({ text: a.nota, size: 19 })] }));
   let nM = 0;
   for (const m of a.modulos) {
     nM++;
@@ -94,9 +95,9 @@ const d = new Document({
 Packer.toBuffer(d).then((buf) => {
   fs.writeFileSync(path.join(OUT, 'campus-arvore-validacao.docx'), buf);
   // CSV: uma linha por página, separador ; e BOM para o Excel em pt-BR
-  const linhas = ['ciclo;area;modulo;tema;pagina;id;avaliacao (OK/FALTA/SOBRA/RENOMEAR/MOVER);comentario'];
+  const linhas = ['ciclo;status;area;modulo;tema;pagina;id;avaliacao (OK/FALTA/SOBRA/RENOMEAR/MOVER);nivel (Graduacao essencial/Graduacao complementar/Especializacao/Avancado/Historico);evidencia (controverso? tradicao de escola? separar de evidencia atual?);comentario'];
   const q = (s) => '"' + String(s).replace(/"/g, '""') + '"';
-  for (const a of doc.areas) for (const m of a.modulos) for (const t of m.temas) for (const pg of t.paginas) linhas.push([CICLO[a.ciclo], a.nome, m.nome, t.nome, pg.nome, pg.id, '', ''].map(q).join(';'));
+  for (const a of doc.areas) for (const m of a.modulos) for (const t of m.temas) for (const pg of t.paginas) linhas.push([CICLO[a.ciclo], a.cfo ? 'Especialidade CFO' : 'Disciplina', a.nome, m.nome, t.nome, pg.nome, pg.id, '', '', '', ''].map(q).join(';'));
   fs.writeFileSync(path.join(OUT, 'campus-arvore-validacao.csv'), '﻿' + linhas.join('\r\n') + '\r\n');
   console.log('docx', buf.length, 'bytes; csv', linhas.length - 1, 'linhas');
 });

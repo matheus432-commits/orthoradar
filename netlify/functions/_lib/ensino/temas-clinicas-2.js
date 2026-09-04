@@ -74,7 +74,7 @@ module.exports = [
       { nome: 'Bases', temas: [
         { nome: 'Osseointegração', paginas: ['Histórico e conceito', 'Histologia da interface', 'Estabilidade primária e secundária', 'Fatores que interferem'] },
         { nome: 'Implantes', paginas: ['Macrogeometria e roscas', 'Superfícies', 'Conexões: hexágono externo, interno e cone morse', 'Plataforma switching', 'Implantes curtos, estreitos e zigomáticos'] },
-        { nome: 'Biologia dos tecidos periimplantares', paginas: ['Osso: qualidade e quantidade', 'Mucosa periimplantar', 'Espaço biológico ao redor do implante'] },
+        { nome: 'Biologia dos tecidos periimplantares', paginas: ['Osso: qualidade e quantidade', 'Mucosa periimplantar', 'Inserção tecidual supracrestal ao redor do implante'] },
       ] },
       { nome: 'Planejamento', temas: [
         { nome: 'Avaliação', paginas: ['Anamnese e fatores de risco', 'Exame clínico', 'Tomografia: leitura', 'Classificação do rebordo', 'Contraindicações'] },
@@ -242,6 +242,9 @@ module.exports = [
         { nome: 'Ortodontia e cirurgia ortognática', paginas: ['Diagnóstico', 'Preparo ortodôntico', 'Cirurgia primeiro', 'Finalização'] },
         { nome: 'Dentes impactados', paginas: ['Caninos: localização e tracionamento', 'Outros dentes', 'Transplante'] },
         { nome: 'Interfaces', paginas: ['Ortodontia e periodontia', 'Ortodontia e DTM', 'Ortodontia e implantes', 'Fissuras e síndromes', 'Odontologia do sono'] },
+      ] },
+      { nome: 'Evidência em ortodontia', temas: [
+        { nome: 'O que a evidência diz sobre aparelhos e abordagens', paginas: ['Autoligados × convencionais', 'Alinhadores × aparelho fixo', 'Aparelhos funcionais: efeito esquelético real', 'Prescrições e sistemas: diferenças que importam', 'Aceleração do movimento: o que funciona', 'Tratamento precoce × tardio', 'Como ler um ensaio clínico em ortodontia'] },
       ] },
       { nome: 'Tecnologia e gestão', temas: [
         { nome: 'Ortodontia digital', paginas: ['Escaneamento e setup', 'Bráquetes personalizados', 'Impressão de aparelhos', 'Monitoramento remoto'] },

@@ -14,10 +14,10 @@ const { test, describe } = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('fs');
 const path = require('path');
-const { taxonomia, buscar, resumo, slug } = require('../ensino/taxonomia');
+const { taxonomia, buscar, resumo, slug, MODULO_EVIDENCIA } = require('../ensino/taxonomia');
 
 const ESPECIALIDADES_CFO = [
-  'Acupuntura', 'Cirurgia e traumatologia bucomaxilofacial', 'Dentística',
+  'Acupuntura', 'Cirurgia e traumatologia bucomaxilofacial', 'Cirurgia estética orofacial', 'Dentística',
   'Disfunção temporomandibular e dor orofacial', 'Endodontia', 'Estomatologia',
   'Harmonização orofacial', 'Homeopatia', 'Implantodontia', 'Odontogeriatria',
   'Odontologia do esporte', 'Odontologia do trabalho', 'Odontologia hospitalar',
@@ -89,6 +89,58 @@ describe('integridade', () => {
     assert.ok(!/distanciamento/i.test(s));
     assert.ok(/Distalização/.test(s));
     assert.ok(!/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/u.test(s));
+  });
+});
+
+describe('revisão editorial de 04/09 (auditada contra fontes primárias)', () => {
+  const s = () => todoTexto();
+  test('nomenclatura atual: sem "periodontite agressiva" como categoria, sem "espaço biológico" solto', () => {
+    // A categoria saiu na classificação de 2017; só pode aparecer como histórico.
+    const nomes = [];
+    for (const a of taxonomia().areas) for (const m of a.modulos) for (const t of m.temas) { nomes.push(t.nome); for (const p of t.paginas) nomes.push(p.nome); }
+    let vistos = 0;
+    for (const n of nomes) {
+      if (/periodontite agressiva/i.test(n)) { vistos++; assert.match(n, /saiu da classificação/i, n); }
+      if (/espaço biológico/i.test(n)) { vistos++; assert.match(n, /Inserção tecidual supracrestal/, n); }
+    }
+    assert.ok(vistos >= 3, 'os termos antigos continuam citados como histórico (visto: ' + vistos + ')');
+  });
+  test('farmacologia atualizada: ADA 2024, AHA 2021 sem clindamicina na profilaxia, próteses articulares sem rotina', () => {
+    assert.ok(s().includes('diretriz ADA 2024'));
+    assert.ok(s().includes('AHA 2021'));
+    assert.ok(s().includes('sem clindamicina'));
+    assert.ok(s().includes('profilaxia de rotina não é recomendada'));
+    assert.ok(!s().includes('"Categorias de risco"'), 'letras A-X não são o sistema atual');
+  });
+  test('normas brasileiras prevalecem sobre a revisão quando divergem: estufa proibida e avental exigido', () => {
+    assert.ok(s().includes('RDC 1.002/2025'));
+    assert.ok(s().includes('proibida pela Anvisa'));
+    assert.ok(s().includes('exigidos pela RDC 611/2022'));
+  });
+  test('saúde coletiva em dia: Lei 14.572/2023, SB Brasil 2023, financiamento vigente', () => {
+    assert.ok(s().includes('Lei 14.572/2023') && s().includes('SB Brasil 2023') && s().includes('Portaria 3.493/2024'));
+    assert.ok(!/"[^"]*Previne Brasil e indicadores"/.test(s()));
+  });
+  test('regulação 2026: Cirurgia estética orofacial existe; HOF, acupuntura e homeopatia carregam nota editorial', () => {
+    const por = new Map(taxonomia().areas.map((a) => [a.nome, a]));
+    assert.ok(por.get('Cirurgia estética orofacial').nota.includes('286/2026'));
+    assert.ok(por.get('Harmonização orofacial').nota.includes('198/2019'));
+    assert.ok(por.get('Homeopatia').nota.includes('evidência'));
+    assert.ok(por.get('Acupuntura').nota);
+  });
+  test('toda área fecha com o módulo transversal de evidência e tem rótulo de status', () => {
+    for (const a of taxonomia().areas) {
+      const ultimo = a.modulos[a.modulos.length - 1];
+      assert.equal(ultimo.nome, MODULO_EVIDENCIA.nome, a.nome);
+      assert.equal(ultimo.transversal, true);
+      assert.ok(a.statusRotulo === 'Especialidade reconhecida pelo CFO' || a.statusRotulo === 'Disciplina de formação odontológica', a.nome);
+      assert.equal(a.statusRotulo === 'Especialidade reconhecida pelo CFO', a.cfo);
+    }
+  });
+  test('nada foi removido por ser específico ou de especialização (diretriz do fundador)', () => {
+    for (const p of ['Articulador virtual e registro de movimentos', 'Artroscopia', 'Sedação venosa: quem pode e onde', 'Miniplacas', 'Príons e protozoários: noções', 'Cirurgia paraendodôntica', 'Rinomodelação: riscos']) {
+      assert.ok(s().includes(p), 'sumiu: ' + p);
+    }
   });
 });
 

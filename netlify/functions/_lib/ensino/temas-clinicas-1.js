@@ -118,7 +118,7 @@ module.exports = [
     descricao: 'Gengiva e osso: diagnosticar, raspar, operar e manter.',
     modulos: [
       { nome: 'Bases', temas: [
-        { nome: 'Periodonto saudável', paginas: ['Gengiva: partes e características', 'Ligamento, cemento e osso alveolar', 'Biótipo e fenótipo', 'Espaço biológico e distância biológica'] },
+        { nome: 'Periodonto saudável', paginas: ['Gengiva: partes e características', 'Ligamento, cemento e osso alveolar', 'Biótipo e fenótipo', 'Inserção tecidual supracrestal (tradicionalmente "espaço biológico" ou distância biológica)'] },
         { nome: 'Etiopatogenia', paginas: ['Biofilme e cálculo', 'Da gengivite à periodontite', 'Resposta do hospedeiro e destruição', 'Fatores de risco: fumo, diabetes e genética', 'Fatores locais: restaurações e anatomia'] },
         { nome: 'Periodontia e sistemia', paginas: ['Diabetes', 'Doença cardiovascular', 'Gestação', 'Doenças respiratórias e outras'] },
         { nome: 'Epidemiologia', paginas: ['Prevalência', 'Índices periodontais'] },
@@ -143,7 +143,7 @@ module.exports = [
       { nome: 'Cirurgia periodontal', temas: [
         { nome: 'Princípios', paginas: ['Indicações e contraindicações', 'Instrumental', 'Incisões e retalhos', 'Suturas', 'Pós-operatório'] },
         { nome: 'Cirurgia ressectiva', paginas: ['Gengivectomia e gengivoplastia', 'Retalho de Widman modificado', 'Retalho de reposicionamento apical', 'Osteotomia e osteoplastia', 'Cirurgia de furca: tunelização e hemissecção'] },
-        { nome: 'Aumento de coroa clínica', paginas: ['Indicações estéticas e restauradoras', 'Planejamento com o espaço biológico', 'Técnica', 'Cicatrização e tempo para restaurar'] },
+        { nome: 'Aumento de coroa clínica', paginas: ['Indicações estéticas e restauradoras', 'Planejamento com a inserção tecidual supracrestal', 'Técnica', 'Cicatrização e tempo para restaurar'] },
         { nome: 'Cirurgia regenerativa', paginas: ['Defeitos ósseos: classificação', 'Regeneração tecidual guiada', 'Enxertos e biomateriais', 'Proteínas da matriz do esmalte', 'Fatores de crescimento', 'Regeneração de furca'] },
       ] },
       { nome: 'Cirurgia plástica periodontal', temas: [

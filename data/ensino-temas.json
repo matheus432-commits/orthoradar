@@ -7,11 +7,11 @@
   "Termo canônico: Distalização (nunca Distanciamento). Zero emojis."
  ],
  "resumo": {
-  "areas": 40,
-  "cfo": 24,
-  "modulos": 251,
-  "temas": 750,
-  "paginas": 3089
+  "areas": 41,
+  "cfo": 25,
+  "modulos": 299,
+  "temas": 807,
+  "paginas": 3387
  },
  "areas": [
   {
@@ -19,6 +19,8 @@
    "nome": "Anatomia de cabeça e pescoço",
    "ciclo": "básico",
    "cfo": false,
+   "status": "disciplina",
+   "statusRotulo": "Disciplina de formação odontológica",
    "descricao": "Ossos, músculos, vasos e nervos que o dentista precisa enxergar por trás de cada procedimento.",
    "modulos": [
     {
@@ -660,6 +662,79 @@
        ]
       }
      ]
+    },
+    {
+     "id": "anatomia-de-cabeca-e-pescoco/anatomia-clinica-aplicada",
+     "nome": "Anatomia clínica aplicada",
+     "temas": [
+      {
+       "id": "anatomia-de-cabeca-e-pescoco/anatomia-clinica-aplicada/anatomia-aplicada-aos-principais-procedimentos",
+       "nome": "Anatomia aplicada aos principais procedimentos",
+       "paginas": [
+        {
+         "id": "anatomia-de-cabeca-e-pescoco/anatomia-clinica-aplicada/anatomia-aplicada-aos-principais-procedimentos/anestesia-reparos-de-cada-tecnica",
+         "nome": "Anestesia: reparos de cada técnica"
+        },
+        {
+         "id": "anatomia-de-cabeca-e-pescoco/anatomia-clinica-aplicada/anatomia-aplicada-aos-principais-procedimentos/exodontia-raizes-seio-e-canal-mandibular",
+         "nome": "Exodontia: raízes, seio e canal mandibular"
+        },
+        {
+         "id": "anatomia-de-cabeca-e-pescoco/anatomia-clinica-aplicada/anatomia-aplicada-aos-principais-procedimentos/implantes-nervo-seio-e-corticais",
+         "nome": "Implantes: nervo, seio e corticais"
+        },
+        {
+         "id": "anatomia-de-cabeca-e-pescoco/anatomia-clinica-aplicada/anatomia-aplicada-aos-principais-procedimentos/infeccoes-odontogenicas-espacos-e-vias-de-disseminacao",
+         "nome": "Infecções odontogênicas: espaços e vias de disseminação"
+        },
+        {
+         "id": "anatomia-de-cabeca-e-pescoco/anatomia-clinica-aplicada/anatomia-aplicada-aos-principais-procedimentos/endodontia-relacoes-apicais",
+         "nome": "Endodontia: relações apicais"
+        },
+        {
+         "id": "anatomia-de-cabeca-e-pescoco/anatomia-clinica-aplicada/anatomia-aplicada-aos-principais-procedimentos/cirurgia-de-tecidos-moles-vasos-e-nervos-em-risco",
+         "nome": "Cirurgia de tecidos moles: vasos e nervos em risco"
+        },
+        {
+         "id": "anatomia-de-cabeca-e-pescoco/anatomia-clinica-aplicada/anatomia-aplicada-aos-principais-procedimentos/vias-aereas-o-que-o-dentista-precisa-reconhecer",
+         "nome": "Vias aéreas: o que o dentista precisa reconhecer"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "anatomia-de-cabeca-e-pescoco/pratica-baseada-em-evidencias",
+     "nome": "Prática baseada em evidências",
+     "temas": [
+      {
+       "id": "anatomia-de-cabeca-e-pescoco/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta",
+       "nome": "As quatro perguntas de cada conduta",
+       "paginas": [
+        {
+         "id": "anatomia-de-cabeca-e-pescoco/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-indicacao",
+         "nome": "Qual é a indicação?"
+        },
+        {
+         "id": "anatomia-de-cabeca-e-pescoco/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-contraindicacao",
+         "nome": "Qual é a contraindicação?"
+        },
+        {
+         "id": "anatomia-de-cabeca-e-pescoco/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-qualidade-da-evidencia",
+         "nome": "Qual é a qualidade da evidência?"
+        },
+        {
+         "id": "anatomia-de-cabeca-e-pescoco/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-mudou-nos-ultimos-anos",
+         "nome": "O que mudou nos últimos anos?"
+        },
+        {
+         "id": "anatomia-de-cabeca-e-pescoco/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-e-tradicao-de-escola-e-o-que-e-evidencia-como-a-apostila-diferencia",
+         "nome": "O que é tradição de escola e o que é evidência: como a apostila diferencia"
+        }
+       ]
+      }
+     ],
+     "transversal": true
     }
    ]
   },
@@ -668,6 +743,8 @@
    "nome": "Anatomia dental e escultura",
    "ciclo": "básico",
    "cfo": false,
+   "status": "disciplina",
+   "statusRotulo": "Disciplina de formação odontológica",
    "descricao": "Reconhecer cada dente, decíduo e permanente, e reproduzir sua forma em cera.",
    "modulos": [
     {
@@ -1181,6 +1258,39 @@
        ]
       }
      ]
+    },
+    {
+     "id": "anatomia-dental-e-escultura/pratica-baseada-em-evidencias",
+     "nome": "Prática baseada em evidências",
+     "temas": [
+      {
+       "id": "anatomia-dental-e-escultura/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta",
+       "nome": "As quatro perguntas de cada conduta",
+       "paginas": [
+        {
+         "id": "anatomia-dental-e-escultura/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-indicacao",
+         "nome": "Qual é a indicação?"
+        },
+        {
+         "id": "anatomia-dental-e-escultura/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-contraindicacao",
+         "nome": "Qual é a contraindicação?"
+        },
+        {
+         "id": "anatomia-dental-e-escultura/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-qualidade-da-evidencia",
+         "nome": "Qual é a qualidade da evidência?"
+        },
+        {
+         "id": "anatomia-dental-e-escultura/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-mudou-nos-ultimos-anos",
+         "nome": "O que mudou nos últimos anos?"
+        },
+        {
+         "id": "anatomia-dental-e-escultura/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-e-tradicao-de-escola-e-o-que-e-evidencia-como-a-apostila-diferencia",
+         "nome": "O que é tradição de escola e o que é evidência: como a apostila diferencia"
+        }
+       ]
+      }
+     ],
+     "transversal": true
     }
    ]
   },
@@ -1189,6 +1299,8 @@
    "nome": "Histologia e embriologia bucal",
    "ciclo": "básico",
    "cfo": false,
+   "status": "disciplina",
+   "statusRotulo": "Disciplina de formação odontológica",
    "descricao": "Como os tecidos da boca se formam e como são por dentro. Uma das disciplinas com mais reprovação.",
    "modulos": [
     {
@@ -1690,8 +1802,8 @@
          "nome": "Fluido gengival"
         },
         {
-         "id": "histologia-e-embriologia-bucal/mucosa-oral-e-glandulas/gengiva/espaco-biologico",
-         "nome": "Espaço biológico"
+         "id": "histologia-e-embriologia-bucal/mucosa-oral-e-glandulas/gengiva/insercao-tecidual-supracrestal-tradicionalmente-espaco-biologico",
+         "nome": "Inserção tecidual supracrestal (tradicionalmente \"espaço biológico\")"
         }
        ]
       },
@@ -1736,6 +1848,39 @@
        ]
       }
      ]
+    },
+    {
+     "id": "histologia-e-embriologia-bucal/pratica-baseada-em-evidencias",
+     "nome": "Prática baseada em evidências",
+     "temas": [
+      {
+       "id": "histologia-e-embriologia-bucal/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta",
+       "nome": "As quatro perguntas de cada conduta",
+       "paginas": [
+        {
+         "id": "histologia-e-embriologia-bucal/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-indicacao",
+         "nome": "Qual é a indicação?"
+        },
+        {
+         "id": "histologia-e-embriologia-bucal/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-contraindicacao",
+         "nome": "Qual é a contraindicação?"
+        },
+        {
+         "id": "histologia-e-embriologia-bucal/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-qualidade-da-evidencia",
+         "nome": "Qual é a qualidade da evidência?"
+        },
+        {
+         "id": "histologia-e-embriologia-bucal/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-mudou-nos-ultimos-anos",
+         "nome": "O que mudou nos últimos anos?"
+        },
+        {
+         "id": "histologia-e-embriologia-bucal/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-e-tradicao-de-escola-e-o-que-e-evidencia-como-a-apostila-diferencia",
+         "nome": "O que é tradição de escola e o que é evidência: como a apostila diferencia"
+        }
+       ]
+      }
+     ],
+     "transversal": true
     }
    ]
   },
@@ -1744,6 +1889,8 @@
    "nome": "Fisiologia e bioquímica aplicadas",
    "ciclo": "básico",
    "cfo": false,
+   "status": "disciplina",
+   "statusRotulo": "Disciplina de formação odontológica",
    "descricao": "O funcionamento do corpo que muda a conduta na cadeira: saliva, dor, coagulação, sistema cardiovascular.",
    "modulos": [
     {
@@ -1983,6 +2130,24 @@
        ]
       },
       {
+       "id": "fisiologia-e-bioquimica-aplicadas/fisiologia-sistemica-para-o-dentista/acido-base-e-eletrolitos",
+       "nome": "Ácido-base e eletrólitos",
+       "paginas": [
+        {
+         "id": "fisiologia-e-bioquimica-aplicadas/fisiologia-sistemica-para-o-dentista/acido-base-e-eletrolitos/equilibrio-acido-base-o-essencial",
+         "nome": "Equilíbrio ácido-base: o essencial"
+        },
+        {
+         "id": "fisiologia-e-bioquimica-aplicadas/fisiologia-sistemica-para-o-dentista/acido-base-e-eletrolitos/sodio-potassio-e-calcio-na-clinica",
+         "nome": "Sódio, potássio e cálcio na clínica"
+        },
+        {
+         "id": "fisiologia-e-bioquimica-aplicadas/fisiologia-sistemica-para-o-dentista/acido-base-e-eletrolitos/desidratacao-e-paciente-sistemico",
+         "nome": "Desidratação e paciente sistêmico"
+        }
+       ]
+      },
+      {
        "id": "fisiologia-e-bioquimica-aplicadas/fisiologia-sistemica-para-o-dentista/osso-e-calcio",
        "nome": "Osso e cálcio",
        "paginas": [
@@ -2195,6 +2360,39 @@
        ]
       }
      ]
+    },
+    {
+     "id": "fisiologia-e-bioquimica-aplicadas/pratica-baseada-em-evidencias",
+     "nome": "Prática baseada em evidências",
+     "temas": [
+      {
+       "id": "fisiologia-e-bioquimica-aplicadas/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta",
+       "nome": "As quatro perguntas de cada conduta",
+       "paginas": [
+        {
+         "id": "fisiologia-e-bioquimica-aplicadas/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-indicacao",
+         "nome": "Qual é a indicação?"
+        },
+        {
+         "id": "fisiologia-e-bioquimica-aplicadas/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-contraindicacao",
+         "nome": "Qual é a contraindicação?"
+        },
+        {
+         "id": "fisiologia-e-bioquimica-aplicadas/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-qualidade-da-evidencia",
+         "nome": "Qual é a qualidade da evidência?"
+        },
+        {
+         "id": "fisiologia-e-bioquimica-aplicadas/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-mudou-nos-ultimos-anos",
+         "nome": "O que mudou nos últimos anos?"
+        },
+        {
+         "id": "fisiologia-e-bioquimica-aplicadas/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-e-tradicao-de-escola-e-o-que-e-evidencia-como-a-apostila-diferencia",
+         "nome": "O que é tradição de escola e o que é evidência: como a apostila diferencia"
+        }
+       ]
+      }
+     ],
+     "transversal": true
     }
    ]
   },
@@ -2203,6 +2401,8 @@
    "nome": "Microbiologia e imunologia oral",
    "ciclo": "básico",
    "cfo": false,
+   "status": "disciplina",
+   "statusRotulo": "Disciplina de formação odontológica",
    "descricao": "Quem vive na boca, como adoece e como o corpo responde.",
    "modulos": [
     {
@@ -2292,6 +2492,10 @@
         {
          "id": "microbiologia-e-imunologia-oral/ecologia-oral/microbiota/eubiose-e-disbiose",
          "nome": "Eubiose e disbiose"
+        },
+        {
+         "id": "microbiologia-e-imunologia-oral/ecologia-oral/microbiota/microbioma-oral-e-resistoma-o-que-o-sequenciamento-mudou",
+         "nome": "Microbioma oral e resistoma: o que o sequenciamento mudou"
         }
        ]
       },
@@ -2354,20 +2558,24 @@
        "nome": "Doença periodontal",
        "paginas": [
         {
-         "id": "microbiologia-e-imunologia-oral/microbiologia-das-doencas/doenca-periodontal/complexos-de-socransky",
-         "nome": "Complexos de Socransky"
+         "id": "microbiologia-e-imunologia-oral/microbiologia-das-doencas/doenca-periodontal/complexos-de-socransky-modelo-historico-e-ecologico",
+         "nome": "Complexos de Socransky: modelo histórico e ecológico"
         },
         {
          "id": "microbiologia-e-imunologia-oral/microbiologia-das-doencas/doenca-periodontal/porphyromonas-gingivalis-fatores-de-virulencia",
          "nome": "Porphyromonas gingivalis: fatores de virulência"
         },
         {
-         "id": "microbiologia-e-imunologia-oral/microbiologia-das-doencas/doenca-periodontal/aggregatibacter-e-periodontite-agressiva",
-         "nome": "Aggregatibacter e periodontite agressiva"
+         "id": "microbiologia-e-imunologia-oral/microbiologia-das-doencas/doenca-periodontal/aggregatibacter-e-periodontite-associacao-microbiologica-e-fatores-de-virulencia",
+         "nome": "Aggregatibacter e periodontite: associação microbiológica e fatores de virulência"
         },
         {
          "id": "microbiologia-e-imunologia-oral/microbiologia-das-doencas/doenca-periodontal/modelo-de-disbiose-polimicrobiana",
          "nome": "Modelo de disbiose polimicrobiana"
+        },
+        {
+         "id": "microbiologia-e-imunologia-oral/microbiologia-das-doencas/doenca-periodontal/por-que-a-categoria-periodontite-agressiva-saiu-da-classificacao-de-2017",
+         "nome": "Por que a categoria \"periodontite agressiva\" saiu da classificação de 2017"
         }
        ]
       },
@@ -2618,6 +2826,39 @@
        ]
       }
      ]
+    },
+    {
+     "id": "microbiologia-e-imunologia-oral/pratica-baseada-em-evidencias",
+     "nome": "Prática baseada em evidências",
+     "temas": [
+      {
+       "id": "microbiologia-e-imunologia-oral/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta",
+       "nome": "As quatro perguntas de cada conduta",
+       "paginas": [
+        {
+         "id": "microbiologia-e-imunologia-oral/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-indicacao",
+         "nome": "Qual é a indicação?"
+        },
+        {
+         "id": "microbiologia-e-imunologia-oral/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-contraindicacao",
+         "nome": "Qual é a contraindicação?"
+        },
+        {
+         "id": "microbiologia-e-imunologia-oral/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-qualidade-da-evidencia",
+         "nome": "Qual é a qualidade da evidência?"
+        },
+        {
+         "id": "microbiologia-e-imunologia-oral/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-mudou-nos-ultimos-anos",
+         "nome": "O que mudou nos últimos anos?"
+        },
+        {
+         "id": "microbiologia-e-imunologia-oral/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-e-tradicao-de-escola-e-o-que-e-evidencia-como-a-apostila-diferencia",
+         "nome": "O que é tradição de escola e o que é evidência: como a apostila diferencia"
+        }
+       ]
+      }
+     ],
+     "transversal": true
     }
    ]
   },
@@ -2626,6 +2867,8 @@
    "nome": "Patologia geral",
    "ciclo": "básico",
    "cfo": false,
+   "status": "disciplina",
+   "statusRotulo": "Disciplina de formação odontológica",
    "descricao": "Os mecanismos gerais da doença que depois aparecem em toda lesão da boca.",
    "modulos": [
     {
@@ -2975,6 +3218,39 @@
        ]
       }
      ]
+    },
+    {
+     "id": "patologia-geral/pratica-baseada-em-evidencias",
+     "nome": "Prática baseada em evidências",
+     "temas": [
+      {
+       "id": "patologia-geral/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta",
+       "nome": "As quatro perguntas de cada conduta",
+       "paginas": [
+        {
+         "id": "patologia-geral/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-indicacao",
+         "nome": "Qual é a indicação?"
+        },
+        {
+         "id": "patologia-geral/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-contraindicacao",
+         "nome": "Qual é a contraindicação?"
+        },
+        {
+         "id": "patologia-geral/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-qualidade-da-evidencia",
+         "nome": "Qual é a qualidade da evidência?"
+        },
+        {
+         "id": "patologia-geral/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-mudou-nos-ultimos-anos",
+         "nome": "O que mudou nos últimos anos?"
+        },
+        {
+         "id": "patologia-geral/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-e-tradicao-de-escola-e-o-que-e-evidencia-como-a-apostila-diferencia",
+         "nome": "O que é tradição de escola e o que é evidência: como a apostila diferencia"
+        }
+       ]
+      }
+     ],
+     "transversal": true
     }
    ]
   },
@@ -2983,6 +3259,8 @@
    "nome": "Farmacologia e terapêutica",
    "ciclo": "básico",
    "cfo": false,
+   "status": "disciplina",
+   "statusRotulo": "Disciplina de formação odontológica",
    "descricao": "O que prescrever, quanto, por quanto tempo, e o que nunca combinar.",
    "modulos": [
     {
@@ -3202,16 +3480,28 @@
        ]
       },
       {
-       "id": "farmacologia-e-terapeutica/controle-da-dor-e-da-inflamacao/analgesia-preemptiva-e-escada-analgesica",
-       "nome": "Analgesia preemptiva e escada analgésica",
+       "id": "farmacologia-e-terapeutica/controle-da-dor-e-da-inflamacao/analgesia-multimodal-e-manejo-da-dor-pos-operatoria",
+       "nome": "Analgesia multimodal e manejo da dor pós-operatória",
        "paginas": [
         {
-         "id": "farmacologia-e-terapeutica/controle-da-dor-e-da-inflamacao/analgesia-preemptiva-e-escada-analgesica/conceito-e-protocolos",
-         "nome": "Conceito e protocolos"
+         "id": "farmacologia-e-terapeutica/controle-da-dor-e-da-inflamacao/analgesia-multimodal-e-manejo-da-dor-pos-operatoria/anti-inflamatorio-isolado-ou-com-paracetamol-como-primeira-linha-diretriz-ada-2024",
+         "nome": "Anti-inflamatório isolado ou com paracetamol como primeira linha (diretriz ADA 2024)"
         },
         {
-         "id": "farmacologia-e-terapeutica/controle-da-dor-e-da-inflamacao/analgesia-preemptiva-e-escada-analgesica/dor-pos-operatoria-planejamento",
-         "nome": "Dor pós-operatória: planejamento"
+         "id": "farmacologia-e-terapeutica/controle-da-dor-e-da-inflamacao/analgesia-multimodal-e-manejo-da-dor-pos-operatoria/analgesia-preemptiva-conceito-e-protocolos",
+         "nome": "Analgesia preemptiva: conceito e protocolos"
+        },
+        {
+         "id": "farmacologia-e-terapeutica/controle-da-dor-e-da-inflamacao/analgesia-multimodal-e-manejo-da-dor-pos-operatoria/opioides-so-em-situacoes-selecionadas-e-por-poucos-dias",
+         "nome": "Opioides: só em situações selecionadas e por poucos dias"
+        },
+        {
+         "id": "farmacologia-e-terapeutica/controle-da-dor-e-da-inflamacao/analgesia-multimodal-e-manejo-da-dor-pos-operatoria/escada-analgesica-conceito-historico-e-limites-na-odontologia",
+         "nome": "Escada analgésica: conceito histórico e limites na odontologia"
+        },
+        {
+         "id": "farmacologia-e-terapeutica/controle-da-dor-e-da-inflamacao/analgesia-multimodal-e-manejo-da-dor-pos-operatoria/dor-pos-operatoria-planejamento-por-procedimento",
+         "nome": "Dor pós-operatória: planejamento por procedimento"
         }
        ]
       }
@@ -3236,6 +3526,10 @@
         {
          "id": "farmacologia-e-terapeutica/antimicrobianos/principios/resistencia-e-uso-racional",
          "nome": "Resistência e uso racional"
+        },
+        {
+         "id": "farmacologia-e-terapeutica/antimicrobianos/principios/stewardship-prescrever-menos-e-melhor",
+         "nome": "Stewardship: prescrever menos e melhor"
         },
         {
          "id": "farmacologia-e-terapeutica/antimicrobianos/principios/quando-o-antibiotico-nao-e-indicado",
@@ -3270,8 +3564,8 @@
        "nome": "Outros antibióticos",
        "paginas": [
         {
-         "id": "farmacologia-e-terapeutica/antimicrobianos/outros-antibioticos/clindamicina",
-         "nome": "Clindamicina"
+         "id": "farmacologia-e-terapeutica/antimicrobianos/outros-antibioticos/clindamicina-uso-restrito-e-risco-de-colite-por-clostridioides-difficile",
+         "nome": "Clindamicina: uso restrito e risco de colite por Clostridioides difficile"
         },
         {
          "id": "farmacologia-e-terapeutica/antimicrobianos/outros-antibioticos/azitromicina-e-claritromicina",
@@ -3286,8 +3580,12 @@
          "nome": "Tetraciclinas e doxiciclina"
         },
         {
-         "id": "farmacologia-e-terapeutica/antimicrobianos/outros-antibioticos/ciprofloxacino",
-         "nome": "Ciprofloxacino"
+         "id": "farmacologia-e-terapeutica/antimicrobianos/outros-antibioticos/cefalexina-e-cefalosporinas",
+         "nome": "Cefalexina e cefalosporinas"
+        },
+        {
+         "id": "farmacologia-e-terapeutica/antimicrobianos/outros-antibioticos/ciprofloxacino-quando-raramente-cabe",
+         "nome": "Ciprofloxacino: quando (raramente) cabe"
         }
        ]
       },
@@ -3296,16 +3594,24 @@
        "nome": "Profilaxia antibiótica",
        "paginas": [
         {
-         "id": "farmacologia-e-terapeutica/antimicrobianos/profilaxia-antibiotica/endocardite-quem-e-como",
-         "nome": "Endocardite: quem e como"
+         "id": "farmacologia-e-terapeutica/antimicrobianos/profilaxia-antibiotica/endocardite-quem-precisa-aha-2021",
+         "nome": "Endocardite: quem precisa (AHA 2021)"
         },
         {
-         "id": "farmacologia-e-terapeutica/antimicrobianos/profilaxia-antibiotica/proteses-articulares",
-         "nome": "Próteses articulares"
+         "id": "farmacologia-e-terapeutica/antimicrobianos/profilaxia-antibiotica/endocardite-esquemas-e-alternativas-ao-alergico-sem-clindamicina",
+         "nome": "Endocardite: esquemas e alternativas ao alérgico sem clindamicina"
         },
         {
-         "id": "farmacologia-e-terapeutica/antimicrobianos/profilaxia-antibiotica/cirurgia-e-implantes",
-         "nome": "Cirurgia e implantes"
+         "id": "farmacologia-e-terapeutica/antimicrobianos/profilaxia-antibiotica/proteses-articulares-por-que-a-profilaxia-de-rotina-nao-e-recomendada",
+         "nome": "Próteses articulares: por que a profilaxia de rotina não é recomendada"
+        },
+        {
+         "id": "farmacologia-e-terapeutica/antimicrobianos/profilaxia-antibiotica/cirurgia-implantes-e-terceiros-molares-o-que-a-evidencia-mostra",
+         "nome": "Cirurgia, implantes e terceiros molares: o que a evidência mostra"
+        },
+        {
+         "id": "farmacologia-e-terapeutica/antimicrobianos/profilaxia-antibiotica/algoritmo-de-decisao-indicar-ou-nao",
+         "nome": "Algoritmo de decisão: indicar ou não"
         }
        ]
       },
@@ -3398,8 +3704,8 @@
        "nome": "Gestante e lactante",
        "paginas": [
         {
-         "id": "farmacologia-e-terapeutica/pacientes-especiais-na-prescricao/gestante-e-lactante/categorias-de-risco",
-         "nome": "Categorias de risco"
+         "id": "farmacologia-e-terapeutica/pacientes-especiais-na-prescricao/gestante-e-lactante/seguranca-na-gestacao-e-lactacao-as-categorias-das-bulas-brasileiras-e-o-modelo-narrativo-que-substituiu-as-letras-fda-2015",
+         "nome": "Segurança na gestação e lactação: as categorias das bulas brasileiras e o modelo narrativo que substituiu as letras (FDA, 2015)"
         },
         {
          "id": "farmacologia-e-terapeutica/pacientes-especiais-na-prescricao/gestante-e-lactante/o-que-pode-e-o-que-nao-pode",
@@ -3408,6 +3714,10 @@
         {
          "id": "farmacologia-e-terapeutica/pacientes-especiais-na-prescricao/gestante-e-lactante/anestesico-na-gestante",
          "nome": "Anestésico na gestante"
+        },
+        {
+         "id": "farmacologia-e-terapeutica/pacientes-especiais-na-prescricao/gestante-e-lactante/amamentacao-o-que-orientar",
+         "nome": "Amamentação: o que orientar"
         }
        ]
       },
@@ -3466,6 +3776,39 @@
        ]
       }
      ]
+    },
+    {
+     "id": "farmacologia-e-terapeutica/pratica-baseada-em-evidencias",
+     "nome": "Prática baseada em evidências",
+     "temas": [
+      {
+       "id": "farmacologia-e-terapeutica/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta",
+       "nome": "As quatro perguntas de cada conduta",
+       "paginas": [
+        {
+         "id": "farmacologia-e-terapeutica/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-indicacao",
+         "nome": "Qual é a indicação?"
+        },
+        {
+         "id": "farmacologia-e-terapeutica/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-contraindicacao",
+         "nome": "Qual é a contraindicação?"
+        },
+        {
+         "id": "farmacologia-e-terapeutica/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-qualidade-da-evidencia",
+         "nome": "Qual é a qualidade da evidência?"
+        },
+        {
+         "id": "farmacologia-e-terapeutica/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-mudou-nos-ultimos-anos",
+         "nome": "O que mudou nos últimos anos?"
+        },
+        {
+         "id": "farmacologia-e-terapeutica/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-e-tradicao-de-escola-e-o-que-e-evidencia-como-a-apostila-diferencia",
+         "nome": "O que é tradição de escola e o que é evidência: como a apostila diferencia"
+        }
+       ]
+      }
+     ],
+     "transversal": true
     }
    ]
   },
@@ -3474,6 +3817,8 @@
    "nome": "Anestesiologia",
    "ciclo": "pré-clínico",
    "cfo": false,
+   "status": "disciplina",
+   "statusRotulo": "Disciplina de formação odontológica",
    "descricao": "Técnicas de anestesia local, do cálculo de dose ao que fazer quando falha.",
    "modulos": [
     {
@@ -3859,8 +4204,8 @@
          "nome": "Lipotimia"
         },
         {
-         "id": "anestesiologia/falhas-e-complicacoes/complicacoes-sistemicas/toxicidade-e-overdose",
-         "nome": "Toxicidade e overdose"
+         "id": "anestesiologia/falhas-e-complicacoes/complicacoes-sistemicas/toxicidade-sistemica-sobredosagem-sinais-e-conduta",
+         "nome": "Toxicidade sistêmica (sobredosagem): sinais e conduta"
         },
         {
          "id": "anestesiologia/falhas-e-complicacoes/complicacoes-sistemicas/reacao-ao-vasoconstritor",
@@ -3869,6 +4214,10 @@
         {
          "id": "anestesiologia/falhas-e-complicacoes/complicacoes-sistemicas/alergia",
          "nome": "Alergia"
+        },
+        {
+         "id": "anestesiologia/falhas-e-complicacoes/complicacoes-sistemicas/monitorizacao-do-paciente-durante-a-anestesia",
+         "nome": "Monitorização do paciente durante a anestesia"
         }
        ]
       }
@@ -3941,6 +4290,39 @@
        ]
       }
      ]
+    },
+    {
+     "id": "anestesiologia/pratica-baseada-em-evidencias",
+     "nome": "Prática baseada em evidências",
+     "temas": [
+      {
+       "id": "anestesiologia/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta",
+       "nome": "As quatro perguntas de cada conduta",
+       "paginas": [
+        {
+         "id": "anestesiologia/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-indicacao",
+         "nome": "Qual é a indicação?"
+        },
+        {
+         "id": "anestesiologia/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-contraindicacao",
+         "nome": "Qual é a contraindicação?"
+        },
+        {
+         "id": "anestesiologia/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-qualidade-da-evidencia",
+         "nome": "Qual é a qualidade da evidência?"
+        },
+        {
+         "id": "anestesiologia/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-mudou-nos-ultimos-anos",
+         "nome": "O que mudou nos últimos anos?"
+        },
+        {
+         "id": "anestesiologia/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-e-tradicao-de-escola-e-o-que-e-evidencia-como-a-apostila-diferencia",
+         "nome": "O que é tradição de escola e o que é evidência: como a apostila diferencia"
+        }
+       ]
+      }
+     ],
+     "transversal": true
     }
    ]
   },
@@ -3949,6 +4331,8 @@
    "nome": "Biossegurança e ergonomia",
    "ciclo": "pré-clínico",
    "cfo": false,
+   "status": "disciplina",
+   "statusRotulo": "Disciplina de formação odontológica",
    "descricao": "Não contaminar, não se contaminar e não se lesionar.",
    "modulos": [
     {
@@ -4072,6 +4456,10 @@
          "nome": "Autoclave: ciclos e parâmetros"
         },
         {
+         "id": "biosseguranca-e-ergonomia/processamento-de-artigos/esterilizacao/instrucoes-de-uso-do-fabricante-e-validacao-do-processamento",
+         "nome": "Instruções de uso do fabricante e validação do processamento"
+        },
+        {
          "id": "biosseguranca-e-ergonomia/processamento-de-artigos/esterilizacao/embalagem-e-validade",
          "nome": "Embalagem e validade"
         },
@@ -4080,8 +4468,12 @@
          "nome": "Indicadores químicos e biológicos"
         },
         {
-         "id": "biosseguranca-e-ergonomia/processamento-de-artigos/esterilizacao/estufa-por-que-nao",
-         "nome": "Estufa: por que não"
+         "id": "biosseguranca-e-ergonomia/processamento-de-artigos/esterilizacao/rastreabilidade-do-ciclo",
+         "nome": "Rastreabilidade do ciclo"
+        },
+        {
+         "id": "biosseguranca-e-ergonomia/processamento-de-artigos/esterilizacao/estufa-calor-seco-proibida-pela-anvisa-rdc-15-2012-e-rdc-1-002-2025",
+         "nome": "Estufa (calor seco): proibida pela Anvisa (RDC 15/2012 e RDC 1.002/2025)"
         },
         {
          "id": "biosseguranca-e-ergonomia/processamento-de-artigos/esterilizacao/pecas-de-mao-e-canetas",
@@ -4110,6 +4502,14 @@
         {
          "id": "biosseguranca-e-ergonomia/ambiente/superficies-e-agua/linhas-de-agua-do-equipo-e-biofilme",
          "nome": "Linhas de água do equipo e biofilme"
+        },
+        {
+         "id": "biosseguranca-e-ergonomia/ambiente/superficies-e-agua/monitoramento-da-qualidade-da-agua-e-manutencao-das-linhas",
+         "nome": "Monitoramento da qualidade da água e manutenção das linhas"
+        },
+        {
+         "id": "biosseguranca-e-ergonomia/ambiente/superficies-e-agua/agua-esteril-em-procedimentos-cirurgicos",
+         "nome": "Água estéril em procedimentos cirúrgicos"
         },
         {
          "id": "biosseguranca-e-ergonomia/ambiente/superficies-e-agua/aerossois-e-ventilacao",
@@ -4240,8 +4640,12 @@
        "nome": "Vigilância e normas",
        "paginas": [
         {
-         "id": "biosseguranca-e-ergonomia/situacoes-especiais-e-legislacao/vigilancia-e-normas/resolucoes-da-anvisa-para-servicos-odontologicos",
-         "nome": "Resoluções da Anvisa para serviços odontológicos"
+         "id": "biosseguranca-e-ergonomia/situacoes-especiais-e-legislacao/vigilancia-e-normas/rdc-1-002-2025-boas-praticas-em-servicos-odontologicos-adequacao-ate-dezembro-de-2026",
+         "nome": "RDC 1.002/2025: boas práticas em serviços odontológicos (adequação até dezembro de 2026)"
+        },
+        {
+         "id": "biosseguranca-e-ergonomia/situacoes-especiais-e-legislacao/vigilancia-e-normas/rdc-15-2012-e-o-processamento-de-produtos-para-saude",
+         "nome": "RDC 15/2012 e o processamento de produtos para saúde"
         },
         {
          "id": "biosseguranca-e-ergonomia/situacoes-especiais-e-legislacao/vigilancia-e-normas/programa-de-gerenciamento-de-riscos",
@@ -4258,6 +4662,39 @@
        ]
       }
      ]
+    },
+    {
+     "id": "biosseguranca-e-ergonomia/pratica-baseada-em-evidencias",
+     "nome": "Prática baseada em evidências",
+     "temas": [
+      {
+       "id": "biosseguranca-e-ergonomia/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta",
+       "nome": "As quatro perguntas de cada conduta",
+       "paginas": [
+        {
+         "id": "biosseguranca-e-ergonomia/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-indicacao",
+         "nome": "Qual é a indicação?"
+        },
+        {
+         "id": "biosseguranca-e-ergonomia/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-contraindicacao",
+         "nome": "Qual é a contraindicação?"
+        },
+        {
+         "id": "biosseguranca-e-ergonomia/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-qualidade-da-evidencia",
+         "nome": "Qual é a qualidade da evidência?"
+        },
+        {
+         "id": "biosseguranca-e-ergonomia/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-mudou-nos-ultimos-anos",
+         "nome": "O que mudou nos últimos anos?"
+        },
+        {
+         "id": "biosseguranca-e-ergonomia/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-e-tradicao-de-escola-e-o-que-e-evidencia-como-a-apostila-diferencia",
+         "nome": "O que é tradição de escola e o que é evidência: como a apostila diferencia"
+        }
+       ]
+      }
+     ],
+     "transversal": true
     }
    ]
   },
@@ -4266,6 +4703,8 @@
    "nome": "Materiais dentários",
    "ciclo": "pré-clínico",
    "cfo": false,
+   "status": "disciplina",
+   "statusRotulo": "Disciplina de formação odontológica",
    "descricao": "Composição, manipulação e por que cada material falha quando falha.",
    "modulos": [
     {
@@ -4829,6 +5268,39 @@
        ]
       }
      ]
+    },
+    {
+     "id": "materiais-dentarios/pratica-baseada-em-evidencias",
+     "nome": "Prática baseada em evidências",
+     "temas": [
+      {
+       "id": "materiais-dentarios/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta",
+       "nome": "As quatro perguntas de cada conduta",
+       "paginas": [
+        {
+         "id": "materiais-dentarios/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-indicacao",
+         "nome": "Qual é a indicação?"
+        },
+        {
+         "id": "materiais-dentarios/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-contraindicacao",
+         "nome": "Qual é a contraindicação?"
+        },
+        {
+         "id": "materiais-dentarios/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-qualidade-da-evidencia",
+         "nome": "Qual é a qualidade da evidência?"
+        },
+        {
+         "id": "materiais-dentarios/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-mudou-nos-ultimos-anos",
+         "nome": "O que mudou nos últimos anos?"
+        },
+        {
+         "id": "materiais-dentarios/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-e-tradicao-de-escola-e-o-que-e-evidencia-como-a-apostila-diferencia",
+         "nome": "O que é tradição de escola e o que é evidência: como a apostila diferencia"
+        }
+       ]
+      }
+     ],
+     "transversal": true
     }
    ]
   },
@@ -4837,6 +5309,8 @@
    "nome": "Oclusão",
    "ciclo": "pré-clínico",
    "cfo": false,
+   "status": "disciplina",
+   "statusRotulo": "Disciplina de formação odontológica",
    "descricao": "Como os dentes se encontram e por que isso decide restaurações, próteses e dor.",
    "modulos": [
     {
@@ -5154,6 +5628,10 @@
         {
          "id": "oclusao/pratica/oclusao-nas-especialidades/oclusao-e-dtm-o-que-a-evidencia-diz",
          "nome": "Oclusão e DTM: o que a evidência diz"
+        },
+        {
+         "id": "oclusao/pratica/oclusao-nas-especialidades/oclusao-e-funcao-mastigatoria-o-que-e-fundamento-e-o-que-e-escola",
+         "nome": "Oclusão e função mastigatória: o que é fundamento e o que é escola"
         }
        ]
       }
@@ -5218,6 +5696,39 @@
        ]
       }
      ]
+    },
+    {
+     "id": "oclusao/pratica-baseada-em-evidencias",
+     "nome": "Prática baseada em evidências",
+     "temas": [
+      {
+       "id": "oclusao/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta",
+       "nome": "As quatro perguntas de cada conduta",
+       "paginas": [
+        {
+         "id": "oclusao/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-indicacao",
+         "nome": "Qual é a indicação?"
+        },
+        {
+         "id": "oclusao/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-contraindicacao",
+         "nome": "Qual é a contraindicação?"
+        },
+        {
+         "id": "oclusao/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-qualidade-da-evidencia",
+         "nome": "Qual é a qualidade da evidência?"
+        },
+        {
+         "id": "oclusao/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-mudou-nos-ultimos-anos",
+         "nome": "O que mudou nos últimos anos?"
+        },
+        {
+         "id": "oclusao/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-e-tradicao-de-escola-e-o-que-e-evidencia-como-a-apostila-diferencia",
+         "nome": "O que é tradição de escola e o que é evidência: como a apostila diferencia"
+        }
+       ]
+      }
+     ],
+     "transversal": true
     }
    ]
   },
@@ -5226,6 +5737,8 @@
    "nome": "Cariologia e prevenção",
    "ciclo": "pré-clínico",
    "cfo": false,
+   "status": "disciplina",
+   "statusRotulo": "Disciplina de formação odontológica",
    "descricao": "A doença mais comum do mundo: entender, detectar, parar e prevenir.",
    "modulos": [
     {
@@ -5355,6 +5868,10 @@
         {
          "id": "cariologia-e-prevencao/diagnostico/avaliacao-de-atividade-e-risco/sinais-de-atividade",
          "nome": "Sinais de atividade"
+        },
+        {
+         "id": "cariologia-e-prevencao/diagnostico/avaliacao-de-atividade-e-risco/atividade-de-lesao-e-monitoramento-longitudinal",
+         "nome": "Atividade de lesão e monitoramento longitudinal"
         },
         {
          "id": "cariologia-e-prevencao/diagnostico/avaliacao-de-atividade-e-risco/avaliacao-de-risco-individual",
@@ -5561,6 +6078,10 @@
        "nome": "Manutenção",
        "paginas": [
         {
+         "id": "cariologia-e-prevencao/tratamento-nao-restaurador/manutencao/manejo-nao-operatorio-baseado-em-risco",
+         "nome": "Manejo não operatório baseado em risco"
+        },
+        {
          "id": "cariologia-e-prevencao/tratamento-nao-restaurador/manutencao/intervalo-de-retorno-por-risco",
          "nome": "Intervalo de retorno por risco"
         },
@@ -5593,8 +6114,8 @@
          "nome": "Adolescente e ortodontia"
         },
         {
-         "id": "cariologia-e-prevencao/carie-em-grupos-e-situacoes-especiais/por-faixa-etaria/adulto-e-carie-secundaria",
-         "nome": "Adulto e cárie secundária"
+         "id": "cariologia-e-prevencao/carie-em-grupos-e-situacoes-especiais/por-faixa-etaria/adulto-e-carie-adjacente-a-restauracoes-carie-secundaria",
+         "nome": "Adulto e cárie adjacente a restaurações (cárie secundária)"
         },
         {
          "id": "cariologia-e-prevencao/carie-em-grupos-e-situacoes-especiais/por-faixa-etaria/idoso-e-carie-radicular",
@@ -5663,6 +6184,39 @@
        ]
       }
      ]
+    },
+    {
+     "id": "cariologia-e-prevencao/pratica-baseada-em-evidencias",
+     "nome": "Prática baseada em evidências",
+     "temas": [
+      {
+       "id": "cariologia-e-prevencao/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta",
+       "nome": "As quatro perguntas de cada conduta",
+       "paginas": [
+        {
+         "id": "cariologia-e-prevencao/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-indicacao",
+         "nome": "Qual é a indicação?"
+        },
+        {
+         "id": "cariologia-e-prevencao/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-contraindicacao",
+         "nome": "Qual é a contraindicação?"
+        },
+        {
+         "id": "cariologia-e-prevencao/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-qualidade-da-evidencia",
+         "nome": "Qual é a qualidade da evidência?"
+        },
+        {
+         "id": "cariologia-e-prevencao/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-mudou-nos-ultimos-anos",
+         "nome": "O que mudou nos últimos anos?"
+        },
+        {
+         "id": "cariologia-e-prevencao/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-e-tradicao-de-escola-e-o-que-e-evidencia-como-a-apostila-diferencia",
+         "nome": "O que é tradição de escola e o que é evidência: como a apostila diferencia"
+        }
+       ]
+      }
+     ],
+     "transversal": true
     }
    ]
   },
@@ -5671,6 +6225,8 @@
    "nome": "Propedêutica e clínica integrada",
    "ciclo": "pré-clínico",
    "cfo": false,
+   "status": "disciplina",
+   "statusRotulo": "Disciplina de formação odontológica",
    "descricao": "Anamnese, exame, prontuário e plano de tratamento: o que vem antes de qualquer procedimento.",
    "modulos": [
     {
@@ -6078,6 +6634,39 @@
        ]
       }
      ]
+    },
+    {
+     "id": "propedeutica-e-clinica-integrada/pratica-baseada-em-evidencias",
+     "nome": "Prática baseada em evidências",
+     "temas": [
+      {
+       "id": "propedeutica-e-clinica-integrada/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta",
+       "nome": "As quatro perguntas de cada conduta",
+       "paginas": [
+        {
+         "id": "propedeutica-e-clinica-integrada/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-indicacao",
+         "nome": "Qual é a indicação?"
+        },
+        {
+         "id": "propedeutica-e-clinica-integrada/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-contraindicacao",
+         "nome": "Qual é a contraindicação?"
+        },
+        {
+         "id": "propedeutica-e-clinica-integrada/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-qualidade-da-evidencia",
+         "nome": "Qual é a qualidade da evidência?"
+        },
+        {
+         "id": "propedeutica-e-clinica-integrada/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-mudou-nos-ultimos-anos",
+         "nome": "O que mudou nos últimos anos?"
+        },
+        {
+         "id": "propedeutica-e-clinica-integrada/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-e-tradicao-de-escola-e-o-que-e-evidencia-como-a-apostila-diferencia",
+         "nome": "O que é tradição de escola e o que é evidência: como a apostila diferencia"
+        }
+       ]
+      }
+     ],
+     "transversal": true
     }
    ]
   },
@@ -6086,6 +6675,8 @@
    "nome": "Urgências e emergências",
    "ciclo": "pré-clínico",
    "cfo": false,
+   "status": "disciplina",
+   "statusRotulo": "Disciplina de formação odontológica",
    "descricao": "O que fazer nos primeiros minutos: dor, trauma, sangramento e emergência médica na cadeira.",
    "modulos": [
     {
@@ -6133,6 +6724,10 @@
         {
          "id": "urgencias-e-emergencias/emergencias-medicas/suporte-basico-de-vida/obstrucao-de-via-aerea",
          "nome": "Obstrução de via aérea"
+        },
+        {
+         "id": "urgencias-e-emergencias/emergencias-medicas/suporte-basico-de-vida/algoritmos-vigentes-o-que-mudou-nas-ultimas-diretrizes",
+         "nome": "Algoritmos vigentes: o que mudou nas últimas diretrizes"
         }
        ]
       },
@@ -6185,8 +6780,8 @@
        "nome": "Cardiovasculares",
        "paginas": [
         {
-         "id": "urgencias-e-emergencias/emergencias-medicas/cardiovasculares/crise-hipertensiva",
-         "nome": "Crise hipertensiva"
+         "id": "urgencias-e-emergencias/emergencias-medicas/cardiovasculares/pressao-arterial-elevada-no-consultorio-urgencia-emergencia-hipertensiva",
+         "nome": "Pressão arterial elevada no consultório: urgência × emergência hipertensiva"
         },
         {
          "id": "urgencias-e-emergencias/emergencias-medicas/cardiovasculares/angina-e-infarto",
@@ -6489,6 +7084,39 @@
        ]
       }
      ]
+    },
+    {
+     "id": "urgencias-e-emergencias/pratica-baseada-em-evidencias",
+     "nome": "Prática baseada em evidências",
+     "temas": [
+      {
+       "id": "urgencias-e-emergencias/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta",
+       "nome": "As quatro perguntas de cada conduta",
+       "paginas": [
+        {
+         "id": "urgencias-e-emergencias/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-indicacao",
+         "nome": "Qual é a indicação?"
+        },
+        {
+         "id": "urgencias-e-emergencias/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-contraindicacao",
+         "nome": "Qual é a contraindicação?"
+        },
+        {
+         "id": "urgencias-e-emergencias/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-qualidade-da-evidencia",
+         "nome": "Qual é a qualidade da evidência?"
+        },
+        {
+         "id": "urgencias-e-emergencias/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-mudou-nos-ultimos-anos",
+         "nome": "O que mudou nos últimos anos?"
+        },
+        {
+         "id": "urgencias-e-emergencias/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-e-tradicao-de-escola-e-o-que-e-evidencia-como-a-apostila-diferencia",
+         "nome": "O que é tradição de escola e o que é evidência: como a apostila diferencia"
+        }
+       ]
+      }
+     ],
+     "transversal": true
     }
    ]
   },
@@ -6497,6 +7125,8 @@
    "nome": "Metodologia científica e bioestatística",
    "ciclo": "básico",
    "cfo": false,
+   "status": "disciplina",
+   "statusRotulo": "Disciplina de formação odontológica",
    "descricao": "Ler um artigo sem medo, montar um TCC e entender um valor de p.",
    "modulos": [
     {
@@ -6764,6 +7394,10 @@
          "nome": "Intervalo de confiança"
         },
         {
+         "id": "metodologia-cientifica-e-bioestatistica/bioestatistica/inferencia/tamanho-de-efeito-e-significancia-clinica",
+         "nome": "Tamanho de efeito e significância clínica"
+        },
+        {
          "id": "metodologia-cientifica-e-bioestatistica/bioestatistica/inferencia/erro-tipo-i-e-ii-e-poder",
          "nome": "Erro tipo I e II e poder"
         },
@@ -6800,6 +7434,39 @@
        ]
       }
      ]
+    },
+    {
+     "id": "metodologia-cientifica-e-bioestatistica/pratica-baseada-em-evidencias",
+     "nome": "Prática baseada em evidências",
+     "temas": [
+      {
+       "id": "metodologia-cientifica-e-bioestatistica/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta",
+       "nome": "As quatro perguntas de cada conduta",
+       "paginas": [
+        {
+         "id": "metodologia-cientifica-e-bioestatistica/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-indicacao",
+         "nome": "Qual é a indicação?"
+        },
+        {
+         "id": "metodologia-cientifica-e-bioestatistica/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-contraindicacao",
+         "nome": "Qual é a contraindicação?"
+        },
+        {
+         "id": "metodologia-cientifica-e-bioestatistica/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-qualidade-da-evidencia",
+         "nome": "Qual é a qualidade da evidência?"
+        },
+        {
+         "id": "metodologia-cientifica-e-bioestatistica/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-mudou-nos-ultimos-anos",
+         "nome": "O que mudou nos últimos anos?"
+        },
+        {
+         "id": "metodologia-cientifica-e-bioestatistica/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-e-tradicao-de-escola-e-o-que-e-evidencia-como-a-apostila-diferencia",
+         "nome": "O que é tradição de escola e o que é evidência: como a apostila diferencia"
+        }
+       ]
+      }
+     ],
+     "transversal": true
     }
    ]
   },
@@ -6808,6 +7475,8 @@
    "nome": "Psicologia, ética e gestão",
    "ciclo": "básico",
    "cfo": false,
+   "status": "disciplina",
+   "statusRotulo": "Disciplina de formação odontológica",
    "descricao": "O lado humano e profissional: paciente, equipe, consultório e carreira.",
    "modulos": [
     {
@@ -6845,6 +7514,10 @@
          "nome": "Estresse e burnout"
         },
         {
+         "id": "psicologia-etica-e-gestao/psicologia-aplicada/o-profissional/saude-mental-do-estudante-e-do-dentista",
+         "nome": "Saúde mental do estudante e do dentista"
+        },
+        {
          "id": "psicologia-etica-e-gestao/psicologia-aplicada/o-profissional/trabalho-em-equipe",
          "nome": "Trabalho em equipe"
         },
@@ -6875,6 +7548,10 @@
         {
          "id": "psicologia-etica-e-gestao/etica-e-deontologia/fundamentos/publicidade-e-redes-sociais",
          "nome": "Publicidade e redes sociais"
+        },
+        {
+         "id": "psicologia-etica-e-gestao/etica-e-deontologia/fundamentos/etica-digital-telemedicina-imagens-de-pacientes-e-inteligencia-artificial",
+         "nome": "Ética digital: telemedicina, imagens de pacientes e inteligência artificial"
         },
         {
          "id": "psicologia-etica-e-gestao/etica-e-deontologia/fundamentos/relacao-com-colegas",
@@ -7013,6 +7690,39 @@
        ]
       }
      ]
+    },
+    {
+     "id": "psicologia-etica-e-gestao/pratica-baseada-em-evidencias",
+     "nome": "Prática baseada em evidências",
+     "temas": [
+      {
+       "id": "psicologia-etica-e-gestao/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta",
+       "nome": "As quatro perguntas de cada conduta",
+       "paginas": [
+        {
+         "id": "psicologia-etica-e-gestao/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-indicacao",
+         "nome": "Qual é a indicação?"
+        },
+        {
+         "id": "psicologia-etica-e-gestao/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-contraindicacao",
+         "nome": "Qual é a contraindicação?"
+        },
+        {
+         "id": "psicologia-etica-e-gestao/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-qualidade-da-evidencia",
+         "nome": "Qual é a qualidade da evidência?"
+        },
+        {
+         "id": "psicologia-etica-e-gestao/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-mudou-nos-ultimos-anos",
+         "nome": "O que mudou nos últimos anos?"
+        },
+        {
+         "id": "psicologia-etica-e-gestao/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-e-tradicao-de-escola-e-o-que-e-evidencia-como-a-apostila-diferencia",
+         "nome": "O que é tradição de escola e o que é evidência: como a apostila diferencia"
+        }
+       ]
+      }
+     ],
+     "transversal": true
     }
    ]
   },
@@ -7021,6 +7731,8 @@
    "nome": "Dentística",
    "ciclo": "clínico",
    "cfo": true,
+   "status": "especialidade_cfo",
+   "statusRotulo": "Especialidade reconhecida pelo CFO",
    "descricao": "Restaurar forma, função e estética com o mínimo de desgaste.",
    "modulos": [
     {
@@ -7742,6 +8454,39 @@
        ]
       }
      ]
+    },
+    {
+     "id": "dentistica/pratica-baseada-em-evidencias",
+     "nome": "Prática baseada em evidências",
+     "temas": [
+      {
+       "id": "dentistica/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta",
+       "nome": "As quatro perguntas de cada conduta",
+       "paginas": [
+        {
+         "id": "dentistica/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-indicacao",
+         "nome": "Qual é a indicação?"
+        },
+        {
+         "id": "dentistica/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-contraindicacao",
+         "nome": "Qual é a contraindicação?"
+        },
+        {
+         "id": "dentistica/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-qualidade-da-evidencia",
+         "nome": "Qual é a qualidade da evidência?"
+        },
+        {
+         "id": "dentistica/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-mudou-nos-ultimos-anos",
+         "nome": "O que mudou nos últimos anos?"
+        },
+        {
+         "id": "dentistica/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-e-tradicao-de-escola-e-o-que-e-evidencia-como-a-apostila-diferencia",
+         "nome": "O que é tradição de escola e o que é evidência: como a apostila diferencia"
+        }
+       ]
+      }
+     ],
+     "transversal": true
     }
    ]
   },
@@ -7750,6 +8495,8 @@
    "nome": "Endodontia",
    "ciclo": "clínico",
    "cfo": true,
+   "status": "especialidade_cfo",
+   "statusRotulo": "Especialidade reconhecida pelo CFO",
    "descricao": "Da dor de dente ao canal obturado: diagnóstico, acesso, preparo e obturação.",
    "modulos": [
     {
@@ -8483,6 +9230,39 @@
        ]
       }
      ]
+    },
+    {
+     "id": "endodontia/pratica-baseada-em-evidencias",
+     "nome": "Prática baseada em evidências",
+     "temas": [
+      {
+       "id": "endodontia/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta",
+       "nome": "As quatro perguntas de cada conduta",
+       "paginas": [
+        {
+         "id": "endodontia/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-indicacao",
+         "nome": "Qual é a indicação?"
+        },
+        {
+         "id": "endodontia/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-contraindicacao",
+         "nome": "Qual é a contraindicação?"
+        },
+        {
+         "id": "endodontia/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-qualidade-da-evidencia",
+         "nome": "Qual é a qualidade da evidência?"
+        },
+        {
+         "id": "endodontia/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-mudou-nos-ultimos-anos",
+         "nome": "O que mudou nos últimos anos?"
+        },
+        {
+         "id": "endodontia/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-e-tradicao-de-escola-e-o-que-e-evidencia-como-a-apostila-diferencia",
+         "nome": "O que é tradição de escola e o que é evidência: como a apostila diferencia"
+        }
+       ]
+      }
+     ],
+     "transversal": true
     }
    ]
   },
@@ -8491,6 +9271,8 @@
    "nome": "Periodontia",
    "ciclo": "clínico",
    "cfo": true,
+   "status": "especialidade_cfo",
+   "statusRotulo": "Especialidade reconhecida pelo CFO",
    "descricao": "Gengiva e osso: diagnosticar, raspar, operar e manter.",
    "modulos": [
     {
@@ -8514,8 +9296,8 @@
          "nome": "Biótipo e fenótipo"
         },
         {
-         "id": "periodontia/bases/periodonto-saudavel/espaco-biologico-e-distancia-biologica",
-         "nome": "Espaço biológico e distância biológica"
+         "id": "periodontia/bases/periodonto-saudavel/insercao-tecidual-supracrestal-tradicionalmente-espaco-biologico-ou-distancia-biologica",
+         "nome": "Inserção tecidual supracrestal (tradicionalmente \"espaço biológico\" ou distância biológica)"
         }
        ]
       },
@@ -8920,8 +9702,8 @@
          "nome": "Indicações estéticas e restauradoras"
         },
         {
-         "id": "periodontia/cirurgia-periodontal/aumento-de-coroa-clinica/planejamento-com-o-espaco-biologico",
-         "nome": "Planejamento com o espaço biológico"
+         "id": "periodontia/cirurgia-periodontal/aumento-de-coroa-clinica/planejamento-com-a-insercao-tecidual-supracrestal",
+         "nome": "Planejamento com a inserção tecidual supracrestal"
         },
         {
          "id": "periodontia/cirurgia-periodontal/aumento-de-coroa-clinica/tecnica",
@@ -9208,6 +9990,39 @@
        ]
       }
      ]
+    },
+    {
+     "id": "periodontia/pratica-baseada-em-evidencias",
+     "nome": "Prática baseada em evidências",
+     "temas": [
+      {
+       "id": "periodontia/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta",
+       "nome": "As quatro perguntas de cada conduta",
+       "paginas": [
+        {
+         "id": "periodontia/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-indicacao",
+         "nome": "Qual é a indicação?"
+        },
+        {
+         "id": "periodontia/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-contraindicacao",
+         "nome": "Qual é a contraindicação?"
+        },
+        {
+         "id": "periodontia/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-qualidade-da-evidencia",
+         "nome": "Qual é a qualidade da evidência?"
+        },
+        {
+         "id": "periodontia/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-mudou-nos-ultimos-anos",
+         "nome": "O que mudou nos últimos anos?"
+        },
+        {
+         "id": "periodontia/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-e-tradicao-de-escola-e-o-que-e-evidencia-como-a-apostila-diferencia",
+         "nome": "O que é tradição de escola e o que é evidência: como a apostila diferencia"
+        }
+       ]
+      }
+     ],
+     "transversal": true
     }
    ]
   },
@@ -9216,6 +10031,8 @@
    "nome": "Prótese dentária",
    "ciclo": "clínico",
    "cfo": true,
+   "status": "especialidade_cfo",
+   "statusRotulo": "Especialidade reconhecida pelo CFO",
    "descricao": "Repor dentes: da coroa unitária à prótese total, do preparo à entrega.",
    "modulos": [
     {
@@ -9945,6 +10762,39 @@
        ]
       }
      ]
+    },
+    {
+     "id": "protese-dentaria/pratica-baseada-em-evidencias",
+     "nome": "Prática baseada em evidências",
+     "temas": [
+      {
+       "id": "protese-dentaria/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta",
+       "nome": "As quatro perguntas de cada conduta",
+       "paginas": [
+        {
+         "id": "protese-dentaria/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-indicacao",
+         "nome": "Qual é a indicação?"
+        },
+        {
+         "id": "protese-dentaria/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-contraindicacao",
+         "nome": "Qual é a contraindicação?"
+        },
+        {
+         "id": "protese-dentaria/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-qualidade-da-evidencia",
+         "nome": "Qual é a qualidade da evidência?"
+        },
+        {
+         "id": "protese-dentaria/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-mudou-nos-ultimos-anos",
+         "nome": "O que mudou nos últimos anos?"
+        },
+        {
+         "id": "protese-dentaria/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-e-tradicao-de-escola-e-o-que-e-evidencia-como-a-apostila-diferencia",
+         "nome": "O que é tradição de escola e o que é evidência: como a apostila diferencia"
+        }
+       ]
+      }
+     ],
+     "transversal": true
     }
    ]
   },
@@ -9953,6 +10803,8 @@
    "nome": "Cirurgia e traumatologia bucomaxilofacial",
    "ciclo": "clínico",
    "cfo": true,
+   "status": "especialidade_cfo",
+   "statusRotulo": "Especialidade reconhecida pelo CFO",
    "descricao": "Da exodontia simples às fraturas de face.",
    "modulos": [
     {
@@ -10816,6 +11668,39 @@
        ]
       }
      ]
+    },
+    {
+     "id": "cirurgia-e-traumatologia-bucomaxilofacial/pratica-baseada-em-evidencias",
+     "nome": "Prática baseada em evidências",
+     "temas": [
+      {
+       "id": "cirurgia-e-traumatologia-bucomaxilofacial/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta",
+       "nome": "As quatro perguntas de cada conduta",
+       "paginas": [
+        {
+         "id": "cirurgia-e-traumatologia-bucomaxilofacial/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-indicacao",
+         "nome": "Qual é a indicação?"
+        },
+        {
+         "id": "cirurgia-e-traumatologia-bucomaxilofacial/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-contraindicacao",
+         "nome": "Qual é a contraindicação?"
+        },
+        {
+         "id": "cirurgia-e-traumatologia-bucomaxilofacial/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-qualidade-da-evidencia",
+         "nome": "Qual é a qualidade da evidência?"
+        },
+        {
+         "id": "cirurgia-e-traumatologia-bucomaxilofacial/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-mudou-nos-ultimos-anos",
+         "nome": "O que mudou nos últimos anos?"
+        },
+        {
+         "id": "cirurgia-e-traumatologia-bucomaxilofacial/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-e-tradicao-de-escola-e-o-que-e-evidencia-como-a-apostila-diferencia",
+         "nome": "O que é tradição de escola e o que é evidência: como a apostila diferencia"
+        }
+       ]
+      }
+     ],
+     "transversal": true
     }
    ]
   },
@@ -10824,6 +11709,8 @@
    "nome": "Implantodontia",
    "ciclo": "clínico",
    "cfo": true,
+   "status": "especialidade_cfo",
+   "statusRotulo": "Especialidade reconhecida pelo CFO",
    "descricao": "Planejar, instalar e reabilitar implantes com previsibilidade.",
    "modulos": [
     {
@@ -10891,8 +11778,8 @@
          "nome": "Mucosa periimplantar"
         },
         {
-         "id": "implantodontia/bases/biologia-dos-tecidos-periimplantares/espaco-biologico-ao-redor-do-implante",
-         "nome": "Espaço biológico ao redor do implante"
+         "id": "implantodontia/bases/biologia-dos-tecidos-periimplantares/insercao-tecidual-supracrestal-ao-redor-do-implante",
+         "nome": "Inserção tecidual supracrestal ao redor do implante"
         }
        ]
       }
@@ -11453,6 +12340,39 @@
        ]
       }
      ]
+    },
+    {
+     "id": "implantodontia/pratica-baseada-em-evidencias",
+     "nome": "Prática baseada em evidências",
+     "temas": [
+      {
+       "id": "implantodontia/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta",
+       "nome": "As quatro perguntas de cada conduta",
+       "paginas": [
+        {
+         "id": "implantodontia/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-indicacao",
+         "nome": "Qual é a indicação?"
+        },
+        {
+         "id": "implantodontia/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-contraindicacao",
+         "nome": "Qual é a contraindicação?"
+        },
+        {
+         "id": "implantodontia/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-qualidade-da-evidencia",
+         "nome": "Qual é a qualidade da evidência?"
+        },
+        {
+         "id": "implantodontia/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-mudou-nos-ultimos-anos",
+         "nome": "O que mudou nos últimos anos?"
+        },
+        {
+         "id": "implantodontia/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-e-tradicao-de-escola-e-o-que-e-evidencia-como-a-apostila-diferencia",
+         "nome": "O que é tradição de escola e o que é evidência: como a apostila diferencia"
+        }
+       ]
+      }
+     ],
+     "transversal": true
     }
    ]
   },
@@ -11461,6 +12381,8 @@
    "nome": "Odontopediatria",
    "ciclo": "clínico",
    "cfo": true,
+   "status": "especialidade_cfo",
+   "statusRotulo": "Especialidade reconhecida pelo CFO",
    "descricao": "Atender a criança: comportamento, prevenção, dente decíduo e trauma.",
    "modulos": [
     {
@@ -12180,6 +13102,39 @@
        ]
       }
      ]
+    },
+    {
+     "id": "odontopediatria/pratica-baseada-em-evidencias",
+     "nome": "Prática baseada em evidências",
+     "temas": [
+      {
+       "id": "odontopediatria/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta",
+       "nome": "As quatro perguntas de cada conduta",
+       "paginas": [
+        {
+         "id": "odontopediatria/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-indicacao",
+         "nome": "Qual é a indicação?"
+        },
+        {
+         "id": "odontopediatria/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-contraindicacao",
+         "nome": "Qual é a contraindicação?"
+        },
+        {
+         "id": "odontopediatria/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-qualidade-da-evidencia",
+         "nome": "Qual é a qualidade da evidência?"
+        },
+        {
+         "id": "odontopediatria/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-mudou-nos-ultimos-anos",
+         "nome": "O que mudou nos últimos anos?"
+        },
+        {
+         "id": "odontopediatria/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-e-tradicao-de-escola-e-o-que-e-evidencia-como-a-apostila-diferencia",
+         "nome": "O que é tradição de escola e o que é evidência: como a apostila diferencia"
+        }
+       ]
+      }
+     ],
+     "transversal": true
     }
    ]
   },
@@ -12188,6 +13143,8 @@
    "nome": "Ortodontia",
    "ciclo": "clínico",
    "cfo": true,
+   "status": "especialidade_cfo",
+   "statusRotulo": "Especialidade reconhecida pelo CFO",
    "descricao": "Crescimento, diagnóstico e movimentação dentária: da interceptação ao aparelho fixo e alinhadores.",
    "modulos": [
     {
@@ -13149,6 +14106,46 @@
      ]
     },
     {
+     "id": "ortodontia/evidencia-em-ortodontia",
+     "nome": "Evidência em ortodontia",
+     "temas": [
+      {
+       "id": "ortodontia/evidencia-em-ortodontia/o-que-a-evidencia-diz-sobre-aparelhos-e-abordagens",
+       "nome": "O que a evidência diz sobre aparelhos e abordagens",
+       "paginas": [
+        {
+         "id": "ortodontia/evidencia-em-ortodontia/o-que-a-evidencia-diz-sobre-aparelhos-e-abordagens/autoligados-convencionais",
+         "nome": "Autoligados × convencionais"
+        },
+        {
+         "id": "ortodontia/evidencia-em-ortodontia/o-que-a-evidencia-diz-sobre-aparelhos-e-abordagens/alinhadores-aparelho-fixo",
+         "nome": "Alinhadores × aparelho fixo"
+        },
+        {
+         "id": "ortodontia/evidencia-em-ortodontia/o-que-a-evidencia-diz-sobre-aparelhos-e-abordagens/aparelhos-funcionais-efeito-esqueletico-real",
+         "nome": "Aparelhos funcionais: efeito esquelético real"
+        },
+        {
+         "id": "ortodontia/evidencia-em-ortodontia/o-que-a-evidencia-diz-sobre-aparelhos-e-abordagens/prescricoes-e-sistemas-diferencas-que-importam",
+         "nome": "Prescrições e sistemas: diferenças que importam"
+        },
+        {
+         "id": "ortodontia/evidencia-em-ortodontia/o-que-a-evidencia-diz-sobre-aparelhos-e-abordagens/aceleracao-do-movimento-o-que-funciona",
+         "nome": "Aceleração do movimento: o que funciona"
+        },
+        {
+         "id": "ortodontia/evidencia-em-ortodontia/o-que-a-evidencia-diz-sobre-aparelhos-e-abordagens/tratamento-precoce-tardio",
+         "nome": "Tratamento precoce × tardio"
+        },
+        {
+         "id": "ortodontia/evidencia-em-ortodontia/o-que-a-evidencia-diz-sobre-aparelhos-e-abordagens/como-ler-um-ensaio-clinico-em-ortodontia",
+         "nome": "Como ler um ensaio clínico em ortodontia"
+        }
+       ]
+      }
+     ]
+    },
+    {
      "id": "ortodontia/tecnologia-e-gestao",
      "nome": "Tecnologia e gestão",
      "temas": [
@@ -13197,6 +14194,39 @@
        ]
       }
      ]
+    },
+    {
+     "id": "ortodontia/pratica-baseada-em-evidencias",
+     "nome": "Prática baseada em evidências",
+     "temas": [
+      {
+       "id": "ortodontia/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta",
+       "nome": "As quatro perguntas de cada conduta",
+       "paginas": [
+        {
+         "id": "ortodontia/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-indicacao",
+         "nome": "Qual é a indicação?"
+        },
+        {
+         "id": "ortodontia/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-contraindicacao",
+         "nome": "Qual é a contraindicação?"
+        },
+        {
+         "id": "ortodontia/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-qualidade-da-evidencia",
+         "nome": "Qual é a qualidade da evidência?"
+        },
+        {
+         "id": "ortodontia/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-mudou-nos-ultimos-anos",
+         "nome": "O que mudou nos últimos anos?"
+        },
+        {
+         "id": "ortodontia/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-e-tradicao-de-escola-e-o-que-e-evidencia-como-a-apostila-diferencia",
+         "nome": "O que é tradição de escola e o que é evidência: como a apostila diferencia"
+        }
+       ]
+      }
+     ],
+     "transversal": true
     }
    ]
   },
@@ -13205,6 +14235,8 @@
    "nome": "Radiologia odontológica e imaginologia",
    "ciclo": "clínico",
    "cfo": true,
+   "status": "especialidade_cfo",
+   "statusRotulo": "Especialidade reconhecida pelo CFO",
    "descricao": "Produzir, interpretar e proteger: do periapical à tomografia.",
    "modulos": [
     {
@@ -13318,20 +14350,24 @@
          "nome": "Princípios: justificação, otimização e limitação"
         },
         {
+         "id": "radiologia-odontologica-e-imaginologia/radioprotecao/protecao/radioprotecao-baseada-em-justificacao-e-otimizacao-selecao-do-exame-campo-e-dose",
+         "nome": "Radioproteção baseada em justificação e otimização: seleção do exame, campo e dose"
+        },
+        {
          "id": "radiologia-odontologica-e-imaginologia/radioprotecao/protecao/alara-na-pratica",
          "nome": "ALARA na prática"
         },
         {
-         "id": "radiologia-odontologica-e-imaginologia/radioprotecao/protecao/protecao-do-paciente-avental-e-colar",
-         "nome": "Proteção do paciente: avental e colar"
+         "id": "radiologia-odontologica-e-imaginologia/radioprotecao/protecao/protecao-do-paciente-avental-e-colar-exigidos-pela-rdc-611-2022-e-o-debate-internacional-ada-aaomr-2023",
+         "nome": "Proteção do paciente: avental e colar exigidos pela RDC 611/2022 e o debate internacional (ADA/AAOMR 2023)"
         },
         {
          "id": "radiologia-odontologica-e-imaginologia/radioprotecao/protecao/protecao-do-operador-e-da-sala",
          "nome": "Proteção do operador e da sala"
         },
         {
-         "id": "radiologia-odontologica-e-imaginologia/radioprotecao/protecao/legislacao-sanitaria",
-         "nome": "Legislação sanitária"
+         "id": "radiologia-odontologica-e-imaginologia/radioprotecao/protecao/rdc-611-2022-requisitos-para-servicos-odontologicos",
+         "nome": "RDC 611/2022: requisitos para serviços odontológicos"
         },
         {
          "id": "radiologia-odontologica-e-imaginologia/radioprotecao/protecao/gestantes-e-criancas",
@@ -13684,8 +14720,8 @@
          "nome": "Cárie: interproximal e oclusal"
         },
         {
-         "id": "radiologia-odontologica-e-imaginologia/interpretacao/carie-e-periodonto/carie-recorrente-e-radicular",
-         "nome": "Cárie recorrente e radicular"
+         "id": "radiologia-odontologica-e-imaginologia/interpretacao/carie-e-periodonto/carie-adjacente-a-restauracoes-secundaria-e-radicular",
+         "nome": "Cárie adjacente a restaurações (secundária) e radicular"
         },
         {
          "id": "radiologia-odontologica-e-imaginologia/interpretacao/carie-e-periodonto/perda-ossea-horizontal-e-vertical",
@@ -13856,6 +14892,39 @@
        ]
       }
      ]
+    },
+    {
+     "id": "radiologia-odontologica-e-imaginologia/pratica-baseada-em-evidencias",
+     "nome": "Prática baseada em evidências",
+     "temas": [
+      {
+       "id": "radiologia-odontologica-e-imaginologia/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta",
+       "nome": "As quatro perguntas de cada conduta",
+       "paginas": [
+        {
+         "id": "radiologia-odontologica-e-imaginologia/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-indicacao",
+         "nome": "Qual é a indicação?"
+        },
+        {
+         "id": "radiologia-odontologica-e-imaginologia/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-contraindicacao",
+         "nome": "Qual é a contraindicação?"
+        },
+        {
+         "id": "radiologia-odontologica-e-imaginologia/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-qualidade-da-evidencia",
+         "nome": "Qual é a qualidade da evidência?"
+        },
+        {
+         "id": "radiologia-odontologica-e-imaginologia/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-mudou-nos-ultimos-anos",
+         "nome": "O que mudou nos últimos anos?"
+        },
+        {
+         "id": "radiologia-odontologica-e-imaginologia/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-e-tradicao-de-escola-e-o-que-e-evidencia-como-a-apostila-diferencia",
+         "nome": "O que é tradição de escola e o que é evidência: como a apostila diferencia"
+        }
+       ]
+      }
+     ],
+     "transversal": true
     }
    ]
   },
@@ -13864,6 +14933,8 @@
    "nome": "Estomatologia",
    "ciclo": "clínico",
    "cfo": true,
+   "status": "especialidade_cfo",
+   "statusRotulo": "Especialidade reconhecida pelo CFO",
    "descricao": "Diagnosticar as doenças da boca: da afta ao câncer.",
    "modulos": [
     {
@@ -14503,6 +15574,39 @@
        ]
       }
      ]
+    },
+    {
+     "id": "estomatologia/pratica-baseada-em-evidencias",
+     "nome": "Prática baseada em evidências",
+     "temas": [
+      {
+       "id": "estomatologia/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta",
+       "nome": "As quatro perguntas de cada conduta",
+       "paginas": [
+        {
+         "id": "estomatologia/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-indicacao",
+         "nome": "Qual é a indicação?"
+        },
+        {
+         "id": "estomatologia/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-contraindicacao",
+         "nome": "Qual é a contraindicação?"
+        },
+        {
+         "id": "estomatologia/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-qualidade-da-evidencia",
+         "nome": "Qual é a qualidade da evidência?"
+        },
+        {
+         "id": "estomatologia/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-mudou-nos-ultimos-anos",
+         "nome": "O que mudou nos últimos anos?"
+        },
+        {
+         "id": "estomatologia/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-e-tradicao-de-escola-e-o-que-e-evidencia-como-a-apostila-diferencia",
+         "nome": "O que é tradição de escola e o que é evidência: como a apostila diferencia"
+        }
+       ]
+      }
+     ],
+     "transversal": true
     }
    ]
   },
@@ -14511,6 +15615,8 @@
    "nome": "Patologia oral e maxilofacial",
    "ciclo": "clínico",
    "cfo": true,
+   "status": "especialidade_cfo",
+   "statusRotulo": "Especialidade reconhecida pelo CFO",
    "descricao": "O que a lesão é por dentro: histopatologia das doenças da boca e dos maxilares.",
    "modulos": [
     {
@@ -14711,6 +15817,10 @@
        "id": "patologia-oral-e-maxilofacial/tumores-odontogenicos/epiteliais",
        "nome": "Epiteliais",
        "paginas": [
+        {
+         "id": "patologia-oral-e-maxilofacial/tumores-odontogenicos/epiteliais/classificacao-da-oms-2022-5-edicao-o-que-mudou",
+         "nome": "Classificação da OMS 2022 (5ª edição): o que mudou"
+        },
         {
          "id": "patologia-oral-e-maxilofacial/tumores-odontogenicos/epiteliais/ameloblastoma-tipos",
          "nome": "Ameloblastoma: tipos"
@@ -15118,6 +16228,39 @@
        ]
       }
      ]
+    },
+    {
+     "id": "patologia-oral-e-maxilofacial/pratica-baseada-em-evidencias",
+     "nome": "Prática baseada em evidências",
+     "temas": [
+      {
+       "id": "patologia-oral-e-maxilofacial/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta",
+       "nome": "As quatro perguntas de cada conduta",
+       "paginas": [
+        {
+         "id": "patologia-oral-e-maxilofacial/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-indicacao",
+         "nome": "Qual é a indicação?"
+        },
+        {
+         "id": "patologia-oral-e-maxilofacial/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-contraindicacao",
+         "nome": "Qual é a contraindicação?"
+        },
+        {
+         "id": "patologia-oral-e-maxilofacial/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-qualidade-da-evidencia",
+         "nome": "Qual é a qualidade da evidência?"
+        },
+        {
+         "id": "patologia-oral-e-maxilofacial/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-mudou-nos-ultimos-anos",
+         "nome": "O que mudou nos últimos anos?"
+        },
+        {
+         "id": "patologia-oral-e-maxilofacial/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-e-tradicao-de-escola-e-o-que-e-evidencia-como-a-apostila-diferencia",
+         "nome": "O que é tradição de escola e o que é evidência: como a apostila diferencia"
+        }
+       ]
+      }
+     ],
+     "transversal": true
     }
    ]
   },
@@ -15126,6 +16269,8 @@
    "nome": "Saúde coletiva",
    "ciclo": "clínico",
    "cfo": true,
+   "status": "especialidade_cfo",
+   "statusRotulo": "Especialidade reconhecida pelo CFO",
    "descricao": "O SUS, a epidemiologia e a saúde bucal da população.",
    "modulos": [
     {
@@ -15213,8 +16358,8 @@
        "nome": "Política Nacional de Saúde Bucal",
        "paginas": [
         {
-         "id": "saude-coletiva/politica-de-saude-bucal/politica-nacional-de-saude-bucal/brasil-sorridente-eixos",
-         "nome": "Brasil Sorridente: eixos"
+         "id": "saude-coletiva/politica-de-saude-bucal/politica-nacional-de-saude-bucal/brasil-sorridente-e-a-lei-14-572-2023-a-politica-virou-lei",
+         "nome": "Brasil Sorridente e a Lei 14.572/2023: a política virou lei"
         },
         {
          "id": "saude-coletiva/politica-de-saude-bucal/politica-nacional-de-saude-bucal/centros-de-especialidades-odontologicas",
@@ -15301,8 +16446,12 @@
          "nome": "Índices de fluorose, oclusão e edentulismo"
         },
         {
-         "id": "saude-coletiva/epidemiologia/epidemiologia-em-saude-bucal/levantamentos-sb-brasil",
-         "nome": "Levantamentos: SB Brasil"
+         "id": "saude-coletiva/epidemiologia/epidemiologia-em-saude-bucal/sb-brasil-2023-principais-resultados-e-implicacoes",
+         "nome": "SB Brasil 2023: principais resultados e implicações"
+        },
+        {
+         "id": "saude-coletiva/epidemiologia/epidemiologia-em-saude-bucal/serie-historica-sb-brasil-2003-2010-e-2023",
+         "nome": "Série histórica: SB Brasil 2003, 2010 e 2023"
         },
         {
          "id": "saude-coletiva/epidemiologia/epidemiologia-em-saude-bucal/como-fazer-um-levantamento",
@@ -15437,8 +16586,8 @@
          "nome": "Sistemas de informação: e-SUS"
         },
         {
-         "id": "saude-coletiva/planejamento-e-gestao/gestao-do-servico/previne-brasil-e-indicadores",
-         "nome": "Previne Brasil e indicadores"
+         "id": "saude-coletiva/planejamento-e-gestao/gestao-do-servico/financiamento-e-indicadores-da-atencao-primaria-modelo-vigente-portaria-3-493-2024-e-o-que-substituiu",
+         "nome": "Financiamento e indicadores da Atenção Primária: modelo vigente (Portaria 3.493/2024) e o que substituiu"
         },
         {
          "id": "saude-coletiva/planejamento-e-gestao/gestao-do-servico/auditoria-e-regulacao",
@@ -15605,6 +16754,39 @@
        ]
       }
      ]
+    },
+    {
+     "id": "saude-coletiva/pratica-baseada-em-evidencias",
+     "nome": "Prática baseada em evidências",
+     "temas": [
+      {
+       "id": "saude-coletiva/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta",
+       "nome": "As quatro perguntas de cada conduta",
+       "paginas": [
+        {
+         "id": "saude-coletiva/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-indicacao",
+         "nome": "Qual é a indicação?"
+        },
+        {
+         "id": "saude-coletiva/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-contraindicacao",
+         "nome": "Qual é a contraindicação?"
+        },
+        {
+         "id": "saude-coletiva/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-qualidade-da-evidencia",
+         "nome": "Qual é a qualidade da evidência?"
+        },
+        {
+         "id": "saude-coletiva/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-mudou-nos-ultimos-anos",
+         "nome": "O que mudou nos últimos anos?"
+        },
+        {
+         "id": "saude-coletiva/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-e-tradicao-de-escola-e-o-que-e-evidencia-como-a-apostila-diferencia",
+         "nome": "O que é tradição de escola e o que é evidência: como a apostila diferencia"
+        }
+       ]
+      }
+     ],
+     "transversal": true
     }
    ]
   },
@@ -15613,6 +16795,8 @@
    "nome": "Disfunção temporomandibular e dor orofacial",
    "ciclo": "pós",
    "cfo": true,
+   "status": "especialidade_cfo",
+   "statusRotulo": "Especialidade reconhecida pelo CFO",
    "descricao": "Dor na face que não é dente: diagnosticar, tratar e saber quando não é com o dentista.",
    "modulos": [
     {
@@ -16142,6 +17326,39 @@
        ]
       }
      ]
+    },
+    {
+     "id": "disfuncao-temporomandibular-e-dor-orofacial/pratica-baseada-em-evidencias",
+     "nome": "Prática baseada em evidências",
+     "temas": [
+      {
+       "id": "disfuncao-temporomandibular-e-dor-orofacial/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta",
+       "nome": "As quatro perguntas de cada conduta",
+       "paginas": [
+        {
+         "id": "disfuncao-temporomandibular-e-dor-orofacial/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-indicacao",
+         "nome": "Qual é a indicação?"
+        },
+        {
+         "id": "disfuncao-temporomandibular-e-dor-orofacial/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-contraindicacao",
+         "nome": "Qual é a contraindicação?"
+        },
+        {
+         "id": "disfuncao-temporomandibular-e-dor-orofacial/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-qualidade-da-evidencia",
+         "nome": "Qual é a qualidade da evidência?"
+        },
+        {
+         "id": "disfuncao-temporomandibular-e-dor-orofacial/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-mudou-nos-ultimos-anos",
+         "nome": "O que mudou nos últimos anos?"
+        },
+        {
+         "id": "disfuncao-temporomandibular-e-dor-orofacial/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-e-tradicao-de-escola-e-o-que-e-evidencia-como-a-apostila-diferencia",
+         "nome": "O que é tradição de escola e o que é evidência: como a apostila diferencia"
+        }
+       ]
+      }
+     ],
+     "transversal": true
     }
    ]
   },
@@ -16150,6 +17367,8 @@
    "nome": "Odontogeriatria",
    "ciclo": "pós",
    "cfo": true,
+   "status": "especialidade_cfo",
+   "statusRotulo": "Especialidade reconhecida pelo CFO",
    "descricao": "O paciente idoso: polifarmácia, fragilidade e reabilitação possível.",
    "modulos": [
     {
@@ -16399,8 +17618,8 @@
          "nome": "Overdentures"
         },
         {
-         "id": "odontogeriatria/clinica/reabilitacao/implantes-na-terceira-idade",
-         "nome": "Implantes na terceira idade"
+         "id": "odontogeriatria/clinica/reabilitacao/implantes-no-idoso",
+         "nome": "Implantes no idoso"
         },
         {
          "id": "odontogeriatria/clinica/reabilitacao/adaptacao-e-expectativas",
@@ -16511,6 +17730,39 @@
        ]
       }
      ]
+    },
+    {
+     "id": "odontogeriatria/pratica-baseada-em-evidencias",
+     "nome": "Prática baseada em evidências",
+     "temas": [
+      {
+       "id": "odontogeriatria/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta",
+       "nome": "As quatro perguntas de cada conduta",
+       "paginas": [
+        {
+         "id": "odontogeriatria/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-indicacao",
+         "nome": "Qual é a indicação?"
+        },
+        {
+         "id": "odontogeriatria/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-contraindicacao",
+         "nome": "Qual é a contraindicação?"
+        },
+        {
+         "id": "odontogeriatria/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-qualidade-da-evidencia",
+         "nome": "Qual é a qualidade da evidência?"
+        },
+        {
+         "id": "odontogeriatria/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-mudou-nos-ultimos-anos",
+         "nome": "O que mudou nos últimos anos?"
+        },
+        {
+         "id": "odontogeriatria/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-e-tradicao-de-escola-e-o-que-e-evidencia-como-a-apostila-diferencia",
+         "nome": "O que é tradição de escola e o que é evidência: como a apostila diferencia"
+        }
+       ]
+      }
+     ],
+     "transversal": true
     }
    ]
   },
@@ -16519,6 +17771,8 @@
    "nome": "Odontologia para pacientes com necessidades especiais",
    "ciclo": "pós",
    "cfo": true,
+   "status": "especialidade_cfo",
+   "statusRotulo": "Especialidade reconhecida pelo CFO",
    "descricao": "Atender quem precisa de adaptação: deficiências, síndromes, doenças sistêmicas graves.",
    "modulos": [
     {
@@ -16844,6 +18098,39 @@
        ]
       }
      ]
+    },
+    {
+     "id": "odontologia-para-pacientes-com-necessidades-especiais/pratica-baseada-em-evidencias",
+     "nome": "Prática baseada em evidências",
+     "temas": [
+      {
+       "id": "odontologia-para-pacientes-com-necessidades-especiais/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta",
+       "nome": "As quatro perguntas de cada conduta",
+       "paginas": [
+        {
+         "id": "odontologia-para-pacientes-com-necessidades-especiais/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-indicacao",
+         "nome": "Qual é a indicação?"
+        },
+        {
+         "id": "odontologia-para-pacientes-com-necessidades-especiais/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-contraindicacao",
+         "nome": "Qual é a contraindicação?"
+        },
+        {
+         "id": "odontologia-para-pacientes-com-necessidades-especiais/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-qualidade-da-evidencia",
+         "nome": "Qual é a qualidade da evidência?"
+        },
+        {
+         "id": "odontologia-para-pacientes-com-necessidades-especiais/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-mudou-nos-ultimos-anos",
+         "nome": "O que mudou nos últimos anos?"
+        },
+        {
+         "id": "odontologia-para-pacientes-com-necessidades-especiais/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-e-tradicao-de-escola-e-o-que-e-evidencia-como-a-apostila-diferencia",
+         "nome": "O que é tradição de escola e o que é evidência: como a apostila diferencia"
+        }
+       ]
+      }
+     ],
+     "transversal": true
     }
    ]
   },
@@ -16852,6 +18139,8 @@
    "nome": "Odontologia hospitalar",
    "ciclo": "pós",
    "cfo": true,
+   "status": "especialidade_cfo",
+   "statusRotulo": "Especialidade reconhecida pelo CFO",
    "descricao": "O dentista na equipe do hospital: UTI, oncologia e cuidados paliativos.",
    "modulos": [
     {
@@ -17105,6 +18394,38 @@
      ]
     },
     {
+     "id": "odontologia-hospitalar/o-essencial-para-a-graduacao",
+     "nome": "O essencial para a graduação",
+     "temas": [
+      {
+       "id": "odontologia-hospitalar/o-essencial-para-a-graduacao/o-que-todo-dentista-precisa-saber-do-hospital",
+       "nome": "O que todo dentista precisa saber do hospital",
+       "paginas": [
+        {
+         "id": "odontologia-hospitalar/o-essencial-para-a-graduacao/o-que-todo-dentista-precisa-saber-do-hospital/reconhecer-o-paciente-hospitalizado-ou-recem-internado",
+         "nome": "Reconhecer o paciente hospitalizado ou recém-internado"
+        },
+        {
+         "id": "odontologia-hospitalar/o-essencial-para-a-graduacao/o-que-todo-dentista-precisa-saber-do-hospital/higiene-oral-e-prevencao-de-complicacoes",
+         "nome": "Higiene oral e prevenção de complicações"
+        },
+        {
+         "id": "odontologia-hospitalar/o-essencial-para-a-graduacao/o-que-todo-dentista-precisa-saber-do-hospital/interconsulta-como-pedir-e-responder",
+         "nome": "Interconsulta: como pedir e responder"
+        },
+        {
+         "id": "odontologia-hospitalar/o-essencial-para-a-graduacao/o-que-todo-dentista-precisa-saber-do-hospital/seguranca-do-paciente",
+         "nome": "Segurança do paciente"
+        },
+        {
+         "id": "odontologia-hospitalar/o-essencial-para-a-graduacao/o-que-todo-dentista-precisa-saber-do-hospital/quando-encaminhar",
+         "nome": "Quando encaminhar"
+        }
+       ]
+      }
+     ]
+    },
+    {
      "id": "odontologia-hospitalar/pediatria-e-neonatologia",
      "nome": "Pediatria e neonatologia",
      "temas": [
@@ -17127,6 +18448,39 @@
        ]
       }
      ]
+    },
+    {
+     "id": "odontologia-hospitalar/pratica-baseada-em-evidencias",
+     "nome": "Prática baseada em evidências",
+     "temas": [
+      {
+       "id": "odontologia-hospitalar/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta",
+       "nome": "As quatro perguntas de cada conduta",
+       "paginas": [
+        {
+         "id": "odontologia-hospitalar/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-indicacao",
+         "nome": "Qual é a indicação?"
+        },
+        {
+         "id": "odontologia-hospitalar/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-contraindicacao",
+         "nome": "Qual é a contraindicação?"
+        },
+        {
+         "id": "odontologia-hospitalar/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-qualidade-da-evidencia",
+         "nome": "Qual é a qualidade da evidência?"
+        },
+        {
+         "id": "odontologia-hospitalar/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-mudou-nos-ultimos-anos",
+         "nome": "O que mudou nos últimos anos?"
+        },
+        {
+         "id": "odontologia-hospitalar/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-e-tradicao-de-escola-e-o-que-e-evidencia-como-a-apostila-diferencia",
+         "nome": "O que é tradição de escola e o que é evidência: como a apostila diferencia"
+        }
+       ]
+      }
+     ],
+     "transversal": true
     }
    ]
   },
@@ -17135,6 +18489,8 @@
    "nome": "Odontologia legal",
    "ciclo": "pós",
    "cfo": true,
+   "status": "especialidade_cfo",
+   "statusRotulo": "Especialidade reconhecida pelo CFO",
    "descricao": "Ética, direito e perícia: o que protege o dentista e o paciente.",
    "modulos": [
     {
@@ -17366,8 +18722,8 @@
          "nome": "Estimativa de idade"
         },
         {
-         "id": "odontologia-legal/pericia-e-identificacao/identificacao-humana/estimativa-de-sexo-e-ancestralidade",
-         "nome": "Estimativa de sexo e ancestralidade"
+         "id": "odontologia-legal/pericia-e-identificacao/identificacao-humana/estimativa-de-sexo-e-ancestralidade-metodos-e-limitacoes",
+         "nome": "Estimativa de sexo e ancestralidade: métodos e limitações"
         },
         {
          "id": "odontologia-legal/pericia-e-identificacao/identificacao-humana/rugoscopia-palatina-e-queiloscopia",
@@ -17418,8 +18774,8 @@
          "nome": "Avaliação de dano corporal"
         },
         {
-         "id": "odontologia-legal/pericia-e-identificacao/pericia-odontolegal/marcas-de-mordida",
-         "nome": "Marcas de mordida"
+         "id": "odontologia-legal/pericia-e-identificacao/pericia-odontolegal/marcas-de-mordida-historico-limitacoes-e-evidencia-cientifica",
+         "nome": "Marcas de mordida: histórico, limitações e evidência científica"
         },
         {
          "id": "odontologia-legal/pericia-e-identificacao/pericia-odontolegal/pericia-em-processos-civeis-e-trabalhistas",
@@ -17464,6 +18820,39 @@
        ]
       }
      ]
+    },
+    {
+     "id": "odontologia-legal/pratica-baseada-em-evidencias",
+     "nome": "Prática baseada em evidências",
+     "temas": [
+      {
+       "id": "odontologia-legal/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta",
+       "nome": "As quatro perguntas de cada conduta",
+       "paginas": [
+        {
+         "id": "odontologia-legal/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-indicacao",
+         "nome": "Qual é a indicação?"
+        },
+        {
+         "id": "odontologia-legal/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-contraindicacao",
+         "nome": "Qual é a contraindicação?"
+        },
+        {
+         "id": "odontologia-legal/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-qualidade-da-evidencia",
+         "nome": "Qual é a qualidade da evidência?"
+        },
+        {
+         "id": "odontologia-legal/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-mudou-nos-ultimos-anos",
+         "nome": "O que mudou nos últimos anos?"
+        },
+        {
+         "id": "odontologia-legal/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-e-tradicao-de-escola-e-o-que-e-evidencia-como-a-apostila-diferencia",
+         "nome": "O que é tradição de escola e o que é evidência: como a apostila diferencia"
+        }
+       ]
+      }
+     ],
+     "transversal": true
     }
    ]
   },
@@ -17472,6 +18861,8 @@
    "nome": "Odontologia do trabalho",
    "ciclo": "pós",
    "cfo": true,
+   "status": "especialidade_cfo",
+   "statusRotulo": "Especialidade reconhecida pelo CFO",
    "descricao": "Saúde bucal do trabalhador e doenças ocupacionais da boca.",
    "modulos": [
     {
@@ -17661,6 +19052,39 @@
        ]
       }
      ]
+    },
+    {
+     "id": "odontologia-do-trabalho/pratica-baseada-em-evidencias",
+     "nome": "Prática baseada em evidências",
+     "temas": [
+      {
+       "id": "odontologia-do-trabalho/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta",
+       "nome": "As quatro perguntas de cada conduta",
+       "paginas": [
+        {
+         "id": "odontologia-do-trabalho/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-indicacao",
+         "nome": "Qual é a indicação?"
+        },
+        {
+         "id": "odontologia-do-trabalho/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-contraindicacao",
+         "nome": "Qual é a contraindicação?"
+        },
+        {
+         "id": "odontologia-do-trabalho/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-qualidade-da-evidencia",
+         "nome": "Qual é a qualidade da evidência?"
+        },
+        {
+         "id": "odontologia-do-trabalho/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-mudou-nos-ultimos-anos",
+         "nome": "O que mudou nos últimos anos?"
+        },
+        {
+         "id": "odontologia-do-trabalho/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-e-tradicao-de-escola-e-o-que-e-evidencia-como-a-apostila-diferencia",
+         "nome": "O que é tradição de escola e o que é evidência: como a apostila diferencia"
+        }
+       ]
+      }
+     ],
+     "transversal": true
     }
    ]
   },
@@ -17669,6 +19093,8 @@
    "nome": "Odontologia do esporte",
    "ciclo": "pós",
    "cfo": true,
+   "status": "especialidade_cfo",
+   "statusRotulo": "Especialidade reconhecida pelo CFO",
    "descricao": "Atleta: proteção, trauma e desempenho.",
    "modulos": [
     {
@@ -17814,6 +19240,39 @@
        ]
       }
      ]
+    },
+    {
+     "id": "odontologia-do-esporte/pratica-baseada-em-evidencias",
+     "nome": "Prática baseada em evidências",
+     "temas": [
+      {
+       "id": "odontologia-do-esporte/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta",
+       "nome": "As quatro perguntas de cada conduta",
+       "paginas": [
+        {
+         "id": "odontologia-do-esporte/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-indicacao",
+         "nome": "Qual é a indicação?"
+        },
+        {
+         "id": "odontologia-do-esporte/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-contraindicacao",
+         "nome": "Qual é a contraindicação?"
+        },
+        {
+         "id": "odontologia-do-esporte/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-qualidade-da-evidencia",
+         "nome": "Qual é a qualidade da evidência?"
+        },
+        {
+         "id": "odontologia-do-esporte/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-mudou-nos-ultimos-anos",
+         "nome": "O que mudou nos últimos anos?"
+        },
+        {
+         "id": "odontologia-do-esporte/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-e-tradicao-de-escola-e-o-que-e-evidencia-como-a-apostila-diferencia",
+         "nome": "O que é tradição de escola e o que é evidência: como a apostila diferencia"
+        }
+       ]
+      }
+     ],
+     "transversal": true
     }
    ]
   },
@@ -17822,6 +19281,8 @@
    "nome": "Prótese bucomaxilofacial",
    "ciclo": "pós",
    "cfo": true,
+   "status": "especialidade_cfo",
+   "statusRotulo": "Especialidade reconhecida pelo CFO",
    "descricao": "Reabilitar faces mutiladas: obturadores, próteses oculares e faciais.",
    "modulos": [
     {
@@ -18015,6 +19476,39 @@
        ]
       }
      ]
+    },
+    {
+     "id": "protese-bucomaxilofacial/pratica-baseada-em-evidencias",
+     "nome": "Prática baseada em evidências",
+     "temas": [
+      {
+       "id": "protese-bucomaxilofacial/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta",
+       "nome": "As quatro perguntas de cada conduta",
+       "paginas": [
+        {
+         "id": "protese-bucomaxilofacial/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-indicacao",
+         "nome": "Qual é a indicação?"
+        },
+        {
+         "id": "protese-bucomaxilofacial/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-contraindicacao",
+         "nome": "Qual é a contraindicação?"
+        },
+        {
+         "id": "protese-bucomaxilofacial/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-qualidade-da-evidencia",
+         "nome": "Qual é a qualidade da evidência?"
+        },
+        {
+         "id": "protese-bucomaxilofacial/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-mudou-nos-ultimos-anos",
+         "nome": "O que mudou nos últimos anos?"
+        },
+        {
+         "id": "protese-bucomaxilofacial/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-e-tradicao-de-escola-e-o-que-e-evidencia-como-a-apostila-diferencia",
+         "nome": "O que é tradição de escola e o que é evidência: como a apostila diferencia"
+        }
+       ]
+      }
+     ],
+     "transversal": true
     }
    ]
   },
@@ -18023,6 +19517,8 @@
    "nome": "Ortopedia funcional dos maxilares",
    "ciclo": "pós",
    "cfo": true,
+   "status": "especialidade_cfo",
+   "statusRotulo": "Especialidade reconhecida pelo CFO",
    "descricao": "Corrigir a má oclusão pela função: aparelhos removíveis que estimulam o crescimento.",
    "modulos": [
     {
@@ -18198,6 +19694,67 @@
        ]
       }
      ]
+    },
+    {
+     "id": "ortopedia-funcional-dos-maxilares/tradicao-e-evidencia",
+     "nome": "Tradição e evidência",
+     "temas": [
+      {
+       "id": "ortopedia-funcional-dos-maxilares/tradicao-e-evidencia/o-que-e-fundamento-o-que-e-escola-e-o-que-a-evidencia-sustenta",
+       "nome": "O que é fundamento, o que é escola e o que a evidência sustenta",
+       "paginas": [
+        {
+         "id": "ortopedia-funcional-dos-maxilares/tradicao-e-evidencia/o-que-e-fundamento-o-que-e-escola-e-o-que-a-evidencia-sustenta/fundamentos-aceitos-do-crescimento-e-da-funcao",
+         "nome": "Fundamentos aceitos do crescimento e da função"
+        },
+        {
+         "id": "ortopedia-funcional-dos-maxilares/tradicao-e-evidencia/o-que-e-fundamento-o-que-e-escola-e-o-que-a-evidencia-sustenta/filosofias-de-tratamento-planas-balters-bimler-frankel-e-simoes",
+         "nome": "Filosofias de tratamento: Planas, Balters, Bimler, Fränkel e Simões"
+        },
+        {
+         "id": "ortopedia-funcional-dos-maxilares/tradicao-e-evidencia/o-que-e-fundamento-o-que-e-escola-e-o-que-a-evidencia-sustenta/evidencia-sobre-aparelhos-funcionais-removiveis",
+         "nome": "Evidência sobre aparelhos funcionais removíveis"
+        },
+        {
+         "id": "ortopedia-funcional-dos-maxilares/tradicao-e-evidencia/o-que-e-fundamento-o-que-e-escola-e-o-que-a-evidencia-sustenta/alegacoes-controversas-e-como-apresenta-las-ao-paciente",
+         "nome": "Alegações controversas e como apresentá-las ao paciente"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "ortopedia-funcional-dos-maxilares/pratica-baseada-em-evidencias",
+     "nome": "Prática baseada em evidências",
+     "temas": [
+      {
+       "id": "ortopedia-funcional-dos-maxilares/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta",
+       "nome": "As quatro perguntas de cada conduta",
+       "paginas": [
+        {
+         "id": "ortopedia-funcional-dos-maxilares/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-indicacao",
+         "nome": "Qual é a indicação?"
+        },
+        {
+         "id": "ortopedia-funcional-dos-maxilares/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-contraindicacao",
+         "nome": "Qual é a contraindicação?"
+        },
+        {
+         "id": "ortopedia-funcional-dos-maxilares/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-qualidade-da-evidencia",
+         "nome": "Qual é a qualidade da evidência?"
+        },
+        {
+         "id": "ortopedia-funcional-dos-maxilares/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-mudou-nos-ultimos-anos",
+         "nome": "O que mudou nos últimos anos?"
+        },
+        {
+         "id": "ortopedia-funcional-dos-maxilares/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-e-tradicao-de-escola-e-o-que-e-evidencia-como-a-apostila-diferencia",
+         "nome": "O que é tradição de escola e o que é evidência: como a apostila diferencia"
+        }
+       ]
+      }
+     ],
+     "transversal": true
     }
    ]
   },
@@ -18206,7 +19763,10 @@
    "nome": "Harmonização orofacial",
    "ciclo": "pós",
    "cfo": true,
+   "status": "especialidade_cfo",
+   "statusRotulo": "Especialidade reconhecida pelo CFO",
    "descricao": "Toxina, preenchedores e bioestimuladores com anatomia e segurança.",
+   "nota": "Escopo profissional sujeito às normas do CFO e às decisões judiciais vigentes na data da publicação: a Resolução CFO 198/2019 foi anulada pelo TRF1 em agosto de 2026 e o CFO recorre. Toda página desta área deve trazer a data da última revisão regulatória.",
    "modulos": [
     {
      "id": "harmonizacao-orofacial/bases",
@@ -18273,8 +19833,16 @@
        "nome": "Ética, legislação e segurança",
        "paginas": [
         {
-         "id": "harmonizacao-orofacial/bases/etica-legislacao-e-seguranca/resolucao-do-cfo-e-escopo",
-         "nome": "Resolução do CFO e escopo"
+         "id": "harmonizacao-orofacial/bases/etica-legislacao-e-seguranca/resolucao-cfo-198-2019-escopo-original",
+         "nome": "Resolução CFO 198/2019: escopo original"
+        },
+        {
+         "id": "harmonizacao-orofacial/bases/etica-legislacao-e-seguranca/situacao-regulatoria-em-2026-decisao-do-trf1-agosto-recursos-do-cfo-e-o-que-continua-permitido",
+         "nome": "Situação regulatória em 2026: decisão do TRF1 (agosto), recursos do CFO e o que continua permitido"
+        },
+        {
+         "id": "harmonizacao-orofacial/bases/etica-legislacao-e-seguranca/fronteira-com-a-cirurgia-estetica-orofacial-resolucao-cfo-286-2026",
+         "nome": "Fronteira com a Cirurgia Estética Orofacial (Resolução CFO 286/2026)"
         },
         {
          "id": "harmonizacao-orofacial/bases/etica-legislacao-e-seguranca/consentimento-e-documentacao",
@@ -18533,6 +20101,284 @@
        ]
       }
      ]
+    },
+    {
+     "id": "harmonizacao-orofacial/pratica-baseada-em-evidencias",
+     "nome": "Prática baseada em evidências",
+     "temas": [
+      {
+       "id": "harmonizacao-orofacial/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta",
+       "nome": "As quatro perguntas de cada conduta",
+       "paginas": [
+        {
+         "id": "harmonizacao-orofacial/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-indicacao",
+         "nome": "Qual é a indicação?"
+        },
+        {
+         "id": "harmonizacao-orofacial/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-contraindicacao",
+         "nome": "Qual é a contraindicação?"
+        },
+        {
+         "id": "harmonizacao-orofacial/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-qualidade-da-evidencia",
+         "nome": "Qual é a qualidade da evidência?"
+        },
+        {
+         "id": "harmonizacao-orofacial/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-mudou-nos-ultimos-anos",
+         "nome": "O que mudou nos últimos anos?"
+        },
+        {
+         "id": "harmonizacao-orofacial/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-e-tradicao-de-escola-e-o-que-e-evidencia-como-a-apostila-diferencia",
+         "nome": "O que é tradição de escola e o que é evidência: como a apostila diferencia"
+        }
+       ]
+      }
+     ],
+     "transversal": true
+    }
+   ]
+  },
+  {
+   "id": "cirurgia-estetica-orofacial",
+   "nome": "Cirurgia estética orofacial",
+   "ciclo": "pós",
+   "cfo": true,
+   "status": "especialidade_cfo",
+   "statusRotulo": "Especialidade reconhecida pelo CFO",
+   "descricao": "A especialidade cirúrgica da estética da face reconhecida pelo CFO em março de 2026: escopo, formação e segurança.",
+   "nota": "Reconhecida pela Resolução CFO-SEC-286/2026 (20/03/2026), com formação mínima de 3.000 horas em 36 meses. Escopo em disputa judicial com o CFM na data desta árvore: toda página deve trazer a data da última revisão regulatória.",
+   "modulos": [
+    {
+     "id": "cirurgia-estetica-orofacial/bases-e-regulacao",
+     "nome": "Bases e regulação",
+     "temas": [
+      {
+       "id": "cirurgia-estetica-orofacial/bases-e-regulacao/a-especialidade",
+       "nome": "A especialidade",
+       "paginas": [
+        {
+         "id": "cirurgia-estetica-orofacial/bases-e-regulacao/a-especialidade/resolucao-cfo-sec-286-2026-competencias-e-requisitos",
+         "nome": "Resolução CFO-SEC-286/2026: competências e requisitos"
+        },
+        {
+         "id": "cirurgia-estetica-orofacial/bases-e-regulacao/a-especialidade/formacao-3-000-horas-em-36-meses",
+         "nome": "Formação: 3.000 horas em 36 meses"
+        },
+        {
+         "id": "cirurgia-estetica-orofacial/bases-e-regulacao/a-especialidade/fronteira-com-a-harmonizacao-orofacial-e-com-a-cirurgia-bucomaxilofacial",
+         "nome": "Fronteira com a harmonização orofacial e com a cirurgia bucomaxilofacial"
+        },
+        {
+         "id": "cirurgia-estetica-orofacial/bases-e-regulacao/a-especialidade/disputa-com-o-cfm-e-o-ato-medico-o-que-esta-em-julgamento",
+         "nome": "Disputa com o CFM e o ato médico: o que está em julgamento"
+        },
+        {
+         "id": "cirurgia-estetica-orofacial/bases-e-regulacao/a-especialidade/responsabilidade-civil-e-consentimento-em-cirurgia-estetica",
+         "nome": "Responsabilidade civil e consentimento em cirurgia estética"
+        }
+       ]
+      },
+      {
+       "id": "cirurgia-estetica-orofacial/bases-e-regulacao/anatomia-cirurgica-da-face",
+       "nome": "Anatomia cirúrgica da face",
+       "paginas": [
+        {
+         "id": "cirurgia-estetica-orofacial/bases-e-regulacao/anatomia-cirurgica-da-face/camadas-compartimentos-e-ligamentos",
+         "nome": "Camadas, compartimentos e ligamentos"
+        },
+        {
+         "id": "cirurgia-estetica-orofacial/bases-e-regulacao/anatomia-cirurgica-da-face/nervo-facial-ramos-em-risco",
+         "nome": "Nervo facial: ramos em risco"
+        },
+        {
+         "id": "cirurgia-estetica-orofacial/bases-e-regulacao/anatomia-cirurgica-da-face/vascularizacao-e-zonas-de-perigo",
+         "nome": "Vascularização e zonas de perigo"
+        },
+        {
+         "id": "cirurgia-estetica-orofacial/bases-e-regulacao/anatomia-cirurgica-da-face/gordura-de-bichat-e-espaco-bucal",
+         "nome": "Gordura de Bichat e espaço bucal"
+        }
+       ]
+      },
+      {
+       "id": "cirurgia-estetica-orofacial/bases-e-regulacao/avaliacao-e-planejamento",
+       "nome": "Avaliação e planejamento",
+       "paginas": [
+        {
+         "id": "cirurgia-estetica-orofacial/bases-e-regulacao/avaliacao-e-planejamento/analise-facial-e-fotografia-padronizada",
+         "nome": "Análise facial e fotografia padronizada"
+        },
+        {
+         "id": "cirurgia-estetica-orofacial/bases-e-regulacao/avaliacao-e-planejamento/selecao-do-paciente-e-dismorfia-corporal",
+         "nome": "Seleção do paciente e dismorfia corporal"
+        },
+        {
+         "id": "cirurgia-estetica-orofacial/bases-e-regulacao/avaliacao-e-planejamento/exames-pre-operatorios",
+         "nome": "Exames pré-operatórios"
+        },
+        {
+         "id": "cirurgia-estetica-orofacial/bases-e-regulacao/avaliacao-e-planejamento/planejamento-digital",
+         "nome": "Planejamento digital"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "cirurgia-estetica-orofacial/procedimentos",
+     "nome": "Procedimentos",
+     "temas": [
+      {
+       "id": "cirurgia-estetica-orofacial/procedimentos/bichectomia",
+       "nome": "Bichectomia",
+       "paginas": [
+        {
+         "id": "cirurgia-estetica-orofacial/procedimentos/bichectomia/indicacoes-e-contraindicacoes",
+         "nome": "Indicações e contraindicações"
+        },
+        {
+         "id": "cirurgia-estetica-orofacial/procedimentos/bichectomia/tecnica",
+         "nome": "Técnica"
+        },
+        {
+         "id": "cirurgia-estetica-orofacial/procedimentos/bichectomia/complicacoes-ducto-parotideo-nervo-facial-e-assimetria",
+         "nome": "Complicações: ducto parotídeo, nervo facial e assimetria"
+        }
+       ]
+      },
+      {
+       "id": "cirurgia-estetica-orofacial/procedimentos/lipoaspiracao-facial-e-de-papada",
+       "nome": "Lipoaspiração facial e de papada",
+       "paginas": [
+        {
+         "id": "cirurgia-estetica-orofacial/procedimentos/lipoaspiracao-facial-e-de-papada/indicacoes",
+         "nome": "Indicações"
+        },
+        {
+         "id": "cirurgia-estetica-orofacial/procedimentos/lipoaspiracao-facial-e-de-papada/tecnica-e-canulas",
+         "nome": "Técnica e cânulas"
+        },
+        {
+         "id": "cirurgia-estetica-orofacial/procedimentos/lipoaspiracao-facial-e-de-papada/complicacoes",
+         "nome": "Complicações"
+        }
+       ]
+      },
+      {
+       "id": "cirurgia-estetica-orofacial/procedimentos/cirurgias-de-contorno",
+       "nome": "Cirurgias de contorno",
+       "paginas": [
+        {
+         "id": "cirurgia-estetica-orofacial/procedimentos/cirurgias-de-contorno/mentoplastia-e-implantes-de-mento",
+         "nome": "Mentoplastia e implantes de mento"
+        },
+        {
+         "id": "cirurgia-estetica-orofacial/procedimentos/cirurgias-de-contorno/contorno-mandibular",
+         "nome": "Contorno mandibular"
+        },
+        {
+         "id": "cirurgia-estetica-orofacial/procedimentos/cirurgias-de-contorno/lifting-labial-e-lip-lift",
+         "nome": "Lifting labial e lip lift"
+        }
+       ]
+      },
+      {
+       "id": "cirurgia-estetica-orofacial/procedimentos/rinoplastia-e-outros-procedimentos",
+       "nome": "Rinoplastia e outros procedimentos",
+       "paginas": [
+        {
+         "id": "cirurgia-estetica-orofacial/procedimentos/rinoplastia-e-outros-procedimentos/rinoplastia-escopo-e-limites",
+         "nome": "Rinoplastia: escopo e limites"
+        },
+        {
+         "id": "cirurgia-estetica-orofacial/procedimentos/rinoplastia-e-outros-procedimentos/blefaroplastia-e-lifting-o-que-a-resolucao-preve",
+         "nome": "Blefaroplastia e lifting: o que a resolução prevê"
+        },
+        {
+         "id": "cirurgia-estetica-orofacial/procedimentos/rinoplastia-e-outros-procedimentos/enxertos-de-gordura",
+         "nome": "Enxertos de gordura"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "cirurgia-estetica-orofacial/seguranca",
+     "nome": "Segurança",
+     "temas": [
+      {
+       "id": "cirurgia-estetica-orofacial/seguranca/ambiente-e-anestesia",
+       "nome": "Ambiente e anestesia",
+       "paginas": [
+        {
+         "id": "cirurgia-estetica-orofacial/seguranca/ambiente-e-anestesia/consultorio-hospital-onde-cada-procedimento-pode-ser-feito",
+         "nome": "Consultório × hospital: onde cada procedimento pode ser feito"
+        },
+        {
+         "id": "cirurgia-estetica-orofacial/seguranca/ambiente-e-anestesia/sedacao-e-anestesia-geral",
+         "nome": "Sedação e anestesia geral"
+        },
+        {
+         "id": "cirurgia-estetica-orofacial/seguranca/ambiente-e-anestesia/kit-de-emergencia-e-equipe",
+         "nome": "Kit de emergência e equipe"
+        }
+       ]
+      },
+      {
+       "id": "cirurgia-estetica-orofacial/seguranca/complicacoes-e-pos-operatorio",
+       "nome": "Complicações e pós-operatório",
+       "paginas": [
+        {
+         "id": "cirurgia-estetica-orofacial/seguranca/complicacoes-e-pos-operatorio/hematoma-infeccao-e-necrose",
+         "nome": "Hematoma, infecção e necrose"
+        },
+        {
+         "id": "cirurgia-estetica-orofacial/seguranca/complicacoes-e-pos-operatorio/lesao-nervosa",
+         "nome": "Lesão nervosa"
+        },
+        {
+         "id": "cirurgia-estetica-orofacial/seguranca/complicacoes-e-pos-operatorio/cicatrizacao-e-manejo-de-cicatrizes",
+         "nome": "Cicatrização e manejo de cicatrizes"
+        },
+        {
+         "id": "cirurgia-estetica-orofacial/seguranca/complicacoes-e-pos-operatorio/revisao-e-insatisfacao",
+         "nome": "Revisão e insatisfação"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "cirurgia-estetica-orofacial/pratica-baseada-em-evidencias",
+     "nome": "Prática baseada em evidências",
+     "temas": [
+      {
+       "id": "cirurgia-estetica-orofacial/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta",
+       "nome": "As quatro perguntas de cada conduta",
+       "paginas": [
+        {
+         "id": "cirurgia-estetica-orofacial/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-indicacao",
+         "nome": "Qual é a indicação?"
+        },
+        {
+         "id": "cirurgia-estetica-orofacial/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-contraindicacao",
+         "nome": "Qual é a contraindicação?"
+        },
+        {
+         "id": "cirurgia-estetica-orofacial/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-qualidade-da-evidencia",
+         "nome": "Qual é a qualidade da evidência?"
+        },
+        {
+         "id": "cirurgia-estetica-orofacial/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-mudou-nos-ultimos-anos",
+         "nome": "O que mudou nos últimos anos?"
+        },
+        {
+         "id": "cirurgia-estetica-orofacial/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-e-tradicao-de-escola-e-o-que-e-evidencia-como-a-apostila-diferencia",
+         "nome": "O que é tradição de escola e o que é evidência: como a apostila diferencia"
+        }
+       ]
+      }
+     ],
+     "transversal": true
     }
    ]
   },
@@ -18541,7 +20387,10 @@
    "nome": "Acupuntura",
    "ciclo": "pós",
    "cfo": true,
+   "status": "especialidade_cfo",
+   "statusRotulo": "Especialidade reconhecida pelo CFO",
    "descricao": "Acupuntura aplicada à dor orofacial e à ansiedade no consultório.",
+   "nota": "Especialidade reconhecida pelo CFO. Separar, em cada página, os fundamentos da prática, os mecanismos propostos e a evidência clínica de cada indicação.",
    "modulos": [
     {
      "id": "acupuntura/fundamentos",
@@ -18644,8 +20493,59 @@
          "nome": "Bruxismo"
         }
        ]
+      },
+      {
+       "id": "acupuntura/aplicacoes/evidencia-por-indicacao",
+       "nome": "Evidência por indicação",
+       "paginas": [
+        {
+         "id": "acupuntura/aplicacoes/evidencia-por-indicacao/o-que-as-revisoes-sistematicas-mostram-para-cada-indicacao",
+         "nome": "O que as revisões sistemáticas mostram para cada indicação"
+        },
+        {
+         "id": "acupuntura/aplicacoes/evidencia-por-indicacao/placebo-expectativa-e-desenho-dos-estudos",
+         "nome": "Placebo, expectativa e desenho dos estudos"
+        },
+        {
+         "id": "acupuntura/aplicacoes/evidencia-por-indicacao/como-apresentar-limites-ao-paciente",
+         "nome": "Como apresentar limites ao paciente"
+        }
+       ]
       }
      ]
+    },
+    {
+     "id": "acupuntura/pratica-baseada-em-evidencias",
+     "nome": "Prática baseada em evidências",
+     "temas": [
+      {
+       "id": "acupuntura/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta",
+       "nome": "As quatro perguntas de cada conduta",
+       "paginas": [
+        {
+         "id": "acupuntura/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-indicacao",
+         "nome": "Qual é a indicação?"
+        },
+        {
+         "id": "acupuntura/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-contraindicacao",
+         "nome": "Qual é a contraindicação?"
+        },
+        {
+         "id": "acupuntura/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-qualidade-da-evidencia",
+         "nome": "Qual é a qualidade da evidência?"
+        },
+        {
+         "id": "acupuntura/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-mudou-nos-ultimos-anos",
+         "nome": "O que mudou nos últimos anos?"
+        },
+        {
+         "id": "acupuntura/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-e-tradicao-de-escola-e-o-que-e-evidencia-como-a-apostila-diferencia",
+         "nome": "O que é tradição de escola e o que é evidência: como a apostila diferencia"
+        }
+       ]
+      }
+     ],
+     "transversal": true
     }
    ]
   },
@@ -18654,7 +20554,10 @@
    "nome": "Homeopatia",
    "ciclo": "pós",
    "cfo": true,
+   "status": "especialidade_cfo",
+   "statusRotulo": "Especialidade reconhecida pelo CFO",
    "descricao": "Homeopatia no escopo do dentista.",
+   "nota": "Especialidade reconhecida pelo CFO. Toda página desta área deve declarar o nível de evidência da indicação e nunca apresentar a abordagem como substituta de tratamento convencional eficaz.",
    "modulos": [
     {
      "id": "homeopatia/fundamentos",
@@ -18731,8 +20634,63 @@
          "nome": "Bruxismo e DTM"
         }
        ]
+      },
+      {
+       "id": "homeopatia/aplicacoes/nivel-de-evidencia-por-indicacao",
+       "nome": "Nível de evidência por indicação",
+       "paginas": [
+        {
+         "id": "homeopatia/aplicacoes/nivel-de-evidencia-por-indicacao/ser-especialidade-reconhecida-nao-equivale-a-eficacia-demonstrada",
+         "nome": "Ser especialidade reconhecida não equivale a eficácia demonstrada"
+        },
+        {
+         "id": "homeopatia/aplicacoes/nivel-de-evidencia-por-indicacao/o-que-as-revisoes-sistematicas-mostram",
+         "nome": "O que as revisões sistemáticas mostram"
+        },
+        {
+         "id": "homeopatia/aplicacoes/nivel-de-evidencia-por-indicacao/nunca-substituir-tratamento-convencional-eficaz",
+         "nome": "Nunca substituir tratamento convencional eficaz"
+        },
+        {
+         "id": "homeopatia/aplicacoes/nivel-de-evidencia-por-indicacao/como-registrar-e-informar-o-paciente",
+         "nome": "Como registrar e informar o paciente"
+        }
+       ]
       }
      ]
+    },
+    {
+     "id": "homeopatia/pratica-baseada-em-evidencias",
+     "nome": "Prática baseada em evidências",
+     "temas": [
+      {
+       "id": "homeopatia/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta",
+       "nome": "As quatro perguntas de cada conduta",
+       "paginas": [
+        {
+         "id": "homeopatia/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-indicacao",
+         "nome": "Qual é a indicação?"
+        },
+        {
+         "id": "homeopatia/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-contraindicacao",
+         "nome": "Qual é a contraindicação?"
+        },
+        {
+         "id": "homeopatia/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/qual-e-a-qualidade-da-evidencia",
+         "nome": "Qual é a qualidade da evidência?"
+        },
+        {
+         "id": "homeopatia/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-mudou-nos-ultimos-anos",
+         "nome": "O que mudou nos últimos anos?"
+        },
+        {
+         "id": "homeopatia/pratica-baseada-em-evidencias/as-quatro-perguntas-de-cada-conduta/o-que-e-tradicao-de-escola-e-o-que-e-evidencia-como-a-apostila-diferencia",
+         "nome": "O que é tradição de escola e o que é evidência: como a apostila diferencia"
+        }
+       ]
+      }
+     ],
+     "transversal": true
     }
    ]
   }

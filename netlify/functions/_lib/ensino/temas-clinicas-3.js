@@ -14,7 +14,7 @@ module.exports = [
       ] },
       { nome: 'Radioproteção', temas: [
         { nome: 'Efeitos biológicos', paginas: ['Efeitos determinísticos e estocásticos', 'Dose: unidades', 'Doses dos exames odontológicos comparadas'] },
-        { nome: 'Proteção', paginas: ['Princípios: justificação, otimização e limitação', 'ALARA na prática', 'Proteção do paciente: avental e colar', 'Proteção do operador e da sala', 'Legislação sanitária', 'Gestantes e crianças', 'Critérios de seleção de exames'] },
+        { nome: 'Proteção', paginas: ['Princípios: justificação, otimização e limitação', 'Radioproteção baseada em justificação e otimização: seleção do exame, campo e dose', 'ALARA na prática', 'Proteção do paciente: avental e colar exigidos pela RDC 611/2022 e o debate internacional (ADA/AAOMR 2023)', 'Proteção do operador e da sala', 'RDC 611/2022: requisitos para serviços odontológicos', 'Gestantes e crianças', 'Critérios de seleção de exames'] },
       ] },
       { nome: 'Técnicas intrabucais', temas: [
         { nome: 'Periapical', paginas: ['Técnica do paralelismo', 'Técnica da bissetriz', 'Posicionadores', 'Sequência da boca completa', 'Angulações por região'] },
@@ -38,7 +38,7 @@ module.exports = [
       ] },
       { nome: 'Interpretação', temas: [
         { nome: 'Princípios', paginas: ['Sistemática de leitura', 'Descrição de lesões: localização, forma, limites e conteúdo', 'Radiolúcido, radiopaco e misto', 'Efeitos sobre estruturas vizinhas'] },
-        { nome: 'Cárie e periodonto', paginas: ['Cárie: interproximal e oclusal', 'Cárie recorrente e radicular', 'Perda óssea horizontal e vertical', 'Cálculo e furcas'] },
+        { nome: 'Cárie e periodonto', paginas: ['Cárie: interproximal e oclusal', 'Cárie adjacente a restaurações (secundária) e radicular', 'Perda óssea horizontal e vertical', 'Cálculo e furcas'] },
         { nome: 'Alterações pulpares e periapicais', paginas: ['Calcificações e reabsorções', 'Lesões periapicais', 'Osteíte condensante'] },
         { nome: 'Anomalias dentárias', paginas: ['Número, tamanho e forma', 'Estrutura', 'Erupção e posição'] },
         { nome: 'Cistos e tumores', paginas: ['Padrões radiográficos dos cistos', 'Tumores odontogênicos', 'Lesões fibro-ósseas', 'Lesões malignas'] },
@@ -120,7 +120,7 @@ module.exports = [
         { nome: 'Cistos não odontogênicos', paginas: ['Cisto do ducto nasopalatino', 'Cisto nasolabial', 'Pseudocistos: ósseo traumático e aneurismático', 'Cistos dermoide e branquial'] },
       ] },
       { nome: 'Tumores odontogênicos', temas: [
-        { nome: 'Epiteliais', paginas: ['Ameloblastoma: tipos', 'Tumor odontogênico adenomatoide', 'Tumor odontogênico epitelial calcificante', 'Tumor odontogênico escamoso'] },
+        { nome: 'Epiteliais', paginas: ['Classificação da OMS 2022 (5ª edição): o que mudou', 'Ameloblastoma: tipos', 'Tumor odontogênico adenomatoide', 'Tumor odontogênico epitelial calcificante', 'Tumor odontogênico escamoso'] },
         { nome: 'Mistos e mesenquimais', paginas: ['Odontoma', 'Fibroma ameloblástico', 'Mixoma odontogênico', 'Cementoblastoma', 'Fibroma odontogênico'] },
         { nome: 'Malignos', paginas: ['Carcinomas odontogênicos', 'Sarcomas odontogênicos'] },
       ] },
@@ -162,12 +162,12 @@ module.exports = [
         { nome: 'Atenção primária', paginas: ['Estratégia Saúde da Família', 'Equipe de saúde bucal: composição e atribuições', 'Territorialização', 'Acolhimento e classificação de risco', 'Visita domiciliar'] },
       ] },
       { nome: 'Política de saúde bucal', temas: [
-        { nome: 'Política Nacional de Saúde Bucal', paginas: ['Brasil Sorridente: eixos', 'Centros de Especialidades Odontológicas', 'Laboratórios regionais de prótese', 'Unidades odontológicas móveis', 'Fluoretação das águas'] },
+        { nome: 'Política Nacional de Saúde Bucal', paginas: ['Brasil Sorridente e a Lei 14.572/2023: a política virou lei', 'Centros de Especialidades Odontológicas', 'Laboratórios regionais de prótese', 'Unidades odontológicas móveis', 'Fluoretação das águas'] },
         { nome: 'Programas e ações', paginas: ['Saúde na escola', 'Atenção à gestante e ao bebê', 'Saúde bucal do idoso e de pessoas com deficiência', 'Populações vulneráveis e indígenas'] },
       ] },
       { nome: 'Epidemiologia', temas: [
         { nome: 'Fundamentos', paginas: ['Conceitos: prevalência, incidência e risco', 'Medidas de associação', 'Desenhos de estudo epidemiológico', 'Vigilância em saúde'] },
-        { nome: 'Epidemiologia em saúde bucal', paginas: ['Índices: CPO-D e ceo-d', 'Índice periodontal comunitário', 'Índices de fluorose, oclusão e edentulismo', 'Levantamentos: SB Brasil', 'Como fazer um levantamento', 'Calibração de examinadores'] },
+        { nome: 'Epidemiologia em saúde bucal', paginas: ['Índices: CPO-D e ceo-d', 'Índice periodontal comunitário', 'Índices de fluorose, oclusão e edentulismo', 'SB Brasil 2023: principais resultados e implicações', 'Série histórica: SB Brasil 2003, 2010 e 2023', 'Como fazer um levantamento', 'Calibração de examinadores'] },
         { nome: 'Determinantes sociais', paginas: ['Modelo de determinação social', 'Desigualdades em saúde bucal', 'Fatores de risco comuns'] },
       ] },
       { nome: 'Promoção e educação em saúde', temas: [
@@ -177,7 +177,7 @@ module.exports = [
       ] },
       { nome: 'Planejamento e gestão', temas: [
         { nome: 'Planejamento em saúde', paginas: ['Diagnóstico situacional', 'Planejamento estratégico situacional', 'Metas e indicadores', 'Avaliação'] },
-        { nome: 'Gestão do serviço', paginas: ['Processo de trabalho da equipe', 'Sistemas de informação: e-SUS', 'Previne Brasil e indicadores', 'Auditoria e regulação'] },
+        { nome: 'Gestão do serviço', paginas: ['Processo de trabalho da equipe', 'Sistemas de informação: e-SUS', 'Financiamento e indicadores da Atenção Primária: modelo vigente (Portaria 3.493/2024) e o que substituiu', 'Auditoria e regulação'] },
         { nome: 'Trabalho em equipe', paginas: ['Auxiliar e técnico em saúde bucal', 'Interprofissionalidade', 'Educação permanente'] },
       ] },
       { nome: 'Saúde bucal por ciclo de vida', temas: [

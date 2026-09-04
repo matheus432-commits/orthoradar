@@ -58,7 +58,7 @@ module.exports = [
         { nome: 'Exame e planejamento', paginas: ['Anamnese com cuidador', 'Avaliação cognitiva rápida', 'Plano de tratamento realista', 'Consentimento e autonomia'] },
         { nome: 'Prevenção no idoso', paginas: ['Cárie radicular: prevenção e diamino fluoreto de prata', 'Higiene adaptada e escovas', 'Manutenção periodontal', 'Cuidado com próteses'] },
         { nome: 'Dentística e endodontia', paginas: ['Restaurações em dentes com desgaste', 'Cárie radicular: restauração', 'Endodontia em canais calcificados'] },
-        { nome: 'Reabilitação', paginas: ['Prótese total no idoso', 'Prótese parcial removível no idoso', 'Overdentures', 'Implantes na terceira idade', 'Adaptação e expectativas', 'Reembasamento e reparos'] },
+        { nome: 'Reabilitação', paginas: ['Prótese total no idoso', 'Prótese parcial removível no idoso', 'Overdentures', 'Implantes no idoso', 'Adaptação e expectativas', 'Reembasamento e reparos'] },
         { nome: 'Estomatologia geriátrica', paginas: ['Estomatite protética', 'Candidíase', 'Lesões potencialmente malignas', 'Câncer de boca no idoso', 'Lesões traumáticas por prótese'] },
         { nome: 'Cirurgia no idoso', paginas: ['Avaliação de risco', 'Exodontias e alveoloplastia', 'Cicatrização'] },
       ] },
@@ -116,6 +116,9 @@ module.exports = [
         { nome: 'Cirurgia em ambiente hospitalar', paginas: ['Atendimento sob anestesia geral', 'Pacientes com necessidades especiais no hospital', 'Pré e pós-operatório', 'Centro cirúrgico: rotina'] },
         { nome: 'Cuidados paliativos', paginas: ['Conforto bucal no fim da vida', 'Xerostomia e candidíase', 'Comunicação e ética', 'Luto e equipe'] },
       ] },
+      { nome: 'O essencial para a graduação', temas: [
+        { nome: 'O que todo dentista precisa saber do hospital', paginas: ['Reconhecer o paciente hospitalizado ou recém-internado', 'Higiene oral e prevenção de complicações', 'Interconsulta: como pedir e responder', 'Segurança do paciente', 'Quando encaminhar'] },
+      ] },
       { nome: 'Pediatria e neonatologia', temas: [
         { nome: 'Criança hospitalizada', paginas: ['UTI neonatal e pediátrica', 'Oncologia pediátrica', 'Cardiopatas congênitos'] },
       ] },
@@ -139,9 +142,9 @@ module.exports = [
         { nome: 'Termos e contratos', paginas: ['Consentimento livre e esclarecido', 'Contrato de prestação de serviço', 'Atestados e declarações', 'Receitas e documentos de sedação', 'Orçamento e nota fiscal'] },
       ] },
       { nome: 'Perícia e identificação', temas: [
-        { nome: 'Identificação humana', paginas: ['Métodos de identificação', 'Identificação pela arcada dentária', 'Estimativa de idade', 'Estimativa de sexo e ancestralidade', 'Rugoscopia palatina e queiloscopia', 'DNA em odontologia', 'Imagem forense'] },
+        { nome: 'Identificação humana', paginas: ['Métodos de identificação', 'Identificação pela arcada dentária', 'Estimativa de idade', 'Estimativa de sexo e ancestralidade: métodos e limitações', 'Rugoscopia palatina e queiloscopia', 'DNA em odontologia', 'Imagem forense'] },
         { nome: 'Antropologia forense', paginas: ['Exame de ossadas', 'Desastres em massa: protocolo', 'Reconstrução facial', 'Tafonomia: noções'] },
-        { nome: 'Perícia odontolegal', paginas: ['Laudos e pareceres', 'Avaliação de dano corporal', 'Marcas de mordida', 'Perícia em processos cíveis e trabalhistas', 'Perícia em planos de saúde', 'Perícia administrativa e previdenciária'] },
+        { nome: 'Perícia odontolegal', paginas: ['Laudos e pareceres', 'Avaliação de dano corporal', 'Marcas de mordida: histórico, limitações e evidência científica', 'Perícia em processos cíveis e trabalhistas', 'Perícia em planos de saúde', 'Perícia administrativa e previdenciária'] },
       ] },
       { nome: 'Traumatologia forense', temas: [
         { nome: 'Lesões', paginas: ['Classificação das lesões corporais', 'Lesões na face e na boca', 'Violência doméstica e maus-tratos: reconhecer e notificar', 'Exame de corpo de delito'] },
@@ -219,16 +222,20 @@ module.exports = [
         { nome: 'Tratamento por má oclusão', paginas: ['Classe II', 'Classe III', 'Mordida cruzada', 'Mordida aberta e profunda', 'Apinhamento', 'Assimetrias'] },
         { nome: 'Situações especiais', paginas: ['Respiração bucal e ronco', 'Hábitos', 'Adultos e DTM', 'Integração com ortodontia', 'Contenção e acompanhamento'] },
       ] },
+      { nome: 'Tradição e evidência', temas: [
+        { nome: 'O que é fundamento, o que é escola e o que a evidência sustenta', paginas: ['Fundamentos aceitos do crescimento e da função', 'Filosofias de tratamento: Planas, Balters, Bimler, Fränkel e Simões', 'Evidência sobre aparelhos funcionais removíveis', 'Alegações controversas e como apresentá-las ao paciente'] },
+      ] },
     ],
   },
   {
     nome: 'Harmonização orofacial', ciclo: 'pós', cfo: true,
     descricao: 'Toxina, preenchedores e bioestimuladores com anatomia e segurança.',
+    nota: 'Escopo profissional sujeito às normas do CFO e às decisões judiciais vigentes na data da publicação: a Resolução CFO 198/2019 foi anulada pelo TRF1 em agosto de 2026 e o CFO recorre. Toda página desta área deve trazer a data da última revisão regulatória.',
     modulos: [
       { nome: 'Bases', temas: [
         { nome: 'Anatomia aplicada', paginas: ['Camadas da face', 'Compartimentos de gordura', 'Ligamentos de retenção', 'Vascularização e zonas de perigo', 'Nervos e pontos de risco', 'Músculos da expressão: alvos'] },
         { nome: 'Envelhecimento e análise facial', paginas: ['Envelhecimento facial: mecanismos', 'Proporções e visagismo', 'Fotografia padronizada', 'Planejamento e expectativas', 'Dismorfia corporal: reconhecer'] },
-        { nome: 'Ética, legislação e segurança', paginas: ['Resolução do CFO e escopo', 'Consentimento e documentação', 'Publicidade', 'Biossegurança em procedimentos injetáveis', 'Kit de emergência', 'Farmacologia dos produtos'] },
+        { nome: 'Ética, legislação e segurança', paginas: ['Resolução CFO 198/2019: escopo original', 'Situação regulatória em 2026: decisão do TRF1 (agosto), recursos do CFO e o que continua permitido', 'Fronteira com a Cirurgia Estética Orofacial (Resolução CFO 286/2026)', 'Consentimento e documentação', 'Publicidade', 'Biossegurança em procedimentos injetáveis', 'Kit de emergência', 'Farmacologia dos produtos'] },
       ] },
       { nome: 'Toxina botulínica', temas: [
         { nome: 'Fundamentos', paginas: ['Farmacologia e tipos', 'Reconstituição e diluição', 'Doses por região', 'Contraindicações'] },
@@ -250,8 +257,31 @@ module.exports = [
     ],
   },
   {
+    nome: 'Cirurgia estética orofacial', ciclo: 'pós', cfo: true,
+    descricao: 'A especialidade cirúrgica da estética da face reconhecida pelo CFO em março de 2026: escopo, formação e segurança.',
+    nota: 'Reconhecida pela Resolução CFO-SEC-286/2026 (20/03/2026), com formação mínima de 3.000 horas em 36 meses. Escopo em disputa judicial com o CFM na data desta árvore: toda página deve trazer a data da última revisão regulatória.',
+    modulos: [
+      { nome: 'Bases e regulação', temas: [
+        { nome: 'A especialidade', paginas: ['Resolução CFO-SEC-286/2026: competências e requisitos', 'Formação: 3.000 horas em 36 meses', 'Fronteira com a harmonização orofacial e com a cirurgia bucomaxilofacial', 'Disputa com o CFM e o ato médico: o que está em julgamento', 'Responsabilidade civil e consentimento em cirurgia estética'] },
+        { nome: 'Anatomia cirúrgica da face', paginas: ['Camadas, compartimentos e ligamentos', 'Nervo facial: ramos em risco', 'Vascularização e zonas de perigo', 'Gordura de Bichat e espaço bucal'] },
+        { nome: 'Avaliação e planejamento', paginas: ['Análise facial e fotografia padronizada', 'Seleção do paciente e dismorfia corporal', 'Exames pré-operatórios', 'Planejamento digital'] },
+      ] },
+      { nome: 'Procedimentos', temas: [
+        { nome: 'Bichectomia', paginas: ['Indicações e contraindicações', 'Técnica', 'Complicações: ducto parotídeo, nervo facial e assimetria'] },
+        { nome: 'Lipoaspiração facial e de papada', paginas: ['Indicações', 'Técnica e cânulas', 'Complicações'] },
+        { nome: 'Cirurgias de contorno', paginas: ['Mentoplastia e implantes de mento', 'Contorno mandibular', 'Lifting labial e lip lift'] },
+        { nome: 'Rinoplastia e outros procedimentos', paginas: ['Rinoplastia: escopo e limites', 'Blefaroplastia e lifting: o que a resolução prevê', 'Enxertos de gordura'] },
+      ] },
+      { nome: 'Segurança', temas: [
+        { nome: 'Ambiente e anestesia', paginas: ['Consultório × hospital: onde cada procedimento pode ser feito', 'Sedação e anestesia geral', 'Kit de emergência e equipe'] },
+        { nome: 'Complicações e pós-operatório', paginas: ['Hematoma, infecção e necrose', 'Lesão nervosa', 'Cicatrização e manejo de cicatrizes', 'Revisão e insatisfação'] },
+      ] },
+    ],
+  },
+  {
     nome: 'Acupuntura', ciclo: 'pós', cfo: true,
     descricao: 'Acupuntura aplicada à dor orofacial e à ansiedade no consultório.',
+    nota: 'Especialidade reconhecida pelo CFO. Separar, em cada página, os fundamentos da prática, os mecanismos propostos e a evidência clínica de cada indicação.',
     modulos: [
       { nome: 'Fundamentos', temas: [
         { nome: 'Bases', paginas: ['História e legislação', 'Mecanismos neurofisiológicos', 'Medicina tradicional chinesa: noções', 'Evidência científica', 'Contraindicações'] },
@@ -260,12 +290,14 @@ module.exports = [
       { nome: 'Aplicações', temas: [
         { nome: 'Dor', paginas: ['Dor orofacial e DTM', 'Dor pós-operatória', 'Neuralgias e cefaleias'] },
         { nome: 'Outras aplicações', paginas: ['Ansiedade e reflexo de vômito', 'Xerostomia', 'Paralisia facial', 'Bruxismo'] },
+        { nome: 'Evidência por indicação', paginas: ['O que as revisões sistemáticas mostram para cada indicação', 'Placebo, expectativa e desenho dos estudos', 'Como apresentar limites ao paciente'] },
       ] },
     ],
   },
   {
     nome: 'Homeopatia', ciclo: 'pós', cfo: true,
     descricao: 'Homeopatia no escopo do dentista.',
+    nota: 'Especialidade reconhecida pelo CFO. Toda página desta área deve declarar o nível de evidência da indicação e nunca apresentar a abordagem como substituta de tratamento convencional eficaz.',
     modulos: [
       { nome: 'Fundamentos', temas: [
         { nome: 'Bases', paginas: ['Princípios e história', 'Legislação e farmácia homeopática', 'Semiologia homeopática', 'Evidência e limites'] },
@@ -273,6 +305,7 @@ module.exports = [
       ] },
       { nome: 'Aplicações', temas: [
         { nome: 'Clínica', paginas: ['Matéria médica de interesse odontológico', 'Ansiedade e dor', 'Pós-operatório e inflamação', 'Aftas e herpes', 'Bruxismo e DTM'] },
+        { nome: 'Nível de evidência por indicação', paginas: ['Ser especialidade reconhecida não equivale a eficácia demonstrada', 'O que as revisões sistemáticas mostram', 'Nunca substituir tratamento convencional eficaz', 'Como registrar e informar o paciente'] },
       ] },
     ],
   },

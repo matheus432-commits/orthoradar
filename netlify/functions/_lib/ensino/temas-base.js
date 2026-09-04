@@ -58,6 +58,9 @@ module.exports = [
         { nome: 'Língua', paginas: ['Papilas e regiões', 'Inervação sensitiva, gustativa e motora', 'Vascularização'] },
         { nome: 'Seio maxilar e vias aéreas', paginas: ['Seio maxilar: paredes e relações com raízes', 'Óstio e drenagem', 'Faringe e laringe: noções para o dentista', 'Espaços fasciais e vias de disseminação de infecções'] },
       ] },
+      { nome: 'Anatomia clínica aplicada', temas: [
+        { nome: 'Anatomia aplicada aos principais procedimentos', paginas: ['Anestesia: reparos de cada técnica', 'Exodontia: raízes, seio e canal mandibular', 'Implantes: nervo, seio e corticais', 'Infecções odontogênicas: espaços e vias de disseminação', 'Endodontia: relações apicais', 'Cirurgia de tecidos moles: vasos e nervos em risco', 'Vias aéreas: o que o dentista precisa reconhecer'] },
+      ] },
     ],
   },
   {
@@ -139,7 +142,7 @@ module.exports = [
       ] },
       { nome: 'Mucosa oral e glândulas', temas: [
         { nome: 'Mucosa', paginas: ['Mastigatória, de revestimento e especializada', 'Epitélio: camadas e queratinização', 'Lâmina própria e submucosa', 'Diferenças regionais'] },
-        { nome: 'Gengiva', paginas: ['Gengiva livre, inserida e interdental', 'Epitélio do sulco e juncional', 'Fluido gengival', 'Espaço biológico'] },
+        { nome: 'Gengiva', paginas: ['Gengiva livre, inserida e interdental', 'Epitélio do sulco e juncional', 'Fluido gengival', 'Inserção tecidual supracrestal (tradicionalmente "espaço biológico")'] },
         { nome: 'Língua', paginas: ['Papilas filiformes, fungiformes, foliadas e valadas', 'Botões gustativos', 'Glândulas de von Ebner'] },
         { nome: 'Glândulas salivares', paginas: ['Ácinos serosos, mucosos e mistos', 'Células mioepiteliais', 'Ductos intercalares, estriados e excretores', 'Saliva: formação e composição'] },
       ] },
@@ -163,6 +166,7 @@ module.exports = [
         { nome: 'Sangue e hemostasia', paginas: ['Hemostasia primária e secundária', 'Cascata da coagulação', 'Fibrinólise', 'Exames: hemograma, TP, INR, TTPA', 'Anticoagulantes e antiagregantes'] },
         { nome: 'Endócrino', paginas: ['Insulina e diabetes', 'Tireoide', 'Cortisol e estresse', 'Hormônios sexuais e gengiva'] },
         { nome: 'Renal e hepático', paginas: ['Filtração e excreção de fármacos', 'Metabolismo hepático', 'Ajuste de dose'] },
+        { nome: 'Ácido-base e eletrólitos', paginas: ['Equilíbrio ácido-base: o essencial', 'Sódio, potássio e cálcio na clínica', 'Desidratação e paciente sistêmico'] },
         { nome: 'Osso e cálcio', paginas: ['Remodelação óssea', 'Paratormônio, calcitonina e vitamina D', 'Osteoporose'] },
         { nome: 'Sistema nervoso', paginas: ['Neurônio e sinapse', 'Sistema autônomo: efeitos na boca', 'Reflexos orofaciais', 'Ansiedade e resposta ao estresse'] },
         { nome: 'Crescimento e envelhecimento', paginas: ['Fisiologia do crescimento', 'Hormônios e maturação', 'Envelhecimento fisiológico'] },
@@ -190,12 +194,12 @@ module.exports = [
         { nome: 'Métodos', paginas: ['Coleta e cultura', 'Identificação molecular', 'Antibiograma'] },
       ] },
       { nome: 'Ecologia oral', temas: [
-        { nome: 'Microbiota', paginas: ['Aquisição e sucessão', 'Nichos: dente, mucosa, língua e saliva', 'Principais gêneros', 'Eubiose e disbiose'] },
+        { nome: 'Microbiota', paginas: ['Aquisição e sucessão', 'Nichos: dente, mucosa, língua e saliva', 'Principais gêneros', 'Eubiose e disbiose', 'Microbioma oral e resistoma: o que o sequenciamento mudou'] },
         { nome: 'Biofilme', paginas: ['Película adquirida', 'Adesão e coagregação', 'Maturação e matriz', 'Biofilme supra e subgengival', 'Por que o biofilme resiste a antimicrobianos'] },
       ] },
       { nome: 'Microbiologia das doenças', temas: [
         { nome: 'Cárie', paginas: ['Streptococcus mutans e sobrinus', 'Lactobacilos e Actinomyces', 'Hipóteses: específica, inespecífica e ecológica', 'Candida na cárie infantil'] },
-        { nome: 'Doença periodontal', paginas: ['Complexos de Socransky', 'Porphyromonas gingivalis: fatores de virulência', 'Aggregatibacter e periodontite agressiva', 'Modelo de disbiose polimicrobiana'] },
+        { nome: 'Doença periodontal', paginas: ['Complexos de Socransky: modelo histórico e ecológico', 'Porphyromonas gingivalis: fatores de virulência', 'Aggregatibacter e periodontite: associação microbiológica e fatores de virulência', 'Modelo de disbiose polimicrobiana', 'Por que a categoria "periodontite agressiva" saiu da classificação de 2017'] },
         { nome: 'Infecções endodônticas', paginas: ['Flora primária e secundária', 'Enterococcus faecalis', 'Infecção persistente e extrarradicular'] },
         { nome: 'Infecções da mucosa e sistêmicas', paginas: ['Candidíase', 'Herpes simples e zóster', 'HPV e papilomas', 'Sífilis e tuberculose', 'HIV: manifestações orais', 'Hepatites: risco ocupacional', 'Endocardite e bacteremia'] },
         { nome: 'Halitose', paginas: ['Compostos sulfurados', 'Saburra lingual', 'Diagnóstico e tratamento'] },
@@ -268,13 +272,13 @@ module.exports = [
         { nome: 'Anti-inflamatórios não esteroides', paginas: ['Mecanismo: COX-1 e COX-2', 'Ibuprofeno, nimesulida, cetorolaco e diclofenaco', 'Contraindicações: renal, gástrica e cardiovascular', 'Protocolos por procedimento'] },
         { nome: 'Corticoides', paginas: ['Dexametasona e betametasona', 'Dose única pré-operatória', 'Efeitos adversos'] },
         { nome: 'Opioides', paginas: ['Codeína e tramadol', 'Quando indicar', 'Riscos e legislação'] },
-        { nome: 'Analgesia preemptiva e escada analgésica', paginas: ['Conceito e protocolos', 'Dor pós-operatória: planejamento'] },
+        { nome: 'Analgesia multimodal e manejo da dor pós-operatória', paginas: ['Anti-inflamatório isolado ou com paracetamol como primeira linha (diretriz ADA 2024)', 'Analgesia preemptiva: conceito e protocolos', 'Opioides: só em situações selecionadas e por poucos dias', 'Escada analgésica: conceito histórico e limites na odontologia', 'Dor pós-operatória: planejamento por procedimento'] },
       ] },
       { nome: 'Antimicrobianos', temas: [
-        { nome: 'Princípios', paginas: ['Bactericida e bacteriostático', 'Espectro', 'Resistência e uso racional', 'Quando o antibiótico não é indicado'] },
+        { nome: 'Princípios', paginas: ['Bactericida e bacteriostático', 'Espectro', 'Resistência e uso racional', 'Stewardship: prescrever menos e melhor', 'Quando o antibiótico não é indicado'] },
         { nome: 'Betalactâmicos', paginas: ['Amoxicilina: doses e duração', 'Amoxicilina com clavulanato', 'Penicilina benzatina e cefalosporinas', 'Alergia à penicilina'] },
-        { nome: 'Outros antibióticos', paginas: ['Clindamicina', 'Azitromicina e claritromicina', 'Metronidazol', 'Tetraciclinas e doxiciclina', 'Ciprofloxacino'] },
-        { nome: 'Profilaxia antibiótica', paginas: ['Endocardite: quem e como', 'Próteses articulares', 'Cirurgia e implantes'] },
+        { nome: 'Outros antibióticos', paginas: ['Clindamicina: uso restrito e risco de colite por Clostridioides difficile', 'Azitromicina e claritromicina', 'Metronidazol', 'Tetraciclinas e doxiciclina', 'Cefalexina e cefalosporinas', 'Ciprofloxacino: quando (raramente) cabe'] },
+        { nome: 'Profilaxia antibiótica', paginas: ['Endocardite: quem precisa (AHA 2021)', 'Endocardite: esquemas e alternativas ao alérgico sem clindamicina', 'Próteses articulares: por que a profilaxia de rotina não é recomendada', 'Cirurgia, implantes e terceiros molares: o que a evidência mostra', 'Algoritmo de decisão: indicar ou não'] },
         { nome: 'Antifúngicos e antivirais', paginas: ['Nistatina, miconazol e fluconazol', 'Aciclovir e valaciclovir', 'Interações do fluconazol'] },
         { nome: 'Antissépticos', paginas: ['Clorexidina: concentrações e efeitos', 'Óleos essenciais e cetilpiridínio', 'Triclosan e fluoretos'] },
       ] },
@@ -283,7 +287,7 @@ module.exports = [
         { nome: 'Sedação inalatória', paginas: ['Óxido nitroso: mecanismo', 'Técnica e monitoramento', 'Legislação'] },
       ] },
       { nome: 'Pacientes especiais na prescrição', temas: [
-        { nome: 'Gestante e lactante', paginas: ['Categorias de risco', 'O que pode e o que não pode', 'Anestésico na gestante'] },
+        { nome: 'Gestante e lactante', paginas: ['Segurança na gestação e lactação: as categorias das bulas brasileiras e o modelo narrativo que substituiu as letras (FDA, 2015)', 'O que pode e o que não pode', 'Anestésico na gestante', 'Amamentação: o que orientar'] },
         { nome: 'Criança e idoso', paginas: ['Particularidades farmacocinéticas', 'Polifarmácia no idoso'] },
         { nome: 'Doenças sistêmicas', paginas: ['Anticoagulados', 'Diabetes e corticoide', 'Renal e hepático', 'Bifosfonatos, denosumabe e osteonecrose', 'Imunossuprimidos'] },
         { nome: 'Fitoterápicos e suplementos', paginas: ['Interações relevantes', 'O que perguntar na anamnese'] },
@@ -318,7 +322,7 @@ module.exports = [
       { nome: 'Falhas e complicações', temas: [
         { nome: 'Falha anestésica', paginas: ['Inflamação e pH', 'Variações anatômicas', 'Erro de técnica', 'Técnicas complementares'] },
         { nome: 'Complicações locais', paginas: ['Hematoma', 'Trismo', 'Parestesia', 'Paralisia facial transitória', 'Lesão de tecidos moles', 'Fratura de agulha'] },
-        { nome: 'Complicações sistêmicas', paginas: ['Lipotimia', 'Toxicidade e overdose', 'Reação ao vasoconstritor', 'Alergia'] },
+        { nome: 'Complicações sistêmicas', paginas: ['Lipotimia', 'Toxicidade sistêmica (sobredosagem): sinais e conduta', 'Reação ao vasoconstritor', 'Alergia', 'Monitorização do paciente durante a anestesia'] },
       ] },
       { nome: 'Sedação e anestesia geral', temas: [
         { nome: 'Sedação em odontologia', paginas: ['Níveis de sedação', 'Sedação oral com benzodiazepínicos', 'Sedação inalatória com óxido nitroso', 'Sedação venosa: quem pode e onde', 'Monitoramento e alta'] },
@@ -339,10 +343,10 @@ module.exports = [
       { nome: 'Processamento de artigos', temas: [
         { nome: 'Classificação e fluxo', paginas: ['Classificação de Spaulding', 'Área suja e área limpa', 'Fluxo unidirecional'] },
         { nome: 'Limpeza e desinfecção', paginas: ['Limpeza manual e ultrassônica', 'Desinfetantes: níveis', 'Secagem e inspeção'] },
-        { nome: 'Esterilização', paginas: ['Autoclave: ciclos e parâmetros', 'Embalagem e validade', 'Indicadores químicos e biológicos', 'Estufa: por que não', 'Peças de mão e canetas'] },
+        { nome: 'Esterilização', paginas: ['Autoclave: ciclos e parâmetros', 'Instruções de uso do fabricante e validação do processamento', 'Embalagem e validade', 'Indicadores químicos e biológicos', 'Rastreabilidade do ciclo', 'Estufa (calor seco): proibida pela Anvisa (RDC 15/2012 e RDC 1.002/2025)', 'Peças de mão e canetas'] },
       ] },
       { nome: 'Ambiente', temas: [
-        { nome: 'Superfícies e água', paginas: ['Barreiras', 'Desinfecção de superfícies', 'Linhas de água do equipo e biofilme', 'Aerossóis e ventilação'] },
+        { nome: 'Superfícies e água', paginas: ['Barreiras', 'Desinfecção de superfícies', 'Linhas de água do equipo e biofilme', 'Monitoramento da qualidade da água e manutenção das linhas', 'Água estéril em procedimentos cirúrgicos', 'Aerossóis e ventilação'] },
         { nome: 'Resíduos', paginas: ['Classificação', 'Descarte de perfurocortantes', 'Amálgama e mercúrio', 'Plano de gerenciamento'] },
         { nome: 'Acidentes ocupacionais', paginas: ['Conduta após perfurocortante', 'Profilaxia pós-exposição', 'Notificação'] },
       ] },
@@ -352,7 +356,7 @@ module.exports = [
       ] },
       { nome: 'Situações especiais e legislação', temas: [
         { nome: 'Biossegurança por procedimento', paginas: ['Cirurgia e implantes: campo estéril', 'Endodontia e isolamento', 'Prótese: desinfecção de moldes e trabalhos', 'Radiologia: sensores e posicionadores'] },
-        { nome: 'Vigilância e normas', paginas: ['Resoluções da Anvisa para serviços odontológicos', 'Programa de gerenciamento de riscos', 'Inspeção sanitária: o que é conferido', 'Pandemias e protocolos respiratórios'] },
+        { nome: 'Vigilância e normas', paginas: ['RDC 1.002/2025: boas práticas em serviços odontológicos (adequação até dezembro de 2026)', 'RDC 15/2012 e o processamento de produtos para saúde', 'Programa de gerenciamento de riscos', 'Inspeção sanitária: o que é conferido', 'Pandemias e protocolos respiratórios'] },
       ] },
     ],
   },
@@ -424,7 +428,7 @@ module.exports = [
         { nome: 'Enceramento diagnóstico', paginas: ['Técnica de enceramento progressivo', 'Cúspides, cristas e sulcos', 'Enceramento por adição'] },
         { nome: 'Ajuste oclusal', paginas: ['Indicações e limites', 'Regras de desgaste seletivo', 'Sequência'] },
         { nome: 'Placas oclusais', paginas: ['Tipos e indicações', 'Placa de Michigan: confecção', 'Ajuste e acompanhamento'] },
-        { nome: 'Oclusão nas especialidades', paginas: ['Em dentística e prótese', 'Em implantes', 'Em ortodontia', 'Oclusão e DTM: o que a evidência diz'] },
+        { nome: 'Oclusão nas especialidades', paginas: ['Em dentística e prótese', 'Em implantes', 'Em ortodontia', 'Oclusão e DTM: o que a evidência diz', 'Oclusão e função mastigatória: o que é fundamento e o que é escola'] },
       ] },
       { nome: 'Reabilitação oclusal', temas: [
         { nome: 'Desgaste e perda de dimensão vertical', paginas: ['Diagnóstico do desgaste', 'Aumento de dimensão vertical: quando e quanto', 'Provisórios de reabilitação e teste'] },
@@ -445,7 +449,7 @@ module.exports = [
       ] },
       { nome: 'Diagnóstico', temas: [
         { nome: 'Detecção', paginas: ['Exame visual: condições e critérios', 'Sistema ICDAS', 'Radiografia interproximal', 'Sonda: quando e como', 'Métodos auxiliares: fluorescência e transiluminação'] },
-        { nome: 'Avaliação de atividade e risco', paginas: ['Sinais de atividade', 'Avaliação de risco individual', 'Testes salivares e microbiológicos', 'Registro e acompanhamento'] },
+        { nome: 'Avaliação de atividade e risco', paginas: ['Sinais de atividade', 'Atividade de lesão e monitoramento longitudinal', 'Avaliação de risco individual', 'Testes salivares e microbiológicos', 'Registro e acompanhamento'] },
       ] },
       { nome: 'Flúor', temas: [
         { nome: 'Mecanismo e fontes', paginas: ['Mecanismo de ação', 'Água de abastecimento', 'Dentifrício: concentração e quantidade por idade', 'Bochechos'] },
@@ -460,10 +464,10 @@ module.exports = [
         { nome: 'Selantes', paginas: ['Indicações', 'Resinoso e ionomérico', 'Técnica e controle'] },
         { nome: 'Lesões iniciais', paginas: ['Remineralização de mancha branca', 'Infiltrante resinoso', 'Microabrasão'] },
         { nome: 'Cárie em dentina', paginas: ['Remoção seletiva de tecido cariado', 'Tratamento restaurador atraumático', 'Técnica de Hall', 'Mínima intervenção: princípios'] },
-        { nome: 'Manutenção', paginas: ['Intervalo de retorno por risco', 'Programas para grupos de risco', 'Cárie no idoso e radicular'] },
+        { nome: 'Manutenção', paginas: ['Manejo não operatório baseado em risco', 'Intervalo de retorno por risco', 'Programas para grupos de risco', 'Cárie no idoso e radicular'] },
       ] },
       { nome: 'Cárie em grupos e situações especiais', temas: [
-        { nome: 'Por faixa etária', paginas: ['Cárie precoce da infância', 'Adolescente e ortodontia', 'Adulto e cárie secundária', 'Idoso e cárie radicular'] },
+        { nome: 'Por faixa etária', paginas: ['Cárie precoce da infância', 'Adolescente e ortodontia', 'Adulto e cárie adjacente a restaurações (cárie secundária)', 'Idoso e cárie radicular'] },
         { nome: 'Condições de risco', paginas: ['Xerostomia e radioterapia', 'Pacientes com necessidades especiais', 'Refluxo e transtornos alimentares'] },
         { nome: 'Erosão dental', paginas: ['Etiologia intrínseca e extrínseca', 'Diagnóstico e índices', 'Prevenção e controle'] },
       ] },
@@ -513,10 +517,10 @@ module.exports = [
     modulos: [
       { nome: 'Emergências médicas', temas: [
         { nome: 'Preparo', paginas: ['Kit de emergência: o que ter', 'Oxigênio e equipamentos', 'Treinamento da equipe', 'Prevenção pela anamnese'] },
-        { nome: 'Suporte básico de vida', paginas: ['Reconhecimento da parada', 'Compressões e ventilação', 'Desfibrilador externo automático', 'Obstrução de via aérea'] },
+        { nome: 'Suporte básico de vida', paginas: ['Reconhecimento da parada', 'Compressões e ventilação', 'Desfibrilador externo automático', 'Obstrução de via aérea', 'Algoritmos vigentes: o que mudou nas últimas diretrizes'] },
         { nome: 'Alterações de consciência', paginas: ['Síncope vasovagal', 'Hipotensão postural', 'Hipoglicemia', 'Crise convulsiva', 'Acidente vascular cerebral'] },
         { nome: 'Respiratórias', paginas: ['Hiperventilação', 'Crise asmática', 'Aspiração de corpo estranho'] },
-        { nome: 'Cardiovasculares', paginas: ['Crise hipertensiva', 'Angina e infarto', 'Arritmias'] },
+        { nome: 'Cardiovasculares', paginas: ['Pressão arterial elevada no consultório: urgência × emergência hipertensiva', 'Angina e infarto', 'Arritmias'] },
         { nome: 'Alérgicas e outras', paginas: ['Urticária e angioedema', 'Anafilaxia e adrenalina', 'Crise adrenal', 'Overdose de anestésico'] },
       ] },
       { nome: 'Urgências odontológicas', temas: [
@@ -560,7 +564,7 @@ module.exports = [
       { nome: 'Bioestatística', temas: [
         { nome: 'Descritiva', paginas: ['Tipos de variáveis', 'Média, mediana e moda', 'Desvio padrão e intervalo interquartil', 'Tabelas e gráficos'] },
         { nome: 'Probabilidade e amostragem', paginas: ['Distribuição normal', 'Amostra e população', 'Tamanho de amostra'] },
-        { nome: 'Inferência', paginas: ['Hipótese nula e valor de p', 'Intervalo de confiança', 'Erro tipo I e II e poder', 'Testes: t, qui-quadrado, ANOVA e não paramétricos', 'Correlação e regressão'] },
+        { nome: 'Inferência', paginas: ['Hipótese nula e valor de p', 'Intervalo de confiança', 'Tamanho de efeito e significância clínica', 'Erro tipo I e II e poder', 'Testes: t, qui-quadrado, ANOVA e não paramétricos', 'Correlação e regressão'] },
         { nome: 'Epidemiologia clínica', paginas: ['Prevalência e incidência', 'Risco relativo e odds ratio', 'Sensibilidade, especificidade e valores preditivos', 'Número necessário para tratar'] },
       ] },
     ],
@@ -571,10 +575,10 @@ module.exports = [
     modulos: [
       { nome: 'Psicologia aplicada', temas: [
         { nome: 'O paciente', paginas: ['Medo e ansiedade odontológica', 'Desenvolvimento e comportamento por idade', 'Adesão ao tratamento', 'Dor e emoção'] },
-        { nome: 'O profissional', paginas: ['Estresse e burnout', 'Trabalho em equipe', 'Comunicação não violenta'] },
+        { nome: 'O profissional', paginas: ['Estresse e burnout', 'Saúde mental do estudante e do dentista', 'Trabalho em equipe', 'Comunicação não violenta'] },
       ] },
       { nome: 'Ética e deontologia', temas: [
-        { nome: 'Fundamentos', paginas: ['Bioética: princípios', 'Código de ética odontológica: pontos-chave', 'Publicidade e redes sociais', 'Relação com colegas'] },
+        { nome: 'Fundamentos', paginas: ['Bioética: princípios', 'Código de ética odontológica: pontos-chave', 'Publicidade e redes sociais', 'Ética digital: telemedicina, imagens de pacientes e inteligência artificial', 'Relação com colegas'] },
       ] },
       { nome: 'Gestão do consultório', temas: [
         { nome: 'Administração', paginas: ['Abertura de consultório e legislação', 'Custos fixos e variáveis', 'Precificação de procedimentos', 'Agenda e produtividade', 'Estoque e fornecedores', 'Indicadores de gestão'] },

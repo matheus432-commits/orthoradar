@@ -21,6 +21,7 @@ h1.titulo{font-family:Georgia,serif;font-weight:400;font-size:26pt;margin:0 0 6p
 .area{page-break-before:always;}
 .area h1{font-family:Georgia,serif;font-weight:400;font-size:18pt;margin:0 0 2px;}
 .area .desc{color:#8A8478;margin:0 0 10px;}
+.area .nota{background:#F4EEE4;border:1px solid #EDE6D8;border-radius:6px;padding:6px 9px;font-size:9.5pt;margin:0 0 10px;}
 h2{font-size:11.5pt;color:#B08968;margin:14px 0 3px;page-break-after:avoid;}
 h3{font-size:10.5pt;margin:8px 0 2px;page-break-after:avoid;}
 h3 small{font-weight:400;color:#8A8478;font-size:8.5pt;margin-left:6px;}
@@ -39,16 +40,16 @@ td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;}
 <p class="muted">Versão ${doc.versao} · 1 de setembro de 2026 · ${r.areas} áreas · ${r.modulos} módulos · ${r.temas} temas · ${r.paginas.toLocaleString('pt-BR')} páginas de apostila</p>
 <h3>Como validar</h3>
 <p>Cada área é uma disciplina da graduação ou uma especialidade reconhecida pelo CFO. Dentro dela, um módulo é um bloco de aulas, um tema é uma aula e uma página é um assunto dentro da aula. Cada página vai virar uma apostila ilustrada para o aluno e uma aula pronta com prova para o professor.</p>
-<p>O que precisamos de você, na sua especialidade: (1) falta algum tema ou página que se ensina hoje? (2) sobra algo que não se ensina mais ou não pertence a esta área? (3) algum nome está errado, desatualizado ou fora do jargão da sala de aula? (4) a ordem dos módulos faz sentido para dar a disciplina? (5) o nível está certo para graduação, ou é conteúdo só de especialização?</p>
-<p>Anote na versão Word deste documento (comentários ou texto ao lado) ou na planilha que acompanha, uma linha por página, marcando na coluna "avaliação": OK, FALTA, SOBRA, RENOMEAR ou MOVER, com o comentário.</p>
-<p>Termo padronizado: Distalização (nunca Distanciamento). Nomes em linguagem comum, sigla só depois da palavra por extenso.</p></div>
-<div class="area"><h1>Resumo por área</h1><table><thead><tr><th>Área</th><th>Ciclo</th><th class="n">Módulos</th><th class="n">Temas</th><th class="n">Páginas</th><th>CFO</th></tr></thead><tbody>`;
+<p>O que precisamos de você, na sua especialidade, em seis perguntas. (1) FALTA: existe tema ou assunto que um aluno de graduação ou especialização deveria obrigatoriamente saber e que não aparece? (2) SOBRA: existe conteúdo errado, que não é mais ensinado ou que pertence a outra área? Conteúdo apenas específico ou avançado não é sobra: a apostila prefere ter a mais. (3) RENOMEAR: existe termo errado, antigo, pouco usado ou diferente do jargão atual? (4) MOVER: algo está na disciplina errada ou deveria vir antes ou depois na sequência? (5) NÍVEL: classifique como Graduação essencial, Graduação complementar, Especialização, Avançado ou Histórico. (6) EVIDÊNCIA: algum conteúdo é controverso, baseado em tradição de escola, ou exige que a apostila separe prática tradicional de evidência atual?</p>
+<p>Anote na versão Word deste documento (comentários ou texto ao lado) ou na planilha que acompanha, uma linha por página, preenchendo as colunas "avaliação" (OK, FALTA, SOBRA, RENOMEAR ou MOVER), "nível", "evidência" e "comentário".</p>
+<p>Termo padronizado: Distalização (nunca Distanciamento). Nomes em linguagem comum, sigla só depois da palavra por extenso. O rótulo de cada área diz se ela é especialidade reconhecida pelo CFO ou disciplina de formação; a última seção de toda área, "Prática baseada em evidências", é transversal e igual para todas.</p></div>
+<div class="area"><h1>Resumo por área</h1><table><thead><tr><th>Área</th><th>Ciclo</th><th class="n">Módulos</th><th class="n">Temas</th><th class="n">Páginas</th><th>Status</th></tr></thead><tbody>`;
 for (const a of doc.areas) { let t = 0, pg = 0; for (const m of a.modulos) for (const te of m.temas) { t++; pg += te.paginas.length; }
-  h += `<tr><td><b>${esc(a.nome)}</b></td><td>${CICLO[a.ciclo]}</td><td class="n">${a.modulos.length}</td><td class="n">${t}</td><td class="n">${pg}</td><td>${a.cfo ? '<span class="cfo">especialidade</span>' : '<span class="muted">base</span>'}</td></tr>`; }
+  h += `<tr><td><b>${esc(a.nome)}</b></td><td>${CICLO[a.ciclo]}</td><td class="n">${a.modulos.length}</td><td class="n">${t}</td><td class="n">${pg}</td><td>${a.cfo ? '<span class="cfo">Especialidade CFO</span>' : '<span class="muted">Disciplina</span>'}</td></tr>`; }
 h += '</tbody></table></div>';
 let nA = 0;
 for (const a of doc.areas) { nA++;
-  h += `<div class="area"><p class="eyebrow">${CICLO[a.ciclo]}${a.cfo ? ' · especialidade reconhecida pelo CFO' : ' · disciplina de base'}</p><h1>${nA}. ${esc(a.nome)}</h1><p class="desc">${esc(a.descricao)}</p>`;
+  h += `<div class="area"><p class="eyebrow">${CICLO[a.ciclo]} · ${esc(a.statusRotulo || (a.cfo ? 'Especialidade reconhecida pelo CFO' : 'Disciplina de formação odontológica'))}</p><h1>${nA}. ${esc(a.nome)}</h1><p class="desc">${esc(a.descricao)}</p>${a.nota ? '<p class="nota"><b>Nota editorial:</b> ' + esc(a.nota) + '</p>' : ''}`;
   let nM = 0;
   for (const m of a.modulos) { nM++; h += `<h2>${nA}.${nM} ${esc(m.nome)}</h2>`; let nT = 0;
     for (const t of m.temas) { nT++; h += `<h3>${nA}.${nM}.${nT} ${esc(t.nome)}<small>${t.paginas.length} página${t.paginas.length > 1 ? 's' : ''}</small></h3><ul>${t.paginas.map((p) => '<li>' + esc(p.nome) + '</li>').join('')}</ul>`; } }

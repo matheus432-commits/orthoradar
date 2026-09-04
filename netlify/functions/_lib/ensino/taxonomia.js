@@ -19,6 +19,26 @@ const FONTES = [
 
 const CICLOS = ['básico', 'pré-clínico', 'clínico', 'pós'];
 
+// Rótulo curricular/regulatório da área (revisão 04/09: "base/especialidade"
+// induzia a achar que toda área é especialidade reconhecida pelo CFO).
+const STATUS = {
+  especialidade_cfo: 'Especialidade reconhecida pelo CFO',
+  disciplina: 'Disciplina de formação odontológica',
+  complementar: 'Área temática complementar',
+};
+
+// Módulo transversal (revisão 04/09): toda área fecha com "Prática baseada em
+// evidências", para que a apostila não vire manual de técnicas. Montado aqui,
+// não na fonte, para ser idêntico em todas as áreas.
+const MODULO_EVIDENCIA = {
+  nome: 'Prática baseada em evidências',
+  transversal: true,
+  temas: [{
+    nome: 'As quatro perguntas de cada conduta',
+    paginas: ['Qual é a indicação?', 'Qual é a contraindicação?', 'Qual é a qualidade da evidência?', 'O que mudou nos últimos anos?', 'O que é tradição de escola e o que é evidência: como a apostila diferencia'],
+  }],
+};
+
 function slug(s) {
   return String(s || '')
     .normalize('NFD').replace(/[̀-ͯ]/g, '')
@@ -39,16 +59,18 @@ function taxonomia() {
   const areas = FONTES.map((a) => {
     const areaId = unico(slug(a.nome));
     if (!CICLOS.includes(a.ciclo)) throw new Error('ciclo inválido em ' + a.nome);
-    const modulos = (a.modulos || []).map((m) => {
+    const modulos = [...(a.modulos || []), MODULO_EVIDENCIA].map((m) => {
       const moduloId = unico(areaId + '/' + slug(m.nome));
       const temas = (m.temas || []).map((t) => {
         const temaId = unico(moduloId + '/' + slug(t.nome));
         const paginas = (t.paginas || []).map((p) => ({ id: unico(temaId + '/' + slug(p)), nome: p }));
         return { id: temaId, nome: t.nome, paginas };
       });
-      return { id: moduloId, nome: m.nome, temas };
+      return { id: moduloId, nome: m.nome, temas, ...(m.transversal ? { transversal: true } : {}) };
     });
-    return { id: areaId, nome: a.nome, ciclo: a.ciclo, cfo: !!a.cfo, descricao: a.descricao || '', modulos };
+    const status = a.status || (a.cfo ? 'especialidade_cfo' : 'disciplina');
+    if (!STATUS[status]) throw new Error('status inválido em ' + a.nome);
+    return { id: areaId, nome: a.nome, ciclo: a.ciclo, cfo: !!a.cfo, status, statusRotulo: STATUS[status], descricao: a.descricao || '', ...(a.nota ? { nota: a.nota } : {}), modulos };
   });
   _cache = { versao: '1.0', areas };
   return _cache;
@@ -103,4 +125,4 @@ function resumo() {
   return { areas: t.areas.length, cfo: t.areas.filter((a) => a.cfo).length, modulos, temas, paginas };
 }
 
-module.exports = { taxonomia, buscar, resumo, slug, normalizar, CICLOS };
+module.exports = { taxonomia, buscar, resumo, slug, normalizar, CICLOS, STATUS, MODULO_EVIDENCIA };
