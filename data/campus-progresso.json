@@ -1,10 +1,10 @@
 {
  "atualizadoEm": "2026-09-04",
  "totalPaginas": 3387,
- "concluidas": 17,
+ "concluidas": 18,
  "porStatus": {
-  "pendente": 3370,
-  "rascunho": 17,
+  "pendente": 3369,
+  "rascunho": 18,
   "revisado": 0,
   "publicado": 0
  },
@@ -12,7 +12,7 @@
   "id": "ortodontia/crescimento-e-desenvolvimento",
   "area": "Ortodontia",
   "modulo": "Crescimento e desenvolvimento",
-  "faltam": 2
+  "faltam": 1
  },
  "imagensPendentes": [
   {
@@ -260,7 +260,7 @@
   },
   {
    "pagina": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-decidua",
-   "onde": "Seção \"O plano terminal: o segundo molar decíduo aponta o caminho\".blocos[1].svg[23]",
+   "onde": "Seção \"O plano terminal: o segundo molar decíduo aponta o caminho\".blocos[1].svg[22]",
    "trecho": "(--muted,#8A8478)'>a partir de Baume; o plano reto é o mais frequente [VERIFICAR]"
   },
   {
@@ -287,6 +287,36 @@
    "pagina": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-mista-primeira-e-segunda-fase",
    "onde": "infografico.itens[0].texto",
    "trecho": "Segundo transitório (10 a 12): caninos, pré-molares, segundos molares [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-permanente",
+   "onde": "umMinuto.frases[0]",
+   "trecho": "undos molares; os terceiros chegam, quando chegam, entre 17 e 21 anos [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-permanente",
+   "onde": "Seção \"Quando a dentição fica completa, e quando fica mesmo\".blocos[1].svg[7]",
+   "trecho": "8A8478)'>faixas aproximadas; inferiores em geral antes dos superiores [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-permanente",
+   "onde": "Seção \"O arco encolhe depois de pronto\".blocos[0].texto",
+   "trecho": "e depois diminui lentamente ao longo da adolescência e da vida adulta [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-permanente",
+   "onde": "Seção \"Quem aperta os incisivos inferiores\".blocos[2].verdade",
+   "trecho": "rdio nos dois grupos; o papel do terceiro molar é, no máximo, pequeno [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-permanente",
+   "onde": "fechamento.flashcards[2].verso",
+   "trecho": "o e a extração profilática para prevenir apinhamento não se justifica [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-permanente",
+   "onde": "infografico.itens[0].texto",
+   "trecho": "13 anos, com os segundos molares. Terceiros entre 17 e 21, quando vêm [VERIFICAR]"
   }
  ],
  "modulos": [
@@ -296,11 +326,11 @@
    "area": "Ortodontia",
    "modulo": "Crescimento e desenvolvimento",
    "total": 14,
-   "concluidas": 12,
-   "palavras": 33901,
-   "visuais": 43,
+   "concluidas": 13,
+   "palavras": 36630,
+   "visuais": 47,
    "imagensClinicas": 9,
-   "verificar": 38,
+   "verificar": 44,
    "paginas": [
     {
      "id": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/conceitos-crescimento-e-desenvolvimento",
@@ -402,7 +432,9 @@
      "id": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-permanente",
      "nome": "Dentição permanente",
      "tema": "Desenvolvimento da oclusão",
-     "status": "pendente"
+     "status": "rascunho",
+     "palavras": 2729,
+     "visuais": 4
     },
     {
      "id": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/chaves-de-oclusao-de-andrews",
@@ -25401,7 +25433,7 @@
      "trecho": "8A8478)'>faixas aproximadas; inferiores em geral antes dos superiores [VERIFICAR]"
     },
     {
-     "onde": "Seção \"O plano terminal: o segundo molar decíduo aponta o caminho\".blocos[1].svg[23]",
+     "onde": "Seção \"O plano terminal: o segundo molar decíduo aponta o caminho\".blocos[1].svg[22]",
      "trecho": "(--muted,#8A8478)'>a partir de Baume; o plano reto é o mais frequente [VERIFICAR]"
     }
    ]
@@ -25467,6 +25499,66 @@
     {
      "onde": "infografico.itens[0].texto",
      "trecho": "Segundo transitório (10 a 12): caninos, pré-molares, segundos molares [VERIFICAR]"
+    }
+   ]
+  },
+  "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-permanente": {
+   "titulo": "Dentição permanente: o arco não para quando o último dente chega",
+   "arquivo": "data/campus/paginas/ortodontia--oclusao-denticao-permanente.json",
+   "formato": 2,
+   "status": "rascunho",
+   "estado": "rascunho",
+   "palavras": 2729,
+   "visuais": [
+    {
+     "formato": "linha-do-tempo",
+     "titulo": "Cronologia de erupção dos dentes permanentes"
+    },
+    {
+     "formato": "grafico",
+     "titulo": "Largura intercaninos inferior ao longo da vida (esquema)"
+    },
+    {
+     "formato": "forcas",
+     "titulo": "As forças que apinham os incisivos inferiores depois dos 13"
+    },
+    {
+     "formato": "mapa",
+     "titulo": "Mapa da página"
+    }
+   ],
+   "quadros": {
+    "frase": 1,
+    "prova": 1,
+    "mito": 1,
+    "dica": 1,
+    "erro": 1
+   },
+   "imagensClinicas": [],
+   "verificar": [
+    {
+     "onde": "umMinuto.frases[0]",
+     "trecho": "undos molares; os terceiros chegam, quando chegam, entre 17 e 21 anos [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Quando a dentição fica completa, e quando fica mesmo\".blocos[1].svg[7]",
+     "trecho": "8A8478)'>faixas aproximadas; inferiores em geral antes dos superiores [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"O arco encolhe depois de pronto\".blocos[0].texto",
+     "trecho": "e depois diminui lentamente ao longo da adolescência e da vida adulta [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Quem aperta os incisivos inferiores\".blocos[2].verdade",
+     "trecho": "rdio nos dois grupos; o papel do terceiro molar é, no máximo, pequeno [VERIFICAR]"
+    },
+    {
+     "onde": "fechamento.flashcards[2].verso",
+     "trecho": "o e a extração profilática para prevenir apinhamento não se justifica [VERIFICAR]"
+    },
+    {
+     "onde": "infografico.itens[0].texto",
+     "trecho": "13 anos, com os segundos molares. Terceiros entre 17 e 21, quando vêm [VERIFICAR]"
     }
    ]
   },
