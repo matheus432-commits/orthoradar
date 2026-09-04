@@ -27,7 +27,9 @@ describe('acervo.js — backend da biblioteca', () => {
     assert.ok(code.includes("'premium_required'"), 'erro estruturado p/ o convite de upgrade');
     // O gate precisa vir ANTES de qualquer entrega de dados do acervo (a
     // comparação mira a CHAMADA no handler, não a definição da função).
-    assert.ok(code.indexOf('premium_required') < code.indexOf('Promise.all([mapaDeAudios('), 'gate antes do catálogo');
+    // (04/09) o catálogo passou a ser montado dentro de memo('acervo:catalogo')
+    // para não varrer a coleção inteira a cada visita; a âncora mudou junto.
+    assert.ok(code.indexOf('premium_required') < code.indexOf("memo('acervo:catalogo'"), 'gate antes do catálogo');
   });
 
   test('data do card é só a DATA (docs com timestamp ISO não quebram o badge)', () => {

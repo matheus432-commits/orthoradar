@@ -14,6 +14,7 @@
 const { Firestore } = require('./_lib/firestore');
 const { checkAdmin } = require('./_lib/admin-guard');
 const { audioUrlDe } = require('./_lib/storage');
+const { memo } = require('./_lib/cache-memoria');
 const log = require('./_lib/logger');
 
 const sel = (...paths) => ({ fields: paths.map(fieldPath => ({ fieldPath })) });
@@ -92,21 +93,27 @@ exports.handler = async (event) => {
     }
 
     // ── Catálogo completo (leve — sem o texto do resumo) ──
-    const audio = await audioMap(db, bucket);
-    const arts = await db.queryAll('artigos', {
-      select: sel('pmid', 'titulo_pt', 'titulo', 'especialidade', 'data', 'nivel_evidencia', 'journal', 'year'),
-    }).catch(() => []);
+    // Varria `artigos` inteira mais os três acervos de áudio a cada abertura
+    // de /arquivo.html. Junto com a Biblioteca, foi o que esgotou a cota de
+    // leituras do Firestore em 04/09. O catálogo é igual para todo mundo:
+    // constrói uma vez por janela e reaproveita.
+    const artigos = await memo('arquivo:catalogo', async () => {
+      const audio = await audioMap(db, bucket);
+      const arts = await db.queryAll('artigos', {
+        select: sel('pmid', 'titulo_pt', 'titulo', 'especialidade', 'data', 'nivel_evidencia', 'journal', 'year'),
+      }).catch(() => []);
 
-    const artigos = arts.map(a => {
-      const pmid = String(a.pmid || a.id);
-      const au = audio.get(pmid) || audio.get(String(a.id));
-      return {
-        pmid, titulo: a.titulo_pt || a.titulo || '(sem título)',
-        especialidade: a.especialidade || '—', data: a.data || '',
-        nivel: a.nivel_evidencia || '', journal: a.journal || '', year: a.year || '',
-        audioUrl: au ? au.url : null, secs: au ? au.secs : null,
-      };
-    }).sort((x, y) => String(y.data).localeCompare(String(x.data)));
+      return arts.map(a => {
+        const pmid = String(a.pmid || a.id);
+        const au = audio.get(pmid) || audio.get(String(a.id));
+        return {
+          pmid, titulo: a.titulo_pt || a.titulo || '(sem título)',
+          especialidade: a.especialidade || '—', data: a.data || '',
+          nivel: a.nivel_evidencia || '', journal: a.journal || '', year: a.year || '',
+          audioUrl: au ? au.url : null, secs: au ? au.secs : null,
+        };
+      }).sort((x, y) => String(y.data).localeCompare(String(x.data)));
+    });
 
     return {
       statusCode: 200, headers,

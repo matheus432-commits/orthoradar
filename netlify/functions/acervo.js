@@ -24,7 +24,13 @@ const { resolveArticleUrl } = require('./_lib/email-template');
 const { logEvent } = require('./_lib/engagement');
 const { isPremium } = require('./_lib/plans');
 const { blocoDeBusca } = require('./_lib/busca-texto');
+const { memo } = require('./_lib/cache-memoria');
 const log = require('./_lib/logger');
+
+// Cota estourada do Firestore (incidente 04/09): tem que aparecer como queda,
+// nunca como acervo vazio. O `.catch(() => [])` de antes escondia o 429 e a
+// biblioteca abria sem nenhum artigo, como se o acervo tivesse sumido.
+const semCota = (err) => /\b429\b|RESOURCE_EXHAUSTED|Quota exceeded/i.test(String((err && err.message) || err));
 
 const BASE_URL = process.env.SITE_URL || 'https://odontofeed.com';
 const sel = (...paths) => ({ fields: paths.map(fieldPath => ({ fieldPath })) });
@@ -52,7 +58,7 @@ async function mapaDeAudios(db, bucket) {
     // coleção em silêncio e a biblioteca encolhia conforme o acervo crescia.
     const eps = await db.queryAll(coll, {
       select: sel('artigoId', 'objectPath', 'downloadToken', 'url', 'secs', 'date', 'especialidade', 'tipo', 'titulo'),
-    }).catch(() => []);
+    }).catch((err) => { if (semCota(err)) throw err; return []; });
     for (const e of eps) {
       if (e.tipo === 'completo') continue;
       const k = String(e.artigoId || '');
@@ -62,7 +68,7 @@ async function mapaDeAudios(db, bucket) {
   }
   const salvos = await db.queryAll('podcast_salvos', {
     select: sel('objectPath', 'downloadToken', 'url', 'secs'),
-  }).catch(() => []);
+  }).catch((err) => { if (semCota(err)) throw err; return []; });
   for (const s of salvos) {
     const url = audioUrlDe(s, bucket);
     if (s.id && url && !map.has(String(s.id))) {
@@ -159,17 +165,48 @@ exports.handler = async (event) => {
     }
 
     // ── Catálogo completo (leve) ────────────────────────────────────────────
-    const [audios, lidos] = await Promise.all([mapaDeAudios(db, bucket), pmidsLidos(db, email)]);
-    // queryAll (27/08): a coleção artigos passou de 5.000 docs e o limit fixo
-    // cortava exatamente os artigos NOVOS (pmid alto = nome "maior" no corte
-    // por __name__) — a biblioteca encolhia em vez de crescer.
-    const arts = await db.queryAll('artigos', {
-      // impacto_pratico e resumo_completo entram (01/09) para a BUSCA da
-      // biblioteca enxergar o texto inteiro do artigo, não só o começo do
-      // resumo — eles não vão crus para o cliente, viram o bloco `busca`.
-      select: sel('pmid', 'titulo_pt', 'titulo', 'especialidade', 'data', 'nivel_evidencia', 'journal', 'year', 'tema', 'resumo_pt', 'impacto_pratico', 'resumo_completo', 'status'),
-    }).catch(() => []);
+    // O catálogo é IGUAL para todo assinante: montá-lo por requisição varria a
+    // coleção `artigos` inteira mais todos os episódios a cada clique, e foi o
+    // que estourou a cota do Firestore em 04/09. Agora ele é construído uma vez
+    // por janela e reaproveitado; só o "já lido" é por pessoa.
+    const { artigos: base, episodios } = await memo('acervo:catalogo', async () => {
+      const audios = await mapaDeAudios(db, bucket);
+      // queryAll (27/08): a coleção artigos passou de 5.000 docs e o limit fixo
+      // cortava exatamente os artigos NOVOS (pmid alto = nome "maior" no corte
+      // por __name__) — a biblioteca encolhia em vez de crescer.
+      const arts = await db.queryAll('artigos', {
+        // impacto_pratico e resumo_completo entram (01/09) para a BUSCA da
+        // biblioteca enxergar o texto inteiro do artigo, não só o começo do
+        // resumo — eles não vão crus para o cliente, viram o bloco `busca`.
+        select: sel('pmid', 'titulo_pt', 'titulo', 'especialidade', 'data', 'nivel_evidencia', 'journal', 'year', 'tema', 'resumo_pt', 'impacto_pratico', 'resumo_completo', 'status'),
+      }).catch((err) => { if (semCota(err)) throw err; return []; });
+      return { artigos: montarCards(arts, audios), episodios: montarEpisodios(audios) };
+    });
+    const lidos = await pmidsLidos(db, email);
+    const artigos = base.map((a) => ({ ...a, lido: lidos.has(a.pmid) }));
 
+    return {
+      statusCode: 200, headers: { ...headers, 'Cache-Control': 'private, no-store' },
+      body: JSON.stringify({
+        total: artigos.length,
+        artigos,
+        episodios,
+        especialidades: [...new Set(artigos.map(a => a.especialidade).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'pt-BR')),
+        temas:          [...new Set(artigos.map(a => a.tema).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'pt-BR')),
+      }),
+    };
+  } catch (err) {
+    if (semCota(err)) {
+      log.error('[acervo] cota do Firestore esgotada', { err: err.message });
+      return { statusCode: 503, headers, body: JSON.stringify({ error: 'cota_esgotada', message: 'A base de dados atingiu o limite de leituras do dia. A Biblioteca volta assim que a cota renovar.' }) };
+    }
+    log.error('[acervo] erro', { err: err.message });
+    return { statusCode: 500, headers, body: JSON.stringify({ error: 'erro_interno' }) };
+  }
+};
+
+// Cards do acervo, sem a marca de "lido" (que é de cada pessoa).
+function montarCards(arts, audios) {
     const artigos = [];
     for (const a of arts) {
       const pmid = String(a.pmid || a.id || '');
@@ -196,29 +233,19 @@ exports.handler = async (event) => {
         // campo, e não só nos 400 primeiros caracteres do resumo.
         busca:         blocoDeBusca(a),
         audioUrl:      au.url, secs: au.secs,
-        lido:          lidos.has(pmid),
       });
     }
     artigos.sort((x, y) => String(y.data).localeCompare(String(x.data)));
+    return artigos;
+}
 
-    // Seção de PODCASTS: todos os episódios individuais, mais recentes antes.
-    const episodios = [...audios.entries()]
-      .filter(([, e]) => e.date) // salvos sem data ficam só nos cards de artigo
-      .map(([pmid, e]) => ({ pmid, titulo: e.titulo, especialidade: e.especialidade, date: e.date, url: e.url, secs: e.secs }))
-      .sort((x, y) => String(y.date).localeCompare(String(x.date)));
+// Seção de PODCASTS: todos os episódios individuais, mais recentes antes.
+function montarEpisodios(audios) {
+  return [...audios.entries()]
+    .filter(([, e]) => e.date) // salvos sem data ficam só nos cards de artigo
+    .map(([pmid, e]) => ({ pmid, titulo: e.titulo, especialidade: e.especialidade, date: e.date, url: e.url, secs: e.secs }))
+    .sort((x, y) => String(y.date).localeCompare(String(x.date)));
+}
 
-    return {
-      statusCode: 200, headers: { ...headers, 'Cache-Control': 'private, no-store' },
-      body: JSON.stringify({
-        total: artigos.length,
-        artigos,
-        episodios,
-        especialidades: [...new Set(artigos.map(a => a.especialidade).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'pt-BR')),
-        temas:          [...new Set(artigos.map(a => a.tema).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'pt-BR')),
-      }),
-    };
-  } catch (err) {
-    log.error('[acervo] erro', { err: err.message });
-    return { statusCode: 500, headers, body: JSON.stringify({ error: 'erro_interno' }) };
-  }
-};
+module.exports.montarCards = montarCards;
+module.exports.montarEpisodios = montarEpisodios;
