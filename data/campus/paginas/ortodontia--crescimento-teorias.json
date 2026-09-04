@@ -1,0 +1,553 @@
+{
+  "id": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/teorias-do-crescimento",
+  "areaId": "ortodontia",
+  "area": "Ortodontia",
+  "modulo": "Crescimento e desenvolvimento",
+  "tema": "Crescimento craniofacial",
+  "titulo": "Teorias do crescimento: quem manda no osso e o que o aparelho pode mudar",
+  "estado": "rascunho",
+  "versao": 1,
+  "formato": 2,
+  "autoria": "Rascunho escrito pela plataforma para validação; nada aqui é visível ao aluno antes da assinatura de um ortodontista.",
+  "abertura": {
+    "situacao": "Adolescente de 13 anos, respirador bucal desde pequeno, face longa e mordida aberta. Na discussão do caso, um professor diz que \"a função moldou a forma\"; o cirurgião diz que \"isso é padrão genético, aparelho não resolve\".",
+    "pergunta": "Quem está certo, e por que a resposta muda o que você pode prometer para a família com um aparelho funcional?"
+  },
+  "umMinuto": {
+    "frases": [
+      "As teorias do crescimento respondem a uma pergunta: onde está o controle do crescimento dos ossos da face, no próprio osso, na cartilagem ou nos tecidos moles que o cercam.",
+      "Sicher (teoria sutural) colocou o controle nas suturas, como centros de crescimento com programa genético próprio; a evidência experimental não sustentou: sutura transplantada não cresce sozinha.",
+      "Scott (teoria cartilaginosa) colocou o controle nas cartilagens, como o septo nasal e o côndilo, que teriam crescimento intrínseco e empurrariam os ossos; vale para o septo na infância e em parte para o côndilo.",
+      "Moss (matriz funcional) inverteu a lógica: o osso cresce em resposta aos tecidos moles e aos espaços funcionais; o cérebro faz o crânio crescer, a via aérea e a função mastigatória fazem a face crescer.",
+      "Van Limborgh reuniu tudo em uma síntese multifatorial e Petrovic descreveu o côndilo como um servossistema que responde a hormônios e à função: é a base racional dos aparelhos funcionais.",
+      "Na clínica, aparelho funcional modula a expressão do crescimento nas partes que respondem à função; não cria crescimento onde o padrão intrínseco manda."
+    ],
+    "caiNaProva": [
+      "Centro de crescimento e sítio de crescimento (Baume)",
+      "Teoria sutural de Sicher e por que caiu",
+      "Teoria cartilaginosa de Scott: septo nasal e côndilo",
+      "Matriz funcional de Moss: capsular e periosteal",
+      "Síntese de van Limborgh e servossistema de Petrovic"
+    ],
+    "porQueImporta": "Cada aparelho ortopédico é uma aposta em uma teoria. Quem sabe qual parte do crescimento responde à função e qual segue o padrão promete o que pode cumprir."
+  },
+  "secoes": [
+    {
+      "titulo": "Antes das teorias: centro não é o mesmo que sítio",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "Toda teoria do crescimento precisa responder três perguntas. Onde está o controle: no osso, na cartilagem ou fora dele? O crescimento naquele local é independente ou é resposta a alguma coisa? E, se é resposta, a quê?"
+        },
+        {
+          "tipo": "p",
+          "texto": "Baume deu os nomes que organizam a discussão. Centro de crescimento é um local com crescimento próprio, geneticamente controlado, que continuaria crescendo mesmo transplantado. Sítio de crescimento é um local onde o crescimento acontece, mas em resposta a algo que vem de fora dele."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "frase",
+          "texto": "Centro cresce por conta própria; sítio cresce porque alguém pede. A briga das teorias é sobre quais locais da face são centros e quais são sítios."
+        },
+        {
+          "tipo": "p",
+          "texto": "A resposta importa porque só um sítio responde a aparelho. Se o côndilo fosse um centro puro, nenhum propulsor mandibular mudaria nada; se fosse um sítio puro, qualquer avanço produziria mandíbula nova. A verdade experimental ficou no meio."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Um tecido que, transplantado para outro lugar do corpo, continua crescendo com o mesmo padrão é centro ou sítio de crescimento?",
+        "resposta": "Centro: o crescimento é intrínseco e não depende do ambiente original. Foi esse tipo de experimento que derrubou a sutura como centro e sustentou, em parte, a cartilagem."
+      }
+    },
+    {
+      "titulo": "Sicher e Scott: o controle está no osso e na cartilagem",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "Sicher propôs que as suturas do crânio e da face eram centros de crescimento: o tecido conjuntivo sutural proliferaria por programa genético e empurraria os ossos vizinhos. A teoria caiu quando se mostrou que uma sutura transplantada não cresce e que, quando os ossos ao redor são impedidos de se separar, a sutura para."
+        },
+        {
+          "tipo": "p",
+          "texto": "Scott deslocou o controle para as cartilagens. O septo nasal empurraria a maxila para baixo e para a frente; a cartilagem condilar faria o mesmo com a mandíbula; a sincondrose esfeno-occipital alongaria a base do crânio. As suturas seriam sítios passivos que só preenchem o espaço aberto pela cartilagem."
+        },
+        {
+          "tipo": "visual",
+          "formato": "classificacao",
+          "titulo": "As teorias do crescimento, agrupadas pelo lugar do controle",
+          "descricao": "Árvore em três ramos. Controle genético direto no tecido: Sicher (sutura) e Scott (cartilagem). Controle funcional, fora do osso: Moss (matriz funcional). Síntese: van Limborgh (multifatorial) e Petrovic (servossistema do côndilo).",
+          "viewBox": "0 0 560 400",
+          "svg": [
+            "<use href='#c-caixa-ink' x='150' y='16' width='260' height='52'/>",
+            "<text x='280' y='40' text-anchor='middle' font-size='16' font-weight='700' fill='#fff'>Onde está o controle</text><text x='280' y='58' text-anchor='middle' font-size='13' fill='#fff'>do crescimento facial?</text>",
+            "<g stroke='var(--muted,#8A8478)' stroke-width='1.5'><line x1='280' y1='68' x2='280' y2='96'/><line x1='100' y1='96' x2='460' y2='96'/><line x1='100' y1='96' x2='100' y2='120'/><line x1='280' y1='96' x2='280' y2='120'/><line x1='460' y1='96' x2='460' y2='120'/></g>",
+            "<use href='#c-caixa-gold' x='16' y='120' width='168' height='60'/>",
+            "<text x='100' y='145' text-anchor='middle' font-size='14' font-weight='700'>No próprio tecido</text><text x='100' y='163' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>genético, direto</text>",
+            "<use href='#c-caixa-green' x='196' y='120' width='168' height='60'/>",
+            "<text x='280' y='145' text-anchor='middle' font-size='14' font-weight='700'>Fora do osso</text><text x='280' y='163' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>funcional, epigenético</text>",
+            "<use href='#c-caixa-blue' x='376' y='120' width='168' height='60'/>",
+            "<text x='460' y='145' text-anchor='middle' font-size='14' font-weight='700'>Síntese</text><text x='460' y='163' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>vários fatores juntos</text>",
+            "<g stroke='var(--muted,#8A8478)' stroke-width='1.5'><line x1='100' y1='180' x2='100' y2='204'/><line x1='58' y1='204' x2='142' y2='204'/><line x1='58' y1='204' x2='58' y2='222'/><line x1='142' y1='204' x2='142' y2='222'/><line x1='280' y1='180' x2='280' y2='222'/><line x1='460' y1='180' x2='460' y2='204'/><line x1='418' y1='204' x2='502' y2='204'/><line x1='418' y1='204' x2='418' y2='222'/><line x1='502' y1='204' x2='502' y2='222'/></g>",
+            "<use href='#c-caixa' x='16' y='222' width='82' height='72'/>",
+            "<text x='57' y='246' text-anchor='middle' font-size='13' font-weight='700'>Sicher</text><text x='57' y='263' text-anchor='middle' font-size='12'>sutura</text><text x='57' y='280' text-anchor='middle' font-size='11' fill='var(--red,#B4533B)'>caiu</text>",
+            "<use href='#c-caixa' x='104' y='222' width='82' height='72'/>",
+            "<text x='145' y='246' text-anchor='middle' font-size='13' font-weight='700'>Scott</text><text x='145' y='263' text-anchor='middle' font-size='12'>cartilagem</text><text x='145' y='280' text-anchor='middle' font-size='11' fill='var(--gold,#B08968)'>em parte</text>",
+            "<use href='#c-caixa' x='214' y='222' width='132' height='72'/>",
+            "<text x='280' y='246' text-anchor='middle' font-size='13' font-weight='700'>Moss</text><text x='280' y='263' text-anchor='middle' font-size='12'>matriz funcional</text><text x='280' y='280' text-anchor='middle' font-size='11' fill='var(--green,#3E7C4F)'>capsular e periosteal</text>",
+            "<use href='#c-caixa' x='376' y='222' width='82' height='72'/>",
+            "<text x='417' y='246' text-anchor='middle' font-size='13' font-weight='700'>van</text><text x='417' y='262' text-anchor='middle' font-size='13' font-weight='700'>Limborgh</text><text x='417' y='280' text-anchor='middle' font-size='11' fill='var(--blue,#4A6B8A)'>5 fatores</text>",
+            "<use href='#c-caixa' x='464' y='222' width='82' height='72'/>",
+            "<text x='505' y='246' text-anchor='middle' font-size='13' font-weight='700'>Petrovic</text><text x='505' y='263' text-anchor='middle' font-size='12'>côndilo</text><text x='505' y='280' text-anchor='middle' font-size='11' fill='var(--blue,#4A6B8A)'>servossistema</text>",
+            "<text x='280' y='330' text-anchor='middle' font-size='14' fill='var(--ink,#23211C)'>O que o aparelho funcional aposta:</text>",
+            "<text x='280' y='352' text-anchor='middle' font-size='14' font-weight='700' fill='var(--green,#3E7C4F)'>a parte do crescimento que responde à função</text>",
+            "<text x='280' y='376' text-anchor='middle' font-size='13' fill='var(--muted,#8A8478)'>(Moss + Petrovic), não o padrão intrínseco</text>"
+          ],
+          "legenda": "Da esquerda para a direita, o controle sai de dentro do osso e vai para fora dele; a síntese atual usa as duas coisas."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "prova",
+          "texto": "A pergunta clássica: qual estrutura Scott considerava responsável por deslocar a maxila para baixo e para a frente? O septo nasal cartilaginoso. E qual teoria considera a sutura um centro de crescimento? A de Sicher, hoje superada."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Por que a experiência de impedir a separação dos ossos ao redor de uma sutura derruba a ideia de sutura como centro de crescimento?",
+        "resposta": "Se a sutura tivesse crescimento próprio, continuaria proliferando e afastando os ossos mesmo contida. Ela para: só cresce quando os ossos são afastados por outra força. É sítio, não centro."
+      }
+    },
+    {
+      "titulo": "Moss: o osso cresce porque alguém precisa de espaço",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "Moss virou a discussão de cabeça para baixo. Para ele, osso não tem programa próprio de crescimento; ele cresce em resposta às demandas dos tecidos moles e dos espaços funcionais que o cercam. Esse conjunto de tecidos e espaços é a matriz funcional."
+        },
+        {
+          "tipo": "p",
+          "texto": "Há dois tipos de matriz. A matriz periosteal age localmente: o músculo que se insere no osso estimula o processo onde se insere, como o temporal no coronoide. A matriz capsular age no conjunto: a cápsula neurocraniana, com o cérebro dentro, expande o crânio; a cápsula orofacial, com a via aérea e a cavidade oral, desloca a face."
+        },
+        {
+          "tipo": "visual",
+          "formato": "anatomico",
+          "titulo": "Matriz capsular e matriz periosteal",
+          "descricao": "À esquerda, um círculo interno representa o cérebro dentro de um anel que representa o crânio: o cérebro cresce e o crânio se expande com ele (matriz capsular). À direita, um segmento de osso com um músculo inserido: a tração do músculo estimula o osso no ponto de inserção (matriz periosteal).",
+          "viewBox": "0 0 560 300",
+          "svg": [
+            "<circle cx='140' cy='130' r='96' fill='var(--blue-soft,#E9EEF3)' stroke='var(--blue,#4A6B8A)' stroke-width='1.5'/>",
+            "<circle cx='140' cy='130' r='72' fill='var(--green-soft,#E8F2EA)' stroke='var(--green,#3E7C4F)' stroke-width='1.5' stroke-dasharray='4 3'/>",
+            "<text x='140' y='126' text-anchor='middle' font-size='15' font-weight='700' fill='var(--green,#3E7C4F)'>cérebro</text><text x='140' y='144' text-anchor='middle' font-size='12' fill='var(--green,#3E7C4F)'>cresce</text>",
+            "<g fill='var(--blue,#4A6B8A)' font-size='12'><text x='140' y='50' text-anchor='middle'>crânio</text></g>",
+            "<use href='#c-vetor-green' x='140' y='23' width='24' height='14' transform='rotate(-90 140 30)'/>",
+            "<use href='#c-vetor-green' x='218' y='123' width='40' height='14'/>",
+            "<use href='#c-vetor-green' x='140' y='219' width='22' height='14' transform='rotate(90 140 226)'/>",
+            "<use href='#c-vetor-green' x='62' y='123' width='40' height='14' transform='rotate(180 62 130)'/>",
+            "<text x='140' y='262' text-anchor='middle' font-size='15' font-weight='700'>Matriz capsular</text><text x='140' y='280' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>o conteúdo empurra a cápsula, o osso acompanha</text>",
+            "<use href='#c-osso' x='330' y='150' width='200' height='70'/>",
+            "<path d='M360 150 C 380 90, 440 60, 500 40' fill='none' stroke='var(--red,#B4533B)' stroke-width='10' stroke-linecap='round' opacity='.85'/>",
+            "<path d='M360 150 C 380 90, 440 60, 500 40' fill='none' stroke='var(--red,#B4533B)' stroke-width='3' stroke-linecap='round'/>",
+            "<text x='470' y='30' text-anchor='middle' font-size='13' font-weight='700' fill='var(--red,#B4533B)'>músculo</text>",
+            "<use href='#c-vetor-red' x='352' y='96' width='46' height='14' transform='rotate(-60 352 103)'/>",
+            "<text x='430' y='190' text-anchor='middle' font-size='13' fill='var(--blue,#4A6B8A)'>osso</text>",
+            "<circle cx='362' cy='152' r='8' fill='var(--gold,#B08968)'/><text x='386' y='140' font-size='12' fill='var(--gold,#B08968)'>inserção</text>",
+            "<text x='430' y='262' text-anchor='middle' font-size='15' font-weight='700'>Matriz periosteal</text><text x='430' y='280' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>o músculo estimula o osso onde se insere</text>"
+          ],
+          "legenda": "Na hidrocefalia, o crânio cresce demais porque a matriz capsular cresceu; sem o temporal, o processo coronoide não se forma."
+        },
+        {
+          "tipo": "lista",
+          "itens": [
+            "Hidrocefalia: crânio enorme porque o conteúdo cresceu; o osso só acompanhou.",
+            "Secção do músculo temporal em animal: o processo coronoide não se desenvolve.",
+            "Anodontia: sem dentes, o processo alveolar não se forma; extração na vida adulta, o rebordo reabsorve."
+          ]
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "mito",
+          "mito": "A matriz funcional explica todo o crescimento facial e o osso não tem controle nenhum.",
+          "verdade": "O septo nasal e a cartilagem condilar mostram crescimento com componente intrínseco. A leitura atual é multifatorial: a função modula, mas não é o único regente."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Um paciente com anodontia total tem processo alveolar praticamente ausente. Isso ilustra matriz capsular ou periosteal?",
+        "resposta": "Periosteal, no sentido local: o processo alveolar existe para sustentar dentes; sem a demanda funcional dos dentes, o osso não se forma nem se mantém."
+      }
+    },
+    {
+      "titulo": "Van Limborgh e Petrovic: a síntese e o servossistema",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "Van Limborgh organizou a discussão em cinco tipos de fator: genéticos intrínsecos (o programa do próprio tecido), epigenéticos locais (tecidos vizinhos, como o cérebro e os olhos), epigenéticos gerais (hormônios sexuais e de crescimento), ambientais locais (função muscular, força, hábito) e ambientais gerais (nutrição, oxigênio)."
+        },
+        {
+          "tipo": "visual",
+          "formato": "comparativo",
+          "titulo": "O que cada teoria diz e o que o aparelho pode mudar",
+          "descricao": "Tabela de quatro linhas e três colunas: teoria, onde está o controle, e se um aparelho ortopédico pode mudar o resultado segundo aquela teoria. Sicher: sutura, não muda. Scott: cartilagem, muda pouco. Moss: tecidos moles e função, muda. Síntese: vários fatores, muda o que é funcional.",
+          "viewBox": "0 0 720 330",
+          "svg": [
+            "<use href='#c-caixa-ink' x='16' y='16' width='176' height='46'/><text x='104' y='45' text-anchor='middle' font-size='15' font-weight='700' fill='#fff'>Teoria</text>",
+            "<use href='#c-caixa-ink' x='204' y='16' width='240' height='46'/><text x='324' y='45' text-anchor='middle' font-size='15' font-weight='700' fill='#fff'>Onde está o controle</text>",
+            "<use href='#c-caixa-ink' x='456' y='16' width='248' height='46'/><text x='580' y='45' text-anchor='middle' font-size='15' font-weight='700' fill='#fff'>Aparelho muda o resultado?</text>",
+            "<g font-size='15' fill='var(--ink,#23211C)'>",
+            "<text x='30' y='100' font-weight='700'>Sicher</text><text x='30' y='118' font-size='12' fill='var(--muted,#8A8478)'>sutural</text>",
+            "<text x='218' y='100'>Nas suturas</text><text x='218' y='118' font-size='12' fill='var(--muted,#8A8478)'>centro genético</text>",
+            "<use href='#c-errado' x='470' y='88' width='22' height='22'/><text x='500' y='105'>Não: caiu com a experiência</text>",
+            "<line x1='16' y1='134' x2='704' y2='134' stroke='var(--border,#EDE6D8)'/>",
+            "<text x='30' y='166' font-weight='700'>Scott</text><text x='30' y='184' font-size='12' fill='var(--muted,#8A8478)'>cartilaginosa</text>",
+            "<text x='218' y='166'>Septo nasal e côndilo</text><text x='218' y='184' font-size='12' fill='var(--muted,#8A8478)'>cartilagem empurra o osso</text>",
+            "<use href='#c-atencao' x='470' y='154' width='22' height='22'/><text x='500' y='171'>Pouco: padrão intrínseco</text>",
+            "<line x1='16' y1='200' x2='704' y2='200' stroke='var(--border,#EDE6D8)'/>",
+            "<text x='30' y='232' font-weight='700'>Moss</text><text x='30' y='250' font-size='12' fill='var(--muted,#8A8478)'>matriz funcional</text>",
+            "<text x='218' y='232'>Tecidos moles e espaços</text><text x='218' y='250' font-size='12' fill='var(--muted,#8A8478)'>função pede, osso responde</text>",
+            "<use href='#c-certo' x='470' y='220' width='22' height='22'/><text x='500' y='237'>Sim: mudando a função</text>",
+            "<line x1='16' y1='266' x2='704' y2='266' stroke='var(--border,#EDE6D8)'/>",
+            "<text x='30' y='298' font-weight='700'>Síntese</text><text x='30' y='316' font-size='12' fill='var(--muted,#8A8478)'>van Limborgh, Petrovic</text>",
+            "<text x='218' y='298'>Vários fatores, interagindo</text><text x='218' y='316' font-size='12' fill='var(--muted,#8A8478)'>genético + epigenético + ambiente</text>",
+            "<use href='#c-certo' x='470' y='286' width='22' height='22'/><text x='500' y='303'>A parte funcional, na janela</text>",
+            "</g>"
+          ],
+          "legenda": "A coluna da direita é o que você pode prometer: o aparelho modula a parte funcional, dentro da janela de crescimento."
+        },
+        {
+          "tipo": "p",
+          "texto": "Petrovic estudou o côndilo como um servossistema: a cartilagem condilar responde a hormônios (o eixo do crescimento) e à posição da mandíbula ditada pela musculatura, com o pterigóideo lateral no papel de sensor. Avançar a mandíbula muda a informação que o sistema recebe e, dentro de limites, a taxa de crescimento condilar."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "dica",
+          "titulo": "A expectativa honesta",
+          "texto": "Estudos controlados de aparelhos funcionais na Classe II mostram ganho mandibular esquelético pequeno em relação ao controle, da ordem de 1 a 2 mm [VERIFICAR], com boa parte da correção vindo de efeito dentoalveolar. Prometa correção da mordida, não mandíbula nova."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Na síntese de van Limborgh, hormônio de crescimento é fator de que tipo?",
+        "resposta": "Epigenético geral: age em todo o organismo e vem de fora do tecido ósseo, mas é produzido pelo próprio corpo."
+      }
+    },
+    {
+      "titulo": "De volta ao caso: o que você pode prometer",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "O respirador bucal de face longa provavelmente tem as duas coisas: um padrão de crescimento vertical e uma função alterada que reforça esse padrão, com a boca aberta, a língua baixa e a mandíbula rodando para trás. A parte funcional é a que responde: desobstruir a via aérea e restabelecer o selamento labial muda a informação que o sistema recebe."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "erro",
+          "texto": "Prometer que o aparelho funcional \"vai fechar a mordida e encurtar a face\". O aparelho pode frear a piora e melhorar a relação dentária; a altura facial já estabelecida não volta, e o padrão vertical tende a continuar se expressando."
+        },
+        {
+          "tipo": "p",
+          "texto": "A promessa defensável tem três partes: tratar a causa funcional com a equipe (otorrinolaringologia, fonoaudiologia), usar a janela de crescimento para orientar a expressão, e avisar que o padrão intrínseco pode exigir compensação ou cirurgia depois da maturidade."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Qual dos dois professores da abertura estava certo?",
+        "resposta": "Os dois, em parte. A síntese multifatorial diz que função e padrão coexistem: o aparelho age sobre a função; o padrão intrínseco se expressa de qualquer jeito. A promessa precisa refletir os dois."
+      }
+    }
+  ],
+  "fechamento": {
+    "visual": {
+      "formato": "mapa",
+      "titulo": "Mapa da página",
+      "descricao": "Nó central: teorias do crescimento. Seis nós ao redor: centro versus sítio, Sicher (sutura, caiu), Scott (cartilagem, em parte), Moss (matriz funcional), síntese de van Limborgh e servossistema de Petrovic, e o que o aparelho pode mudar.",
+      "viewBox": "0 0 560 360",
+      "svg": [
+        "<g stroke='var(--border,#EDE6D8)' stroke-width='1.5'><line x1='280' y1='180' x2='100' y2='60'/><line x1='280' y1='180' x2='460' y2='60'/><line x1='280' y1='180' x2='70' y2='180'/><line x1='280' y1='180' x2='490' y2='180'/><line x1='280' y1='180' x2='100' y2='300'/><line x1='280' y1='180' x2='460' y2='300'/></g>",
+        "<use href='#c-no-central' x='190' y='150' width='180' height='60'/>",
+        "<text x='280' y='176' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>Teorias do</text><text x='280' y='194' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>crescimento</text>",
+        "<use href='#c-no' x='20' y='38' width='160' height='44'/><text x='100' y='65' text-anchor='middle' font-size='13' font-weight='700'>Centro x sítio</text>",
+        "<use href='#c-no' x='380' y='38' width='160' height='44'/><text x='460' y='65' text-anchor='middle' font-size='13' font-weight='700'>Sicher: sutura, caiu</text>",
+        "<use href='#c-no' x='0' y='158' width='150' height='44'/><text x='75' y='185' text-anchor='middle' font-size='13' font-weight='700'>Scott: cartilagem</text>",
+        "<use href='#c-no' x='410' y='158' width='150' height='44'/><text x='485' y='185' text-anchor='middle' font-size='13' font-weight='700'>Moss: matriz</text>",
+        "<use href='#c-no' x='20' y='278' width='160' height='44'/><text x='100' y='305' text-anchor='middle' font-size='13' font-weight='700'>Síntese e servossistema</text>",
+        "<use href='#c-no' x='380' y='278' width='160' height='44'/><text x='460' y='305' text-anchor='middle' font-size='13' font-weight='700'>Aparelho modula a função</text>"
+      ]
+    },
+    "flashcards": [
+      {
+        "frente": "Centro de crescimento versus sítio de crescimento (Baume).",
+        "verso": "Centro: crescimento intrínseco, continua mesmo transplantado. Sítio: cresce em resposta a algo de fora; é o que responde a aparelho."
+      },
+      {
+        "frente": "Para Scott, qual estrutura desloca a maxila para baixo e para a frente? E para Moss, o que faz o crânio crescer?",
+        "verso": "Scott: o septo nasal cartilaginoso. Moss: o cérebro, como matriz capsular; o osso acompanha."
+      },
+      {
+        "frente": "Os cinco fatores de van Limborgh.",
+        "verso": "Genéticos intrínsecos, epigenéticos locais, epigenéticos gerais, ambientais locais e ambientais gerais."
+      }
+    ]
+  },
+  "infografico": {
+    "titulo": "Cada teoria em um cartão",
+    "itens": [
+      {
+        "rotulo": "Baume",
+        "texto": "Centro cresce sozinho; sítio cresce porque alguém pede. Só sítio responde a aparelho."
+      },
+      {
+        "rotulo": "Sicher (sutural)",
+        "texto": "Suturas como centros genéticos. Caiu: sutura transplantada ou contida não cresce."
+      },
+      {
+        "rotulo": "Scott (cartilaginosa)",
+        "texto": "Septo nasal e côndilo empurram os ossos; suturas são passivas. Vale em parte."
+      },
+      {
+        "rotulo": "Moss (matriz funcional)",
+        "texto": "O osso responde aos tecidos moles e espaços. Capsular (cérebro, via aérea) e periosteal (músculo)."
+      },
+      {
+        "rotulo": "Van Limborgh (síntese)",
+        "texto": "Cinco fatores: genético intrínseco, epigenético local e geral, ambiental local e geral."
+      },
+      {
+        "rotulo": "Petrovic (servossistema)",
+        "texto": "O côndilo responde a hormônios e à posição mandibular; base racional dos aparelhos funcionais."
+      }
+    ]
+  },
+  "fluxograma": {
+    "titulo": "Esta discrepância responde a aparelho funcional?",
+    "nos": [
+      {
+        "id": "n1",
+        "tipo": "inicio",
+        "texto": "Discrepância esquelética em paciente em crescimento"
+      },
+      {
+        "id": "n2",
+        "tipo": "decisao",
+        "texto": "Há componente funcional claro (respiração, postura, hábito, músculo)?"
+      },
+      {
+        "id": "n3",
+        "tipo": "acao",
+        "texto": "Tratar a causa funcional com a equipe e usar aparelho funcional na janela"
+      },
+      {
+        "id": "n4",
+        "tipo": "decisao",
+        "texto": "Ainda há janela de crescimento (antes ou durante o surto)?"
+      },
+      {
+        "id": "n5",
+        "tipo": "acao",
+        "texto": "Padrão intrínseco sem janela: planejar compensação ou cirurgia após a maturidade"
+      },
+      {
+        "id": "n6",
+        "tipo": "acao",
+        "texto": "Orientar a expressão do crescimento e reavaliar em 6 meses"
+      },
+      {
+        "id": "n7",
+        "tipo": "fim",
+        "texto": "Promessa alinhada ao que a teoria sustenta"
+      }
+    ],
+    "arestas": [
+      {
+        "de": "n1",
+        "para": "n2"
+      },
+      {
+        "de": "n2",
+        "para": "n3",
+        "rotulo": "sim"
+      },
+      {
+        "de": "n2",
+        "para": "n4",
+        "rotulo": "não"
+      },
+      {
+        "de": "n4",
+        "para": "n5",
+        "rotulo": "não"
+      },
+      {
+        "de": "n4",
+        "para": "n6",
+        "rotulo": "sim"
+      },
+      {
+        "de": "n3",
+        "para": "n7"
+      },
+      {
+        "de": "n5",
+        "para": "n7"
+      },
+      {
+        "de": "n6",
+        "para": "n7"
+      }
+    ]
+  },
+  "passoAPasso": [
+    {
+      "passo": "Descreva o padrão esquelético: relação anteroposterior, altura facial, direção de crescimento.",
+      "confira": "Você consegue dizer se o problema é mais de padrão vertical ou horizontal?"
+    },
+    {
+      "passo": "Procure a função alterada: respiração bucal, selamento labial, postura de língua, deglutição, hábitos, assimetria de mastigação.",
+      "confira": "Cada função alterada está registrada com o que você observou, não só com o rótulo?"
+    },
+    {
+      "passo": "Separe o que é causa funcional tratável do que é expressão de padrão intrínseco.",
+      "confira": "Existe um profissional a acionar para a causa funcional (otorrino, fono)?"
+    },
+    {
+      "passo": "Posicione o paciente na janela de crescimento com um indicador de maturação.",
+      "confira": "O indicador está no prontuário?"
+    },
+    {
+      "passo": "Formule a promessa em três partes: causa funcional, orientação do crescimento na janela, e o que pode restar para depois da maturidade.",
+      "confira": "A família ouviu a terceira parte?"
+    }
+  ],
+  "macetes": [
+    {
+      "titulo": "Sutura caiu, cartilagem ficou pela metade, função entrou",
+      "texto": "A ordem histórica das teorias é também a ordem de credibilidade: Sicher (sutura) superada; Scott (cartilagem) vale para septo e côndilo; Moss (função) explica muito; a síntese junta tudo."
+    },
+    {
+      "titulo": "Centro é o que cresce sozinho",
+      "texto": "Se transplantado continua crescendo, é centro. Se precisa de alguém empurrando, é sítio. Aparelho só conversa com sítio."
+    },
+    {
+      "titulo": "Capsular é cápsula; periosteal é inserção",
+      "texto": "Matriz capsular: o conteúdo (cérebro, via aérea) expande o conjunto. Matriz periosteal: o músculo estimula o osso onde se insere."
+    },
+    {
+      "titulo": "Van Limborgh são cinco: dois de dentro, dois de fora, um do meio",
+      "texto": "Genético intrínseco; epigenético local e geral; ambiental local e geral."
+    }
+  ],
+  "ondeErra": [
+    {
+      "erro": "Dizer que as suturas são centros de crescimento.",
+      "porque": "É a teoria de Sicher, superada: sutura transplantada ou contida não cresce por conta própria.",
+      "certo": "Suturas são sítios de crescimento que respondem ao afastamento dos ossos."
+    },
+    {
+      "erro": "Atribuir a Moss a ideia de que o septo nasal empurra a maxila.",
+      "porque": "Essa é a teoria cartilaginosa de Scott; Moss coloca o controle nos tecidos moles e espaços funcionais.",
+      "certo": "Scott: cartilagem; Moss: matriz funcional."
+    },
+    {
+      "erro": "Prometer mandíbula nova com aparelho funcional.",
+      "porque": "O efeito esquelético é pequeno e boa parte da correção é dentoalveolar; o padrão intrínseco continua se expressando.",
+      "certo": "Prometer correção da relação, dentro da janela, com aviso do que pode restar."
+    },
+    {
+      "erro": "Tratar o caso funcional só com aparelho, sem a causa.",
+      "porque": "Se a via aérea continua obstruída, a matriz funcional continua pedindo a mesma forma.",
+      "certo": "Acionar a equipe para a causa e usar o aparelho para orientar a expressão."
+    }
+  ],
+  "autoteste": [
+    {
+      "pergunta": "Em uma criança com hidrocefalia, o crânio cresce muito além do normal. Qual teoria explica melhor esse achado?",
+      "alternativas": [
+        "Teoria sutural de Sicher, pela proliferação das suturas",
+        "Teoria cartilaginosa de Scott, pela sincondrose esfeno-occipital",
+        "Matriz funcional de Moss, pela expansão da matriz capsular neurocraniana",
+        "Servossistema de Petrovic, pela ação hormonal no côndilo"
+      ],
+      "correta": 2,
+      "explicacoes": [
+        "As suturas apenas acompanham o afastamento dos ossos; não são a causa.",
+        "A sincondrose contribui para a base do crânio, não para a expansão da abóbada.",
+        "Correta: o conteúdo (líquido e cérebro) expande a cápsula e o osso responde; é a matriz capsular em ação.",
+        "O servossistema de Petrovic trata do côndilo mandibular."
+      ]
+    },
+    {
+      "pergunta": "Segundo Baume, a diferença entre centro e sítio de crescimento é que:",
+      "alternativas": [
+        "Centro está no crânio e sítio está na face",
+        "Centro tem crescimento intrínseco e continua crescendo mesmo transplantado; sítio cresce em resposta a fatores externos",
+        "Centro cresce por aposição e sítio por cartilagem",
+        "Centro responde a aparelho e sítio não"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "A distinção não é topográfica.",
+        "Correta: é a definição clássica, e explica por que só o sítio responde a aparelho.",
+        "O mecanismo de ossificação não define a distinção.",
+        "É o inverso: o sítio é que responde a estímulos de fora."
+      ]
+    },
+    {
+      "pergunta": "Qual das alternativas descreve corretamente a teoria cartilaginosa de Scott?",
+      "alternativas": [
+        "As suturas empurram os ossos e as cartilagens preenchem o espaço",
+        "O septo nasal e o côndilo têm crescimento intrínseco e deslocam a maxila e a mandíbula; as suturas são passivas",
+        "Os tecidos moles determinam a forma do osso e a cartilagem apenas acompanha",
+        "O hormônio de crescimento é o único regulador"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Inverte os papéis: para Scott, a cartilagem empurra e a sutura preenche.",
+        "Correta: cartilagem como centro, suturas como sítios passivos.",
+        "Essa é a matriz funcional de Moss.",
+        "Nenhuma teoria atribui o controle a um único hormônio."
+      ]
+    },
+    {
+      "pergunta": "Na classificação de van Limborgh, a função da musculatura mastigatória sobre a forma do osso é um fator:",
+      "alternativas": [
+        "Genético intrínseco",
+        "Epigenético geral",
+        "Ambiental local",
+        "Ambiental geral"
+      ],
+      "correta": 2,
+      "explicacoes": [
+        "Genético intrínseco é o programa do próprio tecido.",
+        "Epigenético geral são hormônios que agem no organismo inteiro.",
+        "Correta: força muscular e função são fatores ambientais que agem localmente.",
+        "Ambiental geral inclui nutrição e oxigênio."
+      ]
+    },
+    {
+      "pergunta": "Paciente de 11 anos, Classe II por retrusão mandibular, respirador nasal, sem hábitos. Os pais perguntam quanto a mandíbula vai crescer com o aparelho funcional. A resposta mais alinhada com a evidência é:",
+      "alternativas": [
+        "A mandíbula vai crescer o suficiente para corrigir toda a Classe II",
+        "O aparelho produz ganho esquelético mandibular modesto e boa parte da correção é dentoalveolar; a relação de mordida melhora, a mandíbula não fica \"nova\"",
+        "O aparelho não tem efeito nenhum sem componente funcional",
+        "Só a cirurgia corrige Classe II"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Superestima o efeito esquelético; a maioria dos estudos mostra ganho pequeno.",
+        "Correta: é a expectativa honesta que a síntese multifatorial e os ensaios clínicos sustentam.",
+        "O côndilo responde à posição mandibular (Petrovic) mesmo sem hábito ou obstrução; o efeito existe, é modesto.",
+        "Cirurgia é opção para discrepâncias grandes após a maturidade, não a única saída."
+      ]
+    }
+  ],
+  "pesquisa": {
+    "termos": [
+      "teoria do crescimento",
+      "matriz funcional",
+      "aparelho funcional Classe II",
+      "crescimento condilar"
+    ]
+  },
+  "referenciasBase": [
+    "Proffit WR, Fields HW, Larson BE, Sarver DM. Ortodontia Contemporânea. 6ª ed. Teorias do controle do crescimento.",
+    "Moss ML, Salentijn L. The primary role of functional matrices in facial growth. Am J Orthod. 1969.",
+    "Enlow DH, Hans MG. Noções básicas sobre crescimento facial.",
+    "Petrovic AG, Stutzmann JJ. Le système condylien mandibulaire: un servosystème. 1975.",
+    "Moyers RE. Ortodontia. 4ª ed."
+  ],
+  "validacao": {
+    "validadoPor": null,
+    "data": null
+  }
+}

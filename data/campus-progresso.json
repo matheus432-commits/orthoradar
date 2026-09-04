@@ -1,10 +1,10 @@
 {
  "atualizadoEm": "2026-09-04",
  "totalPaginas": 3387,
- "concluidas": 6,
+ "concluidas": 7,
  "porStatus": {
-  "pendente": 3381,
-  "rascunho": 6,
+  "pendente": 3380,
+  "rascunho": 7,
   "revisado": 0,
   "publicado": 0
  },
@@ -12,7 +12,7 @@
   "id": "ortodontia/crescimento-e-desenvolvimento",
   "area": "Ortodontia",
   "modulo": "Crescimento e desenvolvimento",
-  "faltam": 13
+  "faltam": 12
  },
  "imagensPendentes": [
   {
@@ -30,6 +30,11 @@
    "pagina": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/conceitos-crescimento-e-desenvolvimento",
    "onde": "Seção \"As proporções mudam: a face cresce mais e por mais tempo que o crânio\".blocos[0].texto",
    "trecho": "ão clássica é de cerca de 1:8 ao nascer para cerca de 1:2,5 no adulto [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/teorias-do-crescimento",
+   "onde": "Seção \"Van Limborgh e Petrovic: a síntese e o servossistema\".blocos[3].texto",
+   "trecho": "ular esquelético pequeno em relação ao controle, da ordem de 1 a 2 mm [VERIFICAR]"
   }
  ],
  "modulos": [
@@ -39,11 +44,11 @@
    "area": "Ortodontia",
    "modulo": "Crescimento e desenvolvimento",
    "total": 14,
-   "concluidas": 1,
-   "palavras": 3008,
-   "visuais": 4,
+   "concluidas": 2,
+   "palavras": 5868,
+   "visuais": 8,
    "imagensClinicas": 1,
-   "verificar": 1,
+   "verificar": 2,
    "paginas": [
     {
      "id": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/conceitos-crescimento-e-desenvolvimento",
@@ -57,7 +62,9 @@
      "id": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/teorias-do-crescimento",
      "nome": "Teorias do crescimento",
      "tema": "Crescimento craniofacial",
-     "status": "pendente"
+     "status": "rascunho",
+     "palavras": 2860,
+     "visuais": 4
     },
     {
      "id": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/mecanismos-sutura-cartilagem-e-remodelacao",
@@ -24600,6 +24607,46 @@
     {
      "onde": "Seção \"As proporções mudam: a face cresce mais e por mais tempo que o crânio\".blocos[0].texto",
      "trecho": "ão clássica é de cerca de 1:8 ao nascer para cerca de 1:2,5 no adulto [VERIFICAR]"
+    }
+   ]
+  },
+  "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/teorias-do-crescimento": {
+   "titulo": "Teorias do crescimento: quem manda no osso e o que o aparelho pode mudar",
+   "arquivo": "data/campus/paginas/ortodontia--crescimento-teorias.json",
+   "formato": 2,
+   "status": "rascunho",
+   "estado": "rascunho",
+   "palavras": 2860,
+   "visuais": [
+    {
+     "formato": "classificacao",
+     "titulo": "As teorias do crescimento, agrupadas pelo lugar do controle"
+    },
+    {
+     "formato": "anatomico",
+     "titulo": "Matriz capsular e matriz periosteal"
+    },
+    {
+     "formato": "comparativo",
+     "titulo": "O que cada teoria diz e o que o aparelho pode mudar"
+    },
+    {
+     "formato": "mapa",
+     "titulo": "Mapa da página"
+    }
+   ],
+   "quadros": {
+    "frase": 1,
+    "prova": 1,
+    "mito": 1,
+    "dica": 1,
+    "erro": 1
+   },
+   "imagensClinicas": [],
+   "verificar": [
+    {
+     "onde": "Seção \"Van Limborgh e Petrovic: a síntese e o servossistema\".blocos[3].texto",
+     "trecho": "ular esquelético pequeno em relação ao controle, da ordem de 1 a 2 mm [VERIFICAR]"
     }
    ]
   },
