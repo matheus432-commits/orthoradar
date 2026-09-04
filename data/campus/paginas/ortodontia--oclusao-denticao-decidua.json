@@ -35,8 +35,16 @@
     {
       "titulo": "Vinte dentes, em que ordem e quando",
       "blocos": [
-        { "tipo": "p", "texto": "Os decíduos começam a erupcionar por volta dos 6 meses e completam a arcada em torno dos 2 anos e meio a 3 anos. A sequência habitual é incisivos centrais, incisivos laterais, primeiros molares, caninos e segundos molares. Os inferiores costumam vir antes dos superiores, com exceção frequente dos laterais." },
-        { "tipo": "visual", "formato": "linha-do-tempo", "titulo": "Cronologia de erupção dos dentes decíduos", "descricao": "Linha do tempo horizontal de 6 a 33 meses com cinco marcos, na ordem de erupção: incisivos centrais por volta de 6 a 12 meses; incisivos laterais por volta de 9 a 16 meses; primeiros molares por volta de 13 a 19 meses; caninos por volta de 16 a 23 meses; segundos molares por volta de 23 a 33 meses. As faixas são aproximadas e variam entre referências.", "viewBox": "0 0 560 260",
+        {
+          "tipo": "p",
+          "texto": "Os decíduos começam a erupcionar por volta dos 6 meses e completam a arcada em torno dos 2 anos e meio a 3 anos. A sequência habitual é incisivos centrais, incisivos laterais, primeiros molares, caninos e segundos molares. Os inferiores costumam vir antes dos superiores, com exceção frequente dos laterais."
+        },
+        {
+          "tipo": "visual",
+          "formato": "linha-do-tempo",
+          "titulo": "Cronologia de erupção dos dentes decíduos",
+          "descricao": "Linha do tempo horizontal de 6 a 33 meses com cinco marcos, na ordem de erupção: incisivos centrais por volta de 6 a 12 meses; incisivos laterais por volta de 9 a 16 meses; primeiros molares por volta de 13 a 19 meses; caninos por volta de 16 a 23 meses; segundos molares por volta de 23 a 33 meses. As faixas são aproximadas e variam entre referências.",
+          "viewBox": "0 0 560 260",
           "svg": [
             "<line x1='30' y1='110' x2='540' y2='110' stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'/>",
             "<g font-size='12' fill='var(--muted,#8A8478)'>",
@@ -58,17 +66,36 @@
             "</g>",
             "<text x='280' y='244' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>faixas aproximadas; inferiores em geral antes dos superiores [VERIFICAR]</text>"
           ],
-          "legenda": "Ordem: centrais, laterais, primeiros molares, caninos, segundos molares. Completa por volta dos 2 anos e meio a 3." },
-        { "tipo": "p", "texto": "Mais importante que a idade exata é a sequência e a simetria. Um dente que erupciona fora da ordem, ou só de um lado com atraso grande em relação ao contralateral, merece uma radiografia: agenesia, dente supranumerário ou obstáculo local são causas frequentes." },
-        { "tipo": "destaque", "estilo": "frase", "texto": "Na erupção, a ordem e a simetria valem mais que o calendário. Atraso de meses é variação; assimetria grande é sinal." }
+          "legenda": "Ordem: centrais, laterais, primeiros molares, caninos, segundos molares. Completa por volta dos 2 anos e meio a 3."
+        },
+        {
+          "tipo": "p",
+          "texto": "Mais importante que a idade exata é a sequência e a simetria. Um dente que erupciona fora da ordem, ou só de um lado com atraso grande em relação ao contralateral, merece uma radiografia: agenesia, dente supranumerário ou obstáculo local são causas frequentes."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "frase",
+          "texto": "Na erupção, a ordem e a simetria valem mais que o calendário. Atraso de meses é variação; assimetria grande é sinal."
+        }
       ],
-      "checagem": { "pergunta": "Qual é o último grupo de dentes decíduos a erupcionar e por volta de que idade a dentição decídua se completa?", "resposta": "Os segundos molares decíduos, por volta de 23 a 33 meses; a dentição se completa em torno dos 2 anos e meio a 3 anos." }
+      "checagem": {
+        "pergunta": "Qual é o último grupo de dentes decíduos a erupcionar e por volta de que idade a dentição decídua se completa?",
+        "resposta": "Os segundos molares decíduos, por volta de 23 a 33 meses; a dentição se completa em torno dos 2 anos e meio a 3 anos."
+      }
     },
     {
       "titulo": "Os espaços são o normal",
       "blocos": [
-        { "tipo": "p", "texto": "A dentição decídua saudável costuma ter espaços. Entre os anteriores há os espaços de desenvolvimento, que vão acomodar os incisivos permanentes, maiores. E há dois espaços com nome próprio: os espaços primatas, mesiais ao canino superior e distais ao canino inferior." },
-        { "tipo": "visual", "formato": "anatomico", "titulo": "Espaços primatas e espaços de desenvolvimento", "descricao": "Dois arcos em U esquemáticos, superior e inferior, vistos por oclusal. No superior, o espaço primata está marcado entre o incisivo lateral e o canino, ou seja, mesial ao canino. No inferior, o espaço primata está entre o canino e o primeiro molar, distal ao canino. Pequenos espaços entre os incisivos indicam os espaços de desenvolvimento.", "viewBox": "0 0 560 320",
+        {
+          "tipo": "p",
+          "texto": "A dentição decídua saudável costuma ter espaços. Entre os anteriores há os espaços de desenvolvimento, que vão acomodar os incisivos permanentes, maiores. E há dois espaços com nome próprio: os espaços primatas, mesiais ao canino superior e distais ao canino inferior."
+        },
+        {
+          "tipo": "visual",
+          "formato": "anatomico",
+          "titulo": "Espaços primatas e espaços de desenvolvimento",
+          "descricao": "Dois arcos em U esquemáticos, superior e inferior, vistos por oclusal. No superior, o espaço primata está marcado entre o incisivo lateral e o canino, ou seja, mesial ao canino. No inferior, o espaço primata está entre o canino e o primeiro molar, distal ao canino. Pequenos espaços entre os incisivos indicam os espaços de desenvolvimento.",
+          "viewBox": "0 0 560 320",
           "svg": [
             "<text x='150' y='30' text-anchor='middle' font-size='15' font-weight='700'>Arco superior</text>",
             "<path d='M60 250 C 50 150, 90 60, 150 60 C 210 60, 250 150, 240 250' fill='none' stroke='var(--border,#EDE6D8)' stroke-width='22' stroke-linecap='round'/>",
@@ -97,17 +124,36 @@
             "<text x='280' y='262' text-anchor='middle' font-size='12' fill='var(--ink,#23211C)'>espaços entre os incisivos: espaços de desenvolvimento</text>",
             "<text x='280' y='292' text-anchor='middle' font-size='13' font-weight='700' fill='var(--gold,#B08968)'>Superior: antes do canino. Inferior: depois do canino.</text>"
           ],
-          "legenda": "Esquema por oclusal. Os espaços primatas são usados pelos permanentes e pelo ajuste dos molares; os de desenvolvimento acomodam os incisivos maiores." },
-        { "tipo": "p", "texto": "Baume descreveu dois tipos de arco decíduo. No tipo I há espaços generalizados entre os anteriores; no tipo II os dentes estão em contato, sem espaços. O tipo II não é doença, mas é aviso: os incisivos permanentes são maiores que os decíduos e vão precisar de espaço que não existe." },
-        { "tipo": "destaque", "estilo": "prova", "texto": "As perguntas que não faltam: onde ficam os espaços primatas (mesial ao canino superior, distal ao canino inferior), o que é arco tipo I e tipo II de Baume (espaçado e fechado) e qual deles prediz apinhamento na dentição permanente (o tipo II)." }
+          "legenda": "Esquema por oclusal. Os espaços primatas são usados pelos permanentes e pelo ajuste dos molares; os de desenvolvimento acomodam os incisivos maiores."
+        },
+        {
+          "tipo": "p",
+          "texto": "Baume descreveu dois tipos de arco decíduo. No tipo I há espaços generalizados entre os anteriores; no tipo II os dentes estão em contato, sem espaços. O tipo II não é doença, mas é aviso: os incisivos permanentes são maiores que os decíduos e vão precisar de espaço que não existe."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "prova",
+          "texto": "As perguntas que não faltam: onde ficam os espaços primatas (mesial ao canino superior, distal ao canino inferior), o que é arco tipo I e tipo II de Baume (espaçado e fechado) e qual deles prediz apinhamento na dentição permanente (o tipo II)."
+        }
       ],
-      "checagem": { "pergunta": "A mãe da menina de 4 anos está preocupada com os espaços. O que você responde?", "resposta": "Que espaços são o esperado na dentição decídua: os de desenvolvimento vão acomodar os incisivos permanentes maiores, e os primatas participam da transição dos molares. A ausência de espaços é que merece mais atenção." }
+      "checagem": {
+        "pergunta": "A mãe da menina de 4 anos está preocupada com os espaços. O que você responde?",
+        "resposta": "Que espaços são o esperado na dentição decídua: os de desenvolvimento vão acomodar os incisivos permanentes maiores, e os primatas participam da transição dos molares. A ausência de espaços é que merece mais atenção."
+      }
     },
     {
       "titulo": "O plano terminal: o segundo molar decíduo aponta o caminho",
       "blocos": [
-        { "tipo": "p", "texto": "A face distal dos segundos molares decíduos superior e inferior forma o plano terminal. Ele importa porque o primeiro molar permanente erupciona guiado por essa face: onde ela está, o molar permanente chega. Há três configurações." },
-        { "tipo": "visual", "formato": "classificacao", "titulo": "Plano terminal e a relação molar que tende a produzir", "descricao": "Três pares de molares esquemáticos. Plano terminal reto: as faces distais dos segundos molares decíduos superior e inferior estão alinhadas; os primeiros molares permanentes erupcionam topo a topo e a Classe I depende do uso dos espaços. Degrau mesial: o inferior está mais para a frente; favorece Classe I direta. Degrau distal: o inferior está mais para trás; tende à Classe II.", "viewBox": "0 0 560 320",
+        {
+          "tipo": "p",
+          "texto": "A face distal dos segundos molares decíduos superior e inferior forma o plano terminal. Ele importa porque o primeiro molar permanente erupciona guiado por essa face: onde ela está, o molar permanente chega. Há três configurações."
+        },
+        {
+          "tipo": "visual",
+          "formato": "classificacao",
+          "titulo": "Plano terminal e a relação molar que tende a produzir",
+          "descricao": "Três pares de molares esquemáticos. Plano terminal reto: as faces distais dos segundos molares decíduos superior e inferior estão alinhadas; os primeiros molares permanentes erupcionam topo a topo e a Classe I depende do uso dos espaços. Degrau mesial: o inferior está mais para a frente; favorece Classe I direta. Degrau distal: o inferior está mais para trás; tende à Classe II.",
+          "viewBox": "0 0 560 320",
           "svg": [
             "<g font-size='14' font-weight='700' fill='var(--ink,#23211C)'>",
             "<text x='95' y='30' text-anchor='middle'>Plano reto</text><text x='280' y='30' text-anchor='middle'>Degrau mesial</text><text x='465' y='30' text-anchor='middle'>Degrau distal</text>",
@@ -121,11 +167,10 @@
             "<line x1='140' y1='44' x2='140' y2='160'/><line x1='325' y1='44' x2='325' y2='104'/><line x1='340' y1='104' x2='340' y2='160'/><line x1='510' y1='44' x2='510' y2='104'/><line x1='495' y1='104' x2='495' y2='160'/>",
             "</g>",
             "<g font-size='11' fill='var(--muted,#8A8478)'>",
-            "<text x='95' y='80' text-anchor='middle'>2º molar superior</text><text x='95' y='134' text-anchor='middle'>2º molar inferior</text>",
+            "<text x='95' y='80' text-anchor='middle'>superior</text><text x='95' y='134' text-anchor='middle'>inferior</text>",
             "<text x='280' y='80' text-anchor='middle'>superior</text><text x='295' y='134' text-anchor='middle'>inferior à frente</text>",
             "<text x='465' y='80' text-anchor='middle'>superior</text><text x='450' y='134' text-anchor='middle'>inferior atrás</text>",
             "</g>",
-            "<use href='#c-vetor' x='140' y='170' width='0' height='0'/>",
             "<g font-size='12' font-weight='700'>",
             "<text x='95' y='196' text-anchor='middle' fill='var(--gold,#B08968)'>1ºs molares topo a topo</text><text x='95' y='214' text-anchor='middle' fill='var(--ink,#23211C)'>Classe I se usar os espaços</text><text x='95' y='230' text-anchor='middle' fill='var(--ink,#23211C)'>Classe II se não usar</text>",
             "<text x='280' y='196' text-anchor='middle' fill='var(--green,#3E7C4F)'>Classe I direta</text><text x='280' y='214' text-anchor='middle' fill='var(--ink,#23211C)'>o mais favorável</text><text x='280' y='230' text-anchor='middle' fill='var(--muted,#8A8478)'>degrau grande: risco de III</text>",
@@ -134,39 +179,88 @@
             "<text x='280' y='276' text-anchor='middle' font-size='13' font-weight='700'>A linha tracejada é a face distal: onde ela está, o molar permanente chega</text>",
             "<text x='280' y='300' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>a partir de Baume; o plano reto é o mais frequente [VERIFICAR]</text>"
           ],
-          "legenda": "O degrau distal da menina da abertura é o achado que merece acompanhamento: ele tende à Classe II e não se corrige sozinho." },
-        { "tipo": "p", "texto": "No plano terminal reto, o mais comum, os primeiros molares permanentes erupcionam em topo a topo. Eles chegam à Classe I se o inferior puder avançar, fechando os espaços primatas inferiores cedo ou aproveitando o espaço livre de Nance depois, na troca dos molares decíduos. Sem espaço, ficam em Classe II." },
-        { "tipo": "destaque", "estilo": "mito", "mito": "Plano terminal reto é garantia de Classe I.", "verdade": "Plano reto dá topo a topo; a Classe I depende do deslocamento mesial do molar inferior, que precisa de espaço. Sem espaço primata ou espaço livre, o resultado é Classe II." }
+          "legenda": "O degrau distal da menina da abertura é o achado que merece acompanhamento: ele tende à Classe II e não se corrige sozinho."
+        },
+        {
+          "tipo": "p",
+          "texto": "No plano terminal reto, o mais comum, os primeiros molares permanentes erupcionam em topo a topo. Eles chegam à Classe I se o inferior puder avançar, fechando os espaços primatas inferiores cedo ou aproveitando o espaço livre de Nance depois, na troca dos molares decíduos. Sem espaço, ficam em Classe II."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "mito",
+          "mito": "Plano terminal reto é garantia de Classe I.",
+          "verdade": "Plano reto dá topo a topo; a Classe I depende do deslocamento mesial do molar inferior, que precisa de espaço. Sem espaço primata ou espaço livre, o resultado é Classe II."
+        }
       ],
-      "checagem": { "pergunta": "Por que o degrau distal preocupa mais que o plano reto?", "resposta": "Porque no degrau distal o molar permanente inferior já chega atrás do superior, e o ajuste mesial disponível raramente compensa; a tendência é Classe II. No plano reto, o ajuste pelos espaços pode levar à Classe I." }
+      "checagem": {
+        "pergunta": "Por que o degrau distal preocupa mais que o plano reto?",
+        "resposta": "Porque no degrau distal o molar permanente inferior já chega atrás do superior, e o ajuste mesial disponível raramente compensa; a tendência é Classe II. No plano reto, o ajuste pelos espaços pode levar à Classe I."
+      }
     },
     {
       "titulo": "Como é uma oclusão decídua normal",
       "blocos": [
-        { "tipo": "p", "texto": "Além dos espaços e do plano terminal, a dentição decídua normal tem incisivos mais verticais que os permanentes, arco mais arredondado, em U, trespasse horizontal e vertical pequenos e caninos em Classe I: a ponta do canino superior ocluindo entre o canino e o primeiro molar inferiores." },
-        { "tipo": "lista", "itens": [
-          "Incisivos verticais, com pouca inclinação, e trespasse pequeno.",
-          "Arco em U, largo, com espaços de desenvolvimento e primatas.",
-          "Caninos em Classe I; molares em plano reto ou degrau mesial.",
-          "Desgaste fisiológico das cúspides ao longo dos anos."
-        ] },
-        { "tipo": "imagem", "imagem": "fotografia intraoral oclusal do arco superior em dentição decídua completa", "mostrar": "Arco em U com espaços de desenvolvimento entre os incisivos e o espaço primata visível mesial aos caninos, com os dez dentes decíduos superiores presentes", "legenda": "Arco decíduo tipo I de Baume: espaçado, com os espaços primatas mesiais aos caninos.", "destacar": "Espaços interincisivos, espaço primata entre lateral e canino de cada lado, forma em U do arco" },
-        { "tipo": "destaque", "estilo": "dica", "titulo": "O exame de 30 segundos", "texto": "Três olhadas resolvem a consulta de rotina: há espaços (tipo I) ou não (tipo II)? Qual o plano terminal? Os caninos estão em Classe I? Com isso você já sabe se acompanha em um ano ou se investiga agora." }
+        {
+          "tipo": "p",
+          "texto": "Além dos espaços e do plano terminal, a dentição decídua normal tem incisivos mais verticais que os permanentes, arco mais arredondado, em U, trespasse horizontal e vertical pequenos e caninos em Classe I: a ponta do canino superior ocluindo entre o canino e o primeiro molar inferiores."
+        },
+        {
+          "tipo": "lista",
+          "itens": [
+            "Incisivos verticais, com pouca inclinação, e trespasse pequeno.",
+            "Arco em U, largo, com espaços de desenvolvimento e primatas.",
+            "Caninos em Classe I; molares em plano reto ou degrau mesial.",
+            "Desgaste fisiológico das cúspides ao longo dos anos."
+          ]
+        },
+        {
+          "tipo": "imagem",
+          "imagem": "fotografia intraoral oclusal do arco superior em dentição decídua completa",
+          "mostrar": "Arco em U com espaços de desenvolvimento entre os incisivos e o espaço primata visível mesial aos caninos, com os dez dentes decíduos superiores presentes",
+          "legenda": "Arco decíduo tipo I de Baume: espaçado, com os espaços primatas mesiais aos caninos.",
+          "destacar": "Espaços interincisivos, espaço primata entre lateral e canino de cada lado, forma em U do arco"
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "dica",
+          "titulo": "O exame de 30 segundos",
+          "texto": "Três olhadas resolvem a consulta de rotina: há espaços (tipo I) ou não (tipo II)? Qual o plano terminal? Os caninos estão em Classe I? Com isso você já sabe se acompanha em um ano ou se investiga agora."
+        }
       ],
-      "checagem": { "pergunta": "Uma criança de 4 anos com incisivos decíduos muito inclinados para vestibular e trespasse horizontal grande: isso é normal para a idade?", "resposta": "Não: os incisivos decíduos são mais verticais e o trespasse costuma ser pequeno. Protrusão marcada sugere hábito de sucção ou padrão esquelético e merece investigação." }
+      "checagem": {
+        "pergunta": "Uma criança de 4 anos com incisivos decíduos muito inclinados para vestibular e trespasse horizontal grande: isso é normal para a idade?",
+        "resposta": "Não: os incisivos decíduos são mais verticais e o trespasse costuma ser pequeno. Protrusão marcada sugere hábito de sucção ou padrão esquelético e merece investigação."
+      }
     },
     {
       "titulo": "O que se faz na dentição decídua",
       "blocos": [
-        { "tipo": "p", "texto": "A dentição decídua não é fase de alinhar dentes. É fase de proteger o que vem: manter espaço quando um decíduo se perde cedo, interromper hábitos que deformam o arco, corrigir mordida cruzada funcional que desvia a mandíbula e identificar o padrão esquelético que vai precisar de janela mais adiante." },
-        { "tipo": "destaque", "estilo": "erro", "texto": "Tranquilizar a família com \"são dentes de leite, vão cair\" diante de um degrau distal, um arco tipo II ou uma perda precoce de molar. O decíduo cai, mas o problema fica." },
-        { "tipo": "p", "texto": "A menina de 4 anos, com espaços e degrau distal, sai com duas mensagens: os espaços são normais e bem-vindos; o degrau distal pede acompanhamento anual, atenção a hábitos e uma avaliação esquelética quando os primeiros molares permanentes chegarem." }
+        {
+          "tipo": "p",
+          "texto": "A dentição decídua não é fase de alinhar dentes. É fase de proteger o que vem: manter espaço quando um decíduo se perde cedo, interromper hábitos que deformam o arco, corrigir mordida cruzada funcional que desvia a mandíbula e identificar o padrão esquelético que vai precisar de janela mais adiante."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "erro",
+          "texto": "Tranquilizar a família com \"são dentes de leite, vão cair\" diante de um degrau distal, um arco tipo II ou uma perda precoce de molar. O decíduo cai, mas o problema fica."
+        },
+        {
+          "tipo": "p",
+          "texto": "A menina de 4 anos, com espaços e degrau distal, sai com duas mensagens: os espaços são normais e bem-vindos; o degrau distal pede acompanhamento anual, atenção a hábitos e uma avaliação esquelética quando os primeiros molares permanentes chegarem."
+        }
       ],
-      "checagem": { "pergunta": "Cite três intervenções próprias da dentição decídua e uma que não é.", "resposta": "Próprias: manter espaço após perda precoce, interromper hábito de sucção, corrigir mordida cruzada funcional. Não é: alinhar incisivos decíduos com aparelho." }
+      "checagem": {
+        "pergunta": "Cite três intervenções próprias da dentição decídua e uma que não é.",
+        "resposta": "Próprias: manter espaço após perda precoce, interromper hábito de sucção, corrigir mordida cruzada funcional. Não é: alinhar incisivos decíduos com aparelho."
+      }
     }
   ],
   "fechamento": {
-    "visual": { "formato": "mapa", "titulo": "Mapa da página", "descricao": "Nó central: dentição decídua. Seis nós: 20 dentes, de 6 meses a 3 anos; sequência e simetria; espaços primatas e de desenvolvimento; Baume tipo I e II; plano terminal aponta a Classe; proteger, não alinhar.", "viewBox": "0 0 560 360",
+    "visual": {
+      "formato": "mapa",
+      "titulo": "Mapa da página",
+      "descricao": "Nó central: dentição decídua. Seis nós: 20 dentes, de 6 meses a 3 anos; sequência e simetria; espaços primatas e de desenvolvimento; Baume tipo I e II; plano terminal aponta a Classe; proteger, não alinhar.",
+      "viewBox": "0 0 560 360",
       "svg": [
         "<g stroke='var(--border,#EDE6D8)' stroke-width='1.5'><line x1='280' y1='180' x2='100' y2='60'/><line x1='280' y1='180' x2='460' y2='60'/><line x1='280' y1='180' x2='70' y2='180'/><line x1='280' y1='180' x2='490' y2='180'/><line x1='280' y1='180' x2='100' y2='300'/><line x1='280' y1='180' x2='460' y2='300'/></g>",
         "<use href='#c-no-central' x='190' y='150' width='180' height='60'/>",
@@ -177,64 +271,191 @@
         "<use href='#c-no' x='410' y='158' width='150' height='44'/><text x='485' y='185' text-anchor='middle' font-size='13' font-weight='700'>Baume tipo I e II</text>",
         "<use href='#c-no' x='20' y='278' width='160' height='44'/><text x='100' y='305' text-anchor='middle' font-size='13' font-weight='700'>Plano terminal → Classe</text>",
         "<use href='#c-no' x='380' y='278' width='160' height='44'/><text x='460' y='305' text-anchor='middle' font-size='13' font-weight='700'>Proteger, não alinhar</text>"
-      ] },
+      ]
+    },
     "flashcards": [
-      { "frente": "Onde ficam os espaços primatas no arco superior e no inferior?", "verso": "Superior: mesial ao canino (entre lateral e canino). Inferior: distal ao canino (entre canino e primeiro molar)." },
-      { "frente": "Plano terminal reto, degrau mesial e degrau distal: a que relação molar cada um tende?", "verso": "Reto: topo a topo, Classe I se houver espaço para o molar inferior avançar. Mesial: Classe I direta. Distal: Classe II." },
-      { "frente": "Arco de Baume tipo II: o que é e o que prediz?", "verso": "Arco decíduo sem espaços entre os anteriores; prediz apinhamento dos incisivos permanentes, que são maiores." }
+      {
+        "frente": "Onde ficam os espaços primatas no arco superior e no inferior?",
+        "verso": "Superior: mesial ao canino (entre lateral e canino). Inferior: distal ao canino (entre canino e primeiro molar)."
+      },
+      {
+        "frente": "Plano terminal reto, degrau mesial e degrau distal: a que relação molar cada um tende?",
+        "verso": "Reto: topo a topo, Classe I se houver espaço para o molar inferior avançar. Mesial: Classe I direta. Distal: Classe II."
+      },
+      {
+        "frente": "Arco de Baume tipo II: o que é e o que prediz?",
+        "verso": "Arco decíduo sem espaços entre os anteriores; prediz apinhamento dos incisivos permanentes, que são maiores."
+      }
     ]
   },
   "infografico": {
     "titulo": "A dentição decídua em seis cartões",
     "itens": [
-      { "rotulo": "Cronologia", "texto": "Começa por volta dos 6 meses (centrais inferiores) e completa em torno de 2 anos e meio a 3 (segundos molares)." },
-      { "rotulo": "Sequência", "texto": "Centrais, laterais, primeiros molares, caninos, segundos molares. Ordem e simetria valem mais que a data." },
-      { "rotulo": "Espaços", "texto": "De desenvolvimento entre os anteriores; primatas mesial ao canino superior e distal ao inferior." },
-      { "rotulo": "Baume", "texto": "Tipo I espaçado, tipo II fechado. O tipo II avisa apinhamento futuro." },
-      { "rotulo": "Plano terminal", "texto": "Reto: topo a topo. Degrau mesial: Classe I. Degrau distal: Classe II." },
-      { "rotulo": "Conduta", "texto": "Manter espaço, interromper hábitos, corrigir cruzada funcional, identificar padrão. Não alinhar decíduos." }
+      {
+        "rotulo": "Cronologia",
+        "texto": "Começa por volta dos 6 meses (centrais inferiores) e completa em torno de 2 anos e meio a 3 (segundos molares)."
+      },
+      {
+        "rotulo": "Sequência",
+        "texto": "Centrais, laterais, primeiros molares, caninos, segundos molares. Ordem e simetria valem mais que a data."
+      },
+      {
+        "rotulo": "Espaços",
+        "texto": "De desenvolvimento entre os anteriores; primatas mesial ao canino superior e distal ao inferior."
+      },
+      {
+        "rotulo": "Baume",
+        "texto": "Tipo I espaçado, tipo II fechado. O tipo II avisa apinhamento futuro."
+      },
+      {
+        "rotulo": "Plano terminal",
+        "texto": "Reto: topo a topo. Degrau mesial: Classe I. Degrau distal: Classe II."
+      },
+      {
+        "rotulo": "Conduta",
+        "texto": "Manter espaço, interromper hábitos, corrigir cruzada funcional, identificar padrão. Não alinhar decíduos."
+      }
     ]
   },
   "fluxograma": {
     "titulo": "Consulta de rotina na dentição decídua: acompanhar ou agir?",
     "nos": [
-      { "id": "n1", "tipo": "inicio", "texto": "Criança de 3 a 5 anos em consulta de rotina" },
-      { "id": "n2", "tipo": "decisao", "texto": "Há hábito de sucção ativo, cruzada funcional ou perda precoce de decíduo?" },
-      { "id": "n3", "tipo": "acao", "texto": "Agir agora: interromper hábito, corrigir cruzada, manter espaço" },
-      { "id": "n4", "tipo": "decisao", "texto": "Arco tipo II ou degrau distal?" },
-      { "id": "n5", "tipo": "acao", "texto": "Acompanhamento anual com atenção à erupção dos primeiros molares permanentes" },
-      { "id": "n6", "tipo": "acao", "texto": "Arco tipo I e plano reto ou degrau mesial: retorno de rotina" },
-      { "id": "n7", "tipo": "fim", "texto": "Família orientada sobre o que é normal e o que se observa" }
+      {
+        "id": "n1",
+        "tipo": "inicio",
+        "texto": "Criança de 3 a 5 anos em consulta de rotina"
+      },
+      {
+        "id": "n2",
+        "tipo": "decisao",
+        "texto": "Há hábito de sucção ativo, cruzada funcional ou perda precoce de decíduo?"
+      },
+      {
+        "id": "n3",
+        "tipo": "acao",
+        "texto": "Agir agora: interromper hábito, corrigir cruzada, manter espaço"
+      },
+      {
+        "id": "n4",
+        "tipo": "decisao",
+        "texto": "Arco tipo II ou degrau distal?"
+      },
+      {
+        "id": "n5",
+        "tipo": "acao",
+        "texto": "Acompanhamento anual com atenção à erupção dos primeiros molares permanentes"
+      },
+      {
+        "id": "n6",
+        "tipo": "acao",
+        "texto": "Arco tipo I e plano reto ou degrau mesial: retorno de rotina"
+      },
+      {
+        "id": "n7",
+        "tipo": "fim",
+        "texto": "Família orientada sobre o que é normal e o que se observa"
+      }
     ],
     "arestas": [
-      { "de": "n1", "para": "n2" },
-      { "de": "n2", "para": "n3", "rotulo": "sim" },
-      { "de": "n2", "para": "n4", "rotulo": "não" },
-      { "de": "n4", "para": "n5", "rotulo": "sim" },
-      { "de": "n4", "para": "n6", "rotulo": "não" },
-      { "de": "n3", "para": "n7" },
-      { "de": "n5", "para": "n7" },
-      { "de": "n6", "para": "n7" }
+      {
+        "de": "n1",
+        "para": "n2"
+      },
+      {
+        "de": "n2",
+        "para": "n3",
+        "rotulo": "sim"
+      },
+      {
+        "de": "n2",
+        "para": "n4",
+        "rotulo": "não"
+      },
+      {
+        "de": "n4",
+        "para": "n5",
+        "rotulo": "sim"
+      },
+      {
+        "de": "n4",
+        "para": "n6",
+        "rotulo": "não"
+      },
+      {
+        "de": "n3",
+        "para": "n7"
+      },
+      {
+        "de": "n5",
+        "para": "n7"
+      },
+      {
+        "de": "n6",
+        "para": "n7"
+      }
     ]
   },
   "passoAPasso": [
-    { "passo": "Conte os dentes e confira a sequência e a simetria de erupção para a idade.", "confira": "Algum dente muito atrasado em relação ao contralateral?" },
-    { "passo": "Classifique o arco: tipo I (espaçado) ou tipo II (fechado). Localize os espaços primatas.", "confira": "Os espaços primatas estão presentes nos dois arcos?" },
-    { "passo": "Leia o plano terminal dos segundos molares decíduos: reto, degrau mesial ou distal.", "confira": "É igual dos dois lados?" },
-    { "passo": "Avalie caninos, trespasse e sinais de hábito ou de cruzada funcional.", "confira": "Os incisivos estão verticais e o trespasse é pequeno?" },
-    { "passo": "Decida: agir (hábito, cruzada, espaço), acompanhar com atenção (tipo II, degrau distal) ou rotina.", "confira": "A família saiu sabendo o que é normal e o que se observa?" }
+    {
+      "passo": "Conte os dentes e confira a sequência e a simetria de erupção para a idade.",
+      "confira": "Algum dente muito atrasado em relação ao contralateral?"
+    },
+    {
+      "passo": "Classifique o arco: tipo I (espaçado) ou tipo II (fechado). Localize os espaços primatas.",
+      "confira": "Os espaços primatas estão presentes nos dois arcos?"
+    },
+    {
+      "passo": "Leia o plano terminal dos segundos molares decíduos: reto, degrau mesial ou distal.",
+      "confira": "É igual dos dois lados?"
+    },
+    {
+      "passo": "Avalie caninos, trespasse e sinais de hábito ou de cruzada funcional.",
+      "confira": "Os incisivos estão verticais e o trespasse é pequeno?"
+    },
+    {
+      "passo": "Decida: agir (hábito, cruzada, espaço), acompanhar com atenção (tipo II, degrau distal) ou rotina.",
+      "confira": "A família saiu sabendo o que é normal e o que se observa?"
+    }
   ],
   "macetes": [
-    { "titulo": "Primata em cima é antes do canino; embaixo, depois", "texto": "Superior: mesial ao canino. Inferior: distal ao canino. O truque: em cima o espaço vem primeiro, embaixo vem depois." },
-    { "titulo": "Reto é topo a topo; mesial é I; distal é II", "texto": "Plano terminal e a Classe futura em uma linha. Reto vira I se houver espaço." },
-    { "titulo": "Tipo II é apinhamento anunciado", "texto": "Arco sem espaços aos 4 anos com incisivos permanentes maiores chegando: não há de onde tirar." },
-    { "titulo": "Ordem e simetria, não a data", "texto": "Meses de variação são normais; assimetria grande pede radiografia." }
+    {
+      "titulo": "Primata em cima é antes do canino; embaixo, depois",
+      "texto": "Superior: mesial ao canino. Inferior: distal ao canino. O truque: em cima o espaço vem primeiro, embaixo vem depois."
+    },
+    {
+      "titulo": "Reto é topo a topo; mesial é I; distal é II",
+      "texto": "Plano terminal e a Classe futura em uma linha. Reto vira I se houver espaço."
+    },
+    {
+      "titulo": "Tipo II é apinhamento anunciado",
+      "texto": "Arco sem espaços aos 4 anos com incisivos permanentes maiores chegando: não há de onde tirar."
+    },
+    {
+      "titulo": "Ordem e simetria, não a data",
+      "texto": "Meses de variação são normais; assimetria grande pede radiografia."
+    }
   ],
   "ondeErra": [
-    { "erro": "Fechar espaços da dentição decídua ou considerá-los problema.", "porque": "Os espaços de desenvolvimento e primatas são fisiológicos e necessários à troca.", "certo": "Explicar que espaços são esperados; a ausência deles é que merece atenção." },
-    { "erro": "Trocar a localização dos espaços primatas.", "porque": "É pergunta clássica: superior mesial ao canino, inferior distal ao canino.", "certo": "Superior antes do canino; inferior depois do canino." },
-    { "erro": "Prometer Classe I porque o plano terminal é reto.", "porque": "Plano reto dá topo a topo; a Classe I depende do avanço do molar inferior com uso dos espaços.", "certo": "Plano reto: Classe I ou II conforme o espaço disponível." },
-    { "erro": "Ignorar perda precoce de molar decíduo \"porque vai cair mesmo\".", "porque": "Sem mantenedor, o molar permanente migra e o espaço para o sucessor some.", "certo": "Avaliar mantenedor de espaço conforme o estágio do sucessor." }
+    {
+      "erro": "Fechar espaços da dentição decídua ou considerá-los problema.",
+      "porque": "Os espaços de desenvolvimento e primatas são fisiológicos e necessários à troca.",
+      "certo": "Explicar que espaços são esperados; a ausência deles é que merece atenção."
+    },
+    {
+      "erro": "Trocar a localização dos espaços primatas.",
+      "porque": "É pergunta clássica: superior mesial ao canino, inferior distal ao canino.",
+      "certo": "Superior antes do canino; inferior depois do canino."
+    },
+    {
+      "erro": "Prometer Classe I porque o plano terminal é reto.",
+      "porque": "Plano reto dá topo a topo; a Classe I depende do avanço do molar inferior com uso dos espaços.",
+      "certo": "Plano reto: Classe I ou II conforme o espaço disponível."
+    },
+    {
+      "erro": "Ignorar perda precoce de molar decíduo \"porque vai cair mesmo\".",
+      "porque": "Sem mantenedor, o molar permanente migra e o espaço para o sucessor some.",
+      "certo": "Avaliar mantenedor de espaço conforme o estágio do sucessor."
+    }
   ],
   "autoteste": [
     {
@@ -271,7 +492,12 @@
     },
     {
       "pergunta": "Criança de 5 anos com plano terminal em degrau distal bilateral. A relação molar mais provável na dentição permanente, sem intervenção, é:",
-      "alternativas": ["Classe I", "Classe II", "Classe III", "Topo a topo permanente"],
+      "alternativas": [
+        "Classe I",
+        "Classe II",
+        "Classe III",
+        "Topo a topo permanente"
+      ],
       "correta": 1,
       "explicacoes": [
         "Classe I é a tendência do degrau mesial.",
@@ -313,12 +539,22 @@
       ]
     }
   ],
-  "pesquisa": { "termos": ["dentição decídua", "espaço primata", "plano terminal", "oclusão decídua"] },
+  "pesquisa": {
+    "termos": [
+      "dentição decídua",
+      "espaço primata",
+      "plano terminal",
+      "oclusão decídua"
+    ]
+  },
   "referenciasBase": [
     "Baume LJ. Physiological tooth migration and its significance for the development of occlusion. J Dent Res. 1950.",
     "Moyers RE. Ortodontia. 4ª ed. Desenvolvimento da dentição e da oclusão.",
     "Proffit WR, Fields HW, Larson BE, Sarver DM. Ortodontia Contemporânea. 6ª ed. Estágios iniciais do desenvolvimento.",
     "Van der Linden FPGM. Desenvolvimento da dentição."
   ],
-  "validacao": { "validadoPor": null, "data": null }
+  "validacao": {
+    "validadoPor": null,
+    "data": null
+  }
 }
