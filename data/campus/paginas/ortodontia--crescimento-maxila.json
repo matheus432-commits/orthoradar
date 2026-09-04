@@ -1,0 +1,510 @@
+{
+  "id": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/crescimento-da-maxila",
+  "areaId": "ortodontia",
+  "area": "Ortodontia",
+  "modulo": "Crescimento e desenvolvimento",
+  "tema": "Crescimento craniofacial",
+  "titulo": "Crescimento da maxila: para baixo, para a frente e por trás",
+  "estado": "rascunho",
+  "versao": 1,
+  "formato": 2,
+  "autoria": "Rascunho escrito pela plataforma para validação; nada aqui é visível ao aluno antes da assinatura de um ortodontista.",
+  "abertura": {
+    "situacao": "Menino de 7 anos com Classe III por deficiência de maxila. A avó quer saber se \"puxar a maxila para a frente\" funciona, e por que o ortodontista tem pressa se ele é tão novo.",
+    "pergunta": "Como a maxila cresce, e por que a janela para deslocá-la para a frente fecha tão cedo?"
+  },
+  "umMinuto": {
+    "frases": [
+      "A maxila não tem cartilagem própria: cresce por deslocamento passivo (a base do crânio a carrega), por crescimento sutural (as suturas que a ligam ao crânio preenchem o afastamento) e por remodelação de superfície.",
+      "A direção resultante é para baixo e para a frente; o deslocamento passivo pela base do crânio predomina na primeira infância e perde peso por volta dos 7 anos [VERIFICAR], quando o sutural assume.",
+      "Paradoxo de Enlow: a maxila avança, mas a sua superfície anterior é reabsortiva; quem a leva para a frente é o deslocamento, não a deposição na frente.",
+      "O palato desce por relocação: reabsorção do lado nasal e aposição do lado oral. O comprimento do arco vem da aposição na tuberosidade, que abre espaço para os molares.",
+      "O processo alveolar cresce com a erupção dos dentes e responde a eles: é a parte mais moldável da maxila.",
+      "Na clínica, tração reversa de maxila depende das suturas abertas e da base do crânio ainda ativa: a janela está na dentição mista precoce."
+    ],
+    "caiNaProva": [
+      "Os três mecanismos de crescimento da maxila",
+      "Direção de crescimento: baixo e frente; quando o deslocamento passivo predomina",
+      "Superfície anterior reabsortiva (Enlow) e relocação do palato",
+      "Tuberosidade e espaço para os molares",
+      "Janela da tração reversa"
+    ],
+    "porQueImporta": "A maxila é o osso que mais depende do que está ao redor. Saber quem a empurra, e até quando, define se você indica máscara facial aos 7 ou cirurgia aos 18."
+  },
+  "secoes": [
+    {
+      "titulo": "Três motores para um osso sem cartilagem própria",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "A maxila é osso de ossificação intramembranosa: não tem cartilagem de crescimento como o côndilo. Tudo o que ela faz depende de três coisas: ser carregada pela base do crânio, ser afastada nas suturas e ser remodelada na superfície."
+        },
+        {
+          "tipo": "p",
+          "texto": "O deslocamento passivo vem do crescimento da base do crânio, que empurra a maxila para a frente sem que ela cresça em si. O crescimento sutural acontece nas suturas frontomaxilar, zigomaticomaxilar, zigomaticotemporal e pterigopalatina, orientadas de modo que o afastamento desloca a maxila para baixo e para a frente. A remodelação ajusta a forma e reposiciona o palato e o alvéolo."
+        },
+        {
+          "tipo": "visual",
+          "formato": "anatomico",
+          "titulo": "Os três motores do crescimento da maxila",
+          "descricao": "Maxila esquemática em perfil. Uma seta azul vinda de trás, da base do crânio, indica deslocamento passivo. Setas vermelhas nas suturas que ligam a maxila ao crânio indicam crescimento sutural para baixo e para a frente. Sinais de mais e menos nas superfícies indicam remodelação: menos na face anterior, menos no assoalho nasal, mais no palato e mais na tuberosidade.",
+          "viewBox": "0 0 560 340",
+          "svg": [
+            "<use href='#c-osso' x='60' y='30' width='300' height='44'/><text x='210' y='58' text-anchor='middle' font-size='13' fill='var(--blue,#4A6B8A)'>base do crânio</text>",
+            "<use href='#c-vetor-blue' x='360' y='44' width='70' height='16'/>",
+            "<text x='395' y='32' text-anchor='middle' font-size='12' font-weight='700' fill='var(--blue,#4A6B8A)'>deslocamento passivo</text>",
+            "<use href='#c-sutura' x='150' y='76' width='210' height='10'/>",
+            "<path d='M160 86 L160 200 L200 230 L400 230 L410 170 L360 86 Z' fill='var(--gold-soft,#F4EEE4)' stroke='var(--ink,#23211C)' stroke-width='1.5' stroke-linejoin='round'/>",
+            "<text x='285' y='150' text-anchor='middle' font-size='16' font-weight='700'>maxila</text>",
+            "<use href='#c-vetor-red' x='330' y='100' width='50' height='14' transform='rotate(35 330 107)'/>",
+            "<text x='395' y='118' font-size='12' font-weight='700' fill='var(--red,#B4533B)'>sutural: baixo e frente</text>",
+            "<g font-size='20' font-weight='700'>",
+            "<text x='420' y='190' fill='var(--red,#B4533B)'>−</text><text x='438' y='190' font-size='12' fill='var(--red,#B4533B)'>face anterior</text>",
+            "<text x='280' y='214' text-anchor='middle' fill='var(--red,#B4533B)'>−</text><text x='300' y='214' font-size='12' fill='var(--red,#B4533B)'>assoalho nasal</text>",
+            "<text x='280' y='258' text-anchor='middle' fill='var(--green,#3E7C4F)'>+</text><text x='300' y='258' font-size='12' fill='var(--green,#3E7C4F)'>palato (lado oral)</text>",
+            "<text x='142' y='178' fill='var(--green,#3E7C4F)'>+</text><text x='40' y='178' font-size='12' fill='var(--green,#3E7C4F)'>tuberosidade</text>",
+            "</g>",
+            "<use href='#c-vetor-green' x='120' y='150' width='36' height='14' transform='rotate(180 138 157)'/>",
+            "<text x='280' y='300' text-anchor='middle' font-size='14' font-weight='700'>Resultado: para baixo e para a frente</text>",
+            "<text x='280' y='320' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>comprimento pela tuberosidade, altura pelo alvéolo e pela descida do palato</text>"
+          ],
+          "legenda": "Esquema, não anatomia: o que importa é a direção de cada motor e o sinal de cada superfície."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "frase",
+          "texto": "A maxila é carregada, afastada e remodelada. Nunca se empurra sozinha, e é por isso que ela responde tão bem a tração enquanto as suturas estão abertas."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Qual dos três motores da maxila não depende de nada que aconteça dentro da própria maxila?",
+        "resposta": "O deslocamento passivo: é o crescimento da base do crânio que a carrega. Os outros dois, sutural e remodelação, acontecem nas bordas e nas superfícies da própria maxila."
+      }
+    },
+    {
+      "titulo": "Quem manda em cada idade",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "A importância relativa dos motores muda com a idade. Na primeira infância, a base do crânio cresce muito e o deslocamento passivo responde por boa parte do avanço da maxila. Por volta dos 7 anos [VERIFICAR], a base do crânio anterior desacelera e o crescimento sutural passa a ser o principal responsável pelo deslocamento."
+        },
+        {
+          "tipo": "visual",
+          "formato": "linha-do-tempo",
+          "titulo": "Quem desloca a maxila em cada fase",
+          "descricao": "Linha do tempo vertical com três fases. Primeira infância: deslocamento passivo pela base do crânio predomina. Dentição mista, a partir de cerca de 7 anos: crescimento sutural predomina; janela da tração reversa. Adolescência: suturas interdigitam, sobra crescimento vertical por remodelação e erupção.",
+          "viewBox": "0 0 560 330",
+          "svg": [
+            "<line x1='60' y1='30' x2='60' y2='300' stroke='var(--muted,#8A8478)' stroke-width='1.5'/>",
+            "<use href='#c-marco-blue' x='50' y='40' width='20' height='20'/>",
+            "<text x='90' y='48' font-size='15' font-weight='700'>Primeira infância</text><text x='90' y='68' font-size='13' fill='var(--blue,#4A6B8A)'>deslocamento passivo predomina</text><text x='90' y='86' font-size='12' fill='var(--muted,#8A8478)'>a base do crânio cresce rápido e carrega a maxila</text>",
+            "<use href='#c-marco' x='50' y='130' width='20' height='20'/>",
+            "<text x='90' y='138' font-size='15' font-weight='700'>Dentição mista (a partir de ~7 anos)</text><text x='90' y='158' font-size='13' fill='var(--red,#B4533B)'>crescimento sutural predomina</text><text x='90' y='176' font-size='12' fill='var(--muted,#8A8478)'>suturas abertas: janela da tração reversa</text>",
+            "<use href='#c-marco-green' x='50' y='220' width='20' height='20'/>",
+            "<text x='90' y='228' font-size='15' font-weight='700'>Adolescência</text><text x='90' y='248' font-size='13' fill='var(--green,#3E7C4F)'>vertical por remodelação e erupção</text><text x='90' y='266' font-size='12' fill='var(--muted,#8A8478)'>suturas interdigitam; o avanço diminui, a altura continua</text>",
+            "<use href='#c-caixa-gold' x='60' y='284' width='484' height='34'/><text x='302' y='306' text-anchor='middle' font-size='13' font-weight='700'>Quanto mais cedo, mais motor disponível para deslocar a maxila</text>"
+          ],
+          "legenda": "A pressa do ortodontista da abertura vem daqui: a janela para deslocar a maxila é a dentição mista precoce."
+        },
+        {
+          "tipo": "p",
+          "texto": "Na adolescência, as suturas interdigitam e a resposta ao afastamento cai. O que continua é o crescimento vertical: o palato desce e o processo alveolar cresce com a erupção, e a face aumenta de altura mais do que de comprimento."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "prova",
+          "texto": "Duas perguntas clássicas: qual mecanismo predomina no deslocamento da maxila na primeira infância (o passivo, pela base do crânio) e a partir de quando o sutural assume (por volta dos 7 anos [VERIFICAR])."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Por que a tração reversa da maxila tem indicação preferencial na dentição mista precoce?",
+        "resposta": "Porque as suturas circum-maxilares ainda respondem ao afastamento e a base do crânio ainda contribui; na adolescência a interdigitação sutural reduz a resposta esquelética."
+      }
+    },
+    {
+      "titulo": "O paradoxo de Enlow: a maxila avança com a frente reabsorvendo",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "Parece contraditório: a maxila se desloca para a frente, mas a maior parte da sua superfície anterior é reabsortiva. A explicação está na diferença entre deslocamento e remodelação. Quem avança a maxila é o deslocamento (base do crânio e suturas). A remodelação da superfície anterior, reabsorvendo, mantém a forma e reposiciona as regiões enquanto o osso inteiro é levado para a frente."
+        },
+        {
+          "tipo": "imagem",
+          "imagem": "telerradiografias laterais seriadas com implantes metálicos de referência na maxila (método de Björk)",
+          "mostrar": "Superposição de dois traçados da mesma criança sobre os implantes maxilares, evidenciando que a superfície anterior da maxila pouco muda de posição em relação aos implantes enquanto a maxila inteira se desloca para a frente em relação à base do crânio",
+          "legenda": "Superposição em implantes: a maxila inteira avança; a superfície anterior é reabsortiva e quase não deposita.",
+          "destacar": "Implantes estáveis, ponto A quase parado em relação a eles, deslocamento do conjunto em relação a SN"
+        },
+        {
+          "tipo": "p",
+          "texto": "O mesmo raciocínio explica o palato. Ele desce sem \"crescer para baixo\": reabsorve do lado nasal e deposita do lado oral, relocando-se para uma posição mais inferior. A cavidade nasal aumenta de altura enquanto o teto da boca desce."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "mito",
+          "mito": "A maxila cresce para a frente porque deposita osso na superfície anterior.",
+          "verdade": "A superfície anterior é predominantemente reabsortiva. O avanço vem do deslocamento pela base do crânio e pelas suturas; a remodelação só ajusta a forma."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Se o palato desce por relocação, o que acontece com a altura da cavidade nasal?",
+        "resposta": "Aumenta: o assoalho nasal reabsorve e o lado oral do palato deposita, então o palato inteiro se move para baixo e a cavidade nasal fica mais alta."
+      }
+    },
+    {
+      "titulo": "Comprimento pela tuberosidade, altura pelo alvéolo",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "O comprimento do arco superior cresce por trás. A tuberosidade da maxila é uma superfície de aposição: o osso é depositado na face posterior e o arco se alonga para trás, abrindo espaço para o primeiro, o segundo e, se houver, o terceiro molar. Se a aposição posterior é insuficiente, o último molar fica sem espaço."
+        },
+        {
+          "tipo": "p",
+          "texto": "A altura vem do processo alveolar, que cresce com a erupção dos dentes e acompanha a descida do palato. É a parte mais adaptável da maxila: responde à erupção, à extração e à força ortodôntica. É nele que a maior parte do movimento dentário acontece."
+        },
+        {
+          "tipo": "lista",
+          "itens": [
+            "Comprimento: aposição na tuberosidade, para trás. Falta de espaço posterior é falta de aposição.",
+            "Altura: descida do palato (relocação) + crescimento alveolar com a erupção.",
+            "Largura: sutura palatina mediana na infância; depois, quase só alvéolo."
+          ]
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "dica",
+          "titulo": "Na clínica",
+          "texto": "Ao avaliar espaço para segundos molares superiores na dentição mista, olhe a tuberosidade na panorâmica e a relação do germe com o primeiro molar. Quando a maxila é curta por trás, Distalização de molares encontra o limite ósseo rápido; o plano precisa contar com isso."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Uma maxila estreita em adulto: por que a expansão tende a ser mais dentária que esquelética?",
+        "resposta": "Porque a largura esquelética depende da sutura palatina mediana, que no adulto está interdigitada; o que sobra é a adaptação do processo alveolar, que inclina os dentes."
+      }
+    },
+    {
+      "titulo": "De volta ao menino de 7 anos",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "A avó tem razão em desconfiar de \"puxar a maxila\", e o ortodontista tem razão na pressa. A tração reversa com máscara facial age nas suturas e na base do crânio ainda ativas, deslocando a maxila para a frente. Aos 7 anos os dois motores estão disponíveis; aos 12, bem menos."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "erro",
+          "texto": "Adiar a tração reversa \"para quando os permanentes estiverem todos\". O avanço esquelético da maxila depende de sutura aberta; esperar a dentição permanente completa costuma significar trocar ortopedia por camuflagem ou cirurgia."
+        },
+        {
+          "tipo": "p",
+          "texto": "A promessa honesta: deslocar a maxila alguns milímetros na dentição mista precoce, sabendo que o padrão de Classe III pode voltar a se expressar no surto mandibular, e que uma parte dos casos ainda vai precisar de cirurgia depois da maturidade."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Que crescimento futuro pode desfazer parte do ganho da tração reversa, e quando?",
+        "resposta": "O crescimento mandibular no surto puberal, que na Classe III costuma ser tardio e prolongado; por isso o acompanhamento segue até o fim do crescimento."
+      }
+    }
+  ],
+  "fechamento": {
+    "visual": {
+      "formato": "mapa",
+      "titulo": "Mapa da página",
+      "descricao": "Nó central: crescimento da maxila. Seis nós: sem cartilagem própria; deslocamento passivo até cerca de 7 anos; sutural depois; superfície anterior reabsortiva; palato desce por relocação; tuberosidade dá comprimento; alvéolo dá altura.",
+      "viewBox": "0 0 560 360",
+      "svg": [
+        "<g stroke='var(--border,#EDE6D8)' stroke-width='1.5'><line x1='280' y1='180' x2='100' y2='60'/><line x1='280' y1='180' x2='460' y2='60'/><line x1='280' y1='180' x2='70' y2='180'/><line x1='280' y1='180' x2='490' y2='180'/><line x1='280' y1='180' x2='100' y2='300'/><line x1='280' y1='180' x2='460' y2='300'/></g>",
+        "<use href='#c-no-central' x='190' y='150' width='180' height='60'/>",
+        "<text x='280' y='176' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>Crescimento</text><text x='280' y='194' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>da maxila</text>",
+        "<use href='#c-no' x='20' y='38' width='160' height='44'/><text x='100' y='65' text-anchor='middle' font-size='13' font-weight='700'>Sem cartilagem própria</text>",
+        "<use href='#c-no' x='380' y='38' width='160' height='44'/><text x='460' y='65' text-anchor='middle' font-size='13' font-weight='700'>Passivo, depois sutural</text>",
+        "<use href='#c-no' x='0' y='158' width='150' height='44'/><text x='75' y='185' text-anchor='middle' font-size='13' font-weight='700'>Frente reabsorve</text>",
+        "<use href='#c-no' x='410' y='158' width='150' height='44'/><text x='485' y='185' text-anchor='middle' font-size='13' font-weight='700'>Palato desce (relocação)</text>",
+        "<use href='#c-no' x='20' y='278' width='160' height='44'/><text x='100' y='305' text-anchor='middle' font-size='13' font-weight='700'>Tuberosidade: comprimento</text>",
+        "<use href='#c-no' x='380' y='278' width='160' height='44'/><text x='460' y='305' text-anchor='middle' font-size='13' font-weight='700'>Alvéolo: altura</text>"
+      ]
+    },
+    "flashcards": [
+      {
+        "frente": "Os três mecanismos pelos quais a maxila cresce.",
+        "verso": "Deslocamento passivo pela base do crânio, crescimento sutural nas suturas circum-maxilares e remodelação de superfície."
+      },
+      {
+        "frente": "Se a superfície anterior da maxila é reabsortiva, o que a leva para a frente?",
+        "verso": "O deslocamento: a base do crânio a carrega e as suturas preenchem o afastamento. A remodelação só ajusta a forma."
+      },
+      {
+        "frente": "De onde vem o comprimento do arco superior e de onde vem a altura?",
+        "verso": "Comprimento: aposição na tuberosidade, para trás. Altura: descida do palato por relocação e crescimento alveolar com a erupção."
+      }
+    ]
+  },
+  "infografico": {
+    "titulo": "A maxila em seis cartões",
+    "itens": [
+      {
+        "rotulo": "Sem cartilagem",
+        "texto": "Ossificação intramembranosa: depende de ser carregada, afastada e remodelada."
+      },
+      {
+        "rotulo": "Deslocamento passivo",
+        "texto": "A base do crânio empurra a maxila; predomina na primeira infância."
+      },
+      {
+        "rotulo": "Sutural",
+        "texto": "Suturas frontomaxilar, zigomaticomaxilar, zigomaticotemporal e pterigopalatina; predomina a partir de ~7 anos [VERIFICAR]."
+      },
+      {
+        "rotulo": "Superfície anterior",
+        "texto": "Reabsortiva (Enlow). O avanço vem do deslocamento, não da deposição na frente."
+      },
+      {
+        "rotulo": "Palato",
+        "texto": "Desce por relocação: reabsorve do lado nasal, deposita do lado oral."
+      },
+      {
+        "rotulo": "Tuberosidade e alvéolo",
+        "texto": "Tuberosidade dá comprimento (espaço para molares); alvéolo dá altura e é a parte mais moldável."
+      }
+    ]
+  },
+  "fluxograma": {
+    "titulo": "Deficiência de maxila: dá para deslocar?",
+    "nos": [
+      {
+        "id": "n1",
+        "tipo": "inicio",
+        "texto": "Classe III por deficiência maxilar em criança"
+      },
+      {
+        "id": "n2",
+        "tipo": "decisao",
+        "texto": "Dentição mista precoce, suturas responsivas?"
+      },
+      {
+        "id": "n3",
+        "tipo": "acao",
+        "texto": "Tração reversa (máscara facial), com ou sem expansão prévia; acompanhar até o fim do crescimento"
+      },
+      {
+        "id": "n4",
+        "tipo": "decisao",
+        "texto": "Adolescente ou adulto jovem com discrepância grande?"
+      },
+      {
+        "id": "n5",
+        "tipo": "acao",
+        "texto": "Planejar camuflagem ou cirurgia ortognática após a maturidade"
+      },
+      {
+        "id": "n6",
+        "tipo": "acao",
+        "texto": "Discrepância leve: considerar ancoragem esquelética ou camuflagem"
+      },
+      {
+        "id": "n7",
+        "tipo": "fim",
+        "texto": "Conduta compatível com o motor de crescimento disponível"
+      }
+    ],
+    "arestas": [
+      {
+        "de": "n1",
+        "para": "n2"
+      },
+      {
+        "de": "n2",
+        "para": "n3",
+        "rotulo": "sim"
+      },
+      {
+        "de": "n2",
+        "para": "n4",
+        "rotulo": "não"
+      },
+      {
+        "de": "n4",
+        "para": "n5",
+        "rotulo": "sim"
+      },
+      {
+        "de": "n4",
+        "para": "n6",
+        "rotulo": "não"
+      },
+      {
+        "de": "n3",
+        "para": "n7"
+      },
+      {
+        "de": "n5",
+        "para": "n7"
+      },
+      {
+        "de": "n6",
+        "para": "n7"
+      }
+    ]
+  },
+  "passoAPasso": [
+    {
+      "passo": "Confirme que a deficiência é maxilar, e não prognatismo mandibular: perfil, cefalometria (SNA, posição do ponto A) e relação com a base do crânio.",
+      "confira": "O problema está na maxila, na mandíbula ou nos dois?"
+    },
+    {
+      "passo": "Situe o paciente na fase de crescimento da maxila: dentição, idade e indicador de maturação.",
+      "confira": "As suturas ainda respondem ao afastamento nesta fase?"
+    },
+    {
+      "passo": "Avalie o comprimento posterior (tuberosidade) na panorâmica e o espaço para os molares.",
+      "confira": "Existe espaço para os segundos molares ou a maxila é curta por trás?"
+    },
+    {
+      "passo": "Se houver janela, indique tração reversa e defina a duração e o acompanhamento até o fim do surto mandibular.",
+      "confira": "A família sabe que o padrão pode voltar a se expressar na adolescência?"
+    },
+    {
+      "passo": "Sem janela, registre a alternativa (camuflagem, ancoragem esquelética, cirurgia) e o momento de reavaliar.",
+      "confira": "O prontuário diz o que muda a decisão e quando?"
+    }
+  ],
+  "macetes": [
+    {
+      "titulo": "Carregada, afastada, remodelada",
+      "texto": "Os três motores da maxila em três verbos: base do crânio carrega, suturas afastam, superfície remodela."
+    },
+    {
+      "titulo": "Frente reabsorve, trás deposita",
+      "texto": "Superfície anterior reabsortiva; tuberosidade depositante. A maxila avança por deslocamento e alonga por trás."
+    },
+    {
+      "titulo": "Palato desce trocando de andar",
+      "texto": "Reabsorve no andar de cima (nariz), deposita no de baixo (boca): relocação para baixo."
+    },
+    {
+      "titulo": "Sete: a idade em que a maxila troca de motor",
+      "texto": "Antes, base do crânio. Depois, suturas. É a justificativa da pressa na Classe III [VERIFICAR]."
+    }
+  ],
+  "ondeErra": [
+    {
+      "erro": "Atribuir o avanço da maxila à deposição na superfície anterior.",
+      "porque": "Essa superfície é reabsortiva; o avanço vem do deslocamento pela base do crânio e pelas suturas.",
+      "certo": "Deslocamento avança; remodelação ajusta a forma."
+    },
+    {
+      "erro": "Esperar a dentição permanente completa para tratar deficiência maxilar.",
+      "porque": "As suturas interdigitam e a base do crânio desacelera; o motor esquelético some.",
+      "certo": "Tração reversa na dentição mista precoce, com acompanhamento até o fim do crescimento."
+    },
+    {
+      "erro": "Dizer que a maxila tem cartilagem de crescimento própria como o côndilo.",
+      "porque": "É osso intramembranoso; o septo nasal contribui na primeira infância, mas não é cartilagem da maxila.",
+      "certo": "Cresce por deslocamento, sutura e remodelação."
+    },
+    {
+      "erro": "Ignorar a tuberosidade ao planejar Distalização de molares.",
+      "porque": "O comprimento posterior do arco depende da aposição na tuberosidade; sem osso atrás, não há para onde distalizar.",
+      "certo": "Avaliar o espaço posterior na panorâmica antes de prometer Distalização."
+    }
+  ],
+  "autoteste": [
+    {
+      "pergunta": "Sobre a superfície anterior da maxila durante o crescimento, é correto afirmar que ela é:",
+      "alternativas": [
+        "Predominantemente depositante, o que explica o avanço da maxila",
+        "Predominantemente reabsortiva, e o avanço da maxila vem do deslocamento",
+        "Neutra, sem remodelação",
+        "Depositante apenas na adolescência"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "É o erro clássico: a superfície anterior reabsorve.",
+        "Correta: é o paradoxo descrito por Enlow; quem avança a maxila é o deslocamento pela base do crânio e pelas suturas.",
+        "Toda superfície óssea da face é remodelada.",
+        "Não há inversão do padrão na adolescência."
+      ]
+    },
+    {
+      "pergunta": "Na primeira infância, o principal responsável pelo deslocamento da maxila para a frente é:",
+      "alternativas": [
+        "O crescimento sutural",
+        "O deslocamento passivo pelo crescimento da base do crânio",
+        "A aposição na tuberosidade",
+        "A erupção dos dentes decíduos"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "O sutural assume mais tarde, por volta dos 7 anos.",
+        "Correta: a base do crânio cresce rápido nessa fase e carrega a maxila.",
+        "A tuberosidade dá comprimento posterior, não deslocamento anterior.",
+        "A erupção contribui para a altura alveolar, não para o deslocamento anteroposterior."
+      ]
+    },
+    {
+      "pergunta": "O palato desce durante o crescimento por meio de:",
+      "alternativas": [
+        "Crescimento intersticial do osso palatino",
+        "Reabsorção do lado nasal e aposição do lado oral (relocação)",
+        "Aposição do lado nasal e reabsorção do lado oral",
+        "Crescimento da sutura palatina mediana"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Osso não cresce por crescimento intersticial.",
+        "Correta: reabsorve em cima, deposita embaixo, e o palato se reloca para baixo.",
+        "É o inverso do que acontece.",
+        "A sutura palatina mediana responde pela largura, não pela descida."
+      ]
+    },
+    {
+      "pergunta": "Falta de espaço para o segundo molar superior em uma maxila curta está relacionada principalmente a:",
+      "alternativas": [
+        "Aposição insuficiente na tuberosidade",
+        "Reabsorção excessiva do palato",
+        "Fechamento precoce da sutura frontomaxilar",
+        "Crescimento vertical excessivo do processo alveolar"
+      ],
+      "correta": 0,
+      "explicacoes": [
+        "Correta: o comprimento posterior do arco vem da aposição na tuberosidade.",
+        "A remodelação do palato regula a altura, não o comprimento posterior.",
+        "Essa sutura participa do deslocamento para baixo e para a frente, não do comprimento posterior.",
+        "O alvéolo dá altura; não decide o espaço posterior."
+      ]
+    },
+    {
+      "pergunta": "Menina de 12 anos, pós-surto, com deficiência maxilar moderada. A conduta com maior chance de avanço esquelético da maxila é:",
+      "alternativas": [
+        "Máscara facial convencional, como aos 7 anos",
+        "Aguardar o fim do crescimento e reavaliar para cirurgia ortognática ou camuflagem",
+        "Expansão rápida isolada",
+        "Aparelho funcional de avanço mandibular"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "A resposta sutural cai com a interdigitação; o efeito tende a ser dentário.",
+        "Correta: sem motor esquelético disponível, a discussão passa para cirurgia ou camuflagem após a maturidade.",
+        "Expansão isolada não desloca a maxila para a frente.",
+        "Avanço mandibular agrava a Classe III."
+      ]
+    }
+  ],
+  "pesquisa": {
+    "termos": [
+      "crescimento da maxila",
+      "tração reversa",
+      "máscara facial",
+      "sutura circum-maxilar"
+    ]
+  },
+  "referenciasBase": [
+    "Enlow DH, Hans MG. Noções básicas sobre crescimento facial.",
+    "Proffit WR, Fields HW, Larson BE, Sarver DM. Ortodontia Contemporânea. 6ª ed. Crescimento da maxila.",
+    "Björk A, Skieller V. Growth of the maxilla in three dimensions as revealed radiographically by the implant method. Br J Orthod. 1977.",
+    "Moyers RE. Ortodontia. 4ª ed."
+  ],
+  "validacao": {
+    "validadoPor": null,
+    "data": null
+  }
+}

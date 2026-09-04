@@ -1,10 +1,10 @@
 {
  "atualizadoEm": "2026-09-04",
  "totalPaginas": 3387,
- "concluidas": 8,
+ "concluidas": 9,
  "porStatus": {
-  "pendente": 3379,
-  "rascunho": 8,
+  "pendente": 3378,
+  "rascunho": 9,
   "revisado": 0,
   "publicado": 0
  },
@@ -12,7 +12,7 @@
   "id": "ortodontia/crescimento-e-desenvolvimento",
   "area": "Ortodontia",
   "modulo": "Crescimento e desenvolvimento",
-  "faltam": 11
+  "faltam": 10
  },
  "imagensPendentes": [
   {
@@ -32,6 +32,15 @@
    "mostrar": "As camadas do côndilo jovem, da superfície para o osso: camada fibrosa articular, camada proliferativa, cartilagem hipertrófica e frente de ossificação endocondral",
    "legenda": "Côndilo em crescimento: a cartilagem secundária cresce por cima e vira osso por baixo.",
    "destacar": "Camada proliferativa como fonte de células; frente de ossificação; ausência de organização em colunas como na placa epifisária"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/crescimento-da-maxila",
+   "modulo": "Crescimento e desenvolvimento",
+   "secao": "O paradoxo de Enlow: a maxila avança com a frente reabsorvendo",
+   "imagem": "telerradiografias laterais seriadas com implantes metálicos de referência na maxila (método de Björk)",
+   "mostrar": "Superposição de dois traçados da mesma criança sobre os implantes maxilares, evidenciando que a superfície anterior da maxila pouco muda de posição em relação aos implantes enquanto a maxila inteira se desloca para a frente em relação à base do crânio",
+   "legenda": "Superposição em implantes: a maxila inteira avança; a superfície anterior é reabsortiva e quase não deposita.",
+   "destacar": "Implantes estáveis, ponto A quase parado em relação a eles, deslocamento do conjunto em relação a SN"
   }
  ],
  "verificarPendentes": [
@@ -49,6 +58,31 @@
    "pagina": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/mecanismos-sutura-cartilagem-e-remodelacao",
    "onde": "Seção \"Cartilagem: sincondroses, côndilo e septo\".blocos[0].texto",
    "trecho": "com ela a mandíbula, ficam mais para trás. Ela fecha na adolescência [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/crescimento-da-maxila",
+   "onde": "umMinuto.frases[1]",
+   "trecho": "ânio predomina na primeira infância e perde peso por volta dos 7 anos [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/crescimento-da-maxila",
+   "onde": "Seção \"Quem manda em cada idade\".blocos[0].texto",
+   "trecho": "sivo responde por boa parte do avanço da maxila. Por volta dos 7 anos [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/crescimento-da-maxila",
+   "onde": "Seção \"Quem manda em cada idade\".blocos[3].texto",
+   "trecho": "o crânio) e a partir de quando o sutural assume (por volta dos 7 anos [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/crescimento-da-maxila",
+   "onde": "infografico.itens[2].texto",
+   "trecho": ", zigomaticotemporal e pterigopalatina; predomina a partir de ~7 anos [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/crescimento-da-maxila",
+   "onde": "macetes[3].texto",
+   "trecho": "do crânio. Depois, suturas. É a justificativa da pressa na Classe III [VERIFICAR]"
   }
  ],
  "modulos": [
@@ -58,11 +92,11 @@
    "area": "Ortodontia",
    "modulo": "Crescimento e desenvolvimento",
    "total": 14,
-   "concluidas": 3,
-   "palavras": 8759,
-   "visuais": 12,
-   "imagensClinicas": 2,
-   "verificar": 3,
+   "concluidas": 4,
+   "palavras": 11416,
+   "visuais": 15,
+   "imagensClinicas": 3,
+   "verificar": 8,
    "paginas": [
     {
      "id": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/conceitos-crescimento-e-desenvolvimento",
@@ -92,7 +126,9 @@
      "id": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/crescimento-da-maxila",
      "nome": "Crescimento da maxila",
      "tema": "Crescimento craniofacial",
-     "status": "pendente"
+     "status": "rascunho",
+     "palavras": 2657,
+     "visuais": 3
     },
     {
      "id": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/crescimento-da-mandibula",
@@ -24711,6 +24747,66 @@
     {
      "onde": "Seção \"Cartilagem: sincondroses, côndilo e septo\".blocos[0].texto",
      "trecho": "com ela a mandíbula, ficam mais para trás. Ela fecha na adolescência [VERIFICAR]"
+    }
+   ]
+  },
+  "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/crescimento-da-maxila": {
+   "titulo": "Crescimento da maxila: para baixo, para a frente e por trás",
+   "arquivo": "data/campus/paginas/ortodontia--crescimento-maxila.json",
+   "formato": 2,
+   "status": "rascunho",
+   "estado": "rascunho",
+   "palavras": 2657,
+   "visuais": [
+    {
+     "formato": "anatomico",
+     "titulo": "Os três motores do crescimento da maxila"
+    },
+    {
+     "formato": "linha-do-tempo",
+     "titulo": "Quem desloca a maxila em cada fase"
+    },
+    {
+     "formato": "mapa",
+     "titulo": "Mapa da página"
+    }
+   ],
+   "quadros": {
+    "frase": 1,
+    "prova": 1,
+    "mito": 1,
+    "dica": 1,
+    "erro": 1
+   },
+   "imagensClinicas": [
+    {
+     "secao": "O paradoxo de Enlow: a maxila avança com a frente reabsorvendo",
+     "imagem": "telerradiografias laterais seriadas com implantes metálicos de referência na maxila (método de Björk)",
+     "mostrar": "Superposição de dois traçados da mesma criança sobre os implantes maxilares, evidenciando que a superfície anterior da maxila pouco muda de posição em relação aos implantes enquanto a maxila inteira se desloca para a frente em relação à base do crânio",
+     "legenda": "Superposição em implantes: a maxila inteira avança; a superfície anterior é reabsortiva e quase não deposita.",
+     "destacar": "Implantes estáveis, ponto A quase parado em relação a eles, deslocamento do conjunto em relação a SN"
+    }
+   ],
+   "verificar": [
+    {
+     "onde": "umMinuto.frases[1]",
+     "trecho": "ânio predomina na primeira infância e perde peso por volta dos 7 anos [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Quem manda em cada idade\".blocos[0].texto",
+     "trecho": "sivo responde por boa parte do avanço da maxila. Por volta dos 7 anos [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Quem manda em cada idade\".blocos[3].texto",
+     "trecho": "o crânio) e a partir de quando o sutural assume (por volta dos 7 anos [VERIFICAR]"
+    },
+    {
+     "onde": "infografico.itens[2].texto",
+     "trecho": ", zigomaticotemporal e pterigopalatina; predomina a partir de ~7 anos [VERIFICAR]"
+    },
+    {
+     "onde": "macetes[3].texto",
+     "trecho": "do crânio. Depois, suturas. É a justificativa da pressa na Classe III [VERIFICAR]"
     }
    ]
   },
