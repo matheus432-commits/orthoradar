@@ -1,0 +1,129 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false">
+<!--
+  OdontoFeed CAMPUS — biblioteca de componentes visuais (spec 04/09).
+  Todo visual das apostilas é SVG inline escrito à mão e reaproveita estes
+  <symbol> por <use href="#c-…">. A plataforma injeta este arquivo uma vez no
+  documento (campus.html), por isso os ids são globais e têm o prefixo "c-".
+
+  Cores: sempre por variável CSS com fallback (a página segue o tema).
+    var(--ink,#23211C)      traço e texto principal
+    var(--muted,#8A8478)    texto secundário, setas, eixos
+    var(--gold,#B08968)     acento, destaque, "o que importa"
+    var(--green,#3E7C4F)    certo, fim, favorável
+    var(--blue,#4A6B8A)     estrutura, osso, referência
+    var(--red,#B4533B)      erro, risco, força que atrapalha
+    var(--gold-soft,#F4EEE4) var(--green-soft,#E8F2EA) var(--blue-soft,#E9EEF3) var(--red-soft,#F6E7E2)
+    var(--border,#EDE6D8)   contorno leve
+  Traço: 1.5 (contorno), 2.5 (ênfase), 1 (guia). Raio de canto: 10 (caixa), 999 (pílula).
+  Tipografia dentro do SVG: font-family herdada do documento; tamanhos 18 (título), 15 (rótulo), 13 (nota); nunca abaixo de 12 em viewBox de 560.
+-->
+<defs>
+  <!-- marcadores de seta (usar em paths com marker-end) -->
+  <marker id="c-seta" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" fill="var(--muted,#8A8478)"/></marker>
+  <marker id="c-seta-ink" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" fill="var(--ink,#23211C)"/></marker>
+  <marker id="c-seta-gold" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" fill="var(--gold,#B08968)"/></marker>
+  <marker id="c-seta-red" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" fill="var(--red,#B4533B)"/></marker>
+  <marker id="c-seta-green" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" fill="var(--green,#3E7C4F)"/></marker>
+  <marker id="c-seta-blue" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" fill="var(--blue,#4A6B8A)"/></marker>
+  <marker id="c-ponto" markerWidth="8" markerHeight="8" refX="4" refY="4" markerUnits="userSpaceOnUse"><circle cx="4" cy="4" r="3" fill="var(--gold,#B08968)"/></marker>
+  <pattern id="c-hachura" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="8" stroke="var(--border,#EDE6D8)" stroke-width="3"/></pattern>
+  <pattern id="c-hachura-blue" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="8" stroke="var(--blue,#4A6B8A)" stroke-width="2" opacity=".35"/></pattern>
+</defs>
+
+<!-- ── CAIXAS (fluxograma, classificação, processo). Todas em 0 0 200 60; escalar com width/height no <use>. ── -->
+<symbol id="c-caixa" viewBox="0 0 200 60" preserveAspectRatio="none"><rect x="1" y="1" width="198" height="58" rx="10" fill="#fff" stroke="var(--border,#EDE6D8)" stroke-width="1.5"/></symbol>
+<symbol id="c-caixa-ink" viewBox="0 0 200 60" preserveAspectRatio="none"><rect x="1" y="1" width="198" height="58" rx="10" fill="var(--ink,#23211C)" stroke="var(--ink,#23211C)" stroke-width="1.5"/></symbol>
+<symbol id="c-caixa-gold" viewBox="0 0 200 60" preserveAspectRatio="none"><rect x="1" y="1" width="198" height="58" rx="10" fill="var(--gold-soft,#F4EEE4)" stroke="var(--gold,#B08968)" stroke-width="1.5"/></symbol>
+<symbol id="c-caixa-green" viewBox="0 0 200 60" preserveAspectRatio="none"><rect x="1" y="1" width="198" height="58" rx="10" fill="var(--green-soft,#E8F2EA)" stroke="var(--green,#3E7C4F)" stroke-width="1.5"/></symbol>
+<symbol id="c-caixa-blue" viewBox="0 0 200 60" preserveAspectRatio="none"><rect x="1" y="1" width="198" height="58" rx="10" fill="var(--blue-soft,#E9EEF3)" stroke="var(--blue,#4A6B8A)" stroke-width="1.5"/></symbol>
+<symbol id="c-caixa-red" viewBox="0 0 200 60" preserveAspectRatio="none"><rect x="1" y="1" width="198" height="58" rx="10" fill="var(--red-soft,#F6E7E2)" stroke="var(--red,#B4533B)" stroke-width="1.5"/></symbol>
+<!-- decisão: pílula (losango é ilegível em celular) -->
+<symbol id="c-decisao" viewBox="0 0 200 60" preserveAspectRatio="none"><rect x="1" y="1" width="198" height="58" rx="29" fill="var(--gold-soft,#F4EEE4)" stroke="var(--gold,#B08968)" stroke-width="1.5"/></symbol>
+<!-- pílula de rótulo (sim / não / etapa) -->
+<symbol id="c-pilula" viewBox="0 0 60 22" preserveAspectRatio="none"><rect x="1" y="1" width="58" height="20" rx="10" fill="#fff" stroke="var(--border,#EDE6D8)"/></symbol>
+
+<!-- ── NUMERAÇÃO de passos: círculo dourado 28×28 com número posto pela página em <text> ── -->
+<symbol id="c-num" viewBox="0 0 28 28"><circle cx="14" cy="14" r="13" fill="var(--gold,#B08968)"/></symbol>
+<symbol id="c-num-ink" viewBox="0 0 28 28"><circle cx="14" cy="14" r="13" fill="var(--ink,#23211C)"/></symbol>
+<!-- marcadores de linha do tempo -->
+<symbol id="c-marco" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="#fff" stroke="var(--gold,#B08968)" stroke-width="2.5"/></symbol>
+<symbol id="c-marco-cheio" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="var(--gold,#B08968)" stroke="var(--gold,#B08968)" stroke-width="2.5"/></symbol>
+<symbol id="c-marco-green" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="var(--green,#3E7C4F)"/></symbol>
+<symbol id="c-marco-blue" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="var(--blue,#4A6B8A)"/></symbol>
+<!-- certo / errado (para comparativos e mito x verdade) -->
+<symbol id="c-certo" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="var(--green,#3E7C4F)"/><path d="M6.5 12.5 L10 16 L17.5 8.5" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="c-errado" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="var(--red,#B4533B)"/><path d="M8 8 L16 16 M16 8 L8 16" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/></symbol>
+<symbol id="c-atencao" viewBox="0 0 24 24"><path d="M12 2.5 L22.5 21 L1.5 21 Z" fill="var(--gold,#B08968)"/><rect x="11" y="9" width="2" height="6.5" rx="1" fill="#fff"/><circle cx="12" cy="18" r="1.3" fill="#fff"/></symbol>
+
+<!-- ── VETORES de força (diagramas de mecânica): seta grossa, 0 0 100 20, aponta para a direita; girar com transform ── -->
+<symbol id="c-vetor" viewBox="0 0 100 20" preserveAspectRatio="none"><path d="M0 7 L78 7 L78 1 L100 10 L78 19 L78 13 L0 13 Z" fill="var(--gold,#B08968)"/></symbol>
+<symbol id="c-vetor-red" viewBox="0 0 100 20" preserveAspectRatio="none"><path d="M0 7 L78 7 L78 1 L100 10 L78 19 L78 13 L0 13 Z" fill="var(--red,#B4533B)"/></symbol>
+<symbol id="c-vetor-green" viewBox="0 0 100 20" preserveAspectRatio="none"><path d="M0 7 L78 7 L78 1 L100 10 L78 19 L78 13 L0 13 Z" fill="var(--green,#3E7C4F)"/></symbol>
+<symbol id="c-vetor-blue" viewBox="0 0 100 20" preserveAspectRatio="none"><path d="M0 7 L78 7 L78 1 L100 10 L78 19 L78 13 L0 13 Z" fill="var(--blue,#4A6B8A)"/></symbol>
+<!-- momento (rotação): arco com seta, 0 0 60 60, sentido horário -->
+<symbol id="c-momento" viewBox="0 0 60 60"><path d="M12 30 A18 18 0 1 1 30 48" fill="none" stroke="var(--red,#B4533B)" stroke-width="3" stroke-linecap="round"/><path d="M24 44 L31 49 L26 55 Z" fill="var(--red,#B4533B)"/></symbol>
+<symbol id="c-momento-anti" viewBox="0 0 60 60"><path d="M48 30 A18 18 0 1 0 30 48" fill="none" stroke="var(--red,#B4533B)" stroke-width="3" stroke-linecap="round"/><path d="M36 44 L29 49 L34 55 Z" fill="var(--red,#B4533B)"/></symbol>
+
+<!-- ── ANATOMIA ESQUEMÁTICA (geométrica, nunca realista) ── -->
+<!-- dente unirradicular de perfil: coroa + raiz, 0 0 60 140. Camadas nomeadas pela página com <text>. -->
+<symbol id="c-dente" viewBox="0 0 60 140">
+  <path d="M12 52 C10 30 16 6 30 6 C44 6 50 30 48 52 Z" fill="#fff" stroke="var(--ink,#23211C)" stroke-width="1.5"/>
+  <path d="M14 52 C12 80 20 120 30 134 C40 120 48 80 46 52 Z" fill="var(--gold-soft,#F4EEE4)" stroke="var(--ink,#23211C)" stroke-width="1.5"/>
+  <path d="M24 52 C23 80 26 110 30 122 C34 110 37 80 36 52 Z" fill="var(--red-soft,#F6E7E2)" stroke="var(--red,#B4533B)" stroke-width="1"/>
+</symbol>
+<!-- dente com osso alveolar e ligamento em volta (para movimento dentário), 0 0 120 150 -->
+<symbol id="c-dente-alveolo" viewBox="0 0 120 150">
+  <rect x="0" y="60" width="120" height="90" fill="var(--blue-soft,#E9EEF3)"/>
+  <path d="M38 60 C36 90 44 128 60 142 C76 128 84 90 82 60 Z" fill="#fff" stroke="var(--blue,#4A6B8A)" stroke-width="1"/>
+  <path d="M42 60 C40 90 47 124 60 137 C73 124 80 90 78 60 Z" fill="var(--gold-soft,#F4EEE4)" stroke="var(--ink,#23211C)" stroke-width="1.5"/>
+  <path d="M42 60 C40 36 46 8 60 8 C74 8 80 36 78 60 Z" fill="#fff" stroke="var(--ink,#23211C)" stroke-width="1.5"/>
+</symbol>
+<!-- molar de perfil (duas raízes), 0 0 80 130 -->
+<symbol id="c-molar" viewBox="0 0 80 130">
+  <path d="M8 56 C6 30 14 8 40 8 C66 8 74 30 72 56 Z" fill="#fff" stroke="var(--ink,#23211C)" stroke-width="1.5"/>
+  <path d="M10 56 C8 80 12 110 20 122 C28 110 32 84 32 62 Z" fill="var(--gold-soft,#F4EEE4)" stroke="var(--ink,#23211C)" stroke-width="1.5"/>
+  <path d="M70 56 C72 80 68 110 60 122 C52 110 48 84 48 62 Z" fill="var(--gold-soft,#F4EEE4)" stroke="var(--ink,#23211C)" stroke-width="1.5"/>
+  <path d="M32 56 L48 56 L48 62 L32 62 Z" fill="var(--gold-soft,#F4EEE4)" stroke="var(--ink,#23211C)" stroke-width="1.5"/>
+</symbol>
+<!-- crânio + face em perfil, esquemático, 0 0 200 220 (para crescimento, cefalometria, rotações) -->
+<symbol id="c-cranio" viewBox="0 0 200 220">
+  <path d="M60 120 C20 110 14 50 60 24 C100 2 160 16 176 62 C188 96 172 118 160 122 L154 150 C152 160 146 164 140 162 L120 158 C118 170 110 176 100 176 L96 190 C94 200 84 204 76 200 L64 194 C56 190 54 182 58 176 L64 160 C50 150 50 132 60 120 Z" fill="#fff" stroke="var(--ink,#23211C)" stroke-width="1.5"/>
+  <path d="M110 128 C108 118 116 112 124 116 L156 122" fill="none" stroke="var(--muted,#8A8478)" stroke-width="1"/>
+</symbol>
+<!-- mandíbula de perfil, 0 0 200 120: ramo à esquerda, corpo à direita, côndilo em cima -->
+<symbol id="c-mandibula" viewBox="0 0 200 120">
+  <path d="M18 10 C10 10 8 20 12 30 L22 70 C28 92 44 104 70 106 L178 108 C190 108 194 96 186 90 L170 78 L110 74 L60 66 C50 62 46 50 44 40 L40 22 C38 12 30 8 18 10 Z" fill="var(--gold-soft,#F4EEE4)" stroke="var(--ink,#23211C)" stroke-width="1.5"/>
+  <circle cx="18" cy="12" r="7" fill="#fff" stroke="var(--ink,#23211C)" stroke-width="1.5"/>
+</symbol>
+<!-- maxila em vista oclusal esquemática (arco em U), 0 0 160 160 -->
+<symbol id="c-arco" viewBox="0 0 160 160">
+  <path d="M20 150 C10 80 30 14 80 14 C130 14 150 80 140 150" fill="none" stroke="var(--ink,#23211C)" stroke-width="10" stroke-linecap="round"/>
+  <path d="M20 150 C10 80 30 14 80 14 C130 14 150 80 140 150" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round"/>
+</symbol>
+<!-- osso: bloco com trabeculado (hachura), 0 0 100 60 -->
+<symbol id="c-osso" viewBox="0 0 100 60" preserveAspectRatio="none"><rect x="0" y="0" width="100" height="60" fill="var(--blue-soft,#E9EEF3)"/><rect x="0" y="0" width="100" height="60" fill="url(#c-hachura-blue)"/><rect x="0.75" y="0.75" width="98.5" height="58.5" fill="none" stroke="var(--blue,#4A6B8A)" stroke-width="1.5"/></symbol>
+<!-- cartilagem: bloco pontilhado, 0 0 100 60 -->
+<symbol id="c-cartilagem" viewBox="0 0 100 60" preserveAspectRatio="none"><rect x="0.75" y="0.75" width="98.5" height="58.5" rx="8" fill="var(--green-soft,#E8F2EA)" stroke="var(--green,#3E7C4F)" stroke-width="1.5" stroke-dasharray="4 3"/></symbol>
+<!-- sutura: linha serrilhada horizontal, 0 0 100 12 -->
+<symbol id="c-sutura" viewBox="0 0 100 12" preserveAspectRatio="none"><path d="M0 6 L8 1 L16 11 L24 1 L32 11 L40 1 L48 11 L56 1 L64 11 L72 1 L80 11 L88 1 L96 11 L100 6" fill="none" stroke="var(--red,#B4533B)" stroke-width="2"/></symbol>
+<!-- vértebra cervical esquemática (corpo em vista lateral), 0 0 60 50 -->
+<symbol id="c-vertebra" viewBox="0 0 60 50"><path d="M8 8 L52 8 L54 42 L6 42 Z" fill="#fff" stroke="var(--ink,#23211C)" stroke-width="1.5" stroke-linejoin="round"/></symbol>
+<symbol id="c-vertebra-concava" viewBox="0 0 60 50"><path d="M8 8 L52 8 L54 42 C40 34 20 34 6 42 Z" fill="var(--gold-soft,#F4EEE4)" stroke="var(--ink,#23211C)" stroke-width="1.5" stroke-linejoin="round"/></symbol>
+<symbol id="c-vertebra-retangular" viewBox="0 0 60 50"><path d="M6 6 L54 6 L54 44 C40 36 20 36 6 44 Z" fill="var(--gold-soft,#F4EEE4)" stroke="var(--ink,#23211C)" stroke-width="1.5" stroke-linejoin="round"/></symbol>
+<!-- mão esquemática (idade óssea), 0 0 80 110 -->
+<symbol id="c-mao" viewBox="0 0 80 110">
+  <path d="M22 108 L22 60 C22 52 30 52 30 60 L30 44 C30 36 38 36 38 44 L38 34 C38 26 46 26 46 34 L46 42 C46 34 54 34 54 42 L54 70 C54 74 60 72 62 60 L64 50 C66 44 72 46 71 52 L64 84 C60 100 50 108 36 108 Z" fill="#fff" stroke="var(--ink,#23211C)" stroke-width="1.5"/>
+  <path d="M8 62 C4 56 12 50 16 56 L26 72" fill="#fff" stroke="var(--ink,#23211C)" stroke-width="1.5"/>
+</symbol>
+
+<!-- ── GRÁFICOS: eixo com seta (0 0 300 20 horizontal; girar para vertical) ── -->
+<symbol id="c-eixo" viewBox="0 0 300 20" preserveAspectRatio="none"><path d="M0 10 L290 10" stroke="var(--muted,#8A8478)" stroke-width="1.5"/><path d="M288 4 L300 10 L288 16 Z" fill="var(--muted,#8A8478)"/></symbol>
+<!-- barra de gráfico 0 0 40 100, crescer com height no <use> -->
+<symbol id="c-barra" viewBox="0 0 40 100" preserveAspectRatio="none"><rect x="0" y="0" width="40" height="100" rx="4" fill="var(--gold,#B08968)"/></symbol>
+<symbol id="c-barra-blue" viewBox="0 0 40 100" preserveAspectRatio="none"><rect x="0" y="0" width="40" height="100" rx="4" fill="var(--blue,#4A6B8A)"/></symbol>
+<symbol id="c-barra-green" viewBox="0 0 40 100" preserveAspectRatio="none"><rect x="0" y="0" width="40" height="100" rx="4" fill="var(--green,#3E7C4F)"/></symbol>
+
+<!-- ── MAPA DA PÁGINA / MÓDULO: nó central e nós satélites ── -->
+<symbol id="c-no-central" viewBox="0 0 160 60" preserveAspectRatio="none"><rect x="1" y="1" width="158" height="58" rx="29" fill="var(--ink,#23211C)"/></symbol>
+<symbol id="c-no" viewBox="0 0 160 44" preserveAspectRatio="none"><rect x="1" y="1" width="158" height="42" rx="21" fill="#fff" stroke="var(--gold,#B08968)" stroke-width="1.5"/></symbol>
+</svg>
