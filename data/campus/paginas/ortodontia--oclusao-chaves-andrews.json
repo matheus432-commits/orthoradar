@@ -1,0 +1,307 @@
+{
+  "id": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/chaves-de-oclusao-de-andrews",
+  "areaId": "ortodontia",
+  "area": "Ortodontia",
+  "modulo": "Crescimento e desenvolvimento",
+  "tema": "Desenvolvimento da oclusão",
+  "titulo": "As seis chaves de Andrews: o que uma oclusão normal tem em comum",
+  "estado": "rascunho",
+  "versao": 1,
+  "formato": 2,
+  "autoria": "Rascunho escrito pela plataforma para validação; nada aqui é visível ao aluno antes da assinatura de um ortodontista.",
+  "abertura": {
+    "situacao": "Caso terminado, molares em Classe I de Angle, paciente satisfeito. Na avaliação da banca, o examinador aponta os caninos superiores com a coroa inclinada para distal e o segundo molar inferior meio rodado. \"A relação molar está certa\", você argumenta.",
+    "pergunta": "Se a Classe I de Angle não basta para dizer que uma oclusão terminou bem, o que falta olhar, e quem definiu essa lista?"
+  },
+  "umMinuto": {
+    "frases": [
+      "Andrews estudou 120 oclusões normais nunca tratadas e encontrou seis características presentes em todas: as seis chaves da oclusão normal, publicadas em 1972.",
+      "Chave I, relação molar: a face distal da cúspide distovestibular do primeiro molar superior toca a face mesial da cúspide mesiovestibular do segundo molar inferior; a cúspide mesiovestibular superior cai no sulco entre as cúspides mesiovestibular e média do primeiro molar inferior.",
+      "Chave II, angulação das coroas: a porção gengival do longo eixo de toda coroa fica distal à porção oclusal; angulação positiva, variando por dente.",
+      "Chave III, inclinação das coroas: anteriores superiores com coroa inclinada para vestibular, incisivos inferiores levemente para lingual, posteriores com inclinação lingual crescente para distal.",
+      "Chaves IV, V e VI: ausência de rotações, contatos interproximais justos sem espaços, e curva de Spee plana ou quase plana.",
+      "As seis chaves viraram o objetivo de tratamento e a base do aparelho pré-ajustado: cada bráquete carrega a angulação e a inclinação que a chave pede."
+    ],
+    "caiNaProva": [
+      "As seis chaves e a descrição da chave I",
+      "Diferença entre angulação (chave II) e inclinação (chave III)",
+      "Curva de Spee na chave VI",
+      "Base amostral de Andrews e o ano",
+      "Relação entre as chaves e o aparelho pré-ajustado"
+    ],
+    "porQueImporta": "As seis chaves são a lista de checagem de todo caso terminado. Quem só olha a Classe I de Angle entrega oclusão pela metade; quem checa as seis sabe exatamente o que falta."
+  },
+  "secoes": [
+    {
+      "titulo": "De onde vieram as chaves",
+      "blocos": [
+        { "tipo": "p", "texto": "Lawrence Andrews reuniu modelos de 120 pessoas com oclusão considerada excelente e que nunca tinham feito ortodontia. A pergunta era simples: o que essas bocas têm em comum? A resposta foram seis características que apareciam em todas, e que faltavam, ao menos em parte, em casos ortodônticos tidos como bem terminados." },
+        { "tipo": "p", "texto": "A publicação de 1972 mudou a definição de objetivo. Antes, a meta era a Classe I de Angle; depois, a meta passou a incluir angulação, inclinação, rotação, contatos e curva de Spee. E como cada chave é uma posição de coroa, ela pôde ser embutida no bráquete: nasceu o aparelho pré-ajustado." },
+        { "tipo": "visual", "formato": "classificacao", "titulo": "As seis chaves da oclusão normal", "descricao": "Seis caixas numeradas. I, relação molar. II, angulação das coroas, com a porção gengival distal à oclusal. III, inclinação das coroas, vestibular nos anteriores superiores e lingual crescente nos posteriores. IV, sem rotações. V, contatos justos, sem espaços. VI, curva de Spee plana ou quase plana.", "viewBox": "0 0 560 380",
+          "svg": [
+            "<use href='#c-caixa-ink' x='150' y='16' width='260' height='44'/><text x='280' y='44' text-anchor='middle' font-size='15' font-weight='700' fill='#fff'>Oclusão normal (Andrews, 1972)</text>",
+            "<g stroke='var(--muted,#8A8478)' stroke-width='1.5'><line x1='280' y1='60' x2='280' y2='84'/><line x1='100' y1='84' x2='460' y2='84'/><line x1='100' y1='84' x2='100' y2='100'/><line x1='280' y1='84' x2='280' y2='100'/><line x1='460' y1='84' x2='460' y2='100'/></g>",
+            "<g font-size='13' fill='var(--ink,#23211C)'>",
+            "<use href='#c-caixa-gold' x='20' y='100' width='160' height='76'/><text x='100' y='124' text-anchor='middle' font-size='14' font-weight='700'>I. Relação molar</text><text x='100' y='142' text-anchor='middle' font-size='11'>distovestibular do 6 superior</text><text x='100' y='156' text-anchor='middle' font-size='11'>toca mesial do 7 inferior</text><text x='100' y='170' text-anchor='middle' font-size='11'>mesiovestibular no sulco</text>",
+            "<use href='#c-caixa-gold' x='200' y='100' width='160' height='76'/><text x='280' y='124' text-anchor='middle' font-size='14' font-weight='700'>II. Angulação</text><text x='280' y='142' text-anchor='middle' font-size='11'>gengival distal à oclusal</text><text x='280' y='156' text-anchor='middle' font-size='11'>angulação positiva</text><text x='280' y='170' text-anchor='middle' font-size='11'>vista de frente (tip)</text>",
+            "<use href='#c-caixa-gold' x='380' y='100' width='160' height='76'/><text x='460' y='124' text-anchor='middle' font-size='14' font-weight='700'>III. Inclinação</text><text x='460' y='142' text-anchor='middle' font-size='11'>anteriores superiores +</text><text x='460' y='156' text-anchor='middle' font-size='11'>posteriores lingual crescente</text><text x='460' y='170' text-anchor='middle' font-size='11'>vista de perfil (torque)</text>",
+            "<use href='#c-caixa-blue' x='20' y='200' width='160' height='76'/><text x='100' y='224' text-anchor='middle' font-size='14' font-weight='700'>IV. Sem rotações</text><text x='100' y='242' text-anchor='middle' font-size='11'>dente rodado ocupa</text><text x='100' y='256' text-anchor='middle' font-size='11'>espaço a mais (posterior)</text><text x='100' y='270' text-anchor='middle' font-size='11'>ou a menos (anterior)</text>",
+            "<use href='#c-caixa-blue' x='200' y='200' width='160' height='76'/><text x='280' y='224' text-anchor='middle' font-size='14' font-weight='700'>V. Contatos justos</text><text x='280' y='242' text-anchor='middle' font-size='11'>sem espaços</text><text x='280' y='256' text-anchor='middle' font-size='11'>salvo discrepância</text><text x='280' y='270' text-anchor='middle' font-size='11'>de tamanho dentário</text>",
+            "<use href='#c-caixa-blue' x='380' y='200' width='160' height='76'/><text x='460' y='224' text-anchor='middle' font-size='14' font-weight='700'>VI. Curva de Spee</text><text x='460' y='242' text-anchor='middle' font-size='11'>plana ou quase plana</text><text x='460' y='256' text-anchor='middle' font-size='11'>profunda: falta espaço</text><text x='460' y='270' text-anchor='middle' font-size='11'>reversa: sobra espaço</text>",
+            "</g>",
+            "<use href='#c-caixa-green' x='60' y='300' width='440' height='56'/>",
+            "<text x='280' y='324' text-anchor='middle' font-size='13' font-weight='700'>120 oclusões normais nunca tratadas: as seis estavam em todas</text><text x='280' y='344' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>cada chave virou uma prescrição no bráquete pré-ajustado</text>"
+          ],
+          "legenda": "As três primeiras chaves são posições de dente; as três últimas são relações entre dentes. Todas cabem na lista de checagem do caso terminado." },
+        { "tipo": "destaque", "estilo": "prova", "texto": "Perguntas certas: quantas oclusões Andrews estudou (120), em que ano publicou (1972), quantas chaves são (seis) e qual é a primeira (relação molar). A sétima característica, tamanho dentário compatível, aparece em textos posteriores e não faz parte das seis originais [VERIFICAR]." }
+      ],
+      "checagem": { "pergunta": "Por que as chaves de Andrews puderam virar um aparelho?", "resposta": "Porque as três primeiras descrevem posições de coroa (relação, angulação e inclinação) que podem ser embutidas na base e na ranhura do bráquete; é a lógica do aparelho pré-ajustado." }
+    },
+    {
+      "titulo": "Chave I: a relação molar por inteiro",
+      "blocos": [
+        { "tipo": "p", "texto": "A Classe I de Angle diz que a cúspide mesiovestibular do primeiro molar superior oclui no sulco vestibular do primeiro molar inferior. Andrews completou a descrição: a face distal da cúspide distovestibular do primeiro molar superior deve tocar a face mesial da cúspide mesiovestibular do segundo molar inferior, e a cúspide mesiolingual superior deve assentar na fossa central do primeiro molar inferior." },
+        { "tipo": "visual", "formato": "anatomico", "titulo": "Chave I: onde cada cúspide do primeiro molar superior encaixa", "descricao": "Esquema em vista vestibular de três molares: primeiro molar superior acima, primeiro e segundo molares inferiores abaixo. A cúspide mesiovestibular do molar superior cai no sulco vestibular entre as cúspides mesiovestibular e média do primeiro molar inferior. A face distal da cúspide distovestibular do molar superior toca a face mesial da cúspide mesiovestibular do segundo molar inferior.", "viewBox": "0 0 560 300",
+          "svg": [
+            "<path d='M170 60 L170 120 L200 140 L240 122 L280 140 L320 122 L350 140 L350 60 Z' fill='var(--gold-soft,#F4EEE4)' stroke='var(--ink,#23211C)' stroke-width='1.5' stroke-linejoin='round'/>",
+            "<text x='260' y='92' text-anchor='middle' font-size='13' font-weight='700'>1º molar superior</text>",
+            "<text x='200' y='158' text-anchor='middle' font-size='10' fill='var(--gold,#B08968)'>MV</text><text x='280' y='158' text-anchor='middle' font-size='10' fill='var(--muted,#8A8478)'>média</text><text x='350' y='158' text-anchor='middle' font-size='10' fill='var(--gold,#B08968)'>DV</text>",
+            "<path d='M110 240 L110 180 L150 160 L180 176 L200 162 L230 176 L260 162 L290 180 L290 240 Z' fill='var(--blue-soft,#E9EEF3)' stroke='var(--ink,#23211C)' stroke-width='1.5' stroke-linejoin='round'/>",
+            "<text x='200' y='218' text-anchor='middle' font-size='13' font-weight='700'>1º molar inferior</text>",
+            "<path d='M300 240 L300 180 L340 160 L380 176 L420 162 L460 180 L460 240 Z' fill='var(--blue-soft,#E9EEF3)' stroke='var(--ink,#23211C)' stroke-width='1.5' stroke-linejoin='round'/>",
+            "<text x='380' y='218' text-anchor='middle' font-size='13' font-weight='700'>2º molar inferior</text>",
+            "<circle cx='190' cy='170' r='7' fill='none' stroke='var(--gold,#B08968)' stroke-width='2.5'/>",
+            "<line x1='190' y1='177' x2='150' y2='262' stroke='var(--gold,#B08968)' stroke-width='1'/>",
+            "<text x='150' y='278' text-anchor='middle' font-size='12' fill='var(--gold,#B08968)' font-weight='700'>MV superior no sulco vestibular do 6 inferior</text>",
+            "<circle cx='345' cy='158' r='7' fill='none' stroke='var(--red,#B4533B)' stroke-width='2.5'/>",
+            "<line x1='345' y1='165' x2='410' y2='262' stroke='var(--red,#B4533B)' stroke-width='1'/>",
+            "<text x='410' y='278' text-anchor='middle' font-size='12' fill='var(--red,#B4533B)' font-weight='700'>DV superior toca a mesial do 7 inferior</text>",
+            "<text x='280' y='36' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>vista vestibular, esquema; a cúspide mesiolingual assenta na fossa central do 6 inferior</text>"
+          ],
+          "legenda": "Angle olhava só a cúspide mesiovestibular. Andrews acrescentou a distovestibular e a mesiolingual: uma relação molar de verdade tem três encaixes." },
+        { "tipo": "p", "texto": "A diferença é prática. Um molar superior rodado para mesial pode ter a cúspide mesiovestibular no sulco certo e ainda assim ocupar espaço demais e desencaixar a distovestibular. Angle o aprovaria; Andrews, não. E é esse molar rodado que costuma sobrar no fim do caso." },
+        { "tipo": "destaque", "estilo": "frase", "texto": "Classe I de Angle é uma cúspide no lugar. Chave I de Andrews são três. A oclusão que se sustenta precisa das três." }
+      ],
+      "checagem": { "pergunta": "Que estrutura a face distal da cúspide distovestibular do primeiro molar superior deve tocar, segundo a chave I?", "resposta": "A face mesial da cúspide mesiovestibular do segundo molar inferior." }
+    },
+    {
+      "titulo": "Chaves II e III: angulação não é inclinação",
+      "blocos": [
+        { "tipo": "p", "texto": "As duas chaves seguintes confundem quem está começando porque as duas falam de \"o dente inclinado\". A diferença está no plano de observação. Angulação é o que se vê de frente, no plano vestibular: a coroa apontando para mesial ou distal. Inclinação é o que se vê de perfil, no plano sagital: a coroa apontando para vestibular ou lingual." },
+        { "tipo": "visual", "formato": "comparativo", "titulo": "Angulação (chave II) e inclinação (chave III), lado a lado", "descricao": "Duas colunas. À esquerda, angulação: um dente visto de frente com o longo eixo da coroa inclinado, porção gengival para distal e oclusal para mesial; rótulo tip. À direita, inclinação: um dente visto de perfil com o longo eixo da coroa inclinado, porção oclusal para vestibular nos anteriores superiores; rótulo torque. Abaixo, o padrão de cada arco.", "viewBox": "0 0 560 340",
+          "svg": [
+            "<use href='#c-caixa-gold' x='30' y='16' width='230' height='40'/><text x='145' y='42' text-anchor='middle' font-size='15' font-weight='700'>II. Angulação (tip)</text>",
+            "<use href='#c-caixa-blue' x='300' y='16' width='230' height='40'/><text x='415' y='42' text-anchor='middle' font-size='15' font-weight='700'>III. Inclinação (torque)</text>",
+            "<text x='145' y='80' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>vista de frente (plano vestibular)</text>",
+            "<text x='415' y='80' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>vista de perfil (plano sagital)</text>",
+            "<use href='#c-dente' x='115' y='90' width='60' height='140' transform='rotate(-12 145 160)'/>",
+            "<line x1='145' y1='96' x2='145' y2='224' stroke='var(--muted,#8A8478)' stroke-width='1' stroke-dasharray='4 3'/>",
+            "<line x1='158' y1='98' x2='132' y2='222' stroke='var(--gold,#B08968)' stroke-width='2'/>",
+            "<text x='60' y='250' font-size='11' fill='var(--gold,#B08968)'>mesial</text><text x='200' y='250' font-size='11' fill='var(--gold,#B08968)'>distal</text>",
+            "<text x='145' y='272' text-anchor='middle' font-size='12' font-weight='700'>oclusal para mesial, gengival para distal</text><text x='145' y='288' text-anchor='middle' font-size='12'>angulação positiva em todos os dentes</text>",
+            "<use href='#c-dente' x='385' y='90' width='60' height='140' transform='rotate(14 415 160)'/>",
+            "<line x1='415' y1='96' x2='415' y2='224' stroke='var(--muted,#8A8478)' stroke-width='1' stroke-dasharray='4 3'/>",
+            "<line x1='430' y1='98' x2='400' y2='222' stroke='var(--blue,#4A6B8A)' stroke-width='2'/>",
+            "<text x='330' y='250' font-size='11' fill='var(--blue,#4A6B8A)'>lingual</text><text x='465' y='250' font-size='11' fill='var(--blue,#4A6B8A)'>vestibular</text>",
+            "<text x='415' y='272' text-anchor='middle' font-size='12' font-weight='700'>anteriores superiores: coroa para vestibular</text><text x='415' y='288' text-anchor='middle' font-size='12'>posteriores: lingual, crescente para distal</text>",
+            "<text x='280' y='324' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>a mesma coroa tem os dois valores; o bráquete pré-ajustado carrega ambos</text>"
+          ],
+          "legenda": "Tip é de frente, torque é de perfil. Errar o plano é errar a chave." },
+        { "tipo": "p", "texto": "Na chave II, todas as coroas têm a porção gengival do longo eixo mais distal que a oclusal: angulação positiva, com valores maiores nos caninos e menores nos posteriores. Na chave III, os anteriores superiores têm a coroa inclinada para vestibular, os incisivos inferiores ficam quase verticais ou levemente para lingual, e os posteriores dos dois arcos inclinam para lingual, cada vez mais para distal." },
+        { "tipo": "destaque", "estilo": "mito", "mito": "Angulação e inclinação são a mesma coisa vista de ângulos diferentes; basta acertar uma.", "verdade": "São duas posições independentes da coroa. Um dente pode ter angulação perfeita e inclinação errada, e vice-versa. O bráquete pré-ajustado carrega as duas separadamente." }
+      ],
+      "checagem": { "pergunta": "Um canino superior com a coroa inclinada para distal está violando a chave II ou a chave III?", "resposta": "A chave II, angulação: é uma inclinação no plano vestibular, mesiodistal. Se a coroa apontasse para lingual ou vestibular, seria a chave III." }
+    },
+    {
+      "titulo": "Chaves IV, V e VI: rotação, contato e Spee",
+      "blocos": [
+        { "tipo": "p", "texto": "As três últimas chaves são relações entre dentes. Chave IV: sem rotações, porque um posterior rodado ocupa mais espaço no arco do que deveria, e um anterior rodado ocupa menos. Chave V: contatos justos, sem espaços, exceto quando há discrepância de tamanho dentário que os justifique." },
+        { "tipo": "p", "texto": "Chave VI: a curva de Spee plana ou quase plana. Andrews observou que a curva profunda sobra dente para o espaço disponível e a curva reversa sobra espaço para os dentes; a plana é a que permite intercuspidação correta. É a chave que mais se conecta com o planejamento de espaço." },
+        { "tipo": "imagem", "imagem": "fotografia lateral de modelos de gesso em oclusão normal", "mostrar": "Vista lateral direita de modelos articulados mostrando relação molar de chave I, coroas com angulação positiva visível, contatos justos e curva de Spee plana", "legenda": "Oclusão normal em modelos: relação molar completa, angulação positiva, sem rotações, contatos justos e Spee plana.", "destacar": "Encaixe das cúspides do primeiro molar superior, longo eixo das coroas dos caninos e pré-molares, planicidade da curva de Spee" },
+        { "tipo": "destaque", "estilo": "dica", "titulo": "A lista de checagem do caso terminado", "texto": "Antes de remover o aparelho, percorra as seis: relação molar com os três encaixes, angulação de caninos e pré-molares, torque dos incisivos, rotações de molares e pré-molares, espaços e a curva de Spee. O que falhar é o que a banca, ou o paciente daqui a cinco anos, vai encontrar." }
+      ],
+      "checagem": { "pergunta": "Por que um molar rodado viola a chave IV e ainda atrapalha a chave V?", "resposta": "Porque um posterior rodado ocupa mais espaço mesiodistal no arco do que ocuparia na posição correta, e esse excesso vira espaço em algum lugar ou impede o contato justo." }
+    },
+    {
+      "titulo": "Das chaves ao bráquete, e o que veio depois",
+      "blocos": [
+        { "tipo": "p", "texto": "Como cada uma das três primeiras chaves é uma posição de coroa, Andrews as embutiu no bráquete: a ranhura ganhou angulação e inclinação, e a base ganhou espessura variável para compensar a anatomia. Nasceu o aparelho pré-ajustado, o straight-wire, que pretende chegar às chaves com fios retos." },
+        { "tipo": "p", "texto": "Outros autores ajustaram os valores para objetivos funcionais ou para compensar a perda que acontece quando o aparelho sai, como fez Roth, e hoje há várias prescrições. Todas partem do mesmo lugar: a descrição de Andrews do que a oclusão normal tem em comum." },
+        { "tipo": "destaque", "estilo": "erro", "texto": "Achar que o bráquete pré-ajustado entrega as seis chaves sozinho. Ele carrega a prescrição das três primeiras; rotação, contatos e Spee dependem do fio, da mecânica e do acabamento. E a prescrição pressupõe bráquete colado na posição certa: bráquete torto, chave errada." }
+      ],
+      "checagem": { "pergunta": "Quais chaves o bráquete pré-ajustado tenta embutir, e quais dependem do resto da mecânica?", "resposta": "Embute a angulação e a inclinação (chaves II e III) e contribui para a relação molar (I); rotações, contatos e curva de Spee (IV, V e VI) dependem do fio, da mecânica e do acabamento." }
+    },
+    {
+      "titulo": "De volta à banca",
+      "blocos": [
+        { "tipo": "p", "texto": "O examinador estava certo. Molar em Classe I de Angle é uma cúspide no lugar; os caninos com a coroa para distal violam a chave II e o molar rodado viola a IV. O caso terminou pela metade, e as chaves são exatamente a lista que mostra qual metade faltou." },
+        { "tipo": "destaque", "estilo": "frase", "texto": "Angle disse onde o molar fica. Andrews disse como todos os dentes ficam. Terminar um caso é responder às seis, não à primeira." }
+      ],
+      "checagem": { "pergunta": "Qual é a diferença entre \"terminou em Classe I\" e \"terminou nas seis chaves\"?", "resposta": "Classe I é a relação molar por uma cúspide. As seis chaves exigem relação molar completa, angulação, inclinação, ausência de rotações, contatos justos e Spee plana em todos os dentes." }
+    }
+  ],
+  "fechamento": {
+    "visual": { "formato": "mapa", "titulo": "Mapa da página", "descricao": "Nó central: seis chaves de Andrews. Seis nós: 120 oclusões normais, 1972; chave I com três encaixes; angulação de frente, inclinação de perfil; sem rotações, contatos justos, Spee plana; chaves viraram bráquete; lista de checagem do caso terminado.", "viewBox": "0 0 560 360",
+      "svg": [
+        "<g stroke='var(--border,#EDE6D8)' stroke-width='1.5'><line x1='280' y1='180' x2='100' y2='60'/><line x1='280' y1='180' x2='460' y2='60'/><line x1='280' y1='180' x2='70' y2='180'/><line x1='280' y1='180' x2='490' y2='180'/><line x1='280' y1='180' x2='100' y2='300'/><line x1='280' y1='180' x2='460' y2='300'/></g>",
+        "<use href='#c-no-central' x='190' y='150' width='180' height='60'/>",
+        "<text x='280' y='176' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>Seis chaves</text><text x='280' y='194' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>de Andrews</text>",
+        "<use href='#c-no' x='20' y='38' width='160' height='44'/><text x='100' y='65' text-anchor='middle' font-size='13' font-weight='700'>120 normais, 1972</text>",
+        "<use href='#c-no' x='380' y='38' width='160' height='44'/><text x='460' y='65' text-anchor='middle' font-size='13' font-weight='700'>I: três encaixes do molar</text>",
+        "<use href='#c-no' x='0' y='158' width='150' height='44'/><text x='75' y='185' text-anchor='middle' font-size='13' font-weight='700'>II tip, III torque</text>",
+        "<use href='#c-no' x='410' y='158' width='150' height='44'/><text x='485' y='185' text-anchor='middle' font-size='13' font-weight='700'>IV, V, VI: relações</text>",
+        "<use href='#c-no' x='20' y='278' width='160' height='44'/><text x='100' y='305' text-anchor='middle' font-size='13' font-weight='700'>Chaves viraram bráquete</text>",
+        "<use href='#c-no' x='380' y='278' width='160' height='44'/><text x='460' y='305' text-anchor='middle' font-size='13' font-weight='700'>Checagem do caso terminado</text>"
+      ] },
+    "flashcards": [
+      { "frente": "Descreva a chave I de Andrews.", "verso": "Face distal da cúspide distovestibular do 1º molar superior toca a face mesial da cúspide mesiovestibular do 2º molar inferior; a mesiovestibular superior cai no sulco vestibular do 1º molar inferior; a mesiolingual assenta na fossa central." },
+      { "frente": "Angulação (chave II) versus inclinação (chave III): plano e direção.", "verso": "Angulação: vista de frente, gengival distal à oclusal, positiva em todos. Inclinação: vista de perfil, anteriores superiores para vestibular, posteriores para lingual crescente para distal." },
+      { "frente": "Cite as chaves IV, V e VI.", "verso": "Sem rotações; contatos interproximais justos, sem espaços; curva de Spee plana ou quase plana." }
+    ]
+  },
+  "infografico": {
+    "titulo": "As seis chaves em seis cartões",
+    "itens": [
+      { "rotulo": "I. Relação molar", "texto": "DV do 6 superior toca a mesial do 7 inferior; MV no sulco do 6 inferior; ML na fossa central." },
+      { "rotulo": "II. Angulação", "texto": "Vista de frente: porção gengival do longo eixo da coroa distal à oclusal. Positiva em todos." },
+      { "rotulo": "III. Inclinação", "texto": "Vista de perfil: anteriores superiores para vestibular; posteriores para lingual, mais para distal." },
+      { "rotulo": "IV. Rotações", "texto": "Nenhuma. Posterior rodado ocupa espaço a mais; anterior rodado, a menos." },
+      { "rotulo": "V. Contatos", "texto": "Justos, sem espaços, salvo discrepância de tamanho dentário." },
+      { "rotulo": "VI. Curva de Spee", "texto": "Plana ou quase plana. Profunda sobra dente; reversa sobra espaço." }
+    ]
+  },
+  "fluxograma": {
+    "titulo": "Posso remover o aparelho? A checagem pelas seis chaves",
+    "nos": [
+      { "id": "n1", "tipo": "inicio", "texto": "Caso em fase de acabamento" },
+      { "id": "n2", "tipo": "decisao", "texto": "Relação molar completa (três encaixes), não só Classe I de Angle?" },
+      { "id": "n3", "tipo": "acao", "texto": "Corrigir rotação ou posição do molar antes de seguir" },
+      { "id": "n4", "tipo": "decisao", "texto": "Angulação e inclinação corretas em caninos, pré-molares e incisivos?" },
+      { "id": "n5", "tipo": "acao", "texto": "Reposicionar bráquete ou dobrar fio de acabamento" },
+      { "id": "n6", "tipo": "decisao", "texto": "Sem rotações, contatos justos e Spee plana?" },
+      { "id": "n7", "tipo": "acao", "texto": "Acabamento: rotações, fechamento de espaços, nivelamento" },
+      { "id": "n8", "tipo": "fim", "texto": "Seis chaves conferidas: remover e conter" }
+    ],
+    "arestas": [
+      { "de": "n1", "para": "n2" },
+      { "de": "n2", "para": "n3", "rotulo": "não" },
+      { "de": "n3", "para": "n2" },
+      { "de": "n2", "para": "n4", "rotulo": "sim" },
+      { "de": "n4", "para": "n5", "rotulo": "não" },
+      { "de": "n5", "para": "n4" },
+      { "de": "n4", "para": "n6", "rotulo": "sim" },
+      { "de": "n6", "para": "n7", "rotulo": "não" },
+      { "de": "n7", "para": "n6" },
+      { "de": "n6", "para": "n8", "rotulo": "sim" }
+    ]
+  },
+  "passoAPasso": [
+    { "passo": "Chave I: confira os três encaixes do primeiro molar superior, dos dois lados.", "confira": "A cúspide distovestibular toca a mesial do segundo molar inferior?" },
+    { "passo": "Chave II: olhe de frente o longo eixo de cada coroa; gengival mais distal que oclusal.", "confira": "Caninos e pré-molares com angulação positiva e simétrica?" },
+    { "passo": "Chave III: olhe de perfil; anteriores superiores para vestibular, posteriores para lingual crescente.", "confira": "Os incisivos superiores têm torque, ou estão verticais demais?" },
+    { "passo": "Chave IV e V: procure rotações em molares e pré-molares e espaços entre contatos.", "confira": "Algum posterior ocupando espaço a mais por rotação?" },
+    { "passo": "Chave VI: avalie a curva de Spee nos dois arcos.", "confira": "Plana ou quase plana, sem curva profunda residual?" }
+  ],
+  "macetes": [
+    { "titulo": "Angle é uma cúspide; Andrews são três", "texto": "Classe I: mesiovestibular no sulco. Chave I: mais a distovestibular tocando o 7 inferior e a mesiolingual na fossa central." },
+    { "titulo": "Tip de frente, torque de perfil", "texto": "Angulação (II) se vê de frente, mesiodistal. Inclinação (III) se vê de perfil, vestibulolingual. Nunca a mesma coisa." },
+    { "titulo": "Gengival para trás", "texto": "Na angulação normal, a porção gengival do longo eixo da coroa fica distal à oclusal: positiva em todos os dentes." },
+    { "titulo": "Profunda sobra dente, reversa sobra espaço", "texto": "Curva de Spee: profunda esconde falta de espaço; reversa cria espaço. A plana é a meta." }
+  ],
+  "ondeErra": [
+    { "erro": "Dar o caso por terminado porque o molar está em Classe I de Angle.", "porque": "Angle descreve uma cúspide; as seis chaves descrevem todos os dentes.", "certo": "Percorrer as seis chaves antes de remover o aparelho." },
+    { "erro": "Confundir angulação com inclinação.", "porque": "São planos diferentes: vestibular (mesiodistal) e sagital (vestibulolingual).", "certo": "Tip de frente, torque de perfil." },
+    { "erro": "Dizer que Andrews estudou casos tratados.", "porque": "A amostra foi de 120 oclusões normais nunca tratadas; a comparação com casos tratados veio depois.", "certo": "Oclusões normais não tratadas, 1972." },
+    { "erro": "Esperar que o bráquete pré-ajustado entregue as seis chaves sozinho.", "porque": "Ele carrega angulação e inclinação; rotação, contatos e Spee dependem da mecânica, e tudo depende de colar o bráquete no lugar certo.", "certo": "Prescrição no bráquete mais acabamento ativo e checagem." }
+  ],
+  "autoteste": [
+    {
+      "pergunta": "Segundo a chave I de Andrews, a face distal da cúspide distovestibular do primeiro molar superior deve ocluir com:",
+      "alternativas": [
+        "A fossa central do primeiro molar inferior",
+        "A face mesial da cúspide mesiovestibular do segundo molar inferior",
+        "O sulco vestibular do primeiro molar inferior",
+        "A cúspide distovestibular do primeiro molar inferior"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Na fossa central assenta a cúspide mesiolingual superior.",
+        "Correta: é o encaixe que completa a relação molar além da descrição de Angle.",
+        "No sulco vestibular cai a cúspide mesiovestibular superior.",
+        "Não é a relação descrita."
+      ]
+    },
+    {
+      "pergunta": "A chave II de Andrews, angulação das coroas, estabelece que:",
+      "alternativas": [
+        "A porção gengival do longo eixo da coroa fica mesial à porção oclusal",
+        "A porção gengival do longo eixo da coroa fica distal à porção oclusal, em todos os dentes",
+        "As coroas anteriores superiores inclinam para vestibular",
+        "Os dentes não apresentam rotações"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "É o inverso: a angulação normal é positiva, com gengival distal.",
+        "Correta: angulação positiva em todos os dentes, com valores variáveis.",
+        "Isso é a chave III, inclinação.",
+        "Isso é a chave IV."
+      ]
+    },
+    {
+      "pergunta": "Andrews baseou as seis chaves em:",
+      "alternativas": [
+        "120 casos ortodônticos bem tratados",
+        "120 oclusões normais nunca tratadas ortodonticamente",
+        "Estudo cefalométrico de 1.000 adultos",
+        "Análise de modelos de pacientes com Classe II"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Casos tratados foram comparados depois, e faltavam chaves neles.",
+        "Correta: a amostra de referência foram oclusões normais não tratadas, publicadas em 1972.",
+        "Não foi um estudo cefalométrico.",
+        "A amostra era de oclusão normal."
+      ]
+    },
+    {
+      "pergunta": "Um caso terminado com molares em Classe I de Angle, segundos molares inferiores rodados e curva de Spee profunda viola quais chaves?",
+      "alternativas": [
+        "Apenas a chave I",
+        "Chaves IV e VI",
+        "Chaves II e III",
+        "Nenhuma: a relação molar está correta"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "A chave I pode estar cumprida; as outras não.",
+        "Correta: rotação viola a IV e curva de Spee profunda viola a VI.",
+        "Angulação e inclinação não foram descritas como alteradas.",
+        "Classe I de Angle não garante as demais chaves."
+      ]
+    },
+    {
+      "pergunta": "A relação entre as chaves de Andrews e o aparelho pré-ajustado é que:",
+      "alternativas": [
+        "O aparelho pré-ajustado entrega as seis chaves automaticamente",
+        "A angulação e a inclinação descritas nas chaves II e III foram embutidas na ranhura e na base do bráquete",
+        "O aparelho pré-ajustado dispensa acabamento",
+        "As chaves foram criadas depois do aparelho"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Rotações, contatos e Spee dependem do fio, da mecânica e do acabamento.",
+        "Correta: as chaves de posição de coroa viraram prescrição do bráquete.",
+        "O acabamento continua necessário.",
+        "As chaves (1972) precederam e fundamentaram o aparelho."
+      ]
+    }
+  ],
+  "pesquisa": { "termos": ["seis chaves de Andrews", "oclusão normal", "aparelho pré-ajustado", "curva de Spee"] },
+  "referenciasBase": [
+    "Andrews LF. The six keys to normal occlusion. Am J Orthod. 1972.",
+    "Andrews LF. Straight Wire: The Concept and Appliance. 1989.",
+    "Proffit WR, Fields HW, Larson BE, Sarver DM. Ortodontia Contemporânea. 6ª ed.",
+    "Graber LW, Vanarsdall RL, Vig KWL, Huang GJ. Ortodontia: princípios e técnicas atuais. 6ª ed."
+  ],
+  "validacao": { "validadoPor": null, "data": null }
+}
