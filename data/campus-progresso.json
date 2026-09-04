@@ -1,10 +1,10 @@
 {
  "atualizadoEm": "2026-09-04",
  "totalPaginas": 3387,
- "concluidas": 12,
+ "concluidas": 13,
  "porStatus": {
-  "pendente": 3375,
-  "rascunho": 12,
+  "pendente": 3374,
+  "rascunho": 13,
   "revisado": 0,
   "publicado": 0
  },
@@ -12,7 +12,7 @@
   "id": "ortodontia/crescimento-e-desenvolvimento",
   "area": "Ortodontia",
   "modulo": "Crescimento e desenvolvimento",
-  "faltam": 7
+  "faltam": 6
  },
  "imagensPendentes": [
   {
@@ -59,6 +59,15 @@
    "mostrar": "Mandíbula com côndilo inclinado para trás, canal mandibular retificado, chanfradura antegonial acentuada, sínfise longa e fina e altura facial anterior inferior aumentada",
    "legenda": "Sinais estruturais de rotação posterior: lidos na forma do osso antes de qualquer tratamento.",
    "destacar": "Cabeça do côndilo, trajeto do canal mandibular, chanfradura antegonial, sínfise, altura facial anterior inferior"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/maturacao/idade-ossea-mao-e-punho",
+   "modulo": "Crescimento e desenvolvimento",
+   "secao": "Os métodos: Greulich e Pyle, Fishman, Hägg e Taranger",
+   "imagem": "radiografia posteroanterior de mão e punho esquerdos em adolescente",
+   "mostrar": "O sesamoide ulnar do polegar visível, as epífises das falanges do terceiro dedo em capeamento e a epífise distal do rádio ainda aberta",
+   "legenda": "Sesamoide presente e capeamento em curso: paciente em torno do pico de velocidade.",
+   "destacar": "Sesamoide na metacarpofalângica do polegar, epífise envolvendo a diáfise na falange média do terceiro dedo, linha epifisária do rádio"
   }
  ],
  "verificarPendentes": [
@@ -166,6 +175,26 @@
    "pagina": "ortodontia/crescimento-e-desenvolvimento/maturacao/surto-de-crescimento-puberal",
    "onde": "macetes[1].texto",
    "trecho": "lado. A média serve para a prova; o paciente tem o próprio calendário [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/maturacao/idade-ossea-mao-e-punho",
+   "onde": "Seção \"A sequência de eventos e o que cada um diz\".blocos[0].texto",
+   "trecho": "acarpofalângica. Ele costuma surgir pouco antes do pico de velocidade [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/maturacao/idade-ossea-mao-e-punho",
+   "onde": "Seção \"A sequência de eventos e o que cada um diz\".blocos[1].svg[4]",
+   "trecho": "ill='var(--muted,#8A8478)'>aceleração: a janela do aparelho funcional [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/maturacao/idade-ossea-mao-e-punho",
+   "onde": "fechamento.flashcards[0].verso",
+   "trecho": "ento do sesamoide ulnar do polegar, na aceleração que antecede o pico [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/maturacao/idade-ossea-mao-e-punho",
+   "onde": "infografico.itens[1].texto",
+   "trecho": "a metacarpofalângica do polegar; aparece na aceleração, perto do pico [VERIFICAR]"
   }
  ],
  "modulos": [
@@ -175,11 +204,11 @@
    "area": "Ortodontia",
    "modulo": "Crescimento e desenvolvimento",
    "total": 14,
-   "concluidas": 7,
-   "palavras": 19678,
-   "visuais": 25,
-   "imagensClinicas": 5,
-   "verificar": 21,
+   "concluidas": 8,
+   "palavras": 22354,
+   "visuais": 28,
+   "imagensClinicas": 6,
+   "verificar": 25,
    "paginas": [
     {
      "id": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/conceitos-crescimento-e-desenvolvimento",
@@ -241,7 +270,9 @@
      "id": "ortodontia/crescimento-e-desenvolvimento/maturacao/idade-ossea-mao-e-punho",
      "nome": "Idade óssea: mão e punho",
      "tema": "Maturação",
-     "status": "pendente"
+     "status": "rascunho",
+     "palavras": 2676,
+     "visuais": 3
     },
     {
      "id": "ortodontia/crescimento-e-desenvolvimento/maturacao/vertebras-cervicais",
@@ -25064,6 +25095,62 @@
     {
      "onde": "macetes[1].texto",
      "trecho": "lado. A média serve para a prova; o paciente tem o próprio calendário [VERIFICAR]"
+    }
+   ]
+  },
+  "ortodontia/crescimento-e-desenvolvimento/maturacao/idade-ossea-mao-e-punho": {
+   "titulo": "Idade óssea pela mão e punho: o calendário que a radiografia entrega",
+   "arquivo": "data/campus/paginas/ortodontia--maturacao-mao-punho.json",
+   "formato": 2,
+   "status": "rascunho",
+   "estado": "rascunho",
+   "palavras": 2676,
+   "visuais": [
+    {
+     "formato": "anatomico",
+     "titulo": "Onde olhar na radiografia de mão e punho"
+    },
+    {
+     "formato": "linha-do-tempo",
+     "titulo": "Os eventos da mão e punho ao longo do surto"
+    },
+    {
+     "formato": "mapa",
+     "titulo": "Mapa da página"
+    }
+   ],
+   "quadros": {
+    "frase": 1,
+    "prova": 1,
+    "dica": 1,
+    "mito": 1,
+    "erro": 1
+   },
+   "imagensClinicas": [
+    {
+     "secao": "Os métodos: Greulich e Pyle, Fishman, Hägg e Taranger",
+     "imagem": "radiografia posteroanterior de mão e punho esquerdos em adolescente",
+     "mostrar": "O sesamoide ulnar do polegar visível, as epífises das falanges do terceiro dedo em capeamento e a epífise distal do rádio ainda aberta",
+     "legenda": "Sesamoide presente e capeamento em curso: paciente em torno do pico de velocidade.",
+     "destacar": "Sesamoide na metacarpofalângica do polegar, epífise envolvendo a diáfise na falange média do terceiro dedo, linha epifisária do rádio"
+    }
+   ],
+   "verificar": [
+    {
+     "onde": "Seção \"A sequência de eventos e o que cada um diz\".blocos[0].texto",
+     "trecho": "acarpofalângica. Ele costuma surgir pouco antes do pico de velocidade [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"A sequência de eventos e o que cada um diz\".blocos[1].svg[4]",
+     "trecho": "ill='var(--muted,#8A8478)'>aceleração: a janela do aparelho funcional [VERIFICAR]"
+    },
+    {
+     "onde": "fechamento.flashcards[0].verso",
+     "trecho": "ento do sesamoide ulnar do polegar, na aceleração que antecede o pico [VERIFICAR]"
+    },
+    {
+     "onde": "infografico.itens[1].texto",
+     "trecho": "a metacarpofalângica do polegar; aparece na aceleração, perto do pico [VERIFICAR]"
     }
    ]
   },
