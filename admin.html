@@ -139,11 +139,32 @@ const $ = (id) => document.getElementById(id);
 const NIVEL = { 'revisão sistemática':'Rev. sistemática','meta-análise':'Meta-análise','ensaio clínico randomizado':'ECR' };
 function fmtDur(s){ s=Number(s)||0; if(!s) return ''; const m=Math.floor(s/60), r=s%60; return m+':'+String(r).padStart(2,'0'); }
 
+// O painel mostrava "Segredo inválido." para QUALQUER falha — inclusive função
+// fora do ar ou variável de ambiente faltando. Agora cada causa aparece com o
+// nome dela, para não se perder tempo trocando um segredo que estava certo.
 async function entrar() {
   const secret = $('secret').value.trim();
   if (!secret) return;
-  const res = await fetch('/.netlify/functions/get-painel?secret=' + encodeURIComponent(secret));
-  if (!res.ok) { $('err').style.display = 'block'; return; }
+  const err = $('err');
+  err.style.display = 'none';
+  let res;
+  try {
+    res = await fetch('/.netlify/functions/get-painel?secret=' + encodeURIComponent(secret));
+  } catch (e) {
+    err.textContent = 'Não foi possível falar com o servidor. Verifique a conexão ou se o site terminou de publicar.';
+    err.style.display = 'block';
+    return;
+  }
+  if (!res.ok) {
+    let detalhe = '';
+    try { detalhe = (await res.json()).error || ''; } catch (e) {}
+    if (res.status === 401) err.textContent = 'Segredo inválido.';
+    else if (res.status === 404) err.textContent = 'A função get-painel não está publicada neste site (404). Veja o último deploy no Netlify.';
+    else if (detalhe.includes('FIREBASE_API_KEY')) err.textContent = 'O segredo passou, mas falta a variável FIREBASE_API_KEY no Netlify. Configure e publique de novo.';
+    else err.textContent = 'Erro ' + res.status + ' no servidor' + (detalhe ? ': ' + detalhe : '') + '. O segredo pode estar certo.';
+    err.style.display = 'block';
+    return;
+  }
   sessionStorage.setItem('of_admin', secret);
   render(await res.json());
 }

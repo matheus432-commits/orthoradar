@@ -10,6 +10,12 @@ const DUMMY_HASH = 's2$' + '00'.repeat(16) + '$' + '00'.repeat(32);
 const HASH_SALT = 'OF26_';
 
 
+// Falha de INFRAESTRUTURA (Firestore fora, chave errada, cota estourada) não é
+// a mesma coisa que "não existe esse e-mail": confundir as duas fazia todo mundo
+// ver "e-mail ou senha incorretos" durante uma queda, e o dono do site trocar a
+// senha atrás de um problema que não era de senha. Este erro sobe e vira 503.
+class FalhaDeInfra extends Error {}
+
 async function queryByEmail(projectId, apiKey, email) {
   const body = JSON.stringify({
     structuredQuery: {
@@ -25,8 +31,10 @@ async function queryByEmail(projectId, apiKey, email) {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'Content-Length': buf.length }
   }, buf);
-  if (res.status !== 200) return null;
-  const docs = JSON.parse(res.body);
+  if (res.status !== 200) throw new FalhaDeInfra('firestore ' + res.status);
+  let docs;
+  try { docs = JSON.parse(res.body); } catch { throw new FalhaDeInfra('resposta ilegível do firestore'); }
+  if (!Array.isArray(docs)) throw new FalhaDeInfra('resposta inesperada do firestore');
   if (!docs[0] || !docs[0].document) return null;
   const f = docs[0].document.fields || {};
   const out = { _id: docs[0].document.name.split('/').pop() };
@@ -104,6 +112,10 @@ exports.handler = async (event) => {
 
   const projectId = process.env.FIREBASE_PROJECT_ID || 'orthoradar';
   const apiKey = process.env.FIREBASE_API_KEY;
+  if (!apiKey) {
+    console.error('[login] FIREBASE_API_KEY ausente no ambiente do Netlify');
+    return { statusCode: 503, headers, body: JSON.stringify({ error: 'O login está fora do ar por uma falha de configuração do servidor, não pela sua senha. Avise o suporte.', causa: 'config' }) };
+  }
 
   try {
     const user = await queryByEmail(projectId, apiKey, email);
@@ -161,7 +173,11 @@ exports.handler = async (event) => {
 
     return { statusCode: 200, headers, body: JSON.stringify({ success: true, token }) };
   } catch (err) {
+    if (err instanceof FalhaDeInfra) {
+      console.error('[login] falha de infraestrutura:', err.message);
+      return { statusCode: 503, headers, body: JSON.stringify({ error: 'Não foi possível falar com o banco de dados agora. O problema não é a sua senha: tente de novo em alguns minutos.', causa: 'banco' }) };
+    }
     console.error('Login error:', err);
-    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Erro interno' }) };
+    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Erro interno no login. Não é a sua senha; tente de novo em instantes.', causa: 'interno' }) };
   }
 };
