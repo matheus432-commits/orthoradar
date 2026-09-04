@@ -1,0 +1,304 @@
+{
+  "id": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-mista-primeira-e-segunda-fase",
+  "areaId": "ortodontia",
+  "area": "Ortodontia",
+  "modulo": "Crescimento e desenvolvimento",
+  "tema": "Desenvolvimento da oclusão",
+  "titulo": "Dentição mista: as duas trocas e o espaço que aparece e desaparece",
+  "estado": "rascunho",
+  "versao": 1,
+  "formato": 2,
+  "autoria": "Rascunho escrito pela plataforma para validação; nada aqui é visível ao aluno antes da assinatura de um ortodontista.",
+  "abertura": {
+    "situacao": "Menino de 8 anos e meio, incisivos centrais superiores com um diastema de 3 mm e os laterais erupcionando inclinados para fora. O pai já quer aparelho: \"está tudo torto e separado\".",
+    "pergunta": "O que da dentição mista é fase que passa sozinha, o que é aviso, e onde está o espaço que o ortodontista usa sem colocar aparelho nenhum?"
+  },
+  "umMinuto": {
+    "frases": [
+      "A dentição mista vai dos 6 aos 12 anos, em dois períodos de troca: o primeiro, com a erupção dos primeiros molares permanentes e a troca dos incisivos; o segundo, com a troca de caninos e molares decíduos por caninos e pré-molares. Entre eles há um período de pausa.",
+      "Os incisivos permanentes são maiores que os decíduos: essa diferença, o passivo dos incisivos, é compensada pelos espaços de desenvolvimento e primatas, pelo aumento da distância intercaninos e pela inclinação mais vestibular dos permanentes.",
+      "O diastema entre os centrais superiores com os laterais inclinados, entre 8 e 11 anos, é a fase do patinho feio de Broadbent: fecha sozinho quando os caninos erupcionam e não se trata.",
+      "No segundo período aparece o espaço livre de Nance: caninos e pré-molares são menores que os decíduos que substituem, e a diferença, maior no arco inferior, permite o ajuste mesial tardio dos molares para a Classe I.",
+      "Sequência favorável: no arco inferior o canino antes dos pré-molares; no superior, o canino depois dos pré-molares. Inversões custam espaço.",
+      "Na clínica, a dentição mista é onde a análise de espaço, a interceptação e a preservação do espaço livre decidem se haverá ou não extrações na permanente."
+    ],
+    "caiNaProva": [
+      "Períodos da dentição mista e suas idades",
+      "Passivo dos incisivos e seus mecanismos de compensação",
+      "Fase do patinho feio",
+      "Espaço livre de Nance e o ajuste mesial tardio",
+      "Sequência de erupção favorável em cada arco"
+    ],
+    "porQueImporta": "É a fase em que o espaço aparece e desaparece sozinho. Quem entende de onde ele vem trata sem aparelho o que outros tratam com extração."
+  },
+  "secoes": [
+    {
+      "titulo": "Dois períodos de troca e uma pausa",
+      "blocos": [
+        { "tipo": "p", "texto": "A dentição mista começa quando o primeiro dente permanente aparece, em geral o primeiro molar inferior ou o incisivo central inferior, por volta dos 6 anos, e termina quando o último decíduo cai, por volta dos 12. Não é um bloco só: tem duas fases de troca separadas por uma pausa." },
+        { "tipo": "visual", "formato": "linha-do-tempo", "titulo": "Os períodos da dentição mista", "descricao": "Linha do tempo horizontal dos 6 aos 12 anos com três blocos. Primeiro período transitório, cerca de 6 a 8 anos: erupção dos primeiros molares permanentes e troca dos oito incisivos. Período intertransitório, cerca de 8 a 10 anos: pausa, sem troca de dentes. Segundo período transitório, cerca de 10 a 12 anos: troca de caninos e molares decíduos por caninos e pré-molares, e erupção dos segundos molares permanentes.", "viewBox": "0 0 560 300",
+          "svg": [
+            "<line x1='30' y1='120' x2='540' y2='120' stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'/>",
+            "<g font-size='12' fill='var(--muted,#8A8478)'><text x='40' y='144' text-anchor='middle'>6 anos</text><text x='200' y='144' text-anchor='middle'>8</text><text x='360' y='144' text-anchor='middle'>10</text><text x='520' y='144' text-anchor='middle'>12</text></g>",
+            "<use href='#c-caixa-gold' x='40' y='40' width='160' height='64'/>",
+            "<text x='120' y='62' text-anchor='middle' font-size='13' font-weight='700'>1º período transitório</text><text x='120' y='80' text-anchor='middle' font-size='11'>1ºs molares permanentes</text><text x='120' y='94' text-anchor='middle' font-size='11'>troca dos 8 incisivos</text>",
+            "<use href='#c-caixa' x='200' y='40' width='160' height='64'/>",
+            "<text x='280' y='62' text-anchor='middle' font-size='13' font-weight='700'>Intertransitório</text><text x='280' y='80' text-anchor='middle' font-size='11'>pausa: nada troca</text><text x='280' y='94' text-anchor='middle' font-size='11'>patinho feio, avaliação</text>",
+            "<use href='#c-caixa-green' x='360' y='40' width='160' height='64'/>",
+            "<text x='440' y='62' text-anchor='middle' font-size='13' font-weight='700'>2º período transitório</text><text x='440' y='80' text-anchor='middle' font-size='11'>caninos e pré-molares</text><text x='440' y='94' text-anchor='middle' font-size='11'>2ºs molares; espaço livre</text>",
+            "<g font-size='12' fill='var(--ink,#23211C)'>",
+            "<text x='120' y='186' text-anchor='middle' font-weight='700' fill='var(--gold,#B08968)'>O que aparece</text><text x='120' y='204' text-anchor='middle'>passivo dos incisivos</text><text x='120' y='220' text-anchor='middle'>ajuste mesial precoce</text>",
+            "<text x='280' y='186' text-anchor='middle' font-weight='700' fill='var(--muted,#8A8478)'>O que se faz</text><text x='280' y='204' text-anchor='middle'>análise de espaço</text><text x='280' y='220' text-anchor='middle'>interceptar, esperar</text>",
+            "<text x='440' y='186' text-anchor='middle' font-weight='700' fill='var(--green,#3E7C4F)'>O que aparece</text><text x='440' y='204' text-anchor='middle'>espaço livre de Nance</text><text x='440' y='220' text-anchor='middle'>ajuste mesial tardio</text>",
+            "</g>",
+            "<text x='280' y='268' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>idades aproximadas; a sequência importa mais que a data [VERIFICAR]</text>"
+          ],
+          "legenda": "Duas trocas, uma pausa. Cada troca tem um problema de espaço e uma solução natural própria." },
+        { "tipo": "p", "texto": "O primeiro período traz os primeiros molares permanentes, que erupcionam atrás dos segundos molares decíduos sem substituir ninguém, e a troca dos oito incisivos. O período intertransitório é uma pausa de um a dois anos em que nada troca e o ortodontista avalia. O segundo período troca caninos e molares decíduos por caninos e pré-molares e traz os segundos molares." },
+        { "tipo": "destaque", "estilo": "frase", "texto": "Primeiro período: problema dos incisivos. Segundo período: solução dos molares. No meio, o tempo de pensar." }
+      ],
+      "checagem": { "pergunta": "Que dentes trocam no primeiro período transitório e que dentes trocam no segundo?", "resposta": "Primeiro: os oito incisivos (e chegam os primeiros molares permanentes, que não substituem ninguém). Segundo: caninos e primeiros e segundos molares decíduos, por caninos e pré-molares." }
+    },
+    {
+      "titulo": "O passivo dos incisivos e como a boca paga a conta",
+      "blocos": [
+        { "tipo": "p", "texto": "Os incisivos permanentes são maiores que os decíduos que substituem. A soma das larguras dos quatro incisivos permanentes excede a dos decíduos em alguns milímetros por arco, mais no superior que no inferior [VERIFICAR]. Moyers chamou essa diferença de passivo dos incisivos: uma dívida de espaço que precisa ser paga na hora da troca." },
+        { "tipo": "visual", "formato": "processo", "titulo": "Os quatro mecanismos que pagam o passivo dos incisivos", "descricao": "Quatro caixas numeradas em coluna. 1: espaços de desenvolvimento e primatas já existentes. 2: aumento da distância entre os caninos, que se deslocam distal e lateralmente. 3: inclinação mais vestibular dos incisivos permanentes, que alonga o perímetro do arco. 4: deslocamento distal dos caninos decíduos para os espaços primatas. Uma caixa final indica que, quando esses mecanismos não bastam, sobra apinhamento.", "viewBox": "0 0 560 340",
+          "svg": [
+            "<use href='#c-num' x='30' y='24' width='28' height='28'/><text x='44' y='43' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>1</text>",
+            "<text x='72' y='36' font-size='14' font-weight='700'>Espaços que já existiam</text><text x='72' y='54' font-size='12' fill='var(--muted,#8A8478)'>de desenvolvimento e primatas (arco tipo I de Baume)</text>",
+            "<use href='#c-num' x='30' y='84' width='28' height='28'/><text x='44' y='103' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>2</text>",
+            "<text x='72' y='96' font-size='14' font-weight='700'>Distância intercaninos aumenta</text><text x='72' y='114' font-size='12' fill='var(--muted,#8A8478)'>os caninos se afastam enquanto os incisivos erupcionam</text>",
+            "<use href='#c-num' x='30' y='144' width='28' height='28'/><text x='44' y='163' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>3</text>",
+            "<text x='72' y='156' font-size='14' font-weight='700'>Incisivos permanentes mais inclinados</text><text x='72' y='174' font-size='12' fill='var(--muted,#8A8478)'>a vestibularização alonga o perímetro do arco</text>",
+            "<use href='#c-num' x='30' y='204' width='28' height='28'/><text x='44' y='223' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>4</text>",
+            "<text x='72' y='216' font-size='14' font-weight='700'>Caninos decíduos vão para trás</text><text x='72' y='234' font-size='12' fill='var(--muted,#8A8478)'>ocupam os espaços primatas, liberando os anteriores</text>",
+            "<use href='#c-caixa-red' x='30' y='266' width='500' height='52'/>",
+            "<text x='280' y='288' text-anchor='middle' font-size='13' font-weight='700' fill='var(--red,#B4533B)'>Quando os quatro não bastam</text><text x='280' y='306' text-anchor='middle' font-size='12'>sobra apinhamento dos incisivos: é aqui que nasce a análise de espaço</text>"
+          ],
+          "legenda": "Um arco tipo II de Baume perde o mecanismo 1 antes de começar: o apinhamento na troca dos incisivos é quase certo." },
+        { "tipo": "p", "texto": "Na prática, um apinhamento leve dos incisivos inferiores no primeiro período não é sentença: parte dele se resolve com o aumento intercaninos e com a inclinação dos permanentes. O que decide é a análise de espaço, feita no período intertransitório, quando os incisivos já estão na boca e os caninos e pré-molares ainda não." },
+        { "tipo": "destaque", "estilo": "prova", "texto": "Perguntas certas: o que é o passivo dos incisivos (permanentes maiores que decíduos) e quais mecanismos o compensam (espaços prévios, aumento intercaninos, inclinação vestibular dos permanentes e deslocamento distal dos caninos decíduos)." }
+      ],
+      "checagem": { "pergunta": "Por que o arco de Baume tipo II prediz apinhamento na troca dos incisivos?", "resposta": "Porque o primeiro mecanismo de compensação, os espaços que já existiam, está ausente. Sobram os outros três, que raramente pagam o passivo inteiro." }
+    },
+    {
+      "titulo": "O patinho feio: a fase que passa sozinha",
+      "blocos": [
+        { "tipo": "p", "texto": "Entre 8 e 11 anos, os incisivos centrais superiores aparecem separados por um diastema e os laterais erupcionam inclinados para distal, com as coroas divergentes. Broadbent chamou de fase do patinho feio. A causa está acima da gengiva visível: as coroas dos caninos permanentes, ainda dentro do osso, pressionam as raízes dos laterais e dos centrais, empurrando as raízes para mesial e as coroas para distal." },
+        { "tipo": "imagem", "imagem": "fotografia intraoral frontal de criança de 9 anos na fase do patinho feio, com radiografia panorâmica correspondente", "mostrar": "Diastema entre os centrais superiores, laterais com coroas inclinadas para distal, e na panorâmica os caninos permanentes altos, com as coroas apoiadas nas raízes dos laterais", "legenda": "Patinho feio: o diastema e a inclinação dos laterais vêm da posição dos caninos permanentes ainda no osso.", "destacar": "Diastema mediano, divergência das coroas dos laterais, posição alta dos caninos na panorâmica" },
+        { "tipo": "p", "texto": "Quando os caninos erupcionam, por volta dos 11 a 12 anos, a pressão sobre as raízes desaparece, os incisivos se verticalizam e o diastema tende a fechar. É o motivo de não se fechar diastema de 2 a 3 mm aos 8 anos: o tratamento estaria disputando com o processo natural, e o resultado seria o mesmo." },
+        { "tipo": "destaque", "estilo": "mito", "mito": "Diastema entre os centrais aos 8 anos precisa de aparelho para fechar.", "verdade": "Na maioria das crianças é a fase do patinho feio, que fecha com a erupção dos caninos. Só merece investigação o diastema grande, com freio inserido baixo, dente supranumerário na linha média ou agenesia dos laterais." }
+      ],
+      "checagem": { "pergunta": "O que fecha o diastema do patinho feio, e quando?", "resposta": "A erupção dos caninos permanentes, por volta dos 11 a 12 anos, que libera as raízes dos incisivos da pressão das coroas dos caninos e permite que eles se verticalizem." }
+    },
+    {
+      "titulo": "O espaço livre de Nance: a folga que fecha a conta",
+      "blocos": [
+        { "tipo": "p", "texto": "No segundo período, a conta se inverte. Caninos e pré-molares permanentes são, somados, menores que o canino e os dois molares decíduos que substituem. A diferença é o espaço livre de Nance, e ele é maior no arco inferior do que no superior, porque o segundo molar decíduo inferior é bem maior que o segundo pré-molar [VERIFICAR]." },
+        { "tipo": "visual", "formato": "comparativo", "titulo": "Espaço livre de Nance: quem sai e quem entra em cada arco", "descricao": "Duas colunas, arco superior e arco inferior. Em cada uma, uma barra representa a soma do canino e dos dois molares decíduos que saem e outra barra, menor, representa a soma do canino e dos dois pré-molares que entram. A diferença entre as barras é o espaço livre, visivelmente maior no arco inferior.", "viewBox": "0 0 560 300",
+          "svg": [
+            "<text x='150' y='30' text-anchor='middle' font-size='15' font-weight='700'>Arco superior</text>",
+            "<rect x='40' y='52' width='220' height='30' rx='6' fill='var(--gold-soft,#F4EEE4)' stroke='var(--gold,#B08968)' stroke-width='1.5'/><text x='150' y='72' text-anchor='middle' font-size='12'>saem: C + D + E decíduos</text>",
+            "<rect x='40' y='96' width='202' height='30' rx='6' fill='#fff' stroke='var(--ink,#23211C)' stroke-width='1.5'/><text x='141' y='116' text-anchor='middle' font-size='12'>entram: 3 + 4 + 5</text>",
+            "<rect x='242' y='96' width='18' height='30' fill='var(--green,#3E7C4F)'/>",
+            "<text x='150' y='150' text-anchor='middle' font-size='12' font-weight='700' fill='var(--green,#3E7C4F)'>espaço livre menor</text>",
+            "<text x='410' y='30' text-anchor='middle' font-size='15' font-weight='700'>Arco inferior</text>",
+            "<rect x='300' y='52' width='220' height='30' rx='6' fill='var(--blue-soft,#E9EEF3)' stroke='var(--blue,#4A6B8A)' stroke-width='1.5'/><text x='410' y='72' text-anchor='middle' font-size='12'>saem: C + D + E decíduos</text>",
+            "<rect x='300' y='96' width='184' height='30' rx='6' fill='#fff' stroke='var(--ink,#23211C)' stroke-width='1.5'/><text x='392' y='116' text-anchor='middle' font-size='12'>entram: 3 + 4 + 5</text>",
+            "<rect x='484' y='96' width='36' height='30' fill='var(--green,#3E7C4F)'/>",
+            "<text x='410' y='150' text-anchor='middle' font-size='12' font-weight='700' fill='var(--green,#3E7C4F)'>espaço livre maior</text>",
+            "<use href='#c-caixa-green' x='60' y='180' width='440' height='60'/>",
+            "<text x='280' y='204' text-anchor='middle' font-size='13' font-weight='700'>Para onde vai o espaço livre?</text><text x='280' y='224' text-anchor='middle' font-size='12'>o 1º molar permanente anda para mesial: ajuste mesial tardio, topo a topo vira Classe I</text>",
+            "<text x='280' y='276' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>barras proporcionais, sem valores absolutos; o inferior é maior porque o E inferior é grande [VERIFICAR]</text>"
+          ],
+          "legenda": "A folga do inferior é o que permite ao molar inferior avançar mais que o superior e transformar topo a topo em Classe I." },
+        { "tipo": "p", "texto": "O espaço livre é usado pelo primeiro molar permanente, que se desloca para mesial quando o segundo molar decíduo cai: é o ajuste mesial tardio. Como o inferior anda mais que o superior, a relação de topo a topo do plano terminal reto vira Classe I. Se o ortodontista precisa do espaço para os anteriores, pode segurar os molares com um arco lingual e usar o espaço livre a favor do apinhamento." },
+        { "tipo": "destaque", "estilo": "dica", "titulo": "A decisão do período intertransitório", "texto": "Antes da troca dos molares decíduos, decida: deixo o espaço livre ir para os molares (Classe I) ou o seguro com um arco lingual para resolver o apinhamento anterior? Depois que o molar andou, a decisão foi tomada por você por omissão." }
+      ],
+      "checagem": { "pergunta": "O que é o ajuste mesial tardio e que espaço ele consome?", "resposta": "É o deslocamento mesial do primeiro molar permanente quando os molares decíduos caem, consumindo o espaço livre de Nance; como o inferior avança mais, o topo a topo vira Classe I." }
+    },
+    {
+      "titulo": "A ordem em que os dentes chegam",
+      "blocos": [
+        { "tipo": "p", "texto": "A sequência de erupção do segundo período influencia o espaço. No arco inferior, a ordem favorável é canino antes dos pré-molares: ele erupciona enquanto ainda há molares decíduos segurando o espaço posterior. No arco superior, o favorável é o canino depois dos pré-molares, porque ele é o último a caber e se beneficia de os pré-molares já estarem posicionados." },
+        { "tipo": "lista", "itens": [
+          "Inferior favorável: canino, primeiro pré-molar, segundo pré-molar (3, 4, 5).",
+          "Superior favorável: primeiro pré-molar, segundo pré-molar, canino (4, 5, 3).",
+          "Segundo pré-molar antes do canino no inferior, com perda precoce do segundo molar decíduo: o molar permanente invade o espaço e o canino ou o pré-molar ficam presos."
+        ] },
+        { "tipo": "destaque", "estilo": "erro", "texto": "Extrair um segundo molar decíduo inferior cedo sem mantenedor. O primeiro molar permanente migra para mesial, come o espaço livre e mais um pouco, e o segundo pré-molar fica sem lugar." }
+      ],
+      "checagem": { "pergunta": "Por que a sequência favorável do canino é diferente nos dois arcos?", "resposta": "No inferior o canino é pequeno e se beneficia de erupcionar cedo, com o espaço posterior ainda protegido pelos molares decíduos; no superior o canino é grande e o último a caber, então é melhor que os pré-molares já estejam no lugar." }
+    },
+    {
+      "titulo": "O menino de 8 anos e meio",
+      "blocos": [
+        { "tipo": "p", "texto": "Diastema de 3 mm com laterais inclinados para fora aos 8 anos e meio é a descrição de livro da fase do patinho feio. A conduta é explicar ao pai o que está acontecendo, pedir uma panorâmica para confirmar a posição dos caninos e afastar supranumerário e agenesia, e marcar a reavaliação para a erupção dos caninos." },
+        { "tipo": "p", "texto": "O que se faz nessa consulta não é aparelho, é a análise de espaço: com os incisivos já na boca, estimar se caninos e pré-molares vão caber e decidir, antes do segundo período, o destino do espaço livre de Nance. É a decisão que separa um caso sem extração de um caso com quatro." },
+        { "tipo": "destaque", "estilo": "frase", "texto": "Aos 8 anos, o diastema fecha sozinho e o espaço livre ainda não apareceu. O ortodontista bom não fecha o primeiro e não desperdiça o segundo." }
+      ],
+      "checagem": { "pergunta": "Que exame confirma que o diastema do menino é patinho feio e não outra coisa?", "resposta": "A radiografia panorâmica: caninos permanentes altos com as coroas sobre as raízes dos laterais confirmam; supranumerário na linha média ou agenesia dos laterais mudam o diagnóstico." }
+    }
+  ],
+  "fechamento": {
+    "visual": { "formato": "mapa", "titulo": "Mapa da página", "descricao": "Nó central: dentição mista. Seis nós: dois períodos de troca e uma pausa; passivo dos incisivos e quatro compensações; patinho feio fecha sozinho; espaço livre de Nance maior no inferior; ajuste mesial tardio leva à Classe I; sequência favorável por arco.", "viewBox": "0 0 560 360",
+      "svg": [
+        "<g stroke='var(--border,#EDE6D8)' stroke-width='1.5'><line x1='280' y1='180' x2='100' y2='60'/><line x1='280' y1='180' x2='460' y2='60'/><line x1='280' y1='180' x2='70' y2='180'/><line x1='280' y1='180' x2='490' y2='180'/><line x1='280' y1='180' x2='100' y2='300'/><line x1='280' y1='180' x2='460' y2='300'/></g>",
+        "<use href='#c-no-central' x='190' y='150' width='180' height='60'/>",
+        "<text x='280' y='176' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>Dentição</text><text x='280' y='194' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>mista</text>",
+        "<use href='#c-no' x='20' y='38' width='160' height='44'/><text x='100' y='65' text-anchor='middle' font-size='13' font-weight='700'>Duas trocas, uma pausa</text>",
+        "<use href='#c-no' x='380' y='38' width='160' height='44'/><text x='460' y='65' text-anchor='middle' font-size='13' font-weight='700'>Passivo dos incisivos</text>",
+        "<use href='#c-no' x='0' y='158' width='150' height='44'/><text x='75' y='185' text-anchor='middle' font-size='13' font-weight='700'>Patinho feio: espera</text>",
+        "<use href='#c-no' x='410' y='158' width='150' height='44'/><text x='485' y='185' text-anchor='middle' font-size='13' font-weight='700'>Espaço livre de Nance</text>",
+        "<use href='#c-no' x='20' y='278' width='160' height='44'/><text x='100' y='305' text-anchor='middle' font-size='13' font-weight='700'>Ajuste mesial tardio</text>",
+        "<use href='#c-no' x='380' y='278' width='160' height='44'/><text x='460' y='305' text-anchor='middle' font-size='13' font-weight='700'>Sequência por arco</text>"
+      ] },
+    "flashcards": [
+      { "frente": "Quais são os quatro mecanismos que compensam o passivo dos incisivos?", "verso": "Espaços de desenvolvimento e primatas; aumento da distância intercaninos; inclinação mais vestibular dos permanentes; deslocamento distal dos caninos decíduos para os espaços primatas." },
+      { "frente": "O que é o espaço livre de Nance, em que arco é maior e para que serve?", "verso": "A diferença entre a soma de canino e molares decíduos e a soma de canino e pré-molares; maior no inferior; permite o ajuste mesial tardio dos molares (topo a topo vira Classe I) ou é guardado para o apinhamento." },
+      { "frente": "Fase do patinho feio: o que é, causa e conduta.", "verso": "Diastema entre centrais superiores com laterais inclinados para distal, entre 8 e 11 anos, pela pressão das coroas dos caninos nas raízes; fecha com a erupção dos caninos; conduta é observar e afastar supranumerário e agenesia." }
+    ]
+  },
+  "infografico": {
+    "titulo": "A dentição mista em seis cartões",
+    "itens": [
+      { "rotulo": "Períodos", "texto": "Primeiro transitório (6 a 8): molares e incisivos. Intertransitório (8 a 10): pausa. Segundo transitório (10 a 12): caninos, pré-molares, segundos molares [VERIFICAR]." },
+      { "rotulo": "Passivo dos incisivos", "texto": "Permanentes maiores que decíduos. Compensado por espaços prévios, intercaninos, inclinação e caninos decíduos para trás." },
+      { "rotulo": "Patinho feio", "texto": "Diastema e laterais divergentes dos 8 aos 11 anos, pela pressão dos caninos. Fecha sozinho." },
+      { "rotulo": "Espaço livre de Nance", "texto": "C+D+E maiores que 3+4+5. Maior no inferior. Consumido pelo ajuste mesial tardio dos molares." },
+      { "rotulo": "Ajuste mesial", "texto": "Precoce: pelos espaços primatas, no primeiro período. Tardio: pelo espaço livre, no segundo. Topo a topo vira Classe I." },
+      { "rotulo": "Sequência", "texto": "Inferior: canino antes dos pré-molares. Superior: canino depois. Perda precoce de E sem mantenedor come o espaço." }
+    ]
+  },
+  "fluxograma": {
+    "titulo": "Diastema e incisivos tortos aos 8 anos: tratar ou esperar?",
+    "nos": [
+      { "id": "n1", "tipo": "inicio", "texto": "Criança de 8 a 10 anos com diastema mediano superior e laterais divergentes" },
+      { "id": "n2", "tipo": "decisao", "texto": "Panorâmica mostra caninos altos sobre as raízes dos laterais, sem supranumerário nem agenesia?" },
+      { "id": "n3", "tipo": "acao", "texto": "Patinho feio: observar até a erupção dos caninos; fazer a análise de espaço" },
+      { "id": "n4", "tipo": "decisao", "texto": "Há supranumerário na linha média, agenesia de lateral ou freio com inserção baixa e diastema grande?" },
+      { "id": "n5", "tipo": "acao", "texto": "Tratar a causa: remover supranumerário, planejar agenesia, avaliar freio após a erupção dos caninos" },
+      { "id": "n6", "tipo": "fim", "texto": "Reavaliação marcada para a erupção dos caninos; espaço livre decidido antes do segundo período" }
+    ],
+    "arestas": [
+      { "de": "n1", "para": "n2" },
+      { "de": "n2", "para": "n3", "rotulo": "sim" },
+      { "de": "n2", "para": "n4", "rotulo": "não" },
+      { "de": "n4", "para": "n5", "rotulo": "sim" },
+      { "de": "n4", "para": "n3", "rotulo": "não" },
+      { "de": "n3", "para": "n6" },
+      { "de": "n5", "para": "n6" }
+    ]
+  },
+  "passoAPasso": [
+    { "passo": "Identifique o período: quais permanentes já estão na boca, quais decíduos ainda estão.", "confira": "Primeiro transitório, pausa ou segundo transitório?" },
+    { "passo": "No primeiro período, registre o passivo: apinhamento dos incisivos e o que ainda pode compensar (espaços, intercaninos, inclinação).", "confira": "O arco decíduo era tipo I ou II?" },
+    { "passo": "Na pausa, faça a análise de espaço com os incisivos permanentes na boca e estime caninos e pré-molares.", "confira": "O resultado está escrito em milímetros por segmento?" },
+    { "passo": "Decida o destino do espaço livre antes da queda dos molares decíduos: molares (Classe I) ou anteriores (arco lingual).", "confira": "A decisão está registrada antes de o molar andar?" },
+    { "passo": "Acompanhe a sequência de erupção do segundo período e proteja o espaço em perdas precoces.", "confira": "Algum decíduo perdido sem mantenedor?" }
+  ],
+  "macetes": [
+    { "titulo": "Incisivo cobra, molar paga", "texto": "O passivo dos incisivos aparece no primeiro período; o espaço livre de Nance paga no segundo. Entre os dois, você decide para onde vai a folga." },
+    { "titulo": "Patinho feio vira cisne com o canino", "texto": "Diastema e laterais divergentes aos 8 a 11 anos: os caninos estão empurrando as raízes. Quando erupcionam, fecha." },
+    { "titulo": "Nance é maior embaixo", "texto": "O segundo molar decíduo inferior é grande e o segundo pré-molar é pequeno; a folga inferior é a que transforma topo a topo em Classe I." },
+    { "titulo": "Canino cedo embaixo, tarde em cima", "texto": "Sequência favorável: inferior 3-4-5, superior 4-5-3." }
+  ],
+  "ondeErra": [
+    { "erro": "Fechar o diastema do patinho feio com aparelho aos 8 anos.", "porque": "A erupção dos caninos fecha o espaço sozinha; o aparelho disputa com a natureza e o resultado é o mesmo.", "certo": "Observar, confirmar na panorâmica e reavaliar na erupção dos caninos." },
+    { "erro": "Confundir espaço primata com espaço livre de Nance.", "porque": "Primata é da dentição decídua (ajuste mesial precoce); Nance aparece na troca de caninos e molares decíduos (ajuste mesial tardio).", "certo": "Primata: primeiro período. Nance: segundo período." },
+    { "erro": "Deixar o espaço livre ir para os molares em um caso com apinhamento anterior.", "porque": "Depois que o molar permanente avança, o espaço se perde; o apinhamento passa a exigir extração.", "certo": "Decidir antes da queda dos molares decíduos; segurar com arco lingual se necessário." },
+    { "erro": "Perder o segundo molar decíduo inferior cedo sem mantenedor.", "porque": "O primeiro molar permanente migra para mesial e o segundo pré-molar fica sem espaço.", "certo": "Mantenedor de espaço enquanto o pré-molar não erupciona." }
+  ],
+  "autoteste": [
+    {
+      "pergunta": "O espaço livre de Nance corresponde a:",
+      "alternativas": [
+        "Espaços entre os incisivos decíduos",
+        "Diferença entre a soma mesiodistal de canino e molares decíduos e a de canino e pré-molares permanentes",
+        "Espaço mesial ao canino superior decíduo",
+        "Espaço criado pela extração do primeiro pré-molar"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "São os espaços de desenvolvimento.",
+        "Correta: é a folga que aparece no segundo período transitório, maior no arco inferior.",
+        "É o espaço primata superior.",
+        "Espaço de extração não é espaço livre."
+      ]
+    },
+    {
+      "pergunta": "A fase do patinho feio de Broadbent caracteriza-se por:",
+      "alternativas": [
+        "Apinhamento severo dos incisivos inferiores aos 6 anos",
+        "Diastema entre os centrais superiores e laterais inclinados para distal, por pressão dos caninos em erupção, entre 8 e 11 anos",
+        "Mordida cruzada anterior transitória",
+        "Perda precoce dos caninos decíduos"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Não tem relação com o patinho feio.",
+        "Correta: é a descrição clássica, que se resolve com a erupção dos caninos.",
+        "Não é o quadro descrito.",
+        "Não é o quadro descrito."
+      ]
+    },
+    {
+      "pergunta": "Qual mecanismo NÃO participa da compensação do passivo dos incisivos?",
+      "alternativas": [
+        "Aumento da distância intercaninos",
+        "Inclinação mais vestibular dos incisivos permanentes",
+        "Deslocamento distal dos caninos decíduos para os espaços primatas",
+        "Ajuste mesial tardio dos primeiros molares permanentes"
+      ],
+      "correta": 3,
+      "explicacoes": [
+        "Participa: os caninos se afastam durante a troca dos incisivos.",
+        "Participa: alonga o perímetro do arco.",
+        "Participa: libera espaço para os anteriores.",
+        "Correta: o ajuste mesial tardio consome o espaço livre de Nance no segundo período; não compensa os incisivos."
+      ]
+    },
+    {
+      "pergunta": "Em uma criança com plano terminal reto, o que transforma a relação de topo a topo dos primeiros molares em Classe I no segundo período transitório?",
+      "alternativas": [
+        "O crescimento da maxila para a frente",
+        "O ajuste mesial tardio do molar inferior consumindo o espaço livre de Nance, maior no arco inferior",
+        "A erupção dos segundos molares permanentes",
+        "A inclinação dos incisivos"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "O crescimento maxilar não fecha a relação molar.",
+        "Correta: o molar inferior avança mais que o superior porque a folga inferior é maior.",
+        "Os segundos molares erupcionam depois do ajuste.",
+        "Não tem relação com a posição dos molares."
+      ]
+    },
+    {
+      "pergunta": "Menino de 9 anos com apinhamento anterior inferior de 3 mm e molares decíduos presentes. A conduta que preserva a opção de tratar sem extrações é:",
+      "alternativas": [
+        "Extrair os caninos decíduos e esperar",
+        "Instalar arco lingual antes da queda dos molares decíduos para guardar o espaço livre de Nance para os anteriores",
+        "Aguardar a dentição permanente e extrair pré-molares",
+        "Fechar o diastema superior"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Extrair caninos decíduos sem plano perde espaço e pode piorar o apinhamento.",
+        "Correta: segurar os molares preserva o espaço livre, que costuma bastar para apinhamento leve.",
+        "Deixar o molar avançar entrega o espaço livre aos molares e força a extração.",
+        "Não tem relação com o apinhamento inferior."
+      ]
+    }
+  ],
+  "pesquisa": { "termos": ["dentição mista", "espaço livre de Nance", "patinho feio", "análise de espaço"] },
+  "referenciasBase": [
+    "Moyers RE. Ortodontia. 4ª ed. Desenvolvimento da dentição.",
+    "Nance HN. The limitations of orthodontic treatment. Am J Orthod Oral Surg. 1947.",
+    "Broadbent BH. The face of the normal child. Angle Orthod. 1937.",
+    "Proffit WR, Fields HW, Larson BE, Sarver DM. Ortodontia Contemporânea. 6ª ed. Estágios tardios do desenvolvimento.",
+    "Van der Linden FPGM. Desenvolvimento da dentição."
+  ],
+  "validacao": { "validadoPor": null, "data": null }
+}
