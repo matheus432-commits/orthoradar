@@ -1,10 +1,10 @@
 {
  "atualizadoEm": "2026-09-04",
  "totalPaginas": 3387,
- "concluidas": 11,
+ "concluidas": 12,
  "porStatus": {
-  "pendente": 3376,
-  "rascunho": 11,
+  "pendente": 3375,
+  "rascunho": 12,
   "revisado": 0,
   "publicado": 0
  },
@@ -12,7 +12,7 @@
   "id": "ortodontia/crescimento-e-desenvolvimento",
   "area": "Ortodontia",
   "modulo": "Crescimento e desenvolvimento",
-  "faltam": 8
+  "faltam": 7
  },
  "imagensPendentes": [
   {
@@ -126,6 +126,46 @@
    "pagina": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/rotacoes-de-crescimento",
    "onde": "Seção \"Os sinais estruturais: ler a direção no desenho do osso\".blocos[1].itens[5]",
    "trecho": "ixo dos molares: pistas complementares descritas no trabalho original [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/maturacao/surto-de-crescimento-puberal",
+   "onde": "umMinuto.frases[1]",
+   "trecho": "s por volta dos 14, com variação de cerca de dois anos para cada lado [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/maturacao/surto-de-crescimento-puberal",
+   "onde": "Seção \"Velocidade, não tamanho\".blocos[1].legenda",
+   "trecho": "xata; idades médias com variação de cerca de dois anos para cada lado [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/maturacao/surto-de-crescimento-puberal",
+   "onde": "Seção \"Meninas primeiro, meninos depois, e ninguém na média\".blocos[0].texto",
+   "trecho": "s 14 em meninos, com meninos crescendo um pouco mais e por mais tempo [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/maturacao/surto-de-crescimento-puberal",
+   "onde": "Seção \"A face acompanha, com pequeno atraso\".blocos[0].texto",
+   "trecho": "lar coincidindo com o pico de estatura ou ocorrendo pouco depois dele [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/maturacao/surto-de-crescimento-puberal",
+   "onde": "fechamento.flashcards[0].verso",
+   "trecho": "em meninos, com variação de aproximadamente dois anos para cada lado [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/maturacao/surto-de-crescimento-puberal",
+   "onde": "infografico.itens[1].texto",
+   "trecho": "os por volta de 14, com cerca de dois anos de variação para cada lado [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/maturacao/surto-de-crescimento-puberal",
+   "onde": "infografico.itens[4].texto",
+   "trecho": "O surto mandibular acompanha o estatural, com pequena defasagem [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/maturacao/surto-de-crescimento-puberal",
+   "onde": "macetes[1].texto",
+   "trecho": "lado. A média serve para a prova; o paciente tem o próprio calendário [VERIFICAR]"
   }
  ],
  "modulos": [
@@ -135,11 +175,11 @@
    "area": "Ortodontia",
    "modulo": "Crescimento e desenvolvimento",
    "total": 14,
-   "concluidas": 6,
-   "palavras": 16925,
-   "visuais": 21,
+   "concluidas": 7,
+   "palavras": 19678,
+   "visuais": 25,
    "imagensClinicas": 5,
-   "verificar": 13,
+   "verificar": 21,
    "paginas": [
     {
      "id": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/conceitos-crescimento-e-desenvolvimento",
@@ -186,14 +226,16 @@
      "nome": "Rotações de crescimento",
      "tema": "Crescimento craniofacial",
      "status": "rascunho",
-     "palavras": 2817,
+     "palavras": 2822,
      "visuais": 3
     },
     {
      "id": "ortodontia/crescimento-e-desenvolvimento/maturacao/surto-de-crescimento-puberal",
      "nome": "Surto de crescimento puberal",
      "tema": "Maturação",
-     "status": "pendente"
+     "status": "rascunho",
+     "palavras": 2748,
+     "visuais": 4
     },
     {
      "id": "ortodontia/crescimento-e-desenvolvimento/maturacao/idade-ossea-mao-e-punho",
@@ -24919,7 +24961,7 @@
    "formato": 2,
    "status": "rascunho",
    "estado": "rascunho",
-   "palavras": 2817,
+   "palavras": 2822,
    "visuais": [
     {
      "formato": "forcas",
@@ -24954,6 +24996,74 @@
     {
      "onde": "Seção \"Os sinais estruturais: ler a direção no desenho do osso\".blocos[1].itens[5]",
      "trecho": "ixo dos molares: pistas complementares descritas no trabalho original [VERIFICAR]"
+    }
+   ]
+  },
+  "ortodontia/crescimento-e-desenvolvimento/maturacao/surto-de-crescimento-puberal": {
+   "titulo": "Surto de crescimento puberal: a janela que não avisa quando fecha",
+   "arquivo": "data/campus/paginas/ortodontia--maturacao-surto-puberal.json",
+   "formato": 2,
+   "status": "rascunho",
+   "estado": "rascunho",
+   "palavras": 2748,
+   "visuais": [
+    {
+     "formato": "grafico",
+     "titulo": "Curva de velocidade de crescimento em estatura (esquema)"
+    },
+    {
+     "formato": "linha-do-tempo",
+     "titulo": "A sequência puberal em meninas e meninos"
+    },
+    {
+     "formato": "comparativo",
+     "titulo": "Indicadores de maturação: o que exigem e o que dizem"
+    },
+    {
+     "formato": "mapa",
+     "titulo": "Mapa da página"
+    }
+   ],
+   "quadros": {
+    "frase": 1,
+    "prova": 1,
+    "dica": 1,
+    "mito": 1,
+    "erro": 1
+   },
+   "imagensClinicas": [],
+   "verificar": [
+    {
+     "onde": "umMinuto.frases[1]",
+     "trecho": "s por volta dos 14, com variação de cerca de dois anos para cada lado [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Velocidade, não tamanho\".blocos[1].legenda",
+     "trecho": "xata; idades médias com variação de cerca de dois anos para cada lado [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Meninas primeiro, meninos depois, e ninguém na média\".blocos[0].texto",
+     "trecho": "s 14 em meninos, com meninos crescendo um pouco mais e por mais tempo [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"A face acompanha, com pequeno atraso\".blocos[0].texto",
+     "trecho": "lar coincidindo com o pico de estatura ou ocorrendo pouco depois dele [VERIFICAR]"
+    },
+    {
+     "onde": "fechamento.flashcards[0].verso",
+     "trecho": "em meninos, com variação de aproximadamente dois anos para cada lado [VERIFICAR]"
+    },
+    {
+     "onde": "infografico.itens[1].texto",
+     "trecho": "os por volta de 14, com cerca de dois anos de variação para cada lado [VERIFICAR]"
+    },
+    {
+     "onde": "infografico.itens[4].texto",
+     "trecho": "O surto mandibular acompanha o estatural, com pequena defasagem [VERIFICAR]"
+    },
+    {
+     "onde": "macetes[1].texto",
+     "trecho": "lado. A média serve para a prova; o paciente tem o próprio calendário [VERIFICAR]"
     }
    ]
   },

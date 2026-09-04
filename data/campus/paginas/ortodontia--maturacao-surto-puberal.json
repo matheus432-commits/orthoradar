@@ -35,8 +35,16 @@
     {
       "titulo": "Velocidade, não tamanho",
       "blocos": [
-        { "tipo": "p", "texto": "A curva de estatura por idade sobe o tempo todo e engana: parece que a criança cresce sempre no mesmo ritmo. A curva que importa é a de velocidade, quantos centímetros por ano. Ela mostra uma queda ao longo da infância, uma aceleração na puberdade, um pico e uma queda até zero." },
-        { "tipo": "visual", "formato": "grafico", "titulo": "Curva de velocidade de crescimento em estatura (esquema)", "descricao": "Gráfico esquemático da velocidade de crescimento em centímetros por ano em função da idade, de 6 a 18 anos. Duas curvas: meninas, com pico por volta de 12 anos, e meninos, com pico por volta de 14 anos e um pouco mais alto. Antes do pico há aceleração; depois, desaceleração até o fim do crescimento. Um marcador indica a menarca logo após o pico feminino.", "viewBox": "0 0 720 400",
+        {
+          "tipo": "p",
+          "texto": "A curva de estatura por idade sobe o tempo todo e engana: parece que a criança cresce sempre no mesmo ritmo. A curva que importa é a de velocidade, quantos centímetros por ano. Ela mostra uma queda ao longo da infância, uma aceleração na puberdade, um pico e uma queda até zero."
+        },
+        {
+          "tipo": "visual",
+          "formato": "grafico",
+          "titulo": "Curva de velocidade de crescimento em estatura (esquema)",
+          "descricao": "Gráfico esquemático da velocidade de crescimento em centímetros por ano em função da idade, de 6 a 18 anos. Duas curvas: meninas, com pico por volta de 12 anos, e meninos, com pico por volta de 14 anos e um pouco mais alto. Antes do pico há aceleração; depois, desaceleração até o fim do crescimento. Um marcador indica a menarca logo após o pico feminino.",
+          "viewBox": "0 0 720 400",
           "svg": [
             "<line x1='80' y1='320' x2='690' y2='320' stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'/>",
             "<line x1='80' y1='320' x2='80' y2='40' stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'/>",
@@ -49,26 +57,45 @@
             "<path d='M100 196 C 200 236, 300 250, 400 236 C 450 226, 490 140, 520 100 C 540 76, 560 110, 590 190 C 620 270, 660 312, 690 318' fill='none' stroke='var(--blue,#4A6B8A)' stroke-width='2.5'/>",
             "<g font-size='14' font-weight='700'>",
             "<text x='352' y='108' fill='var(--red,#B4533B)' text-anchor='end'>Meninas: pico ~12 anos</text>",
-            "<text x='548' y='70' fill='var(--blue,#4A6B8A)'>Meninos: pico ~14 anos</text>",
+            "<text x='700' y='60' text-anchor='end' fill='var(--blue,#4A6B8A)'>Meninos: pico ~14 anos</text>",
             "</g>",
             "<line x1='420' y1='120' x2='420' y2='320' stroke='var(--red,#B4533B)' stroke-width='1' stroke-dasharray='4 4'/>",
             "<line x1='520' y1='100' x2='520' y2='320' stroke='var(--blue,#4A6B8A)' stroke-width='1' stroke-dasharray='4 4'/>",
-            "<use href='#c-marco-cheio' x='456' y='168' width='16' height='16'/>",
-            "<text x='478' y='182' font-size='13' fill='var(--gold,#B08968)' font-weight='700'>menarca: depois do pico</text>",
-            "<rect x='330' y='250' width='90' height='22' rx='11' fill='var(--green-soft,#E8F2EA)' stroke='var(--green,#3E7C4F)'/>",
-            "<text x='375' y='266' text-anchor='middle' font-size='12' font-weight='700' fill='var(--green,#3E7C4F)'>janela: aceleração</text>"
+            "<use href='#c-marco-cheio' x='438' y='144' width='16' height='16'/><line x1='452' y1='158' x2='552' y2='242' stroke='var(--gold,#B08968)' stroke-width='1'/>",
+            "<text x='558' y='256' font-size='13' fill='var(--gold,#B08968)' font-weight='700'>menarca: depois do pico</text>",
+            "<rect x='236' y='266' width='112' height='22' rx='11' fill='var(--green-soft,#E8F2EA)' stroke='var(--green,#3E7C4F)'/>",
+            "<text x='292' y='282' text-anchor='middle' font-size='12' font-weight='700' fill='var(--green,#3E7C4F)'>janela: aceleração</text>"
           ],
-          "legenda": "Forma das curvas, sem escala numérica exata; idades médias com variação de cerca de dois anos para cada lado [VERIFICAR]. A janela ortopédica é a subida, antes do pico." },
-        { "tipo": "p", "texto": "Dois detalhes da curva decidem casos. O primeiro: a aceleração começa antes do pico, e é nela que o tratamento ortopédico rende mais, porque ainda há todo o pico pela frente. O segundo: depois do pico a velocidade cai rápido, e em um ou dois anos o crescimento residual é pequeno." },
-        { "tipo": "destaque", "estilo": "frase", "texto": "O que importa não é o quanto a criança cresceu, e sim o quanto ainda vai crescer. A curva de velocidade responde isso; a de estatura, não." }
+          "legenda": "Forma das curvas, sem escala numérica exata; idades médias com variação de cerca de dois anos para cada lado [VERIFICAR]. A janela ortopédica é a subida, antes do pico."
+        },
+        {
+          "tipo": "p",
+          "texto": "Dois detalhes da curva decidem casos. O primeiro: a aceleração começa antes do pico, e é nela que o tratamento ortopédico rende mais, porque ainda há todo o pico pela frente. O segundo: depois do pico a velocidade cai rápido, e em um ou dois anos o crescimento residual é pequeno."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "frase",
+          "texto": "O que importa não é o quanto a criança cresceu, e sim o quanto ainda vai crescer. A curva de velocidade responde isso; a de estatura, não."
+        }
       ],
-      "checagem": { "pergunta": "Uma criança que cresceu 8 cm no último ano e 4 cm no anterior está antes ou depois do pico?", "resposta": "Provavelmente na aceleração, antes do pico ou perto dele: a velocidade dobrou. Se o próximo ano mostrar queda, o pico ficou entre as duas medidas." }
+      "checagem": {
+        "pergunta": "Uma criança que cresceu 8 cm no último ano e 4 cm no anterior está antes ou depois do pico?",
+        "resposta": "Provavelmente na aceleração, antes do pico ou perto dele: a velocidade dobrou. Se o próximo ano mostrar queda, o pico ficou entre as duas medidas."
+      }
     },
     {
       "titulo": "Meninas primeiro, meninos depois, e ninguém na média",
       "blocos": [
-        { "tipo": "p", "texto": "Em média, o pico de velocidade de crescimento em estatura ocorre por volta dos 12 anos em meninas e dos 14 em meninos, com meninos crescendo um pouco mais e por mais tempo [VERIFICAR]. A média é útil para a prova e inútil para o paciente: a variação normal é de cerca de dois anos para cada lado, o que significa que duas meninas de 11 anos podem estar em fases opostas." },
-        { "tipo": "visual", "formato": "linha-do-tempo", "titulo": "A sequência puberal em meninas e meninos", "descricao": "Duas linhas do tempo horizontais. Meninas: início do surto, pico de velocidade, menarca logo após o pico, desaceleração e fim do crescimento. Meninos: início do surto cerca de dois anos depois, pico de velocidade, mudança da voz e pelos faciais em torno do pico, desaceleração e fim mais tardio.", "viewBox": "0 0 560 300",
+        {
+          "tipo": "p",
+          "texto": "Em média, o pico de velocidade de crescimento em estatura ocorre por volta dos 12 anos em meninas e dos 14 em meninos, com meninos crescendo um pouco mais e por mais tempo [VERIFICAR]. A média é útil para a prova e inútil para o paciente: a variação normal é de cerca de dois anos para cada lado, o que significa que duas meninas de 11 anos podem estar em fases opostas."
+        },
+        {
+          "tipo": "visual",
+          "formato": "linha-do-tempo",
+          "titulo": "A sequência puberal em meninas e meninos",
+          "descricao": "Duas linhas do tempo horizontais. Meninas: início do surto, pico de velocidade, menarca logo após o pico, desaceleração e fim do crescimento. Meninos: início do surto cerca de dois anos depois, pico de velocidade, mudança da voz e pelos faciais em torno do pico, desaceleração e fim mais tardio.",
+          "viewBox": "0 0 560 300",
           "svg": [
             "<text x='16' y='40' font-size='15' font-weight='700' fill='var(--red,#B4533B)'>Meninas</text>",
             "<line x1='16' y1='80' x2='544' y2='80' stroke='var(--muted,#8A8478)' stroke-width='1.5'/>",
@@ -80,31 +107,69 @@
             "<line x1='16' y1='200' x2='544' y2='200' stroke='var(--muted,#8A8478)' stroke-width='1.5'/>",
             "<use href='#c-marco-blue' x='150' y='190' width='20' height='20'/><text x='160' y='228' text-anchor='middle' font-size='12'>início do surto</text>",
             "<use href='#c-marco-cheio' x='330' y='190' width='20' height='20'/><text x='340' y='228' text-anchor='middle' font-size='12' font-weight='700'>pico</text>",
-            "<use href='#c-marco-blue' x='380' y='190' width='20' height='20'/><text x='390' y='228' text-anchor='middle' font-size='12'>voz, pelos faciais</text>",
-            "<use href='#c-marco-blue' x='530' y='190' width='20' height='20'/><text x='526' y='228' text-anchor='middle' font-size='12'>fim, mais tarde</text>",
-            "<text x='280' y='276' text-anchor='middle' font-size='13' fill='var(--muted,#8A8478)'>a distância entre as linhas é de cerca de dois anos, em média; cada pessoa tem o seu calendário</text>"
+            "<use href='#c-marco-blue' x='400' y='190' width='20' height='20'/><text x='410' y='250' text-anchor='middle' font-size='12'>voz, pelos faciais</text>",
+            "<use href='#c-marco-blue' x='530' y='190' width='20' height='20'/><text x='556' y='228' text-anchor='end' font-size='12'>fim, mais tarde</text>",
+            "<text x='280' y='276' text-anchor='middle' font-size='13' fill='var(--muted,#8A8478)'>cerca de dois anos entre as linhas, em média; cada pessoa tem o seu calendário</text>"
           ],
-          "legenda": "Menarca e mudança de voz chegam em torno do pico ou depois dele: são sinais de que a melhor parte da janela já passou." },
-        { "tipo": "destaque", "estilo": "prova", "texto": "As perguntas clássicas: idade média do pico em cada sexo (12 e 14 anos, aproximadamente), quem cresce mais e por mais tempo (meninos) e o que a menarca indica (que o pico de velocidade já ocorreu, com crescimento residual pequeno)." },
-        { "tipo": "p", "texto": "Os caracteres sexuais secundários ajudam a situar a fase, mas com atraso: menarca e mudança de voz são eventos de pós-pico. Para pegar a aceleração, é preciso um indicador que se antecipe, e é isso que as vértebras cervicais e a mão e punho tentam fazer." }
+          "legenda": "Menarca e mudança de voz chegam em torno do pico ou depois dele: são sinais de que a melhor parte da janela já passou."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "prova",
+          "texto": "As perguntas clássicas: idade média do pico em cada sexo (12 e 14 anos, aproximadamente), quem cresce mais e por mais tempo (meninos) e o que a menarca indica (que o pico de velocidade já ocorreu, com crescimento residual pequeno)."
+        },
+        {
+          "tipo": "p",
+          "texto": "Os caracteres sexuais secundários ajudam a situar a fase, mas com atraso: menarca e mudança de voz são eventos de pós-pico. Para pegar a aceleração, é preciso um indicador que se antecipe, e é isso que as vértebras cervicais e a mão e punho tentam fazer."
+        }
       ],
-      "checagem": { "pergunta": "A menina da abertura menstruou há oito meses. Em que ponto da curva ela provavelmente está?", "resposta": "Depois do pico: a menarca costuma seguir o pico de velocidade. Ainda há algum crescimento, mas a fase de maior resposta ortopédica provavelmente passou. Um indicador de maturação confirma." }
+      "checagem": {
+        "pergunta": "A menina da abertura menstruou há oito meses. Em que ponto da curva ela provavelmente está?",
+        "resposta": "Depois do pico: a menarca costuma seguir o pico de velocidade. Ainda há algum crescimento, mas a fase de maior resposta ortopédica provavelmente passou. Um indicador de maturação confirma."
+      }
     },
     {
       "titulo": "A face acompanha, com pequeno atraso",
       "blocos": [
-        { "tipo": "p", "texto": "O surto da face, e em especial o da mandíbula, acompanha o surto estatural. Estudos longitudinais mostram o pico de crescimento mandibular coincidindo com o pico de estatura ou ocorrendo pouco depois dele [VERIFICAR]. É a razão de a estatura seriada ser um indicador útil: ela antecipa o que a mandíbula vai fazer." },
-        { "tipo": "p", "texto": "Para o tratamento, o melhor momento de um aparelho funcional é a aceleração que antecede o pico. Começar na subida garante que o pico inteiro aconteça com o aparelho em uso. Começar depois do pico significa gastar a mecânica com crescimento residual pequeno." },
-        { "tipo": "destaque", "estilo": "dica", "titulo": "O que perguntar na anamnese", "texto": "Peça a caderneta ou as medidas de altura dos últimos dois anos: escola, pediatra, a marca na parede. Duas medidas com intervalo de seis meses a um ano já dizem se a velocidade está subindo ou caindo. É o indicador mais barato que existe." },
-        { "tipo": "destaque", "estilo": "mito", "mito": "Menina de 12 anos está sempre no surto.", "verdade": "Aos 12 uma menina pode estar antes, no meio ou depois do pico. A idade sozinha não diz; velocidade de estatura, menarca e vértebras cervicais dizem." }
+        {
+          "tipo": "p",
+          "texto": "O surto da face, e em especial o da mandíbula, acompanha o surto estatural. Estudos longitudinais mostram o pico de crescimento mandibular coincidindo com o pico de estatura ou ocorrendo pouco depois dele [VERIFICAR]. É a razão de a estatura seriada ser um indicador útil: ela antecipa o que a mandíbula vai fazer."
+        },
+        {
+          "tipo": "p",
+          "texto": "Para o tratamento, o melhor momento de um aparelho funcional é a aceleração que antecede o pico. Começar na subida garante que o pico inteiro aconteça com o aparelho em uso. Começar depois do pico significa gastar a mecânica com crescimento residual pequeno."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "dica",
+          "titulo": "O que perguntar na anamnese",
+          "texto": "Peça a caderneta ou as medidas de altura dos últimos dois anos: escola, pediatra, a marca na parede. Duas medidas com intervalo de seis meses a um ano já dizem se a velocidade está subindo ou caindo. É o indicador mais barato que existe."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "mito",
+          "mito": "Menina de 12 anos está sempre no surto.",
+          "verdade": "Aos 12 uma menina pode estar antes, no meio ou depois do pico. A idade sozinha não diz; velocidade de estatura, menarca e vértebras cervicais dizem."
+        }
       ],
-      "checagem": { "pergunta": "Por que a estatura seriada é um bom indicador do surto mandibular?", "resposta": "Porque o pico de crescimento da mandíbula coincide com o pico estatural ou vem logo depois. Se a velocidade de estatura está subindo, a mandíbula ainda tem o seu surto pela frente." }
+      "checagem": {
+        "pergunta": "Por que a estatura seriada é um bom indicador do surto mandibular?",
+        "resposta": "Porque o pico de crescimento da mandíbula coincide com o pico estatural ou vem logo depois. Se a velocidade de estatura está subindo, a mandíbula ainda tem o seu surto pela frente."
+      }
     },
     {
       "titulo": "Os indicadores, lado a lado",
       "blocos": [
-        { "tipo": "p", "texto": "Nenhum indicador é perfeito. Cada um tem um custo, uma exigência e uma precisão. A escolha depende do que você tem em mãos: uma consulta única sem exames, uma telerradiografia já pedida, ou tempo para medir de novo." },
-        { "tipo": "visual", "formato": "comparativo", "titulo": "Indicadores de maturação: o que exigem e o que dizem", "descricao": "Tabela com quatro indicadores. Idade cronológica: não exige nada, diz pouco. Estatura seriada: exige duas ou mais medidas, diz se a velocidade sobe ou desce. Vértebras cervicais: exige a telerradiografia que já foi pedida, diz o estágio em relação ao pico. Mão e punho: exige radiografia extra, diz o estágio com detalhe e a idade óssea.", "viewBox": "0 0 720 330",
+        {
+          "tipo": "p",
+          "texto": "Nenhum indicador é perfeito. Cada um tem um custo, uma exigência e uma precisão. A escolha depende do que você tem em mãos: uma consulta única sem exames, uma telerradiografia já pedida, ou tempo para medir de novo."
+        },
+        {
+          "tipo": "visual",
+          "formato": "comparativo",
+          "titulo": "Indicadores de maturação: o que exigem e o que dizem",
+          "descricao": "Tabela com quatro indicadores. Idade cronológica: não exige nada, diz pouco. Estatura seriada: exige duas ou mais medidas, diz se a velocidade sobe ou desce. Vértebras cervicais: exige a telerradiografia que já foi pedida, diz o estágio em relação ao pico. Mão e punho: exige radiografia extra, diz o estágio com detalhe e a idade óssea.",
+          "viewBox": "0 0 720 330",
           "svg": [
             "<use href='#c-caixa-ink' x='16' y='16' width='190' height='46'/><text x='111' y='45' text-anchor='middle' font-size='15' font-weight='700' fill='#fff'>Indicador</text>",
             "<use href='#c-caixa-ink' x='218' y='16' width='220' height='46'/><text x='328' y='45' text-anchor='middle' font-size='15' font-weight='700' fill='#fff'>O que exige</text>",
@@ -131,23 +196,47 @@
             "<use href='#c-atencao' x='462' y='296' width='20' height='20'/><text x='490' y='311'>chega atrasado: pós-pico</text>",
             "</g>"
           ],
-          "legenda": "As duas páginas seguintes detalham mão e punho e vértebras cervicais. A estatura seriada é a que você pode ter hoje, de graça." },
-        { "tipo": "p", "texto": "Na prática, os indicadores se somam. Estatura subindo, vértebras em estágio pré-pico e ausência de menarca apontam para a mesma coisa: a janela está aberta. Três sinais concordantes valem mais que um sinal preciso." }
+          "legenda": "As duas páginas seguintes detalham mão e punho e vértebras cervicais. A estatura seriada é a que você pode ter hoje, de graça."
+        },
+        {
+          "tipo": "p",
+          "texto": "Na prática, os indicadores se somam. Estatura subindo, vértebras em estágio pré-pico e ausência de menarca apontam para a mesma coisa: a janela está aberta. Três sinais concordantes valem mais que um sinal preciso."
+        }
       ],
-      "checagem": { "pergunta": "Qual indicador de maturação exige um exame que o ortodontista quase sempre já pediu para outra finalidade?", "resposta": "As vértebras cervicais, visíveis na telerradiografia lateral usada para a cefalometria. Não custa um exame a mais." }
+      "checagem": {
+        "pergunta": "Qual indicador de maturação exige um exame que o ortodontista quase sempre já pediu para outra finalidade?",
+        "resposta": "As vértebras cervicais, visíveis na telerradiografia lateral usada para a cefalometria. Não custa um exame a mais."
+      }
     },
     {
       "titulo": "De volta à menina de 12 anos e 6 meses",
       "blocos": [
-        { "tipo": "p", "texto": "Menarca há oito meses e relato de que \"parou de esticar\" apontam para pós-pico. A telerradiografia deve confirmar com as vértebras cervicais. Se confirmar, o aparelho funcional planejado vai encontrar pouco crescimento mandibular pela frente, e o efeito será mais dentoalveolar do que esquelético." },
-        { "tipo": "destaque", "estilo": "erro", "texto": "Manter o plano de aparelho funcional só porque foi o combinado, sem reavaliar o estágio. O plano certo é o que cabe na janela que existe, não na que existia quando o caso foi visto pela primeira vez." },
-        { "tipo": "p", "texto": "A conversa com a família muda de tom: em vez de \"vamos aproveitar o crescimento\", passa a ser \"o crescimento maior já passou; vamos corrigir a mordida com mecânica ortodôntica e discutir, se necessário, camuflagem ou cirurgia depois da maturidade\"." }
+        {
+          "tipo": "p",
+          "texto": "Menarca há oito meses e relato de que \"parou de esticar\" apontam para pós-pico. A telerradiografia deve confirmar com as vértebras cervicais. Se confirmar, o aparelho funcional planejado vai encontrar pouco crescimento mandibular pela frente, e o efeito será mais dentoalveolar do que esquelético."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "erro",
+          "texto": "Manter o plano de aparelho funcional só porque foi o combinado, sem reavaliar o estágio. O plano certo é o que cabe na janela que existe, não na que existia quando o caso foi visto pela primeira vez."
+        },
+        {
+          "tipo": "p",
+          "texto": "A conversa com a família muda de tom: em vez de \"vamos aproveitar o crescimento\", passa a ser \"o crescimento maior já passou; vamos corrigir a mordida com mecânica ortodôntica e discutir, se necessário, camuflagem ou cirurgia depois da maturidade\"."
+        }
       ],
-      "checagem": { "pergunta": "O que na anamnese dessa paciente sugere pós-pico, e o que confirma?", "resposta": "Sugerem: menarca há oito meses e queda na velocidade de estatura. Confirmam: estágio das vértebras cervicais na telerradiografia ou radiografia de mão e punho." }
+      "checagem": {
+        "pergunta": "O que na anamnese dessa paciente sugere pós-pico, e o que confirma?",
+        "resposta": "Sugerem: menarca há oito meses e queda na velocidade de estatura. Confirmam: estágio das vértebras cervicais na telerradiografia ou radiografia de mão e punho."
+      }
     }
   ],
   "fechamento": {
-    "visual": { "formato": "mapa", "titulo": "Mapa da página", "descricao": "Nó central: surto puberal. Seis nós: velocidade, não tamanho; pico por volta de 12 em meninas e 14 em meninos, com variação; menarca vem depois do pico; a face acompanha a estatura; a janela é a aceleração; indicadores se somam.", "viewBox": "0 0 560 360",
+    "visual": {
+      "formato": "mapa",
+      "titulo": "Mapa da página",
+      "descricao": "Nó central: surto puberal. Seis nós: velocidade, não tamanho; pico por volta de 12 em meninas e 14 em meninos, com variação; menarca vem depois do pico; a face acompanha a estatura; a janela é a aceleração; indicadores se somam.",
+      "viewBox": "0 0 560 360",
       "svg": [
         "<g stroke='var(--border,#EDE6D8)' stroke-width='1.5'><line x1='280' y1='180' x2='100' y2='60'/><line x1='280' y1='180' x2='460' y2='60'/><line x1='280' y1='180' x2='70' y2='180'/><line x1='280' y1='180' x2='490' y2='180'/><line x1='280' y1='180' x2='100' y2='300'/><line x1='280' y1='180' x2='460' y2='300'/></g>",
         "<use href='#c-no-central' x='190' y='150' width='180' height='60'/>",
@@ -158,67 +247,206 @@
         "<use href='#c-no' x='410' y='158' width='150' height='44'/><text x='485' y='185' text-anchor='middle' font-size='13' font-weight='700'>Face acompanha</text>",
         "<use href='#c-no' x='20' y='278' width='160' height='44'/><text x='100' y='305' text-anchor='middle' font-size='13' font-weight='700'>Janela: a aceleração</text>",
         "<use href='#c-no' x='380' y='278' width='160' height='44'/><text x='460' y='305' text-anchor='middle' font-size='13' font-weight='700'>Indicadores se somam</text>"
-      ] },
+      ]
+    },
     "flashcards": [
-      { "frente": "Idade média do pico de velocidade de crescimento em meninas e em meninos, e a variação normal.", "verso": "Cerca de 12 anos em meninas e 14 em meninos, com variação de aproximadamente dois anos para cada lado [VERIFICAR]." },
-      { "frente": "O que a menarca indica sobre o surto de crescimento?", "verso": "Que o pico de velocidade já ocorreu; resta crescimento, mas pequeno. É um marcador de pós-pico." },
-      { "frente": "Qual é o melhor momento para começar um aparelho funcional em relação à curva de velocidade?", "verso": "Na aceleração que antecede o pico, para que o pico inteiro ocorra com o aparelho em uso." }
+      {
+        "frente": "Idade média do pico de velocidade de crescimento em meninas e em meninos, e a variação normal.",
+        "verso": "Cerca de 12 anos em meninas e 14 em meninos, com variação de aproximadamente dois anos para cada lado [VERIFICAR]."
+      },
+      {
+        "frente": "O que a menarca indica sobre o surto de crescimento?",
+        "verso": "Que o pico de velocidade já ocorreu; resta crescimento, mas pequeno. É um marcador de pós-pico."
+      },
+      {
+        "frente": "Qual é o melhor momento para começar um aparelho funcional em relação à curva de velocidade?",
+        "verso": "Na aceleração que antecede o pico, para que o pico inteiro ocorra com o aparelho em uso."
+      }
     ]
   },
   "infografico": {
     "titulo": "O surto em seis cartões",
     "itens": [
-      { "rotulo": "Curva de velocidade", "texto": "Queda na infância, aceleração puberal, pico, desaceleração até parar. É ela que importa, não a curva de estatura." },
-      { "rotulo": "Pico", "texto": "Meninas por volta de 12 anos, meninos por volta de 14, com cerca de dois anos de variação para cada lado [VERIFICAR]." },
-      { "rotulo": "Sexo", "texto": "Meninos começam depois, crescem mais e por mais tempo." },
-      { "rotulo": "Menarca e voz", "texto": "Chegam em torno do pico ou depois: sinal de que a melhor parte da janela passou." },
-      { "rotulo": "Face", "texto": "O surto mandibular acompanha o estatural, com pequena defasagem [VERIFICAR]." },
-      { "rotulo": "Janela", "texto": "Aparelho funcional na aceleração, antes do pico. Depois do pico, o efeito é mais dentário." }
+      {
+        "rotulo": "Curva de velocidade",
+        "texto": "Queda na infância, aceleração puberal, pico, desaceleração até parar. É ela que importa, não a curva de estatura."
+      },
+      {
+        "rotulo": "Pico",
+        "texto": "Meninas por volta de 12 anos, meninos por volta de 14, com cerca de dois anos de variação para cada lado [VERIFICAR]."
+      },
+      {
+        "rotulo": "Sexo",
+        "texto": "Meninos começam depois, crescem mais e por mais tempo."
+      },
+      {
+        "rotulo": "Menarca e voz",
+        "texto": "Chegam em torno do pico ou depois: sinal de que a melhor parte da janela passou."
+      },
+      {
+        "rotulo": "Face",
+        "texto": "O surto mandibular acompanha o estatural, com pequena defasagem [VERIFICAR]."
+      },
+      {
+        "rotulo": "Janela",
+        "texto": "Aparelho funcional na aceleração, antes do pico. Depois do pico, o efeito é mais dentário."
+      }
     ]
   },
   "fluxograma": {
     "titulo": "Ainda dá tempo de aproveitar o surto?",
     "nos": [
-      { "id": "n1", "tipo": "inicio", "texto": "Classe II esquelética em paciente jovem" },
-      { "id": "n2", "tipo": "decisao", "texto": "Há sinais de pós-pico (menarca, voz, queda da velocidade de estatura)?" },
-      { "id": "n3", "tipo": "decisao", "texto": "Indicador de maturação confirma pós-pico?" },
-      { "id": "n4", "tipo": "acao", "texto": "Tratar com mecânica ortodôntica; discutir camuflagem ou cirurgia após a maturidade" },
-      { "id": "n5", "tipo": "decisao", "texto": "Indicador mostra aceleração ou pré-pico?" },
-      { "id": "n6", "tipo": "acao", "texto": "Aparelho funcional agora, para cobrir o pico" },
-      { "id": "n7", "tipo": "acao", "texto": "Ainda cedo: acompanhar com estatura seriada e reavaliar em 6 meses" },
-      { "id": "n8", "tipo": "fim", "texto": "Decisão tomada pelo estágio, não pela idade" }
+      {
+        "id": "n1",
+        "tipo": "inicio",
+        "texto": "Classe II esquelética em paciente jovem"
+      },
+      {
+        "id": "n2",
+        "tipo": "decisao",
+        "texto": "Há sinais de pós-pico (menarca, voz, queda da velocidade de estatura)?"
+      },
+      {
+        "id": "n3",
+        "tipo": "decisao",
+        "texto": "Indicador de maturação confirma pós-pico?"
+      },
+      {
+        "id": "n4",
+        "tipo": "acao",
+        "texto": "Tratar com mecânica ortodôntica; discutir camuflagem ou cirurgia após a maturidade"
+      },
+      {
+        "id": "n5",
+        "tipo": "decisao",
+        "texto": "Indicador mostra aceleração ou pré-pico?"
+      },
+      {
+        "id": "n6",
+        "tipo": "acao",
+        "texto": "Aparelho funcional agora, para cobrir o pico"
+      },
+      {
+        "id": "n7",
+        "tipo": "acao",
+        "texto": "Ainda cedo: acompanhar com estatura seriada e reavaliar em 6 meses"
+      },
+      {
+        "id": "n8",
+        "tipo": "fim",
+        "texto": "Decisão tomada pelo estágio, não pela idade"
+      }
     ],
     "arestas": [
-      { "de": "n1", "para": "n2" },
-      { "de": "n2", "para": "n3", "rotulo": "sim" },
-      { "de": "n2", "para": "n5", "rotulo": "não" },
-      { "de": "n3", "para": "n4", "rotulo": "sim" },
-      { "de": "n3", "para": "n5", "rotulo": "não" },
-      { "de": "n5", "para": "n6", "rotulo": "aceleração" },
-      { "de": "n5", "para": "n7", "rotulo": "muito antes" },
-      { "de": "n4", "para": "n8" },
-      { "de": "n6", "para": "n8" },
-      { "de": "n7", "para": "n8" }
+      {
+        "de": "n1",
+        "para": "n2"
+      },
+      {
+        "de": "n2",
+        "para": "n3",
+        "rotulo": "sim"
+      },
+      {
+        "de": "n2",
+        "para": "n5",
+        "rotulo": "não"
+      },
+      {
+        "de": "n3",
+        "para": "n4",
+        "rotulo": "sim"
+      },
+      {
+        "de": "n3",
+        "para": "n5",
+        "rotulo": "não"
+      },
+      {
+        "de": "n5",
+        "para": "n6",
+        "rotulo": "aceleração"
+      },
+      {
+        "de": "n5",
+        "para": "n7",
+        "rotulo": "muito antes"
+      },
+      {
+        "de": "n4",
+        "para": "n8"
+      },
+      {
+        "de": "n6",
+        "para": "n8"
+      },
+      {
+        "de": "n7",
+        "para": "n8"
+      }
     ]
   },
   "passoAPasso": [
-    { "passo": "Pergunte e registre: altura hoje e nas últimas medições conhecidas, menarca ou mudança de voz, comparação com irmãos e pais.", "confira": "Você tem ao menos duas medidas de altura com datas?" },
-    { "passo": "Calcule a velocidade: centímetros por ano entre as medidas. Subindo, estável ou caindo?", "confira": "O cálculo está no prontuário, não só a impressão da mãe?" },
-    { "passo": "Leia as vértebras cervicais na telerradiografia e, se houver dúvida, peça mão e punho.", "confira": "O estágio e o método estão escritos?" },
-    { "passo": "Combine os sinais: velocidade, caracteres secundários e estágio radiográfico apontam para a mesma fase?", "confira": "Se discordam, qual é o mais confiável neste caso e por quê?" },
-    { "passo": "Decida o momento e o tipo de intervenção pela fase, e marque a reavaliação com a próxima medida de altura.", "confira": "A família saiu sabendo por que agora, ou por que ainda não?" }
+    {
+      "passo": "Pergunte e registre: altura hoje e nas últimas medições conhecidas, menarca ou mudança de voz, comparação com irmãos e pais.",
+      "confira": "Você tem ao menos duas medidas de altura com datas?"
+    },
+    {
+      "passo": "Calcule a velocidade: centímetros por ano entre as medidas. Subindo, estável ou caindo?",
+      "confira": "O cálculo está no prontuário, não só a impressão da mãe?"
+    },
+    {
+      "passo": "Leia as vértebras cervicais na telerradiografia e, se houver dúvida, peça mão e punho.",
+      "confira": "O estágio e o método estão escritos?"
+    },
+    {
+      "passo": "Combine os sinais: velocidade, caracteres secundários e estágio radiográfico apontam para a mesma fase?",
+      "confira": "Se discordam, qual é o mais confiável neste caso e por quê?"
+    },
+    {
+      "passo": "Decida o momento e o tipo de intervenção pela fase, e marque a reavaliação com a próxima medida de altura.",
+      "confira": "A família saiu sabendo por que agora, ou por que ainda não?"
+    }
   ],
   "macetes": [
-    { "titulo": "Velocidade manda, tamanho engana", "texto": "Curva de estatura sempre sobe; curva de velocidade tem pico. Quem decide o tratamento é a segunda." },
-    { "titulo": "Doze e catorze, mais ou menos dois", "texto": "Pico por volta de 12 em meninas e 14 em meninos, com dois anos de variação para cada lado. A média serve para a prova; o paciente tem o próprio calendário [VERIFICAR]." },
-    { "titulo": "Menarca é notícia velha", "texto": "Quando ela chega, o pico já passou. Serve para confirmar o pós-pico, não para pegar a janela." },
-    { "titulo": "Suba com o aparelho, não desça", "texto": "Aparelho funcional na aceleração, para cobrir o pico. Começar na descida é trocar osso por dente." }
+    {
+      "titulo": "Velocidade manda, tamanho engana",
+      "texto": "Curva de estatura sempre sobe; curva de velocidade tem pico. Quem decide o tratamento é a segunda."
+    },
+    {
+      "titulo": "Doze e catorze, mais ou menos dois",
+      "texto": "Pico por volta de 12 em meninas e 14 em meninos, com dois anos de variação para cada lado. A média serve para a prova; o paciente tem o próprio calendário [VERIFICAR]."
+    },
+    {
+      "titulo": "Menarca é notícia velha",
+      "texto": "Quando ela chega, o pico já passou. Serve para confirmar o pós-pico, não para pegar a janela."
+    },
+    {
+      "titulo": "Suba com o aparelho, não desça",
+      "texto": "Aparelho funcional na aceleração, para cobrir o pico. Começar na descida é trocar osso por dente."
+    }
   ],
   "ondeErra": [
-    { "erro": "Programar o aparelho funcional pela idade cronológica.", "porque": "A variação do pico é de anos; a mesma idade abriga fases opostas.", "certo": "Programar pelo estágio: velocidade de estatura, vértebras cervicais ou mão e punho." },
-    { "erro": "Ler a menarca como início do surto.", "porque": "A menarca costuma vir depois do pico de velocidade.", "certo": "Menarca indica pós-pico, com crescimento residual pequeno." },
-    { "erro": "Esperar o pico para começar o aparelho funcional.", "porque": "Quando o pico é identificado, metade da janela já foi; o melhor efeito vem de começar na aceleração.", "certo": "Iniciar na subida, com sinais de aceleração." },
-    { "erro": "Ignorar a estatura seriada por ser \"pouco científica\".", "porque": "Duas medidas com datas mostram a velocidade e antecipam o surto mandibular; é o indicador mais acessível.", "certo": "Registrar altura com data em toda consulta de paciente em crescimento." }
+    {
+      "erro": "Programar o aparelho funcional pela idade cronológica.",
+      "porque": "A variação do pico é de anos; a mesma idade abriga fases opostas.",
+      "certo": "Programar pelo estágio: velocidade de estatura, vértebras cervicais ou mão e punho."
+    },
+    {
+      "erro": "Ler a menarca como início do surto.",
+      "porque": "A menarca costuma vir depois do pico de velocidade.",
+      "certo": "Menarca indica pós-pico, com crescimento residual pequeno."
+    },
+    {
+      "erro": "Esperar o pico para começar o aparelho funcional.",
+      "porque": "Quando o pico é identificado, metade da janela já foi; o melhor efeito vem de começar na aceleração.",
+      "certo": "Iniciar na subida, com sinais de aceleração."
+    },
+    {
+      "erro": "Ignorar a estatura seriada por ser \"pouco científica\".",
+      "porque": "Duas medidas com datas mostram a velocidade e antecipam o surto mandibular; é o indicador mais acessível.",
+      "certo": "Registrar altura com data em toda consulta de paciente em crescimento."
+    }
   ],
   "autoteste": [
     {
@@ -302,12 +530,22 @@
       ]
     }
   ],
-  "pesquisa": { "termos": ["surto de crescimento puberal", "pico de velocidade de crescimento", "maturação esquelética", "aparelho funcional momento"] },
+  "pesquisa": {
+    "termos": [
+      "surto de crescimento puberal",
+      "pico de velocidade de crescimento",
+      "maturação esquelética",
+      "aparelho funcional momento"
+    ]
+  },
   "referenciasBase": [
     "Proffit WR, Fields HW, Larson BE, Sarver DM. Ortodontia Contemporânea. 6ª ed. Crescimento na adolescência e momento do tratamento.",
     "Tanner JM. Growth at Adolescence. 2ª ed. 1962.",
     "Björk A, Helm S. Prediction of the age of maximum puberal growth in body height. Angle Orthod. 1967.",
     "Moyers RE. Ortodontia. 4ª ed."
   ],
-  "validacao": { "validadoPor": null, "data": null }
+  "validacao": {
+    "validadoPor": null,
+    "data": null
+  }
 }
