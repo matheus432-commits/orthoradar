@@ -131,9 +131,17 @@ describe('campus.html (porta do aluno)', () => {
     assert.ok(html.includes('Para quem estuda') && html.includes('Para quem ensina'));
     assert.ok(html.includes('onclick="irAluno()"') && /em breve/.test(html));
   });
-  test('abas do aluno: todas as soluções sugeridas, sem filtro por ciclo', () => {
-    for (const a of ['apostilas', 'simulados', 'flashcards', 'prova', 'checklists', 'casos', 'trilhas', 'audio', 'calculadoras']) assert.ok(html.includes('data-aba="' + a + '"'), a);
+  test('navegação lateral agrupada, com "Hoje" e todas as soluções, sem filtro por ciclo', () => {
+    for (const a of ['hoje', 'apostilas', 'trilhas', 'audio', 'flashcards', 'simulados', 'prova', 'casos', 'checklists', 'calculadoras']) assert.ok(html.includes('data-aba="' + a + '"'), a);
+    assert.ok(html.includes('class="lateral') && html.includes('class="grupo">Estudar') && html.includes('class="grupo">Fixar') && html.includes('class="grupo">Na clínica'));
     assert.ok(!html.includes('filtros-ciclo') && !html.includes("filtrarCiclo("), 'a aba Especialização e os filtros de ciclo saíram (04/09)');
+  });
+  test('layout v2 contra a poluição: uma próxima ação, áreas com apostila em destaque, o resto em lista compacta, busca global', () => {
+    assert.ok(html.includes('id="proxima"') && html.includes('Próxima ação'), 'o aluno chega em uma ação, não em 41 cartões');
+    assert.ok(html.includes('id="areas-prontas"') && html.includes('id="lista-areas"'), 'destaque × lista compacta');
+    assert.ok(html.includes('id="q-global"') && html.includes('function buscaGlobal'), 'busca em todas as apostilas');
+    assert.ok(html.includes('@media(max-width:900px)') && html.includes('.app{grid-template-columns:1fr;}'), 'barra lateral vira faixa no celular');
+    assert.ok(html.includes('prefers-reduced-motion'));
   });
   test('cada solução trabalha em cima dos dados das apostilas e da memória local do aluno', () => {
     assert.ok(html.includes('function cartoesDe') && html.includes("const passos=[1,3,7,14]"), 'flashcards com repetição espaçada');
@@ -145,7 +153,7 @@ describe('campus.html (porta do aluno)', () => {
     assert.ok(html.includes("localStorage.getItem('campus.'") && html.includes('try{'), 'memória local protegida por try');
   });
   test('apostilas: especialidade → prateleiras por módulo com capas tipográficas → busca em todo o texto → leitura → download', () => {
-    assert.ok(html.includes('id="grade-esp"') && html.includes('class="prateleira"') && html.includes('class="fila"'));
+    assert.ok(html.includes('id="areas-prontas"') && html.includes('class="secao"') && html.includes('class="fila"'));
     assert.ok(html.includes('class="capa"') && html.includes('class="banner"'), 'capa com banner, sem imagem');
     assert.ok(html.includes('Busque em todo o texto das apostilas de'));
     assert.ok(html.includes("termos.every(t=>c.busca.includes(t))"), 'E de termos sobre o bloco de busca da página');
