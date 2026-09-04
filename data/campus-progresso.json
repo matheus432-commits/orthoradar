@@ -1,10 +1,10 @@
 {
  "atualizadoEm": "2026-09-04",
  "totalPaginas": 3387,
- "concluidas": 15,
+ "concluidas": 16,
  "porStatus": {
-  "pendente": 3372,
-  "rascunho": 15,
+  "pendente": 3371,
+  "rascunho": 16,
   "revisado": 0,
   "publicado": 0
  },
@@ -12,7 +12,7 @@
   "id": "ortodontia/crescimento-e-desenvolvimento",
   "area": "Ortodontia",
   "modulo": "Crescimento e desenvolvimento",
-  "faltam": 4
+  "faltam": 3
  },
  "imagensPendentes": [
   {
@@ -77,6 +77,15 @@
    "mostrar": "As três vértebras com o colar de tireoide bem posicionado abaixo de C4, concavidades visíveis na borda inferior de C2 e C3, C4 ainda plana, e corpo de C3 em formato retangular horizontal",
    "legenda": "CS3 na prática: concavidades em C2 e C3, C4 plana, C3 retangular deitado. O pico vem no ano seguinte.",
    "destacar": "Borda inferior de cada vértebra, proporção altura e largura dos corpos de C3 e C4, posição do colar"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-decidua",
+   "modulo": "Crescimento e desenvolvimento",
+   "secao": "Como é uma oclusão decídua normal",
+   "imagem": "fotografia intraoral oclusal do arco superior em dentição decídua completa",
+   "mostrar": "Arco em U com espaços de desenvolvimento entre os incisivos e o espaço primata visível mesial aos caninos, com os dez dentes decíduos superiores presentes",
+   "legenda": "Arco decíduo tipo I de Baume: espaçado, com os espaços primatas mesiais aos caninos.",
+   "destacar": "Espaços interincisivos, espaço primata entre lateral e canino de cada lado, forma em U do arco"
   }
  ],
  "verificarPendentes": [
@@ -234,6 +243,16 @@
    "pagina": "ortodontia/crescimento-e-desenvolvimento/maturacao/implicacoes-no-tempo-de-tratamento",
    "onde": "Seção \"Classe III: cedo para a maxila, paciência para a mandíbula\".blocos[0].texto",
    "trecho": "facial rende mais na dentição mista precoce, por volta dos 7 a 9 anos [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-decidua",
+   "onde": "Seção \"Vinte dentes, em que ordem e quando\".blocos[1].svg[18]",
+   "trecho": "8A8478)'>faixas aproximadas; inferiores em geral antes dos superiores [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-decidua",
+   "onde": "Seção \"O plano terminal: o segundo molar decíduo aponta o caminho\".blocos[1].svg[23]",
+   "trecho": "(--muted,#8A8478)'>a partir de Baume; o plano reto é o mais frequente [VERIFICAR]"
   }
  ],
  "modulos": [
@@ -243,11 +262,11 @@
    "area": "Ortodontia",
    "modulo": "Crescimento e desenvolvimento",
    "total": 14,
-   "concluidas": 10,
-   "palavras": 27982,
-   "visuais": 35,
-   "imagensClinicas": 7,
-   "verificar": 31,
+   "concluidas": 11,
+   "palavras": 30688,
+   "visuais": 39,
+   "imagensClinicas": 8,
+   "verificar": 33,
    "paginas": [
     {
      "id": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/conceitos-crescimento-e-desenvolvimento",
@@ -333,7 +352,9 @@
      "id": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-decidua",
      "nome": "Dentição decídua",
      "tema": "Desenvolvimento da oclusão",
-     "status": "pendente"
+     "status": "rascunho",
+     "palavras": 2706,
+     "visuais": 4
     },
     {
      "id": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-mista-primeira-e-segunda-fase",
@@ -25294,6 +25315,58 @@
     {
      "onde": "Seção \"Classe III: cedo para a maxila, paciência para a mandíbula\".blocos[0].texto",
      "trecho": "facial rende mais na dentição mista precoce, por volta dos 7 a 9 anos [VERIFICAR]"
+    }
+   ]
+  },
+  "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-decidua": {
+   "titulo": "Dentição decídua: o que os vinte dentes já contam sobre os trinta e dois",
+   "arquivo": "data/campus/paginas/ortodontia--oclusao-denticao-decidua.json",
+   "formato": 2,
+   "status": "rascunho",
+   "estado": "rascunho",
+   "palavras": 2706,
+   "visuais": [
+    {
+     "formato": "linha-do-tempo",
+     "titulo": "Cronologia de erupção dos dentes decíduos"
+    },
+    {
+     "formato": "anatomico",
+     "titulo": "Espaços primatas e espaços de desenvolvimento"
+    },
+    {
+     "formato": "classificacao",
+     "titulo": "Plano terminal e a relação molar que tende a produzir"
+    },
+    {
+     "formato": "mapa",
+     "titulo": "Mapa da página"
+    }
+   ],
+   "quadros": {
+    "frase": 1,
+    "prova": 1,
+    "mito": 1,
+    "dica": 1,
+    "erro": 1
+   },
+   "imagensClinicas": [
+    {
+     "secao": "Como é uma oclusão decídua normal",
+     "imagem": "fotografia intraoral oclusal do arco superior em dentição decídua completa",
+     "mostrar": "Arco em U com espaços de desenvolvimento entre os incisivos e o espaço primata visível mesial aos caninos, com os dez dentes decíduos superiores presentes",
+     "legenda": "Arco decíduo tipo I de Baume: espaçado, com os espaços primatas mesiais aos caninos.",
+     "destacar": "Espaços interincisivos, espaço primata entre lateral e canino de cada lado, forma em U do arco"
+    }
+   ],
+   "verificar": [
+    {
+     "onde": "Seção \"Vinte dentes, em que ordem e quando\".blocos[1].svg[18]",
+     "trecho": "8A8478)'>faixas aproximadas; inferiores em geral antes dos superiores [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"O plano terminal: o segundo molar decíduo aponta o caminho\".blocos[1].svg[23]",
+     "trecho": "(--muted,#8A8478)'>a partir de Baume; o plano reto é o mais frequente [VERIFICAR]"
     }
    ]
   },
