@@ -1,10 +1,10 @@
 {
  "atualizadoEm": "2026-09-04",
  "totalPaginas": 3387,
- "concluidas": 13,
+ "concluidas": 14,
  "porStatus": {
-  "pendente": 3374,
-  "rascunho": 13,
+  "pendente": 3373,
+  "rascunho": 14,
   "revisado": 0,
   "publicado": 0
  },
@@ -12,7 +12,7 @@
   "id": "ortodontia/crescimento-e-desenvolvimento",
   "area": "Ortodontia",
   "modulo": "Crescimento e desenvolvimento",
-  "faltam": 6
+  "faltam": 5
  },
  "imagensPendentes": [
   {
@@ -68,6 +68,15 @@
    "mostrar": "O sesamoide ulnar do polegar visível, as epífises das falanges do terceiro dedo em capeamento e a epífise distal do rádio ainda aberta",
    "legenda": "Sesamoide presente e capeamento em curso: paciente em torno do pico de velocidade.",
    "destacar": "Sesamoide na metacarpofalângica do polegar, epífise envolvendo a diáfise na falange média do terceiro dedo, linha epifisária do rádio"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/maturacao/vertebras-cervicais",
+   "modulo": "Crescimento e desenvolvimento",
+   "secao": "Lendo com critério",
+   "imagem": "recorte de telerradiografia lateral mostrando C2, C3 e C4",
+   "mostrar": "As três vértebras com o colar de tireoide bem posicionado abaixo de C4, concavidades visíveis na borda inferior de C2 e C3, C4 ainda plana, e corpo de C3 em formato retangular horizontal",
+   "legenda": "CS3 na prática: concavidades em C2 e C3, C4 plana, C3 retangular deitado. O pico vem no ano seguinte.",
+   "destacar": "Borda inferior de cada vértebra, proporção altura e largura dos corpos de C3 e C4, posição do colar"
   }
  ],
  "verificarPendentes": [
@@ -195,6 +204,26 @@
    "pagina": "ortodontia/crescimento-e-desenvolvimento/maturacao/idade-ossea-mao-e-punho",
    "onde": "infografico.itens[1].texto",
    "trecho": "a metacarpofalângica do polegar; aparece na aceleração, perto do pico [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/maturacao/vertebras-cervicais",
+   "onde": "Seção \"Os seis estágios do método CVM\".blocos[1].svg[29]",
+   "trecho": "m cima C2, embaixo C3; os intervalos em anos são médias populacionais [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/maturacao/vertebras-cervicais",
+   "onde": "Seção \"O que ela faz melhor que a mão, e o que faz pior\".blocos[1].texto",
+   "trecho": "dade variável, com discordância frequente nos estágios intermediários [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/maturacao/vertebras-cervicais",
+   "onde": "Seção \"O que ela faz melhor que a mão, e o que faz pior\".blocos[2].svg[9]",
+   "trecho": "-weight='700'>Reprodutibilidade</text><text x='160' y='230'>discutida [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/maturacao/vertebras-cervicais",
+   "onde": "infografico.itens[2].texto",
+   "trecho": "anas ou só C2 côncava; corpos trapezoides. Pico em cerca de 2 e 1 ano [VERIFICAR]"
   }
  ],
  "modulos": [
@@ -204,11 +233,11 @@
    "area": "Ortodontia",
    "modulo": "Crescimento e desenvolvimento",
    "total": 14,
-   "concluidas": 8,
-   "palavras": 22354,
-   "visuais": 28,
-   "imagensClinicas": 6,
-   "verificar": 25,
+   "concluidas": 9,
+   "palavras": 25153,
+   "visuais": 32,
+   "imagensClinicas": 7,
+   "verificar": 29,
    "paginas": [
     {
      "id": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/conceitos-crescimento-e-desenvolvimento",
@@ -278,7 +307,9 @@
      "id": "ortodontia/crescimento-e-desenvolvimento/maturacao/vertebras-cervicais",
      "nome": "Vértebras cervicais",
      "tema": "Maturação",
-     "status": "pendente"
+     "status": "rascunho",
+     "palavras": 2799,
+     "visuais": 4
     },
     {
      "id": "ortodontia/crescimento-e-desenvolvimento/maturacao/implicacoes-no-tempo-de-tratamento",
@@ -25151,6 +25182,66 @@
     {
      "onde": "infografico.itens[1].texto",
      "trecho": "a metacarpofalângica do polegar; aparece na aceleração, perto do pico [VERIFICAR]"
+    }
+   ]
+  },
+  "ortodontia/crescimento-e-desenvolvimento/maturacao/vertebras-cervicais": {
+   "titulo": "Vértebras cervicais: o indicador de maturação que já está na sua telerradiografia",
+   "arquivo": "data/campus/paginas/ortodontia--maturacao-vertebras.json",
+   "formato": 2,
+   "status": "rascunho",
+   "estado": "rascunho",
+   "palavras": 2799,
+   "visuais": [
+    {
+     "formato": "classificacao",
+     "titulo": "As duas mudanças que o método lê"
+    },
+    {
+     "formato": "linha-do-tempo",
+     "titulo": "CS1 a CS6 em relação ao pico de crescimento"
+    },
+    {
+     "formato": "comparativo",
+     "titulo": "Vértebras cervicais e mão e punho, lado a lado"
+    },
+    {
+     "formato": "mapa",
+     "titulo": "Mapa da página"
+    }
+   ],
+   "quadros": {
+    "frase": 1,
+    "prova": 1,
+    "mito": 1,
+    "dica": 1,
+    "erro": 1
+   },
+   "imagensClinicas": [
+    {
+     "secao": "Lendo com critério",
+     "imagem": "recorte de telerradiografia lateral mostrando C2, C3 e C4",
+     "mostrar": "As três vértebras com o colar de tireoide bem posicionado abaixo de C4, concavidades visíveis na borda inferior de C2 e C3, C4 ainda plana, e corpo de C3 em formato retangular horizontal",
+     "legenda": "CS3 na prática: concavidades em C2 e C3, C4 plana, C3 retangular deitado. O pico vem no ano seguinte.",
+     "destacar": "Borda inferior de cada vértebra, proporção altura e largura dos corpos de C3 e C4, posição do colar"
+    }
+   ],
+   "verificar": [
+    {
+     "onde": "Seção \"Os seis estágios do método CVM\".blocos[1].svg[29]",
+     "trecho": "m cima C2, embaixo C3; os intervalos em anos são médias populacionais [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"O que ela faz melhor que a mão, e o que faz pior\".blocos[1].texto",
+     "trecho": "dade variável, com discordância frequente nos estágios intermediários [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"O que ela faz melhor que a mão, e o que faz pior\".blocos[2].svg[9]",
+     "trecho": "-weight='700'>Reprodutibilidade</text><text x='160' y='230'>discutida [VERIFICAR]"
+    },
+    {
+     "onde": "infografico.itens[2].texto",
+     "trecho": "anas ou só C2 côncava; corpos trapezoides. Pico em cerca de 2 e 1 ano [VERIFICAR]"
     }
    ]
   },

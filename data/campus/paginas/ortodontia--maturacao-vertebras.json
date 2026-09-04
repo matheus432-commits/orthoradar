@@ -1,0 +1,320 @@
+{
+  "id": "ortodontia/crescimento-e-desenvolvimento/maturacao/vertebras-cervicais",
+  "areaId": "ortodontia",
+  "area": "Ortodontia",
+  "modulo": "Crescimento e desenvolvimento",
+  "tema": "Maturação",
+  "titulo": "Vértebras cervicais: o indicador de maturação que já está na sua telerradiografia",
+  "estado": "rascunho",
+  "versao": 1,
+  "formato": 2,
+  "autoria": "Rascunho escrito pela plataforma para validação; nada aqui é visível ao aluno antes da assinatura de um ortodontista.",
+  "abertura": {
+    "situacao": "Você acaba de traçar a cefalometria de uma menina de 11 anos com Classe II. A telerradiografia está na tela. Antes de pedir mais um exame para saber se ela está no surto, você desce o olhar até o pescoço.",
+    "pergunta": "O que as três vértebras abaixo do crânio dizem sobre o momento certo de começar, e até onde dá para confiar nelas?"
+  },
+  "umMinuto": {
+    "frases": [
+      "As vértebras cervicais C2, C3 e C4 aparecem na telerradiografia lateral e mudam de forma com a maturação: a borda inferior ganha concavidade e o corpo passa de trapezoide a retângulo horizontal, quadrado e retângulo vertical.",
+      "Lamparski descreveu o método nos anos 1970; Hassel e Farman o organizaram em seis estágios; Baccetti, Franchi e McNamara o simplificaram no método CVM com seis estágios (CS1 a CS6) baseados só em C2, C3 e C4.",
+      "CS1 e CS2 são pré-pico: bordas planas ou só C2 côncava, corpos trapezoidais. CS3 é o estágio da aceleração: concavidades em C2 e C3 e ao menos um corpo retangular horizontal; o pico ocorre no ano seguinte.",
+      "CS4 a CS6 são pós-pico: concavidades em C2, C3 e C4 e corpos que evoluem de retangular horizontal para quadrado e retangular vertical.",
+      "A janela dos aparelhos funcionais na Classe II é CS3, estendendo-se a CS4: é quando o crescimento mandibular está no máximo.",
+      "A reprodutibilidade do método é discutida na literatura; a leitura ganha confiança quando combinada com estatura seriada e sinais puberais, e a mão e punho decide os casos duvidosos."
+    ],
+    "caiNaProva": [
+      "Os seis estágios CS1 a CS6 e a forma dos corpos vertebrais",
+      "Concavidade da borda inferior de C2, C3 e C4",
+      "Estágio de maior crescimento mandibular (CS3 a CS4)",
+      "Vantagem sobre a mão e punho: sem exame extra",
+      "Limitação: reprodutibilidade entre examinadores"
+    ],
+    "porQueImporta": "Toda telerradiografia pedida para cefalometria traz um indicador de maturação de graça. Não olhar as vértebras é jogar informação fora."
+  },
+  "secoes": [
+    {
+      "titulo": "Três vértebras, duas coisas para olhar",
+      "blocos": [
+        { "tipo": "p", "texto": "Na telerradiografia lateral, logo abaixo da base do crânio, aparecem as primeiras vértebras cervicais. O método usa C2 (o áxis), C3 e C4, porque ficam visíveis mesmo com o colar protetor de tireoide bem posicionado, e porque mudam de forma de um jeito previsível ao longo da puberdade." },
+        { "tipo": "p", "texto": "Há duas coisas para observar em cada uma. A primeira é a borda inferior do corpo vertebral: começa plana e desenvolve uma concavidade. A segunda é a forma do corpo de C3 e C4: começa como um trapézio com a base superior mais estreita, vira retângulo deitado, depois quadrado e, por fim, retângulo em pé." },
+        { "tipo": "visual", "formato": "classificacao", "titulo": "As duas mudanças que o método lê", "descricao": "À esquerda, três vértebras esquemáticas mostram a borda inferior plana, depois côncava. À direita, quatro corpos vertebrais mostram a sequência de forma: trapezoide, retângulo horizontal, quadrado e retângulo vertical.", "viewBox": "0 0 560 300",
+          "svg": [
+            "<text x='140' y='34' text-anchor='middle' font-size='15' font-weight='700'>Borda inferior</text>",
+            "<use href='#c-vertebra' x='60' y='60' width='72' height='60'/><text x='96' y='140' text-anchor='middle' font-size='12'>plana</text>",
+            "<use href='#c-vetor' x='140' y='84' width='30' height='12'/>",
+            "<use href='#c-vertebra-concava' x='180' y='60' width='72' height='60'/><text x='216' y='140' text-anchor='middle' font-size='12'>côncava</text>",
+            "<text x='140' y='176' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>surge primeiro em C2,</text><text x='140' y='192' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>depois C3, depois C4</text>",
+            "<line x1='290' y1='20' x2='290' y2='200' stroke='var(--border,#EDE6D8)'/>",
+            "<text x='430' y='34' text-anchor='middle' font-size='15' font-weight='700'>Forma do corpo (C3, C4)</text>",
+            "<path d='M318 106 L364 106 L370 62 L312 62 Z' fill='var(--gold-soft,#F4EEE4)' stroke='var(--ink,#23211C)' stroke-width='1.5' stroke-linejoin='round' transform='rotate(180 341 84)'/>",
+            "<text x='341' y='130' text-anchor='middle' font-size='11'>trapezoide</text>",
+            "<rect x='386' y='70' width='56' height='36' rx='3' fill='var(--gold-soft,#F4EEE4)' stroke='var(--ink,#23211C)' stroke-width='1.5'/>",
+            "<text x='414' y='130' text-anchor='middle' font-size='11'>retângulo</text><text x='414' y='143' text-anchor='middle' font-size='11'>horizontal</text>",
+            "<rect x='458' y='60' width='46' height='46' rx='3' fill='var(--gold-soft,#F4EEE4)' stroke='var(--ink,#23211C)' stroke-width='1.5'/>",
+            "<text x='481' y='130' text-anchor='middle' font-size='11'>quadrado</text>",
+            "<rect x='518' y='52' width='34' height='54' rx='3' fill='var(--gold-soft,#F4EEE4)' stroke='var(--ink,#23211C)' stroke-width='1.5'/>",
+            "<text x='535' y='130' text-anchor='middle' font-size='11'>retângulo</text><text x='535' y='143' text-anchor='middle' font-size='11'>vertical</text>",
+            "<use href='#c-vetor' x='330' y='166' width='200' height='12'/>",
+            "<text x='430' y='196' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>da infância à maturidade</text>",
+            "<use href='#c-caixa-gold' x='40' y='224' width='480' height='50'/>",
+            "<text x='280' y='245' text-anchor='middle' font-size='13' font-weight='700'>Concavidade diz \"o surto começou\"; forma do corpo diz \"quanto já passou\"</text>",
+            "<text x='280' y='264' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>as duas juntas dão o estágio</text>"
+          ],
+          "legenda": "O método combina a concavidade (quantas vértebras já a têm) com a forma dos corpos de C3 e C4." },
+        { "tipo": "destaque", "estilo": "frase", "texto": "Borda plana e corpo trapezoide: criança. Concavidade e retângulo deitado: surto. Quadrado ou retângulo em pé: o surto ficou para trás." }
+      ],
+      "checagem": { "pergunta": "Por que o método usa C2, C3 e C4, e não vértebras mais baixas?", "resposta": "Porque as três aparecem na telerradiografia lateral mesmo com o colar de proteção da tireoide bem colocado, e a partir de C4 as vértebras costumam ficar cobertas." }
+    },
+    {
+      "titulo": "Os seis estágios do método CVM",
+      "blocos": [
+        { "tipo": "p", "texto": "Baccetti, Franchi e McNamara reduziram o método a seis estágios, lidos em C2, C3 e C4. Os dois primeiros são pré-pico, o terceiro é a aceleração imediatamente antes do pico, e os três últimos são pós-pico, cada um mais distante dele." },
+        { "tipo": "visual", "formato": "linha-do-tempo", "titulo": "CS1 a CS6 em relação ao pico de crescimento", "descricao": "Linha do tempo horizontal com seis estágios. CS1: bordas planas, corpos trapezoidais, pico em cerca de dois anos. CS2: concavidade em C2, pico em cerca de um ano. CS3: concavidades em C2 e C3, pelo menos um corpo retangular horizontal, pico durante o ano seguinte. CS4: concavidades em C2, C3 e C4, corpos retangulares horizontais, pico há um ou dois anos. CS5: ao menos um corpo quadrado, pico há mais de um ano. CS6: ao menos um retangular vertical, pico há mais de dois anos. Uma marca indica o pico entre CS3 e CS4.", "viewBox": "0 0 720 330",
+          "svg": [
+            "<line x1='40' y1='120' x2='700' y2='120' stroke='var(--muted,#8A8478)' stroke-width='1.5'/>",
+            "<g font-size='13' font-weight='700' fill='var(--ink,#23211C)'>",
+            "<use href='#c-marco' x='70' y='110' width='20' height='20'/><text x='80' y='96' text-anchor='middle'>CS1</text>",
+            "<use href='#c-marco' x='180' y='110' width='20' height='20'/><text x='190' y='96' text-anchor='middle'>CS2</text>",
+            "<use href='#c-marco-cheio' x='290' y='110' width='20' height='20'/><text x='300' y='96' text-anchor='middle' fill='var(--gold,#B08968)'>CS3</text>",
+            "<use href='#c-marco-blue' x='400' y='110' width='20' height='20'/><text x='410' y='96' text-anchor='middle'>CS4</text>",
+            "<use href='#c-marco-blue' x='510' y='110' width='20' height='20'/><text x='520' y='96' text-anchor='middle'>CS5</text>",
+            "<use href='#c-marco-blue' x='620' y='110' width='20' height='20'/><text x='630' y='96' text-anchor='middle'>CS6</text>",
+            "</g>",
+            "<line x1='355' y1='40' x2='355' y2='130' stroke='var(--red,#B4533B)' stroke-width='2' stroke-dasharray='5 4'/>",
+            "<text x='355' y='30' text-anchor='middle' font-size='13' font-weight='700' fill='var(--red,#B4533B)'>PICO</text>",
+            "<rect x='262' y='44' width='190' height='26' rx='13' fill='var(--green-soft,#E8F2EA)' stroke='var(--green,#3E7C4F)'/>",
+            "<text x='357' y='62' text-anchor='middle' font-size='12' font-weight='700' fill='var(--green,#3E7C4F)'>janela do funcional: CS3 a CS4</text>",
+            "<g font-size='11' fill='var(--ink,#23211C)'>",
+            "<text x='80' y='150' text-anchor='middle'>bordas planas</text><text x='80' y='164' text-anchor='middle'>corpos trapezoides</text><text x='80' y='184' text-anchor='middle' fill='var(--muted,#8A8478)'>pico em ~2 anos</text>",
+            "<text x='190' y='150' text-anchor='middle'>concavidade em C2</text><text x='190' y='164' text-anchor='middle'>corpos trapezoides</text><text x='190' y='184' text-anchor='middle' fill='var(--muted,#8A8478)'>pico em ~1 ano</text>",
+            "<text x='300' y='150' text-anchor='middle'>concavidades C2 e C3</text><text x='300' y='164' text-anchor='middle'>1 corpo retangular deitado</text><text x='300' y='184' text-anchor='middle' fill='var(--muted,#8A8478)'>pico no ano seguinte</text>",
+            "<text x='410' y='150' text-anchor='middle'>concavidades C2, C3, C4</text><text x='410' y='164' text-anchor='middle'>corpos retangulares deitados</text><text x='410' y='184' text-anchor='middle' fill='var(--muted,#8A8478)'>pico há 1 a 2 anos</text>",
+            "<text x='520' y='150' text-anchor='middle'>concavidades C2, C3, C4</text><text x='520' y='164' text-anchor='middle'>ao menos 1 quadrado</text><text x='520' y='184' text-anchor='middle' fill='var(--muted,#8A8478)'>pico há mais de 1 ano</text>",
+            "<text x='630' y='150' text-anchor='middle'>concavidades C2, C3, C4</text><text x='630' y='164' text-anchor='middle'>ao menos 1 retângulo em pé</text><text x='630' y='184' text-anchor='middle' fill='var(--muted,#8A8478)'>pico há mais de 2 anos</text>",
+            "</g>",
+            "<g>",
+            "<use href='#c-vertebra' x='62' y='210' width='36' height='30'/><use href='#c-vertebra' x='62' y='246' width='36' height='30'/>",
+            "<use href='#c-vertebra-concava' x='172' y='210' width='36' height='30'/><use href='#c-vertebra' x='172' y='246' width='36' height='30'/>",
+            "<use href='#c-vertebra-concava' x='282' y='210' width='36' height='30'/><use href='#c-vertebra-retangular' x='282' y='246' width='36' height='30'/>",
+            "<use href='#c-vertebra-concava' x='392' y='210' width='36' height='30'/><use href='#c-vertebra-retangular' x='392' y='246' width='36' height='30'/>",
+            "<use href='#c-vertebra-concava' x='502' y='210' width='36' height='30'/><use href='#c-vertebra-retangular' x='502' y='244' width='36' height='34'/>",
+            "<use href='#c-vertebra-concava' x='612' y='210' width='36' height='30'/><use href='#c-vertebra-retangular' x='616' y='242' width='28' height='38'/>",
+            "</g>",
+            "<text x='360' y='310' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>esquema: em cima C2, embaixo C3; os intervalos em anos são médias populacionais [VERIFICAR]</text>"
+          ],
+          "legenda": "O pico fica entre CS3 e CS4. Quem começa o aparelho funcional em CS3 cobre o pico; quem começa em CS5 chegou tarde." },
+        { "tipo": "destaque", "estilo": "prova", "texto": "Perguntas certas: em que estágio aparece a primeira concavidade (CS2, em C2); qual estágio antecede imediatamente o pico (CS3); qual estágio tem os três corpos com concavidade e forma retangular horizontal (CS4); e qual estágio é o ideal para iniciar o funcional na Classe II (CS3)." },
+        { "tipo": "p", "texto": "Duas regras ajudam a não errar a leitura. A concavidade progride de cima para baixo: C2 primeiro, depois C3, depois C4. E a forma dos corpos só é avaliada em C3 e C4, porque C2 tem o dente do áxis e não serve para isso." }
+      ],
+      "checagem": { "pergunta": "Telerradiografia com concavidades em C2 e C3, C4 ainda plana, e C3 com corpo retangular deitado. Qual o estágio e o que ele diz?", "resposta": "CS3: a aceleração imediatamente antes do pico, que deve ocorrer no ano seguinte. É o momento ideal para começar um aparelho funcional na Classe II." }
+    },
+    {
+      "titulo": "O que ela faz melhor que a mão, e o que faz pior",
+      "blocos": [
+        { "tipo": "p", "texto": "A grande vantagem é não custar nada: a telerradiografia já foi pedida para a cefalometria, e o colar de tireoide bem posicionado deixa C2, C3 e C4 visíveis. Não há dose extra nem consulta extra." },
+        { "tipo": "p", "texto": "A desvantagem é a precisão. Há menos eventos a observar do que na mão e punho, as mudanças de forma são graduais, e estudos que testaram a concordância entre examinadores encontraram reprodutibilidade variável, com discordância frequente nos estágios intermediários [VERIFICAR]. Isso não invalida o método; pede que ele seja lido com critério e somado a outros sinais." },
+        { "tipo": "visual", "formato": "comparativo", "titulo": "Vértebras cervicais e mão e punho, lado a lado", "descricao": "Tabela com duas colunas comparando custo (nenhum exame extra versus radiografia adicional), número de eventos (poucos versus muitos), precisão (moderada versus alta), reprodutibilidade (discutida versus estabelecida) e uso recomendado (triagem em todo paciente versus decisão cara ou dúvida).", "viewBox": "0 0 560 320",
+          "svg": [
+            "<use href='#c-caixa-gold' x='150' y='16' width='190' height='44'/><text x='245' y='44' text-anchor='middle' font-size='15' font-weight='700'>Vértebras cervicais</text>",
+            "<use href='#c-caixa-blue' x='354' y='16' width='190' height='44'/><text x='449' y='44' text-anchor='middle' font-size='15' font-weight='700'>Mão e punho</text>",
+            "<g font-size='13' fill='var(--ink,#23211C)'>",
+            "<text x='16' y='92' font-weight='700'>Exame extra</text><text x='160' y='92'>não: já está na tele</text><text x='364' y='92'>sim: radiografia a mais</text>",
+            "<line x1='16' y1='106' x2='544' y2='106' stroke='var(--border,#EDE6D8)'/>",
+            "<text x='16' y='138' font-weight='700'>Eventos a ler</text><text x='160' y='138'>poucos (6 estágios)</text><text x='364' y='138'>muitos (11 indicadores)</text>",
+            "<line x1='16' y1='152' x2='544' y2='152' stroke='var(--border,#EDE6D8)'/>",
+            "<text x='16' y='184' font-weight='700'>Precisão</text><text x='160' y='184'>moderada</text><text x='364' y='184'>alta</text>",
+            "<line x1='16' y1='198' x2='544' y2='198' stroke='var(--border,#EDE6D8)'/>",
+            "<text x='16' y='230' font-weight='700'>Reprodutibilidade</text><text x='160' y='230'>discutida [VERIFICAR]</text><text x='364' y='230'>bem estabelecida</text>",
+            "<line x1='16' y1='244' x2='544' y2='244' stroke='var(--border,#EDE6D8)'/>",
+            "<text x='16' y='276' font-weight='700'>Quando usar</text><text x='160' y='276'>triagem em todo paciente</text><text x='364' y='276'>decisão cara ou dúvida</text>",
+            "</g>",
+            "<text x='280' y='308' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>não são concorrentes: a vértebra tria, a mão decide</text>"
+          ],
+          "legenda": "Use a vértebra em todos; peça a mão quando a vértebra deixa dúvida e a decisão é cara." },
+        { "tipo": "destaque", "estilo": "mito", "mito": "O método das vértebras substitui a mão e punho em qualquer situação.", "verdade": "Ele tria bem e não custa nada, mas tem menos eventos e reprodutibilidade discutida. Em decisão cara e leitura duvidosa, a mão e punho ainda decide." }
+      ],
+      "checagem": { "pergunta": "Como você aumenta a confiança na leitura das vértebras sem pedir outro exame?", "resposta": "Somando sinais que já tem: velocidade de estatura em medidas seriadas, menarca ou mudança de voz e a idade dentária aproximada. Três indicadores concordantes valem mais que um preciso." }
+    },
+    {
+      "titulo": "Lendo com critério",
+      "blocos": [
+        { "tipo": "p", "texto": "A leitura melhora com método. Olhe primeiro as bordas inferiores, de C2 para baixo, e conte quantas têm concavidade. Depois olhe só C3 e C4 e decida a forma: trapézio, retângulo deitado, quadrado ou retângulo em pé. Só então nomeie o estágio." },
+        { "tipo": "imagem", "imagem": "recorte de telerradiografia lateral mostrando C2, C3 e C4", "mostrar": "As três vértebras com o colar de tireoide bem posicionado abaixo de C4, concavidades visíveis na borda inferior de C2 e C3, C4 ainda plana, e corpo de C3 em formato retangular horizontal", "legenda": "CS3 na prática: concavidades em C2 e C3, C4 plana, C3 retangular deitado. O pico vem no ano seguinte.", "destacar": "Borda inferior de cada vértebra, proporção altura e largura dos corpos de C3 e C4, posição do colar" },
+        { "tipo": "destaque", "estilo": "dica", "titulo": "Peça a telerradiografia certa", "texto": "Colar de tireoide posicionado abaixo de C4, cabeça em posição natural e sem rotação. Um colar alto demais esconde C3 e C4 e joga fora o indicador que vinha de graça." },
+        { "tipo": "lista", "itens": [
+          "Concavidade: começa em C2 e desce; se C4 tem e C2 não, reveja a leitura.",
+          "Forma: só C3 e C4; ignore C2.",
+          "Dúvida entre dois estágios: escolha o mais conservador para a decisão em jogo e some outros sinais.",
+          "Registre: estágio, método (CVM), data e o que muda a conduta."
+        ] }
+      ],
+      "checagem": { "pergunta": "Por que a forma do corpo vertebral não é avaliada em C2?", "resposta": "Porque C2, o áxis, tem o processo odontoide e não tem um corpo comparável ao de C3 e C4; nele só se lê a concavidade da borda inferior." }
+    },
+    {
+      "titulo": "A menina de 11 anos na tela",
+      "blocos": [
+        { "tipo": "p", "texto": "Você desce até o pescoço. C2 tem concavidade, C3 também, C4 não; o corpo de C3 é um retângulo deitado. CS3. A aceleração está em curso e o pico vem no ano seguinte: é exatamente a janela que o aparelho funcional pede." },
+        { "tipo": "destaque", "estilo": "erro", "texto": "Pedir uma radiografia de mão e punho antes de olhar as vértebras que já estão na telerradiografia. Na maioria dos casos a vértebra resolve; a mão entra quando ela deixa dúvida." },
+        { "tipo": "p", "texto": "A decisão sai da mesma consulta: começar agora, com a expectativa correta sobre efeito esquelético e dentoalveolar, e a reavaliação marcada para confirmar a progressão para CS4 durante o tratamento." }
+      ],
+      "checagem": { "pergunta": "Que achado nas vértebras faria você adiar o funcional e reavaliar em seis meses?", "resposta": "CS1: bordas planas e corpos trapezoides, com o pico previsto para cerca de dois anos depois. Começar agora gastaria o aparelho antes da janela." }
+    }
+  ],
+  "fechamento": {
+    "visual": { "formato": "mapa", "titulo": "Mapa da página", "descricao": "Nó central: vértebras cervicais. Seis nós: C2, C3 e C4 na telerradiografia; concavidade e forma do corpo; CS1 e CS2 pré-pico; CS3 aceleração, a janela; CS4 a CS6 pós-pico; tria em todos, a mão decide a dúvida.", "viewBox": "0 0 560 360",
+      "svg": [
+        "<g stroke='var(--border,#EDE6D8)' stroke-width='1.5'><line x1='280' y1='180' x2='100' y2='60'/><line x1='280' y1='180' x2='460' y2='60'/><line x1='280' y1='180' x2='70' y2='180'/><line x1='280' y1='180' x2='490' y2='180'/><line x1='280' y1='180' x2='100' y2='300'/><line x1='280' y1='180' x2='460' y2='300'/></g>",
+        "<use href='#c-no-central' x='190' y='150' width='180' height='60'/>",
+        "<text x='280' y='176' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>Vértebras</text><text x='280' y='194' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>cervicais (CVM)</text>",
+        "<use href='#c-no' x='20' y='38' width='160' height='44'/><text x='100' y='65' text-anchor='middle' font-size='13' font-weight='700'>C2, C3, C4 na tele</text>",
+        "<use href='#c-no' x='380' y='38' width='160' height='44'/><text x='460' y='65' text-anchor='middle' font-size='13' font-weight='700'>Concavidade + forma</text>",
+        "<use href='#c-no' x='0' y='158' width='150' height='44'/><text x='75' y='185' text-anchor='middle' font-size='13' font-weight='700'>CS1, CS2: pré-pico</text>",
+        "<use href='#c-no' x='410' y='158' width='150' height='44'/><text x='485' y='185' text-anchor='middle' font-size='13' font-weight='700'>CS3: a janela</text>",
+        "<use href='#c-no' x='20' y='278' width='160' height='44'/><text x='100' y='305' text-anchor='middle' font-size='13' font-weight='700'>CS4 a CS6: pós-pico</text>",
+        "<use href='#c-no' x='380' y='278' width='160' height='44'/><text x='460' y='305' text-anchor='middle' font-size='13' font-weight='700'>Tria em todos; mão decide</text>"
+      ] },
+    "flashcards": [
+      { "frente": "Quais vértebras o método CVM usa e o que se observa em cada uma?", "verso": "C2, C3 e C4. Concavidade da borda inferior nas três; forma do corpo (trapezoide, retângulo horizontal, quadrado, retângulo vertical) só em C3 e C4." },
+      { "frente": "Descreva o CS3 e diga por que ele é a janela do aparelho funcional.", "verso": "Concavidades em C2 e C3, ao menos um corpo de C3 ou C4 retangular horizontal. O pico ocorre no ano seguinte: começar aqui cobre o pico inteiro." },
+      { "frente": "Principal vantagem e principal limitação das vértebras cervicais como indicador.", "verso": "Vantagem: não exige exame extra, está na telerradiografia da cefalometria. Limitação: poucos eventos e reprodutibilidade discutida; a mão e punho decide a dúvida." }
+    ]
+  },
+  "infografico": {
+    "titulo": "CVM em seis cartões",
+    "itens": [
+      { "rotulo": "Onde", "texto": "C2, C3 e C4 na telerradiografia lateral, visíveis com o colar de tireoide abaixo de C4." },
+      { "rotulo": "O que ler", "texto": "Concavidade da borda inferior (de C2 para baixo) e forma dos corpos de C3 e C4." },
+      { "rotulo": "CS1 e CS2", "texto": "Pré-pico: bordas planas ou só C2 côncava; corpos trapezoides. Pico em cerca de 2 e 1 ano [VERIFICAR]." },
+      { "rotulo": "CS3", "texto": "Concavidades em C2 e C3, um corpo retangular deitado: aceleração, pico no ano seguinte. A janela." },
+      { "rotulo": "CS4 a CS6", "texto": "Concavidades nas três; corpos retangular deitado, quadrado, retângulo em pé. Pós-pico crescente." },
+      { "rotulo": "Limite", "texto": "Reprodutibilidade discutida; some estatura e sinais puberais; mão e punho na dúvida cara." }
+    ]
+  },
+  "fluxograma": {
+    "titulo": "Ler as vértebras e decidir",
+    "nos": [
+      { "id": "n1", "tipo": "inicio", "texto": "Telerradiografia lateral na tela, C2 a C4 visíveis" },
+      { "id": "n2", "tipo": "decisao", "texto": "Quantas bordas inferiores têm concavidade?" },
+      { "id": "n3", "tipo": "acao", "texto": "Nenhuma ou só C2 (CS1, CS2): pré-pico; acompanhar e reavaliar em 6 a 12 meses" },
+      { "id": "n4", "tipo": "decisao", "texto": "C2 e C3 côncavas, C4 plana, e um corpo retangular deitado?" },
+      { "id": "n5", "tipo": "acao", "texto": "CS3: começar o aparelho funcional agora" },
+      { "id": "n6", "tipo": "decisao", "texto": "Três côncavas: corpos deitados, quadrados ou em pé?" },
+      { "id": "n7", "tipo": "acao", "texto": "CS4: pico recente, ainda há crescimento; começar com expectativa reduzida" },
+      { "id": "n8", "tipo": "acao", "texto": "CS5 ou CS6: pós-pico distante; mecânica ortodôntica, camuflagem ou cirurgia" },
+      { "id": "n9", "tipo": "fim", "texto": "Estágio, método e data registrados; conduta definida" }
+    ],
+    "arestas": [
+      { "de": "n1", "para": "n2" },
+      { "de": "n2", "para": "n3", "rotulo": "0 ou 1" },
+      { "de": "n2", "para": "n4", "rotulo": "2" },
+      { "de": "n2", "para": "n6", "rotulo": "3" },
+      { "de": "n4", "para": "n5", "rotulo": "sim" },
+      { "de": "n4", "para": "n3", "rotulo": "não" },
+      { "de": "n6", "para": "n7", "rotulo": "deitados" },
+      { "de": "n6", "para": "n8", "rotulo": "quadrado ou em pé" },
+      { "de": "n3", "para": "n9" },
+      { "de": "n5", "para": "n9" },
+      { "de": "n7", "para": "n9" },
+      { "de": "n8", "para": "n9" }
+    ]
+  },
+  "passoAPasso": [
+    { "passo": "Confira a técnica: colar de tireoide abaixo de C4, cabeça sem rotação.", "confira": "C2, C3 e C4 estão inteiras e nítidas?" },
+    { "passo": "Leia a borda inferior de C2, depois C3, depois C4: plana ou côncava.", "confira": "A sequência faz sentido (C2 antes de C3 antes de C4)?" },
+    { "passo": "Avalie a forma dos corpos de C3 e C4: trapezoide, retângulo deitado, quadrado, retângulo em pé.", "confira": "Você comparou altura com largura, e não só a impressão?" },
+    { "passo": "Combine e nomeie o estágio CS1 a CS6.", "confira": "Em dúvida entre dois, qual é o mais conservador para a decisão em jogo?" },
+    { "passo": "Some estatura seriada e sinais puberais; se a decisão for cara e persistir dúvida, peça mão e punho.", "confira": "Estágio, método, data e conduta estão no prontuário?" }
+  ],
+  "macetes": [
+    { "titulo": "Dois, três, quatro: a concavidade desce", "texto": "Primeiro C2, depois C3, depois C4. CS2 tem uma, CS3 tem duas, CS4 tem três." },
+    { "titulo": "Deitado, quadrado, em pé", "texto": "A forma de C3 e C4 depois da concavidade nas três: retângulo deitado (CS4), quadrado (CS5), retângulo em pé (CS6). Quanto mais alto o corpo, mais longe o pico." },
+    { "titulo": "Três é a janela", "texto": "CS3: concavidades em C2 e C3, um corpo deitado, pico no ano seguinte. É quando o funcional rende mais." },
+    { "titulo": "Vértebra tria, mão decide", "texto": "Use a vértebra em todo paciente, porque é grátis. Peça a mão quando a decisão for cara e a vértebra deixar dúvida." }
+  ],
+  "ondeErra": [
+    { "erro": "Avaliar a forma do corpo em C2.", "porque": "C2 tem o processo odontoide e não tem corpo comparável; nela só se lê a concavidade.", "certo": "Forma só em C3 e C4; concavidade nas três." },
+    { "erro": "Confundir CS3 com CS4.", "porque": "CS3 tem duas concavidades (C2 e C3) e CS4 tem três; a diferença muda a expectativa de crescimento pela frente.", "certo": "Contar as concavidades antes de olhar a forma." },
+    { "erro": "Tratar o método como preciso o bastante para decidir sozinho uma cirurgia.", "porque": "A reprodutibilidade entre examinadores é discutida e há poucos eventos.", "certo": "Somar sinais e, em decisão cara, confirmar com mão e punho." },
+    { "erro": "Deixar o colar de tireoide alto demais.", "porque": "Esconde C3 e C4 e elimina o indicador que estava disponível sem custo.", "certo": "Colar abaixo de C4 no pedido da telerradiografia." }
+  ],
+  "autoteste": [
+    {
+      "pergunta": "No método CVM de Baccetti, Franchi e McNamara, o estágio que antecede imediatamente o pico de crescimento e é considerado ideal para iniciar aparelho funcional na Classe II é:",
+      "alternativas": ["CS1", "CS2", "CS3", "CS5"],
+      "correta": 2,
+      "explicacoes": [
+        "Bordas planas e corpos trapezoides: pico em cerca de dois anos.",
+        "Só C2 com concavidade: pico em cerca de um ano, ainda cedo para cobrir o pico inteiro em alguns casos, mas já próximo.",
+        "Correta: concavidades em C2 e C3 e um corpo retangular horizontal; o pico ocorre no ano seguinte.",
+        "Ao menos um corpo quadrado: o pico passou há mais de um ano."
+      ]
+    },
+    {
+      "pergunta": "Quais vértebras são avaliadas no método CVM e por quê?",
+      "alternativas": [
+        "C1 a C7, para maior precisão",
+        "C2, C3 e C4, porque ficam visíveis na telerradiografia mesmo com o colar de tireoide",
+        "Apenas C2, pela facilidade de leitura",
+        "C5 a C7, por serem as últimas a amadurecer"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "As vértebras abaixo de C4 costumam ficar cobertas pelo colar.",
+        "Correta: são as três visíveis com o colar bem posicionado, e mudam de forma de modo previsível.",
+        "C2 só permite ler a concavidade; a forma do corpo é lida em C3 e C4.",
+        "Não aparecem na telerradiografia com proteção adequada."
+      ]
+    },
+    {
+      "pergunta": "Telerradiografia com concavidades em C2, C3 e C4 e corpos de C3 e C4 em formato de retângulo horizontal. O estágio é:",
+      "alternativas": ["CS2", "CS3", "CS4", "CS6"],
+      "correta": 2,
+      "explicacoes": [
+        "CS2 tem concavidade só em C2.",
+        "CS3 tem concavidades em C2 e C3, com C4 plana.",
+        "Correta: três concavidades com corpos retangulares horizontais definem CS4; o pico passou há um ou dois anos.",
+        "CS6 exige ao menos um corpo em retângulo vertical."
+      ]
+    },
+    {
+      "pergunta": "A principal vantagem das vértebras cervicais em relação à radiografia de mão e punho é:",
+      "alternativas": [
+        "Maior número de eventos observáveis",
+        "Maior reprodutibilidade entre examinadores",
+        "Não exigir exame radiográfico adicional",
+        "Fornecer idade óssea em anos"
+      ],
+      "correta": 2,
+      "explicacoes": [
+        "A mão e punho tem mais eventos.",
+        "A reprodutibilidade da vértebra é a limitação discutida, não a vantagem.",
+        "Correta: já está na telerradiografia pedida para a cefalometria.",
+        "Idade óssea em anos é do atlas de Greulich e Pyle, na mão e punho."
+      ]
+    },
+    {
+      "pergunta": "Menino de 12 anos, Classe II, vértebras em CS1, sem sinais puberais. A conduta mais adequada é:",
+      "alternativas": [
+        "Iniciar o aparelho funcional imediatamente",
+        "Acompanhar com estatura seriada e reavaliar as vértebras em 6 a 12 meses",
+        "Indicar cirurgia ortognática",
+        "Pedir mão e punho para confirmar que o crescimento terminou"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Em CS1 o pico está a cerca de dois anos; começar agora gasta o aparelho antes da janela.",
+        "Correta: pré-pico claro; a reavaliação pega a transição para CS2 e CS3.",
+        "Cirurgia se discute após o fim do crescimento.",
+        "CS1 indica crescimento todo pela frente, não encerrado."
+      ]
+    }
+  ],
+  "pesquisa": { "termos": ["vértebras cervicais maturação", "CVM", "maturação esquelética cefalometria", "Baccetti"] },
+  "referenciasBase": [
+    "Baccetti T, Franchi L, McNamara JA Jr. The Cervical Vertebral Maturation (CVM) method for the assessment of optimal treatment timing in dentofacial orthopedics. Semin Orthod. 2005.",
+    "Hassel B, Farman AG. Skeletal maturation evaluation using cervical vertebrae. Am J Orthod Dentofacial Orthop. 1995.",
+    "Lamparski DG. Skeletal age assessment utilizing cervical vertebrae. Tese, Universidade de Pittsburgh, 1972.",
+    "Proffit WR, Fields HW, Larson BE, Sarver DM. Ortodontia Contemporânea. 6ª ed."
+  ],
+  "validacao": { "validadoPor": null, "data": null }
+}
