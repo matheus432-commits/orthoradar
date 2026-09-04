@@ -131,8 +131,18 @@ describe('campus.html (porta do aluno)', () => {
     assert.ok(html.includes('Para quem estuda') && html.includes('Para quem ensina'));
     assert.ok(html.includes('onclick="irAluno()"') && /em breve/.test(html));
   });
-  test('abas do aluno: apostilas, simulados e calculadoras', () => {
-    for (const a of ['apostilas', 'simulados', 'calculadoras']) assert.ok(html.includes('data-aba="' + a + '"'), a);
+  test('abas do aluno: todas as soluções sugeridas, sem filtro por ciclo', () => {
+    for (const a of ['apostilas', 'simulados', 'flashcards', 'prova', 'checklists', 'casos', 'trilhas', 'audio', 'calculadoras']) assert.ok(html.includes('data-aba="' + a + '"'), a);
+    assert.ok(!html.includes('filtros-ciclo') && !html.includes("filtrarCiclo("), 'a aba Especialização e os filtros de ciclo saíram (04/09)');
+  });
+  test('cada solução trabalha em cima dos dados das apostilas e da memória local do aluno', () => {
+    assert.ok(html.includes('function cartoesDe') && html.includes("const passos=[1,3,7,14]"), 'flashcards com repetição espaçada');
+    assert.ok(html.includes('async function provaAmanha') && html.includes('erros[q.pergunta]'), 'prova amanhã prioriza o que errou');
+    assert.ok(html.includes('async function checklists') && html.includes('p.passoAPasso.map'), 'checklists do passo a passo');
+    assert.ok(html.includes('async function casos') && html.includes('function passoCaso'), 'casos percorrem o fluxograma');
+    assert.ok(html.includes('function trilha()') && html.includes('const OBJETIVOS='), 'trilhas por objetivo');
+    assert.ok(html.includes('speechSynthesis') && html.includes("u.lang='pt-BR'"), 'áudio');
+    assert.ok(html.includes("localStorage.getItem('campus.'") && html.includes('try{'), 'memória local protegida por try');
   });
   test('apostilas: especialidade → prateleiras por módulo com capas tipográficas → busca em todo o texto → leitura → download', () => {
     assert.ok(html.includes('id="grade-esp"') && html.includes('class="prateleira"') && html.includes('class="fila"'));

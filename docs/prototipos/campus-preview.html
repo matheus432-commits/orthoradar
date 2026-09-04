@@ -174,15 +174,20 @@ table.crono td{padding:5px 6px;border-bottom:1px solid var(--border);}
     <div class="abas no-print">
       <button class="aba on" data-aba="apostilas" onclick="aba('apostilas')">Apostilas</button>
       <button class="aba" data-aba="simulados" onclick="aba('simulados')">Simulados</button>
+      <button class="aba" data-aba="flashcards" onclick="aba('flashcards')">Flashcards</button>
+      <button class="aba" data-aba="prova" onclick="aba('prova')">Prova amanhã</button>
+      <button class="aba" data-aba="checklists" onclick="aba('checklists')">Checklists</button>
+      <button class="aba" data-aba="casos" onclick="aba('casos')">Casos clínicos</button>
+      <button class="aba" data-aba="trilhas" onclick="aba('trilhas')">Trilhas</button>
+      <button class="aba" data-aba="audio" onclick="aba('audio')">Áudio</button>
       <button class="aba" data-aba="calculadoras" onclick="aba('calculadoras')">Calculadoras de bolso</button>
     </div>
 
     <!-- APOSTILAS: passo 1, especialidade -->
     <div class="sub-tela on" id="apostilas">
       <div id="escolha-esp">
-        <p class="sub">Escolha a especialidade. O número verde é o de apostilas prontas; o cinza, o que ainda está em preparação na árvore de temas.</p>
-        <div class="filtros" id="filtros-ciclo"></div>
-        <div class="grade" id="grade-esp"></div>
+        <p class="sub">Escolha a área. O número verde é o de apostilas prontas; o cinza, o que ainda está em preparação na árvore de temas.</p>
+        <div class="grade" id="grade-esp" style="margin-top:12px;"></div>
       </div>
 
       <!-- passo 2: prateleiras da especialidade -->
@@ -201,6 +206,48 @@ table.crono td{padding:5px 6px;border-bottom:1px solid var(--border);}
       <p class="sub">Questões no estilo ENADE e residência, tiradas dos autotestes das apostilas validadas. Escolha a especialidade; cada tentativa embaralha as questões e mostra a explicação de cada alternativa.</p>
       <div class="filtros" id="sim-esp" style="margin-top:12px;"></div>
       <div id="sim-area"></div>
+    </div>
+
+    <!-- FLASHCARDS -->
+    <div class="sub-tela" id="flashcards" style="display:none;">
+      <p class="sub">Cartões gerados dos macetes, do que cai na prova e dos erros comuns das apostilas. Repetição espaçada: o que você acerta volta em 3, 7 e 14 dias; o que erra volta amanhã. O progresso fica salvo neste navegador.</p>
+      <div class="filtros" id="fc-esp" style="margin-top:12px;"></div>
+      <div id="fc-area"></div>
+    </div>
+
+    <!-- PROVA AMANHÃ -->
+    <div class="sub-tela" id="prova" style="display:none;">
+      <p class="sub">Revisão de 30 minutos para a véspera: o "em um minuto" de cada apostila da área, o que cai na prova, os macetes e cinco questões, priorizando o que você já errou por aqui.</p>
+      <div class="filtros" id="pv-esp" style="margin-top:12px;"></div>
+      <div id="pv-area"></div>
+    </div>
+
+    <!-- CHECKLISTS -->
+    <div class="sub-tela" id="checklists" style="display:none;">
+      <p class="sub">O passo a passo de cada apostila em lista marcável, com o que conferir em cada etapa, para levar ao laboratório e à clínica. As marcações ficam salvas neste navegador; o botão imprime a lista.</p>
+      <div class="filtros" id="ck-esp" style="margin-top:12px;"></div>
+      <div id="ck-area"></div>
+    </div>
+
+    <!-- CASOS CLÍNICOS -->
+    <div class="sub-tela" id="casos" style="display:none;">
+      <p class="sub">Um caso, uma decisão por vez. Você percorre o fluxograma da apostila escolhendo o caminho; cada escolha mostra a consequência. Errar aqui não custa um paciente.</p>
+      <div class="filtros" id="cs-esp" style="margin-top:12px;"></div>
+      <div id="cs-area"></div>
+    </div>
+
+    <!-- TRILHAS -->
+    <div class="sub-tela" id="trilhas" style="display:none;">
+      <p class="sub">Escolha o objetivo; a trilha ordena as apostilas da área na sequência de estudo e marca o que você já leu e testou. O que ainda está em preparação aparece como próximo passo.</p>
+      <div class="filtros" id="tr-esp" style="margin-top:12px;"></div>
+      <div class="filtros" id="tr-obj"></div>
+      <div id="tr-area"></div>
+    </div>
+
+    <!-- ÁUDIO -->
+    <div class="sub-tela" id="audio" style="display:none;">
+      <p class="sub">Ouça a apostila a caminho da faculdade. Nesta prévia a leitura usa a voz do próprio navegador; na plataforma, o áudio é gerado pelo mesmo narrador dos podcasts do OdontoFeed.</p>
+      <div id="au-area" style="margin-top:12px;"></div>
     </div>
 
     <!-- CALCULADORAS -->
@@ -290,7 +337,7 @@ async function carregar(){
     INDICE=i;
   }
   INDICE.apostilas=(INDICE.apostilas||[]).filter(c=>MOSTRAR_RASCUNHOS||c.estado!=='rascunho');
-  montarEsp();montarSimEsp();calcAnestesico();calcPediatrica();calcCpo();tabelaCrono();
+  montarEsp();montarSimEsp();montarChipsArea();montarAudio();calcAnestesico();calcPediatrica();calcCpo();tabelaCrono();
   const h=location.hash.slice(1);
   if(h==='aluno')irAluno();
 }
@@ -309,16 +356,15 @@ function aba(nome){document.querySelectorAll('.aba').forEach(b=>b.classList.togg
 /* ───────── especialidades ───────── */
 function contagens(a){const prontas=INDICE.apostilas.filter(c=>c.areaId===a.id).length;let total=0;a.modulos.forEach(m=>m.temas.forEach(t=>total+=t.paginas.length));return {prontas,total};}
 function montarEsp(){
-  $('filtros-ciclo').innerHTML=['','básico','pré-clínico','clínico','pós'].map(c=>'<button class="chip'+(c===ciclo?' on':'')+'" onclick="filtrarCiclo(\''+c+'\')">'+(c?CICLO[c]:'Todas')+'</button>').join('');
-  const vis=ARVORE.filter(a=>!ciclo||a.ciclo===ciclo).sort((x,y)=>contagens(y).prontas-contagens(x).prontas||x.nome.localeCompare(y.nome,'pt-BR'));
-  $('grade-esp').innerHTML=vis.map(a=>{const c=contagens(a);return '<button class="card esp" onclick="abrirEsp(\''+a.id+'\')"><div class="n">'+esc(a.nome)+'</div><div class="m"><b>'+c.prontas+'</b> pronta'+(c.prontas===1?'':'s')+' · '+(c.total-c.prontas)+' em preparação · '+esc(CICLO[a.ciclo])+'</div></button>';}).join('');
+  // Sem filtro por ciclo (decisão do fundador, 04/09): uma grade só, prontas primeiro, depois ordem alfabética.
+  const vis=ARVORE.slice().sort((x,y)=>contagens(y).prontas-contagens(x).prontas||x.nome.localeCompare(y.nome,'pt-BR'));
+  $('grade-esp').innerHTML=vis.map(a=>{const c=contagens(a);return '<button class="card esp" onclick="abrirEsp(\''+a.id+'\')"><div class="n">'+esc(a.nome)+'</div><div class="m"><b>'+c.prontas+'</b> pronta'+(c.prontas===1?'':'s')+' · '+(c.total-c.prontas)+' em preparação</div></button>';}).join('');
 }
-function filtrarCiclo(c){ciclo=c;montarEsp();}
 function abrirEsp(id){
   ESP=ARVORE.find(a=>a.id===id);
   $('escolha-esp').style.display='none';$('prateleiras').style.display='block';
   $('esp-titulo').innerHTML=esc(ESP.nome)+'<em>.</em>';
-  $('esp-desc').textContent=ESP.descricao+' · '+ESP.status+(ESP.nota?' · '+ESP.nota:'');
+  $('esp-desc').textContent=ESP.descricao+(ESP.nota?' · '+ESP.nota:'');
   $('q').value='';$('q').placeholder='Busque em todo o texto das apostilas de '+ESP.nome+' — ex.: '+exemploBusca(ESP);
   prateleiras();
 }
@@ -363,7 +409,8 @@ async function abrirPagina(id){
   $('nav-blocos').innerHTML='<div class="eyebrow" style="padding:0 8px 6px;">Nesta apostila</div>'+BLOCOS.map(([k,n],i)=>'<a href="#b-'+k+'"><b>'+(i+1)+'</b>'+esc(n)+'</a>').join('')+'<div style="padding:10px 8px 0;display:flex;flex-direction:column;gap:6px;" class="no-print"><button class="btn primario" onclick="window.print()">Baixar em PDF</button></div>';
   $('pagina').innerHTML=renderPagina(p);
   fluxograma(p.fluxograma,$('fluxo-svg'));
-  pesquisa(p);
+  pesquisa(p);marcarLida(id);
+  $('nav-blocos').querySelector('.no-print').insertAdjacentHTML('beforeend','<button class="btn" onclick="ouvir(\''+id+'\')">Ouvir esta apostila</button>');
 }
 function fecharLeitura(){mostrar('aluno');}
 function bloco(k,i,nome,corpo,sub){return '<section class="bloco" id="b-'+k+'"><div class="bt"><b>'+(i+1)+'</b><h2>'+esc(nome)+'</h2>'+(sub?'<small>'+esc(sub)+'</small>':'')+'</div>'+corpo+'</section>';}
@@ -389,8 +436,13 @@ function responder(key,i,correta){
   const q=$('q-'+key);if(q.classList.contains('resp'))return;
   q.classList.add('resp');const alts=q.querySelectorAll('.alt');
   alts[correta].classList.add('ok');if(i!==correta)alts[i].classList.add('nao');
-  if(window.SIM)SIM.registrar(key,i===correta);
+  const pergunta=q.querySelector('.q').textContent;registrarErro(pergunta,i===correta);
+  if(window.SIM&&key.startsWith('s'))SIM.registrar(key,i===correta);
 }
+/* memória local do aluno (só neste navegador): erros em questões, cartões, checklists, leituras */
+function mem(k,v){try{if(v===undefined)return JSON.parse(localStorage.getItem('campus.'+k)||'null');localStorage.setItem('campus.'+k,JSON.stringify(v));}catch(e){return null;}}
+function registrarErro(pergunta,acertou){const e=mem('erros')||{};if(acertou)delete e[pergunta];else e[pergunta]=(e[pergunta]||0)+1;mem('erros',e);}
+function marcarLida(id){const l=mem('lidas')||{};l[id]=new Date().toISOString().slice(0,10);mem('lidas',l);}
 /* fluxograma: layout em camadas (BFS a partir do início), desenhado em SVG */
 function fluxograma(f,svg){
   if(!svg)return;
@@ -443,6 +495,99 @@ async function simular(areaId){
   $('sim-area').innerHTML='<div class="card simul" style="padding:18px 20px;margin-top:12px;"><div class="eyebrow">Simulado de '+esc(a.nome)+'</div><div class="placar" id="sim-placar">0 de 0 certas</div><p class="sub" style="margin-bottom:12px;">'+SIM.questoes.length+' questões, uma explicação por alternativa. Clique na alternativa que considera correta.</p>'+SIM.questoes.map((q,i)=>'<div class="sub" style="margin:10px 0 4px;">Questão '+(i+1)+' · da apostila “'+esc(q.de)+'”</div>'+questaoHtml(q,'s'+i)).join('')+'<button class="btn" onclick="simular(\''+areaId+'\')">Novo simulado</button></div>';
   window.scrollTo(0,$('sim-area').offsetTop-20);
 }
+
+/* ───────── áreas com apostila pronta (chips reutilizados pelas abas) ───────── */
+function areasProntas(){return [...new Set(INDICE.apostilas.map(c=>c.areaId))].map(id=>ARVORE.find(a=>a.id===id)).filter(Boolean);}
+function chips(elId,fn){const areas=areasProntas();$(elId).innerHTML=areas.length?areas.map(a=>'<button class="chip" onclick="'+fn+'(\''+a.id+'\')">'+esc(a.nome)+'</button>').join(''):'<span class="sub">Ainda não há apostilas prontas.</span>';}
+function montarChipsArea(){chips('fc-esp','flashcards');chips('pv-esp','provaAmanha');chips('ck-esp','checklists');chips('cs-esp','casos');chips('tr-esp','trilhaArea');}
+async function paginasDa(areaId){const out=[];for(const c of INDICE.apostilas.filter(x=>x.areaId===areaId))out.push(await pagina(c.id));return out;}
+const hoje=()=>new Date().toISOString().slice(0,10);
+const diasDepois=(n)=>{const d=new Date();d.setDate(d.getDate()+n);return d.toISOString().slice(0,10);};
+
+/* ───────── flashcards com repetição espaçada ───────── */
+const FC={fila:[],i:0};
+function cartoesDe(p){const c=[];p.macetes.forEach(m=>c.push({f:m.titulo,v:m.texto}));p.umMinuto.caiNaProva.forEach(x=>c.push({f:'O que você precisa saber sobre: '+x,v:p.umMinuto.frases.find(fr=>norm(fr).includes(norm(x).split(' ')[0]))||p.umMinuto.frases[0]}));p.ondeErra.forEach(e=>c.push({f:'Erro comum: '+e.erro+' O que é o certo?',v:e.certo}));return c.map((x,i)=>({...x,id:p.id+'#'+i,de:p.titulo}));}
+async function flashcards(areaId){
+  const pags=await paginasDa(areaId);const todos=pags.flatMap(cartoesDe);const prog=mem('cartoes')||{};
+  const devidos=todos.filter(c=>!prog[c.id]||prog[c.id].proximo<=hoje());
+  FC.fila=devidos.sort(()=>Math.random()-0.5);FC.i=0;
+  const a=ARVORE.find(x=>x.id===areaId);
+  $('fc-area').innerHTML='<div class="card" style="padding:18px 20px;margin-top:12px;"><div class="eyebrow">Flashcards de '+esc(a.nome)+'</div><p class="sub">'+todos.length+' cartões no total · <b>'+devidos.length+'</b> para hoje.</p><div id="fc-cartao" style="margin-top:12px;"></div></div>';
+  cartao();
+}
+function cartao(){
+  const el=$('fc-cartao');const c=FC.fila[FC.i];
+  if(!c){el.innerHTML='<div class="vazio">Nada mais para hoje. Os cartões que você acertou voltam em alguns dias; os que errou, amanhã.</div>';return;}
+  el.innerHTML='<div class="quest"><div class="sub" style="margin-bottom:6px;">Cartão '+(FC.i+1)+' de '+FC.fila.length+' · da apostila “'+esc(c.de)+'”</div><div class="q">'+esc(c.f)+'</div><div id="fc-verso" style="display:none;" class="caixa">'+esc(c.v)+'</div><div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap;" id="fc-btns"><button class="btn primario" onclick="virar()">Virar</button></div></div>';
+}
+function virar(){$('fc-verso').style.display='block';$('fc-btns').innerHTML='<button class="btn" onclick="avaliar(false)">Errei, volta amanhã</button><button class="btn ouro" onclick="avaliar(true)">Acertei</button>';}
+function avaliar(ok){const c=FC.fila[FC.i];const prog=mem('cartoes')||{};const nivel=ok?Math.min(((prog[c.id]||{}).nivel||0)+1,3):0;const passos=[1,3,7,14];prog[c.id]={nivel,proximo:diasDepois(passos[nivel])};mem('cartoes',prog);FC.i++;cartao();}
+
+/* ───────── modo prova amanhã ───────── */
+async function provaAmanha(areaId){
+  const pags=await paginasDa(areaId);const a=ARVORE.find(x=>x.id===areaId);const erros=mem('erros')||{};
+  const qs=pags.flatMap(p=>p.autoteste.map(q=>({...q,de:p.titulo,peso:erros[q.pergunta]||0}))).sort((x,y)=>y.peso-x.peso||Math.random()-0.5).slice(0,5);
+  $('pv-area').innerHTML='<div class="card" style="padding:18px 20px;margin-top:12px;"><div class="eyebrow">Prova amanhã · '+esc(a.nome)+'</div><p class="sub">Leia em ordem: o essencial de cada apostila, o que cai na prova, os macetes e cinco questões. Cerca de 30 minutos.</p>'
+    +pags.map(p=>'<div class="bloco" style="margin-top:18px;"><h2>'+esc(p.titulo)+'</h2><ol class="frases" style="margin-top:8px;">'+p.umMinuto.frases.map(f=>'<li>'+esc(f)+'</li>').join('')+'</ol><div class="caixa"><b>O que cai na prova</b>'+p.umMinuto.caiNaProva.map(esc).join(' · ')+'</div><div class="macs" style="margin-top:8px;">'+p.macetes.map(m=>'<div class="mac"><div class="t">'+esc(m.titulo)+'</div><div class="x">'+esc(m.texto)+'</div></div>').join('')+'</div></div>').join('')
+    +'<div class="bloco"><h2>Cinco questões'+(Object.keys(erros).length?' (as que você já errou vêm primeiro)':'')+'</h2>'+qs.map((q,i)=>questaoHtml(q,'v'+i)).join('')+'</div></div>';
+  window.scrollTo(0,$('pv-area').offsetTop-20);
+}
+
+/* ───────── checklists de laboratório e clínica ───────── */
+async function checklists(areaId){
+  const pags=await paginasDa(areaId);const a=ARVORE.find(x=>x.id===areaId);const marc=mem('checks')||{};
+  $('ck-area').innerHTML='<div class="card" style="padding:18px 20px;margin-top:12px;"><div class="eyebrow">Checklists de '+esc(a.nome)+'</div>'
+    +pags.map(p=>'<div class="bloco"><div style="display:flex;justify-content:space-between;gap:10px;align-items:baseline;flex-wrap:wrap;"><h2>'+esc(p.titulo)+'</h2><button class="btn no-print" onclick="window.print()">Imprimir</button></div>'+p.passoAPasso.map((s,i)=>{const k=p.id+'#'+i;return '<label class="passo" style="cursor:pointer;grid-template-columns:24px 1fr;"><input type="checkbox" '+(marc[k]?'checked':'')+' onchange="marcarCheck(\''+k.replace(/'/g,'')+'\',this.checked)" style="margin-top:4px;"><div><div class="x">'+esc(s.passo)+'</div><div class="c">Confira: '+esc(s.confira)+'</div></div></label>';}).join('')+'</div>').join('')+'</div>';
+}
+function marcarCheck(k,v){const m=mem('checks')||{};if(v)m[k]=hoje();else delete m[k];mem('checks',m);}
+
+/* ───────── casos clínicos interativos (percorrem o fluxograma) ───────── */
+const CASO={p:null,no:null,trilha:[]};
+async function casos(areaId){
+  const pags=await paginasDa(areaId);const a=ARVORE.find(x=>x.id===areaId);
+  $('cs-area').innerHTML='<div class="card" style="padding:18px 20px;margin-top:12px;"><div class="eyebrow">Casos de '+esc(a.nome)+'</div><p class="sub">Escolha o caso:</p><div class="filtros" style="margin-top:8px;">'+pags.map(p=>'<button class="chip" onclick="iniciarCaso(\''+p.id+'\')">'+esc(p.fluxograma.titulo)+'</button>').join('')+'</div><div id="cs-jogo" style="margin-top:12px;"></div></div>';
+}
+async function iniciarCaso(id){const p=await pagina(id);CASO.p=p;CASO.no=p.fluxograma.nos.find(n=>n.tipo==='inicio').id;CASO.trilha=[];passoCaso();}
+function passoCaso(){
+  const f=CASO.p.fluxograma;const no=f.nos.find(n=>n.id===CASO.no);const saidas=f.arestas.filter(a=>a.de===no.id);
+  let h='<div class="quest"><div class="sub" style="margin-bottom:6px;">Caso da apostila “'+esc(CASO.p.titulo)+'” · passo '+(CASO.trilha.length+1)+'</div><div class="q">'+esc(no.texto)+'</div>';
+  if(no.tipo==='fim'||!saidas.length){h+='<div class="caixa"><b>Fim do caso</b>Caminho percorrido: '+CASO.trilha.map(esc).join(' → ')+'.</div><button class="btn primario" style="margin-top:10px;" onclick="iniciarCaso(\''+CASO.p.id+'\')">Refazer o caso</button>';}
+  else if(no.tipo==='decisao'){h+=saidas.map(s=>'<button class="alt" onclick="decidir(\''+s.para+'\',\''+esc(s.rotulo||'seguir')+'\')">'+esc(s.rotulo||'Seguir')+': '+esc(f.nos.find(n=>n.id===s.para).texto)+'</button>').join('');}
+  else{h+='<button class="btn primario" style="margin-top:8px;" onclick="decidir(\''+saidas[0].para+'\',\'seguir\')">Seguir →</button>';}
+  $('cs-jogo').innerHTML=h+'</div>';
+}
+function decidir(para,rot){CASO.trilha.push(rot);CASO.no=para;passoCaso();}
+
+/* ───────── trilhas por objetivo ───────── */
+const OBJETIVOS={disciplina:'Passar na disciplina',enade:'ENADE',residencia:'Residência e concurso',especializacao:'Especialização'};
+let TR={area:null,obj:'disciplina'};
+function trilhaArea(areaId){TR.area=areaId;$('tr-obj').innerHTML=Object.entries(OBJETIVOS).map(([k,v])=>'<button class="chip'+(k===TR.obj?' on':'')+'" onclick="trilhaObj(\''+k+'\')">'+v+'</button>').join('');trilha();}
+function trilhaObj(o){TR.obj=o;trilhaArea(TR.area);}
+function trilha(){
+  const a=ARVORE.find(x=>x.id===TR.area);const lidas=mem('lidas')||{};const prontas=INDICE.apostilas.filter(c=>c.areaId===a.id);
+  // Ordem de estudo: a da árvore (módulo → tema → página). Para ENADE e residência, os módulos de diagnóstico e clínica primeiro.
+  const ordem=[];a.modulos.forEach(m=>m.temas.forEach(t=>t.paginas.forEach(p=>ordem.push({id:p.id,nome:p.nome,modulo:m.nome,tema:t.nome}))));
+  const prioridade=(m)=>TR.obj==='disciplina'?0:(/diagn|clín|tratamento|mecânica|urgên/i.test(m)?0:1);
+  const seq=ordem.map(x=>({...x,capa:prontas.find(c=>c.id===x.id)})).sort((x,y)=>prioridade(x.modulo)-prioridade(y.modulo)||(y.capa?1:0)-(x.capa?1:0));
+  const feitas=seq.filter(x=>x.capa&&lidas[x.id]).length;
+  $('tr-area').innerHTML='<div class="card" style="padding:18px 20px;margin-top:12px;"><div class="eyebrow">Trilha · '+esc(OBJETIVOS[TR.obj])+' · '+esc(a.nome)+'</div><p class="sub">'+prontas.length+' apostilas prontas na trilha, '+feitas+' lida'+(feitas===1?'':'s')+'. '+(seq.length-prontas.length)+' páginas ainda em preparação entram na sequência conforme ficam prontas.</p><div class="passos" style="margin-top:10px;">'
+    +seq.slice(0,40).map(x=>'<div class="passo"><div><div class="x">'+(x.capa?'<a href="#" onclick="abrirPagina(\''+x.id+'\');return false;" style="color:var(--text);font-weight:700;text-decoration:none;">'+esc(x.capa.titulo)+'</a>':'<span style="color:var(--muted);">'+esc(x.nome)+'</span>')+'</div><div class="c" style="color:'+(x.capa?(lidas[x.id]?'var(--green)':'var(--gold)'):'var(--muted)')+';">'+esc(x.modulo)+' · '+esc(x.tema)+' · '+(x.capa?(lidas[x.id]?'lida em '+lidas[x.id]:'pronta para ler'):'em preparação')+'</div></div></div>').join('')
+    +(seq.length>40?'<p class="sub" style="margin-top:8px;">… e mais '+(seq.length-40)+' páginas na árvore.</p>':'')+'</div></div>';
+}
+
+/* ───────── áudio ───────── */
+function montarAudio(){
+  const lista=INDICE.apostilas;
+  $('au-area').innerHTML=lista.length?'<div class="card" style="padding:14px 18px;">'+lista.map(c=>'<div class="art" style="display:flex;justify-content:space-between;gap:10px;align-items:center;padding:8px 0;border-bottom:1px dashed var(--border);"><div><b style="font-size:13.5px;">'+esc(c.titulo)+'</b><br><small class="sub">'+esc(c.area)+' · '+esc(c.tema)+'</small></div><div style="display:flex;gap:6px;"><button class="btn ouro" onclick="ouvir(\''+c.id+'\')">Ouvir</button><button class="btn" onclick="pararAudio()">Parar</button></div></div>').join('')+'<p class="sub" style="margin-top:10px;" id="au-status"></p></div>':'<div class="card vazio">Ainda não há apostilas prontas para ouvir.</div>';
+}
+async function ouvir(id){
+  const p=await pagina(id);pararAudio();
+  if(!('speechSynthesis' in window)){alert('Este navegador não lê em voz alta. Na plataforma, o áudio vem pronto.');return;}
+  const texto=[p.titulo+'.','Em um minuto.',...p.umMinuto.frases,'O que cai na prova: '+p.umMinuto.caiNaProva.join('; ')+'.','Por que importa: '+p.umMinuto.porQueImporta,'Macetes.',...p.macetes.map(m=>m.titulo+'. '+m.texto),'Onde todo mundo erra.',...p.ondeErra.map(e=>'Erro: '+e.erro+' O certo: '+e.certo)].join(' ');
+  const u=new SpeechSynthesisUtterance(texto);u.lang='pt-BR';u.rate=1;const v=speechSynthesis.getVoices().find(x=>/pt(-|_)BR/i.test(x.lang));if(v)u.voice=v;
+  speechSynthesis.speak(u);if($('au-status'))$('au-status').textContent='Lendo “'+p.titulo+'” com a voz do navegador.';
+}
+function pararAudio(){if('speechSynthesis' in window)speechSynthesis.cancel();if($('au-status'))$('au-status').textContent='';}
 
 /* ───────── calculadoras ───────── */
 const ANEST={lido:{mgkg:7,max:500,mgml:20,nome:'Lidocaína 2%'},arti:{mgkg:7,max:500,mgml:40,nome:'Articaína 4%'},mepi:{mgkg:6.6,max:400,mgml:30,nome:'Mepivacaína 3%'},prilo:{mgkg:8,max:600,mgml:30,nome:'Prilocaína 3%'},bupi:{mgkg:2,max:90,mgml:5,nome:'Bupivacaína 0,5%'}};
