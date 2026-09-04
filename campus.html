@@ -214,6 +214,45 @@ h2{font-family:Georgia,serif;font-size:1.35rem;font-weight:400;letter-spacing:-.
 .pesq .art small{color:var(--muted);}
 .valid{background:var(--gold-soft);border:1px solid var(--border);border-radius:12px;padding:12px 14px;font-size:13px;line-height:1.55;}
 .valid.ok{background:var(--green-soft);}
+
+/* ── corpo de leitura (formato 2, 04/09): o aluno precisa querer continuar ── */
+.abertura{background:linear-gradient(135deg,var(--ink),#3A362C);color:#F3EEE3;border-radius:14px;padding:20px 22px;margin:14px 0 6px;}
+.abertura .eyebrow{color:#D9B98F;}
+.abertura .sit{font-size:15px;line-height:1.6;}
+.abertura .perg{font-family:Georgia,serif;font-size:1.3rem;line-height:1.3;margin-top:10px;color:#fff;}
+.secao-l p{font-size:15px;line-height:1.65;margin:0 0 12px;max-width:68ch;}
+.secao-l ul.lista-l{margin:0 0 12px 20px;font-size:14.5px;line-height:1.6;max-width:66ch;}
+.secao-l ul.lista-l li{margin-bottom:4px;}
+.vis{margin:14px 0 16px;border:1px solid var(--border);border-radius:14px;background:#fff;padding:12px 12px 8px;}
+.vis svg{display:block;width:100%;height:auto;font-family:'Segoe UI',system-ui,sans-serif;}
+.vis figcaption{font-size:12.5px;color:var(--muted);margin-top:8px;line-height:1.5;}
+.vis figcaption b{color:var(--text);}
+.quadro{border-radius:12px;padding:12px 14px;margin:12px 0 14px;font-size:14px;line-height:1.55;border:1px solid var(--border);max-width:70ch;}
+.quadro .rot{font-size:11px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:5px;}
+.quadro.erro{background:var(--red-soft);border-color:#E9C9C0;}.quadro.erro .rot{color:var(--red);}
+.quadro.dica{background:var(--green-soft);border-color:#CFE3D4;}.quadro.dica .rot{color:var(--green);}
+.quadro.prova{background:var(--gold-soft);}.quadro.prova .rot{color:var(--gold);}
+.quadro.mito{background:var(--blue-soft);border-color:#D3DCE5;}.quadro.mito .rot{color:var(--blue);}
+.quadro.mito .mv{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.quadro.mito .mv small{display:block;font-weight:800;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--blue);margin-bottom:3px;}
+@media(max-width:600px){.quadro.mito .mv{grid-template-columns:1fr;}}
+.quadro.frase{background:var(--ink);color:#F3EEE3;border-color:var(--ink);font-family:Georgia,serif;font-size:1.05rem;}
+.quadro.frase .rot{color:#D9B98F;font-family:'Segoe UI',system-ui,sans-serif;}
+.checagem{border:1px dashed var(--gold);border-radius:12px;padding:10px 14px;margin:8px 0 16px;background:#fff;max-width:70ch;}
+.checagem summary{cursor:pointer;font-weight:700;font-size:14px;color:var(--text);}
+.checagem summary::marker{color:var(--gold);}
+.checagem div{margin-top:8px;font-size:14px;line-height:1.55;color:var(--text);}
+.img-ph{border:2px dashed var(--blue);border-radius:12px;padding:12px 14px;margin:12px 0 14px;background:var(--blue-soft);font-size:13px;line-height:1.55;}
+.img-ph .rot{font-size:11px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--blue);margin-bottom:6px;}
+.img-ph b{display:inline-block;min-width:150px;color:var(--muted);font-weight:600;}
+.img-nota{border-left:3px solid var(--blue);padding:8px 12px;margin:12px 0;font-size:13px;color:var(--muted);background:#fff;border-radius:0 10px 10px 0;}
+mark.verificar{background:#FFE9A8;color:#6B4F00;font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:1px 6px;border-radius:6px;}
+.cartoes-fim{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin-top:12px;}
+.cartao-fim{border:1px solid var(--border);border-radius:12px;padding:12px 14px;background:var(--gold-soft);}
+.cartao-fim .f{font-weight:700;font-size:13.5px;line-height:1.45;}
+.cartao-fim details{margin-top:6px;font-size:13px;line-height:1.5;}
+.cartao-fim summary{cursor:pointer;color:var(--gold);font-weight:700;font-size:12px;}
+.nav-blocos a.sec{padding-left:12px;font-size:12px;}
 .simul .placar{font-family:Georgia,serif;font-size:1.6rem;margin:8px 0;}
 
 /* ── calculadoras ── */
@@ -245,7 +284,7 @@ table.crono td{padding:5px 6px;border-bottom:1px solid var(--border);}
       <div class="card porta">
         <div class="eyebrow">Para quem estuda</div>
         <h2>Aluno<em>.</em></h2>
-        <p>Apostilas ilustradas por especialidade e tema, com infográfico, fluxograma, passo a passo, macetes, erros comuns e autoteste. Simulados, flashcards, casos clínicos, trilhas, áudio e calculadoras de bolso.</p>
+        <p>Apostilas ilustradas por especialidade e tema, com infográfico, fluxograma, passo a passo, macetes, erros comuns e autoteste. Planner de provas, simulados, flashcards, trilhas, áudio e calculadoras de bolso.</p>
         <div class="acao"><button class="btn primario" onclick="irAluno()">Entrar na área do aluno →</button></div>
       </div>
       <div class="card porta breve">
@@ -456,9 +495,13 @@ const norm=(s)=>String(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCas
 const MOSTRAR_RASCUNHOS=!!(window.CAMPUS_DADOS)||/[?&]rascunhos=1/.test(location.search);
 let ARVORE=[],INDICE={apostilas:[]},PAGINAS={},ESP=null,ABA_ANTES='hoje';
 
+/* Biblioteca de símbolos dos visuais (assets/campus/componentes.svg): injetada
+   uma vez no documento, para os <use href="#c-…"> das apostilas resolverem. */
+function injetarComponentes(svg){if(!svg||$('c-lib'))return;const d=document.createElement('div');d.id='c-lib';d.setAttribute('aria-hidden','true');d.style.cssText='position:absolute;width:0;height:0;overflow:hidden';d.innerHTML=svg;document.body.prepend(d);}
 async function carregar(){
-  if(window.CAMPUS_DADOS){ARVORE=CAMPUS_DADOS.arvore;INDICE=CAMPUS_DADOS.indice;PAGINAS=CAMPUS_DADOS.paginas||{};}
+  if(window.CAMPUS_DADOS){ARVORE=CAMPUS_DADOS.arvore;INDICE=CAMPUS_DADOS.indice;PAGINAS=CAMPUS_DADOS.paginas||{};injetarComponentes(CAMPUS_DADOS.componentes);}
   else{
+    fetch('/assets/campus/componentes.svg').then(r=>r.ok?r.text():'').then(injetarComponentes).catch(()=>{});
     const [t,i]=await Promise.all([fetch('/data/ensino-temas.json').then(r=>r.json()),fetch('/data/campus/indice.json').then(r=>r.json())]);
     ARVORE=t.areas.map(a=>({id:a.id,nome:a.nome,ciclo:a.ciclo,status:a.statusRotulo,descricao:a.descricao,nota:a.nota||'',modulos:a.modulos.map(m=>({nome:m.nome,temas:m.temas.map(x=>({nome:x.nome,paginas:x.paginas.map(p=>({id:p.id,nome:p.nome}))}))}))}));
     INDICE=i;
@@ -580,27 +623,66 @@ const BLOCOS=[['umMinuto','Em um minuto'],['infografico','Infográfico'],['fluxo
 async function abrirPagina(id){
   const p=await pagina(id);
   document.querySelectorAll('.sub-tela').forEach(s=>s.style.display=s.id==='leitura'?'block':'none');
-  $('nav-blocos').innerHTML='<div class="eyebrow" style="padding:0 8px 6px;">Nesta apostila</div>'+BLOCOS.map(([k,n],i)=>'<a href="#b-'+k+'"><b>'+(i+1)+'</b>'+esc(n)+'</a>').join('')+'<div style="padding:10px 8px 0;display:flex;flex-direction:column;gap:6px;" class="no-print"><button class="btn primario" onclick="window.print()">Baixar em PDF</button><button class="btn" onclick="ouvir(\''+id+'\')">Ouvir esta apostila</button></div>';
-  $('pagina').innerHTML=renderPagina(p);
+  const r=renderPagina(p);
+  $('nav-blocos').innerHTML='<div class="eyebrow" style="padding:0 8px 6px;">Nesta apostila</div>'+r.nav.map(([k,n,sec])=>'<a href="#b-'+k+'"'+(sec?' class="sec"':'')+'><b>'+n.num+'</b>'+esc(n.nome)+'</a>').join('')+'<div style="padding:10px 8px 0;display:flex;flex-direction:column;gap:6px;" class="no-print"><button class="btn primario" onclick="window.print()">Baixar em PDF</button><button class="btn" onclick="ouvir(\''+id+'\')">Ouvir esta apostila</button></div>';
+  $('pagina').innerHTML=r.html;
   fluxograma(p.fluxograma,$('fluxo-svg'));
   pesquisa(p);marcarLida(id);window.scrollTo(0,0);
 }
 function fecharLeitura(){aba(ABA_ANTES);}
 function bloco(k,i,nome,corpo,sub){return '<section class="bloco" id="b-'+k+'"><div class="bt"><b>'+(i+1)+'</b><h2>'+esc(nome)+'</h2>'+(sub?'<small>'+esc(sub)+'</small>':'')+'</div>'+corpo+'</section>';}
+/* Texto do corpo: escapado, com a marca [VERIFICAR] visível só em rascunho/prévia. */
+function txt(s){const e=esc(s||'');return MOSTRAR_RASCUNHOS?e.replace(/\[VERIFICAR\]/g,'<mark class="verificar">verificar</mark>'):e.replace(/\s?\[VERIFICAR\]/g,'');}
+const ROTULO_QUADRO={erro:'Erro comum',dica:'Dica clínica',prova:'Cai na prova',mito:'Mito x verdade',frase:'Em uma frase'};
+/* Visual em SVG escrito à mão na página: a plataforma põe a tag <svg>, o título e a descrição (leitor de tela). */
+let VIS_N=0;
+function visualHtml(v){
+  const id='vis'+(++VIS_N);const svg=(Array.isArray(v.svg)?v.svg.join('\n'):String(v.svg||''));
+  return '<figure class="vis '+esc(v.formato||'')+'"><svg viewBox="'+esc(v.viewBox||'0 0 560 400')+'" width="100%" role="img" aria-labelledby="'+id+'t '+id+'d"><title id="'+id+'t">'+esc(v.titulo||'')+'</title><desc id="'+id+'d">'+esc(v.descricao||'')+'</desc>'+(MOSTRAR_RASCUNHOS?svg:svg.replace(/\s?\[VERIFICAR\]/g,''))+'</svg><figcaption><b>'+esc(v.titulo||'')+'</b>'+(v.legenda?' · '+txt(v.legenda):'')+'</figcaption></figure>';
+}
+function quadroHtml(b){
+  if(b.estilo==='mito')return '<div class="quadro mito"><div class="rot">Mito x verdade'+(b.titulo?' · '+esc(b.titulo):'')+'</div><div class="mv"><div><small>Mito</small>'+txt(b.mito)+'</div><div><small>Verdade</small>'+txt(b.verdade)+'</div></div></div>';
+  return '<div class="quadro '+esc(b.estilo)+'"><div class="rot">'+esc(ROTULO_QUADRO[b.estilo]||b.estilo)+(b.titulo?' · '+esc(b.titulo):'')+'</div><div class="x">'+txt(b.texto)+'</div></div>';
+}
+function perguntaHtml(q,rotulo){return '<details class="checagem"><summary>'+esc(rotulo)+': '+txt(q.pergunta)+'</summary><div>'+txt(q.resposta)+'</div></details>';}
+function imagemHtml(b){
+  if(!MOSTRAR_RASCUNHOS)return '<div class="img-nota">Imagem clínica em preparação: '+txt(b.legenda)+'</div>';
+  return '<div class="img-ph"><div class="rot">Imagem clínica necessária</div><div><b>Tipo</b>'+esc(b.imagem)+'</div><div><b>Deve mostrar</b>'+esc(b.mostrar)+'</div><div><b>Legenda sugerida</b>'+esc(b.legenda)+'</div><div><b>Elementos a destacar</b>'+esc(b.destacar)+'</div></div>';
+}
+function blocoCorpoHtml(b){
+  if(b.tipo==='p')return '<p>'+txt(b.texto)+'</p>';
+  if(b.tipo==='lista')return '<ul class="lista-l">'+(b.itens||[]).map(i=>'<li>'+txt(i)+'</li>').join('')+'</ul>';
+  if(b.tipo==='visual')return visualHtml(b);
+  if(b.tipo==='destaque')return quadroHtml(b);
+  if(b.tipo==='imagem')return imagemHtml(b);
+  if(b.tipo==='pergunta')return perguntaHtml(b,'Pense');
+  return '';
+}
 function renderPagina(p){
-  const u=p.umMinuto;
+  const u=p.umMinuto;VIS_N=0;
+  const nav=[];let n=0;const num=(k,nome)=>{n++;nav.push([k,{num:n,nome}]);return n-1;};
   let h='<div class="cam">'+esc(p.area)+' · '+esc(p.modulo)+' · '+esc(p.tema)+'</div><h1>'+esc(p.titulo)+'<em>.</em></h1>';
-  h+=bloco('umMinuto',0,'Em um minuto','<ol class="frases">'+u.frases.map(f=>'<li>'+esc(f)+'</li>').join('')+'</ol><div class="caixa"><b>O que cai na prova</b>'+u.caiNaProva.map(esc).join(' · ')+'</div><div class="caixa"><b>Por que importa na clínica</b>'+esc(u.porQueImporta)+'</div>','o que ler no ônibus antes da prova');
-  h+=bloco('infografico',1,'Infográfico','<div class="caixa" style="margin:0 0 10px;"><b>'+esc(p.infografico.titulo)+'</b></div><div class="info">'+p.infografico.itens.map(i=>'<div class="it"><div class="r">'+esc(i.rotulo)+'</div><div class="x">'+esc(i.texto)+'</div></div>').join('')+'</div>','desenhado a partir do texto, sem foto');
-  h+=bloco('fluxograma',2,'Fluxograma de decisão','<div class="caixa" style="margin:0 0 10px;"><b>'+esc(p.fluxograma.titulo)+'</b></div><div class="fluxo"><svg id="fluxo-svg"></svg></div>','se isso, então aquilo');
-  h+=bloco('passoAPasso',3,'Passo a passo','<div class="passos">'+p.passoAPasso.map(s=>'<div class="passo"><div><div class="x">'+esc(s.passo)+'</div><div class="c">Confira: '+esc(s.confira)+'</div></div></div>').join('')+'</div>','serve de checklist no laboratório e na clínica');
-  h+=bloco('macetes',4,'Macetes e dicas','<div class="macs">'+p.macetes.map(m=>'<div class="mac"><div class="t">'+esc(m.titulo)+'</div><div class="x">'+esc(m.texto)+'</div></div>').join('')+'</div>');
-  h+=bloco('ondeErra',5,'Onde todo mundo erra','<div class="erros">'+p.ondeErra.map(e=>'<div class="er"><div class="e">'+esc(e.erro)+'</div><div class="p">Por quê: '+esc(e.porque)+'</div><div class="c">O certo: '+esc(e.certo)+'</div></div>').join('')+'</div>','erros clássicos de prova e de clínica');
-  h+=bloco('autoteste',6,'Autoteste',p.autoteste.map((q,qi)=>questaoHtml(q,'p'+qi)).join(''),'cinco questões no estilo ENADE e residência');
-  h+=bloco('pesquisa',7,'O que a pesquisa diz hoje','<div class="pesq" id="pesq"><p class="sub">Buscando na Biblioteca do OdontoFeed por: '+p.pesquisa.termos.map(esc).join(', ')+'…</p></div>'+(p.referenciasBase&&p.referenciasBase.length?'<div class="caixa"><b>Base de livro-texto e artigos clássicos</b>'+p.referenciasBase.map(esc).join('<br>')+'</div>':''),'atualiza sozinho');
+  const v2=p.formato===2&&p.abertura&&Array.isArray(p.secoes);
+  if(v2){h+='<div class="abertura" id="b-abertura"><div class="eyebrow">Situação</div><div class="sit">'+txt(p.abertura.situacao)+'</div><div class="perg">'+txt(p.abertura.pergunta)+'</div></div>';nav.push(['abertura',{num:'',nome:'Situação'}]);}
+  h+=bloco('umMinuto',num('umMinuto','Em um minuto'),'Em um minuto','<ol class="frases">'+u.frases.map(f=>'<li>'+txt(f)+'</li>').join('')+'</ol><div class="caixa"><b>O que cai na prova</b>'+u.caiNaProva.map(esc).join(' · ')+'</div><div class="caixa"><b>Por que importa na clínica</b>'+txt(u.porQueImporta)+'</div>','o que ler no ônibus antes da prova');
+  if(v2){
+    p.secoes.forEach((s,i)=>{
+      const k='s'+i;const idx=num(k,s.titulo);
+      h+='<section class="bloco secao-l" id="b-'+k+'"><div class="bt"><b>'+(idx+1)+'</b><h2>'+esc(s.titulo)+'</h2></div>'+(s.blocos||[]).map(blocoCorpoHtml).join('')+(s.checagem?perguntaHtml(s.checagem,'Checagem'):'')+'</section>';
+    });
+    const f=p.fechamento||{};
+    h+=bloco('fechamento',num('fechamento','Resumo visual'),'Resumo visual',(f.visual?visualHtml(f.visual):'')+'<div class="cartoes-fim">'+(f.flashcards||[]).map(c=>'<div class="cartao-fim"><div class="f">'+txt(c.frente)+'</div><details><summary>ver resposta</summary>'+txt(c.verso)+'</details></div>').join('')+'</div>','o mapa da página e três cartões para a repetição espaçada');
+  }
+  h+=bloco('infografico',num('infografico','Infográfico'),'Infográfico','<div class="caixa" style="margin:0 0 10px;"><b>'+esc(p.infografico.titulo)+'</b></div><div class="info">'+p.infografico.itens.map(i=>'<div class="it"><div class="r">'+esc(i.rotulo)+'</div><div class="x">'+txt(i.texto)+'</div></div>').join('')+'</div>','desenhado a partir do texto, sem foto');
+  h+=bloco('fluxograma',num('fluxograma','Fluxograma de decisão'),'Fluxograma de decisão','<div class="caixa" style="margin:0 0 10px;"><b>'+esc(p.fluxograma.titulo)+'</b></div><div class="fluxo"><svg id="fluxo-svg"></svg></div>','se isso, então aquilo');
+  h+=bloco('passoAPasso',num('passoAPasso','Passo a passo'),'Passo a passo','<div class="passos">'+p.passoAPasso.map(s=>'<div class="passo"><div><div class="x">'+txt(s.passo)+'</div><div class="c">Confira: '+txt(s.confira)+'</div></div></div>').join('')+'</div>','serve de checklist no laboratório e na clínica');
+  h+=bloco('macetes',num('macetes','Macetes e dicas'),'Macetes e dicas','<div class="macs">'+p.macetes.map(m=>'<div class="mac"><div class="t">'+esc(m.titulo)+'</div><div class="x">'+txt(m.texto)+'</div></div>').join('')+'</div>');
+  h+=bloco('ondeErra',num('ondeErra','Onde todo mundo erra'),'Onde todo mundo erra','<div class="erros">'+p.ondeErra.map(e=>'<div class="er"><div class="e">'+txt(e.erro)+'</div><div class="p">Por quê: '+txt(e.porque)+'</div><div class="c">O certo: '+txt(e.certo)+'</div></div>').join('')+'</div>','erros clássicos de prova e de clínica');
+  h+=bloco('autoteste',num('autoteste','Autoteste'),'Autoteste',p.autoteste.map((q,qi)=>questaoHtml(q,'p'+qi)).join(''),'cinco questões no estilo ENADE e residência');
+  h+=bloco('pesquisa',num('pesquisa','O que a pesquisa diz hoje'),'O que a pesquisa diz hoje','<div class="pesq" id="pesq"><p class="sub">Buscando na Biblioteca do OdontoFeed por: '+p.pesquisa.termos.map(esc).join(', ')+'…</p></div>'+(p.referenciasBase&&p.referenciasBase.length?'<div class="caixa"><b>Base de livro-texto e artigos clássicos</b>'+p.referenciasBase.map(esc).join('<br>')+'</div>':''),'atualiza sozinho');
   const v=p.validacao||{};
-  h+=bloco('validacao',8,'Quem validou',p.estado==='rascunho'?'<div class="valid">Rascunho para validação. Esta página não fica visível ao aluno até que um dentista da especialidade a leia, corrija e assine. '+esc(p.autoria||'')+'</div>':'<div class="valid ok">Validada por '+esc(v.validadoPor)+' em '+esc(String(v.data||'').slice(0,10))+'. Achou um erro? Escreva para contato@odontofeed.com com o título da apostila.</div>');
-  return h;
+  h+=bloco('validacao',num('validacao','Quem validou'),'Quem validou',p.estado==='rascunho'?'<div class="valid">Rascunho para validação. Esta página não fica visível ao aluno até que um dentista da especialidade a leia, corrija e assine. '+esc(p.autoria||'')+'</div>':'<div class="valid ok">Validada por '+esc(v.validadoPor)+' em '+esc(String(v.data||'').slice(0,10))+'. Achou um erro? Escreva para contato@odontofeed.com com o título da apostila.</div>');
+  return {html:h,nav:nav.map(([k,n])=>[k,n,/^s\d+$/.test(k)])};
 }
 function questaoHtml(q,key){
   return '<div class="quest" id="q-'+key+'"><div class="q">'+esc(q.pergunta)+'</div>'+q.alternativas.map((a,i)=>'<button class="alt" onclick="responder(\''+key+'\','+i+','+q.correta+')"><span>'+String.fromCharCode(65+i)+') '+esc(a)+'</span><div class="exp">'+esc(q.explicacoes[i])+'</div></button>').join('')+'</div>';
@@ -668,7 +750,7 @@ async function simular(areaId){
 
 /* ───────── flashcards com repetição espaçada ───────── */
 const FC={fila:[],i:0};
-function cartoesDe(p){const c=[];p.macetes.forEach(m=>c.push({f:m.titulo,v:m.texto}));p.umMinuto.caiNaProva.forEach(x=>c.push({f:'O que você precisa saber sobre: '+x,v:p.umMinuto.frases.find(fr=>norm(fr).includes(norm(x).split(' ')[0]))||p.umMinuto.frases[0]}));p.ondeErra.forEach(e=>c.push({f:'Erro comum: '+e.erro+' O que é o certo?',v:e.certo}));return c.map((x,i)=>({...x,id:p.id+'#'+i,de:p.titulo}));}
+function cartoesDe(p){const c=[];((p.fechamento||{}).flashcards||[]).forEach(x=>c.push({f:x.frente,v:x.verso}));p.macetes.forEach(m=>c.push({f:m.titulo,v:m.texto}));p.umMinuto.caiNaProva.forEach(x=>c.push({f:'O que você precisa saber sobre: '+x,v:p.umMinuto.frases.find(fr=>norm(fr).includes(norm(x).split(' ')[0]))||p.umMinuto.frases[0]}));p.ondeErra.forEach(e=>c.push({f:'Erro comum: '+e.erro+' O que é o certo?',v:e.certo}));return c.map((x,i)=>({...x,id:p.id+'#'+i,de:p.titulo}));}
 async function flashcards(areaId){
   const pags=await paginasDa(areaId);const todos=pags.flatMap(cartoesDe);const prog=mem('cartoes')||{};
   const devidos=todos.filter(c=>!prog[c.id]||prog[c.id].proximo<=hoje());
@@ -800,7 +882,8 @@ function montarAudio(){
 async function ouvir(id){
   const p=await pagina(id);pararAudio();
   if(!('speechSynthesis' in window)){alert('Este navegador não lê em voz alta. Na plataforma, o áudio vem pronto.');return;}
-  const texto=[p.titulo+'.','Em um minuto.',...p.umMinuto.frases,'O que cai na prova: '+p.umMinuto.caiNaProva.join('; ')+'.','Por que importa: '+p.umMinuto.porQueImporta,'Macetes.',...p.macetes.map(m=>m.titulo+'. '+m.texto),'Onde todo mundo erra.',...p.ondeErra.map(e=>'Erro: '+e.erro+' O certo: '+e.certo)].join(' ');
+  const corpo=[];if(p.formato===2){corpo.push(p.abertura.situacao,p.abertura.pergunta);for(const s of p.secoes||[]){corpo.push(s.titulo+'.');for(const b of s.blocos||[]){if(b.tipo==='p')corpo.push(b.texto);else if(b.tipo==='lista')corpo.push(...(b.itens||[]));else if(b.tipo==='destaque')corpo.push((ROTULO_QUADRO[b.estilo]||'')+'. '+(b.estilo==='mito'?'Mito: '+b.mito+' Verdade: '+b.verdade:b.texto));}if(s.checagem)corpo.push('Checagem: '+s.checagem.pergunta+' '+s.checagem.resposta);}}
+  const texto=[p.titulo+'.',...corpo.map(x=>String(x||'').replace(/\s?\[VERIFICAR\]/g,'')),'Em um minuto.',...p.umMinuto.frases,'O que cai na prova: '+p.umMinuto.caiNaProva.join('; ')+'.','Por que importa: '+p.umMinuto.porQueImporta,'Macetes.',...p.macetes.map(m=>m.titulo+'. '+m.texto),'Onde todo mundo erra.',...p.ondeErra.map(e=>'Erro: '+e.erro+' O certo: '+e.certo)].join(' ');
   const u=new SpeechSynthesisUtterance(texto);u.lang='pt-BR';u.rate=1;const v=speechSynthesis.getVoices().find(x=>/pt(-|_)BR/i.test(x.lang));if(v)u.voice=v;
   speechSynthesis.speak(u);if($('au-status'))$('au-status').textContent='Lendo “'+p.titulo+'” com a voz do navegador.';
 }

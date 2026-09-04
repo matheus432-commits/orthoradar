@@ -40,7 +40,9 @@ fs.writeFileSync(path.join(RAIZ, 'data', 'campus', 'indice.json'), JSON.stringif
 // Prévia: campus.html com os dados embutidos (árvore compacta + índice + páginas).
 const html = fs.readFileSync(path.join(RAIZ, 'campus.html'), 'utf8');
 const arv = taxonomia().areas.map((a) => ({ id: a.id, nome: a.nome, ciclo: a.ciclo, status: a.statusRotulo, descricao: a.descricao, nota: a.nota || '', modulos: a.modulos.map((m) => ({ nome: m.nome, temas: m.temas.map((t) => ({ nome: t.nome, paginas: t.paginas.map((p) => ({ id: p.id, nome: p.nome })) })) })) }));
-const dados = JSON.stringify({ arvore: arv, indice, paginas }).replace(/<\/script/gi, '<\\/script');
+// A biblioteca de símbolos dos visuais entra embutida: no file:// não há fetch.
+const componentes = fs.readFileSync(path.join(RAIZ, 'assets', 'campus', 'componentes.svg'), 'utf8');
+const dados = JSON.stringify({ arvore: arv, indice, paginas, componentes }).replace(/<\/script/gi, '<\\/script');
 const marca = '<script>';
 const i = html.indexOf(marca);
 if (i < 0) throw new Error('campus.html sem <script>');

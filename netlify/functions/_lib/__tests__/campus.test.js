@@ -29,11 +29,32 @@ for (const a of taxonomia().areas) for (const m of a.modulos) for (const t of m.
 const html = fs.readFileSync(path.join(RAIZ, 'campus.html'), 'utf8');
 
 describe('páginas piloto', () => {
-  test('existem as cinco páginas de Ortodontia combinadas com o fundador', () => {
-    assert.equal(paginas.length, 5);
+  test('as cinco páginas piloto combinadas com o fundador continuam presentes', () => {
+    assert.ok(paginas.length >= 5);
     const temas = paginas.map(({ p }) => p.titulo.toLowerCase());
     for (const t of ['mini-implante', 'herbst', 'expansão rápida', 'recidiva', 'steiner']) assert.ok(temas.some((x) => x.includes(t)), t);
-    assert.ok(paginas.every(({ p }) => p.areaId === 'ortodontia'));
+    assert.ok(paginas.every(({ p }) => p.areaId === 'ortodontia'), 'a coleção começa por Ortodontia (especialidade do titular)');
+  });
+  test('formato 2 (04/09): corpo de leitura validado — regra de ouro, densidade, SVG seguro, fechamento', () => {
+    const { metricas } = require('../campus/pagina');
+    const v2 = paginas.filter(({ p }) => p.formato === 2);
+    for (const { f, p } of v2) {
+      assert.deepEqual(problemasDaPagina(p), [], f);
+      const m = metricas(p);
+      assert.ok(m.visuais.length >= 2, f + ': visual principal + resumo visual');
+      assert.ok(Object.keys(m.quadros).length >= 2, f + ': dois estilos de quadro');
+      assert.equal(p.fechamento.flashcards.length, 3, f);
+      for (const s of p.secoes) assert.ok(s.checagem && s.checagem.pergunta, f + ': seção sem checagem: ' + s.titulo);
+      assert.ok(m.palavras >= 1500, f + ': página curta demais (' + m.palavras + ' palavras)');
+    }
+    // A regra de ouro está no validador: 4 parágrafos seguidos são recusados.
+    const base = JSON.parse(JSON.stringify((v2[0] || paginas[0]).p));
+    if (base.formato === 2) {
+      base.secoes[0].blocos = [1, 2, 3, 4].map((i) => ({ tipo: 'p', texto: 'Parágrafo ' + i + ' de texto corrido.' }));
+      assert.ok(problemasDaPagina(base).some((e) => /parágrafos seguidos/.test(e)), 'regra de ouro no validador');
+      base.secoes[0].blocos = [{ tipo: 'p', texto: 'x' }, { tipo: 'visual', formato: 'mapa', titulo: 't', descricao: 'descrição longa o bastante', viewBox: '0 0 560 200', svg: ['<g><script>1</script></g>'] }];
+      assert.ok(problemasDaPagina(base).some((e) => /script/.test(e)), 'svg com script é recusado');
+    }
   });
   test('cada uma respeita o esqueleto de 9 blocos e aponta para uma página real da árvore', () => {
     for (const { f, p } of paginas) {
@@ -164,6 +185,19 @@ describe('campus.html (porta do aluno)', () => {
     for (const [k] of [['umMinuto'], ['infografico'], ['fluxograma'], ['passoAPasso'], ['macetes'], ['ondeErra'], ['autoteste'], ['pesquisa'], ['validacao']]) assert.ok(html.includes("['" + k + "',"), k);
     assert.ok(html.includes('window.print()') && html.includes('@media print'));
     assert.ok(html.includes("MOSTRAR_RASCUNHOS||c.estado!=='rascunho'"), 'produção esconde rascunhos');
+  });
+  test('leitura formato 2: abertura, seções com visual SVG inline, quadros, checagem, placeholder de imagem, fechamento', () => {
+    assert.ok(html.includes('class="abertura"') && html.includes('function blocoCorpoHtml') && html.includes('function visualHtml'));
+    assert.ok(html.includes('role="img" aria-labelledby=') && html.includes('<title id=') && html.includes('<desc id='), 'svg acessível');
+    for (const k of ['erro', 'dica', 'prova', 'mito', 'frase']) assert.ok(html.includes(k + ':'), 'quadro ' + k);
+    assert.ok(html.includes('<details class="checagem">'), 'pergunta de checagem expansível');
+    assert.ok(html.includes('Imagem clínica necessária') && html.includes('Imagem clínica em preparação'), 'placeholder completo na prévia, nota discreta na plataforma');
+    assert.ok(html.includes('mark class="verificar"') && html.includes("replace(/\\s?\\[VERIFICAR\\]/g,'')"), '[VERIFICAR] só aparece em rascunho');
+    assert.ok(html.includes("bloco('fechamento'") && html.includes('cartoes-fim'), 'resumo visual + 3 cartões');
+    assert.ok(html.includes('function injetarComponentes') && html.includes('/assets/campus/componentes.svg'), 'biblioteca de símbolos injetada');
+    assert.ok(html.includes('(p.fechamento||{}).flashcards'), 'cartões do fechamento entram na repetição espaçada');
+    assert.ok(html.includes("if(p.formato===2){corpo.push(p.abertura.situacao"), 'áudio lê o corpo');
+    assert.ok(fs.existsSync(path.join(RAIZ, 'assets', 'campus', 'componentes.svg')) && fs.existsSync(path.join(RAIZ, 'docs', 'SISTEMA-VISUAL.md')) && fs.existsSync(path.join(RAIZ, 'docs', 'ESPEC-APOSTILA.md')));
   });
   test('bloco 8 vem da Biblioteca ao vivo; validação explica o rascunho', () => {
     assert.ok(html.includes("/.netlify/functions/acervo?esp="));
