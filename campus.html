@@ -11,7 +11,7 @@
    Layout v2 (04/09): barra lateral com a navegação agrupada, uma "casa" com
    uma única próxima ação, estantes densas só do que existe, e o resto da
    árvore em lista compacta, atrás da busca. */
-:root{--bg:#FBF7EF;--card:#FFFFFF;--border:#EDE6D8;--text:#1A1A18;--muted:#8A8478;--gold:#B08968;--gold-soft:#F4EEE4;--green:#3E7C4F;--green-soft:#E8F2EA;--blue:#4A6B8A;--red:#B4533B;--red-soft:#F6E7E2;--ink:#23211C;}
+:root{--bg:#FBF7EF;--card:#FFFFFF;--border:#EDE6D8;--text:#1A1A18;--muted:#8A8478;--gold:#B08968;--gold-soft:#F4EEE4;--green:#3E7C4F;--green-soft:#E8F2EA;--blue:#4A6B8A;--blue-soft:#E9EEF3;--red:#B4533B;--red-soft:#F6E7E2;--ink:#23211C;--lateral:#2B2A24;--lateral-2:#1F1E19;}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,-apple-system,sans-serif;}
 a{color:var(--blue);}
@@ -43,21 +43,25 @@ h2{font-family:Georgia,serif;font-size:1.35rem;font-weight:400;letter-spacing:-.
 
 /* ── casca do app: barra lateral + conteúdo ── */
 .app{display:grid;grid-template-columns:248px 1fr;min-height:100vh;}
-.lateral{border-right:1px solid var(--border);background:#fff;padding:22px 16px;position:sticky;top:0;height:100vh;overflow:auto;display:flex;flex-direction:column;gap:6px;}
-.marca{font-family:Georgia,serif;font-size:1.25rem;padding:0 8px 14px;}
-.marca small{display:block;font-family:'Segoe UI',system-ui,sans-serif;font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-top:2px;}
-.grupo{font-size:10.5px;font-weight:800;letter-spacing:1.3px;text-transform:uppercase;color:var(--muted);padding:12px 8px 4px;}
-.nav{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;text-align:left;border:0;background:transparent;border-radius:9px;padding:8px 10px;font-size:13.5px;font-weight:600;color:var(--text);cursor:pointer;font-family:inherit;transition:background .2s;}
-.nav:hover{background:var(--gold-soft);}
-.nav.on{background:var(--ink);color:#fff;}
-.nav .b{font-size:11px;font-weight:800;color:var(--gold);background:var(--gold-soft);border-radius:999px;padding:2px 8px;font-variant-numeric:tabular-nums;}
-.nav.on .b{background:rgba(255,255,255,.18);color:#fff;}
-.lateral .rodape{margin-top:auto;padding:12px 8px 0;font-size:12px;color:var(--muted);line-height:1.6;border-top:1px solid var(--border);}
-.conteudo{padding:28px 32px 90px;max-width:1120px;width:100%;min-width:0;}
+/* Coluna escura, quente, com o dourado da casa como acento: dá cor sem sair
+   da paleta. O fundo do conteúdo recebe um banho suave de dourado no topo. */
+.lateral{background:linear-gradient(180deg,var(--lateral),var(--lateral-2));color:#E9E2D3;padding:22px 16px;position:sticky;top:0;height:100vh;overflow:auto;display:flex;flex-direction:column;gap:6px;}
+.marca{font-family:Georgia,serif;font-size:1.25rem;padding:0 8px 14px;color:#fff;}
+.marca em{color:#D9B98F;}
+.marca small{display:block;font-family:'Segoe UI',system-ui,sans-serif;font-size:11px;color:#A79E8C;letter-spacing:1px;text-transform:uppercase;margin-top:2px;}
+.grupo{font-size:10.5px;font-weight:800;letter-spacing:1.3px;text-transform:uppercase;color:#A79E8C;padding:12px 8px 4px;}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;text-align:left;border:0;background:transparent;border-radius:9px;padding:8px 10px;font-size:13.5px;font-weight:600;color:#E9E2D3;cursor:pointer;font-family:inherit;transition:background .2s;}
+.nav:hover{background:rgba(255,255,255,.07);}
+.nav.on{background:var(--gold);color:#fff;}
+.nav .b{font-size:11px;font-weight:800;color:#D9B98F;background:rgba(255,255,255,.08);border-radius:999px;padding:2px 8px;font-variant-numeric:tabular-nums;}
+.nav.on .b{background:rgba(255,255,255,.22);color:#fff;}
+.lateral .rodape{margin-top:auto;padding:12px 8px 0;font-size:12px;color:#A79E8C;line-height:1.6;border-top:1px solid rgba(255,255,255,.12);}
+.lateral .rodape a{color:#D9B98F;}
+.conteudo{padding:28px 32px 90px;max-width:1120px;width:100%;min-width:0;background:radial-gradient(1200px 320px at 20% -60px,#F1E4D0 0%,rgba(241,228,208,0) 70%);}
 .hoje>*,.secao,.sub-tela,.leitura>*,.app>*{min-width:0;}
 @media(max-width:900px){
   .app{grid-template-columns:1fr;}
-  .lateral{position:static;height:auto;flex-direction:row;flex-wrap:nowrap;overflow-x:auto;gap:4px;padding:10px 12px;border-right:0;border-bottom:1px solid var(--border);}
+  .lateral{position:static;height:auto;flex-direction:row;flex-wrap:nowrap;overflow-x:auto;gap:4px;padding:10px 12px;}
   .marca,.grupo,.lateral .rodape{display:none;}
   .nav{white-space:nowrap;padding:7px 11px;}
   .conteudo{padding:18px 16px 80px;}
@@ -69,16 +73,44 @@ h2{font-family:Georgia,serif;font-size:1.35rem;font-weight:400;letter-spacing:-.
 /* ── "hoje": uma próxima ação e três números ── */
 .hoje{display:grid;grid-template-columns:1.4fr 1fr;gap:12px;margin-bottom:28px;}
 @media(max-width:860px){.hoje{grid-template-columns:1fr;}}
-.proxima{padding:22px 24px;background:var(--ink);color:#fff;border-radius:14px;display:flex;flex-direction:column;gap:8px;}
-.proxima .eyebrow{color:#D9C3A5;}
+.proxima{padding:22px 24px;background:linear-gradient(135deg,#3E7C4F,#2E5A36);color:#fff;border-radius:14px;display:flex;flex-direction:column;gap:8px;}
+.proxima .eyebrow{color:#CFE3D3;}
 .proxima h2{font-size:1.45rem;color:#fff;line-height:1.25;}
-.proxima p{font-size:13.5px;color:rgba(255,255,255,.75);line-height:1.55;}
+.proxima p{font-size:13.5px;color:rgba(255,255,255,.8);line-height:1.55;}
 .proxima .acao{margin-top:auto;padding-top:10px;}
-.proxima .btn{background:#fff;color:var(--ink);border-color:#fff;}
+.proxima .btn{background:#fff;color:#2E5A36;border-color:#fff;}
 .numeros{display:grid;grid-template-rows:repeat(3,1fr);gap:10px;}
-.numero{padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;transition:border-color .2s;text-align:left;font-family:inherit;color:var(--text);}
+.numero{padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;transition:border-color .2s;text-align:left;font-family:inherit;color:var(--text);border-left:4px solid var(--gold);}
+.numero.azul{border-left-color:var(--blue);} .numero.verde{border-left-color:var(--green);}
 .numero:hover{border-color:var(--gold);}
 .numero .v{font-family:Georgia,serif;font-size:1.6rem;color:var(--gold);font-variant-numeric:tabular-nums;}
+.numero.azul .v{color:var(--blue);} .numero.verde .v{color:var(--green);}
+/* planner e liga */
+.plan-form{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+@media(max-width:700px){.plan-form{grid-template-columns:1fr;}}
+.plan-form label{display:block;font-size:12px;color:var(--muted);margin-bottom:3px;}
+.plan-form input,.plan-form select{width:100%;border:1px solid var(--border);border-radius:9px;padding:9px 11px;font-size:13.5px;font-family:inherit;background:#fff;}
+.plan-form .areas-sel{display:flex;flex-wrap:wrap;gap:6px;grid-column:1/-1;}
+.dia{display:grid;grid-template-columns:110px 1fr;gap:12px;padding:10px 0;border-bottom:1px dashed var(--border);}
+.dia .d{font-family:Georgia,serif;font-size:1rem;color:var(--gold);}
+.dia .d small{display:block;font-family:'Segoe UI',system-ui,sans-serif;font-size:11px;color:var(--muted);}
+.dia.hoje-dia .d{color:var(--green);}
+.dia.passado{opacity:.55;}
+.tarefa{display:flex;gap:8px;align-items:flex-start;font-size:13.5px;margin-bottom:4px;}
+.tarefa input{margin-top:4px;}
+.tarefa .t{font-size:10.5px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--gold);margin-right:4px;}
+.tarefa .t.fixar{color:var(--blue);} .tarefa .t.prova{color:var(--red);}
+.faixas{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+@media(max-width:700px){.faixas{grid-template-columns:repeat(2,1fr);}}
+.faixa{padding:12px 14px;border:1px solid var(--border);border-radius:12px;background:#fff;text-align:center;}
+.faixa.atual{border-color:var(--gold);background:var(--gold-soft);}
+.faixa .n{font-family:Georgia,serif;font-size:1.05rem;}
+.faixa .p{font-size:11.5px;color:var(--muted);}
+.barra{height:10px;border-radius:6px;background:#EFEAE0;overflow:hidden;margin:8px 0;}
+.barra>div{height:100%;background:linear-gradient(90deg,var(--gold),#D9B98F);border-radius:6px;}
+.ranking .lin{display:grid;grid-template-columns:34px 1fr auto;gap:10px;padding:8px 0;border-bottom:1px dashed var(--border);font-size:13.5px;align-items:center;}
+.ranking .lin .pos{font-family:Georgia,serif;color:var(--gold);}
+.ranking .lin.eu{background:var(--gold-soft);border-radius:8px;padding:8px 10px;}
 .numero .l{font-size:12.5px;color:var(--muted);line-height:1.35;}
 .numero .l b{display:block;color:var(--text);font-size:13.5px;}
 
@@ -232,6 +264,8 @@ table.crono td{padding:5px 6px;border-bottom:1px solid var(--border);}
   <aside class="lateral no-print">
     <div class="marca">OdontoFeed<em>.</em> Campus<small>Área do aluno</small></div>
     <button class="nav on" data-aba="hoje" onclick="aba('hoje')">Hoje</button>
+    <button class="nav" data-aba="planner" onclick="aba('planner')">Planner de provas <span class="b" id="n-provas"></span></button>
+    <button class="nav" data-aba="liga" onclick="aba('liga')">Liga do mês <span class="b" id="n-pontos"></span></button>
     <div class="grupo">Estudar</div>
     <button class="nav" data-aba="apostilas" onclick="aba('apostilas')">Apostilas <span class="b" id="n-apostilas"></span></button>
     <button class="nav" data-aba="trilhas" onclick="aba('trilhas')">Trilhas por objetivo</button>
@@ -240,7 +274,6 @@ table.crono td{padding:5px 6px;border-bottom:1px solid var(--border);}
     <button class="nav" data-aba="flashcards" onclick="aba('flashcards')">Flashcards <span class="b" id="n-cartoes"></span></button>
     <button class="nav" data-aba="simulados" onclick="aba('simulados')">Simulados</button>
     <button class="nav" data-aba="prova" onclick="aba('prova')">Prova amanhã</button>
-    <button class="nav" data-aba="casos" onclick="aba('casos')">Casos clínicos</button>
     <div class="grupo">Na clínica</div>
     <button class="nav" data-aba="checklists" onclick="aba('checklists')">Checklists</button>
     <button class="nav" data-aba="calculadoras" onclick="aba('calculadoras')">Calculadoras de bolso</button>
@@ -309,11 +342,26 @@ table.crono td{padding:5px 6px;border-bottom:1px solid var(--border);}
       <div id="ck-area"></div>
     </div>
 
-    <!-- CASOS CLÍNICOS -->
-    <div class="sub-tela" id="casos" style="display:none;">
-      <div class="cabeca"><div><h1>Casos clínicos<em>.</em></h1><p class="sub">Um caso, uma decisão por vez. Você percorre o fluxograma da apostila escolhendo o caminho; cada escolha mostra a consequência. Errar aqui não custa um paciente.</p></div></div>
-      <div class="filtros" id="cs-esp"></div>
-      <div id="cs-area"></div>
+    <!-- PLANNER DE PROVAS -->
+    <div class="sub-tela" id="planner" style="display:none;">
+      <div class="cabeca"><div><h1>Planner de provas<em>.</em></h1><p class="sub">Diga quando é a prova e quais matérias caem. O Campus distribui as apostilas, os cartões e os simulados pelos dias que faltam, com revisão na véspera. Marque o que fez; o plano se ajusta.</p></div></div>
+      <div class="card painel" style="margin-top:0;">
+        <div class="eyebrow">Nova prova</div>
+        <div class="plan-form">
+          <div><label>Nome da prova</label><input id="pl-nome" placeholder="ex.: Prova de Ortodontia, 2º bimestre"></div>
+          <div><label>Data da prova</label><input id="pl-data" type="date"></div>
+          <div class="areas-sel" id="pl-areas"></div>
+          <div style="grid-column:1/-1;"><label>Temas que o professor avisou que caem (opcional, separados por vírgula)</label><input id="pl-temas" placeholder="ex.: mini-implantes, expansão rápida, Steiner"></div>
+        </div>
+        <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;"><button class="btn primario" onclick="criarPlano()">Montar meu plano →</button><span class="sub" id="pl-aviso"></span></div>
+      </div>
+      <div id="pl-lista"></div>
+    </div>
+
+    <!-- LIGA DO MÊS -->
+    <div class="sub-tela" id="liga" style="display:none;">
+      <div class="cabeca"><div><h1>Liga do mês<em>.</em></h1><p class="sub">Cada apostila lida, cartão revisado, questão certa e dia de plano cumprido vale pontos. No primeiro dia do mês tudo zera e a disputa recomeça. Sem prêmio em dinheiro, sem punição: é para manter o ritmo.</p></div></div>
+      <div id="lg-area"></div>
     </div>
 
     <!-- TRILHAS -->
@@ -416,7 +464,7 @@ async function carregar(){
     INDICE=i;
   }
   INDICE.apostilas=(INDICE.apostilas||[]).filter(c=>MOSTRAR_RASCUNHOS||c.estado!=='rascunho');
-  montarHoje();montarApostilas();montarSimEsp();montarChipsArea();montarAudio();calcAnestesico();calcPediatrica();calcCpo();tabelaCrono();
+  montarHoje();montarApostilas();montarSimEsp();montarChipsArea();montarAudio();montarPlanner();montarLiga();calcAnestesico();calcPediatrica();calcCpo();tabelaCrono();
   if(location.hash.slice(1)==='aluno')irAluno();
 }
 async function pagina(id){
@@ -434,13 +482,15 @@ function aba(nome){
   document.querySelectorAll('.nav').forEach(b=>b.classList.toggle('on',b.dataset.aba===nome));
   document.querySelectorAll('.sub-tela').forEach(s=>s.style.display=s.id===nome?'block':'none');
   if(nome==='hoje')montarHoje();
+  if(nome==='planner')montarPlanner();
+  if(nome==='liga')montarLiga();
   window.scrollTo(0,0);
 }
 
 /* ───────── memória local do aluno (só neste navegador) ───────── */
 function mem(k,v){try{if(v===undefined)return JSON.parse(localStorage.getItem('campus.'+k)||'null');localStorage.setItem('campus.'+k,JSON.stringify(v));}catch(e){return null;}}
-function registrarErro(pergunta,acertou){const e=mem('erros')||{};if(acertou)delete e[pergunta];else e[pergunta]=(e[pergunta]||0)+1;mem('erros',e);}
-function marcarLida(id){const l=mem('lidas')||{};l[id]=new Date().toISOString().slice(0,10);mem('lidas',l);}
+function registrarErro(pergunta,acertou){const e=mem('erros')||{};if(acertou)delete e[pergunta];else e[pergunta]=(e[pergunta]||0)+1;mem('erros',e);pontuar(acertou?'questao_certa':'questao_errada');}
+function marcarLida(id){const l=mem('lidas')||{};if(!l[id])pontuar('apostila_lida');l[id]=new Date().toISOString().slice(0,10);mem('lidas',l);}
 const hoje=()=>new Date().toISOString().slice(0,10);
 const diasDepois=(n)=>{const d=new Date();d.setDate(d.getDate()+n);return d.toISOString().slice(0,10);};
 
@@ -457,9 +507,11 @@ function montarHoje(){
   else{h='<div class="eyebrow">Próxima ação</div><h2>'+(ultima?'Continue por ':'Comece por ')+esc(prox.titulo)+'</h2><p>'+esc(prox.area)+' · '+esc(prox.modulo)+' · cerca de 15 minutos de leitura, com autoteste no fim.</p><div class="acao"><button class="btn" onclick="abrirPagina(\''+prox.id+'\')">Ler agora →</button></div>';}
   $('proxima').innerHTML=h;
   const cart=cartoesDevidos();
-  $('numeros').innerHTML='<button class="card numero" onclick="aba(\'apostilas\')"><div class="l"><b>Apostilas prontas</b>'+(prontas.length-naoLidas.length)+' lidas por você</div><div class="v">'+prontas.length+'</div></button>'
-    +'<button class="card numero" onclick="aba(\'flashcards\')"><div class="l"><b>Cartões para hoje</b>repetição espaçada</div><div class="v">'+cart+'</div></button>'
-    +'<button class="card numero" onclick="aba(\'simulados\')"><div class="l"><b>Questões disponíveis</b>estilo ENADE e residência</div><div class="v">'+(prontas.length*5)+'</div></button>';
+  const provas=(mem('provas')||[]).filter(p=>p.data>=hoje()).sort((a,b)=>a.data.localeCompare(b.data));const px=provas[0];
+  const dias=px?Math.max(0,Math.round((new Date(px.data)-new Date(hoje()))/86400000)):null;
+  $('numeros').innerHTML='<button class="card numero" onclick="aba(\'planner\')"><div class="l"><b>'+(px?esc(px.nome):'Nenhuma prova marcada')+'</b>'+(px?(dias===0?'é hoje':dias===1?'é amanhã':'faltam '+dias+' dias'):'monte seu plano no Planner')+'</div><div class="v">'+(px?dias:'')+'</div></button>'
+    +'<button class="card numero azul" onclick="aba(\'flashcards\')"><div class="l"><b>Cartões para hoje</b>repetição espaçada</div><div class="v">'+cart+'</div></button>'
+    +'<button class="card numero verde" onclick="aba(\'liga\')"><div class="l"><b>Pontos na Liga do mês</b>'+esc(faixaDe(pontosDoMes()).nome)+'</div><div class="v">'+pontosDoMes()+'</div></button>';
   $('fila-hoje').innerHTML=prontas.map(capaHtml).join('')||'<div class="vazio">Ainda não há apostilas prontas.</div>';
   $('n-apostilas').textContent=prontas.length||'';$('n-cartoes').textContent=cart||'';
 }
@@ -600,11 +652,11 @@ async function pesquisa(p){
 /* ───────── áreas com apostila pronta (chips reutilizados) ───────── */
 function areasProntas(){return [...new Set(INDICE.apostilas.map(c=>c.areaId))].map(id=>ARVORE.find(a=>a.id===id)).filter(Boolean);}
 function chips(elId,fn){const areas=areasProntas();$(elId).innerHTML=areas.length?areas.map(a=>'<button class="chip" onclick="'+fn+'(\''+a.id+'\')">'+esc(a.nome)+'</button>').join(''):'<span class="sub">Ainda não há apostilas prontas.</span>';}
-function montarChipsArea(){chips('fc-esp','flashcards');chips('pv-esp','provaAmanha');chips('ck-esp','checklists');chips('cs-esp','casos');chips('tr-esp','trilhaArea');}
+function montarChipsArea(){chips('fc-esp','flashcards');chips('pv-esp','provaAmanha');chips('ck-esp','checklists');chips('tr-esp','trilhaArea');}
 async function paginasDa(areaId){const out=[];for(const c of INDICE.apostilas.filter(x=>x.areaId===areaId))out.push(await pagina(c.id));return out;}
 
 /* ───────── simulados ───────── */
-const SIM={area:null,questoes:[],acertos:0,respondidas:0,registrar(key,ok){this.respondidas++;if(ok)this.acertos++;$('sim-placar').textContent=this.acertos+' de '+this.respondidas+' certas'+(this.respondidas===this.questoes.length?' · simulado concluído':'');}};
+const SIM={area:null,questoes:[],acertos:0,respondidas:0,registrar(key,ok){this.respondidas++;if(ok)this.acertos++;const fim=this.respondidas===this.questoes.length;if(fim)pontuar('simulado');$('sim-placar').textContent=this.acertos+' de '+this.respondidas+' certas'+(fim?' · simulado concluído':'');}};
 function montarSimEsp(){chips('sim-esp','simular');}
 async function simular(areaId){
   const pool=(await paginasDa(areaId)).flatMap(p=>p.autoteste.map(q=>({...q,de:p.titulo})));
@@ -631,7 +683,7 @@ function cartao(){
   el.innerHTML='<div class="quest"><div class="sub" style="margin-bottom:6px;">Cartão '+(FC.i+1)+' de '+FC.fila.length+' · da apostila “'+esc(c.de)+'”</div><div class="q">'+esc(c.f)+'</div><div id="fc-verso" style="display:none;" class="caixa">'+esc(c.v)+'</div><div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap;" id="fc-btns"><button class="btn primario" onclick="virar()">Virar</button></div></div>';
 }
 function virar(){$('fc-verso').style.display='block';$('fc-btns').innerHTML='<button class="btn" onclick="avaliar(false)">Errei, volta amanhã</button><button class="btn ouro" onclick="avaliar(true)">Acertei</button>';}
-function avaliar(ok){const c=FC.fila[FC.i];const prog=mem('cartoes')||{};const nivel=ok?Math.min(((prog[c.id]||{}).nivel||0)+1,3):0;const passos=[1,3,7,14];prog[c.id]={nivel,proximo:diasDepois(passos[nivel])};mem('cartoes',prog);FC.i++;cartao();}
+function avaliar(ok){const c=FC.fila[FC.i];const prog=mem('cartoes')||{};const nivel=ok?Math.min(((prog[c.id]||{}).nivel||0)+1,3):0;const passos=[1,3,7,14];prog[c.id]={nivel,proximo:diasDepois(passos[nivel])};mem('cartoes',prog);pontuar('cartao');FC.i++;cartao();}
 
 /* ───────── modo prova amanhã ───────── */
 async function provaAmanha(areaId){
@@ -648,24 +700,81 @@ async function checklists(areaId){
   $('ck-area').innerHTML='<div class="card painel"><div class="eyebrow">Checklists de '+esc(a.nome)+'</div>'
     +pags.map(p=>'<div class="bloco"><div style="display:flex;justify-content:space-between;gap:10px;align-items:baseline;flex-wrap:wrap;"><h2>'+esc(p.titulo)+'</h2><button class="btn no-print" onclick="window.print()">Imprimir</button></div>'+p.passoAPasso.map((s,i)=>{const k=p.id+'#'+i;return '<label class="passo" style="cursor:pointer;grid-template-columns:24px 1fr;"><input type="checkbox" '+(marc[k]?'checked':'')+' onchange="marcarCheck(\''+k.replace(/'/g,'')+'\',this.checked)" style="margin-top:4px;"><div><div class="x">'+esc(s.passo)+'</div><div class="c">Confira: '+esc(s.confira)+'</div></div></label>';}).join('')+'</div>').join('')+'</div>';
 }
-function marcarCheck(k,v){const m=mem('checks')||{};if(v)m[k]=hoje();else delete m[k];mem('checks',m);}
+function marcarCheck(k,v){const m=mem('checks')||{};if(v){m[k]=hoje();pontuar('checklist');}else delete m[k];mem('checks',m);}
 
-/* ───────── casos clínicos interativos (percorrem o fluxograma) ───────── */
-const CASO={p:null,no:null,trilha:[]};
-async function casos(areaId){
-  const pags=await paginasDa(areaId);const a=ARVORE.find(x=>x.id===areaId);
-  $('cs-area').innerHTML='<div class="card painel"><div class="eyebrow">Casos de '+esc(a.nome)+'</div><p class="sub">Escolha o caso:</p><div class="filtros" style="margin-top:8px;">'+pags.map(p=>'<button class="chip" onclick="iniciarCaso(\''+p.id+'\')">'+esc(p.fluxograma.titulo)+'</button>').join('')+'</div><div id="cs-jogo" style="margin-top:12px;"></div></div>';
+/* ───────── planner de provas ─────────
+   Entrada: nome, data, áreas, temas avisados. Saída: um plano dia a dia até a
+   prova, determinístico (sem chamada de modelo): apostilas prontas das áreas
+   (primeiro as que batem com os temas avisados), depois os temas da árvore
+   ainda em preparação como leitura de livro-texto; cada dia mistura ler +
+   fixar; os dois últimos dias são simulado e "prova amanhã". */
+function montarPlanner(){
+  $('pl-areas').innerHTML='<label style="width:100%;">Matérias que caem</label>'+ARVORE.slice().sort((a,b)=>(contagens(b).prontas-contagens(a).prontas)||a.nome.localeCompare(b.nome,'pt-BR')).map(a=>'<label class="chip" style="cursor:pointer;"><input type="checkbox" value="'+a.id+'" style="margin-right:6px;">'+esc(a.nome)+(contagens(a).prontas?' ('+contagens(a).prontas+')':'')+'</label>').join('');
+  if(!$('pl-data').value)$('pl-data').value=diasDepois(14);
+  listarPlanos();
 }
-async function iniciarCaso(id){const p=await pagina(id);CASO.p=p;CASO.no=p.fluxograma.nos.find(n=>n.tipo==='inicio').id;CASO.trilha=[];passoCaso();}
-function passoCaso(){
-  const f=CASO.p.fluxograma;const no=f.nos.find(n=>n.id===CASO.no);const saidas=f.arestas.filter(a=>a.de===no.id);
-  let h='<div class="quest"><div class="sub" style="margin-bottom:6px;">Caso da apostila “'+esc(CASO.p.titulo)+'” · passo '+(CASO.trilha.length+1)+'</div><div class="q">'+esc(no.texto)+'</div>';
-  if(no.tipo==='fim'||!saidas.length){h+='<div class="caixa"><b>Fim do caso</b>Caminho percorrido: '+CASO.trilha.map(esc).join(' → ')+'.</div><button class="btn primario" style="margin-top:10px;" onclick="iniciarCaso(\''+CASO.p.id+'\')">Refazer o caso</button>';}
-  else if(no.tipo==='decisao'){h+=saidas.map(s=>'<button class="alt" onclick="decidir(\''+s.para+'\',\''+esc(s.rotulo||'seguir')+'\')">'+esc(s.rotulo||'Seguir')+': '+esc(f.nos.find(n=>n.id===s.para).texto)+'</button>').join('');}
-  else{h+='<button class="btn primario" style="margin-top:8px;" onclick="decidir(\''+saidas[0].para+'\',\'seguir\')">Seguir →</button>';}
-  $('cs-jogo').innerHTML=h+'</div>';
+function itensDoPlano(areasIds,temas){
+  const t=temas.map(norm).filter(Boolean);
+  const bate=(txt)=>t.length?t.some(x=>norm(txt).includes(x)):false;
+  const prontas=INDICE.apostilas.filter(c=>areasIds.includes(c.areaId)).map(c=>({tipo:'ler',id:c.id,titulo:c.titulo,area:c.area,prio:bate(c.titulo+' '+c.tema+' '+c.busca)?0:1}));
+  const arvore=[];for(const a of ARVORE.filter(x=>areasIds.includes(x.id)))a.modulos.forEach(m=>m.temas.forEach(te=>te.paginas.forEach(p=>{if(!INDICE.apostilas.some(c=>c.id===p.id))arvore.push({tipo:'texto',id:p.id,titulo:te.nome+': '+p.nome,area:a.nome,prio:bate(te.nome+' '+p.nome)?0:2});})));
+  // Se o professor avisou temas, a árvore entra só no que bate; senão, entra um recorte (até 3 por módulo) para caber no prazo.
+  const recorte=arvore.filter((x,i,arr)=>arr.filter(y=>y.titulo.split(':')[0]===x.titulo.split(':')[0]).indexOf(x)<1).slice(0,40);
+  const batem=arvore.filter(x=>x.prio===0);
+  const daArvore=t.length&&batem.length?batem:recorte;
+  return [...prontas,...daArvore].sort((x,y)=>x.prio-y.prio);
 }
-function decidir(para,rot){CASO.trilha.push(rot);CASO.no=para;passoCaso();}
+function criarPlano(){
+  const nome=$('pl-nome').value.trim()||'Prova';const data=$('pl-data').value;const areas=[...$('pl-areas').querySelectorAll('input:checked')].map(i=>i.value);
+  const temas=$('pl-temas').value.split(',').map(s=>s.trim()).filter(Boolean);
+  if(!data||data<hoje()){$('pl-aviso').textContent='Escolha uma data de hoje em diante.';return;}
+  if(!areas.length){$('pl-aviso').textContent='Marque ao menos uma matéria.';return;}
+  const dias=Math.max(1,Math.round((new Date(data)-new Date(hoje()))/86400000));
+  const estudo=Math.max(1,dias-2);
+  const itens=itensDoPlano(areas,temas).slice(0,Math.max(estudo*5,8));
+  const plano=[];const porDia=Math.ceil(itens.length/estudo)||1;
+  for(let d=0;d<dias;d++){
+    const dia={data:diasDepois(d),tarefas:[]};
+    if(d===dias-1){dia.tarefas.push({t:'prova',txt:'Modo "Prova amanhã" de cada matéria (30 min por matéria)',aba:'prova'},{t:'fixar',txt:'Só os flashcards que estiverem para hoje',aba:'flashcards'});}
+    else if(d===dias-2&&dias>2){dia.tarefas.push({t:'fixar',txt:'Simulado completo de cada matéria e revisão das questões erradas',aba:'simulados'},{t:'fixar',txt:'Flashcards do dia',aba:'flashcards'});}
+    else{const lote=itens.slice(d*porDia,(d+1)*porDia);lote.forEach(it=>dia.tarefas.push(it.tipo==='ler'?{t:'ler',txt:'Ler a apostila "'+it.titulo+'" e fazer o autoteste',id:it.id}:{t:'ler',txt:'Estudar no livro-texto: '+it.titulo+' ('+it.area+'). Ainda sem apostila no Campus.'}));if(d>0)dia.tarefas.push({t:'fixar',txt:'Flashcards do dia (10 min)',aba:'flashcards'});if(!lote.length&&d<dias-2)dia.tarefas.push({t:'fixar',txt:'Revisão livre: reler o "em um minuto" das apostilas já lidas',aba:'apostilas'});}
+    plano.push(dia);
+  }
+  const provas=mem('provas')||[];provas.push({id:String(Date.now()),nome,data,areas,temas,plano,feitas:{}});mem('provas',provas);
+  $('pl-nome').value='';$('pl-temas').value='';$('pl-aviso').textContent='Plano montado: '+itens.length+' itens em '+dias+' dia'+(dias>1?'s':'')+'.';
+  listarPlanos();montarHoje();pontuar('plano_criado');
+}
+function listarPlanos(){
+  const provas=(mem('provas')||[]).sort((a,b)=>a.data.localeCompare(b.data));
+  $('n-provas').textContent=provas.filter(p=>p.data>=hoje()).length||'';
+  $('pl-lista').innerHTML=provas.map(p=>{
+    const total=p.plano.reduce((s,d)=>s+d.tarefas.length,0),feitas=Object.keys(p.feitas||{}).length;const dias=Math.round((new Date(p.data)-new Date(hoje()))/86400000);
+    return '<div class="card painel"><div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:baseline;"><div><div class="eyebrow">'+(dias<0?'Prova passada':dias===0?'É hoje':dias===1?'É amanhã':'Faltam '+dias+' dias')+'</div><h2>'+esc(p.nome)+'</h2><p class="sub">'+p.data.split('-').reverse().join('/')+' · '+p.areas.map(id=>(ARVORE.find(a=>a.id===id)||{}).nome).filter(Boolean).map(esc).join(', ')+(p.temas.length?' · temas: '+p.temas.map(esc).join(', '):'')+'</p></div><button class="btn" onclick="apagarPlano(\''+p.id+'\')">Apagar</button></div><div class="barra"><div style="width:'+Math.round(feitas/Math.max(1,total)*100)+'%"></div></div><p class="sub">'+feitas+' de '+total+' tarefas feitas</p>'
+      +p.plano.map((d,di)=>'<div class="dia'+(d.data===hoje()?' hoje-dia':d.data<hoje()?' passado':'')+'"><div class="d">'+d.data.slice(8,10)+'/'+d.data.slice(5,7)+'<small>'+(d.data===hoje()?'hoje':['dom','seg','ter','qua','qui','sex','sáb'][new Date(d.data+'T12:00:00').getDay()])+'</small></div><div>'+d.tarefas.map((t,ti)=>{const k=di+'-'+ti;return '<label class="tarefa"><input type="checkbox" '+(p.feitas[k]?'checked':'')+' onchange="feitaTarefa(\''+p.id+'\',\''+k+'\',this.checked)"><span><span class="t '+t.t+'">'+t.t+'</span>'+esc(t.txt)+(t.id?' <a href="#" onclick="abrirPagina(\''+t.id+'\');return false;">abrir</a>':t.aba?' <a href="#" onclick="aba(\''+t.aba+'\');return false;">ir</a>':'')+'</span></label>';}).join('')+'</div></div>').join('')+'</div>';
+  }).join('')||'<div class="card vazio">Nenhuma prova marcada ainda. Preencha acima e o plano aparece aqui, dia a dia.</div>';
+}
+function feitaTarefa(id,k,v){const provas=mem('provas')||[];const p=provas.find(x=>x.id===id);if(!p)return;p.feitas=p.feitas||{};if(v){p.feitas[k]=hoje();pontuar('tarefa_plano');}else delete p.feitas[k];mem('provas',provas);listarPlanos();}
+function apagarPlano(id){mem('provas',(mem('provas')||[]).filter(p=>p.id!==id));listarPlanos();montarHoje();}
+
+/* ───────── liga do mês (zera todo dia 1) ─────────
+   Pontos por ação, guardados por mês (AAAA-MM). Nesta prévia o ranking mostra
+   só você e as faixas; na plataforma, o ranking da turma vem da conta. */
+const PONTOS={apostila_lida:10,questao_certa:2,questao_errada:0,cartao:1,simulado:15,checklist:1,tarefa_plano:5,plano_criado:5};
+const FAIXAS=[{nome:'Calouro',min:0},{nome:'Interno',min:60},{nome:'Residente',min:180},{nome:'Mestre',min:400}];
+const mesAtual=()=>hoje().slice(0,7);
+function pontuar(evento){const l=mem('liga')||{};const m=mesAtual();l[m]=l[m]||{pontos:0,eventos:{},dias:{}};l[m].pontos+=PONTOS[evento]||0;l[m].eventos[evento]=(l[m].eventos[evento]||0)+1;l[m].dias[hoje()]=true;mem('liga',l);if($('n-pontos'))$('n-pontos').textContent=l[m].pontos||'';}
+function pontosDoMes(){const l=mem('liga')||{};return (l[mesAtual()]||{pontos:0}).pontos;}
+function faixaDe(p){let f=FAIXAS[0];for(const x of FAIXAS)if(p>=x.min)f=x;return f;}
+function montarLiga(){
+  const l=(mem('liga')||{})[mesAtual()]||{pontos:0,eventos:{},dias:{}};const f=faixaDe(l.pontos);const prox=FAIXAS.find(x=>x.min>l.pontos);
+  const mes=new Date(hoje()+'T12:00:00').toLocaleDateString('pt-BR',{month:'long',year:'numeric'});
+  const seq=Object.keys(l.dias).length;
+  $('n-pontos').textContent=l.pontos||'';
+  $('lg-area').innerHTML='<div class="card painel" style="margin-top:0;"><div class="eyebrow">'+esc(mes)+'</div><div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap;"><h2>'+l.pontos+' pontos · faixa '+esc(f.nome)+'</h2><span class="sub">'+seq+' dia'+(seq===1?'':'s')+' de estudo neste mês</span></div><div class="barra"><div style="width:'+(prox?Math.round((l.pontos-f.min)/(prox.min-f.min)*100):100)+'%"></div></div><p class="sub">'+(prox?'Faltam '+(prox.min-l.pontos)+' pontos para a faixa '+esc(prox.nome)+'.':'Faixa máxima do mês alcançada.')+' Tudo zera no dia 1.</p>'
+    +'<div class="faixas" style="margin-top:14px;">'+FAIXAS.map(x=>'<div class="faixa'+(x.nome===f.nome?' atual':'')+'"><div class="n">'+x.nome+'</div><div class="p">a partir de '+x.min+' pontos</div></div>').join('')+'</div></div>'
+    +'<div class="card painel"><div class="eyebrow">Como se pontua</div><div class="ranking">'+[['Ler uma apostila até o fim',PONTOS.apostila_lida],['Acertar uma questão (autoteste, simulado ou prova amanhã)',PONTOS.questao_certa],['Revisar um flashcard',PONTOS.cartao],['Concluir um simulado',PONTOS.simulado],['Cumprir uma tarefa do planner',PONTOS.tarefa_plano],['Marcar um item de checklist',PONTOS.checklist]].map(([t,p])=>'<div class="lin"><span class="pos">+'+p+'</span><span>'+t+'</span><span class="sub">'+(l.eventos[Object.keys(PONTOS).find(k=>PONTOS[k]===p&&t.toLowerCase().includes(k.split('_')[0].slice(0,4)))]||0)+' vezes</span></div>').join('')+'</div></div>'
+    +'<div class="card painel"><div class="eyebrow">Ranking da turma</div><div class="ranking"><div class="lin eu"><span class="pos">1</span><span>Você</span><span>'+l.pontos+' pts</span></div></div><p class="sub" style="margin-top:8px;">Nesta prévia só existe você. Na plataforma, o ranking mostra os alunos da sua turma e da sua faculdade, com o primeiro nome e a faixa, e recomeça todo mês. Ninguém perde ponto por errar: errar e refazer é o caminho.</p></div>';
+}
 
 /* ───────── trilhas por objetivo ───────── */
 const OBJETIVOS={disciplina:'Passar na disciplina',enade:'ENADE',residencia:'Residência e concurso',especializacao:'Especialização'};

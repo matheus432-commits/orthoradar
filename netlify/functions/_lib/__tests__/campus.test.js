@@ -132,7 +132,8 @@ describe('campus.html (porta do aluno)', () => {
     assert.ok(html.includes('onclick="irAluno()"') && /em breve/.test(html));
   });
   test('navegação lateral agrupada, com "Hoje" e todas as soluções, sem filtro por ciclo', () => {
-    for (const a of ['hoje', 'apostilas', 'trilhas', 'audio', 'flashcards', 'simulados', 'prova', 'casos', 'checklists', 'calculadoras']) assert.ok(html.includes('data-aba="' + a + '"'), a);
+    for (const a of ['hoje', 'planner', 'liga', 'apostilas', 'trilhas', 'audio', 'flashcards', 'simulados', 'prova', 'checklists', 'calculadoras']) assert.ok(html.includes('data-aba="' + a + '"'), a);
+    assert.ok(!html.includes('data-aba="casos"') && !html.includes('function passoCaso'), 'Casos clínicos saiu (fundador, 04/09)');
     assert.ok(html.includes('class="lateral') && html.includes('class="grupo">Estudar') && html.includes('class="grupo">Fixar') && html.includes('class="grupo">Na clínica'));
     assert.ok(!html.includes('filtros-ciclo') && !html.includes("filtrarCiclo("), 'a aba Especialização e os filtros de ciclo saíram (04/09)');
   });
@@ -147,8 +148,10 @@ describe('campus.html (porta do aluno)', () => {
     assert.ok(html.includes('function cartoesDe') && html.includes("const passos=[1,3,7,14]"), 'flashcards com repetição espaçada');
     assert.ok(html.includes('async function provaAmanha') && html.includes('erros[q.pergunta]'), 'prova amanhã prioriza o que errou');
     assert.ok(html.includes('async function checklists') && html.includes('p.passoAPasso.map'), 'checklists do passo a passo');
-    assert.ok(html.includes('async function casos') && html.includes('function passoCaso'), 'casos percorrem o fluxograma');
     assert.ok(html.includes('function trilha()') && html.includes('const OBJETIVOS='), 'trilhas por objetivo');
+    assert.ok(html.includes('function criarPlano') && html.includes('function itensDoPlano') && html.includes("t:'prova'"), 'planner monta o plano dia a dia até a prova, com véspera');
+    assert.ok(html.includes('const PONTOS=') && html.includes('const FAIXAS=') && html.includes('mesAtual()') && html.includes('Tudo zera no dia 1'), 'liga mensal por pontos, zera todo mês');
+    assert.ok(html.includes('--lateral:#2B2A24') && html.includes('radial-gradient(') && html.includes('linear-gradient(135deg,#3E7C4F'), 'cor na coluna, no fundo e na próxima ação');
     assert.ok(html.includes('speechSynthesis') && html.includes("u.lang='pt-BR'"), 'áudio');
     assert.ok(html.includes("localStorage.getItem('campus.'") && html.includes('try{'), 'memória local protegida por try');
   });
