@@ -74,8 +74,8 @@
    "modulo": "Crescimento e desenvolvimento",
    "secao": "Lendo com critério",
    "imagem": "recorte de telerradiografia lateral mostrando C2, C3 e C4",
-   "mostrar": "As três vértebras com o colar de tireoide bem posicionado abaixo de C4, concavidades visíveis na borda inferior de C2 e C3, C4 ainda plana, e corpo de C3 em formato retangular horizontal",
-   "legenda": "CS3 na prática: concavidades em C2 e C3, C4 plana, C3 retangular deitado. O pico vem no ano seguinte.",
+   "mostrar": "As três vértebras com o colar de tireoide bem posicionado abaixo de C4, concavidades visíveis na borda inferior de C2 e C3, C4 ainda plana, e corpos de C3 e C4 trapezoides ou retangulares deitados",
+   "legenda": "CS3 na prática: concavidades em C2 e C3, C4 plana; os corpos de C3 e C4 podem ser trapezoides ou retangulares deitados. O pico vem no ano seguinte.",
    "destacar": "Borda inferior de cada vértebra, proporção altura e largura dos corpos de C3 e C4, posição do colar"
   },
   {
@@ -110,17 +110,17 @@
   {
    "pagina": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/conceitos-crescimento-e-desenvolvimento",
    "onde": "Seção \"As proporções mudam: a face cresce mais e por mais tempo que o crânio\".blocos[0].texto",
-   "trecho": "ão clássica é de cerca de 1:8 ao nascer para cerca de 1:2,5 no adulto [VERIFICAR]"
+   "trecho": "1:8 ao nascer para algo entre 1:2 e 1:2,5 no adulto, conforme a fonte [VERIFICAR]"
   },
   {
    "pagina": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/teorias-do-crescimento",
    "onde": "Seção \"Van Limborgh e Petrovic: a síntese e o servossistema\".blocos[3].texto",
-   "trecho": "ular esquelético pequeno em relação ao controle, da ordem de 1 a 2 mm [VERIFICAR]"
+   "trecho": "lados e sem diferença clinicamente relevante nos ensaios randomizados [VERIFICAR]"
   },
   {
    "pagina": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/mecanismos-sutura-cartilagem-e-remodelacao",
    "onde": "Seção \"Cartilagem: sincondroses, côndilo e septo\".blocos[0].texto",
-   "trecho": "com ela a mandíbula, ficam mais para trás. Ela fecha na adolescência [VERIFICAR]"
+   "trecho": "para trás. Funde no fim da adolescência, entre cerca de 16 e 20 anos [VERIFICAR]"
   },
   {
    "pagina": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/crescimento-da-maxila",
@@ -154,23 +154,8 @@
   },
   {
    "pagina": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/crescimento-da-mandibula",
-   "onde": "Seção \"Um osso que nasce ao lado de uma cartilagem que não vira osso\".blocos[1].texto",
-   "trecho": "s duas últimas somem cedo; a sínfise se funde no primeiro ano de vida [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/crescimento-da-mandibula",
    "onde": "Seção \"O último osso a parar\".blocos[0].texto",
    "trecho": "r em ritmo lento até o fim da adolescência ou o início da vida adulta [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/crescimento-da-mandibula",
-   "onde": "infografico.itens[0].texto",
-   "trecho": "lado da cartilagem de Meckel, que some. Sínfise funde no primeiro ano [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/rotacoes-de-crescimento",
-   "onde": "Seção \"Os sinais estruturais: ler a direção no desenho do osso\".blocos[1].itens[5]",
-   "trecho": "ixo dos molares: pistas complementares descritas no trabalho original [VERIFICAR]"
   },
   {
    "pagina": "ortodontia/crescimento-e-desenvolvimento/maturacao/surto-de-crescimento-puberal",
@@ -214,23 +199,8 @@
   },
   {
    "pagina": "ortodontia/crescimento-e-desenvolvimento/maturacao/idade-ossea-mao-e-punho",
-   "onde": "Seção \"A sequência de eventos e o que cada um diz\".blocos[0].texto",
-   "trecho": "acarpofalângica. Ele costuma surgir pouco antes do pico de velocidade [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/crescimento-e-desenvolvimento/maturacao/idade-ossea-mao-e-punho",
    "onde": "Seção \"A sequência de eventos e o que cada um diz\".blocos[1].svg[4]",
    "trecho": "ill='var(--muted,#8A8478)'>aceleração: a janela do aparelho funcional [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/crescimento-e-desenvolvimento/maturacao/idade-ossea-mao-e-punho",
-   "onde": "fechamento.flashcards[0].verso",
-   "trecho": "ento do sesamoide ulnar do polegar, na aceleração que antecede o pico [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/crescimento-e-desenvolvimento/maturacao/idade-ossea-mao-e-punho",
-   "onde": "infografico.itens[1].texto",
-   "trecho": "a metacarpofalângica do polegar; aparece na aceleração, perto do pico [VERIFICAR]"
   },
   {
    "pagina": "ortodontia/crescimento-e-desenvolvimento/maturacao/vertebras-cervicais",
@@ -254,11 +224,6 @@
   },
   {
    "pagina": "ortodontia/crescimento-e-desenvolvimento/maturacao/implicacoes-no-tempo-de-tratamento",
-   "onde": "Seção \"Classe II: o surto, e a lição das duas fases\".blocos[1].texto",
-   "trecho": "tempo de tratamento, mais consultas e mais custo para o grupo precoce [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/crescimento-e-desenvolvimento/maturacao/implicacoes-no-tempo-de-tratamento",
    "onde": "Seção \"Classe III: cedo para a maxila, paciência para a mandíbula\".blocos[0].texto",
    "trecho": "facial rende mais na dentição mista precoce, por volta dos 7 a 9 anos [VERIFICAR]"
   },
@@ -274,13 +239,18 @@
   },
   {
    "pagina": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-mista-primeira-e-segunda-fase",
+   "onde": "umMinuto.frases[4]",
+   "trecho": "; no superior, o canino depois do primeiro pré-molar (4-3-5 ou 4-5-3) [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-mista-primeira-e-segunda-fase",
    "onde": "Seção \"Dois períodos de troca e uma pausa\".blocos[1].svg[13]",
    "trecho": "ted,#8A8478)'>idades aproximadas; a sequência importa mais que a data [VERIFICAR]"
   },
   {
    "pagina": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-mista-primeira-e-segunda-fase",
    "onde": "Seção \"O passivo dos incisivos e como a boca paga a conta\".blocos[0].texto",
-   "trecho": "íduos em alguns milímetros por arco, mais no superior que no inferior [VERIFICAR]"
+   "trecho": "de 7,6 mm no arco superior e 6 mm no inferior, nos valores clássicos [VERIFICAR]"
   },
   {
    "pagina": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-mista-primeira-e-segunda-fase",
@@ -289,13 +259,33 @@
   },
   {
    "pagina": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-mista-primeira-e-segunda-fase",
-   "onde": "Seção \"O espaço livre de Nance: a folga que fecha a conta\".blocos[1].svg[12]",
+   "onde": "Seção \"O espaço livre de Nance: a folga que fecha a conta\".blocos[1].texto",
+   "trecho": "lado. Guarde a ordem de grandeza e a direção: é sempre maior embaixo [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-mista-primeira-e-segunda-fase",
+   "onde": "Seção \"O espaço livre de Nance: a folga que fecha a conta\".blocos[2].svg[12]",
    "trecho": "var(--muted,#8A8478)'>o inferior é maior porque o E inferior é grande [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-mista-primeira-e-segunda-fase",
+   "onde": "Seção \"A ordem em que os dentes chegam\".blocos[1].itens[1]",
+   "trecho": "perior favorável: primeiro pré-molar antes do canino (4-3-5 ou 4-5-3) [VERIFICAR]"
   },
   {
    "pagina": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-mista-primeira-e-segunda-fase",
    "onde": "infografico.itens[0].texto",
    "trecho": "Segundo transitório (10 a 12): caninos, pré-molares, segundos molares [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-mista-primeira-e-segunda-fase",
+   "onde": "infografico.itens[5].texto",
+   "trecho": "o antes dos pré-molares. Superior: primeiro pré-molar antes do canino [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-mista-primeira-e-segunda-fase",
+   "onde": "macetes[3].texto",
+   "trecho": "vorável: inferior 3-4-5; superior com o 4 antes do 3 (4-3-5 ou 4-5-3) [VERIFICAR]"
   },
   {
    "pagina": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-permanente",
@@ -326,11 +316,6 @@
    "pagina": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-permanente",
    "onde": "infografico.itens[0].texto",
    "trecho": "13 anos, com os segundos molares. Terceiros entre 17 e 21, quando vêm [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/chaves-de-oclusao-de-andrews",
-   "onde": "Seção \"De onde vieram as chaves\".blocos[3].texto",
-   "trecho": "vel, aparece em textos posteriores e não faz parte das seis originais [VERIFICAR]"
   }
  ],
  "modulos": [
@@ -341,17 +326,17 @@
    "modulo": "Crescimento e desenvolvimento",
    "total": 14,
    "concluidas": 14,
-   "palavras": 39518,
+   "palavras": 39729,
    "visuais": 51,
    "imagensClinicas": 10,
-   "verificar": 45,
+   "verificar": 42,
    "paginas": [
     {
      "id": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/conceitos-crescimento-e-desenvolvimento",
      "nome": "Conceitos: crescimento e desenvolvimento",
      "tema": "Crescimento craniofacial",
      "status": "rascunho",
-     "palavras": 3008,
+     "palavras": 3013,
      "visuais": 4
     },
     {
@@ -359,7 +344,7 @@
      "nome": "Teorias do crescimento",
      "tema": "Crescimento craniofacial",
      "status": "rascunho",
-     "palavras": 2860,
+     "palavras": 2896,
      "visuais": 4
     },
     {
@@ -367,7 +352,7 @@
      "nome": "Mecanismos: sutura, cartilagem e remodelação",
      "tema": "Crescimento craniofacial",
      "status": "rascunho",
-     "palavras": 2891,
+     "palavras": 2899,
      "visuais": 4
     },
     {
@@ -383,7 +368,7 @@
      "nome": "Crescimento da mandíbula",
      "tema": "Crescimento craniofacial",
      "status": "rascunho",
-     "palavras": 2692,
+     "palavras": 2690,
      "visuais": 3
     },
     {
@@ -391,7 +376,7 @@
      "nome": "Rotações de crescimento",
      "tema": "Crescimento craniofacial",
      "status": "rascunho",
-     "palavras": 2822,
+     "palavras": 2821,
      "visuais": 3
     },
     {
@@ -407,7 +392,7 @@
      "nome": "Idade óssea: mão e punho",
      "tema": "Maturação",
      "status": "rascunho",
-     "palavras": 2676,
+     "palavras": 2680,
      "visuais": 3
     },
     {
@@ -415,7 +400,7 @@
      "nome": "Vértebras cervicais",
      "tema": "Maturação",
      "status": "rascunho",
-     "palavras": 2799,
+     "palavras": 2871,
      "visuais": 4
     },
     {
@@ -423,7 +408,7 @@
      "nome": "Implicações no tempo de tratamento",
      "tema": "Maturação",
      "status": "rascunho",
-     "palavras": 2829,
+     "palavras": 2828,
      "visuais": 3
     },
     {
@@ -439,7 +424,7 @@
      "nome": "Dentição mista: primeira e segunda fase",
      "tema": "Desenvolvimento da oclusão",
      "status": "rascunho",
-     "palavras": 3213,
+     "palavras": 3299,
      "visuais": 4
     },
     {
@@ -455,7 +440,7 @@
      "nome": "Chaves de oclusão de Andrews",
      "tema": "Desenvolvimento da oclusão",
      "status": "rascunho",
-     "palavras": 2888,
+     "palavras": 2892,
      "visuais": 4
     }
    ]
@@ -24888,7 +24873,7 @@
    "formato": 2,
    "status": "rascunho",
    "estado": "rascunho",
-   "palavras": 3008,
+   "palavras": 3013,
    "visuais": [
     {
      "formato": "comparativo",
@@ -24926,7 +24911,7 @@
    "verificar": [
     {
      "onde": "Seção \"As proporções mudam: a face cresce mais e por mais tempo que o crânio\".blocos[0].texto",
-     "trecho": "ão clássica é de cerca de 1:8 ao nascer para cerca de 1:2,5 no adulto [VERIFICAR]"
+     "trecho": "1:8 ao nascer para algo entre 1:2 e 1:2,5 no adulto, conforme a fonte [VERIFICAR]"
     }
    ]
   },
@@ -24936,7 +24921,7 @@
    "formato": 2,
    "status": "rascunho",
    "estado": "rascunho",
-   "palavras": 2860,
+   "palavras": 2896,
    "visuais": [
     {
      "formato": "classificacao",
@@ -24966,7 +24951,7 @@
    "verificar": [
     {
      "onde": "Seção \"Van Limborgh e Petrovic: a síntese e o servossistema\".blocos[3].texto",
-     "trecho": "ular esquelético pequeno em relação ao controle, da ordem de 1 a 2 mm [VERIFICAR]"
+     "trecho": "lados e sem diferença clinicamente relevante nos ensaios randomizados [VERIFICAR]"
     }
    ]
   },
@@ -24976,7 +24961,7 @@
    "formato": 2,
    "status": "rascunho",
    "estado": "rascunho",
-   "palavras": 2891,
+   "palavras": 2899,
    "visuais": [
     {
      "formato": "processo",
@@ -25014,7 +24999,7 @@
    "verificar": [
     {
      "onde": "Seção \"Cartilagem: sincondroses, côndilo e septo\".blocos[0].texto",
-     "trecho": "com ela a mandíbula, ficam mais para trás. Ela fecha na adolescência [VERIFICAR]"
+     "trecho": "para trás. Funde no fim da adolescência, entre cerca de 16 e 20 anos [VERIFICAR]"
     }
    ]
   },
@@ -25084,7 +25069,7 @@
    "formato": 2,
    "status": "rascunho",
    "estado": "rascunho",
-   "palavras": 2692,
+   "palavras": 2690,
    "visuais": [
     {
      "formato": "anatomico",
@@ -25121,16 +25106,8 @@
      "trecho": "ongado, sobretudo em meninos, e pode seguir até o fim da adolescência [VERIFICAR]"
     },
     {
-     "onde": "Seção \"Um osso que nasce ao lado de uma cartilagem que não vira osso\".blocos[1].texto",
-     "trecho": "s duas últimas somem cedo; a sínfise se funde no primeiro ano de vida [VERIFICAR]"
-    },
-    {
      "onde": "Seção \"O último osso a parar\".blocos[0].texto",
      "trecho": "r em ritmo lento até o fim da adolescência ou o início da vida adulta [VERIFICAR]"
-    },
-    {
-     "onde": "infografico.itens[0].texto",
-     "trecho": "lado da cartilagem de Meckel, que some. Sínfise funde no primeiro ano [VERIFICAR]"
     }
    ]
   },
@@ -25140,7 +25117,7 @@
    "formato": 2,
    "status": "rascunho",
    "estado": "rascunho",
-   "palavras": 2822,
+   "palavras": 2821,
    "visuais": [
     {
      "formato": "forcas",
@@ -25171,12 +25148,7 @@
      "destacar": "Cabeça do côndilo, trajeto do canal mandibular, chanfradura antegonial, sínfise, altura facial anterior inferior"
     }
    ],
-   "verificar": [
-    {
-     "onde": "Seção \"Os sinais estruturais: ler a direção no desenho do osso\".blocos[1].itens[5]",
-     "trecho": "ixo dos molares: pistas complementares descritas no trabalho original [VERIFICAR]"
-    }
-   ]
+   "verificar": []
   },
   "ortodontia/crescimento-e-desenvolvimento/maturacao/surto-de-crescimento-puberal": {
    "titulo": "Surto de crescimento puberal: a janela que não avisa quando fecha",
@@ -25252,7 +25224,7 @@
    "formato": 2,
    "status": "rascunho",
    "estado": "rascunho",
-   "palavras": 2676,
+   "palavras": 2680,
    "visuais": [
     {
      "formato": "anatomico",
@@ -25285,20 +25257,8 @@
    ],
    "verificar": [
     {
-     "onde": "Seção \"A sequência de eventos e o que cada um diz\".blocos[0].texto",
-     "trecho": "acarpofalângica. Ele costuma surgir pouco antes do pico de velocidade [VERIFICAR]"
-    },
-    {
      "onde": "Seção \"A sequência de eventos e o que cada um diz\".blocos[1].svg[4]",
      "trecho": "ill='var(--muted,#8A8478)'>aceleração: a janela do aparelho funcional [VERIFICAR]"
-    },
-    {
-     "onde": "fechamento.flashcards[0].verso",
-     "trecho": "ento do sesamoide ulnar do polegar, na aceleração que antecede o pico [VERIFICAR]"
-    },
-    {
-     "onde": "infografico.itens[1].texto",
-     "trecho": "a metacarpofalângica do polegar; aparece na aceleração, perto do pico [VERIFICAR]"
     }
    ]
   },
@@ -25308,7 +25268,7 @@
    "formato": 2,
    "status": "rascunho",
    "estado": "rascunho",
-   "palavras": 2799,
+   "palavras": 2871,
    "visuais": [
     {
      "formato": "classificacao",
@@ -25338,8 +25298,8 @@
     {
      "secao": "Lendo com critério",
      "imagem": "recorte de telerradiografia lateral mostrando C2, C3 e C4",
-     "mostrar": "As três vértebras com o colar de tireoide bem posicionado abaixo de C4, concavidades visíveis na borda inferior de C2 e C3, C4 ainda plana, e corpo de C3 em formato retangular horizontal",
-     "legenda": "CS3 na prática: concavidades em C2 e C3, C4 plana, C3 retangular deitado. O pico vem no ano seguinte.",
+     "mostrar": "As três vértebras com o colar de tireoide bem posicionado abaixo de C4, concavidades visíveis na borda inferior de C2 e C3, C4 ainda plana, e corpos de C3 e C4 trapezoides ou retangulares deitados",
+     "legenda": "CS3 na prática: concavidades em C2 e C3, C4 plana; os corpos de C3 e C4 podem ser trapezoides ou retangulares deitados. O pico vem no ano seguinte.",
      "destacar": "Borda inferior de cada vértebra, proporção altura e largura dos corpos de C3 e C4, posição do colar"
     }
    ],
@@ -25368,7 +25328,7 @@
    "formato": 2,
    "status": "rascunho",
    "estado": "rascunho",
-   "palavras": 2829,
+   "palavras": 2828,
    "visuais": [
     {
      "formato": "linha-do-tempo",
@@ -25392,10 +25352,6 @@
    },
    "imagensClinicas": [],
    "verificar": [
-    {
-     "onde": "Seção \"Classe II: o surto, e a lição das duas fases\".blocos[1].texto",
-     "trecho": "tempo de tratamento, mais consultas e mais custo para o grupo precoce [VERIFICAR]"
-    },
     {
      "onde": "Seção \"Classe III: cedo para a maxila, paciência para a mandíbula\".blocos[0].texto",
      "trecho": "facial rende mais na dentição mista precoce, por volta dos 7 a 9 anos [VERIFICAR]"
@@ -25460,7 +25416,7 @@
    "formato": 2,
    "status": "rascunho",
    "estado": "rascunho",
-   "palavras": 3213,
+   "palavras": 3299,
    "visuais": [
     {
      "formato": "linha-do-tempo",
@@ -25497,24 +25453,44 @@
    ],
    "verificar": [
     {
+     "onde": "umMinuto.frases[4]",
+     "trecho": "; no superior, o canino depois do primeiro pré-molar (4-3-5 ou 4-5-3) [VERIFICAR]"
+    },
+    {
      "onde": "Seção \"Dois períodos de troca e uma pausa\".blocos[1].svg[13]",
      "trecho": "ted,#8A8478)'>idades aproximadas; a sequência importa mais que a data [VERIFICAR]"
     },
     {
      "onde": "Seção \"O passivo dos incisivos e como a boca paga a conta\".blocos[0].texto",
-     "trecho": "íduos em alguns milímetros por arco, mais no superior que no inferior [VERIFICAR]"
+     "trecho": "de 7,6 mm no arco superior e 6 mm no inferior, nos valores clássicos [VERIFICAR]"
     },
     {
      "onde": "Seção \"O espaço livre de Nance: a folga que fecha a conta\".blocos[0].texto",
      "trecho": "o segundo molar decíduo inferior é bem maior que o segundo pré-molar [VERIFICAR]"
     },
     {
-     "onde": "Seção \"O espaço livre de Nance: a folga que fecha a conta\".blocos[1].svg[12]",
+     "onde": "Seção \"O espaço livre de Nance: a folga que fecha a conta\".blocos[1].texto",
+     "trecho": "lado. Guarde a ordem de grandeza e a direção: é sempre maior embaixo [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"O espaço livre de Nance: a folga que fecha a conta\".blocos[2].svg[12]",
      "trecho": "var(--muted,#8A8478)'>o inferior é maior porque o E inferior é grande [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"A ordem em que os dentes chegam\".blocos[1].itens[1]",
+     "trecho": "perior favorável: primeiro pré-molar antes do canino (4-3-5 ou 4-5-3) [VERIFICAR]"
     },
     {
      "onde": "infografico.itens[0].texto",
      "trecho": "Segundo transitório (10 a 12): caninos, pré-molares, segundos molares [VERIFICAR]"
+    },
+    {
+     "onde": "infografico.itens[5].texto",
+     "trecho": "o antes dos pré-molares. Superior: primeiro pré-molar antes do canino [VERIFICAR]"
+    },
+    {
+     "onde": "macetes[3].texto",
+     "trecho": "vorável: inferior 3-4-5; superior com o 4 antes do 3 (4-3-5 ou 4-5-3) [VERIFICAR]"
     }
    ]
   },
@@ -25584,7 +25560,7 @@
    "formato": 2,
    "status": "rascunho",
    "estado": "rascunho",
-   "palavras": 2888,
+   "palavras": 2892,
    "visuais": [
     {
      "formato": "classificacao",
@@ -25619,12 +25595,7 @@
      "destacar": "Encaixe das cúspides do primeiro molar superior, longo eixo das coroas dos caninos e pré-molares, planicidade da curva de Spee"
     }
    ],
-   "verificar": [
-    {
-     "onde": "Seção \"De onde vieram as chaves\".blocos[3].texto",
-     "trecho": "vel, aparece em textos posteriores e não faz parte das seis originais [VERIFICAR]"
-    }
-   ]
+   "verificar": []
   },
   "ortodontia/diagnostico/cefalometria/analise-de-steiner": {
    "titulo": "Análise de Steiner: as medidas e o que cada uma diz",

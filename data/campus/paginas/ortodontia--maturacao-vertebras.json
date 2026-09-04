@@ -17,7 +17,7 @@
     "frases": [
       "As vértebras cervicais C2, C3 e C4 aparecem na telerradiografia lateral e mudam de forma com a maturação: a borda inferior ganha concavidade e o corpo passa de trapezoide a retângulo horizontal, quadrado e retângulo vertical.",
       "Lamparski descreveu o método nos anos 1970; Hassel e Farman o organizaram em seis estágios; Baccetti, Franchi e McNamara o simplificaram no método CVM com seis estágios (CS1 a CS6) baseados só em C2, C3 e C4.",
-      "CS1 e CS2 são pré-pico: bordas planas ou só C2 côncava, corpos trapezoidais. CS3 é o estágio da aceleração: concavidades em C2 e C3 e ao menos um corpo retangular horizontal; o pico ocorre no ano seguinte.",
+      "CS1 e CS2 são pré-pico: bordas planas ou só C2 côncava, corpos trapezoidais. CS3 é o estágio da aceleração: concavidades em C2 e C3, com os corpos de C3 e C4 ainda trapezoides ou já retangulares horizontais; o pico ocorre no ano seguinte.",
       "CS4 a CS6 são pós-pico: concavidades em C2, C3 e C4 e corpos que evoluem de retangular horizontal para quadrado e retangular vertical.",
       "A janela dos aparelhos funcionais na Classe II é CS3, estendendo-se a CS4: é quando o crescimento mandibular está no máximo.",
       "A reprodutibilidade do método é discutida na literatura; a leitura ganha confiança quando combinada com estatura seriada e sinais puberais, e a mão e punho decide os casos duvidosos."
@@ -95,7 +95,7 @@
           "tipo": "visual",
           "formato": "linha-do-tempo",
           "titulo": "CS1 a CS6 em relação ao pico de crescimento",
-          "descricao": "Linha do tempo horizontal com seis estágios. CS1: bordas planas, corpos trapezoidais, pico em cerca de dois anos. CS2: concavidade em C2, pico em cerca de um ano. CS3: concavidades em C2 e C3, pelo menos um corpo retangular horizontal, pico durante o ano seguinte. CS4: concavidades em C2, C3 e C4, corpos retangulares horizontais, pico há um ou dois anos. CS5: ao menos um corpo quadrado, pico há mais de um ano. CS6: ao menos um retangular vertical, pico há mais de dois anos. Uma marca indica o pico entre CS3 e CS4.",
+          "descricao": "Linha do tempo horizontal com seis estágios. CS1: bordas planas, corpos trapezoidais, pico em cerca de dois anos. CS2: concavidade em C2, pico em cerca de um ano. CS3: concavidades em C2 e C3, corpos de C3 e C4 trapezoides ou retangulares horizontais, pico durante o ano seguinte. CS4: concavidades em C2, C3 e C4, corpos retangulares horizontais, pico há um ou dois anos. CS5: ao menos um corpo quadrado, pico há mais de um ano. CS6: ao menos um retangular vertical, pico há mais de dois anos. Uma marca indica o pico entre CS3 e CS4.",
           "viewBox": "0 0 560 540",
           "svg": [
             "<line x1='60' y1='24' x2='60' y2='486' stroke='var(--muted,#8A8478)' stroke-width='1.5'/>",
@@ -113,7 +113,7 @@
             "<text x='84' y='214' font-size='16' font-weight='700' fill='var(--gold,#B08968)'>CS3</text>",
             "<use href='#c-vertebra-concava' x='134' y='188' width='34' height='26'/>",
             "<use href='#c-vertebra-retangular' x='134' y='218' width='34' height='26'/>",
-            "<text x='190' y='204' font-size='13' font-weight='700'>concavidades em C2 e C3</text><text x='190' y='222' font-size='13'>1 corpo retangular deitado</text><text x='190' y='240' font-size='12' fill='var(--muted,#8A8478)'>pico no ano seguinte</text>",
+            "<text x='190' y='204' font-size='13' font-weight='700'>concavidades em C2 e C3</text><text x='190' y='222' font-size='13'>corpos trapezoides ou deitados</text><text x='190' y='240' font-size='12' fill='var(--muted,#8A8478)'>pico no ano seguinte</text>",
             "<use href='#c-marco-blue' x='50' y='274' width='20' height='20'/>",
             "<text x='84' y='290' font-size='16' font-weight='700' fill='var(--blue,#4A6B8A)'>CS4</text>",
             "<use href='#c-vertebra-concava' x='134' y='264' width='34' height='26'/>",
@@ -148,8 +148,8 @@
         }
       ],
       "checagem": {
-        "pergunta": "Telerradiografia com concavidades em C2 e C3, C4 ainda plana, e C3 com corpo retangular deitado. Qual o estágio e o que ele diz?",
-        "resposta": "CS3: a aceleração imediatamente antes do pico, que deve ocorrer no ano seguinte. É o momento ideal para começar um aparelho funcional na Classe II."
+        "pergunta": "Telerradiografia com concavidades em C2 e C3 e C4 ainda plana, com os corpos de C3 e C4 trapezoides. Qual o estágio e o que ele diz?",
+        "resposta": "CS3: o que define o estágio é a concavidade em C2 e C3 com C4 plana; a forma dos corpos pode ser trapezoide ou retangular deitada. É a aceleração imediatamente antes do pico, que deve ocorrer no ano seguinte, e o momento ideal para começar um aparelho funcional na Classe II."
       }
     },
     {
@@ -209,8 +209,8 @@
         {
           "tipo": "imagem",
           "imagem": "recorte de telerradiografia lateral mostrando C2, C3 e C4",
-          "mostrar": "As três vértebras com o colar de tireoide bem posicionado abaixo de C4, concavidades visíveis na borda inferior de C2 e C3, C4 ainda plana, e corpo de C3 em formato retangular horizontal",
-          "legenda": "CS3 na prática: concavidades em C2 e C3, C4 plana, C3 retangular deitado. O pico vem no ano seguinte.",
+          "mostrar": "As três vértebras com o colar de tireoide bem posicionado abaixo de C4, concavidades visíveis na borda inferior de C2 e C3, C4 ainda plana, e corpos de C3 e C4 trapezoides ou retangulares deitados",
+          "legenda": "CS3 na prática: concavidades em C2 e C3, C4 plana; os corpos de C3 e C4 podem ser trapezoides ou retangulares deitados. O pico vem no ano seguinte.",
           "destacar": "Borda inferior de cada vértebra, proporção altura e largura dos corpos de C3 e C4, posição do colar"
         },
         {
@@ -239,7 +239,7 @@
       "blocos": [
         {
           "tipo": "p",
-          "texto": "Você desce até o pescoço. C2 tem concavidade, C3 também, C4 não; o corpo de C3 é um retângulo deitado. CS3. A aceleração está em curso e o pico vem no ano seguinte: é exatamente a janela que o aparelho funcional pede."
+          "texto": "Você desce até o pescoço. C2 tem concavidade, C3 também, C4 não. CS3, independentemente de os corpos ainda serem trapezoides ou já retangulares deitados. A aceleração está em curso e o pico vem no ano seguinte: é exatamente a janela que o aparelho funcional pede."
         },
         {
           "tipo": "destaque",
@@ -282,7 +282,7 @@
       },
       {
         "frente": "Descreva o CS3 e diga por que ele é a janela do aparelho funcional.",
-        "verso": "Concavidades em C2 e C3, ao menos um corpo de C3 ou C4 retangular horizontal. O pico ocorre no ano seguinte: começar aqui cobre o pico inteiro."
+        "verso": "Concavidades em C2 e C3 com C4 ainda plana; os corpos de C3 e C4 podem ser trapezoides ou retangulares horizontais. O pico ocorre no ano seguinte: começar aqui cobre o pico inteiro."
       },
       {
         "frente": "Principal vantagem e principal limitação das vértebras cervicais como indicador.",
@@ -340,7 +340,7 @@
       {
         "id": "n4",
         "tipo": "decisao",
-        "texto": "C2 e C3 côncavas, C4 plana, e um corpo retangular deitado?"
+        "texto": "C2 e C3 côncavas e C4 plana (corpos trapezoides ou retangulares deitados)?"
       },
       {
         "id": "n5",
@@ -459,7 +459,7 @@
     },
     {
       "titulo": "Três é a janela",
-      "texto": "CS3: concavidades em C2 e C3, um corpo deitado, pico no ano seguinte. É quando o funcional rende mais."
+      "texto": "CS3: concavidades em C2 e C3 e C4 plana, pico no ano seguinte. É quando o funcional rende mais."
     },
     {
       "titulo": "Vértebra tria, mão decide",
@@ -501,7 +501,7 @@
       "explicacoes": [
         "Bordas planas e corpos trapezoides: pico em cerca de dois anos.",
         "Só C2 com concavidade: pico em cerca de um ano, ainda cedo para cobrir o pico inteiro em alguns casos, mas já próximo.",
-        "Correta: concavidades em C2 e C3 e um corpo retangular horizontal; o pico ocorre no ano seguinte.",
+        "Correta: concavidades em C2 e C3 com C4 plana, corpos trapezoides ou retangulares horizontais; o pico ocorre no ano seguinte.",
         "Ao menos um corpo quadrado: o pico passou há mais de um ano."
       ]
     },
@@ -532,7 +532,7 @@
       "correta": 2,
       "explicacoes": [
         "CS2 tem concavidade só em C2.",
-        "CS3 tem concavidades em C2 e C3, com C4 plana.",
+        "CS3 tem concavidades em C2 e C3, com C4 plana; a forma dos corpos não é o que o define.",
         "Correta: três concavidades com corpos retangulares horizontais definem CS4; o pico passou há um ou dois anos.",
         "CS6 exige ao menos um corpo em retângulo vertical."
       ]

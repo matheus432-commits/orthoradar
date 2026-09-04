@@ -41,7 +41,7 @@
         },
         {
           "tipo": "p",
-          "texto": "Mais tarde surgem cartilagens secundárias, sem relação com Meckel: a condilar, a coronoide e a sinfisária. As duas últimas somem cedo; a sínfise se funde no primeiro ano de vida [VERIFICAR], e a mandíbula passa a ser um osso único. A cartilagem condilar fica, e é ela que faz a diferença."
+          "texto": "Mais tarde surgem cartilagens secundárias, sem relação com Meckel: a condilar, a coronoide e a sinfisária. As duas últimas somem cedo; a sínfise se funde no primeiro ano de vida, e a mandíbula passa a ser um osso único. A cartilagem condilar fica, e é ela que faz a diferença."
         },
         {
           "tipo": "destaque",
@@ -240,7 +240,7 @@
     "itens": [
       {
         "rotulo": "Origem",
-        "texto": "Intramembranosa, ao lado da cartilagem de Meckel, que some. Sínfise funde no primeiro ano [VERIFICAR]."
+        "texto": "Intramembranosa, ao lado da cartilagem de Meckel, que some. Sínfise funde no primeiro ano."
       },
       {
         "rotulo": "Côndilo",

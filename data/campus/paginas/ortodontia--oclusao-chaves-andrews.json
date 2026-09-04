@@ -53,7 +53,7 @@
             "<text x='280' y='324' text-anchor='middle' font-size='13' font-weight='700'>120 oclusões normais nunca tratadas: as seis estavam em todas</text><text x='280' y='344' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>cada chave virou uma prescrição no bráquete pré-ajustado</text>"
           ],
           "legenda": "As três primeiras chaves são posições de dente; as três últimas são relações entre dentes. Todas cabem na lista de checagem do caso terminado." },
-        { "tipo": "destaque", "estilo": "prova", "texto": "Perguntas certas: quantas oclusões Andrews estudou (120), em que ano publicou (1972), quantas chaves são (seis) e qual é a primeira (relação molar). A sétima característica, tamanho dentário compatível, aparece em textos posteriores e não faz parte das seis originais [VERIFICAR]." }
+        { "tipo": "destaque", "estilo": "prova", "texto": "Perguntas certas: quantas oclusões Andrews estudou (120), em que ano publicou (1972), quantas chaves são (seis) e qual é a primeira (relação molar). A sétima característica, tamanho dentário compatível, foi acrescentada depois por Bennett e McLaughlin e não faz parte das seis originais de 1972." }
       ],
       "checagem": { "pergunta": "Por que as chaves de Andrews puderam virar um aparelho?", "resposta": "Porque as três primeiras descrevem posições de coroa (relação, angulação e inclinação) que podem ser embutidas na base e na ranhura do bráquete; é a lógica do aparelho pré-ajustado." }
     },

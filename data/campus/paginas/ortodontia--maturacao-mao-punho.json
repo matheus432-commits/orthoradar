@@ -82,7 +82,7 @@
       "blocos": [
         {
           "tipo": "p",
-          "texto": "Antes do surto, as epífises das falanges ainda são mais estreitas ou iguais em largura às diáfises. Quando a aceleração começa, aparece um osso pequeno e novo: o sesamoide ulnar do polegar, na articulação metacarpofalângica. Ele costuma surgir pouco antes do pico de velocidade [VERIFICAR]."
+          "texto": "Antes do surto, as epífises das falanges ainda são mais estreitas ou iguais em largura às diáfises. Quando a aceleração começa, aparece um osso pequeno e novo: o sesamoide ulnar do polegar, na articulação metacarpofalângica. Ele costuma surgir pouco antes do pico de velocidade, ou junto dele em parte dos pacientes."
         },
         {
           "tipo": "visual",
@@ -221,7 +221,7 @@
     "flashcards": [
       {
         "frente": "Qual evento da mão e punho indica que o pico de velocidade está próximo?",
-        "verso": "O aparecimento do sesamoide ulnar do polegar, na aceleração que antecede o pico [VERIFICAR]."
+        "verso": "O aparecimento do sesamoide ulnar do polegar, na aceleração que antecede o pico."
       },
       {
         "frente": "Sequência dos eventos de maturação na mão e punho, do início ao fim.",
@@ -242,7 +242,7 @@
       },
       {
         "rotulo": "Sesamoide",
-        "texto": "Osso pequeno na metacarpofalângica do polegar; aparece na aceleração, perto do pico [VERIFICAR]."
+        "texto": "Osso pequeno na metacarpofalângica do polegar; aparece na aceleração, perto do pico."
       },
       {
         "rotulo": "Capeamento",
