@@ -1,0 +1,531 @@
+{
+  "id": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/mecanismos-sutura-cartilagem-e-remodelacao",
+  "areaId": "ortodontia",
+  "area": "Ortodontia",
+  "modulo": "Crescimento e desenvolvimento",
+  "tema": "Crescimento craniofacial",
+  "titulo": "Mecanismos de crescimento: sutura, cartilagem e remodelação",
+  "estado": "rascunho",
+  "versao": 1,
+  "formato": 2,
+  "autoria": "Rascunho escrito pela plataforma para validação; nada aqui é visível ao aluno antes da assinatura de um ortodontista.",
+  "abertura": {
+    "situacao": "Dois aparelhos, dois resultados. O disjuntor abre a sutura palatina mediana em duas semanas e o ganho fica. O propulsor mandibular, usado por um ano, muda a mordida, mas a mandíbula cresce só um pouco mais do que cresceria sozinha.",
+    "pergunta": "Por que o mesmo osso responde de forma tão diferente conforme o lugar em que você aplica a força?"
+  },
+  "umMinuto": {
+    "frases": [
+      "Osso não cresce por crescimento intersticial: uma vez mineralizado, ele só aumenta por aposição na superfície. O que cresce de dentro é a cartilagem.",
+      "Há três mecanismos: endocondral (cartilagem vira osso, como nas sincondroses, no côndilo e no septo nasal), sutural (osso se forma no tecido conjuntivo da sutura quando os ossos são afastados) e remodelação periosteal (aposição de um lado, reabsorção do outro, em toda superfície).",
+      "Enlow separou deriva de deslocamento: deriva é o osso se mover por remodelação da própria superfície; deslocamento é o osso inteiro ser carregado, pelo próprio crescimento (primário) ou pelo crescimento de um vizinho (secundário).",
+      "Princípio do V: estruturas em V crescem depositando osso na face interna e reabsorvendo na externa, e se movem na direção da abertura do V enquanto aumentam de tamanho.",
+      "A sutura responde a afastamento: por isso a expansão rápida funciona. O côndilo é cartilagem secundária com resposta modesta à posição: por isso o propulsor muda mais a mordida do que a mandíbula.",
+      "Na clínica, escolher o aparelho é escolher o mecanismo: afastar sutura, modular cartilagem ou remodelar superfície."
+    ],
+    "caiNaProva": [
+      "Ossificação endocondral e intramembranosa na face",
+      "Sincondrose esfeno-occipital e cartilagem condilar",
+      "Deriva e deslocamento primário e secundário (Enlow)",
+      "Princípio do V e relocação",
+      "Por que a expansão rápida abre a sutura e o propulsor não cria mandíbula"
+    ],
+    "porQueImporta": "Cada aparelho ortopédico age sobre um mecanismo. Saber qual é evita pedir a uma sutura o que só a cartilagem faz, ou esperar de uma cartilagem o que só a sutura dá."
+  },
+  "secoes": [
+    {
+      "titulo": "Três jeitos de um osso crescer",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "Osso mineralizado não estica. Diferente da cartilagem, que cresce de dentro para fora porque suas células se dividem e a matriz se expande, o osso só cresce por aposição: células na superfície depositam camadas novas. Toda a face cresce assim, com três variações do mesmo princípio."
+        },
+        {
+          "tipo": "p",
+          "texto": "No mecanismo endocondral, uma cartilagem cresce de dentro e vai sendo substituída por osso na sua base. No mecanismo sutural, o tecido conjuntivo entre dois ossos forma osso nas bordas quando eles são afastados. Na remodelação periosteal, a superfície do osso ganha camadas de um lado e perde do outro, e o osso muda de forma e de lugar."
+        },
+        {
+          "tipo": "visual",
+          "formato": "processo",
+          "titulo": "Os três mecanismos de crescimento ósseo da face",
+          "descricao": "Três colunas. Endocondral: a cartilagem cresce de dentro e é substituída por osso; exemplos, sincondroses da base do crânio, côndilo, septo nasal. Sutural: osso se forma nas bordas da sutura quando os ossos se afastam; exemplos, abóbada craniana e suturas da maxila. Remodelação periosteal: aposição de um lado e reabsorção do outro; exemplo, toda a superfície da face.",
+          "viewBox": "0 0 560 360",
+          "svg": [
+            "<use href='#c-caixa-green' x='16' y='16' width='168' height='48'/><text x='100' y='45' text-anchor='middle' font-size='15' font-weight='700'>Endocondral</text>",
+            "<use href='#c-caixa-red' x='196' y='16' width='168' height='48'/><text x='280' y='45' text-anchor='middle' font-size='15' font-weight='700'>Sutural</text>",
+            "<use href='#c-caixa-blue' x='376' y='16' width='168' height='48'/><text x='460' y='45' text-anchor='middle' font-size='15' font-weight='700'>Remodelação</text>",
+            "<use href='#c-cartilagem' x='50' y='84' width='100' height='44'/><text x='100' y='110' text-anchor='middle' font-size='12' fill='var(--green,#3E7C4F)'>cartilagem</text>",
+            "<use href='#c-vetor-green' x='90' y='132' width='20' height='12' transform='rotate(90 90 138)'/>",
+            "<use href='#c-osso' x='50' y='156' width='100' height='44'/><text x='100' y='182' text-anchor='middle' font-size='12' fill='var(--blue,#4A6B8A)'>vira osso</text>",
+            "<use href='#c-osso' x='200' y='100' width='70' height='60'/><use href='#c-osso' x='290' y='100' width='70' height='60'/>",
+            "<use href='#c-sutura' x='270' y='124' width='20' height='12' transform='rotate(90 280 130)'/>",
+            "<use href='#c-vetor-red' x='196' y='170' width='40' height='12' transform='rotate(180 216 176)'/><use href='#c-vetor-red' x='324' y='170' width='40' height='12'/>",
+            "<text x='280' y='196' text-anchor='middle' font-size='12' fill='var(--red,#B4533B)'>afastou, sutura preencheu</text>",
+            "<use href='#c-osso' x='410' y='100' width='100' height='60'/>",
+            "<text x='440' y='92' text-anchor='middle' font-size='16' font-weight='700' fill='var(--green,#3E7C4F)'>+</text><text x='480' y='92' text-anchor='middle' font-size='16' font-weight='700' fill='var(--green,#3E7C4F)'>+</text>",
+            "<text x='440' y='178' text-anchor='middle' font-size='16' font-weight='700' fill='var(--red,#B4533B)'>−</text><text x='480' y='178' text-anchor='middle' font-size='16' font-weight='700' fill='var(--red,#B4533B)'>−</text>",
+            "<text x='460' y='196' text-anchor='middle' font-size='12' fill='var(--blue,#4A6B8A)'>+ em cima, − embaixo</text>",
+            "<g font-size='12' fill='var(--ink,#23211C)'>",
+            "<text x='100' y='230' text-anchor='middle' font-weight='700'>Onde</text><text x='100' y='248' text-anchor='middle'>sincondroses, côndilo,</text><text x='100' y='264' text-anchor='middle'>septo nasal</text>",
+            "<text x='280' y='230' text-anchor='middle' font-weight='700'>Onde</text><text x='280' y='248' text-anchor='middle'>abóbada craniana,</text><text x='280' y='264' text-anchor='middle'>suturas da maxila</text>",
+            "<text x='460' y='230' text-anchor='middle' font-weight='700'>Onde</text><text x='460' y='248' text-anchor='middle'>toda superfície óssea</text><text x='460' y='264' text-anchor='middle'>da face</text>",
+            "<text x='100' y='300' text-anchor='middle' font-weight='700' fill='var(--green,#3E7C4F)'>Responde a</text><text x='100' y='318' text-anchor='middle'>hormônio e posição</text><text x='100' y='334' text-anchor='middle'>(pouco a força)</text>",
+            "<text x='280' y='300' text-anchor='middle' font-weight='700' fill='var(--red,#B4533B)'>Responde a</text><text x='280' y='318' text-anchor='middle'>afastamento</text><text x='280' y='334' text-anchor='middle'>(expansão, tração)</text>",
+            "<text x='460' y='300' text-anchor='middle' font-weight='700' fill='var(--blue,#4A6B8A)'>Responde a</text><text x='460' y='318' text-anchor='middle'>pressão e tração leves</text><text x='460' y='334' text-anchor='middle'>(movimento dentário)</text>",
+            "</g>"
+          ],
+          "legenda": "A última linha é a que decide o aparelho: cada mecanismo responde a um tipo de estímulo."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "frase",
+          "texto": "Cartilagem cresce de dentro; osso só cresce por fora. Tudo o que a ortopedia faz é afastar, posicionar ou pressionar uma superfície para que ela deposite ou reabsorva."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Por que o osso mineralizado não pode crescer por crescimento intersticial?",
+        "resposta": "Porque a matriz mineralizada é rígida: as células não conseguem se dividir e expandir a matriz de dentro. O aumento só pode acontecer por aposição de camadas novas na superfície."
+      }
+    },
+    {
+      "titulo": "Cartilagem: sincondroses, côndilo e septo",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "Na base do crânio, os ossos são separados por sincondroses, placas de cartilagem que crescem para os dois lados, como uma placa epifisária de crescimento dupla. A esfeno-occipital é a mais importante para a face: alonga a base do crânio e empurra a maxila para a frente, ao mesmo tempo em que a fossa glenoide, e com ela a mandíbula, ficam mais para trás. Ela fecha na adolescência [VERIFICAR]."
+        },
+        {
+          "tipo": "p",
+          "texto": "O côndilo mandibular tem uma cartilagem diferente: é cartilagem secundária, coberta por uma camada de tecido fibroso e uma camada proliferativa. Ela cresce em direção à fossa e vai sendo substituída por osso por baixo. Por não ser uma placa epifisária verdadeira, responde mais à posição e à função do que uma sincondrose: é esse detalhe que dá alguma chance aos aparelhos funcionais."
+        },
+        {
+          "tipo": "imagem",
+          "imagem": "corte histológico do côndilo mandibular em crescimento",
+          "mostrar": "As camadas do côndilo jovem, da superfície para o osso: camada fibrosa articular, camada proliferativa, cartilagem hipertrófica e frente de ossificação endocondral",
+          "legenda": "Côndilo em crescimento: a cartilagem secundária cresce por cima e vira osso por baixo.",
+          "destacar": "Camada proliferativa como fonte de células; frente de ossificação; ausência de organização em colunas como na placa epifisária"
+        },
+        {
+          "tipo": "p",
+          "texto": "O septo nasal cartilaginoso é o terceiro sítio endocondral e o mais discutido. Ele cresce e, na primeira infância, parece contribuir para deslocar a maxila para baixo e para a frente. Depois disso a contribuição diminui e o deslocamento da maxila passa a depender mais da base do crânio e das suturas."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "prova",
+          "texto": "Três perguntas recorrentes: qual sincondrose mais influencia a relação maxila-mandíbula (a esfeno-occipital); que tipo de cartilagem é o côndilo (secundária); e por que ele não se comporta como placa epifisária (não tem organização em colunas e responde à função)."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Se a sincondrose esfeno-occipital alonga a base do crânio, o que acontece com a posição relativa da fossa glenoide e da maxila?",
+        "resposta": "A maxila é deslocada para a frente enquanto a fossa, e a mandíbula com ela, fica relativamente mais para trás: uma base craniana longa favorece o perfil convexo (Classe II)."
+      }
+    },
+    {
+      "titulo": "Sutura: osso que cresce onde é afastado",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "As suturas não empurram. Elas preenchem. Quando dois ossos são afastados, o tecido conjuntivo da sutura se estira, as células se proliferam e o osso se forma nas duas bordas. É por isso que a abóbada craniana acompanha o cérebro sem ter um programa próprio: o cérebro afasta, a sutura preenche."
+        },
+        {
+          "tipo": "p",
+          "texto": "A maxila se liga ao crânio por um sistema de suturas, como a frontomaxilar, a zigomaticomaxilar e a pterigopalatina, inclinadas de modo que o crescimento nelas desloca a maxila para baixo e para a frente. E, no meio, a sutura palatina mediana, que responde ao afastamento com osso novo."
+        },
+        {
+          "tipo": "lista",
+          "itens": [
+            "Expansão rápida da maxila: força pesada e rápida afasta os processos palatinos; a sutura preenche o espaço com osso.",
+            "Tração reversa (máscara facial): tração nas suturas circum-maxilares para deslocar a maxila para a frente na infância.",
+            "Idade: a interdigitação aumenta e a resposta da sutura ao afastamento diminui com a maturidade."
+          ]
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "mito",
+          "mito": "A sutura empurra os ossos e por isso o crânio cresce.",
+          "verdade": "A sutura só forma osso quando os ossos são afastados por outra força (o cérebro, a cartilagem, um aparelho). Sozinha, ela para."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Por que a expansão rápida da maxila tem melhor resposta esquelética na criança do que no adulto jovem?",
+        "resposta": "Porque a sutura palatina mediana da criança é menos interdigitada e responde ao afastamento formando osso; no adulto, a resistência é maior e boa parte do efeito vira inclinação dentária."
+      }
+    },
+    {
+      "titulo": "Remodelação: deriva, deslocamento e o princípio do V",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "Enlow descreveu como o osso muda de forma e de lugar sem nenhuma sutura ou cartilagem. Deriva cortical é o osso se movendo por remodelação da própria superfície: deposita de um lado, reabsorve do outro, e a parede inteira migra. Uma região que hoje é ramo amanhã vira corpo: é a relocação."
+        },
+        {
+          "tipo": "visual",
+          "formato": "anatomico",
+          "titulo": "O princípio do V de Enlow",
+          "descricao": "Uma estrutura óssea em forma de V. Sinais de mais na face interna do V indicam aposição; sinais de menos na face externa indicam reabsorção. Uma seta mostra que o V se move na direção da sua abertura enquanto cresce, como o ramo mandibular e o processo alveolar.",
+          "viewBox": "0 0 560 300",
+          "svg": [
+            "<path d='M120 40 L280 250 L440 40' fill='none' stroke='var(--border,#EDE6D8)' stroke-width='28' stroke-linejoin='round' stroke-linecap='round'/>",
+            "<path d='M120 40 L280 250 L440 40' fill='none' stroke='var(--blue,#4A6B8A)' stroke-width='2' stroke-linejoin='round' stroke-linecap='round'/>",
+            "<path d='M150 40 L280 210 L410 40' fill='none' stroke='var(--blue,#4A6B8A)' stroke-width='2' stroke-linejoin='round' stroke-linecap='round'/>",
+            "<g font-size='20' font-weight='700' fill='var(--green,#3E7C4F)'><text x='200' y='116'>+</text><text x='232' y='158'>+</text><text x='352' y='116'>+</text><text x='320' y='158'>+</text><text x='276' y='196'>+</text></g>",
+            "<g font-size='20' font-weight='700' fill='var(--red,#B4533B)'><text x='120' y='110'>−</text><text x='156' y='158'>−</text><text x='190' y='206'>−</text><text x='428' y='110'>−</text><text x='394' y='158'>−</text><text x='360' y='206'>−</text></g>",
+            "<use href='#c-vetor-blue' x='280' y='60' width='30' height='16' transform='rotate(-90 280 68)'/>",
+            "<text x='280' y='30' text-anchor='middle' font-size='14' font-weight='700' fill='var(--blue,#4A6B8A)'>o V se move para a abertura</text>",
+            "<g font-size='13'><text x='60' y='270' fill='var(--green,#3E7C4F)' font-weight='700'>+ aposição (dentro do V)</text><text x='330' y='270' fill='var(--red,#B4533B)' font-weight='700'>− reabsorção (fora do V)</text></g>",
+            "<text x='280' y='292' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>ramo, processo alveolar, base do palato: todos crescem assim</text>"
+          ],
+          "legenda": "Deposita por dentro, reabsorve por fora: o V aumenta e se desloca para o lado aberto."
+        },
+        {
+          "tipo": "p",
+          "texto": "Deslocamento é outra coisa: o osso inteiro é carregado para um novo lugar. No deslocamento primário, é o próprio crescimento que empurra o osso, como a mandíbula que cresce no côndilo e é deslocada para baixo e para a frente. No secundário, quem carrega é o vizinho: a maxila é levada para a frente pelo crescimento da base do crânio."
+        },
+        {
+          "tipo": "visual",
+          "formato": "anatomico",
+          "titulo": "Deslocamento primário e secundário",
+          "descricao": "À esquerda, uma mandíbula esquemática cresce no côndilo, com aposição no côndilo e na borda posterior do ramo, e é deslocada para baixo e para a frente; deslocamento primário. À direita, uma maxila esquemática é carregada para a frente pelo alongamento da base do crânio; deslocamento secundário.",
+          "viewBox": "0 0 560 300",
+          "svg": [
+            "<use href='#c-mandibula' x='40' y='90' width='200' height='120'/>",
+            "<text x='56' y='84' font-size='13' font-weight='700' fill='var(--green,#3E7C4F)'>+ côndilo</text>",
+            "<text x='80' y='150' font-size='13' fill='var(--green,#3E7C4F)'>+ borda posterior</text>",
+            "<use href='#c-vetor' x='236' y='196' width='60' height='16' transform='rotate(30 236 204)'/>",
+            "<text x='140' y='268' text-anchor='middle' font-size='15' font-weight='700'>Deslocamento primário</text><text x='140' y='286' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>o próprio crescimento empurra o osso</text>",
+            "<use href='#c-osso' x='320' y='70' width='200' height='40'/><text x='420' y='95' text-anchor='middle' font-size='12' fill='var(--blue,#4A6B8A)'>base do crânio alonga</text>",
+            "<use href='#c-vetor-blue' x='470' y='52' width='60' height='14'/>",
+            "<use href='#c-caixa-gold' x='360' y='130' width='120' height='70'/><text x='420' y='160' text-anchor='middle' font-size='14' font-weight='700'>maxila</text><text x='420' y='180' text-anchor='middle' font-size='12'>carregada</text>",
+            "<use href='#c-vetor' x='486' y='158' width='54' height='14'/>",
+            "<use href='#c-sutura' x='320' y='110' width='200' height='10'/>",
+            "<text x='440' y='268' text-anchor='middle' font-size='15' font-weight='700'>Deslocamento secundário</text><text x='440' y='286' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>o vizinho cresce e carrega o osso</text>"
+          ],
+          "legenda": "Primário: a mandíbula se empurra. Secundário: a base do crânio empurra a maxila."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "dica",
+          "titulo": "Por que isso explica os dois aparelhos da abertura",
+          "texto": "O disjuntor age numa sutura: afasta, o osso preenche, o ganho fica. O propulsor age numa cartilagem secundária que responde à posição só até certo ponto, e no restante o efeito é remodelação dentoalveolar: a mordida muda mais que o osso."
+        }
+      ],
+      "checagem": {
+        "pergunta": "A maxila é deslocada para a frente pelo alongamento da base do crânio. Isso é deriva, deslocamento primário ou secundário?",
+        "resposta": "Deslocamento secundário: a maxila não cresceu para chegar lá; foi carregada pelo crescimento de um osso vizinho."
+      }
+    },
+    {
+      "titulo": "O que muda na clínica",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "Escolher um aparelho ortopédico é escolher um mecanismo. Se o alvo é uma sutura, o estímulo é afastamento, e a resposta é robusta enquanto a sutura estiver aberta. Se o alvo é uma cartilagem, o estímulo é posição e função, e a resposta é modesta. Se o alvo é uma superfície, o estímulo é força leve e contínua, e a resposta é remodelação, que é o que move dentes."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "erro",
+          "texto": "Esperar que uma força leve e contínua abra uma sutura, ou que uma força pesada e intermitente mova um dente com segurança. Cada tecido tem o seu estímulo; trocar os dois é a receita para expansão só dentária de um lado e reabsorção radicular do outro."
+        },
+        {
+          "tipo": "p",
+          "texto": "Também explica a ordem dos tratamentos: sutura primeiro, enquanto está aberta; cartilagem na janela do surto; superfície a qualquer idade. É a mesma sequência que aparece nos módulos de ortopedia e de mecânica."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Um adulto jovem pede expansão da maxila. Qual mecanismo você ainda tem à disposição e qual já perdeu?",
+        "resposta": "A remodelação de superfície continua (inclinação dentoalveolar), mas a resposta sutural ao afastamento está reduzida: por isso a discussão passa a ser expansão assistida cirurgicamente ou ancoragem esquelética."
+      }
+    }
+  ],
+  "fechamento": {
+    "visual": {
+      "formato": "mapa",
+      "titulo": "Mapa da página",
+      "descricao": "Nó central: mecanismos de crescimento. Seis nós ao redor: osso só cresce por aposição; endocondral (sincondrose, côndilo, septo); sutural (afastamento); remodelação (deriva e princípio do V); deslocamento primário e secundário; cada aparelho escolhe um mecanismo.",
+      "viewBox": "0 0 560 360",
+      "svg": [
+        "<g stroke='var(--border,#EDE6D8)' stroke-width='1.5'><line x1='280' y1='180' x2='100' y2='60'/><line x1='280' y1='180' x2='460' y2='60'/><line x1='280' y1='180' x2='70' y2='180'/><line x1='280' y1='180' x2='490' y2='180'/><line x1='280' y1='180' x2='100' y2='300'/><line x1='280' y1='180' x2='460' y2='300'/></g>",
+        "<use href='#c-no-central' x='190' y='150' width='180' height='60'/>",
+        "<text x='280' y='176' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>Mecanismos de</text><text x='280' y='194' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>crescimento</text>",
+        "<use href='#c-no' x='20' y='38' width='160' height='44'/><text x='100' y='65' text-anchor='middle' font-size='13' font-weight='700'>Osso só cresce por fora</text>",
+        "<use href='#c-no' x='380' y='38' width='160' height='44'/><text x='460' y='65' text-anchor='middle' font-size='13' font-weight='700'>Endocondral: cartilagem</text>",
+        "<use href='#c-no' x='0' y='158' width='150' height='44'/><text x='75' y='185' text-anchor='middle' font-size='13' font-weight='700'>Sutura: afastamento</text>",
+        "<use href='#c-no' x='410' y='158' width='150' height='44'/><text x='485' y='185' text-anchor='middle' font-size='13' font-weight='700'>Deriva e princípio do V</text>",
+        "<use href='#c-no' x='20' y='278' width='160' height='44'/><text x='100' y='305' text-anchor='middle' font-size='13' font-weight='700'>Deslocamento 1º e 2º</text>",
+        "<use href='#c-no' x='380' y='278' width='160' height='44'/><text x='460' y='305' text-anchor='middle' font-size='13' font-weight='700'>Aparelho escolhe o mecanismo</text>"
+      ]
+    },
+    "flashcards": [
+      {
+        "frente": "Os três mecanismos de crescimento ósseo da face e um exemplo de cada.",
+        "verso": "Endocondral (sincondrose esfeno-occipital, côndilo, septo nasal); sutural (abóbada, suturas da maxila); remodelação periosteal (toda superfície: deriva, princípio do V)."
+      },
+      {
+        "frente": "Deslocamento primário versus secundário (Enlow), com um exemplo cada.",
+        "verso": "Primário: o próprio crescimento empurra o osso (mandíbula crescendo no côndilo). Secundário: o vizinho carrega (maxila levada pela base do crânio)."
+      },
+      {
+        "frente": "Princípio do V: onde deposita, onde reabsorve, para onde se move?",
+        "verso": "Deposita na face interna, reabsorve na externa, e se move na direção da abertura do V enquanto cresce."
+      }
+    ]
+  },
+  "infografico": {
+    "titulo": "Mecanismo, exemplo e estímulo",
+    "itens": [
+      {
+        "rotulo": "Endocondral",
+        "texto": "Cartilagem cresce de dentro e vira osso. Sincondroses, côndilo (cartilagem secundária) e septo nasal. Responde a hormônio e posição."
+      },
+      {
+        "rotulo": "Sutural",
+        "texto": "Osso se forma nas bordas quando os ossos são afastados. Abóbada e suturas da maxila. Responde a afastamento: expansão, tração."
+      },
+      {
+        "rotulo": "Remodelação",
+        "texto": "Aposição de um lado, reabsorção do outro. Toda superfície. Responde a força leve e contínua: movimento dentário."
+      },
+      {
+        "rotulo": "Deriva cortical",
+        "texto": "A parede migra por remodelação da própria superfície; a região se reloca (ramo vira corpo)."
+      },
+      {
+        "rotulo": "Deslocamento",
+        "texto": "O osso inteiro é carregado: primário (próprio crescimento) ou secundário (crescimento do vizinho)."
+      },
+      {
+        "rotulo": "Princípio do V",
+        "texto": "Deposita dentro, reabsorve fora, move-se para a abertura. Ramo, processo alveolar, palato."
+      }
+    ]
+  },
+  "fluxograma": {
+    "titulo": "Qual mecanismo este aparelho está tentando influenciar?",
+    "nos": [
+      {
+        "id": "n1",
+        "tipo": "inicio",
+        "texto": "Objetivo ortopédico definido"
+      },
+      {
+        "id": "n2",
+        "tipo": "decisao",
+        "texto": "A estrutura-alvo é sutura, cartilagem ou superfície óssea?"
+      },
+      {
+        "id": "n3",
+        "tipo": "acao",
+        "texto": "Sutura: afastar (força pesada e rápida ou tração); o osso preenche, enquanto a sutura estiver aberta"
+      },
+      {
+        "id": "n4",
+        "tipo": "acao",
+        "texto": "Cartilagem: mudar posição e função na janela do surto; esperar resposta modesta"
+      },
+      {
+        "id": "n5",
+        "tipo": "acao",
+        "texto": "Superfície: força leve e contínua para remodelar; movimento dentoalveolar a qualquer idade"
+      },
+      {
+        "id": "n6",
+        "tipo": "fim",
+        "texto": "Estímulo compatível com o tecido, na idade certa"
+      }
+    ],
+    "arestas": [
+      {
+        "de": "n1",
+        "para": "n2"
+      },
+      {
+        "de": "n2",
+        "para": "n3",
+        "rotulo": "sutura"
+      },
+      {
+        "de": "n2",
+        "para": "n4",
+        "rotulo": "cartilagem"
+      },
+      {
+        "de": "n2",
+        "para": "n5",
+        "rotulo": "superfície"
+      },
+      {
+        "de": "n3",
+        "para": "n6"
+      },
+      {
+        "de": "n4",
+        "para": "n6"
+      },
+      {
+        "de": "n5",
+        "para": "n6"
+      }
+    ]
+  },
+  "passoAPasso": [
+    {
+      "passo": "Nomeie a estrutura que você quer mover: sutura palatina, côndilo, processo alveolar, base do crânio.",
+      "confira": "Está escrito o nome da estrutura, e não só o resultado desejado?"
+    },
+    {
+      "passo": "Classifique o mecanismo de crescimento dessa estrutura: endocondral, sutural ou remodelação.",
+      "confira": "Você consegue dizer a que estímulo esse tecido responde?"
+    },
+    {
+      "passo": "Confira se o mecanismo ainda está disponível na idade do paciente: sutura aberta, cartilagem em atividade, superfície sempre.",
+      "confira": "Existe um indicador (idade, maturação, radiografia) sustentando a resposta?"
+    },
+    {
+      "passo": "Escolha o estímulo compatível: afastamento para sutura, posição e função para cartilagem, força leve e contínua para superfície.",
+      "confira": "O aparelho escolhido entrega exatamente esse estímulo?"
+    },
+    {
+      "passo": "Diga à família qual parte da correção será óssea e qual será dentária.",
+      "confira": "A expectativa registrada distingue efeito esquelético de efeito dentoalveolar?"
+    }
+  ],
+  "macetes": [
+    {
+      "titulo": "Cartilagem cresce de dentro, osso cresce por fora",
+      "texto": "Se o tecido é mineralizado, só aposição. Se cresce de dentro, é cartilagem. Isso resolve metade das questões de mecanismo."
+    },
+    {
+      "titulo": "Sutura preenche, não empurra",
+      "texto": "Afastou, preencheu. Sem afastamento, sutura parada. É a razão de a expansão funcionar e de a sutura não ser centro de crescimento."
+    },
+    {
+      "titulo": "Primário se empurra, secundário é empurrado",
+      "texto": "Mandíbula que cresce no côndilo: primário. Maxila levada pela base do crânio: secundário."
+    },
+    {
+      "titulo": "V: mais dentro, menos fora, anda para a boca do V",
+      "texto": "Aposição na face interna, reabsorção na externa, deslocamento para a abertura. Ramo, alvéolo e palato obedecem."
+    }
+  ],
+  "ondeErra": [
+    {
+      "erro": "Dizer que o osso cresce por crescimento intersticial.",
+      "porque": "A matriz mineralizada não permite expansão de dentro; só a cartilagem cresce assim.",
+      "certo": "Osso cresce por aposição na superfície; cartilagem cresce de dentro e é substituída por osso."
+    },
+    {
+      "erro": "Tratar o côndilo como placa epifisária.",
+      "porque": "O côndilo é cartilagem secundária, sem organização em colunas, e responde à posição e à função; a placa epifisária responde quase só a hormônio.",
+      "certo": "Cartilagem secundária, com resposta modesta à posição mandibular."
+    },
+    {
+      "erro": "Confundir deriva com deslocamento.",
+      "porque": "Deriva é a superfície se remodelando e migrando; deslocamento é o osso inteiro sendo carregado.",
+      "certo": "Deriva: remodelação. Deslocamento: transporte, primário ou secundário."
+    },
+    {
+      "erro": "Aplicar força leve e contínua esperando abrir sutura.",
+      "porque": "A sutura responde a afastamento efetivo; força leve é dissipada em inclinação dentária.",
+      "certo": "Afastamento com força pesada e rápida para sutura; força leve e contínua para dente."
+    }
+  ],
+  "autoteste": [
+    {
+      "pergunta": "Sobre o crescimento do osso mineralizado, é correto afirmar que:",
+      "alternativas": [
+        "Ocorre por crescimento intersticial, como na cartilagem",
+        "Ocorre exclusivamente por aposição na superfície",
+        "Ocorre por divisão das células dentro da matriz mineralizada",
+        "Ocorre apenas nas suturas"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Crescimento intersticial é da cartilagem, cuja matriz não é mineralizada.",
+        "Correta: o osso só aumenta por deposição de camadas novas na superfície.",
+        "As células do osso não se dividem e expandem a matriz mineralizada.",
+        "As suturas são um dos locais; a remodelação periosteal ocorre em toda a superfície."
+      ]
+    },
+    {
+      "pergunta": "A mandíbula cresce no côndilo e, com isso, é deslocada para baixo e para a frente. Segundo Enlow, esse movimento é:",
+      "alternativas": [
+        "Deriva cortical",
+        "Deslocamento primário",
+        "Deslocamento secundário",
+        "Relocação"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Deriva é migração da superfície por remodelação, não transporte do osso inteiro.",
+        "Correta: o próprio crescimento do osso, no côndilo, empurra a mandíbula para a nova posição.",
+        "Secundário seria a mandíbula carregada pelo crescimento de outro osso.",
+        "Relocação é a mudança de função de uma região do osso durante a remodelação."
+      ]
+    },
+    {
+      "pergunta": "Qual sincondrose tem maior influência na relação anteroposterior entre maxila e mandíbula?",
+      "alternativas": [
+        "Esfeno-etmoidal",
+        "Intra-esfenoidal",
+        "Esfeno-occipital",
+        "Intra-occipital"
+      ],
+      "correta": 2,
+      "explicacoes": [
+        "Fecha cedo e tem pouca influência na relação maxilomandibular.",
+        "Fecha antes do nascimento.",
+        "Correta: alonga a base do crânio por mais tempo, deslocando a maxila para a frente e a fossa glenoide para trás.",
+        "Não participa da relação anteroposterior da face."
+      ]
+    },
+    {
+      "pergunta": "Por que a sutura palatina mediana responde à expansão rápida com formação óssea?",
+      "alternativas": [
+        "Porque a sutura é um centro de crescimento com programa próprio",
+        "Porque o afastamento dos processos palatinos estira o tecido sutural, que forma osso nas bordas",
+        "Porque a força pesada estimula crescimento intersticial do osso",
+        "Porque a cartilagem do septo nasal empurra os ossos"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "A sutura é sítio, não centro: não cresce sem afastamento.",
+        "Correta: sutura preenche o espaço aberto por uma força externa.",
+        "Osso não cresce por crescimento intersticial.",
+        "O septo não participa da expansão transversal induzida pelo aparelho."
+      ]
+    },
+    {
+      "pergunta": "Uma estrutura óssea em V cresce com aposição na face interna e reabsorção na externa. Como ela se move?",
+      "alternativas": [
+        "Em direção ao vértice do V",
+        "Em direção à abertura do V",
+        "Não se move; só aumenta de espessura",
+        "Perpendicularmente ao plano do V"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Seria o oposto do princípio do V.",
+        "Correta: depositar por dentro e reabsorver por fora desloca o V para o lado aberto enquanto ele aumenta.",
+        "O V muda de tamanho e de posição.",
+        "O movimento se dá no plano da estrutura."
+      ]
+    }
+  ],
+  "pesquisa": {
+    "termos": [
+      "remodelação óssea",
+      "sutura palatina mediana",
+      "cartilagem condilar",
+      "sincondrose esfeno-occipital"
+    ]
+  },
+  "referenciasBase": [
+    "Enlow DH, Hans MG. Noções básicas sobre crescimento facial.",
+    "Proffit WR, Fields HW, Larson BE, Sarver DM. Ortodontia Contemporânea. 6ª ed. Locais e tipos de crescimento no complexo craniofacial.",
+    "Moyers RE. Ortodontia. 4ª ed.",
+    "Graber LW, Vanarsdall RL, Vig KWL, Huang GJ. Ortodontia: princípios e técnicas atuais. 6ª ed."
+  ],
+  "validacao": {
+    "validadoPor": null,
+    "data": null
+  }
+}

@@ -1,10 +1,10 @@
 {
  "atualizadoEm": "2026-09-04",
  "totalPaginas": 3387,
- "concluidas": 7,
+ "concluidas": 8,
  "porStatus": {
-  "pendente": 3380,
-  "rascunho": 7,
+  "pendente": 3379,
+  "rascunho": 8,
   "revisado": 0,
   "publicado": 0
  },
@@ -12,7 +12,7 @@
   "id": "ortodontia/crescimento-e-desenvolvimento",
   "area": "Ortodontia",
   "modulo": "Crescimento e desenvolvimento",
-  "faltam": 12
+  "faltam": 11
  },
  "imagensPendentes": [
   {
@@ -23,6 +23,15 @@
    "mostrar": "A mesma criança em dois momentos, com 3 a 4 anos de intervalo, com os traçados superpostos na base do crânio (SN) mostrando a face crescendo para baixo e para a frente enquanto o crânio pouco muda",
    "legenda": "Superposição na base do crânio: o crânio anterior quase parou; a face desceu e avançou.",
    "destacar": "Linha SN estável, deslocamento do ponto A e do mento, aumento da altura facial anterior"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/mecanismos-sutura-cartilagem-e-remodelacao",
+   "modulo": "Crescimento e desenvolvimento",
+   "secao": "Cartilagem: sincondroses, côndilo e septo",
+   "imagem": "corte histológico do côndilo mandibular em crescimento",
+   "mostrar": "As camadas do côndilo jovem, da superfície para o osso: camada fibrosa articular, camada proliferativa, cartilagem hipertrófica e frente de ossificação endocondral",
+   "legenda": "Côndilo em crescimento: a cartilagem secundária cresce por cima e vira osso por baixo.",
+   "destacar": "Camada proliferativa como fonte de células; frente de ossificação; ausência de organização em colunas como na placa epifisária"
   }
  ],
  "verificarPendentes": [
@@ -35,6 +44,11 @@
    "pagina": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/teorias-do-crescimento",
    "onde": "Seção \"Van Limborgh e Petrovic: a síntese e o servossistema\".blocos[3].texto",
    "trecho": "ular esquelético pequeno em relação ao controle, da ordem de 1 a 2 mm [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/mecanismos-sutura-cartilagem-e-remodelacao",
+   "onde": "Seção \"Cartilagem: sincondroses, côndilo e septo\".blocos[0].texto",
+   "trecho": "com ela a mandíbula, ficam mais para trás. Ela fecha na adolescência [VERIFICAR]"
   }
  ],
  "modulos": [
@@ -44,11 +58,11 @@
    "area": "Ortodontia",
    "modulo": "Crescimento e desenvolvimento",
    "total": 14,
-   "concluidas": 2,
-   "palavras": 5868,
-   "visuais": 8,
-   "imagensClinicas": 1,
-   "verificar": 2,
+   "concluidas": 3,
+   "palavras": 8759,
+   "visuais": 12,
+   "imagensClinicas": 2,
+   "verificar": 3,
    "paginas": [
     {
      "id": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/conceitos-crescimento-e-desenvolvimento",
@@ -70,7 +84,9 @@
      "id": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/mecanismos-sutura-cartilagem-e-remodelacao",
      "nome": "Mecanismos: sutura, cartilagem e remodelação",
      "tema": "Crescimento craniofacial",
-     "status": "pendente"
+     "status": "rascunho",
+     "palavras": 2891,
+     "visuais": 4
     },
     {
      "id": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/crescimento-da-maxila",
@@ -24647,6 +24663,54 @@
     {
      "onde": "Seção \"Van Limborgh e Petrovic: a síntese e o servossistema\".blocos[3].texto",
      "trecho": "ular esquelético pequeno em relação ao controle, da ordem de 1 a 2 mm [VERIFICAR]"
+    }
+   ]
+  },
+  "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/mecanismos-sutura-cartilagem-e-remodelacao": {
+   "titulo": "Mecanismos de crescimento: sutura, cartilagem e remodelação",
+   "arquivo": "data/campus/paginas/ortodontia--crescimento-mecanismos.json",
+   "formato": 2,
+   "status": "rascunho",
+   "estado": "rascunho",
+   "palavras": 2891,
+   "visuais": [
+    {
+     "formato": "processo",
+     "titulo": "Os três mecanismos de crescimento ósseo da face"
+    },
+    {
+     "formato": "anatomico",
+     "titulo": "O princípio do V de Enlow"
+    },
+    {
+     "formato": "anatomico",
+     "titulo": "Deslocamento primário e secundário"
+    },
+    {
+     "formato": "mapa",
+     "titulo": "Mapa da página"
+    }
+   ],
+   "quadros": {
+    "frase": 1,
+    "prova": 1,
+    "mito": 1,
+    "dica": 1,
+    "erro": 1
+   },
+   "imagensClinicas": [
+    {
+     "secao": "Cartilagem: sincondroses, côndilo e septo",
+     "imagem": "corte histológico do côndilo mandibular em crescimento",
+     "mostrar": "As camadas do côndilo jovem, da superfície para o osso: camada fibrosa articular, camada proliferativa, cartilagem hipertrófica e frente de ossificação endocondral",
+     "legenda": "Côndilo em crescimento: a cartilagem secundária cresce por cima e vira osso por baixo.",
+     "destacar": "Camada proliferativa como fonte de células; frente de ossificação; ausência de organização em colunas como na placa epifisária"
+    }
+   ],
+   "verificar": [
+    {
+     "onde": "Seção \"Cartilagem: sincondroses, côndilo e septo\".blocos[0].texto",
+     "trecho": "com ela a mandíbula, ficam mais para trás. Ela fecha na adolescência [VERIFICAR]"
     }
    ]
   },
