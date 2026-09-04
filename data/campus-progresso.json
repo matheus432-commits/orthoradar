@@ -1,10 +1,10 @@
 {
  "atualizadoEm": "2026-09-04",
  "totalPaginas": 3387,
- "concluidas": 10,
+ "concluidas": 11,
  "porStatus": {
-  "pendente": 3377,
-  "rascunho": 10,
+  "pendente": 3376,
+  "rascunho": 11,
   "revisado": 0,
   "publicado": 0
  },
@@ -12,7 +12,7 @@
   "id": "ortodontia/crescimento-e-desenvolvimento",
   "area": "Ortodontia",
   "modulo": "Crescimento e desenvolvimento",
-  "faltam": 9
+  "faltam": 8
  },
  "imagensPendentes": [
   {
@@ -50,6 +50,15 @@
    "mostrar": "A relação entre a coroa do terceiro molar inferior e a borda anterior do ramo, com o espaço retromolar disponível atrás do segundo molar",
    "legenda": "O espaço retromolar depende da relocação do ramo: pouco ramo reabsorvido, terceiro molar contra a borda anterior.",
    "destacar": "Borda anterior do ramo, distal do segundo molar, posição e angulação do germe do terceiro molar"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/rotacoes-de-crescimento",
+   "modulo": "Crescimento e desenvolvimento",
+   "secao": "Os sinais estruturais: ler a direção no desenho do osso",
+   "imagem": "telerradiografia lateral de adolescente com padrão de rotação posterior",
+   "mostrar": "Mandíbula com côndilo inclinado para trás, canal mandibular retificado, chanfradura antegonial acentuada, sínfise longa e fina e altura facial anterior inferior aumentada",
+   "legenda": "Sinais estruturais de rotação posterior: lidos na forma do osso antes de qualquer tratamento.",
+   "destacar": "Cabeça do côndilo, trajeto do canal mandibular, chanfradura antegonial, sínfise, altura facial anterior inferior"
   }
  ],
  "verificarPendentes": [
@@ -112,6 +121,11 @@
    "pagina": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/crescimento-da-mandibula",
    "onde": "infografico.itens[0].texto",
    "trecho": "lado da cartilagem de Meckel, que some. Sínfise funde no primeiro ano [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/rotacoes-de-crescimento",
+   "onde": "Seção \"Os sinais estruturais: ler a direção no desenho do osso\".blocos[1].itens[5]",
+   "trecho": "ixo dos molares: pistas complementares descritas no trabalho original [VERIFICAR]"
   }
  ],
  "modulos": [
@@ -121,11 +135,11 @@
    "area": "Ortodontia",
    "modulo": "Crescimento e desenvolvimento",
    "total": 14,
-   "concluidas": 5,
-   "palavras": 14108,
-   "visuais": 18,
-   "imagensClinicas": 4,
-   "verificar": 12,
+   "concluidas": 6,
+   "palavras": 16925,
+   "visuais": 21,
+   "imagensClinicas": 5,
+   "verificar": 13,
    "paginas": [
     {
      "id": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/conceitos-crescimento-e-desenvolvimento",
@@ -171,7 +185,9 @@
      "id": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/rotacoes-de-crescimento",
      "nome": "Rotações de crescimento",
      "tema": "Crescimento craniofacial",
-     "status": "pendente"
+     "status": "rascunho",
+     "palavras": 2817,
+     "visuais": 3
     },
     {
      "id": "ortodontia/crescimento-e-desenvolvimento/maturacao/surto-de-crescimento-puberal",
@@ -24894,6 +24910,50 @@
     {
      "onde": "infografico.itens[0].texto",
      "trecho": "lado da cartilagem de Meckel, que some. Sínfise funde no primeiro ano [VERIFICAR]"
+    }
+   ]
+  },
+  "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/rotacoes-de-crescimento": {
+   "titulo": "Rotações de crescimento: por que a mesma mandíbula pode fechar ou abrir a mordida",
+   "arquivo": "data/campus/paginas/ortodontia--crescimento-rotacoes.json",
+   "formato": 2,
+   "status": "rascunho",
+   "estado": "rascunho",
+   "palavras": 2817,
+   "visuais": [
+    {
+     "formato": "forcas",
+     "titulo": "Rotação anterior e rotação posterior"
+    },
+    {
+     "formato": "processo",
+     "titulo": "Rotação interna, remodelação e rotação total"
+    },
+    {
+     "formato": "mapa",
+     "titulo": "Mapa da página"
+    }
+   ],
+   "quadros": {
+    "frase": 1,
+    "prova": 1,
+    "dica": 1,
+    "mito": 1,
+    "erro": 1
+   },
+   "imagensClinicas": [
+    {
+     "secao": "Os sinais estruturais: ler a direção no desenho do osso",
+     "imagem": "telerradiografia lateral de adolescente com padrão de rotação posterior",
+     "mostrar": "Mandíbula com côndilo inclinado para trás, canal mandibular retificado, chanfradura antegonial acentuada, sínfise longa e fina e altura facial anterior inferior aumentada",
+     "legenda": "Sinais estruturais de rotação posterior: lidos na forma do osso antes de qualquer tratamento.",
+     "destacar": "Cabeça do côndilo, trajeto do canal mandibular, chanfradura antegonial, sínfise, altura facial anterior inferior"
+    }
+   ],
+   "verificar": [
+    {
+     "onde": "Seção \"Os sinais estruturais: ler a direção no desenho do osso\".blocos[1].itens[5]",
+     "trecho": "ixo dos molares: pistas complementares descritas no trabalho original [VERIFICAR]"
     }
    ]
   },
