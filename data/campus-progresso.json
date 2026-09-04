@@ -1,10 +1,10 @@
 {
  "atualizadoEm": "2026-09-04",
  "totalPaginas": 3387,
- "concluidas": 16,
+ "concluidas": 17,
  "porStatus": {
-  "pendente": 3371,
-  "rascunho": 16,
+  "pendente": 3370,
+  "rascunho": 17,
   "revisado": 0,
   "publicado": 0
  },
@@ -12,7 +12,7 @@
   "id": "ortodontia/crescimento-e-desenvolvimento",
   "area": "Ortodontia",
   "modulo": "Crescimento e desenvolvimento",
-  "faltam": 3
+  "faltam": 2
  },
  "imagensPendentes": [
   {
@@ -86,6 +86,15 @@
    "mostrar": "Arco em U com espaços de desenvolvimento entre os incisivos e o espaço primata visível mesial aos caninos, com os dez dentes decíduos superiores presentes",
    "legenda": "Arco decíduo tipo I de Baume: espaçado, com os espaços primatas mesiais aos caninos.",
    "destacar": "Espaços interincisivos, espaço primata entre lateral e canino de cada lado, forma em U do arco"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-mista-primeira-e-segunda-fase",
+   "modulo": "Crescimento e desenvolvimento",
+   "secao": "O patinho feio: a fase que passa sozinha",
+   "imagem": "fotografia intraoral frontal de criança de 9 anos na fase do patinho feio, com radiografia panorâmica correspondente",
+   "mostrar": "Diastema entre os centrais superiores, laterais com coroas inclinadas para distal, e na panorâmica os caninos permanentes altos, com as coroas apoiadas nas raízes dos laterais",
+   "legenda": "Patinho feio: o diastema e a inclinação dos laterais vêm da posição dos caninos permanentes ainda no osso.",
+   "destacar": "Diastema mediano, divergência das coroas dos laterais, posição alta dos caninos na panorâmica"
   }
  ],
  "verificarPendentes": [
@@ -216,8 +225,8 @@
   },
   {
    "pagina": "ortodontia/crescimento-e-desenvolvimento/maturacao/vertebras-cervicais",
-   "onde": "Seção \"Os seis estágios do método CVM\".blocos[1].svg[29]",
-   "trecho": "m cima C2, embaixo C3; os intervalos em anos são médias populacionais [VERIFICAR]"
+   "onde": "Seção \"Os seis estágios do método CVM\".blocos[1].svg[35]",
+   "trecho": "ll='var(--muted,#8A8478)'>intervalos em anos são médias populacionais [VERIFICAR]"
   },
   {
    "pagina": "ortodontia/crescimento-e-desenvolvimento/maturacao/vertebras-cervicais",
@@ -253,6 +262,31 @@
    "pagina": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-decidua",
    "onde": "Seção \"O plano terminal: o segundo molar decíduo aponta o caminho\".blocos[1].svg[23]",
    "trecho": "(--muted,#8A8478)'>a partir de Baume; o plano reto é o mais frequente [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-mista-primeira-e-segunda-fase",
+   "onde": "Seção \"Dois períodos de troca e uma pausa\".blocos[1].svg[13]",
+   "trecho": "ted,#8A8478)'>idades aproximadas; a sequência importa mais que a data [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-mista-primeira-e-segunda-fase",
+   "onde": "Seção \"O passivo dos incisivos e como a boca paga a conta\".blocos[0].texto",
+   "trecho": "íduos em alguns milímetros por arco, mais no superior que no inferior [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-mista-primeira-e-segunda-fase",
+   "onde": "Seção \"O espaço livre de Nance: a folga que fecha a conta\".blocos[0].texto",
+   "trecho": "o segundo molar decíduo inferior é bem maior que o segundo pré-molar [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-mista-primeira-e-segunda-fase",
+   "onde": "Seção \"O espaço livre de Nance: a folga que fecha a conta\".blocos[1].svg[12]",
+   "trecho": "em valores absolutos; o inferior é maior porque o E inferior é grande [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-mista-primeira-e-segunda-fase",
+   "onde": "infografico.itens[0].texto",
+   "trecho": "Segundo transitório (10 a 12): caninos, pré-molares, segundos molares [VERIFICAR]"
   }
  ],
  "modulos": [
@@ -262,11 +296,11 @@
    "area": "Ortodontia",
    "modulo": "Crescimento e desenvolvimento",
    "total": 14,
-   "concluidas": 11,
-   "palavras": 30688,
-   "visuais": 39,
-   "imagensClinicas": 8,
-   "verificar": 33,
+   "concluidas": 12,
+   "palavras": 33901,
+   "visuais": 43,
+   "imagensClinicas": 9,
+   "verificar": 38,
    "paginas": [
     {
      "id": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/conceitos-crescimento-e-desenvolvimento",
@@ -360,7 +394,9 @@
      "id": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-mista-primeira-e-segunda-fase",
      "nome": "Dentição mista: primeira e segunda fase",
      "tema": "Desenvolvimento da oclusão",
-     "status": "pendente"
+     "status": "rascunho",
+     "palavras": 3213,
+     "visuais": 4
     },
     {
      "id": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-permanente",
@@ -25261,8 +25297,8 @@
    ],
    "verificar": [
     {
-     "onde": "Seção \"Os seis estágios do método CVM\".blocos[1].svg[29]",
-     "trecho": "m cima C2, embaixo C3; os intervalos em anos são médias populacionais [VERIFICAR]"
+     "onde": "Seção \"Os seis estágios do método CVM\".blocos[1].svg[35]",
+     "trecho": "ll='var(--muted,#8A8478)'>intervalos em anos são médias populacionais [VERIFICAR]"
     },
     {
      "onde": "Seção \"O que ela faz melhor que a mão, e o que faz pior\".blocos[1].texto",
@@ -25367,6 +25403,70 @@
     {
      "onde": "Seção \"O plano terminal: o segundo molar decíduo aponta o caminho\".blocos[1].svg[23]",
      "trecho": "(--muted,#8A8478)'>a partir de Baume; o plano reto é o mais frequente [VERIFICAR]"
+    }
+   ]
+  },
+  "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-mista-primeira-e-segunda-fase": {
+   "titulo": "Dentição mista: as duas trocas e o espaço que aparece e desaparece",
+   "arquivo": "data/campus/paginas/ortodontia--oclusao-denticao-mista.json",
+   "formato": 2,
+   "status": "rascunho",
+   "estado": "rascunho",
+   "palavras": 3213,
+   "visuais": [
+    {
+     "formato": "linha-do-tempo",
+     "titulo": "Os períodos da dentição mista"
+    },
+    {
+     "formato": "processo",
+     "titulo": "Os quatro mecanismos que pagam o passivo dos incisivos"
+    },
+    {
+     "formato": "comparativo",
+     "titulo": "Espaço livre de Nance: quem sai e quem entra em cada arco"
+    },
+    {
+     "formato": "mapa",
+     "titulo": "Mapa da página"
+    }
+   ],
+   "quadros": {
+    "frase": 2,
+    "prova": 1,
+    "mito": 1,
+    "dica": 1,
+    "erro": 1
+   },
+   "imagensClinicas": [
+    {
+     "secao": "O patinho feio: a fase que passa sozinha",
+     "imagem": "fotografia intraoral frontal de criança de 9 anos na fase do patinho feio, com radiografia panorâmica correspondente",
+     "mostrar": "Diastema entre os centrais superiores, laterais com coroas inclinadas para distal, e na panorâmica os caninos permanentes altos, com as coroas apoiadas nas raízes dos laterais",
+     "legenda": "Patinho feio: o diastema e a inclinação dos laterais vêm da posição dos caninos permanentes ainda no osso.",
+     "destacar": "Diastema mediano, divergência das coroas dos laterais, posição alta dos caninos na panorâmica"
+    }
+   ],
+   "verificar": [
+    {
+     "onde": "Seção \"Dois períodos de troca e uma pausa\".blocos[1].svg[13]",
+     "trecho": "ted,#8A8478)'>idades aproximadas; a sequência importa mais que a data [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"O passivo dos incisivos e como a boca paga a conta\".blocos[0].texto",
+     "trecho": "íduos em alguns milímetros por arco, mais no superior que no inferior [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"O espaço livre de Nance: a folga que fecha a conta\".blocos[0].texto",
+     "trecho": "o segundo molar decíduo inferior é bem maior que o segundo pré-molar [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"O espaço livre de Nance: a folga que fecha a conta\".blocos[1].svg[12]",
+     "trecho": "em valores absolutos; o inferior é maior porque o E inferior é grande [VERIFICAR]"
+    },
+    {
+     "onde": "infografico.itens[0].texto",
+     "trecho": "Segundo transitório (10 a 12): caninos, pré-molares, segundos molares [VERIFICAR]"
     }
    ]
   },
