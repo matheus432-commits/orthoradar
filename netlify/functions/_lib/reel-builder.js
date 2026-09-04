@@ -21,6 +21,37 @@ function tooth(w, tc, wc) { return `<svg style="width:${w}px" viewBox="0 0 130 1
 
 // ── HTML dos frames ──────────────────────────────────────────────────────────
 
+// Título do estudo como ele entra na CAPA (04/09).
+// Títulos científicos costumam trazer o achado antes dos dois-pontos e o
+// detalhe metodológico depois ("Resina impressa em 3D: um estudo in vitro
+// randomizado"). Na capa o que prende é a primeira parte; o resto rouba
+// espaço e ninguém lê rolando o feed. Corta em palavra inteira, nunca no meio.
+const CAPA_TITULO_MAX = 96;
+function tituloDeCapa(titulo) {
+  let t = String(titulo || '').replace(/\s+/g, ' ').trim();
+  if (!t) return '';
+  // Só descarta o trecho após ':' quando o que sobra ainda se sustenta sozinho.
+  const corte = t.indexOf(':');
+  if (corte >= 28 && corte <= CAPA_TITULO_MAX) t = t.slice(0, corte);
+  if (t.length <= CAPA_TITULO_MAX) return t;
+  const cortado = t.slice(0, CAPA_TITULO_MAX);
+  const ultimo = cortado.lastIndexOf(' ');
+  return (ultimo > 40 ? cortado.slice(0, ultimo) : cortado).replace(/[\s.,;:—-]+$/, '') + '…';
+}
+
+// Com o estudo na capa, a especialidade cede o palco: continua legível e na
+// cor-assinatura, mas deixa de ocupar a tela inteira.
+function espFontPxComEstudo(nome) { return Math.max(56, Math.round(capaFontPx(nome) * 0.6)); }
+
+// O título ocupa o espaço que sobra: quanto mais longo, menor a fonte.
+function tituloFontPx(titulo) {
+  const n = String(titulo || '').length;
+  if (n <= 40) return 62;
+  if (n <= 64) return 54;
+  if (n <= 84) return 48;
+  return 44;
+}
+
 // cenas: [{ tipo:'capa'|'cena'|'outro', rotulo, frase, imgSrc }] — imgSrc é a
 // URL pública (ou data URI) da ilustração; capa/outro não usam imagem.
 function buildReelHtml({ especialidade, cor, tituloEstudo, dataLonga, cenas }) {
@@ -31,13 +62,21 @@ function buildReelHtml({ especialidade, cor, tituloEstudo, dataLonga, cenas }) {
   // no feed). TUDO na zona segura CENTRAL: o feed recorta o 9:16 para 4:5/1:1,
   // então nada de logo no topo nem rodapé na base (21/07: saíram cortados na
   // miniatura). A palavra-fantasma fica sutil, atrás do bloco central.
+  //
+  // 04/09 (fundador): só o nome da especialidade não faz ninguém parar de
+  // rolar — quem passa não sabe do que o vídeo trata. A capa passa a mostrar
+  // TAMBÉM o estudo discutido: a especialidade continua sendo o sinal de
+  // reconhecimento (menor, na cor da casa) e o título do estudo vira a isca.
+  const titulo = tituloDeCapa(tituloEstudo);
+  const espPx = titulo ? espFontPxComEstudo(especialidade) : capaFontPx(especialidade);
   const cover = `<div class="f cover">
     <div class="ghost" style="color:${accent}0D;">${escapeHtml(String(especialidade || '').toUpperCase())}</div>
     <div class="cov-center">
       <div class="topline">${tooth(56, '#37D7E7', '#EABF48')}<div class="word"><span class="a">Odonto</span><span class="b">Feed.</span></div></div>
       <div class="kicker">Edição de ${escapeHtml(dataLonga || 'hoje')}</div>
-      <div class="esp" style="color:${accent};font-size:${capaFontPx(especialidade)}px;">${escapeHtml(especialidade)}</div>
+      <div class="esp" style="color:${accent};font-size:${espPx}px;">${escapeHtml(especialidade)}</div>
       <div class="rule" style="background:${accent};"></div>
+      ${titulo ? `<div class="estudo" style="font-size:${tituloFontPx(titulo)}px;">${escapeHtml(titulo)}</div>` : ''}
       <div class="meta">🎧 Narrado · acompanhe cada passo</div>
       <div class="cov-foot">odontofeed.com</div>
     </div>
@@ -68,7 +107,7 @@ body{background:#000;font-family:'DM Sans',sans-serif;}
 .carousel-track{display:flex;}
 .f{width:${W}px;height:${H}px;flex:0 0 ${W}px;position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;text-align:center;padding:120px 90px;color:#EAF2F5;
   background:radial-gradient(120% 70% at 50% 0%,#17233b 0%,#0d1526 55%,#0A0E1A 100%);}
-.word,.title,.o-title,.kicker,.s-rotulo,.s-frase,.esp{font-family:'Space Grotesk',sans-serif;}
+.word,.title,.o-title,.kicker,.s-rotulo,.s-frase,.esp,.estudo{font-family:'Space Grotesk',sans-serif;}
 .cover{justify-content:center;}
 .cover .ghost{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-6deg);font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:170px;white-space:nowrap;letter-spacing:-4px;z-index:0;}
 .cov-center{display:flex;flex-direction:column;align-items:center;gap:28px;z-index:2;}
@@ -78,6 +117,8 @@ body{background:#000;font-family:'DM Sans',sans-serif;}
 .esp{font-weight:700;letter-spacing:-2px;line-height:.95;}
 .title{font-size:76px;font-weight:700;letter-spacing:-1.5px;line-height:1.1;color:#EAF2F5;max-width:900px;}
 .rule{width:140px;height:8px;background:#EABF48;border-radius:5px;}
+.estudo{font-weight:600;line-height:1.22;letter-spacing:-.5px;color:#EAF2F5;max-width:860px;
+  display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;}
 .meta{font-size:38px;color:rgba(234,242,245,.8);}
 .cov-foot{font-size:30px;letter-spacing:4px;text-transform:uppercase;color:rgba(234,242,245,.5);margin-top:10px;}
 .scene{justify-content:space-between;padding-top:150px;}
@@ -152,4 +193,4 @@ function assembleVideo(frames, durations, audioPath) {
   }
 }
 
-module.exports = { buildReelHtml, assembleVideo, REEL_W: W, REEL_H: H };
+module.exports = { buildReelHtml, assembleVideo, tituloDeCapa, espFontPxComEstudo, tituloFontPx, CAPA_TITULO_MAX, REEL_W: W, REEL_H: H };
