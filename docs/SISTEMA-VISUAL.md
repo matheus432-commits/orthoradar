@@ -48,7 +48,8 @@ mais de 3 cores de acento no mesmo visual.
 - **Paisagem 720 × N** só quando o conteúdo é horizontal (forças, comparativo de 3 colunas, gráfico). Aí o rótulo mínimo sobe para 16.
 - Largura útil = viewBox − 2 × 16. Colunas: 2 colunas de 256 (560) ou 3 de 224 (720).
 - Sempre `viewBox="0 0 L A"` e `width="100%"` (a plataforma põe). Nunca altura fixa.
-- Teste obrigatório em 375 px antes de concluir a página: nada cortado, nenhuma rolagem horizontal.
+- Teste obrigatório em 375 px antes de concluir a página: nada cortado, nenhuma rolagem horizontal da página.
+- Formatos largos (`grafico`, `comparativo`, `forcas`) ganham, abaixo de 600 px, largura mínima de 480 e rolam DENTRO da própria figura: melhor um deslize lateral no gráfico do que letra de 7 px. Os formatos retrato continuam ocupando 100% da largura.
 
 ## 5. Componentes da biblioteca
 

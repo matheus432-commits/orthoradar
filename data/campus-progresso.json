@@ -1,10 +1,10 @@
 {
  "atualizadoEm": "2026-09-04",
  "totalPaginas": 3387,
- "concluidas": 5,
+ "concluidas": 6,
  "porStatus": {
-  "pendente": 3382,
-  "rascunho": 5,
+  "pendente": 3381,
+  "rascunho": 6,
   "revisado": 0,
   "publicado": 0
  },
@@ -12,10 +12,26 @@
   "id": "ortodontia/crescimento-e-desenvolvimento",
   "area": "Ortodontia",
   "modulo": "Crescimento e desenvolvimento",
-  "faltam": 14
+  "faltam": 13
  },
- "imagensPendentes": [],
- "verificarPendentes": [],
+ "imagensPendentes": [
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/conceitos-crescimento-e-desenvolvimento",
+   "modulo": "Crescimento e desenvolvimento",
+   "secao": "As proporções mudam: a face cresce mais e por mais tempo que o crânio",
+   "imagem": "telerradiografias laterais seriadas com superposição de traçados",
+   "mostrar": "A mesma criança em dois momentos, com 3 a 4 anos de intervalo, com os traçados superpostos na base do crânio (SN) mostrando a face crescendo para baixo e para a frente enquanto o crânio pouco muda",
+   "legenda": "Superposição na base do crânio: o crânio anterior quase parou; a face desceu e avançou.",
+   "destacar": "Linha SN estável, deslocamento do ponto A e do mento, aumento da altura facial anterior"
+  }
+ ],
+ "verificarPendentes": [
+  {
+   "pagina": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/conceitos-crescimento-e-desenvolvimento",
+   "onde": "Seção \"As proporções mudam: a face cresce mais e por mais tempo que o crânio\".blocos[0].texto",
+   "trecho": "ão clássica é de cerca de 1:8 ao nascer para cerca de 1:2,5 no adulto [VERIFICAR]"
+  }
+ ],
  "modulos": [
   {
    "id": "ortodontia/crescimento-e-desenvolvimento",
@@ -23,17 +39,19 @@
    "area": "Ortodontia",
    "modulo": "Crescimento e desenvolvimento",
    "total": 14,
-   "concluidas": 0,
-   "palavras": 0,
-   "visuais": 0,
-   "imagensClinicas": 0,
-   "verificar": 0,
+   "concluidas": 1,
+   "palavras": 3008,
+   "visuais": 4,
+   "imagensClinicas": 1,
+   "verificar": 1,
    "paginas": [
     {
      "id": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/conceitos-crescimento-e-desenvolvimento",
      "nome": "Conceitos: crescimento e desenvolvimento",
      "tema": "Crescimento craniofacial",
-     "status": "pendente"
+     "status": "rascunho",
+     "palavras": 3008,
+     "visuais": 4
     },
     {
      "id": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/teorias-do-crescimento",
@@ -24537,6 +24555,54 @@
   }
  ],
  "paginas": {
+  "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/conceitos-crescimento-e-desenvolvimento": {
+   "titulo": "Crescimento e desenvolvimento: o que você está apostando quando diz \"vamos esperar\"",
+   "arquivo": "data/campus/paginas/ortodontia--crescimento-conceitos.json",
+   "formato": 2,
+   "status": "rascunho",
+   "estado": "rascunho",
+   "palavras": 3008,
+   "visuais": [
+    {
+     "formato": "comparativo",
+     "titulo": "Crescimento e desenvolvimento lado a lado"
+    },
+    {
+     "formato": "grafico",
+     "titulo": "As quatro curvas de Scammon (esquema)"
+    },
+    {
+     "formato": "anatomico",
+     "titulo": "Crânio e face: recém-nascido e adulto"
+    },
+    {
+     "formato": "mapa",
+     "titulo": "Mapa da página"
+    }
+   ],
+   "quadros": {
+    "frase": 1,
+    "prova": 1,
+    "dica": 1,
+    "erro": 1,
+    "mito": 1
+   },
+   "imagensClinicas": [
+    {
+     "secao": "As proporções mudam: a face cresce mais e por mais tempo que o crânio",
+     "imagem": "telerradiografias laterais seriadas com superposição de traçados",
+     "mostrar": "A mesma criança em dois momentos, com 3 a 4 anos de intervalo, com os traçados superpostos na base do crânio (SN) mostrando a face crescendo para baixo e para a frente enquanto o crânio pouco muda",
+     "legenda": "Superposição na base do crânio: o crânio anterior quase parou; a face desceu e avançou.",
+     "destacar": "Linha SN estável, deslocamento do ponto A e do mento, aumento da altura facial anterior"
+    }
+   ],
+   "verificar": [
+    {
+     "onde": "Seção \"As proporções mudam: a face cresce mais e por mais tempo que o crânio\".blocos[0].texto",
+     "trecho": "ão clássica é de cerca de 1:8 ao nascer para cerca de 1:2,5 no adulto [VERIFICAR]"
+    }
+   ]
+  },
   "ortodontia/diagnostico/cefalometria/analise-de-steiner": {
    "titulo": "Análise de Steiner: as medidas e o que cada uma diz",
    "arquivo": "data/campus/paginas/ortodontia--analise-de-steiner.json",

@@ -1,0 +1,543 @@
+{
+  "id": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/conceitos-crescimento-e-desenvolvimento",
+  "areaId": "ortodontia",
+  "area": "Ortodontia",
+  "modulo": "Crescimento e desenvolvimento",
+  "tema": "Crescimento craniofacial",
+  "titulo": "Crescimento e desenvolvimento: o que você está apostando quando diz \"vamos esperar\"",
+  "estado": "rascunho",
+  "versao": 1,
+  "formato": 2,
+  "autoria": "Rascunho escrito pela plataforma para validação; nada aqui é visível ao aluno antes da assinatura de um ortodontista.",
+  "abertura": {
+    "situacao": "Menina de 8 anos, Classe II com o queixo para trás. A mãe pergunta se \"a mandíbula ainda vai crescer e resolver\". Você responde que sim, que é cedo, que vamos acompanhar.",
+    "pergunta": "Crescer e amadurecer são a mesma coisa, e o que exatamente você está apostando quando responde \"vamos esperar\"?"
+  },
+  "umMinuto": {
+    "frases": [
+      "Crescimento é aumento de tamanho: mede-se em milímetros e gramas. Desenvolvimento é maturação e diferenciação: mede-se em estágios, como a erupção de um dente ou a ossificação de um osso.",
+      "Os dois acontecem juntos, mas em ritmos diferentes, e uma criança pode estar grande para a idade e ainda imatura, ou o contrário.",
+      "Três ideias sustentam toda a ortopedia: padrão (a forma que tende a se manter), variabilidade (ninguém segue a média) e tempo (o momento certo vale mais que a técnica).",
+      "As curvas de Scammon mostram que os tecidos crescem em ritmos distintos: o neural quase termina cedo, o geral tem o surto puberal, o linfoide passa do tamanho adulto e regride, o genital só dispara na puberdade.",
+      "O crânio acompanha a curva neural e a face acompanha a curva geral: por isso o bebê tem cabeça grande e face pequena, e é na puberdade que a face ganha altura e projeção.",
+      "Na clínica, a aposta do \"vamos esperar\" só faz sentido se o padrão tende a melhorar e se ainda há crescimento pela frente. A maioria dos padrões esqueléticos se mantém."
+    ],
+    "caiNaProva": [
+      "Diferença entre crescimento e desenvolvimento",
+      "As quatro curvas de Scammon e o tecido que cada uma representa",
+      "Padrão, variabilidade e tempo como conceitos de Proffit",
+      "Crescimento diferencial: crânio precoce, face tardia",
+      "Por que a face do bebê é pequena em relação ao crânio"
+    ],
+    "porQueImporta": "Cada decisão de esperar, interceptar ou tratar depois da maturidade é uma aposta sobre quanto e como o paciente ainda vai crescer. Quem não separa crescimento de desenvolvimento aposta no escuro."
+  },
+  "secoes": [
+    {
+      "titulo": "Crescer não é o mesmo que amadurecer",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "Crescimento é um fenômeno quantitativo. Responde à pergunta \"quanto\": quantos milímetros a mandíbula avançou, quantos centímetros a criança cresceu no ano. Você mede com régua, balança e cefalometria."
+        },
+        {
+          "tipo": "p",
+          "texto": "Desenvolvimento é qualitativo. Responde à pergunta \"em que estágio\": o dente erupcionou ou não, a epífise fechou ou não, a vértebra cervical já tem a concavidade ou ainda é reta. Você classifica em estágios, e o estágio não volta atrás."
+        },
+        {
+          "tipo": "visual",
+          "formato": "comparativo",
+          "titulo": "Crescimento e desenvolvimento lado a lado",
+          "descricao": "Duas colunas comparam crescimento (quantitativo, medido em milímetros, reversível em ritmo) e desenvolvimento (qualitativo, medido em estágios, sequência fixa), com exemplos ortodônticos em cada linha.",
+          "viewBox": "0 0 560 330",
+          "svg": [
+            "<use href='#c-caixa-gold' x='16' y='16' width='256' height='52'/>",
+            "<text x='144' y='48' text-anchor='middle' font-size='18' font-weight='700' fill='var(--ink,#23211C)'>Crescimento</text>",
+            "<use href='#c-caixa-blue' x='288' y='16' width='256' height='52'/>",
+            "<text x='416' y='48' text-anchor='middle' font-size='18' font-weight='700' fill='var(--ink,#23211C)'>Desenvolvimento</text>",
+            "<g font-size='15' fill='var(--ink,#23211C)'>",
+            "<text x='30' y='104' font-weight='700'>Quanto</text><text x='30' y='124' fill='var(--muted,#8A8478)' font-size='13'>tamanho, massa, volume</text>",
+            "<text x='302' y='104' font-weight='700'>Em que estágio</text><text x='302' y='124' fill='var(--muted,#8A8478)' font-size='13'>maturação, diferenciação</text>",
+            "<line x1='16' y1='140' x2='544' y2='140' stroke='var(--border,#EDE6D8)'/>",
+            "<text x='30' y='168' font-weight='700'>Milímetros e gramas</text><text x='30' y='188' fill='var(--muted,#8A8478)' font-size='13'>régua, balança, cefalometria</text>",
+            "<text x='302' y='168' font-weight='700'>Estágios</text><text x='302' y='188' fill='var(--muted,#8A8478)' font-size='13'>vértebra, epífise, dente</text>",
+            "<line x1='16' y1='204' x2='544' y2='204' stroke='var(--border,#EDE6D8)'/>",
+            "<text x='30' y='232' font-weight='700'>Ritmo varia</text><text x='30' y='252' fill='var(--muted,#8A8478)' font-size='13'>acelera e desacelera</text>",
+            "<text x='302' y='232' font-weight='700'>Sequência fixa</text><text x='302' y='252' fill='var(--muted,#8A8478)' font-size='13'>o estágio não volta atrás</text>",
+            "<line x1='16' y1='268' x2='544' y2='268' stroke='var(--border,#EDE6D8)'/>",
+            "<text x='30' y='296' font-weight='700'>Ex.: mandíbula +3 mm/ano</text>",
+            "<text x='302' y='296' font-weight='700'>Ex.: canino em erupção</text>",
+            "</g>"
+          ],
+          "legenda": "Um paciente pode estar grande e imaturo, ou pequeno e maduro. As duas colunas se avaliam separadamente."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "frase",
+          "texto": "Crescimento você mede; desenvolvimento você classifica. O tratamento ortopédico depende dos dois, mas o momento certo depende do segundo."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Uma menina de 11 anos com 1,62 m está necessariamente próxima do fim do crescimento facial?",
+        "resposta": "Não. Estatura alta é crescimento (quanto); proximidade do fim do surto é desenvolvimento (estágio). Só um indicador de maturação, como as vértebras cervicais ou a mão e punho, responde."
+      }
+    },
+    {
+      "titulo": "As quatro curvas de Scammon e por que a face não acompanha o crânio",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "Scammon descreveu, em 1930, que os tecidos do corpo não crescem no mesmo ritmo. Ele agrupou o crescimento em quatro curvas: neural, geral, genital e linfoide. Cada uma tem uma forma característica ao longo dos primeiros vinte anos."
+        },
+        {
+          "tipo": "visual",
+          "formato": "grafico",
+          "titulo": "As quatro curvas de Scammon (esquema)",
+          "descricao": "Gráfico esquemático com a idade no eixo horizontal, de 0 a 20 anos, e a porcentagem do tamanho adulto no eixo vertical. A curva neural sobe rápido e quase termina na primeira infância; a geral sobe em S com o surto puberal; a genital fica baixa e dispara na puberdade; a linfoide ultrapassa o tamanho adulto por volta de 10 a 12 anos e depois regride.",
+          "viewBox": "0 0 720 420",
+          "svg": [
+            "<g stroke='var(--border,#EDE6D8)' stroke-width='1'><line x1='80' y1='60' x2='680' y2='60'/><line x1='80' y1='150' x2='680' y2='150'/><line x1='80' y1='240' x2='680' y2='240'/></g>",
+            "<line x1='80' y1='330' x2='690' y2='330' stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'/>",
+            "<line x1='80' y1='330' x2='80' y2='40' stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'/>",
+            "<g font-size='14' fill='var(--muted,#8A8478)'>",
+            "<text x='72' y='334' text-anchor='end'>0</text><text x='72' y='244' text-anchor='end'>100%</text><text x='72' y='154' text-anchor='end'>150%</text><text x='72' y='64' text-anchor='end'>200%</text>",
+            "<text x='80' y='356' text-anchor='middle'>0</text><text x='230' y='356' text-anchor='middle'>5</text><text x='380' y='356' text-anchor='middle'>10</text><text x='530' y='356' text-anchor='middle'>15</text><text x='680' y='356' text-anchor='middle'>20 anos</text>",
+            "<text x='380' y='392' text-anchor='middle' font-size='15'>idade</text>",
+            "<text x='30' y='200' text-anchor='middle' font-size='15' transform='rotate(-90 30 200)'>% do tamanho adulto</text>",
+            "</g>",
+            "<path d='M80 330 C 150 200, 200 120, 380 90 C 500 75, 600 62, 680 60' fill='none' stroke='var(--red,#B4533B)' stroke-width='2.5' stroke-dasharray='6 4'/>",
+            "<path d='M80 330 C 140 250, 190 210, 230 200 C 290 186, 340 182, 380 170 C 430 155, 470 120, 500 100 C 540 78, 620 62, 680 60' fill='none' stroke='var(--blue,#4A6B8A)' stroke-width='2.5'/>",
+            "<path d='M80 330 C 220 322, 340 316, 440 300 C 500 288, 560 220, 600 130 C 630 90, 660 66, 680 60' fill='none' stroke='var(--green,#3E7C4F)' stroke-width='2.5'/>",
+            "<path d='M80 330 C 150 290, 220 220, 300 150 C 340 110, 380 60, 420 62 C 470 66, 540 110, 600 150 C 640 175, 665 200, 680 240' fill='none' stroke='var(--gold,#B08968)' stroke-width='2.5'/>",
+            "<g font-size='14' font-weight='700'>",
+            "<text x='118' y='80' fill='var(--red,#B4533B)'>Neural (cérebro, crânio)</text>",
+            "<text x='390' y='52' fill='var(--gold,#B08968)'>Linfoide</text>",
+            "<text x='508' y='150' fill='var(--blue,#4A6B8A)'>Geral (face, esqueleto)</text>",
+            "<text x='500' y='306' fill='var(--green,#3E7C4F)'>Genital</text>",
+            "<line x1='212' y1='86' x2='240' y2='124' stroke='var(--red,#B4533B)' stroke-width='1'/>",
+            "</g>"
+          ],
+          "legenda": "Forma das curvas, sem escala numérica exata. O crânio segue a neural; a face segue a geral, com o surto puberal por volta da adolescência."
+        },
+        {
+          "tipo": "p",
+          "texto": "A consequência ortodôntica é direta. O crânio, que abriga o cérebro, segue a curva neural e já tem a maior parte do tamanho adulto nos primeiros anos. A face segue a curva geral: cresce devagar na infância e ganha altura e projeção no surto puberal."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "prova",
+          "texto": "Banca adora perguntar qual curva ultrapassa 100% do tamanho adulto e depois regride: é a linfoide (tonsilas, adenoide, linfonodos), com pico por volta de 10 a 12 anos. E qual dita o crescimento da face: a geral, não a neural."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Uma criança de 6 anos com respiração bucal e adenoide volumosa: o que a curva linfoide diz sobre a evolução natural desse tecido?",
+        "resposta": "Que ele ainda está crescendo e tende a atingir o pico entre 10 e 12 anos, antes de regredir. Não é a idade em que se espera diminuição espontânea, o que pesa na decisão de encaminhar ao otorrinolaringologista."
+      }
+    },
+    {
+      "titulo": "Padrão, variabilidade e tempo: as três ideias que você vai usar a vida inteira",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "Proffit resume o crescimento craniofacial em três conceitos. Eles parecem abstratos até o dia em que você precisa decidir se abre um aparelho ortopédico ou se espera a cirurgia."
+        },
+        {
+          "tipo": "lista",
+          "itens": [
+            "Padrão: as proporções da face tendem a se manter ao longo do crescimento. O perfil convexo de hoje tende a ser convexo amanhã, só que maior.",
+            "Variabilidade: ninguém é a média. Duas crianças da mesma idade podem estar a anos de distância no estágio de maturação.",
+            "Tempo: a mesma força aplicada antes ou depois do surto produz efeitos muito diferentes. Momento vale mais que aparelho."
+          ]
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "dica",
+          "titulo": "Como se fala com os pais",
+          "texto": "Em vez de \"vai crescer e resolver\", diga: \"a tendência é a face crescer mantendo o padrão de hoje; o que podemos fazer é orientar esse crescimento na janela certa\". É honesto, e prepara a família para a decisão."
+        },
+        {
+          "tipo": "p",
+          "texto": "Padrão explica por que a Classe II esquelética raramente se corrige sozinha. Variabilidade explica por que idade cronológica é um mau guia. Tempo explica por que o mesmo Herbst funciona em um paciente e não em outro."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Qual dos três conceitos justifica usar a maturação das vértebras cervicais em vez da idade cronológica para programar um aparelho ortopédico?",
+        "resposta": "Variabilidade. Como os pacientes maturam em idades muito diferentes, um indicador biológico de estágio é mais confiável do que a data de nascimento para achar a janela de tempo."
+      }
+    },
+    {
+      "titulo": "As proporções mudam: a face cresce mais e por mais tempo que o crânio",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "No recém-nascido a cabeça é quase só crânio: a face ocupa uma fração pequena da altura total da cabeça. No adulto essa proporção se inverte parcialmente, porque a face cresce mais, em altura e em projeção, e por mais tempo. A relação clássica é de cerca de 1:8 ao nascer para cerca de 1:2,5 no adulto [VERIFICAR]."
+        },
+        {
+          "tipo": "visual",
+          "formato": "anatomico",
+          "titulo": "Crânio e face: recém-nascido e adulto",
+          "descricao": "Dois esquemas geométricos de cabeça em perfil. No recém-nascido, o crânio é um círculo grande e a face um retângulo pequeno abaixo dele. No adulto, o crânio é pouco maior, mas a face é muito mais alta e projetada para a frente. Uma chave marca a altura da face em cada um.",
+          "viewBox": "0 0 560 320",
+          "svg": [
+            "<g stroke='var(--ink,#23211C)' stroke-width='1.5' fill='#fff'>",
+            "<circle cx='150' cy='120' r='78'/>",
+            "<rect x='118' y='186' width='62' height='52' rx='8' fill='var(--gold-soft,#F4EEE4)'/>",
+            "<circle cx='400' cy='110' r='92'/>",
+            "<rect x='352' y='176' width='96' height='118' rx='10' fill='var(--gold-soft,#F4EEE4)'/>",
+            "</g>",
+            "<g stroke='var(--gold,#B08968)' stroke-width='2'><line x1='200' y1='186' x2='200' y2='238'/><line x1='194' y1='186' x2='206' y2='186'/><line x1='194' y1='238' x2='206' y2='238'/>",
+            "<line x1='468' y1='176' x2='468' y2='294'/><line x1='462' y1='176' x2='474' y2='176'/><line x1='462' y1='294' x2='474' y2='294'/></g>",
+            "<g font-size='14' fill='var(--ink,#23211C)'>",
+            "<text x='150' y='124' text-anchor='middle' font-weight='700'>crânio</text><text x='149' y='216' text-anchor='middle' font-size='13'>face</text>",
+            "<text x='400' y='114' text-anchor='middle' font-weight='700'>crânio</text><text x='400' y='240' text-anchor='middle' font-size='13'>face</text>",
+            "<text x='150' y='278' text-anchor='middle' font-size='16' font-weight='700'>Recém-nascido</text>",
+            "<text x='400' y='316' text-anchor='middle' font-size='16' font-weight='700'>Adulto</text>",
+            "<text x='212' y='216' font-size='13' fill='var(--gold,#B08968)'>face pequena</text>",
+            "<text x='480' y='240' font-size='13' fill='var(--gold,#B08968)'>face alta e</text><text x='480' y='256' font-size='13' fill='var(--gold,#B08968)'>projetada</text>",
+            "</g>"
+          ],
+          "legenda": "Esquema de proporção, não de anatomia. O crânio já está quase pronto na infância; a face segue crescendo até o fim da adolescência."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "erro",
+          "texto": "Achar que \"cabeça grande em criança\" é sinal de problema. É o normal: o crânio segue a curva neural e amadurece cedo; a face, que segue a geral, ainda vai alcançá-lo. O que se investiga é desproporção fora do padrão, não a proporção infantil em si."
+        },
+        {
+          "tipo": "imagem",
+          "imagem": "telerradiografias laterais seriadas com superposição de traçados",
+          "mostrar": "A mesma criança em dois momentos, com 3 a 4 anos de intervalo, com os traçados superpostos na base do crânio (SN) mostrando a face crescendo para baixo e para a frente enquanto o crânio pouco muda",
+          "legenda": "Superposição na base do crânio: o crânio anterior quase parou; a face desceu e avançou.",
+          "destacar": "Linha SN estável, deslocamento do ponto A e do mento, aumento da altura facial anterior"
+        }
+      ],
+      "checagem": {
+        "pergunta": "Se a base do crânio termina de crescer cedo, por que a cefalometria usa a linha SN como referência para comparar traçados de idades diferentes?",
+        "resposta": "Justamente porque ela muda pouco depois da primeira infância. Uma referência estável permite ver o que se moveu: a face, para baixo e para a frente."
+      }
+    },
+    {
+      "titulo": "O que isso muda na sua conduta",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "Volte à menina de 8 anos. \"Vamos esperar\" só é uma boa resposta se duas coisas forem verdadeiras: o padrão dela tende a melhorar com o tempo, e ainda há crescimento suficiente pela frente para que uma intervenção ortopédica, se necessária, tenha efeito."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "mito",
+          "mito": "A Classe II da criança costuma se corrigir sozinha com o crescimento da mandíbula.",
+          "verdade": "O padrão tende a se manter. A mandíbula cresce, mas a maxila e a face também crescem, e a relação entre elas, na maioria das crianças, muda pouco sem intervenção."
+        },
+        {
+          "tipo": "p",
+          "texto": "A resposta profissional, portanto, tem três partes: reconhecer o padrão, estimar o estágio de maturação com um indicador biológico e agendar a reavaliação para a janela em que o tratamento ortopédico rende mais. Esperar sem plano não é conduta; é omissão com prazo indefinido."
+        }
+      ],
+      "checagem": {
+        "pergunta": "O que precisa estar registrado no prontuário para que \"acompanhar\" seja uma conduta e não uma omissão?",
+        "resposta": "O padrão identificado, o indicador de maturação usado e o estágio atual, o intervalo de reavaliação e o gatilho que muda a decisão, por exemplo o início do surto puberal."
+      }
+    }
+  ],
+  "fechamento": {
+    "visual": {
+      "formato": "mapa",
+      "titulo": "Mapa da página",
+      "descricao": "Nó central com o tema da página e seis nós ao redor: crescimento quantitativo, desenvolvimento qualitativo, curvas de Scammon, padrão, variabilidade e tempo.",
+      "viewBox": "0 0 560 360",
+      "svg": [
+        "<g stroke='var(--border,#EDE6D8)' stroke-width='1.5'><line x1='280' y1='180' x2='100' y2='60'/><line x1='280' y1='180' x2='460' y2='60'/><line x1='280' y1='180' x2='60' y2='180'/><line x1='280' y1='180' x2='500' y2='180'/><line x1='280' y1='180' x2='100' y2='300'/><line x1='280' y1='180' x2='460' y2='300'/></g>",
+        "<use href='#c-no-central' x='190' y='150' width='180' height='60'/>",
+        "<text x='280' y='176' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>Crescimento e</text><text x='280' y='194' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>desenvolvimento</text>",
+        "<use href='#c-no' x='20' y='38' width='160' height='44'/><text x='100' y='65' text-anchor='middle' font-size='13' font-weight='700'>Crescer = quanto</text>",
+        "<use href='#c-no' x='380' y='38' width='160' height='44'/><text x='460' y='65' text-anchor='middle' font-size='13' font-weight='700'>Amadurecer = estágio</text>",
+        "<use href='#c-no' x='0' y='158' width='150' height='44'/><text x='75' y='185' text-anchor='middle' font-size='13' font-weight='700'>Curvas de Scammon</text>",
+        "<use href='#c-no' x='410' y='158' width='150' height='44'/><text x='485' y='185' text-anchor='middle' font-size='13' font-weight='700'>Face segue a geral</text>",
+        "<use href='#c-no' x='20' y='278' width='160' height='44'/><text x='100' y='305' text-anchor='middle' font-size='13' font-weight='700'>Padrão se mantém</text>",
+        "<use href='#c-no' x='380' y='278' width='160' height='44'/><text x='460' y='305' text-anchor='middle' font-size='13' font-weight='700'>Tempo vale mais</text>"
+      ]
+    },
+    "flashcards": [
+      {
+        "frente": "Crescimento é ___ e se mede em ___; desenvolvimento é ___ e se mede em ___.",
+        "verso": "Quantitativo, milímetros e gramas; qualitativo, estágios de maturação."
+      },
+      {
+        "frente": "Qual curva de Scammon ultrapassa 100% do tamanho adulto e regride, e qual dita o crescimento da face?",
+        "verso": "A linfoide passa de 100% por volta de 10 a 12 anos e regride; a face segue a curva geral, com surto puberal."
+      },
+      {
+        "frente": "Os três conceitos de Proffit sobre crescimento craniofacial.",
+        "verso": "Padrão (a proporção tende a se manter), variabilidade (ninguém é a média) e tempo (o momento vale mais que a técnica)."
+      }
+    ]
+  },
+  "infografico": {
+    "titulo": "O essencial em seis cartões",
+    "itens": [
+      {
+        "rotulo": "Crescimento",
+        "texto": "Aumento de tamanho. Quantitativo. Mede-se com régua, balança e cefalometria."
+      },
+      {
+        "rotulo": "Desenvolvimento",
+        "texto": "Maturação e diferenciação. Qualitativo. Classifica-se em estágios que não retrocedem."
+      },
+      {
+        "rotulo": "Curva neural",
+        "texto": "Cérebro e crânio: quase todo o tamanho adulto nos primeiros anos."
+      },
+      {
+        "rotulo": "Curva geral",
+        "texto": "Face e esqueleto: lenta na infância, surto na puberdade, para no fim da adolescência."
+      },
+      {
+        "rotulo": "Curva linfoide",
+        "texto": "Tonsilas e adenoide: passa do tamanho adulto por volta de 10 a 12 anos e regride."
+      },
+      {
+        "rotulo": "Padrão, variabilidade, tempo",
+        "texto": "A proporção tende a se manter; ninguém é a média; o momento certo vale mais que o aparelho."
+      }
+    ]
+  },
+  "fluxograma": {
+    "titulo": "Vale a pena \"esperar o crescimento\" neste paciente?",
+    "nos": [
+      {
+        "id": "n1",
+        "tipo": "inicio",
+        "texto": "Criança com discrepância e a pergunta \"vai resolver sozinho?\""
+      },
+      {
+        "id": "n2",
+        "tipo": "decisao",
+        "texto": "A discrepância é esquelética (padrão) ou só de posição dentária?"
+      },
+      {
+        "id": "n3",
+        "tipo": "acao",
+        "texto": "Posição dentária: o crescimento não corrige; interceptar ou tratar"
+      },
+      {
+        "id": "n4",
+        "tipo": "decisao",
+        "texto": "Ainda há crescimento útil pela frente (indicador de maturação)?"
+      },
+      {
+        "id": "n5",
+        "tipo": "acao",
+        "texto": "Crescimento residual pequeno: pensar em camuflagem ou cirurgia depois da maturidade"
+      },
+      {
+        "id": "n6",
+        "tipo": "acao",
+        "texto": "Orientar o crescimento na janela: ortopedia e reavaliação a cada 6 meses"
+      },
+      {
+        "id": "n7",
+        "tipo": "fim",
+        "texto": "Conduta com prazo e gatilho registrados"
+      }
+    ],
+    "arestas": [
+      {
+        "de": "n1",
+        "para": "n2"
+      },
+      {
+        "de": "n2",
+        "para": "n3",
+        "rotulo": "dentária"
+      },
+      {
+        "de": "n2",
+        "para": "n4",
+        "rotulo": "esquelética"
+      },
+      {
+        "de": "n4",
+        "para": "n5",
+        "rotulo": "não"
+      },
+      {
+        "de": "n4",
+        "para": "n6",
+        "rotulo": "sim"
+      },
+      {
+        "de": "n3",
+        "para": "n7"
+      },
+      {
+        "de": "n5",
+        "para": "n7"
+      },
+      {
+        "de": "n6",
+        "para": "n7"
+      }
+    ]
+  },
+  "passoAPasso": [
+    {
+      "passo": "Separe, no exame, o que é tamanho do que é estágio: anote estatura e peso de um lado; dentição, sinais puberais e indicador de maturação do outro.",
+      "confira": "Você tem ao menos um dado de estágio, e não só medidas de tamanho?"
+    },
+    {
+      "passo": "Identifique o padrão facial: perfil, relação maxilomandibular, direção de crescimento (mais vertical ou mais horizontal).",
+      "confira": "O padrão está descrito em palavras que outro colega entenderia sem ver o paciente?"
+    },
+    {
+      "passo": "Estime onde o paciente está na curva geral: antes, durante ou depois do surto puberal, usando vértebras cervicais ou mão e punho, nunca só a idade.",
+      "confira": "O indicador usado e o estágio estão escritos no prontuário?"
+    },
+    {
+      "passo": "Decida com base nos dois eixos: padrão que tende a melhorar ou a se manter, e crescimento que ainda existe ou já acabou.",
+      "confira": "A decisão de esperar tem um gatilho definido, como o início do surto?"
+    },
+    {
+      "passo": "Marque a reavaliação com intervalo e objetivo: o que vai ser medido de novo e o que muda a conduta.",
+      "confira": "A família saiu sabendo o que está sendo acompanhado e por quê?"
+    }
+  ],
+  "macetes": [
+    {
+      "titulo": "Quanto e em que estágio",
+      "texto": "Crescimento responde \"quanto\"; desenvolvimento responde \"em que estágio\". Se a pergunta da prova tem número, é crescimento; se tem fase, é desenvolvimento."
+    },
+    {
+      "titulo": "N-G-G-L: nervoso cedo, geral no meio, genital tarde, linfoide passa e volta",
+      "texto": "As quatro curvas de Scammon em uma frase: neural termina cedo, geral tem o surto, genital dispara na puberdade, linfoide passa de 100% e regride."
+    },
+    {
+      "titulo": "Cabeça de bebê é crânio; cara de adulto é face",
+      "texto": "O crânio segue a neural e está quase pronto na infância. A face segue a geral e é a última a terminar. Por isso a proporção crânio/face cai da infância para a idade adulta."
+    },
+    {
+      "titulo": "Esperar é conduta só com gatilho",
+      "texto": "\"Acompanhar\" precisa de indicador de maturação, intervalo e o evento que muda a decisão. Sem isso, é adiamento."
+    }
+  ],
+  "ondeErra": [
+    {
+      "erro": "Usar a idade cronológica para decidir o momento do tratamento ortopédico.",
+      "porque": "A variabilidade da maturação é grande: crianças da mesma idade podem estar a anos de distância no estágio de crescimento.",
+      "certo": "Usar um indicador biológico de estágio, como vértebras cervicais ou mão e punho."
+    },
+    {
+      "erro": "Prometer aos pais que a mandíbula \"vai crescer e resolver\" a Classe II.",
+      "porque": "O padrão tende a se manter: maxila e face crescem junto com a mandíbula e a relação entre elas muda pouco sem intervenção.",
+      "certo": "Explicar o padrão e propor orientação do crescimento na janela certa, ou tratamento depois da maturidade."
+    },
+    {
+      "erro": "Confundir a curva que dita o crescimento da face.",
+      "porque": "A face segue a curva geral, com surto puberal; o crânio é que segue a neural.",
+      "certo": "Crânio: curva neural, precoce. Face: curva geral, com surto na adolescência."
+    },
+    {
+      "erro": "Ver a proporção crânio/face do bebê como anormalidade.",
+      "porque": "A cabeça infantil é predominantemente crânio porque o cérebro amadurece cedo; a face alcança depois.",
+      "certo": "Investigar apenas desproporções fora do padrão esperado para a idade."
+    }
+  ],
+  "autoteste": [
+    {
+      "pergunta": "Menino de 12 anos, 1,58 m, o mais alto da turma, com Classe II esquelética. O pai pergunta se \"já passou da hora\" do aparelho ortopédico. A resposta mais adequada baseia-se em:",
+      "alternativas": [
+        "Na estatura: sendo o mais alto da turma, o surto já passou",
+        "Na idade: aos 12 anos todo menino está no surto",
+        "Em um indicador de maturação, porque estatura e idade são medidas de crescimento e de calendário, não de estágio",
+        "No peso corporal, que acompanha a curva geral"
+      ],
+      "correta": 2,
+      "explicacoes": [
+        "Estatura é crescimento (quanto), não desenvolvimento (estágio); um menino alto pode estar antes do surto.",
+        "A variabilidade da maturação torna a idade cronológica um mau guia, especialmente em meninos.",
+        "Correta: o momento do tratamento ortopédico depende do estágio de maturação, avaliado por vértebras cervicais ou mão e punho.",
+        "O peso é outra medida de tamanho e não informa o estágio."
+      ]
+    },
+    {
+      "pergunta": "Sobre as curvas de crescimento de Scammon, é correto afirmar que:",
+      "alternativas": [
+        "A curva neural apresenta surto puberal marcante",
+        "A curva linfoide ultrapassa o tamanho adulto na infância e regride depois",
+        "A face acompanha a curva neural",
+        "A curva genital atinge o tamanho adulto nos primeiros anos de vida"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "A neural quase completa o tamanho adulto cedo e não tem surto puberal.",
+        "Correta: tonsilas, adenoide e linfonodos passam de 100% por volta de 10 a 12 anos e depois involuem.",
+        "A face acompanha a curva geral; o crânio é que acompanha a neural.",
+        "A genital permanece baixa até a puberdade, quando dispara."
+      ]
+    },
+    {
+      "pergunta": "Duas crianças de 9 anos: uma já tem os caninos permanentes erupcionando e sinais de início puberal; a outra ainda tem os caninos decíduos firmes. Essa diferença ilustra qual conceito?",
+      "alternativas": [
+        "Padrão",
+        "Variabilidade",
+        "Tempo",
+        "Crescimento diferencial"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Padrão trata da tendência das proporções faciais se manterem, não da diferença entre indivíduos.",
+        "Correta: crianças da mesma idade em estágios diferentes de desenvolvimento é a definição de variabilidade.",
+        "Tempo trata do efeito diferente de uma mesma intervenção conforme o momento em que é feita.",
+        "Crescimento diferencial descreve tecidos crescendo em ritmos diferentes no mesmo indivíduo."
+      ]
+    },
+    {
+      "pergunta": "A afirmação \"o crânio do recém-nascido é proporcionalmente muito maior que a face\" se explica porque:",
+      "alternativas": [
+        "A face cresce antes do crânio e já está pronta ao nascer",
+        "O crânio segue a curva neural, de maturação precoce, e a face segue a curva geral, tardia",
+        "A face segue a curva linfoide e só cresce depois de regredir",
+        "O crânio continua crescendo até a idade adulta no mesmo ritmo da face"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "É o contrário: a face é a última a terminar de crescer.",
+        "Correta: o cérebro, e com ele o crânio, amadurece cedo; a face cresce em altura e projeção principalmente no surto puberal.",
+        "A face não segue a curva linfoide.",
+        "O crânio praticamente termina de crescer na infância."
+      ]
+    },
+    {
+      "pergunta": "Uma criança de 7 anos com Classe II esquelética é liberada com a orientação \"voltar quando quiser colocar aparelho\". O principal erro dessa conduta é:",
+      "alternativas": [
+        "Não iniciar aparelho fixo imediatamente",
+        "Não registrar padrão, indicador de maturação, intervalo de reavaliação e gatilho de decisão",
+        "Não indicar cirurgia ortognática",
+        "Não extrair dentes decíduos para estimular o crescimento"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Aparelho fixo não é indicação para discrepância esquelética aos 7 anos.",
+        "Correta: acompanhar só é conduta quando tem plano: o que se observa, com que indicador, em que intervalo e o que muda a decisão.",
+        "Cirurgia se discute depois da maturidade esquelética, não aos 7 anos.",
+        "Extração de decíduos não estimula crescimento mandibular."
+      ]
+    }
+  ],
+  "pesquisa": {
+    "termos": [
+      "crescimento craniofacial",
+      "maturação esquelética",
+      "curvas de crescimento"
+    ]
+  },
+  "referenciasBase": [
+    "Proffit WR, Fields HW, Larson BE, Sarver DM. Ortodontia Contemporânea. 6ª ed. Capítulo sobre conceitos de crescimento e desenvolvimento.",
+    "Enlow DH, Hans MG. Noções básicas sobre crescimento facial.",
+    "Scammon RE. The measurement of the body in childhood. In: Harris JA et al. The Measurement of Man. 1930.",
+    "Moyers RE. Ortodontia. 4ª ed."
+  ],
+  "validacao": {
+    "validadoPor": null,
+    "data": null
+  }
+}
