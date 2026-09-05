@@ -1,0 +1,306 @@
+{
+  "id": "ortodontia/biologia-do-movimento/reacoes-teciduais/hialinizacao",
+  "areaId": "ortodontia",
+  "area": "Ortodontia",
+  "modulo": "Biologia do movimento",
+  "tema": "Reações teciduais",
+  "titulo": "Hialinização: quando o ligamento morre e o osso precisa ser reabsorvido por baixo",
+  "estado": "rascunho",
+  "versao": 1,
+  "formato": 2,
+  "autoria": "Rascunho escrito pela plataforma para validação; nada aqui é visível ao aluno antes da assinatura de um ortodontista.",
+  "abertura": {
+    "situacao": "Adulto de 34 anos, elástico pesado para retrair um canino. Nas duas primeiras semanas o dente não se mexeu e doeu muito; na terceira, \"deu um pulo\" e o paciente sentiu o dente mole. Seis meses depois, a radiografia periapical mostra a raiz do canino mais curta e arredondada do que a do dente vizinho.",
+    "pergunta": "O que ligou a força pesada, a parada, o pulo, a dor e a raiz encurtada? E por que o mesmo elástico em um adolescente teria dado menos problema?"
+  },
+  "umMinuto": {
+    "frases": [
+      "Hialinização é a necrose de uma área do ligamento comprimido: a pressão oclui os vasos, as células morrem, as fibras se fundem em uma massa homogênea e vítrea, sem núcleos, que Reitan descreveu ao microscópio.",
+      "Onde o ligamento morreu não há células para reabsorver a lâmina dura pela frente; o osso precisa ser reabsorvido por baixo, a partir dos espaços medulares e das bordas vivas da zona: é a reabsorção solapante.",
+      "Enquanto a zona hialinizada não é removida, o dente não anda; quando o osso por baixo cede, ele se desloca de uma vez. É a fase de latência prolongada e o \"pulo\" que o paciente descreve.",
+      "Áreas pequenas de hialinização são quase inevitáveis nos pontos de maior pressão, sobretudo na inclinação, mesmo com força leve; áreas extensas são efeito de força pesada e de osso denso.",
+      "A zona hialinizada é removida por macrófagos e células gigantes em cerca de duas a quatro semanas; nas bordas dela, o cemento também é atacado, e é aí que começa a reabsorção radicular [VERIFICAR].",
+      "Adultos têm osso mais denso e ligamento menos celular: hialinizam mais, reparam mais devagar e se movem mais lentamente com a mesma força."
+    ],
+    "caiNaProva": [
+      "Definição histológica de hialinização e quem a descreveu",
+      "Reabsorção frontal versus solapante",
+      "Fase de latência prolongada e movimento em saltos",
+      "Fatores que aumentam a hialinização: força, tipo de movimento, densidade óssea, idade",
+      "Relação entre hialinização e reabsorção radicular"
+    ],
+    "porQueImporta": "A hialinização é o preço da força errada: atraso, dor, mobilidade e raiz encurtada. Entender que ela é normal em áreas pequenas e patológica em áreas grandes é o que separa a mecânica eficiente da mecânica agressiva."
+  },
+  "secoes": [
+    {
+      "titulo": "O que é: um pedaço de ligamento que virou vidro",
+      "blocos": [
+        { "tipo": "p", "texto": "Quando a pressão sobre uma área do ligamento ultrapassa a pressão dos vasos, o sangue para de circular ali. As células ficam sem oxigênio e morrem; os núcleos desaparecem, as fibras colágenas perdem a organização e se fundem em uma massa homogênea, sem estrutura, que ao microscópio lembra vidro. Reitan, nos anos 1950 e 1960, deu a essa área o nome de zona hialinizada, e descreveu-a como uma resposta previsível à compressão excessiva." },
+        { "tipo": "p", "texto": "Hialinização não é inflamação nem infecção; é necrose estéril por isquemia. O que a define é a ausência de células: sem fibroblastos, sem osteoclastos, sem osteoblastos. E é exatamente essa ausência que muda o curso do movimento, porque tudo o que a página anterior descreveu, mediadores, RANKL, recrutamento, precisa de células vivas para acontecer." },
+        { "tipo": "visual", "formato": "anatomico", "titulo": "A zona hialinizada e a reabsorção que vem por baixo", "descricao": "Corte esquemático do lado de pressão de uma raiz sob inclinação. Perto da crista alveolar, uma área do ligamento aparece homogênea e sem células: a zona hialinizada, em cinza. A lâmina dura em contato com ela não pode ser reabsorvida pela frente. Setas vindas dos espaços medulares atrás da lâmina dura e das bordas vivas da zona indicam a reabsorção solapante. Nas bordas da zona, pequenas lacunas no cemento marcam o início da reabsorção radicular.", "viewBox": "0 0 560 400",
+          "svg": [
+            "<rect x='40' y='40' width='480' height='320' rx='10' fill='var(--gold-soft,#F4EEE4)' stroke='var(--ink,#23211C)' stroke-width='1.5'/>",
+            "<text x='60' y='66' font-size='12' fill='var(--muted,#8A8478)'>osso alveolar com espaços medulares</text>",
+            "<g fill='#fff' stroke='var(--muted,#8A8478)' stroke-width='1'><ellipse cx='110' cy='150' rx='22' ry='14'/><ellipse cx='130' cy='220' rx='18' ry='12'/><ellipse cx='100' cy='290' rx='24' ry='14'/></g>",
+            "<path d='M200 60 L200 350 Q200 360 210 360 L360 360' fill='none' stroke='var(--blue,#4A6B8A)' stroke-width='5'/><text x='172' y='340' text-anchor='end' font-size='11' font-weight='700' fill='var(--blue,#4A6B8A)'>lâmina dura</text>",
+            "<use href='#c-dente' x='236' y='20' width='120' height='350'/>",
+            "<rect x='204' y='80' width='34' height='90' rx='6' fill='var(--muted,#8A8478)' fill-opacity='0.55' stroke='var(--muted,#8A8478)' stroke-width='1'/>",
+            "<text x='400' y='106' font-size='12' font-weight='700' fill='var(--ink,#23211C)'>zona hialinizada</text><text x='400' y='122' font-size='11' fill='var(--ink,#23211C)'>ligamento sem células,</text><text x='400' y='136' font-size='11' fill='var(--ink,#23211C)'>homogêneo, vítreo</text><line x1='396' y1='112' x2='242' y2='120' stroke='var(--muted,#8A8478)' stroke-width='1'/>",
+            "<g><use href='#c-vetor-red' x='128' y='118' width='60' height='14'/><use href='#c-vetor-red' x='148' y='210' width='40' height='14' transform='rotate(-40 168 217)'/><use href='#c-vetor-red' x='150' y='60' width='40' height='14' transform='rotate(50 170 67)'/></g>",
+            "<text x='400' y='200' font-size='12' font-weight='700' fill='var(--red,#B4533B)'>reabsorção solapante</text><text x='400' y='216' font-size='11' fill='var(--ink,#23211C)'>osteoclastos vêm dos espaços</text><text x='400' y='230' font-size='11' fill='var(--ink,#23211C)'>medulares e das bordas vivas</text>",
+            "<g fill='var(--red,#B4533B)'><circle cx='240' cy='78' r='4'/><circle cx='240' cy='176' r='4'/></g><text x='400' y='276' font-size='12' font-weight='700' fill='var(--red,#B4533B)'>bordas da zona</text><text x='400' y='292' font-size='11' fill='var(--ink,#23211C)'>cemento atacado: início da</text><text x='400' y='306' font-size='11' fill='var(--ink,#23211C)'>reabsorção radicular</text><line x1='396' y1='282' x2='246' y2='178' stroke='var(--muted,#8A8478)' stroke-width='1'/>",
+            "<use href='#c-vetor-red' x='300' y='30' width='60' height='14'/><text x='330' y='24' text-anchor='middle' font-size='11' font-weight='700' fill='var(--red,#B4533B)'>força</text>",
+            "<text x='280' y='386' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>lado de pressão de uma raiz sob inclinação; esquema fora de escala</text>"
+          ],
+          "legenda": "Onde o ligamento morreu, ninguém reabsorve pela frente. O osso tem de ser corroído por baixo e pelos lados, e enquanto isso o dente espera." },
+        { "tipo": "destaque", "estilo": "frase", "texto": "Hialinização é o ligamento sem células. E sem células não há quem abra caminho para o dente." }
+      ],
+      "checagem": { "pergunta": "O que define histologicamente a zona hialinizada e por que isso trava o movimento?", "resposta": "A ausência de células e a fusão das fibras em massa homogênea, por necrose isquêmica. Sem células não há mediadores nem osteoclastos para reabsorver a lâmina dura pela frente; o osso só pode ser removido por baixo." }
+    },
+    {
+      "titulo": "Frontal e solapante: dois caminhos para o mesmo osso",
+      "blocos": [
+        { "tipo": "p", "texto": "Com o ligamento vivo, os osteoclastos se assentam na superfície da lâmina dura voltada para o dente e a reabsorvem camada por camada: é a reabsorção frontal, e o dente acompanha o osso que recua. Com a zona hialinizada no caminho, essa superfície fica inacessível. A reabsorção então começa nos espaços medulares por trás da lâmina dura e nas bordas vivas da zona, avança até que a parede do alvéolo seja corroída por baixo, e só quando ela cede o dente se move." },
+        { "tipo": "p", "texto": "Esse é o mecanismo do movimento em saltos: dias ou semanas sem deslocamento, depois um avanço brusco quando o osso solapado desaba, mobilidade aumentada e dor. É também a explicação da fase de latência prolongada da página anterior. E há um custo a mais: no lugar onde o osso desabou, o alvéolo fica temporariamente mais largo do que o dente, e o dente perde estabilidade até que o osso novo do lado de tensão o alcance." },
+        { "tipo": "visual", "formato": "comparativo", "titulo": "Reabsorção frontal e reabsorção solapante", "descricao": "Duas colunas com seis linhas. Força: leve versus pesada. Ligamento comprimido: vivo versus necrosado (hialinizado). Onde a reabsorção começa: na superfície da lâmina dura voltada para o dente versus nos espaços medulares e bordas da zona. Ritmo do movimento: contínuo versus em saltos após latência longa. Dor e mobilidade: discretas versus acentuadas. Risco de reabsorção radicular: menor versus maior.", "viewBox": "0 0 720 380",
+          "svg": [
+            "<use href='#c-caixa-green' x='190' y='16' width='240' height='40'/><text x='310' y='42' text-anchor='middle' font-size='14' font-weight='700'>Frontal</text>",
+            "<use href='#c-caixa-red' x='450' y='16' width='240' height='40'/><text x='570' y='42' text-anchor='middle' font-size='14' font-weight='700'>Solapante</text>",
+            "<g stroke='var(--border,#EDE6D8)' stroke-width='1'><line x1='20' y1='106' x2='700' y2='106'/><line x1='20' y1='152' x2='700' y2='152'/><line x1='20' y1='208' x2='700' y2='208'/><line x1='20' y1='254' x2='700' y2='254'/><line x1='20' y1='300' x2='700' y2='300'/></g>",
+            "<g font-size='12' font-weight='700' fill='var(--ink,#23211C)'><text x='20' y='90'>Força</text><text x='20' y='136'>Ligamento comprimido</text><text x='20' y='186'>Onde começa</text><text x='20' y='238'>Ritmo do movimento</text><text x='20' y='284'>Dor e mobilidade</text><text x='20' y='330'>Reabsorção radicular</text></g>",
+            "<g font-size='12' fill='var(--ink,#23211C)' text-anchor='middle'><text x='310' y='90'>leve, dentro da janela</text><text x='310' y='136'>vivo, com células</text><text x='310' y='180'>na superfície da lâmina dura</text><text x='310' y='194'>voltada para o dente</text><text x='310' y='238'>contínuo, latência curta</text><text x='310' y='284'>discretas</text><text x='310' y='330'>risco menor</text></g>",
+            "<g font-size='12' fill='var(--ink,#23211C)' text-anchor='middle'><text x='570' y='90'>pesada, acima do capilar</text><text x='570' y='136'>necrosado: zona hialinizada</text><text x='570' y='180'>nos espaços medulares e nas</text><text x='570' y='194'>bordas vivas da zona</text><text x='570' y='238'>em saltos, latência longa</text><text x='570' y='284'>acentuadas</text><text x='570' y='330'>risco maior</text></g>",
+            "<text x='360' y='366' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>o mesmo osso é removido nos dois; muda quem remove, por onde e quanto custa</text>"
+          ],
+          "legenda": "Pela frente com força leve; por baixo com força pesada. O osso sai nos dois casos; o dente, o ligamento e a raiz pagam preços diferentes." },
+        { "tipo": "destaque", "estilo": "prova", "texto": "Reabsorção frontal: ligamento viável, osteoclastos na superfície da lâmina dura, movimento contínuo. Reabsorção solapante ou indireta: zona hialinizada, osteoclastos a partir dos espaços medulares, movimento após latência longa. A prova pode usar \"direta\" e \"indireta\" como sinônimos de frontal e solapante." }
+      ],
+      "checagem": { "pergunta": "Por que o dente \"pula\" no movimento por reabsorção solapante?", "resposta": "Porque fica parado enquanto o osso é corroído por baixo e, quando a parede do alvéolo cede de uma vez, desloca-se bruscamente, com mobilidade e dor." }
+    },
+    {
+      "titulo": "Quase inevitável em áreas pequenas, patológica em áreas grandes",
+      "blocos": [
+        { "tipo": "p", "texto": "Reitan mostrou algo que tranquiliza e alerta ao mesmo tempo: mesmo com força leve, aparecem pequenas áreas de hialinização nos pontos em que a pressão se concentra, sobretudo na inclinação, em que a força se acumula na crista alveolar de um lado e no ápice do outro. Essas áreas são pequenas, duram pouco e são removidas sem consequência. A hialinização, em si, faz parte do movimento normal." },
+        { "tipo": "p", "texto": "O problema é a extensão e a repetição. Força pesada hialiniza faixas longas do ligamento; força pesada e contínua renova a necrose antes que a anterior seja reparada; osso denso, como o do adulto e o das corticais, demora mais a ser solapado e prolonga tudo. A hialinização patológica é a que domina o lado de pressão inteiro e se repete a cada ativação, e é ela que traz a dor, o atraso e a reabsorção radicular." },
+        { "tipo": "visual", "formato": "classificacao", "titulo": "O que aumenta a hialinização", "descricao": "Cinco caixas. Magnitude: força acima da pressão capilar para a área comprimida. Tipo de movimento: inclinação concentra pressão na crista e no ápice; movimento de corpo distribui. Perfil temporal: contínua pesada renova a necrose; interrompida dá tempo de reparo. Osso: denso, adulto, cortical; demora a ser solapado. Ligamento: menos celular no adulto, repara devagar; raiz curta ou fina concentra pressão.", "viewBox": "0 0 560 400",
+          "svg": [
+            "<g font-size='11' fill='var(--ink,#23211C)'>",
+            "<use href='#c-caixa-red' x='20' y='16' width='520' height='64'/><text x='36' y='40' font-size='13' font-weight='700'>Magnitude</text><text x='36' y='58'>força acima da pressão capilar para a área que ela comprime; o número na balança engana</text><text x='36' y='72' fill='var(--red,#B4533B)' font-weight='700'>o fator que você controla diretamente</text>",
+            "<use href='#c-caixa-gold' x='20' y='92' width='520' height='64'/><text x='36' y='116' font-size='13' font-weight='700'>Tipo de movimento</text><text x='36' y='134'>inclinação concentra a pressão na crista de um lado e no ápice do outro</text><text x='36' y='148'>movimento de corpo distribui pela raiz inteira: mesma força, menos hialinização</text>",
+            "<use href='#c-caixa-gold' x='20' y='168' width='520' height='64'/><text x='36' y='192' font-size='13' font-weight='700'>Perfil temporal</text><text x='36' y='210'>pesada e contínua renova a necrose a cada dia; pesada e interrompida deixa reparar</text><text x='36' y='224'>leve e contínua quase não hialiniza</text>",
+            "<use href='#c-caixa-blue' x='20' y='244' width='520' height='64'/><text x='36' y='268' font-size='13' font-weight='700'>Osso</text><text x='36' y='286'>denso, adulto, cortical: demora a ser solapado e prolonga a latência</text><text x='36' y='300'>trabecular jovem: reabsorve rápido</text>",
+            "<use href='#c-caixa-blue' x='20' y='320' width='520' height='64'/><text x='36' y='344' font-size='13' font-weight='700'>Ligamento e raiz</text><text x='36' y='362'>ligamento menos celular no adulto repara devagar; raiz curta ou fina concentra pressão</text><text x='36' y='376'>dente tratado endodonticamente ou traumatizado: acompanhar com mais cuidado</text>",
+            "</g>"
+          ],
+          "legenda": "Cinco fatores, um deles inteiramente seu: a magnitude. Os outros pedem que você a ajuste ao dente, ao movimento e ao paciente." },
+        { "tipo": "destaque", "estilo": "mito", "mito": "Qualquer hialinização é sinal de erro na mecânica.", "verdade": "Áreas pequenas nos pontos de maior pressão aparecem mesmo com força leve e são removidas sem dano. O erro é a hialinização extensa e repetida, produzida por força pesada, sobretudo contínua, em osso denso." }
+      ],
+      "checagem": { "pergunta": "Por que a inclinação produz mais hialinização do que o movimento de corpo com a mesma força?", "resposta": "Porque na inclinação a força se concentra em duas áreas pequenas, a crista alveolar de um lado e o ápice do outro, elevando a pressão local; no movimento de corpo ela se distribui por toda a raiz." }
+    },
+    {
+      "titulo": "Como a zona é removida, e o que sobra na raiz",
+      "blocos": [
+        { "tipo": "p", "texto": "A zona hialinizada não fica para sempre. Células vindas das bordas vivas do ligamento e dos espaços medulares, macrófagos e células gigantes multinucleadas, invadem o tecido necrosado e o digerem, enquanto os osteoclastos removem o osso por baixo. Com força leve e áreas pequenas, esse reparo leva alguns dias; com áreas extensas em osso denso, semanas. Reitan estimou o período de hialinização em torno de duas a quatro semanas para a inclinação com força contínua [VERIFICAR]." },
+        { "tipo": "p", "texto": "O custo aparece na raiz. As mesmas células que removem a zona hialinizada atacam o cemento das bordas dela: as lacunas de reabsorção radicular começam exatamente na periferia da zona hialinizada, como Brudvik e Rygh demonstraram nos anos 1990. Se a força cessa, o cemento é reparado; se a hialinização se repete a cada ativação, a reabsorção avança para a dentina e o encurtamento fica permanente. A hialinização é o elo entre força pesada e raiz curta." },
+        { "tipo": "visual", "formato": "processo", "titulo": "Da compressão excessiva ao movimento em salto: a sequência da hialinização", "descricao": "Cadeia de seis etapas. Compressão acima da pressão capilar. Isquemia e morte celular: zona hialinizada. Reabsorção frontal impossível; osteoclastos partem dos espaços medulares e das bordas: reabsorção solapante. Macrófagos e células gigantes removem a zona; cemento das bordas é atacado. Parede do alvéolo cede: movimento em salto, mobilidade, dor. Reparo do cemento se a força cessa; reabsorção radicular se a hialinização se repete.", "viewBox": "0 0 560 500",
+          "svg": [
+            "<g stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'><line x1='280' y1='74' x2='280' y2='90'/><line x1='280' y1='144' x2='280' y2='160'/><line x1='280' y1='214' x2='280' y2='230'/><line x1='280' y1='284' x2='280' y2='300'/><line x1='280' y1='354' x2='280' y2='370'/></g>",
+            "<use href='#c-caixa-red' x='80' y='20' width='400' height='54'/><text x='280' y='42' text-anchor='middle' font-size='13' font-weight='700'>1. Compressão acima da pressão capilar</text><text x='280' y='62' text-anchor='middle' font-size='11'>vasos ocluídos, sem oxigênio</text>",
+            "<use href='#c-caixa' x='80' y='90' width='400' height='54'/><text x='280' y='112' text-anchor='middle' font-size='13' font-weight='700'>2. Necrose isquêmica: zona hialinizada</text><text x='280' y='132' text-anchor='middle' font-size='11'>células morrem, fibras se fundem em massa vítrea</text>",
+            "<use href='#c-caixa' x='80' y='160' width='400' height='54'/><text x='280' y='182' text-anchor='middle' font-size='13' font-weight='700'>3. Reabsorção solapante</text><text x='280' y='202' text-anchor='middle' font-size='11'>osteoclastos vêm dos espaços medulares e das bordas vivas</text>",
+            "<use href='#c-caixa-gold' x='80' y='230' width='400' height='54'/><text x='280' y='252' text-anchor='middle' font-size='13' font-weight='700'>4. Remoção da zona</text><text x='280' y='272' text-anchor='middle' font-size='11'>macrófagos e células gigantes digerem o tecido; cemento das bordas é atacado</text>",
+            "<use href='#c-caixa-blue' x='80' y='300' width='400' height='54'/><text x='280' y='322' text-anchor='middle' font-size='13' font-weight='700'>5. Parede cede: movimento em salto</text><text x='280' y='342' text-anchor='middle' font-size='11'>deslocamento brusco, mobilidade, dor</text>",
+            "<use href='#c-caixa-green' x='80' y='370' width='400' height='68'/><text x='280' y='392' text-anchor='middle' font-size='13' font-weight='700'>6. Reparo ou dano</text><text x='280' y='410' text-anchor='middle' font-size='11'>força cessa: cemento reparado, ligamento refeito</text><text x='280' y='426' text-anchor='middle' font-size='11'>hialinização repetida: reabsorção avança para a dentina</text>",
+            "<text x='280' y='470' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>duração do ciclo: dias com áreas pequenas; duas a quatro semanas com áreas extensas [VERIFICAR]</text>",
+            "<text x='280' y='490' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>a etapa 6 decide se a raiz volta ao normal ou encurta</text>"
+          ],
+          "legenda": "Seis etapas, e a última é a que fica na radiografia. O cemento repara uma vez; repetido a cada ativação, o ciclo encurta a raiz." },
+        { "tipo": "destaque", "estilo": "erro", "texto": "Reativar com a mesma força pesada assim que o dente \"pulou\". O salto significa que a zona hialinizada acabou de ser removida e o cemento das bordas está exposto; renovar a compressão excessiva nesse momento recomeça o ciclo sobre uma raiz já atacada. Depois do salto, reduza a força e dê tempo de reparo." }
+      ],
+      "checagem": { "pergunta": "Onde começa a reabsorção radicular associada à hialinização e o que decide se ela fica permanente?", "resposta": "Nas bordas da zona hialinizada, onde as células que removem o tecido necrosado atacam o cemento; fica permanente se a hialinização se repete e a reabsorção alcança a dentina, e é reparada se a força cessa." }
+    },
+    {
+      "titulo": "Por que o adulto hialiniza mais",
+      "blocos": [
+        { "tipo": "p", "texto": "O adulto move dentes mais devagar, e a hialinização explica parte disso. O osso alveolar adulto é mais denso, com menos espaços medulares por onde a reabsorção solapante possa avançar; o ligamento tem menos células e menos vasos, e repara mais devagar; a resposta inicial aos mediadores é mais lenta. A mesma força que em um adolescente produz reabsorção frontal quase contínua, em um adulto produz zonas hialinizadas maiores e latências mais longas." },
+        { "tipo": "p", "texto": "A consequência prática não é desistir de mover dentes em adultos, e sim ajustar: forças mais leves, intervalos que respeitem a latência maior, atenção especial em dentes com raiz curta, com tratamento endodôntico ou com história de trauma, e radiografias de controle para vigiar a raiz. O adulto também tem um lado favorável: sem crescimento, o que se move fica onde foi colocado, desde que a contenção respeite o osso imaturo do lado de tensão." },
+        { "tipo": "imagem", "imagem": "corte histológico do lado de pressão do ligamento periodontal com zona hialinizada e reabsorção solapante", "mostrar": "Área acelular e homogênea do ligamento junto à lâmina dura íntegra; por trás da lâmina, lacunas de reabsorção com osteoclastos vindas dos espaços medulares; nas bordas da zona, lacunas iniciais no cemento", "legenda": "Zona hialinizada: ligamento sem núcleos junto a uma lâmina dura que só pode ser reabsorvida por trás.", "destacar": "Ausência de células na zona, osteoclastos nos espaços medulares por trás da lâmina dura, lacunas de cemento nas bordas da zona" },
+        { "tipo": "destaque", "estilo": "dica", "titulo": "A tríade do cuidado no adulto", "texto": "Força mais leve do que você usaria no adolescente; intervalo entre ativações que respeite a latência maior; radiografia periapical dos dentes mais movimentados aos seis meses e ao final. Quem faz as três raramente é surpreendido por uma raiz curta no fim do caso." }
+      ],
+      "checagem": { "pergunta": "Cite três razões biológicas para o adulto se mover mais devagar e hialinizar mais.", "resposta": "Osso alveolar mais denso com menos espaços medulares, ligamento menos celular e menos vascularizado que repara devagar, e resposta inicial mais lenta aos mediadores." }
+    },
+    {
+      "titulo": "De volta ao canino do adulto",
+      "blocos": [
+        { "tipo": "p", "texto": "Elástico pesado, adulto, osso denso, movimento de inclinação: a receita para uma zona hialinizada extensa. As duas semanas de parada com dor foram a reabsorção solapante corroendo o osso por baixo; o pulo foi a parede do alvéolo cedendo; a mobilidade foi o alvéolo momentaneamente largo demais. E a raiz curta, seis meses depois, começou nas bordas daquela zona, onde o cemento foi atacado e, com a força mantida, não teve tempo de reparar." },
+        { "tipo": "destaque", "estilo": "frase", "texto": "O adolescente teria hialinizado menos, reparado mais rápido e escapado com a raiz inteira. No adulto, a mesma força pesada escreve a história na radiografia." }
+      ],
+      "checagem": { "pergunta": "Que três fatores do caso da abertura somaram para a hialinização extensa e a reabsorção radicular?", "resposta": "Força pesada e contínua do elástico, movimento de inclinação que concentra pressão, e osso denso e ligamento menos celular do adulto, que prolongam a solapante e o ataque ao cemento." }
+    }
+  ],
+  "fechamento": {
+    "visual": { "formato": "mapa", "titulo": "Mapa da página", "descricao": "Nó central: hialinização. Seis nós: ligamento sem células, necrose isquêmica; frontal versus solapante; latência longa e movimento em salto; pequena é normal, extensa é força pesada; bordas da zona atacam o cemento; adulto hialiniza mais.", "viewBox": "0 0 560 360",
+      "svg": [
+        "<g stroke='var(--border,#EDE6D8)' stroke-width='1.5'><line x1='280' y1='180' x2='100' y2='60'/><line x1='280' y1='180' x2='460' y2='60'/><line x1='280' y1='180' x2='70' y2='180'/><line x1='280' y1='180' x2='490' y2='180'/><line x1='280' y1='180' x2='100' y2='300'/><line x1='280' y1='180' x2='460' y2='300'/></g>",
+        "<use href='#c-no-central' x='190' y='150' width='180' height='60'/>",
+        "<text x='280' y='186' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>Hialinização</text>",
+        "<use href='#c-no' x='20' y='38' width='160' height='44'/><text x='100' y='65' text-anchor='middle' font-size='13' font-weight='700'>Ligamento sem células</text>",
+        "<use href='#c-no' x='380' y='38' width='160' height='44'/><text x='460' y='65' text-anchor='middle' font-size='13' font-weight='700'>Frontal x solapante</text>",
+        "<use href='#c-no' x='0' y='158' width='150' height='44'/><text x='75' y='185' text-anchor='middle' font-size='13' font-weight='700'>Latência e salto</text>",
+        "<use href='#c-no' x='410' y='158' width='150' height='44'/><text x='485' y='185' text-anchor='middle' font-size='13' font-weight='700'>Pequena normal, extensa não</text>",
+        "<use href='#c-no' x='20' y='278' width='160' height='44'/><text x='100' y='305' text-anchor='middle' font-size='13' font-weight='700'>Bordas atacam o cemento</text>",
+        "<use href='#c-no' x='380' y='278' width='160' height='44'/><text x='460' y='305' text-anchor='middle' font-size='13' font-weight='700'>Adulto hialiniza mais</text>"
+      ] },
+    "flashcards": [
+      { "frente": "Defina hialinização e diga quem a descreveu.", "verso": "Necrose isquêmica de uma área do ligamento comprimido acima da pressão capilar: células morrem, fibras se fundem em massa homogênea e vítrea, sem núcleos. Descrita por Reitan." },
+      { "frente": "Por que a hialinização produz reabsorção solapante e movimento em salto?", "verso": "Sem células no ligamento, a lâmina dura não pode ser reabsorvida pela frente; os osteoclastos vêm dos espaços medulares e das bordas, corroem o osso por baixo e o dente fica parado até a parede ceder de uma vez." },
+      { "frente": "Qual é o elo entre hialinização e reabsorção radicular?", "verso": "As células que removem a zona hialinizada atacam o cemento das bordas dela; se a força cessa, o cemento repara; se a hialinização se repete, a reabsorção alcança a dentina e a raiz encurta." }
+    ]
+  },
+  "infografico": {
+    "titulo": "Hialinização em seis cartões",
+    "itens": [
+      { "rotulo": "O que é", "texto": "Necrose isquêmica do ligamento comprimido: sem células, fibras fundidas, aspecto vítreo. Reitan." },
+      { "rotulo": "Consequência", "texto": "Sem células, sem reabsorção frontal: osteoclastos vêm por baixo, dos espaços medulares. Reabsorção solapante." },
+      { "rotulo": "Clínica", "texto": "Latência longa, movimento em salto, mobilidade e dor. O paciente diz que o dente parou e depois pulou." },
+      { "rotulo": "Fatores", "texto": "Força acima do capilar, inclinação, contínua pesada, osso denso, ligamento adulto, raiz fina." },
+      { "rotulo": "Raiz", "texto": "As bordas da zona atacam o cemento; repetido, encurta a raiz. Brudvik e Rygh." },
+      { "rotulo": "Adulto", "texto": "Hialiniza mais e repara devagar: força mais leve, intervalos maiores, radiografia de controle." }
+    ]
+  },
+  "fluxograma": {
+    "titulo": "Dente que parou e doeu: hialinização em curso?",
+    "nos": [
+      { "id": "n1", "tipo": "inicio", "texto": "Paciente com dor acentuada e dente parado após ativação" },
+      { "id": "n2", "tipo": "decisao", "texto": "A força aplicada foi pesada para a raiz e o tipo de movimento?" },
+      { "id": "n3", "tipo": "acao", "texto": "Provável hialinização extensa: reduzir a força, não reativar, analgesia" },
+      { "id": "n4", "tipo": "decisao", "texto": "Houve salto brusco com mobilidade?" },
+      { "id": "n5", "tipo": "acao", "texto": "Zona removida e cemento exposto: força leve, tempo de reparo, radiografia de controle em meses" },
+      { "id": "n6", "tipo": "decisao", "texto": "Dor e parada persistem além de semanas sem salto?" },
+      { "id": "n7", "tipo": "acao", "texto": "Procurar obstáculo (cortical, contato, anquilose) e reavaliar a mecânica" },
+      { "id": "n8", "tipo": "fim", "texto": "Retomar com força leve e contínua; latência curta esperada" }
+    ],
+    "arestas": [
+      { "de": "n1", "para": "n2" },
+      { "de": "n2", "para": "n3", "rotulo": "sim" },
+      { "de": "n3", "para": "n4" },
+      { "de": "n2", "para": "n6", "rotulo": "não" },
+      { "de": "n4", "para": "n5", "rotulo": "sim" },
+      { "de": "n5", "para": "n8" },
+      { "de": "n4", "para": "n6", "rotulo": "não" },
+      { "de": "n6", "para": "n7", "rotulo": "sim" },
+      { "de": "n6", "para": "n8", "rotulo": "não" }
+    ]
+  },
+  "passoAPasso": [
+    { "passo": "Antes de ativar, estime a pressão: força dividida pela área de raiz que vai ser comprimida, considerando inclinação ou corpo.", "confira": "Incisivos, caninos de raiz fina e dentes de adultos recebem menos força?" },
+    { "passo": "Prefira força leve e contínua; se usar força maior, que seja interrompida, com pausa para reparo.", "confira": "A combinação pesada e contínua está fora do plano?" },
+    { "passo": "Avise o paciente sobre a fase de latência e diferencie dor esperada de dor de alarme.", "confira": "Ele sabe que dor forte que dura mais de uma semana deve ser comunicada?" },
+    { "passo": "Depois de um salto com mobilidade, reduza a força e dê tempo antes da próxima ativação.", "confira": "A próxima ativação respeita o reparo do cemento?" },
+    { "passo": "Em adultos e em dentes de risco, radiografia periapical aos seis meses e ao final.", "confira": "Há encurtamento ou arredondamento apical em relação ao início?" }
+  ],
+  "macetes": [
+    { "titulo": "Vidro no ligamento", "texto": "Hialinização: ligamento comprimido sem circulação vira massa vítrea sem células. Sem células, sem reabsorção pela frente." },
+    { "titulo": "Por baixo demora e dói", "texto": "Solapante: osteoclastos vêm dos espaços medulares, o dente espera e depois pula. Frontal: pela frente, contínuo, confortável." },
+    { "titulo": "Pequena é normal, extensa é força", "texto": "Áreas pequenas na crista e no ápice aparecem até com força leve. Faixas longas e repetidas são força pesada." },
+    { "titulo": "A raiz encurta na borda", "texto": "A reabsorção radicular começa na periferia da zona hialinizada. Força cessa, repara; força repete, encurta." }
+  ],
+  "ondeErra": [
+    { "erro": "Tratar toda hialinização como erro grave.", "porque": "Áreas pequenas nos pontos de maior pressão são normais e removidas sem dano.", "certo": "Evitar a hialinização extensa e repetida, não a pequena e transitória." },
+    { "erro": "Reativar com força pesada logo após o salto.", "porque": "O cemento das bordas da zona recém-removida está exposto; renovar a compressão recomeça a reabsorção radicular.", "certo": "Reduzir a força e dar tempo de reparo." },
+    { "erro": "Usar no adulto a força do adolescente.", "porque": "Osso denso e ligamento menos celular hialinizam mais e reparam devagar.", "certo": "Força mais leve, intervalos maiores, radiografia de controle." },
+    { "erro": "Confundir reabsorção solapante com falha do aparelho.", "porque": "A parada é o osso sendo corroído por baixo; o aparelho continua ativo.", "certo": "Reconhecer a latência longa como sinal de força pesada e corrigir a força, não a ativação." }
+  ],
+  "autoteste": [
+    {
+      "pergunta": "A zona hialinizada do ligamento periodontal caracteriza-se histologicamente por:",
+      "alternativas": [
+        "Aumento de osteoclastos e vasos dilatados",
+        "Ausência de células e fusão das fibras em massa homogênea, por necrose isquêmica",
+        "Proliferação de fibroblastos e deposição de osteoide",
+        "Infiltrado bacteriano com abscesso"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Osteoclastos e vasos dilatados não existem em tecido necrosado.",
+        "Correta: é a necrose estéril por compressão acima da pressão capilar, descrita por Reitan.",
+        "Esses são eventos do lado de tensão.",
+        "Não é infecção; é isquemia."
+      ]
+    },
+    {
+      "pergunta": "A reabsorção solapante (indireta) ocorre porque:",
+      "alternativas": [
+        "O osso do lado de tensão precisa ser removido",
+        "A zona hialinizada impede a reabsorção frontal, e os osteoclastos precisam vir dos espaços medulares por trás da lâmina dura",
+        "A força é muito leve para ativar osteoclastos na superfície",
+        "O cemento é mais duro que o osso"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "O lado de tensão deposita, não reabsorve.",
+        "Correta: sem células no ligamento comprimido, o osso só pode ser corroído por baixo.",
+        "Ocorre com força pesada, não leve.",
+        "Não tem relação com a dureza do cemento."
+      ]
+    },
+    {
+      "pergunta": "Movimento dentário em saltos, com latência longa, mobilidade e dor, sugere:",
+      "alternativas": [
+        "Força leve e contínua com reabsorção frontal",
+        "Força pesada com hialinização extensa e reabsorção solapante",
+        "Anquilose alveolodentária",
+        "Ausência de força no aparelho"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "A frontal produz movimento contínuo e latência curta.",
+        "Correta: o dente espera o osso ser corroído por baixo e depois se desloca de uma vez.",
+        "Na anquilose o dente não se move de modo nenhum.",
+        "Há força; ela é excessiva."
+      ]
+    },
+    {
+      "pergunta": "Sobre a relação entre hialinização e reabsorção radicular, é correto afirmar que:",
+      "alternativas": [
+        "Não há relação entre elas",
+        "A reabsorção radicular começa nas bordas da zona hialinizada e se torna permanente quando a hialinização se repete e atinge a dentina",
+        "A reabsorção radicular ocorre no lado de tensão",
+        "A hialinização protege o cemento"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "A relação é direta e foi demonstrada histologicamente.",
+        "Correta: as células que removem a zona atacam o cemento das bordas; força cessada repara, força repetida encurta.",
+        "Ocorre no lado de pressão, junto às zonas hialinizadas.",
+        "É o contrário: expõe o cemento ao ataque."
+      ]
+    },
+    {
+      "pergunta": "Em adultos, com a mesma força usada em adolescentes, espera-se:",
+      "alternativas": [
+        "Movimento mais rápido pela maior densidade óssea",
+        "Mais hialinização, latência mais longa e reparo mais lento, pelo osso denso e ligamento menos celular",
+        "Ausência de hialinização",
+        "Reabsorção frontal exclusiva"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Densidade maior atrasa a reabsorção solapante.",
+        "Correta: por isso o adulto pede força mais leve, intervalos maiores e controle radiográfico.",
+        "Hialiniza mais, não menos.",
+        "A frontal exige ligamento vivo; no adulto a solapante é mais frequente com a mesma força."
+      ]
+    }
+  ],
+  "pesquisa": { "termos": ["hialinização ligamento periodontal", "reabsorção solapante", "reabsorção indireta osso alveolar", "Reitan movimento dentário", "reabsorção radicular hialinização"] },
+  "referenciasBase": [
+    "Reitan K. Tissue behavior during orthodontic tooth movement. Am J Orthod. 1960.",
+    "Reitan K. Clinical and histologic observations on tooth movement during and after orthodontic treatment. Am J Orthod. 1967.",
+    "Brudvik P, Rygh P. The initial phase of orthodontic root resorption incident to local compression of the periodontal ligament. Eur J Orthod. 1993.",
+    "Brudvik P, Rygh P. Root resorption beneath the main hyalinized zone. Eur J Orthod. 1994.",
+    "Proffit WR, Fields HW, Larson BE, Sarver DM. Ortodontia Contemporânea. 6ª ed. Bases biológicas da terapia ortodôntica.",
+    "Krishnan V, Davidovitch Z. Cellular, molecular, and tissue-level reactions to orthodontic force. Am J Orthod Dentofacial Orthop. 2006."
+  ],
+  "validacao": { "validadoPor": null, "data": null }
+}
