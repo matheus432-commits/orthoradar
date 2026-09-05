@@ -1047,6 +1047,11 @@
   },
   {
    "pagina": "ortodontia/biologia-do-movimento/forcas/forcas-ideais-por-tipo-de-movimento",
+   "onde": "Seção \"Intrusão: o movimento que mais pede leveza\".blocos[1].texto",
+   "trecho": "linizada fica justamente no ápice, o ponto da raiz que mais reabsorve [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/forcas/forcas-ideais-por-tipo-de-movimento",
    "onde": "Seção \"Intrusão: o movimento que mais pede leveza\".blocos[4].resposta",
    "trecho": "Cerca de 37 g por dente, o dobro do limite superior da faixa didática [VERIFICAR]"
   },
@@ -1417,10 +1422,10 @@
    "modulo": "Biologia do movimento",
    "total": 12,
    "concluidas": 7,
-   "palavras": 27048,
+   "palavras": 27054,
    "visuais": 36,
    "imagensClinicas": 6,
-   "verificar": 52,
+   "verificar": 53,
    "paginas": [
     {
      "id": "ortodontia/biologia-do-movimento/reacoes-teciduais/ligamento-e-osso-sob-forca",
@@ -1467,7 +1472,7 @@
      "nome": "Forças ideais por tipo de movimento",
      "tema": "Forças",
      "status": "rascunho",
-     "palavras": 3971,
+     "palavras": 3977,
      "visuais": 5
     },
     {
@@ -27864,7 +27869,7 @@
    "formato": 2,
    "status": "rascunho",
    "estado": "rascunho",
-   "palavras": 3971,
+   "palavras": 3977,
    "visuais": [
     {
      "formato": "forcas",
@@ -27931,6 +27936,10 @@
     {
      "onde": "Seção \"Intrusão: o movimento que mais pede leveza\".blocos[1].texto",
      "trecho": "isivos, uma força total de 40 a 80 gramas distribui 10 a 20 por dente [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Intrusão: o movimento que mais pede leveza\".blocos[1].texto",
+     "trecho": "linizada fica justamente no ápice, o ponto da raiz que mais reabsorve [VERIFICAR]"
     },
     {
      "onde": "Seção \"Intrusão: o movimento que mais pede leveza\".blocos[4].resposta",
