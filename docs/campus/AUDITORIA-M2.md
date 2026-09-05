@@ -84,13 +84,13 @@ lista com localização é impressa por
 | `maoclusao-etiologia-habitos` | tríade de Graber, quatro marcas, idade de correção, deglutição, respiração bucal, Linder-Aronson, Harvold | confirmada; 8 `[VERIFICAR]` |
 | `maoclusao-etiologia-perda-precoce` | consequências por dente, maxila x mandíbula, raiz do sucessor, mantenedores, 6 condenado | confirmada; 3 `[VERIFICAR]` |
 | `maoclusao-etiologia-anomalias` | agenesia, mesiodens, lateral conoide, canino (Ericson e Kurol), ectópico (Bjerklin e Kurol), anquilose, transposição | confirmada; 5 `[VERIFICAR]` |
-| `maoclusao-etiologia-moyers` | Dockrell 1952, sete grupos, classificação pelo tecido, equifinalidade, tipos de Classe II de Moyers | denominação do programa registrada; 4 `[VERIFICAR]` |
-| `maoclusao-tipo-classe-i` | discrepância e faixas, Moyers e Tanaka-Johnston, fontes de espaço, seriada, estabilidade (Little) | confirmada; 8 `[VERIFICAR]` |
+| `maoclusao-etiologia-moyers` | Dockrell 1952, sete grupos, classificação pelo tecido, equifinalidade, tipos de Classe II de Moyers | denominação do programa registrada; 3 `[VERIFICAR]` |
+| `maoclusao-tipo-classe-i` | discrepância e faixas, Moyers e Tanaka-Johnston, fontes de espaço, seriada, estabilidade (Little) | confirmada; 9 `[VERIFICAR]` |
 | `maoclusao-tipo-classe-ii` | divisões, retrusão mandibular, lábio preso, trauma, quatro perguntas, divisão 2 vira divisão 1 | confirmada; 3 `[VERIFICAR]` |
-| `maoclusao-tipo-classe-iii` | componentes (Ellis e McNamara), pseudo, crescimento, prognóstico, ferramentas | 1 correção; 7 `[VERIFICAR]` |
-| `maoclusao-tipo-mordida-aberta` | dentária x esquelética, face longa, causas, alavanca, estabilidade | confirmada; 3 `[VERIFICAR]` |
+| `maoclusao-tipo-classe-iii` | componentes (Ellis e McNamara), pseudo, crescimento, prognóstico, ferramentas | 1 correção; 8 `[VERIFICAR]` |
+| `maoclusao-tipo-mordida-aberta` | dentária x esquelética, face longa, causas, alavanca, estabilidade | confirmada; 2 `[VERIFICAR]` |
 | `maoclusao-tipo-mordida-profunda` | medida, completa e traumática, face curta, Spee, três métodos, ângulo interincisal | confirmada; 4 `[VERIFICAR]` |
-| `maoclusao-tipo-mordida-cruzada` | tipos, funcional x verdadeira, causas, Kutin e Hawes, ferramentas por idade | 1 acréscimo (autocorreção rara); 3 `[VERIFICAR]` |
+| `maoclusao-tipo-mordida-cruzada` | tipos, funcional x verdadeira, causas, Kutin e Hawes, ferramentas por idade | 1 acréscimo (autocorreção rara); 4 `[VERIFICAR]` |
 | `maoclusao-tipo-assimetrias` | quatro origens, Obwegeser e Makek, deficiência, exame, cintilografia, conduta | 1 correção; 5 `[VERIFICAR]` |
 
 ## Fontes consultadas na rodada 2
