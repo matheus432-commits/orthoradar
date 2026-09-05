@@ -1,0 +1,609 @@
+{
+  "id": "ortodontia/mas-oclusoes/etiologia/teoria-da-equivalencia-de-moyers",
+  "areaId": "ortodontia",
+  "area": "Ortodontia",
+  "modulo": "Más oclusões",
+  "tema": "Etiologia",
+  "titulo": "Etiologia segundo Moyers: a equação de Dockrell, os tecidos e a equifinalidade",
+  "estado": "rascunho",
+  "versao": 1,
+  "formato": 2,
+  "autoria": "Rascunho escrito pela plataforma para validação; nada aqui é visível ao aluno antes da assinatura de um ortodontista. O nome desta página no programa, \"teoria da equivalência de Moyers\", é a forma como o conjunto de ideias circula em cursos brasileiros; o validador deve confirmar a denominação e a fonte [VERIFICAR].",
+  "abertura": {
+    "situacao": "Dois meninos de 9 anos, os dois com mordida aberta anterior de 4 mm. O primeiro chupou dedo até os 7 anos, tem face proporcional e molares em Classe I. O segundo nunca teve hábito, tem face longa, respira pela boca e o plano mandibular é muito inclinado na cefalometria. Se você olhasse só os incisivos, as duas bocas seriam a mesma.",
+    "pergunta": "Como duas causas tão diferentes chegam ao mesmo resultado, e por que isso obriga a tratar cada menino de um jeito?"
+  },
+  "umMinuto": {
+    "frases": [
+      "Moyers organizou a etiologia com a equação de Dockrell: uma causa age em determinado tempo sobre determinado tecido e produz um resultado. Sem as quatro partes, a explicação de uma má oclusão está incompleta.",
+      "As causas, para Moyers, são sete grupos: hereditariedade, defeitos de desenvolvimento de origem desconhecida, trauma, agentes físicos, hábitos, doença e desnutrição.",
+      "Os tecidos são os sítios etiológicos primários: dentes, osso, músculo e tecidos moles; e a má oclusão, para Moyers, se classifica pelo tecido comprometido: dentária, esquelética, muscular ou combinada.",
+      "A regra que dá nome à página: causas diferentes podem produzir a mesma má oclusão, e a mesma causa pode produzir más oclusões diferentes, conforme o tempo, o tecido e o indivíduo. É o que se chama equifinalidade.",
+      "A consequência é prática: o nome da má oclusão não diz a causa nem o tecido, e o tratamento certo é o que age no tecido comprometido, não no sintoma.",
+      "Moyers mostrou isso na própria Classe II, ao separá-la em tipos horizontais e verticais que compartilham o rótulo de Angle e diferem em tudo o que importa para tratar."
+    ],
+    "caiNaProva": [
+      "Equação ortodôntica de Dockrell: causa, tempo, tecido, resultado",
+      "Os sete grupos etiológicos de Moyers",
+      "Classificação da má oclusão pelo tecido: dentária, esquelética, muscular",
+      "Equifinalidade: causas diferentes, mesmo resultado",
+      "Por que o diagnóstico etiológico muda o tratamento"
+    ],
+    "porQueImporta": "Você vai tratar sintomas parecidos com causas diferentes a vida inteira. A equação de Dockrell é o roteiro para não errar de tecido: quem trata mordida aberta esquelética como se fosse hábito perde o caso, e vice-versa."
+  },
+  "secoes": [
+    {
+      "titulo": "Uma equação para não explicar pela metade",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "Dockrell propôs, em 1952, uma forma de organizar o raciocínio sobre a causa de qualquer má oclusão, e Moyers a adotou como espinha dorsal do seu capítulo de etiologia. A equação diz que uma causa atua em um determinado tempo sobre um determinado tecido e produz um resultado. Quatro termos, e os quatro precisam ser preenchidos para a explicação ficar completa."
+        },
+        {
+          "tipo": "p",
+          "texto": "A força da equação está no que ela impede. Dizer \"a causa foi o hábito\" não basta: qual hábito, agindo em que fase do desenvolvimento, sobre que tecido, produziu exatamente que alteração? O mesmo hábito, em idades diferentes ou em crianças com padrões de crescimento diferentes, deixa marcas diferentes. A equação obriga a pensar nos quatro termos antes de nomear a causa."
+        },
+        {
+          "tipo": "visual",
+          "formato": "processo",
+          "titulo": "A equação ortodôntica de Dockrell, como Moyers a ensinou",
+          "descricao": "Quatro caixas ligadas por setas. Causa: hereditariedade, defeitos de desenvolvimento, trauma, agentes físicos, hábitos, doença, desnutrição. Tempo: pré-natal ou pós-natal, contínuo ou intermitente, antes ou depois de marcos de erupção e crescimento. Tecido: dentes, osso, músculo, tecidos moles. Resultado: má posição dentária, displasia esquelética, disfunção muscular, ou combinações.",
+          "viewBox": "0 0 720 300",
+          "svg": [
+            "<g stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'><line x1='176' y1='90' x2='196' y2='90'/><line x1='356' y1='90' x2='376' y2='90'/><line x1='536' y1='90' x2='556' y2='90'/></g>",
+            "<use href='#c-caixa-red' x='16' y='60' width='160' height='60'/><text x='96' y='96' text-anchor='middle' font-size='15' font-weight='700'>Causa</text>",
+            "<use href='#c-caixa-gold' x='196' y='60' width='160' height='60'/><text x='276' y='96' text-anchor='middle' font-size='15' font-weight='700'>Tempo</text>",
+            "<use href='#c-caixa-blue' x='376' y='60' width='160' height='60'/><text x='456' y='96' text-anchor='middle' font-size='15' font-weight='700'>Tecido</text>",
+            "<use href='#c-caixa-green' x='556' y='60' width='150' height='60'/><text x='631' y='96' text-anchor='middle' font-size='15' font-weight='700'>Resultado</text>",
+            "<g font-size='11' fill='var(--ink,#23211C)'><text x='24' y='146'>hereditariedade</text><text x='24' y='162'>defeitos de desenvolvimento</text><text x='24' y='178'>trauma; agentes físicos</text><text x='24' y='194'>hábitos; doença</text><text x='24' y='210'>desnutrição</text></g>",
+            "<g font-size='11' fill='var(--ink,#23211C)'><text x='204' y='146'>pré-natal ou pós-natal</text><text x='204' y='162'>contínuo ou intermitente</text><text x='204' y='178'>antes ou depois de marcos:</text><text x='204' y='194'>erupção, surto de crescimento</text></g>",
+            "<g font-size='11' fill='var(--ink,#23211C)'><text x='384' y='146'>dentes e periodonto</text><text x='384' y='162'>osso: maxila, mandíbula</text><text x='384' y='178'>músculo e sistema neuromuscular</text><text x='384' y='194'>tecidos moles</text></g>",
+            "<g font-size='11' fill='var(--ink,#23211C)'><text x='564' y='146'>má posição dentária</text><text x='564' y='162'>displasia esquelética</text><text x='564' y='178'>disfunção muscular</text><text x='564' y='194'>combinações</text></g>",
+            "<text x='360' y='30' text-anchor='middle' font-size='13' font-weight='700' fill='var(--ink,#23211C)'>causa, em certo tempo, sobre certo tecido, produz o resultado</text>",
+            "<text x='360' y='268' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>os quatro termos precisam ser preenchidos; a mesma causa em tempo ou tecido diferente dá outro resultado</text>"
+          ],
+          "legenda": "Quatro termos, nenhum dispensável. O erro mais comum é pular do primeiro para o último: \"a causa foi o hábito\" sem dizer quando, em que tecido e produzindo o quê."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "prova",
+          "texto": "A questão pede os termos da equação ortodôntica de Dockrell: causa, tempo, tecido (sítio etiológico primário) e resultado. E pede quem a popularizou nos livros de ortodontia: Moyers."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Quais são os quatro termos da equação de Dockrell e o que acontece se um deles falta?",
+        "resposta": "Causa, tempo, tecido e resultado. Se um falta, a explicação fica incompleta: a mesma causa em outro tempo ou outro tecido produz outro resultado, e o tratamento pode mirar o tecido errado."
+      }
+    },
+    {
+      "titulo": "Os sete grupos de causas",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "Moyers listou as causas em sete grupos. Hereditariedade, agindo sobre o sistema neuromuscular, o osso, os dentes e os tecidos moles. Defeitos de desenvolvimento de origem desconhecida, como agenesias e malformações sem causa identificada. Trauma, pré-natal e pós-natal, do parto à fratura de côndilo. Agentes físicos, onde entram a perda prematura de dentes decíduos e a natureza da alimentação."
+        },
+        {
+          "tipo": "p",
+          "texto": "Hábitos, com a sucção, a interposição de língua e a respiração bucal. Doença, sistêmica, endócrina ou local, incluindo a cárie e a doença periodontal. E desnutrição, hoje rara nos consultórios, mas presente na lista porque altera o crescimento ósseo e a cronologia da erupção. Não é uma lista de fatores independentes: o mesmo paciente costuma acumular dois ou três."
+        },
+        {
+          "tipo": "visual",
+          "formato": "classificacao",
+          "titulo": "Os sete grupos etiológicos de Moyers",
+          "descricao": "Sete caixas com exemplos. Hereditariedade: padrão esquelético, tamanho dos dentes, tônus muscular. Defeitos de desenvolvimento de origem desconhecida: agenesias, malformações. Trauma: parto, fratura de côndilo, avulsão. Agentes físicos: perda prematura de decíduos, natureza da dieta. Hábitos: sucção, língua, respiração bucal. Doença: sistêmica, endócrina, local como cárie e periodontite. Desnutrição: crescimento ósseo e cronologia de erupção.",
+          "viewBox": "0 0 560 420",
+          "svg": [
+            "<g font-size='11' fill='var(--ink,#23211C)'>",
+            "<use href='#c-caixa-blue' x='20' y='16' width='250' height='70'/><text x='32' y='40' font-size='13' font-weight='700'>1. Hereditariedade</text><text x='32' y='58'>padrão esquelético, tamanho e número</text><text x='32' y='74'>dos dentes, tônus e postura muscular</text>",
+            "<use href='#c-caixa-blue' x='290' y='16' width='250' height='70'/><text x='302' y='40' font-size='13' font-weight='700'>2. Defeitos de desenvolvimento</text><text x='302' y='58'>de origem desconhecida:</text><text x='302' y='74'>agenesias, malformações</text>",
+            "<use href='#c-caixa-red' x='20' y='102' width='250' height='70'/><text x='32' y='126' font-size='13' font-weight='700'>3. Trauma</text><text x='32' y='144'>pré-natal e do parto; pós-natal:</text><text x='32' y='160'>fratura de côndilo, avulsão, germe deslocado</text>",
+            "<use href='#c-caixa-gold' x='290' y='102' width='250' height='70'/><text x='302' y='126' font-size='13' font-weight='700'>4. Agentes físicos</text><text x='302' y='144'>perda prematura de dentes decíduos,</text><text x='302' y='160'>natureza da alimentação</text>",
+            "<use href='#c-caixa-gold' x='20' y='188' width='250' height='70'/><text x='32' y='212' font-size='13' font-weight='700'>5. Hábitos</text><text x='32' y='230'>sucção de dedo e chupeta, interposição</text><text x='32' y='246'>de língua, respiração bucal, onicofagia</text>",
+            "<use href='#c-caixa-red' x='290' y='188' width='250' height='70'/><text x='302' y='212' font-size='13' font-weight='700'>6. Doença</text><text x='302' y='230'>sistêmica, endócrina; local: cárie,</text><text x='302' y='246'>doença periodontal, tumores</text>",
+            "<use href='#c-caixa' x='155' y='274' width='250' height='70'/><text x='167' y='298' font-size='13' font-weight='700'>7. Desnutrição</text><text x='167' y='316'>altera o crescimento ósseo e a</text><text x='167' y='332'>cronologia da erupção</text>",
+            "</g>",
+            "<text x='280' y='380' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>azul: predominantemente herdados; vermelho: eventos; dourado: ambiente que se pode mudar</text>",
+            "<text x='280' y='402' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>a lista de Moyers; a de Proffit reagrupa em específicas, genéticas e ambientais</text>"
+          ],
+          "legenda": "Sete grupos que raramente aparecem sozinhos. A lista serve para não esquecer nenhum ao preencher o primeiro termo da equação."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "dica",
+          "titulo": "Duas listas, o mesmo paciente",
+          "texto": "Moyers lista sete grupos; Proffit reagrupa em causas específicas, genéticas e ambientais. Não são teorias rivais, são arrumações diferentes da mesma gaveta. Na prova, responda com a lista do autor que a questão citar; na clínica, use a que o ajudar a não esquecer nada."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Em qual dos sete grupos de Moyers entra a perda prematura de dentes decíduos?",
+        "resposta": "Em agentes físicos, junto com a natureza da alimentação."
+      }
+    },
+    {
+      "titulo": "O tecido decide o nome: dentária, esquelética, muscular",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "O terceiro termo da equação é o mais útil na clínica. Moyers classificou a má oclusão pelo tecido comprometido, e não pela aparência dos dentes. Má oclusão dentária, quando o problema está na posição dos dentes sobre bases normais. Esquelética, quando a maxila, a mandíbula ou a relação entre elas estão alteradas. Muscular, ou neuromuscular, quando a função e a postura dos músculos produzem ou mantêm o problema. E as combinações, que são a maioria dos casos reais."
+        },
+        {
+          "tipo": "p",
+          "texto": "É por isso que a classificação de Angle não basta. Uma Classe II dentária, uma Classe II esquelética por mandíbula pequena e uma Classe II mantida por postura de lábio e língua têm o mesmo nome e três tratamentos: mecânica dentária, modificação do crescimento e reeducação funcional. A pergunta \"que tecido?\" é a que transforma o rótulo em plano."
+        },
+        {
+          "tipo": "visual",
+          "formato": "comparativo",
+          "titulo": "A mesma Classe II em três tecidos",
+          "descricao": "Três colunas. Dentária: bases normais, molares migrados ou incisivos inclinados; tratamento com mecânica dentária. Esquelética: mandíbula pequena ou retruída, maxila protruída; tratamento com modificação do crescimento, camuflagem ou cirurgia conforme a idade. Muscular: postura de lábio, língua e mandíbula que produz ou mantém a relação; tratamento com remoção da causa funcional e reeducação, além da correção.",
+          "viewBox": "0 0 720 320",
+          "svg": [
+            "<use href='#c-caixa-gold' x='16' y='16' width='220' height='44'/><text x='126' y='44' text-anchor='middle' font-size='15' font-weight='700'>Dentária</text>",
+            "<use href='#c-caixa-blue' x='250' y='16' width='220' height='44'/><text x='360' y='44' text-anchor='middle' font-size='15' font-weight='700'>Esquelética</text>",
+            "<use href='#c-caixa-red' x='484' y='16' width='220' height='44'/><text x='594' y='44' text-anchor='middle' font-size='15' font-weight='700'>Muscular</text>",
+            "<g font-size='12' fill='var(--ink,#23211C)'><text x='24' y='90' font-weight='700'>Onde está o problema</text><text x='24' y='108'>dentes migrados ou inclinados</text><text x='24' y='124'>sobre bases normais</text><text x='24' y='156' font-weight='700'>Como reconhecer</text><text x='24' y='174'>ANB e Wits normais; história</text><text x='24' y='190'>de perda precoce ou hábito</text><text x='24' y='222' font-weight='700'>Tratamento</text><text x='24' y='240'>mecânica dentária</text></g>",
+            "<g font-size='12' fill='var(--ink,#23211C)'><text x='258' y='90' font-weight='700'>Onde está o problema</text><text x='258' y='108'>mandíbula pequena ou retruída,</text><text x='258' y='124'>maxila protruída</text><text x='258' y='156' font-weight='700'>Como reconhecer</text><text x='258' y='174'>ANB e Wits aumentados;</text><text x='258' y='190'>SNB baixo ou SNA alto</text><text x='258' y='222' font-weight='700'>Tratamento</text><text x='258' y='240'>modificar crescimento; camuflar</text><text x='258' y='256'>ou operar no adulto</text></g>",
+            "<g font-size='12' fill='var(--ink,#23211C)'><text x='492' y='90' font-weight='700'>Onde está o problema</text><text x='492' y='108'>postura de lábio, língua e</text><text x='492' y='124'>mandíbula produz ou mantém</text><text x='492' y='156' font-weight='700'>Como reconhecer</text><text x='492' y='174'>selamento labial, respiração,</text><text x='492' y='190'>posição de repouso da língua</text><text x='492' y='222' font-weight='700'>Tratamento</text><text x='492' y='240'>remover a causa funcional,</text><text x='492' y='256'>reeducar e então corrigir</text></g>",
+            "<use href='#c-caixa-ink' x='100' y='276' width='520' height='34'/><text x='360' y='298' text-anchor='middle' font-size='12' font-weight='700' fill='#fff'>Mesmo rótulo de Angle, três tecidos, três planos; a maioria dos casos combina dois</text>"
+          ],
+          "legenda": "O rótulo é o mesmo nas três colunas. O tecido é o que muda a coluna do tratamento."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "mito",
+          "mito": "Classificar em Angle é o mesmo que diagnosticar a má oclusão.",
+          "verdade": "Angle descreve o resultado, o último termo da equação. O diagnóstico exige os outros três: que causa, em que tempo, sobre que tecido. Só o tecido já separa três tratamentos para a mesma classe."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Como Moyers classifica a má oclusão, e por que essa classificação é mais útil para tratar do que a de Angle?",
+        "resposta": "Pelo tecido comprometido: dentária, esquelética, muscular ou combinada. Porque o tratamento age no tecido, e o mesmo rótulo de Angle pode esconder tecidos diferentes."
+      }
+    },
+    {
+      "titulo": "Equifinalidade: muitos caminhos, um resultado; um caminho, muitos resultados",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "A equação de Dockrell tem uma consequência que Moyers destacou e que dá nome a esta página no programa: não existe correspondência de um para um entre causa e efeito. Causas diferentes podem convergir para a mesma má oclusão, e a mesma causa pode divergir em más oclusões diferentes, conforme o tempo em que age, o tecido que encontra e a suscetibilidade de cada indivíduo. Na teoria dos sistemas, o primeiro fenômeno se chama equifinalidade [VERIFICAR]."
+        },
+        {
+          "tipo": "p",
+          "texto": "A mordida aberta anterior é o exemplo mais claro. Chega-se a ela por sucção prolongada, por respiração bucal com face longa, por padrão esquelético vertical herdado, por macroglossia ou por artrite que destruiu os côndilos. Cinco causas, um sinal. Do outro lado, a respiração bucal pode produzir mordida aberta em uma criança, mordida cruzada posterior em outra e Classe II em uma terceira, conforme o padrão de crescimento e a postura que cada uma adotou."
+        },
+        {
+          "tipo": "visual",
+          "formato": "mapa",
+          "titulo": "Equifinalidade: cinco causas, um sinal; uma causa, três sinais",
+          "descricao": "Duas metades. À esquerda, cinco caixas de causas (sucção prolongada, respiração bucal com face longa, padrão vertical herdado, macroglossia, destruição condilar) convergindo em setas para um nó central: mordida aberta anterior. À direita, um nó de causa (respiração bucal) divergindo em três setas para três resultados: mordida aberta, mordida cruzada posterior, Classe II com mandíbula para trás.",
+          "viewBox": "0 0 720 360",
+          "svg": [
+            "<text x='180' y='28' text-anchor='middle' font-size='13' font-weight='700' fill='var(--ink,#23211C)'>Causas diferentes, mesmo resultado</text>",
+            "<g stroke='var(--border,#EDE6D8)' stroke-width='1.5'><line x1='90' y1='80' x2='180' y2='190'/><line x1='90' y1='140' x2='180' y2='190'/><line x1='90' y1='200' x2='180' y2='190'/><line x1='90' y1='260' x2='180' y2='190'/><line x1='90' y1='320' x2='180' y2='190'/></g>",
+            "<g font-size='11' fill='var(--ink,#23211C)'><use href='#c-caixa' x='10' y='62' width='160' height='36'/><text x='90' y='85' text-anchor='middle'>sucção prolongada</text><use href='#c-caixa' x='10' y='122' width='160' height='36'/><text x='90' y='145' text-anchor='middle'>respiração bucal, face longa</text><use href='#c-caixa' x='10' y='182' width='160' height='36'/><text x='90' y='205' text-anchor='middle'>padrão vertical herdado</text><use href='#c-caixa' x='10' y='242' width='160' height='36'/><text x='90' y='265' text-anchor='middle'>macroglossia</text><use href='#c-caixa' x='10' y='302' width='160' height='36'/><text x='90' y='325' text-anchor='middle'>destruição condilar</text></g>",
+            "<use href='#c-no-central' x='190' y='164' width='150' height='52'/><text x='265' y='186' text-anchor='middle' font-size='12' font-weight='700' fill='#fff'>Mordida aberta</text><text x='265' y='202' text-anchor='middle' font-size='12' font-weight='700' fill='#fff'>anterior</text>",
+            "<line x1='360' y1='40' x2='360' y2='340' stroke='var(--border,#EDE6D8)' stroke-width='2' stroke-dasharray='6 4'/>",
+            "<text x='540' y='28' text-anchor='middle' font-size='13' font-weight='700' fill='var(--ink,#23211C)'>Mesma causa, resultados diferentes</text>",
+            "<g stroke='var(--border,#EDE6D8)' stroke-width='1.5'><line x1='455' y1='190' x2='620' y2='100'/><line x1='455' y1='190' x2='620' y2='190'/><line x1='455' y1='190' x2='620' y2='280'/></g>",
+            "<use href='#c-no-central' x='380' y='164' width='150' height='52'/><text x='455' y='186' text-anchor='middle' font-size='12' font-weight='700' fill='#fff'>Respiração</text><text x='455' y='202' text-anchor='middle' font-size='12' font-weight='700' fill='#fff'>bucal</text>",
+            "<g font-size='11' fill='var(--ink,#23211C)'><use href='#c-caixa' x='540' y='82' width='170' height='36'/><text x='625' y='105' text-anchor='middle'>mordida aberta anterior</text><use href='#c-caixa' x='540' y='172' width='170' height='36'/><text x='625' y='195' text-anchor='middle'>mordida cruzada posterior</text><use href='#c-caixa' x='540' y='262' width='170' height='36'/><text x='625' y='285' text-anchor='middle'>Classe II, mandíbula atrás</text></g>",
+            "<text x='360' y='352' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>o que decide o caminho: tempo, tecido e o indivíduo</text>"
+          ],
+          "legenda": "O sinal clínico não aponta a causa, e a causa não garante o sinal. Entre um e outro estão o tempo, o tecido e a pessoa."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "erro",
+          "texto": "Deduzir a causa a partir do sinal: \"mordida aberta, logo hábito\". Metade das mordidas abertas que chegam ao ortodontista não tem hábito nenhum, e tratar a face longa esquelética com grade palatina é perder um ano. O sinal abre a investigação; ele não a fecha."
+        }
+      ],
+      "checagem": {
+        "pergunta": "O que é equifinalidade e que erro clínico ela previne?",
+        "resposta": "É a convergência de causas diferentes para o mesmo resultado; previne o erro de deduzir a causa a partir do sinal e tratar o tecido errado."
+      }
+    },
+    {
+      "titulo": "Moyers aplicou a ideia à Classe II",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "Moyers não deixou a equifinalidade na teoria. Com Riolo e colaboradores, analisou cefalometricamente grandes amostras de Classe II e mostrou que o rótulo de Angle abriga vários padrões distintos: tipos horizontais, que diferem em qual base está fora do lugar e quanto, e tipos verticais, que diferem na altura facial e na inclinação dos planos. Uma Classe II dentária pura e uma Classe II com mandíbula pequena e face longa recebem o mesmo nome e são doenças diferentes [VERIFICAR]."
+        },
+        {
+          "tipo": "p",
+          "texto": "O ponto do trabalho é o mesmo da equação: o resultado, a relação molar, é a última linha de histórias diferentes. Separar os tipos permite prever o crescimento e escolher a mecânica. Quem aprende os tipos decora letras; quem entende a equação sabe por que eles existem."
+        },
+        {
+          "tipo": "imagem",
+          "imagem": "conjunto de traçados cefalométricos sobrepostos de pacientes com Classe II de padrões esqueléticos diferentes",
+          "mostrar": "Três perfis de Classe II lado a lado: um com bases normais e molares migrados; um com mandíbula pequena e face proporcional; um com mandíbula retruída e face longa, plano mandibular inclinado",
+          "legenda": "Três Classes II de Angle, três esqueletos: a relação molar é a mesma última linha de histórias diferentes.",
+          "destacar": "Posição do ponto B em cada traçado, inclinação do plano mandibular, altura facial anterior inferior"
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "frase",
+          "texto": "Angle nomeia o resultado. Moyers pergunta a história. O tratamento pertence à história, não ao nome."
+        }
+      ],
+      "checagem": {
+        "pergunta": "O que o estudo de Moyers sobre os tipos de Classe II demonstra em relação à equação de Dockrell?",
+        "resposta": "Que o mesmo resultado, a relação molar de Classe II, é produzido por combinações diferentes de tecidos comprometidos, com prognósticos e tratamentos diferentes."
+      }
+    },
+    {
+      "titulo": "Como usar a equação na ficha clínica",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "Na prática, a equação vira quatro linhas na ficha. Resultado: o que você vê e mede, com Angle, trespasses, cruzadas e cefalometria. Tecido: dentário, esquelético, muscular ou combinação, decidido pela cefalometria e pelo exame funcional. Tempo: quando o fator agiu ou age, e se ainda está agindo. Causa: o grupo etiológico provável, com a evidência que sustenta a hipótese."
+        },
+        {
+          "tipo": "p",
+          "texto": "Preencher de baixo para cima, do resultado para a causa, é o caminho natural do exame. Mas o plano de tratamento se escreve de cima para baixo: remove-se ou compensa-se a causa, respeita-se o tempo do crescimento e trata-se o tecido comprometido. Quando as quatro linhas concordam, o plano se sustenta; quando uma está vazia, há uma pergunta que você ainda não fez."
+        },
+        {
+          "tipo": "lista",
+          "itens": [
+            "Resultado: classe de Angle, trespasses, transversal, vertical, cefalometria.",
+            "Tecido: dentário, esquelético, muscular ou combinado; qual predomina.",
+            "Tempo: fator passado ou ainda ativo; fase de crescimento e de erupção.",
+            "Causa: grupo etiológico provável e a evidência que o sustenta."
+          ]
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "dica",
+          "titulo": "A linha vazia é a pergunta pendente",
+          "texto": "Se a linha do tecido está vazia, falta cefalometria ou exame funcional. Se a do tempo está vazia, falta perguntar se o hábito continua e em que estágio de maturação a criança está. Se a da causa está vazia, falta história familiar, de trauma e de perdas. A equação não é teoria de prova; é a lista do que ainda não foi perguntado."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Por que a ficha se preenche do resultado para a causa, mas o plano se escreve da causa para o resultado?",
+        "resposta": "Porque o exame começa pelo que se vê e mede, mas o tratamento precisa remover ou compensar a causa, respeitar o tempo do crescimento e agir no tecido comprometido antes de corrigir o resultado."
+      }
+    },
+    {
+      "titulo": "De volta aos dois meninos",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "Mesmo resultado, mordida aberta de 4 mm. No primeiro, a causa foi o hábito de sucção, o tempo foi a primeira infância e o fator já cessou, o tecido é dentoalveolar sobre esqueleto normal: com o hábito parado e os incisivos permanentes chegando, a chance de fechamento espontâneo é boa e a mecânica, se precisar, é simples."
+        },
+        {
+          "tipo": "p",
+          "texto": "No segundo, a causa é o padrão vertical com respiração bucal, o tempo é agora e o fator continua ativo, o tecido é esquelético e muscular: o plano começa no nariz e na postura, passa pelo controle vertical e pode terminar em cirurgia no fim do crescimento."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "frase",
+          "texto": "Duas mordidas abertas iguais, duas equações diferentes. Tratar o segundo menino como o primeiro é tratar o sinal e perder o paciente."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Preencha a equação de Dockrell para o segundo menino da abertura.",
+        "resposta": "Causa: padrão vertical herdado e respiração bucal. Tempo: ativo agora, em plena fase de crescimento. Tecido: esquelético e muscular. Resultado: mordida aberta anterior com face longa."
+      }
+    }
+  ],
+  "fechamento": {
+    "visual": {
+      "formato": "mapa",
+      "titulo": "Mapa da página",
+      "descricao": "Nó central: etiologia segundo Moyers. Seis nós: equação de Dockrell, causa, tempo, tecido, resultado; sete grupos de causas; classificação pelo tecido; equifinalidade; tipos de Classe II; a ficha em quatro linhas.",
+      "viewBox": "0 0 560 360",
+      "svg": [
+        "<g stroke='var(--border,#EDE6D8)' stroke-width='1.5'><line x1='280' y1='180' x2='100' y2='60'/><line x1='280' y1='180' x2='460' y2='60'/><line x1='280' y1='180' x2='70' y2='180'/><line x1='280' y1='180' x2='490' y2='180'/><line x1='280' y1='180' x2='100' y2='300'/><line x1='280' y1='180' x2='460' y2='300'/></g>",
+        "<use href='#c-no-central' x='190' y='150' width='180' height='60'/>",
+        "<text x='280' y='176' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>Etiologia</text><text x='280' y='194' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>segundo Moyers</text>",
+        "<use href='#c-no' x='20' y='38' width='160' height='44'/><text x='100' y='65' text-anchor='middle' font-size='13' font-weight='700'>Causa, tempo, tecido</text>",
+        "<use href='#c-no' x='380' y='38' width='160' height='44'/><text x='460' y='65' text-anchor='middle' font-size='13' font-weight='700'>Sete grupos de causas</text>",
+        "<use href='#c-no' x='0' y='158' width='150' height='44'/><text x='75' y='185' text-anchor='middle' font-size='13' font-weight='700'>Tecido dá o nome</text>",
+        "<use href='#c-no' x='410' y='158' width='150' height='44'/><text x='485' y='185' text-anchor='middle' font-size='13' font-weight='700'>Equifinalidade</text>",
+        "<use href='#c-no' x='20' y='278' width='160' height='44'/><text x='100' y='305' text-anchor='middle' font-size='13' font-weight='700'>Tipos de Classe II</text>",
+        "<use href='#c-no' x='380' y='278' width='160' height='44'/><text x='460' y='305' text-anchor='middle' font-size='13' font-weight='700'>Ficha em quatro linhas</text>"
+      ]
+    },
+    "flashcards": [
+      {
+        "frente": "Enuncie a equação ortodôntica de Dockrell.",
+        "verso": "Uma causa, agindo em determinado tempo sobre determinado tecido (sítio etiológico primário), produz um resultado. Os quatro termos precisam ser preenchidos."
+      },
+      {
+        "frente": "Os sete grupos etiológicos de Moyers.",
+        "verso": "Hereditariedade; defeitos de desenvolvimento de origem desconhecida; trauma; agentes físicos (perda prematura de decíduos, dieta); hábitos; doença; desnutrição."
+      },
+      {
+        "frente": "O que é equifinalidade e qual é a sua consequência clínica?",
+        "verso": "Causas diferentes convergem para o mesmo resultado, e a mesma causa diverge em resultados diferentes. Consequência: não deduzir a causa pelo sinal; tratar o tecido comprometido, não o sintoma."
+      }
+    ]
+  },
+  "infografico": {
+    "titulo": "Moyers em seis cartões",
+    "itens": [
+      {
+        "rotulo": "Equação",
+        "texto": "Causa, em certo tempo, sobre certo tecido, produz o resultado (Dockrell, 1952; popularizada por Moyers)."
+      },
+      {
+        "rotulo": "Causas",
+        "texto": "Hereditariedade, defeitos de desenvolvimento, trauma, agentes físicos, hábitos, doença, desnutrição."
+      },
+      {
+        "rotulo": "Tecidos",
+        "texto": "Dentes, osso, músculo, tecidos moles. A má oclusão se classifica pelo tecido: dentária, esquelética, muscular, combinada."
+      },
+      {
+        "rotulo": "Equifinalidade",
+        "texto": "Mordida aberta por hábito, respiração, padrão vertical, macroglossia ou côndilo. Um sinal, muitas causas."
+      },
+      {
+        "rotulo": "Classe II",
+        "texto": "Moyers separou tipos horizontais e verticais dentro do mesmo rótulo de Angle: mesma última linha, histórias diferentes."
+      },
+      {
+        "rotulo": "Na ficha",
+        "texto": "Quatro linhas: resultado, tecido, tempo, causa. Linha vazia é pergunta que falta fazer."
+      }
+    ]
+  },
+  "fluxograma": {
+    "titulo": "Preenchendo a equação de Dockrell no exame",
+    "nos": [
+      {
+        "id": "n1",
+        "tipo": "inicio",
+        "texto": "Má oclusão identificada: descrever o resultado"
+      },
+      {
+        "id": "n2",
+        "tipo": "decisao",
+        "texto": "Cefalometria mostra bases alteradas?"
+      },
+      {
+        "id": "n3",
+        "tipo": "acao",
+        "texto": "Tecido esquelético envolvido: anotar qual base e quanto"
+      },
+      {
+        "id": "n4",
+        "tipo": "decisao",
+        "texto": "Exame funcional mostra postura, respiração ou hábito ativo?"
+      },
+      {
+        "id": "n5",
+        "tipo": "acao",
+        "texto": "Tecido muscular envolvido: anotar o fator e se continua ativo"
+      },
+      {
+        "id": "n6",
+        "tipo": "acao",
+        "texto": "Tecido dentário: migrações, inclinações, perdas, anomalias"
+      },
+      {
+        "id": "n7",
+        "tipo": "acao",
+        "texto": "Tempo: fase de crescimento e erupção; fator passado ou presente"
+      },
+      {
+        "id": "n8",
+        "tipo": "acao",
+        "texto": "Causa: escolher o grupo etiológico com a evidência da história"
+      },
+      {
+        "id": "n9",
+        "tipo": "fim",
+        "texto": "Plano de cima para baixo: causa, tempo, tecido, resultado"
+      }
+    ],
+    "arestas": [
+      {
+        "de": "n1",
+        "para": "n2"
+      },
+      {
+        "de": "n2",
+        "para": "n3",
+        "rotulo": "sim"
+      },
+      {
+        "de": "n3",
+        "para": "n4"
+      },
+      {
+        "de": "n2",
+        "para": "n4",
+        "rotulo": "não"
+      },
+      {
+        "de": "n4",
+        "para": "n5",
+        "rotulo": "sim"
+      },
+      {
+        "de": "n5",
+        "para": "n6"
+      },
+      {
+        "de": "n4",
+        "para": "n6",
+        "rotulo": "não"
+      },
+      {
+        "de": "n6",
+        "para": "n7"
+      },
+      {
+        "de": "n7",
+        "para": "n8"
+      },
+      {
+        "de": "n8",
+        "para": "n9"
+      }
+    ]
+  },
+  "passoAPasso": [
+    {
+      "passo": "Descreva o resultado por completo: Angle, trespasses, transversal, vertical, cefalometria.",
+      "confira": "A descrição cobre os três planos e o esqueleto?"
+    },
+    {
+      "passo": "Decida o tecido: dentário, esquelético, muscular ou combinação, e qual predomina.",
+      "confira": "A cefalometria e o exame funcional sustentam a escolha?"
+    },
+    {
+      "passo": "Situe o tempo: o fator agiu no passado ou continua agindo? Em que fase de crescimento e erupção o paciente está?",
+      "confira": "O hábito ou a obstrução ainda existem?"
+    },
+    {
+      "passo": "Nomeie a causa pelo grupo etiológico e escreva a evidência.",
+      "confira": "História familiar, de trauma, de perdas e de hábitos foi colhida?"
+    },
+    {
+      "passo": "Escreva o plano de cima para baixo: remover ou compensar a causa, respeitar o tempo, tratar o tecido, corrigir o resultado.",
+      "confira": "Cada etapa do plano corresponde a uma linha da equação?"
+    }
+  ],
+  "macetes": [
+    {
+      "titulo": "Quem, quando, onde, o quê",
+      "texto": "Causa (quem), tempo (quando), tecido (onde), resultado (o quê). A equação de Dockrell em quatro perguntas."
+    },
+    {
+      "titulo": "Sete de Moyers: H-D-T-A-H-D-D",
+      "texto": "Hereditariedade, Desenvolvimento, Trauma, Agentes físicos, Hábitos, Doença, Desnutrição."
+    },
+    {
+      "titulo": "Tecido dá o tratamento",
+      "texto": "Dentário: mecânica. Esquelético: crescimento, camuflagem ou cirurgia. Muscular: causa funcional e reeducação."
+    },
+    {
+      "titulo": "O sinal não confessa a causa",
+      "texto": "Mordida aberta tem cinco caminhos; respiração bucal tem três saídas. Investigue antes de rotular."
+    }
+  ],
+  "ondeErra": [
+    {
+      "erro": "Responder \"a causa foi o hábito\" e parar aí.",
+      "porque": "Faltam tempo, tecido e resultado; a mesma causa em outro tempo ou tecido dá outro efeito.",
+      "certo": "Preencher os quatro termos da equação."
+    },
+    {
+      "erro": "Deduzir a etiologia pelo sinal clínico.",
+      "porque": "Equifinalidade: causas diferentes convergem para o mesmo sinal.",
+      "certo": "Sinal abre a investigação; cefalometria, exame funcional e história a fecham."
+    },
+    {
+      "erro": "Confundir a lista de Moyers com a de Proffit na prova.",
+      "porque": "São arrumações diferentes: sete grupos versus específicas, genéticas e ambientais.",
+      "certo": "Responder com a lista do autor citado na questão."
+    },
+    {
+      "erro": "Tratar o resultado sem agir no tecido e na causa.",
+      "porque": "Corrigir o sintoma com a causa ativa leva à recidiva.",
+      "certo": "Plano de cima para baixo: causa, tempo, tecido, resultado."
+    }
+  ],
+  "autoteste": [
+    {
+      "pergunta": "Os quatro termos da equação ortodôntica de Dockrell, popularizada por Moyers, são:",
+      "alternativas": [
+        "Herança, ambiente, função e forma",
+        "Causa, tempo, tecido e resultado",
+        "Dente, osso, músculo e tecido mole",
+        "Classe, divisão, subdivisão e gravidade"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Não são os termos da equação.",
+        "Correta: uma causa, em determinado tempo, sobre determinado tecido, produz um resultado.",
+        "Esses são os tecidos, um só termo da equação.",
+        "Esses são termos da classificação de Angle."
+      ]
+    },
+    {
+      "pergunta": "Segundo Moyers, a má oclusão deve ser classificada, para fins de tratamento, principalmente por:",
+      "alternativas": [
+        "Pela relação dos primeiros molares",
+        "Pelo tecido comprometido: dentária, esquelética, muscular ou combinada",
+        "Pela idade do paciente",
+        "Pelo índice de necessidade de tratamento"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Essa é a classificação de Angle, que descreve o resultado.",
+        "Correta: o tratamento age no tecido comprometido.",
+        "A idade entra no termo tempo, não define a classificação.",
+        "Índices medem necessidade, não tecido."
+      ]
+    },
+    {
+      "pergunta": "Duas crianças apresentam mordida aberta anterior idêntica: uma por hábito de sucção já interrompido, outra por padrão esquelético vertical com respiração bucal ativa. Esse cenário ilustra:",
+      "alternativas": [
+        "A classificação de Angle",
+        "A equifinalidade: causas diferentes produzindo o mesmo resultado",
+        "A teoria da matriz funcional",
+        "A tríade de Graber"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Angle nem descreve a mordida aberta.",
+        "Correta: o mesmo sinal com causas, tecidos e tratamentos diferentes.",
+        "A matriz funcional é teoria de crescimento, não de etiologia da má oclusão.",
+        "A tríade descreve as variáveis do hábito."
+      ]
+    },
+    {
+      "pergunta": "Na lista de grupos etiológicos de Moyers, a perda prematura de dentes decíduos e a natureza da alimentação estão em:",
+      "alternativas": [
+        "Hábitos",
+        "Agentes físicos",
+        "Doença",
+        "Defeitos de desenvolvimento de origem desconhecida"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Hábitos são sucção, língua e respiração.",
+        "Correta: agentes físicos reúnem perda prematura de decíduos e a dieta.",
+        "Doença inclui cárie e periodontite, mas a perda prematura é classificada como agente físico.",
+        "Defeitos de desenvolvimento são agenesias e malformações."
+      ]
+    },
+    {
+      "pergunta": "A principal consequência clínica de aceitar que causas diferentes produzem a mesma má oclusão é:",
+      "alternativas": [
+        "Tratar sempre o sintoma, já que a causa não importa",
+        "Investigar a causa e o tecido antes de planejar, em vez de deduzi-los pelo sinal",
+        "Usar apenas a classificação de Angle",
+        "Adiar todo tratamento até a idade adulta"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "É o oposto: a causa e o tecido definem o tratamento.",
+        "Correta: o sinal não confessa a causa; cefalometria, exame funcional e história a revelam.",
+        "Angle descreve só o resultado.",
+        "O tempo é um termo da equação; adiar sem critério ignora a fase de crescimento."
+      ]
+    }
+  ],
+  "pesquisa": {
+    "termos": [
+      "etiologia da má oclusão",
+      "equação ortodôntica de Dockrell",
+      "Moyers etiologia",
+      "classificação da má oclusão por tecido"
+    ]
+  },
+  "referenciasBase": [
+    "Moyers RE. Ortodontia. 4ª ed. Etiologia da má oclusão; classificação da má oclusão.",
+    "Dockrell RB. Classifying the aetiology of malocclusion. Dent Rec. 1952.",
+    "Moyers RE, Riolo ML, Guire KE, Wainright RL, Bookstein FL. Differential diagnosis of Class II malocclusions. Part 1. Facial types associated with Class II malocclusions. Am J Orthod. 1980.",
+    "Proffit WR, Fields HW, Larson BE, Sarver DM. Ortodontia Contemporânea. 6ª ed. Etiologia dos problemas ortodônticos.",
+    "Graber LW, Vanarsdall RL, Vig KWL, Huang GJ. Ortodontia: princípios e técnicas atuais. 6ª ed."
+  ],
+  "validacao": {
+    "validadoPor": null,
+    "data": null
+  }
+}
