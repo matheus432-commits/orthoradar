@@ -57,9 +57,9 @@
             "<g stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'><line x1='200' y1='70' x2='340' y2='70'/><line x1='450' y1='120' x2='450' y2='240'/><line x1='360' y1='300' x2='220' y2='300'/><line x1='110' y1='240' x2='110' y2='120'/></g>",
             "<use href='#c-caixa-gold' x='20' y='40' width='180' height='64'/><text x='110' y='64' text-anchor='middle' font-size='13' font-weight='700'>1. Ativação</text><text x='110' y='82' text-anchor='middle' font-size='11'>precursores recrutados</text><text x='110' y='96' text-anchor='middle' font-size='11'>para a superfície; dias</text>",
             "<use href='#c-caixa-red' x='360' y='40' width='180' height='64'/><text x='450' y='64' text-anchor='middle' font-size='13' font-weight='700'>2. Reabsorção</text><text x='450' y='82' text-anchor='middle' font-size='11'>osteoclastos escavam</text><text x='450' y='96' text-anchor='middle' font-size='11'>a cavidade; semanas</text>",
-            "<use href='#c-caixa' x='360' y='256' width='180' height='64'/><text x='450' y='280' text-anchor='middle' font-size='13' font-weight='700'>3. Reversão</text><text x='450' y='298' text-anchor='middle' font-size='11'>células mononucleares limpam</text><text x='450' y='312' text-anchor='middle' font-size='11'>e preparam a superfície; dias</text>",
+            "<use href='#c-caixa' x='360' y='256' width='180' height='64'/><text x='450' y='280' text-anchor='middle' font-size='13' font-weight='700'>3. Reversão</text><text x='450' y='298' text-anchor='middle' font-size='11'>células mononucleares</text><text x='450' y='312' text-anchor='middle' font-size='11'>preparam a superfície; dias</text>",
             "<use href='#c-caixa-green' x='20' y='256' width='180' height='64'/><text x='110' y='280' text-anchor='middle' font-size='13' font-weight='700'>4. Formação</text><text x='110' y='298' text-anchor='middle' font-size='11'>osteoblastos preenchem com</text><text x='110' y='312' text-anchor='middle' font-size='11'>osteoide; mineraliza em meses</text>",
-            "<use href='#c-no-central' x='190' y='150' width='180' height='60'/><text x='280' y='174' text-anchor='middle' font-size='12' font-weight='700' fill='#fff'>Acoplamento</text><text x='280' y='192' text-anchor='middle' font-size='11' fill='#fff'>remove e devolve: balanço zero</text>",
+            "<use href='#c-no-central' x='190' y='150' width='180' height='60'/><text x='280' y='174' text-anchor='middle' font-size='12' font-weight='700' fill='#fff'>Acoplamento</text><text x='280' y='192' text-anchor='middle' font-size='11' fill='#fff'>balanço zero</text>",
             "<text x='280' y='360' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>a unidade básica multicelular percorre o ciclo em meses; reabsorve rápido, forma devagar</text>",
             "<text x='280' y='384' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>osteoporose: a formação não acompanha; bisfosfonato: a reabsorção é freada</text>"
           ],
@@ -98,7 +98,7 @@
             "<use href='#c-caixa-gold' x='390' y='16' width='300' height='44'/><text x='540' y='44' text-anchor='middle' font-size='15' font-weight='700'>Modelagem</text>",
             "<g font-size='12' fill='var(--ink,#23211C)'><text x='40' y='90' font-weight='700'>Onde</text><text x='40' y='108'>reabsorção e formação no mesmo lugar</text><text x='40' y='140' font-weight='700'>Resultado</text><text x='40' y='158'>forma mantida; osso renovado</text><text x='40' y='190' font-weight='700'>Quando</text><text x='40' y='208'>a vida inteira, em todo o esqueleto</text><text x='40' y='240' font-weight='700'>Exemplo na ortodontia</text><text x='40' y='258'>maturação do osso novo do lado de tensão</text></g>",
             "<g font-size='12' fill='var(--ink,#23211C)'><text x='400' y='90' font-weight='700'>Onde</text><text x='400' y='108'>reabsorção em uma superfície, formação em outra</text><text x='400' y='140' font-weight='700'>Resultado</text><text x='400' y='158'>forma ou posição mudam</text><text x='400' y='190' font-weight='700'>Quando</text><text x='400' y='208'>crescimento; resposta a força sustentada</text><text x='400' y='240' font-weight='700'>Exemplo na ortodontia</text><text x='400' y='258'>o alvéolo que acompanha o dente em movimento</text></g>",
-            "<use href='#c-caixa-ink' x='120' y='280' width='480' height='32'/><text x='360' y='301' text-anchor='middle' font-size='12' font-weight='700' fill='#fff'>O movimento dentário é modelagem; a estabilidade depende da remodelação</text>"
+            "<use href='#c-caixa-ink' x='120' y='280' width='480' height='32'/><text x='360' y='301' text-anchor='middle' font-size='12' font-weight='700' fill='#fff'>mover é modelagem; manter é remodelação</text>"
           ],
           "legenda": "Modelagem move o alvéolo com o dente; remodelação renova o que ficou. As duas acontecem juntas, e os remédios que freiam uma freiam a outra."
         },
@@ -173,8 +173,8 @@
             "<rect x='80' y='60' width='170' height='18' rx='9' fill='var(--blue,#4A6B8A)' fill-opacity='0.5'/><text x='90' y='54' font-size='11' font-weight='700' fill='var(--blue,#4A6B8A)'>ligamento periodontal: 3 a 4 meses</text>",
             "<rect x='80' y='100' width='300' height='18' rx='9' fill='var(--gold,#B08968)' fill-opacity='0.5'/><text x='90' y='94' font-size='11' font-weight='700' fill='var(--gold,#B08968)'>osso novo do lado de tensão: mineraliza em meses</text>",
             "<rect x='80' y='140' width='280' height='18' rx='9' fill='var(--green,#3E7C4F)' fill-opacity='0.5'/><text x='90' y='134' font-size='11' font-weight='700' fill='var(--green,#3E7C4F)'>fibras colágenas da gengiva: 4 a 6 meses</text>",
-            "<rect x='80' y='170' width='600' height='18' rx='9' fill='var(--red,#B4533B)' fill-opacity='0.45'/><text x='400' y='166' font-size='11' font-weight='700' fill='var(--red,#B4533B)'>fibras elásticas supracrestais: mais de um ano; às vezes incompleto</text>",
-            "<use href='#c-caixa-ink' x='80' y='250' width='600' height='44'/><text x='380' y='269' text-anchor='middle' font-size='12' font-weight='700' fill='#fff'>Contenção: integral nos primeiros meses, redução gradual, prolongada onde houve rotação</text><text x='380' y='286' text-anchor='middle' font-size='11' fill='#fff'>fibrotomia supracrestal quando as fibras elásticas não vão ceder</text>",
+            "<rect x='80' y='170' width='600' height='18' rx='9' fill='var(--red,#B4533B)' fill-opacity='0.45'/><text x='400' y='166' font-size='11' font-weight='700' fill='var(--red,#B4533B)'>fibras elásticas supracrestais: mais de um ano</text>",
+            "<use href='#c-caixa-ink' x='80' y='250' width='600' height='44'/><text x='380' y='269' text-anchor='middle' font-size='12' font-weight='700' fill='#fff'>Contenção: integral nos primeiros meses, depois gradual</text><text x='380' y='286' text-anchor='middle' font-size='11' fill='#fff'>prolongada onde houve rotação; fibrotomia se as fibras não cedem</text>",
             "<text x='380' y='326' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>prazos aproximados a partir de Reitan [VERIFICAR]; o inferior anterior e as rotações pedem mais</text>"
           ],
           "legenda": "Cada tecido tem o seu prazo, e as fibras elásticas da gengiva têm o mais longo. A contenção não é capricho: é o tempo que a remodelação leva para alcançar o dente."
@@ -294,10 +294,10 @@
         "<text x='280' y='186' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>Remodelação</text>",
         "<use href='#c-no' x='20' y='38' width='160' height='44'/><text x='100' y='65' text-anchor='middle' font-size='13' font-weight='700'>Ciclo de quatro fases</text>",
         "<use href='#c-no' x='380' y='38' width='160' height='44'/><text x='460' y='65' text-anchor='middle' font-size='13' font-weight='700'>Modelar x remodelar</text>",
-        "<use href='#c-no' x='0' y='158' width='150' height='44'/><text x='75' y='185' text-anchor='middle' font-size='13' font-weight='700'>Alvéolo renova rápido</text>",
+        "<use href='#c-no' x='0' y='158' width='150' height='44'/><text x='75' y='185' text-anchor='middle' font-size='13' font-weight='700'>Alvéolo renova</text>",
         "<use href='#c-no' x='410' y='158' width='150' height='44'/><text x='485' y='185' text-anchor='middle' font-size='13' font-weight='700'>Prazos e contenção</text>",
         "<use href='#c-no' x='20' y='278' width='160' height='44'/><text x='100' y='305' text-anchor='middle' font-size='13' font-weight='700'>Remédios freiam</text>",
-        "<use href='#c-no' x='380' y='278' width='160' height='44'/><text x='460' y='305' text-anchor='middle' font-size='13' font-weight='700'>Anquilose: sem resposta</text>"
+        "<use href='#c-no' x='380' y='278' width='160' height='44'/><text x='460' y='305' text-anchor='middle' font-size='13' font-weight='700'>Anquilose: parado</text>"
       ]
     },
     "flashcards": [
