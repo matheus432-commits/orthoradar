@@ -1,0 +1,307 @@
+{
+  "id": "ortodontia/mas-oclusoes/etiologia/fatores-geneticos-e-ambientais",
+  "areaId": "ortodontia",
+  "area": "Ortodontia",
+  "modulo": "Más oclusões",
+  "tema": "Etiologia",
+  "titulo": "Etiologia da má oclusão: o que vem dos genes, o que vem do ambiente",
+  "estado": "rascunho",
+  "versao": 1,
+  "formato": 2,
+  "autoria": "Rascunho escrito pela plataforma para validação; nada aqui é visível ao aluno antes da assinatura de um ortodontista.",
+  "abertura": {
+    "situacao": "Dois meninos de 8 anos na mesma manhã. O primeiro chega com o pai e o avô, os três com o mento à frente e mordida cruzada anterior: Classe III em três gerações. O segundo tem apinhamento severo nos dois arcos, e os pais, sem nenhum apinhamento, perguntam de quem o filho herdou aquilo.",
+    "pergunta": "Por que uma má oclusão parece correr na família e outra aparece do nada, e o que essa diferença muda no prognóstico e no plano?"
+  },
+  "umMinuto": {
+    "frases": [
+      "A má oclusão é multifatorial: genes e ambiente agem juntos sobre um mesmo esqueleto em crescimento, e a pergunta útil não é \"qual dos dois\", mas \"quanto de cada um, neste traço\".",
+      "Os traços esqueléticos, como o tamanho e a posição da mandíbula, têm forte componente hereditário; o prognatismo mandibular da Classe III é o exemplo clássico, com famílias inteiras afetadas.",
+      "Os traços dentários de alinhamento, como o apinhamento, dependem muito mais do ambiente: estudos de gêmeos e a transição de populações rurais para urbanas mostram apinhamento crescendo em uma geração, o que os genes não explicam.",
+      "Proffit organiza as causas em três grupos: causas específicas (defeitos embrionários, distúrbios de crescimento, trauma, influências funcionais), influência genética e influência ambiental.",
+      "A teoria do equilíbrio explica o ambiente: forças leves e prolongadas, como a postura de língua e lábios em repouso, movem dentes; forças fortes e breves, como a mastigação, não.",
+      "Na clínica, a herança pesa no prognóstico esquelético e o ambiente pesa na prevenção: o que veio da família tende a voltar com o crescimento; o que veio do hábito melhora quando o hábito para."
+    ],
+    "caiNaProva": [
+      "Traços de alta e de baixa herdabilidade",
+      "Os três grupos de causas de Proffit",
+      "Teoria do equilíbrio e forças leves prolongadas",
+      "Causas específicas: embrionárias, trauma, distúrbios de crescimento",
+      "Evidência dos estudos de gêmeos e da transição epidemiológica"
+    ],
+    "porQueImporta": "Saber a origem de cada traço muda a conversa com a família e o plano: Classe III de três gerações pede vigilância até o fim do crescimento; apinhamento sem história familiar pede olhar para a dieta, a respiração e os hábitos, que se podem mudar."
+  },
+  "secoes": [
+    {
+      "titulo": "Uma pergunta mal feita: genética ou ambiente?",
+      "blocos": [
+        { "tipo": "p", "texto": "Toda má oclusão nasce de um esqueleto que cresce sob a influência de genes e de forças do ambiente ao mesmo tempo. Perguntar se a causa é genética ou ambiental é como perguntar se a área de um retângulo vem da largura ou da altura. A pergunta que rende é outra: neste traço, quanto pesa cada lado? A resposta muda de traço para traço, e isso é o que você precisa levar para a clínica." },
+        { "tipo": "p", "texto": "O tamanho da mandíbula, a altura da face e a inclinação do plano mandibular são traços em que a herança pesa muito. A posição de cada dente no arco, o apinhamento e a rotação são traços em que o ambiente pesa mais. Entre os dois extremos ficam a Classe II divisão 2, a mordida profunda, a agenesia e o tamanho dos dentes, com componentes dos dois lados." },
+        { "tipo": "visual", "formato": "grafico", "titulo": "Onde cada traço fica entre a herança e o ambiente", "descricao": "Barra horizontal com um extremo rotulado herança e o outro ambiente. Da esquerda para a direita: prognatismo mandibular e tamanho da mandíbula perto da herança; agenesia, tamanho dos dentes e Classe II divisão 2 na porção herdada mas com contribuição ambiental; mordida aberta e altura facial no meio, dependentes de função; apinhamento e rotações perto do ambiente. Sem números: a posição é qualitativa.", "viewBox": "0 0 720 300",
+          "svg": [
+            "<defs><linearGradient id='g-heranca' x1='0' x2='1' y1='0' y2='0'><stop offset='0' stop-color='var(--blue,#4A6B8A)' stop-opacity='0.6'/><stop offset='1' stop-color='var(--gold,#B08968)' stop-opacity='0.6'/></linearGradient></defs>",
+            "<rect x='60' y='120' width='600' height='26' rx='13' fill='url(#g-heranca)'/>",
+            "<text x='60' y='104' font-size='14' font-weight='700' fill='var(--blue,#4A6B8A)'>mais herança</text><text x='660' y='104' text-anchor='end' font-size='14' font-weight='700' fill='var(--gold,#B08968)'>mais ambiente</text>",
+            "<g stroke='var(--ink,#23211C)' stroke-width='2'><line x1='100' y1='112' x2='100' y2='154'/><line x1='230' y1='112' x2='230' y2='154'/><line x1='360' y1='112' x2='360' y2='154'/><line x1='490' y1='112' x2='490' y2='154'/><line x1='620' y1='112' x2='620' y2='154'/></g>",
+            "<g font-size='12' fill='var(--ink,#23211C)' text-anchor='middle'><text x='100' y='60' font-weight='700'>prognatismo</text><text x='100' y='76'>mandibular,</text><text x='100' y='90'>tamanho da mandíbula</text>",
+            "<text x='230' y='180' font-weight='700'>agenesia,</text><text x='230' y='196'>tamanho dos dentes,</text><text x='230' y='210'>Classe II divisão 2</text>",
+            "<text x='360' y='60' font-weight='700'>altura facial,</text><text x='360' y='76'>mordida aberta</text><text x='360' y='90'>(função pesa)</text>",
+            "<text x='490' y='180' font-weight='700'>largura dos arcos,</text><text x='490' y='196'>mordida cruzada</text><text x='490' y='210'>posterior</text>",
+            "<text x='620' y='60' font-weight='700'>apinhamento,</text><text x='620' y='76'>rotações,</text><text x='620' y='90'>espaçamento</text></g>",
+            "<text x='360' y='262' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>posições qualitativas, a partir de estudos de gêmeos e de famílias; nenhum traço fica em um extremo puro</text>",
+            "<text x='360' y='284' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>a régua muda a conversa: o que está à esquerda tende a voltar; o que está à direita pode ser prevenido</text>"
+          ],
+          "legenda": "Esqueleto à esquerda, alinhamento à direita. A posição de um traço na régua diz se o prognóstico depende do crescimento ou do comportamento." },
+        { "tipo": "destaque", "estilo": "frase", "texto": "Genes desenham o esqueleto; o ambiente arruma os dentes em cima dele. A maioria das más oclusões é um pouco dos dois." }
+      ],
+      "checagem": { "pergunta": "Por que \"genética ou ambiente\" é uma pergunta mal formulada para a má oclusão?", "resposta": "Porque os dois agem juntos em todo traço; o que varia é o peso de cada um. Traços esqueléticos têm mais herança, traços de alinhamento têm mais ambiente, e a maioria fica no meio." }
+    },
+    {
+      "titulo": "O que os gêmeos e as populações ensinaram",
+      "blocos": [
+        { "tipo": "p", "texto": "Duas linhas de evidência sustentam a régua da seção anterior. A primeira é o estudo de gêmeos: comparando gêmeos idênticos, que compartilham todos os genes, com gêmeos fraternos, que compartilham metade, estima-se quanto de cada traço é herdado. As dimensões esqueléticas da face aparecem com herdabilidade alta; o apinhamento e a posição dos dentes, com herdabilidade baixa [VERIFICAR]." },
+        { "tipo": "p", "texto": "A segunda é a transição epidemiológica descrita por Corruccini: populações que passaram de vida rural, com dieta dura, para vida urbana, com dieta mole, mostraram aumento de apinhamento e de má oclusão em uma ou duas gerações. Genes não mudam nessa velocidade; o ambiente mudou. A hipótese mais aceita é que a dieta mole reduz o estímulo funcional ao crescimento dos arcos, e dentes de tamanho herdado ficam sem espaço em arcos menores [VERIFICAR]." },
+        { "tipo": "visual", "formato": "comparativo", "titulo": "Duas evidências, uma conclusão", "descricao": "Duas colunas. Gêmeos: idênticos compartilham todos os genes, fraternos compartilham metade; se a semelhança dos idênticos é muito maior, o traço é herdado; resultado, esqueleto herdado, alinhamento pouco herdado. Populações: mesma população, gerações rural e urbana; mudança de dieta e de função; resultado, apinhamento aumenta em poucas gerações, o que aponta ambiente.", "viewBox": "0 0 720 340",
+          "svg": [
+            "<use href='#c-caixa-blue' x='30' y='16' width='300' height='44'/><text x='180' y='44' text-anchor='middle' font-size='15' font-weight='700'>Estudos de gêmeos</text>",
+            "<use href='#c-caixa-gold' x='390' y='16' width='300' height='44'/><text x='540' y='44' text-anchor='middle' font-size='15' font-weight='700'>Transição das populações</text>",
+            "<g font-size='12' fill='var(--ink,#23211C)'><text x='40' y='90' font-weight='700'>Método</text><text x='40' y='108'>idênticos (todos os genes) versus</text><text x='40' y='124'>fraternos (metade dos genes)</text><text x='40' y='156' font-weight='700'>Se os idênticos se parecem muito mais</text><text x='40' y='174'>o traço é herdado</text><text x='40' y='206' font-weight='700'>Resultado</text><text x='40' y='224'>dimensões esqueléticas: herdabilidade alta</text><text x='40' y='240'>apinhamento e posição dentária: baixa</text></g>",
+            "<g font-size='12' fill='var(--ink,#23211C)'><text x='400' y='90' font-weight='700'>Método</text><text x='400' y='108'>mesma população, gerações</text><text x='400' y='124'>rurais e urbanas comparadas</text><text x='400' y='156' font-weight='700'>O que mudou</text><text x='400' y='174'>dieta mole, menos função mastigatória</text><text x='400' y='206' font-weight='700'>Resultado</text><text x='400' y='224'>apinhamento e má oclusão aumentam</text><text x='400' y='240'>em uma ou duas gerações</text></g>",
+            "<use href='#c-caixa-ink' x='120' y='270' width='480' height='48'/><text x='360' y='290' text-anchor='middle' font-size='13' font-weight='700' fill='#fff'>Esqueleto: herança pesa mais</text><text x='360' y='308' text-anchor='middle' font-size='12' fill='#fff'>Alinhamento: ambiente pesa mais</text>"
+          ],
+          "legenda": "Gêmeos separam genes de ambiente dentro da mesma geração; a transição epidemiológica separa os dois entre gerações. As duas apontam na mesma direção." },
+        { "tipo": "destaque", "estilo": "prova", "texto": "A questão clássica pede a conclusão dos estudos de gêmeos (esqueleto herdado, alinhamento ambiental) e a interpretação da transição epidemiológica de Corruccini (aumento de apinhamento com urbanização e dieta mole aponta causa ambiental). O nome de Corruccini aparece em prova de residência." }
+      ],
+      "checagem": { "pergunta": "O que a transição epidemiológica das populações permite concluir que o estudo de gêmeos sozinho não permite?", "resposta": "Que a mudança de ambiente em poucas gerações aumenta o apinhamento na mesma população, sem tempo para mudança genética; o estudo de gêmeos mostra herdabilidade dentro de uma geração, mas não a direção da mudança no tempo." }
+    },
+    {
+      "titulo": "Os três grupos de causas de Proffit",
+      "blocos": [
+        { "tipo": "p", "texto": "Proffit organiza a etiologia em três grupos. O primeiro reúne as causas específicas, em que se identifica um evento ou defeito: distúrbios embrionários, como as fissuras labiopalatinas e as síndromes craniofaciais; distúrbios do crescimento, como a deficiência de crescimento condilar após fratura ou artrite; trauma dentário e esquelético; e influências funcionais, como a disfunção muscular e as posturas alteradas." },
+        { "tipo": "p", "texto": "O segundo grupo é a influência genética, discutida acima: o padrão esquelético herdado, o tamanho dos dentes, a agenesia. O terceiro é a influência ambiental, dominada pela teoria do equilíbrio: a posição dos dentes reflete o balanço das forças leves e prolongadas que agem sobre eles, sobretudo a postura de repouso da língua, dos lábios e das bochechas." },
+        { "tipo": "visual", "formato": "classificacao", "titulo": "As causas da má oclusão em três grupos", "descricao": "Três caixas. Causas específicas: defeitos embrionários (fissuras, síndromes), distúrbios de crescimento (fratura de côndilo, artrite juvenil, hemi-hipertrofia), trauma (avulsão, deslocamento de germe), influências funcionais (disfunção muscular, postura). Influência genética: padrão esquelético, tamanho e número dos dentes, tendência familiar. Influência ambiental: teoria do equilíbrio, hábitos de sucção, respiração bucal, dieta mole, perda precoce de dentes.", "viewBox": "0 0 560 420",
+          "svg": [
+            "<use href='#c-caixa-ink' x='150' y='12' width='260' height='44'/><text x='280' y='40' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>Etiologia da má oclusão (Proffit)</text>",
+            "<g stroke='var(--muted,#8A8478)' stroke-width='1.5'><line x1='280' y1='56' x2='280' y2='76'/><line x1='95' y1='76' x2='465' y2='76'/><line x1='95' y1='76' x2='95' y2='92'/><line x1='280' y1='76' x2='280' y2='92'/><line x1='465' y1='76' x2='465' y2='92'/></g>",
+            "<use href='#c-caixa-red' x='10' y='92' width='170' height='300'/><text x='95' y='118' text-anchor='middle' font-size='13' font-weight='700'>Causas específicas</text>",
+            "<g font-size='11' fill='var(--ink,#23211C)'><text x='22' y='146' font-weight='700'>Embrionárias</text><text x='22' y='160'>fissuras, síndromes,</text><text x='22' y='173'>microssomia hemifacial</text><text x='22' y='198' font-weight='700'>Distúrbios de crescimento</text><text x='22' y='212'>fratura de côndilo,</text><text x='22' y='225'>artrite juvenil, hiperplasia</text><text x='22' y='250' font-weight='700'>Trauma</text><text x='22' y='264'>avulsão, germe deslocado,</text><text x='22' y='277'>fratura de maxilares</text><text x='22' y='302' font-weight='700'>Funcionais</text><text x='22' y='316'>disfunção muscular,</text><text x='22' y='329'>paralisia cerebral,</text><text x='22' y='342'>distrofias, postura</text></g>",
+            "<use href='#c-caixa-blue' x='195' y='92' width='170' height='300'/><text x='280' y='118' text-anchor='middle' font-size='13' font-weight='700'>Influência genética</text>",
+            "<g font-size='11' fill='var(--ink,#23211C)'><text x='207' y='146' font-weight='700'>Padrão esquelético</text><text x='207' y='160'>tamanho e posição da</text><text x='207' y='173'>mandíbula e da maxila,</text><text x='207' y='186'>altura facial</text><text x='207' y='211' font-weight='700'>Dentes</text><text x='207' y='225'>tamanho, número (agenesia,</text><text x='207' y='238'>supranumerários), forma</text><text x='207' y='263' font-weight='700'>Tendência familiar</text><text x='207' y='277'>Classe III, Classe II div. 2,</text><text x='207' y='290'>mordida profunda</text><text x='207' y='315' font-weight='700'>Discrepância herdada</text><text x='207' y='329'>dentes de um lado da família,</text><text x='207' y='342'>arcos do outro</text></g>",
+            "<use href='#c-caixa-gold' x='380' y='92' width='170' height='300'/><text x='465' y='118' text-anchor='middle' font-size='13' font-weight='700'>Influência ambiental</text>",
+            "<g font-size='11' fill='var(--ink,#23211C)'><text x='392' y='146' font-weight='700'>Teoria do equilíbrio</text><text x='392' y='160'>forças leves e longas</text><text x='392' y='173'>de língua, lábios, bochechas</text><text x='392' y='198' font-weight='700'>Hábitos</text><text x='392' y='212'>sucção de dedo e chupeta,</text><text x='392' y='225'>interposição de língua</text><text x='392' y='250' font-weight='700'>Respiração bucal</text><text x='392' y='264'>postura de boca aberta,</text><text x='392' y='277'>língua baixa</text><text x='392' y='302' font-weight='700'>Dieta e perdas</text><text x='392' y='316'>dieta mole, cárie,</text><text x='392' y='329'>perda precoce, migração</text></g>",
+            "<text x='280' y='412' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>os três grupos se somam no mesmo paciente</text>"
+          ],
+          "legenda": "Causas específicas têm um evento identificável; genética e ambiente são influências difusas. Na maioria dos pacientes, você encontra um pouco das três colunas." },
+        { "tipo": "destaque", "estilo": "dica", "titulo": "Procure a causa específica primeiro", "texto": "Assimetria mandibular em criança: pergunte por queda ou trauma no queixo na infância, porque a fratura de côndilo passa despercebida e trava o crescimento de um lado. Mordida aberta com face longa e boca aberta: pergunte por respiração e sono. A causa específica, quando existe, muda o plano inteiro; procure-a antes de falar em herança." }
+      ],
+      "checagem": { "pergunta": "Cite os três grupos de causas de Proffit e dê um exemplo de cada.", "resposta": "Causas específicas (fissura labiopalatina, fratura de côndilo, trauma, disfunção muscular); influência genética (prognatismo mandibular familiar, agenesia); influência ambiental (hábito de sucção, respiração bucal, dieta mole)." }
+    },
+    {
+      "titulo": "A teoria do equilíbrio: por que a postura pesa mais que a força",
+      "blocos": [
+        { "tipo": "p", "texto": "Os dentes ficam onde as forças que agem sobre eles se equilibram. A ideia parece simples, mas tem uma consequência contraintuitiva: a força da mastigação, que é grande, quase não muda a posição dos dentes, porque dura frações de segundo. A pressão de repouso da língua, dos lábios e das bochechas, que é pequena, muda, porque dura horas por dia." },
+        { "tipo": "p", "texto": "Essa é a teoria do equilíbrio, formalizada por Weinstein e colaboradores nos anos 1960 e central no pensamento de Proffit. Ela explica por que a respiração bucal com língua baixa estreita o arco superior, por que a interposição de língua mantém a mordida aberta e por que o hábito de sucção só deforma quando é frequente e longo. E explica por que a contenção existe: os dentes voltam para onde o equilíbrio de forças os empurra." },
+        { "tipo": "visual", "formato": "forcas", "titulo": "Força forte e breve versus força leve e prolongada", "descricao": "Duas linhas do tempo de um dia. Acima, a mastigação: picos altos e muito curtos, algumas vezes por dia; resultado, sem efeito na posição do dente. Abaixo, a postura de língua e lábios: uma faixa baixa e contínua ao longo das 24 horas; resultado, movimenta o dente. Ao lado de cada uma, um dente com a seta correspondente.", "viewBox": "0 0 720 320",
+          "svg": [
+            "<text x='40' y='36' font-size='14' font-weight='700' fill='var(--red,#B4533B)'>Mastigação: forte e breve</text>",
+            "<line x1='40' y1='110' x2='560' y2='110' stroke='var(--muted,#8A8478)' stroke-width='1'/>",
+            "<g stroke='var(--red,#B4533B)' stroke-width='3'><line x1='120' y1='110' x2='120' y2='52'/><line x1='126' y1='110' x2='126' y2='58'/><line x1='300' y1='110' x2='300' y2='50'/><line x1='306' y1='110' x2='306' y2='56'/><line x1='470' y1='110' x2='470' y2='54'/><line x1='476' y1='110' x2='476' y2='60'/></g>",
+            "<text x='560' y='128' text-anchor='end' font-size='11' fill='var(--muted,#8A8478)'>24 horas: alguns minutos de força alta</text>",
+            "<use href='#c-dente' x='620' y='44' width='40' height='90'/><text x='640' y='150' text-anchor='middle' font-size='12' font-weight='700' fill='var(--red,#B4533B)'>não move</text>",
+            "<text x='40' y='196' font-size='14' font-weight='700' fill='var(--blue,#4A6B8A)'>Postura de língua e lábios: leve e prolongada</text>",
+            "<line x1='40' y1='270' x2='560' y2='270' stroke='var(--muted,#8A8478)' stroke-width='1'/>",
+            "<rect x='40' y='246' width='520' height='24' fill='var(--blue,#4A6B8A)' fill-opacity='0.35'/>",
+            "<text x='560' y='288' text-anchor='end' font-size='11' fill='var(--muted,#8A8478)'>24 horas: força baixa quase o tempo todo</text>",
+            "<use href='#c-dente' x='620' y='200' width='40' height='90'/><use href='#c-vetor-blue' x='596' y='236' width='60' height='14' transform='rotate(180 626 243)'/><text x='640' y='308' text-anchor='middle' font-size='12' font-weight='700' fill='var(--blue,#4A6B8A)'>move</text>"
+          ],
+          "legenda": "O que decide é a duração, não a intensidade. Por isso hábito de sucção de seis horas por dia deforma e o de vinte minutos não." },
+        { "tipo": "destaque", "estilo": "mito", "mito": "A mastigação forte empurra os dentes e causa apinhamento.", "verdade": "A força mastigatória é grande, mas dura frações de segundo e não desloca dentes. O que desloca é a força leve de horas: postura de língua e lábios, sucção prolongada, respiração de boca aberta. A dieta influencia o crescimento dos arcos, não a posição do dente pela força." }
+      ],
+      "checagem": { "pergunta": "Segundo a teoria do equilíbrio, que característica de uma força determina se ela move um dente?", "resposta": "A duração: forças leves e prolongadas, como a postura de repouso dos tecidos moles, movem; forças fortes e breves, como a mastigação, não." }
+    },
+    {
+      "titulo": "Causas específicas que a prova adora",
+      "blocos": [
+        { "tipo": "p", "texto": "Algumas causas específicas aparecem sempre. A fissura labiopalatina é o defeito embrionário mais comum da face, com deficiência de crescimento maxilar agravada pelas cirurgias precoces. As síndromes com sinostose de suturas, como Crouzon e Apert, deixam a maxila para trás. A microssomia hemifacial faz falta de tecido de um lado e assimetria. Na sequência de Pierre Robin, a mandíbula pequena no útero deixa a língua alta e impede o fechamento do palato." },
+        { "tipo": "p", "texto": "Entre os distúrbios de crescimento, a fratura de côndilo na infância pode cicatrizar bem ou travar o crescimento do lado afetado, com assimetria progressiva. A artrite idiopática juvenil destrói o côndilo e produz retrognatismo e mordida aberta. Entre os fatores sistêmicos, a acromegalia faz a mandíbula crescer de novo no adulto, e o hipotireoidismo atrasa a erupção. Distrofias musculares e paralisia cerebral alteram o equilíbrio e alongam a face." },
+        { "tipo": "imagem", "imagem": "fotografia frontal de face de paciente com assimetria mandibular por deficiência de crescimento condilar unilateral", "mostrar": "Face em repouso com o mento desviado para o lado afetado, plano oclusal inclinado e diferença de altura entre os lados da mandíbula; ao lado, radiografia panorâmica mostrando o côndilo e o ramo menores do mesmo lado", "legenda": "Assimetria por deficiência de crescimento condilar: o mento desvia para o lado que cresceu menos, e a panorâmica mostra o ramo curto.", "destacar": "Direção do desvio do mento, inclinação do plano oclusal, comparação da altura dos ramos na panorâmica" },
+        { "tipo": "destaque", "estilo": "erro", "texto": "Atribuir uma assimetria a \"herança\" sem investigar trauma. A fratura de côndilo na infância costuma ser esquecida pela família; uma pergunta sobre quedas com o queixo e uma panorâmica comparando os ramos mudam o diagnóstico de tendência familiar para causa específica, e o plano de vigilância para intervenção." }
+      ],
+      "checagem": { "pergunta": "Para que lado desvia o mento em uma deficiência de crescimento condilar unilateral, e por quê?", "resposta": "Para o lado afetado: o lado que cresceu menos é mais curto, e a mandíbula gira em direção a ele." }
+    },
+    {
+      "titulo": "De volta aos dois meninos",
+      "blocos": [
+        { "tipo": "p", "texto": "O primeiro menino tem o traço mais herdado da ortodontia: prognatismo mandibular em três gerações. O prognóstico depende do crescimento que ainda vem, e a família precisa ouvir isso cedo: o que se fizer agora pode ser revertido pelo surto, e a decisão final talvez espere o fim do crescimento. O segundo tem o traço mais ambiental: apinhamento sem história familiar. Aqui as perguntas são sobre dieta, respiração, hábitos e perdas precoces, e as respostas podem mudar o curso." },
+        { "tipo": "destaque", "estilo": "frase", "texto": "O que veio da família tende a voltar com o crescimento. O que veio do ambiente melhora quando o ambiente muda. Saber de onde veio é saber o que prometer." }
+      ],
+      "checagem": { "pergunta": "Que conversa diferente cada família dos dois meninos deve ouvir?", "resposta": "A família da Classe III: vigilância e possibilidade de o crescimento desfazer a correção precoce. A família do apinhamento: procurar e mudar fatores ambientais, com prognóstico mais favorável para o alinhamento." }
+    }
+  ],
+  "fechamento": {
+    "visual": { "formato": "mapa", "titulo": "Mapa da página", "descricao": "Nó central: etiologia da má oclusão. Seis nós: multifatorial, quanto de cada um; esqueleto herdado, alinhamento ambiental; gêmeos e transição epidemiológica; três grupos de Proffit; teoria do equilíbrio; causas específicas mudam o plano.", "viewBox": "0 0 560 360",
+      "svg": [
+        "<g stroke='var(--border,#EDE6D8)' stroke-width='1.5'><line x1='280' y1='180' x2='100' y2='60'/><line x1='280' y1='180' x2='460' y2='60'/><line x1='280' y1='180' x2='70' y2='180'/><line x1='280' y1='180' x2='490' y2='180'/><line x1='280' y1='180' x2='100' y2='300'/><line x1='280' y1='180' x2='460' y2='300'/></g>",
+        "<use href='#c-no-central' x='190' y='150' width='180' height='60'/>",
+        "<text x='280' y='176' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>Etiologia da</text><text x='280' y='194' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>má oclusão</text>",
+        "<use href='#c-no' x='20' y='38' width='160' height='44'/><text x='100' y='65' text-anchor='middle' font-size='13' font-weight='700'>Quanto de cada um</text>",
+        "<use href='#c-no' x='380' y='38' width='160' height='44'/><text x='460' y='65' text-anchor='middle' font-size='13' font-weight='700'>Esqueleto herdado</text>",
+        "<use href='#c-no' x='0' y='158' width='150' height='44'/><text x='75' y='185' text-anchor='middle' font-size='13' font-weight='700'>Gêmeos e populações</text>",
+        "<use href='#c-no' x='410' y='158' width='150' height='44'/><text x='485' y='185' text-anchor='middle' font-size='13' font-weight='700'>Três grupos de Proffit</text>",
+        "<use href='#c-no' x='20' y='278' width='160' height='44'/><text x='100' y='305' text-anchor='middle' font-size='13' font-weight='700'>Teoria do equilíbrio</text>",
+        "<use href='#c-no' x='380' y='278' width='160' height='44'/><text x='460' y='305' text-anchor='middle' font-size='13' font-weight='700'>Causa específica primeiro</text>"
+      ] },
+    "flashcards": [
+      { "frente": "Quais traços da má oclusão têm alta herdabilidade e quais têm baixa?", "verso": "Alta: dimensões esqueléticas (tamanho e posição da mandíbula, altura facial), prognatismo mandibular, agenesia, tamanho dos dentes. Baixa: apinhamento, rotações, posição individual dos dentes." },
+      { "frente": "Enuncie a teoria do equilíbrio.", "verso": "Os dentes ficam onde as forças se equilibram; forças leves e prolongadas (postura de língua, lábios e bochechas) movem dentes, forças fortes e breves (mastigação) não." },
+      { "frente": "Os três grupos de causas de Proffit.", "verso": "Causas específicas (embrionárias, distúrbios de crescimento, trauma, funcionais); influência genética; influência ambiental (equilíbrio, hábitos, respiração, dieta, perdas)." }
+    ]
+  },
+  "infografico": {
+    "titulo": "Etiologia em seis cartões",
+    "itens": [
+      { "rotulo": "Multifatorial", "texto": "Genes e ambiente agem juntos; a pergunta é quanto de cada um em cada traço." },
+      { "rotulo": "Herança", "texto": "Esqueleto: tamanho e posição da mandíbula, altura facial, prognatismo. Dentes: tamanho, número." },
+      { "rotulo": "Ambiente", "texto": "Alinhamento: apinhamento, rotações. Dieta mole, hábitos, respiração bucal, perda precoce." },
+      { "rotulo": "Evidência", "texto": "Gêmeos: esqueleto herdado, alinhamento não. Corruccini: apinhamento sobe com urbanização." },
+      { "rotulo": "Equilíbrio", "texto": "Força leve e longa move; força forte e breve não. Postura pesa mais que mastigação." },
+      { "rotulo": "Específicas", "texto": "Fissuras, síndromes, fratura de côndilo, artrite juvenil, trauma, disfunção muscular. Mudam o plano." }
+    ]
+  },
+  "fluxograma": {
+    "titulo": "De onde veio esta má oclusão?",
+    "nos": [
+      { "id": "n1", "tipo": "inicio", "texto": "Má oclusão identificada" },
+      { "id": "n2", "tipo": "decisao", "texto": "Há evento ou defeito identificável: síndrome, fissura, trauma, doença, disfunção?" },
+      { "id": "n3", "tipo": "acao", "texto": "Causa específica: investigar, tratar a causa quando possível, planejar em torno dela" },
+      { "id": "n4", "tipo": "decisao", "texto": "O traço é esquelético (tamanho ou posição de base) e há história familiar?" },
+      { "id": "n5", "tipo": "acao", "texto": "Peso genético: prognóstico ligado ao crescimento; vigiar até o fim do surto" },
+      { "id": "n6", "tipo": "decisao", "texto": "O traço é de alinhamento ou de largura, com hábito, respiração bucal ou perdas?" },
+      { "id": "n7", "tipo": "acao", "texto": "Peso ambiental: remover o fator, prevenir e tratar com prognóstico melhor" },
+      { "id": "n8", "tipo": "fim", "texto": "Registrar a origem provável de cada traço na ficha" }
+    ],
+    "arestas": [
+      { "de": "n1", "para": "n2" },
+      { "de": "n2", "para": "n3", "rotulo": "sim" },
+      { "de": "n3", "para": "n8" },
+      { "de": "n2", "para": "n4", "rotulo": "não" },
+      { "de": "n4", "para": "n5", "rotulo": "sim" },
+      { "de": "n5", "para": "n8" },
+      { "de": "n4", "para": "n6", "rotulo": "não" },
+      { "de": "n6", "para": "n7", "rotulo": "sim" },
+      { "de": "n7", "para": "n8" },
+      { "de": "n6", "para": "n8", "rotulo": "não" }
+    ]
+  },
+  "passoAPasso": [
+    { "passo": "Pergunte pela família: pais, avós e irmãos com o mesmo perfil ou a mesma mordida.", "confira": "O traço familiar é esquelético (queixo, altura da face) ou dentário?" },
+    { "passo": "Pergunte por eventos: trauma no queixo, doenças articulares, cirurgias, síndromes.", "confira": "Alguma assimetria ou deficiência tem um evento na história?" },
+    { "passo": "Observe função e postura: respiração, selamento labial, posição da língua, hábitos.", "confira": "Há força leve e prolongada agindo horas por dia?" },
+    { "passo": "Revise perdas dentárias, cárie e dieta.", "confira": "Houve perda precoce sem mantenedor? Dieta predominantemente mole?" },
+    { "passo": "Atribua a cada traço um peso provável de herança e de ambiente, e converse com a família nesses termos.", "confira": "A família entendeu o que pode voltar com o crescimento e o que pode ser prevenido?" }
+  ],
+  "macetes": [
+    { "titulo": "Osso da família, dente do ambiente", "texto": "Esqueleto herdado, alinhamento ambiental. O que é osso tende a voltar; o que é posição de dente responde ao ambiente." },
+    { "titulo": "Leve e longa move", "texto": "Teoria do equilíbrio: a força que move dente é a de horas, não a de segundos. Postura, não mastigação." },
+    { "titulo": "Três de Proffit", "texto": "Específicas, genéticas, ambientais. Procure a específica primeiro: ela muda o plano." },
+    { "titulo": "Corruccini: cidade apinha", "texto": "Da vida rural para a urbana, o apinhamento sobe em poucas gerações. Genes não correm tanto; ambiente sim." }
+  ],
+  "ondeErra": [
+    { "erro": "Dizer que a má oclusão é genética ou ambiental, como se fosse uma coisa só.", "porque": "Todo traço tem os dois componentes em proporções diferentes.", "certo": "Perguntar quanto pesa cada um neste traço, e responder por traço." },
+    { "erro": "Atribuir apinhamento à herança porque um dos pais também tem.", "porque": "O apinhamento tem baixa herdabilidade; a semelhança familiar costuma vir de ambiente compartilhado ou de dentes grandes herdados em arcos que não cresceram.", "certo": "Investigar dieta, função e perdas, e separar tamanho de dente (herdado) de tamanho de arco (ambiente pesa)." },
+    { "erro": "Achar que a mastigação forte desloca dentes.", "porque": "Força forte e breve não move; força leve e prolongada move.", "certo": "Postura de repouso de língua e lábios como fator ambiental principal." },
+    { "erro": "Pular a busca da causa específica.", "porque": "Fratura de côndilo, síndrome ou doença articular mudam prognóstico e plano.", "certo": "História de trauma, doenças e exame de simetria antes de falar em tendência familiar." }
+  ],
+  "autoteste": [
+    {
+      "pergunta": "Os estudos de gêmeos sobre má oclusão mostraram, de modo geral, que:",
+      "alternativas": [
+        "Todos os traços da oclusão têm alta herdabilidade",
+        "As dimensões esqueléticas têm herdabilidade alta e o alinhamento dentário tem herdabilidade baixa",
+        "O apinhamento é o traço mais herdado",
+        "Nenhum traço da oclusão é herdado"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "O alinhamento tem baixa herdabilidade.",
+        "Correta: esqueleto herdado, posição dentária dominada pelo ambiente.",
+        "O apinhamento está entre os traços menos herdados.",
+        "As dimensões esqueléticas são claramente herdadas."
+      ]
+    },
+    {
+      "pergunta": "A transição epidemiológica descrita por Corruccini, com aumento de apinhamento em populações que se urbanizaram, sustenta que:",
+      "alternativas": [
+        "O apinhamento é predominantemente genético",
+        "O apinhamento tem forte componente ambiental, ligado a dieta e função",
+        "A urbanização altera os genes em uma geração",
+        "O apinhamento diminui com a dieta mole"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Mudança em uma ou duas gerações não é compatível com causa genética dominante.",
+        "Correta: o ambiente mudou (dieta mole, menos função) e o apinhamento aumentou.",
+        "Genes não mudam nessa velocidade.",
+        "O apinhamento aumentou com a dieta mole."
+      ]
+    },
+    {
+      "pergunta": "Segundo a teoria do equilíbrio, o fator que determina se uma força altera a posição de um dente é:",
+      "alternativas": [
+        "A intensidade da força",
+        "A duração da força",
+        "A direção da força",
+        "A idade do paciente"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Forças intensas e breves, como a mastigação, não movem dentes.",
+        "Correta: forças leves e prolongadas, como a postura de língua e lábios, movem.",
+        "A direção define para onde, não se move.",
+        "A teoria vale em qualquer idade."
+      ]
+    },
+    {
+      "pergunta": "Menina de 10 anos com assimetria mandibular progressiva e mento desviado para a direita. Na história, queda de bicicleta com trauma no queixo aos 4 anos. A causa mais provável, no esquema de Proffit, é:",
+      "alternativas": [
+        "Influência genética",
+        "Influência ambiental por hábito",
+        "Causa específica: distúrbio de crescimento após fratura de côndilo direito",
+        "Causa específica: defeito embrionário"
+      ],
+      "correta": 2,
+      "explicacoes": [
+        "A história de trauma aponta um evento específico.",
+        "Hábitos não produzem assimetria progressiva desse tipo.",
+        "Correta: fratura de côndilo na infância pode travar o crescimento do lado afetado, com desvio do mento para esse lado.",
+        "Não há defeito presente ao nascimento; o evento foi aos 4 anos."
+      ]
+    },
+    {
+      "pergunta": "Sobre a herança na Classe III com prognatismo mandibular, é correto afirmar que:",
+      "alternativas": [
+        "É um traço de baixa herdabilidade, dependente de hábitos",
+        "É um dos traços mais herdados da ortodontia, com prognóstico ligado ao crescimento",
+        "Desaparece com a remoção de hábitos de sucção",
+        "Não tem relação com o crescimento mandibular"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "O prognatismo mandibular é fortemente herdado.",
+        "Correta: por isso a família deve ser avisada de que o crescimento pode desfazer correções precoces.",
+        "Hábitos não são a causa do prognatismo mandibular.",
+        "É exatamente o crescimento mandibular excessivo ou a posição herdada da mandíbula."
+      ]
+    }
+  ],
+  "pesquisa": { "termos": ["etiologia da má oclusão", "herdabilidade da má oclusão", "teoria do equilíbrio", "estudos de gêmeos oclusão"] },
+  "referenciasBase": [
+    "Proffit WR, Fields HW, Larson BE, Sarver DM. Ortodontia Contemporânea. 6ª ed. Etiologia dos problemas ortodônticos.",
+    "Corruccini RS. An epidemiologic transition in dental occlusion in world populations. Am J Orthod. 1984.",
+    "Harris EF, Johnson MG. Heritability of craniometric and occlusal variables: a longitudinal sib analysis. Am J Orthod Dentofacial Orthop. 1991.",
+    "Weinstein S, Haack DC, Morris LY, Snyder BB, Attaway HE. On an equilibrium theory of tooth position. Angle Orthod. 1963.",
+    "Moyers RE. Ortodontia. 4ª ed. Etiologia da má oclusão.",
+    "Graber LW, Vanarsdall RL, Vig KWL, Huang GJ. Ortodontia: princípios e técnicas atuais. 6ª ed."
+  ],
+  "validacao": { "validadoPor": null, "data": null }
+}
