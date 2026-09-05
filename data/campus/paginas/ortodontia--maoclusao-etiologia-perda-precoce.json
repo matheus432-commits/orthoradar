@@ -90,7 +90,7 @@
             "<use href='#c-vetor-blue' x='500' y='120' width='50' height='14' transform='rotate(180 525 127)'/>",
             "<use href='#c-dente' x='420' y='90' width='34' height='90' transform='rotate(14 437 135)'/><use href='#c-vetor-blue' x='398' y='106' width='40' height='12' transform='rotate(180 418 112)'/>",
             "<g font-size='12' fill='var(--ink,#23211C)'><text x='400' y='210'>molar migra de corpo, mais devagar;</text><text x='400' y='228'>incisivos tombam para lingual</text><text x='400' y='246' font-weight='700' fill='var(--blue,#4A6B8A)'>perda por trás e pela frente</text></g>",
-            "<use href='#c-caixa-ink' x='140' y='274' width='440' height='40'/><text x='360' y='299' text-anchor='middle' font-size='12' font-weight='700' fill='#fff'>A maior parte do espaço se perde nos primeiros meses após a extração</text>"
+            "<use href='#c-caixa-ink' x='60' y='274' width='600' height='40'/><text x='360' y='299' text-anchor='middle' font-size='12' font-weight='700' fill='#fff'>A maior parte do espaço se perde nos primeiros meses após a extração</text>"
           ],
           "legenda": "Superior: inclinação e rotação, rápido. Inferior: migração de corpo mais tombamento dos incisivos. Nos dois, o relógio corre desde o dia da extração." },
         { "tipo": "destaque", "estilo": "dica", "titulo": "O mantenedor é urgente, não eletivo", "texto": "Se a decisão é manter o espaço, o aparelho deve ser instalado logo após a extração, idealmente na mesma fase de cicatrização, porque a maior perda acontece nos primeiros meses. Marcar \"para daqui a seis meses\" é chegar depois de o molar já ter andado." }
