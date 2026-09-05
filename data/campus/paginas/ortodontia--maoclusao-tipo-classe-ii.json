@@ -1,0 +1,616 @@
+{
+  "id": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/classe-ii-divisao-1-e-2",
+  "areaId": "ortodontia",
+  "area": "Ortodontia",
+  "modulo": "Más oclusões",
+  "tema": "Características por tipo",
+  "titulo": "Classe II divisão 1 e divisão 2: duas faces da distoclusão",
+  "estado": "rascunho",
+  "versao": 1,
+  "formato": 2,
+  "autoria": "Rascunho escrito pela plataforma para validação; nada aqui é visível ao aluno antes da assinatura de um ortodontista.",
+  "abertura": {
+    "situacao": "Menino de 11 anos, trespasse horizontal de 9 mm, incisivos superiores para a frente e o lábio inferior preso atrás deles quando fecha a boca. Perfil convexo, mento para trás. Já quebrou a ponta de um incisivo central jogando bola. A mãe diz que os colegas o chamam de \"dentuço\" e pergunta se dá para fazer alguma coisa agora ou se tem de esperar todos os dentes.",
+    "pergunta": "O que, nessa boca, é dente, o que é osso e o que é lábio? E por que a idade dele muda a resposta sobre esperar?"
+  },
+  "umMinuto": {
+    "frases": [
+      "Classe II é distoclusão: o primeiro molar inferior está distal ao superior. A divisão 1 tem incisivos superiores para a frente com trespasse horizontal aumentado; a divisão 2 tem centrais superiores para trás, laterais para a frente e mordida profunda.",
+      "Na divisão 1, o esqueleto mais comum é mandíbula retruída com maxila normal; o arco superior tende a ser estreito, o perfil convexo, o lábio inferior fica atrás dos incisivos e o selamento labial é difícil.",
+      "A divisão 2 costuma ter face mais curta, mandíbula que gira para a frente, mento bem marcado, arco superior largo, linha do lábio alta e musculatura forte; a herança é marcante e a mordida profunda pode ferir a gengiva.",
+      "Trespasse horizontal grande aumenta o risco de fratura dos incisivos superiores e pesa na autoimagem; são razões para não adiar a avaliação.",
+      "A diferença clínica que decide o plano é a mesma da apostila de classificação esquelética: Classe II dentária, esquelética por mandíbula ou por maxila, e o quanto ainda há de crescimento.",
+      "Na divisão 2, antes de avançar a mandíbula é preciso inclinar os incisivos superiores para a frente, transformando-a em divisão 1; sem isso, a mandíbula fica travada atrás deles."
+    ],
+    "caiNaProva": [
+      "Características dentárias, esqueléticas e de tecido mole da divisão 1",
+      "Características da divisão 2 e a herança",
+      "Componente esquelético mais comum da Classe II",
+      "Risco de trauma e impacto psicossocial do trespasse aumentado",
+      "Por que a divisão 2 precisa virar divisão 1 antes de avançar a mandíbula"
+    ],
+    "porQueImporta": "A Classe II é a má oclusão que mais leva crianças ao ortodontista e a que mais depende do momento certo. Saber ler as duas divisões e separar dente, osso e lábio é o que define se você trata agora, espera o surto ou encaminha para cirurgia."
+  },
+  "secoes": [
+    {
+      "titulo": "O que as duas divisões têm em comum",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "As duas divisões compartilham a relação molar: o primeiro molar inferior está distal ao superior, e a cúspide mesiovestibular superior cai à frente do sulco vestibular inferior. Na Classe II completa, uma cúspide inteira; na incompleta, meia. A partir daí, o que se vê nos incisivos superiores separa as duas: para a frente na divisão 1, para trás na divisão 2. E essa diferença arrasta consigo face, lábios, arco e musculatura diferentes."
+        },
+        {
+          "tipo": "p",
+          "texto": "É a má oclusão mais frequente nos consultórios de ortodontia depois da Classe I com apinhamento, e a mais comum entre as que envolvem o esqueleto; a divisão 1 é muito mais frequente que a divisão 2, que representa uma parcela menor das Classes II [VERIFICAR]. Os dois quadros aparecem cedo, na dentição mista, e a divisão 1 costuma ser a razão da primeira consulta: os incisivos para a frente incomodam a família antes de incomodar a função."
+        },
+        {
+          "tipo": "visual",
+          "formato": "comparativo",
+          "titulo": "Divisão 1 e divisão 2, característica por característica",
+          "descricao": "Duas colunas com sete linhas. Incisivos superiores: para a frente na divisão 1, centrais para trás e laterais para a frente na divisão 2. Trespasse horizontal: aumentado na 1, normal ou reduzido na 2. Trespasse vertical: variável na 1, profundo na 2. Arco superior: estreito na 1, largo na 2. Lábios: incompetentes com lábio inferior preso na 1, competentes com linha alta na 2. Altura facial: normal ou aumentada na 1, reduzida na 2. Musculatura: fraca ou normal na 1, forte na 2.",
+          "viewBox": "0 0 720 400",
+          "svg": [
+            "<use href='#c-caixa-red' x='190' y='16' width='240' height='40'/><text x='310' y='42' text-anchor='middle' font-size='14' font-weight='700'>Divisão 1</text>",
+            "<use href='#c-caixa-blue' x='450' y='16' width='240' height='40'/><text x='570' y='42' text-anchor='middle' font-size='14' font-weight='700'>Divisão 2</text>",
+            "<g stroke='var(--border,#EDE6D8)' stroke-width='1'><line x1='20' y1='104' x2='700' y2='104'/><line x1='20' y1='148' x2='700' y2='148'/><line x1='20' y1='192' x2='700' y2='192'/><line x1='20' y1='236' x2='700' y2='236'/><line x1='20' y1='280' x2='700' y2='280'/><line x1='20' y1='324' x2='700' y2='324'/></g>",
+            "<g font-size='12' font-weight='700' fill='var(--ink,#23211C)'><text x='20' y='90'>Incisivos superiores</text><text x='20' y='134'>Trespasse horizontal</text><text x='20' y='178'>Trespasse vertical</text><text x='20' y='222'>Arco superior</text><text x='20' y='266'>Lábios</text><text x='20' y='310'>Altura facial inferior</text><text x='20' y='354'>Musculatura</text></g>",
+            "<g font-size='12' fill='var(--ink,#23211C)' text-anchor='middle'><text x='310' y='90'>inclinados para a frente</text><text x='310' y='134'>aumentado</text><text x='310' y='178'>variável: profundo ou aberto</text><text x='310' y='222'>estreito, em V</text><text x='310' y='266'>incompetentes; inferior preso atrás</text><text x='310' y='310'>normal ou aumentada</text><text x='310' y='354'>fraca ou normal</text></g>",
+            "<g font-size='12' fill='var(--ink,#23211C)' text-anchor='middle'><text x='570' y='90'>centrais para trás, laterais à frente</text><text x='570' y='134'>normal ou reduzido</text><text x='570' y='178'>profundo, às vezes traumático</text><text x='570' y='222'>largo, quadrado</text><text x='570' y='266'>competentes; linha do lábio alta</text><text x='570' y='310'>reduzida</text><text x='570' y='354'>forte, mentual marcado</text></g>",
+            "<text x='360' y='388' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>a relação molar é igual; tudo o mais tende a ser diferente</text>"
+          ],
+          "legenda": "Sete linhas, sete diferenças. A divisão não é grau de gravidade; é outra combinação de dente, osso e músculo sobre a mesma relação molar."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "frase",
+          "texto": "Mesmo molar, duas bocas. A divisão 1 empurra os incisivos para fora; a divisão 2 os tranca para dentro."
+        }
+      ],
+      "checagem": {
+        "pergunta": "O que define a divisão da Classe II, e por que ela não é uma medida de gravidade?",
+        "resposta": "A inclinação dos incisivos superiores: para a frente na divisão 1, centrais para trás na divisão 2. Não mede gravidade porque a relação molar pode ser igual nas duas; muda a combinação de dente, osso e músculo."
+      }
+    },
+    {
+      "titulo": "Divisão 1: o quadro por dentro e por fora",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "Nos dentes, a divisão 1 mostra incisivos superiores inclinados para a frente com trespasse horizontal aumentado, arco superior estreito com forma de V, e curva de Spee inferior profunda porque os incisivos inferiores, sem o contato com os superiores, continuam erupcionando. Os incisivos inferiores podem estar para a frente, compensando a mandíbula retruída, ou para trás, empurrados pelo lábio que se aloja atrás dos superiores."
+        },
+        {
+          "tipo": "p",
+          "texto": "No esqueleto, o componente mais frequente é a mandíbula retruída ou pequena, com maxila em posição normal; a maxila protruída é a exceção, não a regra. O padrão vertical varia: há divisão 1 de face curta e de face longa, e essa variação muda tudo no tratamento. Nos tecidos moles, o perfil é convexo, o mento fica para trás, o sulco mentolabial é profundo e os lábios não se fecham em repouso sem esforço."
+        },
+        {
+          "tipo": "visual",
+          "formato": "anatomico",
+          "titulo": "A assinatura da divisão 1 no perfil: incisivos, lábio e mento",
+          "descricao": "Perfil esquemático. Incisivo superior inclinado para a frente; incisivo inferior atrás dele com trespasse horizontal grande marcado; lábio inferior alojado atrás dos incisivos superiores (lábio preso); mento retruído; sulco mentolabial profundo. Setas e rótulos apontam cada achado.",
+          "viewBox": "0 0 560 400",
+          "svg": [
+            "<path d='M300 40 Q330 90 320 150 Q315 180 340 200 Q360 216 330 232 Q300 250 320 280 Q340 300 300 330 Q270 350 280 380' fill='none' stroke='var(--ink,#23211C)' stroke-width='2'/>",
+            "<text x='250' y='60' text-anchor='end' font-size='11' fill='var(--muted,#8A8478)'>nariz</text>",
+            "<use href='#c-dente' x='300' y='150' width='40' height='96' transform='rotate(-30 320 198)'/>",
+            "<use href='#c-dente' x='268' y='210' width='34' height='84' transform='rotate(180 285 252)'/>",
+            "<line x1='285' y1='226' x2='344' y2='226' stroke='var(--red,#B4533B)' stroke-width='2'/><line x1='285' y1='220' x2='285' y2='232' stroke='var(--red,#B4533B)' stroke-width='2'/><line x1='344' y1='220' x2='344' y2='232' stroke='var(--red,#B4533B)' stroke-width='2'/>",
+            "<text x='420' y='222' font-size='12' font-weight='700' fill='var(--red,#B4533B)'>trespasse horizontal</text><text x='420' y='238' font-size='12' font-weight='700' fill='var(--red,#B4533B)'>aumentado</text>",
+            "<text x='420' y='176' font-size='12' font-weight='700' fill='var(--gold,#B08968)'>incisivo superior</text><text x='420' y='192' font-size='12' font-weight='700' fill='var(--gold,#B08968)'>para a frente</text>",
+            "<circle cx='322' cy='250' r='10' fill='var(--blue,#4A6B8A)' fill-opacity='0.3' stroke='var(--blue,#4A6B8A)' stroke-width='1.5'/><text x='420' y='268' font-size='12' font-weight='700' fill='var(--blue,#4A6B8A)'>lábio inferior preso</text><text x='420' y='284' font-size='12' font-weight='700' fill='var(--blue,#4A6B8A)'>atrás dos superiores</text>",
+            "<text x='420' y='330' font-size='12' font-weight='700' fill='var(--ink,#23211C)'>mento para trás,</text><text x='420' y='346' font-size='12' font-weight='700' fill='var(--ink,#23211C)'>sulco mentolabial profundo</text>",
+            "<g font-size='11' fill='var(--muted,#8A8478)'><text x='40' y='140'>perfil convexo</text><text x='40' y='156'>selamento labial difícil</text><text x='40' y='172'>arco superior estreito</text><text x='40' y='188'>curva de Spee inferior profunda</text></g>",
+            "<text x='280' y='392' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>esquema; as proporções são didáticas</text>"
+          ],
+          "legenda": "O lábio inferior atrás dos incisivos superiores é a marca que se vê de longe e que agrava o quadro: empurra os superiores para a frente e os inferiores para trás, horas por dia."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "prova",
+          "texto": "Componente esquelético mais frequente da Classe II: retrusão mandibular, com maxila normal ou até retruída, segundo os estudos de componentes [VERIFICAR]. A maxila protruída existe, mas é minoria. Essa é a razão de os aparelhos funcionais, que agem na mandíbula, serem a ferramenta típica da Classe II em crescimento."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Por que o lábio inferior preso atrás dos incisivos superiores agrava a divisão 1?",
+        "resposta": "Porque é uma força leve e prolongada, horas por dia, que inclina os superiores para a frente e os inferiores para trás, aumentando o trespasse horizontal pela teoria do equilíbrio."
+      }
+    },
+    {
+      "titulo": "Divisão 2: a Classe II que a família herda",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "A divisão 2 tem uma assinatura reconhecível ao primeiro olhar: incisivos centrais superiores inclinados para trás, laterais inclinados para a frente e muitas vezes sobrepostos aos centrais, mordida profunda e trespasse horizontal normal ou até reduzido. O ângulo entre os incisivos superiores e inferiores é aberto demais, e a curva de Spee costuma ser profunda nos dois arcos."
+        },
+        {
+          "tipo": "p",
+          "texto": "A face que acompanha é de altura inferior reduzida, mandíbula que gira para a frente e para cima no crescimento, mento bem desenvolvido, arco superior largo e quadrado, e uma linha de lábio alta: o lábio inferior cobre uma parte grande da coroa dos incisivos superiores e é esse lábio, forte e alto, que os mantém inclinados para trás. A musculatura mentual é marcada, o sulco mentolabial é profundo e a herança familiar é uma das mais nítidas da ortodontia."
+        },
+        {
+          "tipo": "visual",
+          "formato": "anatomico",
+          "titulo": "A assinatura da divisão 2: incisivos, lábio alto e mordida profunda",
+          "descricao": "Vista frontal esquemática dos incisivos superiores: centrais retroinclinados, laterais inclinados para a frente e parcialmente sobrepostos aos centrais. Ao lado, perfil esquemático: central superior inclinado para trás, incisivo inferior tocando a face palatina alta, trespasse vertical profundo marcado, lábio inferior cobrindo grande parte da coroa superior, mento proeminente.",
+          "viewBox": "0 0 720 380",
+          "svg": [
+            "<text x='180' y='30' text-anchor='middle' font-size='13' font-weight='700'>De frente: centrais para trás, laterais à frente</text>",
+            "<use href='#c-dente' x='70' y='70' width='44' height='110' transform='rotate(-8 92 125)'/><use href='#c-dente' x='118' y='60' width='50' height='124'/><use href='#c-dente' x='192' y='60' width='50' height='124'/><use href='#c-dente' x='246' y='70' width='44' height='110' transform='rotate(8 268 125)'/>",
+            "<g font-size='11' fill='var(--ink,#23211C)' text-anchor='middle'><text x='92' y='210' fill='var(--gold,#B08968)' font-weight='700'>lateral à frente</text><text x='180' y='210' font-weight='700'>centrais para trás</text><text x='268' y='210' fill='var(--gold,#B08968)' font-weight='700'>lateral à frente</text></g>",
+            "<text x='180' y='250' text-anchor='middle' font-size='11' fill='var(--muted,#8A8478)'>laterais sobrepostos aos centrais; arco largo</text>",
+            "<text x='540' y='30' text-anchor='middle' font-size='13' font-weight='700'>De perfil: mordida profunda, lábio alto</text>",
+            "<use href='#c-dente' x='500' y='70' width='40' height='100' transform='rotate(14 520 120)'/>",
+            "<use href='#c-dente' x='488' y='130' width='34' height='84' transform='rotate(180 505 172)'/>",
+            "<line x1='560' y1='130' x2='560' y2='170' stroke='var(--blue,#4A6B8A)' stroke-width='2'/><line x1='554' y1='130' x2='566' y2='130' stroke='var(--blue,#4A6B8A)' stroke-width='2'/><line x1='554' y1='170' x2='566' y2='170' stroke='var(--blue,#4A6B8A)' stroke-width='2'/><text x='574' y='146' font-size='11' font-weight='700' fill='var(--blue,#4A6B8A)'>trespasse vertical</text><text x='574' y='160' font-size='11' font-weight='700' fill='var(--blue,#4A6B8A)'>profundo</text>",
+            "<path d='M470 118 Q500 128 530 120' fill='none' stroke='var(--red,#B4533B)' stroke-width='3'/><text x='574' y='110' font-size='11' font-weight='700' fill='var(--red,#B4533B)'>linha do lábio alta</text><text x='574' y='124' font-size='11' font-weight='700' fill='var(--red,#B4533B)'>cobre a coroa e inclina</text>",
+            "<g font-size='11' fill='var(--ink,#23211C)'><text x='420' y='230'>ângulo interincisal aberto</text><text x='420' y='246'>trespasse horizontal normal ou reduzido</text><text x='420' y='262'>face curta; mandíbula gira para a frente</text><text x='420' y='278'>mento bem desenvolvido; mentual forte</text></g>",
+            "<text x='360' y='340' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>a mordida profunda pode ferir a gengiva palatina superior e a vestibular inferior</text>",
+            "<text x='360' y='366' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>esquema; as proporções são didáticas</text>"
+          ],
+          "legenda": "Um lábio forte e alto segura os centrais para trás; os laterais escapam para a frente. A mordida profunda é a consequência, e a herança é a origem."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "mito",
+          "mito": "Divisão 2 é tratamento fácil, porque o trespasse horizontal é pequeno.",
+          "verdade": "A mordida profunda com incisivos travados é um dos quadros mais difíceis de corrigir e de manter: é preciso inclinar os centrais para a frente, abrir a mordida, e depois conter contra uma musculatura forte que quer fechá-la de novo. O trespasse pequeno esconde a dificuldade."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Que fator de tecido mole explica a inclinação para trás dos incisivos centrais superiores na divisão 2?",
+        "resposta": "A linha do lábio alta com musculatura forte: o lábio inferior cobre grande parte da coroa dos centrais e os mantém inclinados para trás, horas por dia."
+      }
+    },
+    {
+      "titulo": "Trauma, autoimagem e a hora de olhar",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "Duas consequências da divisão 1 justificam não adiar a avaliação. A primeira é o trauma: incisivos superiores para a frente, sem a proteção do lábio, quebram mais; o trespasse horizontal aumentado é fator de risco reconhecido para fratura de incisivos em crianças [VERIFICAR]. A segunda é a autoimagem: os incisivos proeminentes são alvo fácil de apelidos, e o impacto psicossocial na idade escolar está entre os motivos mais frequentes de procura."
+        },
+        {
+          "tipo": "p",
+          "texto": "Isso não significa tratar tudo cedo. Os ensaios sobre tratamento em duas fases mostraram que começar a Classe II na dentição mista não produz resultado esquelético final melhor do que começar no surto, e custa mais tempo e consultas. Mas o trespasse grande com risco de trauma e o sofrimento psicossocial são exceções legítimas: nesses casos, uma primeira fase curta para reduzir o trespasse tem justificativa própria, e a correção definitiva vem depois."
+        },
+        {
+          "tipo": "imagem",
+          "imagem": "fotografia intrabucal lateral e de perfil facial de criança com Classe II divisão 1 e trespasse horizontal acentuado",
+          "mostrar": "Vista lateral em oclusão com molares em Classe II completa, incisivos superiores protruídos e trespasse horizontal grande; perfil com lábios entreabertos, lábio inferior atrás dos incisivos superiores e mento retruído",
+          "legenda": "Divisão 1 em criança: incisivos expostos ao trauma, lábio inferior preso e perfil convexo.",
+          "destacar": "Distância entre as bordas incisais no sentido horizontal, posição do lábio inferior, relação molar"
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "dica",
+          "titulo": "Quando a Classe II não espera o surto",
+          "texto": "Trespasse horizontal grande com história de trauma ou risco alto; sofrimento psicossocial real na escola; lábio preso agravando o quadro. Nesses casos, reduzir o trespasse cedo, mesmo sabendo que a correção esquelética definitiva virá no surto, protege dente e criança. Fora deles, esperar o surto é a regra."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Quais são as duas justificativas legítimas para intervir na Classe II divisão 1 antes do surto?",
+        "resposta": "Risco de trauma dos incisivos superiores pelo trespasse horizontal aumentado e impacto psicossocial na idade escolar; fora delas, a evidência favorece esperar o surto."
+      }
+    },
+    {
+      "titulo": "Ler a Classe II: dente, osso, lábio e tempo",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "Diante de uma Classe II, a leitura segue quatro perguntas. Primeira: quanto é dentário? Molares que migraram após perda precoce e incisivos inclinados pelo lábio explicam parte da relação. Segunda: quanto é esquelético, e de qual base? ANB, Wits e perpendicular ao násio dizem se a mandíbula está atrás, se a maxila está à frente ou os dois. Terceira: o padrão vertical, face curta ou longa, porque ele muda a mecânica e o prognóstico."
+        },
+        {
+          "tipo": "p",
+          "texto": "Quarta: quanto crescimento resta? A Classe II esquelética por mandíbula retruída em criança com surto por vir é candidata a modificação do crescimento; a mesma Classe II no adulto escolhe entre camuflagem dentária e cirurgia. O estágio de maturação, pelas vértebras cervicais ou pela mão e punho, é a resposta a essa pergunta e é o que faz a mesma boca ter planos diferentes aos 10, aos 14 e aos 25 anos."
+        },
+        {
+          "tipo": "visual",
+          "formato": "fluxograma",
+          "titulo": "As quatro perguntas da Classe II",
+          "descricao": "Fluxo em quatro etapas. Dentária? Migração de molares e inclinação de incisivos: mecânica dentária resolve. Esquelética? De qual base: mandíbula atrás é o mais comum; maxila à frente é minoria. Padrão vertical? Face curta ou longa muda a mecânica. Quanto crescimento resta? Surto por vir: modificar o crescimento; crescimento encerrado: camuflagem ou cirurgia.",
+          "viewBox": "0 0 560 470",
+          "svg": [
+            "<g stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'><line x1='280' y1='90' x2='280' y2='108'/><line x1='280' y1='180' x2='280' y2='198'/><line x1='280' y1='270' x2='280' y2='288'/><line x1='200' y1='350' x2='140' y2='386'/><line x1='360' y1='350' x2='420' y2='386'/></g>",
+            "<use href='#c-decisao' x='150' y='30' width='260' height='60'/><text x='280' y='55' text-anchor='middle' font-size='12' font-weight='700'>1. Quanto é dentário?</text><text x='280' y='73' text-anchor='middle' font-size='11'>molares migrados, incisivos inclinados pelo lábio</text>",
+            "<use href='#c-decisao' x='150' y='108' width='260' height='72'/><text x='280' y='134' text-anchor='middle' font-size='12' font-weight='700'>2. Quanto é esquelético, de qual base?</text><text x='280' y='152' text-anchor='middle' font-size='11'>ANB, Wits, perpendicular ao násio</text><text x='280' y='168' text-anchor='middle' font-size='11'>mandíbula atrás é o mais comum</text>",
+            "<use href='#c-decisao' x='150' y='198' width='260' height='72'/><text x='280' y='224' text-anchor='middle' font-size='12' font-weight='700'>3. Qual é o padrão vertical?</text><text x='280' y='242' text-anchor='middle' font-size='11'>face curta: mandíbula gira para a frente ao avançar</text><text x='280' y='258' text-anchor='middle' font-size='11'>face longa: controle vertical é prioridade</text>",
+            "<use href='#c-decisao' x='150' y='288' width='260' height='62'/><text x='280' y='313' text-anchor='middle' font-size='12' font-weight='700'>4. Quanto crescimento resta?</text><text x='280' y='331' text-anchor='middle' font-size='11'>vértebras cervicais, mão e punho</text>",
+            "<use href='#c-caixa-green' x='20' y='386' width='240' height='60'/><text x='140' y='410' text-anchor='middle' font-size='12' font-weight='700'>Surto por vir</text><text x='140' y='428' text-anchor='middle' font-size='11'>modificar o crescimento: funcional, extrabucal</text>",
+            "<use href='#c-caixa-blue' x='300' y='386' width='240' height='60'/><text x='420' y='410' text-anchor='middle' font-size='12' font-weight='700'>Crescimento encerrado</text><text x='420' y='428' text-anchor='middle' font-size='11'>camuflagem dentária ou cirurgia ortognática</text>",
+            "<text x='280' y='464' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>a mesma boca tem planos diferentes aos 10, aos 14 e aos 25 anos</text>"
+          ],
+          "legenda": "Dente, osso, vertical e tempo. As quatro respostas cabem em uma linha da ficha e decidem o plano inteiro."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "erro",
+          "texto": "Tratar toda Classe II como se fosse mandíbula pequena em crescimento. Uma Classe II dentária por molares migrados não precisa de funcional; uma Classe II por maxila protruída pede conter a maxila, não avançar a mandíbula; e uma Classe II esquelética no adulto não responde a aparelho funcional. Sem as quatro perguntas, a ferramenta vem antes do diagnóstico."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Por que o padrão vertical entra na leitura da Classe II?",
+        "resposta": "Porque muda a mecânica e o prognóstico: na face curta, avançar a mandíbula a faz girar para a frente favoravelmente; na face longa, qualquer abertura vertical piora a Classe II e o controle vertical vira prioridade."
+      }
+    },
+    {
+      "titulo": "Divisão 2: transformar em divisão 1 antes de tratar como Classe II",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "A divisão 2 tem uma regra própria de sequência. Com os centrais superiores inclinados para trás e a mordida profunda, a mandíbula está travada: ela não consegue avançar porque os incisivos inferiores batem na face palatina alta dos superiores. Antes de qualquer avanço mandibular, seja com funcional na criança, seja com cirurgia no adulto, os incisivos superiores precisam ser inclinados para a frente. Feito isso, a divisão 2 virou uma divisão 1 e se trata como tal."
+        },
+        {
+          "tipo": "p",
+          "texto": "O segundo desafio é a mordida profunda: abrir por intrusão dos incisivos, por extrusão dos posteriores ou pelos dois, conforme a altura facial e a exposição gengival no sorriso. E o terceiro é a contenção: a musculatura forte e o lábio alto que criaram o quadro continuam lá depois do aparelho, e a mordida profunda recidiva se a inclinação dos incisivos e o ângulo interincisal não forem corrigidos de verdade."
+        },
+        {
+          "tipo": "lista",
+          "itens": [
+            "Passo 1: inclinar os incisivos centrais superiores para a frente; a divisão 2 vira divisão 1.",
+            "Passo 2: abrir a mordida profunda, escolhendo entre intrusão anterior e extrusão posterior pela altura facial e pelo sorriso.",
+            "Passo 3: corrigir a relação de Classe II como divisão 1, pelo crescimento ou pela camuflagem.",
+            "Passo 4: contenção longa, com atenção ao ângulo interincisal, contra a musculatura que quer fechar de novo."
+          ]
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "dica",
+          "titulo": "O ângulo interincisal é o alvo escondido",
+          "texto": "Na divisão 2 o ângulo entre os incisivos superiores e inferiores é muito aberto, e mordida profunda com ângulo aberto volta. Corrija a inclinação dos dois grupos de incisivos até um ângulo próximo do normal antes de dar o caso por terminado; é isso, mais do que a contenção, que segura o resultado."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Por que a divisão 2 precisa ser transformada em divisão 1 antes de avançar a mandíbula?",
+        "resposta": "Porque os centrais superiores inclinados para trás travam a mandíbula: os incisivos inferiores batem na face palatina alta e impedem o avanço. Inclinando os superiores para a frente, o caminho se abre."
+      }
+    },
+    {
+      "titulo": "De volta ao menino de 11 anos",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "Divisão 1 clássica: incisivos para a frente, lábio preso, perfil convexo, mento para trás. As quatro perguntas: parte dentária pelo lábio que inclina os incisivos; parte esquelética provavelmente por mandíbula retruída, a confirmar na cefalometria; padrão vertical a definir; e, aos 11 anos, surto por vir, a confirmar pelas vértebras."
+        },
+        {
+          "tipo": "p",
+          "texto": "Sobre esperar: a regra geral é esperar o surto para a correção esquelética, mas 9 mm de trespasse com fratura prévia e apelidos na escola são as duas exceções que justificam reduzir o trespasse agora."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "frase",
+          "texto": "Na Classe II, o diagnóstico é dente, osso, lábio e tempo. O plano é a resposta às quatro, não à relação molar."
+        }
+      ],
+      "checagem": {
+        "pergunta": "O que justifica não esperar o surto no menino da abertura, se a regra é esperar?",
+        "resposta": "O risco de trauma, já materializado em uma fratura, e o impacto psicossocial: as duas exceções em que reduzir o trespasse cedo tem justificativa própria."
+      }
+    }
+  ],
+  "fechamento": {
+    "visual": {
+      "formato": "mapa",
+      "titulo": "Mapa da página",
+      "descricao": "Nó central: Classe II. Seis nós: mesma relação molar, incisivos diferentes; divisão 1: incisivos para a frente, lábio preso, mandíbula atrás; divisão 2: centrais para trás, mordida profunda, face curta, herança; trauma e autoimagem justificam olhar cedo; quatro perguntas: dente, osso, vertical, tempo; divisão 2 vira divisão 1 antes de avançar.",
+      "viewBox": "0 0 560 360",
+      "svg": [
+        "<g stroke='var(--border,#EDE6D8)' stroke-width='1.5'><line x1='280' y1='180' x2='100' y2='60'/><line x1='280' y1='180' x2='460' y2='60'/><line x1='280' y1='180' x2='70' y2='180'/><line x1='280' y1='180' x2='490' y2='180'/><line x1='280' y1='180' x2='100' y2='300'/><line x1='280' y1='180' x2='460' y2='300'/></g>",
+        "<use href='#c-no-central' x='190' y='150' width='180' height='60'/>",
+        "<text x='280' y='176' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>Classe II</text><text x='280' y='194' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>divisões 1 e 2</text>",
+        "<use href='#c-no' x='20' y='38' width='160' height='44'/><text x='100' y='65' text-anchor='middle' font-size='13' font-weight='700'>Mesmo molar, dois quadros</text>",
+        "<use href='#c-no' x='380' y='38' width='160' height='44'/><text x='460' y='65' text-anchor='middle' font-size='13' font-weight='700'>Div. 1: à frente, lábio preso</text>",
+        "<use href='#c-no' x='0' y='158' width='150' height='44'/><text x='75' y='185' text-anchor='middle' font-size='13' font-weight='700'>Div. 2: profunda, herdada</text>",
+        "<use href='#c-no' x='410' y='158' width='150' height='44'/><text x='485' y='185' text-anchor='middle' font-size='13' font-weight='700'>Trauma e autoimagem</text>",
+        "<use href='#c-no' x='20' y='278' width='160' height='44'/><text x='100' y='305' text-anchor='middle' font-size='13' font-weight='700'>Dente, osso, vertical, tempo</text>",
+        "<use href='#c-no' x='380' y='278' width='160' height='44'/><text x='460' y='305' text-anchor='middle' font-size='13' font-weight='700'>Div. 2 vira div. 1 primeiro</text>"
+      ]
+    },
+    "flashcards": [
+      {
+        "frente": "Características da Classe II divisão 1 nos dentes, no esqueleto e nos tecidos moles.",
+        "verso": "Incisivos superiores para a frente, trespasse horizontal aumentado, arco superior estreito, Spee inferior profunda; mandíbula retruída com maxila normal na maioria; perfil convexo, mento para trás, lábio inferior preso, selamento difícil."
+      },
+      {
+        "frente": "Características da Classe II divisão 2.",
+        "verso": "Centrais superiores para trás, laterais à frente e sobrepostos, mordida profunda, trespasse horizontal normal ou reduzido, ângulo interincisal aberto; face curta, mandíbula girando para a frente, mento marcado, arco largo, linha do lábio alta, musculatura forte, herança nítida."
+      },
+      {
+        "frente": "Por que a divisão 2 deve virar divisão 1 antes de avançar a mandíbula?",
+        "verso": "Os centrais inclinados para trás travam a mandíbula, porque os incisivos inferiores batem na face palatina alta; inclinar os superiores para a frente libera o avanço."
+      }
+    ]
+  },
+  "infografico": {
+    "titulo": "Classe II em seis cartões",
+    "itens": [
+      {
+        "rotulo": "Em comum",
+        "texto": "Molar inferior distal ao superior. Divisão dada pelos incisivos superiores: à frente (1) ou para trás (2)."
+      },
+      {
+        "rotulo": "Divisão 1",
+        "texto": "Trespasse horizontal aumentado, arco estreito, lábio inferior preso, perfil convexo, mandíbula atrás na maioria."
+      },
+      {
+        "rotulo": "Divisão 2",
+        "texto": "Centrais para trás, laterais à frente, mordida profunda, face curta, lábio alto e forte, arco largo, herança."
+      },
+      {
+        "rotulo": "Por que cedo",
+        "texto": "Trespasse grande: risco de fratura dos incisivos e impacto psicossocial. Fora disso, esperar o surto."
+      },
+      {
+        "rotulo": "Quatro perguntas",
+        "texto": "Quanto é dentário; quanto é esquelético e de qual base; padrão vertical; quanto crescimento resta."
+      },
+      {
+        "rotulo": "Sequência na div. 2",
+        "texto": "Inclinar centrais para a frente, abrir a mordida, tratar como divisão 1, conter com ângulo interincisal corrigido."
+      }
+    ]
+  },
+  "fluxograma": {
+    "titulo": "Classe II diagnosticada: por onde começar",
+    "nos": [
+      {
+        "id": "n1",
+        "tipo": "inicio",
+        "texto": "Molares em Classe II confirmados em relação cêntrica"
+      },
+      {
+        "id": "n2",
+        "tipo": "decisao",
+        "texto": "Incisivos centrais superiores inclinados para trás com mordida profunda?"
+      },
+      {
+        "id": "n3",
+        "tipo": "acao",
+        "texto": "Divisão 2: primeiro inclinar os centrais para a frente e planejar a abertura da mordida"
+      },
+      {
+        "id": "n4",
+        "tipo": "decisao",
+        "texto": "Cefalometria: bases em Classe II?"
+      },
+      {
+        "id": "n5",
+        "tipo": "acao",
+        "texto": "Classe II dentária: mecânica dentária, corrigir causa (lábio, migração)"
+      },
+      {
+        "id": "n6",
+        "tipo": "decisao",
+        "texto": "Há crescimento por vir (vértebras, mão e punho)?"
+      },
+      {
+        "id": "n7",
+        "tipo": "acao",
+        "texto": "Modificar o crescimento no surto; antes dele só se houver trauma ou sofrimento psicossocial"
+      },
+      {
+        "id": "n8",
+        "tipo": "acao",
+        "texto": "Adulto: camuflagem dentária ou cirurgia, conforme gravidade e perfil"
+      },
+      {
+        "id": "n9",
+        "tipo": "fim",
+        "texto": "Registrar dente, osso, vertical e tempo na ficha"
+      }
+    ],
+    "arestas": [
+      {
+        "de": "n1",
+        "para": "n2"
+      },
+      {
+        "de": "n2",
+        "para": "n3",
+        "rotulo": "sim"
+      },
+      {
+        "de": "n3",
+        "para": "n4"
+      },
+      {
+        "de": "n2",
+        "para": "n4",
+        "rotulo": "não"
+      },
+      {
+        "de": "n4",
+        "para": "n5",
+        "rotulo": "não"
+      },
+      {
+        "de": "n5",
+        "para": "n9"
+      },
+      {
+        "de": "n4",
+        "para": "n6",
+        "rotulo": "sim"
+      },
+      {
+        "de": "n6",
+        "para": "n7",
+        "rotulo": "sim"
+      },
+      {
+        "de": "n6",
+        "para": "n8",
+        "rotulo": "não"
+      },
+      {
+        "de": "n7",
+        "para": "n9"
+      },
+      {
+        "de": "n8",
+        "para": "n9"
+      }
+    ]
+  },
+  "passoAPasso": [
+    {
+      "passo": "Confirme a relação molar em relação cêntrica e meça o trespasse horizontal e vertical.",
+      "confira": "Classe II completa ou meia? Trespasse em milímetros?"
+    },
+    {
+      "passo": "Olhe os incisivos superiores: para a frente é divisão 1; centrais para trás é divisão 2.",
+      "confira": "Laterais sobrepostos e mordida profunda confirmam a divisão 2?"
+    },
+    {
+      "passo": "Examine os lábios em repouso: selamento, lábio inferior atrás dos superiores, linha do lábio.",
+      "confira": "Há lábio preso (divisão 1) ou lábio alto e forte (divisão 2)?"
+    },
+    {
+      "passo": "Cefalometria: ANB, Wits, qual base, padrão vertical.",
+      "confira": "A Classe II é dentária, mandibular, maxilar ou combinada? Face curta ou longa?"
+    },
+    {
+      "passo": "Estágio de maturação e fatores de urgência: trauma, autoimagem.",
+      "confira": "Esperar o surto ou intervir agora com justificativa?"
+    }
+  ],
+  "macetes": [
+    {
+      "titulo": "Frente é 1, trás é 2",
+      "texto": "Incisivos superiores para a frente: divisão 1. Centrais para trás com laterais à frente: divisão 2."
+    },
+    {
+      "titulo": "Estreito e preso, largo e alto",
+      "texto": "Divisão 1: arco estreito, lábio preso. Divisão 2: arco largo, lábio alto e forte."
+    },
+    {
+      "titulo": "Mandíbula atrás é a regra",
+      "texto": "Componente esquelético mais comum da Classe II: retrusão mandibular com maxila normal. Maxila protruída é minoria."
+    },
+    {
+      "titulo": "Destrave antes de avançar",
+      "texto": "Divisão 2: incline os centrais para a frente primeiro. Só então a mandíbula pode ir para a frente."
+    }
+  ],
+  "ondeErra": [
+    {
+      "erro": "Chamar a divisão 2 de Classe II leve.",
+      "porque": "Mordida profunda com incisivos travados e musculatura forte é difícil de corrigir e de manter.",
+      "certo": "Divisão descreve os incisivos, não a gravidade."
+    },
+    {
+      "erro": "Avançar a mandíbula na divisão 2 sem inclinar os centrais para a frente.",
+      "porque": "Os incisivos inferiores batem na face palatina alta e a mandíbula não avança.",
+      "certo": "Transformar em divisão 1 primeiro."
+    },
+    {
+      "erro": "Tratar toda Classe II com aparelho funcional.",
+      "porque": "Classe II dentária, maxila protruída e adulto não respondem ao funcional.",
+      "certo": "Quatro perguntas: dente, osso e qual base, vertical, tempo."
+    },
+    {
+      "erro": "Adiar toda avaliação para o surto, mesmo com trespasse de 9 mm e trauma.",
+      "porque": "Risco de nova fratura e sofrimento psicossocial são exceções legítimas.",
+      "certo": "Reduzir o trespasse cedo nesses casos; correção esquelética no surto."
+    }
+  ],
+  "autoteste": [
+    {
+      "pergunta": "O componente esquelético mais frequente na Classe II é:",
+      "alternativas": [
+        "Maxila protruída com mandíbula normal",
+        "Mandíbula retruída ou pequena com maxila em posição normal",
+        "Maxila e mandíbula igualmente protruídas",
+        "Base do crânio curta"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "A maxila protruída é minoria.",
+        "Correta: é o achado predominante nos estudos de componentes, e a razão de os funcionais agirem na mandíbula.",
+        "Não descreve Classe II.",
+        "Não é o componente principal."
+      ]
+    },
+    {
+      "pergunta": "Menina de 12 anos com incisivos centrais superiores inclinados para lingual, laterais para vestibular sobrepostos aos centrais, mordida profunda, face curta e arco superior largo. O quadro é:",
+      "alternativas": [
+        "Classe II divisão 1",
+        "Classe II divisão 2",
+        "Classe III com compensação",
+        "Classe I com mordida profunda"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Na divisão 1 os incisivos superiores estão para a frente e o arco é estreito.",
+        "Correta: é a assinatura completa da divisão 2, inclusive a face curta e o arco largo.",
+        "Não há relação de Classe III descrita.",
+        "A questão descreve o quadro típico de Classe II divisão 2; a relação molar de Classe II é pressuposta pelo conjunto."
+      ]
+    },
+    {
+      "pergunta": "Na Classe II divisão 1, o lábio inferior alojado atrás dos incisivos superiores:",
+      "alternativas": [
+        "Protege os incisivos do trauma",
+        "Agrava o trespasse horizontal, inclinando os superiores para a frente e os inferiores para trás",
+        "Reduz o trespasse horizontal",
+        "Não tem efeito sobre a posição dentária"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Deixa os superiores mais expostos.",
+        "Correta: força leve e prolongada, pela teoria do equilíbrio.",
+        "Aumenta o trespasse.",
+        "Tem efeito, por ser prolongado."
+      ]
+    },
+    {
+      "pergunta": "Antes de avançar a mandíbula em uma Classe II divisão 2, é necessário:",
+      "alternativas": [
+        "Extrair os pré-molares superiores",
+        "Inclinar os incisivos centrais superiores para a frente, transformando o quadro em divisão 1",
+        "Expandir a mandíbula",
+        "Aguardar a erupção dos terceiros molares"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Extrações não destravam a mandíbula.",
+        "Correta: os centrais para trás impedem o avanço; inclinados para a frente, o caminho se abre.",
+        "A mandíbula não se expande e isso não destrava os incisivos.",
+        "Sem relação com o problema."
+      ]
+    },
+    {
+      "pergunta": "Sobre o momento de tratar a Classe II divisão 1 em crianças, os ensaios clínicos de duas fases sugerem que:",
+      "alternativas": [
+        "Toda Classe II deve ser tratada na dentição mista",
+        "Começar no surto dá resultado esquelético final semelhante ao de começar cedo, com menos tempo e consultas; exceções são trauma e impacto psicossocial",
+        "O tratamento deve esperar sempre a idade adulta",
+        "O tratamento precoce elimina a necessidade de segunda fase"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Os ensaios não mostraram vantagem final do início precoce.",
+        "Correta: esperar o surto é a regra; trespasse com risco de trauma e sofrimento psicossocial justificam intervenção precoce.",
+        "No adulto não há crescimento para modificar.",
+        "A maioria dos tratados cedo precisou da segunda fase."
+      ]
+    }
+  ],
+  "pesquisa": {
+    "termos": [
+      "Classe II divisão 1",
+      "Classe II divisão 2",
+      "retrusão mandibular",
+      "trespasse horizontal aumentado",
+      "tratamento precoce Classe II"
+    ]
+  },
+  "referenciasBase": [
+    "Proffit WR, Fields HW, Larson BE, Sarver DM. Ortodontia Contemporânea. 6ª ed. Problemas esqueléticos de Classe II.",
+    "McNamara JA Jr. Components of Class II malocclusion in children 8-10 years of age. Angle Orthod. 1981.",
+    "Tulloch JFC, Proffit WR, Phillips C. Outcomes in a 2-phase randomized clinical trial of early Class II treatment. Am J Orthod Dentofacial Orthop. 2004.",
+    "O'Brien K, et al. Early treatment for Class II Division 1 malocclusion with the Twin-block appliance: a multi-center, randomized, controlled trial. Am J Orthod Dentofacial Orthop. 2009.",
+    "Graber LW, Vanarsdall RL, Vig KWL, Huang GJ. Ortodontia: princípios e técnicas atuais. 6ª ed.",
+    "Moyers RE, Riolo ML, Guire KE, Wainright RL, Bookstein FL. Differential diagnosis of Class II malocclusions. Am J Orthod. 1980."
+  ],
+  "validacao": {
+    "validadoPor": null,
+    "data": null
+  }
+}
