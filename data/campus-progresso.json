@@ -1569,7 +1569,7 @@
   {
    "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
    "onde": "Seção \"Manejo: informar, aliviar, não atrapalhar o movimento\".blocos[3].svg[4]",
-   "trecho": "uted,#8A8478)'>anti-inflamatório: no máximo uma ou duas doses no pico [VERIFICAR]"
+   "trecho": "var(--muted,#8A8478)'>anti-inflamatório: só uma ou duas doses no pico [VERIFICAR]"
   },
   {
    "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
@@ -29083,7 +29083,7 @@
     },
     {
      "onde": "Seção \"Manejo: informar, aliviar, não atrapalhar o movimento\".blocos[3].svg[4]",
-     "trecho": "uted,#8A8478)'>anti-inflamatório: no máximo uma ou duas doses no pico [VERIFICAR]"
+     "trecho": "var(--muted,#8A8478)'>anti-inflamatório: só uma ou duas doses no pico [VERIFICAR]"
     },
     {
      "onde": "Seção \"Manejo: informar, aliviar, não atrapalhar o movimento\".blocos[4].texto",
