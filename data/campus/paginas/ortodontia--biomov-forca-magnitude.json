@@ -1,0 +1,255 @@
+{
+  "id": "ortodontia/biologia-do-movimento/forcas/magnitude-duracao-e-direcao",
+  "areaId": "ortodontia",
+  "area": "Ortodontia",
+  "modulo": "Biologia do movimento",
+  "tema": "Forças",
+  "titulo": "Magnitude, duração e direção: as três variáveis de toda força ortodôntica",
+  "estado": "rascunho",
+  "versao": 1,
+  "formato": 2,
+  "autoria": "Rascunho escrito pela plataforma para validação; nada aqui é visível ao aluno antes da assinatura de um ortodontista.",
+  "abertura": {
+    "situacao": "Na clínica, você vai retrair um canino superior depois da extração do primeiro pré-molar. Pergunta a dois professores quantos gramas usar. Um responde: 'cem, no máximo cento e cinquenta, leve e contínua'. O outro: 'o número importa menos do que onde você aplica e por quanto tempo a força se mantém'. Os dois estão certos, e a página explica por quê.",
+    "pergunta": "Se a magnitude fosse tudo, por que a mesma mola move um dente de corpo em um paciente e só inclina em outro? O que mais define o que a força faz?"
+  },
+  "umMinuto": {
+    "frases": [
+      "Toda força ortodôntica tem três variáveis que você controla: magnitude (quanto), duração (por quanto tempo e com que constância) e direção (para onde e por onde passa em relação ao centro de resistência).",
+      "O tecido não sente a força, sente a pressão: força dividida pela área de ligamento que ela comprime. A mesma força é leve para um molar e pesada para um incisivo inferior.",
+      "Força leve mantém o ligamento vivo e produz reabsorção frontal; força pesada oclui os vasos, hialiniza e move em saltos. Acima de certo ponto, mais força não é mais velocidade.",
+      "Duração é a variável menos lembrada e mais decisiva: força contínua (mantém-se entre consultas), interrompida (cai a zero antes da reativação) e intermitente (o paciente tira e põe) produzem respostas diferentes.",
+      "Direção decide o tipo de movimento: força passando pelo centro de resistência translada; fora dele, inclina. O momento gerado pela distância até o centro é o que o aparelho fixo precisa controlar.",
+      "A resposta clínica é o produto das três: força leve, constante e bem direcionada é o alvo; o número isolado na balança nunca conta a história inteira."
+    ],
+    "caiNaProva": [
+      "Diferença entre força e pressão: pressão = força dividida pela área do ligamento; raiz pequena, pressão maior para a mesma força.",
+      "Força ótima de Schwarz: não exceder a pressão capilar do ligamento; forças acima dela ocluem vasos e hialinizam.",
+      "Classificação da força pela duração: contínua, interrompida e intermitente, e o exemplo clínico de cada uma.",
+      "Força pelo centro de resistência produz translação; fora dele, inclinação; o momento é força vezes distância.",
+      "Relação entre magnitude e velocidade não é linear: existe um limiar abaixo do qual nada acontece e um platô acima do qual só aumentam os efeitos colaterais."
+    ],
+    "porQueImporta": "A escolha de uma mola, um elástico ou um fio é a escolha de três variáveis ao mesmo tempo. Quem enxerga só a magnitude perde ancoragem, inclina o que queria transladar e hialiniza o que queria mover devagar."
+  },
+  "secoes": [
+    {
+      "titulo": "Três variáveis, e uma quarta que o tecido sente",
+      "blocos": [
+        { "tipo": "p", "texto": "Uma força é um vetor: tem magnitude, direção e sentido, e é aplicada em um ponto. Na ortodontia, você acrescenta a dimensão do tempo, porque a resposta biológica depende de quanto tempo a força age e com que constância. Assim, as três variáveis que você controla em qualquer ativação são magnitude, duração e direção; o ponto de aplicação é quase sempre o braquete ou a banda, e por isso a direção em relação ao centro de resistência é o que muda de dente para dente." },
+        { "tipo": "p", "texto": "O tecido, porém, não percebe a força como você a mede no dinamômetro. O ligamento responde à pressão: a força distribuída pela área de ligamento comprimida. Um molar tem uma superfície radicular várias vezes maior do que a de um incisivo inferior; a mesma força de cem gramas gera pressões muito diferentes nos dois. É por isso que as tabelas de força ideal variam por dente e por tipo de movimento, tema da próxima página." },
+        { "tipo": "visual", "formato": "forcas", "titulo": "Força não é pressão", "descricao": "Dois dentes lado a lado recebem a mesma força de cem gramas: um incisivo de raiz fina e um molar de raízes largas. No incisivo, a área de ligamento comprimida é pequena e a pressão resultante é alta; no molar, a área é grande e a pressão é baixa. Ao centro, a fórmula: pressão igual a força dividida pela área.", "viewBox": "0 0 720 320", "svg": [
+            "<text x='150' y='30' text-anchor='middle' font-size='13' font-weight='700' fill='var(--ink,#23211C)'>incisivo inferior</text>",
+            "<use href='#c-dente' x='110' y='50' width='80' height='190'/>",
+            "<use href='#c-vetor-red' x='40' y='80' width='70' height='14'/><text x='75' y='72' text-anchor='middle' font-size='11' font-weight='700' fill='var(--red,#B4533B)'>100 g</text>",
+            "<rect x='150' y='140' width='16' height='70' rx='4' fill='var(--red,#B4533B)' fill-opacity='0.35'/><text x='150' y='265' text-anchor='middle' font-size='11' fill='var(--ink,#23211C)'>área pequena</text><text x='150' y='281' text-anchor='middle' font-size='12' font-weight='700' fill='var(--red,#B4533B)'>pressão alta</text>",
+            "<text x='570' y='30' text-anchor='middle' font-size='13' font-weight='700' fill='var(--ink,#23211C)'>molar</text>",
+            "<use href='#c-molar' x='510' y='50' width='120' height='195'/>",
+            "<use href='#c-vetor-red' x='430' y='80' width='70' height='14'/><text x='465' y='72' text-anchor='middle' font-size='11' font-weight='700' fill='var(--red,#B4533B)'>100 g</text>",
+            "<rect x='540' y='120' width='70' height='90' rx='6' fill='var(--green,#3E7C4F)' fill-opacity='0.25'/><text x='570' y='265' text-anchor='middle' font-size='11' fill='var(--ink,#23211C)'>área grande</text><text x='570' y='281' text-anchor='middle' font-size='12' font-weight='700' fill='var(--green,#3E7C4F)'>pressão baixa</text>",
+            "<use href='#c-caixa-ink' x='250' y='120' width='220' height='64'/><text x='360' y='146' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>pressão = força / área</text><text x='360' y='168' text-anchor='middle' font-size='11' fill='#fff'>o ligamento responde à pressão</text>",
+            "<text x='360' y='306' text-anchor='middle' font-size='11' fill='var(--muted,#8A8478)'>a mesma força no dinamômetro é leve em um dente e pesada em outro; esquema fora de escala</text>"
+          ], "legenda": "A balança mede força; o ligamento sente pressão. A área radicular divide a força, e é ela que faz a mesma mola ser leve no molar e pesada no incisivo." },
+        { "tipo": "destaque", "estilo": "prova", "texto": "Pressão é força por unidade de área. Em questões que comparam dentes sob a mesma força, a raiz de menor superfície recebe a maior pressão e hialiniza primeiro. Quando a questão fala em 'força ótima', a resposta esperada é a ideia de Schwarz: pressão que não exceda a dos capilares do ligamento." },
+        { "tipo": "pergunta", "pergunta": "Uma mola de 150 g é usada para retrair um canino e, no mesmo paciente, para mover um incisivo lateral. Em qual dente a pressão no ligamento é maior e por quê?", "resposta": "No incisivo lateral: a superfície radicular é menor, e a mesma força se distribui por uma área menor de ligamento, gerando pressão maior." },
+        { "tipo": "destaque", "estilo": "dica", "titulo": "Quatro perguntas antes de ativar", "texto": "Quanto (magnitude)? Por quanto tempo e com que constância (duração)? Para onde e passando por onde em relação ao centro de resistência (direção)? Em que área de ligamento essa força vai se distribuir (pressão)? Se você responde às quatro, o resto da página é consequência." }
+      ],
+      "checagem": { "pergunta": "Quais são as três variáveis da força que você controla e qual é a grandeza que o ligamento efetivamente sente?", "resposta": "Magnitude, duração e direção. O ligamento sente pressão, isto é, força dividida pela área de ligamento comprimida." }
+    },
+    {
+      "titulo": "Magnitude: a janela entre nada acontecer e tudo dar errado",
+      "blocos": [
+        { "tipo": "p", "texto": "A tradição ortodôntica define força leve como aquela que comprime o ligamento sem ocluir seus vasos. Schwarz, na década de 1930, propôs que a força ótima não deveria exceder a pressão dos capilares do ligamento, algo em torno de vinte a vinte e seis gramas por centímetro quadrado de superfície radicular [VERIFICAR]. Abaixo disso, o ligamento permanece vivo, as células chegam e a reabsorção frontal acontece; acima, isquemia, hialinização e movimento em saltos, como você viu nas páginas anteriores." },
+        { "tipo": "p", "texto": "Storey e Smith, em 1952, deram a esse conceito um experimento clássico: ao retrair caninos com molas de diferentes intensidades, observaram que forças em torno de 150 a 200 gramas moviam o canino com eficiência, enquanto forças bem maiores, de 400 a 600 gramas, moviam pouco o canino e faziam os dentes de ancoragem, de maior área radicular, se deslocarem [VERIFICAR]. A leitura moderna é que a força pesada atravessou a janela ideal do canino e caiu dentro da janela ideal dos dentes maiores." },
+        { "tipo": "visual", "formato": "grafico", "titulo": "Velocidade do movimento em função da magnitude", "descricao": "Gráfico com a magnitude da força no eixo horizontal e a velocidade do movimento no eixo vertical. A curva parte de zero, permanece em zero até um limiar, sobe de forma acentuada em uma faixa intermediária e depois se achata em um platô; uma linha tracejada mostra a hipótese linear, que não se confirmou. À direita do platô, faixa vermelha com os efeitos colaterais: hialinização, dor, reabsorção e perda de ancoragem.", "viewBox": "0 0 720 340", "svg": [
+            "<use href='#c-eixo' x='70' y='270' width='600' height='20'/><path d='M80 280 L80 40' stroke='var(--muted,#8A8478)' stroke-width='1.5'/><path d='M74 52 L80 40 L86 52 Z' fill='var(--muted,#8A8478)'/>",
+            "<text x='670' y='306' text-anchor='end' font-size='12' fill='var(--ink,#23211C)'>magnitude da força (pressão no ligamento)</text>",
+            "<text x='40' y='160' font-size='12' fill='var(--ink,#23211C)' transform='rotate(-90 40 160)' text-anchor='middle'>velocidade do movimento</text>",
+            "<rect x='440' y='50' width='220' height='230' fill='var(--red,#B4533B)' fill-opacity='0.08'/>",
+            "<path d='M80 278 L150 276 C 230 260, 280 130, 340 110 C 400 90, 480 84, 660 82' fill='none' stroke='var(--gold,#B08968)' stroke-width='3'/>",
+            "<path d='M80 278 L560 60' fill='none' stroke='var(--muted,#8A8478)' stroke-width='1.5' stroke-dasharray='6 5'/>",
+            "<text x='560' y='52' font-size='11' fill='var(--muted,#8A8478)' text-anchor='middle'>hipótese linear: não se confirma</text>",
+            "<line x1='150' y1='280' x2='150' y2='60' stroke='var(--blue,#4A6B8A)' stroke-width='1' stroke-dasharray='3 3'/><text x='150' y='52' text-anchor='middle' font-size='11' font-weight='700' fill='var(--blue,#4A6B8A)'>limiar</text>",
+            "<text x='110' y='255' text-anchor='middle' font-size='11' fill='var(--muted,#8A8478)'>nada acontece</text>",
+            "<text x='290' y='200' font-size='12' font-weight='700' fill='var(--gold,#B08968)'>janela útil</text><text x='290' y='216' font-size='11' fill='var(--ink,#23211C)'>mais força, mais velocidade</text>",
+            "<text x='550' y='120' text-anchor='middle' font-size='12' font-weight='700' fill='var(--red,#B4533B)'>platô e efeitos colaterais</text><text x='550' y='138' text-anchor='middle' font-size='11' fill='var(--ink,#23211C)'>hialinização, dor, reabsorção,</text><text x='550' y='152' text-anchor='middle' font-size='11' fill='var(--ink,#23211C)'>ancoragem cede</text>",
+            "<text x='360' y='328' text-anchor='middle' font-size='11' fill='var(--muted,#8A8478)'>curva conceitual, sem escala; a forma exata varia entre estudos e o valor ótimo não é consenso</text>"
+          ], "legenda": "Abaixo do limiar, nada. Numa faixa útil, mais força acelera. Depois, um platô: a velocidade não aumenta, mas os danos sim. A linha reta que o senso comum imagina não existe." },
+        { "tipo": "destaque", "estilo": "mito", "mito": "Quanto mais força, mais rápido o dente anda.", "verdade": "A relação não é linear. Quinn e Yoshikawa, revisando as hipóteses em 1985, favoreceram um modelo em que a velocidade cresce até certo ponto e depois estabiliza [VERIFICAR]. Uma revisão sistemática de Ren e colaboradores em 2003 não encontrou evidência suficiente para definir uma força ótima [VERIFICAR]. Acima do platô, o que cresce é hialinização, dor e perda de ancoragem." },
+        { "tipo": "p", "texto": "Há uma consequência prática que os alunos custam a aceitar: usar menos força quase nunca atrasa o tratamento de forma perceptível, mas usar força demais quase sempre cobra algo, seja em dor, seja em ancoragem, seja em raiz. Como o platô começa relativamente cedo, o erro de sobra é mais caro que o erro de falta. Na dúvida, a força menor que ainda produz movimento é a escolha segura." },
+        { "tipo": "pergunta", "pergunta": "No experimento de Storey e Smith, por que a força pesada moveu os dentes de ancoragem em vez do canino?", "resposta": "Porque a força pesada ultrapassou a janela ideal do canino, hialinizando o seu ligamento, e ao mesmo tempo caiu dentro da janela ideal dos dentes de ancoragem, que têm maior área radicular e, portanto, menor pressão para a mesma força." }
+      ],
+      "checagem": { "pergunta": "O que acontece com a velocidade do movimento e com os efeitos colaterais quando a força ultrapassa o platô da curva?", "resposta": "A velocidade não aumenta mais; crescem apenas hialinização, dor, reabsorção radicular e perda de ancoragem." }
+    },
+    {
+      "titulo": "Duração: contínua, interrompida e intermitente",
+      "blocos": [
+        { "tipo": "p", "texto": "A biologia do movimento é uma cascata que leva horas para começar e dias para produzir células ativas. Se a força some antes disso, o processo recomeça do zero na próxima vez. Por isso existe um limiar de duração: em humanos, a força precisa agir algo em torno de quatro a oito horas por dia para produzir movimento, e quanto mais horas, mais eficiente [VERIFICAR]. Um aparelho removível usado só à noite se aproxima do limite; um usado em tempo integral funciona; um aparelho fixo age vinte e quatro horas." },
+        { "tipo": "p", "texto": "Além das horas por dia, importa o que acontece com a força entre as consultas. A classificação clássica, que você encontra em Proffit, tem três categorias. Força contínua mantém uma fração útil de sua intensidade de uma ativação a outra. Força interrompida decai até zero antes da próxima ativação, deixando o tecido reparar. Força intermitente é ligada e desligada pelo próprio paciente, como no elástico intermaxilar ou no aparelho removível." },
+        { "tipo": "visual", "formato": "grafico", "titulo": "Três perfis de força ao longo do tempo", "descricao": "Três pequenos gráficos lado a lado, com o tempo entre consultas no eixo horizontal e a intensidade da força no eixo vertical. Contínua: linha que começa alta e decai suavemente sem chegar a zero, reativada em cada consulta. Interrompida: linha que começa alta e cai até zero muito antes da consulta seguinte, ficando em zero até a reativação. Intermitente: ondas quadradas diárias, força presente durante o uso e ausente quando o aparelho é retirado.", "viewBox": "0 0 720 300", "svg": [
+            "<g font-size='13' font-weight='700' fill='var(--ink,#23211C)' text-anchor='middle'><text x='130' y='30'>contínua</text><text x='360' y='30'>interrompida</text><text x='590' y='30'>intermitente</text></g>",
+            "<g stroke='var(--muted,#8A8478)' stroke-width='1.5' fill='none'><path d='M40 200 L40 50 M40 200 L230 200'/><path d='M270 200 L270 50 M270 200 L460 200'/><path d='M500 200 L500 50 M500 200 L690 200'/></g>",
+            "<g stroke='var(--border,#EDE6D8)' stroke-width='1' stroke-dasharray='3 3'><line x1='135' y1='50' x2='135' y2='200'/><line x1='365' y1='50' x2='365' y2='200'/><line x1='595' y1='50' x2='595' y2='200'/></g>",
+            "<path d='M40 70 C 80 90, 110 105, 135 112 L135 70 C 175 90, 205 105, 230 112' fill='none' stroke='var(--green,#3E7C4F)' stroke-width='3'/>",
+            "<path d='M270 70 C 290 120, 305 185, 320 200 L365 200 L365 70 C 385 120, 400 185, 415 200 L460 200' fill='none' stroke='var(--gold,#B08968)' stroke-width='3'/>",
+            "<path d='M500 200 L500 80 L525 80 L525 200 L548 200 L548 80 L573 80 L573 200 L596 200 L596 80 L621 80 L621 200 L644 200 L644 80 L669 80 L669 200 L690 200' fill='none' stroke='var(--blue,#4A6B8A)' stroke-width='2.5'/>",
+            "<g font-size='10' fill='var(--muted,#8A8478)' text-anchor='middle'><text x='135' y='216'>consulta</text><text x='365' y='216'>consulta</text><text x='595' y='216'>dias de uso</text></g>",
+            "<g font-size='11' fill='var(--ink,#23211C)' text-anchor='middle'><text x='135' y='240'>mola de NiTi, fio de alinhamento</text><text x='135' y='255'>não chega a zero: tecido não repara</text><text x='365' y='240'>parafuso expansor, alça de aço</text><text x='365' y='255'>cai a zero: pausa para reparo</text><text x='595' y='240'>elástico intermaxilar, removível</text><text x='595' y='255'>liga e desliga: precisa de horas por dia</text></g>",
+            "<text x='30' y='125' font-size='10' fill='var(--muted,#8A8478)' transform='rotate(-90 30 125)' text-anchor='middle'>força</text>",
+            "<text x='360' y='288' text-anchor='middle' font-size='11' fill='var(--muted,#8A8478)'>perfis esquemáticos; a forma real depende do material e da ativação</text>"
+          ], "legenda": "A mesma magnitude inicial, três histórias diferentes. O que o tecido faz depende de quanto tempo a força fica lá e de se ela some antes de o reparo terminar." },
+        { "tipo": "destaque", "estilo": "erro", "titulo": "Confundir contínua com forte", "texto": "Contínua descreve a duração, não a intensidade. A combinação ideal é leve e contínua: o ligamento permanece vivo e a reabsorção frontal segue sem pausa. Pesada e contínua é a pior combinação, porque renova a necrose a cada dia. Pesada e interrompida é tolerada justamente porque a força cai a zero e deixa o tecido reparar." },
+        { "tipo": "p", "texto": "Materiais definem perfis. Um fio de aço grosso ou uma alça de aço fechada entrega força alta que decai depressa: comportamento interrompido. Ligas de níquel-titânio superelásticas entregam força quase constante ao longo de grande faixa de deflexão: comportamento contínuo. Cadeias elastoméricas perdem parte importante da força nas primeiras horas e dias, com decaimento relatado em torno da metade da força inicial no primeiro dia [VERIFICAR], por isso são reativadas a cada consulta." },
+        { "tipo": "destaque", "estilo": "frase", "texto": "O ligamento não lê o rótulo da mola. Ele conta horas: quantas horas por dia a força está lá, e quantos dias ela dura antes de sumir." }
+      ],
+      "checagem": { "pergunta": "Classifique a força de um elástico intermaxilar usado só à noite, de um parafuso expansor e de um fio de níquel-titânio de alinhamento.", "resposta": "Elástico usado só à noite: intermitente. Parafuso expansor: interrompida (cai a zero entre ativações). Fio de níquel-titânio: contínua (mantém força útil entre consultas)." }
+    },
+    {
+      "titulo": "Direção: por onde a força passa decide o movimento",
+      "blocos": [
+        { "tipo": "p", "texto": "Todo dente tem um centro de resistência: o ponto em que uma força aplicada produz deslocamento puro, sem rotação. Em dentes unirradiculares ele fica na raiz, aproximadamente entre um terço e metade da distância da crista alveolar ao ápice; em multirradiculares, próximo à furca [VERIFICAR]. Perda óssea desloca o centro de resistência para apical, e por isso o periodontalmente comprometido inclina mais com a mesma mecânica." },
+        { "tipo": "p", "texto": "Você aplica a força no braquete, na coroa, longe do centro de resistência. Uma força que não passa pelo centro gera um momento, igual à força vezes a distância perpendicular até ele, e o dente inclina em vez de transladar. Para converter inclinação em translação, o aparelho precisa aplicar um contramomento, o binário produzido pelo fio dentro da canaleta, que anule a tendência de rotação. A relação entre esse momento e a força, o M/F, define o tipo de movimento." },
+        { "tipo": "visual", "formato": "forcas", "titulo": "A mesma força, dois movimentos: o que muda é o momento", "descricao": "Dois dentes lado a lado. À esquerda, força horizontal aplicada no braquete, distante do centro de resistência marcado por um ponto na raiz: a coroa vai para um lado, o ápice para o outro, inclinação não controlada, com centro de rotação perto do centro de resistência. À direita, a mesma força acompanhada de um binário no braquete: as forças se combinam, a linha de ação efetiva passa pelo centro de resistência e o dente translada, com todos os pontos se deslocando igualmente. Abaixo, a fórmula do momento e a relação M/F.", "viewBox": "0 0 560 430", "svg": [
+            "<g font-size='13' font-weight='700' fill='var(--ink,#23211C)' text-anchor='middle'><text x='140' y='30'>força só</text><text x='420' y='30'>força + momento</text></g>",
+            "<use href='#c-dente' x='100' y='50' width='80' height='190'/><use href='#c-dente' x='380' y='50' width='80' height='190'/>",
+            "<g fill='var(--blue,#4A6B8A)'><circle cx='140' cy='170' r='5'/><circle cx='420' cy='170' r='5'/></g><g font-size='10' fill='var(--blue,#4A6B8A)'><text x='150' y='174'>CR</text><text x='430' y='174'>CR</text></g>",
+            "<rect x='134' y='84' width='12' height='10' fill='var(--ink,#23211C)'/><rect x='414' y='84' width='12' height='10' fill='var(--ink,#23211C)'/>",
+            "<use href='#c-vetor-red' x='40' y='82' width='90' height='14'/><text x='80' y='74' text-anchor='middle' font-size='11' font-weight='700' fill='var(--red,#B4533B)'>F</text>",
+            "<use href='#c-vetor-red' x='320' y='82' width='90' height='14'/><text x='360' y='74' text-anchor='middle' font-size='11' font-weight='700' fill='var(--red,#B4533B)'>F</text>",
+            "<use href='#c-momento-anti' x='432' y='60' width='44' height='44'/><text x='490' y='86' font-size='11' font-weight='700' fill='var(--red,#B4533B)'>M</text>",
+            "<line x1='140' y1='89' x2='140' y2='170' stroke='var(--muted,#8A8478)' stroke-width='1' stroke-dasharray='3 3'/><text x='128' y='132' font-size='10' fill='var(--muted,#8A8478)' text-anchor='end'>d</text>",
+            "<g stroke='var(--gold,#B08968)' stroke-width='2' fill='none'><path d='M188 100 L214 100 M208 95 L214 100 L208 105'/><path d='M132 236 L106 236 M112 231 L106 236 L112 241'/></g>",
+            "<text x='140' y='268' text-anchor='middle' font-size='11' fill='var(--ink,#23211C)'>coroa para um lado, ápice para o outro</text><text x='140' y='283' text-anchor='middle' font-size='12' font-weight='700' fill='var(--gold,#B08968)'>inclinação não controlada</text>",
+            "<g stroke='var(--gold,#B08968)' stroke-width='2' fill='none'><path d='M468 100 L494 100 M488 95 L494 100 L488 105'/><path d='M468 170 L494 170 M488 165 L494 170 L488 175'/><path d='M468 230 L494 230 M488 225 L494 230 L488 235'/></g>",
+            "<text x='420' y='268' text-anchor='middle' font-size='11' fill='var(--ink,#23211C)'>todos os pontos andam juntos</text><text x='420' y='283' text-anchor='middle' font-size='12' font-weight='700' fill='var(--gold,#B08968)'>translação</text>",
+            "<use href='#c-caixa-ink' x='60' y='310' width='440' height='60'/><text x='280' y='334' text-anchor='middle' font-size='13' font-weight='700' fill='#fff'>momento = força x distância até o CR</text><text x='280' y='354' text-anchor='middle' font-size='11' fill='#fff'>M/F baixo inclina; M/F que anula o momento da força translada; M/F maior move a raiz</text>",
+            "<text x='280' y='400' text-anchor='middle' font-size='11' fill='var(--muted,#8A8478)'>CR: centro de resistência; d: distância do braquete ao CR; esquema fora de escala</text>"
+          ], "legenda": "A força é a mesma nos dois lados. À esquerda ela passa longe do centro de resistência e o dente gira; à direita um binário no braquete anula esse giro e o dente anda de corpo." },
+        { "tipo": "destaque", "estilo": "prova", "texto": "Para um incisivo com braquete a cerca de dez milímetros do centro de resistência, a literatura de Burstone usa valores de referência: relação M/F em torno de 7:1 para inclinação controlada, próxima de 10:1 para translação e acima de 12:1 para movimento de raiz [VERIFICAR]. Os números mudam com a distância ao centro de resistência; a lógica, não." },
+        { "tipo": "p", "texto": "Direção também decide onde a pressão se concentra. Na inclinação, a força se concentra na crista alveolar de um lado e no ápice do outro, com pressão alta em áreas pequenas: é o movimento que mais hialiniza para uma dada força. Na translação, a mesma força se distribui por quase toda a raiz. É por isso que a força ideal para inclinar é menor que a força ideal para transladar, e a próxima página traz os valores." },
+        { "tipo": "imagem", "imagem": "radiografia periapical de incisivo inferior com perda óssea horizontal moderada, comparada a um incisivo com nível ósseo normal", "mostrar": "Crista óssea afastada da junção amelocementária em um dos dentes, com raiz clínica mais curta e coroa clínica mais longa; o nível ósseo normal no dente de comparação", "legenda": "Quanto menos osso, mais apical o centro de resistência e mais longa a alavanca do braquete: a mesma força inclina mais e exige M/F maior.", "destacar": "nível da crista óssea nos dois dentes e a distância até o braquete" },
+        { "tipo": "pergunta", "pergunta": "Um paciente com perda óssea horizontal recebe a mesma mecânica de retração usada em um paciente com periodonto íntegro. O que muda no movimento e por quê?", "resposta": "O centro de resistência está mais apical, a distância do braquete até ele é maior e o momento da mesma força aumenta: o dente inclina mais. É preciso força menor e M/F maior para transladar." }
+      ],
+      "checagem": { "pergunta": "Onde fica o centro de resistência de um dente unirradicular e o que acontece se a força aplicada não passa por ele?", "resposta": "Na raiz, entre um terço e metade da distância da crista alveolar ao ápice [VERIFICAR]. Uma força fora dele gera momento igual à força vezes a distância, e o dente inclina em vez de transladar." }
+    },
+    {
+      "titulo": "As três juntas: o que cada variável decide",
+      "blocos": [
+        { "tipo": "p", "texto": "Separar as três variáveis é didático; na clínica elas agem juntas e uma compensa ou agrava a outra. Uma força de magnitude adequada aplicada em direção que concentra pressão na crista vira força pesada naquele ponto. Uma força leve que só age quatro horas por dia não chega a acionar a cascata. Uma força pesada que decai a zero em dois dias produz menos dano do que uma força moderada que nunca cede." },
+        { "tipo": "visual", "formato": "classificacao", "titulo": "O que cada variável decide", "descricao": "Três caixas empilhadas. Magnitude: decide a intensidade da resposta, se o ligamento fica vivo ou hialiniza, quanto dói e se a ancoragem cede. Duração: decide se a cascata chega a acontecer e se o tecido tem pausa para reparar. Direção: decide o tipo de movimento, inclinação ou translação, e onde a pressão se concentra na raiz. Abaixo, a combinação alvo: leve, contínua e bem direcionada.", "viewBox": "0 0 560 330", "svg": [
+            "<use href='#c-caixa-red' x='20' y='16' width='520' height='70'/><text x='36' y='40' font-size='13' font-weight='700'>Magnitude: quanto</text><text x='36' y='58' font-size='11'>intensidade da resposta; ligamento vivo ou hialinizado; dor; risco de ancoragem ceder</text><text x='36' y='74' font-size='11' fill='var(--red,#B4533B)'>erro de sobra custa mais que erro de falta</text>",
+            "<use href='#c-caixa-gold' x='20' y='98' width='520' height='70'/><text x='36' y='122' font-size='13' font-weight='700'>Duração: por quanto tempo e com que constância</text><text x='36' y='140' font-size='11'>se a cascata chega a acontecer (horas por dia); se o tecido tem pausa para reparar</text><text x='36' y='156' font-size='11' fill='var(--gold,#B08968)'>contínua, interrompida ou intermitente</text>",
+            "<use href='#c-caixa-blue' x='20' y='180' width='520' height='70'/><text x='36' y='204' font-size='13' font-weight='700'>Direção: para onde e por onde</text><text x='36' y='222' font-size='11'>tipo de movimento (inclinar, transladar, mover raiz); onde a pressão se concentra</text><text x='36' y='238' font-size='11' fill='var(--blue,#4A6B8A)'>distância ao centro de resistência e relação M/F</text>",
+            "<use href='#c-caixa-ink' x='100' y='268' width='360' height='44'/><text x='280' y='287' text-anchor='middle' font-size='13' font-weight='700' fill='#fff'>alvo: leve, contínua e bem direcionada</text><text x='280' y='304' text-anchor='middle' font-size='11' fill='#fff'>o número na balança é só a primeira das três</text>"
+          ], "legenda": "Três decisões em toda ativação. A magnitude é a mais visível e a menos suficiente." },
+        { "tipo": "destaque", "estilo": "dica", "titulo": "Leve ainda hialiniza", "texto": "Mesmo forças consideradas leves produzem áreas pequenas de hialinização, especialmente na crista alveolar durante inclinação; estudos experimentais em animais mostraram hialinização tanto com forças leves quanto pesadas [VERIFICAR]. Leve reduz a extensão e a repetição do fenômeno, não o elimina. Por isso a direção, que distribui a pressão, importa tanto quanto a magnitude." },
+        { "tipo": "lista", "itens": [
+          "Magnitude sozinha explica por que dói e por que a ancoragem cede; não explica por que o dente inclinou.",
+          "Duração sozinha explica por que o removível 'não funcionou'; não explica por que o dente moveu devagar mesmo com uso integral.",
+          "Direção sozinha explica o tipo de movimento; não explica por que hialinizou mesmo com M/F correto.",
+          "As três juntas explicam o caso clínico; anotar as três em cada ativação é o hábito que separa quem entende de quem repete."
+        ] }
+      ],
+      "checagem": { "pergunta": "Por que uma força de magnitude adequada pode se comportar como pesada dependendo da direção?", "resposta": "Porque a direção decide onde a pressão se concentra: em inclinação, a força se concentra na crista de um lado e no ápice do outro, elevando a pressão local acima do limite capilar mesmo com magnitude total moderada." }
+    },
+    {
+      "titulo": "De volta ao canino",
+      "blocos": [
+        { "tipo": "p", "texto": "Os dois professores responderam a variáveis diferentes. O primeiro respondeu à magnitude: para um canino, algo entre cem e cento e cinquenta gramas está dentro da faixa que a literatura clássica considera eficiente e segura [VERIFICAR]. O segundo respondeu à duração e à direção: uma mola de níquel-titânio dá força contínua e a mesma magnitude em uma cadeia elastomérica decai rápido; e a força no braquete, longe do centro de resistência, vai inclinar o canino a menos que o fio e a mecânica forneçam o contramomento." },
+        { "tipo": "destaque", "estilo": "erro", "titulo": "Aumentar a força quando o dente 'não anda'", "texto": "Se o canino não está se movendo, a primeira hipótese não é falta de força. Verifique se a força é contínua (a cadeia perdeu tensão?), se há interferência oclusal ou contato com o dente vizinho, se o fio está travado na canaleta e se a hialinização está em fase de latência. Dobrar a força costuma mover a ancoragem, não o canino." },
+        { "tipo": "p", "texto": "Registre, a cada ativação, as três respostas: magnitude medida no dinamômetro, tipo de força pelo dispositivo escolhido e direção em relação ao centro de resistência, com a estratégia de controle do momento. Esse hábito transforma o número solto em decisão, e prepara você para a próxima página, onde a força ideal deixa de ser um número e vira uma tabela por tipo de movimento." }
+      ],
+      "checagem": { "pergunta": "Um canino em retração 'parou de andar' com 150 g em cadeia elastomérica trocada a cada seis semanas. Qual é a hipótese mais provável antes de pensar em aumentar a força?", "resposta": "A força não é contínua: a cadeia elastomérica decai rapidamente e passa boa parte do intervalo abaixo do limiar; além disso, pode haver latência por hialinização ou interferência mecânica. Aumentar a força tende a mover a ancoragem." }
+    }
+  ],
+  "fechamento": {
+    "visual": { "formato": "mapa", "titulo": "Mapa da página", "descricao": "Nó central: força ortodôntica. Seis nós: força não é pressão; magnitude tem limiar e platô; duração contínua, interrompida e intermitente; direção e centro de resistência; momento e relação M/F; alvo leve, contínua e bem direcionada.", "viewBox": "0 0 560 360", "svg": [
+        "<g stroke='var(--border,#EDE6D8)' stroke-width='1.5'><line x1='280' y1='180' x2='100' y2='60'/><line x1='280' y1='180' x2='460' y2='60'/><line x1='280' y1='180' x2='70' y2='180'/><line x1='280' y1='180' x2='490' y2='180'/><line x1='280' y1='180' x2='100' y2='300'/><line x1='280' y1='180' x2='460' y2='300'/></g>",
+        "<use href='#c-no-central' x='190' y='150' width='180' height='60'/>",
+        "<text x='280' y='186' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>Força ortodôntica</text>",
+        "<use href='#c-no' x='20' y='38' width='160' height='44'/><text x='100' y='65' text-anchor='middle' font-size='13' font-weight='700'>Força não é pressão</text>",
+        "<use href='#c-no' x='380' y='38' width='160' height='44'/><text x='460' y='65' text-anchor='middle' font-size='13' font-weight='700'>Limiar e platô</text>",
+        "<use href='#c-no' x='0' y='158' width='150' height='44'/><text x='75' y='185' text-anchor='middle' font-size='13' font-weight='700'>Três durações</text>",
+        "<use href='#c-no' x='410' y='158' width='150' height='44'/><text x='485' y='185' text-anchor='middle' font-size='13' font-weight='700'>Centro de resistência</text>",
+        "<use href='#c-no' x='20' y='278' width='160' height='44'/><text x='100' y='305' text-anchor='middle' font-size='13' font-weight='700'>Momento e M/F</text>",
+        "<use href='#c-no' x='380' y='278' width='160' height='44'/><text x='460' y='305' text-anchor='middle' font-size='13' font-weight='700'>Leve e contínua</text>",
+        "<text x='16' y='348' font-size='11' font-weight='700' fill='var(--ink,#23211C)'>Mapa da página</text>"
+      ], "legenda": "Seis ideias em volta de uma: toda força é três decisões, e o tecido sente pressão." },
+    "flashcards": [
+      { "frente": "Diferencie força de pressão e explique por que a mesma mola é leve em um molar e pesada em um incisivo.", "verso": "Força é o que o dinamômetro mede; pressão é força dividida pela área de ligamento comprimida. O molar tem superfície radicular muito maior, então a mesma força gera pressão menor; no incisivo, área pequena, pressão alta, hialinização mais provável." },
+      { "frente": "Defina força contínua, interrompida e intermitente com um exemplo clínico de cada.", "verso": "Contínua: mantém fração útil entre consultas (fio de níquel-titânio). Interrompida: cai a zero antes da reativação (parafuso expansor, alça de aço). Intermitente: o paciente liga e desliga (elástico intermaxilar, aparelho removível)." },
+      { "frente": "O que acontece quando a força não passa pelo centro de resistência e como o aparelho corrige isso?", "verso": "Gera um momento igual à força vezes a distância até o centro, e o dente inclina. O aparelho aplica um contramomento no braquete; a relação M/F define se o movimento é inclinação controlada, translação ou movimento de raiz." }
+    ]
+  },
+  "infografico": {
+    "titulo": "Força ortodôntica em seis cartões",
+    "itens": [
+      { "rotulo": "Três variáveis", "texto": "Magnitude (quanto), duração (por quanto tempo e com que constância), direção (para onde e por onde em relação ao centro de resistência)." },
+      { "rotulo": "Pressão", "texto": "Força dividida pela área de ligamento. Raiz pequena, pressão alta. Schwarz: não exceder a pressão capilar [VERIFICAR]." },
+      { "rotulo": "Magnitude", "texto": "Limiar, janela útil, platô. Acima do platô só crescem hialinização, dor e perda de ancoragem. Storey e Smith: a força pesada moveu a ancoragem." },
+      { "rotulo": "Duração", "texto": "Contínua, interrompida, intermitente. Limiar em torno de quatro a oito horas por dia [VERIFICAR]. Leve e contínua é o alvo; pesada e contínua, o pior." },
+      { "rotulo": "Direção", "texto": "Força pelo centro de resistência translada; fora dele, inclina. Momento = força x distância. O M/F define o tipo de movimento." },
+      { "rotulo": "Juntas", "texto": "Magnitude adequada em direção errada vira pesada no ponto de concentração. Registre as três em cada ativação." }
+    ]
+  },
+  "fluxograma": {
+    "titulo": "Escolher a força de uma ativação",
+    "nos": [
+      { "id": "n1", "tipo": "inicio", "texto": "Dente a mover definido" },
+      { "id": "n2", "tipo": "decisao", "texto": "Que tipo de movimento: inclinar, transladar, mover raiz, rodar, intruir, extruir?" },
+      { "id": "n3", "tipo": "acao", "texto": "Escolher a magnitude pela tabela do tipo de movimento e pela área radicular do dente" },
+      { "id": "n4", "tipo": "decisao", "texto": "O dispositivo mantém a força entre consultas?" },
+      { "id": "n5", "tipo": "acao", "texto": "Preferir força contínua leve (níquel-titânio); se interrompida ou intermitente, ajustar intervalo e horas de uso" },
+      { "id": "n6", "tipo": "decisao", "texto": "A linha de ação passa pelo centro de resistência?" },
+      { "id": "n7", "tipo": "acao", "texto": "Planejar o contramomento: fio, dobras ou mecânica que garanta o M/F do movimento desejado" },
+      { "id": "n8", "tipo": "fim", "texto": "Registrar magnitude, tipo de duração e direção; reavaliar na próxima consulta" }
+    ],
+    "arestas": [
+      { "de": "n1", "para": "n2" },
+      { "de": "n2", "para": "n3" },
+      { "de": "n3", "para": "n4" },
+      { "de": "n4", "para": "n6", "rotulo": "sim" },
+      { "de": "n4", "para": "n5", "rotulo": "não" },
+      { "de": "n5", "para": "n6" },
+      { "de": "n6", "para": "n8", "rotulo": "sim" },
+      { "de": "n6", "para": "n7", "rotulo": "não" },
+      { "de": "n7", "para": "n8" }
+    ]
+  },
+  "passoAPasso": [
+    { "passo": "Defina o movimento desejado e estime a área radicular do dente: é ela que converte força em pressão.", "confira": "Você sabe se vai inclinar, transladar ou mover raiz?" },
+    { "passo": "Meça a força com dinamômetro na ativação, sem confiar na sensação tátil.", "confira": "O valor está na faixa do tipo de movimento e do dente?" },
+    { "passo": "Classifique a duração pelo dispositivo: contínua, interrompida ou intermitente; ajuste o intervalo de consulta e as horas de uso.", "confira": "A força ainda estará acima do limiar na próxima consulta?" },
+    { "passo": "Trace a linha de ação da força em relação ao centro de resistência e preveja o momento.", "confira": "O dente vai inclinar? Isso é o que você quer?" },
+    { "passo": "Se precisar transladar ou mover raiz, planeje o contramomento e registre as três variáveis no prontuário.", "confira": "Magnitude, duração e direção estão anotadas?" }
+  ],
+  "macetes": [
+    { "titulo": "MDD", "texto": "Magnitude, Duração, Direção: as três perguntas de toda ativação. Se faltou uma, a resposta está incompleta." },
+    { "titulo": "Força na balança, pressão no ligamento", "texto": "Divida pela área. Raiz pequena, pressão grande. O incisivo inferior é o primeiro a hialinizar." },
+    { "titulo": "Leve e contínua, pesada e interrompida", "texto": "As duas combinações toleráveis. Pesada e contínua é a que renova a necrose todo dia." },
+    { "titulo": "Longe do centro, gira", "texto": "Força fora do centro de resistência produz momento. Quer translação? Anule o momento com um binário no braquete." }
+  ],
+  "ondeErra": [
+    { "erro": "Achar que mais força é mais velocidade.", "porque": "A curva tem limiar e platô; acima do platô a velocidade não cresce, só os efeitos colaterais.", "certo": "Usar a menor força que ainda move o dente; o erro de sobra custa mais que o de falta." },
+    { "erro": "Chamar de contínua uma força só porque é forte.", "porque": "Contínua descreve duração, não intensidade.", "certo": "Contínua é a que mantém fração útil entre consultas; pode e deve ser leve." },
+    { "erro": "Comparar forças em gramas entre dentes de tamanhos diferentes.", "porque": "O ligamento responde à pressão, e a área radicular muda muito entre incisivo e molar.", "certo": "Pensar em pressão: mesma força, raiz menor, pressão maior." },
+    { "erro": "Esperar translação de uma força simples no braquete.", "porque": "A força longe do centro de resistência gera momento e inclina o dente.", "certo": "Fornecer contramomento pela mecânica; a relação M/F define o movimento." }
+  ],
+  "autoteste": [
+    { "pergunta": "A grandeza a que o ligamento periodontal efetivamente responde durante o movimento ortodôntico é:", "alternativas": ["A magnitude da força medida no dinamômetro", "A pressão, isto é, a força dividida pela área de ligamento comprimida", "A velocidade de ativação do aparelho", "O comprimento do fio ativo"], "correta": 1, "explicacoes": ["A magnitude importa, mas é a pressão resultante que o tecido percebe.", "Correta: a mesma força gera pressões diferentes conforme a área radicular.", "A velocidade de ativação não é a variável biológica relevante.", "O comprimento do fio influencia o perfil da força, não é o que o tecido sente."] },
+    { "pergunta": "Uma força que decai até zero antes da próxima consulta, como a de um parafuso expansor, é classificada como:", "alternativas": ["Contínua", "Intermitente", "Interrompida", "Ideal"], "correta": 2, "explicacoes": ["Contínua mantém fração útil entre consultas.", "Intermitente é ligada e desligada pelo paciente.", "Correta: interrompida cai a zero entre ativações, dando pausa para reparo.", "Ideal não é uma categoria de duração."] },
+    { "pergunta": "No experimento de Storey e Smith, forças pesadas de retração:", "alternativas": ["Moveram o canino mais rápido do que forças leves", "Moveram pouco o canino e deslocaram os dentes de ancoragem", "Não produziram nenhum movimento", "Moveram igualmente canino e ancoragem"], "correta": 1, "explicacoes": ["A força pesada ultrapassou a janela do canino.", "Correta: a força caiu na janela ideal dos dentes de maior área radicular, que se moveram.", "Houve movimento, mas dos dentes errados.", "O canino se moveu pouco; a ancoragem, muito."] },
+    { "pergunta": "Uma força aplicada no braquete que não passa pelo centro de resistência produz:", "alternativas": ["Translação pura", "Um momento e tendência a inclinação", "Intrusão pura", "Nenhum movimento"], "correta": 1, "explicacoes": ["Translação exige que a linha de ação efetiva passe pelo centro de resistência.", "Correta: momento igual à força vezes a distância ao centro; o dente inclina.", "Intrusão depende da direção axial da força, não do braço de momento.", "Há movimento: inclinação."] },
+    { "pergunta": "A combinação de magnitude e duração considerada a pior para o ligamento é:", "alternativas": ["Leve e contínua", "Pesada e interrompida", "Pesada e contínua", "Leve e intermitente"], "correta": 2, "explicacoes": ["Leve e contínua é o alvo.", "Pesada e interrompida é tolerada porque a força cai a zero e o tecido repara.", "Correta: renova a necrose a cada dia, sem pausa para reparo.", "Leve e intermitente pode ficar abaixo do limiar, mas não é a mais lesiva."] }
+  ],
+  "pesquisa": { "termos": ["força ótima ortodôntica", "força contínua interrompida intermitente Proffit", "centro de resistência dente", "relação momento força Burstone", "Storey Smith 1952 força canino"] },
+  "referenciasBase": [
+    "Proffit WR, Fields HW, Larson BE, Sarver DM. Ortodontia Contemporânea. 6ª ed. Bases biológicas da terapia ortodôntica; princípios mecânicos.",
+    "Schwarz AM. Tissue changes incidental to orthodontic tooth movement. Int J Orthod. 1932.",
+    "Storey E, Smith R. Force in orthodontics and its relation to tooth movement. Aust J Dent. 1952.",
+    "Quinn RS, Yoshikawa DK. A reassessment of force magnitude in orthodontics. Am J Orthod. 1985.",
+    "Ren Y, Maltha JC, Kuijpers-Jagtman AM. Optimum force magnitude for orthodontic tooth movement: a systematic literature review. Angle Orthod. 2003.",
+    "Smith RJ, Burstone CJ. Mechanics of tooth movement. Am J Orthod. 1984.",
+    "Burstone CJ, Pryputniewicz RJ. Holographic determination of centers of rotation produced by orthodontic forces. Am J Orthod. 1980."
+  ],
+  "validacao": { "validadoPor": null, "data": null }
+}

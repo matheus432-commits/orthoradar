@@ -1,10 +1,10 @@
 {
  "atualizadoEm": "2026-09-05",
  "totalPaginas": 3387,
- "concluidas": 39,
+ "concluidas": 40,
  "porStatus": {
-  "pendente": 3348,
-  "rascunho": 39,
+  "pendente": 3347,
+  "rascunho": 40,
   "revisado": 0,
   "publicado": 0
  },
@@ -12,7 +12,7 @@
   "id": "ortodontia/biologia-do-movimento",
   "area": "Ortodontia",
   "modulo": "Biologia do movimento",
-  "faltam": 8
+  "faltam": 7
  },
  "imagensPendentes": [
   {
@@ -275,6 +275,15 @@
    "mostrar": "Raiz com o espaço do ligamento e a lâmina dura ausentes em parte da superfície, com continuidade entre cemento e osso; comparação com o dente vizinho, que mostra o espaço do ligamento preservado",
    "legenda": "Anquilose: onde o espaço do ligamento some, a força não tem a quem falar. O dente não se move e, na criança, afunda em relação aos vizinhos.",
    "destacar": "Áreas sem espaço do ligamento, continuidade entre raiz e osso, comparação com o vizinho"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/forcas/magnitude-duracao-e-direcao",
+   "modulo": "Biologia do movimento",
+   "secao": "Direção: por onde a força passa decide o movimento",
+   "imagem": "radiografia periapical de incisivo inferior com perda óssea horizontal moderada, comparada a um incisivo com nível ósseo normal",
+   "mostrar": "Crista óssea afastada da junção amelocementária em um dos dentes, com raiz clínica mais curta e coroa clínica mais longa; o nível ósseo normal no dente de comparação",
+   "legenda": "Quanto menos osso, mais apical o centro de resistência e mais longa a alavanca do braquete: a mesma força inclina mais e exige M/F maior.",
+   "destacar": "nível da crista óssea nos dois dentes e a distância até o braquete"
   }
  ],
  "verificarPendentes": [
@@ -917,6 +926,71 @@
    "pagina": "ortodontia/biologia-do-movimento/reacoes-teciduais/remodelacao",
    "onde": "Seção \"Remédios que mexem no ciclo\".blocos[2].svg[5]",
    "trecho": "l='var(--muted,#8A8478)'>efeitos dependem de dose, via e tempo de uso [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/forcas/magnitude-duracao-e-direcao",
+   "onde": "Seção \"Magnitude: a janela entre nada acontecer e tudo dar errado\".blocos[0].texto",
+   "trecho": "a vinte e seis gramas por centímetro quadrado de superfície radicular [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/forcas/magnitude-duracao-e-direcao",
+   "onde": "Seção \"Magnitude: a janela entre nada acontecer e tudo dar errado\".blocos[1].texto",
+   "trecho": "faziam os dentes de ancoragem, de maior área radicular, se deslocarem [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/forcas/magnitude-duracao-e-direcao",
+   "onde": "Seção \"Magnitude: a janela entre nada acontecer e tudo dar errado\".blocos[3].verdade",
+   "trecho": "modelo em que a velocidade cresce até certo ponto e depois estabiliza [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/forcas/magnitude-duracao-e-direcao",
+   "onde": "Seção \"Magnitude: a janela entre nada acontecer e tudo dar errado\".blocos[3].verdade",
+   "trecho": "2003 não encontrou evidência suficiente para definir uma força ótima [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/forcas/magnitude-duracao-e-direcao",
+   "onde": "Seção \"Duração: contínua, interrompida e intermitente\".blocos[0].texto",
+   "trecho": "por dia para produzir movimento, e quanto mais horas, mais eficiente [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/forcas/magnitude-duracao-e-direcao",
+   "onde": "Seção \"Duração: contínua, interrompida e intermitente\".blocos[4].texto",
+   "trecho": "caimento relatado em torno da metade da força inicial no primeiro dia [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/forcas/magnitude-duracao-e-direcao",
+   "onde": "Seção \"Direção: por onde a força passa decide o movimento\".blocos[0].texto",
+   "trecho": "ia da crista alveolar ao ápice; em multirradiculares, próximo à furca [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/forcas/magnitude-duracao-e-direcao",
+   "onde": "Seção \"Direção: por onde a força passa decide o movimento\".blocos[3].texto",
+   "trecho": "róxima de 10:1 para translação e acima de 12:1 para movimento de raiz [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/forcas/magnitude-duracao-e-direcao",
+   "onde": "Seção \"Direção: por onde a força passa decide o movimento\".checagem.resposta",
+   "trecho": "aiz, entre um terço e metade da distância da crista alveolar ao ápice [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/forcas/magnitude-duracao-e-direcao",
+   "onde": "Seção \"As três juntas: o que cada variável decide\".blocos[2].texto",
+   "trecho": "animais mostraram hialinização tanto com forças leves quanto pesadas [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/forcas/magnitude-duracao-e-direcao",
+   "onde": "Seção \"De volta ao canino\".blocos[0].texto",
+   "trecho": "entro da faixa que a literatura clássica considera eficiente e segura [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/forcas/magnitude-duracao-e-direcao",
+   "onde": "infografico.itens[1].texto",
+   "trecho": "o. Raiz pequena, pressão alta. Schwarz: não exceder a pressão capilar [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/forcas/magnitude-duracao-e-direcao",
+   "onde": "infografico.itens[3].texto",
+   "trecho": "rompida, intermitente. Limiar em torno de quatro a oito horas por dia [VERIFICAR]"
   }
  ],
  "modulos": [
@@ -1194,11 +1268,11 @@
    "area": "Ortodontia",
    "modulo": "Biologia do movimento",
    "total": 12,
-   "concluidas": 4,
-   "palavras": 14586,
-   "visuais": 20,
-   "imagensClinicas": 3,
-   "verificar": 13,
+   "concluidas": 5,
+   "palavras": 19125,
+   "visuais": 26,
+   "imagensClinicas": 4,
+   "verificar": 26,
    "paginas": [
     {
      "id": "ortodontia/biologia-do-movimento/reacoes-teciduais/ligamento-e-osso-sob-forca",
@@ -1236,7 +1310,9 @@
      "id": "ortodontia/biologia-do-movimento/forcas/magnitude-duracao-e-direcao",
      "nome": "Magnitude, duração e direção",
      "tema": "Forças",
-     "status": "pendente"
+     "status": "rascunho",
+     "palavras": 4539,
+     "visuais": 6
     },
     {
      "id": "ortodontia/biologia-do-movimento/forcas/forcas-ideais-por-tipo-de-movimento",
@@ -27523,6 +27599,110 @@
     {
      "onde": "Seção \"Remédios que mexem no ciclo\".blocos[2].svg[5]",
      "trecho": "l='var(--muted,#8A8478)'>efeitos dependem de dose, via e tempo de uso [VERIFICAR]"
+    }
+   ]
+  },
+  "ortodontia/biologia-do-movimento/forcas/magnitude-duracao-e-direcao": {
+   "titulo": "Magnitude, duração e direção: as três variáveis de toda força ortodôntica",
+   "arquivo": "data/campus/paginas/ortodontia--biomov-forca-magnitude.json",
+   "formato": 2,
+   "status": "rascunho",
+   "estado": "rascunho",
+   "palavras": 4539,
+   "visuais": [
+    {
+     "formato": "forcas",
+     "titulo": "Força não é pressão"
+    },
+    {
+     "formato": "grafico",
+     "titulo": "Velocidade do movimento em função da magnitude"
+    },
+    {
+     "formato": "grafico",
+     "titulo": "Três perfis de força ao longo do tempo"
+    },
+    {
+     "formato": "forcas",
+     "titulo": "A mesma força, dois movimentos: o que muda é o momento"
+    },
+    {
+     "formato": "classificacao",
+     "titulo": "O que cada variável decide"
+    },
+    {
+     "formato": "mapa",
+     "titulo": "Mapa da página"
+    }
+   ],
+   "quadros": {
+    "prova": 2,
+    "dica": 2,
+    "mito": 1,
+    "erro": 2,
+    "frase": 1
+   },
+   "imagensClinicas": [
+    {
+     "secao": "Direção: por onde a força passa decide o movimento",
+     "imagem": "radiografia periapical de incisivo inferior com perda óssea horizontal moderada, comparada a um incisivo com nível ósseo normal",
+     "mostrar": "Crista óssea afastada da junção amelocementária em um dos dentes, com raiz clínica mais curta e coroa clínica mais longa; o nível ósseo normal no dente de comparação",
+     "legenda": "Quanto menos osso, mais apical o centro de resistência e mais longa a alavanca do braquete: a mesma força inclina mais e exige M/F maior.",
+     "destacar": "nível da crista óssea nos dois dentes e a distância até o braquete"
+    }
+   ],
+   "verificar": [
+    {
+     "onde": "Seção \"Magnitude: a janela entre nada acontecer e tudo dar errado\".blocos[0].texto",
+     "trecho": "a vinte e seis gramas por centímetro quadrado de superfície radicular [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Magnitude: a janela entre nada acontecer e tudo dar errado\".blocos[1].texto",
+     "trecho": "faziam os dentes de ancoragem, de maior área radicular, se deslocarem [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Magnitude: a janela entre nada acontecer e tudo dar errado\".blocos[3].verdade",
+     "trecho": "modelo em que a velocidade cresce até certo ponto e depois estabiliza [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Magnitude: a janela entre nada acontecer e tudo dar errado\".blocos[3].verdade",
+     "trecho": "2003 não encontrou evidência suficiente para definir uma força ótima [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Duração: contínua, interrompida e intermitente\".blocos[0].texto",
+     "trecho": "por dia para produzir movimento, e quanto mais horas, mais eficiente [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Duração: contínua, interrompida e intermitente\".blocos[4].texto",
+     "trecho": "caimento relatado em torno da metade da força inicial no primeiro dia [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Direção: por onde a força passa decide o movimento\".blocos[0].texto",
+     "trecho": "ia da crista alveolar ao ápice; em multirradiculares, próximo à furca [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Direção: por onde a força passa decide o movimento\".blocos[3].texto",
+     "trecho": "róxima de 10:1 para translação e acima de 12:1 para movimento de raiz [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Direção: por onde a força passa decide o movimento\".checagem.resposta",
+     "trecho": "aiz, entre um terço e metade da distância da crista alveolar ao ápice [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"As três juntas: o que cada variável decide\".blocos[2].texto",
+     "trecho": "animais mostraram hialinização tanto com forças leves quanto pesadas [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"De volta ao canino\".blocos[0].texto",
+     "trecho": "entro da faixa que a literatura clássica considera eficiente e segura [VERIFICAR]"
+    },
+    {
+     "onde": "infografico.itens[1].texto",
+     "trecho": "o. Raiz pequena, pressão alta. Schwarz: não exceder a pressão capilar [VERIFICAR]"
+    },
+    {
+     "onde": "infografico.itens[3].texto",
+     "trecho": "rompida, intermitente. Limiar em torno de quatro a oito horas por dia [VERIFICAR]"
     }
    ]
   },
