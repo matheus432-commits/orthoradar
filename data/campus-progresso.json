@@ -1,10 +1,10 @@
 {
  "atualizadoEm": "2026-09-05",
  "totalPaginas": 3387,
- "concluidas": 22,
+ "concluidas": 23,
  "porStatus": {
-  "pendente": 3365,
-  "rascunho": 22,
+  "pendente": 3364,
+  "rascunho": 23,
   "revisado": 0,
   "publicado": 0
  },
@@ -12,7 +12,7 @@
   "id": "ortodontia/mas-oclusoes",
   "area": "Ortodontia",
   "modulo": "Más oclusões",
-  "faltam": 13
+  "faltam": 12
  },
  "imagensPendentes": [
   {
@@ -131,6 +131,15 @@
    "mostrar": "Perfil em posição natural da cabeça, com uma linha vertical de referência descendo da testa e a posição do incisivo superior em relação a ela",
    "legenda": "Nos seis elementos, a referência sagital é a testa, não a base do crânio: a posição do incisivo superior é julgada em relação a ela.",
    "destacar": "Inclinação da testa, linha vertical de referência, ponto mais anterior do incisivo superior"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/classificacao/indices-de-necessidade-de-tratamento",
+   "modulo": "Más oclusões",
+   "secao": "IOTN, componente estético: dez fotografias e um espelho",
+   "imagem": "conjunto de fotografias intrabucais frontais em ordem crescente de comprometimento estético, no padrão do componente estético do IOTN",
+   "mostrar": "Dez vistas frontais em oclusão, da mais alinhada à mais comprometida, numeradas de 1 a 10, com as faixas 1 a 4, 5 a 7 e 8 a 10 destacadas",
+   "legenda": "O componente estético do IOTN: o paciente ou o examinador aponta a foto mais parecida com a boca avaliada.",
+   "destacar": "Progressão do apinhamento e do trespasse ao longo da escala, limites entre as três faixas"
   }
  ],
  "verificarPendentes": [
@@ -393,6 +402,41 @@
    "pagina": "ortodontia/mas-oclusoes/classificacao/classificacao-de-andrews-e-outras",
    "onde": "Seção \"Andrews: classificar o alvo, não o defeito\".blocos[1].texto",
    "trecho": "dos maxilares, a proeminência do mento e a oclusão pelas seis chaves [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/classificacao/indices-de-necessidade-de-tratamento",
+   "onde": "Seção \"IOTN, componente de saúde dentária: a pior característica decide\".blocos[2].svg[11]",
+   "trecho": "orizontal, C cruzadas, D deslocamentos, O trespasse vertical e aberta [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/classificacao/indices-de-necessidade-de-tratamento",
+   "onde": "Seção \"IOTN, componente de saúde dentária: a pior característica decide\".blocos[3].texto",
+   "trecho": "ão os da tabela original, que deve ser consultada na aplicação formal [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/classificacao/indices-de-necessidade-de-tratamento",
+   "onde": "Seção \"IOTN, componente estético: dez fotografias e um espelho\".blocos[0].texto",
+   "trecho": "uma necessidade; de 5 a 7, limítrofe; de 8 a 10, necessidade definida [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/classificacao/indices-de-necessidade-de-tratamento",
+   "onde": "Seção \"DAI: o índice da OMS e do SB Brasil\".blocos[0].texto",
+   "trecho": "os epidemiológicos, e é o índice usado no SB Brasil para adolescentes [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/classificacao/indices-de-necessidade-de-tratamento",
+   "onde": "Seção \"DAI: o índice da OMS e do SB Brasil\".blocos[2].svg[8]",
+   "trecho": "' font-size='12' fill='var(--muted,#8A8478)'>faixas da OMS para o DAI [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/classificacao/indices-de-necessidade-de-tratamento",
+   "onde": "Seção \"PAR e ICON: medir o que o tratamento fez\".blocos[0].texto",
+   "trecho": ", classifica o caso como muito melhorado, melhorado, ou igual ou pior [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/classificacao/indices-de-necessidade-de-tratamento",
+   "onde": "Seção \"PAR e ICON: medir o que o tratamento fez\".blocos[1].texto",
+   "trecho": "há necessidade e quão complexo é o caso; lido depois, diz o resultado [VERIFICAR]"
   }
  ],
  "modulos": [
@@ -528,11 +572,11 @@
    "area": "Ortodontia",
    "modulo": "Más oclusões",
    "total": 16,
-   "concluidas": 3,
-   "palavras": 11004,
-   "visuais": 15,
-   "imagensClinicas": 3,
-   "verificar": 10,
+   "concluidas": 4,
+   "palavras": 14643,
+   "visuais": 20,
+   "imagensClinicas": 4,
+   "verificar": 17,
    "paginas": [
     {
      "id": "ortodontia/mas-oclusoes/classificacao/classificacao-de-angle",
@@ -562,7 +606,9 @@
      "id": "ortodontia/mas-oclusoes/classificacao/indices-de-necessidade-de-tratamento",
      "nome": "Índices de necessidade de tratamento",
      "tema": "Classificação",
-     "status": "pendente"
+     "status": "rascunho",
+     "palavras": 3639,
+     "visuais": 5
     },
     {
      "id": "ortodontia/mas-oclusoes/etiologia/fatores-geneticos-e-ambientais",
@@ -25861,6 +25907,82 @@
     {
      "onde": "Seção \"Andrews: classificar o alvo, não o defeito\".blocos[1].texto",
      "trecho": "dos maxilares, a proeminência do mento e a oclusão pelas seis chaves [VERIFICAR]"
+    }
+   ]
+  },
+  "ortodontia/mas-oclusoes/classificacao/indices-de-necessidade-de-tratamento": {
+   "titulo": "Índices de necessidade de tratamento: IOTN, DAI, PAR e ICON",
+   "arquivo": "data/campus/paginas/ortodontia--maoclusao-indices.json",
+   "formato": 2,
+   "status": "rascunho",
+   "estado": "rascunho",
+   "palavras": 3639,
+   "visuais": [
+    {
+     "formato": "comparativo",
+     "titulo": "Quatro índices, quatro perguntas diferentes"
+    },
+    {
+     "formato": "classificacao",
+     "titulo": "Os cinco graus do componente de saúde dentária do IOTN"
+    },
+    {
+     "formato": "grafico",
+     "titulo": "A escala do DAI e suas quatro faixas"
+    },
+    {
+     "formato": "processo",
+     "titulo": "Onde cada índice entra na linha do tratamento"
+    },
+    {
+     "formato": "mapa",
+     "titulo": "Mapa da página"
+    }
+   ],
+   "quadros": {
+    "frase": 2,
+    "prova": 1,
+    "dica": 2,
+    "mito": 1,
+    "erro": 1
+   },
+   "imagensClinicas": [
+    {
+     "secao": "IOTN, componente estético: dez fotografias e um espelho",
+     "imagem": "conjunto de fotografias intrabucais frontais em ordem crescente de comprometimento estético, no padrão do componente estético do IOTN",
+     "mostrar": "Dez vistas frontais em oclusão, da mais alinhada à mais comprometida, numeradas de 1 a 10, com as faixas 1 a 4, 5 a 7 e 8 a 10 destacadas",
+     "legenda": "O componente estético do IOTN: o paciente ou o examinador aponta a foto mais parecida com a boca avaliada.",
+     "destacar": "Progressão do apinhamento e do trespasse ao longo da escala, limites entre as três faixas"
+    }
+   ],
+   "verificar": [
+    {
+     "onde": "Seção \"IOTN, componente de saúde dentária: a pior característica decide\".blocos[2].svg[11]",
+     "trecho": "orizontal, C cruzadas, D deslocamentos, O trespasse vertical e aberta [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"IOTN, componente de saúde dentária: a pior característica decide\".blocos[3].texto",
+     "trecho": "ão os da tabela original, que deve ser consultada na aplicação formal [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"IOTN, componente estético: dez fotografias e um espelho\".blocos[0].texto",
+     "trecho": "uma necessidade; de 5 a 7, limítrofe; de 8 a 10, necessidade definida [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"DAI: o índice da OMS e do SB Brasil\".blocos[0].texto",
+     "trecho": "os epidemiológicos, e é o índice usado no SB Brasil para adolescentes [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"DAI: o índice da OMS e do SB Brasil\".blocos[2].svg[8]",
+     "trecho": "' font-size='12' fill='var(--muted,#8A8478)'>faixas da OMS para o DAI [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"PAR e ICON: medir o que o tratamento fez\".blocos[0].texto",
+     "trecho": ", classifica o caso como muito melhorado, melhorado, ou igual ou pior [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"PAR e ICON: medir o que o tratamento fez\".blocos[1].texto",
+     "trecho": "há necessidade e quão complexo é o caso; lido depois, diz o resultado [VERIFICAR]"
     }
    ]
   },

@@ -1,0 +1,324 @@
+{
+  "id": "ortodontia/mas-oclusoes/classificacao/indices-de-necessidade-de-tratamento",
+  "areaId": "ortodontia",
+  "area": "Ortodontia",
+  "modulo": "Más oclusões",
+  "tema": "Classificação",
+  "titulo": "Índices de necessidade de tratamento: IOTN, DAI, PAR e ICON",
+  "estado": "rascunho",
+  "versao": 1,
+  "formato": 2,
+  "autoria": "Rascunho escrito pela plataforma para validação; nada aqui é visível ao aluno antes da assinatura de um ortodontista.",
+  "abertura": {
+    "situacao": "Triagem de ortodontia em um serviço público, 40 crianças de 12 anos para 8 vagas. Duas fichas na sua mão: Ana tem trespasse horizontal de 5 mm e lábios que se fecham sem esforço; Bruno tem o canino superior direito retido, sem espaço para erupcionar. A mãe de Ana chegou primeiro e insiste que o caso da filha é urgente.",
+    "pergunta": "Como decidir quem precisa mais, de um jeito que você consiga defender para a mãe de Ana, para o gestor e para um colega que fizesse a mesma triagem?"
+  },
+  "umMinuto": {
+    "frases": [
+      "Classificar diz o que a má oclusão é; um índice de necessidade diz quanto ela pesa, em uma escala que outro examinador reproduz.",
+      "O IOTN, de Brook e Shaw, tem dois componentes: o de saúde dentária, em cinco graus definidos pela pior característica na ordem MOCDO, e o estético, em dez fotografias.",
+      "O DAI, de Cons, Jenny e Kohout, soma dez medidas com pesos e devolve um escore: até 25, sem necessidade; 26 a 30, eletiva; 31 a 35, altamente desejável; 36 ou mais, obrigatória. É o índice da Organização Mundial da Saúde e do levantamento SB Brasil.",
+      "O PAR mede resultado, não necessidade: compara o escore antes e depois e diz se o caso melhorou; o ICON junta necessidade, complexidade e resultado em uma só escala.",
+      "Todos medem necessidade normativa, a do profissional; a necessidade percebida, a do paciente, é outra medida e nem sempre coincide.",
+      "Na triagem, o índice é o argumento: canino retido é grau 5 no IOTN; trespasse de 5 mm com lábios competentes é grau 2. Bruno entra na frente, e você sabe explicar por quê."
+    ],
+    "caiNaProva": [
+      "Componentes e graus do IOTN, com a hierarquia MOCDO",
+      "Faixas de escore do DAI e sua interpretação",
+      "Diferença entre índice de necessidade e índice de resultado (PAR)",
+      "O que o ICON acrescenta",
+      "Necessidade normativa versus percebida"
+    ],
+    "porQueImporta": "Vaga em serviço público, cobertura de plano, pesquisa epidemiológica e resposta para a família dependem de uma escala reproduzível. Sem índice, a triagem vira opinião e quem grita mais alto passa na frente."
+  },
+  "secoes": [
+    {
+      "titulo": "Classificar não é medir necessidade",
+      "blocos": [
+        { "tipo": "p", "texto": "A classificação de Angle e a frase de Ackerman e Proffit descrevem o problema. Nenhuma das duas diz quanto o problema pesa: uma Classe II de 3 mm e uma de 9 mm têm o mesmo nome. Quando é preciso decidir quem trata primeiro, quanto o sistema de saúde cobre, ou comparar populações em um levantamento, entra o índice de necessidade de tratamento." },
+        { "tipo": "p", "texto": "Um índice bom tem três qualidades: é reproduzível entre examinadores, é rápido de aplicar em campo e ordena os casos por gravidade de um jeito que faça sentido clínico. Os índices que sobreviveram foram os que equilibraram as três. Você vai encontrar quatro nomes com frequência: IOTN, DAI, PAR e ICON. Dois medem necessidade, um mede resultado e um tenta medir tudo." },
+        { "tipo": "visual", "formato": "comparativo", "titulo": "Quatro índices, quatro perguntas diferentes", "descricao": "Quatro colunas. IOTN: necessidade, dois componentes, saúde dentária em cinco graus e estético em dez fotos; Brook e Shaw, 1989. DAI: necessidade, escore de dez medidas com pesos, quatro faixas; Cons, Jenny e Kohout, 1986; adotado pela OMS. PAR: resultado do tratamento, escore antes e depois, percentual de melhora; Richmond, 1992. ICON: necessidade, complexidade e resultado em uma escala; Daniels e Richmond, 2000.", "viewBox": "0 0 720 330",
+          "svg": [
+            "<use href='#c-caixa-gold' x='16' y='16' width='160' height='44'/><text x='96' y='44' text-anchor='middle' font-size='15' font-weight='700'>IOTN</text>",
+            "<use href='#c-caixa-gold' x='192' y='16' width='160' height='44'/><text x='272' y='44' text-anchor='middle' font-size='15' font-weight='700'>DAI</text>",
+            "<use href='#c-caixa-blue' x='368' y='16' width='160' height='44'/><text x='448' y='44' text-anchor='middle' font-size='15' font-weight='700'>PAR</text>",
+            "<use href='#c-caixa-green' x='544' y='16' width='160' height='44'/><text x='624' y='44' text-anchor='middle' font-size='15' font-weight='700'>ICON</text>",
+            "<g font-size='12' fill='var(--ink,#23211C)'><text x='24' y='90' font-weight='700'>Mede</text><text x='24' y='108'>necessidade</text><text x='24' y='140' font-weight='700'>Como</text><text x='24' y='158'>saúde dentária: 5 graus</text><text x='24' y='174'>pela pior característica</text><text x='24' y='190'>estético: 10 fotos</text><text x='24' y='222' font-weight='700'>Quem, quando</text><text x='24' y='240'>Brook e Shaw, 1989</text><text x='24' y='256'>Reino Unido, serviço público</text></g>",
+            "<g font-size='12' fill='var(--ink,#23211C)'><text x='200' y='90' font-weight='700'>Mede</text><text x='200' y='108'>necessidade</text><text x='200' y='140' font-weight='700'>Como</text><text x='200' y='158'>10 medidas com pesos</text><text x='200' y='174'>somadas em um escore</text><text x='200' y='190'>4 faixas de necessidade</text><text x='200' y='222' font-weight='700'>Quem, quando</text><text x='200' y='240'>Cons, Jenny e Kohout, 1986</text><text x='200' y='256'>OMS; SB Brasil</text></g>",
+            "<g font-size='12' fill='var(--ink,#23211C)'><text x='376' y='90' font-weight='700'>Mede</text><text x='376' y='108'>resultado do tratamento</text><text x='376' y='140' font-weight='700'>Como</text><text x='376' y='158'>escore antes e depois</text><text x='376' y='174'>5 componentes com pesos</text><text x='376' y='190'>percentual de redução</text><text x='376' y='222' font-weight='700'>Quem, quando</text><text x='376' y='240'>Richmond e col., 1992</text><text x='376' y='256'>auditoria, pesquisa</text></g>",
+            "<g font-size='12' fill='var(--ink,#23211C)'><text x='552' y='90' font-weight='700'>Mede</text><text x='552' y='108'>necessidade, complexidade</text><text x='552' y='124'>e resultado</text><text x='552' y='156' font-weight='700'>Como</text><text x='552' y='174'>5 componentes com pesos</text><text x='552' y='190'>um escore, três leituras</text><text x='552' y='222' font-weight='700'>Quem, quando</text><text x='552' y='240'>Daniels e Richmond, 2000</text><text x='552' y='256'>internacional</text></g>",
+            "<text x='360' y='306' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>necessidade em dourado; resultado em azul; os três de uma vez em verde</text>"
+          ],
+          "legenda": "Antes de aplicar, pergunte o que você quer saber: quem precisa (IOTN, DAI), se melhorou (PAR) ou tudo em um número (ICON)." },
+        { "tipo": "destaque", "estilo": "frase", "texto": "Classificação dá nome. Índice dá peso. A fila do serviço público se organiza pelo peso, não pelo nome." }
+      ],
+      "checagem": { "pergunta": "Por que a classificação de Angle não serve para organizar uma fila de tratamento?", "resposta": "Porque ela nomeia a relação molar sem medir gravidade nem impacto: casos de 3 mm e de 9 mm recebem o mesmo nome. A fila precisa de um índice reproduzível que ordene por necessidade." }
+    },
+    {
+      "titulo": "IOTN, componente de saúde dentária: a pior característica decide",
+      "blocos": [
+        { "tipo": "p", "texto": "O Index of Orthodontic Treatment Need, publicado por Brook e Shaw em 1989, nasceu para o serviço público britânico decidir quem tinha direito a tratamento. O componente de saúde dentária classifica em cinco graus, de 1, sem necessidade, a 5, necessidade muito grande. A regra que o torna rápido é esta: não se somam características; procura-se a pior, e ela sozinha define o grau." },
+        { "tipo": "p", "texto": "Para não esquecer nada, a busca segue uma ordem fixa, lembrada pelo acrônimo MOCDO: dentes ausentes (missing), trespasse horizontal (overjet), mordidas cruzadas (crossbite), deslocamento de pontos de contato (displacement) e trespasse vertical (overbite), incluindo a mordida aberta. Você percorre a lista, anota o grau de cada item e fica com o maior. Uma régua e um minuto bastam." },
+        { "tipo": "visual", "formato": "classificacao", "titulo": "Os cinco graus do componente de saúde dentária do IOTN", "descricao": "Escada de cinco degraus, do grau 1 ao grau 5. Grau 1: sem necessidade, deslocamentos menores que 1 mm. Grau 2: pouca necessidade, trespasse horizontal de 3,5 a 6 mm com lábios competentes, mordidas cruzadas até 1 mm de discrepância, deslocamentos de 1 a 2 mm. Grau 3: limítrofe, trespasse de 3,5 a 6 mm com lábios incompetentes, trespasse invertido de 1 a 3,5 mm, deslocamentos de 2 a 4 mm, mordida aberta de 2 a 4 mm. Grau 4: necessidade grande, trespasse de 6 a 9 mm, trespasse invertido maior que 3,5 mm sem dificuldade funcional, mordidas cruzadas com discrepância maior que 2 mm, deslocamentos maiores que 4 mm, hipodontia pouco extensa. Grau 5: necessidade muito grande, trespasse maior que 9 mm, erupção impedida, hipodontia extensa, fissura labiopalatina, trespasse invertido maior que 3,5 mm com dificuldade de fala ou mastigação.", "viewBox": "0 0 560 520",
+          "svg": [
+            "<text x='280' y='28' text-anchor='middle' font-size='14' font-weight='700'>Procure na ordem MOCDO e fique com o pior grau</text>",
+            "<use href='#c-caixa-red' x='20' y='50' width='520' height='80'/><use href='#c-num-ink' x='34' y='64' width='28' height='28'/><text x='48' y='84' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>5</text>",
+            "<text x='76' y='74' font-size='13' font-weight='700'>Necessidade muito grande</text><text x='76' y='92' font-size='11'>erupção impedida (exceto terceiros molares); hipodontia extensa; fissura labiopalatina</text><text x='76' y='108' font-size='11'>trespasse horizontal maior que 9 mm; invertido maior que 3,5 mm com dificuldade de fala ou mastigação</text>",
+            "<use href='#c-caixa-gold' x='20' y='142' width='520' height='80'/><use href='#c-num-ink' x='34' y='156' width='28' height='28'/><text x='48' y='176' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>4</text>",
+            "<text x='76' y='166' font-size='13' font-weight='700'>Necessidade grande</text><text x='76' y='184' font-size='11'>trespasse horizontal de 6 a 9 mm; invertido maior que 3,5 mm sem dificuldade; hipodontia pouco extensa</text><text x='76' y='200' font-size='11'>cruzadas com discrepância maior que 2 mm; deslocamentos maiores que 4 mm; aberta maior que 4 mm</text>",
+            "<use href='#c-caixa' x='20' y='234' width='520' height='80'/><use href='#c-num' x='34' y='248' width='28' height='28'/><text x='48' y='268' text-anchor='middle' font-size='14' font-weight='700'>3</text>",
+            "<text x='76' y='258' font-size='13' font-weight='700'>Limítrofe</text><text x='76' y='276' font-size='11'>trespasse horizontal de 3,5 a 6 mm com lábios incompetentes; invertido de 1 a 3,5 mm</text><text x='76' y='292' font-size='11'>cruzadas com discrepância de 1 a 2 mm; deslocamentos de 2 a 4 mm; aberta de 2 a 4 mm</text>",
+            "<use href='#c-caixa-blue' x='20' y='326' width='520' height='80'/><use href='#c-num' x='34' y='340' width='28' height='28'/><text x='48' y='360' text-anchor='middle' font-size='14' font-weight='700'>2</text>",
+            "<text x='76' y='350' font-size='13' font-weight='700'>Pouca necessidade</text><text x='76' y='368' font-size='11'>trespasse horizontal de 3,5 a 6 mm com lábios competentes; invertido até 1 mm</text><text x='76' y='384' font-size='11'>cruzadas até 1 mm de discrepância; deslocamentos de 1 a 2 mm; aberta de 1 a 2 mm</text>",
+            "<use href='#c-caixa-green' x='20' y='418' width='520' height='56'/><use href='#c-num' x='34' y='432' width='28' height='28'/><text x='48' y='452' text-anchor='middle' font-size='14' font-weight='700'>1</text>",
+            "<text x='76' y='442' font-size='13' font-weight='700'>Sem necessidade</text><text x='76' y='460' font-size='11'>deslocamentos menores que 1 mm; oclusão praticamente normal</text>",
+            "<text x='280' y='504' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>M ausentes, O trespasse horizontal, C cruzadas, D deslocamentos, O trespasse vertical e aberta [VERIFICAR]</text>"
+          ],
+          "legenda": "Não se soma: a pior característica dá o grau. Um canino retido sozinho já é grau 5, mesmo com o resto da boca alinhado." },
+        { "tipo": "destaque", "estilo": "prova", "texto": "MOCDO é o acrônimo que a prova pede, e a lógica \"a pior característica define o grau\" é o que a questão de caso testa. Graus 4 e 5 são necessidade definida; 3 é limítrofe; 1 e 2, sem necessidade ou pouca. Os limiares em milímetros são os da tabela original, que deve ser consultada na aplicação formal [VERIFICAR]." }
+      ],
+      "checagem": { "pergunta": "Criança com trespasse horizontal de 4 mm, lábios competentes e um incisivo lateral superior ausente por agenesia, com espaço fechado. Qual é o grau do componente de saúde dentária?", "resposta": "Percorra o MOCDO: dente ausente com pouca extensão é grau 4; trespasse de 4 mm com lábios competentes é grau 2. Fica o pior: grau 4, necessidade grande." }
+    },
+    {
+      "titulo": "IOTN, componente estético: dez fotografias e um espelho",
+      "blocos": [
+        { "tipo": "p", "texto": "O segundo componente do IOTN é estético. Uma escala de dez fotografias intrabucais frontais, ordenadas da mais atraente à menos atraente, serve de referência: o examinador, ou o próprio paciente, aponta a foto que mais se parece com a boca em questão. De 1 a 4, pouca ou nenhuma necessidade; de 5 a 7, limítrofe; de 8 a 10, necessidade definida [VERIFICAR]." },
+        { "tipo": "p", "texto": "A graça desse componente é medir o que o de saúde dentária ignora: o impacto da aparência. Um apinhamento de 3 mm em incisivos superiores pode ser grau 3 na saúde dentária e 8 na estética, se estiver bem visível. E quando o paciente aponta uma foto e o examinador aponta outra, você acaba de medir a distância entre a necessidade percebida e a normativa, que é uma informação clínica por si só." },
+        { "tipo": "imagem", "imagem": "conjunto de fotografias intrabucais frontais em ordem crescente de comprometimento estético, no padrão do componente estético do IOTN", "mostrar": "Dez vistas frontais em oclusão, da mais alinhada à mais comprometida, numeradas de 1 a 10, com as faixas 1 a 4, 5 a 7 e 8 a 10 destacadas", "legenda": "O componente estético do IOTN: o paciente ou o examinador aponta a foto mais parecida com a boca avaliada.", "destacar": "Progressão do apinhamento e do trespasse ao longo da escala, limites entre as três faixas" },
+        { "tipo": "destaque", "estilo": "dica", "titulo": "Peça ao paciente para apontar", "texto": "Mostre a escala ao adolescente e pergunte com qual foto a boca dele se parece. Se ele aponta 3 e você aponta 7, o tratamento vai ser difícil de sustentar; se ele aponta 8 e você aponta 4, há um sofrimento que o seu exame não mediu. Nos dois casos, você ganhou a conversa mais importante da consulta." }
+      ],
+      "checagem": { "pergunta": "O que o componente estético do IOTN acrescenta ao componente de saúde dentária?", "resposta": "A medida do impacto da aparência, por comparação com uma escala de dez fotografias, e a possibilidade de confrontar a percepção do paciente com a do examinador." }
+    },
+    {
+      "titulo": "DAI: o índice da OMS e do SB Brasil",
+      "blocos": [
+        { "tipo": "p", "texto": "O Dental Aesthetic Index, de Cons, Jenny e Kohout, publicado em 1986, seguiu outro caminho: em vez de escolher a pior característica, soma dez medidas, cada uma multiplicada por um peso obtido por regressão a partir de julgamentos estéticos de leigos, e acrescenta uma constante. O resultado é um escore único. A Organização Mundial da Saúde o adotou para levantamentos epidemiológicos, e é o índice usado no SB Brasil para adolescentes [VERIFICAR]." },
+        { "tipo": "lista", "itens": [
+          "Dentes visíveis ausentes (incisivos, caninos e pré-molares).",
+          "Apinhamento e espaçamento nos segmentos incisais, e diastema mediano.",
+          "Maior irregularidade anterior superior e maior irregularidade anterior inferior, em milímetros.",
+          "Trespasse horizontal anterior superior e trespasse horizontal anterior inferior (mordida cruzada anterior).",
+          "Mordida aberta anterior vertical e relação molar anteroposterior."
+        ] },
+        { "tipo": "visual", "formato": "grafico", "titulo": "A escala do DAI e suas quatro faixas", "descricao": "Escala horizontal de escores. Até 25: oclusão normal ou má oclusão leve, sem necessidade ou pouca. De 26 a 30: má oclusão definida, tratamento eletivo. De 31 a 35: má oclusão severa, tratamento altamente desejável. 36 ou mais: má oclusão muito severa ou incapacitante, tratamento obrigatório.", "viewBox": "0 0 720 250",
+          "svg": [
+            "<text x='360' y='28' text-anchor='middle' font-size='14' font-weight='700'>Escore do DAI: dez medidas com pesos, somadas a uma constante</text>",
+            "<rect x='40' y='70' width='240' height='44' rx='6' fill='var(--green,#3E7C4F)' fill-opacity='0.25' stroke='var(--green,#3E7C4F)' stroke-width='1.5'/>",
+            "<rect x='280' y='70' width='120' height='44' rx='6' fill='var(--gold,#B08968)' fill-opacity='0.3' stroke='var(--gold,#B08968)' stroke-width='1.5'/>",
+            "<rect x='400' y='70' width='120' height='44' rx='6' fill='var(--red,#B4533B)' fill-opacity='0.25' stroke='var(--red,#B4533B)' stroke-width='1.5'/>",
+            "<rect x='520' y='70' width='160' height='44' rx='6' fill='var(--red,#B4533B)' fill-opacity='0.55' stroke='var(--red,#B4533B)' stroke-width='1.5'/>",
+            "<g font-size='13' font-weight='700' text-anchor='middle' fill='var(--ink,#23211C)'><text x='160' y='97'>até 25</text><text x='340' y='97'>26 a 30</text><text x='460' y='97'>31 a 35</text><text x='600' y='97'>36 ou mais</text></g>",
+            "<line x1='40' y1='128' x2='680' y2='128' stroke='var(--ink,#23211C)' stroke-width='1.5'/><g stroke='var(--ink,#23211C)' stroke-width='1.5'><line x1='280' y1='122' x2='280' y2='134'/><line x1='400' y1='122' x2='400' y2='134'/><line x1='520' y1='122' x2='520' y2='134'/></g>",
+            "<g font-size='12' text-anchor='middle' fill='var(--ink,#23211C)'><text x='160' y='160' font-weight='700'>normal ou leve</text><text x='160' y='176'>sem necessidade ou pouca</text><text x='340' y='160' font-weight='700'>definida</text><text x='340' y='176'>tratamento eletivo</text><text x='460' y='160' font-weight='700'>severa</text><text x='460' y='176'>altamente desejável</text><text x='600' y='160' font-weight='700'>muito severa</text><text x='600' y='176'>incapacitante: obrigatório</text></g>",
+            "<text x='360' y='222' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>faixas da OMS para o DAI [VERIFICAR]; o escore soma, ao contrário do IOTN, que escolhe o pior</text>"
+          ],
+          "legenda": "Quatro faixas, uma leitura direta. A vantagem é o número único para comparar populações; a desvantagem é que ele mistura problemas de natureza diferente em uma soma." },
+        { "tipo": "destaque", "estilo": "mito", "mito": "DAI e IOTN medem a mesma coisa e dão sempre o mesmo resultado.", "verdade": "Concordam na maioria dos casos, mas divergem em casos específicos: o DAI não pontua canino retido nem mordida cruzada posterior, que no IOTN podem ser grau 5 e grau 4. Um índice de soma e um índice de pior característica veem o paciente de jeitos diferentes." }
+      ],
+      "checagem": { "pergunta": "Qual é a diferença de lógica entre o DAI e o componente de saúde dentária do IOTN?", "resposta": "O DAI soma dez medidas com pesos e produz um escore; o IOTN não soma, escolhe a pior característica na ordem MOCDO e ela define o grau." }
+    },
+    {
+      "titulo": "PAR e ICON: medir o que o tratamento fez",
+      "blocos": [
+        { "tipo": "p", "texto": "O Peer Assessment Rating, de Richmond e colaboradores, de 1992, responde a outra pergunta: o tratamento funcionou? Pontua, nos modelos de antes e de depois, o alinhamento dos segmentos anteriores, a oclusão dos segmentos posteriores, o trespasse horizontal, o trespasse vertical e a linha média, com pesos que dão mais valor ao trespasse horizontal e à linha média. A diferença entre o escore inicial e o final, em pontos e em percentual, classifica o caso como muito melhorado, melhorado, ou igual ou pior [VERIFICAR]." },
+        { "tipo": "p", "texto": "O Index of Complexity, Outcome and Need, de Daniels e Richmond, de 2000, quis fazer as três coisas com uma só régua: pontua o componente estético do IOTN, o apinhamento ou espaçamento superior, as mordidas cruzadas, a relação vertical dos incisivos e a relação anteroposterior dos segmentos posteriores, cada um com um peso. O mesmo escore, lido antes do tratamento, diz se há necessidade e quão complexo é o caso; lido depois, diz o resultado [VERIFICAR]." },
+        { "tipo": "visual", "formato": "processo", "titulo": "Onde cada índice entra na linha do tratamento", "descricao": "Processo em quatro etapas. Triagem: IOTN ou DAI decidem se há necessidade. Planejamento: ICON estima a complexidade. Tratamento. Fim: PAR e ICON comparam antes e depois para medir o resultado.", "viewBox": "0 0 560 300",
+          "svg": [
+            "<g stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'><line x1='140' y1='80' x2='170' y2='80'/><line x1='310' y1='80' x2='340' y2='80'/><line x1='280' y1='120' x2='280' y2='170'/></g>",
+            "<use href='#c-caixa-gold' x='20' y='50' width='120' height='60'/><text x='80' y='74' text-anchor='middle' font-size='12' font-weight='700'>Triagem</text><text x='80' y='92' text-anchor='middle' font-size='11'>IOTN ou DAI</text>",
+            "<use href='#c-caixa-green' x='170' y='50' width='140' height='60'/><text x='240' y='74' text-anchor='middle' font-size='12' font-weight='700'>Planejamento</text><text x='240' y='92' text-anchor='middle' font-size='11'>ICON: complexidade</text>",
+            "<use href='#c-caixa' x='340' y='50' width='200' height='60'/><text x='440' y='74' text-anchor='middle' font-size='12' font-weight='700'>Tratamento</text><text x='440' y='92' text-anchor='middle' font-size='11'>modelos iniciais guardados</text>",
+            "<use href='#c-caixa-blue' x='150' y='170' width='260' height='60'/><text x='280' y='194' text-anchor='middle' font-size='12' font-weight='700'>Fim: resultado</text><text x='280' y='212' text-anchor='middle' font-size='11'>PAR e ICON comparam antes e depois</text>",
+            "<text x='280' y='270' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>necessidade na entrada, complexidade no plano, resultado na saída</text>"
+          ],
+          "legenda": "Necessidade é pergunta de entrada; resultado é pergunta de saída. Só o ICON tenta responder às duas com o mesmo número." },
+        { "tipo": "destaque", "estilo": "erro", "texto": "Usar o PAR para dizer quem precisa de tratamento. O PAR pontua a má oclusão, mas foi calibrado para medir mudança entre antes e depois; um escore inicial alto não é o mesmo que necessidade definida por IOTN ou DAI. Cada índice responde à pergunta para a qual foi validado." }
+      ],
+      "checagem": { "pergunta": "Que pergunta o PAR responde, e como ele a responde?", "resposta": "Se o tratamento melhorou a oclusão: compara o escore dos modelos iniciais e finais, e a redução em pontos e em percentual classifica o resultado como muito melhorado, melhorado, ou igual ou pior." }
+    },
+    {
+      "titulo": "Necessidade normativa, necessidade percebida e os limites dos índices",
+      "blocos": [
+        { "tipo": "p", "texto": "Todos os índices acima medem necessidade normativa: a que o profissional enxerga nos modelos. A necessidade percebida é a do paciente e da família, e as duas nem sempre coincidem. Adolescentes com grau 4 no IOTN que não se incomodam e adolescentes com grau 2 que evitam sorrir existem aos montes. Questionários de impacto na qualidade de vida tentam medir esse segundo lado, e os serviços mais cuidadosos usam os dois." },
+        { "tipo": "p", "texto": "Os índices também têm limites técnicos. Não medem função mastigatória, dor articular nem respiração; pontuam pouco a relação esquelética; dependem de modelos ou de exame direto de qualidade; e refletem os valores estéticos de quem os calibrou. Um índice é um instrumento de triagem e de pesquisa, não o diagnóstico completo, e ninguém deve ser negado ou indicado só por um número." },
+        { "tipo": "destaque", "estilo": "dica", "titulo": "Como usar o índice sem virar refém dele", "texto": "Aplique o índice para ordenar a fila e para conversar com o gestor. Registre, ao lado, a queixa do paciente e o impacto que ele relata. Quando os dois discordam muito, o caso merece uma segunda conversa, não uma decisão automática. O índice organiza; a clínica decide." }
+      ],
+      "checagem": { "pergunta": "O que é necessidade percebida e por que ela não substitui a normativa, nem é substituída por ela?", "resposta": "É a necessidade sentida pelo paciente e pela família. A normativa (índice) garante reprodutibilidade e justiça na fila; a percebida garante que o tratamento faça sentido para quem vai usá-lo. As duas informam decisões diferentes." }
+    },
+    {
+      "titulo": "De volta à triagem",
+      "blocos": [
+        { "tipo": "p", "texto": "Ana: trespasse horizontal de 5 mm com lábios competentes é grau 2 no componente de saúde dentária do IOTN, pouca necessidade. Bruno: canino retido sem espaço é erupção impedida, grau 5, necessidade muito grande. Bruno entra na frente, e a explicação para a mãe de Ana não é \"o outro chegou primeiro nem \"eu acho\", é uma escala publicada que qualquer colega aplicaria igual. Se Ana apontar a foto 8 na escala estética, você anota, conversa e reavalia, mas a fila continua justa." },
+        { "tipo": "destaque", "estilo": "frase", "texto": "O índice não decide pelo clínico. Ele faz o clínico decidir de um jeito que possa ser explicado, repetido e defendido." }
+      ],
+      "checagem": { "pergunta": "Que argumento o índice fornece na triagem que a classificação não fornece?", "resposta": "Uma ordenação por gravidade reproduzível entre examinadores, que pode ser explicada à família e ao gestor: canino retido é grau 5, trespasse de 5 mm com lábios competentes é grau 2." }
+    }
+  ],
+  "fechamento": {
+    "visual": { "formato": "mapa", "titulo": "Mapa da página", "descricao": "Nó central: índices de necessidade. Seis nós: classificar não é medir; IOTN, saúde dentária em cinco graus pela pior característica (MOCDO); IOTN estético, dez fotos; DAI, escore somado em quatro faixas, OMS e SB Brasil; PAR mede resultado e ICON junta os três; normativa versus percebida.", "viewBox": "0 0 560 360",
+      "svg": [
+        "<g stroke='var(--border,#EDE6D8)' stroke-width='1.5'><line x1='280' y1='180' x2='100' y2='60'/><line x1='280' y1='180' x2='460' y2='60'/><line x1='280' y1='180' x2='70' y2='180'/><line x1='280' y1='180' x2='490' y2='180'/><line x1='280' y1='180' x2='100' y2='300'/><line x1='280' y1='180' x2='460' y2='300'/></g>",
+        "<use href='#c-no-central' x='190' y='150' width='180' height='60'/>",
+        "<text x='280' y='176' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>Índices de</text><text x='280' y='194' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>necessidade</text>",
+        "<use href='#c-no' x='20' y='38' width='160' height='44'/><text x='100' y='65' text-anchor='middle' font-size='13' font-weight='700'>Nome x peso</text>",
+        "<use href='#c-no' x='380' y='38' width='160' height='44'/><text x='460' y='65' text-anchor='middle' font-size='13' font-weight='700'>IOTN: MOCDO, 5 graus</text>",
+        "<use href='#c-no' x='0' y='158' width='150' height='44'/><text x='75' y='185' text-anchor='middle' font-size='13' font-weight='700'>Estético: 10 fotos</text>",
+        "<use href='#c-no' x='410' y='158' width='150' height='44'/><text x='485' y='185' text-anchor='middle' font-size='13' font-weight='700'>DAI: soma, 4 faixas</text>",
+        "<use href='#c-no' x='20' y='278' width='160' height='44'/><text x='100' y='305' text-anchor='middle' font-size='13' font-weight='700'>PAR resultado, ICON tudo</text>",
+        "<use href='#c-no' x='380' y='278' width='160' height='44'/><text x='460' y='305' text-anchor='middle' font-size='13' font-weight='700'>Normativa x percebida</text>"
+      ] },
+    "flashcards": [
+      { "frente": "IOTN: componentes, graus e a regra de aplicação.", "verso": "Saúde dentária em cinco graus (1 sem necessidade a 5 muito grande), definidos pela pior característica na ordem MOCDO; componente estético em dez fotografias (1 a 4, 5 a 7, 8 a 10)." },
+      { "frente": "Faixas do DAI e sua interpretação.", "verso": "Até 25: sem necessidade ou pouca. 26 a 30: definida, eletiva. 31 a 35: severa, altamente desejável. 36 ou mais: muito severa ou incapacitante, obrigatória." },
+      { "frente": "O que medem PAR e ICON?", "verso": "PAR mede resultado: compara escores antes e depois. ICON mede necessidade, complexidade e resultado com o mesmo escore ponderado." }
+    ]
+  },
+  "infografico": {
+    "titulo": "Índices em seis cartões",
+    "itens": [
+      { "rotulo": "Para que", "texto": "Ordenar filas, definir cobertura, comparar populações e medir resultado, de modo reproduzível." },
+      { "rotulo": "IOTN saúde", "texto": "Cinco graus; a pior característica define. MOCDO: ausentes, trespasse, cruzadas, deslocamentos, trespasse vertical e aberta." },
+      { "rotulo": "IOTN estético", "texto": "Dez fotos. 1 a 4 sem ou pouca; 5 a 7 limítrofe; 8 a 10 definida. Paciente e examinador podem discordar." },
+      { "rotulo": "DAI", "texto": "Dez medidas com pesos mais constante. Até 25, 26 a 30, 31 a 35, 36 ou mais. OMS e SB Brasil." },
+      { "rotulo": "PAR e ICON", "texto": "PAR: resultado, antes versus depois. ICON: necessidade, complexidade e resultado em um escore." },
+      { "rotulo": "Limites", "texto": "Necessidade normativa, não percebida; não medem função nem esqueleto; organizam, não decidem." }
+    ]
+  },
+  "fluxograma": {
+    "titulo": "Triagem com o IOTN em um minuto",
+    "nos": [
+      { "id": "n1", "tipo": "inicio", "texto": "Paciente na triagem, régua na mão" },
+      { "id": "n2", "tipo": "decisao", "texto": "M: dente ausente, erupção impedida, hipodontia?" },
+      { "id": "n3", "tipo": "acao", "texto": "Anote o grau (impedida ou extensa: 5; pouco extensa: 4)" },
+      { "id": "n4", "tipo": "acao", "texto": "O: meça o trespasse horizontal; veja lábios; trespasse invertido" },
+      { "id": "n5", "tipo": "acao", "texto": "C: cruzadas e discrepância entre relação cêntrica e oclusão habitual" },
+      { "id": "n6", "tipo": "acao", "texto": "D: maior deslocamento de ponto de contato" },
+      { "id": "n7", "tipo": "acao", "texto": "O: trespasse vertical, trauma gengival, mordida aberta" },
+      { "id": "n8", "tipo": "decisao", "texto": "Qual é o maior grau anotado?" },
+      { "id": "n9", "tipo": "fim", "texto": "Esse é o grau do componente de saúde dentária; registre também o estético" }
+    ],
+    "arestas": [
+      { "de": "n1", "para": "n2" },
+      { "de": "n2", "para": "n3", "rotulo": "sim" },
+      { "de": "n3", "para": "n4" },
+      { "de": "n2", "para": "n4", "rotulo": "não" },
+      { "de": "n4", "para": "n5" },
+      { "de": "n5", "para": "n6" },
+      { "de": "n6", "para": "n7" },
+      { "de": "n7", "para": "n8" },
+      { "de": "n8", "para": "n9" }
+    ]
+  },
+  "passoAPasso": [
+    { "passo": "Defina a pergunta: necessidade (IOTN, DAI), complexidade (ICON) ou resultado (PAR, ICON).", "confira": "O índice escolhido foi validado para essa pergunta?" },
+    { "passo": "No IOTN, percorra o MOCDO e anote o grau de cada característica; fique com o maior.", "confira": "Você somou por engano? O IOTN não soma." },
+    { "passo": "Mostre a escala estética ao paciente e registre a foto dele e a sua.", "confira": "As duas escolhas concordam? Se não, anote a diferença." },
+    { "passo": "No DAI, meça as dez variáveis, aplique os pesos e a constante, e leia a faixa.", "confira": "Alguma característica importante ficou fora do DAI (canino retido, cruzada posterior)?" },
+    { "passo": "Registre a queixa e o impacto relatado ao lado do índice.", "confira": "A decisão final pode ser explicada à família com o índice e com a queixa?" }
+  ],
+  "macetes": [
+    { "titulo": "MOCDO, e o pior manda", "texto": "Missing, Overjet, Crossbite, Displacement, Overbite. Percorra na ordem, anote os graus, fique com o maior. Não some." },
+    { "titulo": "25, 30, 35", "texto": "DAI: até 25 nada; 26 a 30 eletivo; 31 a 35 altamente desejável; 36 ou mais obrigatório. Sobe de cinco em cinco." },
+    { "titulo": "PAR é par: antes e depois", "texto": "Precisa de dois modelos para existir. Mede mudança, não necessidade." },
+    { "titulo": "Grau 5 sem régua", "texto": "Canino retido, hipodontia extensa e fissura são grau 5 antes de você medir qualquer trespasse." }
+  ],
+  "ondeErra": [
+    { "erro": "Somar as características no componente de saúde dentária do IOTN.", "porque": "O IOTN é hierárquico: a pior característica define o grau; somar infla o resultado.", "certo": "MOCDO em ordem, fica o maior grau." },
+    { "erro": "Usar o PAR para triagem de necessidade.", "porque": "Foi validado para medir mudança entre antes e depois, não para definir quem precisa.", "certo": "IOTN ou DAI na entrada; PAR na saída." },
+    { "erro": "Achar que o DAI vê tudo.", "porque": "Não pontua canino retido nem mordida cruzada posterior, que o IOTN valoriza.", "certo": "Conhecer o que cada índice ignora e complementar quando preciso." },
+    { "erro": "Decidir só pelo número, ignorando a queixa.", "porque": "Os índices medem necessidade normativa; a percebida é outra medida e influencia adesão e satisfação.", "certo": "Índice para ordenar; queixa e impacto para decidir e conversar." }
+  ],
+  "autoteste": [
+    {
+      "pergunta": "No componente de saúde dentária do IOTN, o grau final é determinado:",
+      "alternativas": [
+        "Pela soma dos pontos de todas as características",
+        "Pela média das características alteradas",
+        "Pela pior característica encontrada na ordem MOCDO",
+        "Pela fotografia escolhida na escala estética"
+      ],
+      "correta": 2,
+      "explicacoes": [
+        "O IOTN não soma; essa é a lógica do DAI.",
+        "Não há média.",
+        "Correta: percorre-se a ordem MOCDO e a característica mais grave define o grau.",
+        "A escala de fotos é o componente estético, separado."
+      ]
+    },
+    {
+      "pergunta": "Adolescente com escore 33 no DAI. A interpretação, segundo as faixas da OMS, é:",
+      "alternativas": [
+        "Oclusão normal ou má oclusão leve, sem necessidade",
+        "Má oclusão definida, tratamento eletivo",
+        "Má oclusão severa, tratamento altamente desejável",
+        "Má oclusão incapacitante, tratamento obrigatório"
+      ],
+      "correta": 2,
+      "explicacoes": [
+        "Até 25.",
+        "26 a 30.",
+        "Correta: 31 a 35 é a faixa severa, altamente desejável.",
+        "36 ou mais."
+      ]
+    },
+    {
+      "pergunta": "Criança com canino superior retido sem espaço para erupção, resto da oclusão alinhado. No IOTN, o componente de saúde dentária é:",
+      "alternativas": [
+        "Grau 1, porque o restante está alinhado",
+        "Grau 3, limítrofe",
+        "Grau 5, por erupção impedida",
+        "Não se aplica antes da dentição permanente completa"
+      ],
+      "correta": 2,
+      "explicacoes": [
+        "O grau é dado pela pior característica, não pelo conjunto.",
+        "Erupção impedida não é limítrofe.",
+        "Correta: erupção impedida, exceto de terceiros molares, é grau 5.",
+        "O IOTN se aplica na dentição mista tardia e permanente."
+      ]
+    },
+    {
+      "pergunta": "O índice desenvolvido para medir o resultado do tratamento ortodôntico comparando modelos iniciais e finais é o:",
+      "alternativas": [
+        "IOTN",
+        "DAI",
+        "PAR",
+        "Índice de Angle"
+      ],
+      "correta": 2,
+      "explicacoes": [
+        "IOTN mede necessidade.",
+        "DAI mede necessidade em levantamentos.",
+        "Correta: o Peer Assessment Rating pontua antes e depois e classifica a melhora.",
+        "Angle é classificação, não índice."
+      ]
+    },
+    {
+      "pergunta": "Sobre necessidade normativa e percebida, é correto afirmar que:",
+      "alternativas": [
+        "São sempre iguais quando o índice é bem aplicado",
+        "A normativa é a do profissional, medida por índices; a percebida é a do paciente, e as duas podem divergir",
+        "A percebida é medida pelo DAI",
+        "A normativa deve ser ignorada quando o paciente não se queixa"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Divergem com frequência, nos dois sentidos.",
+        "Correta: são medidas diferentes e complementares; a discordância é informação clínica.",
+        "O DAI mede necessidade normativa.",
+        "A normativa organiza a fila e a cobertura; a queixa entra na decisão, não a substitui."
+      ]
+    }
+  ],
+  "pesquisa": { "termos": ["índice de necessidade de tratamento ortodôntico", "IOTN", "DAI", "índice PAR", "ICON"] },
+  "referenciasBase": [
+    "Brook PH, Shaw WC. The development of an index of orthodontic treatment priority. Eur J Orthod. 1989.",
+    "Cons NC, Jenny J, Kohout FJ. DAI: the Dental Aesthetic Index. Iowa City: University of Iowa; 1986.",
+    "Richmond S, Shaw WC, O'Brien KD, et al. The development of the PAR Index (Peer Assessment Rating). Eur J Orthod. 1992.",
+    "Daniels C, Richmond S. The development of the Index of Complexity, Outcome and Need (ICON). J Orthod. 2000.",
+    "Organização Mundial da Saúde. Oral Health Surveys: Basic Methods. 4ª ed. 1997.",
+    "Ministério da Saúde. SB Brasil 2010: Pesquisa Nacional de Saúde Bucal. Resultados principais. 2012.",
+    "Proffit WR, Fields HW, Larson BE, Sarver DM. Ortodontia Contemporânea. 6ª ed."
+  ],
+  "validacao": { "validadoPor": null, "data": null }
+}
