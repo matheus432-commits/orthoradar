@@ -1,10 +1,10 @@
 {
  "atualizadoEm": "2026-09-05",
  "totalPaginas": 3387,
- "concluidas": 20,
+ "concluidas": 21,
  "porStatus": {
-  "pendente": 3367,
-  "rascunho": 20,
+  "pendente": 3366,
+  "rascunho": 21,
   "revisado": 0,
   "publicado": 0
  },
@@ -12,7 +12,7 @@
   "id": "ortodontia/mas-oclusoes",
   "area": "Ortodontia",
   "modulo": "Más oclusões",
-  "faltam": 15
+  "faltam": 14
  },
  "imagensPendentes": [
   {
@@ -113,6 +113,15 @@
    "mostrar": "Vista frontal em oclusão habitual com incisivos inferiores à frente dos superiores; ao lado, a mesma boca guiada em relação cêntrica mostrando os incisivos em topo e os molares em Classe I",
    "legenda": "Pseudo-Classe III: em oclusão habitual parece Classe III; guiada até o primeiro contato, a relação molar volta a Classe I.",
    "destacar": "Posição dos incisivos nas duas fotos, relação dos primeiros molares nas duas fotos, linha média"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/classificacao/classificacao-esqueletica",
+   "modulo": "Más oclusões",
+   "secao": "De onde vem cada classe: os componentes",
+   "imagem": "telerradiografia lateral traçada de um paciente com Classe II esquelética por retrusão mandibular",
+   "mostrar": "Traçado com S, N, A, B e pogônio marcados; SNA próximo de 82°, SNB reduzido, ANB aumentado; perpendicular ao násio com o pogônio bem atrás dela; plano oclusal com AO e BO marcados",
+   "legenda": "Classe II esquelética por mandíbula retruída: SNA normal, SNB reduzido, pogônio atrás da perpendicular ao násio, BO atrás de AO.",
+   "destacar": "Ponto B e pogônio em relação à perpendicular ao násio, valor de SNB, distância AO a BO"
   }
  ],
  "verificarPendentes": [
@@ -330,6 +339,46 @@
    "pagina": "ortodontia/mas-oclusoes/classificacao/classificacao-de-angle",
    "onde": "Seção \"Subdivisão, meia classe e a leitura lado a lado\".blocos[0].texto",
    "trecho": "onfira a que o seu serviço adota, porque há quem nomeie o lado normal [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/classificacao/classificacao-esqueletica",
+   "onde": "Seção \"ANB, SNA e SNB: a régua mais usada e o que cada ângulo diz\".blocos[2].itens[1]",
+   "trecho": "mal e SNB baixo: mandíbula retruída, o padrão mais comum na Classe II [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/classificacao/classificacao-esqueletica",
+   "onde": "Seção \"ANB, SNA e SNB: a régua mais usada e o que cada ângulo diz\".blocos[2].itens[2]",
+   "trecho": "SNA baixo e SNB normal: maxila deficiente, frequente na Classe III [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/classificacao/classificacao-esqueletica",
+   "onde": "Seção \"ANB, SNA e SNB: a régua mais usada e o que cada ângulo diz\".blocos[3].texto",
+   "trecho": "o do ANB. A faixa de normalidade do ANB costuma ser dada como 0° a 4° [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/classificacao/classificacao-esqueletica",
+   "onde": "Seção \"Quando o ANB mente: násio, plano SN e altura facial\".blocos[2].svg[8]",
+   "trecho": "o de zero,</text><text x='60' y='144'>homens ~ -1 mm, mulheres ~ 0 mm [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/classificacao/classificacao-esqueletica",
+   "onde": "Seção \"McNamara e Harvold: medir cada base contra o crânio e uma contra a outra\".blocos[0].texto",
+   "trecho": "inha, e o pogônio, um pouco atrás na criança e próximo dela no adulto [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/classificacao/classificacao-esqueletica",
+   "onde": "Seção \"McNamara e Harvold: medir cada base contra o crânio e uma contra a outra\".blocos[1].texto",
+   "trecho": "e uma diferença grande aponta Classe III, independentemente do násio [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/classificacao/classificacao-esqueletica",
+   "onde": "Seção \"De onde vem cada classe: os componentes\".blocos[0].texto",
+   "trecho": "axila, na maioria dos casos, estava em posição normal ou até retruída [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/classificacao/classificacao-esqueletica",
+   "onde": "Seção \"De onde vem cada classe: os componentes\".blocos[1].texto",
+   "trecho": "maxilar participa de uma grande parte dos casos, sozinha ou combinada [VERIFICAR]"
   }
  ],
  "modulos": [
@@ -465,11 +514,11 @@
    "area": "Ortodontia",
    "modulo": "Más oclusões",
    "total": 16,
-   "concluidas": 1,
-   "palavras": 3699,
-   "visuais": 5,
-   "imagensClinicas": 1,
-   "verificar": 1,
+   "concluidas": 2,
+   "palavras": 7459,
+   "visuais": 10,
+   "imagensClinicas": 2,
+   "verificar": 9,
    "paginas": [
     {
      "id": "ortodontia/mas-oclusoes/classificacao/classificacao-de-angle",
@@ -483,7 +532,9 @@
      "id": "ortodontia/mas-oclusoes/classificacao/classificacao-esqueletica",
      "nome": "Classificação esquelética",
      "tema": "Classificação",
-     "status": "pendente"
+     "status": "rascunho",
+     "palavras": 3760,
+     "visuais": 5
     },
     {
      "id": "ortodontia/mas-oclusoes/classificacao/classificacao-de-andrews-e-outras",
@@ -25662,6 +25713,86 @@
     {
      "onde": "Seção \"Subdivisão, meia classe e a leitura lado a lado\".blocos[0].texto",
      "trecho": "onfira a que o seu serviço adota, porque há quem nomeie o lado normal [VERIFICAR]"
+    }
+   ]
+  },
+  "ortodontia/mas-oclusoes/classificacao/classificacao-esqueletica": {
+   "titulo": "Classificação esquelética: de onde vem a má oclusão que o molar mostra",
+   "arquivo": "data/campus/paginas/ortodontia--maoclusao-esqueletica.json",
+   "formato": 2,
+   "status": "rascunho",
+   "estado": "rascunho",
+   "palavras": 3760,
+   "visuais": [
+    {
+     "formato": "comparativo",
+     "titulo": "As três classes esqueléticas no traçado: S, N, A e B"
+    },
+    {
+     "formato": "anatomico",
+     "titulo": "A avaliação de Wits: a mesma relação, medida sobre o plano oclusal"
+    },
+    {
+     "formato": "comparativo",
+     "titulo": "Três réguas para a mesma pergunta: ANB, Wits e McNamara"
+    },
+    {
+     "formato": "classificacao",
+     "titulo": "Cruzando a classe dentária com a esquelética"
+    },
+    {
+     "formato": "mapa",
+     "titulo": "Mapa da página"
+    }
+   ],
+   "quadros": {
+    "frase": 2,
+    "prova": 1,
+    "dica": 2,
+    "erro": 1,
+    "mito": 1
+   },
+   "imagensClinicas": [
+    {
+     "secao": "De onde vem cada classe: os componentes",
+     "imagem": "telerradiografia lateral traçada de um paciente com Classe II esquelética por retrusão mandibular",
+     "mostrar": "Traçado com S, N, A, B e pogônio marcados; SNA próximo de 82°, SNB reduzido, ANB aumentado; perpendicular ao násio com o pogônio bem atrás dela; plano oclusal com AO e BO marcados",
+     "legenda": "Classe II esquelética por mandíbula retruída: SNA normal, SNB reduzido, pogônio atrás da perpendicular ao násio, BO atrás de AO.",
+     "destacar": "Ponto B e pogônio em relação à perpendicular ao násio, valor de SNB, distância AO a BO"
+    }
+   ],
+   "verificar": [
+    {
+     "onde": "Seção \"ANB, SNA e SNB: a régua mais usada e o que cada ângulo diz\".blocos[2].itens[1]",
+     "trecho": "mal e SNB baixo: mandíbula retruída, o padrão mais comum na Classe II [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"ANB, SNA e SNB: a régua mais usada e o que cada ângulo diz\".blocos[2].itens[2]",
+     "trecho": "SNA baixo e SNB normal: maxila deficiente, frequente na Classe III [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"ANB, SNA e SNB: a régua mais usada e o que cada ângulo diz\".blocos[3].texto",
+     "trecho": "o do ANB. A faixa de normalidade do ANB costuma ser dada como 0° a 4° [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Quando o ANB mente: násio, plano SN e altura facial\".blocos[2].svg[8]",
+     "trecho": "o de zero,</text><text x='60' y='144'>homens ~ -1 mm, mulheres ~ 0 mm [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"McNamara e Harvold: medir cada base contra o crânio e uma contra a outra\".blocos[0].texto",
+     "trecho": "inha, e o pogônio, um pouco atrás na criança e próximo dela no adulto [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"McNamara e Harvold: medir cada base contra o crânio e uma contra a outra\".blocos[1].texto",
+     "trecho": "e uma diferença grande aponta Classe III, independentemente do násio [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"De onde vem cada classe: os componentes\".blocos[0].texto",
+     "trecho": "axila, na maioria dos casos, estava em posição normal ou até retruída [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"De onde vem cada classe: os componentes\".blocos[1].texto",
+     "trecho": "maxilar participa de uma grande parte dos casos, sozinha ou combinada [VERIFICAR]"
     }
    ]
   },
