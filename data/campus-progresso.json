@@ -1,10 +1,10 @@
 {
  "atualizadoEm": "2026-09-05",
  "totalPaginas": 3387,
- "concluidas": 36,
+ "concluidas": 37,
  "porStatus": {
-  "pendente": 3351,
-  "rascunho": 36,
+  "pendente": 3350,
+  "rascunho": 37,
   "revisado": 0,
   "publicado": 0
  },
@@ -12,7 +12,7 @@
   "id": "ortodontia/biologia-do-movimento",
   "area": "Ortodontia",
   "modulo": "Biologia do movimento",
-  "faltam": 11
+  "faltam": 10
  },
  "imagensPendentes": [
   {
@@ -854,6 +854,11 @@
    "pagina": "ortodontia/biologia-do-movimento/reacoes-teciduais/ligamento-e-osso-sob-forca",
    "onde": "Seção \"Força leve move; força pesada atrasa\".blocos[2].texto",
    "trecho": "ado de superfície radicular comprimida; acima dela, a circulação para [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/reacoes-teciduais/pressao-e-tensao",
+   "onde": "Seção \"Força ótima: a pressão que não estrangula\".blocos[0].texto",
+   "trecho": "uas dezenas de gramas por centímetro quadrado de superfície radicular [VERIFICAR]"
   }
  ],
  "modulos": [
@@ -1131,11 +1136,11 @@
    "area": "Ortodontia",
    "modulo": "Biologia do movimento",
    "total": 12,
-   "concluidas": 1,
-   "palavras": 3695,
-   "visuais": 5,
+   "concluidas": 2,
+   "palavras": 7350,
+   "visuais": 10,
    "imagensClinicas": 1,
-   "verificar": 4,
+   "verificar": 5,
    "paginas": [
     {
      "id": "ortodontia/biologia-do-movimento/reacoes-teciduais/ligamento-e-osso-sob-forca",
@@ -1149,7 +1154,9 @@
      "id": "ortodontia/biologia-do-movimento/reacoes-teciduais/pressao-e-tensao",
      "nome": "Pressão e tensão",
      "tema": "Reações teciduais",
-     "status": "pendente"
+     "status": "rascunho",
+     "palavras": 3655,
+     "visuais": 5
     },
     {
      "id": "ortodontia/biologia-do-movimento/reacoes-teciduais/hialinizacao",
@@ -27282,6 +27289,50 @@
     {
      "onde": "Seção \"Força leve move; força pesada atrasa\".blocos[2].texto",
      "trecho": "ado de superfície radicular comprimida; acima dela, a circulação para [VERIFICAR]"
+    }
+   ]
+  },
+  "ortodontia/biologia-do-movimento/reacoes-teciduais/pressao-e-tensao": {
+   "titulo": "Pressão e tensão: os dois lados do dente que se move",
+   "arquivo": "data/campus/paginas/ortodontia--biomov-pressao-tensao.json",
+   "formato": 2,
+   "status": "rascunho",
+   "estado": "rascunho",
+   "palavras": 3655,
+   "visuais": [
+    {
+     "formato": "anatomico",
+     "titulo": "Pressão e tensão em um dente que se move para a direita"
+    },
+    {
+     "formato": "comparativo",
+     "titulo": "Lado de pressão e lado de tensão, evento por evento"
+    },
+    {
+     "formato": "grafico",
+     "titulo": "Deslocamento do dente ao longo do tempo: as três fases"
+    },
+    {
+     "formato": "forcas",
+     "titulo": "Força é o que a balança marca; pressão é o que o ligamento sente"
+    },
+    {
+     "formato": "mapa",
+     "titulo": "Mapa da página"
+    }
+   ],
+   "quadros": {
+    "frase": 2,
+    "prova": 1,
+    "dica": 2,
+    "mito": 1,
+    "erro": 1
+   },
+   "imagensClinicas": [],
+   "verificar": [
+    {
+     "onde": "Seção \"Força ótima: a pressão que não estrangula\".blocos[0].texto",
+     "trecho": "uas dezenas de gramas por centímetro quadrado de superfície radicular [VERIFICAR]"
     }
    ]
   },
