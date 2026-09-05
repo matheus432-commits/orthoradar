@@ -1,10 +1,10 @@
 {
  "atualizadoEm": "2026-09-05",
  "totalPaginas": 3387,
- "concluidas": 21,
+ "concluidas": 22,
  "porStatus": {
-  "pendente": 3366,
-  "rascunho": 21,
+  "pendente": 3365,
+  "rascunho": 22,
   "revisado": 0,
   "publicado": 0
  },
@@ -12,7 +12,7 @@
   "id": "ortodontia/mas-oclusoes",
   "area": "Ortodontia",
   "modulo": "Más oclusões",
-  "faltam": 14
+  "faltam": 13
  },
  "imagensPendentes": [
   {
@@ -122,6 +122,15 @@
    "mostrar": "Traçado com S, N, A, B e pogônio marcados; SNA próximo de 82°, SNB reduzido, ANB aumentado; perpendicular ao násio com o pogônio bem atrás dela; plano oclusal com AO e BO marcados",
    "legenda": "Classe II esquelética por mandíbula retruída: SNA normal, SNB reduzido, pogônio atrás da perpendicular ao násio, BO atrás de AO.",
    "destacar": "Ponto B e pogônio em relação à perpendicular ao násio, valor de SNB, distância AO a BO"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/classificacao/classificacao-de-andrews-e-outras",
+   "modulo": "Más oclusões",
+   "secao": "Andrews: classificar o alvo, não o defeito",
+   "imagem": "fotografia de perfil de um paciente com a testa e os incisivos superiores em posição natural da cabeça",
+   "mostrar": "Perfil em posição natural da cabeça, com uma linha vertical de referência descendo da testa e a posição do incisivo superior em relação a ela",
+   "legenda": "Nos seis elementos, a referência sagital é a testa, não a base do crânio: a posição do incisivo superior é julgada em relação a ela.",
+   "destacar": "Inclinação da testa, linha vertical de referência, ponto mais anterior do incisivo superior"
   }
  ],
  "verificarPendentes": [
@@ -379,6 +388,11 @@
    "pagina": "ortodontia/mas-oclusoes/classificacao/classificacao-esqueletica",
    "onde": "Seção \"De onde vem cada classe: os componentes\".blocos[1].texto",
    "trecho": "maxilar participa de uma grande parte dos casos, sozinha ou combinada [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/classificacao/classificacao-de-andrews-e-outras",
+   "onde": "Seção \"Andrews: classificar o alvo, não o defeito\".blocos[1].texto",
+   "trecho": "dos maxilares, a proeminência do mento e a oclusão pelas seis chaves [VERIFICAR]"
   }
  ],
  "modulos": [
@@ -514,11 +528,11 @@
    "area": "Ortodontia",
    "modulo": "Más oclusões",
    "total": 16,
-   "concluidas": 2,
-   "palavras": 7459,
-   "visuais": 10,
-   "imagensClinicas": 2,
-   "verificar": 9,
+   "concluidas": 3,
+   "palavras": 11004,
+   "visuais": 15,
+   "imagensClinicas": 3,
+   "verificar": 10,
    "paginas": [
     {
      "id": "ortodontia/mas-oclusoes/classificacao/classificacao-de-angle",
@@ -540,7 +554,9 @@
      "id": "ortodontia/mas-oclusoes/classificacao/classificacao-de-andrews-e-outras",
      "nome": "Classificação de Andrews e outras",
      "tema": "Classificação",
-     "status": "pendente"
+     "status": "rascunho",
+     "palavras": 3545,
+     "visuais": 5
     },
     {
      "id": "ortodontia/mas-oclusoes/classificacao/indices-de-necessidade-de-tratamento",
@@ -25793,6 +25809,58 @@
     {
      "onde": "Seção \"De onde vem cada classe: os componentes\".blocos[1].texto",
      "trecho": "maxilar participa de uma grande parte dos casos, sozinha ou combinada [VERIFICAR]"
+    }
+   ]
+  },
+  "ortodontia/mas-oclusoes/classificacao/classificacao-de-andrews-e-outras": {
+   "titulo": "Além de Angle: Lischer, Dewey, Simon, Ackerman e Proffit, Andrews",
+   "arquivo": "data/campus/paginas/ortodontia--maoclusao-outras.json",
+   "formato": 2,
+   "status": "rascunho",
+   "estado": "rascunho",
+   "palavras": 3545,
+   "visuais": [
+    {
+     "formato": "linha-do-tempo",
+     "titulo": "Um século de classificações, e o que cada uma acrescentou"
+    },
+    {
+     "formato": "classificacao",
+     "titulo": "A nomenclatura de Lischer para o dente fora de posição"
+    },
+    {
+     "formato": "anatomico",
+     "titulo": "Os três planos de Simon e a lei do canino"
+    },
+    {
+     "formato": "mapa",
+     "titulo": "As cinco características de Ackerman e Proffit em conjuntos"
+    },
+    {
+     "formato": "mapa",
+     "titulo": "Mapa da página"
+    }
+   ],
+   "quadros": {
+    "frase": 2,
+    "prova": 1,
+    "mito": 1,
+    "dica": 2,
+    "erro": 1
+   },
+   "imagensClinicas": [
+    {
+     "secao": "Andrews: classificar o alvo, não o defeito",
+     "imagem": "fotografia de perfil de um paciente com a testa e os incisivos superiores em posição natural da cabeça",
+     "mostrar": "Perfil em posição natural da cabeça, com uma linha vertical de referência descendo da testa e a posição do incisivo superior em relação a ela",
+     "legenda": "Nos seis elementos, a referência sagital é a testa, não a base do crânio: a posição do incisivo superior é julgada em relação a ela.",
+     "destacar": "Inclinação da testa, linha vertical de referência, ponto mais anterior do incisivo superior"
+    }
+   ],
+   "verificar": [
+    {
+     "onde": "Seção \"Andrews: classificar o alvo, não o defeito\".blocos[1].texto",
+     "trecho": "dos maxilares, a proeminência do mento e a oclusão pelas seis chaves [VERIFICAR]"
     }
    ]
   },
