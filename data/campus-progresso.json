@@ -1,10 +1,10 @@
 {
  "atualizadoEm": "2026-09-05",
  "totalPaginas": 3387,
- "concluidas": 26,
+ "concluidas": 27,
  "porStatus": {
-  "pendente": 3361,
-  "rascunho": 26,
+  "pendente": 3360,
+  "rascunho": 27,
   "revisado": 0,
   "publicado": 0
  },
@@ -12,7 +12,7 @@
   "id": "ortodontia/mas-oclusoes",
   "area": "Ortodontia",
   "modulo": "Más oclusões",
-  "faltam": 9
+  "faltam": 8
  },
  "imagensPendentes": [
   {
@@ -167,6 +167,15 @@
    "mostrar": "Hemiarco inferior com o espaço do segundo molar decíduo vazio, o primeiro molar permanente em erupção já inclinado para mesial, e o germe do segundo pré-molar com raiz curta sob o espaço reduzido",
    "legenda": "Perda precoce do E com o 6 rompendo: o molar já inclina para o espaço e o pré-molar, com raiz curta, vai demorar a chegar.",
    "destacar": "Inclinação do primeiro molar permanente, largura do espaço remanescente, estágio radicular do germe do pré-molar"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/etiologia/anomalias-dentarias",
+   "modulo": "Más oclusões",
+   "secao": "Tamanho e forma: quando o dente não cabe ou não encaixa",
+   "imagem": "radiografia periapical ou tomografia de incisivo central superior com dilaceração da coroa após trauma no decíduo",
+   "mostrar": "Incisivo central permanente não erupcionado com a coroa angulada em relação à raiz, posicionado alto no osso, e o contralateral já erupcionado",
+   "legenda": "Dilaceração: o trauma no incisivo decíduo deslocou o germe do permanente em formação, e a coroa se formou em ângulo com a raiz.",
+   "destacar": "Ângulo entre coroa e raiz, altura do dente no osso, comparação com o contralateral"
   }
  ],
  "verificarPendentes": [
@@ -529,6 +538,31 @@
    "pagina": "ortodontia/mas-oclusoes/etiologia/perda-precoce-e-carie",
    "onde": "Seção \"Cárie sem perda também custa espaço, e o 6 condenado\".blocos[1].texto",
    "trecho": "stá com a coroa formada e a raiz começando, por volta dos 8 a 10 anos [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/etiologia/anomalias-dentarias",
+   "onde": "Seção \"Número: os que faltam e os que sobram\".blocos[0].texto",
+   "trecho": "res superiores e incisivos inferiores; a ordem varia entre populações [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/etiologia/anomalias-dentarias",
+   "onde": "Seção \"O canino superior que não vem\".blocos[0].texto",
+   "trecho": "nte genético; as vestibulares costumam vir de falta de espaço no arco [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/etiologia/anomalias-dentarias",
+   "onde": "Seção \"O canino superior que não vem\".blocos[2].svg[9]",
+   "trecho": "ecíduo, no momento certo, redireciona boa parte dos caninos palatinos [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/etiologia/anomalias-dentarias",
+   "onde": "Seção \"Molar ectópico, dente anquilosado e o que não sobe\".blocos[0].texto",
+   "trecho": "ico separador ou aparelho, antes que destrua o decíduo e perca espaço [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/etiologia/anomalias-dentarias",
+   "onde": "Seção \"Molar ectópico, dente anquilosado e o que não sobe\".blocos[1].texto",
+   "trecho": "iva, e não respondem à força ortodôntica; tem base genética conhecida [VERIFICAR]"
   }
  ],
  "modulos": [
@@ -664,11 +698,11 @@
    "area": "Ortodontia",
    "modulo": "Más oclusões",
    "total": 16,
-   "concluidas": 7,
-   "palavras": 25790,
-   "visuais": 36,
-   "imagensClinicas": 7,
-   "verificar": 30,
+   "concluidas": 8,
+   "palavras": 29578,
+   "visuais": 41,
+   "imagensClinicas": 8,
+   "verificar": 35,
    "paginas": [
     {
      "id": "ortodontia/mas-oclusoes/classificacao/classificacao-de-angle",
@@ -730,7 +764,9 @@
      "id": "ortodontia/mas-oclusoes/etiologia/anomalias-dentarias",
      "nome": "Anomalias dentárias",
      "tema": "Etiologia",
-     "status": "pendente"
+     "status": "rascunho",
+     "palavras": 3788,
+     "visuais": 5
     },
     {
      "id": "ortodontia/mas-oclusoes/etiologia/teoria-da-equivalencia-de-moyers",
@@ -26281,6 +26317,74 @@
     {
      "onde": "Seção \"Cárie sem perda também custa espaço, e o 6 condenado\".blocos[1].texto",
      "trecho": "stá com a coroa formada e a raiz começando, por volta dos 8 a 10 anos [VERIFICAR]"
+    }
+   ]
+  },
+  "ortodontia/mas-oclusoes/etiologia/anomalias-dentarias": {
+   "titulo": "Anomalias dentárias: número, tamanho, forma e posição como causa de má oclusão",
+   "arquivo": "data/campus/paginas/ortodontia--maoclusao-etiologia-anomalias.json",
+   "formato": 2,
+   "status": "rascunho",
+   "estado": "rascunho",
+   "palavras": 3788,
+   "visuais": [
+    {
+     "formato": "classificacao",
+     "titulo": "As anomalias dentárias por categoria e o que cada uma faz com a oclusão"
+    },
+    {
+     "formato": "comparativo",
+     "titulo": "Lateral superior ausente: fechar ou abrir o espaço"
+    },
+    {
+     "formato": "linha-do-tempo",
+     "titulo": "Vigilância do canino superior: o que fazer em cada idade"
+    },
+    {
+     "formato": "anatomico",
+     "titulo": "Molar ectópico e molar decíduo em infraoclusão"
+    },
+    {
+     "formato": "mapa",
+     "titulo": "Mapa da página"
+    }
+   ],
+   "quadros": {
+    "frase": 2,
+    "prova": 1,
+    "dica": 2,
+    "mito": 1,
+    "erro": 1
+   },
+   "imagensClinicas": [
+    {
+     "secao": "Tamanho e forma: quando o dente não cabe ou não encaixa",
+     "imagem": "radiografia periapical ou tomografia de incisivo central superior com dilaceração da coroa após trauma no decíduo",
+     "mostrar": "Incisivo central permanente não erupcionado com a coroa angulada em relação à raiz, posicionado alto no osso, e o contralateral já erupcionado",
+     "legenda": "Dilaceração: o trauma no incisivo decíduo deslocou o germe do permanente em formação, e a coroa se formou em ângulo com a raiz.",
+     "destacar": "Ângulo entre coroa e raiz, altura do dente no osso, comparação com o contralateral"
+    }
+   ],
+   "verificar": [
+    {
+     "onde": "Seção \"Número: os que faltam e os que sobram\".blocos[0].texto",
+     "trecho": "res superiores e incisivos inferiores; a ordem varia entre populações [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"O canino superior que não vem\".blocos[0].texto",
+     "trecho": "nte genético; as vestibulares costumam vir de falta de espaço no arco [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"O canino superior que não vem\".blocos[2].svg[9]",
+     "trecho": "ecíduo, no momento certo, redireciona boa parte dos caninos palatinos [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Molar ectópico, dente anquilosado e o que não sobe\".blocos[0].texto",
+     "trecho": "ico separador ou aparelho, antes que destrua o decíduo e perca espaço [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Molar ectópico, dente anquilosado e o que não sobe\".blocos[1].texto",
+     "trecho": "iva, e não respondem à força ortodôntica; tem base genética conhecida [VERIFICAR]"
     }
    ]
   },
