@@ -1,10 +1,10 @@
 {
  "atualizadoEm": "2026-09-05",
  "totalPaginas": 3387,
- "concluidas": 37,
+ "concluidas": 38,
  "porStatus": {
-  "pendente": 3350,
-  "rascunho": 37,
+  "pendente": 3349,
+  "rascunho": 38,
   "revisado": 0,
   "publicado": 0
  },
@@ -12,7 +12,7 @@
   "id": "ortodontia/biologia-do-movimento",
   "area": "Ortodontia",
   "modulo": "Biologia do movimento",
-  "faltam": 10
+  "faltam": 9
  },
  "imagensPendentes": [
   {
@@ -257,6 +257,15 @@
    "mostrar": "Lado de pressão com ligamento comprimido mas viável, osteoclastos na superfície do osso alveolar em lacunas de reabsorção; lado de tensão com fibras estiradas e osteoblastos alinhados depositando osso novo",
    "legenda": "Força leve: o ligamento comprimido continua vivo e os osteoclastos trabalham na frente, na própria superfície do osso.",
    "destacar": "Osteoclastos na superfície do osso do lado de pressão, ligamento sem áreas acelulares, osteoide no lado de tensão"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/reacoes-teciduais/hialinizacao",
+   "modulo": "Biologia do movimento",
+   "secao": "Por que o adulto hialiniza mais",
+   "imagem": "corte histológico do lado de pressão do ligamento periodontal com zona hialinizada e reabsorção solapante",
+   "mostrar": "Área acelular e homogênea do ligamento junto à lâmina dura íntegra; por trás da lâmina, lacunas de reabsorção com osteoclastos vindas dos espaços medulares; nas bordas da zona, lacunas iniciais no cemento",
+   "legenda": "Zona hialinizada: ligamento sem núcleos junto a uma lâmina dura que só pode ser reabsorvida por trás.",
+   "destacar": "Ausência de células na zona, osteoclastos nos espaços medulares por trás da lâmina dura, lacunas de cemento nas bordas da zona"
   }
  ],
  "verificarPendentes": [
@@ -842,7 +851,7 @@
   },
   {
    "pagina": "ortodontia/biologia-do-movimento/reacoes-teciduais/ligamento-e-osso-sob-forca",
-   "onde": "Seção \"O dente está suspenso, não fixado\".blocos[2].svg[8]",
+   "onde": "Seção \"O dente está suspenso, não fixado\".blocos[2].svg[9]",
    "trecho": "' font-size='10' font-weight='700' fill='var(--red,#B4533B)'>~0,25 mm [VERIFICAR]"
   },
   {
@@ -859,6 +868,21 @@
    "pagina": "ortodontia/biologia-do-movimento/reacoes-teciduais/pressao-e-tensao",
    "onde": "Seção \"Força ótima: a pressão que não estrangula\".blocos[0].texto",
    "trecho": "uas dezenas de gramas por centímetro quadrado de superfície radicular [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/reacoes-teciduais/hialinizacao",
+   "onde": "umMinuto.frases[4]",
+   "trecho": "o cemento também é atacado, e é aí que começa a reabsorção radicular [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/reacoes-teciduais/hialinizacao",
+   "onde": "Seção \"Como a zona é removida, e o que sobra na raiz\".blocos[0].texto",
+   "trecho": "m torno de duas a quatro semanas para a inclinação com força contínua [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/reacoes-teciduais/hialinizacao",
+   "onde": "Seção \"Como a zona é removida, e o que sobra na raiz\".blocos[2].svg[7]",
+   "trecho": "lo: dias com áreas pequenas; duas a quatro semanas com áreas extensas [VERIFICAR]"
   }
  ],
  "modulos": [
@@ -1136,11 +1160,11 @@
    "area": "Ortodontia",
    "modulo": "Biologia do movimento",
    "total": 12,
-   "concluidas": 2,
-   "palavras": 7350,
-   "visuais": 10,
-   "imagensClinicas": 1,
-   "verificar": 5,
+   "concluidas": 3,
+   "palavras": 10859,
+   "visuais": 15,
+   "imagensClinicas": 2,
+   "verificar": 8,
    "paginas": [
     {
      "id": "ortodontia/biologia-do-movimento/reacoes-teciduais/ligamento-e-osso-sob-forca",
@@ -1162,7 +1186,9 @@
      "id": "ortodontia/biologia-do-movimento/reacoes-teciduais/hialinizacao",
      "nome": "Hialinização",
      "tema": "Reações teciduais",
-     "status": "pendente"
+     "status": "rascunho",
+     "palavras": 3509,
+     "visuais": 5
     },
     {
      "id": "ortodontia/biologia-do-movimento/reacoes-teciduais/remodelacao",
@@ -27279,7 +27305,7 @@
      "trecho": "oem esse tecido, vasos que o nutrem e nervos que sentem pressão e dor [VERIFICAR]"
     },
     {
-     "onde": "Seção \"O dente está suspenso, não fixado\".blocos[2].svg[8]",
+     "onde": "Seção \"O dente está suspenso, não fixado\".blocos[2].svg[9]",
      "trecho": "' font-size='10' font-weight='700' fill='var(--red,#B4533B)'>~0,25 mm [VERIFICAR]"
     },
     {
@@ -27333,6 +27359,66 @@
     {
      "onde": "Seção \"Força ótima: a pressão que não estrangula\".blocos[0].texto",
      "trecho": "uas dezenas de gramas por centímetro quadrado de superfície radicular [VERIFICAR]"
+    }
+   ]
+  },
+  "ortodontia/biologia-do-movimento/reacoes-teciduais/hialinizacao": {
+   "titulo": "Hialinização: quando o ligamento morre e o osso precisa ser reabsorvido por baixo",
+   "arquivo": "data/campus/paginas/ortodontia--biomov-hialinizacao.json",
+   "formato": 2,
+   "status": "rascunho",
+   "estado": "rascunho",
+   "palavras": 3509,
+   "visuais": [
+    {
+     "formato": "anatomico",
+     "titulo": "A zona hialinizada e a reabsorção que vem por baixo"
+    },
+    {
+     "formato": "comparativo",
+     "titulo": "Reabsorção frontal e reabsorção solapante"
+    },
+    {
+     "formato": "classificacao",
+     "titulo": "O que aumenta a hialinização"
+    },
+    {
+     "formato": "processo",
+     "titulo": "Da compressão excessiva ao movimento em salto: a sequência da hialinização"
+    },
+    {
+     "formato": "mapa",
+     "titulo": "Mapa da página"
+    }
+   ],
+   "quadros": {
+    "frase": 2,
+    "prova": 1,
+    "mito": 1,
+    "erro": 1,
+    "dica": 1
+   },
+   "imagensClinicas": [
+    {
+     "secao": "Por que o adulto hialiniza mais",
+     "imagem": "corte histológico do lado de pressão do ligamento periodontal com zona hialinizada e reabsorção solapante",
+     "mostrar": "Área acelular e homogênea do ligamento junto à lâmina dura íntegra; por trás da lâmina, lacunas de reabsorção com osteoclastos vindas dos espaços medulares; nas bordas da zona, lacunas iniciais no cemento",
+     "legenda": "Zona hialinizada: ligamento sem núcleos junto a uma lâmina dura que só pode ser reabsorvida por trás.",
+     "destacar": "Ausência de células na zona, osteoclastos nos espaços medulares por trás da lâmina dura, lacunas de cemento nas bordas da zona"
+    }
+   ],
+   "verificar": [
+    {
+     "onde": "umMinuto.frases[4]",
+     "trecho": "o cemento também é atacado, e é aí que começa a reabsorção radicular [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Como a zona é removida, e o que sobra na raiz\".blocos[0].texto",
+     "trecho": "m torno de duas a quatro semanas para a inclinação com força contínua [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Como a zona é removida, e o que sobra na raiz\".blocos[2].svg[7]",
+     "trecho": "lo: dias com áreas pequenas; duas a quatro semanas com áreas extensas [VERIFICAR]"
     }
    ]
   },
