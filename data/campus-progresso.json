@@ -1,10 +1,10 @@
 {
  "atualizadoEm": "2026-09-05",
  "totalPaginas": 3387,
- "concluidas": 25,
+ "concluidas": 26,
  "porStatus": {
-  "pendente": 3362,
-  "rascunho": 25,
+  "pendente": 3361,
+  "rascunho": 26,
   "revisado": 0,
   "publicado": 0
  },
@@ -12,7 +12,7 @@
   "id": "ortodontia/mas-oclusoes",
   "area": "Ortodontia",
   "modulo": "Más oclusões",
-  "faltam": 10
+  "faltam": 9
  },
  "imagensPendentes": [
   {
@@ -158,6 +158,15 @@
    "mostrar": "Face em repouso com lábios entreabertos, olheiras, terço inferior da face alongado; perfil com mandíbula retroposicionada; ao lado, vista oclusal do arco superior estreito e profundo",
    "legenda": "O padrão do respirador bucal: lábios que não se fecham em repouso, face longa e arco superior estreito e profundo.",
    "destacar": "Selamento labial ausente em repouso, proporção do terço inferior, forma do arco superior"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/etiologia/perda-precoce-e-carie",
+   "modulo": "Más oclusões",
+   "secao": "Cárie sem perda também custa espaço, e o 6 condenado",
+   "imagem": "radiografia panorâmica de criança com perda precoce de segundo molar decíduo inferior e primeiro molar permanente em erupção",
+   "mostrar": "Hemiarco inferior com o espaço do segundo molar decíduo vazio, o primeiro molar permanente em erupção já inclinado para mesial, e o germe do segundo pré-molar com raiz curta sob o espaço reduzido",
+   "legenda": "Perda precoce do E com o 6 rompendo: o molar já inclina para o espaço e o pré-molar, com raiz curta, vai demorar a chegar.",
+   "destacar": "Inclinação do primeiro molar permanente, largura do espaço remanescente, estágio radicular do germe do pré-molar"
   }
  ],
  "verificarPendentes": [
@@ -505,6 +514,21 @@
    "pagina": "ortodontia/mas-oclusoes/etiologia/habitos-succao-degluticao-e-respiracao",
    "onde": "Seção \"O que a evidência sustenta e o que não sustenta\".blocos[0].texto",
    "trecho": "scimento depois que a respiração nasal voltou, o que sustenta a causa [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/etiologia/perda-precoce-e-carie",
+   "onde": "Seção \"Maxila e mandíbula perdem espaço de jeitos diferentes\".blocos[0].texto",
+   "trecho": "intensa nos primeiros seis meses após a extração, e depois desacelera [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/etiologia/perda-precoce-e-carie",
+   "onde": "Seção \"O sucessor: atrasa, acelera ou some do caminho\".blocos[0].texto",
+   "trecho": "aminho se abriu na hora em que o dente estava pronto para percorrê-lo [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/etiologia/perda-precoce-e-carie",
+   "onde": "Seção \"Cárie sem perda também custa espaço, e o 6 condenado\".blocos[1].texto",
+   "trecho": "stá com a coroa formada e a raiz começando, por volta dos 8 a 10 anos [VERIFICAR]"
   }
  ],
  "modulos": [
@@ -640,11 +664,11 @@
    "area": "Ortodontia",
    "modulo": "Más oclusões",
    "total": 16,
-   "concluidas": 6,
-   "palavras": 21939,
-   "visuais": 30,
-   "imagensClinicas": 6,
-   "verificar": 27,
+   "concluidas": 7,
+   "palavras": 25790,
+   "visuais": 36,
+   "imagensClinicas": 7,
+   "verificar": 30,
    "paginas": [
     {
      "id": "ortodontia/mas-oclusoes/classificacao/classificacao-de-angle",
@@ -698,7 +722,9 @@
      "id": "ortodontia/mas-oclusoes/etiologia/perda-precoce-e-carie",
      "nome": "Perda precoce e cárie",
      "tema": "Etiologia",
-     "status": "pendente"
+     "status": "rascunho",
+     "palavras": 3851,
+     "visuais": 6
     },
     {
      "id": "ortodontia/mas-oclusoes/etiologia/anomalias-dentarias",
@@ -26191,6 +26217,70 @@
     {
      "onde": "Seção \"O que a evidência sustenta e o que não sustenta\".blocos[0].texto",
      "trecho": "scimento depois que a respiração nasal voltou, o que sustenta a causa [VERIFICAR]"
+    }
+   ]
+  },
+  "ortodontia/mas-oclusoes/etiologia/perda-precoce-e-carie": {
+   "titulo": "Perda precoce e cárie: como um dente decíduo a menos vira uma má oclusão",
+   "arquivo": "data/campus/paginas/ortodontia--maoclusao-etiologia-perda-precoce.json",
+   "formato": 2,
+   "status": "rascunho",
+   "estado": "rascunho",
+   "palavras": 3851,
+   "visuais": [
+    {
+     "formato": "anatomico",
+     "titulo": "O espaço que se perde: o molar permanente entra no lugar do pré-molar"
+    },
+    {
+     "formato": "classificacao",
+     "titulo": "Dente perdido, consequência esperada"
+    },
+    {
+     "formato": "comparativo",
+     "titulo": "Como o espaço se perde no arco superior e no inferior"
+    },
+    {
+     "formato": "linha-do-tempo",
+     "titulo": "O estágio da raiz do sucessor decide o que acontece"
+    },
+    {
+     "formato": "fluxograma",
+     "titulo": "Do dente perdido ao mantenedor certo"
+    },
+    {
+     "formato": "mapa",
+     "titulo": "Mapa da página"
+    }
+   ],
+   "quadros": {
+    "frase": 2,
+    "prova": 1,
+    "dica": 2,
+    "mito": 1,
+    "erro": 1
+   },
+   "imagensClinicas": [
+    {
+     "secao": "Cárie sem perda também custa espaço, e o 6 condenado",
+     "imagem": "radiografia panorâmica de criança com perda precoce de segundo molar decíduo inferior e primeiro molar permanente em erupção",
+     "mostrar": "Hemiarco inferior com o espaço do segundo molar decíduo vazio, o primeiro molar permanente em erupção já inclinado para mesial, e o germe do segundo pré-molar com raiz curta sob o espaço reduzido",
+     "legenda": "Perda precoce do E com o 6 rompendo: o molar já inclina para o espaço e o pré-molar, com raiz curta, vai demorar a chegar.",
+     "destacar": "Inclinação do primeiro molar permanente, largura do espaço remanescente, estágio radicular do germe do pré-molar"
+    }
+   ],
+   "verificar": [
+    {
+     "onde": "Seção \"Maxila e mandíbula perdem espaço de jeitos diferentes\".blocos[0].texto",
+     "trecho": "intensa nos primeiros seis meses após a extração, e depois desacelera [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"O sucessor: atrasa, acelera ou some do caminho\".blocos[0].texto",
+     "trecho": "aminho se abriu na hora em que o dente estava pronto para percorrê-lo [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Cárie sem perda também custa espaço, e o 6 condenado\".blocos[1].texto",
+     "trecho": "stá com a coroa formada e a raiz começando, por volta dos 8 a 10 anos [VERIFICAR]"
     }
    ]
   },

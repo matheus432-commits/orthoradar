@@ -1,0 +1,341 @@
+{
+  "id": "ortodontia/mas-oclusoes/etiologia/perda-precoce-e-carie",
+  "areaId": "ortodontia",
+  "area": "Ortodontia",
+  "modulo": "Más oclusões",
+  "tema": "Etiologia",
+  "titulo": "Perda precoce e cárie: como um dente decíduo a menos vira uma má oclusão",
+  "estado": "rascunho",
+  "versao": 1,
+  "formato": 2,
+  "autoria": "Rascunho escrito pela plataforma para validação; nada aqui é visível ao aluno antes da assinatura de um ortodontista.",
+  "abertura": {
+    "situacao": "Menino de 6 anos e 2 meses, segundo molar decíduo inferior direito destruído por cárie e com abscesso: não há como salvar. Na radiografia, o primeiro molar permanente do lado ainda está dentro do osso, a poucos milímetros de romper a gengiva, e o segundo pré-molar tem um terço da raiz formada. A mãe pergunta se \"esse dente de leite vai cair mesmo, então tanto faz tirar agora\".",
+    "pergunta": "Se o dente ia cair de qualquer jeito, por que a extração de hoje pode custar um pré-molar daqui a seis anos? E o que você coloca no lugar?"
+  },
+  "umMinuto": {
+    "frases": [
+      "A cárie é a causa mais comum de perda precoce de dente decíduo, e a perda precoce é uma das causas ambientais mais frequentes de apinhamento e de má oclusão adquirida.",
+      "O estrago depende de qual dente saiu, em que arco, quando e com que folga: perder o segundo molar decíduo antes de o primeiro molar permanente erupcionar é a pior combinação, porque o permanente migra para mesial e consome o espaço do pré-molar.",
+      "A perda de espaço é mais rápida nos primeiros meses após a extração; no arco superior o molar inclina e roda para mesial, no inferior ele se desloca de corpo e os incisivos tombam para lingual.",
+      "Perder o canino decíduo de um lado desvia a linha média para esse lado; perder incisivos decíduos depois da erupção dos caninos quase não custa espaço.",
+      "A erupção do sucessor atrasa quando a perda é muito precoce, com osso se fechando sobre o germe, e acelera quando o sucessor já tem mais da metade da raiz.",
+      "Mantenedor de espaço não é automático: exige análise de espaço, decisão sobre qual aparelho e acompanhamento; às vezes o melhor mantenedor é não colocar nenhum."
+    ],
+    "caiNaProva": [
+      "Consequências da perda precoce por dente perdido",
+      "Diferença da perda de espaço entre maxila e mandíbula",
+      "Efeito da perda precoce sobre a erupção do sucessor",
+      "Indicações de cada mantenedor de espaço",
+      "Quando não colocar mantenedor"
+    ],
+    "porQueImporta": "A criança que perde um molar decíduo por cárie aos 6 anos e não recebe mantenedor pode chegar aos 12 com um pré-molar retido e uma extração a mais no plano. A decisão que evita isso é da consulta em que o dente sai."
+  },
+  "secoes": [
+    {
+      "titulo": "Por que \"ia cair mesmo\" é a frase mais cara da odontopediatria",
+      "blocos": [
+        { "tipo": "p", "texto": "O dente decíduo tem duas funções que não se veem: guardar o espaço do sucessor e guiar a sua erupção. Quando ele sai na hora certa, o permanente já está pronto para ocupar o lugar. Quando sai cedo, o espaço fica vazio por meses ou anos, e os vizinhos se movem para dentro dele: o molar permanente migra para mesial, os incisivos tombam para lingual ou desviam a linha média." },
+        { "tipo": "p", "texto": "O resultado é a perda de perímetro do arco. O pré-molar que deveria erupcionar ali encontra menos espaço do que precisa e fica retido, gira, erupciona por lingual ou por vestibular, ou empurra o apinhamento para os anteriores. A cárie que destruiu o molar decíduo virou, anos depois, uma má oclusão de Classe I com apinhamento, do tipo 5 de Dewey, e às vezes uma extração de permanente." },
+        { "tipo": "visual", "formato": "anatomico", "titulo": "O espaço que se perde: o molar permanente entra no lugar do pré-molar", "descricao": "Vista oclusal esquemática de um hemiarco inferior em duas linhas. Acima, situação normal: incisivos, canino decíduo, primeiro e segundo molares decíduos, primeiro molar permanente, cada um no seu lugar, e o germe do segundo pré-molar sob o segundo molar decíduo. Abaixo, após perda precoce do segundo molar decíduo: o primeiro molar permanente deslocado para mesial, seta indicando a migração, e o espaço do pré-molar reduzido, com o germe sem lugar para erupcionar.", "viewBox": "0 0 560 360",
+          "svg": [
+            "<text x='20' y='30' font-size='13' font-weight='700' fill='var(--ink,#23211C)'>Antes: cada dente guarda o lugar do sucessor</text>",
+            "<g fill='var(--gold-soft,#F4EEE4)' stroke='var(--ink,#23211C)' stroke-width='1.5'><rect x='30' y='50' width='40' height='50' rx='8'/><rect x='76' y='50' width='40' height='50' rx='8'/><rect x='122' y='50' width='46' height='50' rx='8'/><rect x='174' y='50' width='60' height='50' rx='8'/><rect x='240' y='50' width='76' height='50' rx='8'/></g>",
+            "<rect x='322' y='44' width='96' height='62' rx='8' fill='var(--blue-soft,#E9EEF3)' stroke='var(--ink,#23211C)' stroke-width='1.5'/>",
+            "<g font-size='11' text-anchor='middle' fill='var(--ink,#23211C)'><text x='50' y='80'>1</text><text x='96' y='80'>2</text><text x='145' y='80'>C</text><text x='204' y='80'>D</text><text x='278' y='80'>E</text><text x='370' y='80' font-weight='700'>6</text></g>",
+            "<rect x='250' y='112' width='56' height='30' rx='6' fill='none' stroke='var(--green,#3E7C4F)' stroke-width='1.5' stroke-dasharray='4 3'/><text x='278' y='132' text-anchor='middle' font-size='11' fill='var(--green,#3E7C4F)'>germe do 5</text>",
+            "<text x='20' y='190' font-size='13' font-weight='700' fill='var(--red,#B4533B)'>Depois: o E saiu cedo e o 6 andou para mesial</text>",
+            "<g fill='var(--gold-soft,#F4EEE4)' stroke='var(--ink,#23211C)' stroke-width='1.5'><rect x='30' y='210' width='40' height='50' rx='8'/><rect x='76' y='210' width='40' height='50' rx='8'/><rect x='122' y='210' width='46' height='50' rx='8'/><rect x='174' y='210' width='60' height='50' rx='8'/></g>",
+            "<rect x='276' y='204' width='96' height='62' rx='8' fill='var(--blue-soft,#E9EEF3)' stroke='var(--ink,#23211C)' stroke-width='1.5'/>",
+            "<g font-size='11' text-anchor='middle' fill='var(--ink,#23211C)'><text x='50' y='240'>1</text><text x='96' y='240'>2</text><text x='145' y='240'>C</text><text x='204' y='240'>D</text><text x='324' y='240' font-weight='700'>6</text></g>",
+            "<use href='#c-vetor-red' x='386' y='228' width='60' height='14' transform='rotate(180 416 235)'/><text x='452' y='240' font-size='11' font-weight='700' fill='var(--red,#B4533B)'>migração mesial</text>",
+            "<rect x='236' y='272' width='40' height='30' rx='6' fill='none' stroke='var(--red,#B4533B)' stroke-width='1.5' stroke-dasharray='4 3'/><text x='256' y='292' text-anchor='middle' font-size='10' fill='var(--red,#B4533B)'>5 sem lugar</text>",
+            "<line x1='236' y1='320' x2='276' y2='320' stroke='var(--red,#B4533B)' stroke-width='2'/><line x1='236' y1='314' x2='236' y2='326' stroke='var(--red,#B4533B)' stroke-width='2'/><line x1='276' y1='314' x2='276' y2='326' stroke='var(--red,#B4533B)' stroke-width='2'/><text x='256' y='344' text-anchor='middle' font-size='11' fill='var(--red,#B4533B)' font-weight='700'>espaço que sobrou para o pré-molar</text>"
+          ],
+          "legenda": "O molar permanente não sabe que o espaço é do pré-molar. Sem barreira, ele migra para mesial, e o pré-molar paga a conta anos depois." },
+        { "tipo": "destaque", "estilo": "frase", "texto": "O dente de leite não é provisório. É o guardião do lugar do permanente, e quando sai cedo o lugar fica sem guarda." }
+      ],
+      "checagem": { "pergunta": "Quais são as duas funções do dente decíduo que se perdem com a extração precoce?", "resposta": "Guardar o espaço do sucessor no arco e guiar a erupção dele; sem o decíduo, os vizinhos invadem o espaço e o permanente perde o caminho." }
+    },
+    {
+      "titulo": "Qual dente saiu: o mapa das consequências",
+      "blocos": [
+        { "tipo": "p", "texto": "A gravidade depende do dente. O segundo molar decíduo é o mais crítico, porque o primeiro molar permanente erupciona logo atrás dele e usa a sua face distal como guia; sem o E, o 6 migra para mesial, mais ainda se ainda não erupcionou. O primeiro molar decíduo perdido cedo permite a migração distal do canino decíduo e alguma migração mesial dos posteriores, com perda de espaço menor, mas real." },
+        { "tipo": "p", "texto": "O canino decíduo perdido de um lado, em geral por reabsorção pela erupção do incisivo lateral em arco apertado, deixa os incisivos tombarem para lingual e desviarem a linha média para o lado da perda. Os incisivos decíduos perdidos depois da erupção dos caninos decíduos quase não custam espaço; perdidos antes, podem permitir o fechamento do espaço pelos caninos." },
+        { "tipo": "visual", "formato": "classificacao", "titulo": "Dente perdido, consequência esperada", "descricao": "Quatro linhas. Segundo molar decíduo: migração mesial do primeiro molar permanente, maior perda de espaço, pior antes de o 6 erupcionar. Primeiro molar decíduo: migração distal do canino decíduo e mesial dos posteriores, perda moderada. Canino decíduo: desvio da linha média para o lado da perda e colapso lingual dos incisivos. Incisivos decíduos: pouca perda depois dos caninos; possível fechamento pelos caninos se muito precoce.", "viewBox": "0 0 560 380",
+          "svg": [
+            "<use href='#c-caixa-red' x='20' y='20' width='520' height='72'/><text x='40' y='44' font-size='13' font-weight='700'>Segundo molar decíduo (E)</text><text x='40' y='62' font-size='11'>migração mesial do primeiro molar permanente; maior perda de espaço de todas</text><text x='40' y='78' font-size='11'>pior quando o 6 ainda não erupcionou: ele nasce já no lugar do pré-molar</text>",
+            "<use href='#c-caixa-gold' x='20' y='104' width='520' height='72'/><text x='40' y='128' font-size='13' font-weight='700'>Primeiro molar decíduo (D)</text><text x='40' y='146' font-size='11'>migração distal do canino decíduo e alguma migração mesial dos posteriores</text><text x='40' y='162' font-size='11'>perda moderada; maior em arco já apinhado</text>",
+            "<use href='#c-caixa-blue' x='20' y='188' width='520' height='72'/><text x='40' y='212' font-size='13' font-weight='700'>Canino decíduo (C)</text><text x='40' y='230' font-size='11'>linha média desvia para o lado da perda; incisivos tombam para lingual</text><text x='40' y='246' font-size='11'>perda unilateral por reabsorção já denuncia falta de espaço anterior</text>",
+            "<use href='#c-caixa-green' x='20' y='272' width='520' height='72'/><text x='40' y='296' font-size='13' font-weight='700'>Incisivos decíduos</text><text x='40' y='314' font-size='11'>depois da erupção dos caninos decíduos: pouca ou nenhuma perda de espaço</text><text x='40' y='330' font-size='11'>muito precoce: caninos podem fechar o espaço; avaliar estética e fonação</text>",
+            "<text x='280' y='366' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>quanto mais posterior o dente e mais cedo a perda, maior o prejuízo</text>"
+          ],
+          "legenda": "Do vermelho ao verde: o E antes do 6 é a emergência; os incisivos depois dos caninos são a exceção que quase não custa." },
+        { "tipo": "destaque", "estilo": "prova", "texto": "Questão clássica: \"qual perda precoce causa maior perda de espaço?\" Segundo molar decíduo, sobretudo antes da erupção do primeiro molar permanente. \"Qual causa desvio de linha média?\" Canino decíduo unilateral." }
+      ],
+      "checagem": { "pergunta": "Por que a perda do canino decíduo de um só lado desvia a linha média?", "resposta": "Porque os incisivos do lado da perda migram para distal e para lingual ocupando o espaço, e a linha média acompanha para esse lado." }
+    },
+    {
+      "titulo": "Maxila e mandíbula perdem espaço de jeitos diferentes",
+      "blocos": [
+        { "tipo": "p", "texto": "O mecanismo muda de arco. No superior, o primeiro molar permanente inclina e roda para mesial em torno da raiz palatina, e a perda de espaço é rápida e grande. No inferior, o molar tende a migrar de corpo, mais devagar, mas os incisivos inferiores tombam para lingual e o perímetro do arco encolhe pela frente também. A perda é mais intensa nos primeiros seis meses após a extração, e depois desacelera [VERIFICAR]." },
+        { "tipo": "visual", "formato": "comparativo", "titulo": "Como o espaço se perde no arco superior e no inferior", "descricao": "Duas colunas. Superior: o primeiro molar permanente inclina e gira para mesial em torno da raiz palatina; perda rápida e grande; espaço se fecha por trás. Inferior: o molar migra de corpo, mais lentamente; os incisivos inferiores tombam para lingual; o perímetro encolhe por trás e pela frente. Abaixo, a régua do tempo: a maior parte da perda nos primeiros meses.", "viewBox": "0 0 720 330",
+          "svg": [
+            "<use href='#c-caixa-gold' x='30' y='16' width='300' height='44'/><text x='180' y='44' text-anchor='middle' font-size='15' font-weight='700'>Arco superior</text>",
+            "<use href='#c-caixa-blue' x='390' y='16' width='300' height='44'/><text x='540' y='44' text-anchor='middle' font-size='15' font-weight='700'>Arco inferior</text>",
+            "<use href='#c-molar' x='150' y='80' width='60' height='100' transform='rotate(-18 180 130)'/>",
+            "<use href='#c-vetor-red' x='96' y='120' width='50' height='14' transform='rotate(180 121 127)'/>",
+            "<g font-size='12' fill='var(--ink,#23211C)'><text x='40' y='210'>molar inclina e roda para mesial</text><text x='40' y='228'>em torno da raiz palatina</text><text x='40' y='246' font-weight='700' fill='var(--red,#B4533B)'>perda rápida e grande</text></g>",
+            "<use href='#c-molar' x='560' y='80' width='60' height='100'/>",
+            "<use href='#c-vetor-blue' x='500' y='120' width='50' height='14' transform='rotate(180 525 127)'/>",
+            "<use href='#c-dente' x='420' y='90' width='34' height='90' transform='rotate(14 437 135)'/><use href='#c-vetor-blue' x='398' y='106' width='40' height='12' transform='rotate(180 418 112)'/>",
+            "<g font-size='12' fill='var(--ink,#23211C)'><text x='400' y='210'>molar migra de corpo, mais devagar;</text><text x='400' y='228'>incisivos tombam para lingual</text><text x='400' y='246' font-weight='700' fill='var(--blue,#4A6B8A)'>perda por trás e pela frente</text></g>",
+            "<use href='#c-caixa-ink' x='140' y='274' width='440' height='40'/><text x='360' y='299' text-anchor='middle' font-size='12' font-weight='700' fill='#fff'>A maior parte do espaço se perde nos primeiros meses após a extração</text>"
+          ],
+          "legenda": "Superior: inclinação e rotação, rápido. Inferior: migração de corpo mais tombamento dos incisivos. Nos dois, o relógio corre desde o dia da extração." },
+        { "tipo": "destaque", "estilo": "dica", "titulo": "O mantenedor é urgente, não eletivo", "texto": "Se a decisão é manter o espaço, o aparelho deve ser instalado logo após a extração, idealmente na mesma fase de cicatrização, porque a maior perda acontece nos primeiros meses. Marcar \"para daqui a seis meses\" é chegar depois de o molar já ter andado." }
+      ],
+      "checagem": { "pergunta": "Que diferença de mecanismo torna a perda de espaço mais rápida no arco superior?", "resposta": "O primeiro molar permanente superior inclina e roda para mesial em torno da raiz palatina, um movimento rápido; no inferior o molar migra de corpo, mais devagar, embora os incisivos também tombem para lingual." }
+    },
+    {
+      "titulo": "O sucessor: atrasa, acelera ou some do caminho",
+      "blocos": [
+        { "tipo": "p", "texto": "A perda precoce mexe também no relógio do permanente. Quando o decíduo sai muito cedo, com o sucessor ainda sem raiz ou com raiz curta, a gengiva cicatriza e o osso se refaz sobre o germe; o permanente terá de atravessar osso e mucosa fibrosa e costuma atrasar. Quando o decíduo sai com o sucessor já com mais da metade da raiz formada, a erupção tende a acelerar, porque o caminho se abriu na hora em que o dente estava pronto para percorrê-lo [VERIFICAR]." },
+        { "tipo": "p", "texto": "A regra prática: o permanente erupciona quando tem cerca de dois terços a três quartos da raiz formada. Olhe a radiografia. Sucessor com menos de metade da raiz e osso sobre ele: espere atraso, e o mantenedor precisará durar. Sucessor com raiz avançada e só gengiva por cima: erupção próxima, e talvez o mantenedor nem seja necessário." },
+        { "tipo": "visual", "formato": "linha-do-tempo", "titulo": "O estágio da raiz do sucessor decide o que acontece", "descricao": "Três estágios lado a lado. Raiz menos de metade: perda precoce leva a atraso, osso se refaz sobre o germe, mantenedor de longa duração. Raiz entre metade e dois terços: erupção em prazo intermediário, mantenedor por meses. Raiz mais de dois terços com só gengiva por cima: erupção acelerada, mantenedor pode ser dispensável.", "viewBox": "0 0 720 300",
+          "svg": [
+            "<line x1='60' y1='150' x2='660' y2='150' stroke='var(--ink,#23211C)' stroke-width='2'/>",
+            "<g stroke='var(--ink,#23211C)' stroke-width='2'><line x1='140' y1='142' x2='140' y2='158'/><line x1='360' y1='142' x2='360' y2='158'/><line x1='580' y1='142' x2='580' y2='158'/></g>",
+            "<g><use href='#c-dente' x='120' y='40' width='40' height='90'/><rect x='118' y='96' width='44' height='36' fill='#fff' fill-opacity='0.85'/></g>",
+            "<g><use href='#c-dente' x='340' y='40' width='40' height='90'/><rect x='338' y='112' width='44' height='20' fill='#fff' fill-opacity='0.85'/></g>",
+            "<use href='#c-dente' x='560' y='40' width='40' height='90'/>",
+            "<g font-size='12' font-weight='700' text-anchor='middle' fill='var(--ink,#23211C)'><text x='140' y='180'>raiz menos de metade</text><text x='360' y='180'>metade a dois terços</text><text x='580' y='180'>mais de dois terços</text></g>",
+            "<g font-size='11' text-anchor='middle' fill='var(--ink,#23211C)'><text x='140' y='204'>osso se refaz sobre o germe</text><text x='140' y='220' fill='var(--red,#B4533B)' font-weight='700'>erupção atrasa</text><text x='140' y='236'>mantenedor de longa duração</text>",
+            "<text x='360' y='204'>caminho parcialmente aberto</text><text x='360' y='220' fill='var(--gold,#B08968)' font-weight='700'>prazo intermediário</text><text x='360' y='236'>mantenedor por meses</text>",
+            "<text x='580' y='204'>só gengiva por cima</text><text x='580' y='220' fill='var(--green,#3E7C4F)' font-weight='700'>erupção acelera</text><text x='580' y='236'>mantenedor pode ser dispensável</text></g>",
+            "<text x='360' y='280' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>o permanente erupciona com cerca de dois terços a três quartos da raiz formada; a radiografia decide</text>"
+          ],
+          "legenda": "A mesma extração tem três destinos, conforme a raiz do sucessor. Sem radiografia, você está escolhendo o mantenedor no escuro." },
+        { "tipo": "destaque", "estilo": "mito", "mito": "Tirar o dente de leite cedo faz o permanente nascer mais rápido.", "verdade": "Só quando o sucessor já tem mais da metade da raiz. Se a raiz é curta, o osso se refaz sobre o germe e a erupção atrasa; a extração precoce, nesse caso, atrasa o permanente e ainda perde espaço." }
+      ],
+      "checagem": { "pergunta": "Em que situação a perda precoce atrasa a erupção do sucessor, e por quê?", "resposta": "Quando o sucessor ainda tem menos de metade da raiz formada: o osso e a mucosa se refazem sobre o germe, que precisa atravessar uma barreira mais espessa." }
+    },
+    {
+      "titulo": "Mantenedores de espaço: qual, quando e quando não",
+      "blocos": [
+        { "tipo": "p", "texto": "A decisão começa pela análise de espaço: há espaço suficiente para os sucessores? Se já falta muito espaço e o plano será extração seriada, manter espaço não faz sentido. Se o sucessor está a poucos meses de erupcionar, com raiz avançada e sem osso por cima, também não. Se há espaço adequado e o sucessor vai demorar, o mantenedor está indicado, e a escolha depende do dente perdido, do lado e da presença do primeiro molar permanente." },
+        { "tipo": "lista", "itens": [
+          "Banda e alça: perda unilateral de um molar decíduo com o primeiro molar permanente já erupcionado; simples, não restaura função mastigatória.",
+          "Sapata distal: perda do segundo molar decíduo antes de o primeiro molar permanente erupcionar; a extensão intra-alveolar guia o 6; exige acompanhamento radiográfico e boa saúde geral.",
+          "Arco lingual: perdas bilaterais inferiores depois da erupção dos incisivos permanentes, para não interferir na sua erupção.",
+          "Botão de Nance ou barra transpalatina: perdas bilaterais superiores; o Nance apoia no palato, a barra deixa o palato livre.",
+          "Mantenedor removível: perdas múltiplas ou quando a estética importa; depende da colaboração e pode se perder."
+        ] },
+        { "tipo": "visual", "formato": "fluxograma", "titulo": "Do dente perdido ao mantenedor certo", "descricao": "Fluxo. Espaço suficiente na análise? Não: considerar extração seriada, sem mantenedor. Sim: sucessor erupciona em poucos meses? Sim: acompanhar sem aparelho. Não: qual dente e qual lado? E antes do 6: sapata distal. Um molar unilateral com 6 presente: banda e alça. Bilateral inferior com incisivos permanentes: arco lingual. Bilateral superior: Nance ou barra transpalatina. Perdas múltiplas ou anteriores: removível.", "viewBox": "0 0 560 560",
+          "svg": [
+            "<g stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'><line x1='280' y1='70' x2='280' y2='94'/><line x1='170' y1='120' x2='110' y2='150'/><line x1='390' y1='120' x2='450' y2='150'/><line x1='450' y1='210' x2='450' y2='236'/><line x1='330' y1='262' x2='230' y2='300'/><line x1='450' y1='290' x2='450' y2='300'/><line x1='230' y1='360' x2='230' y2='384'/></g>",
+            "<use href='#c-decisao' x='170' y='20' width='220' height='50'/><text x='280' y='42' text-anchor='middle' font-size='12' font-weight='700'>Espaço suficiente na análise?</text><text x='280' y='58' text-anchor='middle' font-size='11'>Moyers ou Tanaka-Johnston</text>",
+            "<text x='190' y='136' font-size='11' fill='var(--muted,#8A8478)'>não</text><text x='400' y='136' font-size='11' fill='var(--muted,#8A8478)'>sim</text>",
+            "<use href='#c-caixa-red' x='20' y='150' width='180' height='60'/><text x='110' y='174' text-anchor='middle' font-size='12' font-weight='700'>Sem mantenedor</text><text x='110' y='192' text-anchor='middle' font-size='11'>avaliar extração seriada</text>",
+            "<use href='#c-decisao' x='340' y='150' width='220' height='60'/><text x='450' y='174' text-anchor='middle' font-size='12' font-weight='700'>Sucessor erupciona</text><text x='450' y='190' text-anchor='middle' font-size='12' font-weight='700'>em poucos meses?</text>",
+            "<use href='#c-caixa-green' x='340' y='236' width='220' height='54'/><text x='450' y='258' text-anchor='middle' font-size='12' font-weight='700'>Sim: acompanhar</text><text x='450' y='276' text-anchor='middle' font-size='11'>raiz avançada, só gengiva por cima</text>",
+            "<text x='300' y='292' font-size='11' fill='var(--muted,#8A8478)'>não</text>",
+            "<use href='#c-decisao' x='120' y='300' width='220' height='60'/><text x='230' y='324' text-anchor='middle' font-size='12' font-weight='700'>Qual dente, qual lado,</text><text x='230' y='340' text-anchor='middle' font-size='12' font-weight='700'>o 6 já erupcionou?</text>",
+            "<use href='#c-caixa-blue' x='340' y='300' width='220' height='54'/><text x='450' y='322' text-anchor='middle' font-size='11' font-weight='700'>Perdas múltiplas ou anteriores</text><text x='450' y='340' text-anchor='middle' font-size='11'>mantenedor removível</text>",
+            "<g font-size='11' fill='var(--ink,#23211C)'>",
+            "<use href='#c-caixa-gold' x='20' y='384' width='250' height='54'/><text x='145' y='406' text-anchor='middle' font-weight='700'>E perdido antes do 6</text><text x='145' y='424' text-anchor='middle'>sapata distal</text>",
+            "<use href='#c-caixa-gold' x='290' y='384' width='250' height='54'/><text x='415' y='406' text-anchor='middle' font-weight='700'>Um molar decíduo, 6 presente</text><text x='415' y='424' text-anchor='middle'>banda e alça</text>",
+            "<use href='#c-caixa-gold' x='20' y='452' width='250' height='54'/><text x='145' y='474' text-anchor='middle' font-weight='700'>Bilateral inferior, incisivos permanentes</text><text x='145' y='492' text-anchor='middle'>arco lingual</text>",
+            "<use href='#c-caixa-gold' x='290' y='452' width='250' height='54'/><text x='415' y='474' text-anchor='middle' font-weight='700'>Bilateral superior</text><text x='415' y='492' text-anchor='middle'>botão de Nance ou barra transpalatina</text>",
+            "</g>",
+            "<text x='280' y='540' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>todo mantenedor exige controle periódico: higiene, integridade e a hora de remover</text>"
+          ],
+          "legenda": "Primeiro a análise de espaço, depois o relógio do sucessor, e só então o aparelho. O mantenedor certo é o que responde às três perguntas." },
+        { "tipo": "destaque", "estilo": "erro", "texto": "Colocar banda e alça no espaço do E quando o primeiro molar permanente ainda não erupcionou. Não há dente atrás para apoiar a alça; o aparelho indicado é a sapata distal, com a extensão guiando o 6, ou, se o 6 está prestes a romper, esperar e agir na sequência. Aparelho errado é espaço perdido com falsa sensação de segurança." }
+      ],
+      "checagem": { "pergunta": "Cite duas situações em que não se coloca mantenedor de espaço.", "resposta": "Quando a análise de espaço mostra falta grande e o plano será extração seriada; e quando o sucessor está a poucos meses de erupcionar, com raiz avançada e sem osso por cima." }
+    },
+    {
+      "titulo": "Cárie sem perda também custa espaço, e o 6 condenado",
+      "blocos": [
+        { "tipo": "p", "texto": "A cárie interproximal em molares decíduos reduz o diâmetro mesiodistal do dente antes de qualquer extração. Cada lesão não restaurada permite que o vizinho se aproxime, e o perímetro do arco encolhe aos poucos, sem nenhum dente a menos. Restaurar a face proximal do decíduo, devolvendo a largura, é ortodontia preventiva feita com resina." },
+        { "tipo": "p", "texto": "O primeiro molar permanente destruído por cárie é outro capítulo. Se não há como salvá-lo, o melhor momento para extrair costuma ser quando o segundo molar permanente está com a coroa formada e a raiz começando, por volta dos 8 a 10 anos [VERIFICAR]: o 7 erupciona para mesial e fecha boa parte do espaço. Muito antes, o 7 pode inclinar e o pré-molar migrar para distal; muito depois, o espaço fica e pede fechamento ortodôntico ou prótese." },
+        { "tipo": "imagem", "imagem": "radiografia panorâmica de criança com perda precoce de segundo molar decíduo inferior e primeiro molar permanente em erupção", "mostrar": "Hemiarco inferior com o espaço do segundo molar decíduo vazio, o primeiro molar permanente em erupção já inclinado para mesial, e o germe do segundo pré-molar com raiz curta sob o espaço reduzido", "legenda": "Perda precoce do E com o 6 rompendo: o molar já inclina para o espaço e o pré-molar, com raiz curta, vai demorar a chegar.", "destacar": "Inclinação do primeiro molar permanente, largura do espaço remanescente, estágio radicular do germe do pré-molar" },
+        { "tipo": "destaque", "estilo": "dica", "titulo": "Três perguntas antes de extrair um 6 condenado", "texto": "O 7 está em que estágio? Os outros três primeiros molares também estão comprometidos, a ponto de justificar extrações compensatórias? Há apinhamento que o espaço do 6 ajudaria a resolver? As respostas mudam entre extrair já, esperar o estágio ideal ou manter o dente até o fim do crescimento." }
+      ],
+      "checagem": { "pergunta": "Como a cárie interproximal não tratada reduz o perímetro do arco mesmo sem extração?", "resposta": "A lesão reduz o diâmetro mesiodistal do decíduo e o vizinho migra para o espaço criado, encurtando o arco aos poucos." }
+    },
+    {
+      "titulo": "De volta ao menino de 6 anos",
+      "blocos": [
+        { "tipo": "p", "texto": "O E inferior direito não tem salvação e vai sair. O 6 está a milímetros de romper e o pré-molar tem um terço de raiz: vai demorar anos. É o cenário de maior perda de espaço, e o \"tanto faz\" da mãe custaria o espaço do pré-molar. A resposta é extrair, instalar uma sapata distal para guiar o 6, ou, se o 6 romper em poucas semanas, esperar e colocar banda e alça sobre ele, com radiografias de controle até o pré-molar chegar." },
+        { "tipo": "destaque", "estilo": "frase", "texto": "O dente de leite ia cair. O espaço dele não ia. Manter o espaço é a extração mais barata que você vai evitar." }
+      ],
+      "checagem": { "pergunta": "Por que o caso do menino é o pior cenário de perda de espaço, e qual é a conduta?", "resposta": "Perda do segundo molar decíduo antes da erupção do primeiro molar permanente, com sucessor de raiz curta: máxima migração e longa espera. Conduta: extrair e manter o espaço com sapata distal, ou banda e alça assim que o 6 romper, com controle radiográfico." }
+    }
+  ],
+  "fechamento": {
+    "visual": { "formato": "mapa", "titulo": "Mapa da página", "descricao": "Nó central: perda precoce. Seis nós: decíduo guarda e guia; E antes do 6 é o pior; superior inclina, inferior migra e tomba; raiz do sucessor decide atraso ou aceleração; análise de espaço antes do mantenedor; cárie proximal e 6 condenado também custam espaço.", "viewBox": "0 0 560 360",
+      "svg": [
+        "<g stroke='var(--border,#EDE6D8)' stroke-width='1.5'><line x1='280' y1='180' x2='100' y2='60'/><line x1='280' y1='180' x2='460' y2='60'/><line x1='280' y1='180' x2='70' y2='180'/><line x1='280' y1='180' x2='490' y2='180'/><line x1='280' y1='180' x2='100' y2='300'/><line x1='280' y1='180' x2='460' y2='300'/></g>",
+        "<use href='#c-no-central' x='190' y='150' width='180' height='60'/>",
+        "<text x='280' y='176' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>Perda precoce</text><text x='280' y='194' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>e cárie</text>",
+        "<use href='#c-no' x='20' y='38' width='160' height='44'/><text x='100' y='65' text-anchor='middle' font-size='13' font-weight='700'>Decíduo guarda e guia</text>",
+        "<use href='#c-no' x='380' y='38' width='160' height='44'/><text x='460' y='65' text-anchor='middle' font-size='13' font-weight='700'>E antes do 6: o pior</text>",
+        "<use href='#c-no' x='0' y='158' width='150' height='44'/><text x='75' y='185' text-anchor='middle' font-size='13' font-weight='700'>Superior x inferior</text>",
+        "<use href='#c-no' x='410' y='158' width='150' height='44'/><text x='485' y='185' text-anchor='middle' font-size='13' font-weight='700'>Raiz do sucessor</text>",
+        "<use href='#c-no' x='20' y='278' width='160' height='44'/><text x='100' y='305' text-anchor='middle' font-size='13' font-weight='700'>Análise, depois aparelho</text>",
+        "<use href='#c-no' x='380' y='278' width='160' height='44'/><text x='460' y='305' text-anchor='middle' font-size='13' font-weight='700'>Cárie proximal, 6 condenado</text>"
+      ] },
+    "flashcards": [
+      { "frente": "Qual perda precoce causa a maior perda de espaço, e por quê?", "verso": "Segundo molar decíduo antes da erupção do primeiro molar permanente: o 6 migra para mesial e ocupa o espaço do segundo pré-molar." },
+      { "frente": "Como o estágio radicular do sucessor altera a erupção após perda precoce?", "verso": "Raiz menos de metade: osso se refaz sobre o germe, erupção atrasa. Raiz mais de metade a dois terços: erupção acelera. O permanente erupciona com cerca de dois terços a três quartos da raiz." },
+      { "frente": "Indicação de sapata distal, banda e alça, arco lingual e Nance.", "verso": "Sapata distal: E perdido antes do 6. Banda e alça: um molar decíduo com 6 presente. Arco lingual: bilateral inferior após incisivos permanentes. Nance ou barra transpalatina: bilateral superior." }
+    ]
+  },
+  "infografico": {
+    "titulo": "Perda precoce em seis cartões",
+    "itens": [
+      { "rotulo": "Função do decíduo", "texto": "Guardar o espaço e guiar a erupção do sucessor. Sem ele, vizinhos invadem e o permanente perde o caminho." },
+      { "rotulo": "Pior perda", "texto": "Segundo molar decíduo antes do 6: migração mesial máxima. Canino unilateral: desvio de linha média." },
+      { "rotulo": "Mecanismo", "texto": "Superior: 6 inclina e roda. Inferior: 6 migra de corpo, incisivos tombam. Maior perda nos primeiros meses." },
+      { "rotulo": "Sucessor", "texto": "Raiz curta: atrasa. Raiz mais de metade: acelera. Erupciona com dois terços a três quartos de raiz." },
+      { "rotulo": "Mantenedor", "texto": "Análise de espaço primeiro. Sapata distal, banda e alça, arco lingual, Nance ou barra, removível." },
+      { "rotulo": "Sem extração", "texto": "Cárie proximal encolhe o arco. 6 condenado: extrair no estágio ideal do 7, por volta dos 8 a 10 anos." }
+    ]
+  },
+  "fluxograma": {
+    "titulo": "Dente decíduo perdido ou condenado: e agora?",
+    "nos": [
+      { "id": "n1", "tipo": "inicio", "texto": "Decíduo perdido ou indicado para extração" },
+      { "id": "n2", "tipo": "acao", "texto": "Radiografia: estágio da raiz do sucessor, osso sobre o germe, posição do 6" },
+      { "id": "n3", "tipo": "acao", "texto": "Análise de espaço: Moyers ou Tanaka-Johnston" },
+      { "id": "n4", "tipo": "decisao", "texto": "Falta grande de espaço com plano de extração seriada?" },
+      { "id": "n5", "tipo": "fim", "texto": "Sem mantenedor; acompanhar o plano de extrações" },
+      { "id": "n6", "tipo": "decisao", "texto": "Sucessor com raiz avançada e só gengiva por cima?" },
+      { "id": "n7", "tipo": "fim", "texto": "Acompanhar sem aparelho; reavaliar em poucos meses" },
+      { "id": "n8", "tipo": "acao", "texto": "Escolher o mantenedor pelo dente, lado e presença do 6; instalar logo" },
+      { "id": "n9", "tipo": "fim", "texto": "Controle periódico até a erupção do sucessor; remover na hora certa" }
+    ],
+    "arestas": [
+      { "de": "n1", "para": "n2" },
+      { "de": "n2", "para": "n3" },
+      { "de": "n3", "para": "n4" },
+      { "de": "n4", "para": "n5", "rotulo": "sim" },
+      { "de": "n4", "para": "n6", "rotulo": "não" },
+      { "de": "n6", "para": "n7", "rotulo": "sim" },
+      { "de": "n6", "para": "n8", "rotulo": "não" },
+      { "de": "n8", "para": "n9" }
+    ]
+  },
+  "passoAPasso": [
+    { "passo": "Confirme que o decíduo não tem salvação e identifique qual dente é, em que arco e lado.", "confira": "É um segundo molar decíduo? O 6 do lado já erupcionou?" },
+    { "passo": "Peça ou avalie a radiografia: raiz do sucessor, osso sobre o germe, posição do 6.", "confira": "Raiz menor que metade (atraso) ou maior que dois terços (erupção próxima)?" },
+    { "passo": "Faça a análise de espaço para os sucessores.", "confira": "Há espaço para caninos e pré-molares ou o caso caminha para extrações?" },
+    { "passo": "Escolha o mantenedor pelo dente, lado e presença do 6, e instale logo após a extração.", "confira": "O aparelho tem apoio posterior? A sapata está indicada e a criança tem saúde para recebê-la?" },
+    { "passo": "Programe controles e a remoção do aparelho na erupção do sucessor.", "confira": "A família entendeu que o aparelho não é o tratamento, é a proteção do espaço?" }
+  ],
+  "macetes": [
+    { "titulo": "E antes do 6 é emergência", "texto": "Segundo molar decíduo perdido antes do primeiro molar permanente erupcionar: máxima perda de espaço. Sapata distal." },
+    { "titulo": "Cima inclina, embaixo tomba", "texto": "Superior: o 6 inclina e roda para mesial. Inferior: o 6 migra de corpo e os incisivos tombam para lingual." },
+    { "titulo": "Metade da raiz é o divisor", "texto": "Sucessor com menos de metade da raiz: erupção atrasa. Com mais: acelera. Erupciona com dois terços a três quartos." },
+    { "titulo": "Analise antes de aparelhar", "texto": "Mantenedor sem análise de espaço é chute. Falta grande, extração seriada; erupção próxima, só acompanhar." }
+  ],
+  "ondeErra": [
+    { "erro": "Extrair o decíduo condenado e marcar o mantenedor para meses depois.", "porque": "A maior parte da perda de espaço ocorre nos primeiros meses após a extração.", "certo": "Instalar o mantenedor logo após a extração, quando indicado." },
+    { "erro": "Colocar banda e alça no espaço do E sem o 6 erupcionado.", "porque": "Não há apoio posterior; o 6 nasce para mesial sem guia.", "certo": "Sapata distal ou, se o 6 está rompendo, aguardar e adaptar sobre ele." },
+    { "erro": "Prometer que o permanente vai nascer mais rápido com a extração precoce.", "porque": "Só acelera se a raiz do sucessor já passou da metade; com raiz curta, atrasa.", "certo": "Olhar o estágio radicular na radiografia antes de prometer prazo." },
+    { "erro": "Manter espaço em criança com falta grande de espaço e plano de extração seriada.", "porque": "O espaço mantido não resolve a discrepância e adia o plano.", "certo": "Análise de espaço antes de decidir; mantenedor só quando há espaço a guardar." }
+  ],
+  "autoteste": [
+    {
+      "pergunta": "A perda precoce que provoca a maior perda de espaço no arco é a do:",
+      "alternativas": [
+        "Incisivo central decíduo, após a erupção dos caninos decíduos",
+        "Canino decíduo bilateral",
+        "Segundo molar decíduo, antes da erupção do primeiro molar permanente",
+        "Primeiro molar decíduo, com o primeiro molar permanente já erupcionado"
+      ],
+      "correta": 2,
+      "explicacoes": [
+        "Depois dos caninos decíduos, a perda de incisivos quase não custa espaço.",
+        "Canino unilateral desvia linha média; a perda de espaço é menor que a do E.",
+        "Correta: o 6 erupciona já no espaço do pré-molar, com migração mesial máxima.",
+        "Perda moderada; menor que a do E antes do 6."
+      ]
+    },
+    {
+      "pergunta": "Menina de 5 anos perde o primeiro molar decíduo inferior; o sucessor tem menos de um terço da raiz formada. Quanto à erupção do primeiro pré-molar, espera-se:",
+      "alternativas": [
+        "Erupção acelerada, porque o caminho se abriu",
+        "Erupção atrasada, porque osso e mucosa se refazem sobre o germe",
+        "Erupção no prazo habitual, sem alteração",
+        "Ausência de erupção, com necessidade de tracionamento"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Acelera apenas quando a raiz já passou da metade.",
+        "Correta: com raiz curta, o germe fica coberto por osso neoformado e a erupção atrasa.",
+        "A perda muito precoce altera o prazo.",
+        "Atraso não é ausência; a erupção ocorre, mais tarde."
+      ]
+    },
+    {
+      "pergunta": "Perda do segundo molar decíduo inferior aos 5 anos e meio, com o primeiro molar permanente ainda intraósseo. O mantenedor indicado é:",
+      "alternativas": [
+        "Banda e alça apoiada no primeiro molar permanente",
+        "Arco lingual",
+        "Sapata distal",
+        "Botão de Nance"
+      ],
+      "correta": 2,
+      "explicacoes": [
+        "Não há 6 erupcionado para apoiar a alça.",
+        "Arco lingual é para perdas bilaterais inferiores após os incisivos permanentes.",
+        "Correta: a extensão intra-alveolar guia a erupção do 6 no lugar do E.",
+        "Nance é aparelho superior."
+      ]
+    },
+    {
+      "pergunta": "Sobre o mecanismo de perda de espaço após perda precoce, é correto afirmar que:",
+      "alternativas": [
+        "É igual nos dois arcos e ocorre lentamente ao longo de anos",
+        "No arco superior o primeiro molar permanente inclina e roda para mesial rapidamente; no inferior migra de corpo e os incisivos tombam para lingual",
+        "Ocorre apenas no arco inferior",
+        "Só começa após a erupção do sucessor"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Os mecanismos diferem e a maior perda é nos primeiros meses.",
+        "Correta: inclinação e rotação em cima, migração de corpo e tombamento de incisivos embaixo.",
+        "Ocorre nos dois arcos.",
+        "Começa logo após a extração."
+      ]
+    },
+    {
+      "pergunta": "Em qual situação NÃO se indica mantenedor de espaço após perda precoce de molar decíduo?",
+      "alternativas": [
+        "Sucessor com raiz curta e osso sobre o germe",
+        "Perda unilateral com o primeiro molar permanente erupcionado",
+        "Sucessor com raiz avançada, só gengiva por cima, erupção prevista para poucos meses",
+        "Perda bilateral inferior com incisivos permanentes erupcionados"
+      ],
+      "correta": 2,
+      "explicacoes": [
+        "Aqui o mantenedor é indicado e de longa duração.",
+        "Indicação clássica de banda e alça.",
+        "Correta: o sucessor está prestes a erupcionar; acompanhar sem aparelho.",
+        "Indicação de arco lingual."
+      ]
+    }
+  ],
+  "pesquisa": { "termos": ["perda precoce de dentes decíduos", "mantenedor de espaço", "sapata distal", "banda e alça", "perda de espaço no arco"] },
+  "referenciasBase": [
+    "Proffit WR, Fields HW, Larson BE, Sarver DM. Ortodontia Contemporânea. 6ª ed. Problemas de espaço na dentição mista.",
+    "Moyers RE. Ortodontia. 4ª ed. Perda precoce e manutenção de espaço.",
+    "McDonald RE, Avery DR, Dean JA. Odontopediatria para crianças e adolescentes. Manutenção de espaço.",
+    "American Academy of Pediatric Dentistry. Management of the developing dentition and occlusion in pediatric dentistry. Guideline.",
+    "Graber LW, Vanarsdall RL, Vig KWL, Huang GJ. Ortodontia: princípios e técnicas atuais. 6ª ed."
+  ],
+  "validacao": { "validadoPor": null, "data": null }
+}
