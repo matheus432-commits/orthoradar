@@ -1,10 +1,10 @@
 {
- "atualizadoEm": "2026-09-04",
+ "atualizadoEm": "2026-09-05",
  "totalPaginas": 3387,
- "concluidas": 19,
+ "concluidas": 20,
  "porStatus": {
-  "pendente": 3368,
-  "rascunho": 19,
+  "pendente": 3367,
+  "rascunho": 20,
   "revisado": 0,
   "publicado": 0
  },
@@ -12,7 +12,7 @@
   "id": "ortodontia/mas-oclusoes",
   "area": "Ortodontia",
   "modulo": "Más oclusões",
-  "faltam": 16
+  "faltam": 15
  },
  "imagensPendentes": [
   {
@@ -104,6 +104,15 @@
    "mostrar": "Vista lateral direita de modelos articulados mostrando relação molar de chave I, coroas com angulação positiva visível, contatos justos e curva de Spee plana",
    "legenda": "Oclusão normal em modelos: relação molar completa, angulação positiva, sem rotações, contatos justos e Spee plana.",
    "destacar": "Encaixe das cúspides do primeiro molar superior, longo eixo das coroas dos caninos e pré-molares, planicidade da curva de Spee"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/classificacao/classificacao-de-angle",
+   "modulo": "Más oclusões",
+   "secao": "Classe III e a armadilha da pseudo-Classe III",
+   "imagem": "fotografia intrabucal frontal e lateral de um paciente com mordida cruzada anterior",
+   "mostrar": "Vista frontal em oclusão habitual com incisivos inferiores à frente dos superiores; ao lado, a mesma boca guiada em relação cêntrica mostrando os incisivos em topo e os molares em Classe I",
+   "legenda": "Pseudo-Classe III: em oclusão habitual parece Classe III; guiada até o primeiro contato, a relação molar volta a Classe I.",
+   "destacar": "Posição dos incisivos nas duas fotos, relação dos primeiros molares nas duas fotos, linha média"
   }
  ],
  "verificarPendentes": [
@@ -316,6 +325,11 @@
    "pagina": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-permanente",
    "onde": "infografico.itens[0].texto",
    "trecho": "13 anos, com os segundos molares. Terceiros entre 17 e 21, quando vêm [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/classificacao/classificacao-de-angle",
+   "onde": "Seção \"Subdivisão, meia classe e a leitura lado a lado\".blocos[0].texto",
+   "trecho": "onfira a que o seu serviço adota, porque há quem nomeie o lado normal [VERIFICAR]"
   }
  ],
  "modulos": [
@@ -451,17 +465,19 @@
    "area": "Ortodontia",
    "modulo": "Más oclusões",
    "total": 16,
-   "concluidas": 0,
-   "palavras": 0,
-   "visuais": 0,
-   "imagensClinicas": 0,
-   "verificar": 0,
+   "concluidas": 1,
+   "palavras": 3699,
+   "visuais": 5,
+   "imagensClinicas": 1,
+   "verificar": 1,
    "paginas": [
     {
      "id": "ortodontia/mas-oclusoes/classificacao/classificacao-de-angle",
      "nome": "Classificação de Angle",
      "tema": "Classificação",
-     "status": "pendente"
+     "status": "rascunho",
+     "palavras": 3699,
+     "visuais": 5
     },
     {
      "id": "ortodontia/mas-oclusoes/classificacao/classificacao-esqueletica",
@@ -25596,6 +25612,58 @@
     }
    ],
    "verificar": []
+  },
+  "ortodontia/mas-oclusoes/classificacao/classificacao-de-angle": {
+   "titulo": "Classificação de Angle: a língua comum da ortodontia e o que ela não diz",
+   "arquivo": "data/campus/paginas/ortodontia--maoclusao-angle.json",
+   "formato": 2,
+   "status": "rascunho",
+   "estado": "rascunho",
+   "palavras": 3699,
+   "visuais": [
+    {
+     "formato": "comparativo",
+     "titulo": "As três classes de Angle pela relação dos primeiros molares"
+    },
+    {
+     "formato": "comparativo",
+     "titulo": "Classe II divisão 1 e divisão 2, lado a lado"
+    },
+    {
+     "formato": "classificacao",
+     "titulo": "A árvore de Angle, com divisões e subdivisões"
+    },
+    {
+     "formato": "mapa",
+     "titulo": "O que a classe de Angle cobre e o que fica de fora"
+    },
+    {
+     "formato": "mapa",
+     "titulo": "Mapa da página"
+    }
+   ],
+   "quadros": {
+    "prova": 1,
+    "dica": 2,
+    "mito": 1,
+    "erro": 1,
+    "frase": 2
+   },
+   "imagensClinicas": [
+    {
+     "secao": "Classe III e a armadilha da pseudo-Classe III",
+     "imagem": "fotografia intrabucal frontal e lateral de um paciente com mordida cruzada anterior",
+     "mostrar": "Vista frontal em oclusão habitual com incisivos inferiores à frente dos superiores; ao lado, a mesma boca guiada em relação cêntrica mostrando os incisivos em topo e os molares em Classe I",
+     "legenda": "Pseudo-Classe III: em oclusão habitual parece Classe III; guiada até o primeiro contato, a relação molar volta a Classe I.",
+     "destacar": "Posição dos incisivos nas duas fotos, relação dos primeiros molares nas duas fotos, linha média"
+    }
+   ],
+   "verificar": [
+    {
+     "onde": "Seção \"Subdivisão, meia classe e a leitura lado a lado\".blocos[0].texto",
+     "trecho": "onfira a que o seu serviço adota, porque há quem nomeie o lado normal [VERIFICAR]"
+    }
+   ]
   },
   "ortodontia/diagnostico/cefalometria/analise-de-steiner": {
    "titulo": "Análise de Steiner: as medidas e o que cada uma diz",

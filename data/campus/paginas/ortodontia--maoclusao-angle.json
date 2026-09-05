@@ -1,0 +1,333 @@
+{
+  "id": "ortodontia/mas-oclusoes/classificacao/classificacao-de-angle",
+  "areaId": "ortodontia",
+  "area": "Ortodontia",
+  "modulo": "Más oclusões",
+  "tema": "Classificação",
+  "titulo": "Classificação de Angle: a língua comum da ortodontia e o que ela não diz",
+  "estado": "rascunho",
+  "versao": 1,
+  "formato": 2,
+  "autoria": "Rascunho escrito pela plataforma para validação; nada aqui é visível ao aluno antes da assinatura de um ortodontista.",
+  "abertura": {
+    "situacao": "Modelos de um paciente de 14 anos na sua mesa. Do lado direito, a cúspide mesiovestibular do primeiro molar superior cai certinha no sulco vestibular do molar inferior. Do lado esquerdo, ela está uma cúspide inteira à frente do sulco. Os incisivos superiores estão inclinados para a frente, com trespasse horizontal de 7 mm. O professor pergunta: \"Classe de Angle?\"",
+    "pergunta": "Como você classifica uma boca em que cada lado conta uma história diferente, e o que essa classificação deixa de fora?"
+  },
+  "umMinuto": {
+    "frases": [
+      "Edward Angle publicou em 1899 uma classificação baseada em um único critério: a relação sagital entre os primeiros molares permanentes, que ele chamou de chave da oclusão.",
+      "Classe I: a cúspide mesiovestibular do primeiro molar superior oclui no sulco vestibular do primeiro molar inferior; a má oclusão está nos dentes anteriores ou no alinhamento, não na relação entre os arcos.",
+      "Classe II: o molar inferior está distal ao superior. Divisão 1 tem incisivos superiores inclinados para a frente e trespasse horizontal aumentado; divisão 2 tem incisivos centrais superiores inclinados para trás e trespasse vertical profundo.",
+      "Classe III: o molar inferior está mesial ao superior, com incisivos em topo ou mordida cruzada anterior. Quando um lado é normal e o outro não, acrescenta-se \"subdivisão\" e o lado alterado.",
+      "A classificação é só sagital e só dentária: não fala de vertical, de transversal, de esqueleto nem de gravidade, e pressupõe que o molar superior está sempre no lugar certo, o que não é verdade.",
+      "Mesmo com essas falhas, é a língua comum de toda a ortodontia: prova, prontuário, artigo e conversa entre colegas começam por ela."
+    ],
+    "caiNaProva": [
+      "Definição das três classes pela relação molar",
+      "Classe II divisão 1 versus divisão 2",
+      "O que significa subdivisão e como nomear o lado",
+      "Limitações da classificação de Angle",
+      "Pseudo-Classe III e a diferença entre relação dentária e esquelética"
+    ],
+    "porQueImporta": "Você vai usar Angle em toda ficha clínica da vida. Saber classificar em dez segundos, e saber o que a classe não conta, é o que separa o diagnóstico completo do rótulo apressado."
+  },
+  "secoes": [
+    {
+      "titulo": "Uma ideia de 1899 que ainda organiza a especialidade",
+      "blocos": [
+        { "tipo": "p", "texto": "Antes de Angle, cada autor descrevia a má oclusão do seu jeito. Angle propôs um critério único e observável: a posição do primeiro molar inferior em relação ao primeiro molar superior, no sentido mesiodistal. Ele considerava o primeiro molar superior o dente mais estável da arcada, fixado ao crânio pela maxila, e por isso o chamou de chave da oclusão." },
+        { "tipo": "p", "texto": "A ideia era simples o bastante para pegar. Em poucos anos, a classificação virou a forma padrão de descrever uma má oclusão, e assim continua mais de um século depois. A simplicidade é a sua força e também a sua fraqueza: ela descreve uma dimensão de um problema que tem três." },
+        { "tipo": "visual", "formato": "comparativo", "titulo": "As três classes de Angle pela relação dos primeiros molares", "descricao": "Três colunas, em vista vestibular esquemática, com mesial à esquerda e distal à direita. Em cada uma, o primeiro molar superior acima e o primeiro molar inferior abaixo. Classe I: a cúspide mesiovestibular superior cai no sulco vestibular do inferior. Classe II: o molar inferior está deslocado para distal e a cúspide superior fica à frente do sulco. Classe III: o molar inferior está deslocado para mesial e a cúspide superior fica atrás do sulco.", "viewBox": "0 0 720 320",
+          "svg": [
+            "<text x='40' y='28' font-size='13' fill='var(--muted,#8A8478)'>mesial</text><text x='680' y='28' text-anchor='end' font-size='13' fill='var(--muted,#8A8478)'>distal</text><line x1='90' y1='24' x2='630' y2='24' stroke='var(--muted,#8A8478)' stroke-width='1' stroke-dasharray='4 3'/>",
+            "<g font-size='15' font-weight='700' fill='var(--ink,#23211C)' text-anchor='middle'><text x='130' y='60'>Classe I</text><text x='360' y='60'>Classe II</text><text x='590' y='60'>Classe III</text></g>",
+            "<g fill='var(--gold-soft,#F4EEE4)' stroke='var(--ink,#23211C)' stroke-width='1.5' stroke-linejoin='round'><path d='M60 80 L60 130 L82 146 L110 132 L138 146 L170 132 L170 80 Z'/><path d='M290 80 L290 130 L312 146 L340 132 L368 146 L400 132 L400 80 Z'/><path d='M520 80 L520 130 L542 146 L570 132 L598 146 L630 132 L630 80 Z'/></g>",
+            "<g font-size='11' fill='var(--muted,#8A8478)' text-anchor='middle'><text x='115' y='106'>6 superior</text><text x='345' y='106'>6 superior</text><text x='575' y='106'>6 superior</text></g>",
+            "<g fill='var(--blue-soft,#E9EEF3)' stroke='var(--ink,#23211C)' stroke-width='1.5' stroke-linejoin='round'><path d='M40 240 L40 190 L62 172 L82 186 L104 172 L124 186 L146 172 L170 190 L170 240 Z'/><path d='M302 240 L302 190 L324 172 L344 186 L366 172 L386 186 L408 172 L432 190 L432 240 Z'/><path d='M488 240 L488 190 L510 172 L530 186 L552 172 L572 186 L594 172 L618 190 L618 240 Z'/></g>",
+            "<g font-size='11' fill='var(--muted,#8A8478)' text-anchor='middle'><text x='105' y='222'>6 inferior</text><text x='367' y='222'>6 inferior</text><text x='553' y='222'>6 inferior</text></g>",
+            "<g fill='none' stroke='var(--gold,#B08968)' stroke-width='2.5'><circle cx='82' cy='150' r='7'/><circle cx='312' cy='150' r='7'/><circle cx='542' cy='150' r='7'/></g>",
+            "<g stroke='var(--red,#B4533B)' stroke-width='2'><line x1='82' y1='182' x2='82' y2='196'/><line x1='344' y1='182' x2='344' y2='196'/><line x1='530' y1='182' x2='530' y2='196'/></g>",
+            "<use href='#c-vetor-red' x='330' y='250' width='80' height='16'/><text x='370' y='284' text-anchor='middle' font-size='12' fill='var(--red,#B4533B)' font-weight='700'>inferior para distal</text>",
+            "<use href='#c-vetor-red' x='510' y='250' width='80' height='16' transform='rotate(180 550 258)'/><text x='550' y='284' text-anchor='middle' font-size='12' fill='var(--red,#B4533B)' font-weight='700'>inferior para mesial</text>",
+            "<text x='130' y='284' text-anchor='middle' font-size='12' fill='var(--green,#3E7C4F)' font-weight='700'>cúspide MV no sulco</text>",
+            "<text x='360' y='308' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>círculo: cúspide mesiovestibular superior; traço vermelho: sulco vestibular do molar inferior</text>"
+          ],
+          "legenda": "Um só critério: onde a cúspide mesiovestibular do primeiro molar superior cai em relação ao sulco vestibular do inferior. No lugar, Classe I; à frente do sulco, Classe II; atrás, Classe III." },
+        { "tipo": "destaque", "estilo": "prova", "texto": "A prova gosta de três coisas: o ano (1899), o critério (relação mesiodistal dos primeiros molares permanentes) e a premissa (o primeiro molar superior como chave da oclusão, considerado fixo). Saber que a premissa é falha vale ponto na discursiva." }
+      ],
+      "checagem": { "pergunta": "Qual é o único critério da classificação de Angle e por que ele escolheu esse dente?", "resposta": "A relação mesiodistal entre os primeiros molares permanentes. Angle considerava o primeiro molar superior o dente mais estável da arcada, ancorado na maxila, e por isso a referência para julgar a posição dos demais." }
+    },
+    {
+      "titulo": "Classe I: a relação certa com dentes fora do lugar",
+      "blocos": [
+        { "tipo": "p", "texto": "Na Classe I, ou neutroclusão, a cúspide mesiovestibular do primeiro molar superior oclui no sulco vestibular do primeiro molar inferior, e o canino superior encaixa entre o canino e o primeiro pré-molar inferiores. A relação entre os arcos está normal; o problema, quando existe, está em outro lugar: apinhamento, espaços, rotações, mordida cruzada de um dente, mordida aberta, protrusão dos dois arcos." },
+        { "tipo": "p", "texto": "É a classe mais frequente em quase todas as populações estudadas, e a que mais engana quem olha só a relação molar. Um paciente pode ter molares em Classe I perfeita e um apinhamento inferior de 8 mm, uma mordida aberta anterior ou uma mordida cruzada posterior bilateral. Angle diria apenas: Classe I. O resto do diagnóstico é seu." },
+        { "tipo": "lista", "itens": [
+          "Apinhamento ou espaçamento com relação molar normal.",
+          "Biprotrusão: os dois arcos inclinados para a frente, com molares em Classe I.",
+          "Mordida aberta ou mordida profunda com molares em Classe I.",
+          "Mordida cruzada de um ou mais dentes, anterior ou posterior, com molares em Classe I."
+        ] },
+        { "tipo": "destaque", "estilo": "dica", "titulo": "Dewey ajudou a organizar a Classe I", "texto": "Martin Dewey propôs, em 1915, tipos dentro da Classe I para nomear o que Angle deixava solto: apinhamento anterior, incisivos superiores protruídos, mordida cruzada anterior, mordida cruzada posterior e mesialização dos molares por perda de espaço. Não é obrigatório usar os tipos, mas eles mostram o tamanho do que cabe dentro de uma Classe I." }
+      ],
+      "checagem": { "pergunta": "Um paciente com molares em Classe I e mordida cruzada posterior bilateral é classificado como o quê, segundo Angle?", "resposta": "Classe I. A classificação só olha a relação sagital dos molares; a mordida cruzada é um problema transversal que a classe não descreve e precisa ser registrado à parte." }
+    },
+    {
+      "titulo": "Classe II: o molar inferior atrás, em duas divisões",
+      "blocos": [
+        { "tipo": "p", "texto": "Na Classe II, ou distoclusão, o primeiro molar inferior está distal ao superior: a cúspide mesiovestibular superior cai à frente do sulco vestibular inferior. Quando o deslocamento é de uma cúspide inteira, a cúspide superior oclui no espaço entre o segundo pré-molar e o primeiro molar inferiores, e fala-se em Classe II completa. Quando é menor, meia cúspide, fala-se em Classe II incompleta ou meia Classe II." },
+        { "tipo": "p", "texto": "Angle dividiu a Classe II pela posição dos incisivos superiores. Na divisão 1, eles estão inclinados para a frente, com trespasse horizontal aumentado, frequentemente com arco superior estreito, lábio inferior preso atrás dos incisivos e selamento labial difícil. Na divisão 2, os incisivos centrais superiores estão inclinados para trás, os laterais costumam ficar para a frente ou sobrepostos aos centrais, o trespasse vertical é profundo e a musculatura labial é forte." },
+        { "tipo": "visual", "formato": "comparativo", "titulo": "Classe II divisão 1 e divisão 2, lado a lado", "descricao": "Duas colunas. À esquerda, divisão 1: incisivo superior inclinado para a frente, trespasse horizontal aumentado, lista com arco estreito, lábio inferior atrás dos incisivos, selamento labial difícil, mordida profunda ou aberta possível. À direita, divisão 2: incisivo central superior inclinado para trás, trespasse vertical profundo, lista com laterais para a frente, arco largo, musculatura labial forte, trespasse horizontal normal ou reduzido.", "viewBox": "0 0 720 400",
+          "svg": [
+            "<use href='#c-caixa-red' x='40' y='16' width='300' height='40'/><text x='190' y='42' text-anchor='middle' font-size='15' font-weight='700'>Classe II divisão 1</text>",
+            "<use href='#c-caixa-blue' x='380' y='16' width='300' height='40'/><text x='530' y='42' text-anchor='middle' font-size='15' font-weight='700'>Classe II divisão 2</text>",
+            "<use href='#c-dente' x='130' y='70' width='50' height='120' transform='rotate(-28 155 130)'/>",
+            "<use href='#c-dente' x='110' y='150' width='44' height='100' transform='rotate(180 132 200)'/>",
+            "<line x1='132' y1='196' x2='183' y2='196' stroke='var(--red,#B4533B)' stroke-width='2'/><line x1='132' y1='190' x2='132' y2='202' stroke='var(--red,#B4533B)' stroke-width='2'/><line x1='183' y1='190' x2='183' y2='202' stroke='var(--red,#B4533B)' stroke-width='2'/><text x='190' y='272' text-anchor='middle' font-size='11' fill='var(--red,#B4533B)' font-weight='700'>trespasse horizontal aumentado</text>",
+            "<text x='215' y='112' font-size='12' fill='var(--muted,#8A8478)'>incisivo superior</text><text x='215' y='128' font-size='12' fill='var(--muted,#8A8478)'>para a frente</text>",
+            "<use href='#c-dente' x='490' y='70' width='50' height='120' transform='rotate(16 515 130)'/>",
+            "<use href='#c-dente' x='478' y='158' width='44' height='100' transform='rotate(180 500 208)'/>",
+            "<line x1='552' y1='158' x2='552' y2='188' stroke='var(--blue,#4A6B8A)' stroke-width='2'/><line x1='546' y1='158' x2='558' y2='158' stroke='var(--blue,#4A6B8A)' stroke-width='2'/><line x1='546' y1='188' x2='558' y2='188' stroke='var(--blue,#4A6B8A)' stroke-width='2'/><text x='564' y='170' font-size='11' fill='var(--blue,#4A6B8A)' font-weight='700'>trespasse vertical</text><text x='564' y='184' font-size='11' fill='var(--blue,#4A6B8A)' font-weight='700'>profundo</text>",
+            "<text x='564' y='112' font-size='12' fill='var(--muted,#8A8478)'>central superior</text><text x='564' y='128' font-size='12' fill='var(--muted,#8A8478)'>para trás</text>",
+            "<g font-size='12' fill='var(--ink,#23211C)'><text x='60' y='296'>arco superior costuma ser estreito</text><text x='60' y='316'>lábio inferior preso atrás dos incisivos</text><text x='60' y='336'>selamento labial difícil</text><text x='60' y='356'>mordida profunda ou aberta, conforme o caso</text></g>",
+            "<g font-size='12' fill='var(--ink,#23211C)'><text x='400' y='296'>laterais para a frente ou sobre os centrais</text><text x='400' y='316'>arco superior costuma ser largo</text><text x='400' y='336'>musculatura labial forte, lábio alto</text><text x='400' y='356'>trespasse horizontal normal ou reduzido</text></g>",
+            "<text x='360' y='386' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>a relação molar é a mesma nas duas; o que muda é o incisivo superior</text>"
+          ],
+          "legenda": "As duas divisões têm o mesmo molar inferior distal. A divisão é dada pelos incisivos superiores: para a frente na divisão 1, para trás na divisão 2." },
+        { "tipo": "destaque", "estilo": "mito", "mito": "Classe II divisão 2 é uma Classe II mais leve.", "verdade": "A divisão não mede gravidade, mede a inclinação dos incisivos superiores. Uma divisão 2 pode ter relação molar de cúspide inteira e mordida profunda com trauma gengival; a mecânica é diferente, não mais fácil." }
+      ],
+      "checagem": { "pergunta": "O que distingue a divisão 1 da divisão 2 na Classe II de Angle?", "resposta": "A posição dos incisivos superiores: inclinados para a frente com trespasse horizontal aumentado na divisão 1; centrais inclinados para trás com trespasse vertical profundo na divisão 2. A relação molar é Classe II nas duas." }
+    },
+    {
+      "titulo": "Classe III e a armadilha da pseudo-Classe III",
+      "blocos": [
+        { "tipo": "p", "texto": "Na Classe III, ou mesioclusão, o primeiro molar inferior está mesial ao superior: a cúspide mesiovestibular superior cai atrás do sulco vestibular inferior. Os incisivos costumam estar em topo ou em mordida cruzada anterior, e o perfil, quando a base esquelética acompanha, mostra o mento à frente." },
+        { "tipo": "p", "texto": "Nem toda mordida cruzada anterior é Classe III de verdade. Na pseudo-Classe III, a mandíbula desliza para a frente ao fechar, para escapar de um contato prematuro nos incisivos, e a boca fechada mostra uma Classe III que não existe em relação cêntrica. Guie a mandíbula até o primeiro contato: se os molares voltam para Classe I, a Classe III era funcional, e o tratamento é outro." },
+        { "tipo": "imagem", "imagem": "fotografia intrabucal frontal e lateral de um paciente com mordida cruzada anterior", "mostrar": "Vista frontal em oclusão habitual com incisivos inferiores à frente dos superiores; ao lado, a mesma boca guiada em relação cêntrica mostrando os incisivos em topo e os molares em Classe I", "legenda": "Pseudo-Classe III: em oclusão habitual parece Classe III; guiada até o primeiro contato, a relação molar volta a Classe I.", "destacar": "Posição dos incisivos nas duas fotos, relação dos primeiros molares nas duas fotos, linha média" },
+        { "tipo": "destaque", "estilo": "erro", "texto": "Classificar a Classe III pela foto em oclusão habitual, sem manipular a mandíbula. A pseudo-Classe III trata-se cedo e com prognóstico bom; a Classe III esquelética verdadeira pede outra estratégia e outro momento. Errar aqui é errar o plano inteiro." }
+      ],
+      "checagem": { "pergunta": "Como você diferencia uma Classe III verdadeira de uma pseudo-Classe III na clínica?", "resposta": "Guiando a mandíbula até o primeiro contato em relação cêntrica: na pseudo-Classe III os molares voltam para Classe I e os incisivos ficam em topo; na verdadeira a relação de Classe III se mantém." }
+    },
+    {
+      "titulo": "Subdivisão, meia classe e a leitura lado a lado",
+      "blocos": [
+        { "tipo": "p", "texto": "Angle classificou cada lado. Quando os dois lados são iguais, a classe é bilateral e ninguém acrescenta nada. Quando um lado é Classe I e o outro é Classe II ou III, acrescenta-se \"subdivisão\" e nomeia-se o lado alterado: Classe II subdivisão esquerda quer dizer molar em Classe II à esquerda e em Classe I à direita. Essa é a convenção mais usada, mas confira a que o seu serviço adota, porque há quem nomeie o lado normal [VERIFICAR]." },
+        { "tipo": "p", "texto": "A intensidade também importa. Meia cúspide de deslocamento é meia Classe II ou meia Classe III; uma cúspide inteira é a classe completa. Alguns registram em milímetros, o que ajuda a planejar: uma Classe II de 3 mm e uma de 7 mm são problemas de tamanhos muito diferentes, embora as duas tenham o mesmo nome." },
+        { "tipo": "visual", "formato": "classificacao", "titulo": "A árvore de Angle, com divisões e subdivisões", "descricao": "Árvore com três ramos a partir da relação molar. Classe I: relação normal, problema em outro lugar. Classe II: divisão 1, incisivos para a frente; divisão 2, incisivos para trás; cada uma pode ser subdivisão se unilateral. Classe III: verdadeira ou pseudo; também pode ser subdivisão. Nota sobre meia classe versus classe completa.", "viewBox": "0 0 560 400",
+          "svg": [
+            "<use href='#c-caixa-ink' x='130' y='12' width='300' height='44'/><text x='280' y='40' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>Relação dos primeiros molares</text>",
+            "<g stroke='var(--muted,#8A8478)' stroke-width='1.5'><line x1='280' y1='56' x2='280' y2='76'/><line x1='90' y1='76' x2='470' y2='76'/><line x1='90' y1='76' x2='90' y2='92'/><line x1='280' y1='76' x2='280' y2='92'/><line x1='470' y1='76' x2='470' y2='92'/></g>",
+            "<use href='#c-caixa-green' x='10' y='92' width='160' height='60'/><text x='90' y='116' text-anchor='middle' font-size='14' font-weight='700'>Classe I</text><text x='90' y='134' text-anchor='middle' font-size='11'>MV superior no sulco</text><text x='90' y='146' text-anchor='middle' font-size='11'>problema em outro lugar</text>",
+            "<use href='#c-caixa-red' x='200' y='92' width='160' height='60'/><text x='280' y='116' text-anchor='middle' font-size='14' font-weight='700'>Classe II</text><text x='280' y='134' text-anchor='middle' font-size='11'>inferior distal</text><text x='280' y='146' text-anchor='middle' font-size='11'>MV superior à frente do sulco</text>",
+            "<use href='#c-caixa-blue' x='390' y='92' width='160' height='60'/><text x='470' y='116' text-anchor='middle' font-size='14' font-weight='700'>Classe III</text><text x='470' y='134' text-anchor='middle' font-size='11'>inferior mesial</text><text x='470' y='146' text-anchor='middle' font-size='11'>MV superior atrás do sulco</text>",
+            "<g stroke='var(--muted,#8A8478)' stroke-width='1.5'><line x1='280' y1='152' x2='280' y2='172'/><line x1='210' y1='172' x2='350' y2='172'/><line x1='210' y1='172' x2='210' y2='188'/><line x1='350' y1='172' x2='350' y2='188'/><line x1='470' y1='152' x2='470' y2='172'/><line x1='470' y1='172' x2='490' y2='172'/><line x1='490' y1='172' x2='490' y2='188'/></g>",
+            "<use href='#c-caixa' x='140' y='188' width='130' height='56'/><text x='210' y='210' text-anchor='middle' font-size='12' font-weight='700'>Divisão 1</text><text x='210' y='226' text-anchor='middle' font-size='11'>incisivos para a frente</text><text x='210' y='238' text-anchor='middle' font-size='11'>trespasse horizontal maior</text>",
+            "<use href='#c-caixa' x='285' y='188' width='130' height='56'/><text x='350' y='210' text-anchor='middle' font-size='12' font-weight='700'>Divisão 2</text><text x='350' y='226' text-anchor='middle' font-size='11'>centrais para trás</text><text x='350' y='238' text-anchor='middle' font-size='11'>mordida profunda</text>",
+            "<use href='#c-caixa' x='425' y='188' width='130' height='56'/><text x='490' y='210' text-anchor='middle' font-size='12' font-weight='700'>Verdadeira ou pseudo</text><text x='490' y='226' text-anchor='middle' font-size='11'>guiar até o 1º contato</text><text x='490' y='238' text-anchor='middle' font-size='11'>voltou a Classe I? pseudo</text>",
+            "<use href='#c-pilula' x='30' y='276' width='500' height='30'/><text x='280' y='296' text-anchor='middle' font-size='12' font-weight='700'>Subdivisão: um lado Classe I, o outro não; nomeia-se o lado alterado</text>",
+            "<use href='#c-caixa-gold' x='60' y='326' width='440' height='60'/><text x='280' y='350' text-anchor='middle' font-size='13' font-weight='700'>Meia classe: meia cúspide de deslocamento</text><text x='280' y='370' text-anchor='middle' font-size='12'>Classe completa: uma cúspide inteira; em milímetros, ainda melhor</text>"
+          ],
+          "legenda": "A classe vem do molar; a divisão, dos incisivos superiores; a subdivisão, da diferença entre os lados; a intensidade, de quanto o molar se deslocou." },
+        { "tipo": "destaque", "estilo": "frase", "texto": "Classe é o molar. Divisão é o incisivo. Subdivisão é o lado. Cada palavra do rótulo responde a uma pergunta diferente." }
+      ],
+      "checagem": { "pergunta": "Molares em Classe I à direita e em Classe II completa à esquerda, incisivos superiores para a frente. Como você nomeia?", "resposta": "Classe II divisão 1 subdivisão esquerda, pela convenção mais usada, que nomeia o lado em Classe II." }
+    },
+    {
+      "titulo": "O que Angle não diz, e por que isso importa",
+      "blocos": [
+        { "tipo": "p", "texto": "A classificação tem quatro limitações que toda banca conhece. Primeira: só olha o sentido sagital; mordida aberta, mordida profunda, mordida cruzada posterior e desvios de linha média ficam de fora. Segunda: é dentária, não esquelética; uma Classe II molar pode vir de uma mandíbula pequena, de uma maxila grande ou de molares que migraram, e o tratamento muda em cada caso." },
+        { "tipo": "p", "texto": "Terceira: pressupõe o molar superior fixo. Ele não é; migra para mesial quando um dente decíduo é perdido cedo, e então a Classe II que você vê é um molar superior que andou, não uma mandíbula que ficou para trás. Quarta: não mede gravidade nem necessidade de tratamento; uma Classe II de 2 mm e uma de 9 mm recebem o mesmo nome." },
+        { "tipo": "visual", "formato": "mapa", "titulo": "O que a classe de Angle cobre e o que fica de fora", "descricao": "Nó central: Classe de Angle. Um nó verde, o que ela cobre: relação sagital dos molares. Cinco nós vermelhos, o que fica de fora: vertical (mordida aberta e profunda), transversal (cruzada e linha média), esquelético versus dentário, molar superior que migrou, gravidade e necessidade de tratamento.", "viewBox": "0 0 560 360",
+          "svg": [
+            "<g stroke='var(--border,#EDE6D8)' stroke-width='1.5'><line x1='280' y1='180' x2='280' y2='50'/><line x1='280' y1='180' x2='90' y2='110'/><line x1='280' y1='180' x2='470' y2='110'/><line x1='280' y1='180' x2='90' y2='270'/><line x1='280' y1='180' x2='470' y2='270'/><line x1='280' y1='180' x2='280' y2='320'/></g>",
+            "<use href='#c-no-central' x='190' y='150' width='180' height='60'/><text x='280' y='176' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>Classe de Angle</text><text x='280' y='194' text-anchor='middle' font-size='12' fill='#fff'>só isto: molar, sagital</text>",
+            "<use href='#c-caixa-green' x='190' y='16' width='180' height='50'/><text x='280' y='37' text-anchor='middle' font-size='12' font-weight='700'>Cobre</text><text x='280' y='54' text-anchor='middle' font-size='11'>relação sagital dos molares</text>",
+            "<use href='#c-caixa-red' x='10' y='86' width='160' height='50'/><text x='90' y='107' text-anchor='middle' font-size='12' font-weight='700'>Vertical</text><text x='90' y='124' text-anchor='middle' font-size='11'>mordida aberta, profunda</text>",
+            "<use href='#c-caixa-red' x='390' y='86' width='160' height='50'/><text x='470' y='107' text-anchor='middle' font-size='12' font-weight='700'>Transversal</text><text x='470' y='124' text-anchor='middle' font-size='11'>cruzada, linha média</text>",
+            "<use href='#c-caixa-red' x='10' y='246' width='160' height='50'/><text x='90' y='267' text-anchor='middle' font-size='12' font-weight='700'>Esquelético x dentário</text><text x='90' y='284' text-anchor='middle' font-size='11'>de onde vem a classe</text>",
+            "<use href='#c-caixa-red' x='390' y='246' width='160' height='50'/><text x='470' y='267' text-anchor='middle' font-size='12' font-weight='700'>Molar que migrou</text><text x='470' y='284' text-anchor='middle' font-size='11'>a chave não é fixa</text>",
+            "<use href='#c-caixa-red' x='170' y='300' width='220' height='50'/><text x='280' y='321' text-anchor='middle' font-size='12' font-weight='700'>Gravidade</text><text x='280' y='338' text-anchor='middle' font-size='11'>2 mm e 9 mm têm o mesmo nome</text>"
+          ],
+          "legenda": "Um nó verde e cinco vermelhos: a classe de Angle é um bom começo de frase e um péssimo diagnóstico completo." },
+        { "tipo": "destaque", "estilo": "dica", "titulo": "Como registrar sem perder nada", "texto": "Escreva a classe de Angle e, na mesma linha, os três planos: sagital (classe, trespasse horizontal em mm), vertical (trespasse vertical em mm ou mordida aberta) e transversal (cruzada, linha média). Depois, a base esquelética pela cefalometria. Assim o rótulo de Angle vira a primeira palavra do diagnóstico, não a última." }
+      ],
+      "checagem": { "pergunta": "Cite as quatro limitações clássicas da classificação de Angle.", "resposta": "Só sagital; dentária e não esquelética; pressupõe o molar superior fixo, que na verdade migra; não mede gravidade nem necessidade de tratamento." }
+    },
+    {
+      "titulo": "De volta aos modelos",
+      "blocos": [
+        { "tipo": "p", "texto": "Lado direito em Classe I, lado esquerdo com a cúspide superior uma cúspide inteira à frente do sulco, incisivos superiores para a frente com 7 mm de trespasse horizontal: Classe II divisão 1 subdivisão esquerda, completa do lado esquerdo. Isso é o que Angle responde. Falta você responder o resto: a base esquelética, o trespasse vertical, a linha média e a largura dos arcos." },
+        { "tipo": "destaque", "estilo": "frase", "texto": "Angle é a primeira frase do diagnóstico. Quem para nela entrega um rótulo; quem continua entrega um plano." }
+      ],
+      "checagem": { "pergunta": "Depois de dizer \"Classe II divisão 1 subdivisão esquerda\", o que ainda falta registrar?", "resposta": "A intensidade em milímetros, a relação esquelética (cefalometria), o plano vertical (trespasse ou mordida aberta), o transversal (cruzada, linha média) e a origem da Classe II (mandíbula, maxila ou molar que migrou)." }
+    }
+  ],
+  "fechamento": {
+    "visual": { "formato": "mapa", "titulo": "Mapa da página", "descricao": "Nó central: classificação de Angle. Seis nós: 1899, primeiros molares como chave; Classe I, relação normal; Classe II, divisões 1 e 2; Classe III, verdadeira ou pseudo; subdivisão nomeia o lado; limitações: só sagital, só dentária, molar não é fixo, sem gravidade.", "viewBox": "0 0 560 360",
+      "svg": [
+        "<g stroke='var(--border,#EDE6D8)' stroke-width='1.5'><line x1='280' y1='180' x2='100' y2='60'/><line x1='280' y1='180' x2='460' y2='60'/><line x1='280' y1='180' x2='70' y2='180'/><line x1='280' y1='180' x2='490' y2='180'/><line x1='280' y1='180' x2='100' y2='300'/><line x1='280' y1='180' x2='460' y2='300'/></g>",
+        "<use href='#c-no-central' x='190' y='150' width='180' height='60'/>",
+        "<text x='280' y='176' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>Classificação</text><text x='280' y='194' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>de Angle</text>",
+        "<use href='#c-no' x='20' y='38' width='160' height='44'/><text x='100' y='65' text-anchor='middle' font-size='13' font-weight='700'>1899, molar é a chave</text>",
+        "<use href='#c-no' x='380' y='38' width='160' height='44'/><text x='460' y='65' text-anchor='middle' font-size='13' font-weight='700'>Classe I: relação normal</text>",
+        "<use href='#c-no' x='0' y='158' width='150' height='44'/><text x='75' y='185' text-anchor='middle' font-size='13' font-weight='700'>II: divisões 1 e 2</text>",
+        "<use href='#c-no' x='410' y='158' width='150' height='44'/><text x='485' y='185' text-anchor='middle' font-size='13' font-weight='700'>III: verdadeira, pseudo</text>",
+        "<use href='#c-no' x='20' y='278' width='160' height='44'/><text x='100' y='305' text-anchor='middle' font-size='13' font-weight='700'>Subdivisão nomeia o lado</text>",
+        "<use href='#c-no' x='380' y='278' width='160' height='44'/><text x='460' y='305' text-anchor='middle' font-size='13' font-weight='700'>Só sagital, só dentária</text>"
+      ] },
+    "flashcards": [
+      { "frente": "Defina Classe I, II e III de Angle pela posição da cúspide mesiovestibular do primeiro molar superior.", "verso": "Classe I: no sulco vestibular do primeiro molar inferior. Classe II: à frente do sulco (inferior distal). Classe III: atrás do sulco (inferior mesial)." },
+      { "frente": "Classe II divisão 1 versus divisão 2.", "verso": "Divisão 1: incisivos superiores para a frente, trespasse horizontal aumentado, arco estreito. Divisão 2: centrais superiores para trás, trespasse vertical profundo, arco largo, musculatura forte." },
+      { "frente": "Quatro limitações da classificação de Angle.", "verso": "Só sagital; dentária, não esquelética; pressupõe o molar superior fixo; não mede gravidade nem necessidade de tratamento." }
+    ]
+  },
+  "infografico": {
+    "titulo": "Angle em seis cartões",
+    "itens": [
+      { "rotulo": "O critério", "texto": "Relação mesiodistal dos primeiros molares permanentes, 1899. Molar superior como chave da oclusão." },
+      { "rotulo": "Classe I", "texto": "Cúspide MV superior no sulco vestibular inferior. Relação normal; o problema está no alinhamento ou em outro plano." },
+      { "rotulo": "Classe II", "texto": "Inferior distal. Divisão 1: incisivos para a frente. Divisão 2: centrais para trás, mordida profunda." },
+      { "rotulo": "Classe III", "texto": "Inferior mesial. Verdadeira quando se mantém em relação cêntrica; pseudo quando a mandíbula desliza para a frente." },
+      { "rotulo": "Subdivisão", "texto": "Um lado Classe I, o outro não. Nomeia-se o lado alterado. Meia classe: meia cúspide; completa: uma cúspide." },
+      { "rotulo": "Fora da classe", "texto": "Vertical, transversal, esqueleto, molar que migrou e gravidade. Registre à parte, na mesma linha." }
+    ]
+  },
+  "fluxograma": {
+    "titulo": "Como classificar em Angle a partir dos modelos",
+    "nos": [
+      { "id": "n1", "tipo": "inicio", "texto": "Modelos ou boca em oclusão habitual" },
+      { "id": "n2", "tipo": "decisao", "texto": "Mordida cruzada anterior ou topo? Guiar a mandíbula até o primeiro contato" },
+      { "id": "n3", "tipo": "acao", "texto": "Classificar em relação cêntrica; se voltar a Classe I, é pseudo-Classe III" },
+      { "id": "n4", "tipo": "decisao", "texto": "Cúspide MV do 6 superior no sulco vestibular do 6 inferior, nos dois lados?" },
+      { "id": "n5", "tipo": "fim", "texto": "Classe I: descrever apinhamento, vertical e transversal à parte" },
+      { "id": "n6", "tipo": "decisao", "texto": "Cúspide superior à frente do sulco (inferior distal)?" },
+      { "id": "n7", "tipo": "acao", "texto": "Classe II: incisivos para a frente é divisão 1; centrais para trás é divisão 2" },
+      { "id": "n8", "tipo": "acao", "texto": "Classe III: confirmar que é verdadeira" },
+      { "id": "n9", "tipo": "decisao", "texto": "Os dois lados iguais?" },
+      { "id": "n10", "tipo": "fim", "texto": "Acrescentar subdivisão com o lado alterado; anotar meia ou completa e os milímetros" }
+    ],
+    "arestas": [
+      { "de": "n1", "para": "n2" },
+      { "de": "n2", "para": "n3", "rotulo": "sim" },
+      { "de": "n3", "para": "n4" },
+      { "de": "n2", "para": "n4", "rotulo": "não" },
+      { "de": "n4", "para": "n5", "rotulo": "sim" },
+      { "de": "n4", "para": "n6", "rotulo": "não" },
+      { "de": "n6", "para": "n7", "rotulo": "sim" },
+      { "de": "n6", "para": "n8", "rotulo": "não" },
+      { "de": "n7", "para": "n9" },
+      { "de": "n8", "para": "n9" },
+      { "de": "n9", "para": "n10", "rotulo": "não" }
+    ]
+  },
+  "passoAPasso": [
+    { "passo": "Confirme que está em relação cêntrica: guie a mandíbula até o primeiro contato antes de olhar os molares.", "confira": "A relação molar muda entre oclusão habitual e relação cêntrica?" },
+    { "passo": "Localize a cúspide mesiovestibular do primeiro molar superior e o sulco vestibular do primeiro molar inferior, de cada lado.", "confira": "Os primeiros molares permanentes estão presentes e íntegros dos dois lados?" },
+    { "passo": "Classifique cada lado: no sulco, Classe I; à frente, Classe II; atrás, Classe III. Anote meia cúspide ou cúspide inteira.", "confira": "Quantos milímetros de deslocamento em cada lado?" },
+    { "passo": "Na Classe II, olhe os incisivos superiores: para a frente, divisão 1; centrais para trás, divisão 2.", "confira": "Trespasse horizontal e vertical medidos em milímetros?" },
+    { "passo": "Compare os lados. Diferentes? Acrescente subdivisão e o lado alterado. Depois registre vertical, transversal e a suspeita esquelética.", "confira": "A linha da ficha traz classe, milímetros, trespasses e cruzadas?" }
+  ],
+  "macetes": [
+    { "titulo": "Molar, incisivo, lado", "texto": "Classe vem do molar. Divisão vem do incisivo superior. Subdivisão vem do lado diferente. Três palavras, três perguntas." },
+    { "titulo": "Inferior atrás é II, inferior à frente é III", "texto": "Pense no molar inferior: distal (atrás) é distoclusão, Classe II; mesial (à frente) é mesioclusão, Classe III." },
+    { "titulo": "Guie antes de rotular", "texto": "Mordida cruzada anterior? Leve a mandíbula ao primeiro contato. Se os molares voltam a Classe I, é pseudo-Classe III." },
+    { "titulo": "Um plano só", "texto": "Angle é sagital e dentário. Vertical, transversal, esqueleto e gravidade ficam de fora: escreva-os na mesma linha." }
+  ],
+  "ondeErra": [
+    { "erro": "Chamar de Classe III uma mordida cruzada anterior sem manipular a mandíbula.", "porque": "Na pseudo-Classe III a mandíbula desliza para a frente ao fechar; em relação cêntrica os molares estão em Classe I.", "certo": "Guiar até o primeiro contato e classificar em relação cêntrica." },
+    { "erro": "Achar que divisão 2 é uma Classe II mais leve.", "porque": "A divisão descreve a inclinação dos incisivos superiores, não a gravidade da relação molar.", "certo": "Divisão 1: incisivos para a frente. Divisão 2: centrais para trás. Gravidade se mede em milímetros." },
+    { "erro": "Tratar a classe de Angle como diagnóstico esquelético.", "porque": "A classe é dentária; a mesma Classe II molar pode vir de mandíbula pequena, maxila grande ou molar superior que migrou.", "certo": "Classe de Angle mais cefalometria e história de perdas precoces." },
+    { "erro": "Esquecer a subdivisão quando os lados são diferentes.", "porque": "A classificação é feita por lado; um lado Classe I e outro Classe II é subdivisão, não \"meia Classe II bilateral\".", "certo": "Nomear a classe e o lado alterado: Classe II subdivisão esquerda." }
+  ],
+  "autoteste": [
+    {
+      "pergunta": "Na Classe II de Angle, a cúspide mesiovestibular do primeiro molar superior oclui:",
+      "alternativas": [
+        "No sulco vestibular do primeiro molar inferior",
+        "À frente do sulco vestibular do primeiro molar inferior, porque o molar inferior está distal",
+        "Atrás do sulco vestibular do primeiro molar inferior, porque o molar inferior está mesial",
+        "Na fossa central do segundo molar inferior"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Essa é a Classe I.",
+        "Correta: na distoclusão o molar inferior está distal e a cúspide superior fica à frente do sulco; na Classe II completa ela cai entre o segundo pré-molar e o primeiro molar inferiores.",
+        "Essa é a Classe III.",
+        "Não descreve nenhuma das classes."
+      ]
+    },
+    {
+      "pergunta": "Paciente com molares em Classe II bilateral, incisivos centrais superiores inclinados para lingual, laterais para vestibular e trespasse vertical profundo. Classificação de Angle:",
+      "alternativas": [
+        "Classe II divisão 1",
+        "Classe II divisão 2",
+        "Classe I com mordida profunda",
+        "Classe II subdivisão"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Na divisão 1 os incisivos superiores estão para a frente, com trespasse horizontal aumentado.",
+        "Correta: centrais para trás, laterais para a frente e mordida profunda são o quadro clássico da divisão 2.",
+        "Os molares estão em Classe II, não em Classe I.",
+        "Subdivisão exige lados diferentes; aqui a Classe II é bilateral."
+      ]
+    },
+    {
+      "pergunta": "Molares em Classe I do lado direito e em Classe III do lado esquerdo. Pela convenção mais usada, a classificação é:",
+      "alternativas": [
+        "Classe III subdivisão esquerda",
+        "Classe III subdivisão direita",
+        "Classe I subdivisão esquerda",
+        "Meia Classe III bilateral"
+      ],
+      "correta": 0,
+      "explicacoes": [
+        "Correta: a subdivisão nomeia o lado em que a relação está alterada, aqui o esquerdo.",
+        "O lado direito está em Classe I; nomear por ele inverte a convenção mais usada.",
+        "A classe é dada pelo lado alterado, não pelo normal.",
+        "Meia classe descreve intensidade (meia cúspide), não diferença entre os lados."
+      ]
+    },
+    {
+      "pergunta": "Sobre as limitações da classificação de Angle, é correto afirmar que ela:",
+      "alternativas": [
+        "Descreve os três planos do espaço, mas não a relação esquelética",
+        "Considera o primeiro molar superior fixo, ignora os planos vertical e transversal e não mede gravidade",
+        "Mede a relação esquelética, mas não a dentária",
+        "Só se aplica à dentição decídua"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Ela descreve apenas o plano sagital.",
+        "Correta: são as limitações clássicas, somadas ao fato de ser dentária e não esquelética.",
+        "É o contrário: é dentária, não esquelética.",
+        "Aplica-se aos primeiros molares permanentes; na decídua usa-se o plano terminal."
+      ]
+    },
+    {
+      "pergunta": "Criança de 8 anos com mordida cruzada anterior. Ao guiar a mandíbula até o primeiro contato, os incisivos ficam em topo e os molares em Classe I. O quadro é:",
+      "alternativas": [
+        "Classe III esquelética verdadeira",
+        "Pseudo-Classe III, com desvio funcional da mandíbula para a frente",
+        "Classe I com biprotrusão",
+        "Classe II divisão 2"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Na Classe III verdadeira a relação se mantém em relação cêntrica.",
+        "Correta: a mandíbula desliza para a frente para escapar do contato prematuro; em relação cêntrica a Classe III desaparece.",
+        "Não há biprotrusão descrita; há mordida cruzada anterior funcional.",
+        "Não há relação molar de Classe II nem incisivos superiores para trás."
+      ]
+    }
+  ],
+  "pesquisa": { "termos": ["classificação de Angle", "má oclusão", "Classe II divisão 2", "pseudo-Classe III"] },
+  "referenciasBase": [
+    "Angle EH. Classification of malocclusion. Dental Cosmos. 1899.",
+    "Dewey M. Practical Orthodontia. 1915 (modificações da classificação de Angle).",
+    "Proffit WR, Fields HW, Larson BE, Sarver DM. Ortodontia Contemporânea. 6ª ed.",
+    "Moyers RE. Ortodontia. 4ª ed. Classificação e diagnóstico.",
+    "Graber LW, Vanarsdall RL, Vig KWL, Huang GJ. Ortodontia: princípios e técnicas atuais. 6ª ed."
+  ],
+  "validacao": { "validadoPor": null, "data": null }
+}
