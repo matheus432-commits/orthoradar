@@ -1,10 +1,10 @@
 {
  "atualizadoEm": "2026-09-05",
  "totalPaginas": 3387,
- "concluidas": 32,
+ "concluidas": 33,
  "porStatus": {
-  "pendente": 3355,
-  "rascunho": 32,
+  "pendente": 3354,
+  "rascunho": 33,
   "revisado": 0,
   "publicado": 0
  },
@@ -12,7 +12,7 @@
   "id": "ortodontia/mas-oclusoes",
   "area": "Ortodontia",
   "modulo": "Más oclusões",
-  "faltam": 3
+  "faltam": 2
  },
  "imagensPendentes": [
   {
@@ -221,6 +221,15 @@
    "mostrar": "Sorriso com exposição gengival acentuada e incisivos superiores visivelmente alongados; vista intrabucal frontal em oclusão com molares em contato e espaço vertical entre as bordas dos incisivos de canino a canino",
    "legenda": "Mordida aberta esquelética: gengiva exposta porque os incisivos erupcionaram tentando fechar; a abertura persiste porque a mandíbula girou.",
    "destacar": "Quantidade de gengiva exposta ao sorrir, extensão da abertura de canino a canino, contato dos molares"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/mordida-profunda",
+   "modulo": "Más oclusões",
+   "secao": "O que a mordida profunda faz de mal",
+   "imagem": "fotografia intrabucal da face palatina dos incisivos superiores em paciente com mordida profunda completa e traumática",
+   "mostrar": "Vista palatina dos incisivos superiores com a gengiva marginal palatina inflamada e retraída nos pontos de contato das bordas dos incisivos inferiores; ao lado, vista frontal em oclusão com os inferiores quase totalmente cobertos",
+   "legenda": "Mordida profunda traumática: a gengiva palatina superior mostra onde os incisivos inferiores batem a cada fechamento.",
+   "destacar": "Retração e inflamação da gengiva palatina, marcas das bordas incisais inferiores, fração dos incisivos inferiores coberta"
   }
  ],
  "verificarPendentes": [
@@ -733,6 +742,26 @@
    "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/mordida-aberta",
    "onde": "Seção \"Estabilidade: a correção que mais volta\".blocos[0].texto",
    "trecho": "tratados reabre em algum grau nos anos seguintes, com ou sem cirurgia [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/mordida-profunda",
+   "onde": "Seção \"O que é e como medir\".blocos[0].texto",
+   "trecho": "ros, ou algo em torno de um quarto a um terço da coroa dos inferiores [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/mordida-profunda",
+   "onde": "Seção \"O que é e como medir\".blocos[2].svg[11]",
+   "trecho": "le' font-size='12' fill='var(--muted,#8A8478)'>limiares de referência [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/mordida-profunda",
+   "onde": "Seção \"A curva de Spee profunda: a marca no arco inferior\".blocos[1].texto",
+   "trecho": "consome perímetro do arco, em quantidade proporcional à profundidade [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/mordida-profunda",
+   "onde": "Seção \"O que a mordida profunda faz de mal\".blocos[1].texto",
+   "trecho": "e hoje é considerada fraca ou inconsistente pela evidência disponível [VERIFICAR]"
   }
  ],
  "modulos": [
@@ -868,11 +897,11 @@
    "area": "Ortodontia",
    "modulo": "Más oclusões",
    "total": 16,
-   "concluidas": 13,
-   "palavras": 48400,
-   "visuais": 65,
-   "imagensClinicas": 13,
-   "verificar": 60,
+   "concluidas": 14,
+   "palavras": 51978,
+   "visuais": 69,
+   "imagensClinicas": 14,
+   "verificar": 64,
    "paginas": [
     {
      "id": "ortodontia/mas-oclusoes/classificacao/classificacao-de-angle",
@@ -982,7 +1011,9 @@
      "id": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/mordida-profunda",
      "nome": "Mordida profunda",
      "tema": "Características por tipo",
-     "status": "pendente"
+     "status": "rascunho",
+     "palavras": 3578,
+     "visuais": 4
     },
     {
      "id": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/mordida-cruzada",
@@ -26901,6 +26932,66 @@
     {
      "onde": "Seção \"Estabilidade: a correção que mais volta\".blocos[0].texto",
      "trecho": "tratados reabre em algum grau nos anos seguintes, com ou sem cirurgia [VERIFICAR]"
+    }
+   ]
+  },
+  "ortodontia/mas-oclusoes/caracteristicas-por-tipo/mordida-profunda": {
+   "titulo": "Mordida profunda: quando o trespasse vertical passa do ponto",
+   "arquivo": "data/campus/paginas/ortodontia--maoclusao-tipo-mordida-profunda.json",
+   "formato": 2,
+   "status": "rascunho",
+   "estado": "rascunho",
+   "palavras": 3578,
+   "visuais": [
+    {
+     "formato": "anatomico",
+     "titulo": "Medindo o trespasse vertical: milímetros e percentual"
+    },
+    {
+     "formato": "comparativo",
+     "titulo": "Mordida profunda esquelética e dentária, lado a lado"
+    },
+    {
+     "formato": "processo",
+     "titulo": "Intruir, extruir ou inclinar: como escolher"
+    },
+    {
+     "formato": "mapa",
+     "titulo": "Mapa da página"
+    }
+   ],
+   "quadros": {
+    "frase": 2,
+    "prova": 1,
+    "dica": 2,
+    "erro": 1,
+    "mito": 1
+   },
+   "imagensClinicas": [
+    {
+     "secao": "O que a mordida profunda faz de mal",
+     "imagem": "fotografia intrabucal da face palatina dos incisivos superiores em paciente com mordida profunda completa e traumática",
+     "mostrar": "Vista palatina dos incisivos superiores com a gengiva marginal palatina inflamada e retraída nos pontos de contato das bordas dos incisivos inferiores; ao lado, vista frontal em oclusão com os inferiores quase totalmente cobertos",
+     "legenda": "Mordida profunda traumática: a gengiva palatina superior mostra onde os incisivos inferiores batem a cada fechamento.",
+     "destacar": "Retração e inflamação da gengiva palatina, marcas das bordas incisais inferiores, fração dos incisivos inferiores coberta"
+    }
+   ],
+   "verificar": [
+    {
+     "onde": "Seção \"O que é e como medir\".blocos[0].texto",
+     "trecho": "ros, ou algo em torno de um quarto a um terço da coroa dos inferiores [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"O que é e como medir\".blocos[2].svg[11]",
+     "trecho": "le' font-size='12' fill='var(--muted,#8A8478)'>limiares de referência [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"A curva de Spee profunda: a marca no arco inferior\".blocos[1].texto",
+     "trecho": "consome perímetro do arco, em quantidade proporcional à profundidade [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"O que a mordida profunda faz de mal\".blocos[1].texto",
+     "trecho": "e hoje é considerada fraca ou inconsistente pela evidência disponível [VERIFICAR]"
     }
    ]
   },

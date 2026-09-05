@@ -1,0 +1,592 @@
+{
+  "id": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/mordida-profunda",
+  "areaId": "ortodontia",
+  "area": "Ortodontia",
+  "modulo": "Más oclusões",
+  "tema": "Características por tipo",
+  "titulo": "Mordida profunda: quando o trespasse vertical passa do ponto",
+  "estado": "rascunho",
+  "versao": 1,
+  "formato": 2,
+  "autoria": "Rascunho escrito pela plataforma para validação; nada aqui é visível ao aluno antes da assinatura de um ortodontista.",
+  "abertura": {
+    "situacao": "Menino de 13 anos, Classe II divisão 2, trespasse vertical de 7 mm: os incisivos inferiores tocam a gengiva palatina atrás dos superiores, que está vermelha e retraída. Face curta, mento marcado, musculatura forte. Ao sorrir, mostra pouco dos incisivos superiores e nada de gengiva. Curva de Spee inferior profunda.",
+    "pergunta": "Para abrir essa mordida você pode intruir os incisivos ou extruir os molares. Como o sorriso dele, que mostra pouco dente, decide qual dos dois?"
+  },
+  "umMinuto": {
+    "frases": [
+      "Mordida profunda é o trespasse vertical aumentado: os incisivos superiores cobrem os inferiores além do normal, medido em milímetros ou em percentual da coroa. É completa quando os inferiores tocam a mucosa palatina; traumática quando ferem a gengiva.",
+      "Há duas origens que se somam: a esquelética, da face curta, com mandíbula girando para a frente e para cima, plano mandibular horizontal e musculatura forte; e a dentária, com incisivos que erupcionaram demais por falta de contato ou posteriores que erupcionaram de menos.",
+      "A curva de Spee profunda no arco inferior é a marca dentária mais frequente: os incisivos subiram e os posteriores ficaram, e a diferença é o trespasse.",
+      "As consequências são gengiva palatina e vestibular feridas, desgaste de incisivos e, na Classe II divisão 2, mandíbula travada atrás dos incisivos superiores.",
+      "Abre-se a mordida de três jeitos: intruindo os incisivos, extruindo os posteriores para nivelar a curva, ou inclinando para a frente incisivos retroinclinados. O sorriso decide: gengiva demais pede intrusão; dente de menos pede extrusão.",
+      "A mordida profunda tende a voltar, sobretudo no adulto de face curta e musculatura forte; corrija o ângulo interincisal e planeje contenção com plano de mordida."
+    ],
+    "caiNaProva": [
+      "Definição e medida do trespasse vertical; completa e traumática",
+      "Mordida profunda esquelética versus dentária",
+      "Características cefalométricas da face curta",
+      "Consequências: gengiva, desgaste, mandíbula travada",
+      "Como escolher entre intrusão anterior e extrusão posterior"
+    ],
+    "porQueImporta": "Mordida profunda parece um problema pequeno e é dos que mais destroem gengiva e mais recidivam. Escolher o método de abertura pelo sorriso, e não por hábito, é o que separa um caso estável e bonito de um caso que fecha de novo com os incisivos alongados."
+  },
+  "secoes": [
+    {
+      "titulo": "O que é e como medir",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "Trespasse vertical é quanto os incisivos superiores cobrem os inferiores no sentido vertical. O normal é uma sobreposição pequena, de dois a três milímetros, ou algo em torno de um quarto a um terço da coroa dos inferiores [VERIFICAR]. Acima disso, mordida profunda. Mede-se em milímetros, da borda incisal superior projetada sobre a face vestibular do inferior até a borda incisal inferior, ou em percentual da altura da coroa inferior coberta."
+        },
+        {
+          "tipo": "p",
+          "texto": "Duas palavras completam o diagnóstico. Completa: os incisivos inferiores tocam a mucosa palatina atrás dos superiores, ou os superiores tocam a gengiva vestibular dos inferiores. Traumática: esse contato fere, com gengiva vermelha, retraída ou ulcerada. A mordida profunda completa e traumática é indicação de tratamento por si só, independentemente de qualquer outra característica da oclusão."
+        },
+        {
+          "tipo": "visual",
+          "formato": "anatomico",
+          "titulo": "Medindo o trespasse vertical: milímetros e percentual",
+          "descricao": "Incisivo superior e inferior em perfil, sobrepostos. Linha horizontal na borda incisal superior projetada sobre o inferior e outra na borda incisal inferior; a distância entre elas é o trespasse em milímetros. Ao lado, a coroa do inferior dividida em terços, com a fração coberta marcada: percentual. Abaixo, três faixas: normal, aumentado, completo com contato na mucosa.",
+          "viewBox": "0 0 560 360",
+          "svg": [
+            "<use href='#c-dente' x='170' y='40' width='50' height='120' transform='rotate(10 195 100)'/>",
+            "<use href='#c-dente' x='150' y='120' width='44' height='104' transform='rotate(180 172 172)'/>",
+            "<line x1='120' y1='150' x2='260' y2='150' stroke='var(--red,#B4533B)' stroke-width='1.5' stroke-dasharray='5 3'/><line x1='120' y1='120' x2='260' y2='120' stroke='var(--red,#B4533B)' stroke-width='1.5' stroke-dasharray='5 3'/>",
+            "<line x1='250' y1='120' x2='250' y2='150' stroke='var(--red,#B4533B)' stroke-width='2.5'/><text x='262' y='140' font-size='12' font-weight='700' fill='var(--red,#B4533B)'>trespasse em mm</text>",
+            "<text x='100' y='116' text-anchor='end' font-size='11' fill='var(--ink,#23211C)'>borda do inferior</text><text x='100' y='154' text-anchor='end' font-size='11' fill='var(--ink,#23211C)'>borda do superior</text>",
+            "<rect x='400' y='100' width='40' height='120' rx='6' fill='var(--blue-soft,#E9EEF3)' stroke='var(--ink,#23211C)' stroke-width='1.5'/><line x1='400' y1='140' x2='440' y2='140' stroke='var(--ink,#23211C)' stroke-width='1'/><line x1='400' y1='180' x2='440' y2='180' stroke='var(--ink,#23211C)' stroke-width='1'/>",
+            "<rect x='400' y='100' width='40' height='52' rx='6' fill='var(--red,#B4533B)' fill-opacity='0.4'/>",
+            "<text x='450' y='118' font-size='11' fill='var(--ink,#23211C)'>coroa do inferior em terços</text><text x='450' y='134' font-size='11' font-weight='700' fill='var(--red,#B4533B)'>fração coberta: percentual</text>",
+            "<g font-size='12' fill='var(--ink,#23211C)'><rect x='40' y='262' width='150' height='40' rx='6' fill='var(--green,#3E7C4F)' fill-opacity='0.2' stroke='var(--green,#3E7C4F)' stroke-width='1.5'/><text x='115' y='279' text-anchor='middle' font-weight='700'>normal</text><text x='115' y='295' text-anchor='middle' font-size='11'>2 a 3 mm; até um terço</text>",
+            "<rect x='205' y='262' width='150' height='40' rx='6' fill='var(--gold,#B08968)' fill-opacity='0.25' stroke='var(--gold,#B08968)' stroke-width='1.5'/><text x='280' y='279' text-anchor='middle' font-weight='700'>aumentado</text><text x='280' y='295' text-anchor='middle' font-size='11'>acima disso, sem contato</text>",
+            "<rect x='370' y='262' width='150' height='40' rx='6' fill='var(--red,#B4533B)' fill-opacity='0.2' stroke='var(--red,#B4533B)' stroke-width='1.5'/><text x='445' y='279' text-anchor='middle' font-weight='700'>completo</text><text x='445' y='295' text-anchor='middle' font-size='11'>toca a mucosa; traumático se fere</text></g>",
+            "<text x='280' y='340' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>limiares de referência [VERIFICAR]; registre em mm e diga se é completa e se há trauma</text>"
+          ],
+          "legenda": "Milímetros para comparar antes e depois; percentual para independer do tamanho do dente; e as duas palavras, completa e traumática, para dizer se há urgência."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "frase",
+          "texto": "Mordida profunda que fere gengiva não é detalhe de estética. É indicação de tratamento sozinha, e a gengiva não espera o resto do plano."
+        }
+      ],
+      "checagem": {
+        "pergunta": "O que diferencia mordida profunda completa de traumática?",
+        "resposta": "Completa: os incisivos inferiores tocam a mucosa palatina ou os superiores tocam a gengiva vestibular dos inferiores. Traumática: esse contato produz lesão, com gengiva vermelha, retraída ou ulcerada."
+      }
+    },
+    {
+      "titulo": "De onde vem: a face curta e os dentes que erupcionaram errado",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "A origem esquelética é a face curta, o padrão braquifacial ou hipodivergente: altura facial anterior inferior reduzida, plano mandibular quase paralelo ao de Frankfurt, ângulo goníaco fechado, ramo longo, mandíbula que gira para a frente e para cima durante o crescimento, musculatura mastigatória forte. Nessa face, os posteriores erupcionam pouco e os anteriores se sobrepõem demais: a mordida profunda é consequência da forma."
+        },
+        {
+          "tipo": "p",
+          "texto": "A origem dentária tem dois motores. O primeiro é a sobre-erupção dos incisivos, que continuam erupcionando enquanto não encontram contato: acontece na Classe II divisão 1 com trespasse horizontal grande, em que os inferiores passam atrás dos superiores sem tocá-los, e na divisão 2, em que os superiores retroinclinados não param os inferiores. O segundo é a infra-erupção dos posteriores, ou a perda deles, que reduz a altura de trás. A curva de Spee profunda registra os dois."
+        },
+        {
+          "tipo": "visual",
+          "formato": "comparativo",
+          "titulo": "Mordida profunda esquelética e dentária, lado a lado",
+          "descricao": "Duas colunas. Esquelética: face curta, altura facial inferior reduzida, plano mandibular horizontal, goníaco fechado, musculatura forte, mandíbula gira para a frente; incisivos e posteriores em altura relativa alterada pela forma. Dentária: face proporcional, incisivos sobre-erupcionados por falta de contato, posteriores infra-erupcionados ou perdidos, curva de Spee profunda, ângulo interincisal aberto. Nota: a maioria dos casos combina as duas.",
+          "viewBox": "0 0 720 340",
+          "svg": [
+            "<use href='#c-caixa-blue' x='30' y='16' width='300' height='44'/><text x='180' y='44' text-anchor='middle' font-size='15' font-weight='700'>Esquelética: face curta</text>",
+            "<use href='#c-caixa-gold' x='390' y='16' width='300' height='44'/><text x='540' y='44' text-anchor='middle' font-size='15' font-weight='700'>Dentária: erupção desigual</text>",
+            "<g font-size='12' fill='var(--ink,#23211C)'><text x='40' y='90' font-weight='700'>Esqueleto</text><text x='40' y='108'>altura facial inferior reduzida</text><text x='40' y='124'>plano mandibular horizontal, goníaco fechado</text><text x='40' y='140'>mandíbula gira para a frente e para cima</text><text x='40' y='172' font-weight='700'>Músculo</text><text x='40' y='190'>mastigatórios e lábios fortes</text><text x='40' y='222' font-weight='700'>Consequência</text><text x='40' y='240'>posteriores erupcionam pouco;</text><text x='40' y='256'>anteriores se sobrepõem demais</text></g>",
+            "<g font-size='12' fill='var(--ink,#23211C)'><text x='400' y='90' font-weight='700'>Esqueleto</text><text x='400' y='108'>proporcional ou pouco alterado</text><text x='400' y='140' font-weight='700'>Dentes</text><text x='400' y='158'>incisivos sobre-erupcionados por falta de contato</text><text x='400' y='174'>(divisão 1 com trespasse grande; divisão 2)</text><text x='400' y='190'>posteriores infra-erupcionados ou perdidos</text><text x='400' y='222' font-weight='700'>Marcas</text><text x='400' y='240'>curva de Spee profunda</text><text x='400' y='256'>ângulo interincisal aberto</text></g>",
+            "<use href='#c-caixa-ink' x='120' y='286' width='480' height='40'/><text x='360' y='311' text-anchor='middle' font-size='12' font-weight='700' fill='#fff'>Na maioria dos pacientes as duas origens se somam</text>"
+          ],
+          "legenda": "A face curta cria o palco; a erupção desigual dos dentes escreve a cena. O tratamento precisa saber quanto de cada uma."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "prova",
+          "texto": "Assinatura cefalométrica da mordida profunda esquelética: altura facial anterior inferior reduzida, plano mandibular horizontal, ângulo goníaco fechado, ramo longo, musculatura forte; padrão braquifacial ou hipodivergente. É o espelho da mordida aberta esquelética, e a prova gosta de pedir os dois juntos."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Por que a Classe II divisão 1 com trespasse horizontal grande costuma ter mordida profunda?",
+        "resposta": "Porque os incisivos inferiores passam atrás dos superiores sem encontrar contato e continuam erupcionando; a sobre-erupção aumenta o trespasse vertical e aprofunda a curva de Spee."
+      }
+    },
+    {
+      "titulo": "A curva de Spee profunda: a marca no arco inferior",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "A curva de Spee é a curvatura do plano oclusal inferior vista de lado, das bordas dos incisivos às cúspides dos molares. Na oclusão normal ela é plana ou suave. Na mordida profunda, ela se aprofunda: os incisivos estão altos, os pré-molares baixos, os molares altos de novo. Cada milímetro de profundidade da curva é espaço que o nivelamento vai precisar, porque nivelar a curva alonga o arco."
+        },
+        {
+          "tipo": "p",
+          "texto": "Isso liga a mordida profunda ao planejamento de espaço. Nivelar uma curva de Spee profunda por extrusão dos pré-molares consome perímetro do arco, em quantidade proporcional à profundidade [VERIFICAR]; nivelar por intrusão dos incisivos não consome. Em um arco inferior já apinhado, a escolha do método de abertura da mordida decide se haverá ou não extração."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "dica",
+          "titulo": "Meça a curva antes de decidir a extração",
+          "texto": "Com uma régua sobre as cúspides dos molares e as bordas dos incisivos, meça a profundidade da curva de Spee no ponto mais baixo. Some esse valor à discrepância de espaço quando o nivelamento for por extrusão; não some quando for por intrusão. Muitos casos de fronteira mudam de lado só por essa conta."
+        },
+        {
+          "tipo": "lista",
+          "itens": [
+            "Curva plana ou suave: oclusão normal; chave VI de Andrews.",
+            "Curva profunda com incisivos altos: sobre-erupção anterior; candidata a intrusão se o sorriso mostrar gengiva.",
+            "Curva profunda com pré-molares baixos: infra-erupção posterior; candidata a extrusão se o sorriso mostrar pouco dente e a face for curta.",
+            "Curva reversa no superior com Spee profunda no inferior: os arcos não se encaixam sem nivelamento dos dois."
+          ]
+        }
+      ],
+      "checagem": {
+        "pergunta": "Por que a profundidade da curva de Spee entra na análise de espaço?",
+        "resposta": "Porque nivelar a curva por extrusão dos posteriores alonga o arco e consome perímetro proporcional à profundidade; por intrusão dos incisivos, não. A escolha do método pode decidir a extração."
+      }
+    },
+    {
+      "titulo": "O que a mordida profunda faz de mal",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "A primeira vítima é a gengiva. Os incisivos inferiores batendo na mucosa palatina atrás dos superiores produzem inflamação, retração e, com o tempo, perda de inserção; os superiores batendo na gengiva vestibular dos inferiores fazem o mesmo do outro lado. A segunda é o esmalte: incisivos que se cruzam com força e musculatura forte desgastam as bordas, e o desgaste, por sua vez, aprofunda ainda mais a mordida."
+        },
+        {
+          "tipo": "p",
+          "texto": "A terceira consequência é mecânica: na Classe II divisão 2, os incisivos superiores retroinclinados com mordida profunda travam a mandíbula, que não consegue avançar. Antes de qualquer correção sagital, a mordida precisa ser aberta e os incisivos inclinados para a frente. A relação com disfunção da articulação temporomandibular já foi muito afirmada e hoje é considerada fraca ou inconsistente pela evidência disponível [VERIFICAR]."
+        },
+        {
+          "tipo": "imagem",
+          "imagem": "fotografia intrabucal da face palatina dos incisivos superiores em paciente com mordida profunda completa e traumática",
+          "mostrar": "Vista palatina dos incisivos superiores com a gengiva marginal palatina inflamada e retraída nos pontos de contato das bordas dos incisivos inferiores; ao lado, vista frontal em oclusão com os inferiores quase totalmente cobertos",
+          "legenda": "Mordida profunda traumática: a gengiva palatina superior mostra onde os incisivos inferiores batem a cada fechamento.",
+          "destacar": "Retração e inflamação da gengiva palatina, marcas das bordas incisais inferiores, fração dos incisivos inferiores coberta"
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "erro",
+          "texto": "Registrar \"mordida profunda\" sem dizer se é completa e se há trauma. A profunda que fere gengiva tem urgência própria e muda a ordem do plano; a que não toca pode esperar a sequência normal. Duas palavras na ficha separam as duas."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Por que a mordida profunda da Classe II divisão 2 precisa ser corrigida antes da relação sagital?",
+        "resposta": "Porque os incisivos superiores retroinclinados com trespasse profundo travam a mandíbula: os inferiores batem na face palatina e impedem o avanço; abrir a mordida e inclinar os superiores para a frente libera o caminho."
+      }
+    },
+    {
+      "titulo": "Três jeitos de abrir, e o sorriso decide",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "Abre-se a mordida profunda por três caminhos. Intrusão dos incisivos: move para dentro do osso os dentes que erupcionaram demais; indicada quando o sorriso mostra gengiva em excesso e os incisivos superiores estão alongados. Extrusão dos posteriores, nivelando a curva de Spee: eleva a altura de trás e faz a mandíbula girar para baixo e para trás; indicada na face curta, com pouca exposição de dente ao sorrir, e sobretudo no paciente em crescimento, em que a altura ganha é acompanhada pelo crescimento vertical."
+        },
+        {
+          "tipo": "p",
+          "texto": "O terceiro caminho é a inclinação para a frente de incisivos retroinclinados: ao inclinar, a borda do superior sobe em relação ao inferior e o trespasse diminui sem que nenhum dente mude de altura; é a abertura relativa, decisiva na divisão 2. Nos casos esqueléticos graves do adulto, com face muito curta, a cirurgia que aumenta a altura facial entra na conversa. O que nunca decide sozinho é o hábito do operador: decide o sorriso, a face e a idade."
+        },
+        {
+          "tipo": "visual",
+          "formato": "processo",
+          "titulo": "Intruir, extruir ou inclinar: como escolher",
+          "descricao": "Três caixas com a indicação de cada método. Intrusão dos incisivos: sorriso com gengiva em excesso, incisivos alongados, face normal ou longa; não consome espaço; adulto ou adolescente. Extrusão dos posteriores: sorriso com pouco dente, face curta, paciente em crescimento; consome perímetro; a mandíbula gira para baixo e para trás. Inclinação dos incisivos retroinclinados: divisão 2 e ângulo interincisal aberto; abertura relativa. Abaixo: no adulto de face curta grave, cirurgia.",
+          "viewBox": "0 0 720 360",
+          "svg": [
+            "<use href='#c-caixa-gold' x='16' y='16' width='220' height='44'/><text x='126' y='44' text-anchor='middle' font-size='14' font-weight='700'>Intruir incisivos</text>",
+            "<use href='#c-caixa-blue' x='250' y='16' width='220' height='44'/><text x='360' y='44' text-anchor='middle' font-size='14' font-weight='700'>Extruir posteriores</text>",
+            "<use href='#c-caixa-green' x='484' y='16' width='220' height='44'/><text x='594' y='44' text-anchor='middle' font-size='14' font-weight='700'>Inclinar incisivos</text>",
+            "<g font-size='11' fill='var(--ink,#23211C)'><text x='24' y='90' font-weight='700'>Quando</text><text x='24' y='106'>sorriso mostra gengiva demais</text><text x='24' y='120'>incisivos alongados</text><text x='24' y='134'>face normal ou longa</text><text x='24' y='166' font-weight='700'>Efeito colateral</text><text x='24' y='182'>não consome espaço no arco</text><text x='24' y='196'>exige ancoragem e controle de raiz</text><text x='24' y='228' font-weight='700'>Idade</text><text x='24' y='244'>adolescente e adulto</text></g>",
+            "<g font-size='11' fill='var(--ink,#23211C)'><text x='258' y='90' font-weight='700'>Quando</text><text x='258' y='106'>sorriso mostra pouco dente</text><text x='258' y='120'>face curta, altura inferior reduzida</text><text x='258' y='134'>curva de Spee com pré-molares baixos</text><text x='258' y='166' font-weight='700'>Efeito colateral</text><text x='258' y='182'>consome perímetro do arco</text><text x='258' y='196'>mandíbula gira para baixo e para trás</text><text x='258' y='228' font-weight='700'>Idade</text><text x='258' y='244'>melhor em crescimento; no adulto recidiva</text></g>",
+            "<g font-size='11' fill='var(--ink,#23211C)'><text x='492' y='90' font-weight='700'>Quando</text><text x='492' y='106'>incisivos retroinclinados (divisão 2)</text><text x='492' y='120'>ângulo interincisal aberto</text><text x='492' y='166' font-weight='700'>Efeito colateral</text><text x='492' y='182'>abertura relativa: ninguém muda de altura</text><text x='492' y='196'>aumenta o trespasse horizontal</text><text x='492' y='228' font-weight='700'>Idade</text><text x='492' y='244'>qualquer; é passo prévio ao avanço</text></g>",
+            "<use href='#c-caixa-ink' x='100' y='276' width='520' height='40'/><text x='360' y='301' text-anchor='middle' font-size='12' font-weight='700' fill='#fff'>Adulto com face muito curta e mordida esquelética grave: cirurgia para aumentar a altura facial</text>",
+            "<text x='360' y='344' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>a maioria dos casos combina dois métodos; o sorriso diz em que proporção</text>"
+          ],
+          "legenda": "Gengiva demais ao sorrir: intruir na frente. Dente de menos ao sorrir e face curta: extruir atrás. Incisivos travados: inclinar primeiro. A face escolhe, não o operador."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "mito",
+          "mito": "Mordida profunda se abre sempre nivelando a curva de Spee com um fio contínuo.",
+          "verdade": "O fio contínuo nivela extruindo pré-molares e consumindo espaço, e em quem já mostra pouco dente ao sorrir isso é aceitável; em quem mostra gengiva em excesso, o nivelamento por extrusão deixa os incisivos alongados no lugar. Nesses casos, o método é a intrusão anterior, com mecânica própria."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Que achado do sorriso indica intrusão dos incisivos em vez de extrusão dos posteriores?",
+        "resposta": "Exposição gengival excessiva ao sorrir, com incisivos superiores alongados: intruir corrige a mordida e o sorriso; extruir posteriores deixaria os incisivos longos."
+      }
+    },
+    {
+      "titulo": "Estabilidade e contenção",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "A mordida profunda tende a voltar, e volta mais no adulto de face curta e musculatura forte: a altura ganha por extrusão posterior é comprimida de novo pelos músculos, e os incisivos intruídos tendem a reerupcionar. No paciente em crescimento, a extrusão posterior é mais estável porque o crescimento vertical acomoda a nova altura."
+        },
+        {
+          "tipo": "p",
+          "texto": "Três medidas protegem o resultado. Corrigir o ângulo interincisal, porque incisivos que se encontram em ângulo aberto deslizam um sobre o outro e reaprofundam a mordida; sobrecorrigir discretamente o trespasse ao final; e conter com dispositivo que impeça a reerupção dos incisivos e mantenha a altura posterior, como o plano de mordida anterior na placa de contenção superior. A contenção da mordida profunda é tão longa quanto a do apinhamento inferior, e pela mesma razão: a forma quer voltar."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "dica",
+          "titulo": "O ângulo interincisal é o seguro",
+          "texto": "Antes de remover o aparelho, meça o ângulo entre os longos eixos dos incisivos superiores e inferiores na telerradiografia final. Se continua muito aberto, a mordida profunda vai voltar por deslizamento, não importa a contenção. Corrigir a inclinação dos dois grupos de incisivos é a contenção que fica dentro da boca."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Por que a extrusão posterior é mais estável no paciente em crescimento que no adulto?",
+        "resposta": "Porque no jovem o crescimento vertical acomoda a nova altura posterior; no adulto de face curta, a musculatura forte comprime de volta a altura ganha."
+      }
+    },
+    {
+      "titulo": "De volta ao menino de 13 anos",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "Divisão 2, mordida profunda completa e traumática, face curta, musculatura forte, sorriso que mostra pouco dente e nenhuma gengiva. Intruir os incisivos superiores encurtaria ainda mais um sorriso que já mostra pouco."
+        },
+        {
+          "tipo": "p",
+          "texto": "O caminho é o inverso: inclinar os centrais para a frente, destravando a mandíbula e abrindo a mordida de modo relativo, e nivelar a curva de Spee extruindo os posteriores, aproveitando que ele ainda cresce e que a face curta tolera ganho de altura. A gengiva palatina ferida diz que isso começa cedo no plano, não no fim."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "frase",
+          "texto": "Sorriso com pouco dente e face curta pedem altura atrás, não dente para dentro na frente. O sorriso escolhe o método; a gengiva escolhe a hora."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Por que a intrusão dos incisivos superiores não é o método de escolha no menino da abertura?",
+        "resposta": "Porque o sorriso dele já mostra pouco dente e nenhuma gengiva; intruir encurtaria mais o sorriso. Face curta e crescimento favorecem extruir os posteriores e inclinar os centrais para a frente."
+      }
+    }
+  ],
+  "fechamento": {
+    "visual": {
+      "formato": "mapa",
+      "titulo": "Mapa da página",
+      "descricao": "Nó central: mordida profunda. Seis nós: medir em mm e percentual, completa e traumática; face curta e erupção desigual; curva de Spee e espaço; gengiva, desgaste, mandíbula travada; intruir, extruir ou inclinar pelo sorriso; ângulo interincisal e contenção.",
+      "viewBox": "0 0 560 360",
+      "svg": [
+        "<g stroke='var(--border,#EDE6D8)' stroke-width='1.5'><line x1='280' y1='180' x2='100' y2='60'/><line x1='280' y1='180' x2='460' y2='60'/><line x1='280' y1='180' x2='70' y2='180'/><line x1='280' y1='180' x2='490' y2='180'/><line x1='280' y1='180' x2='100' y2='300'/><line x1='280' y1='180' x2='460' y2='300'/></g>",
+        "<use href='#c-no-central' x='190' y='150' width='180' height='60'/>",
+        "<text x='280' y='186' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>Mordida profunda</text>",
+        "<use href='#c-no' x='20' y='38' width='160' height='44'/><text x='100' y='65' text-anchor='middle' font-size='13' font-weight='700'>mm, %, completa, trauma</text>",
+        "<use href='#c-no' x='380' y='38' width='160' height='44'/><text x='460' y='65' text-anchor='middle' font-size='13' font-weight='700'>Face curta e erupção</text>",
+        "<use href='#c-no' x='0' y='158' width='150' height='44'/><text x='75' y='185' text-anchor='middle' font-size='13' font-weight='700'>Spee custa espaço</text>",
+        "<use href='#c-no' x='410' y='158' width='150' height='44'/><text x='485' y='185' text-anchor='middle' font-size='13' font-weight='700'>Gengiva e mandíbula presa</text>",
+        "<use href='#c-no' x='20' y='278' width='160' height='44'/><text x='100' y='305' text-anchor='middle' font-size='13' font-weight='700'>O sorriso escolhe o método</text>",
+        "<use href='#c-no' x='380' y='278' width='160' height='44'/><text x='460' y='305' text-anchor='middle' font-size='13' font-weight='700'>Ângulo interincisal segura</text>"
+      ]
+    },
+    "flashcards": [
+      {
+        "frente": "Defina mordida profunda completa e traumática.",
+        "verso": "Completa: os incisivos inferiores tocam a mucosa palatina ou os superiores tocam a gengiva vestibular dos inferiores. Traumática: o contato lesa a gengiva. Indicação de tratamento por si só."
+      },
+      {
+        "frente": "Assinatura cefalométrica da mordida profunda esquelética.",
+        "verso": "Face curta: altura facial anterior inferior reduzida, plano mandibular horizontal, ângulo goníaco fechado, ramo longo, musculatura forte; padrão braquifacial ou hipodivergente."
+      },
+      {
+        "frente": "Como escolher entre intruir incisivos e extruir posteriores?",
+        "verso": "Sorriso com gengiva em excesso e incisivos alongados: intruir. Sorriso com pouco dente, face curta e paciente em crescimento: extruir posteriores. Incisivos retroinclinados: inclinar primeiro (abertura relativa)."
+      }
+    ]
+  },
+  "infografico": {
+    "titulo": "Mordida profunda em seis cartões",
+    "itens": [
+      {
+        "rotulo": "Medir",
+        "texto": "Trespasse vertical em mm e em percentual da coroa inferior. Normal 2 a 3 mm. Completa se toca a mucosa; traumática se fere."
+      },
+      {
+        "rotulo": "Esquelética",
+        "texto": "Face curta: altura inferior reduzida, plano mandibular horizontal, goníaco fechado, músculos fortes, mandíbula gira para a frente."
+      },
+      {
+        "rotulo": "Dentária",
+        "texto": "Incisivos sobre-erupcionados por falta de contato; posteriores infra-erupcionados ou perdidos; curva de Spee profunda."
+      },
+      {
+        "rotulo": "Dano",
+        "texto": "Gengiva palatina e vestibular feridas, desgaste de incisivos, mandíbula travada na divisão 2."
+      },
+      {
+        "rotulo": "Abrir",
+        "texto": "Intruir incisivos (gengiva demais), extruir posteriores (dente de menos, face curta, crescimento), inclinar retroinclinados (divisão 2)."
+      },
+      {
+        "rotulo": "Manter",
+        "texto": "Corrigir o ângulo interincisal, sobrecorrigir um pouco, plano de mordida na contenção; volta mais no adulto de face curta."
+      }
+    ]
+  },
+  "fluxograma": {
+    "titulo": "Mordida profunda: escolhendo como abrir",
+    "nos": [
+      {
+        "id": "n1",
+        "tipo": "inicio",
+        "texto": "Trespasse vertical aumentado, medido; completa? traumática?"
+      },
+      {
+        "id": "n2",
+        "tipo": "decisao",
+        "texto": "Incisivos superiores retroinclinados (divisão 2)?"
+      },
+      {
+        "id": "n3",
+        "tipo": "acao",
+        "texto": "Inclinar os centrais para a frente: abertura relativa e mandíbula destravada"
+      },
+      {
+        "id": "n4",
+        "tipo": "decisao",
+        "texto": "Sorriso mostra gengiva em excesso, incisivos alongados?"
+      },
+      {
+        "id": "n5",
+        "tipo": "acao",
+        "texto": "Intrusão dos incisivos: não consome espaço; controlar raízes"
+      },
+      {
+        "id": "n6",
+        "tipo": "decisao",
+        "texto": "Face curta, pouco dente ao sorrir, paciente em crescimento?"
+      },
+      {
+        "id": "n7",
+        "tipo": "acao",
+        "texto": "Extrusão dos posteriores nivelando a curva de Spee; somar a profundidade à análise de espaço"
+      },
+      {
+        "id": "n8",
+        "tipo": "acao",
+        "texto": "Adulto de face curta grave: considerar cirurgia para aumentar a altura facial"
+      },
+      {
+        "id": "n9",
+        "tipo": "fim",
+        "texto": "Corrigir o ângulo interincisal, sobrecorrigir, conter com plano de mordida"
+      }
+    ],
+    "arestas": [
+      {
+        "de": "n1",
+        "para": "n2"
+      },
+      {
+        "de": "n2",
+        "para": "n3",
+        "rotulo": "sim"
+      },
+      {
+        "de": "n3",
+        "para": "n4"
+      },
+      {
+        "de": "n2",
+        "para": "n4",
+        "rotulo": "não"
+      },
+      {
+        "de": "n4",
+        "para": "n5",
+        "rotulo": "sim"
+      },
+      {
+        "de": "n5",
+        "para": "n9"
+      },
+      {
+        "de": "n4",
+        "para": "n6",
+        "rotulo": "não"
+      },
+      {
+        "de": "n6",
+        "para": "n7",
+        "rotulo": "sim"
+      },
+      {
+        "de": "n6",
+        "para": "n8",
+        "rotulo": "não"
+      },
+      {
+        "de": "n7",
+        "para": "n9"
+      },
+      {
+        "de": "n8",
+        "para": "n9"
+      }
+    ]
+  },
+  "passoAPasso": [
+    {
+      "passo": "Meça o trespasse vertical em mm e em percentual; registre se é completo e se há trauma gengival.",
+      "confira": "A gengiva palatina superior e a vestibular inferior estão íntegras?"
+    },
+    {
+      "passo": "Leia a face: altura do terço inferior, musculatura, plano mandibular na cefalometria.",
+      "confira": "Padrão braquifacial confirmado ou face proporcional?"
+    },
+    {
+      "passo": "Meça a curva de Spee e a inclinação dos incisivos; calcule o ângulo interincisal.",
+      "confira": "Incisivos sobre-erupcionados, posteriores baixos ou os dois? Incisivos retroinclinados?"
+    },
+    {
+      "passo": "Fotografe o sorriso: quanto dente e quanta gengiva aparecem.",
+      "confira": "Gengiva em excesso (intruir) ou dente de menos (extruir)?"
+    },
+    {
+      "passo": "Escolha e combine os métodos; some a curva de Spee à análise de espaço se for extruir; planeje a contenção.",
+      "confira": "O ângulo interincisal final está previsto no plano?"
+    }
+  ],
+  "macetes": [
+    {
+      "titulo": "Gengiva demais, intrui; dente de menos, extrui",
+      "texto": "O sorriso escolhe o método de abertura. Face curta com pouco dente aparente pede altura atrás, não incisivo para dentro."
+    },
+    {
+      "titulo": "Spee cobra espaço",
+      "texto": "Nivelar por extrusão consome perímetro proporcional à profundidade da curva. Some à discrepância antes de decidir extrair."
+    },
+    {
+      "titulo": "Destrave antes de avançar",
+      "texto": "Divisão 2: inclinar os centrais para a frente abre a mordida de modo relativo e libera a mandíbula."
+    },
+    {
+      "titulo": "Ângulo fechado, mordida segura",
+      "texto": "Ângulo interincisal aberto faz os incisivos deslizarem e a mordida voltar. Corrija a inclinação dos dois grupos."
+    }
+  ],
+  "ondeErra": [
+    {
+      "erro": "Intruir incisivos em paciente que mostra pouco dente ao sorrir.",
+      "porque": "Encurta um sorriso já curto; a face curta pede ganho de altura posterior.",
+      "certo": "Escolher pelo sorriso: extrusão posterior e inclinação dos incisivos nesses casos."
+    },
+    {
+      "erro": "Nivelar a curva de Spee por extrusão sem contar o espaço consumido.",
+      "porque": "O nivelamento alonga o arco em quantidade proporcional à profundidade da curva.",
+      "certo": "Somar a profundidade da curva à análise de espaço."
+    },
+    {
+      "erro": "Registrar mordida profunda sem dizer se é completa e traumática.",
+      "porque": "A traumática tem urgência própria e muda a ordem do plano.",
+      "certo": "Milímetros, percentual, completa, traumática: quatro dados na ficha."
+    },
+    {
+      "erro": "Remover o aparelho com ângulo interincisal ainda aberto.",
+      "porque": "Os incisivos deslizam um sobre o outro e a mordida reaprofunda, apesar da contenção.",
+      "certo": "Corrigir a inclinação dos incisivos antes de terminar; conter com plano de mordida."
+    }
+  ],
+  "autoteste": [
+    {
+      "pergunta": "Mordida profunda completa é aquela em que:",
+      "alternativas": [
+        "O trespasse vertical é maior que 2 mm",
+        "Os incisivos inferiores tocam a mucosa palatina atrás dos superiores, ou os superiores tocam a gengiva vestibular dos inferiores",
+        "Os incisivos estão em topo",
+        "Há mordida cruzada anterior associada"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Trespasse acima do normal é mordida profunda, mas completa exige contato com a mucosa.",
+        "Correta: e traumática quando esse contato lesa a gengiva.",
+        "Topo é trespasse zero.",
+        "Não define a mordida profunda completa."
+      ]
+    },
+    {
+      "pergunta": "A assinatura cefalométrica da mordida profunda esquelética inclui:",
+      "alternativas": [
+        "Altura facial anterior inferior aumentada e plano mandibular inclinado",
+        "Altura facial anterior inferior reduzida, plano mandibular horizontal e ângulo goníaco fechado",
+        "ANB aumentado e SNB reduzido",
+        "Plano oclusal inclinado e Wits invertido"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Esse é o padrão da mordida aberta esquelética.",
+        "Correta: padrão braquifacial ou hipodivergente, com musculatura forte.",
+        "São achados sagitais de Classe II, não verticais.",
+        "Não descrevem o padrão vertical."
+      ]
+    },
+    {
+      "pergunta": "Paciente com mordida profunda, sorriso com exposição gengival excessiva e incisivos superiores alongados. O método de abertura mais adequado é:",
+      "alternativas": [
+        "Extrusão dos posteriores com fio contínuo",
+        "Intrusão dos incisivos superiores",
+        "Extração de pré-molares",
+        "Expansão da maxila"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Deixaria os incisivos alongados e o sorriso gengival.",
+        "Correta: corrige a mordida e o sorriso ao mesmo tempo.",
+        "Não abre a mordida.",
+        "Não tem relação com o trespasse vertical."
+      ]
+    },
+    {
+      "pergunta": "Sobre o nivelamento da curva de Spee profunda por extrusão dos posteriores, é correto afirmar que:",
+      "alternativas": [
+        "Não interfere na análise de espaço",
+        "Consome perímetro do arco em quantidade proporcional à profundidade da curva",
+        "Encurta o arco inferior",
+        "É indicado sempre que há exposição gengival excessiva"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Interfere: alonga o arco.",
+        "Correta: por isso a profundidade da curva se soma à discrepância quando o nivelamento é por extrusão.",
+        "Alonga, não encurta.",
+        "Exposição gengival excessiva pede intrusão anterior."
+      ]
+    },
+    {
+      "pergunta": "A medida que mais protege a correção da mordida profunda contra a recidiva por deslizamento dos incisivos é:",
+      "alternativas": [
+        "Manter o ângulo interincisal aberto",
+        "Corrigir o ângulo interincisal para valores próximos do normal antes de remover o aparelho",
+        "Extrair os terceiros molares",
+        "Usar contenção apenas no arco inferior"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Ângulo aberto é justamente o que faz os incisivos deslizarem e a mordida reaprofundar.",
+        "Correta: é a contenção que fica dentro da boca; a placa com plano de mordida complementa.",
+        "Sem relação.",
+        "A contenção da mordida profunda envolve o arco superior com plano de mordida."
+      ]
+    }
+  ],
+  "pesquisa": {
+    "termos": [
+      "mordida profunda",
+      "sobremordida",
+      "curva de Spee",
+      "intrusão de incisivos",
+      "padrão braquifacial"
+    ]
+  },
+  "referenciasBase": [
+    "Proffit WR, Fields HW, Larson BE, Sarver DM. Ortodontia Contemporânea. 6ª ed. Problemas verticais: mordida profunda.",
+    "Burstone CJ. Deep overbite correction by intrusion. Am J Orthod. 1977.",
+    "Nanda R. Biomecânica e Estética: estratégias em ortodontia clínica. Correção da mordida profunda.",
+    "Graber LW, Vanarsdall RL, Vig KWL, Huang GJ. Ortodontia: princípios e técnicas atuais. 6ª ed.",
+    "Moyers RE. Ortodontia. 4ª ed."
+  ],
+  "validacao": {
+    "validadoPor": null,
+    "data": null
+  }
+}
