@@ -1,10 +1,10 @@
 {
  "atualizadoEm": "2026-09-05",
  "totalPaginas": 3387,
- "concluidas": 33,
+ "concluidas": 34,
  "porStatus": {
-  "pendente": 3354,
-  "rascunho": 33,
+  "pendente": 3353,
+  "rascunho": 34,
   "revisado": 0,
   "publicado": 0
  },
@@ -12,7 +12,7 @@
   "id": "ortodontia/mas-oclusoes",
   "area": "Ortodontia",
   "modulo": "Más oclusões",
-  "faltam": 2
+  "faltam": 1
  },
  "imagensPendentes": [
   {
@@ -230,6 +230,15 @@
    "mostrar": "Vista palatina dos incisivos superiores com a gengiva marginal palatina inflamada e retraída nos pontos de contato das bordas dos incisivos inferiores; ao lado, vista frontal em oclusão com os inferiores quase totalmente cobertos",
    "legenda": "Mordida profunda traumática: a gengiva palatina superior mostra onde os incisivos inferiores batem a cada fechamento.",
    "destacar": "Retração e inflamação da gengiva palatina, marcas das bordas incisais inferiores, fração dos incisivos inferiores coberta"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/mordida-cruzada",
+   "modulo": "Más oclusões",
+   "secao": "Por que não esperar",
+   "imagem": "fotografia intrabucal frontal de criança com mordida cruzada posterior unilateral e desvio de linha média, em oclusão habitual e em relação cêntrica",
+   "mostrar": "Vista frontal em oclusão com o segmento posterior direito cruzado e a linha média inferior desviada para a direita; ao lado, a mesma criança guiada até o primeiro contato, com linha média centrada e os dois lados em topo",
+   "legenda": "O mesmo menino em duas posições: a cruzada \"unilateral\" da oclusão habitual é constrição bilateral com deslize ao fechar.",
+   "destacar": "Linha média inferior nas duas fotos, relação vestibulolingual dos posteriores dos dois lados em cada posição"
   }
  ],
  "verificarPendentes": [
@@ -762,6 +771,21 @@
    "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/mordida-profunda",
    "onde": "Seção \"O que a mordida profunda faz de mal\".blocos[1].texto",
    "trecho": "e hoje é considerada fraca ou inconsistente pela evidência disponível [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/mordida-cruzada",
+   "onde": "Seção \"A ferramenta certa em cada idade\".blocos[0].texto",
+   "trecho": "nto a sutura permite, com resposta que cai à medida que ela amadurece [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/mordida-cruzada",
+   "onde": "Seção \"A ferramenta certa em cada idade\".blocos[1].texto",
+   "trecho": ", e a expansão cirurgicamente assistida, que a abre em qualquer idade [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/mordida-cruzada",
+   "onde": "Seção \"A ferramenta certa em cada idade\".blocos[2].svg[7]",
+   "trecho": "middle' font-size='12' fill='var(--muted,#8A8478)'>idades aproximadas [VERIFICAR]"
   }
  ],
  "modulos": [
@@ -897,11 +921,11 @@
    "area": "Ortodontia",
    "modulo": "Más oclusões",
    "total": 16,
-   "concluidas": 14,
-   "palavras": 51978,
-   "visuais": 69,
-   "imagensClinicas": 14,
-   "verificar": 64,
+   "concluidas": 15,
+   "palavras": 55735,
+   "visuais": 73,
+   "imagensClinicas": 15,
+   "verificar": 67,
    "paginas": [
     {
      "id": "ortodontia/mas-oclusoes/classificacao/classificacao-de-angle",
@@ -1019,7 +1043,9 @@
      "id": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/mordida-cruzada",
      "nome": "Mordida cruzada",
      "tema": "Características por tipo",
-     "status": "pendente"
+     "status": "rascunho",
+     "palavras": 3757,
+     "visuais": 4
     },
     {
      "id": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/assimetrias",
@@ -26992,6 +27018,62 @@
     {
      "onde": "Seção \"O que a mordida profunda faz de mal\".blocos[1].texto",
      "trecho": "e hoje é considerada fraca ou inconsistente pela evidência disponível [VERIFICAR]"
+    }
+   ]
+  },
+  "ortodontia/mas-oclusoes/caracteristicas-por-tipo/mordida-cruzada": {
+   "titulo": "Mordida cruzada: o problema transversal que a criança não corrige sozinha",
+   "arquivo": "data/campus/paginas/ortodontia--maoclusao-tipo-mordida-cruzada.json",
+   "formato": 2,
+   "status": "rascunho",
+   "estado": "rascunho",
+   "palavras": 3757,
+   "visuais": [
+    {
+     "formato": "anatomico",
+     "titulo": "Normal, cruzada posterior e mordida em tesoura, em corte frontal"
+    },
+    {
+     "formato": "processo",
+     "titulo": "Como a constrição bilateral vira uma cruzada \"unilateral\": o desvio funcional"
+    },
+    {
+     "formato": "linha-do-tempo",
+     "titulo": "Expandir a maxila: a ferramenta por idade"
+    },
+    {
+     "formato": "mapa",
+     "titulo": "Mapa da página"
+    }
+   ],
+   "quadros": {
+    "frase": 2,
+    "prova": 1,
+    "dica": 2,
+    "mito": 1,
+    "erro": 1
+   },
+   "imagensClinicas": [
+    {
+     "secao": "Por que não esperar",
+     "imagem": "fotografia intrabucal frontal de criança com mordida cruzada posterior unilateral e desvio de linha média, em oclusão habitual e em relação cêntrica",
+     "mostrar": "Vista frontal em oclusão com o segmento posterior direito cruzado e a linha média inferior desviada para a direita; ao lado, a mesma criança guiada até o primeiro contato, com linha média centrada e os dois lados em topo",
+     "legenda": "O mesmo menino em duas posições: a cruzada \"unilateral\" da oclusão habitual é constrição bilateral com deslize ao fechar.",
+     "destacar": "Linha média inferior nas duas fotos, relação vestibulolingual dos posteriores dos dois lados em cada posição"
+    }
+   ],
+   "verificar": [
+    {
+     "onde": "Seção \"A ferramenta certa em cada idade\".blocos[0].texto",
+     "trecho": "nto a sutura permite, com resposta que cai à medida que ela amadurece [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"A ferramenta certa em cada idade\".blocos[1].texto",
+     "trecho": ", e a expansão cirurgicamente assistida, que a abre em qualquer idade [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"A ferramenta certa em cada idade\".blocos[2].svg[7]",
+     "trecho": "middle' font-size='12' fill='var(--muted,#8A8478)'>idades aproximadas [VERIFICAR]"
     }
    ]
   },

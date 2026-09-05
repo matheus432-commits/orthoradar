@@ -94,10 +94,10 @@
             "<use href='#c-dente' x='300' y='150' width='40' height='96' transform='rotate(-30 320 198)'/>",
             "<use href='#c-dente' x='268' y='210' width='34' height='84' transform='rotate(180 285 252)'/>",
             "<line x1='285' y1='226' x2='344' y2='226' stroke='var(--red,#B4533B)' stroke-width='2'/><line x1='285' y1='220' x2='285' y2='232' stroke='var(--red,#B4533B)' stroke-width='2'/><line x1='344' y1='220' x2='344' y2='232' stroke='var(--red,#B4533B)' stroke-width='2'/>",
-            "<text x='420' y='222' font-size='12' font-weight='700' fill='var(--red,#B4533B)'>trespasse horizontal</text><text x='420' y='238' font-size='12' font-weight='700' fill='var(--red,#B4533B)'>aumentado</text>",
-            "<text x='420' y='176' font-size='12' font-weight='700' fill='var(--gold,#B08968)'>incisivo superior</text><text x='420' y='192' font-size='12' font-weight='700' fill='var(--gold,#B08968)'>para a frente</text>",
-            "<circle cx='322' cy='250' r='10' fill='var(--blue,#4A6B8A)' fill-opacity='0.3' stroke='var(--blue,#4A6B8A)' stroke-width='1.5'/><text x='420' y='268' font-size='12' font-weight='700' fill='var(--blue,#4A6B8A)'>lábio inferior preso</text><text x='420' y='284' font-size='12' font-weight='700' fill='var(--blue,#4A6B8A)'>atrás dos superiores</text>",
-            "<text x='420' y='330' font-size='12' font-weight='700' fill='var(--ink,#23211C)'>mento para trás,</text><text x='420' y='346' font-size='12' font-weight='700' fill='var(--ink,#23211C)'>sulco mentolabial profundo</text>",
+            "<text x='396' y='222' font-size='11' font-weight='700' fill='var(--red,#B4533B)'>trespasse horizontal</text><text x='396' y='238' font-size='11' font-weight='700' fill='var(--red,#B4533B)'>aumentado</text>",
+            "<text x='396' y='176' font-size='11' font-weight='700' fill='var(--gold,#B08968)'>incisivo superior</text><text x='396' y='192' font-size='11' font-weight='700' fill='var(--gold,#B08968)'>para a frente</text>",
+            "<circle cx='322' cy='250' r='10' fill='var(--blue,#4A6B8A)' fill-opacity='0.3' stroke='var(--blue,#4A6B8A)' stroke-width='1.5'/><text x='396' y='268' font-size='11' font-weight='700' fill='var(--blue,#4A6B8A)'>lábio inferior preso</text><text x='396' y='284' font-size='11' font-weight='700' fill='var(--blue,#4A6B8A)'>atrás dos superiores</text>",
+            "<text x='396' y='330' font-size='11' font-weight='700' fill='var(--ink,#23211C)'>mento para trás,</text><text x='396' y='346' font-size='11' font-weight='700' fill='var(--ink,#23211C)'>sulco mentolabial</text><text x='396' y='360' font-size='11' font-weight='700' fill='var(--ink,#23211C)'>profundo</text>",
             "<g font-size='11' fill='var(--muted,#8A8478)'><text x='40' y='140'>perfil convexo</text><text x='40' y='156'>selamento labial difícil</text><text x='40' y='172'>arco superior estreito</text><text x='40' y='188'>curva de Spee inferior profunda</text></g>",
             "<text x='280' y='392' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>esquema; as proporções são didáticas</text>"
           ],
@@ -134,7 +134,7 @@
           "svg": [
             "<text x='180' y='30' text-anchor='middle' font-size='13' font-weight='700'>De frente: centrais para trás, laterais à frente</text>",
             "<use href='#c-dente' x='70' y='70' width='44' height='110' transform='rotate(-8 92 125)'/><use href='#c-dente' x='118' y='60' width='50' height='124'/><use href='#c-dente' x='192' y='60' width='50' height='124'/><use href='#c-dente' x='246' y='70' width='44' height='110' transform='rotate(8 268 125)'/>",
-            "<g font-size='11' fill='var(--ink,#23211C)' text-anchor='middle'><text x='92' y='210' fill='var(--gold,#B08968)' font-weight='700'>lateral à frente</text><text x='180' y='210' font-weight='700'>centrais para trás</text><text x='268' y='210' fill='var(--gold,#B08968)' font-weight='700'>lateral à frente</text></g>",
+            "<g font-size='11' fill='var(--ink,#23211C)' text-anchor='middle'><text x='78' y='210' fill='var(--gold,#B08968)' font-weight='700'>lateral à frente</text><text x='180' y='228' font-weight='700'>centrais para trás</text><text x='282' y='210' fill='var(--gold,#B08968)' font-weight='700'>lateral à frente</text></g>",
             "<text x='180' y='250' text-anchor='middle' font-size='11' fill='var(--muted,#8A8478)'>laterais sobrepostos aos centrais; arco largo</text>",
             "<text x='540' y='30' text-anchor='middle' font-size='13' font-weight='700'>De perfil: mordida profunda, lábio alto</text>",
             "<use href='#c-dente' x='500' y='70' width='40' height='100' transform='rotate(14 520 120)'/>",
