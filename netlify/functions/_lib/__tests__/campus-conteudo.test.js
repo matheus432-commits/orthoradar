@@ -26,6 +26,7 @@ const RAIZ = path.join(__dirname, '..', '..', '..', '..');
 const DIR = path.join(RAIZ, 'data', 'campus', 'paginas');
 const paginas = fs.readdirSync(DIR).filter((f) => f.endsWith('.json')).map((f) => ({ f, p: JSON.parse(fs.readFileSync(path.join(DIR, f), 'utf8')) }));
 const m1 = paginas.filter(({ p }) => p.modulo === 'Crescimento e desenvolvimento');
+const m2 = paginas.filter(({ p }) => p.modulo === 'Más oclusões');
 const textoDe = (p) => JSON.stringify(p);
 // Tudo o que a página diz, inclusive o que ela cita PARA NEGAR (erro do aluno,
 // alternativa errada do autoteste, mito, rótulo de SVG). Serve às checagens
@@ -191,6 +192,158 @@ describe('módulo 1: fatos travados pela auditoria (docs/campus/AUDITORIA-M1.md)
   });
 });
 
+describe('módulo 2: fatos travados pela auditoria (docs/campus/AUDITORIA-M2.md)', () => {
+  const pg2 = (slug) => m2.find(({ f }) => f.includes(slug)).p;
+
+  test('o módulo inteiro está escrito (16 páginas) e todas no formato 2', () => {
+    assert.equal(m2.length, 16);
+    for (const { f, p } of m2) assert.equal(p.formato, 2, f);
+  });
+
+  test('Angle: 1899, molar como critério, subdivisão nomeia o lado alterado, pseudo-Classe III pela manobra', () => {
+    const p = pg2('maoclusao-angle'); const t = prosaDe(p);
+    assert.ok(/1899/.test(t) && /primeiros molares/i.test(t));
+    assert.ok(/subdivisão[^.]{0,160}lado alterado/i.test(t));
+    assert.ok(/pseudo-Classe III[^.]{0,200}(primeiro contato|relação cêntrica)/i.test(t));
+    assert.ok(!afirma(p, /Classe II\b[^.I]{0,40}molar inferior[^.]{0,20}mesial/i), 'Classe II não é inferior mesial');
+    assert.ok(!afirma(p, /Classe III\b[^.]{0,40}molar inferior[^.]{0,20}distal/i), 'Classe III não é inferior distal');
+  });
+
+  test('esquelética: SNA 82, SNB 80, ANB 2; Wits no plano oclusal; ANB negativo é Classe III', () => {
+    const p = pg2('maoclusao-esqueletica'); const t = prosaDe(p);
+    assert.ok(/SNA 82/.test(t) && /SNB 80/.test(t) && /ANB 2/.test(t));
+    assert.ok(/Wits[^.]{0,120}plano oclusal/i.test(t));
+    assert.ok(!afirma(p, /ANB negativo[^.]{0,30}Classe II\b/i), 'ANB negativo não é Classe II');
+    assert.ok(/retru[sí]d?[ao][^.]{0,60}(mais comum|mais frequente)|(mais comum|mais frequente)[^.]{0,80}retru/i.test(t), 'retrusão mandibular como componente mais comum');
+  });
+
+  test('outras classificações: Lischer 1912, Dewey 1915 com tipo 5 = migração, lei do canino de Simon, Ackerman e Proffit 1969', () => {
+    const t = prosaDe(pg2('maoclusao-outras'));
+    assert.ok(/Lischer[^.]{0,40}1912/.test(t) && /Dewey[^.]{0,40}1915/.test(t));
+    assert.ok(/tipo 5[^.]{0,80}(migra|perda precoce)/i.test(t));
+    assert.ok(/plano orbital[^.]{0,120}terço distal do canino/i.test(t));
+    assert.ok(/Frankfurt[^.]{0,120}atração/i.test(t) && /orbital[^.]{0,120}protração/i.test(t) && /sagital mediano[^.]{0,120}contração/i.test(t));
+    assert.ok(/Ackerman e Proffit[^.]{0,200}1969/.test(t) || /1969[^.]{0,80}Ackerman/.test(t));
+  });
+
+  test('índices: MOCDO e pior característica; faixas do DAI; PAR mede resultado', () => {
+    const p = pg2('maoclusao-indices'); const t = prosaDe(p);
+    assert.ok(/MOCDO/.test(t) && /pior característica/i.test(t));
+    assert.ok(/26 a 30/.test(t) && /31 a 35/.test(t) && /36/.test(t));
+    assert.ok(/PAR[^.]{0,80}resultado/i.test(t));
+    assert.ok(!afirma(p, /PAR[^.]{0,40}mede (a )?necessidade/i), 'PAR não mede necessidade');
+    assert.ok(/Brook e Shaw/.test(t) && /Cons, Jenny e Kohout/.test(t));
+  });
+
+  test('etiologia genética e ambiental: esqueleto herdado, alinhamento ambiental; equilíbrio = força leve e prolongada; Corruccini', () => {
+    const t = prosaDe(pg2('maoclusao-etiologia-genetica'));
+    assert.ok(/esquelétic[ao]s?[^.]{0,120}herdabilidade alta|herdabilidade alta[^.]{0,60}esquelét/i.test(t));
+    assert.ok(/(apinhamento|alinhamento)[^.]{0,120}(herdabilidade baixa|baixa)/i.test(t));
+    assert.ok(/leves? e prolongad/i.test(t) && /Corruccini/.test(t));
+  });
+
+  test('hábitos: tríade de Graber; deglutição atípica é consequência; respiração bucal encaminha ao otorrinolaringologista', () => {
+    const p = pg2('maoclusao-etiologia-habitos'); const t = prosaDe(p);
+    assert.ok(/Graber/.test(t) && /frequência/i.test(t) && /duração/i.test(t) && /intensidade/i.test(t));
+    assert.ok(/(consequência|adaptação)[^.]{0,120}mordida aberta|mordida aberta[^.]{0,120}(consequência|adaptação)/i.test(t));
+    assert.ok(!afirma(p, /deglutição atípica[^.]{0,40}causa (principal )?da mordida aberta/i), 'deglutição não é causa');
+    assert.ok(/otorrinolaringolog/i.test(t));
+  });
+
+  test('perda precoce: E antes do 6 é a pior; sapata distal; superior inclina e roda, inferior migra de corpo; raiz curta atrasa', () => {
+    const t = prosaDe(pg2('maoclusao-etiologia-perda-precoce'));
+    assert.ok(/segundo molar decíduo[^.]{0,200}(maior perda|pior)/i.test(t) || /(maior perda|pior)[^.]{0,200}segundo molar decíduo/i.test(t));
+    assert.ok(/sapata distal/i.test(t) && /banda e alça/i.test(t) && /arco lingual/i.test(t) && /Nance/.test(t));
+    assert.ok(/inclina e roda/i.test(t) && /de corpo/i.test(t));
+    assert.ok(/menos de metade da raiz[^.]{0,120}atras|atras[^.]{0,160}menos de metade/i.test(t) || /raiz curta[^.]{0,80}atrasa/i.test(t));
+  });
+
+  test('anomalias: mesiodens é o supranumerário mais comum; lateral conoide alerta para canino palatino; palpar aos 9 a 10 anos; Ericson e Kurol', () => {
+    const p = pg2('maoclusao-etiologia-anomalias'); const t = prosaDe(p);
+    assert.ok(/mesiodens/i.test(t) && /mais (comum|frequente)[^.]{0,40}mesiodens|mesiodens[^.]{0,60}mais (comum|frequente)/i.test(t));
+    assert.ok(/conoide[^.]{0,200}(canino|palatin)/i.test(t));
+    assert.ok(/9 a 10 anos/.test(t), 'palpação aos 9 a 10 anos');
+    // a base bibliográfica da interceptação do canino (Ericson e Kurol) fica nas referências da página
+    assert.ok(/Ericson/.test(textoDe(p)) && /Kurol/.test(textoDe(p)), 'Ericson e Kurol nas referências');
+  });
+
+  test('Moyers: equação de Dockrell (causa, tempo, tecido, resultado), sete grupos, equifinalidade', () => {
+    const t = prosaDe(pg2('maoclusao-etiologia-moyers'));
+    assert.ok(/Dockrell/.test(t) && /1952/.test(t));
+    assert.ok(/causa[^.]{0,40}tempo[^.]{0,40}tecido[^.]{0,40}resultado/i.test(t));
+    assert.ok(/sete grupos/i.test(t) && /desnutrição/i.test(t) && /agentes físicos/i.test(t));
+    assert.ok(/equifinalidade/i.test(t));
+  });
+
+  test('Classe I com apinhamento: faixas 4 / 5 a 9 / 10; Tanaka e Johnston 10,5 e 11; seriada C, D, 4; mandíbula não expande', () => {
+    const p = pg2('maoclusao-tipo-classe-i'); const t = prosaDe(p);
+    assert.ok(/até 4 mm/.test(t) && /5 a 9 mm/.test(t) && /10 mm ou mais/.test(t));
+    assert.ok(/10,5/.test(t) && /\b11 mm\b|\+ 11\b|mais 11\b/.test(t));
+    assert.ok(/caninos decíduos[^.]{0,120}primeiros molares decíduos[^.]{0,120}primeiros pré-molares/i.test(t), 'sequência da extração seriada');
+    assert.ok(/mandíbula[^.]{0,120}(só inclina|não tem sutura|pouco)/i.test(t), 'expansão inferior rende pouco');
+    assert.ok(/Distalização/.test(t), 'Distalização com maiúscula presente');
+  });
+
+  test('Classe II: retrusão mandibular é o componente mais comum; lábio preso agrava; divisão 2 vira divisão 1 antes de avançar', () => {
+    const p = pg2('maoclusao-tipo-classe-ii'); const t = prosaDe(p);
+    assert.ok(/retru[sí]d?[ao][^.]{0,120}(mais (comum|frequente))|(mais (comum|frequente))[^.]{0,120}retru/i.test(t));
+    assert.ok(/lábio inferior[^.]{0,120}(preso|atrás dos)/i.test(t));
+    assert.ok(/divisão 2[^.]{0,200}(virou|vira|transformando|transformada)[^.]{0,40}divisão 1/i.test(t));
+    assert.ok(!afirma(p, /divisão 2[^.]{0,40}(mais leve|Classe II leve)/i), 'divisão 2 não é "mais leve"');
+  });
+
+  test('Classe III: piora com o crescimento; pseudo volta a Classe I em cêntrica; maxila deficiente e tração reversa cedo', () => {
+    const p = pg2('maoclusao-tipo-classe-iii'); const t = prosaDe(p);
+    assert.ok(/mandíbula cresce mais e por mais tempo/i.test(t));
+    assert.ok(/pseudo-Classe III[^.]{0,200}Classe I/i.test(t));
+    assert.ok(/tração reversa[^.]{0,160}(7 a 9|criança|mista precoce)/i.test(t));
+    assert.ok(!afirma(p, /Classe III[^.]{0,60}melhora com o crescimento/i), 'Classe III não melhora com o crescimento');
+  });
+
+  test('mordida aberta: dentária x esquelética; esquelética se fecha pelos molares (alavanca), não pelos incisivos', () => {
+    const p = pg2('maoclusao-tipo-mordida-aberta'); const t = prosaDe(p);
+    assert.ok(/face longa/i.test(t) && /plano mandibular[^.]{0,40}inclinad/i.test(t));
+    assert.ok(/intru[isí]r?[^.]{0,80}(posteriores|molares)/i.test(t) && /alavanca/i.test(t));
+    assert.ok(!afirma(p, /esquelética[^.]{0,80}(fecha|corrige)[^.]{0,40}(elástico|extru)[^.]{0,30}incisivo/i), 'esquelética não se fecha pelos incisivos');
+  });
+
+  test('mordida profunda: completa toca a mucosa; gengiva demais intrui, dente de menos extrui; Spee consome espaço; ângulo interincisal', () => {
+    const t = prosaDe(pg2('maoclusao-tipo-mordida-profunda'));
+    assert.ok(/completa[^.]{0,120}(mucosa|gengiva)/i.test(t));
+    assert.ok(/gengiva[^.]{0,120}intru|intru[^.]{0,120}gengiva/i.test(t) && /(pouco dente|dente de menos)[^.]{0,120}extru|extru[^.]{0,120}(pouco dente|dente de menos)/i.test(t));
+    assert.ok(/Spee[^.]{0,160}(consome|perímetro|espaço)/i.test(t) && /ângulo interincisal/i.test(t));
+  });
+
+  test('cruzada: constrição bilateral com deslize parece unilateral; linha média centra em cêntrica; não se corrige sozinha; adulto: ancoragem esquelética ou cirurgia', () => {
+    const p = pg2('maoclusao-tipo-mordida-cruzada'); const t = prosaDe(p);
+    assert.ok(/bilateral[^.]{0,160}(desvio funcional|deslize|desliza)/i.test(t));
+    assert.ok(/linha média[^.]{0,160}(centra|centrada)/i.test(t));
+    assert.ok(/(raramente|não|quase nunca) se corrige sozinha/i.test(t));
+    assert.ok(/(ancoragem esquelética|mini-implantes)/i.test(t) && /cirurgicamente assistida/i.test(t));
+    assert.ok(!afirma(p, /cruzada posterior[^.]{0,80}(corrige-se|se corrige) (sozinha|espontaneamente) (com|na) (a )?(troca|dentição permanente)/i));
+  });
+
+  test('assimetrias: mento para o lado curto na deficiência e para o lado oposto no alongamento; cintilografia avalia atividade; Obwegeser e Makek', () => {
+    const t = prosaDe(pg2('maoclusao-tipo-assimetrias'));
+    assert.ok(/deficiência[^.]{0,200}lado afetado|lado afetado[^.]{0,200}(curto|cresceu menos)/i.test(t));
+    assert.ok(/alongamento hemimandibular[^.]{0,240}lado oposto/i.test(t));
+    assert.ok(/cintilografia[^.]{0,200}(atividade|ativo|captação)/i.test(t));
+    assert.ok(/Obwegeser/.test(t) && /Makek/.test(t));
+  });
+
+  test('padrões de erro no módulo 2: sem PMID/DOI/URL, sem termo proibido, sem emoji, Distalização com maiúscula, idades com [VERIFICAR]', () => {
+    for (const { f, p } of m2) {
+      const s = textoDe(p);
+      assert.ok(!/\bPMID\b/i.test(s) && !/\bdoi\s*:|10\.\d{4,}\//i.test(s) && !/https?:\/\//i.test(s), f + ': referência à mão');
+      assert.ok(!/distanciamento/i.test(s), f + ': termo proibido');
+      assert.ok(!/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/u.test(s), f + ': emoji');
+      assert.ok(!/\bdistalização\b/.test(s), f + ': Distalização com inicial maiúscula');
+      const t = prosaDe(p);
+      if (/por volta d[oe]s? \d+ anos|~\s?\d+ anos|\d+ a \d+ anos/i.test(t)) assert.ok(/\[VERIFICAR\]/.test(s), f + ': idades sem [VERIFICAR]');
+    }
+  });
+});
+
 describe('módulo 1: padrões de erro e honestidade sobre incerteza', () => {
   test('nenhum PMID, DOI ou URL escrito à mão nas referências ou no texto', () => {
     for (const { f, p } of m1) {
@@ -240,6 +393,12 @@ describe('módulo 1: padrões de erro e honestidade sobre incerteza', () => {
     const m = prosaDe(pagina('crescimento-mecanismos').p);
     assert.ok(!/esfeno-occipital[^.]{0,200}\. Ela fecha na adolescência/i.test(m), 'fechamento da esfeno-occipital sem faixa etária');
     assert.ok(/esfeno-occipital[^]{0,400}(16 a 20|fim da adolescência)/i.test(m), 'fusão da esfeno-occipital com faixa etária');
+  });
+
+  test('registro da auditoria do módulo 2 existe e cobre as 16 páginas', () => {
+    const doc = fs.readFileSync(path.join(RAIZ, 'docs', 'campus', 'AUDITORIA-M2.md'), 'utf8');
+    for (const { f } of m2) assert.ok(doc.includes('`' + f.replace(/^ortodontia--/, '').replace(/\.json$/, '') + '`'), 'auditoria M2 sem a página ' + f);
+    assert.ok(/Ellis/.test(doc) && /Kutin/.test(doc) && /Obwegeser/.test(doc) && /Rodada 3/.test(doc), 'as correções e rodadas do módulo 2 estão registradas');
   });
 
   test('registro da auditoria existe, cobre as 14 páginas e registra as correções das rodadas', () => {
