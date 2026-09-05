@@ -178,7 +178,7 @@
         },
         {
           "tipo": "p",
-          "texto": "Com o limite conhecido, o plano se adapta. Quando o apinhamento pede mais espaço do que o envelope permite, as alternativas são desgaste interproximal, distalização, extração ou aceitar compromisso, em vez de empurrar a raiz para fora. Torque radicular vestibular nos incisivos inferiores é dosado e checado."
+          "texto": "Com o limite conhecido, o plano se adapta. Quando o apinhamento pede mais espaço do que o envelope permite, as alternativas são desgaste interproximal, Distalização, extração ou aceitar compromisso, em vez de empurrar a raiz para fora. Torque radicular vestibular nos incisivos inferiores é dosado e checado."
         },
         {
           "tipo": "p",
@@ -188,7 +188,7 @@
           "tipo": "visual",
           "formato": "fluxograma",
           "titulo": "Decidir o movimento dos incisivos inferiores pelo envelope",
-          "descricao": "Início: plano exige vestibularizar, expandir ou dar torque vestibular em incisivos inferiores. Pergunta um: fenótipo fino, sínfise estreita ou recessão prévia? Se não: seguir com movimento dosado e monitorar. Se sim: tomografia para medir o osso. Pergunta dois: o movimento planejado cabe no osso disponível? Se sim: seguir com controle. Se não: mudar o plano (desgaste, distalização, extração, compromisso) ou ampliar o envelope com enxerto antes de mover.",
+          "descricao": "Início: plano exige vestibularizar, expandir ou dar torque vestibular em incisivos inferiores. Pergunta um: fenótipo fino, sínfise estreita ou recessão prévia? Se não: seguir com movimento dosado e monitorar. Se sim: tomografia para medir o osso. Pergunta dois: o movimento planejado cabe no osso disponível? Se sim: seguir com controle. Se não: mudar o plano (desgaste, Distalização, extração, compromisso) ou ampliar o envelope com enxerto antes de mover.",
           "viewBox": "0 0 560 440",
           "svg": [
             "<use href='#c-caixa-ink' x='120' y='16' width='320' height='40'/><text x='280' y='41' text-anchor='middle' font-size='12' font-weight='700' fill='#fff'>plano move a raiz inferior para vestibular</text>",
@@ -203,7 +203,7 @@
             "<path d='M410 247 L464 247' stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'/><text x='437' y='240' text-anchor='middle' font-size='10' fill='var(--muted,#8A8478)'>sim</text>",
             "<use href='#c-caixa-green' x='466' y='226' width='88' height='42'/><text x='510' y='244' text-anchor='middle' font-size='11' font-weight='700'>seguir com</text><text x='510' y='258' text-anchor='middle' font-size='10'>controle</text>",
             "<path d='M280 272 L280 292' stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'/><text x='292' y='288' font-size='10' fill='var(--muted,#8A8478)'>não</text>",
-            "<use href='#c-caixa-gold' x='40' y='296' width='230' height='72'/><text x='155' y='318' text-anchor='middle' font-size='12' font-weight='700'>mudar o plano</text><text x='155' y='334' text-anchor='middle' font-size='11'>desgaste interproximal</text><text x='155' y='348' text-anchor='middle' font-size='11'>distalização, extração</text><text x='155' y='362' text-anchor='middle' font-size='11'>ou compromisso</text>",
+            "<use href='#c-caixa-gold' x='40' y='296' width='230' height='72'/><text x='155' y='318' text-anchor='middle' font-size='12' font-weight='700'>mudar o plano</text><text x='155' y='334' text-anchor='middle' font-size='11'>desgaste interproximal</text><text x='155' y='348' text-anchor='middle' font-size='11'>Distalização, extração</text><text x='155' y='362' text-anchor='middle' font-size='11'>ou compromisso</text>",
             "<use href='#c-caixa-red' x='290' y='296' width='230' height='72'/><text x='405' y='318' text-anchor='middle' font-size='12' font-weight='700'>ampliar o envelope</text><text x='405' y='334' text-anchor='middle' font-size='11'>enxerto de conjuntivo ou gengival</text><text x='405' y='348' text-anchor='middle' font-size='11'>antes de mover; corticotomia com</text><text x='405' y='362' text-anchor='middle' font-size='11'>enxerto ósseo, com o periodontista</text>",
             "<text x='280' y='404' text-anchor='middle' font-size='11' fill='var(--muted,#8A8478)'>o que nunca entra no fluxo: empurrar a raiz e 'ver o que acontece'</text>",
             "<text x='280' y='424' text-anchor='middle' font-size='10' fill='var(--muted,#8A8478)'>ou: aplicar o limite antes do primeiro fio, não depois da recessão</text>"
@@ -214,7 +214,7 @@
           "tipo": "destaque",
           "estilo": "erro",
           "titulo": "Resolver apinhamento inferior 'só alinhando'",
-          "texto": "Alinhar sem criar espaço é vestibularizar; cada milímetro de apinhamento resolvido assim é quase um milímetro de raiz que avança para a cortical [VERIFICAR]. Em sínfise estreita e fenótipo fino, isso é o caminho mais curto para a deiscência. Espaço vem de desgaste, distalização ou extração; a vestibularização só é aceitável dentro do que o osso permite."
+          "texto": "Alinhar sem criar espaço é vestibularizar; cada milímetro de apinhamento resolvido assim é quase um milímetro de raiz que avança para a cortical [VERIFICAR]. Em sínfise estreita e fenótipo fino, isso é o caminho mais curto para a deiscência. Espaço vem de desgaste, Distalização ou extração; a vestibularização só é aceitável dentro do que o osso permite."
         },
         {
           "tipo": "lista",
@@ -229,7 +229,7 @@
       ],
       "checagem": {
         "pergunta": "Quando o plano exige mover a raiz para onde o osso é insuficiente, quais são as duas saídas legítimas?",
-        "resposta": "Mudar o plano para criar espaço sem levar a raiz para fora (desgaste, distalização, extração, compromisso) ou ampliar o envelope antes de mover, com enxerto de tecido mole ou procedimentos com enxerto ósseo pelo periodontista."
+        "resposta": "Mudar o plano para criar espaço sem levar a raiz para fora (desgaste, Distalização, extração, compromisso) ou ampliar o envelope antes de mover, com enxerto de tecido mole ou procedimentos com enxerto ósseo pelo periodontista."
       }
     },
     {
@@ -462,7 +462,7 @@
       "confira": "Você sabe quanto osso vestibular cada incisivo inferior tem?"
     },
     {
-      "passo": "Planeje o espaço sem levar a raiz para fora: desgaste, distalização, extração ou compromisso; dose o torque.",
+      "passo": "Planeje o espaço sem levar a raiz para fora: desgaste, Distalização, extração ou compromisso; dose o torque.",
       "confira": "Quantos milímetros de vestibularização o plano exige e o osso permite?"
     },
     {
@@ -496,7 +496,7 @@
     {
       "erro": "Alinhar apinhamento inferior só vestibularizando em sínfise estreita.",
       "porque": "Cada milímetro de apinhamento resolvido assim empurra a raiz para a cortical fina.",
-      "certo": "Criar espaço por desgaste, distalização ou extração; vestibularizar só dentro do envelope."
+      "certo": "Criar espaço por desgaste, Distalização ou extração; vestibularizar só dentro do envelope."
     },
     {
       "erro": "Concluir pela periapical que o osso vestibular está normal.",

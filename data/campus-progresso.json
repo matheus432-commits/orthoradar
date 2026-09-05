@@ -259,6 +259,15 @@
    "destacar": "Osteoclastos na superfície do osso do lado de pressão, ligamento sem áreas acelulares, osteoide no lado de tensão"
   },
   {
+   "pagina": "ortodontia/biologia-do-movimento/reacoes-teciduais/pressao-e-tensao",
+   "modulo": "Biologia do movimento",
+   "secao": "O lado de tensão: construir atrás",
+   "imagem": "corte histológico do lado de tensão do ligamento periodontal durante movimento com força leve, com osteoide novo na parede alveolar",
+   "mostrar": "Fibras do ligamento estiradas e alinhadas, osteoblastos enfileirados sobre uma camada de osteoide recém-depositada na superfície da lâmina dura, com vasos preservados; comparação com o lado de pressão do mesmo dente",
+   "legenda": "O lado de tensão constrói: osteoblastos depositam osteoide sobre a parede que o dente deixa atrás.",
+   "destacar": "camada de osteoide e a fileira de osteoblastos junto à lâmina dura"
+  },
+  {
    "pagina": "ortodontia/biologia-do-movimento/reacoes-teciduais/hialinizacao",
    "modulo": "Biologia do movimento",
    "secao": "Por que o adulto hialiniza mais",
@@ -1397,6 +1406,11 @@
   },
   {
    "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
+   "onde": "Seção \"Depois da remoção: o que fazer e o que não fazer\".blocos[5].texto",
+   "trecho": "es ainda é limitada e as revisões pedem cautela ao prometer resultado [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
    "onde": "Seção \"Depois da remoção: o que fazer e o que não fazer\".checagem.resposta",
    "trecho": "o a opacidade; o indicado é dentifrício convencional, higiene e tempo [VERIFICAR]"
   },
@@ -2117,10 +2131,10 @@
    "modulo": "Biologia do movimento",
    "total": 12,
    "concluidas": 12,
-   "palavras": 47927,
+   "palavras": 48090,
    "visuais": 65,
-   "imagensClinicas": 11,
-   "verificar": 183,
+   "imagensClinicas": 12,
+   "verificar": 184,
    "paginas": [
     {
      "id": "ortodontia/biologia-do-movimento/reacoes-teciduais/ligamento-e-osso-sob-forca",
@@ -2135,7 +2149,7 @@
      "nome": "Pressão e tensão",
      "tema": "Reações teciduais",
      "status": "rascunho",
-     "palavras": 3655,
+     "palavras": 3735,
      "visuais": 5
     },
     {
@@ -2159,7 +2173,7 @@
      "nome": "Magnitude, duração e direção",
      "tema": "Forças",
      "status": "rascunho",
-     "palavras": 4539,
+     "palavras": 4571,
      "visuais": 6
     },
     {
@@ -2175,7 +2189,7 @@
      "nome": "Efeitos de forças excessivas",
      "tema": "Forças",
      "status": "rascunho",
-     "palavras": 3952,
+     "palavras": 3984,
      "visuais": 5
     },
     {
@@ -2191,7 +2205,7 @@
      "nome": "Descalcificação e lesões brancas",
      "tema": "Efeitos colaterais",
      "status": "rascunho",
-     "palavras": 4225,
+     "palavras": 4244,
      "visuais": 6
     },
     {
@@ -28298,7 +28312,7 @@
    "formato": 2,
    "status": "rascunho",
    "estado": "rascunho",
-   "palavras": 3655,
+   "palavras": 3735,
    "visuais": [
     {
      "formato": "anatomico",
@@ -28328,7 +28342,15 @@
     "mito": 1,
     "erro": 1
    },
-   "imagensClinicas": [],
+   "imagensClinicas": [
+    {
+     "secao": "O lado de tensão: construir atrás",
+     "imagem": "corte histológico do lado de tensão do ligamento periodontal durante movimento com força leve, com osteoide novo na parede alveolar",
+     "mostrar": "Fibras do ligamento estiradas e alinhadas, osteoblastos enfileirados sobre uma camada de osteoide recém-depositada na superfície da lâmina dura, com vasos preservados; comparação com o lado de pressão do mesmo dente",
+     "legenda": "O lado de tensão constrói: osteoblastos depositam osteoide sobre a parede que o dente deixa atrás.",
+     "destacar": "camada de osteoide e a fileira de osteoblastos junto à lâmina dura"
+    }
+   ],
    "verificar": [
     {
      "onde": "Seção \"Força ótima: a pressão que não estrangula\".blocos[0].texto",
@@ -28470,7 +28492,7 @@
    "formato": 2,
    "status": "rascunho",
    "estado": "rascunho",
-   "palavras": 4539,
+   "palavras": 4571,
    "visuais": [
     {
      "formato": "forcas",
@@ -28702,7 +28724,7 @@
    "formato": 2,
    "status": "rascunho",
    "estado": "rascunho",
-   "palavras": 3952,
+   "palavras": 3984,
    "visuais": [
     {
      "formato": "fluxograma",
@@ -28930,7 +28952,7 @@
    "formato": 2,
    "status": "rascunho",
    "estado": "rascunho",
-   "palavras": 4225,
+   "palavras": 4244,
    "visuais": [
     {
      "formato": "anatomico",
@@ -29037,6 +29059,10 @@
     {
      "onde": "Seção \"Depois da remoção: o que fazer e o que não fazer\".blocos[2].svg[6]",
      "trecho": "' y='206' text-anchor='middle' font-size='11'>reavaliar em seis meses [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Depois da remoção: o que fazer e o que não fazer\".blocos[5].texto",
+     "trecho": "es ainda é limitada e as revisões pedem cautela ao prometer resultado [VERIFICAR]"
     },
     {
      "onde": "Seção \"Depois da remoção: o que fazer e o que não fazer\".checagem.resposta",

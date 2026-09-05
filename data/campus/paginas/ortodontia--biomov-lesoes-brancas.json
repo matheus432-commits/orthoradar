@@ -278,7 +278,11 @@
         },
         {
           "tipo": "p",
-          "texto": "Para as lesões que persistem e incomodam depois desse período, a escada conservadora protege o esmalte. O clareamento uniformiza o contraste entre lesão e esmalte sadio. A microabrasão, com ácido e abrasivo, remove uma camada superficial e resolve lesões rasas. A infiltração com resina de baixa viscosidade preenche os poros da lesão e a torna translúcida, indicada para lesões mais profundas sem cavitação. Restaurações diretas ficam para as cavitadas ou para as que resistiram às demais opções."
+          "texto": "Para as lesões que persistem e incomodam depois desse período, a escada conservadora protege o esmalte. O clareamento uniformiza o contraste entre lesão e esmalte sadio. A microabrasão, com ácido e abrasivo, remove uma camada superficial e resolve lesões rasas."
+        },
+        {
+          "tipo": "p",
+          "texto": "A infiltração com resina de baixa viscosidade preenche os poros da lesão e a torna translúcida, indicada para lesões mais profundas sem cavitação. Restaurações diretas ficam para as cavitadas ou para as que resistiram às demais opções. A evidência comparativa entre essas opções ainda é limitada e as revisões pedem cautela ao prometer resultado [VERIFICAR]."
         }
       ],
       "checagem": {

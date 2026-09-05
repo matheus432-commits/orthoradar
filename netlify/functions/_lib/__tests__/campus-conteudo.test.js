@@ -27,6 +27,7 @@ const DIR = path.join(RAIZ, 'data', 'campus', 'paginas');
 const paginas = fs.readdirSync(DIR).filter((f) => f.endsWith('.json')).map((f) => ({ f, p: JSON.parse(fs.readFileSync(path.join(DIR, f), 'utf8')) }));
 const m1 = paginas.filter(({ p }) => p.modulo === 'Crescimento e desenvolvimento');
 const m2 = paginas.filter(({ p }) => p.modulo === 'Más oclusões');
+const m3 = paginas.filter(({ p }) => p.modulo === 'Biologia do movimento');
 const textoDe = (p) => JSON.stringify(p);
 // Tudo o que a página diz, inclusive o que ela cita PARA NEGAR (erro do aluno,
 // alternativa errada do autoteste, mito, rótulo de SVG). Serve às checagens
@@ -341,6 +342,140 @@ describe('módulo 2: fatos travados pela auditoria (docs/campus/AUDITORIA-M2.md)
       const t = prosaDe(p);
       if (/por volta d[oe]s? \d+ anos|~\s?\d+ anos|\d+ a \d+ anos/i.test(t)) assert.ok(/\[VERIFICAR\]/.test(s), f + ': idades sem [VERIFICAR]');
     }
+  });
+});
+
+describe('módulo 3: fatos travados pela auditoria (docs/campus/AUDITORIA-M3.md)', () => {
+  const pg3 = (slug) => m3.find(({ f }) => f.includes(slug)).p;
+
+  test('as 12 páginas do módulo estão no formato 2 com tema válido', () => {
+    assert.equal(m3.length, 12);
+    for (const { f, p } of m3) {
+      assert.equal(p.formato, 2, f);
+      assert.ok(['Reações teciduais', 'Forças', 'Efeitos colaterais'].includes(p.tema), f + ': tema');
+    }
+  });
+
+  test('ligamento: eixo RANKL, RANK e osteoprotegerina; reabsorção frontal; largura do ligamento com marcação', () => {
+    const p = pg3('biomov-ligamento');
+    assert.ok(acha(p, /RANKL/) && acha(p, /osteoprotegerina/i) && acha(p, /reabsorção frontal/i));
+    assert.ok(/0,25\s?mm/.test(textoDe(p)) && /\[VERIFICAR\]/.test(textoDe(p)), 'largura do ligamento com [VERIFICAR]');
+    assert.ok(!afirma(p, /osteoprotegerina[^.]{0,40}ativa os osteoclastos/i), 'OPG não ativa osteoclastos');
+  });
+
+  test('pressão e tensão: Schwarz e pressão capilar; contínua, interrompida e intermitente', () => {
+    const p = pg3('biomov-pressao-tensao');
+    assert.ok(acha(p, /Schwarz/) && acha(p, /capilar/i));
+    assert.ok(acha(p, /contínua/i) && acha(p, /interrompida/i) && acha(p, /intermitente/i));
+  });
+
+  test('hialinização: Reitan, reabsorção solapante, latência e prazo com marcação', () => {
+    const p = pg3('biomov-hialinizacao');
+    assert.ok(acha(p, /solapante/i) && acha(p, /latência/i) && /Reitan/.test(textoDe(p)));
+    assert.ok(/quatro semanas[^\]]{0,80}\[VERIFICAR\]/.test(textoDe(p)), 'prazo de remoção da zona com [VERIFICAR]');
+    assert.ok(!afirma(p, /hialiniza[^.]{0,60}acelera o movimento/i));
+  });
+
+  test('remodelação: ciclo ativação, reabsorção, reversão, formação; Frost; bisfosfonatos freiam; anquilose', () => {
+    const p = pg3('biomov-remodelacao');
+    assert.ok(acha(p, /ativação[^.]{0,40}reabsorção[^.]{0,40}reversão[^.]{0,40}formação/i), 'ordem do ciclo');
+    assert.ok(acha(p, /Frost/) && acha(p, /regional acelerado/i) && acha(p, /bisfosfonat/i) && acha(p, /anquilos/i));
+    assert.ok(!afirma(p, /bisfosfonatos?[^.]{0,60}aceleram? o movimento/i));
+  });
+
+  test('magnitude, duração e direção: Storey e Smith, Schwarz, três durações, Burstone e momento', () => {
+    const p = pg3('biomov-forca-magnitude');
+    assert.ok(acha(p, /Storey/) && acha(p, /150 a 200/) && acha(p, /400 a 600/));
+    assert.ok(/(20 a 26|vinte a vinte e seis)[^\]]{0,160}\[VERIFICAR\]/.test(textoDe(p)), 'pressão capilar de Schwarz com [VERIFICAR]');
+    assert.ok(acha(p, /quatro a oito horas/i) && /quatro a oito horas[^\]]{0,120}\[VERIFICAR\]/.test(textoDe(p)));
+    assert.ok(acha(p, /7:1/) && acha(p, /10:1/) && acha(p, /12:1/) && acha(p, /Burstone/));
+    assert.ok(acha(p, /força vezes a distância/i) && acha(p, /centro de resistência/i));
+    assert.ok(acha(p, /Quinn/) && acha(p, /Ren/) && acha(p, /platô/i));
+    assert.ok(!afirma(p, /relação[^.]{0,30}linear entre força e velocidade/i));
+    assert.ok(/von Böhl/.test(textoDe(p)), 'referência de von Böhl');
+  });
+
+  test('forças ideais: faixas didáticas na ordem correta, intrusão a menor, sem "cemento mais fino" no ápice', () => {
+    const p = pg3('biomov-forca-ideais');
+    assert.ok(acha(p, /35 a 60/) && acha(p, /70 a 120/) && acha(p, /50 a 100/) && acha(p, /10 a 20/));
+    assert.ok(acha(p, /intrusão[^.]{0,80}(menor|mínim|10 a 20)/i), 'intrusão com a menor força');
+    assert.ok(/10 a 20[^\]]{0,200}\[VERIFICAR\]/.test(textoDe(p)), 'faixas com [VERIFICAR]');
+    assert.ok(!afirma(p, /cemento (é |está )?mais fino/i), 'ápice não descrito como cemento mais fino');
+    assert.ok(!afirma(p, /intrusão[^.]{0,60}(exige|pede) (a )?maior força/i));
+  });
+
+  test('forças excessivas: cinco ramos, ancoragem cede pela janela, nunca acelera', () => {
+    const p = pg3('biomov-forca-excessiva');
+    assert.ok(acha(p, /hialiniza/i) && acha(p, /reabsorção radicular/i) && acha(p, /ancoragem/i) && acha(p, /mobilidade/i) && acha(p, /recessão/i));
+    assert.ok(acha(p, /Storey/) && acha(p, /não acelera/i));
+    assert.ok(/von Böhl/.test(textoDe(p)));
+    assert.ok(!afirma(p, /força pesada[^.]{0,40}(acelera|mais rápid)/i));
+  });
+
+  test('reabsorção radicular: cemento repara, dentina não; Levander e Malmgren; 6 a 9 meses; pausa de 2 a 3 meses; incisivos superiores', () => {
+    const p = pg3('biomov-reabsorcao');
+    assert.ok(acha(p, /cemento[^.]{0,60}repara/i) && acha(p, /dentina[^.]{0,60}não/i));
+    assert.ok(acha(p, /Levander/) && acha(p, /Malmgren/) && acha(p, /seis (e|a) nove meses/i) && acha(p, /dois a três meses/i));
+    assert.ok(acha(p, /Brezniak/) && acha(p, /lateral/i) && acha(p, /pipeta/i));
+    assert.ok(/Al-Qawasmi/.test(textoDe(p)) && /Killiany/.test(textoDe(p)));
+    assert.ok(!afirma(p, /reabsorção[^.]{0,60}continua depois (de remover|do fim)/i));
+    assert.ok(!afirma(p, /tratados endodonticamente[^.]{0,40}reabsorvem (muito )?mais/i));
+  });
+
+  test('lesões brancas: subsuperficial, gengival do braquete, quatro semanas, laterais superiores, cautela com flúor concentrado e evidência', () => {
+    const p = pg3('biomov-lesoes-brancas');
+    assert.ok(acha(p, /subsuperficial/i) && acha(p, /gengival do braquete/i) && acha(p, /laterais superiores/i));
+    assert.ok(/quatro semanas[^\]]{0,120}\[VERIFICAR\]/.test(textoDe(p)));
+    assert.ok(acha(p, /flúor[^.]{0,80}(alta concentração|concentrado)/i) && acha(p, /cavita/i));
+    assert.ok(/Gorelick/.test(textoDe(p)) && /gaard/.test(textoDe(p)) && /Sonesson/.test(textoDe(p)));
+    assert.ok(acha(p, /evidência[^.]{0,60}limitada/i), 'ressalva de evidência sobre a escada conservadora');
+    assert.ok(!afirma(p, /restaura(r|ção)[^.]{0,40}no dia da remoção/i) || afirma(p, /não restaurar/i));
+  });
+
+  test('recessão e deiscências: definições, envelope, tríade de risco, periapical não mostra', () => {
+    const p = pg3('biomov-recessao');
+    assert.ok(acha(p, /deiscência/i) && acha(p, /fenestração/i) && acha(p, /envelope/i));
+    assert.ok(acha(p, /fenótipo/i) && acha(p, /sínfise/i) && acha(p, /vestibulariza/i));
+    assert.ok(acha(p, /periapical não (mostra|vê)/i) || acha(p, /não aparecem na (radiografia )?periapical/i));
+    assert.ok(/Wennström/.test(textoDe(p)) && /Renkema/.test(textoDe(p)));
+    assert.ok(!afirma(p, /movimento[^.]{0,40}dentro do (osso|envelope)[^.]{0,40}(?<!não )causa recessão/i));
+  });
+
+  test('dor e mobilidade: curva de 24 horas e sete dias, prostaglandinas, paracetamol antes do anti-inflamatório', () => {
+    const p = pg3('biomov-dor');
+    assert.ok(acha(p, /24 horas/) && acha(p, /(sete dias|uma semana)/i) && acha(p, /prostaglandin/i));
+    assert.ok(acha(p, /paracetamol/i) && acha(p, /anti-inflamatóri/i) && acha(p, /separadores/i));
+    assert.ok(/Ngan/.test(textoDe(p)) && /Arias/.test(textoDe(p)));
+    assert.ok(!afirma(p, /anti-inflamatório[^.]{0,40}(de rotina|por sete dias|por vários dias)/i) || afirma(p, /paracetamol é a (rotina|primeira escolha)/i));
+  });
+
+  test('aceleração: Frost, corticotomia, vibração sem efeito, força não acelera, não amplia o envelope', () => {
+    const p = pg3('biomov-aceleracao');
+    assert.ok(acha(p, /Frost/) && acha(p, /regional acelerado/i) && acha(p, /corticotomia/i) && acha(p, /micro-osteoperfura/i));
+    assert.ok(acha(p, /vibração[^.]{0,120}(sem|não)/i) && acha(p, /fotobiomodulação/i));
+    assert.ok(acha(p, /não amplia o envelope/i) && acha(p, /força não acelera/i));
+    assert.ok(/Woodhouse/.test(textoDe(p)) && /Cochrane/.test(textoDe(p)) && /Fleming/.test(textoDe(p)));
+    assert.ok(!afirma(p, /corticotomia[^.]{0,60}reduz o tempo[^.]{0,20}pela metade/i));
+    assert.ok(!afirma(p, /vibração[^.]{0,60}reduz (o tempo|a duração)/i));
+  });
+
+  test('padrões de erro no módulo 3: sem PMID, DOI, URL, termo proibido ou emoji; prazos e faixas com [VERIFICAR]', () => {
+    for (const { f, p } of m3) {
+      const s = textoDe(p);
+      assert.ok(!/\bPMID\b/i.test(s) && !/\bdoi\s*:|10\.\d{4,}\//i.test(s) && !/https?:\/\//i.test(s), f + ': PMID, DOI ou URL à mão');
+      assert.ok(!/distanciamento/i.test(s), f + ': termo proibido');
+      assert.ok(!/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/u.test(s), f + ': emoji');
+      assert.ok(!/\bdistalização\b/.test(s), f + ': Distalização com inicial maiúscula');
+      const t = prosaDe(p);
+      if (/por volta d[oe]s? \d+ anos|\d+ a \d+ anos|\d+ a \d+ (g|gramas)\b|\d+ a \d+ (meses|semanas|horas)/i.test(t)) assert.ok(/\[VERIFICAR\]/.test(s), f + ': faixa numérica sem nenhum [VERIFICAR]');
+    }
+  });
+
+  test('registro da auditoria do módulo 3 existe, cobre as 12 páginas e registra as rodadas', () => {
+    const doc = fs.readFileSync(path.join(RAIZ, 'docs', 'campus', 'AUDITORIA-M3.md'), 'utf8');
+    for (const { f } of m3) assert.ok(doc.includes('`' + f.replace(/^ortodontia--/, '').replace(/\.json$/, '') + '`'), 'auditoria M3 sem a página ' + f);
+    assert.ok(/Storey/.test(doc) && /Levander/.test(doc) && /Woodhouse/.test(doc) && /cemento mais fino/.test(doc) && /Sonesson/.test(doc), 'as correções e confirmações do módulo 3 estão registradas');
+    assert.ok(/Rodada 3/.test(doc), 'a rodada de releitura final está registrada');
   });
 });
 

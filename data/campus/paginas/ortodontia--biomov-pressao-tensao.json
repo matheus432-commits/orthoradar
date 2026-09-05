@@ -35,9 +35,20 @@
     {
       "titulo": "Dois lados, duas respostas",
       "blocos": [
-        { "tipo": "p", "texto": "Toda força que move um dente cria dois lados no ligamento. No lado para onde o dente vai, o ligamento é comprimido: o espaço estreita, as fibras se dobram, os vasos são apertados. No lado de onde o dente vem, o ligamento é estirado: o espaço alarga, as fibras se esticam, os vasos se abrem. As células de cada lado leem essa diferença e respondem de modos opostos." },
-        { "tipo": "p", "texto": "Essa é a teoria da pressão e tensão. Nasceu das histologias de Sandstedt, que no início do século vinte moveu dentes de cães e viu reabsorção de um lado e deposição do outro, foi refinada por Oppenheim e ganhou a formulação clássica com Schwarz, que ligou a qualidade da resposta à magnitude da pressão. Um século depois, continua sendo o mapa com que se lê o movimento dentário." },
-        { "tipo": "visual", "formato": "anatomico", "titulo": "Pressão e tensão em um dente que se move para a direita", "descricao": "Corte transversal esquemático de uma raiz no alvéolo, com seta indicando a força para a direita. À direita da raiz, lado de pressão: ligamento estreito, vasos comprimidos, osteoclastos reabsorvendo a lâmina dura. À esquerda, lado de tensão: ligamento largo, fibras estiradas, osteoblastos depositando osso novo ao longo das fibras. Legenda de cores para reabsorção e deposição.", "viewBox": "0 0 560 380",
+        {
+          "tipo": "p",
+          "texto": "Toda força que move um dente cria dois lados no ligamento. No lado para onde o dente vai, o ligamento é comprimido: o espaço estreita, as fibras se dobram, os vasos são apertados. No lado de onde o dente vem, o ligamento é estirado: o espaço alarga, as fibras se esticam, os vasos se abrem. As células de cada lado leem essa diferença e respondem de modos opostos."
+        },
+        {
+          "tipo": "p",
+          "texto": "Essa é a teoria da pressão e tensão. Nasceu das histologias de Sandstedt, que no início do século vinte moveu dentes de cães e viu reabsorção de um lado e deposição do outro, foi refinada por Oppenheim e ganhou a formulação clássica com Schwarz, que ligou a qualidade da resposta à magnitude da pressão. Um século depois, continua sendo o mapa com que se lê o movimento dentário."
+        },
+        {
+          "tipo": "visual",
+          "formato": "anatomico",
+          "titulo": "Pressão e tensão em um dente que se move para a direita",
+          "descricao": "Corte transversal esquemático de uma raiz no alvéolo, com seta indicando a força para a direita. À direita da raiz, lado de pressão: ligamento estreito, vasos comprimidos, osteoclastos reabsorvendo a lâmina dura. À esquerda, lado de tensão: ligamento largo, fibras estiradas, osteoblastos depositando osso novo ao longo das fibras. Legenda de cores para reabsorção e deposição.",
+          "viewBox": "0 0 560 380",
           "svg": [
             "<rect x='40' y='60' width='480' height='260' rx='10' fill='var(--gold-soft,#F4EEE4)' stroke='var(--ink,#23211C)' stroke-width='1.5'/>",
             "<rect x='150' y='90' width='260' height='200' rx='60' fill='var(--blue-soft,#E9EEF3)' stroke='var(--blue,#4A6B8A)' stroke-width='3'/>",
@@ -51,32 +62,67 @@
             "<text x='465' y='120' text-anchor='middle' font-size='12' font-weight='700' fill='var(--red,#B4533B)'>Pressão</text><text x='465' y='138' text-anchor='middle' font-size='10' fill='var(--ink,#23211C)'>ligamento estreito</text><text x='465' y='152' text-anchor='middle' font-size='10' fill='var(--ink,#23211C)'>vasos comprimidos</text><text x='465' y='166' text-anchor='middle' font-size='10' fill='var(--ink,#23211C)'>osteoclastos reabsorvem</text>",
             "<g font-size='11'><circle cx='150' cy='348' r='6' fill='var(--red,#B4533B)'/><text x='162' y='352' fill='var(--ink,#23211C)'>osteoclasto: reabsorção da lâmina dura na frente</text><rect x='150' y='360' width='10' height='12' fill='var(--green,#3E7C4F)'/><text x='166' y='370' fill='var(--ink,#23211C)'>osso novo: deposição ao longo das fibras atrás</text></g>"
           ],
-          "legenda": "Para onde o dente vai, reabsorve; de onde ele vem, deposita. O alvéolo inteiro se desloca e o ligamento termina com a largura de antes." },
-        { "tipo": "destaque", "estilo": "frase", "texto": "Um dente que se move é uma frente que reabsorve e uma retaguarda que deposita. Se um dos dois atrasa, o dente para." }
+          "legenda": "Para onde o dente vai, reabsorve; de onde ele vem, deposita. O alvéolo inteiro se desloca e o ligamento termina com a largura de antes."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "frase",
+          "texto": "Um dente que se move é uma frente que reabsorve e uma retaguarda que deposita. Se um dos dois atrasa, o dente para."
+        }
       ],
-      "checagem": { "pergunta": "O que acontece com a largura do ligamento em cada lado no início do movimento, e como ela termina?", "resposta": "O lado de pressão estreita e o de tensão alarga; com a reabsorção na frente e a deposição atrás, o alvéolo se desloca e o ligamento recupera a largura original nos dois lados." }
+      "checagem": {
+        "pergunta": "O que acontece com a largura do ligamento em cada lado no início do movimento, e como ela termina?",
+        "resposta": "O lado de pressão estreita e o de tensão alarga; com a reabsorção na frente e a deposição atrás, o alvéolo se desloca e o ligamento recupera a largura original nos dois lados."
+      }
     },
     {
       "titulo": "O lado de pressão: reabsorver o que está na frente",
       "blocos": [
-        { "tipo": "p", "texto": "No lado comprimido, a primeira mudança é vascular: os vasos apertados reduzem o fluxo e o oxigênio cai. As células do ligamento respondem liberando os mediadores da inflamação estéril, prostaglandinas e citocinas, e exibindo RANKL. Precursores de osteoclastos, vindos do sangue e da medula, chegam, fundem-se e formam as células gigantes multinucleadas que se assentam na lâmina dura e a dissolvem." },
-        { "tipo": "p", "texto": "Quando a força é leve, esse processo acontece na própria superfície do osso voltada para o ligamento: é a reabsorção frontal, e o dente se move enquanto ela avança. Quando a força é pesada, o ligamento comprimido perde a circulação, as células morrem e o tecido vira uma massa acelular vítrea, a hialinização; a reabsorção então precisa começar nos espaços medulares por trás da lâmina dura, e o dente só se move quando esse osso é removido por baixo. É a reabsorção solapante, assunto da próxima página." },
-        { "tipo": "destaque", "estilo": "prova", "texto": "No lado de pressão, a sequência é: compressão vascular, liberação de mediadores, expressão de RANKL, recrutamento e fusão de precursores em osteoclastos, reabsorção da lâmina dura. Frontal com força leve; solapante, após hialinização, com força pesada." },
-        { "tipo": "lista", "itens": [
-          "Vasos comprimidos: menos fluxo, menos oxigênio, sinal para as células.",
-          "Mediadores: prostaglandina E2, interleucina 1, fator de necrose tumoral, entre outros.",
-          "RANKL sobe e osteoprotegerina cai: precursores viram osteoclastos.",
-          "Osteoclastos na superfície da lâmina dura: reabsorção frontal, se o ligamento está vivo."
-        ] }
+        {
+          "tipo": "p",
+          "texto": "No lado comprimido, a primeira mudança é vascular: os vasos apertados reduzem o fluxo e o oxigênio cai. As células do ligamento respondem liberando os mediadores da inflamação estéril, prostaglandinas e citocinas, e exibindo RANKL. Precursores de osteoclastos, vindos do sangue e da medula, chegam, fundem-se e formam as células gigantes multinucleadas que se assentam na lâmina dura e a dissolvem."
+        },
+        {
+          "tipo": "p",
+          "texto": "Quando a força é leve, esse processo acontece na própria superfície do osso voltada para o ligamento: é a reabsorção frontal, e o dente se move enquanto ela avança. Quando a força é pesada, o ligamento comprimido perde a circulação, as células morrem e o tecido vira uma massa acelular vítrea, a hialinização; a reabsorção então precisa começar nos espaços medulares por trás da lâmina dura, e o dente só se move quando esse osso é removido por baixo. É a reabsorção solapante, assunto da próxima página."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "prova",
+          "texto": "No lado de pressão, a sequência é: compressão vascular, liberação de mediadores, expressão de RANKL, recrutamento e fusão de precursores em osteoclastos, reabsorção da lâmina dura. Frontal com força leve; solapante, após hialinização, com força pesada."
+        },
+        {
+          "tipo": "lista",
+          "itens": [
+            "Vasos comprimidos: menos fluxo, menos oxigênio, sinal para as células.",
+            "Mediadores: prostaglandina E2, interleucina 1, fator de necrose tumoral, entre outros.",
+            "RANKL sobe e osteoprotegerina cai: precursores viram osteoclastos.",
+            "Osteoclastos na superfície da lâmina dura: reabsorção frontal, se o ligamento está vivo."
+          ]
+        }
       ],
-      "checagem": { "pergunta": "De onde vêm os osteoclastos que reabsorvem a lâmina dura no lado de pressão?", "resposta": "De precursores mononucleares trazidos pelo sangue e presentes na medula, que se fundem em células multinucleadas sob o sinal do RANKL exibido pelas células do ligamento comprimido." }
+      "checagem": {
+        "pergunta": "De onde vêm os osteoclastos que reabsorvem a lâmina dura no lado de pressão?",
+        "resposta": "De precursores mononucleares trazidos pelo sangue e presentes na medula, que se fundem em células multinucleadas sob o sinal do RANKL exibido pelas células do ligamento comprimido."
+      }
     },
     {
       "titulo": "O lado de tensão: construir atrás",
       "blocos": [
-        { "tipo": "p", "texto": "No lado estirado acontece o inverso. O ligamento alarga, as fibras ficam esticadas e os vasos dilatam. As células do ligamento, fibroblastos e precursores de osteoblastos, proliferam nos primeiros dias; os osteoblastos se alinham na superfície da lâmina dura e começam a depositar matriz óssea nova, o osteoide, exatamente ao longo das fibras estiradas, que ficam incorporadas ao osso novo como fibras de Sharpey." },
-        { "tipo": "p", "texto": "Esse osso novo é imaturo, pouco mineralizado e fica assim por meses; é uma das razões da recidiva imediata após a remoção do aparelho e da necessidade da contenção. A deposição atrás acompanha a reabsorção na frente com algum atraso, e é esse acoplamento que mantém a largura do ligamento. As fibras da crista alveolar e as fibras transeptais, que não se remodelam tão depressa, também são esticadas, e a memória elástica delas puxa o dente de volta se nada o segurar." },
-        { "tipo": "visual", "formato": "comparativo", "titulo": "Lado de pressão e lado de tensão, evento por evento", "descricao": "Duas colunas com cinco linhas. Espaço do ligamento: estreita na pressão, alarga na tensão. Vasos: comprimidos, fluxo reduzido; dilatados, fluxo aumentado. Fibras: dobradas; estiradas e depois incorporadas ao osso novo. Células: osteoclastos recrutados, RANKL alto; fibroblastos e osteoblastos proliferam, osteoprotegerina alta. Osso: lâmina dura reabsorvida na frente; osteoide depositado atrás, mineraliza em meses.", "viewBox": "0 0 720 360",
+        {
+          "tipo": "p",
+          "texto": "No lado estirado acontece o inverso. O ligamento alarga, as fibras ficam esticadas e os vasos dilatam. As células do ligamento, fibroblastos e precursores de osteoblastos, proliferam nos primeiros dias; os osteoblastos se alinham na superfície da lâmina dura e começam a depositar matriz óssea nova, o osteoide, exatamente ao longo das fibras estiradas, que ficam incorporadas ao osso novo como fibras de Sharpey."
+        },
+        {
+          "tipo": "p",
+          "texto": "Esse osso novo é imaturo, pouco mineralizado e fica assim por meses; é uma das razões da recidiva imediata após a remoção do aparelho e da necessidade da contenção. A deposição atrás acompanha a reabsorção na frente com algum atraso, e é esse acoplamento que mantém a largura do ligamento. As fibras da crista alveolar e as fibras transeptais, que não se remodelam tão depressa, também são esticadas, e a memória elástica delas puxa o dente de volta se nada o segurar."
+        },
+        {
+          "tipo": "visual",
+          "formato": "comparativo",
+          "titulo": "Lado de pressão e lado de tensão, evento por evento",
+          "descricao": "Duas colunas com cinco linhas. Espaço do ligamento: estreita na pressão, alarga na tensão. Vasos: comprimidos, fluxo reduzido; dilatados, fluxo aumentado. Fibras: dobradas; estiradas e depois incorporadas ao osso novo. Células: osteoclastos recrutados, RANKL alto; fibroblastos e osteoblastos proliferam, osteoprotegerina alta. Osso: lâmina dura reabsorvida na frente; osteoide depositado atrás, mineraliza em meses.",
+          "viewBox": "0 0 720 360",
           "svg": [
             "<use href='#c-caixa-red' x='190' y='16' width='240' height='40'/><text x='310' y='42' text-anchor='middle' font-size='14' font-weight='700'>Lado de pressão</text>",
             "<use href='#c-caixa-green' x='450' y='16' width='240' height='40'/><text x='570' y='42' text-anchor='middle' font-size='14' font-weight='700'>Lado de tensão</text>",
@@ -86,17 +132,44 @@
             "<g font-size='12' fill='var(--ink,#23211C)' text-anchor='middle'><text x='570' y='92'>alarga</text><text x='570' y='142'>dilatados, fluxo aumentado</text><text x='570' y='192'>estiradas, viram fibras de Sharpey</text><text x='570' y='236'>fibroblastos e osteoblastos</text><text x='570' y='250'>proliferam, osteoprotegerina alta</text><text x='570' y='286'>osteoide depositado atrás;</text><text x='570' y='300'>mineraliza em meses</text></g>",
             "<text x='360' y='340' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>o acoplamento entre os dois lados mantém a largura do ligamento e desloca o alvéolo inteiro</text>"
           ],
-          "legenda": "Cinco linhas, respostas espelhadas. O osso novo do lado de tensão fica imaturo por meses: é uma das razões da contenção." },
-        { "tipo": "destaque", "estilo": "dica", "titulo": "A contenção começa a ser explicada aqui", "texto": "Quando o aparelho sai, o osso atrás do dente ainda é osteoide pouco mineralizado e as fibras da crista e transeptais continuam esticadas. As duas coisas puxam o dente de volta nas primeiras semanas. Contenção imediata e, em alguns casos, fibrotomia supracrestal existem por causa desta página." }
+          "legenda": "Cinco linhas, respostas espelhadas. O osso novo do lado de tensão fica imaturo por meses: é uma das razões da contenção."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "dica",
+          "titulo": "A contenção começa a ser explicada aqui",
+          "texto": "Quando o aparelho sai, o osso atrás do dente ainda é osteoide pouco mineralizado e as fibras da crista e transeptais continuam esticadas. As duas coisas puxam o dente de volta nas primeiras semanas. Contenção imediata e, em alguns casos, fibrotomia supracrestal existem por causa desta página."
+        },
+        {
+          "tipo": "imagem",
+          "imagem": "corte histológico do lado de tensão do ligamento periodontal durante movimento com força leve, com osteoide novo na parede alveolar",
+          "mostrar": "Fibras do ligamento estiradas e alinhadas, osteoblastos enfileirados sobre uma camada de osteoide recém-depositada na superfície da lâmina dura, com vasos preservados; comparação com o lado de pressão do mesmo dente",
+          "legenda": "O lado de tensão constrói: osteoblastos depositam osteoide sobre a parede que o dente deixa atrás.",
+          "destacar": "camada de osteoide e a fileira de osteoblastos junto à lâmina dura"
+        }
       ],
-      "checagem": { "pergunta": "Por que o osso formado no lado de tensão favorece a recidiva logo após a remoção do aparelho?", "resposta": "Porque é osteoide imaturo, pouco mineralizado por meses, e as fibras estiradas da crista e transeptais mantêm memória elástica; sem contenção, puxam o dente de volta." }
+      "checagem": {
+        "pergunta": "Por que o osso formado no lado de tensão favorece a recidiva logo após a remoção do aparelho?",
+        "resposta": "Porque é osteoide imaturo, pouco mineralizado por meses, e as fibras estiradas da crista e transeptais mantêm memória elástica; sem contenção, puxam o dente de volta."
+      }
     },
     {
       "titulo": "As três fases do movimento",
       "blocos": [
-        { "tipo": "p", "texto": "Medido dia a dia, o movimento não é uma linha reta. Na primeira fase, de um a dois dias, o dente se desloca rapidamente dentro do alvéolo, à custa do líquido e das fibras: é o deslocamento inicial, não é remodelação. Depois vem a fase de latência, que pode durar de dias a algumas semanas, em que o dente quase não anda enquanto o ligamento se reorganiza, os osteoclastos são recrutados e, se houve hialinização, o tecido necrosado é removido." },
-        { "tipo": "p", "texto": "Na terceira fase, pós-latência, a reabsorção e a deposição estão em ritmo e o dente se move de modo mais contínuo, até que a força decaia ou a ativação termine. A duração da latência depende da força: leve, curta; pesada, longa, porque a hialinização precisa ser eliminada antes. O paciente da abertura descreveu exatamente essas três fases sem saber o nome delas." },
-        { "tipo": "visual", "formato": "grafico", "titulo": "Deslocamento do dente ao longo do tempo: as três fases", "descricao": "Gráfico de deslocamento em função do tempo. Subida rápida nos primeiros dois dias (fase inicial); platô de dias a semanas (latência); depois subida contínua (pós-latência). Uma segunda curva tracejada, para força pesada, mostra deslocamento inicial maior, latência mais longa e retomada tardia.", "viewBox": "0 0 720 320",
+        {
+          "tipo": "p",
+          "texto": "Medido dia a dia, o movimento não é uma linha reta. Na primeira fase, de um a dois dias, o dente se desloca rapidamente dentro do alvéolo, à custa do líquido e das fibras: é o deslocamento inicial, não é remodelação. Depois vem a fase de latência, que pode durar de dias a algumas semanas, em que o dente quase não anda enquanto o ligamento se reorganiza, os osteoclastos são recrutados e, se houve hialinização, o tecido necrosado é removido."
+        },
+        {
+          "tipo": "p",
+          "texto": "Na terceira fase, pós-latência, a reabsorção e a deposição estão em ritmo e o dente se move de modo mais contínuo, até que a força decaia ou a ativação termine. A duração da latência depende da força: leve, curta; pesada, longa, porque a hialinização precisa ser eliminada antes. O paciente da abertura descreveu exatamente essas três fases sem saber o nome delas."
+        },
+        {
+          "tipo": "visual",
+          "formato": "grafico",
+          "titulo": "Deslocamento do dente ao longo do tempo: as três fases",
+          "descricao": "Gráfico de deslocamento em função do tempo. Subida rápida nos primeiros dois dias (fase inicial); platô de dias a semanas (latência); depois subida contínua (pós-latência). Uma segunda curva tracejada, para força pesada, mostra deslocamento inicial maior, latência mais longa e retomada tardia.",
+          "viewBox": "0 0 720 320",
           "svg": [
             "<line x1='70' y1='260' x2='680' y2='260' stroke='var(--ink,#23211C)' stroke-width='1.5'/><line x1='70' y1='260' x2='70' y2='40' stroke='var(--ink,#23211C)' stroke-width='1.5'/>",
             "<text x='680' y='284' text-anchor='end' font-size='12' fill='var(--muted,#8A8478)'>tempo</text><text x='40' y='50' font-size='12' fill='var(--muted,#8A8478)' transform='rotate(-90 40 50)' text-anchor='end'>deslocamento</text>",
@@ -107,17 +180,37 @@
             "<g font-size='11' fill='var(--muted,#8A8478)' text-anchor='middle'><text x='95' y='300'>1 a 2 dias</text><text x='210' y='300'>dias a semanas</text><text x='480' y='300'>contínuo até a força decair</text></g>",
             "<g font-size='11'><line x1='420' y1='236' x2='450' y2='236' stroke='var(--green,#3E7C4F)' stroke-width='3'/><text x='456' y='240' fill='var(--ink,#23211C)'>força leve: latência curta</text><line x1='420' y1='252' x2='450' y2='252' stroke='var(--red,#B4533B)' stroke-width='2' stroke-dasharray='7 5'/><text x='456' y='256' fill='var(--ink,#23211C)'>força pesada: latência longa (hialinização)</text></g>"
           ],
-          "legenda": "O dente anda, para e anda. A parada é a fase de latência, e ela dura o tempo que o ligamento levar para se reorganizar, mais longo quando a força foi pesada." },
-        { "tipo": "destaque", "estilo": "mito", "mito": "Se o dente parou de andar depois da primeira semana, o aparelho perdeu a força.", "verdade": "A parada é a fase de latência, esperada. O deslocamento dos primeiros dias foi o dente se acomodando no alvéolo; o movimento por remodelação só começa depois que as células chegam. Reativar durante a latência é somar força a um ligamento que ainda está se recuperando." }
+          "legenda": "O dente anda, para e anda. A parada é a fase de latência, e ela dura o tempo que o ligamento levar para se reorganizar, mais longo quando a força foi pesada."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "mito",
+          "mito": "Se o dente parou de andar depois da primeira semana, o aparelho perdeu a força.",
+          "verdade": "A parada é a fase de latência, esperada. O deslocamento dos primeiros dias foi o dente se acomodando no alvéolo; o movimento por remodelação só começa depois que as células chegam. Reativar durante a latência é somar força a um ligamento que ainda está se recuperando."
+        }
       ],
-      "checagem": { "pergunta": "Por que a fase de latência é mais longa quando a força foi pesada?", "resposta": "Porque a força pesada necrosou o ligamento comprimido; antes de o dente se mover, o tecido hialinizado precisa ser removido e a reabsorção precisa vir por baixo, pelos espaços medulares." }
+      "checagem": {
+        "pergunta": "Por que a fase de latência é mais longa quando a força foi pesada?",
+        "resposta": "Porque a força pesada necrosou o ligamento comprimido; antes de o dente se mover, o tecido hialinizado precisa ser removido e a reabsorção precisa vir por baixo, pelos espaços medulares."
+      }
     },
     {
       "titulo": "Força ótima: a pressão que não estrangula",
       "blocos": [
-        { "tipo": "p", "texto": "Schwarz propôs, na década de 1930, que a força ótima seria aquela que comprime o ligamento sem ultrapassar a pressão dos capilares, algo em torno de duas dezenas de gramas por centímetro quadrado de superfície radicular [VERIFICAR]. Acima disso a circulação cessa, o ligamento morre e o movimento passa a depender da reabsorção solapante. Abaixo de um mínimo, nada acontece. A janela entre os dois é o alvo." },
-        { "tipo": "p", "texto": "O detalhe que muda tudo é a palavra pressão. Pressão é força dividida por área. A mesma força de 100 gramas distribuída pela raiz grande de um molar produz pressão baixa; concentrada na raiz fina de um incisivo inferior, produz pressão alta. E a distribuição depende do tipo de movimento: na inclinação, a força se concentra na crista e no ápice; no movimento de corpo, espalha-se por toda a raiz. É por isso que cada tipo de movimento tem a sua força ideal, tema de outra página." },
-        { "tipo": "visual", "formato": "forcas", "titulo": "Força é o que a balança marca; pressão é o que o ligamento sente", "descricao": "Dois dentes lado a lado recebendo a mesma força. Molar com raiz grande: a força se distribui em área grande, pressão baixa, dentro da janela ótima. Incisivo inferior com raiz pequena: a mesma força em área pequena, pressão alta, acima da pressão capilar. Escala de pressão ao lado com a janela ótima marcada.", "viewBox": "0 0 720 320",
+        {
+          "tipo": "p",
+          "texto": "Schwarz propôs, na década de 1930, que a força ótima seria aquela que comprime o ligamento sem ultrapassar a pressão dos capilares, algo em torno de duas dezenas de gramas por centímetro quadrado de superfície radicular [VERIFICAR]. Acima disso a circulação cessa, o ligamento morre e o movimento passa a depender da reabsorção solapante. Abaixo de um mínimo, nada acontece. A janela entre os dois é o alvo."
+        },
+        {
+          "tipo": "p",
+          "texto": "O detalhe que muda tudo é a palavra pressão. Pressão é força dividida por área. A mesma força de 100 gramas distribuída pela raiz grande de um molar produz pressão baixa; concentrada na raiz fina de um incisivo inferior, produz pressão alta. E a distribuição depende do tipo de movimento: na inclinação, a força se concentra na crista e no ápice; no movimento de corpo, espalha-se por toda a raiz. É por isso que cada tipo de movimento tem a sua força ideal, tema de outra página."
+        },
+        {
+          "tipo": "visual",
+          "formato": "forcas",
+          "titulo": "Força é o que a balança marca; pressão é o que o ligamento sente",
+          "descricao": "Dois dentes lado a lado recebendo a mesma força. Molar com raiz grande: a força se distribui em área grande, pressão baixa, dentro da janela ótima. Incisivo inferior com raiz pequena: a mesma força em área pequena, pressão alta, acima da pressão capilar. Escala de pressão ao lado com a janela ótima marcada.",
+          "viewBox": "0 0 720 320",
           "svg": [
             "<use href='#c-molar' x='110' y='60' width='110' height='180'/><use href='#c-dente' x='420' y='60' width='50' height='180'/>",
             "<use href='#c-vetor-red' x='30' y='120' width='70' height='16'/><use href='#c-vetor-red' x='340' y='120' width='70' height='16'/>",
@@ -128,31 +221,67 @@
             "<text x='620' y='52' text-anchor='middle' font-size='11' fill='var(--muted,#8A8478)'>pressão</text><text x='650' y='150' font-size='10' fill='var(--green,#3E7C4F)' font-weight='700'>janela</text><text x='650' y='164' font-size='10' fill='var(--green,#3E7C4F)' font-weight='700'>ótima</text><text x='650' y='190' font-size='10' fill='var(--muted,#8A8478)'>mínimo</text><text x='650' y='136' font-size='10' fill='var(--red,#B4533B)'>capilar</text>",
             "<text x='360' y='312' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>pressão = força / área da raiz comprimida; a distribuição também depende do tipo de movimento</text>"
           ],
-          "legenda": "A balança mede gramas; o ligamento sente gramas por área. A mesma ativação é leve num molar e pesada num incisivo, e é a pressão que decide entre reabsorção frontal e hialinização." },
-        { "tipo": "destaque", "estilo": "erro", "texto": "Usar a mesma força para todos os dentes porque \"o fio é o mesmo\". A força que um molar aceita estrangula a raiz de um incisivo inferior. Pense em pressão: força dividida pela área da raiz e pelo padrão de distribuição do movimento." }
+          "legenda": "A balança mede gramas; o ligamento sente gramas por área. A mesma ativação é leve num molar e pesada num incisivo, e é a pressão que decide entre reabsorção frontal e hialinização."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "erro",
+          "texto": "Usar a mesma força para todos os dentes porque \"o fio é o mesmo\". A força que um molar aceita estrangula a raiz de um incisivo inferior. Pense em pressão: força dividida pela área da raiz e pelo padrão de distribuição do movimento."
+        }
       ],
-      "checagem": { "pergunta": "Por que a mesma força pode ser leve em um molar e pesada em um incisivo inferior?", "resposta": "Porque o ligamento responde à pressão, força por área: a raiz grande do molar distribui a força em área ampla e a raiz pequena do incisivo a concentra, ultrapassando a pressão capilar." }
+      "checagem": {
+        "pergunta": "Por que a mesma força pode ser leve em um molar e pesada em um incisivo inferior?",
+        "resposta": "Porque o ligamento responde à pressão, força por área: a raiz grande do molar distribui a força em área ampla e a raiz pequena do incisivo a concentra, ultrapassando a pressão capilar."
+      }
     },
     {
       "titulo": "Contínua, interrompida, intermitente: o tempo também é força",
       "blocos": [
-        { "tipo": "p", "texto": "Além da magnitude, importa como a força se comporta no tempo. Força contínua mantém-se entre as ativações, decaindo pouco: é o que fios leves e superelásticos fazem, e o ligamento comprimido nunca descansa. Força interrompida cai a zero antes da próxima ativação, como em molas rígidas que se descarregam depois de mover o dente alguns décimos de milímetro: o ligamento tem uma pausa para se reorganizar. Força intermitente é a dos aparelhos removíveis: presente quando o aparelho está na boca, ausente quando sai." },
-        { "tipo": "p", "texto": "A ideia clássica é que a força leve e contínua produz reabsorção frontal ininterrupta e é o padrão mais eficiente; a força pesada e interrompida pode ser tolerada, porque a pausa deixa o ligamento se recuperar da hialinização antes da próxima ativação; a força pesada e contínua é a pior combinação, porque renova a necrose sem dar tempo de reparo. Por isso os fios de baixa carga mudaram a clínica: entregam pouca força por muito tempo." },
-        { "tipo": "destaque", "estilo": "dica", "titulo": "Leia o tipo de força antes de escolher o intervalo", "texto": "Fio superelástico leve: força quase constante por semanas; intervalos mais longos entre consultas são biologicamente coerentes. Mola ou alça rígida ativada com força maior: a força cai depois de pouco movimento; o intervalo dá o descanso que o ligamento precisa. O calendário de retorno é uma decisão biológica, não só de agenda." }
+        {
+          "tipo": "p",
+          "texto": "Além da magnitude, importa como a força se comporta no tempo. Força contínua mantém-se entre as ativações, decaindo pouco: é o que fios leves e superelásticos fazem, e o ligamento comprimido nunca descansa. Força interrompida cai a zero antes da próxima ativação, como em molas rígidas que se descarregam depois de mover o dente alguns décimos de milímetro: o ligamento tem uma pausa para se reorganizar. Força intermitente é a dos aparelhos removíveis: presente quando o aparelho está na boca, ausente quando sai."
+        },
+        {
+          "tipo": "p",
+          "texto": "A ideia clássica é que a força leve e contínua produz reabsorção frontal ininterrupta e é o padrão mais eficiente; a força pesada e interrompida pode ser tolerada, porque a pausa deixa o ligamento se recuperar da hialinização antes da próxima ativação; a força pesada e contínua é a pior combinação, porque renova a necrose sem dar tempo de reparo. Por isso os fios de baixa carga mudaram a clínica: entregam pouca força por muito tempo."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "dica",
+          "titulo": "Leia o tipo de força antes de escolher o intervalo",
+          "texto": "Fio superelástico leve: força quase constante por semanas; intervalos mais longos entre consultas são biologicamente coerentes. Mola ou alça rígida ativada com força maior: a força cai depois de pouco movimento; o intervalo dá o descanso que o ligamento precisa. O calendário de retorno é uma decisão biológica, não só de agenda."
+        }
       ],
-      "checagem": { "pergunta": "Por que a força pesada e contínua é considerada a pior combinação?", "resposta": "Porque renova a compressão que necrosa o ligamento sem dar pausa para o reparo; a força pesada interrompida ao menos permite a recuperação entre as ativações." }
+      "checagem": {
+        "pergunta": "Por que a força pesada e contínua é considerada a pior combinação?",
+        "resposta": "Porque renova a compressão que necrosa o ligamento sem dar pausa para o reparo; a força pesada interrompida ao menos permite a recuperação entre as ativações."
+      }
     },
     {
       "titulo": "De volta ao paciente de 15 anos",
       "blocos": [
-        { "tipo": "p", "texto": "O dente andou nos primeiros dias porque se deslocou dentro do alvéolo, à custa do líquido e das fibras; parou por duas semanas porque entrou na fase de latência, enquanto o lado de pressão recrutava osteoclastos e o lado de tensão começava a depositar; e voltou a andar quando a remodelação entrou em ritmo. O aparelho não desativou: o ligamento fez exatamente o que a teoria da pressão e tensão prevê, e a duração da parada até sugere que a força estava na janela certa." },
-        { "tipo": "destaque", "estilo": "frase", "texto": "Anda, para, anda. O que parece falha do aparelho é o ligamento trocando de fase. Quem conhece as três fases não reativa cedo demais." }
+        {
+          "tipo": "p",
+          "texto": "O dente andou nos primeiros dias porque se deslocou dentro do alvéolo, à custa do líquido e das fibras; parou por duas semanas porque entrou na fase de latência, enquanto o lado de pressão recrutava osteoclastos e o lado de tensão começava a depositar; e voltou a andar quando a remodelação entrou em ritmo. O aparelho não desativou: o ligamento fez exatamente o que a teoria da pressão e tensão prevê, e a duração da parada até sugere que a força estava na janela certa."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "frase",
+          "texto": "Anda, para, anda. O que parece falha do aparelho é o ligamento trocando de fase. Quem conhece as três fases não reativa cedo demais."
+        }
       ],
-      "checagem": { "pergunta": "Que fase explica a parada de duas semanas relatada pelo paciente, e o que ela indica sobre a força?", "resposta": "A fase de latência, em que o ligamento se reorganiza e as células são recrutadas; uma latência curta sugere força leve, sem hialinização extensa." }
+      "checagem": {
+        "pergunta": "Que fase explica a parada de duas semanas relatada pelo paciente, e o que ela indica sobre a força?",
+        "resposta": "A fase de latência, em que o ligamento se reorganiza e as células são recrutadas; uma latência curta sugere força leve, sem hialinização extensa."
+      }
     }
   ],
   "fechamento": {
-    "visual": { "formato": "mapa", "titulo": "Mapa da página", "descricao": "Nó central: pressão e tensão. Seis nós: dois lados, respostas espelhadas; pressão reabsorve na frente; tensão deposita atrás, osso imaturo; três fases: inicial, latência, pós-latência; força ótima abaixo da pressão capilar; pressão é força por área.", "viewBox": "0 0 560 360",
+    "visual": {
+      "formato": "mapa",
+      "titulo": "Mapa da página",
+      "descricao": "Nó central: pressão e tensão. Seis nós: dois lados, respostas espelhadas; pressão reabsorve na frente; tensão deposita atrás, osso imaturo; três fases: inicial, latência, pós-latência; força ótima abaixo da pressão capilar; pressão é força por área.",
+      "viewBox": "0 0 560 360",
       "svg": [
         "<g stroke='var(--border,#EDE6D8)' stroke-width='1.5'><line x1='280' y1='180' x2='100' y2='60'/><line x1='280' y1='180' x2='460' y2='60'/><line x1='280' y1='180' x2='70' y2='180'/><line x1='280' y1='180' x2='490' y2='180'/><line x1='280' y1='180' x2='100' y2='300'/><line x1='280' y1='180' x2='460' y2='300'/></g>",
         "<use href='#c-no-central' x='190' y='150' width='180' height='60'/>",
@@ -163,64 +292,194 @@
         "<use href='#c-no' x='410' y='158' width='150' height='44'/><text x='485' y='185' text-anchor='middle' font-size='13' font-weight='700'>Inicial, latência, pós</text>",
         "<use href='#c-no' x='20' y='278' width='160' height='44'/><text x='100' y='305' text-anchor='middle' font-size='13' font-weight='700'>Abaixo do capilar</text>",
         "<use href='#c-no' x='380' y='278' width='160' height='44'/><text x='460' y='305' text-anchor='middle' font-size='13' font-weight='700'>Pressão = força / área</text>"
-      ] },
+      ]
+    },
     "flashcards": [
-      { "frente": "Descreva os eventos do lado de pressão e do lado de tensão.", "verso": "Pressão: ligamento estreita, vasos comprimidos, mediadores e RANKL, osteoclastos reabsorvem a lâmina dura na frente. Tensão: ligamento alarga, fibras estiradas, fibroblastos e osteoblastos proliferam, osteoide depositado atrás ao longo das fibras." },
-      { "frente": "As três fases do movimento dentário e sua duração.", "verso": "Inicial: deslocamento no alvéolo em 1 a 2 dias. Latência: dias a semanas, sem movimento, enquanto o ligamento se reorganiza; mais longa com força pesada. Pós-latência: movimento contínuo até a força decair." },
-      { "frente": "Força ótima segundo Schwarz e por que pressão, não força.", "verso": "A que comprime sem ultrapassar a pressão capilar do ligamento. Pressão é força por área: a mesma força é leve na raiz grande do molar e pesada na raiz fina do incisivo inferior." }
+      {
+        "frente": "Descreva os eventos do lado de pressão e do lado de tensão.",
+        "verso": "Pressão: ligamento estreita, vasos comprimidos, mediadores e RANKL, osteoclastos reabsorvem a lâmina dura na frente. Tensão: ligamento alarga, fibras estiradas, fibroblastos e osteoblastos proliferam, osteoide depositado atrás ao longo das fibras."
+      },
+      {
+        "frente": "As três fases do movimento dentário e sua duração.",
+        "verso": "Inicial: deslocamento no alvéolo em 1 a 2 dias. Latência: dias a semanas, sem movimento, enquanto o ligamento se reorganiza; mais longa com força pesada. Pós-latência: movimento contínuo até a força decair."
+      },
+      {
+        "frente": "Força ótima segundo Schwarz e por que pressão, não força.",
+        "verso": "A que comprime sem ultrapassar a pressão capilar do ligamento. Pressão é força por área: a mesma força é leve na raiz grande do molar e pesada na raiz fina do incisivo inferior."
+      }
     ]
   },
   "infografico": {
     "titulo": "Pressão e tensão em seis cartões",
     "itens": [
-      { "rotulo": "Teoria", "texto": "Sandstedt, Oppenheim e Schwarz: o ligamento comprimido reabsorve osso, o estirado deposita. Mapa do movimento até hoje." },
-      { "rotulo": "Pressão", "texto": "Estreita, comprime vasos, libera mediadores, sobe RANKL, recruta osteoclastos: reabsorção frontal se a força é leve." },
-      { "rotulo": "Tensão", "texto": "Alarga, estira fibras, prolifera osteoblastos, deposita osteoide ao longo das fibras; osso imaturo por meses: contenção." },
-      { "rotulo": "Três fases", "texto": "Inicial (1 a 2 dias), latência (dias a semanas), pós-latência (contínua). Latência longa denuncia força pesada." },
-      { "rotulo": "Força ótima", "texto": "Abaixo da pressão capilar do ligamento; acima, hialinização. Pressão é força dividida pela área da raiz." },
-      { "rotulo": "Tempo", "texto": "Leve e contínua: melhor. Pesada e interrompida: tolerável. Pesada e contínua: a pior." }
+      {
+        "rotulo": "Teoria",
+        "texto": "Sandstedt, Oppenheim e Schwarz: o ligamento comprimido reabsorve osso, o estirado deposita. Mapa do movimento até hoje."
+      },
+      {
+        "rotulo": "Pressão",
+        "texto": "Estreita, comprime vasos, libera mediadores, sobe RANKL, recruta osteoclastos: reabsorção frontal se a força é leve."
+      },
+      {
+        "rotulo": "Tensão",
+        "texto": "Alarga, estira fibras, prolifera osteoblastos, deposita osteoide ao longo das fibras; osso imaturo por meses: contenção."
+      },
+      {
+        "rotulo": "Três fases",
+        "texto": "Inicial (1 a 2 dias), latência (dias a semanas), pós-latência (contínua). Latência longa denuncia força pesada."
+      },
+      {
+        "rotulo": "Força ótima",
+        "texto": "Abaixo da pressão capilar do ligamento; acima, hialinização. Pressão é força dividida pela área da raiz."
+      },
+      {
+        "rotulo": "Tempo",
+        "texto": "Leve e contínua: melhor. Pesada e interrompida: tolerável. Pesada e contínua: a pior."
+      }
     ]
   },
   "fluxograma": {
     "titulo": "O dente parou de andar: o que fazer?",
     "nos": [
-      { "id": "n1", "tipo": "inicio", "texto": "Paciente relata que o dente andou e parou" },
-      { "id": "n2", "tipo": "decisao", "texto": "Estamos nas primeiras duas a três semanas após a ativação?" },
-      { "id": "n3", "tipo": "fim", "texto": "Fase de latência esperada: não reativar; aguardar a remodelação" },
-      { "id": "n4", "tipo": "decisao", "texto": "Dor intensa, mobilidade grande ou dente que não retomou após semanas?" },
-      { "id": "n5", "tipo": "acao", "texto": "Suspeitar de força pesada com hialinização extensa: reduzir a força, dar tempo" },
-      { "id": "n6", "tipo": "decisao", "texto": "A força ainda existe? Fio ou mola descarregados?" },
-      { "id": "n7", "tipo": "fim", "texto": "Reativar com força leve e contínua" },
-      { "id": "n8", "tipo": "fim", "texto": "Procurar obstáculo: contato oclusal, cortical, anquilose, raiz vizinha" }
+      {
+        "id": "n1",
+        "tipo": "inicio",
+        "texto": "Paciente relata que o dente andou e parou"
+      },
+      {
+        "id": "n2",
+        "tipo": "decisao",
+        "texto": "Estamos nas primeiras duas a três semanas após a ativação?"
+      },
+      {
+        "id": "n3",
+        "tipo": "fim",
+        "texto": "Fase de latência esperada: não reativar; aguardar a remodelação"
+      },
+      {
+        "id": "n4",
+        "tipo": "decisao",
+        "texto": "Dor intensa, mobilidade grande ou dente que não retomou após semanas?"
+      },
+      {
+        "id": "n5",
+        "tipo": "acao",
+        "texto": "Suspeitar de força pesada com hialinização extensa: reduzir a força, dar tempo"
+      },
+      {
+        "id": "n6",
+        "tipo": "decisao",
+        "texto": "A força ainda existe? Fio ou mola descarregados?"
+      },
+      {
+        "id": "n7",
+        "tipo": "fim",
+        "texto": "Reativar com força leve e contínua"
+      },
+      {
+        "id": "n8",
+        "tipo": "fim",
+        "texto": "Procurar obstáculo: contato oclusal, cortical, anquilose, raiz vizinha"
+      }
     ],
     "arestas": [
-      { "de": "n1", "para": "n2" },
-      { "de": "n2", "para": "n3", "rotulo": "sim" },
-      { "de": "n2", "para": "n4", "rotulo": "não" },
-      { "de": "n4", "para": "n5", "rotulo": "sim" },
-      { "de": "n4", "para": "n6", "rotulo": "não" },
-      { "de": "n6", "para": "n7", "rotulo": "não" },
-      { "de": "n6", "para": "n8", "rotulo": "sim" }
+      {
+        "de": "n1",
+        "para": "n2"
+      },
+      {
+        "de": "n2",
+        "para": "n3",
+        "rotulo": "sim"
+      },
+      {
+        "de": "n2",
+        "para": "n4",
+        "rotulo": "não"
+      },
+      {
+        "de": "n4",
+        "para": "n5",
+        "rotulo": "sim"
+      },
+      {
+        "de": "n4",
+        "para": "n6",
+        "rotulo": "não"
+      },
+      {
+        "de": "n6",
+        "para": "n7",
+        "rotulo": "não"
+      },
+      {
+        "de": "n6",
+        "para": "n8",
+        "rotulo": "sim"
+      }
     ]
   },
   "passoAPasso": [
-    { "passo": "Ao planejar a ativação, identifique o lado de pressão e o de tensão de cada dente envolvido.", "confira": "Para onde vai a raiz, e há osso suficiente nesse lado?" },
-    { "passo": "Converta a força em pressão: considere a área da raiz e o tipo de movimento.", "confira": "Incisivos inferiores e raízes curtas estão recebendo menos força que os molares?" },
-    { "passo": "Escolha o perfil temporal: contínua leve ou interrompida com pausa.", "confira": "O intervalo até a próxima consulta combina com o tipo de força?" },
-    { "passo": "Situe o paciente nas três fases quando ele relatar parada.", "confira": "Está na latência esperada ou algo impede o movimento?" },
-    { "passo": "Planeje a contenção lembrando que o osso do lado de tensão fica imaturo por meses.", "confira": "A contenção começa no dia da remoção?" }
+    {
+      "passo": "Ao planejar a ativação, identifique o lado de pressão e o de tensão de cada dente envolvido.",
+      "confira": "Para onde vai a raiz, e há osso suficiente nesse lado?"
+    },
+    {
+      "passo": "Converta a força em pressão: considere a área da raiz e o tipo de movimento.",
+      "confira": "Incisivos inferiores e raízes curtas estão recebendo menos força que os molares?"
+    },
+    {
+      "passo": "Escolha o perfil temporal: contínua leve ou interrompida com pausa.",
+      "confira": "O intervalo até a próxima consulta combina com o tipo de força?"
+    },
+    {
+      "passo": "Situe o paciente nas três fases quando ele relatar parada.",
+      "confira": "Está na latência esperada ou algo impede o movimento?"
+    },
+    {
+      "passo": "Planeje a contenção lembrando que o osso do lado de tensão fica imaturo por meses.",
+      "confira": "A contenção começa no dia da remoção?"
+    }
   ],
   "macetes": [
-    { "titulo": "Frente reabsorve, retaguarda deposita", "texto": "Para onde o dente vai: osteoclastos. De onde vem: osteoblastos. O alvéolo inteiro anda com o dente." },
-    { "titulo": "Anda, para, anda", "texto": "Inicial (1 a 2 dias), latência (dias a semanas), pós-latência. Latência longa é sinal de força pesada." },
-    { "titulo": "Balança mede força, ligamento sente pressão", "texto": "Divida pela área da raiz: a mesma força é leve no molar e pesada no incisivo inferior." },
-    { "titulo": "Leve e contínua ganha", "texto": "Pesada e interrompida se tolera. Pesada e contínua nunca: renova a necrose sem pausa." }
+    {
+      "titulo": "Frente reabsorve, retaguarda deposita",
+      "texto": "Para onde o dente vai: osteoclastos. De onde vem: osteoblastos. O alvéolo inteiro anda com o dente."
+    },
+    {
+      "titulo": "Anda, para, anda",
+      "texto": "Inicial (1 a 2 dias), latência (dias a semanas), pós-latência. Latência longa é sinal de força pesada."
+    },
+    {
+      "titulo": "Balança mede força, ligamento sente pressão",
+      "texto": "Divida pela área da raiz: a mesma força é leve no molar e pesada no incisivo inferior."
+    },
+    {
+      "titulo": "Leve e contínua ganha",
+      "texto": "Pesada e interrompida se tolera. Pesada e contínua nunca: renova a necrose sem pausa."
+    }
   ],
   "ondeErra": [
-    { "erro": "Reativar porque o dente parou na segunda semana.", "porque": "É a fase de latência esperada; somar força atrapalha a reorganização do ligamento.", "certo": "Aguardar a pós-latência; reativar quando a força realmente decaiu." },
-    { "erro": "Usar força igual para molar e incisivo.", "porque": "O ligamento responde à pressão; a raiz pequena concentra a força.", "certo": "Menos força nos dentes de raiz pequena; pensar em força por área." },
-    { "erro": "Pensar que o lado de tensão termina o tratamento com osso maduro.", "porque": "O osteoide fica pouco mineralizado por meses e as fibras estiradas puxam o dente de volta.", "certo": "Contenção imediata e prolongada." },
-    { "erro": "Atribuir só a Schwarz a teoria da pressão e tensão.", "porque": "As observações histológicas são de Sandstedt e Oppenheim; Schwarz sistematizou e relacionou com a pressão capilar.", "certo": "Sandstedt e Oppenheim observaram; Schwarz formulou." }
+    {
+      "erro": "Reativar porque o dente parou na segunda semana.",
+      "porque": "É a fase de latência esperada; somar força atrapalha a reorganização do ligamento.",
+      "certo": "Aguardar a pós-latência; reativar quando a força realmente decaiu."
+    },
+    {
+      "erro": "Usar força igual para molar e incisivo.",
+      "porque": "O ligamento responde à pressão; a raiz pequena concentra a força.",
+      "certo": "Menos força nos dentes de raiz pequena; pensar em força por área."
+    },
+    {
+      "erro": "Pensar que o lado de tensão termina o tratamento com osso maduro.",
+      "porque": "O osteoide fica pouco mineralizado por meses e as fibras estiradas puxam o dente de volta.",
+      "certo": "Contenção imediata e prolongada."
+    },
+    {
+      "erro": "Atribuir só a Schwarz a teoria da pressão e tensão.",
+      "porque": "As observações histológicas são de Sandstedt e Oppenheim; Schwarz sistematizou e relacionou com a pressão capilar.",
+      "certo": "Sandstedt e Oppenheim observaram; Schwarz formulou."
+    }
   ],
   "autoteste": [
     {
@@ -304,7 +563,14 @@
       ]
     }
   ],
-  "pesquisa": { "termos": ["teoria da pressão e tensão", "fases do movimento dentário", "força ótima ortodôntica", "reabsorção frontal"] },
+  "pesquisa": {
+    "termos": [
+      "teoria da pressão e tensão",
+      "fases do movimento dentário",
+      "força ótima ortodôntica",
+      "reabsorção frontal"
+    ]
+  },
   "referenciasBase": [
     "Proffit WR, Fields HW, Larson BE, Sarver DM. Ortodontia Contemporânea. 6ª ed. Bases biológicas da terapia ortodôntica.",
     "Schwarz AM. Tissue changes incidental to orthodontic tooth movement. Int J Orthod. 1932.",
@@ -313,5 +579,8 @@
     "Krishnan V, Davidovitch Z. Cellular, molecular, and tissue-level reactions to orthodontic force. Am J Orthod Dentofacial Orthop. 2006.",
     "Graber LW, Vanarsdall RL, Vig KWL, Huang GJ. Ortodontia: princípios e técnicas atuais. 6ª ed."
   ],
-  "validacao": { "validadoPor": null, "data": null }
+  "validacao": {
+    "validadoPor": null,
+    "data": null
+  }
 }
