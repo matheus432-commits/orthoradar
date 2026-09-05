@@ -1,0 +1,320 @@
+{
+  "id": "ortodontia/mas-oclusoes/etiologia/anomalias-dentarias",
+  "areaId": "ortodontia",
+  "area": "Ortodontia",
+  "modulo": "Más oclusões",
+  "tema": "Etiologia",
+  "titulo": "Anomalias dentárias: número, tamanho, forma e posição como causa de má oclusão",
+  "estado": "rascunho",
+  "versao": 1,
+  "formato": 2,
+  "autoria": "Rascunho escrito pela plataforma para validação; nada aqui é visível ao aluno antes da assinatura de um ortodontista.",
+  "abertura": {
+    "situacao": "Menina de 10 anos e 6 meses em consulta de rotina. Os caninos superiores decíduos estão firmes. Você palpa o fundo de sulco vestibular acima deles: do lado esquerdo sente o abaulamento do canino permanente; do lado direito, nada. O incisivo lateral superior direito é pequeno e conoide. A mãe não vê problema nenhum: \"os dentes dela estão todos retinhos\".",
+    "pergunta": "O que a ausência de um abaulamento e um lateral conoide, juntos, estão dizendo sobre o canino que ainda não nasceu, e o que você faz nos próximos doze meses?"
+  },
+  "umMinuto": {
+    "frases": [
+      "As anomalias dentárias são causas locais de má oclusão: mudam o número, o tamanho, a forma, a estrutura ou a posição de um dente, e o arco inteiro se reorganiza em torno da falha.",
+      "Número: a agenesia é a mais comum, com terceiros molares, segundos pré-molares inferiores e incisivos laterais superiores na frente; o supranumerário mais frequente é o mesiodens, entre os incisivos centrais superiores.",
+      "Tamanho e forma: o lateral conoide, a fusão, a geminação e a dilaceração alteram o espaço que o dente ocupa ou o caminho que ele percorre; a discrepância de tamanho dentário de Bolton impede que os arcos se encaixem.",
+      "Posição: o canino superior impactado, quase sempre por palatino, é a anomalia de erupção que mais pede vigilância; a erupção ectópica do primeiro molar permanente reabsorve o segundo molar decíduo; a anquilose afunda o decíduo em infraoclusão.",
+      "O sinal precoce salva o caso: canino não palpável aos 10 anos, lateral conoide ou ausente e assimetria de erupção pedem radiografia; a extração do canino decíduo na hora certa costuma trazer o permanente de volta ao caminho.",
+      "Anomalia é diagnóstico radiográfico: a panorâmica na dentição mista é a ferramenta que separa um arco \"retinho\" de um arco com um problema escondido no osso."
+    ],
+    "caiNaProva": [
+      "Dentes mais frequentemente ausentes por agenesia",
+      "Mesiodens e supranumerários: consequências",
+      "Sinais de risco de impactação do canino superior",
+      "Erupção ectópica do primeiro molar permanente",
+      "Anquilose e infraoclusão de molares decíduos"
+    ],
+    "porQueImporta": "O arco pode parecer perfeito por fora e ter um canino a caminho do palato, um mesiodens segurando um central e um molar decíduo afundando. O exame que encontra isso aos 9 ou 10 anos evita cirurgia, tracionamento e anos de aparelho."
+  },
+  "secoes": [
+    {
+      "titulo": "Cinco jeitos de um dente sair do padrão",
+      "blocos": [
+        { "tipo": "p", "texto": "Uma anomalia dentária é qualquer desvio do padrão em número, tamanho, forma, estrutura ou posição de um dente. Cada tipo mexe com a oclusão por um caminho: dente a menos deixa espaço e desvia a linha média; dente a mais empurra e bloqueia; dente pequeno abre diastema; dente grande apinha; dente torto no osso não erupciona ou erupciona no lugar errado." },
+        { "tipo": "p", "texto": "A maior parte tem componente genético forte e algumas fazem parte de síndromes, mas o que importa na clínica é o efeito local: a anomalia é uma causa específica de má oclusão, identificável em radiografia, e o tratamento começa por reconhecê-la antes que o arco se reorganize em torno dela." },
+        { "tipo": "visual", "formato": "classificacao", "titulo": "As anomalias dentárias por categoria e o que cada uma faz com a oclusão", "descricao": "Cinco caixas. Número: agenesia, hipodontia, oligodontia; supranumerários, mesiodens; efeito, espaços, linha média, bloqueio de erupção. Tamanho: microdontia, lateral conoide, macrodontia; efeito, diastemas ou apinhamento, discrepância de Bolton. Forma: fusão, geminação, dilaceração, dens in dente, cúspide em garra; efeito, espaço e caminho de erupção alterados. Estrutura: amelogênese e dentinogênese imperfeitas; efeito, desgaste, colagem difícil. Posição: impactação, erupção ectópica, transposição, anquilose, falha primária de erupção; efeito, dente que não chega ou chega errado.", "viewBox": "0 0 560 460",
+          "svg": [
+            "<g font-size='11' fill='var(--ink,#23211C)'>",
+            "<use href='#c-caixa-red' x='20' y='16' width='520' height='76'/><text x='36' y='40' font-size='13' font-weight='700'>Número</text><text x='36' y='58'>agenesia (hipodontia, oligodontia, anodontia); supranumerários, mesiodens</text><text x='36' y='76' fill='var(--red,#B4533B)' font-weight='700'>espaços e desvio de linha média; bloqueio de erupção do vizinho</text>",
+            "<use href='#c-caixa-gold' x='20' y='104' width='520' height='76'/><text x='36' y='128' font-size='13' font-weight='700'>Tamanho</text><text x='36' y='146'>microdontia (lateral conoide), macrodontia, discrepância de Bolton</text><text x='36' y='164' fill='var(--gold,#B08968)' font-weight='700'>diastemas ou apinhamento; arcos que não encaixam</text>",
+            "<use href='#c-caixa-blue' x='20' y='192' width='520' height='76'/><text x='36' y='216' font-size='13' font-weight='700'>Forma</text><text x='36' y='234'>fusão, geminação, dilaceração, dens in dente, cúspide em garra</text><text x='36' y='252' fill='var(--blue,#4A6B8A)' font-weight='700'>espaço ocupado e caminho de erupção alterados</text>",
+            "<use href='#c-caixa' x='20' y='280' width='520' height='76'/><text x='36' y='304' font-size='13' font-weight='700'>Estrutura</text><text x='36' y='322'>amelogênese imperfeita, dentinogênese imperfeita, hipomineralização molar-incisivo</text><text x='36' y='340' fill='var(--muted,#8A8478)' font-weight='700'>desgaste, sensibilidade e colagem difícil; pouca ação direta na oclusão</text>",
+            "<use href='#c-caixa-green' x='20' y='368' width='520' height='76'/><text x='36' y='392' font-size='13' font-weight='700'>Posição e erupção</text><text x='36' y='410'>impactação, erupção ectópica, transposição, anquilose, falha primária de erupção</text><text x='36' y='428' fill='var(--green,#3E7C4F)' font-weight='700'>o dente não chega, chega no lugar errado ou o decíduo afunda</text>",
+            "</g>"
+          ],
+          "legenda": "Cinco categorias, quatro delas com efeito direto no espaço e na erupção. A de estrutura entra mais na restauradora que na ortodontia, mas atrapalha a colagem." },
+        { "tipo": "destaque", "estilo": "frase", "texto": "A boca se organiza em torno do que falta, do que sobra e do que não chegou. Achar a anomalia cedo é impedir que ela reorganize o arco." }
+      ],
+      "checagem": { "pergunta": "Por que as anomalias dentárias são classificadas como causas específicas de má oclusão?", "resposta": "Porque têm um defeito identificável, em geral radiográfico, que atua localmente sobre espaço e erupção, ao contrário das influências genéticas e ambientais difusas." }
+    },
+    {
+      "titulo": "Número: os que faltam e os que sobram",
+      "blocos": [
+        { "tipo": "p", "texto": "A agenesia é a anomalia mais frequente. Fora os terceiros molares, os dentes que mais faltam são os segundos pré-molares inferiores e os incisivos laterais superiores, seguidos pelos segundos pré-molares superiores e incisivos inferiores; a ordem varia entre populações [VERIFICAR]. Um dente a menos deixa espaço, desvia a linha média para o lado, permite migração dos vizinhos e, no caso do lateral, altera a estética do sorriso." },
+        { "tipo": "p", "texto": "No lateral superior ausente há duas estradas: fechar o espaço trazendo o canino para o lugar do lateral e remodelando-o, ou abrir o espaço para uma prótese ou implante no futuro. A escolha depende do perfil, da relação molar, da cor e forma do canino, da linha do sorriso e da idade. Nenhuma das duas é sempre certa, e a decisão deve ser tomada cedo, porque ela muda toda a mecânica." },
+        { "tipo": "visual", "formato": "comparativo", "titulo": "Lateral superior ausente: fechar ou abrir o espaço", "descricao": "Duas colunas. Fechar o espaço: canino no lugar do lateral, remodelado; favorável em Classe II com apinhamento, perfil convexo, canino claro e de forma favorável, linha do sorriso alta; sem prótese para a vida. Abrir o espaço: espaço mantido ou criado para prótese ou implante; favorável em Classe I sem apinhamento, perfil reto ou côncavo, canino escuro e volumoso; exige manutenção até a idade do implante.", "viewBox": "0 0 720 330",
+          "svg": [
+            "<use href='#c-caixa-gold' x='30' y='16' width='300' height='44'/><text x='180' y='44' text-anchor='middle' font-size='15' font-weight='700'>Fechar o espaço</text>",
+            "<use href='#c-caixa-blue' x='390' y='16' width='300' height='44'/><text x='540' y='44' text-anchor='middle' font-size='15' font-weight='700'>Abrir o espaço</text>",
+            "<g font-size='12' fill='var(--ink,#23211C)'><text x='40' y='90' font-weight='700'>Como</text><text x='40' y='108'>canino no lugar do lateral, remodelado;</text><text x='40' y='124'>pré-molar no lugar do canino</text><text x='40' y='154' font-weight='700'>Favorece</text><text x='40' y='172'>Classe II ou apinhamento superior</text><text x='40' y='188'>perfil convexo; canino claro e estreito</text><text x='40' y='204'>linha do sorriso que esconde a margem</text><text x='40' y='234' font-weight='700'>Custo</text><text x='40' y='252'>remodelação e possível ajuste de oclusão;</text><text x='40' y='268'>nenhuma prótese para a vida</text></g>",
+            "<g font-size='12' fill='var(--ink,#23211C)'><text x='400' y='90' font-weight='700'>Como</text><text x='400' y='108'>manter ou criar espaço do lateral;</text><text x='400' y='124'>prótese adesiva até o implante</text><text x='400' y='154' font-weight='700'>Favorece</text><text x='400' y='172'>Classe I sem apinhamento</text><text x='400' y='188'>perfil reto ou côncavo; canino escuro e largo</text><text x='400' y='204'>caninos já na posição de canino</text><text x='400' y='234' font-weight='700'>Custo</text><text x='400' y='252'>provisório por anos; implante só no fim</text><text x='400' y='268'>do crescimento; manutenção da papila</text></g>",
+            "<use href='#c-caixa-ink' x='140' y='288' width='440' height='34'/><text x='360' y='310' text-anchor='middle' font-size='12' font-weight='700' fill='#fff'>Decida cedo: a escolha muda toda a mecânica do caso</text>"
+          ],
+          "legenda": "Não há resposta padrão. Perfil, relação molar, apinhamento, cor e forma do canino e linha do sorriso decidem juntos." },
+        { "tipo": "p", "texto": "Do outro lado, os supranumerários. O mais comum é o mesiodens, na linha média superior, seguido pelos quartos molares e pelos pré-molares extras. O mesiodens segura o diastema entre os centrais, atrasa ou desvia a erupção de um deles e pode girá-lo. Muitos supranumerários entram em síndromes, como a displasia cleidocraniana, com dezenas de dentes extras e erupção falha; a agenesia múltipla acompanha a displasia ectodérmica." },
+        { "tipo": "destaque", "estilo": "prova", "texto": "Perguntas de repetição: dente mais ausente fora os terceiros molares (segundo pré-molar inferior e incisivo lateral superior, conforme a população), supranumerário mais comum (mesiodens), síndrome dos supranumerários múltiplos (displasia cleidocraniana), síndrome da agenesia múltipla (displasia ectodérmica)." }
+      ],
+      "checagem": { "pergunta": "Que sinais na dentição mista sugerem um mesiodens, antes da radiografia?", "resposta": "Diastema mediano que não fecha, atraso na erupção de um incisivo central em relação ao outro, ou central erupcionando rodado ou desviado." }
+    },
+    {
+      "titulo": "Tamanho e forma: quando o dente não cabe ou não encaixa",
+      "blocos": [
+        { "tipo": "p", "texto": "O lateral conoide é a microdontia mais comum e um dos sinais mais úteis da ortodontia: acompanha com frequência a agenesia do lateral do outro lado e o deslocamento palatino do canino, porque o canino usa a raiz do lateral como guia de erupção; lateral pequeno ou ausente é guia ruim. Dentes grandes demais para o arco apinham; dentes pequenos demais abrem diastemas." },
+        { "tipo": "p", "texto": "A discrepância de tamanho dentário, medida pela análise de Bolton, é um problema de proporção entre os arcos: se os dentes superiores são grandes em relação aos inferiores, ou o contrário, não há oclusão perfeita possível sem desgaste ou acréscimo. Nas anomalias de forma, a fusão e a geminação mudam a largura mesiodistal; a dilaceração, raiz ou coroa dobrada quase sempre por trauma no decíduo, muda o caminho de erupção e pode impactar o permanente." },
+        { "tipo": "imagem", "imagem": "radiografia periapical ou tomografia de incisivo central superior com dilaceração da coroa após trauma no decíduo", "mostrar": "Incisivo central permanente não erupcionado com a coroa angulada em relação à raiz, posicionado alto no osso, e o contralateral já erupcionado", "legenda": "Dilaceração: o trauma no incisivo decíduo deslocou o germe do permanente em formação, e a coroa se formou em ângulo com a raiz.", "destacar": "Ângulo entre coroa e raiz, altura do dente no osso, comparação com o contralateral" },
+        { "tipo": "destaque", "estilo": "dica", "titulo": "O lateral conoide é um alarme", "texto": "Quando você vê um lateral superior conoide em criança de 9 a 11 anos, faça três coisas: palpe os dois caninos, confira se o lateral do outro lado existe, e peça radiografia se a palpação falhar. O lateral pequeno é a pista mais barata de canino a caminho do palato." }
+      ],
+      "checagem": { "pergunta": "Por que o lateral conoide se associa ao deslocamento palatino do canino?", "resposta": "Porque o canino usa a raiz do lateral como guia de erupção; um lateral pequeno ou ausente oferece guia insuficiente e o canino tende a desviar para palatino." }
+    },
+    {
+      "titulo": "O canino superior que não vem",
+      "blocos": [
+        { "tipo": "p", "texto": "O canino superior é o dente permanente que mais fica impactado, depois dos terceiros molares. Ele percorre o caminho de erupção mais longo, começa a se formar alto na maxila e erupciona por último no segmento anterior, por volta dos 11 a 12 anos. A maioria das impactações é palatina, e a hipótese mais aceita para elas é a falta de guia do lateral, com componente genético; as vestibulares costumam vir de falta de espaço no arco [VERIFICAR]." },
+        { "tipo": "p", "texto": "O rastreio é clínico e barato: por volta dos 9 a 10 anos, o canino deve ser palpável como um abaulamento no fundo de sulco vestibular acima do decíduo. Ausência de abaulamento, assimetria entre os lados, canino decíduo firme demais quando o contralateral já esfolia, lateral conoide ou ausente e lateral inclinado para distal são os sinais de alerta. Qualquer um deles pede radiografia." },
+        { "tipo": "visual", "formato": "linha-do-tempo", "titulo": "Vigilância do canino superior: o que fazer em cada idade", "descricao": "Linha do tempo dos 8 aos 13 anos. Aos 8 a 9: observar laterais, notar conoides e ausências. Aos 9 a 10: palpar o fundo de sulco vestibular dos dois lados; sem abaulamento, radiografar. Aos 10 a 11: canino palatino na radiografia, extração do canino decíduo para redirecionar, com acompanhamento. Aos 11 a 12: erupção esperada; não erupcionou, reavaliar. Aos 12 a 13: impactado confirmado, planejar exposição e tracionamento ou outra conduta.", "viewBox": "0 0 720 300",
+          "svg": [
+            "<line x1='60' y1='130' x2='660' y2='130' stroke='var(--ink,#23211C)' stroke-width='2'/>",
+            "<g stroke='var(--ink,#23211C)' stroke-width='2'><line x1='90' y1='122' x2='90' y2='138'/><line x1='225' y1='122' x2='225' y2='138'/><line x1='360' y1='122' x2='360' y2='138'/><line x1='495' y1='122' x2='495' y2='138'/><line x1='630' y1='122' x2='630' y2='138'/></g>",
+            "<g font-size='12' font-weight='700' fill='var(--ink,#23211C)' text-anchor='middle'><text x='90' y='158'>8 a 9</text><text x='225' y='158'>9 a 10</text><text x='360' y='158'>10 a 11</text><text x='495' y='158'>11 a 12</text><text x='630' y='158'>12 a 13</text></g>",
+            "<use href='#c-marco' x='80' y='120' width='20' height='20'/><use href='#c-marco-blue' x='215' y='120' width='20' height='20'/><use href='#c-marco-cheio' x='350' y='120' width='20' height='20'/><use href='#c-marco-green' x='485' y='120' width='20' height='20'/><use href='#c-marco' x='620' y='120' width='20' height='20'/>",
+            "<g font-size='11' fill='var(--ink,#23211C)' text-anchor='middle'><text x='90' y='60' font-weight='700'>Olhar os laterais</text><text x='90' y='76'>conoide? ausente?</text><text x='90' y='90'>inclinado para distal?</text>",
+            "<text x='360' y='60' font-weight='700'>Canino palatino na radiografia</text><text x='360' y='76'>extrair o canino decíduo</text><text x='360' y='90'>e acompanhar a trajetória</text>",
+            "<text x='630' y='60' font-weight='700'>Impactação confirmada</text><text x='630' y='76'>exposição e tracionamento,</text><text x='630' y='90'>ou outra conduta planejada</text></g>",
+            "<g font-size='11' fill='var(--ink,#23211C)' text-anchor='middle'><text x='225' y='196' font-weight='700' fill='var(--blue,#4A6B8A)'>Palpar os dois lados</text><text x='225' y='212'>abaulamento vestibular presente?</text><text x='225' y='226'>não ou assimétrico: radiografar</text>",
+            "<text x='495' y='196' font-weight='700' fill='var(--green,#3E7C4F)'>Erupção esperada</text><text x='495' y='212'>não erupcionou ou decíduo firme:</text><text x='495' y='226'>reavaliar com imagem</text></g>",
+            "<text x='360' y='276' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>a extração do decíduo, no momento certo, redireciona boa parte dos caninos palatinos [VERIFICAR]</text>"
+          ],
+          "legenda": "O dedo no fundo de sulco aos 9 ou 10 anos é o exame mais barato da ortodontia. Ele decide se o canino chega sozinho ou de cirurgia." },
+        { "tipo": "destaque", "estilo": "mito", "mito": "Se o canino decíduo está firme, o permanente está bem.", "verdade": "É o contrário: canino decíduo firme quando o do outro lado já caiu é sinal de que o permanente não está reabsorvendo a raiz dele, ou seja, está fora do caminho. Firmeza assimétrica pede radiografia." }
+      ],
+      "checagem": { "pergunta": "Quais são os sinais clínicos de alerta para impactação do canino superior por volta dos 10 anos?", "resposta": "Ausência do abaulamento vestibular à palpação, assimetria entre os lados, canino decíduo firme quando o contralateral esfoliou, lateral conoide ou ausente e lateral inclinado para distal." }
+    },
+    {
+      "titulo": "Molar ectópico, dente anquilosado e o que não sobe",
+      "blocos": [
+        { "tipo": "p", "texto": "A erupção ectópica do primeiro molar permanente superior acontece quando ele erupciona inclinado para mesial e fica preso sob a coroa do segundo molar decíduo, reabsorvendo a raiz distal dele. Em boa parte dos casos ele se liberta sozinho e erupciona; nos demais, fica travado e precisa ser desimpactado, com elástico separador ou aparelho, antes que destrua o decíduo e perca espaço [VERIFICAR]." },
+        { "tipo": "p", "texto": "A anquilose do molar decíduo funde raiz e osso: o dente para de acompanhar o crescimento vertical do alvéolo e afunda em relação aos vizinhos, a infraoclusão. Os vizinhos inclinam sobre ele, o antagonista extrui e o sucessor pode ficar preso. Mais raro e mais grave é a falha primária de erupção, em que os posteriores não erupcionam apesar do caminho livre, com mordida aberta posterior progressiva, e não respondem à força ortodôntica; tem base genética conhecida [VERIFICAR]." },
+        { "tipo": "visual", "formato": "anatomico", "titulo": "Molar ectópico e molar decíduo em infraoclusão", "descricao": "Duas cenas em corte vestibular. À esquerda, erupção ectópica: primeiro molar permanente inclinado para mesial, preso sob a face distal do segundo molar decíduo, com a raiz distal do decíduo reabsorvida. À direita, anquilose: segundo molar decíduo abaixo do plano oclusal, vizinhos inclinados sobre ele, sucessor abaixo sem caminho.", "viewBox": "0 0 720 320",
+          "svg": [
+            "<text x='180' y='30' text-anchor='middle' font-size='14' font-weight='700'>Erupção ectópica do 6</text>",
+            "<line x1='40' y1='120' x2='330' y2='120' stroke='var(--muted,#8A8478)' stroke-width='1' stroke-dasharray='4 3'/><text x='330' y='112' text-anchor='end' font-size='10' fill='var(--muted,#8A8478)'>plano oclusal</text>",
+            "<rect x='60' y='120' width='70' height='60' rx='8' fill='var(--gold-soft,#F4EEE4)' stroke='var(--ink,#23211C)' stroke-width='1.5'/><text x='95' y='155' text-anchor='middle' font-size='12'>D</text>",
+            "<path d='M140 120 L210 120 L210 180 L170 180 L150 160 Z' fill='var(--gold-soft,#F4EEE4)' stroke='var(--ink,#23211C)' stroke-width='1.5'/><text x='180' y='155' text-anchor='middle' font-size='12'>E</text>",
+            "<rect x='150' y='180' width='16' height='40' fill='var(--gold-soft,#F4EEE4)' stroke='var(--ink,#23211C)' stroke-width='1.5'/><path d='M186 180 L200 180 L192 200 Z' fill='none' stroke='var(--red,#B4533B)' stroke-width='1.5' stroke-dasharray='3 2'/>",
+            "<use href='#c-molar' x='205' y='150' width='70' height='110' transform='rotate(-25 240 205)'/>",
+            "<text x='250' y='285' text-anchor='middle' font-size='11' fill='var(--red,#B4533B)' font-weight='700'>6 preso sob o E; raiz distal do E reabsorvida</text>",
+            "<text x='540' y='30' text-anchor='middle' font-size='14' font-weight='700'>Anquilose e infraoclusão do E</text>",
+            "<line x1='400' y1='120' x2='690' y2='120' stroke='var(--muted,#8A8478)' stroke-width='1' stroke-dasharray='4 3'/><text x='690' y='112' text-anchor='end' font-size='10' fill='var(--muted,#8A8478)'>plano oclusal</text>",
+            "<rect x='420' y='120' width='70' height='60' rx='8' fill='var(--gold-soft,#F4EEE4)' stroke='var(--ink,#23211C)' stroke-width='1.5' transform='rotate(10 455 150)'/><text x='455' y='155' text-anchor='middle' font-size='12'>D</text>",
+            "<rect x='508' y='150' width='64' height='50' rx='8' fill='var(--gold-soft,#F4EEE4)' stroke='var(--red,#B4533B)' stroke-width='2'/><text x='540' y='180' text-anchor='middle' font-size='12'>E</text>",
+            "<rect x='590' y='110' width='80' height='80' rx='8' fill='var(--blue-soft,#E9EEF3)' stroke='var(--ink,#23211C)' stroke-width='1.5' transform='rotate(-10 630 150)'/><text x='630' y='155' text-anchor='middle' font-size='12' font-weight='700'>6</text>",
+            "<rect x='516' y='214' width='48' height='30' rx='6' fill='none' stroke='var(--green,#3E7C4F)' stroke-width='1.5' stroke-dasharray='4 3'/><text x='540' y='234' text-anchor='middle' font-size='10' fill='var(--green,#3E7C4F)'>5 preso</text>",
+            "<text x='540' y='285' text-anchor='middle' font-size='11' fill='var(--red,#B4533B)' font-weight='700'>E abaixo do plano; vizinhos inclinam sobre ele</text>"
+          ],
+          "legenda": "À esquerda, o permanente destrói o decíduo por baixo; à direita, o decíduo afunda e arrasta os vizinhos. Nos dois, a panorâmica de rotina é que descobre." },
+        { "tipo": "destaque", "estilo": "erro", "texto": "Confundir infraoclusão leve com \"dente que ainda vai subir\". O decíduo anquilosado nunca sobe; o que acontece é o resto crescer em volta dele. Acompanhe com radiografia, confira se há sucessor e decida entre manter, restaurar a altura ou extrair antes que os vizinhos fechem por cima." }
+      ],
+      "checagem": { "pergunta": "Que diferença clínica separa a falha primária de erupção de uma impactação comum?", "resposta": "Na falha primária o caminho está livre e o dente não erupciona mesmo assim, com mordida aberta posterior progressiva, e não responde à força ortodôntica; na impactação há obstáculo, e removido o obstáculo o dente pode ser tracionado." }
+    },
+    {
+      "titulo": "Transposição e as anomalias que mudam a ordem",
+      "blocos": [
+        { "tipo": "p", "texto": "A transposição é a troca de posição entre dois dentes vizinhos, e a mais comum é entre o canino superior e o primeiro pré-molar; a segunda, entre o canino superior e o incisivo lateral. Tem base genética e costuma vir com agenesia, lateral conoide ou dentes decíduos retidos. A decisão entre corrigir a ordem, alinhar na posição trocada e remodelar, ou extrair depende do estágio de erupção e da posição das raízes." },
+        { "tipo": "p", "texto": "Todas essas anomalias têm algo em comum: são visíveis na radiografia anos antes de aparecerem na boca. A panorâmica na dentição mista, por volta dos 8 a 10 anos, não é exame de rotina por hábito; é o momento em que agenesia, supranumerário, canino fora de rota, molar ectópico, anquilose e transposição ainda podem ser interceptados com uma extração bem escolhida em vez de uma cirurgia mais tarde." },
+        { "tipo": "destaque", "estilo": "dica", "titulo": "A lista de conferência da panorâmica na dentição mista", "texto": "Conte os dentes dos dois arcos e compare com a idade. Procure dentes extras na linha média. Veja a posição das coroas dos caninos superiores em relação à raiz dos laterais. Confira se cada decíduo tem sucessor embaixo e se algum molar decíduo está abaixo do plano. Compare a inclinação dos primeiros molares permanentes. Cinco perguntas, dois minutos, anos de aparelho evitados." }
+      ],
+      "checagem": { "pergunta": "Qual é a transposição dentária mais comum e com que outras anomalias ela costuma vir?", "resposta": "Canino superior com primeiro pré-molar; costuma acompanhar agenesia, incisivo lateral conoide e decíduos retidos." }
+    },
+    {
+      "titulo": "De volta à menina de 10 anos",
+      "blocos": [
+        { "tipo": "p", "texto": "Canino não palpável de um lado e lateral conoide do mesmo lado: dois sinais de risco para canino palatino, na idade exata em que a intervenção mais simples funciona. O próximo passo é a radiografia. Se o canino estiver deslocado para palatino, a extração do canino decíduo, com acompanhamento em seis meses e um ano, tem boa chance de trazê-lo de volta ao caminho. A mãe vê dentes \"retinhos\"; você vê um canino a doze meses de decidir entre erupcionar e ser tracionado." },
+        { "tipo": "destaque", "estilo": "frase", "texto": "Um dedo no fundo de sulco e um lateral pequeno valem mais que qualquer alinhamento aparente. A anomalia se esconde no osso; o exame é que a traz para a boca." }
+      ],
+      "checagem": { "pergunta": "Qual é a conduta esperada para a menina da abertura nos próximos meses?", "resposta": "Radiografar; se o canino estiver palatino, extrair o canino decíduo e acompanhar a trajetória em seis meses e um ano; se não corrigir, planejar exposição e tracionamento." }
+    }
+  ],
+  "fechamento": {
+    "visual": { "formato": "mapa", "titulo": "Mapa da página", "descricao": "Nó central: anomalias dentárias. Seis nós: cinco categorias; agenesia e mesiodens; lateral conoide como alarme; canino: palpar aos 9 a 10; molar ectópico e anquilose; panorâmica na dentição mista.", "viewBox": "0 0 560 360",
+      "svg": [
+        "<g stroke='var(--border,#EDE6D8)' stroke-width='1.5'><line x1='280' y1='180' x2='100' y2='60'/><line x1='280' y1='180' x2='460' y2='60'/><line x1='280' y1='180' x2='70' y2='180'/><line x1='280' y1='180' x2='490' y2='180'/><line x1='280' y1='180' x2='100' y2='300'/><line x1='280' y1='180' x2='460' y2='300'/></g>",
+        "<use href='#c-no-central' x='190' y='150' width='180' height='60'/>",
+        "<text x='280' y='176' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>Anomalias</text><text x='280' y='194' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>dentárias</text>",
+        "<use href='#c-no' x='20' y='38' width='160' height='44'/><text x='100' y='65' text-anchor='middle' font-size='13' font-weight='700'>Cinco categorias</text>",
+        "<use href='#c-no' x='380' y='38' width='160' height='44'/><text x='460' y='65' text-anchor='middle' font-size='13' font-weight='700'>Agenesia e mesiodens</text>",
+        "<use href='#c-no' x='0' y='158' width='150' height='44'/><text x='75' y='185' text-anchor='middle' font-size='13' font-weight='700'>Lateral conoide: alarme</text>",
+        "<use href='#c-no' x='410' y='158' width='150' height='44'/><text x='485' y='185' text-anchor='middle' font-size='13' font-weight='700'>Canino: palpar aos 10</text>",
+        "<use href='#c-no' x='20' y='278' width='160' height='44'/><text x='100' y='305' text-anchor='middle' font-size='13' font-weight='700'>Ectópico e anquilose</text>",
+        "<use href='#c-no' x='380' y='278' width='160' height='44'/><text x='460' y='305' text-anchor='middle' font-size='13' font-weight='700'>Panorâmica na mista</text>"
+      ] },
+    "flashcards": [
+      { "frente": "Dentes mais frequentemente ausentes por agenesia e supranumerário mais comum.", "verso": "Fora os terceiros molares: segundos pré-molares inferiores e incisivos laterais superiores, com ordem variável por população. Supranumerário mais comum: mesiodens." },
+      { "frente": "Sinais de risco de impactação palatina do canino superior aos 9 a 10 anos.", "verso": "Canino não palpável no fundo de sulco vestibular, assimetria entre os lados, decíduo firme com o contralateral esfoliado, lateral conoide ou ausente, lateral inclinado para distal." },
+      { "frente": "O que é infraoclusão e por que o dente não sobe?", "verso": "Decíduo anquilosado, com raiz fundida ao osso, que não acompanha o crescimento vertical do alvéolo; os vizinhos crescem e inclinam sobre ele. Ele nunca sobe: o resto é que sobe." }
+    ]
+  },
+  "infografico": {
+    "titulo": "Anomalias dentárias em seis cartões",
+    "itens": [
+      { "rotulo": "Categorias", "texto": "Número, tamanho, forma, estrutura, posição e erupção. Quatro delas mexem direto com espaço e erupção." },
+      { "rotulo": "Número", "texto": "Agenesia: segundos pré-molares inferiores e laterais superiores. Mesiodens: diastema e central que não nasce." },
+      { "rotulo": "Tamanho e forma", "texto": "Lateral conoide avisa canino palatino. Bolton: arcos que não encaixam. Dilaceração: trauma no decíduo." },
+      { "rotulo": "Canino superior", "texto": "Palpar aos 9 a 10. Sem abaulamento: radiografar. Palatino: extrair o decíduo e acompanhar." },
+      { "rotulo": "Ectópico e anquilose", "texto": "6 preso sob o E reabsorve a raiz dele. E anquilosado afunda; vizinhos inclinam; sucessor fica preso." },
+      { "rotulo": "Panorâmica", "texto": "Aos 8 a 10 anos: contar, procurar extras, ver caninos, conferir sucessores, comparar os 6." }
+    ]
+  },
+  "fluxograma": {
+    "titulo": "Canino superior aos 9 a 10 anos: o rastreio",
+    "nos": [
+      { "id": "n1", "tipo": "inicio", "texto": "Criança de 9 a 10 anos em consulta" },
+      { "id": "n2", "tipo": "acao", "texto": "Palpar o fundo de sulco vestibular acima dos caninos decíduos, dos dois lados" },
+      { "id": "n3", "tipo": "decisao", "texto": "Abaulamento presente e simétrico, laterais normais?" },
+      { "id": "n4", "tipo": "fim", "texto": "Acompanhar; reavaliar em 6 a 12 meses" },
+      { "id": "n5", "tipo": "acao", "texto": "Radiografar: panorâmica e, se preciso, localização (técnica de Clark ou tomografia)" },
+      { "id": "n6", "tipo": "decisao", "texto": "Canino deslocado para palatino, com decíduo presente?" },
+      { "id": "n7", "tipo": "acao", "texto": "Extrair o canino decíduo; controle radiográfico em 6 e 12 meses" },
+      { "id": "n8", "tipo": "decisao", "texto": "Trajetória melhorou?" },
+      { "id": "n9", "tipo": "fim", "texto": "Aguardar a erupção e alinhar quando chegar" },
+      { "id": "n10", "tipo": "fim", "texto": "Planejar exposição cirúrgica e tracionamento, ou outra conduta" }
+    ],
+    "arestas": [
+      { "de": "n1", "para": "n2" },
+      { "de": "n2", "para": "n3" },
+      { "de": "n3", "para": "n4", "rotulo": "sim" },
+      { "de": "n3", "para": "n5", "rotulo": "não" },
+      { "de": "n5", "para": "n6" },
+      { "de": "n6", "para": "n7", "rotulo": "sim" },
+      { "de": "n6", "para": "n10", "rotulo": "não" },
+      { "de": "n7", "para": "n8" },
+      { "de": "n8", "para": "n9", "rotulo": "sim" },
+      { "de": "n8", "para": "n10", "rotulo": "não" }
+    ]
+  },
+  "passoAPasso": [
+    { "passo": "Conte os dentes na panorâmica e compare com a idade e com o exame clínico.", "confira": "Falta algum germe? Há dente extra, sobretudo na linha média superior?" },
+    { "passo": "Meça e observe os laterais superiores: tamanho, forma, inclinação.", "confira": "Conoide, ausente ou inclinado para distal?" },
+    { "passo": "Palpe os caninos superiores no fundo de sulco vestibular, dos dois lados.", "confira": "Abaulamento presente e simétrico?" },
+    { "passo": "Confira cada molar decíduo: sucessor presente, altura em relação ao plano oclusal, raiz distal do E íntegra.", "confira": "Algum E abaixo do plano ou com raiz distal reabsorvida pelo 6?" },
+    { "passo": "Registre as anomalias encontradas e decida a interceptação: extração de decíduo, desimpactação, manutenção de espaço ou encaminhamento.", "confira": "A conduta tem data de reavaliação marcada?" }
+  ],
+  "macetes": [
+    { "titulo": "Lateral pequeno, canino perdido", "texto": "Lateral conoide ou ausente é o alarme do canino palatino. Palpe os dois lados e radiografe se faltar o abaulamento." },
+    { "titulo": "Firme demais é sinal ruim", "texto": "Canino decíduo firme quando o outro já caiu: o permanente não está reabsorvendo a raiz, está fora do caminho." },
+    { "titulo": "Dez anos, dedo no sulco", "texto": "Aos 9 a 10 anos o canino superior deve ser palpável no fundo de sulco vestibular. Sem abaulamento, radiografia." },
+    { "titulo": "Anquilosado não sobe", "texto": "Infraoclusão é o resto crescendo em volta de um decíduo parado. Não espere ele subir: decida." }
+  ],
+  "ondeErra": [
+    { "erro": "Esperar o canino superior erupcionar sem palpar nem radiografar aos 10 anos.", "porque": "O canino palatino só se redireciona bem com extração do decíduo na janela certa; depois, é cirurgia.", "certo": "Palpar aos 9 a 10, radiografar se faltar abaulamento, extrair o decíduo se palatino." },
+    { "erro": "Dar alta a uma dentição mista \"alinhada\" sem panorâmica.", "porque": "Agenesia, mesiodens, canino fora de rota e anquilose ficam no osso anos antes de aparecerem na boca.", "certo": "Panorâmica por volta dos 8 a 10 anos com a lista de conferência." },
+    { "erro": "Decidir tarde entre fechar e abrir o espaço do lateral ausente.", "porque": "A escolha muda a mecânica do caso inteiro, e o canino que já ocupou o lugar do lateral é difícil de recuar.", "certo": "Decidir na dentição mista, com perfil, relação molar, apinhamento e cor do canino na mão." },
+    { "erro": "Achar que o decíduo em infraoclusão vai subir.", "porque": "O dente anquilosado está fundido ao osso; os vizinhos é que crescem.", "certo": "Radiografar, conferir sucessor e decidir entre manter com restauração de altura ou extrair." }
+  ],
+  "autoteste": [
+    {
+      "pergunta": "Excluídos os terceiros molares, os dentes mais frequentemente ausentes por agenesia são:",
+      "alternativas": [
+        "Caninos superiores e primeiros molares",
+        "Segundos pré-molares inferiores e incisivos laterais superiores",
+        "Incisivos centrais superiores e primeiros pré-molares",
+        "Segundos molares inferiores"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Caninos e primeiros molares estão entre os menos ausentes.",
+        "Correta: com ordem variável conforme a população estudada.",
+        "Centrais superiores raramente faltam.",
+        "Não são os mais frequentes."
+      ]
+    },
+    {
+      "pergunta": "Criança de 10 anos, canino superior direito não palpável no fundo de sulco vestibular, incisivo lateral direito conoide. A conduta mais adequada é:",
+      "alternativas": [
+        "Aguardar até os 13 anos, idade em que o canino ainda pode erupcionar",
+        "Radiografar e, se o canino estiver deslocado para palatino, extrair o canino decíduo e acompanhar",
+        "Extrair o incisivo lateral conoide",
+        "Iniciar aparelho fixo imediatamente"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Esperar perde a janela em que a interceptação simples funciona.",
+        "Correta: a extração do decíduo no momento certo redireciona boa parte dos caninos palatinos.",
+        "O lateral conoide é sinal, não causa a ser removida.",
+        "O aparelho não resolve um canino fora de rota no osso; primeiro o diagnóstico e a interceptação."
+      ]
+    },
+    {
+      "pergunta": "O supranumerário mais comum e sua consequência típica são:",
+      "alternativas": [
+        "Quarto molar, causando apinhamento posterior",
+        "Mesiodens, causando diastema mediano e atraso ou desvio de erupção de um incisivo central",
+        "Pré-molar extra, causando mordida cruzada",
+        "Paramolar, causando mordida aberta"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Quartos molares existem, mas são menos frequentes que o mesiodens.",
+        "Correta: o mesiodens fica na linha média superior e interfere nos centrais.",
+        "Pré-molares extras são menos comuns.",
+        "Paramolares são raros."
+      ]
+    },
+    {
+      "pergunta": "Molar decíduo em infraoclusão, abaixo do plano oclusal, com vizinhos inclinados sobre ele. O diagnóstico mais provável é:",
+      "alternativas": [
+        "Erupção ectópica do primeiro molar permanente",
+        "Anquilose do molar decíduo",
+        "Falha primária de erupção do permanente",
+        "Transposição"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "A erupção ectópica envolve o permanente preso sob o decíduo, não o decíduo afundado.",
+        "Correta: raiz fundida ao osso, o dente não acompanha o crescimento vertical e afunda.",
+        "A falha primária afeta permanentes que não erupcionam apesar do caminho livre.",
+        "Transposição é troca de posição entre dentes."
+      ]
+    },
+    {
+      "pergunta": "Sobre a erupção ectópica do primeiro molar permanente superior, é correto afirmar que:",
+      "alternativas": [
+        "O molar erupciona inclinado para distal e não interfere no decíduo",
+        "O molar fica preso sob o segundo molar decíduo, reabsorve sua raiz distal, e parte dos casos se autocorrige",
+        "Sempre exige extração do primeiro molar permanente",
+        "É causada por hábito de sucção"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "A inclinação é para mesial, contra o decíduo.",
+        "Correta: parte se liberta sozinha; os travados precisam ser desimpactados antes de perder o decíduo e o espaço.",
+        "A extração do permanente não é a conduta; desimpacta-se ou extrai-se o decíduo conforme o caso.",
+        "Não tem relação com hábitos."
+      ]
+    }
+  ],
+  "pesquisa": { "termos": ["anomalias dentárias", "canino superior impactado", "agenesia dentária", "erupção ectópica primeiro molar", "anquilose infraoclusão"] },
+  "referenciasBase": [
+    "Proffit WR, Fields HW, Larson BE, Sarver DM. Ortodontia Contemporânea. 6ª ed. Problemas de erupção e anomalias.",
+    "Ericson S, Kurol J. Early treatment of palatally erupting maxillary canines by extraction of the primary canines. Eur J Orthod. 1988.",
+    "Bjerklin K, Kurol J. Ectopic eruption of the maxillary first permanent molar: etiologic factors. Am J Orthod. 1983.",
+    "Becker A. Orthodontic Treatment of Impacted Teeth. 3ª ed.",
+    "Kokich VG, Kokich VO. Congenitally missing lateral incisors. In: Graber LW et al. Ortodontia: princípios e técnicas atuais. 6ª ed.",
+    "Neville BW, Damm DD, Allen CM, Chi AC. Patologia Oral e Maxilofacial. 4ª ed. Anomalias dentárias."
+  ],
+  "validacao": { "validadoPor": null, "data": null }
+}
