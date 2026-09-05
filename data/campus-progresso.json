@@ -1,10 +1,10 @@
 {
  "atualizadoEm": "2026-09-05",
  "totalPaginas": 3387,
- "concluidas": 24,
+ "concluidas": 25,
  "porStatus": {
-  "pendente": 3363,
-  "rascunho": 24,
+  "pendente": 3362,
+  "rascunho": 25,
   "revisado": 0,
   "publicado": 0
  },
@@ -12,7 +12,7 @@
   "id": "ortodontia/mas-oclusoes",
   "area": "Ortodontia",
   "modulo": "Más oclusões",
-  "faltam": 11
+  "faltam": 10
  },
  "imagensPendentes": [
   {
@@ -149,6 +149,15 @@
    "mostrar": "Face em repouso com o mento desviado para o lado afetado, plano oclusal inclinado e diferença de altura entre os lados da mandíbula; ao lado, radiografia panorâmica mostrando o côndilo e o ramo menores do mesmo lado",
    "legenda": "Assimetria por deficiência de crescimento condilar: o mento desvia para o lado que cresceu menos, e a panorâmica mostra o ramo curto.",
    "destacar": "Direção do desvio do mento, inclinação do plano oclusal, comparação da altura dos ramos na panorâmica"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/etiologia/habitos-succao-degluticao-e-respiracao",
+   "modulo": "Más oclusões",
+   "secao": "Respiração bucal e a face longa",
+   "imagem": "fotografia frontal e de perfil de criança com padrão de respirador bucal",
+   "mostrar": "Face em repouso com lábios entreabertos, olheiras, terço inferior da face alongado; perfil com mandíbula retroposicionada; ao lado, vista oclusal do arco superior estreito e profundo",
+   "legenda": "O padrão do respirador bucal: lábios que não se fecham em repouso, face longa e arco superior estreito e profundo.",
+   "destacar": "Selamento labial ausente em repouso, proporção do terço inferior, forma do arco superior"
   }
  ],
  "verificarPendentes": [
@@ -414,8 +423,8 @@
   },
   {
    "pagina": "ortodontia/mas-oclusoes/classificacao/indices-de-necessidade-de-tratamento",
-   "onde": "Seção \"IOTN, componente de saúde dentária: a pior característica decide\".blocos[2].svg[11]",
-   "trecho": "orizontal, C cruzadas, D deslocamentos, O trespasse vertical e aberta [VERIFICAR]"
+   "onde": "Seção \"IOTN, componente de saúde dentária: a pior característica decide\".blocos[2].svg[12]",
+   "trecho": "s, O trespasse vertical e mordida aberta; limiares da tabela original [VERIFICAR]"
   },
   {
    "pagina": "ortodontia/mas-oclusoes/classificacao/indices-de-necessidade-de-tratamento",
@@ -456,6 +465,46 @@
    "pagina": "ortodontia/mas-oclusoes/etiologia/fatores-geneticos-e-ambientais",
    "onde": "Seção \"O que os gêmeos e as populações ensinaram\".blocos[1].texto",
    "trecho": "arcos, e dentes de tamanho herdado ficam sem espaço em arcos menores [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/etiologia/habitos-succao-degluticao-e-respiracao",
+   "onde": "Seção \"A tríade que separa hábito inofensivo de hábito deformante\".blocos[1].texto",
+   "trecho": "horas por dia, em torno de quatro a seis, mantidas ao longo dos anos [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/etiologia/habitos-succao-degluticao-e-respiracao",
+   "onde": "Seção \"O que a sucção prolongada faz com a boca\".blocos[2].texto",
+   "trecho": "do objeto e pela posição da mão, mas as duas somam efeitos parecidos [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/etiologia/habitos-succao-degluticao-e-respiracao",
+   "onde": "Seção \"Quando parar e o que volta sozinho\".blocos[0].texto",
+   "trecho": "para antes da erupção dos incisivos permanentes, por volta dos 6 anos [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/etiologia/habitos-succao-degluticao-e-respiracao",
+   "onde": "Seção \"Quando parar e o que volta sozinho\".blocos[1].texto",
+   "trecho": "hupeta a partir de 2 a 3 anos e intervir no dedo antes dos 4 a 6 anos [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/etiologia/habitos-succao-degluticao-e-respiracao",
+   "onde": "Seção \"Quando parar e o que volta sozinho\".blocos[2].svg[7]",
+   "trecho": "var(--muted,#8A8478)'>idades aproximadas das orientações mais citadas [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/etiologia/habitos-succao-degluticao-e-respiracao",
+   "onde": "Seção \"Deglutição atípica: quase sempre consequência\".blocos[1].texto",
+   "trecho": "ando a postura de repouso está alterada, com evidência ainda limitada [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/etiologia/habitos-succao-degluticao-e-respiracao",
+   "onde": "Seção \"Respiração bucal e a face longa\".blocos[1].texto",
+   "trecho": "a associação é forte o bastante para obrigar a pergunta em todo exame [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/etiologia/habitos-succao-degluticao-e-respiracao",
+   "onde": "Seção \"O que a evidência sustenta e o que não sustenta\".blocos[0].texto",
+   "trecho": "scimento depois que a respiração nasal voltou, o que sustenta a causa [VERIFICAR]"
   }
  ],
  "modulos": [
@@ -591,11 +640,11 @@
    "area": "Ortodontia",
    "modulo": "Más oclusões",
    "total": 16,
-   "concluidas": 5,
-   "palavras": 18023,
-   "visuais": 25,
-   "imagensClinicas": 5,
-   "verificar": 19,
+   "concluidas": 6,
+   "palavras": 21939,
+   "visuais": 30,
+   "imagensClinicas": 6,
+   "verificar": 27,
    "paginas": [
     {
      "id": "ortodontia/mas-oclusoes/classificacao/classificacao-de-angle",
@@ -641,7 +690,9 @@
      "id": "ortodontia/mas-oclusoes/etiologia/habitos-succao-degluticao-e-respiracao",
      "nome": "Hábitos: sucção, deglutição e respiração",
      "tema": "Etiologia",
-     "status": "pendente"
+     "status": "rascunho",
+     "palavras": 3916,
+     "visuais": 5
     },
     {
      "id": "ortodontia/mas-oclusoes/etiologia/perda-precoce-e-carie",
@@ -25978,8 +26029,8 @@
    ],
    "verificar": [
     {
-     "onde": "Seção \"IOTN, componente de saúde dentária: a pior característica decide\".blocos[2].svg[11]",
-     "trecho": "orizontal, C cruzadas, D deslocamentos, O trespasse vertical e aberta [VERIFICAR]"
+     "onde": "Seção \"IOTN, componente de saúde dentária: a pior característica decide\".blocos[2].svg[12]",
+     "trecho": "s, O trespasse vertical e mordida aberta; limiares da tabela original [VERIFICAR]"
     },
     {
      "onde": "Seção \"IOTN, componente de saúde dentária: a pior característica decide\".blocos[3].texto",
@@ -26060,6 +26111,86 @@
     {
      "onde": "Seção \"O que os gêmeos e as populações ensinaram\".blocos[1].texto",
      "trecho": "arcos, e dentes de tamanho herdado ficam sem espaço em arcos menores [VERIFICAR]"
+    }
+   ]
+  },
+  "ortodontia/mas-oclusoes/etiologia/habitos-succao-degluticao-e-respiracao": {
+   "titulo": "Hábitos: sucção, deglutição e respiração bucal como causa de má oclusão",
+   "arquivo": "data/campus/paginas/ortodontia--maoclusao-etiologia-habitos.json",
+   "formato": 2,
+   "status": "rascunho",
+   "estado": "rascunho",
+   "palavras": 3916,
+   "visuais": [
+    {
+     "formato": "classificacao",
+     "titulo": "A tríade de Graber"
+    },
+    {
+     "formato": "anatomico",
+     "titulo": "As quatro marcas da sucção prolongada"
+    },
+    {
+     "formato": "linha-do-tempo",
+     "titulo": "Conduta por idade no hábito de sucção"
+    },
+    {
+     "formato": "processo",
+     "titulo": "Da obstrução nasal à face longa: a cascata"
+    },
+    {
+     "formato": "mapa",
+     "titulo": "Mapa da página"
+    }
+   ],
+   "quadros": {
+    "prova": 1,
+    "erro": 1,
+    "dica": 2,
+    "mito": 1,
+    "frase": 2
+   },
+   "imagensClinicas": [
+    {
+     "secao": "Respiração bucal e a face longa",
+     "imagem": "fotografia frontal e de perfil de criança com padrão de respirador bucal",
+     "mostrar": "Face em repouso com lábios entreabertos, olheiras, terço inferior da face alongado; perfil com mandíbula retroposicionada; ao lado, vista oclusal do arco superior estreito e profundo",
+     "legenda": "O padrão do respirador bucal: lábios que não se fecham em repouso, face longa e arco superior estreito e profundo.",
+     "destacar": "Selamento labial ausente em repouso, proporção do terço inferior, forma do arco superior"
+    }
+   ],
+   "verificar": [
+    {
+     "onde": "Seção \"A tríade que separa hábito inofensivo de hábito deformante\".blocos[1].texto",
+     "trecho": "horas por dia, em torno de quatro a seis, mantidas ao longo dos anos [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"O que a sucção prolongada faz com a boca\".blocos[2].texto",
+     "trecho": "do objeto e pela posição da mão, mas as duas somam efeitos parecidos [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Quando parar e o que volta sozinho\".blocos[0].texto",
+     "trecho": "para antes da erupção dos incisivos permanentes, por volta dos 6 anos [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Quando parar e o que volta sozinho\".blocos[1].texto",
+     "trecho": "hupeta a partir de 2 a 3 anos e intervir no dedo antes dos 4 a 6 anos [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Quando parar e o que volta sozinho\".blocos[2].svg[7]",
+     "trecho": "var(--muted,#8A8478)'>idades aproximadas das orientações mais citadas [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Deglutição atípica: quase sempre consequência\".blocos[1].texto",
+     "trecho": "ando a postura de repouso está alterada, com evidência ainda limitada [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Respiração bucal e a face longa\".blocos[1].texto",
+     "trecho": "a associação é forte o bastante para obrigar a pergunta em todo exame [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"O que a evidência sustenta e o que não sustenta\".blocos[0].texto",
+     "trecho": "scimento depois que a respiração nasal voltou, o que sustenta a causa [VERIFICAR]"
     }
    ]
   },
