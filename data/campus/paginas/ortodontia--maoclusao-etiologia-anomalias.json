@@ -119,7 +119,7 @@
             "<use href='#c-molar' x='205' y='150' width='70' height='110' transform='rotate(-25 240 205)'/>",
             "<text x='250' y='285' text-anchor='middle' font-size='11' fill='var(--red,#B4533B)' font-weight='700'>6 preso sob o E; raiz distal do E reabsorvida</text>",
             "<text x='540' y='30' text-anchor='middle' font-size='14' font-weight='700'>Anquilose e infraoclusão do E</text>",
-            "<line x1='400' y1='120' x2='690' y2='120' stroke='var(--muted,#8A8478)' stroke-width='1' stroke-dasharray='4 3'/><text x='690' y='112' text-anchor='end' font-size='10' fill='var(--muted,#8A8478)'>plano oclusal</text>",
+            "<line x1='400' y1='120' x2='690' y2='120' stroke='var(--muted,#8A8478)' stroke-width='1' stroke-dasharray='4 3'/><text x='400' y='112' font-size='10' fill='var(--muted,#8A8478)'>plano oclusal</text>",
             "<rect x='420' y='120' width='70' height='60' rx='8' fill='var(--gold-soft,#F4EEE4)' stroke='var(--ink,#23211C)' stroke-width='1.5' transform='rotate(10 455 150)'/><text x='455' y='155' text-anchor='middle' font-size='12'>D</text>",
             "<rect x='508' y='150' width='64' height='50' rx='8' fill='var(--gold-soft,#F4EEE4)' stroke='var(--red,#B4533B)' stroke-width='2'/><text x='540' y='180' text-anchor='middle' font-size='12'>E</text>",
             "<rect x='590' y='110' width='80' height='80' rx='8' fill='var(--blue-soft,#E9EEF3)' stroke='var(--ink,#23211C)' stroke-width='1.5' transform='rotate(-10 630 150)'/><text x='630' y='155' text-anchor='middle' font-size='12' font-weight='700'>6</text>",

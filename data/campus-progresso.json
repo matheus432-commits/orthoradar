@@ -1,10 +1,10 @@
 {
  "atualizadoEm": "2026-09-05",
  "totalPaginas": 3387,
- "concluidas": 27,
+ "concluidas": 31,
  "porStatus": {
-  "pendente": 3360,
-  "rascunho": 27,
+  "pendente": 3356,
+  "rascunho": 31,
   "revisado": 0,
   "publicado": 0
  },
@@ -12,7 +12,7 @@
   "id": "ortodontia/mas-oclusoes",
   "area": "Ortodontia",
   "modulo": "Más oclusões",
-  "faltam": 8
+  "faltam": 4
  },
  "imagensPendentes": [
   {
@@ -176,6 +176,42 @@
    "mostrar": "Incisivo central permanente não erupcionado com a coroa angulada em relação à raiz, posicionado alto no osso, e o contralateral já erupcionado",
    "legenda": "Dilaceração: o trauma no incisivo decíduo deslocou o germe do permanente em formação, e a coroa se formou em ângulo com a raiz.",
    "destacar": "Ângulo entre coroa e raiz, altura do dente no osso, comparação com o contralateral"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/etiologia/teoria-da-equivalencia-de-moyers",
+   "modulo": "Más oclusões",
+   "secao": "Moyers aplicou a ideia à Classe II",
+   "imagem": "conjunto de traçados cefalométricos sobrepostos de pacientes com Classe II de padrões esqueléticos diferentes",
+   "mostrar": "Três perfis de Classe II lado a lado: um com bases normais e molares migrados; um com mandíbula pequena e face proporcional; um com mandíbula retruída e face longa, plano mandibular inclinado",
+   "legenda": "Três Classes II de Angle, três esqueletos: a relação molar é a mesma última linha de histórias diferentes.",
+   "destacar": "Posição do ponto B em cada traçado, inclinação do plano mandibular, altura facial anterior inferior"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/classe-i-com-apinhamento",
+   "modulo": "Más oclusões",
+   "secao": "Estabilidade: o inferior anterior quer voltar",
+   "imagem": "fotografias oclusais do arco inferior de um paciente antes do tratamento, ao final e anos após a remoção da contenção",
+   "mostrar": "Três vistas oclusais do arco inferior: apinhamento anterior inicial, alinhamento ao final do tratamento, e reapinhamento moderado dos incisivos anos depois sem contenção",
+   "legenda": "O arco inferior anterior tende a voltar: por isso a contenção inferior é longa e combinada desde o começo.",
+   "destacar": "Largura intercaninos nas três fases, sobreposição dos incisivos na terceira foto"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/classe-ii-divisao-1-e-2",
+   "modulo": "Más oclusões",
+   "secao": "Trauma, autoimagem e a hora de olhar",
+   "imagem": "fotografia intrabucal lateral e de perfil facial de criança com Classe II divisão 1 e trespasse horizontal acentuado",
+   "mostrar": "Vista lateral em oclusão com molares em Classe II completa, incisivos superiores protruídos e trespasse horizontal grande; perfil com lábios entreabertos, lábio inferior atrás dos incisivos superiores e mento retruído",
+   "legenda": "Divisão 1 em criança: incisivos expostos ao trauma, lábio inferior preso e perfil convexo.",
+   "destacar": "Distância entre as bordas incisais no sentido horizontal, posição do lábio inferior, relação molar"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/classe-iii",
+   "modulo": "Más oclusões",
+   "secao": "As ferramentas por componente e idade",
+   "imagem": "telerradiografia lateral traçada de paciente jovem com Classe III esquelética por deficiência maxilar",
+   "mostrar": "Traçado com SNA reduzido, SNB próximo do normal, ANB negativo; ponto A atrás da perpendicular ao násio; incisivos superiores inclinados para a frente e inferiores para trás mostrando compensação dentária; perfil mole côncavo no terço médio",
+   "legenda": "Classe III por maxila deficiente: SNA baixo, ANB negativo, terço médio para trás e incisivos já compensados.",
+   "destacar": "Posição do ponto A em relação à perpendicular ao násio, inclinação dos incisivos superiores e inferiores, contorno do terço médio"
   }
  ],
  "verificarPendentes": [
@@ -563,6 +599,121 @@
    "pagina": "ortodontia/mas-oclusoes/etiologia/anomalias-dentarias",
    "onde": "Seção \"Molar ectópico, dente anquilosado e o que não sobe\".blocos[1].texto",
    "trecho": "iva, e não respondem à força ortodôntica; tem base genética conhecida [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/etiologia/teoria-da-equivalencia-de-moyers",
+   "onde": "autoria",
+   "trecho": "ursos brasileiros; o validador deve confirmar a denominação e a fonte [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/etiologia/teoria-da-equivalencia-de-moyers",
+   "onde": "Seção \"Equifinalidade: muitos caminhos, um resultado; um caminho, muitos resultados\".blocos[0].texto",
+   "trecho": ". Na teoria dos sistemas, o primeiro fenômeno se chama equifinalidade [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/etiologia/teoria-da-equivalencia-de-moyers",
+   "onde": "Seção \"Moyers aplicou a ideia à Classe II\".blocos[0].texto",
+   "trecho": "la pequena e face longa recebem o mesmo nome e são doenças diferentes [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/classe-i-com-apinhamento",
+   "onde": "Seção \"A má oclusão de todo dia\".blocos[2].svg[9]",
+   "trecho": "12' fill='var(--muted,#8A8478)'>faixas de referência usuais, por arco [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/classe-i-com-apinhamento",
+   "onde": "Seção \"Medir na dentição mista: prever o que ainda não nasceu\".blocos[1].texto",
+   "trecho": "olares de um quadrante inferior; mais 11 mm, de um quadrante superior [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/classe-i-com-apinhamento",
+   "onde": "Seção \"Medir na dentição mista: prever o que ainda não nasceu\".blocos[2].svg[2]",
+   "trecho": "anaka e Johnston: metade da soma + 10,5 (inferior) ou + 11 (superior) [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/classe-i-com-apinhamento",
+   "onde": "Seção \"Medir na dentição mista: prever o que ainda não nasceu\".blocos[3].texto",
+   "trecho": "ram construídas em populações específicas e erram um pouco fora delas [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/classe-i-com-apinhamento",
+   "onde": "Seção \"As cinco fontes de espaço\".blocos[1].texto",
+   "trecho": "a de dois milímetros de perímetro, mas muda o perfil e a estabilidade [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/classe-i-com-apinhamento",
+   "onde": "Seção \"As cinco fontes de espaço\".blocos[2].svg[3]",
+   "trecho": "='300' y='118'>perímetro por mm de</text><text x='300' y='132'>avanço [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/classe-i-com-apinhamento",
+   "onde": "Seção \"Extração seriada: administrar a falta desde a dentição mista\".blocos[1].texto",
+   "trecho": "fim os primeiros pré-molares para dar espaço aos caninos permanentes [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/classe-i-com-apinhamento",
+   "onde": "Seção \"Extração seriada: administrar a falta desde a dentição mista\".blocos[3].svg[8]",
+   "trecho": "imadas; o que manda é o estágio de erupção, confirmado na radiografia [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/classe-i-com-apinhamento",
+   "onde": "Seção \"Estabilidade: o inferior anterior quer voltar\".blocos[0].texto",
+   "trecho": "sem que se consiga prever pelo diagnóstico inicial quem vai recidivar [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/classe-ii-divisao-1-e-2",
+   "onde": "Seção \"O que as duas divisões têm em comum\".blocos[1].texto",
+   "trecho": "ente que a divisão 2, que representa uma parcela menor das Classes II [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/classe-ii-divisao-1-e-2",
+   "onde": "Seção \"Divisão 1: o quadro por dentro e por fora\".blocos[3].texto",
+   "trecho": "com maxila normal ou até retruída, segundo os estudos de componentes [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/classe-ii-divisao-1-e-2",
+   "onde": "Seção \"Trauma, autoimagem e a hora de olhar\".blocos[0].texto",
+   "trecho": "do é fator de risco reconhecido para fratura de incisivos em crianças [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/classe-iii",
+   "onde": "umMinuto.frases[1]",
+   "trecho": "prognatismo mandibular puro é minoria, embora seja a imagem clássica [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/classe-iii",
+   "onde": "Seção \"O quadro: dentes, esqueleto e face\".blocos[1].texto",
+   "trecho": "frequente quanto a mandíbula grande, e a combinação das duas é comum [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/classe-iii",
+   "onde": "Seção \"Os componentes: maxila, mandíbula ou os dois\".blocos[1].texto",
+   "trecho": "smo mandibular puro é menos frequente do que a imagem clássica sugere [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/classe-iii",
+   "onde": "Seção \"Os componentes: maxila, mandíbula ou os dois\".blocos[2].svg[6]",
+   "trecho": ")'>a proporção entre os componentes varia conforme a amostra estudada [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/classe-iii",
+   "onde": "Seção \"Os componentes: maxila, mandíbula ou os dois\".blocos[3].texto",
+   "trecho": "ncia maxilar, isolada ou combinada, segundo os estudos de componentes [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/classe-iii",
+   "onde": "Seção \"Por que esperar não é neutro\".blocos[1].texto",
+   "trecho": "fechem, em geral na dentição mista precoce, por volta dos 7 a 9 anos [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/classe-iii",
+   "onde": "Seção \"Por que esperar não é neutro\".blocos[2].svg[7]",
+   "trecho": "middle' font-size='12' fill='var(--muted,#8A8478)'>idades aproximadas [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/classe-iii",
+   "onde": "Seção \"As ferramentas por componente e idade\".blocos[0].texto",
+   "trecho": "de efeito esquelético, maior quando começa na dentição mista precoce [VERIFICAR]"
   }
  ],
  "modulos": [
@@ -698,11 +849,11 @@
    "area": "Ortodontia",
    "modulo": "Más oclusões",
    "total": 16,
-   "concluidas": 8,
-   "palavras": 29578,
-   "visuais": 41,
-   "imagensClinicas": 8,
-   "verificar": 35,
+   "concluidas": 12,
+   "palavras": 44760,
+   "visuais": 61,
+   "imagensClinicas": 12,
+   "verificar": 58,
    "paginas": [
     {
      "id": "ortodontia/mas-oclusoes/classificacao/classificacao-de-angle",
@@ -772,25 +923,33 @@
      "id": "ortodontia/mas-oclusoes/etiologia/teoria-da-equivalencia-de-moyers",
      "nome": "Teoria da equivalência de Moyers",
      "tema": "Etiologia",
-     "status": "pendente"
+     "status": "rascunho",
+     "palavras": 3515,
+     "visuais": 5
     },
     {
      "id": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/classe-i-com-apinhamento",
      "nome": "Classe I com apinhamento",
      "tema": "Características por tipo",
-     "status": "pendente"
+     "status": "rascunho",
+     "palavras": 3869,
+     "visuais": 5
     },
     {
      "id": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/classe-ii-divisao-1-e-2",
      "nome": "Classe II divisão 1 e 2",
      "tema": "Características por tipo",
-     "status": "pendente"
+     "status": "rascunho",
+     "palavras": 3919,
+     "visuais": 5
     },
     {
      "id": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/classe-iii",
      "nome": "Classe III",
      "tema": "Características por tipo",
-     "status": "pendente"
+     "status": "rascunho",
+     "palavras": 3879,
+     "visuais": 5
     },
     {
      "id": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/mordida-aberta",
@@ -26385,6 +26544,290 @@
     {
      "onde": "Seção \"Molar ectópico, dente anquilosado e o que não sobe\".blocos[1].texto",
      "trecho": "iva, e não respondem à força ortodôntica; tem base genética conhecida [VERIFICAR]"
+    }
+   ]
+  },
+  "ortodontia/mas-oclusoes/etiologia/teoria-da-equivalencia-de-moyers": {
+   "titulo": "Etiologia segundo Moyers: a equação de Dockrell, os tecidos e a equifinalidade",
+   "arquivo": "data/campus/paginas/ortodontia--maoclusao-etiologia-moyers.json",
+   "formato": 2,
+   "status": "rascunho",
+   "estado": "rascunho",
+   "palavras": 3515,
+   "visuais": [
+    {
+     "formato": "processo",
+     "titulo": "A equação ortodôntica de Dockrell, como Moyers a ensinou"
+    },
+    {
+     "formato": "classificacao",
+     "titulo": "Os sete grupos etiológicos de Moyers"
+    },
+    {
+     "formato": "comparativo",
+     "titulo": "A mesma Classe II em três tecidos"
+    },
+    {
+     "formato": "mapa",
+     "titulo": "Equifinalidade: cinco causas, um sinal; uma causa, três sinais"
+    },
+    {
+     "formato": "mapa",
+     "titulo": "Mapa da página"
+    }
+   ],
+   "quadros": {
+    "prova": 1,
+    "dica": 2,
+    "mito": 1,
+    "erro": 1,
+    "frase": 2
+   },
+   "imagensClinicas": [
+    {
+     "secao": "Moyers aplicou a ideia à Classe II",
+     "imagem": "conjunto de traçados cefalométricos sobrepostos de pacientes com Classe II de padrões esqueléticos diferentes",
+     "mostrar": "Três perfis de Classe II lado a lado: um com bases normais e molares migrados; um com mandíbula pequena e face proporcional; um com mandíbula retruída e face longa, plano mandibular inclinado",
+     "legenda": "Três Classes II de Angle, três esqueletos: a relação molar é a mesma última linha de histórias diferentes.",
+     "destacar": "Posição do ponto B em cada traçado, inclinação do plano mandibular, altura facial anterior inferior"
+    }
+   ],
+   "verificar": [
+    {
+     "onde": "autoria",
+     "trecho": "ursos brasileiros; o validador deve confirmar a denominação e a fonte [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Equifinalidade: muitos caminhos, um resultado; um caminho, muitos resultados\".blocos[0].texto",
+     "trecho": ". Na teoria dos sistemas, o primeiro fenômeno se chama equifinalidade [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Moyers aplicou a ideia à Classe II\".blocos[0].texto",
+     "trecho": "la pequena e face longa recebem o mesmo nome e são doenças diferentes [VERIFICAR]"
+    }
+   ]
+  },
+  "ortodontia/mas-oclusoes/caracteristicas-por-tipo/classe-i-com-apinhamento": {
+   "titulo": "Classe I com apinhamento: a má oclusão mais comum e a conta do espaço",
+   "arquivo": "data/campus/paginas/ortodontia--maoclusao-tipo-classe-i.json",
+   "formato": 2,
+   "status": "rascunho",
+   "estado": "rascunho",
+   "palavras": 3869,
+   "visuais": [
+    {
+     "formato": "grafico",
+     "titulo": "A conta do espaço: necessário menos disponível"
+    },
+    {
+     "formato": "processo",
+     "titulo": "Análise de espaço na dentição mista, passo a passo"
+    },
+    {
+     "formato": "comparativo",
+     "titulo": "Cinco fontes de espaço, o que rendem e o que custam"
+    },
+    {
+     "formato": "linha-do-tempo",
+     "titulo": "A sequência clássica da extração seriada"
+    },
+    {
+     "formato": "mapa",
+     "titulo": "Mapa da página"
+    }
+   ],
+   "quadros": {
+    "frase": 2,
+    "mito": 1,
+    "prova": 1,
+    "dica": 2,
+    "erro": 1
+   },
+   "imagensClinicas": [
+    {
+     "secao": "Estabilidade: o inferior anterior quer voltar",
+     "imagem": "fotografias oclusais do arco inferior de um paciente antes do tratamento, ao final e anos após a remoção da contenção",
+     "mostrar": "Três vistas oclusais do arco inferior: apinhamento anterior inicial, alinhamento ao final do tratamento, e reapinhamento moderado dos incisivos anos depois sem contenção",
+     "legenda": "O arco inferior anterior tende a voltar: por isso a contenção inferior é longa e combinada desde o começo.",
+     "destacar": "Largura intercaninos nas três fases, sobreposição dos incisivos na terceira foto"
+    }
+   ],
+   "verificar": [
+    {
+     "onde": "Seção \"A má oclusão de todo dia\".blocos[2].svg[9]",
+     "trecho": "12' fill='var(--muted,#8A8478)'>faixas de referência usuais, por arco [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Medir na dentição mista: prever o que ainda não nasceu\".blocos[1].texto",
+     "trecho": "olares de um quadrante inferior; mais 11 mm, de um quadrante superior [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Medir na dentição mista: prever o que ainda não nasceu\".blocos[2].svg[2]",
+     "trecho": "anaka e Johnston: metade da soma + 10,5 (inferior) ou + 11 (superior) [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Medir na dentição mista: prever o que ainda não nasceu\".blocos[3].texto",
+     "trecho": "ram construídas em populações específicas e erram um pouco fora delas [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"As cinco fontes de espaço\".blocos[1].texto",
+     "trecho": "a de dois milímetros de perímetro, mas muda o perfil e a estabilidade [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"As cinco fontes de espaço\".blocos[2].svg[3]",
+     "trecho": "='300' y='118'>perímetro por mm de</text><text x='300' y='132'>avanço [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Extração seriada: administrar a falta desde a dentição mista\".blocos[1].texto",
+     "trecho": "fim os primeiros pré-molares para dar espaço aos caninos permanentes [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Extração seriada: administrar a falta desde a dentição mista\".blocos[3].svg[8]",
+     "trecho": "imadas; o que manda é o estágio de erupção, confirmado na radiografia [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Estabilidade: o inferior anterior quer voltar\".blocos[0].texto",
+     "trecho": "sem que se consiga prever pelo diagnóstico inicial quem vai recidivar [VERIFICAR]"
+    }
+   ]
+  },
+  "ortodontia/mas-oclusoes/caracteristicas-por-tipo/classe-ii-divisao-1-e-2": {
+   "titulo": "Classe II divisão 1 e divisão 2: duas faces da distoclusão",
+   "arquivo": "data/campus/paginas/ortodontia--maoclusao-tipo-classe-ii.json",
+   "formato": 2,
+   "status": "rascunho",
+   "estado": "rascunho",
+   "palavras": 3919,
+   "visuais": [
+    {
+     "formato": "comparativo",
+     "titulo": "Divisão 1 e divisão 2, característica por característica"
+    },
+    {
+     "formato": "anatomico",
+     "titulo": "A assinatura da divisão 1 no perfil: incisivos, lábio e mento"
+    },
+    {
+     "formato": "anatomico",
+     "titulo": "A assinatura da divisão 2: incisivos, lábio alto e mordida profunda"
+    },
+    {
+     "formato": "fluxograma",
+     "titulo": "As quatro perguntas da Classe II"
+    },
+    {
+     "formato": "mapa",
+     "titulo": "Mapa da página"
+    }
+   ],
+   "quadros": {
+    "frase": 2,
+    "prova": 1,
+    "mito": 1,
+    "dica": 2,
+    "erro": 1
+   },
+   "imagensClinicas": [
+    {
+     "secao": "Trauma, autoimagem e a hora de olhar",
+     "imagem": "fotografia intrabucal lateral e de perfil facial de criança com Classe II divisão 1 e trespasse horizontal acentuado",
+     "mostrar": "Vista lateral em oclusão com molares em Classe II completa, incisivos superiores protruídos e trespasse horizontal grande; perfil com lábios entreabertos, lábio inferior atrás dos incisivos superiores e mento retruído",
+     "legenda": "Divisão 1 em criança: incisivos expostos ao trauma, lábio inferior preso e perfil convexo.",
+     "destacar": "Distância entre as bordas incisais no sentido horizontal, posição do lábio inferior, relação molar"
+    }
+   ],
+   "verificar": [
+    {
+     "onde": "Seção \"O que as duas divisões têm em comum\".blocos[1].texto",
+     "trecho": "ente que a divisão 2, que representa uma parcela menor das Classes II [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Divisão 1: o quadro por dentro e por fora\".blocos[3].texto",
+     "trecho": "com maxila normal ou até retruída, segundo os estudos de componentes [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Trauma, autoimagem e a hora de olhar\".blocos[0].texto",
+     "trecho": "do é fator de risco reconhecido para fratura de incisivos em crianças [VERIFICAR]"
+    }
+   ]
+  },
+  "ortodontia/mas-oclusoes/caracteristicas-por-tipo/classe-iii": {
+   "titulo": "Classe III: a má oclusão que o crescimento piora",
+   "arquivo": "data/campus/paginas/ortodontia--maoclusao-tipo-classe-iii.json",
+   "formato": 2,
+   "status": "rascunho",
+   "estado": "rascunho",
+   "palavras": 3879,
+   "visuais": [
+    {
+     "formato": "anatomico",
+     "titulo": "A assinatura da Classe III no perfil"
+    },
+    {
+     "formato": "classificacao",
+     "titulo": "De onde vem a Classe III: quatro origens, quatro leituras"
+    },
+    {
+     "formato": "comparativo",
+     "titulo": "Classe III verdadeira e pseudo-Classe III, lado a lado"
+    },
+    {
+     "formato": "linha-do-tempo",
+     "titulo": "O relógio da Classe III"
+    },
+    {
+     "formato": "mapa",
+     "titulo": "Mapa da página"
+    }
+   ],
+   "quadros": {
+    "frase": 3,
+    "prova": 1,
+    "erro": 1,
+    "mito": 1,
+    "dica": 1
+   },
+   "imagensClinicas": [
+    {
+     "secao": "As ferramentas por componente e idade",
+     "imagem": "telerradiografia lateral traçada de paciente jovem com Classe III esquelética por deficiência maxilar",
+     "mostrar": "Traçado com SNA reduzido, SNB próximo do normal, ANB negativo; ponto A atrás da perpendicular ao násio; incisivos superiores inclinados para a frente e inferiores para trás mostrando compensação dentária; perfil mole côncavo no terço médio",
+     "legenda": "Classe III por maxila deficiente: SNA baixo, ANB negativo, terço médio para trás e incisivos já compensados.",
+     "destacar": "Posição do ponto A em relação à perpendicular ao násio, inclinação dos incisivos superiores e inferiores, contorno do terço médio"
+    }
+   ],
+   "verificar": [
+    {
+     "onde": "umMinuto.frases[1]",
+     "trecho": "prognatismo mandibular puro é minoria, embora seja a imagem clássica [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"O quadro: dentes, esqueleto e face\".blocos[1].texto",
+     "trecho": "frequente quanto a mandíbula grande, e a combinação das duas é comum [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Os componentes: maxila, mandíbula ou os dois\".blocos[1].texto",
+     "trecho": "smo mandibular puro é menos frequente do que a imagem clássica sugere [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Os componentes: maxila, mandíbula ou os dois\".blocos[2].svg[6]",
+     "trecho": ")'>a proporção entre os componentes varia conforme a amostra estudada [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Os componentes: maxila, mandíbula ou os dois\".blocos[3].texto",
+     "trecho": "ncia maxilar, isolada ou combinada, segundo os estudos de componentes [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Por que esperar não é neutro\".blocos[1].texto",
+     "trecho": "fechem, em geral na dentição mista precoce, por volta dos 7 a 9 anos [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Por que esperar não é neutro\".blocos[2].svg[7]",
+     "trecho": "middle' font-size='12' fill='var(--muted,#8A8478)'>idades aproximadas [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"As ferramentas por componente e idade\".blocos[0].texto",
+     "trecho": "de efeito esquelético, maior quando começa na dentição mista precoce [VERIFICAR]"
     }
    ]
   },
