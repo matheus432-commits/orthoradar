@@ -1,10 +1,10 @@
 {
  "atualizadoEm": "2026-09-05",
  "totalPaginas": 3387,
- "concluidas": 31,
+ "concluidas": 32,
  "porStatus": {
-  "pendente": 3356,
-  "rascunho": 31,
+  "pendente": 3355,
+  "rascunho": 32,
   "revisado": 0,
   "publicado": 0
  },
@@ -12,7 +12,7 @@
   "id": "ortodontia/mas-oclusoes",
   "area": "Ortodontia",
   "modulo": "Más oclusões",
-  "faltam": 4
+  "faltam": 3
  },
  "imagensPendentes": [
   {
@@ -212,6 +212,15 @@
    "mostrar": "Traçado com SNA reduzido, SNB próximo do normal, ANB negativo; ponto A atrás da perpendicular ao násio; incisivos superiores inclinados para a frente e inferiores para trás mostrando compensação dentária; perfil mole côncavo no terço médio",
    "legenda": "Classe III por maxila deficiente: SNA baixo, ANB negativo, terço médio para trás e incisivos já compensados.",
    "destacar": "Posição do ponto A em relação à perpendicular ao násio, inclinação dos incisivos superiores e inferiores, contorno do terço médio"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/mordida-aberta",
+   "modulo": "Más oclusões",
+   "secao": "As causas, da chupeta ao côndilo",
+   "imagem": "fotografia frontal de sorriso e vista intrabucal frontal de paciente com mordida aberta anterior esquelética",
+   "mostrar": "Sorriso com exposição gengival acentuada e incisivos superiores visivelmente alongados; vista intrabucal frontal em oclusão com molares em contato e espaço vertical entre as bordas dos incisivos de canino a canino",
+   "legenda": "Mordida aberta esquelética: gengiva exposta porque os incisivos erupcionaram tentando fechar; a abertura persiste porque a mandíbula girou.",
+   "destacar": "Quantidade de gengiva exposta ao sorrir, extensão da abertura de canino a canino, contato dos molares"
   }
  ],
  "verificarPendentes": [
@@ -714,6 +723,16 @@
    "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/classe-iii",
    "onde": "Seção \"As ferramentas por componente e idade\".blocos[0].texto",
    "trecho": "de efeito esquelético, maior quando começa na dentição mista precoce [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/mordida-aberta",
+   "onde": "Seção \"O que é, onde aparece e quanto se vê\".blocos[1].texto",
+   "trecho": "anente, quando os hábitos param e os incisivos terminam de erupcionar [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/mordida-aberta",
+   "onde": "Seção \"Estabilidade: a correção que mais volta\".blocos[0].texto",
+   "trecho": "tratados reabre em algum grau nos anos seguintes, com ou sem cirurgia [VERIFICAR]"
   }
  ],
  "modulos": [
@@ -849,11 +868,11 @@
    "area": "Ortodontia",
    "modulo": "Más oclusões",
    "total": 16,
-   "concluidas": 12,
-   "palavras": 44760,
-   "visuais": 61,
-   "imagensClinicas": 12,
-   "verificar": 58,
+   "concluidas": 13,
+   "palavras": 48400,
+   "visuais": 65,
+   "imagensClinicas": 13,
+   "verificar": 60,
    "paginas": [
     {
      "id": "ortodontia/mas-oclusoes/classificacao/classificacao-de-angle",
@@ -955,7 +974,9 @@
      "id": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/mordida-aberta",
      "nome": "Mordida aberta",
      "tema": "Características por tipo",
-     "status": "pendente"
+     "status": "rascunho",
+     "palavras": 3640,
+     "visuais": 4
     },
     {
      "id": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/mordida-profunda",
@@ -26828,6 +26849,58 @@
     {
      "onde": "Seção \"As ferramentas por componente e idade\".blocos[0].texto",
      "trecho": "de efeito esquelético, maior quando começa na dentição mista precoce [VERIFICAR]"
+    }
+   ]
+  },
+  "ortodontia/mas-oclusoes/caracteristicas-por-tipo/mordida-aberta": {
+   "titulo": "Mordida aberta: dentária ou esquelética, e por que a diferença decide tudo",
+   "arquivo": "data/campus/paginas/ortodontia--maoclusao-tipo-mordida-aberta.json",
+   "formato": 2,
+   "status": "rascunho",
+   "estado": "rascunho",
+   "palavras": 3640,
+   "visuais": [
+    {
+     "formato": "classificacao",
+     "titulo": "Os tipos de mordida aberta e de onde vêm"
+    },
+    {
+     "formato": "anatomico",
+     "titulo": "A face longa no traçado: por que a mordida abre na frente"
+    },
+    {
+     "formato": "forcas",
+     "titulo": "O efeito de alavanca: intruir atrás fecha na frente"
+    },
+    {
+     "formato": "mapa",
+     "titulo": "Mapa da página"
+    }
+   ],
+   "quadros": {
+    "frase": 2,
+    "dica": 2,
+    "prova": 1,
+    "erro": 1,
+    "mito": 1
+   },
+   "imagensClinicas": [
+    {
+     "secao": "As causas, da chupeta ao côndilo",
+     "imagem": "fotografia frontal de sorriso e vista intrabucal frontal de paciente com mordida aberta anterior esquelética",
+     "mostrar": "Sorriso com exposição gengival acentuada e incisivos superiores visivelmente alongados; vista intrabucal frontal em oclusão com molares em contato e espaço vertical entre as bordas dos incisivos de canino a canino",
+     "legenda": "Mordida aberta esquelética: gengiva exposta porque os incisivos erupcionaram tentando fechar; a abertura persiste porque a mandíbula girou.",
+     "destacar": "Quantidade de gengiva exposta ao sorrir, extensão da abertura de canino a canino, contato dos molares"
+    }
+   ],
+   "verificar": [
+    {
+     "onde": "Seção \"O que é, onde aparece e quanto se vê\".blocos[1].texto",
+     "trecho": "anente, quando os hábitos param e os incisivos terminam de erupcionar [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Estabilidade: a correção que mais volta\".blocos[0].texto",
+     "trecho": "tratados reabre em algum grau nos anos seguintes, com ou sem cirurgia [VERIFICAR]"
     }
    ]
   },

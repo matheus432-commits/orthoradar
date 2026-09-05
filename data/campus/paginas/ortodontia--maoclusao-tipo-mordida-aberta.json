@@ -1,0 +1,588 @@
+{
+  "id": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/mordida-aberta",
+  "areaId": "ortodontia",
+  "area": "Ortodontia",
+  "modulo": "Más oclusões",
+  "tema": "Características por tipo",
+  "titulo": "Mordida aberta: dentária ou esquelética, e por que a diferença decide tudo",
+  "estado": "rascunho",
+  "versao": 1,
+  "formato": 2,
+  "autoria": "Rascunho escrito pela plataforma para validação; nada aqui é visível ao aluno antes da assinatura de um ortodontista.",
+  "abertura": {
+    "situacao": "Menina de 14 anos, mordida aberta anterior de 5 mm, de canino a canino. Nunca chupou dedo nem chupeta. Face longa, lábios que não se fecham em repouso, respira pela boca, mostra bastante gengiva ao sorrir. Na cefalometria, plano mandibular muito inclinado e altura facial anterior inferior aumentada. Os molares tocam; os incisivos, não.",
+    "pergunta": "Sem hábito nenhum, de onde veio essa mordida aberta? E por que fechar os incisivos com elásticos seria a pior ideia aqui?"
+  },
+  "umMinuto": {
+    "frases": [
+      "Mordida aberta é a ausência de contato vertical entre dentes antagonistas: anterior, a mais comum, quando os incisivos não se sobrepõem; posterior, rara, quando os dentes de trás não tocam.",
+      "Há duas mordidas abertas anteriores com o mesmo nome: a dentária, de hábito ou postura, sobre esqueleto normal, com incisivos que não terminaram de erupcionar; e a esquelética, da face longa, com mandíbula girada para baixo e para trás.",
+      "A esquelética se reconhece na face e na cefalometria: altura facial anterior inferior aumentada, plano mandibular inclinado, ângulo goníaco aberto, lábios incompetentes e, muitas vezes, exposição gengival ao sorrir.",
+      "Na dentária, parar o hábito antes dos incisivos permanentes costuma fechar a mordida sozinho; na esquelética, o problema está nos molares que erupcionaram demais e na altura da face, não nos incisivos.",
+      "Fechar a esquelética extruindo incisivos é camuflar no lugar errado: piora o sorriso gengival e recidiva. O caminho é controlar a vertical, intruir os posteriores ou operar.",
+      "A mordida aberta é uma das correções menos estáveis da ortodontia; o plano precisa incluir a causa, a postura da língua e a contenção desde o início."
+    ],
+    "caiNaProva": [
+      "Definição e tipos de mordida aberta",
+      "Mordida aberta dentária versus esquelética: como diferenciar",
+      "Características cefalométricas da face longa",
+      "Etiologia: hábitos, respiração, postura, padrão esquelético",
+      "Princípios de tratamento e estabilidade"
+    ],
+    "porQueImporta": "Duas mordidas abertas iguais na boca podem ser problemas opostos no esqueleto. Uma fecha quando a chupeta some; a outra pode terminar em cirurgia. Confundir as duas é tratar o sintoma no lugar errado e ver a mordida abrir de novo."
+  },
+  "secoes": [
+    {
+      "titulo": "O que é, onde aparece e quanto se vê",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "Mordida aberta é a falta de trespasse vertical: em oclusão, os dentes antagonistas não se tocam nem se sobrepõem. A anterior é a que se conhece: os incisivos superiores não cobrem os inferiores e sobra um espaço entre as bordas, medido em milímetros negativos. A posterior é rara: os dentes de trás não tocam, por interposição lateral da língua, por anquilose ou por falha primária de erupção."
+        },
+        {
+          "tipo": "p",
+          "texto": "A frequência muda com a idade. Na dentição decídua é comum, porque os hábitos de sucção são comuns, e cai bastante na dentição permanente, quando os hábitos param e os incisivos terminam de erupcionar [VERIFICAR]. A que sobra no adolescente e no adulto é a que preocupa: é ali que se concentram as esqueléticas."
+        },
+        {
+          "tipo": "visual",
+          "formato": "classificacao",
+          "titulo": "Os tipos de mordida aberta e de onde vêm",
+          "descricao": "Duas grandes caixas. Anterior: dentária, por hábito de sucção, postura de língua ou respiração bucal, sobre esqueleto normal; esquelética, da face longa, com mandíbula para baixo e para trás e molares que erupcionaram demais; mista, quando as duas coisas se somam. Posterior: interposição lateral de língua, anquilose de molares decíduos, falha primária de erupção; rara.",
+          "viewBox": "0 0 560 400",
+          "svg": [
+            "<use href='#c-caixa-ink' x='20' y='16' width='520' height='40'/><text x='280' y='42' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>Mordida aberta anterior: incisivos sem trespasse vertical</text>",
+            "<g font-size='11' fill='var(--ink,#23211C)'>",
+            "<use href='#c-caixa-gold' x='20' y='70' width='250' height='104'/><text x='34' y='94' font-size='13' font-weight='700'>Dentária</text><text x='34' y='112'>hábito de sucção, postura de língua,</text><text x='34' y='126'>respiração bucal sobre esqueleto normal</text><text x='34' y='142'>incisivos que não terminaram de erupcionar</text><text x='34' y='160' font-weight='700' fill='var(--gold,#B08968)'>fecha quando a causa para, se for cedo</text>",
+            "<use href='#c-caixa-red' x='290' y='70' width='250' height='104'/><text x='304' y='94' font-size='13' font-weight='700'>Esquelética</text><text x='304' y='112'>face longa: mandíbula para baixo e para trás,</text><text x='304' y='126'>molares que erupcionaram demais</text><text x='304' y='142'>plano mandibular inclinado, goníaco aberto</text><text x='304' y='160' font-weight='700' fill='var(--red,#B4533B)'>o problema está na vertical, não nos incisivos</text>",
+            "<use href='#c-caixa' x='20' y='188' width='520' height='50'/><text x='34' y='210' font-size='13' font-weight='700'>Mista</text><text x='34' y='228'>padrão vertical desfavorável somado a hábito ou respiração bucal: a combinação mais comum no adolescente</text>",
+            "<use href='#c-caixa-ink' x='20' y='262' width='520' height='40'/><text x='280' y='288' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>Mordida aberta posterior: rara</text>",
+            "<use href='#c-caixa-blue' x='20' y='316' width='520' height='58'/><text x='34' y='338' font-size='11'>interposição lateral da língua; anquilose de molares decíduos com infraoclusão;</text><text x='34' y='354' font-size='11'>falha primária de erupção, que não responde à força ortodôntica</text><text x='34' y='370' font-size='11' fill='var(--blue,#4A6B8A)' font-weight='700'>investigar a causa antes de qualquer tentativa de extrusão</text>",
+            "</g>"
+          ],
+          "legenda": "O mesmo espaço entre os incisivos pode ser um hábito que passa ou uma face longa que cresce. As caixas de cima decidem o plano; a de baixo pede investigação."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "frase",
+          "texto": "Mordida aberta não é diagnóstico. É um sinal com duas origens, e o tratamento certo depende de qual delas você tem na frente."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Por que a mordida aberta anterior é frequente na dentição decídua e rara na permanente?",
+        "resposta": "Porque na decídua os hábitos de sucção são comuns; quando param e os incisivos permanentes erupcionam, a maioria fecha. A que persiste tende a ter componente esquelético ou causa funcional ativa."
+      }
+    },
+    {
+      "titulo": "Dentária: incisivos que não chegaram",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "Na mordida aberta dentária, o esqueleto está em proporção: altura facial normal, plano mandibular normal, molares na altura certa. O que falta é a erupção dos incisivos, impedida por algo interposto entre eles: o dedo, a chupeta, a língua em repouso baixo e para a frente. Retirado o obstáculo, os incisivos completam a erupção e a mordida fecha, sobretudo se isso acontece antes ou durante a erupção dos permanentes."
+        },
+        {
+          "tipo": "p",
+          "texto": "A forma da abertura ajuda: a do hábito de sucção costuma ser circunscrita, na região onde o dedo ou o bico ficava, às vezes assimétrica; a esquelética é mais ampla e simétrica, de canino a canino ou além. A face e a cefalometria confirmam. E a história fecha: hábito frequente e longo, ou respiração bucal, ou os dois, em uma criança de face proporcional."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "dica",
+          "titulo": "A pergunta que separa as duas em um minuto",
+          "texto": "Peça para a criança fechar os lábios em repouso e olhe o terço inferior da face. Lábios que se fecham sem esforço, face proporcional e história de hábito apontam para a dentária. Lábios que não se fecham, terço inferior alongado e gengiva ao sorrir apontam para a esquelética, mesmo que a criança também tenha hábito. A cefalometria vem depois para confirmar o que a face já disse."
+        },
+        {
+          "tipo": "lista",
+          "itens": [
+            "Dentária: esqueleto proporcional, abertura circunscrita, história de hábito ou postura, incisivos sub-erupcionados.",
+            "Esquelética: face longa, abertura ampla, lábios incompetentes, molares sobre-erupcionados, plano mandibular inclinado.",
+            "Mista: a mais frequente no adolescente; hábito ou respiração sobre um padrão vertical que já tendia a abrir.",
+            "Sinal de alerta: mordida aberta que não fecha depois de o hábito parar e dos incisivos permanentes erupcionarem."
+          ]
+        }
+      ],
+      "checagem": {
+        "pergunta": "O que caracteriza a mordida aberta dentária no esqueleto e nos incisivos?",
+        "resposta": "Esqueleto em proporção, com altura facial e plano mandibular normais, e incisivos que não completaram a erupção por causa de algo interposto entre eles."
+      }
+    },
+    {
+      "titulo": "Esquelética: a face longa por dentro",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "Na mordida aberta esquelética, o problema não está nos incisivos: eles muitas vezes erupcionaram além do normal tentando fechar a mordida, e é por isso que o sorriso mostra gengiva. O que abre a mordida é a rotação da mandíbula para baixo e para trás, que afasta os anteriores enquanto os posteriores continuam em contato. Essa rotação vem de molares que erupcionaram demais, de um ramo curto ou de um crescimento condilar que não acompanhou a erupção posterior."
+        },
+        {
+          "tipo": "p",
+          "texto": "A cefalometria mostra a assinatura: altura facial anterior inferior aumentada, plano mandibular muito inclinado em relação à base do crânio e ao plano de Frankfurt, ângulo goníaco aberto, altura dentoalveolar posterior aumentada e proporção entre altura posterior e anterior da face reduzida. Os lábios não se fecham em repouso, a maxila costuma ser estreita, e a tendência a Classe II é frequente, porque a rotação para trás leva o mento junto."
+        },
+        {
+          "tipo": "visual",
+          "formato": "anatomico",
+          "titulo": "A face longa no traçado: por que a mordida abre na frente",
+          "descricao": "Perfil esquemático com plano de Frankfurt horizontal e plano mandibular muito inclinado, formando ângulo aberto. Molares em contato atrás; incisivos afastados na frente, com marcação da mordida aberta. Seta curva indicando a mandíbula girando para baixo e para trás em torno da região do côndilo. Rótulos: altura facial anterior inferior aumentada, ângulo goníaco aberto, molares sobre-erupcionados, lábios incompetentes.",
+          "viewBox": "0 0 560 400",
+          "svg": [
+            "<line x1='60' y1='80' x2='500' y2='80' stroke='var(--gold,#B08968)' stroke-width='2'/><text x='500' y='72' text-anchor='end' font-size='12' font-weight='700' fill='var(--gold,#B08968)'>plano de Frankfurt</text>",
+            "<line x1='120' y1='210' x2='440' y2='330' stroke='var(--blue,#4A6B8A)' stroke-width='2'/><text x='450' y='344' font-size='12' font-weight='700' fill='var(--blue,#4A6B8A)'>plano mandibular</text><text x='450' y='360' font-size='12' font-weight='700' fill='var(--blue,#4A6B8A)'>muito inclinado</text>",
+            "<path d='M120 210 Q150 150 210 130' fill='none' stroke='var(--muted,#8A8478)' stroke-width='1.5' stroke-dasharray='4 3'/><text x='96' y='200' text-anchor='end' font-size='11' fill='var(--muted,#8A8478)'>goníaco aberto</text>",
+            "<circle cx='140' cy='130' r='6' fill='var(--ink,#23211C)'/><text x='128' y='118' text-anchor='end' font-size='11' fill='var(--ink,#23211C)'>côndilo</text>",
+            "<use href='#c-momento' x='150' y='150' width='50' height='50'/>",
+            "<text x='230' y='168' font-size='11' font-weight='700' fill='var(--red,#B4533B)'>mandíbula gira para baixo e para trás</text>",
+            "<use href='#c-molar' x='250' y='190' width='44' height='70'/><use href='#c-molar' x='250' y='262' width='44' height='70' transform='rotate(180 272 297)'/>",
+            "<text x='232' y='340' text-anchor='end' font-size='11' fill='var(--ink,#23211C)'>molares tocam;</text><text x='232' y='354' text-anchor='end' font-size='11' fill='var(--ink,#23211C)'>erupcionaram demais</text>",
+            "<use href='#c-dente' x='380' y='170' width='34' height='84' transform='rotate(-10 397 212)'/><use href='#c-dente' x='372' y='296' width='30' height='76' transform='rotate(180 387 334)'/>",
+            "<line x1='430' y1='254' x2='430' y2='296' stroke='var(--red,#B4533B)' stroke-width='2'/><line x1='424' y1='254' x2='436' y2='254' stroke='var(--red,#B4533B)' stroke-width='2'/><line x1='424' y1='296' x2='436' y2='296' stroke='var(--red,#B4533B)' stroke-width='2'/><text x='440' y='270' font-size='11' font-weight='700' fill='var(--red,#B4533B)'>mordida aberta</text><text x='440' y='284' font-size='11' font-weight='700' fill='var(--red,#B4533B)'>na frente</text>",
+            "<line x1='520' y1='120' x2='520' y2='330' stroke='var(--ink,#23211C)' stroke-width='1.5'/><line x1='514' y1='120' x2='526' y2='120' stroke='var(--ink,#23211C)' stroke-width='1.5'/><line x1='514' y1='330' x2='526' y2='330' stroke='var(--ink,#23211C)' stroke-width='1.5'/><text x='530' y='230' font-size='11' font-weight='700' fill='var(--ink,#23211C)' transform='rotate(90 530 230)' text-anchor='middle'>altura facial inferior aumentada</text>",
+            "<text x='280' y='392' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>esquema; a rotação da mandíbula afasta os anteriores enquanto os posteriores continuam em contato</text>"
+          ],
+          "legenda": "A mordida abre na frente porque a mandíbula gira atrás. Os incisivos são a vítima, não o culpado; por isso puxá-los para fechar não resolve."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "prova",
+          "texto": "Assinatura cefalométrica da mordida aberta esquelética: altura facial anterior inferior aumentada, plano mandibular inclinado, ângulo goníaco aberto, altura dentoalveolar posterior aumentada e proporção altura posterior sobre anterior reduzida. A prova pode chamar de padrão dolicofacial ou hiperdivergente."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Se os incisivos na mordida aberta esquelética costumam estar até sobre-erupcionados, o que mantém a mordida aberta?",
+        "resposta": "A rotação da mandíbula para baixo e para trás, causada pelo excesso de altura posterior (molares que erupcionaram demais, ramo curto), que afasta os anteriores enquanto os posteriores mantêm contato."
+      }
+    },
+    {
+      "titulo": "As causas, da chupeta ao côndilo",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "A lista de causas atravessa os grupos etiológicos. Hábitos de sucção e postura baixa da língua sustentam a dentária. A respiração bucal, ao manter a boca aberta horas por dia, gira a mandíbula e alonga a face: é a ponte entre a dentária e a esquelética. O padrão de crescimento vertical herdado produz a face longa sem hábito nenhum. E a fraqueza muscular, como nas distrofias, deixa a mandíbula cair e a face alongar."
+        },
+        {
+          "tipo": "p",
+          "texto": "Há causas específicas a lembrar: a macroglossia verdadeira, rara, com mordida aberta ampla e língua que não cabe; a reabsorção condilar, na artrite idiopática juvenil ou em processos degenerativos, que encurta o ramo e abre a mordida progressivamente; e a iatrogenia, quando a mecânica ortodôntica extrui molares ou usa elásticos que giram a mandíbula para trás. Uma mordida aberta que aparece ou piora durante o tratamento é sinal de mecânica, não de paciente."
+        },
+        {
+          "tipo": "imagem",
+          "imagem": "fotografia frontal de sorriso e vista intrabucal frontal de paciente com mordida aberta anterior esquelética",
+          "mostrar": "Sorriso com exposição gengival acentuada e incisivos superiores visivelmente alongados; vista intrabucal frontal em oclusão com molares em contato e espaço vertical entre as bordas dos incisivos de canino a canino",
+          "legenda": "Mordida aberta esquelética: gengiva exposta porque os incisivos erupcionaram tentando fechar; a abertura persiste porque a mandíbula girou.",
+          "destacar": "Quantidade de gengiva exposta ao sorrir, extensão da abertura de canino a canino, contato dos molares"
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "erro",
+          "texto": "Atribuir toda mordida aberta a \"língua\". A interposição de língua ao engolir é adaptação ao espaço existente; a força é breve demais para abrir a mordida. O que sustenta a abertura é a postura de repouso e, na esquelética, a rotação da mandíbula. Treinar a deglutição sem tratar a postura e a vertical é gastar meses no lugar errado."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Que sinal indica que uma mordida aberta é iatrogênica, e qual é o mecanismo?",
+        "resposta": "Mordida aberta que aparece ou piora durante o tratamento ortodôntico; o mecanismo é a extrusão de molares ou elásticos que giram a mandíbula para baixo e para trás."
+      }
+    },
+    {
+      "titulo": "Fechar a mordida: onde agir",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "Há três jeitos de fechar uma mordida aberta anterior, e eles não são equivalentes. O primeiro é extruir os incisivos: fecha rápido, mas na esquelética piora o sorriso gengival e recidiva, porque a causa continua."
+        },
+        {
+          "tipo": "p",
+          "texto": "O segundo é intruir os posteriores: cada milímetro de intrusão dos molares deixa a mandíbula girar para a frente e para cima, e a mordida fecha na frente mais do que fechou atrás, pelo efeito de alavanca em torno do côndilo. O terceiro é a cirurgia, que reposiciona a maxila para cima e deixa a mandíbula rodar."
+        },
+        {
+          "tipo": "p",
+          "texto": "Na criança com mordida aberta dentária, a conduta é remover o hábito e esperar: grade palatina se ela quer parar e não consegue, e nada mais. Na criança com padrão esquelético, o objetivo é controlar a vertical durante o crescimento: impedir que os molares erupcionem demais, com blocos de mordida posteriores ou tração alta, e tratar a respiração. No adulto com esquelética, a escolha é entre intrusão de posteriores com ancoragem esquelética, nos casos leves e moderados, e cirurgia, nos moderados e graves."
+        },
+        {
+          "tipo": "visual",
+          "formato": "forcas",
+          "titulo": "O efeito de alavanca: intruir atrás fecha na frente",
+          "descricao": "Esquema de perfil da mandíbula como alavanca com apoio no côndilo. Seta para cima nos molares indicando intrusão de uma unidade. Seta curva de rotação da mandíbula para a frente e para cima. Nos incisivos, seta indicando fechamento maior que a intrusão posterior. Ao lado, a comparação: extruir incisivos fecha o mesmo espaço, mas expõe gengiva e recidiva.",
+          "viewBox": "0 0 720 320",
+          "svg": [
+            "<circle cx='100' cy='120' r='8' fill='var(--ink,#23211C)'/><text x='100' y='104' text-anchor='middle' font-size='11'>côndilo (apoio)</text>",
+            "<line x1='100' y1='120' x2='560' y2='200' stroke='var(--ink,#23211C)' stroke-width='3'/>",
+            "<line x1='100' y1='120' x2='560' y2='170' stroke='var(--green,#3E7C4F)' stroke-width='2' stroke-dasharray='6 4'/>",
+            "<use href='#c-vetor-green' x='300' y='176' width='60' height='14' transform='rotate(-90 330 183)'/><text x='330' y='140' text-anchor='middle' font-size='12' font-weight='700' fill='var(--green,#3E7C4F)'>intrusão dos molares</text><text x='330' y='156' text-anchor='middle' font-size='11' fill='var(--green,#3E7C4F)'>uma unidade</text>",
+            "<use href='#c-vetor-green' x='530' y='196' width='80' height='14' transform='rotate(-90 570 203)'/><text x='600' y='170' font-size='12' font-weight='700' fill='var(--green,#3E7C4F)'>fechamento na frente</text><text x='600' y='186' font-size='11' fill='var(--green,#3E7C4F)'>maior que uma unidade</text>",
+            "<use href='#c-momento-anti' x='180' y='150' width='50' height='50'/><text x='205' y='224' text-anchor='middle' font-size='11' fill='var(--ink,#23211C)'>mandíbula gira</text><text x='205' y='238' text-anchor='middle' font-size='11' fill='var(--ink,#23211C)'>para a frente e para cima</text>",
+            "<use href='#c-caixa-green' x='60' y='262' width='290' height='44'/><text x='205' y='281' text-anchor='middle' font-size='12' font-weight='700'>Intruir posteriores</text><text x='205' y='297' text-anchor='middle' font-size='11'>fecha pela alavanca; mantém ou melhora o sorriso</text>",
+            "<use href='#c-caixa-red' x='370' y='262' width='290' height='44'/><text x='515' y='281' text-anchor='middle' font-size='12' font-weight='700'>Extruir incisivos</text><text x='515' y='297' text-anchor='middle' font-size='11'>fecha o mesmo espaço; expõe gengiva e recidiva</text>"
+          ],
+          "legenda": "A mandíbula é uma alavanca apoiada no côndilo: o que se intrui atrás vira fechamento ampliado na frente. É por isso que a esquelética se trata pelos molares, não pelos incisivos."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "mito",
+          "mito": "Mordida aberta se fecha com elástico vertical nos incisivos.",
+          "verdade": "Na dentária de criança, os incisivos fecham sozinhos quando o hábito para. Na esquelética, extruir incisivos piora o sorriso gengival e recidiva, porque a mandíbula girada continua girada. O alvo são os molares e a vertical; os incisivos são a última coisa a mexer."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Por que intruir molares fecha a mordida anterior mais do que a quantidade intruída?",
+        "resposta": "Porque a mandíbula gira em torno do côndilo como uma alavanca: a intrusão posterior permite a rotação para a frente e para cima, e o deslocamento na região dos incisivos, mais distante do apoio, é maior que o dos molares."
+      }
+    },
+    {
+      "titulo": "Estabilidade: a correção que mais volta",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "A mordida aberta anterior está entre as correções menos estáveis da ortodontia. Uma parcela considerável dos casos tratados reabre em algum grau nos anos seguintes, com ou sem cirurgia [VERIFICAR]. As razões são as mesmas da origem: postura de língua que não mudou, respiração bucal que continua, crescimento vertical que não terminou, molares que voltam a erupcionar."
+        },
+        {
+          "tipo": "p",
+          "texto": "Isso obriga a planejar a contenção desde o primeiro dia. Tratar a causa funcional, encaminhar a respiração, terminar o tratamento com sobrecorreção discreta quando possível, conter com dispositivos que impeçam a erupção posterior e manter o acompanhamento por anos. E, sobretudo, escolher o método de fechamento que não dependa dos incisivos: o que foi fechado pela alavanca dos molares tende a durar mais que o que foi puxado pela frente."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "dica",
+          "titulo": "Combine a instabilidade antes de começar",
+          "texto": "Diga ao paciente e à família, na primeira consulta, que a mordida aberta é a correção que mais tende a voltar e que a contenção será longa. Quem sabe disso cuida da respiração, usa a contenção e volta às consultas. Quem descobre na recidiva se sente enganado."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Cite três fatores que explicam a recidiva da mordida aberta anterior.",
+        "resposta": "Postura de língua inalterada, respiração bucal persistente e crescimento vertical que continua, com os molares voltando a erupcionar."
+      }
+    },
+    {
+      "titulo": "De volta à menina de 14 anos",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "Sem hábito, com face longa, lábios incompetentes, respiração bucal, sorriso gengival e plano mandibular inclinado: mordida aberta esquelética, com a respiração como fator que ainda age. Os incisivos já estão além do normal, tentando fechar; puxá-los mais com elásticos exporia mais gengiva e voltaria em pouco tempo. O plano começa no nariz e no sono, controla a vertical enquanto ela cresce, e decide, no fim do crescimento, entre intrusão de posteriores com ancoragem esquelética e cirurgia."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "frase",
+          "texto": "Na mordida aberta esquelética, os incisivos são a vítima. Trate o culpado: a vertical, os molares e a respiração."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Por que fechar a mordida da menina com elásticos nos incisivos seria a pior opção?",
+        "resposta": "Porque a mordida aberta é esquelética, com incisivos já sobre-erupcionados: extruí-los pioraria o sorriso gengival e recidivaria, já que a mandíbula girada e a respiração bucal continuariam."
+      }
+    }
+  ],
+  "fechamento": {
+    "visual": {
+      "formato": "mapa",
+      "titulo": "Mapa da página",
+      "descricao": "Nó central: mordida aberta. Seis nós: anterior comum, posterior rara; dentária: hábito, esqueleto normal, fecha sozinha; esquelética: face longa, mandíbula girada, molares altos; causas do hábito ao côndilo; fechar pelos molares, não pelos incisivos; a correção que mais volta, contenção longa.",
+      "viewBox": "0 0 560 360",
+      "svg": [
+        "<g stroke='var(--border,#EDE6D8)' stroke-width='1.5'><line x1='280' y1='180' x2='100' y2='60'/><line x1='280' y1='180' x2='460' y2='60'/><line x1='280' y1='180' x2='70' y2='180'/><line x1='280' y1='180' x2='490' y2='180'/><line x1='280' y1='180' x2='100' y2='300'/><line x1='280' y1='180' x2='460' y2='300'/></g>",
+        "<use href='#c-no-central' x='190' y='150' width='180' height='60'/>",
+        "<text x='280' y='186' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>Mordida aberta</text>",
+        "<use href='#c-no' x='20' y='38' width='160' height='44'/><text x='100' y='65' text-anchor='middle' font-size='13' font-weight='700'>Anterior comum, posterior rara</text>",
+        "<use href='#c-no' x='380' y='38' width='160' height='44'/><text x='460' y='65' text-anchor='middle' font-size='13' font-weight='700'>Dentária: hábito, fecha</text>",
+        "<use href='#c-no' x='0' y='158' width='150' height='44'/><text x='75' y='185' text-anchor='middle' font-size='13' font-weight='700'>Esquelética: face longa</text>",
+        "<use href='#c-no' x='410' y='158' width='150' height='44'/><text x='485' y='185' text-anchor='middle' font-size='13' font-weight='700'>Da chupeta ao côndilo</text>",
+        "<use href='#c-no' x='20' y='278' width='160' height='44'/><text x='100' y='305' text-anchor='middle' font-size='13' font-weight='700'>Fechar pelos molares</text>",
+        "<use href='#c-no' x='380' y='278' width='160' height='44'/><text x='460' y='305' text-anchor='middle' font-size='13' font-weight='700'>A que mais volta</text>"
+      ]
+    },
+    "flashcards": [
+      {
+        "frente": "Como diferenciar mordida aberta dentária de esquelética?",
+        "verso": "Dentária: esqueleto proporcional, abertura circunscrita, história de hábito, incisivos sub-erupcionados, lábios competentes. Esquelética: face longa, abertura ampla, lábios incompetentes, plano mandibular inclinado, molares sobre-erupcionados, gengiva ao sorrir."
+      },
+      {
+        "frente": "Assinatura cefalométrica da face longa.",
+        "verso": "Altura facial anterior inferior aumentada, plano mandibular inclinado, ângulo goníaco aberto, altura dentoalveolar posterior aumentada, proporção altura posterior sobre anterior reduzida."
+      },
+      {
+        "frente": "Por que a mordida aberta esquelética se fecha pelos molares e não pelos incisivos?",
+        "verso": "A mandíbula é uma alavanca apoiada no côndilo: intruir molares permite a rotação para a frente e fecha mais na frente do que atrás. Extruir incisivos expõe gengiva e recidiva porque a rotação continua."
+      }
+    ]
+  },
+  "infografico": {
+    "titulo": "Mordida aberta em seis cartões",
+    "itens": [
+      {
+        "rotulo": "Definição",
+        "texto": "Ausência de trespasse vertical entre antagonistas. Anterior é a comum; posterior é rara e pede investigação."
+      },
+      {
+        "rotulo": "Dentária",
+        "texto": "Hábito, postura de língua ou respiração sobre esqueleto normal; incisivos sub-erupcionados; fecha se a causa para cedo."
+      },
+      {
+        "rotulo": "Esquelética",
+        "texto": "Face longa: mandíbula gira para baixo e para trás, molares altos, plano mandibular inclinado, lábios incompetentes, gengiva ao sorrir."
+      },
+      {
+        "rotulo": "Causas",
+        "texto": "Sucção, postura de língua, respiração bucal, padrão vertical herdado, fraqueza muscular, macroglossia, reabsorção condilar, iatrogenia."
+      },
+      {
+        "rotulo": "Fechar",
+        "texto": "Criança dentária: parar o hábito. Esquelética em crescimento: controlar a vertical. Adulto: intruir posteriores ou cirurgia. Incisivos por último."
+      },
+      {
+        "rotulo": "Estabilidade",
+        "texto": "Entre as piores. Tratar causa e respiração, conter a erupção posterior, contenção longa combinada desde o início."
+      }
+    ]
+  },
+  "fluxograma": {
+    "titulo": "Mordida aberta anterior: dentária ou esquelética, e o que fazer",
+    "nos": [
+      {
+        "id": "n1",
+        "tipo": "inicio",
+        "texto": "Mordida aberta anterior medida em milímetros"
+      },
+      {
+        "id": "n2",
+        "tipo": "decisao",
+        "texto": "Face longa, lábios incompetentes, plano mandibular inclinado na cefalometria?"
+      },
+      {
+        "id": "n3",
+        "tipo": "decisao",
+        "texto": "Hábito ou postura de língua ativos?"
+      },
+      {
+        "id": "n4",
+        "tipo": "fim",
+        "texto": "Dentária: interromper o hábito; antes dos incisivos permanentes, esperar; grade se preciso"
+      },
+      {
+        "id": "n5",
+        "tipo": "acao",
+        "texto": "Reavaliar: se não fechou após o hábito parar e os incisivos erupcionarem, procurar componente esquelético"
+      },
+      {
+        "id": "n6",
+        "tipo": "acao",
+        "texto": "Esquelética: tratar respiração e postura; nunca fechar pelos incisivos"
+      },
+      {
+        "id": "n7",
+        "tipo": "decisao",
+        "texto": "Ainda em crescimento?"
+      },
+      {
+        "id": "n8",
+        "tipo": "fim",
+        "texto": "Controlar a vertical: impedir erupção posterior, blocos de mordida, tração alta"
+      },
+      {
+        "id": "n9",
+        "tipo": "fim",
+        "texto": "Adulto: intrusão de posteriores com ancoragem esquelética (leve a moderada) ou cirurgia (moderada a grave)"
+      }
+    ],
+    "arestas": [
+      {
+        "de": "n1",
+        "para": "n2"
+      },
+      {
+        "de": "n2",
+        "para": "n3",
+        "rotulo": "não"
+      },
+      {
+        "de": "n3",
+        "para": "n4",
+        "rotulo": "sim"
+      },
+      {
+        "de": "n3",
+        "para": "n5",
+        "rotulo": "não"
+      },
+      {
+        "de": "n5",
+        "para": "n2"
+      },
+      {
+        "de": "n2",
+        "para": "n6",
+        "rotulo": "sim"
+      },
+      {
+        "de": "n6",
+        "para": "n7"
+      },
+      {
+        "de": "n7",
+        "para": "n8",
+        "rotulo": "sim"
+      },
+      {
+        "de": "n7",
+        "para": "n9",
+        "rotulo": "não"
+      }
+    ]
+  },
+  "passoAPasso": [
+    {
+      "passo": "Meça a mordida aberta em milímetros e a sua extensão, de que dente a que dente.",
+      "confira": "Circunscrita e assimétrica (hábito) ou ampla e simétrica (esquelética)?"
+    },
+    {
+      "passo": "Observe a face em repouso: terço inferior, selamento labial, exposição gengival ao sorrir.",
+      "confira": "Os lábios se fecham sem esforço?"
+    },
+    {
+      "passo": "Colha a história: hábitos, respiração, ronco, sono, trauma, doença articular, tratamento anterior.",
+      "confira": "Alguma causa específica ou iatrogênica?"
+    },
+    {
+      "passo": "Cefalometria: altura facial anterior inferior, plano mandibular, goníaco, altura posterior.",
+      "confira": "Padrão hiperdivergente confirmado?"
+    },
+    {
+      "passo": "Escolha o alvo: hábito na dentária, vertical e molares na esquelética; combine a contenção longa.",
+      "confira": "O plano evita extruir incisivos na esquelética?"
+    }
+  ],
+  "macetes": [
+    {
+      "titulo": "Lábio fecha, é dentária; lábio não fecha, é esquelética",
+      "texto": "O selamento labial em repouso é o primeiro separador. A cefalometria confirma o que a face disse."
+    },
+    {
+      "titulo": "Incisivo é vítima, molar é culpado",
+      "texto": "Na esquelética os incisivos já erupcionaram demais. O que abriu a mordida foi a rotação da mandíbula pelos molares altos."
+    },
+    {
+      "titulo": "Intruir atrás fecha na frente",
+      "texto": "Alavanca no côndilo: cada milímetro de intrusão posterior fecha mais de um milímetro anterior."
+    },
+    {
+      "titulo": "A que mais volta",
+      "texto": "Mordida aberta recidiva. Causa, respiração, sobrecorreção discreta e contenção longa, combinadas no início."
+    }
+  ],
+  "ondeErra": [
+    {
+      "erro": "Fechar a mordida aberta esquelética com elásticos verticais anteriores.",
+      "porque": "Os incisivos já estão sobre-erupcionados; extruí-los expõe gengiva e recidiva, porque a rotação da mandíbula continua.",
+      "certo": "Controlar a vertical e intruir posteriores; incisivos por último."
+    },
+    {
+      "erro": "Tratar a deglutição como causa da mordida aberta.",
+      "porque": "A força de deglutição é breve; a interposição é adaptação ao espaço.",
+      "certo": "Postura de repouso, respiração e vertical."
+    },
+    {
+      "erro": "Colocar grade palatina em mordida aberta sem hábito.",
+      "porque": "A grade é lembrete para quem quer parar de chupar o dedo; sem hábito, não há o que lembrar.",
+      "certo": "Investigar respiração e padrão esquelético."
+    },
+    {
+      "erro": "Prometer estabilidade sem tratar a causa funcional.",
+      "porque": "A mordida aberta é uma das correções que mais recidiva; respiração e postura inalteradas a reabrem.",
+      "certo": "Tratar a causa, conter a erupção posterior e combinar a contenção longa."
+    }
+  ],
+  "autoteste": [
+    {
+      "pergunta": "Criança de 5 anos com mordida aberta anterior circunscrita, face proporcional, lábios competentes e hábito de chupeta frequente. O quadro é compatível com:",
+      "alternativas": [
+        "Mordida aberta esquelética por face longa",
+        "Mordida aberta dentária por hábito, com boa chance de fechamento espontâneo se o hábito parar",
+        "Falha primária de erupção",
+        "Reabsorção condilar"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Face proporcional e lábios competentes afastam a esquelética.",
+        "Correta: esqueleto normal, abertura circunscrita e hábito ativo definem a dentária.",
+        "A falha primária afeta posteriores e não tem relação com hábito.",
+        "Não há indício de doença articular."
+      ]
+    },
+    {
+      "pergunta": "A assinatura cefalométrica da mordida aberta esquelética inclui:",
+      "alternativas": [
+        "Altura facial anterior inferior reduzida e plano mandibular horizontal",
+        "Altura facial anterior inferior aumentada, plano mandibular inclinado e ângulo goníaco aberto",
+        "ANB negativo e SNA reduzido",
+        "Ângulo interincisal aberto com mordida profunda"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Esse é o padrão braquifacial, da mordida profunda.",
+        "Correta: o padrão hiperdivergente, com altura posterior aumentada e proporção posterior sobre anterior reduzida.",
+        "Esses são achados sagitais de Classe III.",
+        "Esse é o quadro da Classe II divisão 2."
+      ]
+    },
+    {
+      "pergunta": "Na mordida aberta esquelética, intruir os molares fecha a mordida anterior porque:",
+      "alternativas": [
+        "Os incisivos erupcionam mais quando os molares sobem",
+        "A mandíbula gira para a frente e para cima em torno do côndilo, fechando mais na frente do que a intrusão posterior",
+        "Os molares intruídos empurram a língua para trás",
+        "A maxila cresce para baixo"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Não é a erupção dos incisivos; é a rotação mandibular.",
+        "Correta: o efeito de alavanca amplia o fechamento anterior.",
+        "Não tem relação com a língua.",
+        "A maxila não é alterada pela intrusão."
+      ]
+    },
+    {
+      "pergunta": "Sobre a estabilidade da correção da mordida aberta anterior, é correto afirmar que:",
+      "alternativas": [
+        "É uma das correções mais estáveis da ortodontia",
+        "É uma das menos estáveis, e a contenção deve tratar a causa funcional e impedir a erupção posterior",
+        "Não depende da respiração",
+        "Só recidiva quando tratada com cirurgia"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Está entre as menos estáveis.",
+        "Correta: postura, respiração e crescimento vertical reabrem a mordida se não forem controlados.",
+        "A respiração bucal persistente é fator de recidiva.",
+        "Recidiva também sem cirurgia."
+      ]
+    },
+    {
+      "pergunta": "Mordida aberta que surge durante o tratamento ortodôntico, em paciente que não a tinha, sugere:",
+      "alternativas": [
+        "Hábito de sucção recém-adquirido",
+        "Iatrogenia: extrusão de molares ou mecânica que gira a mandíbula para baixo e para trás",
+        "Macroglossia",
+        "Erupção dos terceiros molares"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Improvável em quem está em tratamento sem hábito prévio.",
+        "Correta: mecânica extrusiva e elásticos que abrem a vertical produzem mordida aberta durante o tratamento.",
+        "A macroglossia é rara e não surge durante o tratamento.",
+        "Não é causa reconhecida de mordida aberta."
+      ]
+    }
+  ],
+  "pesquisa": {
+    "termos": [
+      "mordida aberta anterior",
+      "face longa",
+      "padrão hiperdivergente",
+      "intrusão de molares",
+      "estabilidade mordida aberta"
+    ]
+  },
+  "referenciasBase": [
+    "Proffit WR, Fields HW, Larson BE, Sarver DM. Ortodontia Contemporânea. 6ª ed. Problemas verticais: mordida aberta.",
+    "Schudy FF. Vertical growth versus anteroposterior growth as related to function and treatment. Angle Orthod. 1964.",
+    "Ngan P, Fields HW. Open bite: a review of etiology and management. Pediatr Dent. 1997.",
+    "Lopez-Gavito G, Wallen TR, Little RM, Joondeph DR. Anterior open-bite malocclusion: a longitudinal 10-year postretention evaluation of orthodontically treated patients. Am J Orthod. 1985.",
+    "Graber LW, Vanarsdall RL, Vig KWL, Huang GJ. Ortodontia: princípios e técnicas atuais. 6ª ed.",
+    "Moyers RE. Ortodontia. 4ª ed."
+  ],
+  "validacao": {
+    "validadoPor": null,
+    "data": null
+  }
+}
