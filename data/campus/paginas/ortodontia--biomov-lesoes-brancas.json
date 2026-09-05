@@ -1,0 +1,620 @@
+{
+  "id": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
+  "areaId": "ortodontia",
+  "area": "Ortodontia",
+  "modulo": "Biologia do movimento",
+  "tema": "Efeitos colaterais",
+  "titulo": "Descalcificação e lesões brancas: a cicatriz que o aparelho deixa no esmalte",
+  "estado": "rascunho",
+  "versao": 1,
+  "formato": 2,
+  "autoria": "Rascunho escrito pela plataforma para validação; nada aqui é visível ao aluno antes da assinatura de um ortodontista. Prevalências e concentrações citadas são valores de referência e devem ser conferidas pelo validador.",
+  "abertura": {
+    "situacao": "No dia da remoção do aparelho, depois de dois anos e meio, o paciente sorri para o espelho e a mãe pergunta o que são 'aquelas manchas brancas' em volta de onde estavam os braquetes dos incisivos e caninos superiores. Os dentes estão alinhados, a oclusão está boa e o paciente diz que escovava 'quase sempre'. Ninguém havia comentado as manchas antes.",
+    "pergunta": "O que são essas manchas, quando começaram a se formar, por que ninguém as viu antes e o que ainda dá para fazer por elas, e o que não dá?"
+  },
+  "umMinuto": {
+    "frases": [
+      "A lesão branca é a primeira fase clínica da cárie: desmineralização subsuperficial do esmalte sob uma camada externa ainda intacta, que dispersa a luz e parece opaca e branca, sobretudo quando seca.",
+      "O aparelho fixo cria nichos de retenção de biofilme em volta de braquetes, bandas e fios, dificulta a escovação e a autolimpeza e, com açúcar frequente, faz o pH cair muitas vezes ao dia.",
+      "Lesões brancas visíveis podem se formar em poucas semanas de acúmulo de biofilme, e ao final do tratamento aparecem em uma parcela grande dos pacientes; as áreas mais afetadas são a face vestibular gengival de incisivos laterais superiores e caninos [VERIFICAR].",
+      "A prevenção é o tratamento: higiene supervisionada, dentifrício fluoretado, flúor tópico adicional nos pacientes de risco, controle do açúcar e selantes ou vernizes em áreas de risco.",
+      "Lesões formadas podem remineralizar em parte nos meses após a remoção do aparelho; não devem ser tratadas com restauração de imediato, e a aplicação intensa de flúor pode fixar a opacidade em vez de apagá-la [VERIFICAR].",
+      "Para lesões que persistem, existem opções conservadoras: microabrasão, infiltração com resina e clareamento; restaurações ficam para os casos com cavitação."
+    ],
+    "caiNaProva": [
+      "Lesão branca é cárie em estágio inicial, não cavitada: desmineralização subsuperficial com camada superficial preservada.",
+      "Sítios mais afetados: face vestibular na gengival dos braquetes, incisivos laterais superiores e caninos; molares menos observados, mas também afetados.",
+      "Prevenção: higiene, dentifrício fluoretado, flúor tópico adicional, dieta, selantes ou vernizes; identificar o paciente de risco antes de colar.",
+      "Conduta ao remover o aparelho: aguardar remineralização natural, não aplicar flúor em alta concentração de imediato, não restaurar sem cavitação.",
+      "Tratamentos estéticos conservadores: microabrasão, infiltração resinosa, clareamento; restauração só em cavitação."
+    ],
+    "porQueImporta": "Um tratamento que alinha os dentes e os devolve manchados falhou no que o paciente mais vê. As lesões brancas são o efeito colateral mais frequente e mais evitável da ortodontia, e a prevenção começa antes da colagem."
+  },
+  "secoes": [
+    {
+      "titulo": "O que é a mancha: cárie que ainda não é buraco",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "A lesão branca é a fase inicial da cárie. Sob um biofilme que produz ácido várias vezes ao dia, o esmalte perde mineral de forma desigual: a superfície, protegida pela saliva e pelo flúor, se mantém relativamente intacta, enquanto uma camada logo abaixo dela perde minerais e se torna porosa."
+        },
+        {
+          "tipo": "p",
+          "texto": "Essa porosidade muda o modo como a luz atravessa o esmalte; a luz se dispersa nos poros e a área parece opaca e branca. Quando o dente seca, o ar substitui a água nos poros e a opacidade aumenta, por isso a lesão fica mais visível com o dente seco."
+        },
+        {
+          "tipo": "p",
+          "texto": "Enquanto a camada superficial se mantém, a lesão é reversível em parte: os poros podem ser preenchidos de novo por minerais vindos da saliva, especialmente na presença de flúor. Quando a camada superficial se rompe, a lesão cavita e o processo deixa de ser reversível. Com aparelho fixo, o intervalo entre a mancha e a cavidade pode ser curto, porque o biofilme se acumula continuamente em volta do braquete."
+        },
+        {
+          "tipo": "visual",
+          "formato": "anatomico",
+          "titulo": "Corte do esmalte com lesão branca",
+          "descricao": "Corte esquemático do esmalte sob um braquete. Camada externa fina e íntegra; logo abaixo, zona porosa de desmineralização subsuperficial que produz a opacidade; biofilme acumulado na gengival do braquete produzindo ácido. Seta indicando a entrada de minerais e flúor pela superfície durante a remineralização e a saída de minerais durante a desmineralização.",
+          "viewBox": "0 0 560 340",
+          "svg": [
+            "<rect x='40' y='60' width='480' height='220' rx='6' fill='var(--gold-soft,#F4EEE4)' stroke='var(--ink,#23211C)' stroke-width='1.5'/>",
+            "<text x='60' y='88' font-size='12' fill='var(--muted,#8A8478)'>esmalte</text>",
+            "<rect x='230' y='30' width='100' height='40' rx='4' fill='var(--ink,#23211C)'/><text x='280' y='55' text-anchor='middle' font-size='11' font-weight='700' fill='#fff'>braquete</text>",
+            "<path d='M330 70 Q380 66 420 78 L420 90 Q380 82 330 86 Z' fill='var(--gold,#B08968)' fill-opacity='0.55'/><text x='440' y='86' font-size='11' fill='var(--gold,#B08968)' font-weight='700'>biofilme</text><text x='440' y='100' font-size='10' fill='var(--ink,#23211C)'>ácido várias vezes ao dia</text>",
+            "<rect x='330' y='60' width='100' height='14' fill='none' stroke='var(--green,#3E7C4F)' stroke-width='2'/><text x='360' y='134' font-size='11' fill='var(--green,#3E7C4F)' font-weight='700'>camada superficial íntegra</text><line x1='380' y1='74' x2='380' y2='122' stroke='var(--green,#3E7C4F)' stroke-width='1' stroke-dasharray='3 3'/>",
+            "<ellipse cx='380' cy='170' rx='48' ry='32' fill='#fff' stroke='var(--muted,#8A8478)' stroke-width='1' stroke-dasharray='3 3'/><g fill='var(--muted,#8A8478)'><circle cx='362' cy='160' r='2.5'/><circle cx='380' cy='152' r='2.5'/><circle cx='396' cy='166' r='2.5'/><circle cx='372' cy='180' r='2.5'/><circle cx='392' cy='186' r='2.5'/><circle cx='352' cy='176' r='2.5'/><circle cx='404' cy='178' r='2.5'/></g>",
+            "<text x='380' y='226' text-anchor='middle' font-size='11' font-weight='700' fill='var(--ink,#23211C)'>zona porosa subsuperficial</text><text x='380' y='240' text-anchor='middle' font-size='10' fill='var(--ink,#23211C)'>dispersa a luz: parece branca, mais quando seca</text>",
+            "<g><use href='#c-vetor-red' x='120' y='96' width='60' height='14' transform='rotate(90 150 103)'/><text x='90' y='150' font-size='10' fill='var(--red,#B4533B)' text-anchor='middle'>desmineraliza:</text><text x='90' y='162' font-size='10' fill='var(--red,#B4533B)' text-anchor='middle'>mineral sai</text></g>",
+            "<g><use href='#c-vetor-green' x='120' y='210' width='60' height='14' transform='rotate(-90 150 217)'/><text x='90' y='240' font-size='10' fill='var(--green,#3E7C4F)' text-anchor='middle'>remineraliza:</text><text x='90' y='252' font-size='10' fill='var(--green,#3E7C4F)' text-anchor='middle'>saliva e flúor</text></g>",
+            "<text x='280' y='306' text-anchor='middle' font-size='11' fill='var(--muted,#8A8478)'>enquanto a camada superficial resiste, a lesão pode reverter em parte; rompida, cavita</text>",
+            "<text x='280' y='326' text-anchor='middle' font-size='10' fill='var(--muted,#8A8478)'>esquema fora de escala</text>"
+          ],
+          "legenda": "A mancha é um corpo poroso sob uma pele fina de esmalte. A pele é o que ainda permite reverter."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "prova",
+          "texto": "Lesão branca ativa: superfície opaca, rugosa, sem brilho, geralmente coberta por biofilme, junto à margem gengival ou ao braquete. Lesão inativa: superfície lisa e brilhante, mais afastada da gengiva, sem biofilme. A distinção decide a conduta: ativa pede controle do biofilme e flúor; inativa pede apenas acompanhamento ou tratamento estético."
+        },
+        {
+          "tipo": "pergunta",
+          "pergunta": "Por que a lesão branca fica mais visível quando o dente é secado com jato de ar?",
+          "resposta": "Porque o ar substitui a água nos poros da camada subsuperficial, aumentando a diferença de índice de refração entre esmalte e poros; a luz se dispersa mais e a opacidade aumenta."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Defina lesão branca em termos histológicos e diga o que a torna ainda reversível.",
+        "resposta": "Desmineralização subsuperficial do esmalte com camada superficial relativamente íntegra, que dispersa a luz e parece opaca. É reversível em parte enquanto a camada superficial se mantém e permite a entrada de minerais e flúor."
+      }
+    },
+    {
+      "titulo": "Por que o aparelho fixo é um fabricante de lesões",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "O braquete cria um degrau na superfície lisa do dente, e o degrau é uma armadilha para biofilme: junto à base, em volta das aletas, sob o fio e nos elásticos de amarrilho, as cerdas da escova não chegam e a língua e a saliva não limpam. A área gengival do braquete é a mais protegida e a mais próxima da margem gengival, onde o fluxo salivar é menor; é ali que as lesões aparecem primeiro. Em dentes com coroas curtas, o braquete fica ainda mais perto da gengiva e o problema piora."
+        },
+        {
+          "tipo": "p",
+          "texto": "A microbiota também muda. Aparelhos fixos aumentam a quantidade de biofilme e a proporção de bactérias acidogênicas e acidúricas, como estreptococos do grupo mutans e lactobacilos [VERIFICAR]. Com açúcar entre as refeições, o pH sob o biofilme cai várias vezes ao dia e fica abaixo do ponto crítico por mais tempo do que a saliva consegue neutralizar. O resultado é um balanço negativo de mineral que se acumula semana após semana."
+        },
+        {
+          "tipo": "visual",
+          "formato": "anatomico",
+          "titulo": "Onde o biofilme fica preso em volta do braquete",
+          "descricao": "Face vestibular de um incisivo com braquete colado no centro da coroa e fio passando. Áreas de retenção marcadas: a região gengival da base do braquete, a mais crítica; as laterais junto às aletas; sob o fio; e a margem gengival. A região incisal ao braquete, mais limpa pela autolimpeza, aparece sem marcação.",
+          "viewBox": "0 0 560 360",
+          "svg": [
+            "<path d='M200 40 L360 40 Q380 40 380 60 L370 250 Q365 320 280 320 Q195 320 190 250 L180 60 Q180 40 200 40 Z' fill='#fff' stroke='var(--ink,#23211C)' stroke-width='1.5'/>",
+            "<path d='M170 60 Q280 30 390 60' fill='none' stroke='var(--red,#B4533B)' stroke-width='4' stroke-linecap='round'/><text x='280' y='24' text-anchor='middle' font-size='11' fill='var(--red,#B4533B)' font-weight='700'>margem gengival</text>",
+            "<rect x='250' y='150' width='60' height='44' rx='4' fill='var(--ink,#23211C)'/><rect x='120' y='168' width='320' height='6' fill='var(--muted,#8A8478)'/>",
+            "<g fill='var(--gold,#B08968)' fill-opacity='0.55'><rect x='240' y='118' width='80' height='32' rx='6'/><rect x='232' y='150' width='18' height='44' rx='4'/><rect x='310' y='150' width='18' height='44' rx='4'/><rect x='200' y='166' width='40' height='10' rx='3'/><rect x='320' y='166' width='40' height='10' rx='3'/></g>",
+            "<g font-size='11' fill='var(--ink,#23211C)'><text x='400' y='136' font-weight='700' fill='var(--red,#B4533B)'>gengival da base</text><text x='400' y='150'>a mais crítica: perto da</text><text x='400' y='164'>gengiva, longe da escova</text><line x1='396' y1='134' x2='322' y2='130' stroke='var(--muted,#8A8478)' stroke-width='1'/></g>",
+            "<g font-size='11' fill='var(--ink,#23211C)'><text x='400' y='200' font-weight='700'>laterais e aletas</text><text x='400' y='214'>onde o amarrilho prende</text><line x1='396' y1='198' x2='330' y2='180' stroke='var(--muted,#8A8478)' stroke-width='1'/></g>",
+            "<g font-size='11' fill='var(--ink,#23211C)' text-anchor='end'><text x='160' y='200' font-weight='700'>sob o fio</text><text x='160' y='214'>cerdas não passam</text><line x1='164' y1='198' x2='200' y2='174' stroke='var(--muted,#8A8478)' stroke-width='1'/></g>",
+            "<g font-size='11' fill='var(--green,#3E7C4F)' text-anchor='middle'><text x='280' y='262' font-weight='700'>incisal ao braquete</text><text x='280' y='276'>autolimpeza pelo lábio e pela saliva: raramente afetada</text></g>",
+            "<text x='280' y='346' text-anchor='middle' font-size='11' fill='var(--muted,#8A8478)'>a lesão típica é uma banda ou meia-lua na gengival do braquete; esquema fora de escala</text>"
+          ],
+          "legenda": "O braquete divide a face vestibular em dois mundos: acima dele, limpo; abaixo dele, o nicho onde a mancha nasce."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "erro",
+          "titulo": "Colar em quem ainda não controla o biofilme",
+          "texto": "Colar braquetes em paciente com índice de placa alto e gengivite é começar a fabricar lesões. Antes da colagem: adequação do meio, instrução de higiene, controle de placa em duas ou três visitas e, se necessário, adiar o início. Um paciente que não escova sem aparelho não vai escovar com ele."
+        },
+        {
+          "tipo": "lista",
+          "itens": [
+            "Coroas clínicas curtas e braquetes próximos da gengiva: nicho maior.",
+            "Bandas em molares: cimento que se dissolve e deixa espaço entre banda e esmalte.",
+            "Amarrilhos elásticos retêm mais biofilme do que ligaduras metálicas ou braquetes autoligados [VERIFICAR].",
+            "Excesso de resina ao redor da base do braquete: superfície rugosa que retém placa e deve ser removida na colagem.",
+            "Fluxo salivar reduzido por medicação ou respiração bucal: menos neutralização e menos remineralização."
+          ]
+        }
+      ],
+      "checagem": {
+        "pergunta": "Qual é a área de maior risco em volta do braquete e por quê?",
+        "resposta": "A região gengival da base do braquete: é a mais próxima da margem gengival, onde o fluxo salivar é menor, e a mais difícil de alcançar com a escova; a autolimpeza incisal ao braquete não a atinge."
+      }
+    },
+    {
+      "titulo": "Quanto acontece e em quanto tempo",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "Os números variam com o critério e com a população, mas a mensagem é consistente: uma parcela grande dos pacientes tratados com aparelho fixo termina com pelo menos uma lesão branca nova, e uma minoria relevante com várias."
+        },
+        {
+          "tipo": "p",
+          "texto": "Estudos clínicos relatam incidência de novas lesões em torno de metade dos pacientes, com variação ampla entre serviços [VERIFICAR]. Os dentes mais afetados são os incisivos laterais superiores, seguidos de caninos e pré-molares; os incisivos inferiores, protegidos pela saliva das glândulas sublinguais e submandibulares, são os menos afetados [VERIFICAR]."
+        },
+        {
+          "tipo": "p",
+          "texto": "A velocidade surpreende quem ainda pensa na cárie como processo de anos: sob biofilme não removido, lesões brancas visíveis podem se formar em cerca de quatro semanas [VERIFICAR]. Isso significa que a lesão que a mãe viu no dia da remoção pode ter começado em qualquer consulta ao longo de dois anos e meio, e que a cada consulta havia uma oportunidade de notá-la e agir. O risco aumenta com o tempo de tratamento, mas o problema não é o tempo em si: é o tempo com biofilme."
+        },
+        {
+          "tipo": "visual",
+          "formato": "grafico",
+          "titulo": "Dentes mais afetados por lesões brancas",
+          "descricao": "Barras horizontais de suscetibilidade relativa, sem escala numérica: incisivos laterais superiores no topo, seguidos de caninos superiores, incisivos centrais superiores, pré-molares, molares e, por último, incisivos inferiores. Anotação: a face vestibular na gengival do braquete é o sítio em todos eles.",
+          "viewBox": "0 0 720 320",
+          "svg": [
+            "<g font-size='12' fill='var(--ink,#23211C)' text-anchor='end'><text x='230' y='54'>incisivos laterais superiores</text><text x='230' y='94'>caninos superiores</text><text x='230' y='134'>incisivos centrais superiores</text><text x='230' y='174'>pré-molares</text><text x='230' y='214'>molares</text><text x='230' y='254'>incisivos inferiores</text></g>",
+            "<rect x='250' y='40' width='400' height='20' rx='4' fill='var(--red,#B4533B)'/>",
+            "<rect x='250' y='80' width='330' height='20' rx='4' fill='var(--red,#B4533B)' fill-opacity='0.8'/>",
+            "<rect x='250' y='120' width='280' height='20' rx='4' fill='var(--gold,#B08968)'/>",
+            "<rect x='250' y='160' width='220' height='20' rx='4' fill='var(--gold,#B08968)' fill-opacity='0.8'/>",
+            "<rect x='250' y='200' width='170' height='20' rx='4' fill='var(--blue,#4A6B8A)'/>",
+            "<rect x='250' y='240' width='70' height='20' rx='4' fill='var(--blue,#4A6B8A)' fill-opacity='0.7'/>",
+            "<use href='#c-eixo' x='250' y='272' width='420' height='14'/><text x='460' y='302' text-anchor='middle' font-size='11' fill='var(--muted,#8A8478)'>suscetibilidade relativa, sem escala numérica [VERIFICAR]</text>",
+            "<text x='660' y='55' font-size='10' fill='var(--red,#B4533B)' font-weight='700'>mais</text><text x='330' y='255' font-size='10' fill='var(--blue,#4A6B8A)' font-weight='700'>menos: saliva protege</text>"
+          ],
+          "legenda": "A ordem segue o acesso da saliva e da escova: laterais superiores no topo, incisivos inferiores banhados pelas glândulas do assoalho no fim."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "mito",
+          "mito": "Lesão branca demora anos para aparecer; se o tratamento é curto, não há risco.",
+          "verdade": "Sob biofilme não removido em volta de um braquete, uma lesão visível pode se formar em cerca de um mês [VERIFICAR]. O risco não é do calendário, é do biofilme; um tratamento de um ano com higiene ruim mancha mais que um de três anos com higiene boa."
+        },
+        {
+          "tipo": "pergunta",
+          "pergunta": "Por que os incisivos inferiores são os dentes menos afetados por lesões brancas durante o tratamento ortodôntico?",
+          "resposta": "Porque ficam banhados pela saliva das glândulas submandibulares e sublinguais, que neutraliza ácidos e fornece minerais, além de terem menor retenção de biofilme na vestibular."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Em quanto tempo uma lesão branca pode se tornar visível sob um braquete e o que isso implica para as consultas de rotina?",
+        "resposta": "Em cerca de quatro semanas de biofilme não removido [VERIFICAR]; cada consulta de ativação é uma oportunidade de examinar as faces vestibulares secas e agir antes que a lesão se estabeleça."
+      }
+    },
+    {
+      "titulo": "Prevenção: o único tratamento que funciona de verdade",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "A prevenção tem quatro pilares e todos dependem de começar antes da colagem. O primeiro é a higiene: escova adequada, técnica direcionada à gengival do braquete, escova interdental para passar sob o fio e, para quem tolera, escova elétrica; a instrução é repetida e verificada a cada consulta, com índice de placa registrado."
+        },
+        {
+          "tipo": "p",
+          "texto": "O segundo é o flúor: dentifrício fluoretado convencional para todos, e para pacientes de risco enxaguatório diário de baixa concentração, gel ou verniz aplicados no consultório em intervalos regulares [VERIFICAR]."
+        },
+        {
+          "tipo": "p",
+          "texto": "O terceiro é a dieta: frequência de açúcar entre refeições e bebidas ácidas, que na adolescência costumam ser o principal problema. O quarto são as barreiras: remoção do excesso de resina na colagem, selantes ou vernizes na face vestibular em volta do braquete em pacientes de risco, e preferência por ligaduras metálicas ou braquetes autoligados quando a higiene é duvidosa. Em pacientes de alto risco que não respondem, remover o aparelho antes de terminar pode ser a decisão mais protetora."
+        },
+        {
+          "tipo": "visual",
+          "formato": "classificacao",
+          "titulo": "Quatro pilares da prevenção",
+          "descricao": "Quatro caixas empilhadas. Higiene: técnica na gengival do braquete, interdental sob o fio, escova elétrica se tolerar, índice de placa a cada consulta. Flúor: dentifrício para todos; para risco, enxaguatório diário, gel ou verniz no consultório. Dieta: frequência de açúcar e bebidas ácidas entre refeições. Barreiras: remover excesso de resina, selante ou verniz vestibular, ligaduras metálicas ou autoligados. Rodapé: tudo começa antes da colagem e é revisto em toda consulta.",
+          "viewBox": "0 0 560 360",
+          "svg": [
+            "<use href='#c-caixa-green' x='20' y='16' width='520' height='64'/><text x='36' y='40' font-size='13' font-weight='700'>1. Higiene</text><text x='36' y='58' font-size='11'>técnica na gengival do braquete; interdental sob o fio; elétrica se tolerar</text><text x='36' y='72' font-size='11' fill='var(--green,#3E7C4F)'>índice de placa registrado em toda consulta</text>",
+            "<use href='#c-caixa-blue' x='20' y='92' width='520' height='64'/><text x='36' y='116' font-size='13' font-weight='700'>2. Flúor</text><text x='36' y='134' font-size='11'>dentifrício fluoretado para todos; enxaguatório diário para quem tem risco</text><text x='36' y='148' font-size='11' fill='var(--blue,#4A6B8A)'>gel ou verniz no consultório em intervalos regulares [VERIFICAR]</text>",
+            "<use href='#c-caixa-gold' x='20' y='168' width='520' height='64'/><text x='36' y='192' font-size='13' font-weight='700'>3. Dieta</text><text x='36' y='210' font-size='11'>frequência de açúcar e de bebidas ácidas entre refeições</text><text x='36' y='224' font-size='11' fill='var(--gold,#B08968)'>o adolescente e o refrigerante: pergunte por nome</text>",
+            "<use href='#c-caixa-red' x='20' y='244' width='520' height='64'/><text x='36' y='268' font-size='13' font-weight='700'>4. Barreiras</text><text x='36' y='286' font-size='11'>sem excesso de resina; selante ou verniz vestibular em risco alto</text><text x='36' y='300' font-size='11' fill='var(--red,#B4533B)'>ligaduras metálicas ou autoligados quando a higiene é duvidosa</text>",
+            "<use href='#c-caixa-ink' x='100' y='318' width='360' height='32'/><text x='280' y='339' text-anchor='middle' font-size='12' font-weight='700' fill='#fff'>começa antes da colagem, revisto em toda consulta</text>"
+          ],
+          "legenda": "Quatro pilares, e nenhum deles funciona se começar depois que a mancha apareceu."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "dica",
+          "titulo": "Olhe o dente seco",
+          "texto": "Em toda consulta de ativação, antes de trocar o fio, seque as faces vestibulares dos incisivos e caninos com jato de ar e olhe a gengival dos braquetes. Uma lesão que aparece seca e desaparece úmida é inicial e reversível; é o momento de intervir. Registre no prontuário e mostre ao paciente e ao responsável."
+        },
+        {
+          "tipo": "imagem",
+          "imagem": "fotografia intraoral frontal no dia da remoção do aparelho, com lesões brancas em meia-lua na gengival dos incisivos laterais e caninos superiores",
+          "mostrar": "Opacidades brancas bem delimitadas na face vestibular, no terço gengival, contornando a área onde a base do braquete estava colada; incisivos inferiores sem lesões; dentes secos para evidenciar",
+          "legenda": "O padrão típico: meia-lua na gengival de onde estava o braquete, mais nos laterais e caninos superiores, inferiores poupados.",
+          "destacar": "contorno das lesões em relação à área da base do braquete e a diferença entre arco superior e inferior"
+        }
+      ],
+      "checagem": {
+        "pergunta": "Quais são os quatro pilares da prevenção de lesões brancas e quando eles começam?",
+        "resposta": "Higiene com técnica dirigida ao braquete, flúor (dentifrício para todos e adicional para risco), controle da frequência de açúcar e barreiras (resina sem excesso, selante ou verniz, ligaduras metálicas). Começam antes da colagem e são revistos em toda consulta."
+      }
+    },
+    {
+      "titulo": "Depois da remoção: o que fazer e o que não fazer",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "Removido o aparelho, o biofilme passa a ser removível e a saliva volta a banhar as áreas afetadas. Nos primeiros meses, muitas lesões diminuem de tamanho e opacidade por remineralização natural e por abrasão da camada superficial; a melhora é maior nos primeiros seis meses e continua de forma mais lenta por até dois anos [VERIFICAR]. Por isso a primeira regra é esperar: não restaurar, não microabrasionar e não infiltrar no dia da remoção."
+        },
+        {
+          "tipo": "p",
+          "texto": "A segunda regra é contraintuitiva: não aplicar flúor em alta concentração sobre a lesão logo após a remoção. O flúor concentrado remineraliza rapidamente a superfície e pode selar os poros externos antes que o interior se remineralize, fixando a opacidade em vez de apagá-la [VERIFICAR]. Nesse período, o indicado é dentifrício fluoretado convencional, higiene e tempo; produtos de baixa concentração e agentes à base de fosfato de cálcio são usados por alguns serviços, com evidência ainda limitada [VERIFICAR]."
+        },
+        {
+          "tipo": "visual",
+          "formato": "fluxograma",
+          "titulo": "Lesão branca no dia da remoção: caminho de decisão",
+          "descricao": "Início: lesão branca visível na remoção do aparelho. Primeira pergunta: há cavitação? Se sim, restauração conservadora. Se não: higiene, dentifrício convencional, sem flúor concentrado, reavaliar em seis meses. Segunda pergunta aos seis meses: a lesão incomoda o paciente e persiste? Se não: acompanhar. Se sim: opções conservadoras em ordem, clareamento para uniformizar, microabrasão para lesões superficiais, infiltração resinosa para lesões mais profundas; restauração só se essas falharem.",
+          "viewBox": "0 0 560 440",
+          "svg": [
+            "<use href='#c-caixa-ink' x='150' y='16' width='260' height='40'/><text x='280' y='41' text-anchor='middle' font-size='12' font-weight='700' fill='#fff'>lesão branca no dia da remoção</text>",
+            "<path d='M280 56 L280 76' stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'/>",
+            "<use href='#c-decisao' x='180' y='80' width='200' height='50'/><text x='280' y='110' text-anchor='middle' font-size='12' font-weight='700'>há cavitação?</text>",
+            "<path d='M380 105 L440 105' stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'/><text x='410' y='98' text-anchor='middle' font-size='10' fill='var(--muted,#8A8478)'>sim</text>",
+            "<use href='#c-caixa-red' x='444' y='84' width='110' height='42'/><text x='499' y='102' text-anchor='middle' font-size='11' font-weight='700'>restauração</text><text x='499' y='116' text-anchor='middle' font-size='10'>conservadora</text>",
+            "<path d='M280 130 L280 150' stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'/><text x='292' y='146' font-size='10' fill='var(--muted,#8A8478)'>não</text>",
+            "<use href='#c-caixa-green' x='90' y='154' width='380' height='60'/><text x='280' y='176' text-anchor='middle' font-size='12' font-weight='700'>esperar e remineralizar</text><text x='280' y='192' text-anchor='middle' font-size='11'>higiene, dentifrício fluoretado convencional, sem flúor concentrado</text><text x='280' y='206' text-anchor='middle' font-size='11'>reavaliar em seis meses [VERIFICAR]</text>",
+            "<path d='M280 214 L280 234' stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'/>",
+            "<use href='#c-decisao' x='160' y='238' width='240' height='50'/><text x='280' y='260' text-anchor='middle' font-size='12' font-weight='700'>persiste e incomoda</text><text x='280' y='276' text-anchor='middle' font-size='11'>aos seis meses?</text>",
+            "<path d='M160 263 L100 263' stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'/><text x='130' y='256' text-anchor='middle' font-size='10' fill='var(--muted,#8A8478)'>não</text>",
+            "<use href='#c-caixa' x='10' y='242' width='86' height='42'/><text x='53' y='268' text-anchor='middle' font-size='11' font-weight='700'>acompanhar</text>",
+            "<path d='M280 288 L280 308' stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'/><text x='292' y='304' font-size='10' fill='var(--muted,#8A8478)'>sim</text>",
+            "<use href='#c-caixa-gold' x='60' y='312' width='440' height='76'/><text x='280' y='334' text-anchor='middle' font-size='12' font-weight='700'>opções conservadoras, do menos ao mais invasivo</text><text x='280' y='352' text-anchor='middle' font-size='11'>clareamento para uniformizar; microabrasão para lesões superficiais</text><text x='280' y='366' text-anchor='middle' font-size='11'>infiltração resinosa para lesões mais profundas</text><text x='280' y='380' text-anchor='middle' font-size='11' fill='var(--red,#B4533B)'>restauração só se essas falharem ou houver cavitação</text>",
+            "<text x='280' y='420' text-anchor='middle' font-size='11' fill='var(--muted,#8A8478)'>a ordem protege esmalte: o que sobra de remineralização primeiro, o que remove tecido por último</text>"
+          ],
+          "legenda": "Duas perguntas e uma escada. A pressa de restaurar no dia da remoção é o erro mais comum."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "frase",
+          "texto": "A lesão branca é a única complicação da ortodontia que o paciente vê no espelho todos os dias. Ela nunca é uma surpresa do último dia: foi visível, seca, em alguma consulta do meio."
+        },
+        {
+          "tipo": "p",
+          "texto": "Para as lesões que persistem e incomodam depois desse período, a escada conservadora protege o esmalte. O clareamento uniformiza o contraste entre lesão e esmalte sadio. A microabrasão, com ácido e abrasivo, remove uma camada superficial e resolve lesões rasas. A infiltração com resina de baixa viscosidade preenche os poros da lesão e a torna translúcida, indicada para lesões mais profundas sem cavitação. Restaurações diretas ficam para as cavitadas ou para as que resistiram às demais opções."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Por que não se deve aplicar flúor de alta concentração sobre lesões brancas logo após a remoção do aparelho?",
+        "resposta": "Porque remineraliza rapidamente a superfície e pode selar os poros externos antes que o interior da lesão se remineralize, fixando a opacidade; o indicado é dentifrício convencional, higiene e tempo [VERIFICAR]."
+      }
+    },
+    {
+      "titulo": "De volta ao dia da remoção",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "As manchas são lesões brancas de cárie inicial, formadas ao longo do tratamento na gengival dos braquetes, exatamente onde a escova não chegou e onde o biofilme ficou. Elas poderiam ter sido notadas em qualquer consulta em que alguém tivesse secado os dentes e olhado; não foram porque a atenção estava no fio, e não no esmalte. O 'quase sempre' da escovação e a ausência de registro de índice de placa contam o resto."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "erro",
+          "titulo": "Descobrir a mancha no dia da remoção",
+          "texto": "Se a primeira vez que a lesão branca é mencionada é no dia da remoção, o problema não é a lesão, é o acompanhamento. Índice de placa registrado, faces secas examinadas e a família informada em cada consulta transformam o efeito colateral em evento manejado. Sem isso, transforma-se em queixa."
+        },
+        {
+          "tipo": "p",
+          "texto": "O que fazer agora: fotografar e registrar; explicar à família o que são as lesões e por que não serão restauradas hoje; verificar cavitação; instituir higiene rigorosa com dentifrício convencional, sem flúor concentrado; contenção que permita limpeza; reavaliar em seis meses com fotos na mesma luz. Se persistirem e incomodarem, clareamento, microabrasão ou infiltração, nessa ordem. E, para o próximo paciente, adequação do meio antes de colar e o dente seco em toda consulta."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Que três medidas de acompanhamento durante o tratamento teriam mudado o desfecho desse caso?",
+        "resposta": "Índice de placa registrado e instrução repetida em cada consulta, exame das faces vestibulares secas na gengival dos braquetes a cada ativação, e flúor adicional com barreiras assim que o risco ficasse evidente, com a família informada."
+      }
+    }
+  ],
+  "fechamento": {
+    "visual": {
+      "formato": "mapa",
+      "titulo": "Mapa da página",
+      "descricao": "Nó central: lesões brancas. Seis nós: cárie inicial porosa; nicho gengival do braquete; semanas, não anos; quatro pilares antes de colar; esperar após remover; escada conservadora.",
+      "viewBox": "0 0 560 360",
+      "svg": [
+        "<g stroke='var(--border,#EDE6D8)' stroke-width='1.5'><line x1='280' y1='180' x2='100' y2='60'/><line x1='280' y1='180' x2='460' y2='60'/><line x1='280' y1='180' x2='70' y2='180'/><line x1='280' y1='180' x2='490' y2='180'/><line x1='280' y1='180' x2='100' y2='300'/><line x1='280' y1='180' x2='460' y2='300'/></g>",
+        "<use href='#c-no-central' x='190' y='150' width='180' height='60'/>",
+        "<text x='280' y='186' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>Lesões brancas</text>",
+        "<use href='#c-no' x='20' y='38' width='160' height='44'/><text x='100' y='65' text-anchor='middle' font-size='13' font-weight='700'>Cárie inicial</text>",
+        "<use href='#c-no' x='380' y='38' width='160' height='44'/><text x='460' y='65' text-anchor='middle' font-size='13' font-weight='700'>Nicho do braquete</text>",
+        "<use href='#c-no' x='0' y='158' width='150' height='44'/><text x='75' y='185' text-anchor='middle' font-size='13' font-weight='700'>Semanas, não anos</text>",
+        "<use href='#c-no' x='410' y='158' width='150' height='44'/><text x='485' y='185' text-anchor='middle' font-size='13' font-weight='700'>Quatro pilares</text>",
+        "<use href='#c-no' x='20' y='278' width='160' height='44'/><text x='100' y='305' text-anchor='middle' font-size='13' font-weight='700'>Esperar ao remover</text>",
+        "<use href='#c-no' x='380' y='278' width='160' height='44'/><text x='460' y='305' text-anchor='middle' font-size='13' font-weight='700'>Escada conservadora</text>"
+      ],
+      "legenda": "O efeito colateral mais frequente e o mais evitável: tudo se decide antes da colagem e a cada consulta."
+    },
+    "flashcards": [
+      {
+        "frente": "O que é histologicamente uma lesão branca e por que ela fica mais evidente com o dente seco?",
+        "verso": "Desmineralização subsuperficial do esmalte sob uma camada superficial relativamente íntegra; os poros dispersam a luz e a área parece opaca. Seca, o ar substitui a água nos poros, aumenta a dispersão e a opacidade cresce."
+      },
+      {
+        "frente": "Cite os quatro pilares da prevenção de lesões brancas em ortodontia.",
+        "verso": "Higiene dirigida à gengival do braquete com índice de placa registrado; flúor (dentifrício para todos, adicional para risco); controle da frequência de açúcar e bebidas ácidas; barreiras (resina sem excesso, selante ou verniz, ligaduras metálicas ou autoligados)."
+      },
+      {
+        "frente": "Qual é a conduta diante de lesões brancas no dia da remoção do aparelho?",
+        "verso": "Verificar cavitação; se ausente, esperar remineralização com higiene e dentifrício convencional, sem flúor concentrado, e reavaliar em seis meses; se persistir e incomodar, clareamento, microabrasão ou infiltração resinosa; restaurar só cavitações [VERIFICAR]."
+      }
+    ]
+  },
+  "infografico": {
+    "titulo": "Lesões brancas em seis cartões",
+    "itens": [
+      {
+        "rotulo": "O que é",
+        "texto": "Cárie inicial não cavitada: poros sob uma superfície íntegra dispersam a luz. Reversível em parte enquanto a superfície resiste."
+      },
+      {
+        "rotulo": "Onde",
+        "texto": "Gengival do braquete, face vestibular. Laterais superiores e caninos primeiro; incisivos inferiores poupados pela saliva."
+      },
+      {
+        "rotulo": "Quando",
+        "texto": "Visível em cerca de quatro semanas de biofilme parado [VERIFICAR]. O risco é do biofilme, não do calendário."
+      },
+      {
+        "rotulo": "Prevenir",
+        "texto": "Higiene, flúor, dieta, barreiras. Antes da colagem e em toda consulta, com o dente seco e o índice de placa anotado."
+      },
+      {
+        "rotulo": "Ao remover",
+        "texto": "Esperar seis meses com dentifrício convencional; sem flúor concentrado; não restaurar sem cavitação [VERIFICAR]."
+      },
+      {
+        "rotulo": "Se persistir",
+        "texto": "Clareamento, microabrasão, infiltração resinosa, nessa ordem. Restauração só em cavitação ou falha das demais."
+      }
+    ]
+  },
+  "fluxograma": {
+    "titulo": "Risco de lesão branca antes da colagem e a cada consulta",
+    "nos": [
+      {
+        "id": "n1",
+        "tipo": "inicio",
+        "texto": "Paciente candidato a aparelho fixo"
+      },
+      {
+        "id": "n2",
+        "tipo": "decisao",
+        "texto": "Índice de placa alto, gengivite ou lesões brancas prévias?"
+      },
+      {
+        "id": "n3",
+        "tipo": "acao",
+        "texto": "Adequação do meio: instrução, controle de placa em duas ou três visitas, dieta; adiar a colagem se necessário"
+      },
+      {
+        "id": "n4",
+        "tipo": "acao",
+        "texto": "Colar sem excesso de resina; definir flúor adicional e barreiras conforme o risco; registrar fotos iniciais"
+      },
+      {
+        "id": "n5",
+        "tipo": "decisao",
+        "texto": "Em cada consulta, faces secas: biofilme ou opacidade na gengival dos braquetes?"
+      },
+      {
+        "id": "n6",
+        "tipo": "acao",
+        "texto": "Reinstruir, registrar, mostrar à família, intensificar flúor e barreiras; considerar remover se não houver resposta"
+      },
+      {
+        "id": "n7",
+        "tipo": "fim",
+        "texto": "Seguir com índice de placa registrado e reavaliação em toda consulta"
+      }
+    ],
+    "arestas": [
+      {
+        "de": "n1",
+        "para": "n2"
+      },
+      {
+        "de": "n2",
+        "para": "n3",
+        "rotulo": "sim"
+      },
+      {
+        "de": "n2",
+        "para": "n4",
+        "rotulo": "não"
+      },
+      {
+        "de": "n3",
+        "para": "n4"
+      },
+      {
+        "de": "n4",
+        "para": "n5"
+      },
+      {
+        "de": "n5",
+        "para": "n6",
+        "rotulo": "sim"
+      },
+      {
+        "de": "n5",
+        "para": "n7",
+        "rotulo": "não"
+      },
+      {
+        "de": "n6",
+        "para": "n7"
+      }
+    ]
+  },
+  "passoAPasso": [
+    {
+      "passo": "Antes de colar, avalie índice de placa, gengiva, dieta e lesões prévias; faça adequação do meio e fotografe.",
+      "confira": "O paciente demonstra a técnica de escovação sem aparelho?"
+    },
+    {
+      "passo": "Na colagem, remova todo excesso de resina e defina o protocolo de flúor e barreiras conforme o risco.",
+      "confira": "Há degrau de resina em volta de alguma base?"
+    },
+    {
+      "passo": "Em cada consulta, seque as faces vestibulares e olhe a gengival dos braquetes antes de trocar o fio.",
+      "confira": "Alguma opacidade que só aparece seca?"
+    },
+    {
+      "passo": "Registre índice de placa e achados; mostre ao paciente e à família; reinstrua e intensifique flúor e barreiras quando necessário.",
+      "confira": "A família sabe que há risco e o que fazer?"
+    },
+    {
+      "passo": "Ao remover, verifique cavitação, oriente higiene com dentifrício convencional, evite flúor concentrado e reavalie em seis meses antes de qualquer tratamento estético.",
+      "confira": "As fotos de remoção e de seis meses foram feitas na mesma luz?"
+    }
+  ],
+  "macetes": [
+    {
+      "titulo": "Seco aparece, úmido some",
+      "texto": "Lesão que só aparece seca é inicial e reversível. É o momento de agir, não de esperar."
+    },
+    {
+      "titulo": "Gengival do braquete",
+      "texto": "O sítio de quase toda lesão: perto da gengiva, longe da escova. Laterais superiores e caninos primeiro."
+    },
+    {
+      "titulo": "Quatro semanas",
+      "texto": "Tempo em que uma lesão pode ficar visível sob biofilme parado [VERIFICAR]. Cada consulta é uma chance de ver."
+    },
+    {
+      "titulo": "Flúor forte fixa",
+      "texto": "Após remover o aparelho, flúor concentrado pode selar a superfície e fixar a mancha. Espere seis meses com dentifrício comum [VERIFICAR]."
+    }
+  ],
+  "ondeErra": [
+    {
+      "erro": "Colar braquetes em paciente com placa e gengivite 'para começar logo'.",
+      "porque": "O aparelho multiplica os nichos de biofilme; quem não escova sem ele não escova com ele.",
+      "certo": "Adequação do meio primeiro; adiar a colagem se necessário."
+    },
+    {
+      "erro": "Restaurar as lesões brancas no dia da remoção.",
+      "porque": "Muitas diminuem por remineralização natural nos meses seguintes.",
+      "certo": "Verificar cavitação, esperar seis meses e usar a escada conservadora se persistirem."
+    },
+    {
+      "erro": "Aplicar flúor em alta concentração sobre a lesão logo após remover o aparelho.",
+      "porque": "Pode selar os poros superficiais e fixar a opacidade.",
+      "certo": "Dentifrício convencional, higiene e tempo; flúor concentrado é para prevenir durante o tratamento, não para apagar a mancha depois [VERIFICAR]."
+    },
+    {
+      "erro": "Descobrir as lesões junto com a família no dia da remoção.",
+      "porque": "Elas eram visíveis, secas, em consultas anteriores; faltou olhar e registrar.",
+      "certo": "Faces secas, índice de placa e família informada em toda consulta."
+    }
+  ],
+  "autoteste": [
+    {
+      "pergunta": "A lesão branca de esmalte associada ao aparelho ortodôntico corresponde a:",
+      "alternativas": [
+        "Hipoplasia de esmalte causada pela resina",
+        "Cárie inicial com desmineralização subsuperficial e superfície relativamente íntegra",
+        "Fluorose induzida pelo flúor tópico",
+        "Mancha de tetraciclina"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Hipoplasia é defeito de formação, anterior ao aparelho.",
+        "Correta: poros sob a superfície dispersam a luz; é cárie não cavitada.",
+        "Fluorose é defeito de desenvolvimento, simétrico e difuso.",
+        "Tetraciclina produz coloração intrínseca, não opacidade localizada."
+      ]
+    },
+    {
+      "pergunta": "O sítio mais frequente das lesões brancas durante o tratamento com aparelho fixo é:",
+      "alternativas": [
+        "Face lingual dos incisivos inferiores",
+        "Face oclusal dos molares",
+        "Face vestibular, região gengival do braquete, de incisivos laterais superiores e caninos",
+        "Bordas incisais dos incisivos centrais"
+      ],
+      "correta": 2,
+      "explicacoes": [
+        "Incisivos inferiores são os menos afetados, protegidos pela saliva.",
+        "As oclusais não são o sítio típico com aparelho fixo.",
+        "Correta: nicho protegido da escova, perto da gengiva, com menor fluxo salivar.",
+        "A região incisal ao braquete é autolimpada."
+      ]
+    },
+    {
+      "pergunta": "Sob biofilme não removido em volta de um braquete, uma lesão branca visível pode se formar em cerca de:",
+      "alternativas": [
+        "Dois anos",
+        "Seis meses",
+        "Quatro semanas",
+        "Dois dias"
+      ],
+      "correta": 2,
+      "explicacoes": [
+        "A cárie com aparelho é muito mais rápida.",
+        "Bem antes disso a lesão já pode ser visível.",
+        "Correta: cerca de um mês de biofilme parado [VERIFICAR].",
+        "Curto demais para desmineralização visível."
+      ]
+    },
+    {
+      "pergunta": "No dia da remoção do aparelho, diante de lesões brancas não cavitadas, a conduta inicial recomendada é:",
+      "alternativas": [
+        "Restauração imediata com resina",
+        "Aplicação de flúor em alta concentração sobre as lesões",
+        "Higiene com dentifrício fluoretado convencional, aguardar remineralização e reavaliar em seis meses",
+        "Microabrasão no mesmo dia"
+      ],
+      "correta": 2,
+      "explicacoes": [
+        "Muitas lesões regridem; restaurar sem cavitação remove esmalte sadio.",
+        "Pode selar a superfície e fixar a opacidade [VERIFICAR].",
+        "Correta: a remineralização natural é maior nos primeiros meses [VERIFICAR].",
+        "Microabrasão fica para lesões que persistirem após o período de espera."
+      ]
+    },
+    {
+      "pergunta": "Sobre a prevenção de lesões brancas, é correto afirmar:",
+      "alternativas": [
+        "Começa na remoção do aparelho",
+        "Depende apenas do flúor aplicado no consultório",
+        "Envolve higiene, flúor, dieta e barreiras, iniciados antes da colagem e revistos em toda consulta",
+        "É desnecessária em tratamentos curtos"
+      ],
+      "correta": 2,
+      "explicacoes": [
+        "Começa antes da colagem.",
+        "Flúor de consultório é um dos pilares, não o único.",
+        "Correta: quatro pilares, antes de colar e em cada consulta.",
+        "O risco é do biofilme, não do calendário."
+      ]
+    }
+  ],
+  "pesquisa": {
+    "termos": [
+      "lesões brancas ortodontia prevalência",
+      "white spot lesions orthodontic prevention fluoride",
+      "desmineralização esmalte braquete biofilme",
+      "infiltração resinosa lesão branca pós-ortodôntica",
+      "remineralização lesão branca após remoção aparelho"
+    ]
+  },
+  "referenciasBase": [
+    "Proffit WR, Fields HW, Larson BE, Sarver DM. Ortodontia Contemporânea. 6ª ed. Efeitos colaterais do tratamento: descalcificação.",
+    "Gorelick L, Geiger AM, Gwinnett AJ. Incidence of white spot formation after bonding and banding. Am J Orthod. 1982.",
+    "Øgaard B, Rølla G, Arends J. Orthodontic appliances and enamel demineralization. Part 1. Lesion development. Am J Orthod Dentofacial Orthop. 1988.",
+    "Øgaard B. Prevalence of white spot lesions in 19-year-olds: a study on untreated and orthodontically treated persons 5 years after treatment. Am J Orthod Dentofacial Orthop. 1989.",
+    "Benson PE, Parkin N, Dyer F, Millett DT, Germain P. Fluorides for preventing early tooth decay (demineralised lesions) during fixed brace treatment. Cochrane Database Syst Rev. 2019.",
+    "Bishara SE, Ostby AW. White spot lesions: formation, prevention, and treatment. Semin Orthod. 2008.",
+    "Sonesson M, Bergstrand F, Gizani S, Twetman S. Management of post-orthodontic white spot lesions: an updated systematic review. Eur J Orthod. 2017."
+  ],
+  "validacao": {
+    "validadoPor": null,
+    "data": null
+  }
+}

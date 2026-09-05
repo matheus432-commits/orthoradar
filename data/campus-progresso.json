@@ -1,10 +1,10 @@
 {
  "atualizadoEm": "2026-09-05",
  "totalPaginas": 3387,
- "concluidas": 43,
+ "concluidas": 44,
  "porStatus": {
-  "pendente": 3344,
-  "rascunho": 43,
+  "pendente": 3343,
+  "rascunho": 44,
   "revisado": 0,
   "publicado": 0
  },
@@ -12,7 +12,7 @@
   "id": "ortodontia/biologia-do-movimento",
   "area": "Ortodontia",
   "modulo": "Biologia do movimento",
-  "faltam": 4
+  "faltam": 3
  },
  "imagensPendentes": [
   {
@@ -311,6 +311,15 @@
    "mostrar": "Ápices agudos e raízes de comprimento normal na inicial; ápices arredondados, contorno apical irregular e encurtamento visível, maior no lateral, na final; mesmo enquadramento e angulação para comparação",
    "legenda": "A comparação com a radiografia inicial, na mesma angulação, é o que permite medir. Sem a inicial, não há como dizer quanto se perdeu.",
    "destacar": "contorno e comprimento apical dos laterais e centrais nas duas imagens"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
+   "modulo": "Biologia do movimento",
+   "secao": "Prevenção: o único tratamento que funciona de verdade",
+   "imagem": "fotografia intraoral frontal no dia da remoção do aparelho, com lesões brancas em meia-lua na gengival dos incisivos laterais e caninos superiores",
+   "mostrar": "Opacidades brancas bem delimitadas na face vestibular, no terço gengival, contornando a área onde a base do braquete estava colada; incisivos inferiores sem lesões; dentes secos para evidenciar",
+   "legenda": "O padrão típico: meia-lua na gengival de onde estava o braquete, mais nos laterais e caninos superiores, inferiores poupados.",
+   "destacar": "contorno das lesões em relação à área da base do braquete e a diferença entre arco superior e inferior"
   }
  ],
  "verificarPendentes": [
@@ -1278,6 +1287,136 @@
    "pagina": "ortodontia/biologia-do-movimento/forcas/reabsorcao-radicular",
    "onde": "autoteste[4].explicacoes[3]",
    "trecho": "Pausas permitem reparo e reduzem a reabsorção final [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
+   "onde": "umMinuto.frases[2]",
+   "trecho": "a face vestibular gengival de incisivos laterais superiores e caninos [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
+   "onde": "umMinuto.frases[4]",
+   "trecho": "aplicação intensa de flúor pode fixar a opacidade em vez de apagá-la [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
+   "onde": "Seção \"Por que o aparelho fixo é um fabricante de lesões\".blocos[1].texto",
+   "trecho": "nicas e acidúricas, como estreptococos do grupo mutans e lactobacilos [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
+   "onde": "Seção \"Por que o aparelho fixo é um fabricante de lesões\".blocos[4].itens[2]",
+   "trecho": "têm mais biofilme do que ligaduras metálicas ou braquetes autoligados [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
+   "onde": "Seção \"Quanto acontece e em quanto tempo\".blocos[1].texto",
+   "trecho": "s em torno de metade dos pacientes, com variação ampla entre serviços [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
+   "onde": "Seção \"Quanto acontece e em quanto tempo\".blocos[1].texto",
+   "trecho": "va das glândulas sublinguais e submandibulares, são os menos afetados [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
+   "onde": "Seção \"Quanto acontece e em quanto tempo\".blocos[2].texto",
+   "trecho": "o, lesões brancas visíveis podem se formar em cerca de quatro semanas [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
+   "onde": "Seção \"Quanto acontece e em quanto tempo\".blocos[3].svg[7]",
+   "trecho": "='var(--muted,#8A8478)'>suscetibilidade relativa, sem escala numérica [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
+   "onde": "Seção \"Quanto acontece e em quanto tempo\".blocos[4].verdade",
+   "trecho": "a de um braquete, uma lesão visível pode se formar em cerca de um mês [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
+   "onde": "Seção \"Quanto acontece e em quanto tempo\".checagem.resposta",
+   "trecho": "Em cerca de quatro semanas de biofilme não removido [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
+   "onde": "Seção \"Prevenção: o único tratamento que funciona de verdade\".blocos[1].texto",
+   "trecho": "ração, gel ou verniz aplicados no consultório em intervalos regulares [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
+   "onde": "Seção \"Prevenção: o único tratamento que funciona de verdade\".blocos[3].svg[1]",
+   "trecho": "--blue,#4A6B8A)'>gel ou verniz no consultório em intervalos regulares [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
+   "onde": "Seção \"Depois da remoção: o que fazer e o que não fazer\".blocos[0].texto",
+   "trecho": "primeiros seis meses e continua de forma mais lenta por até dois anos [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
+   "onde": "Seção \"Depois da remoção: o que fazer e o que não fazer\".blocos[1].texto",
+   "trecho": "ue o interior se remineralize, fixando a opacidade em vez de apagá-la [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
+   "onde": "Seção \"Depois da remoção: o que fazer e o que não fazer\".blocos[1].texto",
+   "trecho": "e cálcio são usados por alguns serviços, com evidência ainda limitada [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
+   "onde": "Seção \"Depois da remoção: o que fazer e o que não fazer\".blocos[2].svg[6]",
+   "trecho": "' y='206' text-anchor='middle' font-size='11'>reavaliar em seis meses [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
+   "onde": "Seção \"Depois da remoção: o que fazer e o que não fazer\".checagem.resposta",
+   "trecho": "o a opacidade; o indicado é dentifrício convencional, higiene e tempo [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
+   "onde": "fechamento.flashcards[2].verso",
+   "trecho": "amento, microabrasão ou infiltração resinosa; restaurar só cavitações [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
+   "onde": "infografico.itens[2].texto",
+   "trecho": "Visível em cerca de quatro semanas de biofilme parado [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
+   "onde": "infografico.itens[4].texto",
+   "trecho": "ício convencional; sem flúor concentrado; não restaurar sem cavitação [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
+   "onde": "macetes[2].texto",
+   "trecho": "Tempo em que uma lesão pode ficar visível sob biofilme parado [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
+   "onde": "macetes[3].texto",
+   "trecho": "superfície e fixar a mancha. Espere seis meses com dentifrício comum [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
+   "onde": "ondeErra[2].certo",
+   "trecho": "é para prevenir durante o tratamento, não para apagar a mancha depois [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
+   "onde": "autoteste[2].explicacoes[2]",
+   "trecho": "Correta: cerca de um mês de biofilme parado [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
+   "onde": "autoteste[3].explicacoes[1]",
+   "trecho": "Pode selar a superfície e fixar a opacidade [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
+   "onde": "autoteste[3].explicacoes[2]",
+   "trecho": "Correta: a remineralização natural é maior nos primeiros meses [VERIFICAR]"
   }
  ],
  "modulos": [
@@ -1555,11 +1694,11 @@
    "area": "Ortodontia",
    "modulo": "Biologia do movimento",
    "total": 12,
-   "concluidas": 8,
-   "palavras": 31150,
-   "visuais": 42,
-   "imagensClinicas": 7,
-   "verificar": 78,
+   "concluidas": 9,
+   "palavras": 35375,
+   "visuais": 48,
+   "imagensClinicas": 8,
+   "verificar": 104,
    "paginas": [
     {
      "id": "ortodontia/biologia-do-movimento/reacoes-teciduais/ligamento-e-osso-sob-forca",
@@ -1629,7 +1768,9 @@
      "id": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
      "nome": "Descalcificação e lesões brancas",
      "tema": "Efeitos colaterais",
-     "status": "pendente"
+     "status": "rascunho",
+     "palavras": 4225,
+     "visuais": 6
     },
     {
      "id": "ortodontia/biologia-do-movimento/efeitos-colaterais/recessao-e-deiscencias",
@@ -28352,6 +28493,162 @@
     {
      "onde": "autoteste[4].explicacoes[3]",
      "trecho": "Pausas permitem reparo e reduzem a reabsorção final [VERIFICAR]"
+    }
+   ]
+  },
+  "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas": {
+   "titulo": "Descalcificação e lesões brancas: a cicatriz que o aparelho deixa no esmalte",
+   "arquivo": "data/campus/paginas/ortodontia--biomov-lesoes-brancas.json",
+   "formato": 2,
+   "status": "rascunho",
+   "estado": "rascunho",
+   "palavras": 4225,
+   "visuais": [
+    {
+     "formato": "anatomico",
+     "titulo": "Corte do esmalte com lesão branca"
+    },
+    {
+     "formato": "anatomico",
+     "titulo": "Onde o biofilme fica preso em volta do braquete"
+    },
+    {
+     "formato": "grafico",
+     "titulo": "Dentes mais afetados por lesões brancas"
+    },
+    {
+     "formato": "classificacao",
+     "titulo": "Quatro pilares da prevenção"
+    },
+    {
+     "formato": "fluxograma",
+     "titulo": "Lesão branca no dia da remoção: caminho de decisão"
+    },
+    {
+     "formato": "mapa",
+     "titulo": "Mapa da página"
+    }
+   ],
+   "quadros": {
+    "prova": 1,
+    "erro": 2,
+    "mito": 1,
+    "dica": 1,
+    "frase": 1
+   },
+   "imagensClinicas": [
+    {
+     "secao": "Prevenção: o único tratamento que funciona de verdade",
+     "imagem": "fotografia intraoral frontal no dia da remoção do aparelho, com lesões brancas em meia-lua na gengival dos incisivos laterais e caninos superiores",
+     "mostrar": "Opacidades brancas bem delimitadas na face vestibular, no terço gengival, contornando a área onde a base do braquete estava colada; incisivos inferiores sem lesões; dentes secos para evidenciar",
+     "legenda": "O padrão típico: meia-lua na gengival de onde estava o braquete, mais nos laterais e caninos superiores, inferiores poupados.",
+     "destacar": "contorno das lesões em relação à área da base do braquete e a diferença entre arco superior e inferior"
+    }
+   ],
+   "verificar": [
+    {
+     "onde": "umMinuto.frases[2]",
+     "trecho": "a face vestibular gengival de incisivos laterais superiores e caninos [VERIFICAR]"
+    },
+    {
+     "onde": "umMinuto.frases[4]",
+     "trecho": "aplicação intensa de flúor pode fixar a opacidade em vez de apagá-la [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Por que o aparelho fixo é um fabricante de lesões\".blocos[1].texto",
+     "trecho": "nicas e acidúricas, como estreptococos do grupo mutans e lactobacilos [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Por que o aparelho fixo é um fabricante de lesões\".blocos[4].itens[2]",
+     "trecho": "têm mais biofilme do que ligaduras metálicas ou braquetes autoligados [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Quanto acontece e em quanto tempo\".blocos[1].texto",
+     "trecho": "s em torno de metade dos pacientes, com variação ampla entre serviços [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Quanto acontece e em quanto tempo\".blocos[1].texto",
+     "trecho": "va das glândulas sublinguais e submandibulares, são os menos afetados [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Quanto acontece e em quanto tempo\".blocos[2].texto",
+     "trecho": "o, lesões brancas visíveis podem se formar em cerca de quatro semanas [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Quanto acontece e em quanto tempo\".blocos[3].svg[7]",
+     "trecho": "='var(--muted,#8A8478)'>suscetibilidade relativa, sem escala numérica [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Quanto acontece e em quanto tempo\".blocos[4].verdade",
+     "trecho": "a de um braquete, uma lesão visível pode se formar em cerca de um mês [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Quanto acontece e em quanto tempo\".checagem.resposta",
+     "trecho": "Em cerca de quatro semanas de biofilme não removido [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Prevenção: o único tratamento que funciona de verdade\".blocos[1].texto",
+     "trecho": "ração, gel ou verniz aplicados no consultório em intervalos regulares [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Prevenção: o único tratamento que funciona de verdade\".blocos[3].svg[1]",
+     "trecho": "--blue,#4A6B8A)'>gel ou verniz no consultório em intervalos regulares [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Depois da remoção: o que fazer e o que não fazer\".blocos[0].texto",
+     "trecho": "primeiros seis meses e continua de forma mais lenta por até dois anos [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Depois da remoção: o que fazer e o que não fazer\".blocos[1].texto",
+     "trecho": "ue o interior se remineralize, fixando a opacidade em vez de apagá-la [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Depois da remoção: o que fazer e o que não fazer\".blocos[1].texto",
+     "trecho": "e cálcio são usados por alguns serviços, com evidência ainda limitada [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Depois da remoção: o que fazer e o que não fazer\".blocos[2].svg[6]",
+     "trecho": "' y='206' text-anchor='middle' font-size='11'>reavaliar em seis meses [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Depois da remoção: o que fazer e o que não fazer\".checagem.resposta",
+     "trecho": "o a opacidade; o indicado é dentifrício convencional, higiene e tempo [VERIFICAR]"
+    },
+    {
+     "onde": "fechamento.flashcards[2].verso",
+     "trecho": "amento, microabrasão ou infiltração resinosa; restaurar só cavitações [VERIFICAR]"
+    },
+    {
+     "onde": "infografico.itens[2].texto",
+     "trecho": "Visível em cerca de quatro semanas de biofilme parado [VERIFICAR]"
+    },
+    {
+     "onde": "infografico.itens[4].texto",
+     "trecho": "ício convencional; sem flúor concentrado; não restaurar sem cavitação [VERIFICAR]"
+    },
+    {
+     "onde": "macetes[2].texto",
+     "trecho": "Tempo em que uma lesão pode ficar visível sob biofilme parado [VERIFICAR]"
+    },
+    {
+     "onde": "macetes[3].texto",
+     "trecho": "superfície e fixar a mancha. Espere seis meses com dentifrício comum [VERIFICAR]"
+    },
+    {
+     "onde": "ondeErra[2].certo",
+     "trecho": "é para prevenir durante o tratamento, não para apagar a mancha depois [VERIFICAR]"
+    },
+    {
+     "onde": "autoteste[2].explicacoes[2]",
+     "trecho": "Correta: cerca de um mês de biofilme parado [VERIFICAR]"
+    },
+    {
+     "onde": "autoteste[3].explicacoes[1]",
+     "trecho": "Pode selar a superfície e fixar a opacidade [VERIFICAR]"
+    },
+    {
+     "onde": "autoteste[3].explicacoes[2]",
+     "trecho": "Correta: a remineralização natural é maior nos primeiros meses [VERIFICAR]"
     }
    ]
   },
