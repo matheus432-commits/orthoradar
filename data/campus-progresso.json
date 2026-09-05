@@ -1,10 +1,10 @@
 {
  "atualizadoEm": "2026-09-05",
  "totalPaginas": 3387,
- "concluidas": 38,
+ "concluidas": 39,
  "porStatus": {
-  "pendente": 3349,
-  "rascunho": 38,
+  "pendente": 3348,
+  "rascunho": 39,
   "revisado": 0,
   "publicado": 0
  },
@@ -12,7 +12,7 @@
   "id": "ortodontia/biologia-do-movimento",
   "area": "Ortodontia",
   "modulo": "Biologia do movimento",
-  "faltam": 9
+  "faltam": 8
  },
  "imagensPendentes": [
   {
@@ -266,6 +266,15 @@
    "mostrar": "Área acelular e homogênea do ligamento junto à lâmina dura íntegra; por trás da lâmina, lacunas de reabsorção com osteoclastos vindas dos espaços medulares; nas bordas da zona, lacunas iniciais no cemento",
    "legenda": "Zona hialinizada: ligamento sem núcleos junto a uma lâmina dura que só pode ser reabsorvida por trás.",
    "destacar": "Ausência de células na zona, osteoclastos nos espaços medulares por trás da lâmina dura, lacunas de cemento nas bordas da zona"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/reacoes-teciduais/remodelacao",
+   "modulo": "Biologia do movimento",
+   "secao": "Quando não há ligamento, não há remodelação: anquilose",
+   "imagem": "radiografia periapical de dente anquilosado após trauma, com ausência do espaço do ligamento periodontal",
+   "mostrar": "Raiz com o espaço do ligamento e a lâmina dura ausentes em parte da superfície, com continuidade entre cemento e osso; comparação com o dente vizinho, que mostra o espaço do ligamento preservado",
+   "legenda": "Anquilose: onde o espaço do ligamento some, a força não tem a quem falar. O dente não se move e, na criança, afunda em relação aos vizinhos.",
+   "destacar": "Áreas sem espaço do ligamento, continuidade entre raiz e osso, comparação com o vizinho"
   }
  ],
  "verificarPendentes": [
@@ -883,6 +892,31 @@
    "pagina": "ortodontia/biologia-do-movimento/reacoes-teciduais/hialinizacao",
    "onde": "Seção \"Como a zona é removida, e o que sobra na raiz\".blocos[2].svg[7]",
    "trecho": "lo: dias com áreas pequenas; duas a quatro semanas com áreas extensas [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/reacoes-teciduais/remodelacao",
+   "onde": "Seção \"O alvéolo renova rápido, e paga por isso\".blocos[0].texto",
+   "trecho": "ais altas do esqueleto, muito acima da das corticais dos ossos longos [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/reacoes-teciduais/remodelacao",
+   "onde": "Seção \"Depois que o dente chega: o que ainda falta remodelar\".blocos[1].texto",
+   "trecho": "u nunca se reorganizar por completo em dentes que foram muito girados [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/reacoes-teciduais/remodelacao",
+   "onde": "Seção \"Depois que o dente chega: o que ainda falta remodelar\".blocos[3].svg[8]",
+   "trecho": "12' fill='var(--muted,#8A8478)'>prazos aproximados a partir de Reitan [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/reacoes-teciduais/remodelacao",
+   "onde": "Seção \"Remédios que mexem no ciclo\".blocos[0].texto",
+   "trecho": "s que expõem osso, e menor, mas presente, com a forma oral prolongada [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/reacoes-teciduais/remodelacao",
+   "onde": "Seção \"Remédios que mexem no ciclo\".blocos[2].svg[5]",
+   "trecho": "l='var(--muted,#8A8478)'>efeitos dependem de dose, via e tempo de uso [VERIFICAR]"
   }
  ],
  "modulos": [
@@ -1160,11 +1194,11 @@
    "area": "Ortodontia",
    "modulo": "Biologia do movimento",
    "total": 12,
-   "concluidas": 3,
-   "palavras": 10859,
-   "visuais": 15,
-   "imagensClinicas": 2,
-   "verificar": 8,
+   "concluidas": 4,
+   "palavras": 14586,
+   "visuais": 20,
+   "imagensClinicas": 3,
+   "verificar": 13,
    "paginas": [
     {
      "id": "ortodontia/biologia-do-movimento/reacoes-teciduais/ligamento-e-osso-sob-forca",
@@ -1194,7 +1228,9 @@
      "id": "ortodontia/biologia-do-movimento/reacoes-teciduais/remodelacao",
      "nome": "Remodelação",
      "tema": "Reações teciduais",
-     "status": "pendente"
+     "status": "rascunho",
+     "palavras": 3727,
+     "visuais": 5
     },
     {
      "id": "ortodontia/biologia-do-movimento/forcas/magnitude-duracao-e-direcao",
@@ -27419,6 +27455,74 @@
     {
      "onde": "Seção \"Como a zona é removida, e o que sobra na raiz\".blocos[2].svg[7]",
      "trecho": "lo: dias com áreas pequenas; duas a quatro semanas com áreas extensas [VERIFICAR]"
+    }
+   ]
+  },
+  "ortodontia/biologia-do-movimento/reacoes-teciduais/remodelacao": {
+   "titulo": "Remodelação: o osso que se refaz durante e depois do movimento",
+   "arquivo": "data/campus/paginas/ortodontia--biomov-remodelacao.json",
+   "formato": 2,
+   "status": "rascunho",
+   "estado": "rascunho",
+   "palavras": 3727,
+   "visuais": [
+    {
+     "formato": "processo",
+     "titulo": "O ciclo de remodelação óssea em quatro fases"
+    },
+    {
+     "formato": "comparativo",
+     "titulo": "Remodelação e modelagem, lado a lado"
+    },
+    {
+     "formato": "linha-do-tempo",
+     "titulo": "Quanto tempo cada tecido leva para se reorganizar após o movimento"
+    },
+    {
+     "formato": "classificacao",
+     "titulo": "O que acelera e o que freia a remodelação alveolar"
+    },
+    {
+     "formato": "mapa",
+     "titulo": "Mapa da página"
+    }
+   ],
+   "quadros": {
+    "frase": 2,
+    "prova": 1,
+    "dica": 2,
+    "mito": 1,
+    "erro": 1
+   },
+   "imagensClinicas": [
+    {
+     "secao": "Quando não há ligamento, não há remodelação: anquilose",
+     "imagem": "radiografia periapical de dente anquilosado após trauma, com ausência do espaço do ligamento periodontal",
+     "mostrar": "Raiz com o espaço do ligamento e a lâmina dura ausentes em parte da superfície, com continuidade entre cemento e osso; comparação com o dente vizinho, que mostra o espaço do ligamento preservado",
+     "legenda": "Anquilose: onde o espaço do ligamento some, a força não tem a quem falar. O dente não se move e, na criança, afunda em relação aos vizinhos.",
+     "destacar": "Áreas sem espaço do ligamento, continuidade entre raiz e osso, comparação com o vizinho"
+    }
+   ],
+   "verificar": [
+    {
+     "onde": "Seção \"O alvéolo renova rápido, e paga por isso\".blocos[0].texto",
+     "trecho": "ais altas do esqueleto, muito acima da das corticais dos ossos longos [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Depois que o dente chega: o que ainda falta remodelar\".blocos[1].texto",
+     "trecho": "u nunca se reorganizar por completo em dentes que foram muito girados [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Depois que o dente chega: o que ainda falta remodelar\".blocos[3].svg[8]",
+     "trecho": "12' fill='var(--muted,#8A8478)'>prazos aproximados a partir de Reitan [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Remédios que mexem no ciclo\".blocos[0].texto",
+     "trecho": "s que expõem osso, e menor, mas presente, com a forma oral prolongada [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Remédios que mexem no ciclo\".blocos[2].svg[5]",
+     "trecho": "l='var(--muted,#8A8478)'>efeitos dependem de dose, via e tempo de uso [VERIFICAR]"
     }
    ]
   },

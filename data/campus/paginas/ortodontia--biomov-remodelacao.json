@@ -1,0 +1,605 @@
+{
+  "id": "ortodontia/biologia-do-movimento/reacoes-teciduais/remodelacao",
+  "areaId": "ortodontia",
+  "area": "Ortodontia",
+  "modulo": "Biologia do movimento",
+  "tema": "Reações teciduais",
+  "titulo": "Remodelação: o osso que se refaz durante e depois do movimento",
+  "estado": "rascunho",
+  "versao": 1,
+  "formato": 2,
+  "autoria": "Rascunho escrito pela plataforma para validação; nada aqui é visível ao aluno antes da assinatura de um ortodontista.",
+  "abertura": {
+    "situacao": "Mulher de 58 anos quer alinhar os incisivos inferiores. Na anamnese, toma alendronato há seis anos para osteoporose. Na mesma semana, um adolescente que terminou o tratamento há dois meses e perdeu a contenção volta com os incisivos já girando. Dois pacientes, o mesmo tecido: osso que se refaz.",
+    "pergunta": "Por que um remédio para osteoporose pode travar o movimento dentário, e por que dois meses sem contenção bastam para o alinhamento se desfazer?"
+  },
+  "umMinuto": {
+    "frases": [
+      "O osso vivo se renova o tempo todo em ciclos: ativação, reabsorção pelos osteoclastos, reversão e formação pelos osteoblastos. É a remodelação, feita por unidades celulares que trabalham acopladas.",
+      "Modelagem é diferente: reabsorção de um lado e formação do outro mudam a forma e a posição do osso. O movimento dentário é sobretudo modelagem do alvéolo, orientada pelo ligamento.",
+      "O osso alveolar tem uma das taxas de renovação mais altas do esqueleto, e é por isso que responde tão depressa à força e também por isso que perde tanto quando o dente sai.",
+      "Depois do movimento, tudo ainda está por terminar: o osso novo mineraliza em meses, as fibras do ligamento se reorganizam em três a quatro meses, as fibras gengivais em até um ano ou mais. A contenção existe para esse intervalo.",
+      "Bisfosfonatos e outros antirreabsortivos freiam os osteoclastos: reduzem ou paralisam o movimento e trazem o risco de osteonecrose. Corticoides, hormônios e doenças sistêmicas também mudam o ritmo.",
+      "Cada agressão ao osso desencadeia uma fase de remodelação acelerada na região, o fenômeno regional acelerado descrito por Frost; é o mecanismo que as cirurgias de aceleração tentam aproveitar."
+    ],
+    "caiNaProva": [
+      "Remodelação versus modelagem óssea",
+      "Ciclo de remodelação: ativação, reabsorção, reversão, formação",
+      "Reorganização dos tecidos após o movimento e a lógica da contenção",
+      "Efeito dos bisfosfonatos e de outros medicamentos no movimento",
+      "Fenômeno regional acelerado"
+    ],
+    "porQueImporta": "A remodelação é o motor e o freio de tudo: decide quão rápido o dente anda, o que acontece com o osso quando ele para e por que remédios comuns podem travar o caso. Quem entende o ciclo entende a contenção, a anamnese e a aceleração."
+  },
+  "secoes": [
+    {
+      "titulo": "Osso não é pedra: renova-se em ciclos",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "O osso parece inerte e é um dos tecidos mais ativos do corpo. Em cada ponto do esqueleto, pequenas equipes de células removem osso velho e o substituem por osso novo, em um ciclo que se repete a vida inteira."
+        },
+        {
+          "tipo": "p",
+          "texto": "Essa equipe é a unidade básica multicelular, e o seu trabalho tem quatro fases: ativação, em que precursores são recrutados para um ponto da superfície; reabsorção, em que os osteoclastos escavam uma cavidade; reversão, em que células mononucleares limpam e preparam a superfície; e formação, em que os osteoblastos preenchem a cavidade com osteoide que depois mineraliza."
+        },
+        {
+          "tipo": "p",
+          "texto": "Reabsorção e formação estão acopladas: o que uma remove, a outra devolve, e o balanço final é zero em condições normais. É isso que mantém a massa óssea estável do adulto jovem e é isso que se perde na osteoporose, quando a formação não acompanha. O ciclo inteiro leva meses, a reabsorção é rápida, semanas, e a formação é lenta."
+        },
+        {
+          "tipo": "visual",
+          "formato": "processo",
+          "titulo": "O ciclo de remodelação óssea em quatro fases",
+          "descricao": "Quatro caixas em sequência circular. Ativação: precursores recrutados para a superfície, dias. Reabsorção: osteoclastos escavam a cavidade, semanas. Reversão: células mononucleares limpam e preparam a superfície, dias. Formação: osteoblastos preenchem com osteoide que mineraliza, meses. Seta de retorno da formação para a ativação. Centro: reabsorção e formação acopladas, balanço zero no adulto saudável.",
+          "viewBox": "0 0 560 400",
+          "svg": [
+            "<g stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'><line x1='200' y1='70' x2='340' y2='70'/><line x1='450' y1='120' x2='450' y2='240'/><line x1='360' y1='300' x2='220' y2='300'/><line x1='110' y1='240' x2='110' y2='120'/></g>",
+            "<use href='#c-caixa-gold' x='20' y='40' width='180' height='64'/><text x='110' y='64' text-anchor='middle' font-size='13' font-weight='700'>1. Ativação</text><text x='110' y='82' text-anchor='middle' font-size='11'>precursores recrutados</text><text x='110' y='96' text-anchor='middle' font-size='11'>para a superfície; dias</text>",
+            "<use href='#c-caixa-red' x='360' y='40' width='180' height='64'/><text x='450' y='64' text-anchor='middle' font-size='13' font-weight='700'>2. Reabsorção</text><text x='450' y='82' text-anchor='middle' font-size='11'>osteoclastos escavam</text><text x='450' y='96' text-anchor='middle' font-size='11'>a cavidade; semanas</text>",
+            "<use href='#c-caixa' x='360' y='256' width='180' height='64'/><text x='450' y='280' text-anchor='middle' font-size='13' font-weight='700'>3. Reversão</text><text x='450' y='298' text-anchor='middle' font-size='11'>células mononucleares limpam</text><text x='450' y='312' text-anchor='middle' font-size='11'>e preparam a superfície; dias</text>",
+            "<use href='#c-caixa-green' x='20' y='256' width='180' height='64'/><text x='110' y='280' text-anchor='middle' font-size='13' font-weight='700'>4. Formação</text><text x='110' y='298' text-anchor='middle' font-size='11'>osteoblastos preenchem com</text><text x='110' y='312' text-anchor='middle' font-size='11'>osteoide; mineraliza em meses</text>",
+            "<use href='#c-no-central' x='190' y='150' width='180' height='60'/><text x='280' y='174' text-anchor='middle' font-size='12' font-weight='700' fill='#fff'>Acoplamento</text><text x='280' y='192' text-anchor='middle' font-size='11' fill='#fff'>remove e devolve: balanço zero</text>",
+            "<text x='280' y='360' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>a unidade básica multicelular percorre o ciclo em meses; reabsorve rápido, forma devagar</text>",
+            "<text x='280' y='384' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>osteoporose: a formação não acompanha; bisfosfonato: a reabsorção é freada</text>"
+          ],
+          "legenda": "Quatro fases e um acoplamento. Tudo o que altera uma fase, remédio, hormônio, doença, muda a velocidade com que o alvéolo responde à força."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "frase",
+          "texto": "O osso que segura o dente é reconstruído a cada poucos meses. A ortodontia aproveita um canteiro de obras que já estava funcionando."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Quais são as quatro fases do ciclo de remodelação e qual delas é a mais lenta?",
+        "resposta": "Ativação, reabsorção, reversão e formação. A formação é a mais lenta: o osteoide leva meses para mineralizar."
+      }
+    },
+    {
+      "titulo": "Remodelar não é modelar: o que o dente faz com o alvéolo",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "Remodelação é renovação no mesmo lugar: a cavidade escavada é preenchida onde estava, e a forma do osso não muda. Modelagem é outra coisa: reabsorção em uma superfície e formação em outra, de modo que o osso muda de forma ou de posição. O crescimento facial da primeira apostila é modelagem; o alvéolo que acompanha o dente em movimento também é."
+        },
+        {
+          "tipo": "p",
+          "texto": "Quando o dente se move, a parede do alvéolo do lado de pressão é reabsorvida e a do lado de tensão é formada; o alvéolo inteiro se desloca, e a cortical externa acompanha, com reabsorção no periósteo de um lado e aposição do outro, dentro de limites. É modelagem orientada pelo ligamento. Ao mesmo tempo, a remodelação de fundo continua em todo o osso alveolar, e é ela que renova o osso novo do lado de tensão até deixá-lo maduro."
+        },
+        {
+          "tipo": "visual",
+          "formato": "comparativo",
+          "titulo": "Remodelação e modelagem, lado a lado",
+          "descricao": "Duas colunas. Remodelação: reabsorção e formação no mesmo lugar, forma mantida, renovação e reparo, contínua a vida inteira, alterada por bisfosfonatos e hormônios. Modelagem: reabsorção em uma superfície e formação em outra, forma ou posição mudam, crescimento e movimento dentário, orientada por função e pelo ligamento.",
+          "viewBox": "0 0 720 320",
+          "svg": [
+            "<use href='#c-caixa-blue' x='30' y='16' width='300' height='44'/><text x='180' y='44' text-anchor='middle' font-size='15' font-weight='700'>Remodelação</text>",
+            "<use href='#c-caixa-gold' x='390' y='16' width='300' height='44'/><text x='540' y='44' text-anchor='middle' font-size='15' font-weight='700'>Modelagem</text>",
+            "<g font-size='12' fill='var(--ink,#23211C)'><text x='40' y='90' font-weight='700'>Onde</text><text x='40' y='108'>reabsorção e formação no mesmo lugar</text><text x='40' y='140' font-weight='700'>Resultado</text><text x='40' y='158'>forma mantida; osso renovado</text><text x='40' y='190' font-weight='700'>Quando</text><text x='40' y='208'>a vida inteira, em todo o esqueleto</text><text x='40' y='240' font-weight='700'>Exemplo na ortodontia</text><text x='40' y='258'>maturação do osso novo do lado de tensão</text></g>",
+            "<g font-size='12' fill='var(--ink,#23211C)'><text x='400' y='90' font-weight='700'>Onde</text><text x='400' y='108'>reabsorção em uma superfície, formação em outra</text><text x='400' y='140' font-weight='700'>Resultado</text><text x='400' y='158'>forma ou posição mudam</text><text x='400' y='190' font-weight='700'>Quando</text><text x='400' y='208'>crescimento; resposta a força sustentada</text><text x='400' y='240' font-weight='700'>Exemplo na ortodontia</text><text x='400' y='258'>o alvéolo que acompanha o dente em movimento</text></g>",
+            "<use href='#c-caixa-ink' x='120' y='280' width='480' height='32'/><text x='360' y='301' text-anchor='middle' font-size='12' font-weight='700' fill='#fff'>O movimento dentário é modelagem; a estabilidade depende da remodelação</text>"
+          ],
+          "legenda": "Modelagem move o alvéolo com o dente; remodelação renova o que ficou. As duas acontecem juntas, e os remédios que freiam uma freiam a outra."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "prova",
+          "texto": "Remodelação: mesmo lugar, forma mantida, ciclo de ativação, reabsorção, reversão e formação. Modelagem: superfícies diferentes, forma ou posição mudam, base do crescimento e do movimento dentário. A prova pode usar \"remodelação\" no sentido amplo para as duas; leia o contexto."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Por que o movimento dentário é classificado como modelagem e não como remodelação?",
+        "resposta": "Porque a reabsorção acontece em uma superfície do alvéolo, a do lado de pressão, e a formação em outra, a do lado de tensão; o osso muda de posição em vez de ser renovado no mesmo lugar."
+      }
+    },
+    {
+      "titulo": "O alvéolo renova rápido, e paga por isso",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "O osso alveolar tem uma das taxas de renovação mais altas do esqueleto, muito acima da das corticais dos ossos longos [VERIFICAR]. Isso o torna sensível: responde à força ortodôntica em dias, adapta-se à função e às perdas dentárias em meses. E o torna vulnerável: sem o dente e o ligamento que o mantêm, o rebordo se reabsorve rapidamente após a extração, e sob doença periodontal a perda é veloz."
+        },
+        {
+          "tipo": "p",
+          "texto": "A taxa de renovação varia com a idade e a região. Cai da infância para a idade adulta, o que explica em parte a resposta mais lenta do adulto; é maior no osso trabecular que nas corticais, o que explica por que mover um dente através de cortical densa é lento e arriscado. E ela pode ser modulada de propósito: qualquer lesão controlada do osso dispara uma fase de remodelação acelerada na região."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "dica",
+          "titulo": "O fenômeno regional acelerado",
+          "texto": "Frost descreveu que uma agressão ao osso, fratura, cirurgia, perfuração, desencadeia por semanas a meses uma aceleração local de toda a remodelação, com osso temporariamente menos denso e mais reativo. É o mecanismo pelo qual corticotomias e perfurações corticais tentam acelerar o movimento dentário; o efeito é transitório e volta ao ritmo basal quando o reparo termina. O tema retorna na página sobre aceleração."
+        },
+        {
+          "tipo": "lista",
+          "itens": [
+            "Alta renovação: resposta rápida à força e perda rápida após extração ou doença periodontal.",
+            "Idade: renovação cai do jovem ao adulto; o adulto se move mais devagar.",
+            "Região: trabecular renova mais que cortical; mover contra cortical é lento e arriscado.",
+            "Agressão controlada: fenômeno regional acelerado, base das técnicas cirúrgicas de aceleração."
+          ]
+        }
+      ],
+      "checagem": {
+        "pergunta": "O que é o fenômeno regional acelerado e por que interessa à ortodontia?",
+        "resposta": "É a aceleração transitória da remodelação em torno de uma agressão ao osso, descrita por Frost; as técnicas cirúrgicas de aceleração do movimento tentam aproveitar essa janela de osso mais reativo."
+      }
+    },
+    {
+      "titulo": "Depois que o dente chega: o que ainda falta remodelar",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "Quando o aparelho sai, o dente está na posição certa e os tecidos em volta não. O osso do lado de tensão é osteoide pouco mineralizado; o ligamento tem fibras desorganizadas, algumas ainda estiradas; as fibras gengivais, colágenas e elásticas, foram distendidas e quase não se remodelaram. Cada um desses tecidos tem o seu prazo para voltar ao normal, e enquanto isso o dente é puxado de volta."
+        },
+        {
+          "tipo": "p",
+          "texto": "Reitan mediu esses prazos. As fibras do ligamento se reorganizam em cerca de três a quatro meses; o osso novo leva vários meses para mineralizar e ganhar a densidade da lâmina dura; as fibras colágenas da gengiva demoram quatro a seis meses; e as fibras elásticas supracrestais podem levar mais de um ano, ou nunca se reorganizar por completo em dentes que foram muito girados [VERIFICAR]."
+        },
+        {
+          "tipo": "p",
+          "texto": "O protocolo de contenção é o espelho desses prazos: tempo integral nos primeiros meses, redução gradual depois, e contenção prolongada ou fibrotomia onde houve rotação."
+        },
+        {
+          "tipo": "visual",
+          "formato": "linha-do-tempo",
+          "titulo": "Quanto tempo cada tecido leva para se reorganizar após o movimento",
+          "descricao": "Linha do tempo de zero a doze meses ou mais. Ligamento periodontal: três a quatro meses. Osso novo do lado de tensão: mineralização ao longo de meses. Fibras colágenas da gengiva: quatro a seis meses. Fibras elásticas supracrestais: mais de um ano, às vezes incompleto. Abaixo, o protocolo de contenção alinhado a esses prazos.",
+          "viewBox": "0 0 720 340",
+          "svg": [
+            "<line x1='80' y1='200' x2='680' y2='200' stroke='var(--ink,#23211C)' stroke-width='2'/>",
+            "<g stroke='var(--ink,#23211C)' stroke-width='2'><line x1='80' y1='192' x2='80' y2='208'/><line x1='230' y1='192' x2='230' y2='208'/><line x1='380' y1='192' x2='380' y2='208'/><line x1='530' y1='192' x2='530' y2='208'/><line x1='680' y1='192' x2='680' y2='208'/></g>",
+            "<g font-size='12' font-weight='700' fill='var(--ink,#23211C)' text-anchor='middle'><text x='80' y='226'>remoção</text><text x='230' y='226'>3 meses</text><text x='380' y='226'>6 meses</text><text x='530' y='226'>9 meses</text><text x='680' y='226'>12 meses +</text></g>",
+            "<rect x='80' y='60' width='170' height='18' rx='9' fill='var(--blue,#4A6B8A)' fill-opacity='0.5'/><text x='90' y='54' font-size='11' font-weight='700' fill='var(--blue,#4A6B8A)'>ligamento periodontal: 3 a 4 meses</text>",
+            "<rect x='80' y='100' width='300' height='18' rx='9' fill='var(--gold,#B08968)' fill-opacity='0.5'/><text x='90' y='94' font-size='11' font-weight='700' fill='var(--gold,#B08968)'>osso novo do lado de tensão: mineraliza em meses</text>",
+            "<rect x='80' y='140' width='280' height='18' rx='9' fill='var(--green,#3E7C4F)' fill-opacity='0.5'/><text x='90' y='134' font-size='11' font-weight='700' fill='var(--green,#3E7C4F)'>fibras colágenas da gengiva: 4 a 6 meses</text>",
+            "<rect x='80' y='170' width='600' height='18' rx='9' fill='var(--red,#B4533B)' fill-opacity='0.45'/><text x='400' y='166' font-size='11' font-weight='700' fill='var(--red,#B4533B)'>fibras elásticas supracrestais: mais de um ano; às vezes incompleto</text>",
+            "<use href='#c-caixa-ink' x='80' y='250' width='600' height='44'/><text x='380' y='269' text-anchor='middle' font-size='12' font-weight='700' fill='#fff'>Contenção: integral nos primeiros meses, redução gradual, prolongada onde houve rotação</text><text x='380' y='286' text-anchor='middle' font-size='11' fill='#fff'>fibrotomia supracrestal quando as fibras elásticas não vão ceder</text>",
+            "<text x='380' y='326' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>prazos aproximados a partir de Reitan [VERIFICAR]; o inferior anterior e as rotações pedem mais</text>"
+          ],
+          "legenda": "Cada tecido tem o seu prazo, e as fibras elásticas da gengiva têm o mais longo. A contenção não é capricho: é o tempo que a remodelação leva para alcançar o dente."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "mito",
+          "mito": "Quando o aparelho sai, o dente está firme no osso e a contenção é só precaução.",
+          "verdade": "O osso em volta é osteoide imaturo, o ligamento está desorganizado e as fibras gengivais estão esticadas. Nos primeiros meses o dente é ativamente puxado de volta; a contenção é o que segura enquanto a remodelação termina."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Que tecido leva mais tempo para se reorganizar após o movimento, e que consequência clínica isso tem?",
+        "resposta": "As fibras elásticas supracrestais da gengiva, mais de um ano e às vezes de modo incompleto; por isso a contenção é prolongada e a fibrotomia supracrestal é indicada em rotações corrigidas."
+      }
+    },
+    {
+      "titulo": "Remédios que mexem no ciclo",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "Os bisfosfonatos, usados na osteoporose e em alguns cânceres, ligam-se ao osso e inibem os osteoclastos. Como o movimento dentário depende da reabsorção do lado de pressão, o efeito é direto: movimento mais lento, incompleto ou ausente, com relatos de dentes que não se movem e de espaços que não fecham. Há ainda o risco de osteonecrose dos maxilares, maior com a forma endovenosa, com doses oncológicas e com procedimentos que expõem osso, e menor, mas presente, com a forma oral prolongada [VERIFICAR]."
+        },
+        {
+          "tipo": "p",
+          "texto": "Outros medicamentos também mudam o ritmo. Anti-inflamatórios não esteroides em uso contínuo reduzem as prostaglandinas e podem lentificar o movimento; corticoides alteram a formação e a reabsorção de modos que dependem da dose e do tempo; anticonvulsivantes, hormônios tireoidianos e estrogênios modulam a remodelação. Doenças como diabetes descompensado e hiperparatireoidismo fazem o mesmo. A anamnese medicamentosa é parte do planejamento biológico."
+        },
+        {
+          "tipo": "visual",
+          "formato": "classificacao",
+          "titulo": "O que acelera e o que freia a remodelação alveolar",
+          "descricao": "Duas colunas de caixas. Freiam: bisfosfonatos e outros antirreabsortivos, anti-inflamatórios não esteroides em uso contínuo, corticoides em alguns regimes, idade avançada, osso cortical denso. Aceleram ou modulam para cima: fenômeno regional acelerado após agressão controlada, hipertireoidismo e hormônio tireoidiano, hiperparatireoidismo, juventude, osso trabecular.",
+          "viewBox": "0 0 560 360",
+          "svg": [
+            "<use href='#c-caixa-red' x='20' y='16' width='250' height='44'/><text x='145' y='44' text-anchor='middle' font-size='14' font-weight='700'>Freiam</text>",
+            "<use href='#c-caixa-green' x='290' y='16' width='250' height='44'/><text x='415' y='44' text-anchor='middle' font-size='14' font-weight='700'>Aceleram ou aumentam</text>",
+            "<g font-size='12' fill='var(--ink,#23211C)'><text x='36' y='92'>bisfosfonatos e outros antirreabsortivos</text><text x='36' y='116'>anti-inflamatórios não esteroides contínuos</text><text x='36' y='140'>corticoides em alguns regimes</text><text x='36' y='164'>idade avançada</text><text x='36' y='188'>osso cortical denso</text><text x='36' y='212'>ligamento pouco celular</text></g>",
+            "<g font-size='12' fill='var(--ink,#23211C)'><text x='306' y='92'>fenômeno regional acelerado</text><text x='306' y='116'>hipertireoidismo, hormônio tireoidiano</text><text x='306' y='140'>hiperparatireoidismo</text><text x='306' y='164'>juventude</text><text x='306' y='188'>osso trabecular</text><text x='306' y='212'>ligamento celular e vascularizado</text></g>",
+            "<use href='#c-caixa-ink' x='40' y='250' width='480' height='44'/><text x='280' y='269' text-anchor='middle' font-size='12' font-weight='700' fill='#fff'>Bisfosfonato: movimento lento ou ausente e risco de osteonecrose</text><text x='280' y='286' text-anchor='middle' font-size='11' fill='#fff'>pergunte, registre e converse com o médico antes de planejar</text>",
+            "<text x='280' y='334' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>efeitos dependem de dose, via e tempo de uso [VERIFICAR]; a anamnese é parte do plano</text>"
+          ],
+          "legenda": "O ciclo tem freio e acelerador, e vários deles estão na receita do paciente. Pergunte antes de prometer prazo."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "erro",
+          "texto": "Começar um tratamento sem perguntar por bisfosfonato porque \"é remédio de osso, não de dente\". É exatamente de osso que se trata: o alvéolo é osso. Movimento travado e osteonecrose são complicações evitáveis com uma pergunta na anamnese e uma conversa com o médico que prescreveu."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Por que o bisfosfonato interfere no movimento dentário e qual é o risco adicional?",
+        "resposta": "Porque inibe os osteoclastos, e o movimento depende da reabsorção do osso do lado de pressão; o risco adicional é a osteonecrose dos maxilares, maior com a forma endovenosa e doses oncológicas."
+      }
+    },
+    {
+      "titulo": "Quando não há ligamento, não há remodelação: anquilose",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "O ligamento é quem orienta a modelagem do alvéolo. Onde ele desaparece e o cemento se funde ao osso, a anquilose, não há mais interface para sinalizar pressão e tensão: o dente vira parte do osso e não responde a força nenhuma. Anquilose acontece após trauma com necrose do ligamento, avulsão e reimplante tardio, em molares decíduos e, às vezes, sem causa aparente."
+        },
+        {
+          "tipo": "p",
+          "texto": "O sinal clínico é um dente que não se move apesar de força adequada, com som metálico à percussão e sem mobilidade; na criança, fica em infraoclusão porque não acompanha a erupção dos vizinhos. A anquilose parcial é traiçoeira: pequenas áreas de fusão bastam para travar o movimento, e a imagem nem sempre mostra. Quando um dente não anda e a força estava certa, pense em anquilose antes de aumentar a força, o que só produziria hialinização nos vizinhos."
+        },
+        {
+          "tipo": "imagem",
+          "imagem": "radiografia periapical de dente anquilosado após trauma, com ausência do espaço do ligamento periodontal",
+          "mostrar": "Raiz com o espaço do ligamento e a lâmina dura ausentes em parte da superfície, com continuidade entre cemento e osso; comparação com o dente vizinho, que mostra o espaço do ligamento preservado",
+          "legenda": "Anquilose: onde o espaço do ligamento some, a força não tem a quem falar. O dente não se move e, na criança, afunda em relação aos vizinhos.",
+          "destacar": "Áreas sem espaço do ligamento, continuidade entre raiz e osso, comparação com o vizinho"
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "dica",
+          "titulo": "Teste antes de forçar",
+          "texto": "Dente que não anda com força adequada por semanas: percussão (som metálico), mobilidade (ausente), radiografia (espaço do ligamento interrompido) e história (trauma, reimplante). Anquilose confirmada muda o plano: luxação cirúrgica, distração do alvéolo, extração ou aceitar a posição. Aumentar a força nunca é a resposta."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Por que um dente anquilosado não se move com força ortodôntica?",
+        "resposta": "Porque não há ligamento entre cemento e osso para sinalizar pressão e tensão e orientar a reabsorção e a formação; o dente está fundido ao osso e a força é transmitida sem resposta celular."
+      }
+    },
+    {
+      "titulo": "De volta aos dois pacientes",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "A paciente de 58 anos com alendronato há seis anos tem osteoclastos freados: o movimento pode ser lento ou incompleto, e há risco, pequeno na forma oral mas real, de osteonecrose. O plano começa por uma conversa com o médico, objetivos modestos, força leve e acompanhamento radiográfico."
+        },
+        {
+          "tipo": "p",
+          "texto": "O adolescente que perdeu a contenção aos dois meses está no pior momento: ligamento ainda desorganizado, osso do lado de tensão imaturo, fibras gengivais esticadas. A remodelação não terminou e os incisivos voltaram a girar porque ninguém os segurou enquanto ela acabava."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "frase",
+          "texto": "Um remédio que freia os osteoclastos trava o dente; dois meses sem contenção deixam o osso imaturo devolver o dente. Nos dois casos, quem manda é o ciclo de remodelação."
+        }
+      ],
+      "checagem": {
+        "pergunta": "O que os dois casos da abertura têm em comum do ponto de vista biológico?",
+        "resposta": "Ambos dependem do ciclo de remodelação: o bisfosfonato freia a reabsorção necessária ao movimento; a falta de contenção deixa o dente à mercê de tecidos que ainda não terminaram de se remodelar."
+      }
+    }
+  ],
+  "fechamento": {
+    "visual": {
+      "formato": "mapa",
+      "titulo": "Mapa da página",
+      "descricao": "Nó central: remodelação. Seis nós: ciclo de quatro fases acoplado; modelagem move, remodelação renova; alvéolo renova rápido e paga por isso; prazos de reorganização e contenção; remédios que freiam e aceleram; anquilose: sem ligamento, sem resposta.",
+      "viewBox": "0 0 560 360",
+      "svg": [
+        "<g stroke='var(--border,#EDE6D8)' stroke-width='1.5'><line x1='280' y1='180' x2='100' y2='60'/><line x1='280' y1='180' x2='460' y2='60'/><line x1='280' y1='180' x2='70' y2='180'/><line x1='280' y1='180' x2='490' y2='180'/><line x1='280' y1='180' x2='100' y2='300'/><line x1='280' y1='180' x2='460' y2='300'/></g>",
+        "<use href='#c-no-central' x='190' y='150' width='180' height='60'/>",
+        "<text x='280' y='186' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>Remodelação</text>",
+        "<use href='#c-no' x='20' y='38' width='160' height='44'/><text x='100' y='65' text-anchor='middle' font-size='13' font-weight='700'>Ciclo de quatro fases</text>",
+        "<use href='#c-no' x='380' y='38' width='160' height='44'/><text x='460' y='65' text-anchor='middle' font-size='13' font-weight='700'>Modelar x remodelar</text>",
+        "<use href='#c-no' x='0' y='158' width='150' height='44'/><text x='75' y='185' text-anchor='middle' font-size='13' font-weight='700'>Alvéolo renova rápido</text>",
+        "<use href='#c-no' x='410' y='158' width='150' height='44'/><text x='485' y='185' text-anchor='middle' font-size='13' font-weight='700'>Prazos e contenção</text>",
+        "<use href='#c-no' x='20' y='278' width='160' height='44'/><text x='100' y='305' text-anchor='middle' font-size='13' font-weight='700'>Remédios freiam</text>",
+        "<use href='#c-no' x='380' y='278' width='160' height='44'/><text x='460' y='305' text-anchor='middle' font-size='13' font-weight='700'>Anquilose: sem resposta</text>"
+      ]
+    },
+    "flashcards": [
+      {
+        "frente": "Diferencie remodelação de modelagem óssea e diga qual delas move o dente.",
+        "verso": "Remodelação: reabsorção e formação no mesmo lugar, forma mantida, renovação. Modelagem: reabsorção em uma superfície e formação em outra, forma ou posição mudam. O movimento dentário é modelagem do alvéolo orientada pelo ligamento."
+      },
+      {
+        "frente": "Prazos de reorganização após o movimento (Reitan) e o que justificam.",
+        "verso": "Ligamento 3 a 4 meses; osso novo mineraliza em meses; fibras colágenas gengivais 4 a 6 meses; fibras elásticas supracrestais mais de um ano, às vezes incompleto. Justificam contenção integral inicial, redução gradual, prolongada em rotações, e fibrotomia."
+      },
+      {
+        "frente": "Efeito dos bisfosfonatos no movimento dentário.",
+        "verso": "Inibem osteoclastos: movimento lento, incompleto ou ausente; risco de osteonecrose dos maxilares, maior com via endovenosa e doses oncológicas. Anamnese e conversa com o médico antes do plano."
+      }
+    ]
+  },
+  "infografico": {
+    "titulo": "Remodelação em seis cartões",
+    "itens": [
+      {
+        "rotulo": "Ciclo",
+        "texto": "Ativação, reabsorção (semanas), reversão, formação (meses). Acopladas: balanço zero no adulto saudável."
+      },
+      {
+        "rotulo": "Modelagem",
+        "texto": "Reabsorve de um lado, forma do outro: o alvéolo acompanha o dente. Remodelação renova o que ficou."
+      },
+      {
+        "rotulo": "Alvéolo",
+        "texto": "Renovação alta: responde rápido à força, perde rápido sem dente. Cai com a idade; cortical é lenta."
+      },
+      {
+        "rotulo": "Depois",
+        "texto": "Ligamento 3 a 4 meses, osso novo meses, gengiva colágena 4 a 6 meses, elástica mais de um ano. Contenção."
+      },
+      {
+        "rotulo": "Remédios",
+        "texto": "Bisfosfonatos freiam e trazem risco de osteonecrose; anti-inflamatórios contínuos e corticoides lentificam."
+      },
+      {
+        "rotulo": "Anquilose",
+        "texto": "Sem ligamento, sem sinal: dente não se move. Som metálico, sem mobilidade, espaço do ligamento ausente."
+      }
+    ]
+  },
+  "fluxograma": {
+    "titulo": "Anamnese biológica antes de planejar o ritmo",
+    "nos": [
+      {
+        "id": "n1",
+        "tipo": "inicio",
+        "texto": "Paciente adulto candidato a ortodontia"
+      },
+      {
+        "id": "n2",
+        "tipo": "decisao",
+        "texto": "Usa bisfosfonato ou outro antirreabsortivo?"
+      },
+      {
+        "id": "n3",
+        "tipo": "acao",
+        "texto": "Registrar via, dose, tempo; conversar com o médico; objetivos modestos, força leve, controle radiográfico"
+      },
+      {
+        "id": "n4",
+        "tipo": "decisao",
+        "texto": "Anti-inflamatório contínuo, corticoide, doença tireoidiana, diabetes descompensado?"
+      },
+      {
+        "id": "n5",
+        "tipo": "acao",
+        "texto": "Prever ritmo alterado; ajustar intervalos e expectativas; compensar a doença de base"
+      },
+      {
+        "id": "n6",
+        "tipo": "decisao",
+        "texto": "História de trauma, reimplante ou dente que já não se moveu?"
+      },
+      {
+        "id": "n7",
+        "tipo": "acao",
+        "texto": "Testar anquilose: percussão, mobilidade, radiografia; excluir do movimento se confirmada"
+      },
+      {
+        "id": "n8",
+        "tipo": "fim",
+        "texto": "Plano com ritmo realista e contenção alinhada aos prazos de remodelação"
+      }
+    ],
+    "arestas": [
+      {
+        "de": "n1",
+        "para": "n2"
+      },
+      {
+        "de": "n2",
+        "para": "n3",
+        "rotulo": "sim"
+      },
+      {
+        "de": "n3",
+        "para": "n4"
+      },
+      {
+        "de": "n2",
+        "para": "n4",
+        "rotulo": "não"
+      },
+      {
+        "de": "n4",
+        "para": "n5",
+        "rotulo": "sim"
+      },
+      {
+        "de": "n5",
+        "para": "n6"
+      },
+      {
+        "de": "n4",
+        "para": "n6",
+        "rotulo": "não"
+      },
+      {
+        "de": "n6",
+        "para": "n7",
+        "rotulo": "sim"
+      },
+      {
+        "de": "n7",
+        "para": "n8"
+      },
+      {
+        "de": "n6",
+        "para": "n8",
+        "rotulo": "não"
+      }
+    ]
+  },
+  "passoAPasso": [
+    {
+      "passo": "Pergunte, por nome, sobre bisfosfonatos e outros remédios para osso, anti-inflamatórios contínuos, corticoides e hormônios.",
+      "confira": "Via, dose e tempo de uso estão registrados?"
+    },
+    {
+      "passo": "Se houver antirreabsortivo, converse com o médico antes de planejar e documente a conversa.",
+      "confira": "O paciente entendeu que o movimento pode ser lento ou incompleto e o risco de osteonecrose?"
+    },
+    {
+      "passo": "Ajuste o ritmo ao paciente: força leve e intervalos maiores no adulto e em osso cortical denso.",
+      "confira": "O cronograma foi prometido com margem?"
+    },
+    {
+      "passo": "Ao remover o aparelho, instale a contenção no mesmo dia e explique os prazos de cada tecido.",
+      "confira": "O paciente sabe que os primeiros meses são os mais críticos?"
+    },
+    {
+      "passo": "Em dente que não anda com força adequada, teste anquilose antes de aumentar a força.",
+      "confira": "Percussão, mobilidade e radiografia foram feitas?"
+    }
+  ],
+  "macetes": [
+    {
+      "titulo": "ARRF: ativa, reabsorve, reverte, forma",
+      "texto": "O ciclo da unidade básica multicelular. Reabsorve em semanas, forma em meses, tudo acoplado."
+    },
+    {
+      "titulo": "Modela move, remodela renova",
+      "texto": "Modelagem muda forma e posição: crescimento e movimento dentário. Remodelação mantém a forma e renova o osso."
+    },
+    {
+      "titulo": "Três, seis, doze",
+      "texto": "Ligamento em 3 a 4 meses, gengiva colágena em 4 a 6, fibras elásticas em mais de 12. A contenção segue o relógio."
+    },
+    {
+      "titulo": "Remédio de osso é remédio de alvéolo",
+      "texto": "Bisfosfonato freia osteoclastos: movimento lento e risco de osteonecrose. Pergunte antes de planejar."
+    }
+  ],
+  "ondeErra": [
+    {
+      "erro": "Chamar o movimento dentário de remodelação no sentido estrito.",
+      "porque": "É modelagem: reabsorção de um lado e formação do outro mudam a posição do alvéolo.",
+      "certo": "Movimento é modelagem; a maturação do osso novo é remodelação."
+    },
+    {
+      "erro": "Ignorar o bisfosfonato na anamnese.",
+      "porque": "Inibe os osteoclastos e trava o movimento, com risco de osteonecrose.",
+      "certo": "Perguntar por nome, registrar e conversar com o médico."
+    },
+    {
+      "erro": "Afrouxar a contenção nos primeiros meses porque o dente parece firme.",
+      "porque": "O osso do lado de tensão é imaturo, o ligamento está desorganizado e as fibras gengivais esticadas.",
+      "certo": "Contenção integral no início, redução gradual, prolongada onde houve rotação."
+    },
+    {
+      "erro": "Aumentar a força em dente que não anda.",
+      "porque": "Pode ser anquilose: sem ligamento, não há resposta; a força extra só hialiniza os vizinhos.",
+      "certo": "Testar anquilose com percussão, mobilidade e radiografia antes."
+    }
+  ],
+  "autoteste": [
+    {
+      "pergunta": "A sequência correta do ciclo de remodelação óssea é:",
+      "alternativas": [
+        "Formação, reabsorção, ativação, reversão",
+        "Ativação, reabsorção, reversão, formação",
+        "Reabsorção, formação, ativação, reversão",
+        "Reversão, ativação, formação, reabsorção"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Ordem incorreta.",
+        "Correta: a unidade básica multicelular ativa, reabsorve, reverte e forma, com reabsorção e formação acopladas.",
+        "Ordem incorreta.",
+        "Ordem incorreta."
+      ]
+    },
+    {
+      "pergunta": "O movimento dentário ortodôntico é, do ponto de vista ósseo, principalmente:",
+      "alternativas": [
+        "Remodelação: reabsorção e formação no mesmo lugar",
+        "Modelagem: reabsorção em uma superfície do alvéolo e formação em outra, com deslocamento do alvéolo",
+        "Necrose seguida de reparo",
+        "Crescimento sutural"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Na remodelação a forma e a posição não mudam.",
+        "Correta: o alvéolo acompanha o dente por modelagem orientada pelo ligamento.",
+        "Necrose ocorre só na hialinização, não é o mecanismo normal.",
+        "Não envolve suturas."
+      ]
+    },
+    {
+      "pergunta": "Segundo Reitan, o tecido que leva mais tempo para se reorganizar após o movimento dentário é:",
+      "alternativas": [
+        "O ligamento periodontal, em 3 a 4 meses",
+        "O osso do lado de pressão",
+        "As fibras elásticas supracrestais da gengiva, mais de um ano",
+        "O cemento radicular, em dias"
+      ],
+      "correta": 2,
+      "explicacoes": [
+        "Reorganiza-se relativamente cedo.",
+        "O lado de pressão é reabsorvido; o osso novo que demora é o do lado de tensão.",
+        "Correta: por isso a contenção prolongada e a fibrotomia em rotações.",
+        "O cemento não é o fator limitante da estabilidade."
+      ]
+    },
+    {
+      "pergunta": "Paciente em uso prolongado de bisfosfonato. Quanto ao movimento dentário, espera-se:",
+      "alternativas": [
+        "Movimento acelerado pela maior densidade óssea",
+        "Movimento lento, incompleto ou ausente, por inibição dos osteoclastos, com risco de osteonecrose",
+        "Nenhuma alteração, porque o remédio age só em ossos longos",
+        "Aumento da reabsorção radicular"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Osteoclastos inibidos lentificam, não aceleram.",
+        "Correta: o alvéolo é osso e a reabsorção do lado de pressão fica freada.",
+        "Age em todo o esqueleto, inclusive nos maxilares.",
+        "O efeito principal é a lentificação do movimento, não reabsorção radicular."
+      ]
+    },
+    {
+      "pergunta": "Dente que não se move com força adequada, sem mobilidade e com som metálico à percussão sugere:",
+      "alternativas": [
+        "Hialinização extensa",
+        "Anquilose alveolodentária",
+        "Força insuficiente",
+        "Reabsorção frontal eficiente"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Na hialinização há dor e o dente acaba se movendo em salto.",
+        "Correta: sem ligamento entre cemento e osso, não há resposta à força.",
+        "A força era adequada; aumentar só hialiniza os vizinhos.",
+        "A frontal produz movimento contínuo."
+      ]
+    }
+  ],
+  "pesquisa": {
+    "termos": [
+      "remodelação óssea alveolar",
+      "fenômeno regional acelerado",
+      "bisfosfonatos movimento ortodôntico",
+      "contenção reorganização periodontal",
+      "anquilose dentária"
+    ]
+  },
+  "referenciasBase": [
+    "Proffit WR, Fields HW, Larson BE, Sarver DM. Ortodontia Contemporânea. 6ª ed. Bases biológicas; contenção.",
+    "Reitan K. Tissue rearrangement during retention of orthodontically rotated teeth. Angle Orthod. 1959.",
+    "Reitan K. Clinical and histologic observations on tooth movement during and after orthodontic treatment. Am J Orthod. 1967.",
+    "Frost HM. The regional acceleratory phenomenon: a review. Henry Ford Hosp Med J. 1983.",
+    "Zahrowski JJ. Bisphosphonate treatment: an orthodontic concern calling for a proactive approach. Am J Orthod Dentofacial Orthop. 2007.",
+    "Krishnan V, Davidovitch Z. Cellular, molecular, and tissue-level reactions to orthodontic force. Am J Orthod Dentofacial Orthop. 2006."
+  ],
+  "validacao": {
+    "validadoPor": null,
+    "data": null
+  }
+}
