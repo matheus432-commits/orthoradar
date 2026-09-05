@@ -1,0 +1,615 @@
+{
+  "id": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/classe-i-com-apinhamento",
+  "areaId": "ortodontia",
+  "area": "Ortodontia",
+  "modulo": "Más oclusões",
+  "tema": "Características por tipo",
+  "titulo": "Classe I com apinhamento: a má oclusão mais comum e a conta do espaço",
+  "estado": "rascunho",
+  "versao": 1,
+  "formato": 2,
+  "autoria": "Rascunho escrito pela plataforma para validação; nada aqui é visível ao aluno antes da assinatura de um ortodontista.",
+  "abertura": {
+    "situacao": "Menina de 12 anos, molares e caninos em Classe I, perfil reto, lábios competentes. Arco inferior com 7 mm de apinhamento anterior, canino superior direito erupcionando por vestibular sem espaço. Cefalometria com bases normais e incisivos inferiores bem posicionados sobre a base óssea. A mãe quer saber se \"vai precisar arrancar dente\".",
+    "pergunta": "Sete milímetros faltando em uma boca que, fora isso, está certa: de onde você tira o espaço, e como decide se é caso de extrair?"
+  },
+  "umMinuto": {
+    "frases": [
+      "Classe I com apinhamento é a má oclusão mais frequente: relação molar normal, bases esqueléticas em harmonia e dentes que não cabem no perímetro do arco.",
+      "Apinhamento é uma conta: espaço necessário, a soma das larguras dos dentes, menos espaço disponível, o perímetro do arco. O resultado negativo é a discrepância, em milímetros, por arco.",
+      "A causa é sobretudo ambiental, arco que não cresceu o bastante, sobre dentes de tamanho herdado; perda precoce, erupção ectópica e o apinhamento tardio dos incisivos inferiores somam.",
+      "Na dentição mista a discrepância se prevê com análise de espaço: Moyers ou Tanaka e Johnston estimam caninos e pré-molares ainda não erupcionados; na permanente, mede-se direto.",
+      "O espaço vem de cinco lugares: expansão transversal, Distalização, vestibularização dos incisivos, desgaste interproximal e extração; a escolha depende da quantidade que falta, do perfil, da posição dos incisivos e da idade.",
+      "O apinhamento anterior inferior tende a voltar com o tempo, tratado ou não; contenção prolongada faz parte do plano desde o início."
+    ],
+    "caiNaProva": [
+      "Definição e cálculo da discrepância de modelo",
+      "Análise de espaço na dentição mista: Moyers e Tanaka-Johnston",
+      "Faixas de discrepância e opções de tratamento",
+      "Fontes de espaço e quanto cada uma rende",
+      "Extração seriada: indicação e sequência"
+    ],
+    "porQueImporta": "Metade dos seus pacientes vai ser Classe I com apinhamento. Saber medir a falta de espaço, prever na dentição mista e escolher de onde tirar os milímetros é o que separa o caso terminado em dois anos do caso que abre e fecha espaço sem sair do lugar."
+  },
+  "secoes": [
+    {
+      "titulo": "A má oclusão de todo dia",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "A Classe I com apinhamento é o quadro que mais chega ao consultório. Os molares estão em Classe I, as bases esqueléticas costumam estar em harmonia e o problema é de alinhamento: os dentes são maiores do que o perímetro do arco comporta, e se acomodam girando, sobrepondo-se e erupcionando fora da linha. No inferior, aparece nos incisivos; no superior, nos caninos que ficam sem lugar e nos laterais que caem para palatino."
+        },
+        {
+          "tipo": "p",
+          "texto": "A palavra que organiza tudo é discrepância. Você mede quanto os dentes precisam e quanto o arco oferece, e a diferença, em milímetros, é a discrepância de modelo. É ela, e não a impressão visual de \"muito apinhado\", que define o caminho: uma boca pode parecer caótica com 4 mm de falta e razoável com 9 mm escondidos em um canino que ainda não erupcionou."
+        },
+        {
+          "tipo": "visual",
+          "formato": "grafico",
+          "titulo": "A conta do espaço: necessário menos disponível",
+          "descricao": "Duas barras horizontais. Espaço necessário: soma das larguras mesiodistais dos dentes do arco, mais longa. Espaço disponível: perímetro do arco da mesial de um primeiro molar à mesial do outro, mais curta. A diferença, marcada em vermelho, é a discrepância negativa: apinhamento. Abaixo, três faixas: leve, moderada e severa.",
+          "viewBox": "0 0 720 320",
+          "svg": [
+            "<text x='40' y='40' font-size='13' font-weight='700' fill='var(--ink,#23211C)'>Espaço necessário: soma das larguras dos dentes</text>",
+            "<rect x='40' y='52' width='600' height='28' rx='6' fill='var(--gold,#B08968)' fill-opacity='0.45' stroke='var(--gold,#B08968)' stroke-width='1.5'/>",
+            "<text x='40' y='120' font-size='13' font-weight='700' fill='var(--ink,#23211C)'>Espaço disponível: perímetro do arco entre os primeiros molares</text>",
+            "<rect x='40' y='132' width='520' height='28' rx='6' fill='var(--blue,#4A6B8A)' fill-opacity='0.45' stroke='var(--blue,#4A6B8A)' stroke-width='1.5'/>",
+            "<rect x='560' y='132' width='80' height='28' rx='6' fill='var(--red,#B4533B)' fill-opacity='0.5' stroke='var(--red,#B4533B)' stroke-width='1.5'/>",
+            "<text x='600' y='185' text-anchor='middle' font-size='12' font-weight='700' fill='var(--red,#B4533B)'>discrepância</text><text x='600' y='200' text-anchor='middle' font-size='11' fill='var(--red,#B4533B)'>o que falta, em mm</text>",
+            "<g font-size='12' fill='var(--ink,#23211C)'><rect x='40' y='232' width='190' height='40' rx='6' fill='var(--green,#3E7C4F)' fill-opacity='0.2' stroke='var(--green,#3E7C4F)' stroke-width='1.5'/><text x='135' y='249' text-anchor='middle' font-weight='700'>leve: até 4 mm</text><text x='135' y='265' text-anchor='middle' font-size='11'>quase sempre sem extração</text>",
+            "<rect x='245' y='232' width='210' height='40' rx='6' fill='var(--gold,#B08968)' fill-opacity='0.25' stroke='var(--gold,#B08968)' stroke-width='1.5'/><text x='350' y='249' text-anchor='middle' font-weight='700'>moderada: 5 a 9 mm</text><text x='350' y='265' text-anchor='middle' font-size='11'>zona de decisão: perfil e incisivos</text>",
+            "<rect x='470' y='232' width='210' height='40' rx='6' fill='var(--red,#B4533B)' fill-opacity='0.2' stroke='var(--red,#B4533B)' stroke-width='1.5'/><text x='575' y='249' text-anchor='middle' font-weight='700'>severa: 10 mm ou mais</text><text x='575' y='265' text-anchor='middle' font-size='11'>extração na maioria dos casos</text></g>",
+            "<text x='360' y='304' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>faixas de referência usuais, por arco [VERIFICAR]; a decisão soma perfil, posição dos incisivos e idade</text>"
+          ],
+          "legenda": "Primeiro o número, depois a opinião. A discrepância em milímetros coloca o caso em uma faixa, e a faixa abre ou fecha as opções."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "frase",
+          "texto": "Apinhamento não é dente torto. É uma conta que deu negativo. Trate a conta, e os dentes se alinham."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Defina discrepância de modelo e diga por que ela importa mais que a impressão visual.",
+        "resposta": "É a diferença entre o espaço necessário (soma das larguras dos dentes) e o disponível (perímetro do arco), em milímetros por arco. Ela define a faixa do caso e as opções; a impressão visual engana, sobretudo quando faltam dentes por erupcionar."
+      }
+    },
+    {
+      "titulo": "De onde vem o apinhamento",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "O tamanho dos dentes é herdado; o tamanho do arco depende muito mais do ambiente, e é aí que o apinhamento nasce. Arcos que não cresceram o suficiente para dentes de tamanho normal produzem falta de espaço; a transição para a dieta mole é a hipótese mais aceita para o aumento do apinhamento nas populações urbanas. Sobre essa base, somam-se os fatores locais: perda precoce de decíduos com migração de molares, erupção ectópica, supranumerários e cárie proximal."
+        },
+        {
+          "tipo": "p",
+          "texto": "Há ainda o apinhamento tardio dos incisivos inferiores, que aparece no fim da adolescência e no adulto jovem mesmo em quem nunca apinhou. A largura intercaninos inferior diminui depois da adolescência, a mandíbula termina de crescer para a frente empurrando os incisivos contra os superiores, e os dentes anteriores se acomodam. Ele acontece em tratados e em não tratados, e é a razão de a contenção inferior ser longa."
+        },
+        {
+          "tipo": "lista",
+          "itens": [
+            "Discrepância primária: dentes grandes para arcos que não cresceram; a mais comum.",
+            "Discrepância secundária: perda de espaço adquirida por perda precoce, cárie proximal, erupção ectópica, migrações.",
+            "Apinhamento tardio: encolhimento do arco anterior inferior no fim do crescimento, em tratados e não tratados.",
+            "Fatores que agravam: incisivos inclinados para lingual, curva de Spee profunda, terceiros molares em erupção (efeito discutido)."
+          ]
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "mito",
+          "mito": "O terceiro molar empurra os dentes e causa o apinhamento tardio dos incisivos inferiores.",
+          "verdade": "O apinhamento tardio acontece também em quem não tem terceiros molares; a evidência de que eles sejam causa relevante é fraca. O que encolhe o arco é a diminuição da largura intercaninos e o crescimento mandibular tardio. Extrair terceiros molares para prevenir apinhamento não se sustenta."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Por que o apinhamento tardio dos incisivos inferiores obriga a contenção prolongada?",
+        "resposta": "Porque o arco anterior inferior encolhe no fim da adolescência, com diminuição da largura intercaninos e crescimento mandibular tardio, em tratados e não tratados; sem contenção, os incisivos se reacomodam."
+      }
+    },
+    {
+      "titulo": "Medir na dentição mista: prever o que ainda não nasceu",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "Na dentição mista, os incisivos permanentes já estão na boca, mas caninos e pré-molares não. A análise de espaço estima o tamanho deles para saber, aos 8 ou 9 anos, se vão caber. A análise de Moyers usa a soma das larguras dos quatro incisivos inferiores e uma tabela de probabilidade para prever a soma de canino e pré-molares de cada quadrante, nos dois arcos, no nível de confiança escolhido."
+        },
+        {
+          "tipo": "p",
+          "texto": "Tanaka e Johnston simplificaram em uma regra de bolso: metade da soma dos quatro incisivos inferiores mais 10,5 mm prevê canino e pré-molares de um quadrante inferior; mais 11 mm, de um quadrante superior [VERIFICAR]. A radiografia, medindo os germes com correção da ampliação, é a terceira via. Prevista a soma, compara-se com o espaço que sobra no arco depois dos incisivos, e a discrepância aparece anos antes dos dentes."
+        },
+        {
+          "tipo": "visual",
+          "formato": "processo",
+          "titulo": "Análise de espaço na dentição mista, passo a passo",
+          "descricao": "Quatro etapas. 1: medir a largura dos quatro incisivos inferiores permanentes. 2: prever canino e pré-molares por quadrante, por Moyers (tabela), Tanaka e Johnston (metade da soma mais 10,5 no inferior e 11 no superior) ou radiografia. 3: medir o espaço disponível de cada lado, da distal do lateral à mesial do primeiro molar. 4: subtrair; a diferença é a discrepância prevista de cada arco.",
+          "viewBox": "0 0 560 380",
+          "svg": [
+            "<g stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'><line x1='280' y1='86' x2='280' y2='104'/><line x1='280' y1='170' x2='280' y2='188'/><line x1='280' y1='254' x2='280' y2='272'/></g>",
+            "<use href='#c-num-ink' x='30' y='34' width='28' height='28'/><text x='44' y='54' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>1</text><use href='#c-caixa' x='70' y='24' width='470' height='62'/><text x='84' y='48' font-size='13' font-weight='700'>Medir os quatro incisivos inferiores permanentes</text><text x='84' y='68' font-size='11'>largura mesiodistal de cada um, somada; é a base de toda a previsão</text>",
+            "<use href='#c-num-ink' x='30' y='118' width='28' height='28'/><text x='44' y='138' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>2</text><use href='#c-caixa-gold' x='70' y='104' width='470' height='66'/><text x='84' y='128' font-size='13' font-weight='700'>Prever canino e pré-molares por quadrante</text><text x='84' y='146' font-size='11'>Moyers: tabela de probabilidade a partir da soma dos incisivos</text><text x='84' y='162' font-size='11'>Tanaka e Johnston: metade da soma + 10,5 (inferior) ou + 11 (superior) [VERIFICAR]</text>",
+            "<use href='#c-num-ink' x='30' y='202' width='28' height='28'/><text x='44' y='222' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>3</text><use href='#c-caixa-blue' x='70' y='188' width='470' height='66'/><text x='84' y='212' font-size='13' font-weight='700'>Medir o espaço disponível de cada lado</text><text x='84' y='230' font-size='11'>da distal do incisivo lateral à mesial do primeiro molar permanente,</text><text x='84' y='246' font-size='11'>com o arco na forma que ele tem, não na que você gostaria</text>",
+            "<use href='#c-num-ink' x='30' y='286' width='28' height='28'/><text x='44' y='306' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>4</text><use href='#c-caixa-green' x='70' y='272' width='470' height='66'/><text x='84' y='296' font-size='13' font-weight='700'>Subtrair: disponível menos previsto</text><text x='84' y='314' font-size='11'>negativo é apinhamento previsto; positivo é espaço livre de Nance a preservar</text><text x='84' y='330' font-size='11'>repita para os dois lados e os dois arcos</text>",
+            "<text x='280' y='366' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>a previsão erra alguns décimos de milímetro; a decisão de extrair não se toma por ela sozinha</text>"
+          ],
+          "legenda": "Quatro medidas com um paquímetro e uma tabela, e a discrepância aparece anos antes dos caninos. É o exame que decide se há espaço livre de Nance a guardar ou falta a administrar."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "prova",
+          "texto": "A questão pede o que Moyers usa como preditor (a soma dos quatro incisivos inferiores permanentes, para os dois arcos) e a regra de Tanaka e Johnston (metade da soma dos incisivos inferiores, mais 10,5 mm no inferior e 11 mm no superior). Pede também a limitação: as tabelas foram construídas em populações específicas e erram um pouco fora delas [VERIFICAR]."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Por que os incisivos inferiores são a base da previsão de Moyers e de Tanaka e Johnston, inclusive para o arco superior?",
+        "resposta": "Porque erupcionam cedo, são fáceis de medir com precisão, variam pouco em forma e têm correlação estatística com o tamanho dos caninos e pré-molares dos dois arcos."
+      }
+    },
+    {
+      "titulo": "As cinco fontes de espaço",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "Resolvido quanto falta, a pergunta seguinte é de onde tirar. Há cinco fontes, e cada uma rende uma quantidade limitada e cobra um preço. A expansão transversal alarga o arco; rende mais na maxila em crescimento, pela sutura, e pouco na mandíbula, onde só inclina dentes. A Distalização de molares recupera espaço para trás, mais viável no superior e antes da erupção dos segundos molares."
+        },
+        {
+          "tipo": "p",
+          "texto": "A vestibularização dos incisivos alonga o arco pela frente: cada milímetro de avanço dos incisivos rende cerca de dois milímetros de perímetro, mas muda o perfil e a estabilidade [VERIFICAR]. O desgaste interproximal tira décimos de milímetro de cada face de contato, com teto de poucos milímetros por arco. E a extração de pré-molares libera de uma vez o espaço de um dente por lado, ao custo de fechar o que sobrar e de retrair o perfil."
+        },
+        {
+          "tipo": "visual",
+          "formato": "comparativo",
+          "titulo": "Cinco fontes de espaço, o que rendem e o que custam",
+          "descricao": "Cinco colunas. Expansão: rende mais na maxila em crescimento, pouco na mandíbula; custo, instabilidade se inclinar dentes. Distalização: mais viável no superior antes dos segundos molares; custo, ancoragem e cooperação. Vestibularização: cerca de 2 mm de perímetro por mm de avanço; custo, perfil e estabilidade. Desgaste interproximal: décimos por face, poucos mm por arco; custo, esmalte. Extração: o espaço de um dente por lado; custo, retração do perfil e fechamento do excesso.",
+          "viewBox": "0 0 720 360",
+          "svg": [
+            "<g font-size='14' font-weight='700' text-anchor='middle' fill='var(--ink,#23211C)'><use href='#c-caixa-gold' x='10' y='16' width='132' height='44'/><text x='76' y='44'>Expansão</text><use href='#c-caixa-gold' x='152' y='16' width='132' height='44'/><text x='218' y='44'>Distalização</text><use href='#c-caixa-blue' x='294' y='16' width='132' height='44'/><text x='360' y='44' font-size='12'>Vestibularização</text><use href='#c-caixa-blue' x='436' y='16' width='132' height='44'/><text x='502' y='44' font-size='13'>Desgaste</text><use href='#c-caixa-red' x='578' y='16' width='132' height='44'/><text x='644' y='44'>Extração</text></g>",
+            "<g font-size='11' fill='var(--ink,#23211C)'><text x='16' y='88' font-weight='700'>Rende</text><text x='16' y='104'>maxila em crescimento:</text><text x='16' y='118'>bastante, pela sutura</text><text x='16' y='132'>mandíbula: pouco</text><text x='16' y='168' font-weight='700'>Custa</text><text x='16' y='184'>instável se só</text><text x='16' y='198'>inclinar dentes</text></g>",
+            "<g font-size='11' fill='var(--ink,#23211C)'><text x='158' y='88' font-weight='700'>Rende</text><text x='158' y='104'>espaço para trás,</text><text x='158' y='118'>superior antes dos</text><text x='158' y='132'>segundos molares</text><text x='158' y='168' font-weight='700'>Custa</text><text x='158' y='184'>ancoragem, tempo,</text><text x='158' y='198'>cooperação</text></g>",
+            "<g font-size='11' fill='var(--ink,#23211C)'><text x='300' y='88' font-weight='700'>Rende</text><text x='300' y='104'>cerca de 2 mm de</text><text x='300' y='118'>perímetro por mm de</text><text x='300' y='132'>avanço [VERIFICAR]</text><text x='300' y='168' font-weight='700'>Custa</text><text x='300' y='184'>perfil mais protruso,</text><text x='300' y='198'>estabilidade</text></g>",
+            "<g font-size='11' fill='var(--ink,#23211C)'><text x='442' y='88' font-weight='700'>Rende</text><text x='442' y='104'>décimos por face;</text><text x='442' y='118'>poucos mm por arco</text><text x='442' y='168' font-weight='700'>Custa</text><text x='442' y='184'>esmalte; limite</text><text x='442' y='198'>anatômico</text></g>",
+            "<g font-size='11' fill='var(--ink,#23211C)'><text x='584' y='88' font-weight='700'>Rende</text><text x='584' y='104'>o espaço de um dente</text><text x='584' y='118'>por lado, de uma vez</text><text x='584' y='168' font-weight='700'>Custa</text><text x='584' y='184'>retração do perfil;</text><text x='584' y='198'>fechar o excesso</text></g>",
+            "<use href='#c-caixa-ink' x='60' y='236' width='600' height='48'/><text x='360' y='257' text-anchor='middle' font-size='12' font-weight='700' fill='#fff'>Discrepância leve: expansão, desgaste, pequena vestibularização</text><text x='360' y='275' text-anchor='middle' font-size='12' font-weight='700' fill='#fff'>Moderada: combinar fontes ou extrair, conforme o perfil. Severa: extração</text>",
+            "<text x='360' y='330' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>rendimentos aproximados; o perfil e a posição dos incisivos decidem quais fontes estão disponíveis</text>"
+          ],
+          "legenda": "Cada fonte rende uma quantia e cobra um preço. O plano é a combinação que paga a discrepância sem estragar o perfil nem a estabilidade."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "dica",
+          "titulo": "Olhe os incisivos e o lábio antes de escolher a fonte",
+          "texto": "Incisivos inferiores já inclinados para a frente e lábios protrusos: vestibularizar mais é piorar o perfil, e a extração sobe na lista. Incisivos verticais ou para trás e perfil reto ou côncavo: há espaço para avançar e a extração desce. A cefalometria e a foto de perfil escolhem a fonte tanto quanto o modelo."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Por que a expansão rende muito na maxila em crescimento e pouco na mandíbula?",
+        "resposta": "Porque a maxila tem a sutura palatina mediana, que pode ser aberta enquanto está ativa, produzindo ganho esquelético; a mandíbula não tem sutura, e a expansão só inclina dentes, com ganho pequeno e instável."
+      }
+    },
+    {
+      "titulo": "Extração seriada: administrar a falta desde a dentição mista",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "Quando a análise de espaço na dentição mista mostra falta grande, em torno de 10 mm ou mais por arco, com bases em Classe I e perfil bom, a extração seriada é uma opção: guiar a erupção extraindo dentes em sequência para que os permanentes erupcionem em posições melhores."
+        },
+        {
+          "tipo": "p",
+          "texto": "A sequência clássica extrai os caninos decíduos para dar espaço aos incisivos, depois os primeiros molares decíduos para acelerar a erupção dos primeiros pré-molares, e por fim os primeiros pré-molares para dar espaço aos caninos permanentes [VERIFICAR]."
+        },
+        {
+          "tipo": "p",
+          "texto": "É um compromisso: você aceita extrair quatro permanentes em troca de um alinhamento quase espontâneo e de um tratamento fixo mais curto ao final. Só faz sentido com discrepância severa e bases normais; com discrepância moderada, com Classe II ou III esquelética, ou com perfil já retraído, a extração seriada tira dentes que fariam falta. E exige acompanhamento até o fim, porque o fechamento dos espaços e o paralelismo das raízes quase sempre pedem aparelho."
+        },
+        {
+          "tipo": "visual",
+          "formato": "linha-do-tempo",
+          "titulo": "A sequência clássica da extração seriada",
+          "descricao": "Linha do tempo com três marcos. Por volta dos 8 a 9 anos: caninos decíduos, para alinhar os incisivos. Por volta dos 9 a 10 anos: primeiros molares decíduos, para acelerar os primeiros pré-molares. Por volta dos 10 a 11 anos: primeiros pré-molares, para dar espaço aos caninos permanentes. Depois: aparelho fixo curto para fechar espaços e paralelizar raízes. Pré-requisitos ao lado: discrepância severa, Classe I, perfil bom, todos os dentes presentes.",
+          "viewBox": "0 0 720 320",
+          "svg": [
+            "<line x1='60' y1='140' x2='660' y2='140' stroke='var(--ink,#23211C)' stroke-width='2'/>",
+            "<g stroke='var(--ink,#23211C)' stroke-width='2'><line x1='140' y1='132' x2='140' y2='148'/><line x1='320' y1='132' x2='320' y2='148'/><line x1='500' y1='132' x2='500' y2='148'/><line x1='640' y1='132' x2='640' y2='148'/></g>",
+            "<use href='#c-marco-cheio' x='130' y='130' width='20' height='20'/><use href='#c-marco-cheio' x='310' y='130' width='20' height='20'/><use href='#c-marco-cheio' x='490' y='130' width='20' height='20'/><use href='#c-marco-green' x='630' y='130' width='20' height='20'/>",
+            "<g font-size='12' font-weight='700' fill='var(--ink,#23211C)' text-anchor='middle'><text x='140' y='170'>8 a 9 anos</text><text x='320' y='170'>9 a 10 anos</text><text x='500' y='170'>10 a 11 anos</text><text x='640' y='170'>depois</text></g>",
+            "<g font-size='11' fill='var(--ink,#23211C)' text-anchor='middle'><text x='140' y='70' font-weight='700'>Caninos decíduos</text><text x='140' y='86'>abrir espaço para</text><text x='140' y='100'>os incisivos alinharem</text>",
+            "<text x='320' y='70' font-weight='700'>Primeiros molares decíduos</text><text x='320' y='86'>acelerar a erupção</text><text x='320' y='100'>dos primeiros pré-molares</text>",
+            "<text x='500' y='70' font-weight='700'>Primeiros pré-molares</text><text x='500' y='86'>dar espaço aos caninos</text><text x='500' y='100'>permanentes erupcionarem</text>",
+            "<text x='640' y='70' font-weight='700' fill='var(--green,#3E7C4F)'>Aparelho fixo curto</text><text x='640' y='86'>fechar espaços,</text><text x='640' y='100'>paralelizar raízes</text></g>",
+            "<use href='#c-caixa-gold' x='90' y='200' width='540' height='64'/><text x='360' y='222' text-anchor='middle' font-size='12' font-weight='700'>Só quando: discrepância severa (cerca de 10 mm ou mais por arco), Classe I esquelética,</text><text x='360' y='240' text-anchor='middle' font-size='12' font-weight='700'>perfil bom, todos os dentes presentes e família que volta às consultas</text><text x='360' y='256' text-anchor='middle' font-size='11'>idades aproximadas; o que manda é o estágio de erupção, confirmado na radiografia [VERIFICAR]</text>",
+            "<text x='360' y='300' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>a ordem primeiro pré-molar antes do canino é o que se busca; se o canino vem antes, a sequência muda</text>"
+          ],
+          "legenda": "Três extrações programadas para que os permanentes nasçam melhor. Funciona quando a falta é grande e o resto está certo; fora disso, tira dentes que fariam falta."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "erro",
+          "texto": "Indicar extração seriada em discrepância moderada porque \"vai faltar espaço mesmo\". Com 5 a 8 mm, o crescimento, o espaço livre de Nance e as outras fontes costumam resolver sem extrair; a seriada, aqui, sobra espaço no fim e retrai o perfil. Reserve-a para a falta severa com bases normais."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Quais são os pré-requisitos para indicar extração seriada?",
+        "resposta": "Discrepância severa na análise de espaço, em torno de 10 mm ou mais por arco; bases esqueléticas em Classe I; perfil bom; todos os dentes permanentes presentes; e possibilidade de acompanhamento até o fim."
+      }
+    },
+    {
+      "titulo": "Estabilidade: o inferior anterior quer voltar",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "O apinhamento dos incisivos inferiores é o que mais recidiva na ortodontia. Nos acompanhamentos de longo prazo após o fim da contenção, a maior parte dos casos apresentou algum grau de reapinhamento, sem que se consiga prever pelo diagnóstico inicial quem vai recidivar [VERIFICAR]. Alargar a distância intercaninos inferior para ganhar espaço foi um dos fatores associados a pior estabilidade: o arco tende a voltar à largura original."
+        },
+        {
+          "tipo": "p",
+          "texto": "A resposta prática tem duas partes. Na mecânica, respeitar a largura intercaninos inferior original e não avançar os incisivos além do que o perfil e o osso permitem. Na finalização, contenção inferior de longa duração, fixa ou removível, combinada com o paciente desde o início como parte do tratamento e não como acessório. O apinhamento tardio acontece em quem nunca usou aparelho; em quem usou, a contenção é o que impede que ele desfaça o resultado."
+        },
+        {
+          "tipo": "imagem",
+          "imagem": "fotografias oclusais do arco inferior de um paciente antes do tratamento, ao final e anos após a remoção da contenção",
+          "mostrar": "Três vistas oclusais do arco inferior: apinhamento anterior inicial, alinhamento ao final do tratamento, e reapinhamento moderado dos incisivos anos depois sem contenção",
+          "legenda": "O arco inferior anterior tende a voltar: por isso a contenção inferior é longa e combinada desde o começo.",
+          "destacar": "Largura intercaninos nas três fases, sobreposição dos incisivos na terceira foto"
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "dica",
+          "titulo": "Combine a contenção na primeira consulta",
+          "texto": "Diga à família, antes de começar, que o inferior vai precisar de contenção por muitos anos, talvez fixa. Quem ouve isso no início aceita; quem ouve na remoção do aparelho acha que o tratamento falhou. A estabilidade do apinhamento é problema de expectativa tanto quanto de mecânica."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Que decisão de mecânica está associada a pior estabilidade do alinhamento inferior?",
+        "resposta": "Alargar a distância intercaninos inferior para ganhar espaço; o arco tende a voltar à largura original e os incisivos reapinham."
+      }
+    },
+    {
+      "titulo": "De volta à menina de 12 anos",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "Sete milímetros no inferior, canino superior sem lugar, bases normais, perfil reto e incisivos inferiores bem posicionados: discrepância moderada, na zona de decisão. Contra a extração: perfil reto e lábios competentes, que não pedem retração, e incisivos que aceitam algum avanço."
+        },
+        {
+          "tipo": "p",
+          "texto": "A favor: 7 mm é muito para tirar só de desgaste e de pequena expansão em uma mandíbula que não expande. A resposta honesta para a mãe é que a decisão depende de quanto se consegue tirar das outras fontes sem estragar o perfil, e que a análise completa, com cefalometria e simulação, vem antes da promessa."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "frase",
+          "texto": "\"Vai precisar arrancar dente?\" depende de três números: quantos milímetros faltam, quanto o perfil aceita avançar e quanto as outras fontes rendem. Responda com os três, não com um palpite."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Quais fatores colocam a menina da abertura na zona de decisão entre extrair e não extrair?",
+        "resposta": "Discrepância moderada de 7 mm, perfil reto com lábios competentes que não pede retração, incisivos inferiores bem posicionados que aceitam algum avanço, e uma mandíbula que rende pouco com expansão."
+      }
+    }
+  ],
+  "fechamento": {
+    "visual": {
+      "formato": "mapa",
+      "titulo": "Mapa da página",
+      "descricao": "Nó central: Classe I com apinhamento. Seis nós: discrepância é a conta; causa ambiental sobre dentes herdados; análise de espaço na mista; cinco fontes de espaço; extração seriada só na falta severa; inferior anterior recidiva, contenção longa.",
+      "viewBox": "0 0 560 360",
+      "svg": [
+        "<g stroke='var(--border,#EDE6D8)' stroke-width='1.5'><line x1='280' y1='180' x2='100' y2='60'/><line x1='280' y1='180' x2='460' y2='60'/><line x1='280' y1='180' x2='70' y2='180'/><line x1='280' y1='180' x2='490' y2='180'/><line x1='280' y1='180' x2='100' y2='300'/><line x1='280' y1='180' x2='460' y2='300'/></g>",
+        "<use href='#c-no-central' x='190' y='150' width='180' height='60'/>",
+        "<text x='280' y='176' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>Classe I com</text><text x='280' y='194' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>apinhamento</text>",
+        "<use href='#c-no' x='20' y='38' width='160' height='44'/><text x='100' y='65' text-anchor='middle' font-size='13' font-weight='700'>Discrepância: a conta</text>",
+        "<use href='#c-no' x='380' y='38' width='160' height='44'/><text x='460' y='65' text-anchor='middle' font-size='13' font-weight='700'>Arco que não cresceu</text>",
+        "<use href='#c-no' x='0' y='158' width='150' height='44'/><text x='75' y='185' text-anchor='middle' font-size='13' font-weight='700'>Moyers, Tanaka-Johnston</text>",
+        "<use href='#c-no' x='410' y='158' width='150' height='44'/><text x='485' y='185' text-anchor='middle' font-size='13' font-weight='700'>Cinco fontes de espaço</text>",
+        "<use href='#c-no' x='20' y='278' width='160' height='44'/><text x='100' y='305' text-anchor='middle' font-size='13' font-weight='700'>Seriada só na severa</text>",
+        "<use href='#c-no' x='380' y='278' width='160' height='44'/><text x='460' y='305' text-anchor='middle' font-size='13' font-weight='700'>Inferior volta: contenção</text>"
+      ]
+    },
+    "flashcards": [
+      {
+        "frente": "Como se calcula a discrepância de modelo e quais são as faixas usuais?",
+        "verso": "Espaço disponível (perímetro do arco entre os primeiros molares) menos espaço necessário (soma das larguras dos dentes). Leve até 4 mm, moderada 5 a 9 mm, severa 10 mm ou mais, por arco."
+      },
+      {
+        "frente": "Regra de Tanaka e Johnston.",
+        "verso": "Metade da soma das larguras dos quatro incisivos inferiores mais 10,5 mm prevê canino e pré-molares de um quadrante inferior; mais 11 mm, de um quadrante superior."
+      },
+      {
+        "frente": "As cinco fontes de espaço e a que mais custa ao perfil.",
+        "verso": "Expansão, Distalização, vestibularização dos incisivos, desgaste interproximal e extração. A vestibularização protrui o perfil; a extração retrai."
+      }
+    ]
+  },
+  "infografico": {
+    "titulo": "Classe I com apinhamento em seis cartões",
+    "itens": [
+      {
+        "rotulo": "O que é",
+        "texto": "Molares em Classe I, bases normais, dentes maiores que o perímetro do arco. A má oclusão mais comum."
+      },
+      {
+        "rotulo": "A conta",
+        "texto": "Disponível menos necessário, em mm por arco. Leve até 4; moderada 5 a 9; severa 10 ou mais."
+      },
+      {
+        "rotulo": "Na mista",
+        "texto": "Moyers (tabela) ou Tanaka e Johnston (metade dos incisivos inferiores + 10,5 ou + 11) preveem caninos e pré-molares."
+      },
+      {
+        "rotulo": "Fontes",
+        "texto": "Expansão (maxila), Distalização, vestibularização (2 mm por mm), desgaste (décimos), extração (um dente por lado)."
+      },
+      {
+        "rotulo": "Seriada",
+        "texto": "Caninos decíduos, primeiros molares decíduos, primeiros pré-molares. Só com falta severa, Classe I e perfil bom."
+      },
+      {
+        "rotulo": "Estabilidade",
+        "texto": "Incisivos inferiores reapinham; não alargar intercaninos; contenção longa combinada desde o início."
+      }
+    ]
+  },
+  "fluxograma": {
+    "titulo": "Classe I com apinhamento: de onde tirar o espaço",
+    "nos": [
+      {
+        "id": "n1",
+        "tipo": "inicio",
+        "texto": "Discrepância medida ou prevista, em mm por arco"
+      },
+      {
+        "id": "n2",
+        "tipo": "decisao",
+        "texto": "Até 4 mm?"
+      },
+      {
+        "id": "n3",
+        "tipo": "fim",
+        "texto": "Sem extração: expansão se a maxila permite, desgaste, pequena vestibularização"
+      },
+      {
+        "id": "n4",
+        "tipo": "decisao",
+        "texto": "10 mm ou mais?"
+      },
+      {
+        "id": "n5",
+        "tipo": "decisao",
+        "texto": "Dentição mista, Classe I esquelética, perfil bom?"
+      },
+      {
+        "id": "n6",
+        "tipo": "fim",
+        "texto": "Extração seriada ou extração de pré-molares na permanente"
+      },
+      {
+        "id": "n7",
+        "tipo": "fim",
+        "texto": "Extração de pré-molares com mecânica fixa"
+      },
+      {
+        "id": "n8",
+        "tipo": "decisao",
+        "texto": "Perfil aceita avanço dos incisivos e a maxila aceita expansão?"
+      },
+      {
+        "id": "n9",
+        "tipo": "fim",
+        "texto": "Combinar fontes sem extração; contenção longa"
+      },
+      {
+        "id": "n10",
+        "tipo": "fim",
+        "texto": "Extração; fechar espaços controlando o perfil"
+      }
+    ],
+    "arestas": [
+      {
+        "de": "n1",
+        "para": "n2"
+      },
+      {
+        "de": "n2",
+        "para": "n3",
+        "rotulo": "sim"
+      },
+      {
+        "de": "n2",
+        "para": "n4",
+        "rotulo": "não"
+      },
+      {
+        "de": "n4",
+        "para": "n5",
+        "rotulo": "sim"
+      },
+      {
+        "de": "n5",
+        "para": "n6",
+        "rotulo": "sim"
+      },
+      {
+        "de": "n5",
+        "para": "n7",
+        "rotulo": "não"
+      },
+      {
+        "de": "n4",
+        "para": "n8",
+        "rotulo": "não"
+      },
+      {
+        "de": "n8",
+        "para": "n9",
+        "rotulo": "sim"
+      },
+      {
+        "de": "n8",
+        "para": "n10",
+        "rotulo": "não"
+      }
+    ]
+  },
+  "passoAPasso": [
+    {
+      "passo": "Meça a largura mesiodistal de cada dente e some por arco: espaço necessário.",
+      "confira": "Na dentição mista, previu caninos e pré-molares por Moyers ou Tanaka e Johnston?"
+    },
+    {
+      "passo": "Meça o perímetro do arco entre as mesiais dos primeiros molares: espaço disponível.",
+      "confira": "Mediu o arco na forma real, sem idealizar?"
+    },
+    {
+      "passo": "Subtraia e classifique a discrepância: leve, moderada ou severa.",
+      "confira": "Fez a conta para os dois arcos separadamente?"
+    },
+    {
+      "passo": "Leia o perfil e a cefalometria: posição dos incisivos, lábios, bases.",
+      "confira": "Os incisivos aceitam avançar? A maxila aceita expandir?"
+    },
+    {
+      "passo": "Escolha e combine as fontes de espaço, e combine a contenção com a família.",
+      "confira": "A soma das fontes paga a discrepância sem estragar perfil nem estabilidade?"
+    }
+  ],
+  "macetes": [
+    {
+      "titulo": "4, 9, 10",
+      "texto": "Até 4 mm, leve. 5 a 9, moderada, zona de decisão. 10 ou mais, severa. A faixa abre e fecha as opções."
+    },
+    {
+      "titulo": "Metade mais dez e meio",
+      "texto": "Tanaka e Johnston: metade da soma dos quatro incisivos inferiores, mais 10,5 no inferior e 11 no superior, por quadrante."
+    },
+    {
+      "titulo": "Um para a frente, dois no arco",
+      "texto": "Cada milímetro de avanço dos incisivos rende cerca de dois de perímetro; e cobra em perfil e estabilidade."
+    },
+    {
+      "titulo": "Embaixo, não alargue",
+      "texto": "A largura intercaninos inferior volta ao original. Ganhe espaço em outro lugar e combine a contenção."
+    }
+  ],
+  "ondeErra": [
+    {
+      "erro": "Decidir extração pelo aspecto visual do apinhamento.",
+      "porque": "A impressão engana, sobretudo com dentes por erupcionar; só a discrepância em milímetros classifica.",
+      "certo": "Medir necessário e disponível e classificar em leve, moderada ou severa."
+    },
+    {
+      "erro": "Expandir a mandíbula para ganhar espaço.",
+      "porque": "Sem sutura, a expansão inferior só inclina dentes e a largura intercaninos volta.",
+      "certo": "Buscar espaço em outras fontes e respeitar a intercaninos inferior original."
+    },
+    {
+      "erro": "Indicar extração seriada com discrepância moderada.",
+      "porque": "Sobra espaço no fim e o perfil retrai; a seriada é para falta severa com bases normais.",
+      "certo": "Reservar a seriada para cerca de 10 mm ou mais por arco, Classe I e perfil bom."
+    },
+    {
+      "erro": "Culpar o terceiro molar pelo apinhamento tardio e extraí-lo para prevenir.",
+      "porque": "O apinhamento tardio ocorre sem terceiros molares; a evidência de causa é fraca.",
+      "certo": "Contenção inferior prolongada; terceiros molares decididos por critérios próprios."
+    }
+  ],
+  "autoteste": [
+    {
+      "pergunta": "A discrepância de modelo em um arco é calculada por:",
+      "alternativas": [
+        "Soma das larguras dos dentes menos o perímetro do arco entre os primeiros molares, com sinal invertido",
+        "Perímetro do arco entre os primeiros molares menos a soma das larguras mesiodistais dos dentes",
+        "Trespasse horizontal menos trespasse vertical",
+        "Largura intercaninos menos largura intermolares"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "A ordem convencional é disponível menos necessário; negativo é apinhamento.",
+        "Correta: espaço disponível menos espaço necessário; o resultado negativo é a discrepância.",
+        "Não tem relação com a análise de espaço.",
+        "São medidas transversais, não de perímetro."
+      ]
+    },
+    {
+      "pergunta": "Pela regra de Tanaka e Johnston, a soma dos quatro incisivos inferiores de uma criança é 23 mm. A previsão para canino e pré-molares de um quadrante inferior é:",
+      "alternativas": [
+        "23 mm",
+        "22 mm",
+        "11,5 mm",
+        "34 mm"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Não se usa a soma inteira.",
+        "Correta: metade de 23 é 11,5; mais 10,5 dá 22 mm para o quadrante inferior (no superior, 22,5 mm).",
+        "Falta somar os 10,5 mm.",
+        "Soma errada."
+      ]
+    },
+    {
+      "pergunta": "Sobre as fontes de espaço na Classe I com apinhamento, é correto afirmar que:",
+      "alternativas": [
+        "A expansão rende igualmente na maxila e na mandíbula",
+        "A vestibularização dos incisivos rende cerca de 2 mm de perímetro por milímetro de avanço, ao custo do perfil",
+        "O desgaste interproximal resolve discrepâncias severas",
+        "A extração de pré-molares não altera o perfil"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "A maxila em crescimento expande pela sutura; a mandíbula só inclina dentes.",
+        "Correta: alonga o arco pela frente, mas protrui o perfil e compromete a estabilidade.",
+        "Rende décimos por face, poucos milímetros por arco.",
+        "Tende a retrair o perfil."
+      ]
+    },
+    {
+      "pergunta": "A sequência clássica da extração seriada é:",
+      "alternativas": [
+        "Primeiros pré-molares, caninos decíduos, primeiros molares decíduos",
+        "Caninos decíduos, primeiros molares decíduos, primeiros pré-molares",
+        "Segundos molares decíduos, segundos pré-molares, caninos permanentes",
+        "Incisivos laterais decíduos, caninos decíduos, primeiros pré-molares"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Ordem invertida.",
+        "Correta: caninos decíduos para os incisivos, primeiros molares decíduos para acelerar os pré-molares, primeiros pré-molares para os caninos permanentes.",
+        "Não é a sequência da extração seriada.",
+        "Incisivos decíduos não fazem parte da sequência."
+      ]
+    },
+    {
+      "pergunta": "Sobre a estabilidade do alinhamento dos incisivos inferiores, é correto afirmar que:",
+      "alternativas": [
+        "É previsível pelo diagnóstico inicial e não exige contenção",
+        "O reapinhamento é frequente a longo prazo, o alargamento da intercaninos piora a estabilidade e a contenção deve ser prolongada",
+        "A extração dos terceiros molares garante a estabilidade",
+        "Só recidiva em casos tratados com extração"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Não se consegue prever quem vai recidivar; a contenção é para todos.",
+        "Correta: é o quadro dos acompanhamentos de longo prazo.",
+        "A evidência de que o terceiro molar cause o apinhamento tardio é fraca.",
+        "Recidiva em tratados com e sem extração, e o apinhamento tardio ocorre em não tratados."
+      ]
+    }
+  ],
+  "pesquisa": {
+    "termos": [
+      "apinhamento dentário",
+      "análise de espaço",
+      "discrepância de modelo",
+      "extração seriada",
+      "apinhamento tardio incisivos inferiores"
+    ]
+  },
+  "referenciasBase": [
+    "Proffit WR, Fields HW, Larson BE, Sarver DM. Ortodontia Contemporânea. 6ª ed. Problemas de alinhamento e espaço; planejamento na dentição mista.",
+    "Moyers RE. Ortodontia. 4ª ed. Análise da dentição mista.",
+    "Tanaka MM, Johnston LE. The prediction of the size of unerupted canines and premolars in a contemporary orthodontic population. J Am Dent Assoc. 1974.",
+    "Little RM, Wallen TR, Riedel RA. Stability and relapse of mandibular anterior alignment: first premolar extraction cases treated by traditional edgewise orthodontics. Am J Orthod. 1981.",
+    "Little RM. Stability and relapse of dental arch alignment. Br J Orthod. 1990.",
+    "Graber LW, Vanarsdall RL, Vig KWL, Huang GJ. Ortodontia: princípios e técnicas atuais. 6ª ed."
+  ],
+  "validacao": {
+    "validadoPor": null,
+    "data": null
+  }
+}
