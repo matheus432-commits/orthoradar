@@ -110,3 +110,7 @@ lista com localização é impressa por
 - Kutin G, Hawes RR. Am J Orthod 1969; metanálise de correção precoce da cruzada unilateral (2022).
 - Linder-Aronson S. Acta Otolaryngol Suppl 1970; Linder-Aronson S, 1979.
 - Proffit WR et al. Ortodontia Contemporânea; Graber LW et al. Ortodontia: princípios e técnicas atuais; Moyers RE. Ortodontia.
+
+## Rodada 4 — resolução das marcações (05/09)
+
+As marcações `[VERIFICAR]` deste módulo foram resolvidas por busca de fontes e retiradas; correções de texto e a lista de buscas estão em `AUDITORIA-RODADA-4.md`.

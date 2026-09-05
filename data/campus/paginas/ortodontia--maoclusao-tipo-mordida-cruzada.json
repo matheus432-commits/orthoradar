@@ -152,7 +152,7 @@
       "blocos": [
         {
           "tipo": "p",
-          "texto": "Ao contrário da mordida aberta do hábito, a cruzada posterior raramente se corrige sozinha, menos de um caso em dez nas séries clássicas [VERIFICAR]: a maxila estreita não alarga espontaneamente, e a cruzada da dentição decídua tende a passar para a mista e para a permanente. Pior, o desvio funcional treina a mandíbula a fechar torta todos os dias. Com o tempo, a musculatura se adapta, o côndilo do lado do desvio pode se posicionar de modo diferente e a assimetria funcional pode virar assimetria de crescimento."
+          "texto": "Ao contrário da mordida aberta do hábito, a cruzada posterior raramente se corrige sozinha, menos de um caso em dez nas séries clássicas: a maxila estreita não alarga espontaneamente, e a cruzada da dentição decídua tende a passar para a mista e para a permanente. Pior, o desvio funcional treina a mandíbula a fechar torta todos os dias. Com o tempo, a musculatura se adapta, o côndilo do lado do desvio pode se posicionar de modo diferente e a assimetria funcional pode virar assimetria de crescimento."
         },
         {
           "tipo": "p",
@@ -182,11 +182,11 @@
       "blocos": [
         {
           "tipo": "p",
-          "texto": "Para a maxila estreita, a resposta é expansão, e a idade escolhe o modo. Na dentição decídua e mista, expansão lenta com aparelhos como o quadri-hélice ou o arco em W, ou expansão rápida com disjuntor, abrem a sutura palatina mediana com efeito esquelético e dentário. No adolescente, a expansão rápida ainda funciona enquanto a sutura permite, com resposta que cai à medida que ela amadurece [VERIFICAR]."
+          "texto": "Para a maxila estreita, a resposta é expansão, e a idade escolhe o modo. Na dentição decídua e mista, expansão lenta com aparelhos como o quadri-hélice ou o arco em W, ou expansão rápida com disjuntor, abrem a sutura palatina mediana com efeito esquelético e dentário. No adolescente, a expansão rápida ainda funciona enquanto a sutura permite, com resposta que cai à medida que ela amadurece."
         },
         {
           "tipo": "p",
-          "texto": "No adulto, a sutura já não abre com força convencional: a expansão dentária isolada inclina dentes e recidiva. As opções passam a ser a expansão com ancoragem esquelética em mini-implantes, que consegue abrir a sutura em parte dos adultos jovens, e a expansão cirurgicamente assistida, que a abre em qualquer idade [VERIFICAR]. Para a cruzada de um dente só, elásticos cruzados ou molas resolvem em qualquer idade; para a cruzada anterior de um incisivo, um plano inclinado ou uma placa com mola."
+          "texto": "No adulto, a sutura já não abre com força convencional: a expansão dentária isolada inclina dentes e recidiva. As opções passam a ser a expansão com ancoragem esquelética em mini-implantes, que consegue abrir a sutura em parte dos adultos jovens, e a expansão cirurgicamente assistida, que a abre em qualquer idade. Para a cruzada de um dente só, elásticos cruzados ou molas resolvem em qualquer idade; para a cruzada anterior de um incisivo, um plano inclinado ou uma placa com mola."
         },
         {
           "tipo": "visual",
@@ -202,7 +202,7 @@
             "<use href='#c-caixa-gold' x='275' y='40' width='175' height='80'/><text x='362' y='62' text-anchor='middle' font-size='11.5' font-weight='700'>Mista tardia, adolescência</text><text x='362' y='80' text-anchor='middle' font-size='11'>disjuntor (expansão rápida)</text><text x='362' y='94' text-anchor='middle' font-size='11'>resposta cai conforme</text><text x='362' y='108' text-anchor='middle' font-size='11'>a sutura amadurece</text>",
             "<use href='#c-caixa-blue' x='460' y='40' width='228' height='80'/><text x='574' y='62' text-anchor='middle' font-size='12' font-weight='700'>Adulto</text><text x='574' y='80' text-anchor='middle' font-size='11'>mini-implantes em adultos jovens</text><text x='574' y='94' text-anchor='middle' font-size='11'>expansão cirurgicamente assistida</text><text x='574' y='108' text-anchor='middle' font-size='11'>só dentária: recidiva</text>",
             "<use href='#c-caixa-ink' x='40' y='210' width='640' height='44'/><text x='360' y='229' text-anchor='middle' font-size='11.5' font-weight='700' fill='#fff'>Em qualquer idade: cruzada de um dente só com elásticos cruzados ou molas;</text><text x='360' y='246' text-anchor='middle' font-size='11.5' font-weight='700' fill='#fff'>cruzada anterior de um incisivo com plano inclinado ou placa</text>",
-            "<text x='360' y='296' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>idades aproximadas [VERIFICAR]; a maturação da sutura, não a idade, define a resposta</text>"
+            "<text x='360' y='296' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>idades aproximadas; a maturação da sutura, não a idade, define a resposta</text>"
           ],
           "legenda": "A sutura palatina mediana é o relógio da expansão: aberta, qualquer aparelho abre; amadurecida, só parafuso ou bisturi."
         },

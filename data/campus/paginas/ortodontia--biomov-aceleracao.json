@@ -18,15 +18,15 @@
       "O limite de velocidade do movimento dentário é biológico: a taxa de remodelação do osso alveolar e o tempo da cascata celular. Aumentar a força não acelera; acima do platô só aumenta o dano.",
       "Os métodos de aceleração tentam agir sobre a biologia, não sobre a força: aumentar a atividade celular do osso (cirúrgicos, farmacológicos) ou estimular as células do ligamento (vibração, luz, corrente).",
       "Os procedimentos cirúrgicos, corticotomias e perfurações corticais, aceleram por meio do fenômeno regional acelerado de Frost: o osso ferido remodela mais depressa por semanas a meses. O efeito é transitório e local.",
-      "A evidência atual mostra aceleração modesta e temporária com corticotomia e com micro-osteoperfurações em alguns estudos, com heterogeneidade grande; a redução do tempo total de tratamento é pequena ou não demonstrada [VERIFICAR].",
-      "Vibração de baixa frequência e fotobiomodulação têm resultados inconsistentes: a maioria dos ensaios controlados e das revisões não confirma aceleração clinicamente relevante [VERIFICAR].",
+      "A evidência atual mostra aceleração modesta e temporária com corticotomia e com micro-osteoperfurações em alguns estudos, com heterogeneidade grande; a redução do tempo total de tratamento é pequena ou não demonstrada.",
+      "Vibração de baixa frequência e fotobiomodulação têm resultados inconsistentes: a maioria dos ensaios controlados e das revisões não confirma aceleração clinicamente relevante.",
       "O que comprovadamente reduz o tempo de tratamento não é dispositivo: diagnóstico e plano corretos, mecânica eficiente com forças leves e contínuas, consultas regulares e cooperação do paciente."
     ],
     "caiNaProva": [
       "Fenômeno regional acelerado (Frost): agressão ao osso desencadeia aceleração local e transitória da remodelação; base biológica das corticotomias e micro-osteoperfurações.",
       "Classificação dos métodos: cirúrgicos (corticotomia, piezocisão, micro-osteoperfurações), farmacológicos (prostaglandinas, vitamina D, relaxina, PTH), físicos (vibração, fotobiomodulação, corrente elétrica, campo magnético).",
       "Aumentar a magnitude da força não é método de aceleração: acima do platô só crescem os efeitos colaterais.",
-      "Evidência: efeito cirúrgico modesto e transitório; métodos físicos sem confirmação consistente; farmacológicos sem uso clínico estabelecido [VERIFICAR].",
+      "Evidência: efeito cirúrgico modesto e transitório; métodos físicos sem confirmação consistente; farmacológicos sem uso clínico estabelecido.",
       "O maior ganho de tempo vem de plano, mecânica eficiente, intervalos adequados e cooperação."
     ],
     "porQueImporta": "Pacientes adultos pedem velocidade e a indústria oferece dispositivos. Você precisa saber o que cada um faz na biologia que estudou, o que a evidência sustenta e o que é seguro dizer, para não prometer o que o osso não entrega nem negar o que ele permite."
@@ -37,7 +37,7 @@
       "blocos": [
         {
           "tipo": "p",
-          "texto": "Tudo o que você estudou neste módulo converge para uma conclusão: o dente se move na velocidade em que o osso alveolar consegue ser reabsorvido de um lado e formado do outro, e essa velocidade depende de células, não de força. A cascata leva dias para produzir osteoclastos ativos; a reabsorção frontal avança em torno de um milímetro por mês em condições favoráveis [VERIFICAR]; o adulto, com osso mais denso e ligamento menos celular, é mais lento."
+          "texto": "Tudo o que você estudou neste módulo converge para uma conclusão: o dente se move na velocidade em que o osso alveolar consegue ser reabsorvido de um lado e formado do outro, e essa velocidade depende de células, não de força. A cascata leva dias para produzir osteoclastos ativos; a reabsorção frontal avança em torno de meio a um milímetro por mês em condições favoráveis; o adulto, com osso mais denso e ligamento menos celular, é mais lento."
         },
         {
           "tipo": "p",
@@ -50,9 +50,9 @@
           "descricao": "Três grupos. Cirúrgicos: corticotomia, piezocisão, micro-osteoperfurações; agem pelo fenômeno regional acelerado, osso ferido remodela mais depressa. Farmacológicos: prostaglandinas, vitamina D, relaxina, hormônio paratireoidiano; agem na sinalização celular da remodelação; sem uso clínico estabelecido. Físicos: vibração de baixa frequência, fotobiomodulação, corrente elétrica, campo magnético; propostos como estimuladores celulares; evidência inconsistente. Rodapé: o que não é método: aumentar a força.",
           "viewBox": "0 0 560 360",
           "svg": [
-            "<use href='#c-caixa-red' x='20' y='16' width='520' height='76'/><text x='36' y='40' font-size='13' font-weight='700'>Cirúrgicos</text><text x='36' y='58' font-size='11'>corticotomia, piezocisão, micro-osteoperfurações</text><text x='36' y='72' font-size='11'>agem pelo fenômeno regional acelerado: osso ferido remodela mais depressa</text><text x='36' y='86' font-size='11' fill='var(--red,#B4533B)'>efeito modesto e transitório nos estudos [VERIFICAR]</text>",
-            "<use href='#c-caixa-blue' x='20' y='104' width='520' height='76'/><text x='36' y='128' font-size='13' font-weight='700'>Farmacológicos</text><text x='36' y='146' font-size='11'>prostaglandinas, vitamina D, relaxina, hormônio paratireoidiano</text><text x='36' y='160' font-size='11'>agem na sinalização da remodelação, local ou sistêmica</text><text x='36' y='174' font-size='11' fill='var(--blue,#4A6B8A)'>experimentais; sem uso clínico estabelecido [VERIFICAR]</text>",
-            "<use href='#c-caixa-gold' x='20' y='192' width='520' height='76'/><text x='36' y='216' font-size='13' font-weight='700'>Físicos</text><text x='36' y='234' font-size='11'>vibração de baixa frequência, fotobiomodulação, corrente elétrica, campo magnético</text><text x='36' y='248' font-size='11'>propostos como estímulo às células do ligamento e do osso</text><text x='36' y='262' font-size='11' fill='var(--gold,#B08968)'>evidência inconsistente; maioria das revisões não confirma [VERIFICAR]</text>",
+            "<use href='#c-caixa-red' x='20' y='16' width='520' height='76'/><text x='36' y='40' font-size='13' font-weight='700'>Cirúrgicos</text><text x='36' y='58' font-size='11'>corticotomia, piezocisão, micro-osteoperfurações</text><text x='36' y='72' font-size='11'>agem pelo fenômeno regional acelerado: osso ferido remodela mais depressa</text><text x='36' y='86' font-size='11' fill='var(--red,#B4533B)'>efeito modesto e transitório nos estudos</text>",
+            "<use href='#c-caixa-blue' x='20' y='104' width='520' height='76'/><text x='36' y='128' font-size='13' font-weight='700'>Farmacológicos</text><text x='36' y='146' font-size='11'>prostaglandinas, vitamina D, relaxina, hormônio paratireoidiano</text><text x='36' y='160' font-size='11'>agem na sinalização da remodelação, local ou sistêmica</text><text x='36' y='174' font-size='11' fill='var(--blue,#4A6B8A)'>experimentais; sem uso clínico estabelecido</text>",
+            "<use href='#c-caixa-gold' x='20' y='192' width='520' height='76'/><text x='36' y='216' font-size='13' font-weight='700'>Físicos</text><text x='36' y='234' font-size='11'>vibração de baixa frequência, fotobiomodulação, corrente elétrica, campo magnético</text><text x='36' y='248' font-size='11'>propostos como estímulo às células do ligamento e do osso</text><text x='36' y='262' font-size='11' fill='var(--gold,#B08968)'>evidência inconsistente; maioria das revisões não confirma</text>",
             "<use href='#c-caixa-ink' x='60' y='284' width='440' height='60'/><text x='280' y='308' text-anchor='middle' font-size='13' font-weight='700' fill='#fff'>o que não é método: aumentar a força</text><text x='280' y='328' text-anchor='middle' font-size='11' fill='#fff'>acima do platô só cresce o dano; a velocidade não</text>"
           ],
           "legenda": "Três famílias e uma não-família. Só a primeira tem mecanismo biológico bem demonstrado, e mesmo ela entrega menos do que promete."
@@ -70,7 +70,7 @@
       ],
       "checagem": {
         "pergunta": "Qual é o limite biológico da velocidade do movimento e em que três famílias se classificam os métodos que tentam superá-lo?",
-        "resposta": "A taxa de remodelação do osso alveolar, dependente de células, em torno de um milímetro por mês em condições favoráveis [VERIFICAR]. Famílias: cirúrgicos, farmacológicos e físicos."
+        "resposta": "A taxa de remodelação do osso alveolar, dependente de células, em torno de meio a um milímetro por mês em condições favoráveis. Famílias: cirúrgicos, farmacológicos e físicos."
       }
     },
     {
@@ -78,7 +78,7 @@
       "blocos": [
         {
           "tipo": "p",
-          "texto": "Frost descreveu, a partir de fraturas e cirurgias ósseas, que uma agressão ao osso desencadeia na região uma aceleração de toda a remodelação: mais unidades celulares ativas, reabsorção e formação mais rápidas, osso transitoriamente menos denso e mais reativo. É o fenômeno regional acelerado, um mecanismo de reparo. Ele começa em dias, atinge o pico em um a dois meses e regride em alguns meses, conforme o osso repara [VERIFICAR]."
+          "texto": "Frost descreveu, a partir de fraturas e cirurgias ósseas, que uma agressão ao osso desencadeia na região uma aceleração de toda a remodelação: mais unidades celulares ativas, reabsorção e formação mais rápidas, osso transitoriamente menos denso e mais reativo. É o fenômeno regional acelerado, um mecanismo de reparo. Ele começa em dias, atinge o pico em um a dois meses e regride em alguns meses, conforme o osso repara."
         },
         {
           "tipo": "p",
@@ -86,7 +86,7 @@
         },
         {
           "tipo": "p",
-          "texto": "A técnica com retalho e enxerto ósseo, chamada por seus autores de ortodontia osteogênica periodontalmente acelerada, acrescenta osso ao envelope e tem sido usada também para permitir movimentos que o osso original não permitiria [VERIFICAR]. Piezocisão e micro-osteoperfurações são versões sem retalho, menos invasivas, com efeito biológico proporcionalmente menor."
+          "texto": "A técnica com retalho e enxerto ósseo, chamada por seus autores de ortodontia osteogênica periodontalmente acelerada, acrescenta osso ao envelope e tem sido usada também para permitir movimentos que o osso original não permitiria. Piezocisão e micro-osteoperfurações são versões sem retalho, menos invasivas, com efeito biológico proporcionalmente menor."
         },
         {
           "tipo": "visual",
@@ -106,7 +106,7 @@
             "<line x1='215' y1='70' x2='215' y2='200' stroke='var(--blue,#4A6B8A)' stroke-width='1' stroke-dasharray='3 3'/><text x='225' y='62' font-size='11' font-weight='700' fill='var(--blue,#4A6B8A)'>pico: 1 a 2 meses</text>",
             "<text x='260' y='150' font-size='11' fill='var(--ink,#23211C)'>janela em que o movimento</text><text x='260' y='164' font-size='11' fill='var(--ink,#23211C)'>pode ser mais rápido</text>",
             "<text x='480' y='170' font-size='11' fill='var(--ink,#23211C)'>o osso repara e o efeito acaba;</text><text x='480' y='184' font-size='11' fill='var(--ink,#23211C)'>repetir exige nova cirurgia</text>",
-            "<text x='360' y='308' text-anchor='middle' font-size='11' fill='var(--muted,#8A8478)'>curva conceitual, sem escala; prazos de referência da literatura sobre o fenômeno regional acelerado [VERIFICAR]</text>"
+            "<text x='360' y='308' text-anchor='middle' font-size='11' fill='var(--muted,#8A8478)'>curva conceitual, sem escala; prazos de referência da literatura sobre o fenômeno regional acelerado</text>"
           ],
           "legenda": "O osso ferido trabalha mais depressa por alguns meses e depois volta ao normal. Um tratamento de dois anos não cabe nessa janela."
         },
@@ -114,7 +114,7 @@
           "tipo": "destaque",
           "estilo": "mito",
           "mito": "A corticotomia reduz o tempo de tratamento pela metade.",
-          "verdade": "O efeito é local e transitório, com pico em um a dois meses e regressão em poucos meses. Estudos mostram aceleração do movimento na fase inicial, sobretudo de caninos em retração, com ganho sobre o tempo total pequeno e inconsistente entre ensaios; metade do tempo não é o que a literatura sustenta [VERIFICAR]."
+          "verdade": "O efeito é local e transitório, com pico em um a dois meses e regressão em poucos meses. Estudos mostram aceleração do movimento na fase inicial, sobretudo de caninos em retração, com ganho sobre o tempo total pequeno e inconsistente entre ensaios; metade do tempo não é o que a literatura sustenta."
         },
         {
           "tipo": "imagem",
@@ -131,7 +131,7 @@
       ],
       "checagem": {
         "pergunta": "Descreva o fenômeno regional acelerado e diga por que ele limita o que a corticotomia pode entregar.",
-        "resposta": "Aceleração local e transitória da remodelação após agressão ao osso, com pico em um a dois meses e regressão em alguns meses [VERIFICAR]; como é temporário, acelera uma fase, não o tratamento inteiro, e repetir exige nova cirurgia."
+        "resposta": "Aceleração local e transitória da remodelação após agressão ao osso, com pico em um a dois meses e regressão em alguns meses; como é temporário, acelera uma fase, não o tratamento inteiro, e repetir exige nova cirurgia."
       }
     },
     {
@@ -143,11 +143,11 @@
         },
         {
           "tipo": "p",
-          "texto": "A evidência clínica não acompanhou a expectativa. Para a vibração, os ensaios controlados randomizados de melhor qualidade não encontraram aceleração do alinhamento nem redução do tempo de tratamento, e as revisões sistemáticas concluem por ausência de efeito clinicamente relevante [VERIFICAR]."
+          "texto": "A evidência clínica não acompanhou a expectativa. Para a vibração, os ensaios controlados randomizados de melhor qualidade não encontraram aceleração do alinhamento nem redução do tempo de tratamento, e as revisões sistemáticas concluem por ausência de efeito clinicamente relevante."
         },
         {
           "tipo": "p",
-          "texto": "Para a fotobiomodulação, os resultados são heterogêneos, com alguns estudos positivos e outros neutros, qualidade metodológica variável e sem consenso [VERIFICAR]. Para corrente e campos magnéticos, não há uso clínico estabelecido."
+          "texto": "Para a fotobiomodulação, os resultados são heterogêneos, com alguns estudos positivos e outros neutros, qualidade metodológica variável e sem consenso. Para corrente e campos magnéticos, não há uso clínico estabelecido."
         },
         {
           "tipo": "visual",
@@ -164,7 +164,7 @@
             "<g font-size='10' fill='var(--ink,#23211C)' text-anchor='middle'><text x='215' y='188'>meses; regride</text><text x='215' y='201'>com o reparo</text><text x='355' y='188'>semanas a meses;</text><text x='355' y='201'>alguns repetem</text><text x='495' y='194'>uso diário contínuo</text><text x='635' y='194'>uso diário contínuo</text></g>",
             "<g font-size='10' fill='var(--ink,#23211C)' text-anchor='middle'><text x='215' y='244'>cirurgia com retalho;</text><text x='215' y='257'>custo alto</text><text x='355' y='244'>minimamente invasivo;</text><text x='355' y='257'>custo moderado</text><text x='495' y='244'>não invasivo;</text><text x='495' y='257'>dispositivo pago</text><text x='635' y='244'>não invasivo;</text><text x='635' y='257'>dispositivo pago</text></g>",
             "<g font-size='10' font-weight='700' text-anchor='middle'><text x='215' y='300' fill='var(--gold,#B08968)'>ganho modesto,</text><text x='215' y='313' fill='var(--gold,#B08968)'>custo cirúrgico</text><text x='355' y='300' fill='var(--gold,#B08968)'>talvez algo;</text><text x='355' y='313' fill='var(--gold,#B08968)'>não garantido</text><text x='495' y='300' fill='var(--red,#B4533B)'>sem evidência</text><text x='495' y='313' fill='var(--red,#B4533B)'>de benefício</text><text x='635' y='300' fill='var(--red,#B4533B)'>evidência</text><text x='635' y='313' fill='var(--red,#B4533B)'>insuficiente</text></g>",
-            "<text x='360' y='346' text-anchor='middle' font-size='10' fill='var(--muted,#8A8478)'>síntese de revisões sistemáticas até a data de redação [VERIFICAR]; o campo muda, confira antes de indicar</text>"
+            "<text x='360' y='346' text-anchor='middle' font-size='10' fill='var(--muted,#8A8478)'>síntese de revisões sistemáticas até a data de redação; o campo muda, confira antes de indicar</text>"
           ],
           "legenda": "Quatro caminhos, nenhum atalho garantido. A linha final é o que você pode dizer ao paciente sem prometer o que a literatura não sustenta."
         },
@@ -172,22 +172,22 @@
           "tipo": "destaque",
           "estilo": "erro",
           "titulo": "Vender o dispositivo pelo mecanismo, não pelo resultado",
-          "texto": "'Estimula as células do ligamento' descreve uma hipótese, não um desfecho. O que interessa ao paciente é se o tratamento termina antes, e isso só um ensaio clínico controlado responde. Para a vibração, os ensaios de melhor qualidade responderam não; para a luz, ainda não responderam com clareza [VERIFICAR]. Indicar um dispositivo pago sobre essa base é transferir o risco da incerteza para o bolso do paciente."
+          "texto": "'Estimula as células do ligamento' descreve uma hipótese, não um desfecho. O que interessa ao paciente é se o tratamento termina antes, e isso só um ensaio clínico controlado responde. Para a vibração, os ensaios de melhor qualidade responderam não; para a luz, ainda não responderam com clareza. Indicar um dispositivo pago sobre essa base é transferir o risco da incerteza para o bolso do paciente."
         },
         {
           "tipo": "lista",
           "itens": [
-            "Vibração de baixa frequência: ensaios controlados de qualidade sem aceleração do alinhamento ou do tempo total [VERIFICAR].",
-            "Fotobiomodulação: resultados heterogêneos, estudos pequenos, sem consenso [VERIFICAR].",
+            "Vibração de baixa frequência: ensaios controlados de qualidade sem aceleração do alinhamento ou do tempo total.",
+            "Fotobiomodulação: resultados heterogêneos, estudos pequenos, sem consenso.",
             "Corrente elétrica e campo magnético: experimentais, sem uso clínico.",
-            "Farmacológicos sistêmicos ou locais: efeito em animais, sem protocolo clínico seguro estabelecido [VERIFICAR].",
+            "Farmacológicos sistêmicos ou locais: efeito em animais, sem protocolo clínico seguro estabelecido.",
             "Comum a todos: quem indica precisa conhecer a evidência do ano corrente, não a do lançamento."
           ]
         }
       ],
       "checagem": {
         "pergunta": "O que a evidência atual mostra sobre vibração de baixa frequência e fotobiomodulação como aceleradores do movimento?",
-        "resposta": "Vibração: ensaios controlados de melhor qualidade e revisões não encontram aceleração clinicamente relevante. Fotobiomodulação: resultados heterogêneos e sem consenso [VERIFICAR]."
+        "resposta": "Vibração: ensaios controlados de melhor qualidade e revisões não encontram aceleração clinicamente relevante. Fotobiomodulação: resultados heterogêneos e sem consenso."
       }
     },
     {
@@ -199,7 +199,7 @@
         },
         {
           "tipo": "p",
-          "texto": "As corticotomias com retalho envolvem cirurgia, edema, dor pós-operatória, risco de dano radicular pelos cortes e de perda de osso e de papila se o retalho não for bem manejado; estudos não mostram aumento consistente de reabsorção radicular, mas o seguimento longo é escasso [VERIFICAR]. Micro-osteoperfurações e piezocisão são menos invasivas, com dor pós-operatória menor, e risco de lesão radicular se mal posicionadas."
+          "texto": "As corticotomias com retalho envolvem cirurgia, edema, dor pós-operatória, risco de dano radicular pelos cortes e de perda de osso e de papila se o retalho não for bem manejado; estudos não mostram aumento consistente de reabsorção radicular, mas o seguimento longo é escasso. Micro-osteoperfurações e piezocisão são menos invasivas, com dor pós-operatória menor, e risco de lesão radicular se mal posicionadas."
         },
         {
           "tipo": "pergunta",
@@ -212,7 +212,7 @@
         },
         {
           "tipo": "p",
-          "texto": "Os farmacológicos são o oposto: prostaglandinas locais produzem dor intensa e reabsorção; hormônios sistêmicos afetam todo o esqueleto; nenhum tem protocolo seguro para uso clínico [VERIFICAR]. E há um efeito colateral comum a qualquer aceleração real: mover mais depressa dentro do mesmo envelope não amplia o envelope, e a raiz que sai do osso sai igualmente, só mais cedo."
+          "texto": "Os farmacológicos são o oposto: prostaglandinas locais produzem dor intensa e reabsorção; hormônios sistêmicos afetam todo o esqueleto; nenhum tem protocolo seguro para uso clínico. E há um efeito colateral comum a qualquer aceleração real: mover mais depressa dentro do mesmo envelope não amplia o envelope, e a raiz que sai do osso sai igualmente, só mais cedo."
         },
         {
           "tipo": "visual",
@@ -228,7 +228,7 @@
             "<g><use href='#c-vetor-red' x='130' y='70' width='50' height='12' transform='rotate(180 155 76)'/><use href='#c-vetor-red' x='470' y='70' width='50' height='12' transform='rotate(180 495 76)'/></g>",
             "<g font-size='11' fill='var(--ink,#23211C)' text-anchor='middle'><text x='190' y='246'>a raiz chega à cortical em 12 meses</text><text x='530' y='246'>a raiz chega à mesma cortical em 6 meses</text></g>",
             "<g font-size='11' font-weight='700' text-anchor='middle'><text x='190' y='264' fill='var(--gold,#B08968)'>mesmo limite</text><text x='530' y='264' fill='var(--red,#B4533B)'>mesmo limite, mais cedo</text></g>",
-            "<text x='360' y='290' text-anchor='middle' font-size='10' fill='var(--muted,#8A8478)'>exceção: técnicas com enxerto ósseo podem ampliar o envelope [VERIFICAR]; cortes esquemáticos, fora de escala</text>"
+            "<text x='360' y='290' text-anchor='middle' font-size='10' fill='var(--muted,#8A8478)'>exceção: técnicas com enxerto ósseo podem ampliar o envelope; cortes esquemáticos, fora de escala</text>"
           ],
           "legenda": "Velocidade não é espaço. O osso termina no mesmo lugar, e chegar lá mais rápido não é vantagem."
         },
@@ -241,7 +241,7 @@
       ],
       "checagem": {
         "pergunta": "Cite os riscos das corticotomias com retalho e explique por que acelerar não protege contra deiscências.",
-        "resposta": "Cirurgia, edema, dor, dano radicular pelos cortes, perda de osso ou papila com retalho mal manejado, seguimento longo escasso [VERIFICAR]. Acelerar não amplia o envelope de osso: a raiz alcança a mesma cortical, apenas mais cedo."
+        "resposta": "Cirurgia, edema, dor, dano radicular pelos cortes, perda de osso ou papila com retalho mal manejado, seguimento longo escasso. Acelerar não amplia o envelope de osso: a raiz alcança a mesma cortical, apenas mais cedo."
       }
     },
     {
@@ -273,7 +273,7 @@
             "<use href='#c-decisao' x='150' y='228' width='260' height='50'/><text x='280' y='249' text-anchor='middle' font-size='12' font-weight='700'>cooperação, higiene e</text><text x='280' y='265' text-anchor='middle' font-size='11'>comparecimento previsíveis?</text>",
             "<path d='M410 253 L460 253' stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'/><use href='#c-caixa-gold' x='462' y='234' width='94' height='38'/><text x='509' y='251' text-anchor='middle' font-size='10' font-weight='700'>trabalhar</text><text x='509' y='264' text-anchor='middle' font-size='10'>isso primeiro</text><text x='435' y='246' text-anchor='middle' font-size='10' fill='var(--muted,#8A8478)'>não</text>",
             "<path d='M280 278 L280 298' stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'/><text x='292' y='294' font-size='10' fill='var(--muted,#8A8478)'>sim</text>",
-            "<use href='#c-caixa-red' x='60' y='302' width='440' height='76'/><text x='280' y='324' text-anchor='middle' font-size='12' font-weight='700'>só então: discutir aceleração cirúrgica</text><text x='280' y='342' text-anchor='middle' font-size='11'>evidência, riscos, custo, ganho realista em meses, não em promessas</text><text x='280' y='356' text-anchor='middle' font-size='11'>dispositivos sem evidência: fora, ou escolha informada sem promessa</text><text x='280' y='370' text-anchor='middle' font-size='10' fill='var(--muted,#8A8478)'>registrar a conversa e o consentimento [VERIFICAR]</text>",
+            "<use href='#c-caixa-red' x='60' y='302' width='440' height='76'/><text x='280' y='324' text-anchor='middle' font-size='12' font-weight='700'>só então: discutir aceleração cirúrgica</text><text x='280' y='342' text-anchor='middle' font-size='11'>evidência, riscos, custo, ganho realista em meses, não em promessas</text><text x='280' y='356' text-anchor='middle' font-size='11'>dispositivos sem evidência: fora, ou escolha informada sem promessa</text><text x='280' y='370' text-anchor='middle' font-size='10' fill='var(--muted,#8A8478)'>registrar a conversa e o consentimento</text>",
             "<text x='280' y='410' text-anchor='middle' font-size='11' fill='var(--muted,#8A8478)'>as três primeiras perguntas costumam render mais meses do que a quarta caixa</text>",
             "<text x='280' y='446' text-anchor='middle' font-size='10' fill='var(--muted,#8A8478)'>e não custam cirurgia nem dispositivo</text>"
           ],
@@ -295,11 +295,11 @@
       "blocos": [
         {
           "tipo": "p",
-          "texto": "As três opções que ele trouxe se distribuem pela tabela da página. O dispositivo vibratório tem os ensaios de melhor qualidade contra si: você diz que não há evidência de que reduza o tempo, que não faz mal, e que o custo é dele [VERIFICAR]."
+          "texto": "As três opções que ele trouxe se distribuem pela tabela da página. O dispositivo vibratório tem os ensaios de melhor qualidade contra si: você diz que não há evidência de que reduza o tempo, que não faz mal, e que o custo é dele."
         },
         {
           "tipo": "p",
-          "texto": "A fotobiomodulação tem evidência heterogênea: você diz que não pode prometer meses e que não indicaria como base do plano [VERIFICAR]. A corticotomia tem mecanismo real e efeito modesto e transitório, com cirurgia no meio: você diz o que ela pode e não pode, em meses e riscos, e deixa a decisão informada com ele."
+          "texto": "A fotobiomodulação tem evidência heterogênea: você diz que não pode prometer meses e que não indicaria como base do plano. A corticotomia tem mecanismo real e efeito modesto e transitório, com cirurgia no meio: você diz o que ela pode e não pode, em meses e riscos, e deixa a decisão informada com ele."
         },
         {
           "tipo": "destaque",
@@ -318,7 +318,7 @@
       ],
       "checagem": {
         "pergunta": "Resuma em três frases o que dizer ao paciente sobre vibração, fotobiomodulação e corticotomia.",
-        "resposta": "Vibração: sem evidência de reduzir o tempo, sem dano, custo dele. Fotobiomodulação: evidência heterogênea, não dá para prometer meses. Corticotomia: mecanismo real, efeito modesto e transitório, cirurgia com riscos; decisão informada, sem promessa de metade do tempo [VERIFICAR]."
+        "resposta": "Vibração: sem evidência de reduzir o tempo, sem dano, custo dele. Fotobiomodulação: evidência heterogênea, não dá para prometer meses. Corticotomia: mecanismo real, efeito modesto e transitório, cirurgia com riscos; decisão informada, sem promessa de metade do tempo."
       }
     }
   ],
@@ -344,11 +344,11 @@
     "flashcards": [
       {
         "frente": "Explique o fenômeno regional acelerado e como as corticotomias o usam.",
-        "verso": "Após uma agressão ao osso, a remodelação local acelera por semanas a meses, com pico em um a dois meses e regressão com o reparo (Frost). Corticotomias, piezocisão e micro-osteoperfurações criam essa agressão em volta das raízes para que o osso remodele mais depressa enquanto a força move o dente; o efeito é transitório [VERIFICAR]."
+        "verso": "Após uma agressão ao osso, a remodelação local acelera por semanas a meses, com pico em um a dois meses e regressão com o reparo (Frost). Corticotomias, piezocisão e micro-osteoperfurações criam essa agressão em volta das raízes para que o osso remodele mais depressa enquanto a força move o dente; o efeito é transitório."
       },
       {
         "frente": "O que a evidência mostra sobre vibração de baixa frequência e fotobiomodulação para acelerar o movimento?",
-        "verso": "Vibração: ensaios controlados de melhor qualidade e revisões sistemáticas não encontram aceleração clinicamente relevante. Fotobiomodulação: resultados heterogêneos, estudos pequenos, sem consenso. Nenhum dos dois permite prometer redução do tempo [VERIFICAR]."
+        "verso": "Vibração: ensaios controlados de melhor qualidade e revisões sistemáticas não encontram aceleração clinicamente relevante. Fotobiomodulação: resultados heterogêneos, estudos pequenos, sem consenso. Nenhum dos dois permite prometer redução do tempo."
       },
       {
         "frente": "Por que acelerar o movimento não protege contra deiscência e recessão?",
@@ -369,11 +369,11 @@
       },
       {
         "rotulo": "Frost",
-        "texto": "Osso agredido remodela mais depressa por meses e volta ao normal. Base das corticotomias; efeito transitório [VERIFICAR]."
+        "texto": "Osso agredido remodela mais depressa por meses e volta ao normal. Base das corticotomias; efeito transitório."
       },
       {
         "rotulo": "Evidência",
-        "texto": "Cirúrgicos: modesto e temporário. Vibração: sem efeito relevante. Luz: sem consenso. Fármacos: sem uso clínico [VERIFICAR]."
+        "texto": "Cirúrgicos: modesto e temporário. Vibração: sem efeito relevante. Luz: sem consenso. Fármacos: sem uso clínico."
       },
       {
         "rotulo": "Segurança",
@@ -522,11 +522,11 @@
     {
       "erro": "Prometer redução do tempo pela metade com corticotomia.",
       "porque": "O fenômeno regional acelerado é transitório e cobre só uma fase do tratamento.",
-      "certo": "Ganho modesto e temporário, com riscos cirúrgicos; decisão informada [VERIFICAR]."
+      "certo": "Ganho modesto e temporário, com riscos cirúrgicos; decisão informada."
     },
     {
       "erro": "Indicar dispositivo vibratório ou de luz como parte do plano.",
-      "porque": "Ensaios de qualidade não mostram efeito relevante para vibração; luz sem consenso [VERIFICAR].",
+      "porque": "Ensaios de qualidade não mostram efeito relevante para vibração; luz sem consenso.",
       "certo": "Informar a evidência; se o paciente quiser, escolha dele sem promessa."
     },
     {
@@ -568,7 +568,7 @@
       "correta": 1,
       "explicacoes": [
         "O efeito regride quando o osso repara.",
-        "Correta: por isso acelera uma fase, não o tratamento inteiro [VERIFICAR].",
+        "Correta: por isso acelera uma fase, não o tratamento inteiro.",
         "Dura semanas a meses, não horas.",
         "Ocorre em qualquer idade após agressão óssea."
       ]
@@ -584,7 +584,7 @@
       "correta": 1,
       "explicacoes": [
         "Nenhuma revisão sustenta isso.",
-        "Correta: os ensaios de qualidade e as revisões não encontram efeito relevante [VERIFICAR].",
+        "Correta: os ensaios de qualidade e as revisões não encontram efeito relevante.",
         "Não há relato consistente de dano; o custo é financeiro e de expectativa.",
         "Não é contraindicado; é ineficaz."
       ]
@@ -616,7 +616,7 @@
       "correta": 2,
       "explicacoes": [
         "Acima do platô só cresce o dano.",
-        "Evidência heterogênea e sem consenso [VERIFICAR].",
+        "Evidência heterogênea e sem consenso.",
         "Correta: a maior parte do tempo perdido não é biológica.",
         "Trocas frequentes sem necessidade não aceleram e podem hialinizar."
       ]

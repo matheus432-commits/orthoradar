@@ -17,9 +17,9 @@
     "frases": [
       "A lesão branca é a primeira fase clínica da cárie: desmineralização subsuperficial do esmalte sob uma camada externa ainda intacta, que dispersa a luz e parece opaca e branca, sobretudo quando seca.",
       "O aparelho fixo cria nichos de retenção de biofilme em volta de braquetes, bandas e fios, dificulta a escovação e a autolimpeza e, com açúcar frequente, faz o pH cair muitas vezes ao dia.",
-      "Lesões brancas visíveis podem se formar em poucas semanas de acúmulo de biofilme, e ao final do tratamento aparecem em uma parcela grande dos pacientes; as áreas mais afetadas são a face vestibular gengival de incisivos laterais superiores e caninos [VERIFICAR].",
+      "Lesões brancas visíveis podem se formar em poucas semanas de acúmulo de biofilme, e ao final do tratamento aparecem em uma parcela grande dos pacientes; as áreas mais afetadas são a face vestibular gengival de incisivos laterais superiores e caninos.",
       "A prevenção é o tratamento: higiene supervisionada, dentifrício fluoretado, flúor tópico adicional nos pacientes de risco, controle do açúcar e selantes ou vernizes em áreas de risco.",
-      "Lesões formadas podem remineralizar em parte nos meses após a remoção do aparelho; não devem ser tratadas com restauração de imediato, e a aplicação intensa de flúor pode fixar a opacidade em vez de apagá-la [VERIFICAR].",
+      "Lesões formadas podem remineralizar em parte nos meses após a remoção do aparelho; não devem ser tratadas com restauração de imediato, e a aplicação intensa de flúor pode fixar a opacidade em vez de apagá-la.",
       "Para lesões que persistem, existem opções conservadoras: microabrasão, infiltração com resina e clareamento; restaurações ficam para os casos com cavitação."
     ],
     "caiNaProva": [
@@ -93,7 +93,7 @@
         },
         {
           "tipo": "p",
-          "texto": "A microbiota também muda. Aparelhos fixos aumentam a quantidade de biofilme e a proporção de bactérias acidogênicas e acidúricas, como estreptococos do grupo mutans e lactobacilos [VERIFICAR]. Com açúcar entre as refeições, o pH sob o biofilme cai várias vezes ao dia e fica abaixo do ponto crítico por mais tempo do que a saliva consegue neutralizar. O resultado é um balanço negativo de mineral que se acumula semana após semana."
+          "texto": "A microbiota também muda. Aparelhos fixos aumentam a quantidade de biofilme e a proporção de bactérias acidogênicas e acidúricas, como estreptococos do grupo mutans e lactobacilos. Com açúcar entre as refeições, o pH sob o biofilme cai várias vezes ao dia e fica abaixo do ponto crítico por mais tempo do que a saliva consegue neutralizar. O resultado é um balanço negativo de mineral que se acumula semana após semana."
         },
         {
           "tipo": "visual",
@@ -125,7 +125,7 @@
           "itens": [
             "Coroas clínicas curtas e braquetes próximos da gengiva: nicho maior.",
             "Bandas em molares: cimento que se dissolve e deixa espaço entre banda e esmalte.",
-            "Amarrilhos elásticos retêm mais biofilme do que ligaduras metálicas ou braquetes autoligados [VERIFICAR].",
+            "Amarrilhos elásticos retêm mais biofilme do que ligaduras metálicas ou braquetes autoligados.",
             "Excesso de resina ao redor da base do braquete: superfície rugosa que retém placa e deve ser removida na colagem.",
             "Fluxo salivar reduzido por medicação ou respiração bucal: menos neutralização e menos remineralização."
           ]
@@ -145,11 +145,11 @@
         },
         {
           "tipo": "p",
-          "texto": "Estudos clínicos relatam incidência de novas lesões em torno de metade dos pacientes, com variação ampla entre serviços [VERIFICAR]. Os dentes mais afetados são os incisivos laterais superiores, seguidos de caninos e pré-molares; os incisivos inferiores, protegidos pela saliva das glândulas sublinguais e submandibulares, são os menos afetados [VERIFICAR]."
+          "texto": "Estudos clínicos relatam incidência de novas lesões em torno de metade dos pacientes, com variação ampla entre serviços. Os dentes mais afetados são os incisivos laterais superiores, seguidos de caninos e pré-molares; os incisivos inferiores, protegidos pela saliva das glândulas sublinguais e submandibulares, são os menos afetados."
         },
         {
           "tipo": "p",
-          "texto": "A velocidade surpreende quem ainda pensa na cárie como processo de anos: sob biofilme não removido, lesões brancas visíveis podem se formar em cerca de quatro semanas [VERIFICAR]. Isso significa que a lesão que a mãe viu no dia da remoção pode ter começado em qualquer consulta ao longo de dois anos e meio, e que a cada consulta havia uma oportunidade de notá-la e agir. O risco aumenta com o tempo de tratamento, mas o problema não é o tempo em si: é o tempo com biofilme."
+          "texto": "A velocidade surpreende quem ainda pensa na cárie como processo de anos: sob biofilme não removido, lesões brancas visíveis podem se formar em cerca de quatro semanas. Isso significa que a lesão que a mãe viu no dia da remoção pode ter começado em qualquer consulta ao longo de dois anos e meio, e que a cada consulta havia uma oportunidade de notá-la e agir. O risco aumenta com o tempo de tratamento, mas o problema não é o tempo em si: é o tempo com biofilme."
         },
         {
           "tipo": "visual",
@@ -165,7 +165,7 @@
             "<rect x='250' y='160' width='220' height='20' rx='4' fill='var(--gold,#B08968)' fill-opacity='0.8'/>",
             "<rect x='250' y='200' width='170' height='20' rx='4' fill='var(--blue,#4A6B8A)'/>",
             "<rect x='250' y='240' width='70' height='20' rx='4' fill='var(--blue,#4A6B8A)' fill-opacity='0.7'/>",
-            "<use href='#c-eixo' x='250' y='272' width='420' height='14'/><text x='460' y='302' text-anchor='middle' font-size='11' fill='var(--muted,#8A8478)'>suscetibilidade relativa, sem escala numérica [VERIFICAR]</text>",
+            "<use href='#c-eixo' x='250' y='272' width='420' height='14'/><text x='460' y='302' text-anchor='middle' font-size='11' fill='var(--muted,#8A8478)'>suscetibilidade relativa, sem escala numérica</text>",
             "<text x='660' y='55' font-size='10' fill='var(--red,#B4533B)' font-weight='700'>mais</text><text x='330' y='255' font-size='10' fill='var(--blue,#4A6B8A)' font-weight='700'>menos: saliva protege</text>"
           ],
           "legenda": "A ordem segue o acesso da saliva e da escova: laterais superiores no topo, incisivos inferiores banhados pelas glândulas do assoalho no fim."
@@ -174,7 +174,7 @@
           "tipo": "destaque",
           "estilo": "mito",
           "mito": "Lesão branca demora anos para aparecer; se o tratamento é curto, não há risco.",
-          "verdade": "Sob biofilme não removido em volta de um braquete, uma lesão visível pode se formar em cerca de um mês [VERIFICAR]. O risco não é do calendário, é do biofilme; um tratamento de um ano com higiene ruim mancha mais que um de três anos com higiene boa."
+          "verdade": "Sob biofilme não removido em volta de um braquete, uma lesão visível pode se formar em cerca de um mês. O risco não é do calendário, é do biofilme; um tratamento de um ano com higiene ruim mancha mais que um de três anos com higiene boa."
         },
         {
           "tipo": "pergunta",
@@ -184,7 +184,7 @@
       ],
       "checagem": {
         "pergunta": "Em quanto tempo uma lesão branca pode se tornar visível sob um braquete e o que isso implica para as consultas de rotina?",
-        "resposta": "Em cerca de quatro semanas de biofilme não removido [VERIFICAR]; cada consulta de ativação é uma oportunidade de examinar as faces vestibulares secas e agir antes que a lesão se estabeleça."
+        "resposta": "Em cerca de quatro semanas de biofilme não removido; cada consulta de ativação é uma oportunidade de examinar as faces vestibulares secas e agir antes que a lesão se estabeleça."
       }
     },
     {
@@ -196,7 +196,7 @@
         },
         {
           "tipo": "p",
-          "texto": "O segundo é o flúor: dentifrício fluoretado convencional para todos, e para pacientes de risco enxaguatório diário de baixa concentração, gel ou verniz aplicados no consultório em intervalos regulares [VERIFICAR]."
+          "texto": "O segundo é o flúor: dentifrício fluoretado convencional para todos, e para pacientes de risco enxaguatório diário de baixa concentração, gel ou verniz aplicados no consultório em intervalos regulares."
         },
         {
           "tipo": "p",
@@ -210,7 +210,7 @@
           "viewBox": "0 0 560 360",
           "svg": [
             "<use href='#c-caixa-green' x='20' y='16' width='520' height='64'/><text x='36' y='40' font-size='13' font-weight='700'>1. Higiene</text><text x='36' y='58' font-size='11'>técnica na gengival do braquete; interdental sob o fio; elétrica se tolerar</text><text x='36' y='72' font-size='11' fill='var(--green,#3E7C4F)'>índice de placa registrado em toda consulta</text>",
-            "<use href='#c-caixa-blue' x='20' y='92' width='520' height='64'/><text x='36' y='116' font-size='13' font-weight='700'>2. Flúor</text><text x='36' y='134' font-size='11'>dentifrício fluoretado para todos; enxaguatório diário para quem tem risco</text><text x='36' y='148' font-size='11' fill='var(--blue,#4A6B8A)'>gel ou verniz no consultório em intervalos regulares [VERIFICAR]</text>",
+            "<use href='#c-caixa-blue' x='20' y='92' width='520' height='64'/><text x='36' y='116' font-size='13' font-weight='700'>2. Flúor</text><text x='36' y='134' font-size='11'>dentifrício fluoretado para todos; enxaguatório diário para quem tem risco</text><text x='36' y='148' font-size='11' fill='var(--blue,#4A6B8A)'>gel ou verniz no consultório em intervalos regulares</text>",
             "<use href='#c-caixa-gold' x='20' y='168' width='520' height='64'/><text x='36' y='192' font-size='13' font-weight='700'>3. Dieta</text><text x='36' y='210' font-size='11'>frequência de açúcar e de bebidas ácidas entre refeições</text><text x='36' y='224' font-size='11' fill='var(--gold,#B08968)'>o adolescente e o refrigerante: pergunte por nome</text>",
             "<use href='#c-caixa-red' x='20' y='244' width='520' height='64'/><text x='36' y='268' font-size='13' font-weight='700'>4. Barreiras</text><text x='36' y='286' font-size='11'>sem excesso de resina; selante ou verniz vestibular em risco alto</text><text x='36' y='300' font-size='11' fill='var(--red,#B4533B)'>ligaduras metálicas ou autoligados quando a higiene é duvidosa</text>",
             "<use href='#c-caixa-ink' x='100' y='318' width='360' height='32'/><text x='280' y='339' text-anchor='middle' font-size='12' font-weight='700' fill='#fff'>começa antes da colagem, revisto em toda consulta</text>"
@@ -241,11 +241,11 @@
       "blocos": [
         {
           "tipo": "p",
-          "texto": "Removido o aparelho, o biofilme passa a ser removível e a saliva volta a banhar as áreas afetadas. Nos primeiros meses, muitas lesões diminuem de tamanho e opacidade por remineralização natural e por abrasão da camada superficial; a melhora é maior nos primeiros seis meses e continua de forma mais lenta por até dois anos [VERIFICAR]. Por isso a primeira regra é esperar: não restaurar, não microabrasionar e não infiltrar no dia da remoção."
+          "texto": "Removido o aparelho, o biofilme passa a ser removível e a saliva volta a banhar as áreas afetadas. Nos primeiros meses, muitas lesões diminuem de tamanho e opacidade por remineralização natural e por abrasão da camada superficial; a melhora é maior nos primeiros seis meses, quando muitas lesões chegam à metade do tamanho, e continua de forma mais lenta por anos. Por isso a primeira regra é esperar: não restaurar, não microabrasionar e não infiltrar no dia da remoção."
         },
         {
           "tipo": "p",
-          "texto": "A segunda regra é contraintuitiva: não aplicar flúor em alta concentração sobre a lesão logo após a remoção. O flúor concentrado remineraliza rapidamente a superfície e pode selar os poros externos antes que o interior se remineralize, fixando a opacidade em vez de apagá-la [VERIFICAR]. Nesse período, o indicado é dentifrício fluoretado convencional, higiene e tempo; produtos de baixa concentração e agentes à base de fosfato de cálcio são usados por alguns serviços, com evidência ainda limitada [VERIFICAR]."
+          "texto": "A segunda regra é contraintuitiva: não aplicar flúor em alta concentração sobre a lesão logo após a remoção. O flúor concentrado remineraliza rapidamente a superfície e pode selar os poros externos antes que o interior se remineralize, fixando a opacidade em vez de apagá-la. Nesse período, o indicado é dentifrício fluoretado convencional, higiene e tempo; produtos de baixa concentração e agentes à base de fosfato de cálcio são usados por alguns serviços, com evidência ainda limitada."
         },
         {
           "tipo": "visual",
@@ -260,7 +260,7 @@
             "<path d='M380 105 L440 105' stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'/><text x='410' y='98' text-anchor='middle' font-size='10' fill='var(--muted,#8A8478)'>sim</text>",
             "<use href='#c-caixa-red' x='444' y='84' width='110' height='42'/><text x='499' y='102' text-anchor='middle' font-size='11' font-weight='700'>restauração</text><text x='499' y='116' text-anchor='middle' font-size='10'>conservadora</text>",
             "<path d='M280 130 L280 150' stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'/><text x='292' y='146' font-size='10' fill='var(--muted,#8A8478)'>não</text>",
-            "<use href='#c-caixa-green' x='90' y='154' width='380' height='60'/><text x='280' y='176' text-anchor='middle' font-size='12' font-weight='700'>esperar e remineralizar</text><text x='280' y='192' text-anchor='middle' font-size='11'>higiene e dentifrício fluoretado comum; sem flúor concentrado</text><text x='280' y='206' text-anchor='middle' font-size='11'>reavaliar em seis meses [VERIFICAR]</text>",
+            "<use href='#c-caixa-green' x='90' y='154' width='380' height='60'/><text x='280' y='176' text-anchor='middle' font-size='12' font-weight='700'>esperar e remineralizar</text><text x='280' y='192' text-anchor='middle' font-size='11'>higiene e dentifrício fluoretado comum; sem flúor concentrado</text><text x='280' y='206' text-anchor='middle' font-size='11'>reavaliar em seis meses</text>",
             "<path d='M280 214 L280 234' stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'/>",
             "<use href='#c-decisao' x='160' y='238' width='240' height='50'/><text x='280' y='260' text-anchor='middle' font-size='12' font-weight='700'>persiste e incomoda</text><text x='280' y='276' text-anchor='middle' font-size='11'>aos seis meses?</text>",
             "<path d='M160 263 L100 263' stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'/><text x='130' y='256' text-anchor='middle' font-size='10' fill='var(--muted,#8A8478)'>não</text>",
@@ -282,12 +282,12 @@
         },
         {
           "tipo": "p",
-          "texto": "A infiltração com resina de baixa viscosidade preenche os poros da lesão e a torna translúcida, indicada para lesões mais profundas sem cavitação. Restaurações diretas ficam para as cavitadas ou para as que resistiram às demais opções. A evidência comparativa entre essas opções ainda é limitada e as revisões pedem cautela ao prometer resultado [VERIFICAR]."
+          "texto": "A infiltração com resina de baixa viscosidade preenche os poros da lesão e a torna translúcida, indicada para lesões mais profundas sem cavitação. Restaurações diretas ficam para as cavitadas ou para as que resistiram às demais opções. A evidência comparativa entre essas opções ainda é limitada e as revisões pedem cautela ao prometer resultado."
         }
       ],
       "checagem": {
         "pergunta": "Por que não se deve aplicar flúor de alta concentração sobre lesões brancas logo após a remoção do aparelho?",
-        "resposta": "Porque remineraliza rapidamente a superfície e pode selar os poros externos antes que o interior da lesão se remineralize, fixando a opacidade; o indicado é dentifrício convencional, higiene e tempo [VERIFICAR]."
+        "resposta": "Porque remineraliza rapidamente a superfície e pode selar os poros externos antes que o interior da lesão se remineralize, fixando a opacidade; o indicado é dentifrício convencional, higiene e tempo."
       }
     },
     {
@@ -344,7 +344,7 @@
       },
       {
         "frente": "Qual é a conduta diante de lesões brancas no dia da remoção do aparelho?",
-        "verso": "Verificar cavitação; se ausente, esperar remineralização com higiene e dentifrício convencional, sem flúor concentrado, e reavaliar em seis meses; se persistir e incomodar, clareamento, microabrasão ou infiltração resinosa; restaurar só cavitações [VERIFICAR]."
+        "verso": "Verificar cavitação; se ausente, esperar remineralização com higiene e dentifrício convencional, sem flúor concentrado, e reavaliar em seis meses; se persistir e incomodar, clareamento, microabrasão ou infiltração resinosa; restaurar só cavitações."
       }
     ]
   },
@@ -361,7 +361,7 @@
       },
       {
         "rotulo": "Quando",
-        "texto": "Visível em cerca de quatro semanas de biofilme parado [VERIFICAR]. O risco é do biofilme, não do calendário."
+        "texto": "Visível em cerca de quatro semanas de biofilme parado. O risco é do biofilme, não do calendário."
       },
       {
         "rotulo": "Prevenir",
@@ -369,7 +369,7 @@
       },
       {
         "rotulo": "Ao remover",
-        "texto": "Esperar seis meses com dentifrício convencional; sem flúor concentrado; não restaurar sem cavitação [VERIFICAR]."
+        "texto": "Esperar seis meses com dentifrício convencional; sem flúor concentrado; não restaurar sem cavitação."
       },
       {
         "rotulo": "Se persistir",
@@ -488,11 +488,11 @@
     },
     {
       "titulo": "Quatro semanas",
-      "texto": "Tempo em que uma lesão pode ficar visível sob biofilme parado [VERIFICAR]. Cada consulta é uma chance de ver."
+      "texto": "Tempo em que uma lesão pode ficar visível sob biofilme parado. Cada consulta é uma chance de ver."
     },
     {
       "titulo": "Flúor forte fixa",
-      "texto": "Após remover o aparelho, flúor concentrado pode selar a superfície e fixar a mancha. Espere seis meses com dentifrício comum [VERIFICAR]."
+      "texto": "Após remover o aparelho, flúor concentrado pode selar a superfície e fixar a mancha. Espere seis meses com dentifrício comum."
     }
   ],
   "ondeErra": [
@@ -509,7 +509,7 @@
     {
       "erro": "Aplicar flúor em alta concentração sobre a lesão logo após remover o aparelho.",
       "porque": "Pode selar os poros superficiais e fixar a opacidade.",
-      "certo": "Dentifrício convencional, higiene e tempo; flúor concentrado é para prevenir durante o tratamento, não para apagar a mancha depois [VERIFICAR]."
+      "certo": "Dentifrício convencional, higiene e tempo; flúor concentrado é para prevenir durante o tratamento, não para apagar a mancha depois."
     },
     {
       "erro": "Descobrir as lesões junto com a família no dia da remoção.",
@@ -562,7 +562,7 @@
       "explicacoes": [
         "A cárie com aparelho é muito mais rápida.",
         "Bem antes disso a lesão já pode ser visível.",
-        "Correta: cerca de um mês de biofilme parado [VERIFICAR].",
+        "Correta: cerca de um mês de biofilme parado.",
         "Curto demais para desmineralização visível."
       ]
     },
@@ -577,8 +577,8 @@
       "correta": 2,
       "explicacoes": [
         "Muitas lesões regridem; restaurar sem cavitação remove esmalte sadio.",
-        "Pode selar a superfície e fixar a opacidade [VERIFICAR].",
-        "Correta: a remineralização natural é maior nos primeiros meses [VERIFICAR].",
+        "Pode selar a superfície e fixar a opacidade.",
+        "Correta: a remineralização natural é maior nos primeiros meses.",
         "Microabrasão fica para lesões que persistirem após o período de espera."
       ]
     },

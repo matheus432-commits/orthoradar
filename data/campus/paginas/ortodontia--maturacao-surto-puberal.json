@@ -16,7 +16,7 @@
   "umMinuto": {
     "frases": [
       "O crescimento não é constante: depois de uma desaceleração na infância, a puberdade traz uma aceleração, um pico de velocidade e uma desaceleração até parar. Isso é o surto puberal.",
-      "Em meninas o pico de velocidade de crescimento em estatura ocorre em média por volta dos 12 anos, e em meninos por volta dos 14, com variação de cerca de dois anos para cada lado [VERIFICAR].",
+      "Em meninas o pico de velocidade de crescimento em estatura ocorre em média por volta dos 12 anos, e em meninos por volta dos 14, com variação de cerca de dois anos para cada lado.",
       "A menarca costuma vir depois do pico: é sinal de que a fase de maior velocidade já passou, embora ainda reste algum crescimento.",
       "O surto da mandíbula acompanha o surto estatural, com pequena defasagem, e é o momento em que o côndilo mais responde: a janela dos aparelhos funcionais é a aceleração que antecede o pico.",
       "Idade cronológica é mau indicador; o estágio de maturação se estima por velocidade de estatura em medidas seriadas, caracteres sexuais secundários, vértebras cervicais e radiografia de mão e punho.",
@@ -66,7 +66,7 @@
             "<rect x='236' y='266' width='112' height='22' rx='11' fill='var(--green-soft,#E8F2EA)' stroke='var(--green,#3E7C4F)'/>",
             "<text x='292' y='282' text-anchor='middle' font-size='12' font-weight='700' fill='var(--green,#3E7C4F)'>janela: aceleração</text>"
           ],
-          "legenda": "Forma das curvas, sem escala numérica exata; idades médias com variação de cerca de dois anos para cada lado [VERIFICAR]. A janela ortopédica é a subida, antes do pico."
+          "legenda": "Forma das curvas, sem escala numérica exata; idades médias com variação de cerca de dois anos para cada lado. A janela ortopédica é a subida, antes do pico."
         },
         {
           "tipo": "p",
@@ -88,7 +88,7 @@
       "blocos": [
         {
           "tipo": "p",
-          "texto": "Em média, o pico de velocidade de crescimento em estatura ocorre por volta dos 12 anos em meninas e dos 14 em meninos, com meninos crescendo um pouco mais e por mais tempo [VERIFICAR]. A média é útil para a prova e inútil para o paciente: a variação normal é de cerca de dois anos para cada lado, o que significa que duas meninas de 11 anos podem estar em fases opostas."
+          "texto": "Em média, o pico de velocidade de crescimento em estatura ocorre por volta dos 12 anos em meninas e dos 14 em meninos, com meninos crescendo um pouco mais e por mais tempo. A média é útil para a prova e inútil para o paciente: a variação normal é de cerca de dois anos para cada lado, o que significa que duas meninas de 11 anos podem estar em fases opostas."
         },
         {
           "tipo": "visual",
@@ -133,7 +133,7 @@
       "blocos": [
         {
           "tipo": "p",
-          "texto": "O surto da face, e em especial o da mandíbula, acompanha o surto estatural. Estudos longitudinais mostram o pico de crescimento mandibular coincidindo com o pico de estatura ou ocorrendo pouco depois dele [VERIFICAR]. É a razão de a estatura seriada ser um indicador útil: ela antecipa o que a mandíbula vai fazer."
+          "texto": "O surto da face, e em especial o da mandíbula, acompanha o surto estatural. Estudos longitudinais mostram o pico de crescimento mandibular coincidindo com o pico de estatura ou ocorrendo pouco depois dele. É a razão de a estatura seriada ser um indicador útil: ela antecipa o que a mandíbula vai fazer."
         },
         {
           "tipo": "p",
@@ -252,7 +252,7 @@
     "flashcards": [
       {
         "frente": "Idade média do pico de velocidade de crescimento em meninas e em meninos, e a variação normal.",
-        "verso": "Cerca de 12 anos em meninas e 14 em meninos, com variação de aproximadamente dois anos para cada lado [VERIFICAR]."
+        "verso": "Cerca de 12 anos em meninas e 14 em meninos, com variação de aproximadamente dois anos para cada lado."
       },
       {
         "frente": "O que a menarca indica sobre o surto de crescimento?",
@@ -273,7 +273,7 @@
       },
       {
         "rotulo": "Pico",
-        "texto": "Meninas por volta de 12 anos, meninos por volta de 14, com cerca de dois anos de variação para cada lado [VERIFICAR]."
+        "texto": "Meninas por volta de 12 anos, meninos por volta de 14, com cerca de dois anos de variação para cada lado."
       },
       {
         "rotulo": "Sexo",
@@ -285,7 +285,7 @@
       },
       {
         "rotulo": "Face",
-        "texto": "O surto mandibular acompanha o estatural, com pequena defasagem [VERIFICAR]."
+        "texto": "O surto mandibular acompanha o estatural, com pequena defasagem."
       },
       {
         "rotulo": "Janela",
@@ -415,7 +415,7 @@
     },
     {
       "titulo": "Doze e catorze, mais ou menos dois",
-      "texto": "Pico por volta de 12 em meninas e 14 em meninos, com dois anos de variação para cada lado. A média serve para a prova; o paciente tem o próprio calendário [VERIFICAR]."
+      "texto": "Pico por volta de 12 em meninas e 14 em meninos, com dois anos de variação para cada lado. A média serve para a prova; o paciente tem o próprio calendário."
     },
     {
       "titulo": "Menarca é notícia velha",

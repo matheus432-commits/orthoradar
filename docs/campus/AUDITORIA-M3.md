@@ -111,3 +111,7 @@ recessão 11, dor 30, aceleração 38. A lista com localização é impressa por
   no momento da publicação; a página avisa que o campo muda.
 - Escolher as 12 imagens clínicas descritas nos placeholders (nenhuma foi
   baixada nem gerada).
+
+## Rodada 4 — resolução das marcações (05/09)
+
+As marcações `[VERIFICAR]` deste módulo foram resolvidas por busca de fontes e retiradas; correções de texto e a lista de buscas estão em `AUDITORIA-RODADA-4.md`.

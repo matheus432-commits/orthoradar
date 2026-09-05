@@ -15,18 +15,18 @@
   },
   "umMinuto": {
     "frases": [
-      "A dor após ativação é a regra, não a exceção: a maioria dos pacientes relata desconforto que começa em poucas horas, atinge o pico em torno de 24 horas e diminui até quase desaparecer em uma semana [VERIFICAR].",
+      "A dor após ativação é a regra, não a exceção: a maioria dos pacientes relata desconforto que começa em poucas horas, atinge o pico em torno de 24 horas e diminui até quase desaparecer em uma semana.",
       "A causa é a resposta inflamatória do ligamento comprimido: isquemia leve, liberação de prostaglandinas, bradicinina, substância P e citocinas que sensibilizam as terminações nervosas; por isso morder dói mais do que ficar em repouso.",
       "Separadores elásticos e o primeiro fio de alinhamento são os momentos mais dolorosos; trocas posteriores costumam doer menos, e a dor não é proporcional à magnitude da força de forma linear.",
       "A mobilidade aumenta durante todo o tratamento porque o ligamento se alarga e reorganiza; é fisiológica, discreta, e diminui nos meses seguintes ao término.",
       "Alarme: dor intensa que impede mastigar ou que dura além de uma semana, mobilidade que o paciente percebe como 'dente solto', dor localizada em um dente, ou dor que surge fora do período de ativação.",
-      "Manejo: informar antes, prescrever analgésico simples quando necessário, orientar dieta macia e mastigação leve; anti-inflamatórios de uso prolongado podem interferir no movimento e são evitados como rotina [VERIFICAR]."
+      "Manejo: informar antes, prescrever analgésico simples quando necessário, orientar dieta macia e mastigação leve; anti-inflamatórios de uso prolongado podem interferir no movimento e são evitados como rotina."
     ],
     "caiNaProva": [
-      "Curva da dor ortodôntica: início em horas, pico em cerca de 24 horas, resolução em torno de sete dias [VERIFICAR].",
+      "Curva da dor ortodôntica: início em horas, pico em cerca de 24 horas, resolução em torno de sete dias.",
       "Mediadores: prostaglandinas, bradicinina, substância P, interleucinas; sensibilização periférica dos nociceptores do ligamento.",
       "Mobilidade fisiológica do tratamento versus mobilidade patológica: extensão, percepção pelo paciente, associação com dor prolongada e perda de suporte.",
-      "Anti-inflamatórios não esteroides inibem prostaglandinas e podem reduzir o movimento em modelos experimentais; paracetamol é a primeira escolha para a dor ortodôntica [VERIFICAR].",
+      "Anti-inflamatórios não esteroides inibem prostaglandinas e podem reduzir o movimento em modelos experimentais; paracetamol é a primeira escolha para a dor ortodôntica.",
       "Informação prévia e expectativa reduzem a intensidade da dor relatada; ansiedade e catastrofização a aumentam."
     ],
     "porQueImporta": "Dor é o principal motivo de abandono e de medo do tratamento ortodôntico. Saber o que é esperado e comunicá-lo antes transforma uma ligação de pânico em uma consulta tranquila e, quando o padrão sai do esperado, permite reconhecer o alarme a tempo."
@@ -41,7 +41,7 @@
         },
         {
           "tipo": "p",
-          "texto": "A curva é previsível. O desconforto começa em poucas horas, geralmente à noite do mesmo dia, atinge o pico em torno de 24 horas e diminui progressivamente até quase desaparecer em torno do sétimo dia [VERIFICAR]."
+          "texto": "A curva é previsível. O desconforto começa em poucas horas, geralmente à noite do mesmo dia, atinge o pico em torno de 24 horas e diminui progressivamente até quase desaparecer em torno do sétimo dia."
         },
         {
           "tipo": "p",
@@ -64,14 +64,14 @@
             "<text x='300' y='120' font-size='11' fill='var(--ink,#23211C)'>começa em horas, sobretudo à noite;</text><text x='300' y='134' font-size='11' fill='var(--ink,#23211C)'>morder dói mais do que ficar em repouso</text>",
             "<text x='580' y='120' text-anchor='middle' font-size='11' font-weight='700' fill='var(--red,#B4533B)'>zona de alarme</text><text x='580' y='136' text-anchor='middle' font-size='10' fill='var(--ink,#23211C)'>dor que persiste ou</text><text x='580' y='150' text-anchor='middle' font-size='10' fill='var(--ink,#23211C)'>impede mastigar</text>",
             "<text x='500' y='236' text-anchor='middle' font-size='10' fill='var(--green,#3E7C4F)' font-weight='700'>quase zero no 7º dia</text>",
-            "<text x='360' y='308' text-anchor='middle' font-size='11' fill='var(--muted,#8A8478)'>curva conceitual, sem escala de intensidade; prazos de referência [VERIFICAR]</text>"
+            "<text x='360' y='308' text-anchor='middle' font-size='11' fill='var(--muted,#8A8478)'>curva conceitual, sem escala de intensidade; prazos de referência</text>"
           ],
           "legenda": "Sobe em horas, pico em um dia, quase nada em uma semana. O que fica além disso não é a dor esperada."
         },
         {
           "tipo": "destaque",
           "estilo": "prova",
-          "texto": "Dor ortodôntica: origem inflamatória no ligamento comprimido, mediada por prostaglandinas, bradicinina, substância P e citocinas; início em horas, pico em cerca de 24 horas, resolução em torno de sete dias [VERIFICAR]. Separadores e primeiro fio são os momentos mais dolorosos. A dor não é proporcional à força de forma linear, mas forças pesadas doem mais e por mais tempo."
+          "texto": "Dor ortodôntica: origem inflamatória no ligamento comprimido, mediada por prostaglandinas, bradicinina, substância P e citocinas; início em horas, pico em cerca de 24 horas, resolução em torno de sete dias. Separadores e primeiro fio são os momentos mais dolorosos. A dor não é proporcional à força de forma linear, mas forças pesadas doem mais e por mais tempo."
         },
         {
           "tipo": "pergunta",
@@ -81,7 +81,7 @@
       ],
       "checagem": {
         "pergunta": "Descreva a curva temporal da dor após ativação e os dois momentos do tratamento em que ela costuma ser mais intensa.",
-        "resposta": "Início em poucas horas, pico em torno de 24 horas, redução progressiva até quase desaparecer em cerca de sete dias [VERIFICAR]. Mais intensa na colocação de separadores elásticos e no primeiro fio de alinhamento."
+        "resposta": "Início em poucas horas, pico em torno de 24 horas, redução progressiva até quase desaparecer em cerca de sete dias. Mais intensa na colocação de separadores elásticos e no primeiro fio de alinhamento."
       }
     },
     {
@@ -89,11 +89,11 @@
       "blocos": [
         {
           "tipo": "p",
-          "texto": "A intensidade da dor depende menos da força do que a intuição sugere e mais da pessoa. Forças pesadas doem mais e por mais tempo, porque produzem isquemia mais extensa e hialinização, mas dentro da faixa de forças leves a diferença entre fios ou dispositivos é pequena; revisões não encontraram diferença consistente de dor entre ligas de níquel-titânio e aço no alinhamento inicial, nem entre braquetes convencionais e autoligados [VERIFICAR]."
+          "texto": "A intensidade da dor depende menos da força do que a intuição sugere e mais da pessoa. Forças pesadas doem mais e por mais tempo, porque produzem isquemia mais extensa e hialinização, mas dentro da faixa de forças leves a diferença entre fios ou dispositivos é pequena; revisões não encontraram diferença consistente de dor entre ligas de níquel-titânio e aço no alinhamento inicial, nem entre braquetes convencionais e autoligados."
         },
         {
           "tipo": "p",
-          "texto": "O que mais varia é o paciente. Ansiedade, catastrofização, experiências anteriores de dor e baixa expectativa de controle aumentam a dor relatada; informação prévia clara e a sensação de saber o que esperar a reduzem. Adolescentes e adultos relatam padrões diferentes, e mulheres tendem a relatar mais dor em muitos estudos, com variação grande entre eles [VERIFICAR]. Na prática, a consulta em que você explica o que vai acontecer é uma intervenção analgésica."
+          "texto": "O que mais varia é o paciente. Ansiedade, catastrofização, experiências anteriores de dor e baixa expectativa de controle aumentam a dor relatada; informação prévia clara e a sensação de saber o que esperar a reduzem. Adolescentes e adultos relatam padrões diferentes, e mulheres tendem a relatar mais dor em muitos estudos, com variação grande entre eles. Na prática, a consulta em que você explica o que vai acontecer é uma intervenção analgésica."
         },
         {
           "tipo": "visual",
@@ -108,7 +108,7 @@
             "<g font-size='11' fill='var(--ink,#23211C)'><text x='306' y='84'>força leve e contínua</text><text x='306' y='114'>informação prévia clara</text><text x='306' y='144'>analgésico simples nas primeiras 48 h</text><text x='306' y='174'>mastigação leve, dieta macia</text><text x='306' y='204'>sensação de controle</text><text x='306' y='234'>canal de contato com a clínica</text></g>",
             "<g stroke='var(--border,#EDE6D8)' stroke-width='1'><line x1='36' y1='94' x2='260' y2='94'/><line x1='36' y1='124' x2='260' y2='124'/><line x1='36' y1='154' x2='260' y2='154'/><line x1='36' y1='184' x2='260' y2='184'/><line x1='36' y1='214' x2='260' y2='214'/><line x1='306' y1='94' x2='530' y2='94'/><line x1='306' y1='124' x2='530' y2='124'/><line x1='306' y1='154' x2='530' y2='154'/><line x1='306' y1='184' x2='530' y2='184'/><line x1='306' y1='214' x2='530' y2='214'/></g>",
             "<use href='#c-caixa-ink' x='80' y='262' width='400' height='44'/><text x='280' y='281' text-anchor='middle' font-size='12' font-weight='700' fill='#fff'>a explicação antes da ativação é analgésico</text><text x='280' y='298' text-anchor='middle' font-size='10' fill='#fff'>a força que você escolhe é o outro</text>",
-            "<text x='280' y='324' text-anchor='middle' font-size='10' fill='var(--muted,#8A8478)'>diferenças entre fios e braquetes na faixa leve são pequenas [VERIFICAR]</text>"
+            "<text x='280' y='324' text-anchor='middle' font-size='10' fill='var(--muted,#8A8478)'>diferenças entre fios e braquetes na faixa leve são pequenas</text>"
           ],
           "legenda": "A coluna da direita cabe quase toda em uma conversa de cinco minutos antes de colocar o fio."
         },
@@ -116,7 +116,7 @@
           "tipo": "destaque",
           "estilo": "mito",
           "mito": "Fio de níquel-titânio dói menos que fio de aço, e braquete autoligado não dói.",
-          "verdade": "Dentro da faixa de forças leves usada no alinhamento, as revisões não mostram diferença consistente de dor entre ligas nem entre tipos de braquete [VERIFICAR]. O que muda a dor é a magnitude da força, o momento do tratamento e, sobretudo, a pessoa e a informação que ela recebeu."
+          "verdade": "Dentro da faixa de forças leves usada no alinhamento, as revisões não mostram diferença consistente de dor entre ligas nem entre tipos de braquete. O que muda a dor é a magnitude da força, o momento do tratamento e, sobretudo, a pessoa e a informação que ela recebeu."
         },
         {
           "tipo": "pergunta",
@@ -185,7 +185,7 @@
       "blocos": [
         {
           "tipo": "p",
-          "texto": "O manejo começa antes da dor. Explique ao paciente e aos responsáveis, na consulta da ativação, a curva esperada, que morder dói mais, que a dor é sinal de que o tratamento está agindo, o que fazer e quando ligar. Oriente dieta macia nos primeiros dias e mastigação leve; mastigar chiclete sem açúcar ou pastilhas de mordida parece reduzir o desconforto em alguns estudos, talvez por restaurar a circulação do ligamento comprimido [VERIFICAR]."
+          "texto": "O manejo começa antes da dor. Explique ao paciente e aos responsáveis, na consulta da ativação, a curva esperada, que morder dói mais, que a dor é sinal de que o tratamento está agindo, o que fazer e quando ligar. Oriente dieta macia nos primeiros dias e mastigação leve; mastigar chiclete sem açúcar ou pastilhas de mordida parece reduzir o desconforto em alguns estudos, talvez por restaurar a circulação do ligamento comprimido."
         },
         {
           "tipo": "p",
@@ -193,7 +193,7 @@
         },
         {
           "tipo": "p",
-          "texto": "Anti-inflamatórios não esteroides são eficazes para a dor, mas inibem a síntese de prostaglandinas, mediadores da própria remodelação, e em modelos experimentais reduziram a velocidade do movimento; por isso não são usados como rotina prolongada, embora uma ou duas doses no pico da dor tenham efeito clínico pequeno sobre o movimento [VERIFICAR]. Dose preventiva antes da ativação reduz a dor do pico em alguns estudos [VERIFICAR]."
+          "texto": "Anti-inflamatórios não esteroides são eficazes para a dor, mas inibem a síntese de prostaglandinas, mediadores da própria remodelação, e em modelos experimentais reduziram a velocidade do movimento; por isso não são usados como rotina prolongada, embora uma ou duas doses no pico da dor tenham efeito clínico pequeno sobre o movimento. Dose preventiva antes da ativação reduz a dor do pico em alguns estudos."
         },
         {
           "tipo": "visual",
@@ -206,7 +206,7 @@
             "<path d='M280 56 L280 76' stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'/>",
             "<use href='#c-decisao' x='150' y='80' width='260' height='50'/><text x='280' y='101' text-anchor='middle' font-size='12' font-weight='700'>menos de sete dias, dor difusa,</text><text x='280' y='117' text-anchor='middle' font-size='11'>come coisas macias, melhora a cada dia?</text>",
             "<path d='M280 130 L280 150' stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'/><text x='292' y='146' font-size='10' fill='var(--muted,#8A8478)'>sim</text>",
-            "<use href='#c-caixa-green' x='90' y='154' width='380' height='72'/><text x='280' y='176' text-anchor='middle' font-size='12' font-weight='700'>resposta esperada: tranquilizar</text><text x='280' y='192' text-anchor='middle' font-size='11'>paracetamol nas primeiras 48 h; dieta macia</text><text x='280' y='206' text-anchor='middle' font-size='11'>mastigar leve; ligar se piorar ou passar de uma semana</text><text x='280' y='220' text-anchor='middle' font-size='10' fill='var(--muted,#8A8478)'>anti-inflamatório: só uma ou duas doses no pico [VERIFICAR]</text>",
+            "<use href='#c-caixa-green' x='90' y='154' width='380' height='72'/><text x='280' y='176' text-anchor='middle' font-size='12' font-weight='700'>resposta esperada: tranquilizar</text><text x='280' y='192' text-anchor='middle' font-size='11'>paracetamol nas primeiras 48 h; dieta macia</text><text x='280' y='206' text-anchor='middle' font-size='11'>mastigar leve; ligar se piorar ou passar de uma semana</text><text x='280' y='220' text-anchor='middle' font-size='10' fill='var(--muted,#8A8478)'>anti-inflamatório: só uma ou duas doses no pico</text>",
             "<path d='M410 105 L500 105 L500 250 L474 250' fill='none' stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'/><text x='506' y='180' font-size='10' fill='var(--muted,#8A8478)'>não</text>",
             "<use href='#c-caixa-red' x='90' y='236' width='380' height='104'/><text x='280' y='258' text-anchor='middle' font-size='12' font-weight='700'>sinais de alarme: agendar consulta</text><text x='280' y='276' text-anchor='middle' font-size='11'>dor além de sete dias ou que impede mastigar</text><text x='280' y='290' text-anchor='middle' font-size='11'>dor localizada em um dente; dente 'solto'</text><text x='280' y='304' text-anchor='middle' font-size='11'>ferida da mucosa, fio solto, aparelho machucando</text><text x='280' y='324' text-anchor='middle' font-size='11' fill='var(--red,#B4533B)'>na consulta: oclusão, força, aparelho, periodonto, raiz</text>",
             "<path d='M280 340 L280 360' stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'/>",
@@ -219,7 +219,7 @@
           "tipo": "destaque",
           "estilo": "dica",
           "titulo": "Anti-inflamatório: o dilema em uma frase",
-          "texto": "As prostaglandinas que fazem doer são as mesmas que fazem o dente andar. Bloqueá-las por dias alivia e freia; por isso paracetamol é a rotina e o anti-inflamatório fica para o pico, em uma ou duas doses, quando o paracetamol não basta [VERIFICAR]. Pacientes que usam anti-inflamatório contínuo por outra razão precisam ser identificados na anamnese."
+          "texto": "As prostaglandinas que fazem doer são as mesmas que fazem o dente andar. Bloqueá-las por dias alivia e freia; por isso paracetamol é a rotina e o anti-inflamatório fica para o pico, em uma ou duas doses, quando o paracetamol não basta. Pacientes que usam anti-inflamatório contínuo por outra razão precisam ser identificados na anamnese."
         },
         {
           "tipo": "lista",
@@ -234,7 +234,7 @@
       ],
       "checagem": {
         "pergunta": "Por que o paracetamol é preferido aos anti-inflamatórios não esteroides como rotina para a dor ortodôntica?",
-        "resposta": "Porque os anti-inflamatórios inibem as prostaglandinas, mediadores da própria remodelação óssea, e em modelos experimentais reduziram a velocidade do movimento; o paracetamol alivia sem esse efeito [VERIFICAR]."
+        "resposta": "Porque os anti-inflamatórios inibem as prostaglandinas, mediadores da própria remodelação óssea, e em modelos experimentais reduziram a velocidade do movimento; o paracetamol alivia sem esse efeito."
       }
     },
     {
@@ -255,7 +255,7 @@
         },
         {
           "tipo": "p",
-          "texto": "Pulpa e ortodontia merecem uma nota. O movimento pode produzir hipersensibilidade transitória e alterações reversíveis na circulação pulpar; necrose é rara e associada a trauma prévio ou forças e intrusões excessivas [VERIFICAR]. Um dente com dor espontânea, prolongada ao frio ou noturna durante o tratamento não está 'doendo do aparelho': precisa de teste de sensibilidade, radiografia e, se preciso, avaliação endodôntica."
+          "texto": "Pulpa e ortodontia merecem uma nota. O movimento pode produzir hipersensibilidade transitória e alterações reversíveis na circulação pulpar; necrose é rara e associada a trauma prévio ou forças e intrusões excessivas. Um dente com dor espontânea, prolongada ao frio ou noturna durante o tratamento não está 'doendo do aparelho': precisa de teste de sensibilidade, radiografia e, se preciso, avaliação endodôntica."
         }
       ],
       "checagem": {
@@ -309,7 +309,7 @@
     "flashcards": [
       {
         "frente": "Descreva a origem e a curva temporal da dor após uma ativação ortodôntica.",
-        "verso": "Inflamação do ligamento comprimido: prostaglandinas, bradicinina, substância P e citocinas sensibilizam as terminações nervosas. Começa em horas, pico em torno de 24 horas, quase desaparece em cerca de sete dias [VERIFICAR]. Morder dói mais que o repouso."
+        "verso": "Inflamação do ligamento comprimido: prostaglandinas, bradicinina, substância P e citocinas sensibilizam as terminações nervosas. Começa em horas, pico em torno de 24 horas, quase desaparece em cerca de sete dias. Morder dói mais que o repouso."
       },
       {
         "frente": "Diferencie a mobilidade fisiológica do tratamento da mobilidade que exige exame.",
@@ -317,7 +317,7 @@
       },
       {
         "frente": "Por que o paracetamol é a primeira escolha para a dor ortodôntica e quando o anti-inflamatório entra?",
-        "verso": "Anti-inflamatórios inibem prostaglandinas, que também medeiam a remodelação, e podem reduzir o movimento em uso prolongado [VERIFICAR]. Paracetamol alivia sem esse efeito; o anti-inflamatório fica para uma ou duas doses no pico, se o paracetamol não bastar."
+        "verso": "Anti-inflamatórios inibem prostaglandinas, que também medeiam a remodelação, e podem reduzir o movimento em uso prolongado. Paracetamol alivia sem esse efeito; o anti-inflamatório fica para uma ou duas doses no pico, se o paracetamol não bastar."
       }
     ]
   },
@@ -330,7 +330,7 @@
       },
       {
         "rotulo": "Relógio",
-        "texto": "Horas para começar, um dia para o pico, uma semana para quase sumir [VERIFICAR]. Separadores e primeiro fio doem mais."
+        "texto": "Horas para começar, um dia para o pico, uma semana para quase sumir. Separadores e primeiro fio doem mais."
       },
       {
         "rotulo": "Pessoa",
@@ -342,7 +342,7 @@
       },
       {
         "rotulo": "Remédio",
-        "texto": "Paracetamol nas primeiras 48 h; anti-inflamatório só no pico, uma ou duas doses [VERIFICAR]. Dieta macia, mastigar leve."
+        "texto": "Paracetamol nas primeiras 48 h; anti-inflamatório só no pico, uma ou duas doses. Dieta macia, mastigar leve."
       },
       {
         "rotulo": "Triagem",
@@ -468,7 +468,7 @@
   "macetes": [
     {
       "titulo": "Horas, um dia, uma semana",
-      "texto": "Começa em horas, pico em 24 h, quase zero em sete dias [VERIFICAR]. Dor sem esse relógio pede exame."
+      "texto": "Começa em horas, pico em 24 h, quase zero em sete dias. Dor sem esse relógio pede exame."
     },
     {
       "titulo": "Explicar é analgésico",
@@ -476,7 +476,7 @@
     },
     {
       "titulo": "Prostaglandina dói e move",
-      "texto": "Anti-inflamatório alivia e freia. Paracetamol de rotina; anti-inflamatório só no pico [VERIFICAR]."
+      "texto": "Anti-inflamatório alivia e freia. Paracetamol de rotina; anti-inflamatório só no pico."
     },
     {
       "titulo": "Difusa normal, localizada alarme",
@@ -491,7 +491,7 @@
     },
     {
       "erro": "Prescrever anti-inflamatório por vários dias como rotina.",
-      "porque": "Inibe as prostaglandinas da remodelação e pode reduzir o movimento [VERIFICAR].",
+      "porque": "Inibe as prostaglandinas da remodelação e pode reduzir o movimento.",
       "certo": "Paracetamol como rotina; anti-inflamatório em uma ou duas doses no pico, se necessário."
     },
     {
@@ -517,7 +517,7 @@
       "correta": 1,
       "explicacoes": [
         "Um mês está fora da curva esperada.",
-        "Correta: curva com relógio, pico em um dia e resolução em cerca de sete dias [VERIFICAR].",
+        "Correta: curva com relógio, pico em um dia e resolução em cerca de sete dias.",
         "Ocorre na maioria dos pacientes mesmo com forças leves.",
         "Começa em horas, não após uma semana."
       ]
@@ -548,7 +548,7 @@
       ],
       "correta": 2,
       "explicacoes": [
-        "Inibe prostaglandinas da remodelação e pode reduzir o movimento em uso prolongado [VERIFICAR].",
+        "Inibe prostaglandinas da remodelação e pode reduzir o movimento em uso prolongado.",
         "Corticoide reduz a remodelação e não é indicado para dor ortodôntica.",
         "Correta: alivia a dor sem interferir na cascata de prostaglandinas da remodelação.",
         "Desproporcional para dor ortodôntica."
@@ -580,10 +580,10 @@
       ],
       "correta": 1,
       "explicacoes": [
-        "As diferenças de dor entre ligas na faixa leve são pequenas [VERIFICAR].",
+        "As diferenças de dor entre ligas na faixa leve são pequenas.",
         "Correta: expectativa correta e sensação de controle reduzem a dor relatada.",
         "Anti-inflamatório prolongado pode interferir no movimento.",
-        "Não há diferença consistente de dor entre tipos de braquete [VERIFICAR]."
+        "Não há diferença consistente de dor entre tipos de braquete."
       ]
     }
   ],

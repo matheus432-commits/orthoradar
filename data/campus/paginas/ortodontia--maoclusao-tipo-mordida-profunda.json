@@ -37,7 +37,7 @@
       "blocos": [
         {
           "tipo": "p",
-          "texto": "Trespasse vertical é quanto os incisivos superiores cobrem os inferiores no sentido vertical. O normal é uma sobreposição pequena, de dois a três milímetros, ou algo em torno de um quarto a um terço da coroa dos inferiores [VERIFICAR]. Acima disso, mordida profunda. Mede-se em milímetros, da borda incisal superior projetada sobre a face vestibular do inferior até a borda incisal inferior, ou em percentual da altura da coroa inferior coberta."
+          "texto": "Trespasse vertical é quanto os incisivos superiores cobrem os inferiores no sentido vertical. O normal é uma sobreposição pequena, de dois a três milímetros, ou algo em torno de um quarto a um terço da coroa dos inferiores. Acima disso, mordida profunda. Mede-se em milímetros, da borda incisal superior projetada sobre a face vestibular do inferior até a borda incisal inferior, ou em percentual da altura da coroa inferior coberta."
         },
         {
           "tipo": "p",
@@ -61,7 +61,7 @@
             "<g font-size='12' fill='var(--ink,#23211C)'><rect x='20' y='272' width='165' height='40' rx='6' fill='var(--green,#3E7C4F)' fill-opacity='0.2' stroke='var(--green,#3E7C4F)' stroke-width='1.5'/><text x='102' y='289' text-anchor='middle' font-weight='700'>normal</text><text x='102' y='305' text-anchor='middle' font-size='11'>2 a 3 mm; até um terço</text>",
             "<rect x='197' y='272' width='165' height='40' rx='6' fill='var(--gold,#B08968)' fill-opacity='0.25' stroke='var(--gold,#B08968)' stroke-width='1.5'/><text x='279' y='289' text-anchor='middle' font-weight='700'>aumentado</text><text x='279' y='305' text-anchor='middle' font-size='11'>acima disso, sem contato</text>",
             "<rect x='374' y='272' width='165' height='40' rx='6' fill='var(--red,#B4533B)' fill-opacity='0.2' stroke='var(--red,#B4533B)' stroke-width='1.5'/><text x='456' y='289' text-anchor='middle' font-weight='700'>completo</text><text x='456' y='305' text-anchor='middle' font-size='11'>toca a mucosa</text></g>",
-            "<text x='280' y='340' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>limiares [VERIFICAR]; traumática se fere a gengiva; anote mm e se é completa</text>"
+            "<text x='280' y='340' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>limiares; traumática se fere a gengiva; anote mm e se é completa</text>"
           ],
           "legenda": "Milímetros para comparar antes e depois; percentual para independer do tamanho do dente; e as duas palavras, completa e traumática, para dizer se há urgência."
         },
@@ -122,7 +122,7 @@
         },
         {
           "tipo": "p",
-          "texto": "Isso liga a mordida profunda ao planejamento de espaço. Nivelar uma curva de Spee profunda por extrusão dos pré-molares consome perímetro do arco, em quantidade proporcional à profundidade [VERIFICAR]; nivelar por intrusão dos incisivos não consome. Em um arco inferior já apinhado, a escolha do método de abertura da mordida decide se haverá ou não extração."
+          "texto": "Isso liga a mordida profunda ao planejamento de espaço. Nivelar uma curva de Spee profunda por extrusão dos pré-molares consome perímetro do arco, em quantidade proporcional à profundidade; nivelar por intrusão dos incisivos não consome. Em um arco inferior já apinhado, a escolha do método de abertura da mordida decide se haverá ou não extração."
         },
         {
           "tipo": "destaque",
@@ -154,7 +154,7 @@
         },
         {
           "tipo": "p",
-          "texto": "A terceira consequência é mecânica: na Classe II divisão 2, os incisivos superiores retroinclinados com mordida profunda travam a mandíbula, que não consegue avançar. Antes de qualquer correção sagital, a mordida precisa ser aberta e os incisivos inclinados para a frente. A relação com disfunção da articulação temporomandibular já foi muito afirmada e hoje é considerada fraca ou inconsistente pela evidência disponível [VERIFICAR]."
+          "texto": "A terceira consequência é mecânica: na Classe II divisão 2, os incisivos superiores retroinclinados com mordida profunda travam a mandíbula, que não consegue avançar. Antes de qualquer correção sagital, a mordida precisa ser aberta e os incisivos inclinados para a frente. A relação com disfunção da articulação temporomandibular já foi muito afirmada e hoje é considerada fraca ou inconsistente pela evidência disponível."
         },
         {
           "tipo": "imagem",

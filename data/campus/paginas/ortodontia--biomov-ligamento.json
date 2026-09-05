@@ -37,7 +37,7 @@
       "blocos": [
         {
           "tipo": "p",
-          "texto": "O dente não se funde ao osso. Entre a raiz e a parede do alvéolo há um espaço estreito, de cerca de um quarto de milímetro, ocupado pelo ligamento periodontal: fibras colágenas ancoradas no cemento de um lado e no osso do outro, células que fabricam e destroem esse tecido, vasos que o nutrem e nervos que sentem pressão e dor [VERIFICAR]. O dente fica suspenso nesse ligamento como em uma rede."
+          "texto": "O dente não se funde ao osso. Entre a raiz e a parede do alvéolo há um espaço estreito, de cerca de um quarto de milímetro, ocupado pelo ligamento periodontal: fibras colágenas ancoradas no cemento de um lado e no osso do outro, células que fabricam e destroem esse tecido, vasos que o nutrem e nervos que sentem pressão e dor. O dente fica suspenso nesse ligamento como em uma rede."
         },
         {
           "tipo": "p",
@@ -59,7 +59,7 @@
             "<g stroke='var(--muted,#8A8478)' stroke-width='1'><line x1='196' y1='178' x2='232' y2='178'/><line x1='324' y1='178' x2='364' y2='178'/><line x1='196' y1='210' x2='232' y2='224'/><line x1='196' y1='246' x2='232' y2='262'/><line x1='196' y1='282' x2='232' y2='300'/><line x1='364' y1='210' x2='328' y2='224'/><line x1='364' y1='246' x2='328' y2='262'/><line x1='364' y1='282' x2='328' y2='300'/><line x1='250' y1='366' x2='280' y2='340'/><line x1='310' y1='366' x2='280' y2='340'/></g>",
             "<g fill='var(--red,#B4533B)'><circle cx='214' cy='232' r='3'/><circle cx='214' cy='300' r='3'/><circle cx='346' cy='240' r='3'/><circle cx='346' cy='320' r='3'/></g>",
             "<g font-size='11' fill='var(--ink,#23211C)'><text x='400' y='182'>fibras horizontais (crista)</text><text x='400' y='240'>fibras oblíquas</text><text x='400' y='256' fill='var(--red,#B4533B)'>vasos e nervos</text><text x='400' y='348'>fibras apicais</text></g>",
-            "<line x1='196' y1='330' x2='226' y2='330' stroke='var(--red,#B4533B)' stroke-width='2'/><line x1='196' y1='324' x2='196' y2='336' stroke='var(--red,#B4533B)' stroke-width='2'/><line x1='226' y1='324' x2='226' y2='336' stroke='var(--red,#B4533B)' stroke-width='2'/><text x='120' y='334' text-anchor='middle' font-size='10' font-weight='700' fill='var(--red,#B4533B)'>~0,25 mm [VERIFICAR]</text>",
+            "<line x1='196' y1='330' x2='226' y2='330' stroke='var(--red,#B4533B)' stroke-width='2'/><line x1='196' y1='324' x2='196' y2='336' stroke='var(--red,#B4533B)' stroke-width='2'/><line x1='226' y1='324' x2='226' y2='336' stroke='var(--red,#B4533B)' stroke-width='2'/><text x='120' y='334' text-anchor='middle' font-size='10' font-weight='700' fill='var(--red,#B4533B)'>~0,25 mm</text>",
             "<text x='280' y='404' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>cemento na raiz; células de superfície nos dois lados do espaço; fora de escala</text>"
           ],
           "legenda": "Um espaço de um quarto de milímetro decide tudo. Fibras em todas as direções, líquido que amortece, vasos que sofrem com a compressão e células que respondem: é o ligamento que move o dente."
@@ -133,7 +133,7 @@
             "<text x='420' y='70' font-weight='700' fill='var(--blue,#4A6B8A)'>Sinais químicos</text><text x='420' y='86'>prostaglandinas, citocinas,</text><text x='420' y='100'>mensageiros intracelulares</text></g>",
             "<g font-size='11' fill='var(--ink,#23211C)' text-anchor='middle'><text x='260' y='206' font-weight='700'>Vasos e fibras</text><text x='260' y='222'>comprimidos de um lado,</text><text x='260' y='236'>alargados do outro</text>",
             "<text x='600' y='206' font-weight='700' fill='var(--red,#B4533B)'>Células chegam</text><text x='600' y='222'>osteoclastos no lado comprimido,</text><text x='600' y='236'>osteoblastos no estirado: movimento</text></g>",
-            "<text x='360' y='280' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>escala de tempo aproximada para força leve e contínua [VERIFICAR]; força pesada muda o roteiro (hialinização)</text>"
+            "<text x='360' y='280' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>escala de tempo aproximada para força leve e contínua; força pesada muda o roteiro (hialinização)</text>"
           ],
           "legenda": "O dente se desloca em segundos, mas só se move em dias. O que acontece entre um e outro é química e recrutamento de células, e é isso que a força pesada atrapalha."
         },
@@ -239,7 +239,7 @@
         },
         {
           "tipo": "p",
-          "texto": "Por isso a força ótima não é a maior, é a que preserva a circulação. O limiar clássico que se cita é a pressão dos capilares do ligamento, algumas dezenas de gramas por centímetro quadrado de superfície radicular comprimida; acima dela, a circulação para [VERIFICAR]. Na prática, isso significa ativações leves, medidas em dezenas de gramas por dente, e a percepção de que o dente que se move confortável está se movendo do jeito certo."
+          "texto": "Por isso a força ótima não é a maior, é a que preserva a circulação. O limiar clássico que se cita é a pressão dos capilares do ligamento, algumas dezenas de gramas por centímetro quadrado de superfície radicular comprimida; acima dela, a circulação para. Na prática, isso significa ativações leves, medidas em dezenas de gramas por dente, e a percepção de que o dente que se move confortável está se movendo do jeito certo."
         },
         {
           "tipo": "imagem",

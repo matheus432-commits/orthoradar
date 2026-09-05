@@ -41,7 +41,7 @@
         },
         {
           "tipo": "p",
-          "texto": "É a má oclusão mais frequente nos consultórios de ortodontia depois da Classe I com apinhamento, e a mais comum entre as que envolvem o esqueleto; a divisão 1 é muito mais frequente que a divisão 2, que representa uma parcela menor das Classes II [VERIFICAR]. Os dois quadros aparecem cedo, na dentição mista, e a divisão 1 costuma ser a razão da primeira consulta: os incisivos para a frente incomodam a família antes de incomodar a função."
+          "texto": "É a má oclusão mais frequente nos consultórios de ortodontia depois da Classe I com apinhamento, e a mais comum entre as que envolvem o esqueleto; a divisão 1 é muito mais frequente que a divisão 2, que representa uma parcela menor das Classes II. Os dois quadros aparecem cedo, na dentição mista, e a divisão 1 costuma ser a razão da primeira consulta: os incisivos para a frente incomodam a família antes de incomodar a função."
         },
         {
           "tipo": "visual",
@@ -106,7 +106,7 @@
         {
           "tipo": "destaque",
           "estilo": "prova",
-          "texto": "Componente esquelético mais frequente da Classe II: retrusão mandibular, com maxila normal ou até retruída, segundo os estudos de componentes [VERIFICAR]. A maxila protruída existe, mas é minoria. Essa é a razão de os aparelhos funcionais, que agem na mandíbula, serem a ferramenta típica da Classe II em crescimento."
+          "texto": "Componente esquelético mais frequente da Classe II: retrusão mandibular, com maxila normal ou até retruída, segundo os estudos de componentes. A maxila protruída existe, mas é minoria. Essa é a razão de os aparelhos funcionais, que agem na mandíbula, serem a ferramenta típica da Classe II em crescimento."
         }
       ],
       "checagem": {
@@ -164,7 +164,7 @@
       "blocos": [
         {
           "tipo": "p",
-          "texto": "Duas consequências da divisão 1 justificam não adiar a avaliação. A primeira é o trauma: incisivos superiores para a frente, sem a proteção do lábio, quebram mais; o trespasse horizontal aumentado é fator de risco reconhecido para fratura de incisivos em crianças [VERIFICAR]. A segunda é a autoimagem: os incisivos proeminentes são alvo fácil de apelidos, e o impacto psicossocial na idade escolar está entre os motivos mais frequentes de procura."
+          "texto": "Duas consequências da divisão 1 justificam não adiar a avaliação. A primeira é o trauma: incisivos superiores para a frente, sem a proteção do lábio, quebram mais; o trespasse horizontal aumentado é fator de risco reconhecido para fratura de incisivos em crianças. A segunda é a autoimagem: os incisivos proeminentes são alvo fácil de apelidos, e o impacto psicossocial na idade escolar está entre os motivos mais frequentes de procura."
         },
         {
           "tipo": "p",

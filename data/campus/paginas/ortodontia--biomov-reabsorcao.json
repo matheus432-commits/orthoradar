@@ -17,7 +17,7 @@
     "frases": [
       "A reabsorção radicular induzida pelo movimento é a remoção de cemento e dentina pelas células que limpam a zona hialinizada; é externa, apical na maioria dos casos e inflamatória por natureza.",
       "Em grau microscópico ela ocorre em quase todos os dentes movimentados e repara com cemento celular; o problema clínico é quando atravessa o cemento, atinge a dentina e encurta a raiz de forma permanente.",
-      "Encurtamento leve, até dois milímetros, é frequente; encurtamento grave, acima de um terço da raiz ou de quatro milímetros, é raro, na ordem de poucos por cento dos pacientes [VERIFICAR].",
+      "Encurtamento leve, até dois milímetros, é frequente; encurtamento grave, acima de um terço da raiz ou de quatro milímetros, é raro, na ordem de poucos por cento dos pacientes.",
       "Os incisivos superiores, sobretudo os laterais, são os mais afetados; raízes finas, afiladas ou dilaceradas, trauma prévio e predisposição individual são fatores do paciente.",
       "Do tratamento, pesam a duração, a intrusão e o deslocamento apical extenso, forças pesadas e contínuas e o vaivém de forças; pausas de alguns meses com arco passivo permitem reparo.",
       "O protocolo clássico é radiografar os incisivos entre seis e nove meses de tratamento: se houver reabsorção, pausar dois a três meses, reduzir força e movimento apical, e reavaliar."
@@ -37,7 +37,7 @@
       "blocos": [
         {
           "tipo": "p",
-          "texto": "Quando a zona hialinizada é removida, as células que a digerem não distinguem com precisão o limite entre o ligamento morto e a superfície da raiz ao lado. Nas bordas da zona, células clásticas atacam o cemento, formando lacunas rasas. Se a força cessa ou cai, essas lacunas são preenchidas por cemento celular novo em poucas semanas: reparo completo, sem perda de comprimento. Estudos histológicos mostram lacunas desse tipo em quase todos os dentes movimentados [VERIFICAR]."
+          "texto": "Quando a zona hialinizada é removida, as células que a digerem não distinguem com precisão o limite entre o ligamento morto e a superfície da raiz ao lado. Nas bordas da zona, células clásticas atacam o cemento, formando lacunas rasas. Se a força cessa ou cai, essas lacunas são preenchidas por cemento celular novo em poucas semanas: reparo completo, sem perda de comprimento. Estudos histológicos mostram lacunas desse tipo em quase todos os dentes movimentados."
         },
         {
           "tipo": "p",
@@ -45,7 +45,7 @@
         },
         {
           "tipo": "p",
-          "texto": "Brezniak e Wasserstein chamam esse processo de reabsorção radicular inflamatória induzida ortodonticamente e o separam em três graus: reabsorção de cemento com remodelação, reabsorção de dentina com reparo e reabsorção circunferencial apical com perda de comprimento [VERIFICAR]."
+          "texto": "Brezniak e Wasserstein chamam esse processo de reabsorção radicular inflamatória induzida ortodonticamente e o separam em três graus: reabsorção de cemento com remodelação, reabsorção de dentina com reparo e reabsorção circunferencial apical com perda de comprimento."
         },
         {
           "tipo": "visual",
@@ -61,7 +61,7 @@
             "<use href='#c-caixa-gold' x='60' y='184' width='440' height='60'/><text x='280' y='208' text-anchor='middle' font-size='13' font-weight='700'>3. Atravessa o cemento e chega à dentina</text><text x='280' y='228' text-anchor='middle' font-size='11'>dentina não se refaz; o reparo cobre com cemento, mas o contorno se perde</text>",
             "<path d='M280 244 L280 264' stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'/><text x='300' y='259' font-size='10' fill='var(--red,#B4533B)'>repetição no ápice</text>",
             "<use href='#c-caixa-red' x='60' y='268' width='440' height='60'/><text x='280' y='292' text-anchor='middle' font-size='13' font-weight='700'>4. Reabsorção circunferencial apical</text><text x='280' y='312' text-anchor='middle' font-size='11'>o ápice encurta de forma permanente; é o que a radiografia mostra</text>",
-            "<g font-size='11' fill='var(--ink,#23211C)'><text x='60' y='362'>etapas 1 e 2: praticamente todo dente movido, sem consequência clínica</text><text x='60' y='380'>etapa 3: encurtamento leve, frequente, raramente relevante</text><text x='60' y='398'>etapa 4: encurtamento moderado a grave, minoria dos pacientes [VERIFICAR]</text></g>",
+            "<g font-size='11' fill='var(--ink,#23211C)'><text x='60' y='362'>etapas 1 e 2: praticamente todo dente movido, sem consequência clínica</text><text x='60' y='380'>etapa 3: encurtamento leve, frequente, raramente relevante</text><text x='60' y='398'>etapa 4: encurtamento moderado a grave, minoria dos pacientes</text></g>",
             "<text x='280' y='432' text-anchor='middle' font-size='11' fill='var(--muted,#8A8478)'>parar ou reduzir a força em qualquer etapa permite reparo com cemento;</text><text x='280' y='448' text-anchor='middle' font-size='11' fill='var(--muted,#8A8478)'>só a dentina perdida não volta</text>"
           ],
           "legenda": "Quatro etapas, uma fronteira: enquanto o dano fica no cemento, repara; quando chega à dentina, fica."
@@ -87,7 +87,7 @@
       "blocos": [
         {
           "tipo": "p",
-          "texto": "Os números dependem do método. Radiografias periapicais detectam encurtamento a partir de cerca de um milímetro, e a tomografia detecta lacunas menores, por isso estudos tomográficos relatam prevalências maiores. Em termos radiográficos convencionais, algum grau de encurtamento aparece na maioria dos pacientes tratados com aparelho fixo; encurtamento acima de dois milímetros aparece em uma minoria expressiva; encurtamento grave, acima de quatro milímetros ou de um terço da raiz, em poucos por cento [VERIFICAR]."
+          "texto": "Os números dependem do método. Radiografias periapicais detectam encurtamento a partir de cerca de um milímetro, e a tomografia detecta lacunas menores, por isso estudos tomográficos relatam prevalências maiores. Em termos radiográficos convencionais, algum grau de encurtamento aparece na maioria dos pacientes tratados com aparelho fixo; encurtamento acima de dois milímetros aparece em uma minoria expressiva; encurtamento grave, acima de quatro milímetros ou de um terço da raiz, em poucos por cento."
         },
         {
           "tipo": "p",
@@ -140,11 +140,11 @@
         },
         {
           "tipo": "p",
-          "texto": "Do paciente, você não controla, mas identifica e registra: raízes curtas, afiladas em pipeta, dilaceradas ou com reabsorção prévia; história de trauma dentário, sobretudo com lesão do ligamento; predisposição individual e familiar, para a qual polimorfismos em genes da resposta inflamatória, como o da interleucina-1 beta, foram associados em alguns estudos [VERIFICAR]; agenesias e outras anomalias dentárias; hábitos como onicofagia e bruxismo; e doenças ou medicações que alteram o osso."
+          "texto": "Do paciente, você não controla, mas identifica e registra: raízes curtas, afiladas em pipeta, dilaceradas ou com reabsorção prévia; história de trauma dentário, sobretudo com lesão do ligamento; predisposição individual e familiar, para a qual polimorfismos em genes da resposta inflamatória, como o da interleucina-1 beta, foram associados em alguns estudos; agenesias e outras anomalias dentárias; hábitos como onicofagia e bruxismo; e doenças ou medicações que alteram o osso."
         },
         {
           "tipo": "p",
-          "texto": "Do tratamento, você controla: a duração total, que é o fator mais consistentemente associado; a quantidade de deslocamento apical, especialmente em intrusão e em grandes retrações com torque; a magnitude e o perfil da força, com forças pesadas e contínuas em desvantagem; o vaivém, movimento de ida e volta do mesmo dente, que renova a hialinização no mesmo ponto; e a ausência de pausas. Sobre extrações, tipo de braquete e aparelhos alinhadores, as diferenças relatadas são pequenas ou inconsistentes [VERIFICAR]."
+          "texto": "Do tratamento, você controla: a duração total, que é o fator mais consistentemente associado; a quantidade de deslocamento apical, especialmente em intrusão e em grandes retrações com torque; a magnitude e o perfil da força, com forças pesadas e contínuas em desvantagem; o vaivém, movimento de ida e volta do mesmo dente, que renova a hialinização no mesmo ponto; e a ausência de pausas. Sobre extrações, tipo de braquete e aparelhos alinhadores, as diferenças relatadas são pequenas ou inconsistentes."
         },
         {
           "tipo": "visual",
@@ -155,7 +155,7 @@
           "svg": [
             "<use href='#c-caixa-blue' x='40' y='16' width='300' height='40'/><text x='190' y='42' text-anchor='middle' font-size='13' font-weight='700'>do paciente: você identifica</text>",
             "<use href='#c-caixa-red' x='380' y='16' width='300' height='40'/><text x='530' y='42' text-anchor='middle' font-size='13' font-weight='700'>do tratamento: você controla</text>",
-            "<g font-size='11' fill='var(--ink,#23211C)'><text x='60' y='92'>raiz curta, em pipeta, dilacerada ou já reabsorvida</text><text x='60' y='122'>trauma dentário prévio, sobretudo do ligamento</text><text x='60' y='152'>predisposição individual e familiar [VERIFICAR]</text><text x='60' y='182'>agenesias e outras anomalias dentárias</text><text x='60' y='212'>onicofagia, bruxismo</text><text x='60' y='242'>doenças e remédios que alteram o osso</text></g>",
+            "<g font-size='11' fill='var(--ink,#23211C)'><text x='60' y='92'>raiz curta, em pipeta, dilacerada ou já reabsorvida</text><text x='60' y='122'>trauma dentário prévio, sobretudo do ligamento</text><text x='60' y='152'>predisposição individual e familiar</text><text x='60' y='182'>agenesias e outras anomalias dentárias</text><text x='60' y='212'>onicofagia, bruxismo</text><text x='60' y='242'>doenças e remédios que alteram o osso</text></g>",
             "<g font-size='11' fill='var(--ink,#23211C)'><text x='400' y='92'>duração total do tratamento</text><text x='400' y='122'>deslocamento apical: intrusão, torque, retração longa</text><text x='400' y='152'>força pesada e contínua</text><text x='400' y='182'>vaivém do mesmo dente</text><text x='400' y='212'>ausência de pausas</text><text x='400' y='242'>primeira radiografia de controle tardia</text></g>",
             "<g stroke='var(--border,#EDE6D8)' stroke-width='1'><line x1='60' y1='102' x2='330' y2='102'/><line x1='60' y1='132' x2='330' y2='132'/><line x1='60' y1='162' x2='330' y2='162'/><line x1='60' y1='192' x2='330' y2='192'/><line x1='60' y1='222' x2='330' y2='222'/><line x1='400' y1='102' x2='670' y2='102'/><line x1='400' y1='132' x2='670' y2='132'/><line x1='400' y1='162' x2='670' y2='162'/><line x1='400' y1='192' x2='670' y2='192'/><line x1='400' y1='222' x2='670' y2='222'/></g>",
             "<use href='#c-caixa-ink' x='140' y='268' width='440' height='40'/><text x='360' y='293' text-anchor='middle' font-size='12' font-weight='700' fill='#fff'>coluna da esquerda cheia: encurte a da direita</text>"
@@ -166,7 +166,7 @@
           "tipo": "destaque",
           "estilo": "dica",
           "titulo": "Dente tratado endodonticamente",
-          "texto": "Ao contrário do que a intuição sugere, dentes com tratamento endodôntico bem feito não reabsorvem mais que os vitais durante o movimento; alguns estudos encontraram até menos [VERIFICAR]. O que aumenta o risco é a história de trauma que levou à endodontia, não a endodontia em si. Mova-os com força leve e acompanhe, mas não os exclua do plano por esse motivo."
+          "texto": "Ao contrário do que a intuição sugere, dentes com tratamento endodôntico bem feito não reabsorvem mais que os vitais durante o movimento; alguns estudos encontraram até menos. O que aumenta o risco é a história de trauma que levou à endodontia, não a endodontia em si. Mova-os com força leve e acompanhe, mas não os exclua do plano por esse motivo."
         },
         {
           "tipo": "pergunta",
@@ -188,7 +188,7 @@
         },
         {
           "tipo": "p",
-          "texto": "O protocolo de Levander e Malmgren propõe a primeira radiografia de controle entre seis e nove meses de tratamento ativo, porque a reabsorção que aparece nesse período prediz a que virá depois [VERIFICAR]. O índice dos mesmos autores gradua o achado: 0, contorno normal; 1, contorno apical irregular; 2, encurtamento menor que dois milímetros; 3, encurtamento de dois milímetros a um terço da raiz; 4, encurtamento maior que um terço da raiz [VERIFICAR]. Graus 1 e 2 pedem cuidado; 3 e 4, mudança de conduta."
+          "texto": "O protocolo de Levander e Malmgren propõe a primeira radiografia de controle entre seis e nove meses de tratamento ativo, porque a reabsorção que aparece nesse período prediz a que virá depois. O índice dos mesmos autores gradua o achado: 0, contorno normal; 1, contorno apical irregular; 2, encurtamento menor que dois milímetros; 3, encurtamento de dois milímetros a um terço da raiz; 4, encurtamento maior que um terço da raiz. Graus 1 e 2 pedem cuidado; 3 e 4, mudança de conduta."
         },
         {
           "tipo": "visual",
@@ -202,7 +202,7 @@
             "<g stroke='var(--muted,#8A8478)' stroke-width='1' stroke-dasharray='3 3'><line x1='60' y1='210' x2='660' y2='210'/></g><text x='665' y='214' font-size='10' fill='var(--muted,#8A8478)'>ápice</text><text x='665' y='226' font-size='10' fill='var(--muted,#8A8478)'>original</text>",
             "<g font-size='11' fill='var(--ink,#23211C)' text-anchor='middle'><text x='90' y='240'>contorno normal</text><text x='225' y='240'>contorno irregular</text><text x='225' y='254'>sem encurtar</text><text x='360' y='240'>encurtou</text><text x='360' y='254'>menos de 2 mm</text><text x='495' y='240'>2 mm a</text><text x='495' y='254'>um terço da raiz</text><text x='630' y='240'>mais de</text><text x='630' y='254'>um terço da raiz</text></g>",
             "<g font-size='11' font-weight='700' text-anchor='middle'><text x='90' y='284' fill='var(--green,#3E7C4F)'>seguir</text><text x='225' y='284' fill='var(--green,#3E7C4F)'>seguir e vigiar</text><text x='360' y='284' fill='var(--gold,#B08968)'>vigiar, aliviar</text><text x='495' y='284' fill='var(--red,#B4533B)'>pausar e replanejar</text><text x='630' y='284' fill='var(--red,#B4533B)'>replanejar ou parar</text></g>",
-            "<text x='360' y='316' text-anchor='middle' font-size='11' fill='var(--muted,#8A8478)'>índice de Levander e Malmgren [VERIFICAR]; medir em periapical com angulação igual à inicial; esquema fora de escala</text>"
+            "<text x='360' y='316' text-anchor='middle' font-size='11' fill='var(--muted,#8A8478)'>índice de Levander e Malmgren; medir em periapical com angulação igual à inicial; esquema fora de escala</text>"
           ],
           "legenda": "Cinco graus, uma decisão em cada um. O índice só funciona comparado à radiografia inicial na mesma angulação."
         },
@@ -215,12 +215,12 @@
         {
           "tipo": "pergunta",
           "pergunta": "Em que momento do tratamento a primeira radiografia de controle deve ser feita e por quê?",
-          "resposta": "Entre seis e nove meses de tratamento ativo, porque a presença de reabsorção nesse período prediz reabsorção maior ao final e permite pausar e ajustar a tempo [VERIFICAR]."
+          "resposta": "Entre seis e nove meses de tratamento ativo, porque a presença de reabsorção nesse período prediz reabsorção maior ao final e permite pausar e ajustar a tempo."
         }
       ],
       "checagem": {
         "pergunta": "Descreva os graus 2, 3 e 4 do índice de Levander e Malmgren e a conduta associada a cada um.",
-        "resposta": "Grau 2: encurtamento menor que 2 mm, vigiar e aliviar. Grau 3: de 2 mm a um terço da raiz, pausar e replanejar. Grau 4: mais de um terço da raiz, replanejar objetivos ou interromper [VERIFICAR]."
+        "resposta": "Grau 2: encurtamento menor que 2 mm, vigiar e aliviar. Grau 3: de 2 mm a um terço da raiz, pausar e replanejar. Grau 4: mais de um terço da raiz, replanejar objetivos ou interromper."
       }
     },
     {
@@ -232,7 +232,7 @@
         },
         {
           "tipo": "p",
-          "texto": "Quando a radiografia de controle mostra reabsorção em grau relevante, a conduta clássica é a pausa: arco passivo por dois a três meses, tempo em que o cemento repara as lacunas, seguida de reavaliação. Estudos de Levander e colaboradores mostraram menos reabsorção ao final em pacientes que pausaram do que nos que seguiram sem interrupção [VERIFICAR]. Depois da pausa, os objetivos são revistos: menos deslocamento apical, menos intrusão, aceitar compromisso na finalização se a raiz assim exigir."
+          "texto": "Quando a radiografia de controle mostra reabsorção em grau relevante, a conduta clássica é a pausa: arco passivo por dois a três meses, tempo em que o cemento repara as lacunas, seguida de reavaliação. Estudos de Levander e colaboradores mostraram menos reabsorção ao final em pacientes que pausaram do que nos que seguiram sem interrupção. Depois da pausa, os objetivos são revistos: menos deslocamento apical, menos intrusão, aceitar compromisso na finalização se a raiz assim exigir."
         },
         {
           "tipo": "visual",
@@ -249,7 +249,7 @@
             "<g font-size='11' fill='var(--ink,#23211C)' text-anchor='middle'><text x='440' y='74'>repetir radiografias</text><text x='440' y='88'>nos pacientes de risco</text><text x='440' y='102'>ou com achado prévio</text></g>",
             "<g font-size='11' fill='var(--ink,#23211C)' text-anchor='middle'><text x='630' y='60'>radiografia final</text><text x='630' y='74'>contenção passiva</text><text x='630' y='88'>prognóstico ao</text><text x='630' y='102'>paciente</text></g>",
             "<g font-size='11' fill='var(--ink,#23211C)' text-anchor='middle'><text x='360' y='232'>durante todo o tempo: força leve e contínua, mínimo de vaivém, intrusão dosada por dente, duração controlada</text></g>",
-            "<text x='360' y='280' text-anchor='middle' font-size='11' fill='var(--muted,#8A8478)'>prazos de referência do protocolo de Levander e Malmgren [VERIFICAR]</text>"
+            "<text x='360' y='280' text-anchor='middle' font-size='11' fill='var(--muted,#8A8478)'>prazos de referência do protocolo de Levander e Malmgren</text>"
           ],
           "legenda": "Quatro momentos para olhar a raiz, e um comportamento constante entre eles."
         },
@@ -265,7 +265,7 @@
       ],
       "checagem": {
         "pergunta": "Qual é a conduta diante de reabsorção em grau relevante na radiografia de controle e qual o prognóstico do dente ao final?",
-        "resposta": "Pausa de dois a três meses com arco passivo, redução de força e deslocamento apical e revisão dos objetivos [VERIFICAR]. Prognóstico: a reabsorção cessa com a força; até um terço de perda com periodonto saudável mantém função, com menor margem para perda óssea futura."
+        "resposta": "Pausa de dois a três meses com arco passivo, redução de força e deslocamento apical e revisão dos objetivos. Prognóstico: a reabsorção cessa com a força; até um terço de perda com periodonto saudável mantém função, com menor margem para perda óssea futura."
       }
     },
     {
@@ -326,7 +326,7 @@
       },
       {
         "frente": "Descreva o protocolo de controle radiográfico e a conduta diante de reabsorção relevante.",
-        "verso": "Periapicais iniciais padronizadas; primeira radiografia de controle aos seis a nove meses; graus 0 e 1 seguem; grau 2 ou mais: pausa de dois a três meses com arco passivo, redução de força e deslocamento apical, revisão dos objetivos; repetir a cada seis meses [VERIFICAR]."
+        "verso": "Periapicais iniciais padronizadas; primeira radiografia de controle aos seis a nove meses; graus 0 e 1 seguem; grau 2 ou mais: pausa de dois a três meses com arco passivo, redução de força e deslocamento apical, revisão dos objetivos; repetir a cada seis meses."
       }
     ]
   },
@@ -339,7 +339,7 @@
       },
       {
         "rotulo": "Frequência",
-        "texto": "Microscópica em quase todos; leve na maioria; grave (mais de um terço ou 4 mm) em poucos por cento [VERIFICAR]."
+        "texto": "Microscópica em quase todos; leve na maioria; grave (mais de um terço ou 4 mm) em poucos por cento."
       },
       {
         "rotulo": "Dentes",
@@ -355,7 +355,7 @@
       },
       {
         "rotulo": "Protocolo",
-        "texto": "Periapicais iniciais; controle aos 6 a 9 meses; grau 2 ou mais: pausa de 2 a 3 meses e replanejar [VERIFICAR]."
+        "texto": "Periapicais iniciais; controle aos 6 a 9 meses; grau 2 ou mais: pausa de 2 a 3 meses e replanejar."
       }
     ]
   },
@@ -484,7 +484,7 @@
     },
     {
       "titulo": "Seis a nove",
-      "texto": "Meses até a primeira radiografia de controle. O que aparece cedo prediz o que vem depois [VERIFICAR]."
+      "texto": "Meses até a primeira radiografia de controle. O que aparece cedo prediz o que vem depois."
     },
     {
       "titulo": "Pipeta, trauma, tempo",
@@ -499,7 +499,7 @@
     },
     {
       "erro": "Excluir dentes tratados endodonticamente do movimento por medo de reabsorção.",
-      "porque": "A endodontia bem feita não aumenta o risco; o que aumenta é o trauma que a motivou [VERIFICAR].",
+      "porque": "A endodontia bem feita não aumenta o risco; o que aumenta é o trauma que a motivou.",
       "certo": "Mover com força leve e acompanhar; registrar o trauma como fator de risco."
     },
     {
@@ -574,7 +574,7 @@
       "explicacoes": [
         "Renova a hialinização e piora a reabsorção.",
         "Grau 3 pede mudança de conduta e conversa com o paciente.",
-        "Correta: permite reparo pelo cemento e reduz o deslocamento apical futuro [VERIFICAR].",
+        "Correta: permite reparo pelo cemento e reduz o deslocamento apical futuro.",
         "Perda de até um terço com periodonto saudável não indica extração."
       ]
     },
@@ -588,10 +588,10 @@
       ],
       "correta": 1,
       "explicacoes": [
-        "A endodontia em si não aumenta o risco; o trauma que a motivou, sim [VERIFICAR].",
+        "A endodontia em si não aumenta o risco; o trauma que a motivou, sim.",
         "Correta: fatores do paciente e do tratamento mais consistentemente relatados.",
         "A panorâmica distorce a região anterior; medir exige periapical ou tomografia.",
-        "Pausas permitem reparo e reduzem a reabsorção final [VERIFICAR]."
+        "Pausas permitem reparo e reduzem a reabsorção final."
       ]
     }
   ],

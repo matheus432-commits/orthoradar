@@ -37,7 +37,7 @@
       "blocos": [
         {
           "tipo": "p",
-          "texto": "A raiz vive dentro de um envelope de osso alveolar cuja espessura varia de dente para dente e de pessoa para pessoa. Nos incisivos inferiores e nos dentes posteriores superiores, a cortical vestibular costuma ter menos de um milímetro em boa parte da raiz [VERIFICAR]; na sínfise estreita, o osso lingual também é fino. Quando você move um dente, o osso do lado da tensão se forma e o do lado da pressão se reabsorve, e o alvéolo acompanha, mas só enquanto existe osso a remodelar."
+          "texto": "A raiz vive dentro de um envelope de osso alveolar cuja espessura varia de dente para dente e de pessoa para pessoa. Nos incisivos inferiores e nos dentes posteriores superiores, a cortical vestibular costuma ter menos de um milímetro em boa parte da raiz; na sínfise estreita, o osso lingual também é fino. Quando você move um dente, o osso do lado da tensão se forma e o do lado da pressão se reabsorve, e o alvéolo acompanha, mas só enquanto existe osso a remodelar."
         },
         {
           "tipo": "p",
@@ -86,7 +86,7 @@
         },
         {
           "tipo": "p",
-          "texto": "Por isso os estudos são consistentes em dois pontos que parecem contraditórios: o movimento ortodôntico por si só, em periodonto saudável e dentro do osso, não causa recessão; e a recessão é mais frequente em pacientes tratados do que em não tratados, sobretudo nos incisivos inferiores [VERIFICAR]. A conciliação está no envelope: o que causa a recessão é a agressão sobre uma raiz que o movimento deixou sem osso."
+          "texto": "Por isso os estudos são consistentes em dois pontos que parecem contraditórios: o movimento ortodôntico por si só, em periodonto saudável e dentro do osso, não causa recessão; e a recessão é mais frequente em pacientes tratados do que em não tratados, sobretudo nos incisivos inferiores. A conciliação está no envelope: o que causa a recessão é a agressão sobre uma raiz que o movimento deixou sem osso."
         },
         {
           "tipo": "visual",
@@ -111,7 +111,7 @@
           "tipo": "destaque",
           "estilo": "mito",
           "mito": "Se a gengiva está no lugar no dia da remoção do aparelho, não houve dano periodontal.",
-          "verdade": "A deiscência não aparece na periapical e a margem gengival pode ficar no lugar por meses ou anos sobre uma raiz sem osso. A recessão tardia após vestibularização de incisivos inferiores é bem descrita [VERIFICAR]. O que protege é ter mantido a raiz no osso, não a aparência no último dia."
+          "verdade": "A deiscência não aparece na periapical e a margem gengival pode ficar no lugar por meses ou anos sobre uma raiz sem osso. A recessão tardia após vestibularização de incisivos inferiores é bem descrita. O que protege é ter mantido a raiz no osso, não a aparência no último dia."
         },
         {
           "tipo": "imagem",
@@ -174,7 +174,7 @@
       "blocos": [
         {
           "tipo": "p",
-          "texto": "Prevenir começa pelo diagnóstico do limite. O exame clínico registra fenótipo, faixa de gengiva ceratinizada, recessões existentes e freios. A telerradiografia mostra a sínfise. A tomografia, quando indicada por risco alto ou por plano que exige expansão ou vestibularização significativa, mostra a espessura real do osso vestibular e lingual em cada dente, com a ressalva de que osso muito fino pode não aparecer e ser lido como ausente [VERIFICAR]."
+          "texto": "Prevenir começa pelo diagnóstico do limite. O exame clínico registra fenótipo, faixa de gengiva ceratinizada, recessões existentes e freios. A telerradiografia mostra a sínfise. A tomografia, quando indicada por risco alto ou por plano que exige expansão ou vestibularização significativa, mostra a espessura real do osso vestibular e lingual em cada dente, com a ressalva de que osso muito fino pode não aparecer e ser lido como ausente."
         },
         {
           "tipo": "p",
@@ -214,7 +214,7 @@
           "tipo": "destaque",
           "estilo": "erro",
           "titulo": "Resolver apinhamento inferior 'só alinhando'",
-          "texto": "Alinhar sem criar espaço é vestibularizar; cada milímetro de apinhamento resolvido assim é quase um milímetro de raiz que avança para a cortical [VERIFICAR]. Em sínfise estreita e fenótipo fino, isso é o caminho mais curto para a deiscência. Espaço vem de desgaste, Distalização ou extração; a vestibularização só é aceitável dentro do que o osso permite."
+          "texto": "Alinhar sem criar espaço é vestibularizar; cada dois milímetros de apinhamento resolvidos assim custam cerca de um milímetro de avanço dos incisivos, e a raiz avança junto para a cortical. Em sínfise estreita e fenótipo fino, isso é o caminho mais curto para a deiscência. Espaço vem de desgaste, Distalização ou extração; a vestibularização só é aceitável dentro do que o osso permite."
         },
         {
           "tipo": "lista",
@@ -237,11 +237,11 @@
       "blocos": [
         {
           "tipo": "p",
-          "texto": "Quando a margem recua durante o tratamento, o primeiro passo é remover as agressões: controle rigoroso de biofilme com técnica não traumática, tratamento da inflamação e verificação de contatos do aparelho com a gengiva. O segundo é rever a mecânica: se a raiz está fora do envelope, movê-la de volta para dentro do osso, com torque lingual de raiz ou retração, costuma engrossar o tecido sobre ela e melhorar o prognóstico de qualquer cirurgia posterior [VERIFICAR]."
+          "texto": "Quando a margem recua durante o tratamento, o primeiro passo é remover as agressões: controle rigoroso de biofilme com técnica não traumática, tratamento da inflamação e verificação de contatos do aparelho com a gengiva. O segundo é rever a mecânica: se a raiz está fora do envelope, movê-la de volta para dentro do osso, com torque lingual de raiz ou retração, costuma engrossar o tecido sobre ela e melhorar o prognóstico de qualquer cirurgia posterior."
         },
         {
           "tipo": "p",
-          "texto": "O recobrimento radicular, com enxerto de tecido conjuntivo e retalho, é em geral realizado após o término da ortodontia, quando a posição final da raiz está definida e a inflamação controlada. Os resultados são melhores quando a raiz está dentro do osso e as papilas adjacentes estão preservadas, e piores quando a raiz permanece proeminente [VERIFICAR]. Enxerto durante o tratamento é indicado quando a recessão progride ou quando o movimento restante vai piorar a situação."
+          "texto": "O recobrimento radicular, com enxerto de tecido conjuntivo e retalho, é em geral realizado após o término da ortodontia, quando a posição final da raiz está definida e a inflamação controlada. Os resultados são melhores quando a raiz está dentro do osso e as papilas adjacentes estão preservadas, e piores quando a raiz permanece proeminente. Enxerto durante o tratamento é indicado quando a recessão progride ou quando o movimento restante vai piorar a situação."
         },
         {
           "tipo": "visual",
@@ -271,7 +271,7 @@
       ],
       "checagem": {
         "pergunta": "Diante de recessão que surge durante o tratamento, quais são os dois primeiros passos e quando o recobrimento radicular costuma ser feito?",
-        "resposta": "Remover as agressões (biofilme, inflamação, trauma, escovação) e rever a mecânica trazendo a raiz de volta para dentro do osso. O recobrimento radicular costuma ser feito após o término, com a posição final da raiz definida [VERIFICAR]."
+        "resposta": "Remover as agressões (biofilme, inflamação, trauma, escovação) e rever a mecânica trazendo a raiz de volta para dentro do osso. O recobrimento radicular costuma ser feito após o término, com a posição final da raiz definida."
       }
     },
     {
@@ -332,7 +332,7 @@
       },
       {
         "frente": "Como o movimento ortodôntico pode causar e como pode ajudar a tratar uma recessão?",
-        "verso": "Causa quando leva a raiz para fora do envelope de osso, criando deiscência e deixando a gengiva sem suporte para a agressão seguinte. Ajuda quando traz a raiz de volta para dentro do osso, engrossando o tecido sobre ela e melhorando o prognóstico do recobrimento radicular [VERIFICAR]."
+        "verso": "Causa quando leva a raiz para fora do envelope de osso, criando deiscência e deixando a gengiva sem suporte para a agressão seguinte. Ajuda quando traz a raiz de volta para dentro do osso, engrossando o tecido sobre ela e melhorando o prognóstico do recobrimento radicular."
       }
     ]
   },
@@ -511,7 +511,7 @@
     {
       "erro": "Operar a recessão no meio do tratamento sem rever a posição da raiz.",
       "porque": "Recobrimento sobre raiz proeminente fora do osso tem pior prognóstico.",
-      "certo": "Trazer a raiz para dentro do osso e, salvo progressão, recobrir após o término [VERIFICAR]."
+      "certo": "Trazer a raiz para dentro do osso e, salvo progressão, recobrir após o término."
     }
   ],
   "autoteste": [
@@ -575,7 +575,7 @@
       "explicacoes": [
         "Correta: a recessão vem quando a raiz sai do envelope e a gengiva sem suporte sofre uma agressão.",
         "Movimento dentro do osso é seguro para o periodonto.",
-        "A recessão tardia após vestibularização é bem descrita [VERIFICAR].",
+        "A recessão tardia após vestibularização é bem descrita.",
         "É o contrário: mover para dentro do osso pode engrossar o tecido; para fora o afina."
       ]
     },

@@ -15,7 +15,7 @@
   },
   "umMinuto": {
     "frases": [
-      "A dentição permanente se completa, sem os terceiros molares, por volta dos 12 a 13 anos, com a erupção dos segundos molares; os terceiros chegam, quando chegam, entre 17 e 21 anos [VERIFICAR].",
+      "A dentição permanente se completa, sem os terceiros molares, por volta dos 12 a 13 anos, com a erupção dos segundos molares; os terceiros chegam, quando chegam, entre 17 e 21 anos.",
       "Sequência habitual dos permanentes: primeiros molares e incisivos centrais por volta dos 6 a 7 anos, laterais aos 7 a 8, depois caninos e pré-molares no segundo período transitório, segundos molares aos 11 a 13.",
       "O arco permanente continua mudando depois de completo: a largura intercaninos inferior tende a diminuir a partir da adolescência, o perímetro do arco encurta e os incisivos inferiores se apinham, mesmo em quem nunca teve apinhamento.",
       "O crescimento mandibular tardio, a rotação de crescimento, a pressão dos tecidos moles e a migração mesial fisiológica dos dentes explicam o apinhamento tardio; a culpa dos terceiros molares é discutida e provavelmente pequena.",
@@ -53,7 +53,7 @@
             "<use href='#c-marco' x='50' y='214' width='20' height='20'/><text x='90' y='222' font-size='14' font-weight='700'>10 a 12 anos</text><text x='90' y='240' font-size='13' fill='var(--muted,#8A8478)'>segundos pré-molares e caninos superiores</text>",
             "<use href='#c-marco-cheio' x='50' y='274' width='20' height='20'/><text x='90' y='282' font-size='14' font-weight='700' fill='var(--gold,#B08968)'>11 a 13 anos</text><text x='90' y='300' font-size='13' fill='var(--muted,#8A8478)'>segundos molares: dentição de 28 completa</text>",
             "<use href='#c-marco-blue' x='50' y='334' width='20' height='20'/><text x='90' y='342' font-size='14' font-weight='700' fill='var(--blue,#4A6B8A)'>17 a 21 anos</text><text x='90' y='360' font-size='13' fill='var(--muted,#8A8478)'>terceiros molares, quando erupcionam</text>",
-            "<text x='280' y='410' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>faixas aproximadas; inferiores em geral antes dos superiores [VERIFICAR]</text>"
+            "<text x='280' y='410' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>faixas aproximadas; inferiores em geral antes dos superiores</text>"
           ],
           "legenda": "A oclusão de 28 dentes está pronta por volta dos 12 a 13 anos. O arco, não."
         },
@@ -77,7 +77,7 @@
       "blocos": [
         {
           "tipo": "p",
-          "texto": "Estudos longitudinais de pessoas que nunca fizeram ortodontia mostram uma tendência consistente: a distância entre os caninos inferiores, que aumenta durante a troca dos incisivos, atinge o máximo perto da erupção dos caninos permanentes e depois diminui lentamente ao longo da adolescência e da vida adulta [VERIFICAR]. O perímetro do arco inferior encurta."
+          "texto": "Estudos longitudinais de pessoas que nunca fizeram ortodontia mostram uma tendência consistente: a distância entre os caninos inferiores, que aumenta durante a troca dos incisivos, atinge o máximo perto da erupção dos caninos permanentes e depois diminui lentamente ao longo da adolescência e da vida adulta. O perímetro do arco inferior encurta."
         },
         {
           "tipo": "visual",
@@ -154,7 +154,7 @@
           "tipo": "destaque",
           "estilo": "mito",
           "mito": "O terceiro molar empurra os dentes e causa o apinhamento tardio; extraí-lo evita a recidiva.",
-          "verdade": "Estudos que compararam pessoas com e sem terceiros molares encontraram apinhamento tardio nos dois grupos; o papel do terceiro molar é, no máximo, pequeno [VERIFICAR]. A extração profilática para prevenir apinhamento não se sustenta."
+          "verdade": "Estudos que compararam pessoas com e sem terceiros molares encontraram apinhamento tardio nos dois grupos; o papel do terceiro molar é, no máximo, pequeno. A extração profilática para prevenir apinhamento não se sustenta."
         },
         {
           "tipo": "p",
@@ -246,7 +246,7 @@
       },
       {
         "frente": "Qual é a evidência sobre o terceiro molar como causa do apinhamento tardio?",
-        "verso": "Comparações entre pessoas com e sem terceiros molares não mostram diferença consistente; o papel é pequeno e a extração profilática para prevenir apinhamento não se justifica [VERIFICAR]."
+        "verso": "Comparações entre pessoas com e sem terceiros molares não mostram diferença consistente; o papel é pequeno e a extração profilática para prevenir apinhamento não se justifica."
       }
     ]
   },
@@ -255,7 +255,7 @@
     "itens": [
       {
         "rotulo": "Completa",
-        "texto": "28 dentes por volta dos 12 a 13 anos, com os segundos molares. Terceiros entre 17 e 21, quando vêm [VERIFICAR]."
+        "texto": "28 dentes por volta dos 12 a 13 anos, com os segundos molares. Terceiros entre 17 e 21, quando vêm."
       },
       {
         "rotulo": "Sequência",

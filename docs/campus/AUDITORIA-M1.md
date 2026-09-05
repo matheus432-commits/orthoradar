@@ -142,3 +142,7 @@ Citadas por autor, periódico e ano; nenhuma entra nas páginas com PMID/DOI/URL
 - Estudos de TC/TCFC sobre fusão da sincondrose esfeno-occipital (Irã 2020, Turquia, Índia 2023) e relação com CVM (2016).
 - Merck Manual (crescimento e maturação sexual do adolescente); J Clin Res Pediatr Endocrinol (idade do pico de velocidade e estadiamento puberal).
 - Enlow DH, Hans MG. Essentials of Facial Growth; Enlow DH. Handbook of Facial Growth (padrões de remodelação da maxila e do palato).
+
+## Rodada 4 — resolução das marcações (05/09)
+
+As marcações `[VERIFICAR]` deste módulo foram resolvidas por busca de fontes e retiradas; correções de texto e a lista de buscas estão em `AUDITORIA-RODADA-4.md`.

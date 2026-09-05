@@ -103,14 +103,14 @@
             "<use href='#c-caixa-green' x='20' y='462' width='520' height='56'/><use href='#c-num' x='34' y='476' width='28' height='28'/><text x='48' y='496' text-anchor='middle' font-size='14' font-weight='700'>1</text>",
             "<text x='76' y='486' font-size='13' font-weight='700'>Sem necessidade</text><text x='76' y='504' font-size='11'>deslocamentos menores que 1 mm; oclusão praticamente normal</text>",
             "<text x='280' y='546' text-anchor='middle' font-size='11' fill='var(--muted,#8A8478)'>M ausentes, O trespasse horizontal, C cruzadas,</text>",
-            "<text x='280' y='562' text-anchor='middle' font-size='11' fill='var(--muted,#8A8478)'>D deslocamentos, O trespasse vertical e mordida aberta; limiares da tabela original [VERIFICAR]</text>"
+            "<text x='280' y='562' text-anchor='middle' font-size='11' fill='var(--muted,#8A8478)'>D deslocamentos, O trespasse vertical e mordida aberta; limiares da tabela original</text>"
           ],
           "legenda": "Não se soma: a pior característica dá o grau. Um canino retido sozinho já é grau 5, mesmo com o resto da boca alinhado."
         },
         {
           "tipo": "destaque",
           "estilo": "prova",
-          "texto": "MOCDO é o acrônimo que a prova pede, e a lógica \"a pior característica define o grau\" é o que a questão de caso testa. Graus 4 e 5 são necessidade definida; 3 é limítrofe; 1 e 2, sem necessidade ou pouca. Os limiares em milímetros são os da tabela original, que deve ser consultada na aplicação formal [VERIFICAR]."
+          "texto": "MOCDO é o acrônimo que a prova pede, e a lógica \"a pior característica define o grau\" é o que a questão de caso testa. Graus 4 e 5 são necessidade definida; 3 é limítrofe; 1 e 2, sem necessidade ou pouca. Os limiares em milímetros são os da tabela original, que deve ser consultada na aplicação formal."
         }
       ],
       "checagem": {
@@ -123,7 +123,7 @@
       "blocos": [
         {
           "tipo": "p",
-          "texto": "O segundo componente do IOTN é estético. Uma escala de dez fotografias intrabucais frontais, ordenadas da mais atraente à menos atraente, serve de referência: o examinador, ou o próprio paciente, aponta a foto que mais se parece com a boca em questão. De 1 a 4, pouca ou nenhuma necessidade; de 5 a 7, limítrofe; de 8 a 10, necessidade definida [VERIFICAR]."
+          "texto": "O segundo componente do IOTN é estético. Uma escala de dez fotografias intrabucais frontais, ordenadas da mais atraente à menos atraente, serve de referência: o examinador, ou o próprio paciente, aponta a foto que mais se parece com a boca em questão. De 1 a 4, pouca ou nenhuma necessidade; de 5 a 7, limítrofe; de 8 a 10, necessidade definida."
         },
         {
           "tipo": "p",
@@ -153,7 +153,7 @@
       "blocos": [
         {
           "tipo": "p",
-          "texto": "O Dental Aesthetic Index, de Cons, Jenny e Kohout, publicado em 1986, seguiu outro caminho: em vez de escolher a pior característica, soma dez medidas, cada uma multiplicada por um peso obtido por regressão a partir de julgamentos estéticos de leigos, e acrescenta uma constante. O resultado é um escore único. A Organização Mundial da Saúde o adotou para levantamentos epidemiológicos, e é o índice usado no SB Brasil para adolescentes [VERIFICAR]."
+          "texto": "O Dental Aesthetic Index, de Cons, Jenny e Kohout, publicado em 1986, seguiu outro caminho: em vez de escolher a pior característica, soma dez medidas, cada uma multiplicada por um peso obtido por regressão a partir de julgamentos estéticos de leigos, e acrescenta uma constante. O resultado é um escore único. A Organização Mundial da Saúde o adotou para levantamentos epidemiológicos, e é o índice usado no SB Brasil para adolescentes."
         },
         {
           "tipo": "lista",
@@ -180,7 +180,7 @@
             "<g font-size='13' font-weight='700' text-anchor='middle' fill='var(--ink,#23211C)'><text x='160' y='97'>até 25</text><text x='340' y='97'>26 a 30</text><text x='460' y='97'>31 a 35</text><text x='600' y='97'>36 ou mais</text></g>",
             "<line x1='40' y1='128' x2='680' y2='128' stroke='var(--ink,#23211C)' stroke-width='1.5'/><g stroke='var(--ink,#23211C)' stroke-width='1.5'><line x1='280' y1='122' x2='280' y2='134'/><line x1='400' y1='122' x2='400' y2='134'/><line x1='520' y1='122' x2='520' y2='134'/></g>",
             "<g font-size='12' text-anchor='middle' fill='var(--ink,#23211C)'><text x='160' y='160' font-weight='700'>normal ou leve</text><text x='160' y='176' font-size='11'>sem necessidade ou pouca</text><text x='340' y='160' font-weight='700'>definida</text><text x='340' y='176' font-size='11'>eletivo</text><text x='460' y='160' font-weight='700'>severa</text><text x='460' y='176' font-size='11'>altamente desejável</text><text x='600' y='160' font-weight='700'>muito severa</text><text x='600' y='176' font-size='11'>incapacitante: obrigatório</text></g>",
-            "<text x='360' y='222' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>faixas da OMS para o DAI [VERIFICAR]; o escore soma, ao contrário do IOTN, que escolhe o pior</text>"
+            "<text x='360' y='222' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>faixas da OMS para o DAI; o escore soma, ao contrário do IOTN, que escolhe o pior</text>"
           ],
           "legenda": "Quatro faixas, uma leitura direta. A vantagem é o número único para comparar populações; a desvantagem é que ele mistura problemas de natureza diferente em uma soma."
         },
@@ -201,11 +201,11 @@
       "blocos": [
         {
           "tipo": "p",
-          "texto": "O Peer Assessment Rating, de Richmond e colaboradores, de 1992, responde a outra pergunta: o tratamento funcionou? Pontua, nos modelos de antes e de depois, o alinhamento dos segmentos anteriores, a oclusão dos segmentos posteriores, o trespasse horizontal, o trespasse vertical e a linha média, com pesos que dão mais valor ao trespasse horizontal e à linha média. A diferença entre o escore inicial e o final, em pontos e em percentual, classifica o caso como muito melhorado, melhorado, ou igual ou pior [VERIFICAR]."
+          "texto": "O Peer Assessment Rating, de Richmond e colaboradores, de 1992, responde a outra pergunta: o tratamento funcionou? Pontua, nos modelos de antes e de depois, o alinhamento dos segmentos anteriores, a oclusão dos segmentos posteriores, o trespasse horizontal, o trespasse vertical e a linha média, com pesos que dão mais valor ao trespasse horizontal e à linha média. A diferença entre o escore inicial e o final, em pontos e em percentual, classifica o caso como muito melhorado, melhorado, ou igual ou pior."
         },
         {
           "tipo": "p",
-          "texto": "O Index of Complexity, Outcome and Need, de Daniels e Richmond, de 2000, quis fazer as três coisas com uma só régua: pontua o componente estético do IOTN, o apinhamento ou espaçamento superior, as mordidas cruzadas, a relação vertical dos incisivos e a relação anteroposterior dos segmentos posteriores, cada um com um peso. O mesmo escore, lido antes do tratamento, diz se há necessidade e quão complexo é o caso; lido depois, diz o resultado [VERIFICAR]."
+          "texto": "O Index of Complexity, Outcome and Need, de Daniels e Richmond, de 2000, quis fazer as três coisas com uma só régua: pontua o componente estético do IOTN, o apinhamento ou espaçamento superior, as mordidas cruzadas, a relação vertical dos incisivos e a relação anteroposterior dos segmentos posteriores, cada um com um peso. O mesmo escore, lido antes do tratamento, diz se há necessidade e quão complexo é o caso; lido depois, diz o resultado."
         },
         {
           "tipo": "visual",

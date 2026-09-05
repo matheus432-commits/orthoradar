@@ -90,11 +90,11 @@
       "blocos": [
         {
           "tipo": "p",
-          "texto": "A tradição ortodôntica define força leve como aquela que comprime o ligamento sem ocluir seus vasos. Schwarz, na década de 1930, propôs que a força ótima não deveria exceder a pressão dos capilares do ligamento, algo em torno de vinte a vinte e seis gramas por centímetro quadrado de superfície radicular [VERIFICAR]. Abaixo disso, o ligamento permanece vivo, as células chegam e a reabsorção frontal acontece; acima, isquemia, hialinização e movimento em saltos, como você viu nas páginas anteriores."
+          "texto": "A tradição ortodôntica define força leve como aquela que comprime o ligamento sem ocluir seus vasos. Schwarz, na década de 1930, propôs que a força ótima não deveria exceder a pressão dos capilares do ligamento, algo em torno de vinte a vinte e seis gramas por centímetro quadrado de superfície radicular. Abaixo disso, o ligamento permanece vivo, as células chegam e a reabsorção frontal acontece; acima, isquemia, hialinização e movimento em saltos, como você viu nas páginas anteriores."
         },
         {
           "tipo": "p",
-          "texto": "Storey e Smith, em 1952, deram a esse conceito um experimento clássico: ao retrair caninos com molas de diferentes intensidades, observaram que forças em torno de 150 a 200 gramas moviam o canino com eficiência, enquanto forças bem maiores, de 400 a 600 gramas, moviam pouco o canino e faziam os dentes de ancoragem, de maior área radicular, se deslocarem [VERIFICAR]. A leitura moderna é que a força pesada atravessou a janela ideal do canino e caiu dentro da janela ideal dos dentes maiores."
+          "texto": "Storey e Smith, em 1952, deram a esse conceito um experimento clássico: ao retrair caninos com molas de diferentes intensidades, observaram que forças em torno de 150 a 200 gramas moviam o canino com eficiência, enquanto forças bem maiores, de 400 a 600 gramas, moviam pouco o canino e faziam os dentes de ancoragem, de maior área radicular, se deslocarem. A leitura moderna é que a força pesada atravessou a janela ideal do canino e caiu dentro da janela ideal dos dentes maiores."
         },
         {
           "tipo": "visual",
@@ -122,7 +122,7 @@
           "tipo": "destaque",
           "estilo": "mito",
           "mito": "Quanto mais força, mais rápido o dente anda.",
-          "verdade": "A relação não é linear. Quinn e Yoshikawa, revisando as hipóteses em 1985, favoreceram um modelo em que a velocidade cresce até certo ponto e depois estabiliza [VERIFICAR]. Uma revisão sistemática de Ren e colaboradores em 2003 não encontrou evidência suficiente para definir uma força ótima [VERIFICAR]. Acima do platô, o que cresce é hialinização, dor e perda de ancoragem."
+          "verdade": "A relação não é linear. Quinn e Yoshikawa, revisando as hipóteses em 1985, favoreceram um modelo em que a velocidade cresce até certo ponto e depois estabiliza. Uma revisão sistemática de Ren e colaboradores em 2003 não encontrou evidência suficiente para definir uma força ótima. Acima do platô, o que cresce é hialinização, dor e perda de ancoragem."
         },
         {
           "tipo": "p",
@@ -144,7 +144,7 @@
       "blocos": [
         {
           "tipo": "p",
-          "texto": "A biologia do movimento é uma cascata que leva horas para começar e dias para produzir células ativas. Se a força some antes disso, o processo recomeça do zero na próxima vez. Por isso existe um limiar de duração: em humanos, a força precisa agir algo em torno de quatro a oito horas por dia para produzir movimento, e quanto mais horas, mais eficiente [VERIFICAR]. Um aparelho removível usado só à noite se aproxima do limite; um usado em tempo integral funciona; um aparelho fixo age vinte e quatro horas."
+          "texto": "A biologia do movimento é uma cascata que leva horas para começar e dias para produzir células ativas. Se a força some antes disso, o processo recomeça do zero na próxima vez. Por isso existe um limiar de duração: em humanos, a força precisa agir algo em torno de quatro a oito horas por dia para produzir movimento, e quanto mais horas, mais eficiente. Um aparelho removível usado só à noite se aproxima do limite; um usado em tempo integral funciona; um aparelho fixo age vinte e quatro horas."
         },
         {
           "tipo": "p",
@@ -178,7 +178,7 @@
         },
         {
           "tipo": "p",
-          "texto": "Materiais definem perfis. Um fio de aço grosso ou uma alça de aço fechada entrega força alta que decai depressa: comportamento interrompido. Ligas de níquel-titânio superelásticas entregam força quase constante ao longo de grande faixa de deflexão: comportamento contínuo. Cadeias elastoméricas perdem parte importante da força nas primeiras horas e dias, com decaimento relatado em torno da metade da força inicial no primeiro dia [VERIFICAR], por isso são reativadas a cada consulta."
+          "texto": "Materiais definem perfis. Um fio de aço grosso ou uma alça de aço fechada entrega força alta que decai depressa: comportamento interrompido. Ligas de níquel-titânio superelásticas entregam força quase constante ao longo de grande faixa de deflexão: comportamento contínuo. Cadeias elastoméricas perdem parte importante da força nas primeiras horas e dias, com decaimento relatado em torno da metade da força inicial no primeiro dia, por isso são reativadas a cada consulta."
         },
         {
           "tipo": "destaque",
@@ -196,7 +196,7 @@
       "blocos": [
         {
           "tipo": "p",
-          "texto": "Todo dente tem um centro de resistência: o ponto em que uma força aplicada produz deslocamento puro, sem rotação. Em dentes unirradiculares ele fica na raiz, aproximadamente entre um terço e metade da distância da crista alveolar ao ápice; em multirradiculares, próximo à furca [VERIFICAR]. Perda óssea desloca o centro de resistência para apical, e por isso o periodontalmente comprometido inclina mais com a mesma mecânica."
+          "texto": "Todo dente tem um centro de resistência: o ponto em que uma força aplicada produz deslocamento puro, sem rotação. Em dentes unirradiculares ele fica na raiz, aproximadamente entre um terço e metade da distância da crista alveolar ao ápice; em multirradiculares, próximo à furca. Perda óssea desloca o centro de resistência para apical, e por isso o periodontalmente comprometido inclina mais com a mesma mecânica."
         },
         {
           "tipo": "p",
@@ -229,7 +229,7 @@
         {
           "tipo": "destaque",
           "estilo": "prova",
-          "texto": "Para um incisivo com braquete a cerca de dez milímetros do centro de resistência, a literatura de Burstone usa valores de referência: relação M/F em torno de 7:1 para inclinação controlada, próxima de 10:1 para translação e acima de 12:1 para movimento de raiz [VERIFICAR]. Os números mudam com a distância ao centro de resistência; a lógica, não."
+          "texto": "Para um incisivo com braquete a cerca de dez milímetros do centro de resistência, a literatura de Burstone usa valores de referência: relação M/F em torno de 7:1 para inclinação controlada, próxima de 10:1 para translação e acima de 12:1 para movimento de raiz. Os números mudam com a distância ao centro de resistência; a lógica, não."
         },
         {
           "tipo": "p",
@@ -250,7 +250,7 @@
       ],
       "checagem": {
         "pergunta": "Onde fica o centro de resistência de um dente unirradicular e o que acontece se a força aplicada não passa por ele?",
-        "resposta": "Na raiz, entre um terço e metade da distância da crista alveolar ao ápice [VERIFICAR]. Uma força fora dele gera momento igual à força vezes a distância, e o dente inclina em vez de transladar."
+        "resposta": "Na raiz, entre um terço e metade da distância da crista alveolar ao ápice. Uma força fora dele gera momento igual à força vezes a distância, e o dente inclina em vez de transladar."
       }
     },
     {
@@ -278,7 +278,7 @@
           "tipo": "destaque",
           "estilo": "dica",
           "titulo": "Leve ainda hialiniza",
-          "texto": "Mesmo forças consideradas leves produzem áreas pequenas de hialinização, especialmente na crista alveolar durante inclinação; estudos experimentais em animais mostraram hialinização tanto com forças leves quanto pesadas [VERIFICAR]. Leve reduz a extensão e a repetição do fenômeno, não o elimina. Por isso a direção, que distribui a pressão, importa tanto quanto a magnitude."
+          "texto": "Mesmo forças consideradas leves produzem áreas pequenas de hialinização, especialmente na crista alveolar durante inclinação; estudos experimentais em animais mostraram hialinização tanto com forças leves quanto pesadas. Leve reduz a extensão e a repetição do fenômeno, não o elimina. Por isso a direção, que distribui a pressão, importa tanto quanto a magnitude."
         },
         {
           "tipo": "lista",
@@ -300,7 +300,7 @@
       "blocos": [
         {
           "tipo": "p",
-          "texto": "Os dois professores responderam a variáveis diferentes. O primeiro respondeu à magnitude: para um canino, algo entre cem e cento e cinquenta gramas está dentro da faixa que a literatura clássica considera eficiente e segura [VERIFICAR]. O segundo respondeu à duração e à direção: uma mola de níquel-titânio dá força contínua e a mesma magnitude em uma cadeia elastomérica decai rápido; e a força no braquete, longe do centro de resistência, vai inclinar o canino a menos que o fio e a mecânica forneçam o contramomento."
+          "texto": "Os dois professores responderam a variáveis diferentes. O primeiro respondeu à magnitude: para um canino, algo entre cem e cento e cinquenta gramas está dentro da faixa que a literatura clássica considera eficiente e segura. O segundo respondeu à duração e à direção: uma mola de níquel-titânio dá força contínua e a mesma magnitude em uma cadeia elastomérica decai rápido; e a força no braquete, longe do centro de resistência, vai inclinar o canino a menos que o fio e a mecânica forneçam o contramomento."
         },
         {
           "tipo": "destaque",
@@ -362,7 +362,7 @@
       },
       {
         "rotulo": "Pressão",
-        "texto": "Força dividida pela área de ligamento. Raiz pequena, pressão alta. Schwarz: não exceder a pressão capilar [VERIFICAR]."
+        "texto": "Força dividida pela área de ligamento. Raiz pequena, pressão alta. Schwarz: não exceder a pressão capilar."
       },
       {
         "rotulo": "Magnitude",
@@ -370,7 +370,7 @@
       },
       {
         "rotulo": "Duração",
-        "texto": "Contínua, interrompida, intermitente. Limiar em torno de quatro a oito horas por dia [VERIFICAR]. Leve e contínua é o alvo; pesada e contínua, o pior."
+        "texto": "Contínua, interrompida, intermitente. Limiar em torno de quatro a oito horas por dia. Leve e contínua é o alvo; pesada e contínua, o pior."
       },
       {
         "rotulo": "Direção",

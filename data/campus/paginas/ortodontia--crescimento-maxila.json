@@ -16,7 +16,7 @@
   "umMinuto": {
     "frases": [
       "A maxila não tem cartilagem própria: cresce por deslocamento passivo (a base do crânio a carrega), por crescimento sutural (as suturas que a ligam ao crânio preenchem o afastamento) e por remodelação de superfície.",
-      "A direção resultante é para baixo e para a frente; o deslocamento passivo pela base do crânio predomina na primeira infância e perde peso por volta dos 7 anos [VERIFICAR], quando o sutural assume.",
+      "A direção resultante é para baixo e para a frente; o deslocamento passivo pela base do crânio predomina na primeira infância e perde peso por volta dos 7 anos, quando o sutural assume.",
       "Paradoxo de Enlow: a maxila avança, mas a sua superfície anterior é reabsortiva; quem a leva para a frente é o deslocamento, não a deposição na frente.",
       "O palato desce por relocação: reabsorção do lado nasal e aposição do lado oral. O comprimento do arco vem da aposição na tuberosidade, que abre espaço para os molares.",
       "O processo alveolar cresce com a erupção dos dentes e responde a eles: é a parte mais moldável da maxila.",
@@ -86,7 +86,7 @@
       "blocos": [
         {
           "tipo": "p",
-          "texto": "A importância relativa dos motores muda com a idade. Na primeira infância, a base do crânio cresce muito e o deslocamento passivo responde por boa parte do avanço da maxila. Por volta dos 7 anos [VERIFICAR], a base do crânio anterior desacelera e o crescimento sutural passa a ser o principal responsável pelo deslocamento."
+          "texto": "A importância relativa dos motores muda com a idade. Na primeira infância, a base do crânio cresce muito e o deslocamento passivo responde por boa parte do avanço da maxila. Por volta dos 7 anos, a base do crânio anterior desacelera e o crescimento sutural passa a ser o principal responsável pelo deslocamento."
         },
         {
           "tipo": "visual",
@@ -113,7 +113,7 @@
         {
           "tipo": "destaque",
           "estilo": "prova",
-          "texto": "Duas perguntas clássicas: qual mecanismo predomina no deslocamento da maxila na primeira infância (o passivo, pela base do crânio) e a partir de quando o sutural assume (por volta dos 7 anos [VERIFICAR])."
+          "texto": "Duas perguntas clássicas: qual mecanismo predomina no deslocamento da maxila na primeira infância (o passivo, pela base do crânio) e a partir de quando o sutural assume (por volta dos 7 anos)."
         }
       ],
       "checagem": {
@@ -251,7 +251,7 @@
       },
       {
         "rotulo": "Sutural",
-        "texto": "Suturas frontomaxilar, zigomaticomaxilar, zigomaticotemporal e pterigopalatina; predomina a partir de ~7 anos [VERIFICAR]."
+        "texto": "Suturas frontomaxilar, zigomaticomaxilar, zigomaticotemporal e pterigopalatina; predomina a partir de ~7 anos."
       },
       {
         "rotulo": "Superfície anterior",
@@ -382,7 +382,7 @@
     },
     {
       "titulo": "Sete: a idade em que a maxila troca de motor",
-      "texto": "Antes, base do crânio. Depois, suturas. É a justificativa da pressa na Classe III [VERIFICAR]."
+      "texto": "Antes, base do crânio. Depois, suturas. É a justificativa da pressa na Classe III."
     }
   ],
   "ondeErra": [

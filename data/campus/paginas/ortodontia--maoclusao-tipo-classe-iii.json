@@ -16,7 +16,7 @@
   "umMinuto": {
     "frases": [
       "Classe III é mesioclusão: o primeiro molar inferior está mesial ao superior, com incisivos em topo ou em mordida cruzada anterior e trespasse horizontal reduzido ou negativo.",
-      "No esqueleto, a deficiência maxilar participa de grande parte dos casos, sozinha ou combinada com mandíbula protruída; o prognatismo mandibular puro é minoria, embora seja a imagem clássica [VERIFICAR].",
+      "No esqueleto, a deficiência maxilar participa de grande parte dos casos, sozinha ou combinada com mandíbula protruída; o prognatismo mandibular puro é minoria, embora seja a imagem clássica.",
       "Os dentes compensam: incisivos superiores para a frente e inferiores para trás disfarçam a discrepância, e essa compensação natural já gasta parte do que a camuflagem ortodôntica poderia usar.",
       "A pseudo-Classe III é um desvio funcional: em relação cêntrica os molares voltam para Classe I e o perfil melhora; a verdadeira se mantém em qualquer posição.",
       "Ao contrário da Classe II, a Classe III piora com o crescimento, porque a mandíbula cresce mais e por mais tempo que a maxila; esperar não é neutro.",
@@ -41,7 +41,7 @@
         },
         {
           "tipo": "p",
-          "texto": "No esqueleto, o retrato clássico é o mento para a frente, mas a maxila deficiente é pelo menos tão frequente quanto a mandíbula grande, e a combinação das duas é comum [VERIFICAR]. A base do crânio anterior tende a ser curta e o ângulo goníaco aberto. O padrão vertical varia: há Classe III de face curta com mordida profunda e Classe III de face longa com mordida aberta, e a segunda é a de pior prognóstico."
+          "texto": "No esqueleto, o retrato clássico é o mento para a frente, mas a maxila deficiente é pelo menos tão frequente quanto a mandíbula grande, e a combinação das duas é comum. A base do crânio anterior tende a ser curta e o ângulo goníaco aberto. O padrão vertical varia: há Classe III de face curta com mordida profunda e Classe III de face longa com mordida aberta, e a segunda é a de pior prognóstico."
         },
         {
           "tipo": "visual",
@@ -83,7 +83,7 @@
         },
         {
           "tipo": "p",
-          "texto": "A combinação das duas é comum: nos estudos de componentes em adultos com Classe III, a retrusão maxilar pura e o prognatismo mandibular puro aparecem em proporções parecidas, em torno de um quinto cada, e as combinações respondem pela maior parte do restante [VERIFICAR]. Há ainda a Classe III dentária, com bases em harmonia e incisivos cruzados por inclinação ou por desvio funcional, que se resolve com mecânica dentária."
+          "texto": "A combinação das duas é comum: nos estudos de componentes em adultos com Classe III, a retrusão maxilar pura e o prognatismo mandibular puro aparecem em proporções parecidas, em torno de um quinto cada, e as combinações respondem pela maior parte do restante. Há ainda a Classe III dentária, com bases em harmonia e incisivos cruzados por inclinação ou por desvio funcional, que se resolve com mecânica dentária."
         },
         {
           "tipo": "visual",
@@ -98,14 +98,14 @@
             "<use href='#c-caixa-red' x='20' y='220' width='520' height='90'/><text x='36' y='244' font-size='13' font-weight='700'>Combinação</text><text x='36' y='262'>maxila para trás e mandíbula para a frente; as duas leituras ao mesmo tempo</text><text x='36' y='278'>frequente nos casos que chegam à cirurgia</text><text x='36' y='294' font-weight='700' fill='var(--red,#B4533B)'>adulto: cirurgia bimaxilar</text>",
             "<use href='#c-caixa-green' x='20' y='322' width='520' height='90'/><text x='36' y='346' font-size='13' font-weight='700'>Dentária ou pseudo-Classe III</text><text x='36' y='364'>bases em harmonia; ANB e Wits normais; incisivos cruzados por inclinação ou desvio</text><text x='36' y='380'>guiar até o primeiro contato: molares voltam a Classe I</text><text x='36' y='396' font-weight='700' fill='var(--green,#3E7C4F)'>mecânica dentária; melhor prognóstico</text>",
             "</g>",
-            "<text x='280' y='430' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>a proporção entre os componentes varia conforme a amostra estudada [VERIFICAR]</text>"
+            "<text x='280' y='430' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>a proporção entre os componentes varia conforme a amostra estudada</text>"
           ],
           "legenda": "Quatro origens para a mesma relação molar. A cefalometria e a manipulação da mandíbula dizem em qual caixa o paciente está, e cada caixa tem a sua ferramenta."
         },
         {
           "tipo": "destaque",
           "estilo": "prova",
-          "texto": "Perguntas frequentes: o componente mais participante da Classe III esquelética (a deficiência maxilar, isolada ou combinada, segundo os estudos de componentes [VERIFICAR]) e o motivo de a tração reversa ser a ferramenta da criança (a maxila responde à protração enquanto as suturas estão abertas)."
+          "texto": "Perguntas frequentes: o componente mais participante da Classe III esquelética (a deficiência maxilar, isolada ou combinada, segundo os estudos de componentes) e o motivo de a tração reversa ser a ferramenta da criança (a maxila responde à protração enquanto as suturas estão abertas)."
         }
       ],
       "checagem": {
@@ -161,7 +161,7 @@
         },
         {
           "tipo": "p",
-          "texto": "Isso muda a lógica do tempo. Na maxila deficiente, a janela para protrair é precoce, antes que as suturas circum-maxilares se fechem, em geral na dentição mista precoce, por volta dos 7 a 9 anos [VERIFICAR]; depois disso, a resposta esquelética cai. Na mandíbula grande, ao contrário, não há como impedir o crescimento de modo confiável, e a decisão definitiva costuma esperar o fim dele. Esperar, portanto, é certo para um componente e errado para o outro."
+          "texto": "Isso muda a lógica do tempo. Na maxila deficiente, a janela para protrair é precoce, antes que as suturas circum-maxilares se fechem, em geral na dentição mista precoce, por volta dos 7 a 9 anos; depois disso, a resposta esquelética cai. Na mandíbula grande, ao contrário, não há como impedir o crescimento de modo confiável, e a decisão definitiva costuma esperar o fim dele. Esperar, portanto, é certo para um componente e errado para o outro."
         },
         {
           "tipo": "visual",
@@ -177,7 +177,7 @@
             "<use href='#c-caixa-gold' x='224' y='40' width='200' height='70'/><text x='324' y='62' text-anchor='middle' font-size='12' font-weight='700'>10 a 14: acompanhar</text><text x='324' y='80' text-anchor='middle' font-size='11'>conter a mandíbula tem efeito limitado;</text><text x='324' y='94' text-anchor='middle' font-size='11'>a discrepância tende a crescer no surto</text>",
             "<use href='#c-caixa-blue' x='438' y='40' width='250' height='70'/><text x='563' y='62' text-anchor='middle' font-size='12' font-weight='700'>Fim do crescimento: decidir</text><text x='563' y='80' text-anchor='middle' font-size='11'>meninas mais cedo, meninos até 18 a 20</text><text x='563' y='94' text-anchor='middle' font-size='11'>camuflagem ou cirurgia</text>",
             "<use href='#c-caixa-ink' x='120' y='200' width='480' height='44'/><text x='360' y='219' text-anchor='middle' font-size='12' font-weight='700' fill='#fff'>A mandíbula cresce mais e por mais tempo que a maxila:</text><text x='360' y='236' text-anchor='middle' font-size='12' font-weight='700' fill='#fff'>a Classe III tende a piorar; esperar é uma decisão, não uma pausa</text>",
-            "<text x='360' y='280' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>idades aproximadas [VERIFICAR]; o estágio de maturação, não a idade, marca as janelas</text>"
+            "<text x='360' y='280' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>idades aproximadas; o estágio de maturação, não a idade, marca as janelas</text>"
           ],
           "legenda": "Duas janelas e uma espera no meio. A da maxila é cedo e curta; a decisão final espera a mandíbula parar."
         },
@@ -230,7 +230,7 @@
       "blocos": [
         {
           "tipo": "p",
-          "texto": "Na criança com maxila deficiente, a tração reversa da maxila, em geral com expansão rápida prévia para soltar as suturas, é a ferramenta com melhor evidência de efeito esquelético, maior quando começa na dentição mista precoce [VERIFICAR]. Na criança com mandíbula grande, a mentoneira tenta conter ou redirecionar o crescimento, com efeito modesto e recidiva frequente. Na pseudo-Classe III, remover o contato prematuro e reposicionar os incisivos resolve."
+          "texto": "Na criança com maxila deficiente, a tração reversa da maxila, em geral com expansão rápida prévia para soltar as suturas, é a ferramenta com melhor evidência de efeito esquelético, maior quando começa na dentição mista precoce. Na criança com mandíbula grande, a mentoneira tenta conter ou redirecionar o crescimento, com efeito modesto e recidiva frequente. Na pseudo-Classe III, remover o contato prematuro e reposicionar os incisivos resolve."
         },
         {
           "tipo": "p",

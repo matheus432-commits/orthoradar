@@ -95,7 +95,7 @@
             "<use href='#c-marco' x='50' y='36' width='20' height='20'/>",
             "<text x='90' y='44' font-size='15' font-weight='700'>Epífise igual à diáfise</text><text x='90' y='62' font-size='13' fill='var(--muted,#8A8478)'>antes do surto: ainda há tudo pela frente</text>",
             "<use href='#c-marco-cheio' x='50' y='104' width='20' height='20'/>",
-            "<text x='90' y='112' font-size='15' font-weight='700' fill='var(--gold,#B08968)'>Sesamoide do polegar aparece</text><text x='90' y='130' font-size='13' fill='var(--muted,#8A8478)'>aceleração: a janela do aparelho funcional [VERIFICAR]</text>",
+            "<text x='90' y='112' font-size='15' font-weight='700' fill='var(--gold,#B08968)'>Sesamoide do polegar aparece</text><text x='90' y='130' font-size='13' fill='var(--muted,#8A8478)'>aceleração: a janela do aparelho funcional</text>",
             "<use href='#c-marco-blue' x='50' y='172' width='20' height='20'/>",
             "<text x='90' y='180' font-size='15' font-weight='700' fill='var(--blue,#4A6B8A)'>Capeamento das epífises</text><text x='90' y='198' font-size='13' fill='var(--muted,#8A8478)'>pico de velocidade: metade da janela já passou</text>",
             "<use href='#c-marco-green' x='50' y='240' width='20' height='20'/>",

@@ -83,7 +83,7 @@ maioria) e exatamente três cartões `{ frente, verso }`.
 - Ao menos **1 visual principal** nas seções; página densa pede 2 a 3; página de abertura de módulo pede um `mapa` do módulo.
 - Ao menos **2 quadros de destaque de estilos diferentes**.
 - Fechamento com visual e 3 flashcards.
-- `[VERIFICAR]` é livre em rascunho e proibido em página validada.
+- `[VERIFICAR]` só marca dúvida que sobreviveu à busca de fontes (regra da rodada 4, 05/09): antes de marcar, o autor procura a referência; confirmou, escreve sem marca e cita em `referenciasBase`; não confirmou, reescreve como qualitativo; só o que ficou sem resposta recebe a marca, uma vez por página. Proibido em página validada.
 
 ## 5. Visuais
 
@@ -106,7 +106,7 @@ da página, no formato:
 - Direta, com "você", sem informalidade excessiva e sem tom professoral.
 - Frase curta. Uma ideia por parágrafo. Número sempre acompanhado da unidade e do contexto ("30 a 45 graus em relação ao longo eixo").
 - Termo da casa: **Distalização**, nunca "Distanciamento". Zero emoji.
-- O que é controverso aparece como controvérsia, com as posições; o que não tem certeza vira qualitativo ou `[VERIFICAR]`. Dez marcações honestas valem mais que um erro fluente.
+- O que é controverso aparece como controvérsia, com as posições; o que não tem certeza vira qualitativo depois de buscar a fonte, e só recebe `[VERIFICAR]` se a busca não resolveu. Uma marcação honesta vale mais que um erro fluente; trezentas marcações tornam a validação inviável.
 - Nunca reproduzir figura, tabela ou trecho de livro ou artigo. Fato não tem dono; a expressão tem.
 
 ## 7. Questões e flashcards
@@ -135,6 +135,6 @@ próprias ou licenciadas.
 - [ ] abertura com situação e pergunta; nenhuma seção com 4 parágrafos seguidos
 - [ ] 1+ visual principal, 2+ quadros de estilos diferentes, fechamento com visual e 3 cartões
 - [ ] renderiza em 375 px sem corte e sem rolagem horizontal
-- [ ] nenhum número sem fonte ou sem `[VERIFICAR]`; nenhuma referência inventada; nenhum PMID
+- [ ] nenhum número sem fonte conferida; `[VERIFICAR]` só onde a busca não resolveu; nenhuma referência inventada; nenhum PMID
 - [ ] `[VERIFICAR]` contados e listados no progresso
 - [ ] commit da página + progresso

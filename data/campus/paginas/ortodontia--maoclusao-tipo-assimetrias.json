@@ -118,7 +118,7 @@
       "blocos": [
         {
           "tipo": "p",
-          "texto": "O crescimento excessivo de um lado da mandíbula produz duas formas, descritas por Obwegeser e Makek, que valem a pena separar. No alongamento hemimandibular, o crescimento é horizontal: o corpo alonga de um lado, o mento e a linha média inferior desviam para o lado oposto, aparece mordida cruzada do lado oposto ao crescimento, e a cabeça do côndilo pode parecer normal, sem aumento vertical do ramo [VERIFICAR]."
+          "texto": "O crescimento excessivo de um lado da mandíbula produz duas formas, descritas por Obwegeser e Makek, que valem a pena separar. No alongamento hemimandibular, o crescimento é horizontal: o corpo alonga de um lado, o mento e a linha média inferior desviam para o lado oposto, aparece mordida cruzada do lado oposto ao crescimento, e a cabeça do côndilo pode parecer normal, sem aumento vertical do ramo."
         },
         {
           "tipo": "p",
@@ -137,7 +137,7 @@
             "<use href='#c-mandibula' x='440' y='70' width='200' height='120'/><use href='#c-vetor-red' x='590' y='176' width='50' height='14' transform='rotate(90 615 183)'/>",
             "<g font-size='11' fill='var(--ink,#23211C)'><text x='40' y='222' font-weight='700'>Direção do crescimento</text><text x='40' y='238'>horizontal, ao longo do corpo</text><text x='40' y='262' font-weight='700'>Mento e linha média</text><text x='40' y='278'>desviados para o lado oposto</text><text x='40' y='302' font-weight='700'>Oclusão</text><text x='40' y='318'>cruzada do lado oposto; plano pouco inclinado</text></g>",
             "<g font-size='11' fill='var(--ink,#23211C)'><text x='400' y='222' font-weight='700'>Direção do crescimento</text><text x='400' y='238'>vertical, ramo e corpo mais altos</text><text x='400' y='262' font-weight='700'>Mento e linha média</text><text x='400' y='278'>desviam pouco; borda inferior mais baixa</text><text x='400' y='302' font-weight='700'>Oclusão</text><text x='400' y='318'>plano inclinado; maxila desce; aberta posterior possível</text></g>",
-            "<text x='360' y='348' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>formas mistas são comuns; nas duas, a pergunta decisiva é se o côndilo ainda cresce [VERIFICAR]</text>"
+            "<text x='360' y='348' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>formas mistas são comuns; nas duas, a pergunta decisiva é se o côndilo ainda cresce</text>"
           ],
           "legenda": "Horizontal desvia o mento; vertical inclina o plano. Saber qual é ajuda a prever a oclusão, mas a decisão de tratar passa pela atividade do côndilo."
         },
@@ -158,7 +158,7 @@
       "blocos": [
         {
           "tipo": "p",
-          "texto": "O outro grupo é a deficiência: um lado que cresceu menos. A microssomia hemifacial é a malformação congênita mais comum da face depois das fissuras, com hipoplasia de côndilo, ramo, orelha e tecidos moles de um lado, em graus variáveis; a assimetria está presente desde o nascimento e piora com o crescimento, porque o lado afetado não acompanha [VERIFICAR]."
+          "texto": "O outro grupo é a deficiência: um lado que cresceu menos. A microssomia hemifacial é a malformação congênita mais comum da face depois das fissuras, com hipoplasia de côndilo, ramo, orelha e tecidos moles de um lado, em graus variáveis; a assimetria está presente desde o nascimento e piora com o crescimento, porque o lado afetado não acompanha."
         },
         {
           "tipo": "p",
@@ -192,7 +192,7 @@
         },
         {
           "tipo": "p",
-          "texto": "A imagem completa. A panorâmica permite comparar côndilos e ramos, com as limitações da projeção. A telerradiografia frontal mede desvios em relação ao plano sagital mediano. A tomografia é o padrão para a assimetria esquelética: mostra volume e forma de côndilo, ramo e corpo dos dois lados. E, quando a suspeita é de crescimento ativo, a cintilografia óssea compara a captação dos dois côndilos: diferença relevante entre os lados indica atividade, e a decisão terapêutica muda [VERIFICAR]."
+          "texto": "A imagem completa. A panorâmica permite comparar côndilos e ramos, com as limitações da projeção. A telerradiografia frontal mede desvios em relação ao plano sagital mediano. A tomografia é o padrão para a assimetria esquelética: mostra volume e forma de côndilo, ramo e corpo dos dois lados. E, quando a suspeita é de crescimento ativo, a cintilografia óssea compara a captação dos dois côndilos: diferença relevante entre os lados indica atividade, e a decisão terapêutica muda."
         },
         {
           "tipo": "visual",
@@ -240,7 +240,7 @@
         },
         {
           "tipo": "p",
-          "texto": "A esquelética ativa, com côndilo hiperplásico em crescimento, trata primeiro o côndilo: a remoção da camada de crescimento por condilectomia alta interrompe o processo, e a correção da assimetria vem depois. Na deficiência congênita grave, a reconstrução do ramo, por distração ou enxerto, pode começar na infância [VERIFICAR]."
+          "texto": "A esquelética ativa, com côndilo hiperplásico em crescimento, trata primeiro o côndilo: a remoção da camada de crescimento por condilectomia alta interrompe o processo, e a correção da assimetria vem depois. Na deficiência congênita grave, a reconstrução do ramo, por distração ou enxerto, pode começar na infância."
         },
         {
           "tipo": "destaque",

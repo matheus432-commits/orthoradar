@@ -133,7 +133,7 @@
             "<rect x='330' y='244' width='214' height='24' rx='12' fill='var(--green-soft,#E8F2EA)' stroke='var(--green,#3E7C4F)'/>",
             "<text x='437' y='261' text-anchor='middle' font-size='12' font-weight='700' fill='var(--green,#3E7C4F)'>PICO · janela do funcional: CS3 a CS4</text>",
             "<text x='150' y='512' text-anchor='middle' font-size='11' fill='var(--muted,#8A8478)'>ícones: C2 em cima, C3 embaixo</text>",
-            "<text x='280' y='532' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>intervalos em anos são médias populacionais [VERIFICAR]</text>"
+            "<text x='280' y='532' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>intervalos em anos são médias populacionais</text>"
           ],
           "legenda": "O pico fica entre CS3 e CS4. Quem começa o aparelho funcional em CS3 cobre o pico; quem começa em CS5 chegou tarde."
         },
@@ -161,7 +161,7 @@
         },
         {
           "tipo": "p",
-          "texto": "A desvantagem é a precisão. Há menos eventos a observar do que na mão e punho, as mudanças de forma são graduais, e estudos que testaram a concordância entre examinadores encontraram reprodutibilidade variável, com discordância frequente nos estágios intermediários [VERIFICAR]. Isso não invalida o método; pede que ele seja lido com critério e somado a outros sinais."
+          "texto": "A desvantagem é a precisão. Há menos eventos a observar do que na mão e punho, as mudanças de forma são graduais, e estudos que testaram a concordância entre examinadores encontraram reprodutibilidade variável, com discordância frequente nos estágios intermediários. Isso não invalida o método; pede que ele seja lido com critério e somado a outros sinais."
         },
         {
           "tipo": "visual",
@@ -179,7 +179,7 @@
             "<line x1='16' y1='152' x2='544' y2='152' stroke='var(--border,#EDE6D8)'/>",
             "<text x='16' y='184' font-weight='700'>Precisão</text><text x='160' y='184'>moderada</text><text x='364' y='184'>alta</text>",
             "<line x1='16' y1='198' x2='544' y2='198' stroke='var(--border,#EDE6D8)'/>",
-            "<text x='16' y='230' font-weight='700'>Reprodutibilidade</text><text x='160' y='230'>discutida [VERIFICAR]</text><text x='364' y='230'>bem estabelecida</text>",
+            "<text x='16' y='230' font-weight='700'>Reprodutibilidade</text><text x='160' y='230'>discutida</text><text x='364' y='230'>bem estabelecida</text>",
             "<line x1='16' y1='244' x2='544' y2='244' stroke='var(--border,#EDE6D8)'/>",
             "<text x='16' y='276' font-weight='700'>Quando usar</text><text x='160' y='276'>triagem em todo paciente</text><text x='364' y='276'>decisão cara ou dúvida</text>",
             "</g>",
@@ -303,7 +303,7 @@
       },
       {
         "rotulo": "CS1 e CS2",
-        "texto": "Pré-pico: bordas planas ou só C2 côncava; corpos trapezoides. Pico em cerca de 2 e 1 ano [VERIFICAR]."
+        "texto": "Pré-pico: bordas planas ou só C2 côncava; corpos trapezoides. Pico em cerca de 2 e 1 ano."
       },
       {
         "rotulo": "CS3",

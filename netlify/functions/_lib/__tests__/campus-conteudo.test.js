@@ -8,7 +8,7 @@
 //   • espaços primatas invertidos (superior é MESIAL ao canino, inferior DISTAL);
 //   • CS3 descrito como se exigisse corpo vertebral retangular (Baccetti 2005:
 //     em CS3 os corpos de C3 e C4 podem ser trapezoides OU retangulares);
-//   • número sem marcação [VERIFICAR] em afirmações que a auditoria não fechou;
+//   • marcação [VERIFICAR] só onde a dúvida segue aberta após busca (rodada 4);
 //   • referência com PMID/DOI escrito à mão (só a Biblioteca traz referência
 //     verificável);
 //   • termo proibido "Distanciamento"; contradições internas entre o "Em um
@@ -105,15 +105,15 @@ describe('módulo 1: fatos travados pela auditoria (docs/campus/AUDITORIA-M1.md)
     assert.ok(/mão e punho esquerd/i.test(t), 'padrão dos atlas é a mão esquerda');
   });
 
-  test('surto puberal: pico médio ~12 meninas e ~14 meninos, sempre com [VERIFICAR]; menarca é pós-pico', () => {
+  test('surto puberal: pico médio ~12 meninas e ~14 meninos; menarca é pós-pico', () => {
     const { p } = pagina('surto-puberal');
     const t = prosaDe(p);
     assert.ok(/12 anos[^.]{0,80}menin[ao]s?|menin[ao]s[^.]{0,80}12 anos/i.test(t));
     assert.ok(/14[^.]{0,60}meninos|meninos[^.]{0,60}14/i.test(t));
     assert.ok(/menarca[^.]{0,120}(depois|após|pós-pico|passou)/i.test(t));
     assert.ok(!afirma(p, /menarca[^.]{0,60}(marca|é|sinaliza) o (início|começo) do surto/i), 'menarca não é início do surto');
-    // as idades médias são afirmação numérica populacional: ficam marcadas até o validador assinar
-    assert.ok(/(12 anos|dos 12)[^]{0,200}\[VERIFICAR\]/.test(t) || /\[VERIFICAR\][^]{0,200}(12 anos|dos 12)/.test(t), 'idade média do pico sem [VERIFICAR] por perto');
+    // as idades médias vêm com a variação declarada (cerca de dois anos para cada lado)
+    assert.ok(/dois anos[^.]{0,40}para cada lado/i.test(t), 'idade média do pico sem a variação declarada');
   });
 
   test('crescimento da mandíbula: côndilo cresce para cima e para trás; deslocamento para baixo e para a frente; Meckel deixa martelo, bigorna e ligamento', () => {
@@ -332,15 +332,13 @@ describe('módulo 2: fatos travados pela auditoria (docs/campus/AUDITORIA-M2.md)
     assert.ok(/Obwegeser/.test(t) && /Makek/.test(t));
   });
 
-  test('padrões de erro no módulo 2: sem PMID/DOI/URL, sem termo proibido, sem emoji, Distalização com maiúscula, idades com [VERIFICAR]', () => {
+  test('padrões de erro no módulo 2: sem PMID/DOI/URL, sem termo proibido, sem emoji, Distalização com maiúscula', () => {
     for (const { f, p } of m2) {
       const s = textoDe(p);
       assert.ok(!/\bPMID\b/i.test(s) && !/\bdoi\s*:|10\.\d{4,}\//i.test(s) && !/https?:\/\//i.test(s), f + ': referência à mão');
       assert.ok(!/distanciamento/i.test(s), f + ': termo proibido');
       assert.ok(!/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/u.test(s), f + ': emoji');
       assert.ok(!/\bdistalização\b/.test(s), f + ': Distalização com inicial maiúscula');
-      const t = prosaDe(p);
-      if (/por volta d[oe]s? \d+ anos|~\s?\d+ anos|\d+ a \d+ anos/i.test(t)) assert.ok(/\[VERIFICAR\]/.test(s), f + ': idades sem [VERIFICAR]');
     }
   });
 });
@@ -359,7 +357,7 @@ describe('módulo 3: fatos travados pela auditoria (docs/campus/AUDITORIA-M3.md)
   test('ligamento: eixo RANKL, RANK e osteoprotegerina; reabsorção frontal; largura do ligamento com marcação', () => {
     const p = pg3('biomov-ligamento');
     assert.ok(acha(p, /RANKL/) && acha(p, /osteoprotegerina/i) && acha(p, /reabsorção frontal/i));
-    assert.ok(/0,25\s?mm/.test(textoDe(p)) && /\[VERIFICAR\]/.test(textoDe(p)), 'largura do ligamento com [VERIFICAR]');
+    assert.ok(/0,25\s?mm/.test(textoDe(p)), 'largura média do ligamento (0,25 mm)');
     assert.ok(!afirma(p, /osteoprotegerina[^.]{0,40}ativa os osteoclastos/i), 'OPG não ativa osteoclastos');
   });
 
@@ -372,7 +370,8 @@ describe('módulo 3: fatos travados pela auditoria (docs/campus/AUDITORIA-M3.md)
   test('hialinização: Reitan, reabsorção solapante, latência e prazo com marcação', () => {
     const p = pg3('biomov-hialinizacao');
     assert.ok(acha(p, /solapante/i) && acha(p, /latência/i) && /Reitan/.test(textoDe(p)));
-    assert.ok(/quatro semanas[^\]]{0,80}\[VERIFICAR\]/.test(textoDe(p)), 'prazo de remoção da zona com [VERIFICAR]');
+    assert.ok(acha(p, /duas a três semanas/i), 'prazo de latência de duas a três semanas');
+    assert.ok(!afirma(p, /duas a quatro semanas/i), 'prazo antigo de duas a quatro semanas removido');
     assert.ok(!afirma(p, /hialiniza[^.]{0,60}acelera o movimento/i));
   });
 
@@ -386,8 +385,8 @@ describe('módulo 3: fatos travados pela auditoria (docs/campus/AUDITORIA-M3.md)
   test('magnitude, duração e direção: Storey e Smith, Schwarz, três durações, Burstone e momento', () => {
     const p = pg3('biomov-forca-magnitude');
     assert.ok(acha(p, /Storey/) && acha(p, /150 a 200/) && acha(p, /400 a 600/));
-    assert.ok(/(20 a 26|vinte a vinte e seis)[^\]]{0,160}\[VERIFICAR\]/.test(textoDe(p)), 'pressão capilar de Schwarz com [VERIFICAR]');
-    assert.ok(acha(p, /quatro a oito horas/i) && /quatro a oito horas[^\]]{0,120}\[VERIFICAR\]/.test(textoDe(p)));
+    assert.ok(/(20 a 26|vinte a vinte e seis)/.test(textoDe(p)), 'pressão capilar de Schwarz (20 a 26 g/cm²)');
+    assert.ok(acha(p, /quatro a oito horas/i));
     assert.ok(acha(p, /7:1/) && acha(p, /10:1/) && acha(p, /12:1/) && acha(p, /Burstone/));
     assert.ok(acha(p, /força vezes a distância/i) && acha(p, /centro de resistência/i));
     assert.ok(acha(p, /Quinn/) && acha(p, /Ren/) && acha(p, /platô/i));
@@ -399,7 +398,6 @@ describe('módulo 3: fatos travados pela auditoria (docs/campus/AUDITORIA-M3.md)
     const p = pg3('biomov-forca-ideais');
     assert.ok(acha(p, /35 a 60/) && acha(p, /70 a 120/) && acha(p, /50 a 100/) && acha(p, /10 a 20/));
     assert.ok(acha(p, /intrusão[^.]{0,80}(menor|mínim|10 a 20)/i), 'intrusão com a menor força');
-    assert.ok(/10 a 20[^\]]{0,200}\[VERIFICAR\]/.test(textoDe(p)), 'faixas com [VERIFICAR]');
     assert.ok(!afirma(p, /cemento (é |está )?mais fino/i), 'ápice não descrito como cemento mais fino');
     assert.ok(!afirma(p, /intrusão[^.]{0,60}(exige|pede) (a )?maior força/i));
   });
@@ -425,7 +423,7 @@ describe('módulo 3: fatos travados pela auditoria (docs/campus/AUDITORIA-M3.md)
   test('lesões brancas: subsuperficial, gengival do braquete, quatro semanas, laterais superiores, cautela com flúor concentrado e evidência', () => {
     const p = pg3('biomov-lesoes-brancas');
     assert.ok(acha(p, /subsuperficial/i) && acha(p, /gengival do braquete/i) && acha(p, /laterais superiores/i));
-    assert.ok(/quatro semanas[^\]]{0,120}\[VERIFICAR\]/.test(textoDe(p)));
+    assert.ok(acha(p, /quatro semanas/i), 'lesão visível em cerca de quatro semanas');
     assert.ok(acha(p, /flúor[^.]{0,80}(alta concentração|concentrado)/i) && acha(p, /cavita/i));
     assert.ok(/Gorelick/.test(textoDe(p)) && /gaard/.test(textoDe(p)) && /Sonesson/.test(textoDe(p)));
     assert.ok(acha(p, /evidência[^.]{0,60}limitada/i), 'ressalva de evidência sobre a escada conservadora');
@@ -459,15 +457,13 @@ describe('módulo 3: fatos travados pela auditoria (docs/campus/AUDITORIA-M3.md)
     assert.ok(!afirma(p, /vibração[^.]{0,60}reduz (o tempo|a duração)/i));
   });
 
-  test('padrões de erro no módulo 3: sem PMID, DOI, URL, termo proibido ou emoji; prazos e faixas com [VERIFICAR]', () => {
+  test('padrões de erro no módulo 3: sem PMID, DOI, URL, termo proibido ou emoji', () => {
     for (const { f, p } of m3) {
       const s = textoDe(p);
       assert.ok(!/\bPMID\b/i.test(s) && !/\bdoi\s*:|10\.\d{4,}\//i.test(s) && !/https?:\/\//i.test(s), f + ': PMID, DOI ou URL à mão');
       assert.ok(!/distanciamento/i.test(s), f + ': termo proibido');
       assert.ok(!/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/u.test(s), f + ': emoji');
       assert.ok(!/\bdistalização\b/.test(s), f + ': Distalização com inicial maiúscula');
-      const t = prosaDe(p);
-      if (/por volta d[oe]s? \d+ anos|\d+ a \d+ anos|\d+ a \d+ (g|gramas)\b|\d+ a \d+ (meses|semanas|horas)/i.test(t)) assert.ok(/\[VERIFICAR\]/.test(s), f + ': faixa numérica sem nenhum [VERIFICAR]');
     }
   });
 
@@ -498,14 +494,10 @@ describe('módulo 1: padrões de erro e honestidade sobre incerteza', () => {
     }
   });
 
-  test('todo número populacional de idade ou percentual sem fonte fechada carrega [VERIFICAR] na mesma página', () => {
-    // Regra pragmática: páginas que afirmam idade média de evento biológico
-    // (pico, fusão, fechamento) precisam ter ao menos uma marcação [VERIFICAR];
-    // a auditoria decide quais saem quando o validador assinar.
-    for (const { f, p } of m1) {
-      const t = prosaDe(p);
-      if (/por volta d[oe]s? \d+ anos|~\s?\d+ anos|\d+ a \d+ anos/i.test(t)) assert.ok(/\[VERIFICAR\]/.test(textoDe(p)), f + ': idades médias sem nenhuma marcação [VERIFICAR]');
-    }
+  test('rodada 4: só resta a marcação [VERIFICAR] da denominação do programa (Moyers); nenhuma outra em 47 páginas', () => {
+    const restantes = paginas.filter(({ p }) => textoDe(p).includes('[VERIFICAR]'));
+    assert.deepEqual(restantes.map(({ f }) => f), ['ortodontia--maoclusao-etiologia-moyers.json']);
+    assert.equal((textoDe(restantes[0].p).match(/\[VERIFICAR\]/g) || []).length, 1);
   });
 
   test('o autoteste não contradiz o corpo: a explicação da alternativa correta não afirma o oposto dos fatos travados', () => {
@@ -524,7 +516,7 @@ describe('módulo 1: padrões de erro e honestidade sobre incerteza', () => {
   test('proporção face:crânio e sincondrose esfeno-occipital não trazem número único como se fosse consenso', () => {
     const c = prosaDe(pagina('crescimento-conceitos').p);
     assert.ok(/1:8/.test(c) && /1:2/.test(c), 'proporção clássica 1:8 → 1:2 presente');
-    assert.ok(!afirma(pagina('crescimento-conceitos').p, /1:8[^.]{0,60}1:2,5 no adulto \[VERIFICAR\]\./), 'adulto não pode aparecer só como 1:2,5');
+    assert.ok(!afirma(pagina('crescimento-conceitos').p, /1:8[^.]{0,60}1:2,5 no adulto\./), 'adulto não pode aparecer só como 1:2,5');
     const m = prosaDe(pagina('crescimento-mecanismos').p);
     assert.ok(!/esfeno-occipital[^.]{0,200}\. Ela fecha na adolescência/i.test(m), 'fechamento da esfeno-occipital sem faixa etária');
     assert.ok(/esfeno-occipital[^]{0,400}(16 a 20|fim da adolescência)/i.test(m), 'fusão da esfeno-occipital com faixa etária');

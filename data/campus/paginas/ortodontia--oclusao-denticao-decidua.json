@@ -64,7 +64,7 @@
             "<text x='329' y='164'>4. caninos (16 a 23 m)</text>",
             "<text x='300' y='208'>5. segundos molares (23 a 33 m)</text>",
             "</g>",
-            "<text x='280' y='244' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>faixas aproximadas; inferiores em geral antes dos superiores [VERIFICAR]</text>"
+            "<text x='280' y='244' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>faixas aproximadas; inferiores em geral antes dos superiores</text>"
           ],
           "legenda": "Ordem: centrais, laterais, primeiros molares, caninos, segundos molares. Completa por volta dos 2 anos e meio a 3."
         },
@@ -177,7 +177,7 @@
             "<text x='465' y='196' text-anchor='middle' fill='var(--red,#B4533B)'>Tende à Classe II</text><text x='465' y='214' text-anchor='middle' fill='var(--ink,#23211C)'>o menos favorável</text><text x='465' y='230' text-anchor='middle' fill='var(--muted,#8A8478)'>não se corrige sozinho</text>",
             "</g>",
             "<text x='280' y='276' text-anchor='middle' font-size='13' font-weight='700'>A linha tracejada é a face distal: onde ela está, o molar permanente chega</text>",
-            "<text x='280' y='300' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>a partir de Baume; o plano reto é o mais frequente [VERIFICAR]</text>"
+            "<text x='280' y='300' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>a partir de Baume; o plano reto é o mais frequente</text>"
           ],
           "legenda": "O degrau distal da menina da abertura é o achado que merece acompanhamento: ele tende à Classe II e não se corrige sozinho."
         },

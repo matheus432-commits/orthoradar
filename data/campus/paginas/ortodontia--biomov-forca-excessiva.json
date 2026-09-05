@@ -20,7 +20,7 @@
       "Na raiz: as bordas da zona hialinizada atacam o cemento; com força pesada repetida, a reabsorção chega à dentina e o ápice encurta de forma permanente.",
       "No osso e na ancoragem: a força pesada que hialiniza o dente-alvo cai na janela ideal dos dentes de ancoragem, que se movem; a ancoragem cede.",
       "No paciente: dor intensa e prolongada por isquemia e mediadores, mobilidade além do fisiológico e, na periferia, isquemia gengival, deiscências e recessão quando a raiz é empurrada contra a cortical.",
-      "Na polpa: forças pesadas e intrusão excessiva podem alterar transitoriamente a circulação pulpar; necrose é rara e associada a dentes com trauma prévio ou ápice comprometido [VERIFICAR]."
+      "Na polpa: forças pesadas e intrusão excessiva podem alterar transitoriamente a circulação pulpar; necrose é rara e associada a dentes com trauma prévio ou ápice comprometido."
     ],
     "caiNaProva": [
       "Sequência da força excessiva no ligamento: isquemia, hialinização, reabsorção solapante, latência, movimento em salto.",
@@ -85,7 +85,7 @@
       "blocos": [
         {
           "tipo": "p",
-          "texto": "Alguma dor após ativação é esperada: começa em poucas horas, atinge o pico em torno de um a dois dias e cede em quase todos os pacientes em uma semana [VERIFICAR]. Ela vem da isquemia leve, dos mediadores inflamatórios, prostaglandinas e outros, e da sensibilização das terminações do ligamento. O sinal de força excessiva não é a presença de dor, e sim a sua intensidade e duração: dor que impede a mastigação, que dura além de uma semana ou que retorna a cada mordida sugere pressão acima do limite."
+          "texto": "Alguma dor após ativação é esperada: começa em poucas horas, atinge o pico em torno de um a dois dias e cede em quase todos os pacientes em uma semana. Ela vem da isquemia leve, dos mediadores inflamatórios, prostaglandinas e outros, e da sensibilização das terminações do ligamento. O sinal de força excessiva não é a presença de dor, e sim a sua intensidade e duração: dor que impede a mastigação, que dura além de uma semana ou que retorna a cada mordida sugere pressão acima do limite."
         },
         {
           "tipo": "p",
@@ -102,7 +102,7 @@
             "<use href='#c-caixa-red' x='430' y='16' width='260' height='36'/><text x='560' y='40' text-anchor='middle' font-size='13' font-weight='700'>força excessiva</text>",
             "<g font-size='12' font-weight='700' fill='var(--ink,#23211C)'><text x='20' y='88'>dor</text><text x='20' y='138'>mobilidade</text><text x='20' y='188'>movimento</text><text x='20' y='238'>gengiva</text><text x='20' y='288'>ancoragem</text></g>",
             "<g stroke='var(--border,#EDE6D8)' stroke-width='1'><line x1='20' y1='108' x2='700' y2='108'/><line x1='20' y1='158' x2='700' y2='158'/><line x1='20' y1='208' x2='700' y2='208'/><line x1='20' y1='258' x2='700' y2='258'/></g>",
-            "<g font-size='11' fill='var(--ink,#23211C)' text-anchor='middle'><text x='285' y='82'>leve a moderada, pico em 1 a 2 dias,</text><text x='285' y='96'>cede em cerca de uma semana [VERIFICAR]</text><text x='285' y='138'>discreta e estável</text><text x='285' y='188'>contínuo, sem pausas longas</text><text x='285' y='238'>cor e contorno normais</text><text x='285' y='288'>mantida</text></g>",
+            "<g font-size='11' fill='var(--ink,#23211C)' text-anchor='middle'><text x='285' y='82'>leve a moderada, pico em 1 a 2 dias,</text><text x='285' y='96'>cede em cerca de uma semana</text><text x='285' y='138'>discreta e estável</text><text x='285' y='188'>contínuo, sem pausas longas</text><text x='285' y='238'>cor e contorno normais</text><text x='285' y='288'>mantida</text></g>",
             "<g font-size='11' fill='var(--ink,#23211C)' text-anchor='middle'><text x='560' y='82'>intensa, impede mastigar,</text><text x='560' y='96'>dura além de uma semana</text><text x='560' y='138'>acentuada, 'dente solto'</text><text x='560' y='188'>parado por semanas, depois salto</text><text x='560' y='238'>pálida ou retraída sobre a raiz</text><text x='560' y='288'>dentes de apoio se deslocam</text></g>",
             "<text x='360' y='326' text-anchor='middle' font-size='11' fill='var(--muted,#8A8478)'>a coluna da direita pede alívio da mecânica, nunca reforço</text>"
           ],
@@ -134,7 +134,7 @@
         },
         {
           "tipo": "p",
-          "texto": "Foi exatamente o que Storey e Smith observaram: forças de 400 a 600 gramas moveram pouco os caninos e deslocaram a ancoragem [VERIFICAR]. Na cadeira, o sinal é a linha média que se desvia, o molar que inclina para mesial, o espaço de extração que fecha 'pelo lado errado'. Quando isso aparece, a primeira pergunta não é 'preciso de mais ancoragem?', e sim 'quanta força estou usando?'."
+          "texto": "Foi exatamente o que Storey e Smith observaram: forças de 400 a 600 gramas moveram pouco os caninos e deslocaram a ancoragem. Na cadeira, o sinal é a linha média que se desvia, o molar que inclina para mesial, o espaço de extração que fecha 'pelo lado errado'. Quando isso aparece, a primeira pergunta não é 'preciso de mais ancoragem?', e sim 'quanta força estou usando?'."
         },
         {
           "tipo": "visual",
@@ -191,7 +191,7 @@
         },
         {
           "tipo": "p",
-          "texto": "O terceiro é a polpa. Forças pesadas, e em especial a intrusão excessiva, comprimem os vasos apicais e podem reduzir transitoriamente a circulação pulpar, com sensibilidade aumentada e, raramente, necrose. O risco é maior em dentes com trauma prévio, ápice fechado e forças de intrusão fora da faixa [VERIFICAR]. Em dentes íntegros, a alteração costuma ser reversível; o histórico de trauma é o dado da anamnese que mais muda a conduta."
+          "texto": "O terceiro é a polpa. Forças pesadas, e em especial a intrusão excessiva, comprimem os vasos apicais e podem reduzir transitoriamente a circulação pulpar, com sensibilidade aumentada e, raramente, necrose. O risco é maior em dentes com trauma prévio, ápice fechado e forças de intrusão fora da faixa. Em dentes íntegros, a alteração costuma ser reversível; o histórico de trauma é o dado da anamnese que mais muda a conduta."
         },
         {
           "tipo": "destaque",
@@ -215,7 +215,7 @@
       "blocos": [
         {
           "tipo": "p",
-          "texto": "A tentação de 'dar um empurrão' assume que o dente andará mais rápido. A curva da página sobre magnitude mostra por que isso falha: acima do platô, a velocidade não cresce, e o movimento em saltos da hialinização pode até tornar o deslocamento médio menor, porque o dente passa semanas em latência. Von Böhl e colaboradores, em modelo animal, não encontraram relação proporcional entre magnitude e velocidade, e observaram hialinização com forças leves e pesadas [VERIFICAR]."
+          "texto": "A tentação de 'dar um empurrão' assume que o dente andará mais rápido. A curva da página sobre magnitude mostra por que isso falha: acima do platô, a velocidade não cresce, e o movimento em saltos da hialinização pode até tornar o deslocamento médio menor, porque o dente passa semanas em latência. Von Böhl e colaboradores, em modelo animal, não encontraram relação proporcional entre magnitude e velocidade, e observaram hialinização com forças leves e pesadas."
         },
         {
           "tipo": "visual",
@@ -308,7 +308,7 @@
       },
       {
         "frente": "Como distinguir a dor esperada após ativação da dor por força excessiva?",
-        "verso": "Esperada: leve a moderada, pico em um a dois dias, cede em cerca de uma semana [VERIFICAR]. Excessiva: intensa, impede a mastigação ou dura além de uma semana; acompanha mobilidade acentuada e dente que não anda."
+        "verso": "Esperada: leve a moderada, pico em um a dois dias, cede em cerca de uma semana. Excessiva: intensa, impede a mastigação ou dura além de uma semana; acompanha mobilidade acentuada e dente que não anda."
       },
       {
         "frente": "Por que a força pesada move a ancoragem em vez do dente-alvo?",

@@ -19,7 +19,7 @@
       "O côndilo cresce para cima e para trás contra a fossa, e o resultado é o deslocamento primário da mandíbula inteira para baixo e para a frente: cresce para trás, anda para a frente.",
       "O ramo se reloca: deposita na borda posterior e reabsorve na anterior; o que hoje é ramo amanhã é corpo, e é isso que alonga o arco e abre espaço para os molares.",
       "O processo alveolar cresce com a erupção e o mento muda pouco por aposição; a sínfise se funde no primeiro ano e depois a mandíbula é um osso só.",
-      "A mandíbula cresce por mais tempo que a maxila: o surto é mais tardio e prolongado, sobretudo em meninos, e pode seguir até o fim da adolescência [VERIFICAR].",
+      "A mandíbula cresce por mais tempo que a maxila: o surto é mais tardio e prolongado, sobretudo em meninos, e pode seguir até o fim da adolescência.",
       "Na clínica, Classe III corrigida cedo pode recidivar no surto mandibular tardio; Classe II depende de aproveitar o mesmo surto com aparelho funcional."
     ],
     "caiNaProva": [
@@ -142,7 +142,7 @@
       "blocos": [
         {
           "tipo": "p",
-          "texto": "A maxila termina de crescer antes; a mandíbula continua. O surto de crescimento mandibular acompanha o surto puberal, é mais tardio e mais prolongado em meninos, e pode seguir em ritmo lento até o fim da adolescência ou o início da vida adulta [VERIFICAR]. É o osso que mais muda a relação entre os arcos depois que o resto parou."
+          "texto": "A maxila termina de crescer antes; a mandíbula continua. O surto de crescimento mandibular acompanha o surto puberal, é mais tardio e mais prolongado em meninos, e pode seguir em ritmo lento até o fim da adolescência ou o início da vida adulta. É o osso que mais muda a relação entre os arcos depois que o resto parou."
         },
         {
           "tipo": "visual",

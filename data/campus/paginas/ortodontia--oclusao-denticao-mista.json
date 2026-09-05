@@ -19,7 +19,7 @@
       "Os incisivos permanentes são maiores que os decíduos: essa diferença, o passivo dos incisivos, é compensada pelos espaços de desenvolvimento e primatas, pelo aumento da distância intercaninos e pela inclinação mais vestibular dos permanentes.",
       "O diastema entre os centrais superiores com os laterais inclinados, entre 8 e 11 anos, é a fase do patinho feio de Broadbent: fecha sozinho quando os caninos erupcionam e não se trata.",
       "No segundo período aparece o espaço livre de Nance: caninos e pré-molares são menores que os decíduos que substituem, e a diferença, maior no arco inferior, permite o ajuste mesial tardio dos molares para a Classe I.",
-      "Sequência favorável: no arco inferior o canino antes dos pré-molares; no superior, o canino depois do primeiro pré-molar (4-3-5 ou 4-5-3) [VERIFICAR]. Inversões custam espaço.",
+      "Sequência favorável: no arco inferior o canino antes dos pré-molares; no superior, o canino depois do primeiro pré-molar (4-3-5 ou 4-5-3). Inversões custam espaço.",
       "Na clínica, a dentição mista é onde a análise de espaço, a interceptação e a preservação do espaço livre decidem se haverá ou não extrações na permanente."
     ],
     "caiNaProva": [
@@ -59,7 +59,7 @@
             "<text x='280' y='186' text-anchor='middle' font-weight='700' fill='var(--muted,#8A8478)'>O que se faz</text><text x='280' y='204' text-anchor='middle'>análise de espaço</text><text x='280' y='220' text-anchor='middle'>interceptar, esperar</text>",
             "<text x='440' y='186' text-anchor='middle' font-weight='700' fill='var(--green,#3E7C4F)'>O que aparece</text><text x='440' y='204' text-anchor='middle'>espaço livre de Nance</text><text x='440' y='220' text-anchor='middle'>ajuste mesial tardio</text>",
             "</g>",
-            "<text x='280' y='268' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>idades aproximadas; a sequência importa mais que a data [VERIFICAR]</text>"
+            "<text x='280' y='268' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>idades aproximadas; a sequência importa mais que a data</text>"
           ],
           "legenda": "Duas trocas, uma pausa. Cada troca tem um problema de espaço e uma solução natural própria."
         },
@@ -83,7 +83,7 @@
       "blocos": [
         {
           "tipo": "p",
-          "texto": "Os incisivos permanentes são maiores que os decíduos que substituem. A soma das larguras dos quatro incisivos permanentes excede a dos decíduos em cerca de 7,6 mm no arco superior e 6 mm no inferior, nos valores clássicos [VERIFICAR]. Mayne chamou essa diferença de passivo dos incisivos (incisor liability), termo difundido pelo manual de Moyers: uma dívida de espaço que precisa ser paga na hora da troca."
+          "texto": "Os incisivos permanentes são maiores que os decíduos que substituem. A soma das larguras dos quatro incisivos permanentes excede a dos decíduos em cerca de 7,6 mm no arco superior e 6 mm no inferior, nos valores clássicos. Mayne chamou essa diferença de passivo dos incisivos (incisor liability), termo difundido pelo manual de Moyers: uma dívida de espaço que precisa ser paga na hora da troca."
         },
         {
           "tipo": "visual",
@@ -155,11 +155,11 @@
       "blocos": [
         {
           "tipo": "p",
-          "texto": "No segundo período, a conta se inverte. Caninos e pré-molares permanentes são, somados, menores que o canino e os dois molares decíduos que substituem. A diferença é o espaço livre de Nance, e ele é maior no arco inferior do que no superior, porque o segundo molar decíduo inferior é bem maior que o segundo pré-molar [VERIFICAR]."
+          "texto": "No segundo período, a conta se inverte. Caninos e pré-molares permanentes são, somados, menores que o canino e os dois molares decíduos que substituem. A diferença é o espaço livre de Nance, e ele é maior no arco inferior do que no superior, porque o segundo molar decíduo inferior é bem maior que o segundo pré-molar."
         },
         {
           "tipo": "p",
-          "texto": "Os números variam conforme a fonte. Nance, em 1947, estimou cerca de 1,7 mm por lado no arco inferior e 0,9 mm por lado no superior; textos atuais costumam citar em torno de 2,5 mm e 1,5 mm por lado. Guarde a ordem de grandeza e a direção: é sempre maior embaixo [VERIFICAR]."
+          "texto": "Os números variam conforme a fonte. Nance, em 1947, estimou cerca de 1,7 mm por lado no arco inferior e 0,9 mm por lado no superior; textos atuais costumam citar em torno de 2,5 mm e 1,5 mm por lado. Guarde a ordem de grandeza e a direção: é sempre maior embaixo."
         },
         {
           "tipo": "visual",
@@ -180,7 +180,7 @@
             "<text x='410' y='150' text-anchor='middle' font-size='12' font-weight='700' fill='var(--green,#3E7C4F)'>espaço livre maior</text>",
             "<use href='#c-caixa-green' x='16' y='180' width='528' height='60'/>",
             "<text x='280' y='204' text-anchor='middle' font-size='13' font-weight='700'>Para onde vai o espaço livre?</text><text x='280' y='224' text-anchor='middle' font-size='12'>o 1º molar permanente anda para mesial (ajuste mesial tardio): topo a topo vira Classe I</text>",
-            "<text x='280' y='266' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>barras proporcionais, sem valores absolutos</text><text x='280' y='284' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>o inferior é maior porque o E inferior é grande [VERIFICAR]</text>"
+            "<text x='280' y='266' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>barras proporcionais, sem valores absolutos</text><text x='280' y='284' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>o inferior é maior porque o E inferior é grande</text>"
           ],
           "legenda": "A folga do inferior é o que permite ao molar inferior avançar mais que o superior e transformar topo a topo em Classe I."
         },
@@ -211,7 +211,7 @@
           "tipo": "lista",
           "itens": [
             "Inferior favorável: canino, primeiro pré-molar, segundo pré-molar (3, 4, 5).",
-            "Superior favorável: primeiro pré-molar antes do canino (4-3-5 ou 4-5-3) [VERIFICAR].",
+            "Superior favorável: primeiro pré-molar antes do canino (4-3-5 ou 4-5-3).",
             "Segundo pré-molar antes do canino no inferior, com perda precoce do segundo molar decíduo: o molar permanente invade o espaço e o canino ou o pré-molar ficam presos."
           ]
         },
@@ -287,7 +287,7 @@
     "itens": [
       {
         "rotulo": "Períodos",
-        "texto": "Primeiro transitório (6 a 8): molares e incisivos. Intertransitório (8 a 10): pausa. Segundo transitório (10 a 12): caninos, pré-molares, segundos molares [VERIFICAR]."
+        "texto": "Primeiro transitório (6 a 8): molares e incisivos. Intertransitório (8 a 10): pausa. Segundo transitório (10 a 12): caninos, pré-molares, segundos molares."
       },
       {
         "rotulo": "Passivo dos incisivos",
@@ -307,7 +307,7 @@
       },
       {
         "rotulo": "Sequência",
-        "texto": "Inferior: canino antes dos pré-molares. Superior: primeiro pré-molar antes do canino [VERIFICAR]. Perda precoce de E sem mantenedor come o espaço."
+        "texto": "Inferior: canino antes dos pré-molares. Superior: primeiro pré-molar antes do canino. Perda precoce de E sem mantenedor come o espaço."
       }
     ]
   },
@@ -417,7 +417,7 @@
     },
     {
       "titulo": "Canino cedo embaixo, tarde em cima",
-      "texto": "Sequência favorável: inferior 3-4-5; superior com o 4 antes do 3 (4-3-5 ou 4-5-3) [VERIFICAR]."
+      "texto": "Sequência favorável: inferior 3-4-5; superior com o 4 antes do 3 (4-3-5 ou 4-5-3)."
     }
   ],
   "ondeErra": [

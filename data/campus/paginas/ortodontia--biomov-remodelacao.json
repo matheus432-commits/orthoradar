@@ -118,7 +118,7 @@
       "blocos": [
         {
           "tipo": "p",
-          "texto": "O osso alveolar tem uma das taxas de renovação mais altas do esqueleto, muito acima da das corticais dos ossos longos [VERIFICAR]. Isso o torna sensível: responde à força ortodôntica em dias, adapta-se à função e às perdas dentárias em meses. E o torna vulnerável: sem o dente e o ligamento que o mantêm, o rebordo se reabsorve rapidamente após a extração, e sob doença periodontal a perda é veloz."
+          "texto": "O osso alveolar tem uma das taxas de renovação mais altas do esqueleto, muito acima da das corticais dos ossos longos. Isso o torna sensível: responde à força ortodôntica em dias, adapta-se à função e às perdas dentárias em meses. E o torna vulnerável: sem o dente e o ligamento que o mantêm, o rebordo se reabsorve rapidamente após a extração, e sob doença periodontal a perda é veloz."
         },
         {
           "tipo": "p",
@@ -154,7 +154,7 @@
         },
         {
           "tipo": "p",
-          "texto": "Reitan mediu esses prazos. As fibras do ligamento se reorganizam em cerca de três a quatro meses; o osso novo leva vários meses para mineralizar e ganhar a densidade da lâmina dura; as fibras colágenas da gengiva demoram quatro a seis meses; e as fibras elásticas supracrestais podem levar mais de um ano, ou nunca se reorganizar por completo em dentes que foram muito girados [VERIFICAR]."
+          "texto": "Reitan mediu esses prazos. As fibras do ligamento se reorganizam em cerca de três a quatro meses; o osso novo leva vários meses para mineralizar e ganhar a densidade da lâmina dura; as fibras colágenas da gengiva demoram quatro a seis meses; e as fibras elásticas supracrestais podem levar mais de um ano, ou nunca se reorganizar por completo em dentes que foram muito girados."
         },
         {
           "tipo": "p",
@@ -175,7 +175,7 @@
             "<rect x='80' y='140' width='280' height='18' rx='9' fill='var(--green,#3E7C4F)' fill-opacity='0.5'/><text x='90' y='134' font-size='11' font-weight='700' fill='var(--green,#3E7C4F)'>fibras colágenas da gengiva: 4 a 6 meses</text>",
             "<rect x='80' y='170' width='600' height='18' rx='9' fill='var(--red,#B4533B)' fill-opacity='0.45'/><text x='400' y='166' font-size='11' font-weight='700' fill='var(--red,#B4533B)'>fibras elásticas supracrestais: mais de um ano</text>",
             "<use href='#c-caixa-ink' x='80' y='250' width='600' height='44'/><text x='380' y='269' text-anchor='middle' font-size='12' font-weight='700' fill='#fff'>Contenção: integral nos primeiros meses, depois gradual</text><text x='380' y='286' text-anchor='middle' font-size='11' fill='#fff'>prolongada onde houve rotação; fibrotomia se as fibras não cedem</text>",
-            "<text x='380' y='326' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>prazos aproximados a partir de Reitan [VERIFICAR]; o inferior anterior e as rotações pedem mais</text>"
+            "<text x='380' y='326' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>prazos aproximados a partir de Reitan; o inferior anterior e as rotações pedem mais</text>"
           ],
           "legenda": "Cada tecido tem o seu prazo, e as fibras elásticas da gengiva têm o mais longo. A contenção não é capricho: é o tempo que a remodelação leva para alcançar o dente."
         },
@@ -196,7 +196,7 @@
       "blocos": [
         {
           "tipo": "p",
-          "texto": "Os bisfosfonatos, usados na osteoporose e em alguns cânceres, ligam-se ao osso e inibem os osteoclastos. Como o movimento dentário depende da reabsorção do lado de pressão, o efeito é direto: movimento mais lento, incompleto ou ausente, com relatos de dentes que não se movem e de espaços que não fecham. Há ainda o risco de osteonecrose dos maxilares, maior com a forma endovenosa, com doses oncológicas e com procedimentos que expõem osso, e menor, mas presente, com a forma oral prolongada [VERIFICAR]."
+          "texto": "Os bisfosfonatos, usados na osteoporose e em alguns cânceres, ligam-se ao osso e inibem os osteoclastos. Como o movimento dentário depende da reabsorção do lado de pressão, o efeito é direto: movimento mais lento, incompleto ou ausente, com relatos de dentes que não se movem e de espaços que não fecham. Há ainda o risco de osteonecrose dos maxilares, maior com a forma endovenosa, com doses oncológicas e com procedimentos que expõem osso, e menor, mas presente, com a forma oral prolongada."
         },
         {
           "tipo": "p",
@@ -214,7 +214,7 @@
             "<g font-size='12' fill='var(--ink,#23211C)'><text x='36' y='92'>bisfosfonatos e outros antirreabsortivos</text><text x='36' y='116'>anti-inflamatórios não esteroides contínuos</text><text x='36' y='140'>corticoides em alguns regimes</text><text x='36' y='164'>idade avançada</text><text x='36' y='188'>osso cortical denso</text><text x='36' y='212'>ligamento pouco celular</text></g>",
             "<g font-size='12' fill='var(--ink,#23211C)'><text x='306' y='92'>fenômeno regional acelerado</text><text x='306' y='116'>hipertireoidismo, hormônio tireoidiano</text><text x='306' y='140'>hiperparatireoidismo</text><text x='306' y='164'>juventude</text><text x='306' y='188'>osso trabecular</text><text x='306' y='212'>ligamento celular e vascularizado</text></g>",
             "<use href='#c-caixa-ink' x='40' y='250' width='480' height='44'/><text x='280' y='269' text-anchor='middle' font-size='12' font-weight='700' fill='#fff'>Bisfosfonato: movimento lento ou ausente e risco de osteonecrose</text><text x='280' y='286' text-anchor='middle' font-size='11' fill='#fff'>pergunte, registre e converse com o médico antes de planejar</text>",
-            "<text x='280' y='334' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>efeitos dependem de dose, via e tempo de uso [VERIFICAR]; a anamnese é parte do plano</text>"
+            "<text x='280' y='334' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>efeitos dependem de dose, via e tempo de uso; a anamnese é parte do plano</text>"
           ],
           "legenda": "O ciclo tem freio e acelerador, e vários deles estão na receita do paciente. Pergunte antes de prometer prazo."
         },

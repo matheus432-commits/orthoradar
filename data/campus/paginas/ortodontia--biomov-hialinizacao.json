@@ -19,7 +19,7 @@
       "Onde o ligamento morreu não há células para reabsorver a lâmina dura pela frente; o osso precisa ser reabsorvido por baixo, a partir dos espaços medulares e das bordas vivas da zona: é a reabsorção solapante.",
       "Enquanto a zona hialinizada não é removida, o dente não anda; quando o osso por baixo cede, ele se desloca de uma vez. É a fase de latência prolongada e o \"pulo\" que o paciente descreve.",
       "Áreas pequenas de hialinização são quase inevitáveis nos pontos de maior pressão, sobretudo na inclinação, mesmo com força leve; áreas extensas são efeito de força pesada e de osso denso.",
-      "A zona hialinizada é removida por macrófagos e células gigantes em cerca de duas a quatro semanas; nas bordas dela, o cemento também é atacado, e é aí que começa a reabsorção radicular [VERIFICAR].",
+      "A zona hialinizada é removida por macrófagos e células gigantes em cerca de duas a três semanas, às vezes mais; nas bordas dela, o cemento também é atacado, e é aí que começa a reabsorção radicular.",
       "Adultos têm osso mais denso e ligamento menos celular: hialinizam mais, reparam mais devagar e se movem mais lentamente com a mesma força."
     ],
     "caiNaProva": [
@@ -100,7 +100,7 @@
     {
       "titulo": "Como a zona é removida, e o que sobra na raiz",
       "blocos": [
-        { "tipo": "p", "texto": "A zona hialinizada não fica para sempre. Células vindas das bordas vivas do ligamento e dos espaços medulares, macrófagos e células gigantes multinucleadas, invadem o tecido necrosado e o digerem, enquanto os osteoclastos removem o osso por baixo. Com força leve e áreas pequenas, esse reparo leva alguns dias; com áreas extensas em osso denso, semanas. Reitan estimou o período de hialinização em torno de duas a quatro semanas para a inclinação com força contínua [VERIFICAR]." },
+        { "tipo": "p", "texto": "A zona hialinizada não fica para sempre. Células vindas das bordas vivas do ligamento e dos espaços medulares, macrófagos e células gigantes multinucleadas, invadem o tecido necrosado e o digerem, enquanto os osteoclastos removem o osso por baixo. Com força leve e áreas pequenas, esse reparo leva alguns dias; com áreas extensas em osso denso, semanas. a fase de latência que corresponde a esse período dura em geral duas a três semanas, e pode passar disso em áreas extensas." },
         { "tipo": "p", "texto": "O custo aparece na raiz. As mesmas células que removem a zona hialinizada atacam o cemento das bordas dela: as lacunas de reabsorção radicular começam exatamente na periferia da zona hialinizada, como Brudvik e Rygh demonstraram nos anos 1990. Se a força cessa, o cemento é reparado; se a hialinização se repete a cada ativação, a reabsorção avança para a dentina e o encurtamento fica permanente. A hialinização é o elo entre força pesada e raiz curta." },
         { "tipo": "visual", "formato": "processo", "titulo": "Da compressão excessiva ao movimento em salto: a sequência da hialinização", "descricao": "Cadeia de seis etapas. Compressão acima da pressão capilar. Isquemia e morte celular: zona hialinizada. Reabsorção frontal impossível; osteoclastos partem dos espaços medulares e das bordas: reabsorção solapante. Macrófagos e células gigantes removem a zona; cemento das bordas é atacado. Parede do alvéolo cede: movimento em salto, mobilidade, dor. Reparo do cemento se a força cessa; reabsorção radicular se a hialinização se repete.", "viewBox": "0 0 560 500",
           "svg": [
@@ -111,7 +111,7 @@
             "<use href='#c-caixa-gold' x='80' y='230' width='400' height='54'/><text x='280' y='252' text-anchor='middle' font-size='13' font-weight='700'>4. Remoção da zona</text><text x='280' y='272' text-anchor='middle' font-size='11'>macrófagos e células gigantes digerem o tecido; cemento das bordas atacado</text>",
             "<use href='#c-caixa-blue' x='80' y='300' width='400' height='54'/><text x='280' y='322' text-anchor='middle' font-size='13' font-weight='700'>5. Parede cede: movimento em salto</text><text x='280' y='342' text-anchor='middle' font-size='11'>deslocamento brusco, mobilidade, dor</text>",
             "<use href='#c-caixa-green' x='80' y='370' width='400' height='68'/><text x='280' y='392' text-anchor='middle' font-size='13' font-weight='700'>6. Reparo ou dano</text><text x='280' y='410' text-anchor='middle' font-size='11'>força cessa: cemento reparado, ligamento refeito</text><text x='280' y='426' text-anchor='middle' font-size='11'>hialinização repetida: reabsorção avança para a dentina</text>",
-            "<text x='280' y='470' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>duração do ciclo: dias com áreas pequenas; duas a quatro semanas com áreas extensas [VERIFICAR]</text>",
+            "<text x='280' y='470' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>duração do ciclo: dias com áreas pequenas; duas a três semanas ou mais com áreas extensas</text>",
             "<text x='280' y='490' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>a etapa 6 decide se a raiz volta ao normal ou encurta</text>"
           ],
           "legenda": "Seis etapas, e a última é a que fica na radiografia. O cemento repara uma vez; repetido a cada ativação, o ciclo encurta a raiz." },

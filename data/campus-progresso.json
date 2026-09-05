@@ -360,1499 +360,9 @@
  ],
  "verificarPendentes": [
   {
-   "pagina": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/conceitos-crescimento-e-desenvolvimento",
-   "onde": "Seção \"As proporções mudam: a face cresce mais e por mais tempo que o crânio\".blocos[0].texto",
-   "trecho": "1:8 ao nascer para algo entre 1:2 e 1:2,5 no adulto, conforme a fonte [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/teorias-do-crescimento",
-   "onde": "Seção \"Van Limborgh e Petrovic: a síntese e o servossistema\".blocos[3].texto",
-   "trecho": "lados e sem diferença clinicamente relevante nos ensaios randomizados [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/mecanismos-sutura-cartilagem-e-remodelacao",
-   "onde": "Seção \"Cartilagem: sincondroses, côndilo e septo\".blocos[0].texto",
-   "trecho": "para trás. Funde no fim da adolescência, entre cerca de 16 e 20 anos [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/crescimento-da-maxila",
-   "onde": "umMinuto.frases[1]",
-   "trecho": "ânio predomina na primeira infância e perde peso por volta dos 7 anos [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/crescimento-da-maxila",
-   "onde": "Seção \"Quem manda em cada idade\".blocos[0].texto",
-   "trecho": "sivo responde por boa parte do avanço da maxila. Por volta dos 7 anos [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/crescimento-da-maxila",
-   "onde": "Seção \"Quem manda em cada idade\".blocos[3].texto",
-   "trecho": "o crânio) e a partir de quando o sutural assume (por volta dos 7 anos [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/crescimento-da-maxila",
-   "onde": "infografico.itens[2].texto",
-   "trecho": ", zigomaticotemporal e pterigopalatina; predomina a partir de ~7 anos [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/crescimento-da-maxila",
-   "onde": "macetes[3].texto",
-   "trecho": "do crânio. Depois, suturas. É a justificativa da pressa na Classe III [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/crescimento-da-mandibula",
-   "onde": "umMinuto.frases[4]",
-   "trecho": "ongado, sobretudo em meninos, e pode seguir até o fim da adolescência [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/crescimento-da-mandibula",
-   "onde": "Seção \"O último osso a parar\".blocos[0].texto",
-   "trecho": "r em ritmo lento até o fim da adolescência ou o início da vida adulta [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/crescimento-e-desenvolvimento/maturacao/surto-de-crescimento-puberal",
-   "onde": "umMinuto.frases[1]",
-   "trecho": "s por volta dos 14, com variação de cerca de dois anos para cada lado [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/crescimento-e-desenvolvimento/maturacao/surto-de-crescimento-puberal",
-   "onde": "Seção \"Velocidade, não tamanho\".blocos[1].legenda",
-   "trecho": "xata; idades médias com variação de cerca de dois anos para cada lado [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/crescimento-e-desenvolvimento/maturacao/surto-de-crescimento-puberal",
-   "onde": "Seção \"Meninas primeiro, meninos depois, e ninguém na média\".blocos[0].texto",
-   "trecho": "s 14 em meninos, com meninos crescendo um pouco mais e por mais tempo [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/crescimento-e-desenvolvimento/maturacao/surto-de-crescimento-puberal",
-   "onde": "Seção \"A face acompanha, com pequeno atraso\".blocos[0].texto",
-   "trecho": "lar coincidindo com o pico de estatura ou ocorrendo pouco depois dele [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/crescimento-e-desenvolvimento/maturacao/surto-de-crescimento-puberal",
-   "onde": "fechamento.flashcards[0].verso",
-   "trecho": "em meninos, com variação de aproximadamente dois anos para cada lado [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/crescimento-e-desenvolvimento/maturacao/surto-de-crescimento-puberal",
-   "onde": "infografico.itens[1].texto",
-   "trecho": "os por volta de 14, com cerca de dois anos de variação para cada lado [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/crescimento-e-desenvolvimento/maturacao/surto-de-crescimento-puberal",
-   "onde": "infografico.itens[4].texto",
-   "trecho": "O surto mandibular acompanha o estatural, com pequena defasagem [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/crescimento-e-desenvolvimento/maturacao/surto-de-crescimento-puberal",
-   "onde": "macetes[1].texto",
-   "trecho": "lado. A média serve para a prova; o paciente tem o próprio calendário [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/crescimento-e-desenvolvimento/maturacao/idade-ossea-mao-e-punho",
-   "onde": "Seção \"A sequência de eventos e o que cada um diz\".blocos[1].svg[4]",
-   "trecho": "ill='var(--muted,#8A8478)'>aceleração: a janela do aparelho funcional [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/crescimento-e-desenvolvimento/maturacao/vertebras-cervicais",
-   "onde": "Seção \"Os seis estágios do método CVM\".blocos[1].svg[35]",
-   "trecho": "ll='var(--muted,#8A8478)'>intervalos em anos são médias populacionais [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/crescimento-e-desenvolvimento/maturacao/vertebras-cervicais",
-   "onde": "Seção \"O que ela faz melhor que a mão, e o que faz pior\".blocos[1].texto",
-   "trecho": "dade variável, com discordância frequente nos estágios intermediários [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/crescimento-e-desenvolvimento/maturacao/vertebras-cervicais",
-   "onde": "Seção \"O que ela faz melhor que a mão, e o que faz pior\".blocos[2].svg[9]",
-   "trecho": "-weight='700'>Reprodutibilidade</text><text x='160' y='230'>discutida [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/crescimento-e-desenvolvimento/maturacao/vertebras-cervicais",
-   "onde": "infografico.itens[2].texto",
-   "trecho": "anas ou só C2 côncava; corpos trapezoides. Pico em cerca de 2 e 1 ano [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/crescimento-e-desenvolvimento/maturacao/implicacoes-no-tempo-de-tratamento",
-   "onde": "Seção \"Classe III: cedo para a maxila, paciência para a mandíbula\".blocos[0].texto",
-   "trecho": "facial rende mais na dentição mista precoce, por volta dos 7 a 9 anos [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-decidua",
-   "onde": "Seção \"Vinte dentes, em que ordem e quando\".blocos[1].svg[18]",
-   "trecho": "8A8478)'>faixas aproximadas; inferiores em geral antes dos superiores [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-decidua",
-   "onde": "Seção \"O plano terminal: o segundo molar decíduo aponta o caminho\".blocos[1].svg[22]",
-   "trecho": "(--muted,#8A8478)'>a partir de Baume; o plano reto é o mais frequente [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-mista-primeira-e-segunda-fase",
-   "onde": "umMinuto.frases[4]",
-   "trecho": "; no superior, o canino depois do primeiro pré-molar (4-3-5 ou 4-5-3) [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-mista-primeira-e-segunda-fase",
-   "onde": "Seção \"Dois períodos de troca e uma pausa\".blocos[1].svg[13]",
-   "trecho": "ted,#8A8478)'>idades aproximadas; a sequência importa mais que a data [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-mista-primeira-e-segunda-fase",
-   "onde": "Seção \"O passivo dos incisivos e como a boca paga a conta\".blocos[0].texto",
-   "trecho": "de 7,6 mm no arco superior e 6 mm no inferior, nos valores clássicos [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-mista-primeira-e-segunda-fase",
-   "onde": "Seção \"O espaço livre de Nance: a folga que fecha a conta\".blocos[0].texto",
-   "trecho": "o segundo molar decíduo inferior é bem maior que o segundo pré-molar [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-mista-primeira-e-segunda-fase",
-   "onde": "Seção \"O espaço livre de Nance: a folga que fecha a conta\".blocos[1].texto",
-   "trecho": "lado. Guarde a ordem de grandeza e a direção: é sempre maior embaixo [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-mista-primeira-e-segunda-fase",
-   "onde": "Seção \"O espaço livre de Nance: a folga que fecha a conta\".blocos[2].svg[12]",
-   "trecho": "var(--muted,#8A8478)'>o inferior é maior porque o E inferior é grande [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-mista-primeira-e-segunda-fase",
-   "onde": "Seção \"A ordem em que os dentes chegam\".blocos[1].itens[1]",
-   "trecho": "perior favorável: primeiro pré-molar antes do canino (4-3-5 ou 4-5-3) [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-mista-primeira-e-segunda-fase",
-   "onde": "infografico.itens[0].texto",
-   "trecho": "Segundo transitório (10 a 12): caninos, pré-molares, segundos molares [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-mista-primeira-e-segunda-fase",
-   "onde": "infografico.itens[5].texto",
-   "trecho": "o antes dos pré-molares. Superior: primeiro pré-molar antes do canino [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-mista-primeira-e-segunda-fase",
-   "onde": "macetes[3].texto",
-   "trecho": "vorável: inferior 3-4-5; superior com o 4 antes do 3 (4-3-5 ou 4-5-3) [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-permanente",
-   "onde": "umMinuto.frases[0]",
-   "trecho": "undos molares; os terceiros chegam, quando chegam, entre 17 e 21 anos [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-permanente",
-   "onde": "Seção \"Quando a dentição fica completa, e quando fica mesmo\".blocos[1].svg[7]",
-   "trecho": "8A8478)'>faixas aproximadas; inferiores em geral antes dos superiores [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-permanente",
-   "onde": "Seção \"O arco encolhe depois de pronto\".blocos[0].texto",
-   "trecho": "e depois diminui lentamente ao longo da adolescência e da vida adulta [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-permanente",
-   "onde": "Seção \"Quem aperta os incisivos inferiores\".blocos[2].verdade",
-   "trecho": "rdio nos dois grupos; o papel do terceiro molar é, no máximo, pequeno [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-permanente",
-   "onde": "fechamento.flashcards[2].verso",
-   "trecho": "o e a extração profilática para prevenir apinhamento não se justifica [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-permanente",
-   "onde": "infografico.itens[0].texto",
-   "trecho": "13 anos, com os segundos molares. Terceiros entre 17 e 21, quando vêm [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/classificacao/classificacao-de-angle",
-   "onde": "Seção \"Subdivisão, meia classe e a leitura lado a lado\".blocos[0].texto",
-   "trecho": "onfira a que o seu serviço adota, porque há quem nomeie o lado normal [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/classificacao/classificacao-esqueletica",
-   "onde": "Seção \"ANB, SNA e SNB: a régua mais usada e o que cada ângulo diz\".blocos[2].itens[1]",
-   "trecho": "mal e SNB baixo: mandíbula retruída, o padrão mais comum na Classe II [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/classificacao/classificacao-esqueletica",
-   "onde": "Seção \"ANB, SNA e SNB: a régua mais usada e o que cada ângulo diz\".blocos[2].itens[2]",
-   "trecho": "SNA baixo e SNB normal: maxila deficiente, frequente na Classe III [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/classificacao/classificacao-esqueletica",
-   "onde": "Seção \"ANB, SNA e SNB: a régua mais usada e o que cada ângulo diz\".blocos[3].texto",
-   "trecho": "o do ANB. A faixa de normalidade do ANB costuma ser dada como 0° a 4° [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/classificacao/classificacao-esqueletica",
-   "onde": "Seção \"Quando o ANB mente: násio, plano SN e altura facial\".blocos[2].svg[8]",
-   "trecho": "o de zero,</text><text x='60' y='144'>homens ~ -1 mm, mulheres ~ 0 mm [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/classificacao/classificacao-esqueletica",
-   "onde": "Seção \"McNamara e Harvold: medir cada base contra o crânio e uma contra a outra\".blocos[0].texto",
-   "trecho": "inha, e o pogônio, um pouco atrás na criança e próximo dela no adulto [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/classificacao/classificacao-esqueletica",
-   "onde": "Seção \"McNamara e Harvold: medir cada base contra o crânio e uma contra a outra\".blocos[1].texto",
-   "trecho": "e uma diferença grande aponta Classe III, independentemente do násio [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/classificacao/classificacao-esqueletica",
-   "onde": "Seção \"De onde vem cada classe: os componentes\".blocos[0].texto",
-   "trecho": "axila, na maioria dos casos, estava em posição normal ou até retruída [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/classificacao/classificacao-esqueletica",
-   "onde": "Seção \"De onde vem cada classe: os componentes\".blocos[1].texto",
-   "trecho": "maxilar participa de uma grande parte dos casos, sozinha ou combinada [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/classificacao/classificacao-de-andrews-e-outras",
-   "onde": "Seção \"Andrews: classificar o alvo, não o defeito\".blocos[1].texto",
-   "trecho": "dos maxilares, a proeminência do mento e a oclusão pelas seis chaves [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/classificacao/indices-de-necessidade-de-tratamento",
-   "onde": "Seção \"IOTN, componente de saúde dentária: a pior característica decide\".blocos[2].svg[12]",
-   "trecho": "s, O trespasse vertical e mordida aberta; limiares da tabela original [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/classificacao/indices-de-necessidade-de-tratamento",
-   "onde": "Seção \"IOTN, componente de saúde dentária: a pior característica decide\".blocos[3].texto",
-   "trecho": "ão os da tabela original, que deve ser consultada na aplicação formal [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/classificacao/indices-de-necessidade-de-tratamento",
-   "onde": "Seção \"IOTN, componente estético: dez fotografias e um espelho\".blocos[0].texto",
-   "trecho": "uma necessidade; de 5 a 7, limítrofe; de 8 a 10, necessidade definida [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/classificacao/indices-de-necessidade-de-tratamento",
-   "onde": "Seção \"DAI: o índice da OMS e do SB Brasil\".blocos[0].texto",
-   "trecho": "os epidemiológicos, e é o índice usado no SB Brasil para adolescentes [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/classificacao/indices-de-necessidade-de-tratamento",
-   "onde": "Seção \"DAI: o índice da OMS e do SB Brasil\".blocos[2].svg[8]",
-   "trecho": "' font-size='12' fill='var(--muted,#8A8478)'>faixas da OMS para o DAI [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/classificacao/indices-de-necessidade-de-tratamento",
-   "onde": "Seção \"PAR e ICON: medir o que o tratamento fez\".blocos[0].texto",
-   "trecho": ", classifica o caso como muito melhorado, melhorado, ou igual ou pior [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/classificacao/indices-de-necessidade-de-tratamento",
-   "onde": "Seção \"PAR e ICON: medir o que o tratamento fez\".blocos[1].texto",
-   "trecho": "há necessidade e quão complexo é o caso; lido depois, diz o resultado [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/etiologia/fatores-geneticos-e-ambientais",
-   "onde": "Seção \"O que os gêmeos e as populações ensinaram\".blocos[0].texto",
-   "trecho": "e alta; o apinhamento e a posição dos dentes, com herdabilidade baixa [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/etiologia/fatores-geneticos-e-ambientais",
-   "onde": "Seção \"O que os gêmeos e as populações ensinaram\".blocos[1].texto",
-   "trecho": "arcos, e dentes de tamanho herdado ficam sem espaço em arcos menores [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/etiologia/habitos-succao-degluticao-e-respiracao",
-   "onde": "Seção \"A tríade que separa hábito inofensivo de hábito deformante\".blocos[1].texto",
-   "trecho": "horas por dia, em torno de quatro a seis, mantidas ao longo dos anos [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/etiologia/habitos-succao-degluticao-e-respiracao",
-   "onde": "Seção \"O que a sucção prolongada faz com a boca\".blocos[2].texto",
-   "trecho": "do objeto e pela posição da mão, mas as duas somam efeitos parecidos [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/etiologia/habitos-succao-degluticao-e-respiracao",
-   "onde": "Seção \"Quando parar e o que volta sozinho\".blocos[0].texto",
-   "trecho": "para antes da erupção dos incisivos permanentes, por volta dos 6 anos [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/etiologia/habitos-succao-degluticao-e-respiracao",
-   "onde": "Seção \"Quando parar e o que volta sozinho\".blocos[1].texto",
-   "trecho": "hupeta a partir de 2 a 3 anos e intervir no dedo antes dos 4 a 6 anos [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/etiologia/habitos-succao-degluticao-e-respiracao",
-   "onde": "Seção \"Quando parar e o que volta sozinho\".blocos[2].svg[7]",
-   "trecho": "var(--muted,#8A8478)'>idades aproximadas das orientações mais citadas [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/etiologia/habitos-succao-degluticao-e-respiracao",
-   "onde": "Seção \"Deglutição atípica: quase sempre consequência\".blocos[1].texto",
-   "trecho": "ando a postura de repouso está alterada, com evidência ainda limitada [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/etiologia/habitos-succao-degluticao-e-respiracao",
-   "onde": "Seção \"Respiração bucal e a face longa\".blocos[1].texto",
-   "trecho": "a associação é forte o bastante para obrigar a pergunta em todo exame [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/etiologia/habitos-succao-degluticao-e-respiracao",
-   "onde": "Seção \"O que a evidência sustenta e o que não sustenta\".blocos[0].texto",
-   "trecho": "scimento depois que a respiração nasal voltou, o que sustenta a causa [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/etiologia/perda-precoce-e-carie",
-   "onde": "Seção \"Maxila e mandíbula perdem espaço de jeitos diferentes\".blocos[0].texto",
-   "trecho": "intensa nos primeiros seis meses após a extração, e depois desacelera [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/etiologia/perda-precoce-e-carie",
-   "onde": "Seção \"O sucessor: atrasa, acelera ou some do caminho\".blocos[0].texto",
-   "trecho": "aminho se abriu na hora em que o dente estava pronto para percorrê-lo [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/etiologia/perda-precoce-e-carie",
-   "onde": "Seção \"Cárie sem perda também custa espaço, e o 6 condenado\".blocos[1].texto",
-   "trecho": "stá com a coroa formada e a raiz começando, por volta dos 8 a 10 anos [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/etiologia/anomalias-dentarias",
-   "onde": "Seção \"Número: os que faltam e os que sobram\".blocos[0].texto",
-   "trecho": "res superiores e incisivos inferiores; a ordem varia entre populações [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/etiologia/anomalias-dentarias",
-   "onde": "Seção \"O canino superior que não vem\".blocos[0].texto",
-   "trecho": "nte genético; as vestibulares costumam vir de falta de espaço no arco [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/etiologia/anomalias-dentarias",
-   "onde": "Seção \"O canino superior que não vem\".blocos[2].svg[9]",
-   "trecho": "ecíduo, no momento certo, redireciona boa parte dos caninos palatinos [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/etiologia/anomalias-dentarias",
-   "onde": "Seção \"Molar ectópico, dente anquilosado e o que não sobe\".blocos[0].texto",
-   "trecho": "ico separador ou aparelho, antes que destrua o decíduo e perca espaço [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/etiologia/anomalias-dentarias",
-   "onde": "Seção \"Molar ectópico, dente anquilosado e o que não sobe\".blocos[1].texto",
-   "trecho": "iva, e não respondem à força ortodôntica; tem base genética conhecida [VERIFICAR]"
-  },
-  {
    "pagina": "ortodontia/mas-oclusoes/etiologia/teoria-da-equivalencia-de-moyers",
    "onde": "autoria",
    "trecho": "ursos brasileiros; o validador deve confirmar a denominação e a fonte [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/etiologia/teoria-da-equivalencia-de-moyers",
-   "onde": "Seção \"Equifinalidade: muitos caminhos, um resultado; um caminho, muitos resultados\".blocos[0].texto",
-   "trecho": ". Na teoria dos sistemas, o primeiro fenômeno se chama equifinalidade [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/etiologia/teoria-da-equivalencia-de-moyers",
-   "onde": "Seção \"Moyers aplicou a ideia à Classe II\".blocos[0].texto",
-   "trecho": "la pequena e face longa recebem o mesmo nome e são doenças diferentes [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/classe-i-com-apinhamento",
-   "onde": "Seção \"A má oclusão de todo dia\".blocos[2].svg[9]",
-   "trecho": "12' fill='var(--muted,#8A8478)'>faixas de referência usuais, por arco [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/classe-i-com-apinhamento",
-   "onde": "Seção \"Medir na dentição mista: prever o que ainda não nasceu\".blocos[1].texto",
-   "trecho": "olares de um quadrante inferior; mais 11 mm, de um quadrante superior [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/classe-i-com-apinhamento",
-   "onde": "Seção \"Medir na dentição mista: prever o que ainda não nasceu\".blocos[2].svg[2]",
-   "trecho": "anaka e Johnston: metade da soma + 10,5 (inferior) ou + 11 (superior) [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/classe-i-com-apinhamento",
-   "onde": "Seção \"Medir na dentição mista: prever o que ainda não nasceu\".blocos[3].texto",
-   "trecho": "ram construídas em populações específicas e erram um pouco fora delas [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/classe-i-com-apinhamento",
-   "onde": "Seção \"As cinco fontes de espaço\".blocos[1].texto",
-   "trecho": "a de dois milímetros de perímetro, mas muda o perfil e a estabilidade [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/classe-i-com-apinhamento",
-   "onde": "Seção \"As cinco fontes de espaço\".blocos[2].svg[3]",
-   "trecho": "='300' y='118'>perímetro por mm de</text><text x='300' y='132'>avanço [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/classe-i-com-apinhamento",
-   "onde": "Seção \"Extração seriada: administrar a falta desde a dentição mista\".blocos[1].texto",
-   "trecho": "fim os primeiros pré-molares para dar espaço aos caninos permanentes [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/classe-i-com-apinhamento",
-   "onde": "Seção \"Extração seriada: administrar a falta desde a dentição mista\".blocos[3].svg[8]",
-   "trecho": "imadas; o que manda é o estágio de erupção, confirmado na radiografia [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/classe-i-com-apinhamento",
-   "onde": "Seção \"Estabilidade: o inferior anterior quer voltar\".blocos[0].texto",
-   "trecho": "sem que se consiga prever pelo diagnóstico inicial quem vai recidivar [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/classe-ii-divisao-1-e-2",
-   "onde": "Seção \"O que as duas divisões têm em comum\".blocos[1].texto",
-   "trecho": "ente que a divisão 2, que representa uma parcela menor das Classes II [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/classe-ii-divisao-1-e-2",
-   "onde": "Seção \"Divisão 1: o quadro por dentro e por fora\".blocos[3].texto",
-   "trecho": "com maxila normal ou até retruída, segundo os estudos de componentes [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/classe-ii-divisao-1-e-2",
-   "onde": "Seção \"Trauma, autoimagem e a hora de olhar\".blocos[0].texto",
-   "trecho": "do é fator de risco reconhecido para fratura de incisivos em crianças [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/classe-iii",
-   "onde": "umMinuto.frases[1]",
-   "trecho": "prognatismo mandibular puro é minoria, embora seja a imagem clássica [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/classe-iii",
-   "onde": "Seção \"O quadro: dentes, esqueleto e face\".blocos[1].texto",
-   "trecho": "frequente quanto a mandíbula grande, e a combinação das duas é comum [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/classe-iii",
-   "onde": "Seção \"Os componentes: maxila, mandíbula ou os dois\".blocos[1].texto",
-   "trecho": "quinto cada, e as combinações respondem pela maior parte do restante [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/classe-iii",
-   "onde": "Seção \"Os componentes: maxila, mandíbula ou os dois\".blocos[2].svg[6]",
-   "trecho": ")'>a proporção entre os componentes varia conforme a amostra estudada [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/classe-iii",
-   "onde": "Seção \"Os componentes: maxila, mandíbula ou os dois\".blocos[3].texto",
-   "trecho": "ncia maxilar, isolada ou combinada, segundo os estudos de componentes [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/classe-iii",
-   "onde": "Seção \"Por que esperar não é neutro\".blocos[1].texto",
-   "trecho": "fechem, em geral na dentição mista precoce, por volta dos 7 a 9 anos [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/classe-iii",
-   "onde": "Seção \"Por que esperar não é neutro\".blocos[2].svg[7]",
-   "trecho": "middle' font-size='12' fill='var(--muted,#8A8478)'>idades aproximadas [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/classe-iii",
-   "onde": "Seção \"As ferramentas por componente e idade\".blocos[0].texto",
-   "trecho": "de efeito esquelético, maior quando começa na dentição mista precoce [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/mordida-aberta",
-   "onde": "Seção \"O que é, onde aparece e quanto se vê\".blocos[1].texto",
-   "trecho": "anente, quando os hábitos param e os incisivos terminam de erupcionar [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/mordida-aberta",
-   "onde": "Seção \"Estabilidade: a correção que mais volta\".blocos[0].texto",
-   "trecho": "tratados reabre em algum grau nos anos seguintes, com ou sem cirurgia [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/mordida-profunda",
-   "onde": "Seção \"O que é e como medir\".blocos[0].texto",
-   "trecho": "ros, ou algo em torno de um quarto a um terço da coroa dos inferiores [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/mordida-profunda",
-   "onde": "Seção \"O que é e como medir\".blocos[2].svg[11]",
-   "trecho": "t-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>limiares [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/mordida-profunda",
-   "onde": "Seção \"A curva de Spee profunda: a marca no arco inferior\".blocos[1].texto",
-   "trecho": "consome perímetro do arco, em quantidade proporcional à profundidade [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/mordida-profunda",
-   "onde": "Seção \"O que a mordida profunda faz de mal\".blocos[1].texto",
-   "trecho": "e hoje é considerada fraca ou inconsistente pela evidência disponível [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/mordida-cruzada",
-   "onde": "Seção \"Por que não esperar\".blocos[0].texto",
-   "trecho": "ente se corrige sozinha, menos de um caso em dez nas séries clássicas [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/mordida-cruzada",
-   "onde": "Seção \"A ferramenta certa em cada idade\".blocos[0].texto",
-   "trecho": "nto a sutura permite, com resposta que cai à medida que ela amadurece [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/mordida-cruzada",
-   "onde": "Seção \"A ferramenta certa em cada idade\".blocos[1].texto",
-   "trecho": ", e a expansão cirurgicamente assistida, que a abre em qualquer idade [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/mordida-cruzada",
-   "onde": "Seção \"A ferramenta certa em cada idade\".blocos[2].svg[7]",
-   "trecho": "middle' font-size='12' fill='var(--muted,#8A8478)'>idades aproximadas [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/assimetrias",
-   "onde": "Seção \"Mandíbula que cresce a mais de um lado\".blocos[0].texto",
-   "trecho": "a cabeça do côndilo pode parecer normal, sem aumento vertical do ramo [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/assimetrias",
-   "onde": "Seção \"Mandíbula que cresce a mais de um lado\".blocos[2].svg[6]",
-   "trecho": "são comuns; nas duas, a pergunta decisiva é se o côndilo ainda cresce [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/assimetrias",
-   "onde": "Seção \"Mandíbula que cresce a menos de um lado\".blocos[0].texto",
-   "trecho": "imento e piora com o crescimento, porque o lado afetado não acompanha [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/assimetrias",
-   "onde": "Seção \"O exame que fecha o diagnóstico\".blocos[1].texto",
-   "trecho": "levante entre os lados indica atividade, e a decisão terapêutica muda [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/assimetrias",
-   "onde": "Seção \"Tratar conforme a origem e a atividade\".blocos[2].texto",
-   "trecho": "onstrução do ramo, por distração ou enxerto, pode começar na infância [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/reacoes-teciduais/ligamento-e-osso-sob-forca",
-   "onde": "Seção \"O dente está suspenso, não fixado\".blocos[0].texto",
-   "trecho": "oem esse tecido, vasos que o nutrem e nervos que sentem pressão e dor [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/reacoes-teciduais/ligamento-e-osso-sob-forca",
-   "onde": "Seção \"O dente está suspenso, não fixado\".blocos[2].svg[9]",
-   "trecho": "' font-size='10' font-weight='700' fill='var(--red,#B4533B)'>~0,25 mm [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/reacoes-teciduais/ligamento-e-osso-sob-forca",
-   "onde": "Seção \"Segundos, minutos, horas, dias: a sequência da resposta\".blocos[2].svg[8]",
-   "trecho": "muted,#8A8478)'>escala de tempo aproximada para força leve e contínua [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/reacoes-teciduais/ligamento-e-osso-sob-forca",
-   "onde": "Seção \"Força leve move; força pesada atrasa\".blocos[2].texto",
-   "trecho": "ado de superfície radicular comprimida; acima dela, a circulação para [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/reacoes-teciduais/pressao-e-tensao",
-   "onde": "Seção \"Força ótima: a pressão que não estrangula\".blocos[0].texto",
-   "trecho": "uas dezenas de gramas por centímetro quadrado de superfície radicular [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/reacoes-teciduais/hialinizacao",
-   "onde": "umMinuto.frases[4]",
-   "trecho": "o cemento também é atacado, e é aí que começa a reabsorção radicular [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/reacoes-teciduais/hialinizacao",
-   "onde": "Seção \"Como a zona é removida, e o que sobra na raiz\".blocos[0].texto",
-   "trecho": "m torno de duas a quatro semanas para a inclinação com força contínua [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/reacoes-teciduais/hialinizacao",
-   "onde": "Seção \"Como a zona é removida, e o que sobra na raiz\".blocos[2].svg[7]",
-   "trecho": "lo: dias com áreas pequenas; duas a quatro semanas com áreas extensas [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/reacoes-teciduais/remodelacao",
-   "onde": "Seção \"O alvéolo renova rápido, e paga por isso\".blocos[0].texto",
-   "trecho": "ais altas do esqueleto, muito acima da das corticais dos ossos longos [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/reacoes-teciduais/remodelacao",
-   "onde": "Seção \"Depois que o dente chega: o que ainda falta remodelar\".blocos[1].texto",
-   "trecho": "u nunca se reorganizar por completo em dentes que foram muito girados [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/reacoes-teciduais/remodelacao",
-   "onde": "Seção \"Depois que o dente chega: o que ainda falta remodelar\".blocos[3].svg[8]",
-   "trecho": "12' fill='var(--muted,#8A8478)'>prazos aproximados a partir de Reitan [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/reacoes-teciduais/remodelacao",
-   "onde": "Seção \"Remédios que mexem no ciclo\".blocos[0].texto",
-   "trecho": "s que expõem osso, e menor, mas presente, com a forma oral prolongada [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/reacoes-teciduais/remodelacao",
-   "onde": "Seção \"Remédios que mexem no ciclo\".blocos[2].svg[5]",
-   "trecho": "l='var(--muted,#8A8478)'>efeitos dependem de dose, via e tempo de uso [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/magnitude-duracao-e-direcao",
-   "onde": "Seção \"Magnitude: a janela entre nada acontecer e tudo dar errado\".blocos[0].texto",
-   "trecho": "a vinte e seis gramas por centímetro quadrado de superfície radicular [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/magnitude-duracao-e-direcao",
-   "onde": "Seção \"Magnitude: a janela entre nada acontecer e tudo dar errado\".blocos[1].texto",
-   "trecho": "faziam os dentes de ancoragem, de maior área radicular, se deslocarem [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/magnitude-duracao-e-direcao",
-   "onde": "Seção \"Magnitude: a janela entre nada acontecer e tudo dar errado\".blocos[3].verdade",
-   "trecho": "modelo em que a velocidade cresce até certo ponto e depois estabiliza [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/magnitude-duracao-e-direcao",
-   "onde": "Seção \"Magnitude: a janela entre nada acontecer e tudo dar errado\".blocos[3].verdade",
-   "trecho": "2003 não encontrou evidência suficiente para definir uma força ótima [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/magnitude-duracao-e-direcao",
-   "onde": "Seção \"Duração: contínua, interrompida e intermitente\".blocos[0].texto",
-   "trecho": "por dia para produzir movimento, e quanto mais horas, mais eficiente [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/magnitude-duracao-e-direcao",
-   "onde": "Seção \"Duração: contínua, interrompida e intermitente\".blocos[4].texto",
-   "trecho": "caimento relatado em torno da metade da força inicial no primeiro dia [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/magnitude-duracao-e-direcao",
-   "onde": "Seção \"Direção: por onde a força passa decide o movimento\".blocos[0].texto",
-   "trecho": "ia da crista alveolar ao ápice; em multirradiculares, próximo à furca [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/magnitude-duracao-e-direcao",
-   "onde": "Seção \"Direção: por onde a força passa decide o movimento\".blocos[3].texto",
-   "trecho": "róxima de 10:1 para translação e acima de 12:1 para movimento de raiz [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/magnitude-duracao-e-direcao",
-   "onde": "Seção \"Direção: por onde a força passa decide o movimento\".checagem.resposta",
-   "trecho": "aiz, entre um terço e metade da distância da crista alveolar ao ápice [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/magnitude-duracao-e-direcao",
-   "onde": "Seção \"As três juntas: o que cada variável decide\".blocos[2].texto",
-   "trecho": "animais mostraram hialinização tanto com forças leves quanto pesadas [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/magnitude-duracao-e-direcao",
-   "onde": "Seção \"De volta ao canino\".blocos[0].texto",
-   "trecho": "entro da faixa que a literatura clássica considera eficiente e segura [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/magnitude-duracao-e-direcao",
-   "onde": "infografico.itens[1].texto",
-   "trecho": "o. Raiz pequena, pressão alta. Schwarz: não exceder a pressão capilar [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/magnitude-duracao-e-direcao",
-   "onde": "infografico.itens[3].texto",
-   "trecho": "rompida, intermitente. Limiar em torno de quatro a oito horas por dia [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/forcas-ideais-por-tipo-de-movimento",
-   "onde": "umMinuto.frases[3]",
-   "trecho": "de raiz 50 a 100; rotação 35 a 60; extrusão 35 a 60; intrusão 10 a 20 [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/forcas-ideais-por-tipo-de-movimento",
-   "onde": "Seção \"Por que a força ideal muda com o movimento\".blocos[2].svg[9]",
-   "trecho": "var(--muted,#8A8478)'>faixas didáticas para dente unirradicular médio [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/forcas-ideais-por-tipo-de-movimento",
-   "onde": "Seção \"A tabela e como lê-la\".blocos[0].texto",
-   "trecho": "de raiz 50 a 100; rotação 35 a 60; extrusão 35 a 60; intrusão 10 a 20 [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/forcas-ideais-por-tipo-de-movimento",
-   "onde": "Seção \"A tabela e como lê-la\".blocos[1].svg[10]",
-   "trecho": "8)'>faixas didáticas para dente unirradicular médio, conforme Proffit [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/forcas-ideais-por-tipo-de-movimento",
-   "onde": "Seção \"A tabela e como lê-la\".blocos[3].texto",
-   "trecho": "ô, e revisões sistemáticas não conseguiram fixar um valor ótimo único [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/forcas-ideais-por-tipo-de-movimento",
-   "onde": "Seção \"A tabela e como lê-la\".checagem.resposta",
-   "trecho": "Intrusão 10 a 20 g, inclinação 35 a 60 g, translação 70 a 120 g [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/forcas-ideais-por-tipo-de-movimento",
-   "onde": "Seção \"Intrusão: o movimento que mais pede leveza\".blocos[1].texto",
-   "trecho": "isivos, uma força total de 40 a 80 gramas distribui 10 a 20 por dente [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/forcas-ideais-por-tipo-de-movimento",
-   "onde": "Seção \"Intrusão: o movimento que mais pede leveza\".blocos[1].texto",
-   "trecho": "linizada fica justamente no ápice, o ponto da raiz que mais reabsorve [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/forcas-ideais-por-tipo-de-movimento",
-   "onde": "Seção \"Intrusão: o movimento que mais pede leveza\".blocos[4].resposta",
-   "trecho": "Cerca de 37 g por dente, o dobro do limite superior da faixa didática [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/forcas-ideais-por-tipo-de-movimento",
-   "onde": "Seção \"Extrusão, rotação e movimento de raiz\".blocos[0].texto",
-   "trecho": "vo é só nivelar. As faixas didáticas ficam em torno de 35 a 60 gramas [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/forcas-ideais-por-tipo-de-movimento",
-   "onde": "Seção \"Extrusão, rotação e movimento de raiz\".blocos[1].texto",
-   "trecho": "concentrada. A faixa didática também fica em torno de 35 a 60 gramas [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/forcas-ideais-por-tipo-de-movimento",
-   "onde": "Seção \"Extrusão, rotação e movimento de raiz\".blocos[2].svg[7]",
-   "trecho": "='middle' font-size='11' fill='var(--muted,#8A8478)'>faixas didáticas [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/forcas-ideais-por-tipo-de-movimento",
-   "onde": "Seção \"Extrusão, rotação e movimento de raiz\".blocos[3].texto",
-   "trecho": "ue na inclinação simples. A faixa didática fica entre 50 e 100 gramas [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/forcas-ideais-por-tipo-de-movimento",
-   "onde": "Seção \"Ajustar pelo dente: área radicular e periodonto\".blocos[2].svg[1]",
-   "trecho": "r(--gold,#B08968)'>150 a 200 g moveram bem o canino em Storey e Smith [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/forcas-ideais-por-tipo-de-movimento",
-   "onde": "Seção \"De volta ao arco de intrusão\".blocos[0].texto",
-   "trecho": "por translação ou inclinação controlada, aceitou algo como 150 gramas [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/forcas-ideais-por-tipo-de-movimento",
-   "onde": "Seção \"De volta ao arco de intrusão\".blocos[0].texto",
-   "trecho": "sivos em intrusão precisavam de 10 a 20 gramas cada, 40 a 80 no total [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/forcas-ideais-por-tipo-de-movimento",
-   "onde": "fechamento.flashcards[0].verso",
-   "trecho": "(35 a 60 g), movimento de raiz (50 a 100 g), translação (70 a 120 g) [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/forcas-ideais-por-tipo-de-movimento",
-   "onde": "infografico.itens[2].texto",
-   "trecho": "ação, rotação, extrusão 35 a 60; raiz 50 a 100; translação 70 a 120 g [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/forcas-ideais-por-tipo-de-movimento",
-   "onde": "macetes[1].texto",
-   "trecho": "são 10, inclinação/rotação/extrusão 35, raiz 50, translação 70 gramas [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/forcas-ideais-por-tipo-de-movimento",
-   "onde": "autoteste[2].explicacoes[2]",
-   "trecho": "Correta: intrusão 10 a 20 g; translação 70 a 120 g [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/efeitos-de-forcas-excessivas",
-   "onde": "umMinuto.frases[5]",
-   "trecho": "e é rara e associada a dentes com trauma prévio ou ápice comprometido [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/efeitos-de-forcas-excessivas",
-   "onde": "Seção \"Dor e mobilidade: os primeiros sinais\".blocos[0].texto",
-   "trecho": "no de um a dois dias e cede em quase todos os pacientes em uma semana [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/efeitos-de-forcas-excessivas",
-   "onde": "Seção \"Dor e mobilidade: os primeiros sinais\".blocos[2].svg[4]",
-   "trecho": "em 1 a 2 dias,</text><text x='285' y='96'>cede em cerca de uma semana [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/efeitos-de-forcas-excessivas",
-   "onde": "Seção \"Ancoragem que cede e dente que não anda\".blocos[1].texto",
-   "trecho": "de 400 a 600 gramas moveram pouco os caninos e deslocaram a ancoragem [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/efeitos-de-forcas-excessivas",
-   "onde": "Seção \"Raiz, osso e gengiva: os efeitos que ficam\".blocos[3].texto",
-   "trecho": "s com trauma prévio, ápice fechado e forças de intrusão fora da faixa [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/efeitos-de-forcas-excessivas",
-   "onde": "Seção \"Por que a força pesada não compensa: a curva de novo\".blocos[0].texto",
-   "trecho": "de e velocidade, e observaram hialinização com forças leves e pesadas [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/efeitos-de-forcas-excessivas",
-   "onde": "fechamento.flashcards[1].verso",
-   "trecho": "leve a moderada, pico em um a dois dias, cede em cerca de uma semana [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/reabsorcao-radicular",
-   "onde": "umMinuto.frases[2]",
-   "trecho": "quatro milímetros, é raro, na ordem de poucos por cento dos pacientes [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/reabsorcao-radicular",
-   "onde": "Seção \"O que é, e por que quase todo dente movido tem um pouco\".blocos[0].texto",
-   "trecho": "icos mostram lacunas desse tipo em quase todos os dentes movimentados [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/reabsorcao-radicular",
-   "onde": "Seção \"O que é, e por que quase todo dente movido tem um pouco\".blocos[2].texto",
-   "trecho": "m reparo e reabsorção circunferencial apical com perda de comprimento [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/reabsorcao-radicular",
-   "onde": "Seção \"O que é, e por que quase todo dente movido tem um pouco\".blocos[3].svg[7]",
-   "trecho": "y='398'>etapa 4: encurtamento moderado a grave, minoria dos pacientes [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/reabsorcao-radicular",
-   "onde": "Seção \"Quanto acontece e em quem\".blocos[0].texto",
-   "trecho": "cima de quatro milímetros ou de um terço da raiz, em poucos por cento [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/reabsorcao-radicular",
-   "onde": "Seção \"Fatores de risco: o que é do paciente, o que é seu\".blocos[1].texto",
-   "trecho": "ia, como o da interleucina-1 beta, foram associados em alguns estudos [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/reabsorcao-radicular",
-   "onde": "Seção \"Fatores de risco: o que é do paciente, o que é seu\".blocos[2].texto",
-   "trecho": "s alinhadores, as diferenças relatadas são pequenas ou inconsistentes [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/reabsorcao-radicular",
-   "onde": "Seção \"Fatores de risco: o que é do paciente, o que é seu\".blocos[3].svg[2]",
-   "trecho": "amento</text><text x='60' y='152'>predisposição individual e familiar [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/reabsorcao-radicular",
-   "onde": "Seção \"Fatores de risco: o que é do paciente, o que é seu\".blocos[4].texto",
-   "trecho": "e os vitais durante o movimento; alguns estudos encontraram até menos [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/reabsorcao-radicular",
-   "onde": "Seção \"Diagnóstico: quando olhar e como medir\".blocos[1].texto",
-   "trecho": "orque a reabsorção que aparece nesse período prediz a que virá depois [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/reabsorcao-radicular",
-   "onde": "Seção \"Diagnóstico: quando olhar e como medir\".blocos[1].texto",
-   "trecho": "metros a um terço da raiz; 4, encurtamento maior que um terço da raiz [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/reabsorcao-radicular",
-   "onde": "Seção \"Diagnóstico: quando olhar e como medir\".blocos[2].svg[5]",
-   "trecho": "t-size='11' fill='var(--muted,#8A8478)'>índice de Levander e Malmgren [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/reabsorcao-radicular",
-   "onde": "Seção \"Diagnóstico: quando olhar e como medir\".blocos[4].resposta",
-   "trecho": "o prediz reabsorção maior ao final e permite pausar e ajustar a tempo [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/reabsorcao-radicular",
-   "onde": "Seção \"Diagnóstico: quando olhar e como medir\".checagem.resposta",
-   "trecho": "Grau 4: mais de um terço da raiz, replanejar objetivos ou interromper [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/reabsorcao-radicular",
-   "onde": "Seção \"Conduta: prevenir, pausar, replanejar, prognosticar\".blocos[1].texto",
-   "trecho": "nal em pacientes que pausaram do que nos que seguiram sem interrupção [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/reabsorcao-radicular",
-   "onde": "Seção \"Conduta: prevenir, pausar, replanejar, prognosticar\".blocos[2].svg[8]",
-   "trecho": "ed,#8A8478)'>prazos de referência do protocolo de Levander e Malmgren [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/reabsorcao-radicular",
-   "onde": "Seção \"Conduta: prevenir, pausar, replanejar, prognosticar\".checagem.resposta",
-   "trecho": "ssivo, redução de força e deslocamento apical e revisão dos objetivos [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/reabsorcao-radicular",
-   "onde": "fechamento.flashcards[2].verso",
-   "trecho": "deslocamento apical, revisão dos objetivos; repetir a cada seis meses [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/reabsorcao-radicular",
-   "onde": "infografico.itens[1].texto",
-   "trecho": "leve na maioria; grave (mais de um terço ou 4 mm) em poucos por cento [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/reabsorcao-radicular",
-   "onde": "infografico.itens[5].texto",
-   "trecho": "le aos 6 a 9 meses; grau 2 ou mais: pausa de 2 a 3 meses e replanejar [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/reabsorcao-radicular",
-   "onde": "macetes[2].texto",
-   "trecho": "a radiografia de controle. O que aparece cedo prediz o que vem depois [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/reabsorcao-radicular",
-   "onde": "ondeErra[1].porque",
-   "trecho": "bem feita não aumenta o risco; o que aumenta é o trauma que a motivou [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/reabsorcao-radicular",
-   "onde": "autoteste[3].explicacoes[2]",
-   "trecho": "eta: permite reparo pelo cemento e reduz o deslocamento apical futuro [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/reabsorcao-radicular",
-   "onde": "autoteste[4].explicacoes[0]",
-   "trecho": "A endodontia em si não aumenta o risco; o trauma que a motivou, sim [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/forcas/reabsorcao-radicular",
-   "onde": "autoteste[4].explicacoes[3]",
-   "trecho": "Pausas permitem reparo e reduzem a reabsorção final [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
-   "onde": "umMinuto.frases[2]",
-   "trecho": "a face vestibular gengival de incisivos laterais superiores e caninos [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
-   "onde": "umMinuto.frases[4]",
-   "trecho": "aplicação intensa de flúor pode fixar a opacidade em vez de apagá-la [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
-   "onde": "Seção \"Por que o aparelho fixo é um fabricante de lesões\".blocos[1].texto",
-   "trecho": "nicas e acidúricas, como estreptococos do grupo mutans e lactobacilos [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
-   "onde": "Seção \"Por que o aparelho fixo é um fabricante de lesões\".blocos[4].itens[2]",
-   "trecho": "têm mais biofilme do que ligaduras metálicas ou braquetes autoligados [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
-   "onde": "Seção \"Quanto acontece e em quanto tempo\".blocos[1].texto",
-   "trecho": "s em torno de metade dos pacientes, com variação ampla entre serviços [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
-   "onde": "Seção \"Quanto acontece e em quanto tempo\".blocos[1].texto",
-   "trecho": "va das glândulas sublinguais e submandibulares, são os menos afetados [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
-   "onde": "Seção \"Quanto acontece e em quanto tempo\".blocos[2].texto",
-   "trecho": "o, lesões brancas visíveis podem se formar em cerca de quatro semanas [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
-   "onde": "Seção \"Quanto acontece e em quanto tempo\".blocos[3].svg[7]",
-   "trecho": "='var(--muted,#8A8478)'>suscetibilidade relativa, sem escala numérica [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
-   "onde": "Seção \"Quanto acontece e em quanto tempo\".blocos[4].verdade",
-   "trecho": "a de um braquete, uma lesão visível pode se formar em cerca de um mês [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
-   "onde": "Seção \"Quanto acontece e em quanto tempo\".checagem.resposta",
-   "trecho": "Em cerca de quatro semanas de biofilme não removido [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
-   "onde": "Seção \"Prevenção: o único tratamento que funciona de verdade\".blocos[1].texto",
-   "trecho": "ração, gel ou verniz aplicados no consultório em intervalos regulares [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
-   "onde": "Seção \"Prevenção: o único tratamento que funciona de verdade\".blocos[3].svg[1]",
-   "trecho": "--blue,#4A6B8A)'>gel ou verniz no consultório em intervalos regulares [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
-   "onde": "Seção \"Depois da remoção: o que fazer e o que não fazer\".blocos[0].texto",
-   "trecho": "primeiros seis meses e continua de forma mais lenta por até dois anos [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
-   "onde": "Seção \"Depois da remoção: o que fazer e o que não fazer\".blocos[1].texto",
-   "trecho": "ue o interior se remineralize, fixando a opacidade em vez de apagá-la [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
-   "onde": "Seção \"Depois da remoção: o que fazer e o que não fazer\".blocos[1].texto",
-   "trecho": "e cálcio são usados por alguns serviços, com evidência ainda limitada [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
-   "onde": "Seção \"Depois da remoção: o que fazer e o que não fazer\".blocos[2].svg[6]",
-   "trecho": "' y='206' text-anchor='middle' font-size='11'>reavaliar em seis meses [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
-   "onde": "Seção \"Depois da remoção: o que fazer e o que não fazer\".blocos[5].texto",
-   "trecho": "es ainda é limitada e as revisões pedem cautela ao prometer resultado [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
-   "onde": "Seção \"Depois da remoção: o que fazer e o que não fazer\".checagem.resposta",
-   "trecho": "o a opacidade; o indicado é dentifrício convencional, higiene e tempo [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
-   "onde": "fechamento.flashcards[2].verso",
-   "trecho": "amento, microabrasão ou infiltração resinosa; restaurar só cavitações [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
-   "onde": "infografico.itens[2].texto",
-   "trecho": "Visível em cerca de quatro semanas de biofilme parado [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
-   "onde": "infografico.itens[4].texto",
-   "trecho": "ício convencional; sem flúor concentrado; não restaurar sem cavitação [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
-   "onde": "macetes[2].texto",
-   "trecho": "Tempo em que uma lesão pode ficar visível sob biofilme parado [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
-   "onde": "macetes[3].texto",
-   "trecho": "superfície e fixar a mancha. Espere seis meses com dentifrício comum [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
-   "onde": "ondeErra[2].certo",
-   "trecho": "é para prevenir durante o tratamento, não para apagar a mancha depois [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
-   "onde": "autoteste[2].explicacoes[2]",
-   "trecho": "Correta: cerca de um mês de biofilme parado [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
-   "onde": "autoteste[3].explicacoes[1]",
-   "trecho": "Pode selar a superfície e fixar a opacidade [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
-   "onde": "autoteste[3].explicacoes[2]",
-   "trecho": "Correta: a remineralização natural é maior nos primeiros meses [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/recessao-e-deiscencias",
-   "onde": "Seção \"O envelope de osso: onde o dente pode e onde não pode ir\".blocos[0].texto",
-   "trecho": "cal vestibular costuma ter menos de um milímetro em boa parte da raiz [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/recessao-e-deiscencias",
-   "onde": "Seção \"Da deiscência à recessão: por que uma leva à outra\".blocos[1].texto",
-   "trecho": "s tratados do que em não tratados, sobretudo nos incisivos inferiores [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/recessao-e-deiscencias",
-   "onde": "Seção \"Da deiscência à recessão: por que uma leva à outra\".blocos[3].verdade",
-   "trecho": "o tardia após vestibularização de incisivos inferiores é bem descrita [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/recessao-e-deiscencias",
-   "onde": "Seção \"Prevenir: ver o limite, respeitar ou ampliar\".blocos[0].texto",
-   "trecho": "alva de que osso muito fino pode não aparecer e ser lido como ausente [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/recessao-e-deiscencias",
-   "onde": "Seção \"Prevenir: ver o limite, respeitar ou ampliar\".blocos[4].texto",
-   "trecho": "solvido assim é quase um milímetro de raiz que avança para a cortical [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/recessao-e-deiscencias",
-   "onde": "Seção \"Recessão instalada: o que fazer durante e depois\".blocos[0].texto",
-   "trecho": "ido sobre ela e melhorar o prognóstico de qualquer cirurgia posterior [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/recessao-e-deiscencias",
-   "onde": "Seção \"Recessão instalada: o que fazer durante e depois\".blocos[1].texto",
-   "trecho": "entes estão preservadas, e piores quando a raiz permanece proeminente [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/recessao-e-deiscencias",
-   "onde": "Seção \"Recessão instalada: o que fazer durante e depois\".checagem.resposta",
-   "trecho": "ostuma ser feito após o término, com a posição final da raiz definida [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/recessao-e-deiscencias",
-   "onde": "fechamento.flashcards[2].verso",
-   "trecho": "tecido sobre ela e melhorando o prognóstico do recobrimento radicular [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/recessao-e-deiscencias",
-   "onde": "ondeErra[3].certo",
-   "trecho": "raiz para dentro do osso e, salvo progressão, recobrir após o término [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/recessao-e-deiscencias",
-   "onde": "autoteste[3].explicacoes[2]",
-   "trecho": "A recessão tardia após vestibularização é bem descrita [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
-   "onde": "umMinuto.frases[0]",
-   "trecho": "co em torno de 24 horas e diminui até quase desaparecer em uma semana [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
-   "onde": "umMinuto.frases[5]",
-   "trecho": "o prolongado podem interferir no movimento e são evitados como rotina [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
-   "onde": "umMinuto.caiNaProva[0]",
-   "trecho": "em horas, pico em cerca de 24 horas, resolução em torno de sete dias [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
-   "onde": "umMinuto.caiNaProva[3]",
-   "trecho": "xperimentais; paracetamol é a primeira escolha para a dor ortodôntica [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
-   "onde": "Seção \"A dor esperada: por que dói e por quanto tempo\".blocos[1].texto",
-   "trecho": "diminui progressivamente até quase desaparecer em torno do sétimo dia [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
-   "onde": "Seção \"A dor esperada: por que dói e por quanto tempo\".blocos[3].svg[10]",
-   "trecho": "8)'>curva conceitual, sem escala de intensidade; prazos de referência [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
-   "onde": "Seção \"A dor esperada: por que dói e por quanto tempo\".blocos[4].texto",
-   "trecho": "em horas, pico em cerca de 24 horas, resolução em torno de sete dias [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
-   "onde": "Seção \"A dor esperada: por que dói e por quanto tempo\".checagem.resposta",
-   "trecho": "oras, redução progressiva até quase desaparecer em cerca de sete dias [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
-   "onde": "Seção \"O que muda a dor: força, pessoa e expectativa\".blocos[0].texto",
-   "trecho": "alinhamento inicial, nem entre braquetes convencionais e autoligados [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
-   "onde": "Seção \"O que muda a dor: força, pessoa e expectativa\".blocos[1].texto",
-   "trecho": "a relatar mais dor em muitos estudos, com variação grande entre eles [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
-   "onde": "Seção \"O que muda a dor: força, pessoa e expectativa\".blocos[2].svg[6]",
-   "trecho": "8A8478)'>diferenças entre fios e braquetes na faixa leve são pequenas [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
-   "onde": "Seção \"O que muda a dor: força, pessoa e expectativa\".blocos[3].verdade",
-   "trecho": "diferença consistente de dor entre ligas nem entre tipos de braquete [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
-   "onde": "Seção \"Manejo: informar, aliviar, não atrapalhar o movimento\".blocos[0].texto",
-   "trecho": "ns estudos, talvez por restaurar a circulação do ligamento comprimido [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
-   "onde": "Seção \"Manejo: informar, aliviar, não atrapalhar o movimento\".blocos[2].texto",
-   "trecho": "doses no pico da dor tenham efeito clínico pequeno sobre o movimento [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
-   "onde": "Seção \"Manejo: informar, aliviar, não atrapalhar o movimento\".blocos[2].texto",
-   "trecho": "se preventiva antes da ativação reduz a dor do pico em alguns estudos [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
-   "onde": "Seção \"Manejo: informar, aliviar, não atrapalhar o movimento\".blocos[3].svg[4]",
-   "trecho": "var(--muted,#8A8478)'>anti-inflamatório: só uma ou duas doses no pico [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
-   "onde": "Seção \"Manejo: informar, aliviar, não atrapalhar o movimento\".blocos[4].texto",
-   "trecho": "ica para o pico, em uma ou duas doses, quando o paracetamol não basta [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
-   "onde": "Seção \"Manejo: informar, aliviar, não atrapalhar o movimento\".checagem.resposta",
-   "trecho": "ziram a velocidade do movimento; o paracetamol alivia sem esse efeito [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
-   "onde": "Seção \"Quando dor e mobilidade contam outra história\".blocos[3].texto",
-   "trecho": "e é rara e associada a trauma prévio ou forças e intrusões excessivas [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
-   "onde": "fechamento.flashcards[0].verso",
-   "trecho": "as, pico em torno de 24 horas, quase desaparece em cerca de sete dias [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
-   "onde": "fechamento.flashcards[2].verso",
-   "trecho": "medeiam a remodelação, e podem reduzir o movimento em uso prolongado [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
-   "onde": "infografico.itens[1].texto",
-   "trecho": "Horas para começar, um dia para o pico, uma semana para quase sumir [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
-   "onde": "infografico.itens[4].texto",
-   "trecho": "l nas primeiras 48 h; anti-inflamatório só no pico, uma ou duas doses [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
-   "onde": "macetes[0].texto",
-   "trecho": "Começa em horas, pico em 24 h, quase zero em sete dias [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
-   "onde": "macetes[2].texto",
-   "trecho": "o alivia e freia. Paracetamol de rotina; anti-inflamatório só no pico [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
-   "onde": "ondeErra[1].porque",
-   "trecho": "Inibe as prostaglandinas da remodelação e pode reduzir o movimento [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
-   "onde": "autoteste[0].explicacoes[1]",
-   "trecho": ": curva com relógio, pico em um dia e resolução em cerca de sete dias [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
-   "onde": "autoteste[2].explicacoes[0]",
-   "trecho": "glandinas da remodelação e pode reduzir o movimento em uso prolongado [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
-   "onde": "autoteste[4].explicacoes[0]",
-   "trecho": "As diferenças de dor entre ligas na faixa leve são pequenas [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
-   "onde": "autoteste[4].explicacoes[3]",
-   "trecho": "Não há diferença consistente de dor entre tipos de braquete [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
-   "onde": "umMinuto.frases[3]",
-   "trecho": "; a redução do tempo total de tratamento é pequena ou não demonstrada [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
-   "onde": "umMinuto.frases[4]",
-   "trecho": "rolados e das revisões não confirma aceleração clinicamente relevante [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
-   "onde": "umMinuto.caiNaProva[3]",
-   "trecho": "confirmação consistente; farmacológicos sem uso clínico estabelecido [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
-   "onde": "Seção \"Por que existe um limite de velocidade\".blocos[0].texto",
-   "trecho": "ontal avança em torno de um milímetro por mês em condições favoráveis [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
-   "onde": "Seção \"Por que existe um limite de velocidade\".blocos[2].svg[0]",
-   "trecho": "1' fill='var(--red,#B4533B)'>efeito modesto e transitório nos estudos [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
-   "onde": "Seção \"Por que existe um limite de velocidade\".blocos[2].svg[1]",
-   "trecho": "ill='var(--blue,#4A6B8A)'>experimentais; sem uso clínico estabelecido [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
-   "onde": "Seção \"Por que existe um limite de velocidade\".blocos[2].svg[2]",
-   "trecho": ",#B08968)'>evidência inconsistente; maioria das revisões não confirma [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
-   "onde": "Seção \"Por que existe um limite de velocidade\".checagem.resposta",
-   "trecho": "de células, em torno de um milímetro por mês em condições favoráveis [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
-   "onde": "Seção \"O fenômeno regional acelerado: a biologia das corticotomias\".blocos[0].texto",
-   "trecho": "em um a dois meses e regride em alguns meses, conforme o osso repara [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
-   "onde": "Seção \"O fenômeno regional acelerado: a biologia das corticotomias\".blocos[2].texto",
-   "trecho": "da também para permitir movimentos que o osso original não permitiria [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
-   "onde": "Seção \"O fenômeno regional acelerado: a biologia das corticotomias\".blocos[3].svg[11]",
-   "trecho": "razos de referência da literatura sobre o fenômeno regional acelerado [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
-   "onde": "Seção \"O fenômeno regional acelerado: a biologia das corticotomias\".blocos[4].verdade",
-   "trecho": "ente entre ensaios; metade do tempo não é o que a literatura sustenta [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
-   "onde": "Seção \"O fenômeno regional acelerado: a biologia das corticotomias\".checagem.resposta",
-   "trecho": "ssão ao osso, com pico em um a dois meses e regressão em alguns meses [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
-   "onde": "Seção \"Vibração, luz e outros dispositivos: o que os ensaios mostraram\".blocos[1].texto",
-   "trecho": "s sistemáticas concluem por ausência de efeito clinicamente relevante [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
-   "onde": "Seção \"Vibração, luz e outros dispositivos: o que os ensaios mostraram\".blocos[2].texto",
-   "trecho": "ivos e outros neutros, qualidade metodológica variável e sem consenso [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
-   "onde": "Seção \"Vibração, luz e outros dispositivos: o que os ensaios mostraram\".blocos[3].svg[8]",
-   "trecho": "uted,#8A8478)'>síntese de revisões sistemáticas até a data de redação [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
-   "onde": "Seção \"Vibração, luz e outros dispositivos: o que os ensaios mostraram\".blocos[4].texto",
-   "trecho": "lidade responderam não; para a luz, ainda não responderam com clareza [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
-   "onde": "Seção \"Vibração, luz e outros dispositivos: o que os ensaios mostraram\".blocos[5].itens[0]",
-   "trecho": "trolados de qualidade sem aceleração do alinhamento ou do tempo total [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
-   "onde": "Seção \"Vibração, luz e outros dispositivos: o que os ensaios mostraram\".blocos[5].itens[1]",
-   "trecho": "biomodulação: resultados heterogêneos, estudos pequenos, sem consenso [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
-   "onde": "Seção \"Vibração, luz e outros dispositivos: o que os ensaios mostraram\".blocos[5].itens[3]",
-   "trecho": "locais: efeito em animais, sem protocolo clínico seguro estabelecido [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
-   "onde": "Seção \"Vibração, luz e outros dispositivos: o que os ensaios mostraram\".checagem.resposta",
-   "trecho": "e relevante. Fotobiomodulação: resultados heterogêneos e sem consenso [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
-   "onde": "Seção \"Segurança: o que cada método pode custar\".blocos[1].texto",
-   "trecho": "consistente de reabsorção radicular, mas o seguimento longo é escasso [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
-   "onde": "Seção \"Segurança: o que cada método pode custar\".blocos[4].texto",
-   "trecho": "afetam todo o esqueleto; nenhum tem protocolo seguro para uso clínico [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
-   "onde": "Seção \"Segurança: o que cada método pode custar\".blocos[5].svg[7]",
-   "trecho": "8A8478)'>exceção: técnicas com enxerto ósseo podem ampliar o envelope [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
-   "onde": "Seção \"Segurança: o que cada método pode custar\".checagem.resposta",
-   "trecho": "de osso ou papila com retalho mal manejado, seguimento longo escasso [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
-   "onde": "Seção \"O acelerador que funciona: plano, mecânica e cooperação\".blocos[2].svg[11]",
-   "trecho": "0' fill='var(--muted,#8A8478)'>registrar a conversa e o consentimento [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
-   "onde": "Seção \"De volta ao executivo\".blocos[0].texto",
-   "trecho": "vidência de que reduza o tempo, que não faz mal, e que o custo é dele [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
-   "onde": "Seção \"De volta ao executivo\".blocos[1].texto",
-   "trecho": "iz que não pode prometer meses e que não indicaria como base do plano [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
-   "onde": "Seção \"De volta ao executivo\".checagem.resposta",
-   "trecho": "rurgia com riscos; decisão informada, sem promessa de metade do tempo [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
-   "onde": "fechamento.flashcards[0].verso",
-   "trecho": "e mais depressa enquanto a força move o dente; o efeito é transitório [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
-   "onde": "fechamento.flashcards[1].verso",
-   "trecho": "enos, sem consenso. Nenhum dos dois permite prometer redução do tempo [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
-   "onde": "infografico.itens[2].texto",
-   "trecho": "r meses e volta ao normal. Base das corticotomias; efeito transitório [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
-   "onde": "infografico.itens[3].texto",
-   "trecho": "o: sem efeito relevante. Luz: sem consenso. Fármacos: sem uso clínico [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
-   "onde": "ondeErra[0].certo",
-   "trecho": "Ganho modesto e temporário, com riscos cirúrgicos; decisão informada [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
-   "onde": "ondeErra[1].porque",
-   "trecho": "ualidade não mostram efeito relevante para vibração; luz sem consenso [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
-   "onde": "autoteste[1].explicacoes[1]",
-   "trecho": "Correta: por isso acelera uma fase, não o tratamento inteiro [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
-   "onde": "autoteste[2].explicacoes[1]",
-   "trecho": "os ensaios de qualidade e as revisões não encontram efeito relevante [VERIFICAR]"
-  },
-  {
-   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
-   "onde": "autoteste[4].explicacoes[1]",
-   "trecho": "Evidência heterogênea e sem consenso [VERIFICAR]"
   }
  ],
  "modulos": [
@@ -1863,17 +373,17 @@
    "modulo": "Crescimento e desenvolvimento",
    "total": 14,
    "concluidas": 14,
-   "palavras": 39729,
+   "palavras": 39695,
    "visuais": 51,
    "imagensClinicas": 10,
-   "verificar": 42,
+   "verificar": 0,
    "paginas": [
     {
      "id": "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/conceitos-crescimento-e-desenvolvimento",
      "nome": "Conceitos: crescimento e desenvolvimento",
      "tema": "Crescimento craniofacial",
      "status": "rascunho",
-     "palavras": 3013,
+     "palavras": 3012,
      "visuais": 4
     },
     {
@@ -1881,7 +391,7 @@
      "nome": "Teorias do crescimento",
      "tema": "Crescimento craniofacial",
      "status": "rascunho",
-     "palavras": 2896,
+     "palavras": 2895,
      "visuais": 4
     },
     {
@@ -1889,7 +399,7 @@
      "nome": "Mecanismos: sutura, cartilagem e remodelação",
      "tema": "Crescimento craniofacial",
      "status": "rascunho",
-     "palavras": 2899,
+     "palavras": 2898,
      "visuais": 4
     },
     {
@@ -1897,7 +407,7 @@
      "nome": "Crescimento da maxila",
      "tema": "Crescimento craniofacial",
      "status": "rascunho",
-     "palavras": 2657,
+     "palavras": 2652,
      "visuais": 3
     },
     {
@@ -1905,7 +415,7 @@
      "nome": "Crescimento da mandíbula",
      "tema": "Crescimento craniofacial",
      "status": "rascunho",
-     "palavras": 2690,
+     "palavras": 2688,
      "visuais": 3
     },
     {
@@ -1921,7 +431,7 @@
      "nome": "Surto de crescimento puberal",
      "tema": "Maturação",
      "status": "rascunho",
-     "palavras": 2748,
+     "palavras": 2740,
      "visuais": 4
     },
     {
@@ -1937,7 +447,7 @@
      "nome": "Vértebras cervicais",
      "tema": "Maturação",
      "status": "rascunho",
-     "palavras": 2871,
+     "palavras": 2869,
      "visuais": 4
     },
     {
@@ -1945,7 +455,7 @@
      "nome": "Implicações no tempo de tratamento",
      "tema": "Maturação",
      "status": "rascunho",
-     "palavras": 2828,
+     "palavras": 2827,
      "visuais": 3
     },
     {
@@ -1961,7 +471,7 @@
      "nome": "Dentição mista: primeira e segunda fase",
      "tema": "Desenvolvimento da oclusão",
      "status": "rascunho",
-     "palavras": 3299,
+     "palavras": 3291,
      "visuais": 4
     },
     {
@@ -1969,7 +479,7 @@
      "nome": "Dentição permanente",
      "tema": "Desenvolvimento da oclusão",
      "status": "rascunho",
-     "palavras": 2729,
+     "palavras": 2724,
      "visuais": 4
     },
     {
@@ -1989,17 +499,17 @@
    "modulo": "Más oclusões",
    "total": 16,
    "concluidas": 16,
-   "palavras": 59504,
+   "palavras": 59455,
    "visuais": 78,
    "imagensClinicas": 16,
-   "verificar": 73,
+   "verificar": 1,
    "paginas": [
     {
      "id": "ortodontia/mas-oclusoes/classificacao/classificacao-de-angle",
      "nome": "Classificação de Angle",
      "tema": "Classificação",
      "status": "rascunho",
-     "palavras": 3699,
+     "palavras": 3698,
      "visuais": 5
     },
     {
@@ -2007,7 +517,7 @@
      "nome": "Classificação esquelética",
      "tema": "Classificação",
      "status": "rascunho",
-     "palavras": 3760,
+     "palavras": 3753,
      "visuais": 5
     },
     {
@@ -2015,7 +525,7 @@
      "nome": "Classificação de Andrews e outras",
      "tema": "Classificação",
      "status": "rascunho",
-     "palavras": 3545,
+     "palavras": 3544,
      "visuais": 5
     },
     {
@@ -2023,7 +533,7 @@
      "nome": "Índices de necessidade de tratamento",
      "tema": "Classificação",
      "status": "rascunho",
-     "palavras": 3639,
+     "palavras": 3634,
      "visuais": 5
     },
     {
@@ -2031,7 +541,7 @@
      "nome": "Fatores genéticos e ambientais",
      "tema": "Etiologia",
      "status": "rascunho",
-     "palavras": 3380,
+     "palavras": 3378,
      "visuais": 5
     },
     {
@@ -2039,7 +549,7 @@
      "nome": "Hábitos: sucção, deglutição e respiração",
      "tema": "Etiologia",
      "status": "rascunho",
-     "palavras": 3916,
+     "palavras": 3915,
      "visuais": 5
     },
     {
@@ -2055,7 +565,7 @@
      "nome": "Anomalias dentárias",
      "tema": "Etiologia",
      "status": "rascunho",
-     "palavras": 3788,
+     "palavras": 3784,
      "visuais": 5
     },
     {
@@ -2063,7 +573,7 @@
      "nome": "Teoria da equivalência de Moyers",
      "tema": "Etiologia",
      "status": "rascunho",
-     "palavras": 3515,
+     "palavras": 3513,
      "visuais": 5
     },
     {
@@ -2071,7 +581,7 @@
      "nome": "Classe I com apinhamento",
      "tema": "Características por tipo",
      "status": "rascunho",
-     "palavras": 3869,
+     "palavras": 3864,
      "visuais": 5
     },
     {
@@ -2079,7 +589,7 @@
      "nome": "Classe II divisão 1 e 2",
      "tema": "Características por tipo",
      "status": "rascunho",
-     "palavras": 3919,
+     "palavras": 3916,
      "visuais": 5
     },
     {
@@ -2087,7 +597,7 @@
      "nome": "Classe III",
      "tema": "Características por tipo",
      "status": "rascunho",
-     "palavras": 3881,
+     "palavras": 3875,
      "visuais": 5
     },
     {
@@ -2095,7 +605,7 @@
      "nome": "Mordida aberta",
      "tema": "Características por tipo",
      "status": "rascunho",
-     "palavras": 3640,
+     "palavras": 3638,
      "visuais": 4
     },
     {
@@ -2103,7 +613,7 @@
      "nome": "Mordida profunda",
      "tema": "Características por tipo",
      "status": "rascunho",
-     "palavras": 3578,
+     "palavras": 3575,
      "visuais": 4
     },
     {
@@ -2111,7 +621,7 @@
      "nome": "Mordida cruzada",
      "tema": "Características por tipo",
      "status": "rascunho",
-     "palavras": 3766,
+     "palavras": 3763,
      "visuais": 4
     },
     {
@@ -2119,7 +629,7 @@
      "nome": "Assimetrias",
      "tema": "Características por tipo",
      "status": "rascunho",
-     "palavras": 3758,
+     "palavras": 3754,
      "visuais": 5
     }
    ]
@@ -2131,17 +641,17 @@
    "modulo": "Biologia do movimento",
    "total": 12,
    "concluidas": 12,
-   "palavras": 48090,
+   "palavras": 47957,
    "visuais": 65,
    "imagensClinicas": 12,
-   "verificar": 184,
+   "verificar": 0,
    "paginas": [
     {
      "id": "ortodontia/biologia-do-movimento/reacoes-teciduais/ligamento-e-osso-sob-forca",
      "nome": "Ligamento e osso sob força",
      "tema": "Reações teciduais",
      "status": "rascunho",
-     "palavras": 3695,
+     "palavras": 3693,
      "visuais": 5
     },
     {
@@ -2149,7 +659,7 @@
      "nome": "Pressão e tensão",
      "tema": "Reações teciduais",
      "status": "rascunho",
-     "palavras": 3735,
+     "palavras": 3734,
      "visuais": 5
     },
     {
@@ -2157,7 +667,7 @@
      "nome": "Hialinização",
      "tema": "Reações teciduais",
      "status": "rascunho",
-     "palavras": 3509,
+     "palavras": 3514,
      "visuais": 5
     },
     {
@@ -2165,7 +675,7 @@
      "nome": "Remodelação",
      "tema": "Reações teciduais",
      "status": "rascunho",
-     "palavras": 3727,
+     "palavras": 3724,
      "visuais": 5
     },
     {
@@ -2173,7 +683,7 @@
      "nome": "Magnitude, duração e direção",
      "tema": "Forças",
      "status": "rascunho",
-     "palavras": 4571,
+     "palavras": 4558,
      "visuais": 6
     },
     {
@@ -2181,7 +691,7 @@
      "nome": "Forças ideais por tipo de movimento",
      "tema": "Forças",
      "status": "rascunho",
-     "palavras": 3977,
+     "palavras": 3961,
      "visuais": 5
     },
     {
@@ -2189,7 +699,7 @@
      "nome": "Efeitos de forças excessivas",
      "tema": "Forças",
      "status": "rascunho",
-     "palavras": 3984,
+     "palavras": 3978,
      "visuais": 5
     },
     {
@@ -2197,7 +707,7 @@
      "nome": "Reabsorção radicular",
      "tema": "Forças",
      "status": "rascunho",
-     "palavras": 4096,
+     "palavras": 4075,
      "visuais": 6
     },
     {
@@ -2205,7 +715,7 @@
      "nome": "Descalcificação e lesões brancas",
      "tema": "Efeitos colaterais",
      "status": "rascunho",
-     "palavras": 4244,
+     "palavras": 4226,
      "visuais": 6
     },
     {
@@ -2213,7 +723,7 @@
      "nome": "Recessão e deiscências",
      "tema": "Efeitos colaterais",
      "status": "rascunho",
-     "palavras": 4248,
+     "palavras": 4244,
      "visuais": 6
     },
     {
@@ -2221,7 +731,7 @@
      "nome": "Dor e mobilidade",
      "tema": "Efeitos colaterais",
      "status": "rascunho",
-     "palavras": 4068,
+     "palavras": 4041,
      "visuais": 5
     },
     {
@@ -2229,7 +739,7 @@
      "nome": "Aceleração do movimento",
      "tema": "Efeitos colaterais",
      "status": "rascunho",
-     "palavras": 4236,
+     "palavras": 4209,
      "visuais": 6
     }
    ]
@@ -26466,7 +24976,7 @@
    "formato": 2,
    "status": "rascunho",
    "estado": "rascunho",
-   "palavras": 3013,
+   "palavras": 3012,
    "visuais": [
     {
      "formato": "comparativo",
@@ -26501,12 +25011,7 @@
      "destacar": "Linha SN estável, deslocamento do ponto A e do mento, aumento da altura facial anterior"
     }
    ],
-   "verificar": [
-    {
-     "onde": "Seção \"As proporções mudam: a face cresce mais e por mais tempo que o crânio\".blocos[0].texto",
-     "trecho": "1:8 ao nascer para algo entre 1:2 e 1:2,5 no adulto, conforme a fonte [VERIFICAR]"
-    }
-   ]
+   "verificar": []
   },
   "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/teorias-do-crescimento": {
    "titulo": "Teorias do crescimento: quem manda no osso e o que o aparelho pode mudar",
@@ -26514,7 +25019,7 @@
    "formato": 2,
    "status": "rascunho",
    "estado": "rascunho",
-   "palavras": 2896,
+   "palavras": 2895,
    "visuais": [
     {
      "formato": "classificacao",
@@ -26541,12 +25046,7 @@
     "erro": 1
    },
    "imagensClinicas": [],
-   "verificar": [
-    {
-     "onde": "Seção \"Van Limborgh e Petrovic: a síntese e o servossistema\".blocos[3].texto",
-     "trecho": "lados e sem diferença clinicamente relevante nos ensaios randomizados [VERIFICAR]"
-    }
-   ]
+   "verificar": []
   },
   "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/mecanismos-sutura-cartilagem-e-remodelacao": {
    "titulo": "Mecanismos de crescimento: sutura, cartilagem e remodelação",
@@ -26554,7 +25054,7 @@
    "formato": 2,
    "status": "rascunho",
    "estado": "rascunho",
-   "palavras": 2899,
+   "palavras": 2898,
    "visuais": [
     {
      "formato": "processo",
@@ -26589,12 +25089,7 @@
      "destacar": "Camada proliferativa como fonte de células; frente de ossificação; ausência de organização em colunas como na placa epifisária"
     }
    ],
-   "verificar": [
-    {
-     "onde": "Seção \"Cartilagem: sincondroses, côndilo e septo\".blocos[0].texto",
-     "trecho": "para trás. Funde no fim da adolescência, entre cerca de 16 e 20 anos [VERIFICAR]"
-    }
-   ]
+   "verificar": []
   },
   "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/crescimento-da-maxila": {
    "titulo": "Crescimento da maxila: para baixo, para a frente e por trás",
@@ -26602,7 +25097,7 @@
    "formato": 2,
    "status": "rascunho",
    "estado": "rascunho",
-   "palavras": 2657,
+   "palavras": 2652,
    "visuais": [
     {
      "formato": "anatomico",
@@ -26633,28 +25128,7 @@
      "destacar": "Implantes estáveis, ponto A quase parado em relação a eles, deslocamento do conjunto em relação a SN"
     }
    ],
-   "verificar": [
-    {
-     "onde": "umMinuto.frases[1]",
-     "trecho": "ânio predomina na primeira infância e perde peso por volta dos 7 anos [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Quem manda em cada idade\".blocos[0].texto",
-     "trecho": "sivo responde por boa parte do avanço da maxila. Por volta dos 7 anos [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Quem manda em cada idade\".blocos[3].texto",
-     "trecho": "o crânio) e a partir de quando o sutural assume (por volta dos 7 anos [VERIFICAR]"
-    },
-    {
-     "onde": "infografico.itens[2].texto",
-     "trecho": ", zigomaticotemporal e pterigopalatina; predomina a partir de ~7 anos [VERIFICAR]"
-    },
-    {
-     "onde": "macetes[3].texto",
-     "trecho": "do crânio. Depois, suturas. É a justificativa da pressa na Classe III [VERIFICAR]"
-    }
-   ]
+   "verificar": []
   },
   "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/crescimento-da-mandibula": {
    "titulo": "Crescimento da mandíbula: cresce para trás, anda para a frente",
@@ -26662,7 +25136,7 @@
    "formato": 2,
    "status": "rascunho",
    "estado": "rascunho",
-   "palavras": 2690,
+   "palavras": 2688,
    "visuais": [
     {
      "formato": "anatomico",
@@ -26693,16 +25167,7 @@
      "destacar": "Borda anterior do ramo, distal do segundo molar, posição e angulação do germe do terceiro molar"
     }
    ],
-   "verificar": [
-    {
-     "onde": "umMinuto.frases[4]",
-     "trecho": "ongado, sobretudo em meninos, e pode seguir até o fim da adolescência [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"O último osso a parar\".blocos[0].texto",
-     "trecho": "r em ritmo lento até o fim da adolescência ou o início da vida adulta [VERIFICAR]"
-    }
-   ]
+   "verificar": []
   },
   "ortodontia/crescimento-e-desenvolvimento/crescimento-craniofacial/rotacoes-de-crescimento": {
    "titulo": "Rotações de crescimento: por que a mesma mandíbula pode fechar ou abrir a mordida",
@@ -26749,7 +25214,7 @@
    "formato": 2,
    "status": "rascunho",
    "estado": "rascunho",
-   "palavras": 2748,
+   "palavras": 2740,
    "visuais": [
     {
      "formato": "grafico",
@@ -26776,40 +25241,7 @@
     "erro": 1
    },
    "imagensClinicas": [],
-   "verificar": [
-    {
-     "onde": "umMinuto.frases[1]",
-     "trecho": "s por volta dos 14, com variação de cerca de dois anos para cada lado [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Velocidade, não tamanho\".blocos[1].legenda",
-     "trecho": "xata; idades médias com variação de cerca de dois anos para cada lado [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Meninas primeiro, meninos depois, e ninguém na média\".blocos[0].texto",
-     "trecho": "s 14 em meninos, com meninos crescendo um pouco mais e por mais tempo [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"A face acompanha, com pequeno atraso\".blocos[0].texto",
-     "trecho": "lar coincidindo com o pico de estatura ou ocorrendo pouco depois dele [VERIFICAR]"
-    },
-    {
-     "onde": "fechamento.flashcards[0].verso",
-     "trecho": "em meninos, com variação de aproximadamente dois anos para cada lado [VERIFICAR]"
-    },
-    {
-     "onde": "infografico.itens[1].texto",
-     "trecho": "os por volta de 14, com cerca de dois anos de variação para cada lado [VERIFICAR]"
-    },
-    {
-     "onde": "infografico.itens[4].texto",
-     "trecho": "O surto mandibular acompanha o estatural, com pequena defasagem [VERIFICAR]"
-    },
-    {
-     "onde": "macetes[1].texto",
-     "trecho": "lado. A média serve para a prova; o paciente tem o próprio calendário [VERIFICAR]"
-    }
-   ]
+   "verificar": []
   },
   "ortodontia/crescimento-e-desenvolvimento/maturacao/idade-ossea-mao-e-punho": {
    "titulo": "Idade óssea pela mão e punho: o calendário que a radiografia entrega",
@@ -26848,12 +25280,7 @@
      "destacar": "Sesamoide na metacarpofalângica do polegar, epífise envolvendo a diáfise na falange média do terceiro dedo, linha epifisária do rádio"
     }
    ],
-   "verificar": [
-    {
-     "onde": "Seção \"A sequência de eventos e o que cada um diz\".blocos[1].svg[4]",
-     "trecho": "ill='var(--muted,#8A8478)'>aceleração: a janela do aparelho funcional [VERIFICAR]"
-    }
-   ]
+   "verificar": []
   },
   "ortodontia/crescimento-e-desenvolvimento/maturacao/vertebras-cervicais": {
    "titulo": "Vértebras cervicais: o indicador de maturação que já está na sua telerradiografia",
@@ -26861,7 +25288,7 @@
    "formato": 2,
    "status": "rascunho",
    "estado": "rascunho",
-   "palavras": 2871,
+   "palavras": 2869,
    "visuais": [
     {
      "formato": "classificacao",
@@ -26896,24 +25323,7 @@
      "destacar": "Borda inferior de cada vértebra, proporção altura e largura dos corpos de C3 e C4, posição do colar"
     }
    ],
-   "verificar": [
-    {
-     "onde": "Seção \"Os seis estágios do método CVM\".blocos[1].svg[35]",
-     "trecho": "ll='var(--muted,#8A8478)'>intervalos em anos são médias populacionais [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"O que ela faz melhor que a mão, e o que faz pior\".blocos[1].texto",
-     "trecho": "dade variável, com discordância frequente nos estágios intermediários [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"O que ela faz melhor que a mão, e o que faz pior\".blocos[2].svg[9]",
-     "trecho": "-weight='700'>Reprodutibilidade</text><text x='160' y='230'>discutida [VERIFICAR]"
-    },
-    {
-     "onde": "infografico.itens[2].texto",
-     "trecho": "anas ou só C2 côncava; corpos trapezoides. Pico em cerca de 2 e 1 ano [VERIFICAR]"
-    }
-   ]
+   "verificar": []
   },
   "ortodontia/crescimento-e-desenvolvimento/maturacao/implicacoes-no-tempo-de-tratamento": {
    "titulo": "Quando tratar: o que a maturação decide em cada tipo de problema",
@@ -26921,7 +25331,7 @@
    "formato": 2,
    "status": "rascunho",
    "estado": "rascunho",
-   "palavras": 2828,
+   "palavras": 2827,
    "visuais": [
     {
      "formato": "linha-do-tempo",
@@ -26944,12 +25354,7 @@
     "erro": 1
    },
    "imagensClinicas": [],
-   "verificar": [
-    {
-     "onde": "Seção \"Classe III: cedo para a maxila, paciência para a mandíbula\".blocos[0].texto",
-     "trecho": "facial rende mais na dentição mista precoce, por volta dos 7 a 9 anos [VERIFICAR]"
-    }
-   ]
+   "verificar": []
   },
   "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-decidua": {
    "titulo": "Dentição decídua: o que os vinte dentes já contam sobre os trinta e dois",
@@ -26992,16 +25397,7 @@
      "destacar": "Espaços interincisivos, espaço primata entre lateral e canino de cada lado, forma em U do arco"
     }
    ],
-   "verificar": [
-    {
-     "onde": "Seção \"Vinte dentes, em que ordem e quando\".blocos[1].svg[18]",
-     "trecho": "8A8478)'>faixas aproximadas; inferiores em geral antes dos superiores [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"O plano terminal: o segundo molar decíduo aponta o caminho\".blocos[1].svg[22]",
-     "trecho": "(--muted,#8A8478)'>a partir de Baume; o plano reto é o mais frequente [VERIFICAR]"
-    }
-   ]
+   "verificar": []
   },
   "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-mista-primeira-e-segunda-fase": {
    "titulo": "Dentição mista: as duas trocas e o espaço que aparece e desaparece",
@@ -27009,7 +25405,7 @@
    "formato": 2,
    "status": "rascunho",
    "estado": "rascunho",
-   "palavras": 3299,
+   "palavras": 3291,
    "visuais": [
     {
      "formato": "linha-do-tempo",
@@ -27044,48 +25440,7 @@
      "destacar": "Diastema mediano, divergência das coroas dos laterais, posição alta dos caninos na panorâmica"
     }
    ],
-   "verificar": [
-    {
-     "onde": "umMinuto.frases[4]",
-     "trecho": "; no superior, o canino depois do primeiro pré-molar (4-3-5 ou 4-5-3) [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Dois períodos de troca e uma pausa\".blocos[1].svg[13]",
-     "trecho": "ted,#8A8478)'>idades aproximadas; a sequência importa mais que a data [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"O passivo dos incisivos e como a boca paga a conta\".blocos[0].texto",
-     "trecho": "de 7,6 mm no arco superior e 6 mm no inferior, nos valores clássicos [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"O espaço livre de Nance: a folga que fecha a conta\".blocos[0].texto",
-     "trecho": "o segundo molar decíduo inferior é bem maior que o segundo pré-molar [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"O espaço livre de Nance: a folga que fecha a conta\".blocos[1].texto",
-     "trecho": "lado. Guarde a ordem de grandeza e a direção: é sempre maior embaixo [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"O espaço livre de Nance: a folga que fecha a conta\".blocos[2].svg[12]",
-     "trecho": "var(--muted,#8A8478)'>o inferior é maior porque o E inferior é grande [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"A ordem em que os dentes chegam\".blocos[1].itens[1]",
-     "trecho": "perior favorável: primeiro pré-molar antes do canino (4-3-5 ou 4-5-3) [VERIFICAR]"
-    },
-    {
-     "onde": "infografico.itens[0].texto",
-     "trecho": "Segundo transitório (10 a 12): caninos, pré-molares, segundos molares [VERIFICAR]"
-    },
-    {
-     "onde": "infografico.itens[5].texto",
-     "trecho": "o antes dos pré-molares. Superior: primeiro pré-molar antes do canino [VERIFICAR]"
-    },
-    {
-     "onde": "macetes[3].texto",
-     "trecho": "vorável: inferior 3-4-5; superior com o 4 antes do 3 (4-3-5 ou 4-5-3) [VERIFICAR]"
-    }
-   ]
+   "verificar": []
   },
   "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/denticao-permanente": {
    "titulo": "Dentição permanente: o arco não para quando o último dente chega",
@@ -27093,7 +25448,7 @@
    "formato": 2,
    "status": "rascunho",
    "estado": "rascunho",
-   "palavras": 2729,
+   "palavras": 2724,
    "visuais": [
     {
      "formato": "linha-do-tempo",
@@ -27120,32 +25475,7 @@
     "erro": 1
    },
    "imagensClinicas": [],
-   "verificar": [
-    {
-     "onde": "umMinuto.frases[0]",
-     "trecho": "undos molares; os terceiros chegam, quando chegam, entre 17 e 21 anos [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Quando a dentição fica completa, e quando fica mesmo\".blocos[1].svg[7]",
-     "trecho": "8A8478)'>faixas aproximadas; inferiores em geral antes dos superiores [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"O arco encolhe depois de pronto\".blocos[0].texto",
-     "trecho": "e depois diminui lentamente ao longo da adolescência e da vida adulta [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Quem aperta os incisivos inferiores\".blocos[2].verdade",
-     "trecho": "rdio nos dois grupos; o papel do terceiro molar é, no máximo, pequeno [VERIFICAR]"
-    },
-    {
-     "onde": "fechamento.flashcards[2].verso",
-     "trecho": "o e a extração profilática para prevenir apinhamento não se justifica [VERIFICAR]"
-    },
-    {
-     "onde": "infografico.itens[0].texto",
-     "trecho": "13 anos, com os segundos molares. Terceiros entre 17 e 21, quando vêm [VERIFICAR]"
-    }
-   ]
+   "verificar": []
   },
   "ortodontia/crescimento-e-desenvolvimento/desenvolvimento-da-oclusao/chaves-de-oclusao-de-andrews": {
    "titulo": "As seis chaves de Andrews: o que uma oclusão normal tem em comum",
@@ -27196,7 +25526,7 @@
    "formato": 2,
    "status": "rascunho",
    "estado": "rascunho",
-   "palavras": 3699,
+   "palavras": 3698,
    "visuais": [
     {
      "formato": "comparativo",
@@ -27235,12 +25565,7 @@
      "destacar": "Posição dos incisivos nas duas fotos, relação dos primeiros molares nas duas fotos, linha média"
     }
    ],
-   "verificar": [
-    {
-     "onde": "Seção \"Subdivisão, meia classe e a leitura lado a lado\".blocos[0].texto",
-     "trecho": "onfira a que o seu serviço adota, porque há quem nomeie o lado normal [VERIFICAR]"
-    }
-   ]
+   "verificar": []
   },
   "ortodontia/mas-oclusoes/classificacao/classificacao-esqueletica": {
    "titulo": "Classificação esquelética: de onde vem a má oclusão que o molar mostra",
@@ -27248,7 +25573,7 @@
    "formato": 2,
    "status": "rascunho",
    "estado": "rascunho",
-   "palavras": 3760,
+   "palavras": 3753,
    "visuais": [
     {
      "formato": "comparativo",
@@ -27287,40 +25612,7 @@
      "destacar": "Ponto B e pogônio em relação à perpendicular ao násio, valor de SNB, distância AO a BO"
     }
    ],
-   "verificar": [
-    {
-     "onde": "Seção \"ANB, SNA e SNB: a régua mais usada e o que cada ângulo diz\".blocos[2].itens[1]",
-     "trecho": "mal e SNB baixo: mandíbula retruída, o padrão mais comum na Classe II [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"ANB, SNA e SNB: a régua mais usada e o que cada ângulo diz\".blocos[2].itens[2]",
-     "trecho": "SNA baixo e SNB normal: maxila deficiente, frequente na Classe III [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"ANB, SNA e SNB: a régua mais usada e o que cada ângulo diz\".blocos[3].texto",
-     "trecho": "o do ANB. A faixa de normalidade do ANB costuma ser dada como 0° a 4° [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Quando o ANB mente: násio, plano SN e altura facial\".blocos[2].svg[8]",
-     "trecho": "o de zero,</text><text x='60' y='144'>homens ~ -1 mm, mulheres ~ 0 mm [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"McNamara e Harvold: medir cada base contra o crânio e uma contra a outra\".blocos[0].texto",
-     "trecho": "inha, e o pogônio, um pouco atrás na criança e próximo dela no adulto [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"McNamara e Harvold: medir cada base contra o crânio e uma contra a outra\".blocos[1].texto",
-     "trecho": "e uma diferença grande aponta Classe III, independentemente do násio [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"De onde vem cada classe: os componentes\".blocos[0].texto",
-     "trecho": "axila, na maioria dos casos, estava em posição normal ou até retruída [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"De onde vem cada classe: os componentes\".blocos[1].texto",
-     "trecho": "maxilar participa de uma grande parte dos casos, sozinha ou combinada [VERIFICAR]"
-    }
-   ]
+   "verificar": []
   },
   "ortodontia/mas-oclusoes/classificacao/classificacao-de-andrews-e-outras": {
    "titulo": "Além de Angle: Lischer, Dewey, Simon, Ackerman e Proffit, Andrews",
@@ -27328,7 +25620,7 @@
    "formato": 2,
    "status": "rascunho",
    "estado": "rascunho",
-   "palavras": 3545,
+   "palavras": 3544,
    "visuais": [
     {
      "formato": "linha-do-tempo",
@@ -27367,12 +25659,7 @@
      "destacar": "Inclinação da testa, linha vertical de referência, ponto mais anterior do incisivo superior"
     }
    ],
-   "verificar": [
-    {
-     "onde": "Seção \"Andrews: classificar o alvo, não o defeito\".blocos[1].texto",
-     "trecho": "dos maxilares, a proeminência do mento e a oclusão pelas seis chaves [VERIFICAR]"
-    }
-   ]
+   "verificar": []
   },
   "ortodontia/mas-oclusoes/classificacao/indices-de-necessidade-de-tratamento": {
    "titulo": "Índices de necessidade de tratamento: IOTN, DAI, PAR e ICON",
@@ -27380,7 +25667,7 @@
    "formato": 2,
    "status": "rascunho",
    "estado": "rascunho",
-   "palavras": 3639,
+   "palavras": 3634,
    "visuais": [
     {
      "formato": "comparativo",
@@ -27419,36 +25706,7 @@
      "destacar": "Progressão do apinhamento e do trespasse ao longo da escala, limites entre as três faixas"
     }
    ],
-   "verificar": [
-    {
-     "onde": "Seção \"IOTN, componente de saúde dentária: a pior característica decide\".blocos[2].svg[12]",
-     "trecho": "s, O trespasse vertical e mordida aberta; limiares da tabela original [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"IOTN, componente de saúde dentária: a pior característica decide\".blocos[3].texto",
-     "trecho": "ão os da tabela original, que deve ser consultada na aplicação formal [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"IOTN, componente estético: dez fotografias e um espelho\".blocos[0].texto",
-     "trecho": "uma necessidade; de 5 a 7, limítrofe; de 8 a 10, necessidade definida [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"DAI: o índice da OMS e do SB Brasil\".blocos[0].texto",
-     "trecho": "os epidemiológicos, e é o índice usado no SB Brasil para adolescentes [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"DAI: o índice da OMS e do SB Brasil\".blocos[2].svg[8]",
-     "trecho": "' font-size='12' fill='var(--muted,#8A8478)'>faixas da OMS para o DAI [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"PAR e ICON: medir o que o tratamento fez\".blocos[0].texto",
-     "trecho": ", classifica o caso como muito melhorado, melhorado, ou igual ou pior [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"PAR e ICON: medir o que o tratamento fez\".blocos[1].texto",
-     "trecho": "há necessidade e quão complexo é o caso; lido depois, diz o resultado [VERIFICAR]"
-    }
-   ]
+   "verificar": []
   },
   "ortodontia/mas-oclusoes/etiologia/fatores-geneticos-e-ambientais": {
    "titulo": "Etiologia da má oclusão: o que vem dos genes, o que vem do ambiente",
@@ -27456,7 +25714,7 @@
    "formato": 2,
    "status": "rascunho",
    "estado": "rascunho",
-   "palavras": 3380,
+   "palavras": 3378,
    "visuais": [
     {
      "formato": "grafico",
@@ -27495,16 +25753,7 @@
      "destacar": "Direção do desvio do mento, inclinação do plano oclusal, comparação da altura dos ramos na panorâmica"
     }
    ],
-   "verificar": [
-    {
-     "onde": "Seção \"O que os gêmeos e as populações ensinaram\".blocos[0].texto",
-     "trecho": "e alta; o apinhamento e a posição dos dentes, com herdabilidade baixa [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"O que os gêmeos e as populações ensinaram\".blocos[1].texto",
-     "trecho": "arcos, e dentes de tamanho herdado ficam sem espaço em arcos menores [VERIFICAR]"
-    }
-   ]
+   "verificar": []
   },
   "ortodontia/mas-oclusoes/etiologia/habitos-succao-degluticao-e-respiracao": {
    "titulo": "Hábitos: sucção, deglutição e respiração bucal como causa de má oclusão",
@@ -27512,7 +25761,7 @@
    "formato": 2,
    "status": "rascunho",
    "estado": "rascunho",
-   "palavras": 3916,
+   "palavras": 3915,
    "visuais": [
     {
      "formato": "classificacao",
@@ -27551,40 +25800,7 @@
      "destacar": "Selamento labial ausente em repouso, proporção do terço inferior, forma do arco superior"
     }
    ],
-   "verificar": [
-    {
-     "onde": "Seção \"A tríade que separa hábito inofensivo de hábito deformante\".blocos[1].texto",
-     "trecho": "horas por dia, em torno de quatro a seis, mantidas ao longo dos anos [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"O que a sucção prolongada faz com a boca\".blocos[2].texto",
-     "trecho": "do objeto e pela posição da mão, mas as duas somam efeitos parecidos [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Quando parar e o que volta sozinho\".blocos[0].texto",
-     "trecho": "para antes da erupção dos incisivos permanentes, por volta dos 6 anos [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Quando parar e o que volta sozinho\".blocos[1].texto",
-     "trecho": "hupeta a partir de 2 a 3 anos e intervir no dedo antes dos 4 a 6 anos [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Quando parar e o que volta sozinho\".blocos[2].svg[7]",
-     "trecho": "var(--muted,#8A8478)'>idades aproximadas das orientações mais citadas [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Deglutição atípica: quase sempre consequência\".blocos[1].texto",
-     "trecho": "ando a postura de repouso está alterada, com evidência ainda limitada [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Respiração bucal e a face longa\".blocos[1].texto",
-     "trecho": "a associação é forte o bastante para obrigar a pergunta em todo exame [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"O que a evidência sustenta e o que não sustenta\".blocos[0].texto",
-     "trecho": "scimento depois que a respiração nasal voltou, o que sustenta a causa [VERIFICAR]"
-    }
-   ]
+   "verificar": []
   },
   "ortodontia/mas-oclusoes/etiologia/perda-precoce-e-carie": {
    "titulo": "Perda precoce e cárie: como um dente decíduo a menos vira uma má oclusão",
@@ -27635,20 +25851,7 @@
      "destacar": "Inclinação do primeiro molar permanente, largura do espaço remanescente, estágio radicular do germe do pré-molar"
     }
    ],
-   "verificar": [
-    {
-     "onde": "Seção \"Maxila e mandíbula perdem espaço de jeitos diferentes\".blocos[0].texto",
-     "trecho": "intensa nos primeiros seis meses após a extração, e depois desacelera [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"O sucessor: atrasa, acelera ou some do caminho\".blocos[0].texto",
-     "trecho": "aminho se abriu na hora em que o dente estava pronto para percorrê-lo [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Cárie sem perda também custa espaço, e o 6 condenado\".blocos[1].texto",
-     "trecho": "stá com a coroa formada e a raiz começando, por volta dos 8 a 10 anos [VERIFICAR]"
-    }
-   ]
+   "verificar": []
   },
   "ortodontia/mas-oclusoes/etiologia/anomalias-dentarias": {
    "titulo": "Anomalias dentárias: número, tamanho, forma e posição como causa de má oclusão",
@@ -27656,7 +25859,7 @@
    "formato": 2,
    "status": "rascunho",
    "estado": "rascunho",
-   "palavras": 3788,
+   "palavras": 3784,
    "visuais": [
     {
      "formato": "classificacao",
@@ -27695,28 +25898,7 @@
      "destacar": "Ângulo entre coroa e raiz, altura do dente no osso, comparação com o contralateral"
     }
    ],
-   "verificar": [
-    {
-     "onde": "Seção \"Número: os que faltam e os que sobram\".blocos[0].texto",
-     "trecho": "res superiores e incisivos inferiores; a ordem varia entre populações [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"O canino superior que não vem\".blocos[0].texto",
-     "trecho": "nte genético; as vestibulares costumam vir de falta de espaço no arco [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"O canino superior que não vem\".blocos[2].svg[9]",
-     "trecho": "ecíduo, no momento certo, redireciona boa parte dos caninos palatinos [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Molar ectópico, dente anquilosado e o que não sobe\".blocos[0].texto",
-     "trecho": "ico separador ou aparelho, antes que destrua o decíduo e perca espaço [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Molar ectópico, dente anquilosado e o que não sobe\".blocos[1].texto",
-     "trecho": "iva, e não respondem à força ortodôntica; tem base genética conhecida [VERIFICAR]"
-    }
-   ]
+   "verificar": []
   },
   "ortodontia/mas-oclusoes/etiologia/teoria-da-equivalencia-de-moyers": {
    "titulo": "Etiologia segundo Moyers: a equação de Dockrell, os tecidos e a equifinalidade",
@@ -27724,7 +25906,7 @@
    "formato": 2,
    "status": "rascunho",
    "estado": "rascunho",
-   "palavras": 3515,
+   "palavras": 3513,
    "visuais": [
     {
      "formato": "processo",
@@ -27767,14 +25949,6 @@
     {
      "onde": "autoria",
      "trecho": "ursos brasileiros; o validador deve confirmar a denominação e a fonte [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Equifinalidade: muitos caminhos, um resultado; um caminho, muitos resultados\".blocos[0].texto",
-     "trecho": ". Na teoria dos sistemas, o primeiro fenômeno se chama equifinalidade [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Moyers aplicou a ideia à Classe II\".blocos[0].texto",
-     "trecho": "la pequena e face longa recebem o mesmo nome e são doenças diferentes [VERIFICAR]"
     }
    ]
   },
@@ -27784,7 +25958,7 @@
    "formato": 2,
    "status": "rascunho",
    "estado": "rascunho",
-   "palavras": 3869,
+   "palavras": 3864,
    "visuais": [
     {
      "formato": "grafico",
@@ -27823,44 +25997,7 @@
      "destacar": "Largura intercaninos nas três fases, sobreposição dos incisivos na terceira foto"
     }
    ],
-   "verificar": [
-    {
-     "onde": "Seção \"A má oclusão de todo dia\".blocos[2].svg[9]",
-     "trecho": "12' fill='var(--muted,#8A8478)'>faixas de referência usuais, por arco [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Medir na dentição mista: prever o que ainda não nasceu\".blocos[1].texto",
-     "trecho": "olares de um quadrante inferior; mais 11 mm, de um quadrante superior [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Medir na dentição mista: prever o que ainda não nasceu\".blocos[2].svg[2]",
-     "trecho": "anaka e Johnston: metade da soma + 10,5 (inferior) ou + 11 (superior) [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Medir na dentição mista: prever o que ainda não nasceu\".blocos[3].texto",
-     "trecho": "ram construídas em populações específicas e erram um pouco fora delas [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"As cinco fontes de espaço\".blocos[1].texto",
-     "trecho": "a de dois milímetros de perímetro, mas muda o perfil e a estabilidade [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"As cinco fontes de espaço\".blocos[2].svg[3]",
-     "trecho": "='300' y='118'>perímetro por mm de</text><text x='300' y='132'>avanço [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Extração seriada: administrar a falta desde a dentição mista\".blocos[1].texto",
-     "trecho": "fim os primeiros pré-molares para dar espaço aos caninos permanentes [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Extração seriada: administrar a falta desde a dentição mista\".blocos[3].svg[8]",
-     "trecho": "imadas; o que manda é o estágio de erupção, confirmado na radiografia [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Estabilidade: o inferior anterior quer voltar\".blocos[0].texto",
-     "trecho": "sem que se consiga prever pelo diagnóstico inicial quem vai recidivar [VERIFICAR]"
-    }
-   ]
+   "verificar": []
   },
   "ortodontia/mas-oclusoes/caracteristicas-por-tipo/classe-ii-divisao-1-e-2": {
    "titulo": "Classe II divisão 1 e divisão 2: duas faces da distoclusão",
@@ -27868,7 +26005,7 @@
    "formato": 2,
    "status": "rascunho",
    "estado": "rascunho",
-   "palavras": 3919,
+   "palavras": 3916,
    "visuais": [
     {
      "formato": "comparativo",
@@ -27907,20 +26044,7 @@
      "destacar": "Distância entre as bordas incisais no sentido horizontal, posição do lábio inferior, relação molar"
     }
    ],
-   "verificar": [
-    {
-     "onde": "Seção \"O que as duas divisões têm em comum\".blocos[1].texto",
-     "trecho": "ente que a divisão 2, que representa uma parcela menor das Classes II [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Divisão 1: o quadro por dentro e por fora\".blocos[3].texto",
-     "trecho": "com maxila normal ou até retruída, segundo os estudos de componentes [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Trauma, autoimagem e a hora de olhar\".blocos[0].texto",
-     "trecho": "do é fator de risco reconhecido para fratura de incisivos em crianças [VERIFICAR]"
-    }
-   ]
+   "verificar": []
   },
   "ortodontia/mas-oclusoes/caracteristicas-por-tipo/classe-iii": {
    "titulo": "Classe III: a má oclusão que o crescimento piora",
@@ -27928,7 +26052,7 @@
    "formato": 2,
    "status": "rascunho",
    "estado": "rascunho",
-   "palavras": 3881,
+   "palavras": 3875,
    "visuais": [
     {
      "formato": "anatomico",
@@ -27967,40 +26091,7 @@
      "destacar": "Posição do ponto A em relação à perpendicular ao násio, inclinação dos incisivos superiores e inferiores, contorno do terço médio"
     }
    ],
-   "verificar": [
-    {
-     "onde": "umMinuto.frases[1]",
-     "trecho": "prognatismo mandibular puro é minoria, embora seja a imagem clássica [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"O quadro: dentes, esqueleto e face\".blocos[1].texto",
-     "trecho": "frequente quanto a mandíbula grande, e a combinação das duas é comum [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Os componentes: maxila, mandíbula ou os dois\".blocos[1].texto",
-     "trecho": "quinto cada, e as combinações respondem pela maior parte do restante [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Os componentes: maxila, mandíbula ou os dois\".blocos[2].svg[6]",
-     "trecho": ")'>a proporção entre os componentes varia conforme a amostra estudada [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Os componentes: maxila, mandíbula ou os dois\".blocos[3].texto",
-     "trecho": "ncia maxilar, isolada ou combinada, segundo os estudos de componentes [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Por que esperar não é neutro\".blocos[1].texto",
-     "trecho": "fechem, em geral na dentição mista precoce, por volta dos 7 a 9 anos [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Por que esperar não é neutro\".blocos[2].svg[7]",
-     "trecho": "middle' font-size='12' fill='var(--muted,#8A8478)'>idades aproximadas [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"As ferramentas por componente e idade\".blocos[0].texto",
-     "trecho": "de efeito esquelético, maior quando começa na dentição mista precoce [VERIFICAR]"
-    }
-   ]
+   "verificar": []
   },
   "ortodontia/mas-oclusoes/caracteristicas-por-tipo/mordida-aberta": {
    "titulo": "Mordida aberta: dentária ou esquelética, e por que a diferença decide tudo",
@@ -28008,7 +26099,7 @@
    "formato": 2,
    "status": "rascunho",
    "estado": "rascunho",
-   "palavras": 3640,
+   "palavras": 3638,
    "visuais": [
     {
      "formato": "classificacao",
@@ -28043,16 +26134,7 @@
      "destacar": "Quantidade de gengiva exposta ao sorrir, extensão da abertura de canino a canino, contato dos molares"
     }
    ],
-   "verificar": [
-    {
-     "onde": "Seção \"O que é, onde aparece e quanto se vê\".blocos[1].texto",
-     "trecho": "anente, quando os hábitos param e os incisivos terminam de erupcionar [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Estabilidade: a correção que mais volta\".blocos[0].texto",
-     "trecho": "tratados reabre em algum grau nos anos seguintes, com ou sem cirurgia [VERIFICAR]"
-    }
-   ]
+   "verificar": []
   },
   "ortodontia/mas-oclusoes/caracteristicas-por-tipo/mordida-profunda": {
    "titulo": "Mordida profunda: quando o trespasse vertical passa do ponto",
@@ -28060,7 +26142,7 @@
    "formato": 2,
    "status": "rascunho",
    "estado": "rascunho",
-   "palavras": 3578,
+   "palavras": 3575,
    "visuais": [
     {
      "formato": "anatomico",
@@ -28095,24 +26177,7 @@
      "destacar": "Retração e inflamação da gengiva palatina, marcas das bordas incisais inferiores, fração dos incisivos inferiores coberta"
     }
    ],
-   "verificar": [
-    {
-     "onde": "Seção \"O que é e como medir\".blocos[0].texto",
-     "trecho": "ros, ou algo em torno de um quarto a um terço da coroa dos inferiores [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"O que é e como medir\".blocos[2].svg[11]",
-     "trecho": "t-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>limiares [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"A curva de Spee profunda: a marca no arco inferior\".blocos[1].texto",
-     "trecho": "consome perímetro do arco, em quantidade proporcional à profundidade [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"O que a mordida profunda faz de mal\".blocos[1].texto",
-     "trecho": "e hoje é considerada fraca ou inconsistente pela evidência disponível [VERIFICAR]"
-    }
-   ]
+   "verificar": []
   },
   "ortodontia/mas-oclusoes/caracteristicas-por-tipo/mordida-cruzada": {
    "titulo": "Mordida cruzada: o problema transversal que a criança não corrige sozinha",
@@ -28120,7 +26185,7 @@
    "formato": 2,
    "status": "rascunho",
    "estado": "rascunho",
-   "palavras": 3766,
+   "palavras": 3763,
    "visuais": [
     {
      "formato": "anatomico",
@@ -28155,24 +26220,7 @@
      "destacar": "Linha média inferior nas duas fotos, relação vestibulolingual dos posteriores dos dois lados em cada posição"
     }
    ],
-   "verificar": [
-    {
-     "onde": "Seção \"Por que não esperar\".blocos[0].texto",
-     "trecho": "ente se corrige sozinha, menos de um caso em dez nas séries clássicas [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"A ferramenta certa em cada idade\".blocos[0].texto",
-     "trecho": "nto a sutura permite, com resposta que cai à medida que ela amadurece [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"A ferramenta certa em cada idade\".blocos[1].texto",
-     "trecho": ", e a expansão cirurgicamente assistida, que a abre em qualquer idade [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"A ferramenta certa em cada idade\".blocos[2].svg[7]",
-     "trecho": "middle' font-size='12' fill='var(--muted,#8A8478)'>idades aproximadas [VERIFICAR]"
-    }
-   ]
+   "verificar": []
   },
   "ortodontia/mas-oclusoes/caracteristicas-por-tipo/assimetrias": {
    "titulo": "Assimetrias: quando a face e a oclusão não batem com a linha média",
@@ -28180,7 +26228,7 @@
    "formato": 2,
    "status": "rascunho",
    "estado": "rascunho",
-   "palavras": 3758,
+   "palavras": 3754,
    "visuais": [
     {
      "formato": "anatomico",
@@ -28219,28 +26267,7 @@
      "destacar": "Comparação da altura dos ramos e do tamanho dos côndilos, direção do desvio do mento em relação ao lado afetado"
     }
    ],
-   "verificar": [
-    {
-     "onde": "Seção \"Mandíbula que cresce a mais de um lado\".blocos[0].texto",
-     "trecho": "a cabeça do côndilo pode parecer normal, sem aumento vertical do ramo [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Mandíbula que cresce a mais de um lado\".blocos[2].svg[6]",
-     "trecho": "são comuns; nas duas, a pergunta decisiva é se o côndilo ainda cresce [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Mandíbula que cresce a menos de um lado\".blocos[0].texto",
-     "trecho": "imento e piora com o crescimento, porque o lado afetado não acompanha [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"O exame que fecha o diagnóstico\".blocos[1].texto",
-     "trecho": "levante entre os lados indica atividade, e a decisão terapêutica muda [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Tratar conforme a origem e a atividade\".blocos[2].texto",
-     "trecho": "onstrução do ramo, por distração ou enxerto, pode começar na infância [VERIFICAR]"
-    }
-   ]
+   "verificar": []
   },
   "ortodontia/biologia-do-movimento/reacoes-teciduais/ligamento-e-osso-sob-forca": {
    "titulo": "Ligamento e osso sob força: o que acontece antes de o dente se mover",
@@ -28248,7 +26275,7 @@
    "formato": 2,
    "status": "rascunho",
    "estado": "rascunho",
-   "palavras": 3695,
+   "palavras": 3693,
    "visuais": [
     {
      "formato": "anatomico",
@@ -28287,24 +26314,7 @@
      "destacar": "Osteoclastos na superfície do osso do lado de pressão, ligamento sem áreas acelulares, osteoide no lado de tensão"
     }
    ],
-   "verificar": [
-    {
-     "onde": "Seção \"O dente está suspenso, não fixado\".blocos[0].texto",
-     "trecho": "oem esse tecido, vasos que o nutrem e nervos que sentem pressão e dor [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"O dente está suspenso, não fixado\".blocos[2].svg[9]",
-     "trecho": "' font-size='10' font-weight='700' fill='var(--red,#B4533B)'>~0,25 mm [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Segundos, minutos, horas, dias: a sequência da resposta\".blocos[2].svg[8]",
-     "trecho": "muted,#8A8478)'>escala de tempo aproximada para força leve e contínua [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Força leve move; força pesada atrasa\".blocos[2].texto",
-     "trecho": "ado de superfície radicular comprimida; acima dela, a circulação para [VERIFICAR]"
-    }
-   ]
+   "verificar": []
   },
   "ortodontia/biologia-do-movimento/reacoes-teciduais/pressao-e-tensao": {
    "titulo": "Pressão e tensão: os dois lados do dente que se move",
@@ -28312,7 +26322,7 @@
    "formato": 2,
    "status": "rascunho",
    "estado": "rascunho",
-   "palavras": 3735,
+   "palavras": 3734,
    "visuais": [
     {
      "formato": "anatomico",
@@ -28351,12 +26361,7 @@
      "destacar": "camada de osteoide e a fileira de osteoblastos junto à lâmina dura"
     }
    ],
-   "verificar": [
-    {
-     "onde": "Seção \"Força ótima: a pressão que não estrangula\".blocos[0].texto",
-     "trecho": "uas dezenas de gramas por centímetro quadrado de superfície radicular [VERIFICAR]"
-    }
-   ]
+   "verificar": []
   },
   "ortodontia/biologia-do-movimento/reacoes-teciduais/hialinizacao": {
    "titulo": "Hialinização: quando o ligamento morre e o osso precisa ser reabsorvido por baixo",
@@ -28364,7 +26369,7 @@
    "formato": 2,
    "status": "rascunho",
    "estado": "rascunho",
-   "palavras": 3509,
+   "palavras": 3514,
    "visuais": [
     {
      "formato": "anatomico",
@@ -28403,20 +26408,7 @@
      "destacar": "Ausência de células na zona, osteoclastos nos espaços medulares por trás da lâmina dura, lacunas de cemento nas bordas da zona"
     }
    ],
-   "verificar": [
-    {
-     "onde": "umMinuto.frases[4]",
-     "trecho": "o cemento também é atacado, e é aí que começa a reabsorção radicular [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Como a zona é removida, e o que sobra na raiz\".blocos[0].texto",
-     "trecho": "m torno de duas a quatro semanas para a inclinação com força contínua [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Como a zona é removida, e o que sobra na raiz\".blocos[2].svg[7]",
-     "trecho": "lo: dias com áreas pequenas; duas a quatro semanas com áreas extensas [VERIFICAR]"
-    }
-   ]
+   "verificar": []
   },
   "ortodontia/biologia-do-movimento/reacoes-teciduais/remodelacao": {
    "titulo": "Remodelação: o osso que se refaz durante e depois do movimento",
@@ -28424,7 +26416,7 @@
    "formato": 2,
    "status": "rascunho",
    "estado": "rascunho",
-   "palavras": 3727,
+   "palavras": 3724,
    "visuais": [
     {
      "formato": "processo",
@@ -28463,28 +26455,7 @@
      "destacar": "Áreas sem espaço do ligamento, continuidade entre raiz e osso, comparação com o vizinho"
     }
    ],
-   "verificar": [
-    {
-     "onde": "Seção \"O alvéolo renova rápido, e paga por isso\".blocos[0].texto",
-     "trecho": "ais altas do esqueleto, muito acima da das corticais dos ossos longos [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Depois que o dente chega: o que ainda falta remodelar\".blocos[1].texto",
-     "trecho": "u nunca se reorganizar por completo em dentes que foram muito girados [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Depois que o dente chega: o que ainda falta remodelar\".blocos[3].svg[8]",
-     "trecho": "12' fill='var(--muted,#8A8478)'>prazos aproximados a partir de Reitan [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Remédios que mexem no ciclo\".blocos[0].texto",
-     "trecho": "s que expõem osso, e menor, mas presente, com a forma oral prolongada [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Remédios que mexem no ciclo\".blocos[2].svg[5]",
-     "trecho": "l='var(--muted,#8A8478)'>efeitos dependem de dose, via e tempo de uso [VERIFICAR]"
-    }
-   ]
+   "verificar": []
   },
   "ortodontia/biologia-do-movimento/forcas/magnitude-duracao-e-direcao": {
    "titulo": "Magnitude, duração e direção: as três variáveis de toda força ortodôntica",
@@ -28492,7 +26463,7 @@
    "formato": 2,
    "status": "rascunho",
    "estado": "rascunho",
-   "palavras": 4571,
+   "palavras": 4558,
    "visuais": [
     {
      "formato": "forcas",
@@ -28535,60 +26506,7 @@
      "destacar": "nível da crista óssea nos dois dentes e a distância até o braquete"
     }
    ],
-   "verificar": [
-    {
-     "onde": "Seção \"Magnitude: a janela entre nada acontecer e tudo dar errado\".blocos[0].texto",
-     "trecho": "a vinte e seis gramas por centímetro quadrado de superfície radicular [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Magnitude: a janela entre nada acontecer e tudo dar errado\".blocos[1].texto",
-     "trecho": "faziam os dentes de ancoragem, de maior área radicular, se deslocarem [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Magnitude: a janela entre nada acontecer e tudo dar errado\".blocos[3].verdade",
-     "trecho": "modelo em que a velocidade cresce até certo ponto e depois estabiliza [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Magnitude: a janela entre nada acontecer e tudo dar errado\".blocos[3].verdade",
-     "trecho": "2003 não encontrou evidência suficiente para definir uma força ótima [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Duração: contínua, interrompida e intermitente\".blocos[0].texto",
-     "trecho": "por dia para produzir movimento, e quanto mais horas, mais eficiente [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Duração: contínua, interrompida e intermitente\".blocos[4].texto",
-     "trecho": "caimento relatado em torno da metade da força inicial no primeiro dia [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Direção: por onde a força passa decide o movimento\".blocos[0].texto",
-     "trecho": "ia da crista alveolar ao ápice; em multirradiculares, próximo à furca [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Direção: por onde a força passa decide o movimento\".blocos[3].texto",
-     "trecho": "róxima de 10:1 para translação e acima de 12:1 para movimento de raiz [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Direção: por onde a força passa decide o movimento\".checagem.resposta",
-     "trecho": "aiz, entre um terço e metade da distância da crista alveolar ao ápice [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"As três juntas: o que cada variável decide\".blocos[2].texto",
-     "trecho": "animais mostraram hialinização tanto com forças leves quanto pesadas [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"De volta ao canino\".blocos[0].texto",
-     "trecho": "entro da faixa que a literatura clássica considera eficiente e segura [VERIFICAR]"
-    },
-    {
-     "onde": "infografico.itens[1].texto",
-     "trecho": "o. Raiz pequena, pressão alta. Schwarz: não exceder a pressão capilar [VERIFICAR]"
-    },
-    {
-     "onde": "infografico.itens[3].texto",
-     "trecho": "rompida, intermitente. Limiar em torno de quatro a oito horas por dia [VERIFICAR]"
-    }
-   ]
+   "verificar": []
   },
   "ortodontia/biologia-do-movimento/forcas/forcas-ideais-por-tipo-de-movimento": {
    "titulo": "Forças ideais por tipo de movimento: por que intruir pede um quinto da força de transladar",
@@ -28596,7 +26514,7 @@
    "formato": 2,
    "status": "rascunho",
    "estado": "rascunho",
-   "palavras": 3977,
+   "palavras": 3961,
    "visuais": [
     {
      "formato": "forcas",
@@ -28635,88 +26553,7 @@
      "destacar": "contorno apical dos incisivos e o comprimento radicular em relação ao inicial"
     }
    ],
-   "verificar": [
-    {
-     "onde": "umMinuto.frases[3]",
-     "trecho": "de raiz 50 a 100; rotação 35 a 60; extrusão 35 a 60; intrusão 10 a 20 [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Por que a força ideal muda com o movimento\".blocos[2].svg[9]",
-     "trecho": "var(--muted,#8A8478)'>faixas didáticas para dente unirradicular médio [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"A tabela e como lê-la\".blocos[0].texto",
-     "trecho": "de raiz 50 a 100; rotação 35 a 60; extrusão 35 a 60; intrusão 10 a 20 [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"A tabela e como lê-la\".blocos[1].svg[10]",
-     "trecho": "8)'>faixas didáticas para dente unirradicular médio, conforme Proffit [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"A tabela e como lê-la\".blocos[3].texto",
-     "trecho": "ô, e revisões sistemáticas não conseguiram fixar um valor ótimo único [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"A tabela e como lê-la\".checagem.resposta",
-     "trecho": "Intrusão 10 a 20 g, inclinação 35 a 60 g, translação 70 a 120 g [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Intrusão: o movimento que mais pede leveza\".blocos[1].texto",
-     "trecho": "isivos, uma força total de 40 a 80 gramas distribui 10 a 20 por dente [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Intrusão: o movimento que mais pede leveza\".blocos[1].texto",
-     "trecho": "linizada fica justamente no ápice, o ponto da raiz que mais reabsorve [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Intrusão: o movimento que mais pede leveza\".blocos[4].resposta",
-     "trecho": "Cerca de 37 g por dente, o dobro do limite superior da faixa didática [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Extrusão, rotação e movimento de raiz\".blocos[0].texto",
-     "trecho": "vo é só nivelar. As faixas didáticas ficam em torno de 35 a 60 gramas [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Extrusão, rotação e movimento de raiz\".blocos[1].texto",
-     "trecho": "concentrada. A faixa didática também fica em torno de 35 a 60 gramas [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Extrusão, rotação e movimento de raiz\".blocos[2].svg[7]",
-     "trecho": "='middle' font-size='11' fill='var(--muted,#8A8478)'>faixas didáticas [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Extrusão, rotação e movimento de raiz\".blocos[3].texto",
-     "trecho": "ue na inclinação simples. A faixa didática fica entre 50 e 100 gramas [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Ajustar pelo dente: área radicular e periodonto\".blocos[2].svg[1]",
-     "trecho": "r(--gold,#B08968)'>150 a 200 g moveram bem o canino em Storey e Smith [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"De volta ao arco de intrusão\".blocos[0].texto",
-     "trecho": "por translação ou inclinação controlada, aceitou algo como 150 gramas [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"De volta ao arco de intrusão\".blocos[0].texto",
-     "trecho": "sivos em intrusão precisavam de 10 a 20 gramas cada, 40 a 80 no total [VERIFICAR]"
-    },
-    {
-     "onde": "fechamento.flashcards[0].verso",
-     "trecho": "(35 a 60 g), movimento de raiz (50 a 100 g), translação (70 a 120 g) [VERIFICAR]"
-    },
-    {
-     "onde": "infografico.itens[2].texto",
-     "trecho": "ação, rotação, extrusão 35 a 60; raiz 50 a 100; translação 70 a 120 g [VERIFICAR]"
-    },
-    {
-     "onde": "macetes[1].texto",
-     "trecho": "são 10, inclinação/rotação/extrusão 35, raiz 50, translação 70 gramas [VERIFICAR]"
-    },
-    {
-     "onde": "autoteste[2].explicacoes[2]",
-     "trecho": "Correta: intrusão 10 a 20 g; translação 70 a 120 g [VERIFICAR]"
-    }
-   ]
+   "verificar": []
   },
   "ortodontia/biologia-do-movimento/forcas/efeitos-de-forcas-excessivas": {
    "titulo": "Efeitos de forças excessivas: o que acontece quando a pressão passa do limite",
@@ -28724,7 +26561,7 @@
    "formato": 2,
    "status": "rascunho",
    "estado": "rascunho",
-   "palavras": 3984,
+   "palavras": 3978,
    "visuais": [
     {
      "formato": "fluxograma",
@@ -28763,36 +26600,7 @@
      "destacar": "nível da margem gengival do incisivo em relação aos vizinhos e posição da raiz na cortical"
     }
    ],
-   "verificar": [
-    {
-     "onde": "umMinuto.frases[5]",
-     "trecho": "e é rara e associada a dentes com trauma prévio ou ápice comprometido [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Dor e mobilidade: os primeiros sinais\".blocos[0].texto",
-     "trecho": "no de um a dois dias e cede em quase todos os pacientes em uma semana [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Dor e mobilidade: os primeiros sinais\".blocos[2].svg[4]",
-     "trecho": "em 1 a 2 dias,</text><text x='285' y='96'>cede em cerca de uma semana [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Ancoragem que cede e dente que não anda\".blocos[1].texto",
-     "trecho": "de 400 a 600 gramas moveram pouco os caninos e deslocaram a ancoragem [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Raiz, osso e gengiva: os efeitos que ficam\".blocos[3].texto",
-     "trecho": "s com trauma prévio, ápice fechado e forças de intrusão fora da faixa [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Por que a força pesada não compensa: a curva de novo\".blocos[0].texto",
-     "trecho": "de e velocidade, e observaram hialinização com forças leves e pesadas [VERIFICAR]"
-    },
-    {
-     "onde": "fechamento.flashcards[1].verso",
-     "trecho": "leve a moderada, pico em um a dois dias, cede em cerca de uma semana [VERIFICAR]"
-    }
-   ]
+   "verificar": []
   },
   "ortodontia/biologia-do-movimento/forcas/reabsorcao-radicular": {
    "titulo": "Reabsorção radicular: o preço que a raiz paga e como mantê-lo baixo",
@@ -28800,7 +26608,7 @@
    "formato": 2,
    "status": "rascunho",
    "estado": "rascunho",
-   "palavras": 4096,
+   "palavras": 4075,
    "visuais": [
     {
      "formato": "processo",
@@ -28843,108 +26651,7 @@
      "destacar": "contorno e comprimento apical dos laterais e centrais nas duas imagens"
     }
    ],
-   "verificar": [
-    {
-     "onde": "umMinuto.frases[2]",
-     "trecho": "quatro milímetros, é raro, na ordem de poucos por cento dos pacientes [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"O que é, e por que quase todo dente movido tem um pouco\".blocos[0].texto",
-     "trecho": "icos mostram lacunas desse tipo em quase todos os dentes movimentados [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"O que é, e por que quase todo dente movido tem um pouco\".blocos[2].texto",
-     "trecho": "m reparo e reabsorção circunferencial apical com perda de comprimento [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"O que é, e por que quase todo dente movido tem um pouco\".blocos[3].svg[7]",
-     "trecho": "y='398'>etapa 4: encurtamento moderado a grave, minoria dos pacientes [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Quanto acontece e em quem\".blocos[0].texto",
-     "trecho": "cima de quatro milímetros ou de um terço da raiz, em poucos por cento [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Fatores de risco: o que é do paciente, o que é seu\".blocos[1].texto",
-     "trecho": "ia, como o da interleucina-1 beta, foram associados em alguns estudos [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Fatores de risco: o que é do paciente, o que é seu\".blocos[2].texto",
-     "trecho": "s alinhadores, as diferenças relatadas são pequenas ou inconsistentes [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Fatores de risco: o que é do paciente, o que é seu\".blocos[3].svg[2]",
-     "trecho": "amento</text><text x='60' y='152'>predisposição individual e familiar [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Fatores de risco: o que é do paciente, o que é seu\".blocos[4].texto",
-     "trecho": "e os vitais durante o movimento; alguns estudos encontraram até menos [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Diagnóstico: quando olhar e como medir\".blocos[1].texto",
-     "trecho": "orque a reabsorção que aparece nesse período prediz a que virá depois [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Diagnóstico: quando olhar e como medir\".blocos[1].texto",
-     "trecho": "metros a um terço da raiz; 4, encurtamento maior que um terço da raiz [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Diagnóstico: quando olhar e como medir\".blocos[2].svg[5]",
-     "trecho": "t-size='11' fill='var(--muted,#8A8478)'>índice de Levander e Malmgren [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Diagnóstico: quando olhar e como medir\".blocos[4].resposta",
-     "trecho": "o prediz reabsorção maior ao final e permite pausar e ajustar a tempo [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Diagnóstico: quando olhar e como medir\".checagem.resposta",
-     "trecho": "Grau 4: mais de um terço da raiz, replanejar objetivos ou interromper [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Conduta: prevenir, pausar, replanejar, prognosticar\".blocos[1].texto",
-     "trecho": "nal em pacientes que pausaram do que nos que seguiram sem interrupção [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Conduta: prevenir, pausar, replanejar, prognosticar\".blocos[2].svg[8]",
-     "trecho": "ed,#8A8478)'>prazos de referência do protocolo de Levander e Malmgren [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Conduta: prevenir, pausar, replanejar, prognosticar\".checagem.resposta",
-     "trecho": "ssivo, redução de força e deslocamento apical e revisão dos objetivos [VERIFICAR]"
-    },
-    {
-     "onde": "fechamento.flashcards[2].verso",
-     "trecho": "deslocamento apical, revisão dos objetivos; repetir a cada seis meses [VERIFICAR]"
-    },
-    {
-     "onde": "infografico.itens[1].texto",
-     "trecho": "leve na maioria; grave (mais de um terço ou 4 mm) em poucos por cento [VERIFICAR]"
-    },
-    {
-     "onde": "infografico.itens[5].texto",
-     "trecho": "le aos 6 a 9 meses; grau 2 ou mais: pausa de 2 a 3 meses e replanejar [VERIFICAR]"
-    },
-    {
-     "onde": "macetes[2].texto",
-     "trecho": "a radiografia de controle. O que aparece cedo prediz o que vem depois [VERIFICAR]"
-    },
-    {
-     "onde": "ondeErra[1].porque",
-     "trecho": "bem feita não aumenta o risco; o que aumenta é o trauma que a motivou [VERIFICAR]"
-    },
-    {
-     "onde": "autoteste[3].explicacoes[2]",
-     "trecho": "eta: permite reparo pelo cemento e reduz o deslocamento apical futuro [VERIFICAR]"
-    },
-    {
-     "onde": "autoteste[4].explicacoes[0]",
-     "trecho": "A endodontia em si não aumenta o risco; o trauma que a motivou, sim [VERIFICAR]"
-    },
-    {
-     "onde": "autoteste[4].explicacoes[3]",
-     "trecho": "Pausas permitem reparo e reduzem a reabsorção final [VERIFICAR]"
-    }
-   ]
+   "verificar": []
   },
   "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas": {
    "titulo": "Descalcificação e lesões brancas: a cicatriz que o aparelho deixa no esmalte",
@@ -28952,7 +26659,7 @@
    "formato": 2,
    "status": "rascunho",
    "estado": "rascunho",
-   "palavras": 4244,
+   "palavras": 4226,
    "visuais": [
     {
      "formato": "anatomico",
@@ -28995,116 +26702,7 @@
      "destacar": "contorno das lesões em relação à área da base do braquete e a diferença entre arco superior e inferior"
     }
    ],
-   "verificar": [
-    {
-     "onde": "umMinuto.frases[2]",
-     "trecho": "a face vestibular gengival de incisivos laterais superiores e caninos [VERIFICAR]"
-    },
-    {
-     "onde": "umMinuto.frases[4]",
-     "trecho": "aplicação intensa de flúor pode fixar a opacidade em vez de apagá-la [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Por que o aparelho fixo é um fabricante de lesões\".blocos[1].texto",
-     "trecho": "nicas e acidúricas, como estreptococos do grupo mutans e lactobacilos [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Por que o aparelho fixo é um fabricante de lesões\".blocos[4].itens[2]",
-     "trecho": "têm mais biofilme do que ligaduras metálicas ou braquetes autoligados [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Quanto acontece e em quanto tempo\".blocos[1].texto",
-     "trecho": "s em torno de metade dos pacientes, com variação ampla entre serviços [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Quanto acontece e em quanto tempo\".blocos[1].texto",
-     "trecho": "va das glândulas sublinguais e submandibulares, são os menos afetados [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Quanto acontece e em quanto tempo\".blocos[2].texto",
-     "trecho": "o, lesões brancas visíveis podem se formar em cerca de quatro semanas [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Quanto acontece e em quanto tempo\".blocos[3].svg[7]",
-     "trecho": "='var(--muted,#8A8478)'>suscetibilidade relativa, sem escala numérica [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Quanto acontece e em quanto tempo\".blocos[4].verdade",
-     "trecho": "a de um braquete, uma lesão visível pode se formar em cerca de um mês [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Quanto acontece e em quanto tempo\".checagem.resposta",
-     "trecho": "Em cerca de quatro semanas de biofilme não removido [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Prevenção: o único tratamento que funciona de verdade\".blocos[1].texto",
-     "trecho": "ração, gel ou verniz aplicados no consultório em intervalos regulares [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Prevenção: o único tratamento que funciona de verdade\".blocos[3].svg[1]",
-     "trecho": "--blue,#4A6B8A)'>gel ou verniz no consultório em intervalos regulares [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Depois da remoção: o que fazer e o que não fazer\".blocos[0].texto",
-     "trecho": "primeiros seis meses e continua de forma mais lenta por até dois anos [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Depois da remoção: o que fazer e o que não fazer\".blocos[1].texto",
-     "trecho": "ue o interior se remineralize, fixando a opacidade em vez de apagá-la [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Depois da remoção: o que fazer e o que não fazer\".blocos[1].texto",
-     "trecho": "e cálcio são usados por alguns serviços, com evidência ainda limitada [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Depois da remoção: o que fazer e o que não fazer\".blocos[2].svg[6]",
-     "trecho": "' y='206' text-anchor='middle' font-size='11'>reavaliar em seis meses [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Depois da remoção: o que fazer e o que não fazer\".blocos[5].texto",
-     "trecho": "es ainda é limitada e as revisões pedem cautela ao prometer resultado [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Depois da remoção: o que fazer e o que não fazer\".checagem.resposta",
-     "trecho": "o a opacidade; o indicado é dentifrício convencional, higiene e tempo [VERIFICAR]"
-    },
-    {
-     "onde": "fechamento.flashcards[2].verso",
-     "trecho": "amento, microabrasão ou infiltração resinosa; restaurar só cavitações [VERIFICAR]"
-    },
-    {
-     "onde": "infografico.itens[2].texto",
-     "trecho": "Visível em cerca de quatro semanas de biofilme parado [VERIFICAR]"
-    },
-    {
-     "onde": "infografico.itens[4].texto",
-     "trecho": "ício convencional; sem flúor concentrado; não restaurar sem cavitação [VERIFICAR]"
-    },
-    {
-     "onde": "macetes[2].texto",
-     "trecho": "Tempo em que uma lesão pode ficar visível sob biofilme parado [VERIFICAR]"
-    },
-    {
-     "onde": "macetes[3].texto",
-     "trecho": "superfície e fixar a mancha. Espere seis meses com dentifrício comum [VERIFICAR]"
-    },
-    {
-     "onde": "ondeErra[2].certo",
-     "trecho": "é para prevenir durante o tratamento, não para apagar a mancha depois [VERIFICAR]"
-    },
-    {
-     "onde": "autoteste[2].explicacoes[2]",
-     "trecho": "Correta: cerca de um mês de biofilme parado [VERIFICAR]"
-    },
-    {
-     "onde": "autoteste[3].explicacoes[1]",
-     "trecho": "Pode selar a superfície e fixar a opacidade [VERIFICAR]"
-    },
-    {
-     "onde": "autoteste[3].explicacoes[2]",
-     "trecho": "Correta: a remineralização natural é maior nos primeiros meses [VERIFICAR]"
-    }
-   ]
+   "verificar": []
   },
   "ortodontia/biologia-do-movimento/efeitos-colaterais/recessao-e-deiscencias": {
    "titulo": "Recessão e deiscências: o que acontece quando a raiz sai do envelope de osso",
@@ -29112,7 +26710,7 @@
    "formato": 2,
    "status": "rascunho",
    "estado": "rascunho",
-   "palavras": 4248,
+   "palavras": 4244,
    "visuais": [
     {
      "formato": "anatomico",
@@ -29155,52 +26753,7 @@
      "destacar": "posição da raiz em relação à cortical vestibular nos dois momentos e o nível da crista óssea"
     }
    ],
-   "verificar": [
-    {
-     "onde": "Seção \"O envelope de osso: onde o dente pode e onde não pode ir\".blocos[0].texto",
-     "trecho": "cal vestibular costuma ter menos de um milímetro em boa parte da raiz [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Da deiscência à recessão: por que uma leva à outra\".blocos[1].texto",
-     "trecho": "s tratados do que em não tratados, sobretudo nos incisivos inferiores [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Da deiscência à recessão: por que uma leva à outra\".blocos[3].verdade",
-     "trecho": "o tardia após vestibularização de incisivos inferiores é bem descrita [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Prevenir: ver o limite, respeitar ou ampliar\".blocos[0].texto",
-     "trecho": "alva de que osso muito fino pode não aparecer e ser lido como ausente [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Prevenir: ver o limite, respeitar ou ampliar\".blocos[4].texto",
-     "trecho": "solvido assim é quase um milímetro de raiz que avança para a cortical [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Recessão instalada: o que fazer durante e depois\".blocos[0].texto",
-     "trecho": "ido sobre ela e melhorar o prognóstico de qualquer cirurgia posterior [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Recessão instalada: o que fazer durante e depois\".blocos[1].texto",
-     "trecho": "entes estão preservadas, e piores quando a raiz permanece proeminente [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Recessão instalada: o que fazer durante e depois\".checagem.resposta",
-     "trecho": "ostuma ser feito após o término, com a posição final da raiz definida [VERIFICAR]"
-    },
-    {
-     "onde": "fechamento.flashcards[2].verso",
-     "trecho": "tecido sobre ela e melhorando o prognóstico do recobrimento radicular [VERIFICAR]"
-    },
-    {
-     "onde": "ondeErra[3].certo",
-     "trecho": "raiz para dentro do osso e, salvo progressão, recobrir após o término [VERIFICAR]"
-    },
-    {
-     "onde": "autoteste[3].explicacoes[2]",
-     "trecho": "A recessão tardia após vestibularização é bem descrita [VERIFICAR]"
-    }
-   ]
+   "verificar": []
   },
   "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade": {
    "titulo": "Dor e mobilidade: o que é esperado, o que é alarme e como orientar o paciente",
@@ -29208,7 +26761,7 @@
    "formato": 2,
    "status": "rascunho",
    "estado": "rascunho",
-   "palavras": 4068,
+   "palavras": 4041,
    "visuais": [
     {
      "formato": "grafico",
@@ -29247,128 +26800,7 @@
      "destacar": "diferença entre a marca intensa isolada e as marcas fracas dos vizinhos"
     }
    ],
-   "verificar": [
-    {
-     "onde": "umMinuto.frases[0]",
-     "trecho": "co em torno de 24 horas e diminui até quase desaparecer em uma semana [VERIFICAR]"
-    },
-    {
-     "onde": "umMinuto.frases[5]",
-     "trecho": "o prolongado podem interferir no movimento e são evitados como rotina [VERIFICAR]"
-    },
-    {
-     "onde": "umMinuto.caiNaProva[0]",
-     "trecho": "em horas, pico em cerca de 24 horas, resolução em torno de sete dias [VERIFICAR]"
-    },
-    {
-     "onde": "umMinuto.caiNaProva[3]",
-     "trecho": "xperimentais; paracetamol é a primeira escolha para a dor ortodôntica [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"A dor esperada: por que dói e por quanto tempo\".blocos[1].texto",
-     "trecho": "diminui progressivamente até quase desaparecer em torno do sétimo dia [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"A dor esperada: por que dói e por quanto tempo\".blocos[3].svg[10]",
-     "trecho": "8)'>curva conceitual, sem escala de intensidade; prazos de referência [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"A dor esperada: por que dói e por quanto tempo\".blocos[4].texto",
-     "trecho": "em horas, pico em cerca de 24 horas, resolução em torno de sete dias [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"A dor esperada: por que dói e por quanto tempo\".checagem.resposta",
-     "trecho": "oras, redução progressiva até quase desaparecer em cerca de sete dias [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"O que muda a dor: força, pessoa e expectativa\".blocos[0].texto",
-     "trecho": "alinhamento inicial, nem entre braquetes convencionais e autoligados [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"O que muda a dor: força, pessoa e expectativa\".blocos[1].texto",
-     "trecho": "a relatar mais dor em muitos estudos, com variação grande entre eles [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"O que muda a dor: força, pessoa e expectativa\".blocos[2].svg[6]",
-     "trecho": "8A8478)'>diferenças entre fios e braquetes na faixa leve são pequenas [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"O que muda a dor: força, pessoa e expectativa\".blocos[3].verdade",
-     "trecho": "diferença consistente de dor entre ligas nem entre tipos de braquete [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Manejo: informar, aliviar, não atrapalhar o movimento\".blocos[0].texto",
-     "trecho": "ns estudos, talvez por restaurar a circulação do ligamento comprimido [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Manejo: informar, aliviar, não atrapalhar o movimento\".blocos[2].texto",
-     "trecho": "doses no pico da dor tenham efeito clínico pequeno sobre o movimento [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Manejo: informar, aliviar, não atrapalhar o movimento\".blocos[2].texto",
-     "trecho": "se preventiva antes da ativação reduz a dor do pico em alguns estudos [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Manejo: informar, aliviar, não atrapalhar o movimento\".blocos[3].svg[4]",
-     "trecho": "var(--muted,#8A8478)'>anti-inflamatório: só uma ou duas doses no pico [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Manejo: informar, aliviar, não atrapalhar o movimento\".blocos[4].texto",
-     "trecho": "ica para o pico, em uma ou duas doses, quando o paracetamol não basta [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Manejo: informar, aliviar, não atrapalhar o movimento\".checagem.resposta",
-     "trecho": "ziram a velocidade do movimento; o paracetamol alivia sem esse efeito [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Quando dor e mobilidade contam outra história\".blocos[3].texto",
-     "trecho": "e é rara e associada a trauma prévio ou forças e intrusões excessivas [VERIFICAR]"
-    },
-    {
-     "onde": "fechamento.flashcards[0].verso",
-     "trecho": "as, pico em torno de 24 horas, quase desaparece em cerca de sete dias [VERIFICAR]"
-    },
-    {
-     "onde": "fechamento.flashcards[2].verso",
-     "trecho": "medeiam a remodelação, e podem reduzir o movimento em uso prolongado [VERIFICAR]"
-    },
-    {
-     "onde": "infografico.itens[1].texto",
-     "trecho": "Horas para começar, um dia para o pico, uma semana para quase sumir [VERIFICAR]"
-    },
-    {
-     "onde": "infografico.itens[4].texto",
-     "trecho": "l nas primeiras 48 h; anti-inflamatório só no pico, uma ou duas doses [VERIFICAR]"
-    },
-    {
-     "onde": "macetes[0].texto",
-     "trecho": "Começa em horas, pico em 24 h, quase zero em sete dias [VERIFICAR]"
-    },
-    {
-     "onde": "macetes[2].texto",
-     "trecho": "o alivia e freia. Paracetamol de rotina; anti-inflamatório só no pico [VERIFICAR]"
-    },
-    {
-     "onde": "ondeErra[1].porque",
-     "trecho": "Inibe as prostaglandinas da remodelação e pode reduzir o movimento [VERIFICAR]"
-    },
-    {
-     "onde": "autoteste[0].explicacoes[1]",
-     "trecho": ": curva com relógio, pico em um dia e resolução em cerca de sete dias [VERIFICAR]"
-    },
-    {
-     "onde": "autoteste[2].explicacoes[0]",
-     "trecho": "glandinas da remodelação e pode reduzir o movimento em uso prolongado [VERIFICAR]"
-    },
-    {
-     "onde": "autoteste[4].explicacoes[0]",
-     "trecho": "As diferenças de dor entre ligas na faixa leve são pequenas [VERIFICAR]"
-    },
-    {
-     "onde": "autoteste[4].explicacoes[3]",
-     "trecho": "Não há diferença consistente de dor entre tipos de braquete [VERIFICAR]"
-    }
-   ]
+   "verificar": []
   },
   "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento": {
    "titulo": "Aceleração do movimento: o que a biologia permite e o que o marketing promete",
@@ -29376,7 +26808,7 @@
    "formato": 2,
    "status": "rascunho",
    "estado": "rascunho",
-   "palavras": 4236,
+   "palavras": 4209,
    "visuais": [
     {
      "formato": "classificacao",
@@ -29419,160 +26851,7 @@
      "destacar": "posição das perfurações entre as raízes, longe delas, e a ausência de retalho"
     }
    ],
-   "verificar": [
-    {
-     "onde": "umMinuto.frases[3]",
-     "trecho": "; a redução do tempo total de tratamento é pequena ou não demonstrada [VERIFICAR]"
-    },
-    {
-     "onde": "umMinuto.frases[4]",
-     "trecho": "rolados e das revisões não confirma aceleração clinicamente relevante [VERIFICAR]"
-    },
-    {
-     "onde": "umMinuto.caiNaProva[3]",
-     "trecho": "confirmação consistente; farmacológicos sem uso clínico estabelecido [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Por que existe um limite de velocidade\".blocos[0].texto",
-     "trecho": "ontal avança em torno de um milímetro por mês em condições favoráveis [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Por que existe um limite de velocidade\".blocos[2].svg[0]",
-     "trecho": "1' fill='var(--red,#B4533B)'>efeito modesto e transitório nos estudos [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Por que existe um limite de velocidade\".blocos[2].svg[1]",
-     "trecho": "ill='var(--blue,#4A6B8A)'>experimentais; sem uso clínico estabelecido [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Por que existe um limite de velocidade\".blocos[2].svg[2]",
-     "trecho": ",#B08968)'>evidência inconsistente; maioria das revisões não confirma [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Por que existe um limite de velocidade\".checagem.resposta",
-     "trecho": "de células, em torno de um milímetro por mês em condições favoráveis [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"O fenômeno regional acelerado: a biologia das corticotomias\".blocos[0].texto",
-     "trecho": "em um a dois meses e regride em alguns meses, conforme o osso repara [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"O fenômeno regional acelerado: a biologia das corticotomias\".blocos[2].texto",
-     "trecho": "da também para permitir movimentos que o osso original não permitiria [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"O fenômeno regional acelerado: a biologia das corticotomias\".blocos[3].svg[11]",
-     "trecho": "razos de referência da literatura sobre o fenômeno regional acelerado [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"O fenômeno regional acelerado: a biologia das corticotomias\".blocos[4].verdade",
-     "trecho": "ente entre ensaios; metade do tempo não é o que a literatura sustenta [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"O fenômeno regional acelerado: a biologia das corticotomias\".checagem.resposta",
-     "trecho": "ssão ao osso, com pico em um a dois meses e regressão em alguns meses [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Vibração, luz e outros dispositivos: o que os ensaios mostraram\".blocos[1].texto",
-     "trecho": "s sistemáticas concluem por ausência de efeito clinicamente relevante [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Vibração, luz e outros dispositivos: o que os ensaios mostraram\".blocos[2].texto",
-     "trecho": "ivos e outros neutros, qualidade metodológica variável e sem consenso [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Vibração, luz e outros dispositivos: o que os ensaios mostraram\".blocos[3].svg[8]",
-     "trecho": "uted,#8A8478)'>síntese de revisões sistemáticas até a data de redação [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Vibração, luz e outros dispositivos: o que os ensaios mostraram\".blocos[4].texto",
-     "trecho": "lidade responderam não; para a luz, ainda não responderam com clareza [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Vibração, luz e outros dispositivos: o que os ensaios mostraram\".blocos[5].itens[0]",
-     "trecho": "trolados de qualidade sem aceleração do alinhamento ou do tempo total [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Vibração, luz e outros dispositivos: o que os ensaios mostraram\".blocos[5].itens[1]",
-     "trecho": "biomodulação: resultados heterogêneos, estudos pequenos, sem consenso [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Vibração, luz e outros dispositivos: o que os ensaios mostraram\".blocos[5].itens[3]",
-     "trecho": "locais: efeito em animais, sem protocolo clínico seguro estabelecido [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Vibração, luz e outros dispositivos: o que os ensaios mostraram\".checagem.resposta",
-     "trecho": "e relevante. Fotobiomodulação: resultados heterogêneos e sem consenso [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Segurança: o que cada método pode custar\".blocos[1].texto",
-     "trecho": "consistente de reabsorção radicular, mas o seguimento longo é escasso [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Segurança: o que cada método pode custar\".blocos[4].texto",
-     "trecho": "afetam todo o esqueleto; nenhum tem protocolo seguro para uso clínico [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Segurança: o que cada método pode custar\".blocos[5].svg[7]",
-     "trecho": "8A8478)'>exceção: técnicas com enxerto ósseo podem ampliar o envelope [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"Segurança: o que cada método pode custar\".checagem.resposta",
-     "trecho": "de osso ou papila com retalho mal manejado, seguimento longo escasso [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"O acelerador que funciona: plano, mecânica e cooperação\".blocos[2].svg[11]",
-     "trecho": "0' fill='var(--muted,#8A8478)'>registrar a conversa e o consentimento [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"De volta ao executivo\".blocos[0].texto",
-     "trecho": "vidência de que reduza o tempo, que não faz mal, e que o custo é dele [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"De volta ao executivo\".blocos[1].texto",
-     "trecho": "iz que não pode prometer meses e que não indicaria como base do plano [VERIFICAR]"
-    },
-    {
-     "onde": "Seção \"De volta ao executivo\".checagem.resposta",
-     "trecho": "rurgia com riscos; decisão informada, sem promessa de metade do tempo [VERIFICAR]"
-    },
-    {
-     "onde": "fechamento.flashcards[0].verso",
-     "trecho": "e mais depressa enquanto a força move o dente; o efeito é transitório [VERIFICAR]"
-    },
-    {
-     "onde": "fechamento.flashcards[1].verso",
-     "trecho": "enos, sem consenso. Nenhum dos dois permite prometer redução do tempo [VERIFICAR]"
-    },
-    {
-     "onde": "infografico.itens[2].texto",
-     "trecho": "r meses e volta ao normal. Base das corticotomias; efeito transitório [VERIFICAR]"
-    },
-    {
-     "onde": "infografico.itens[3].texto",
-     "trecho": "o: sem efeito relevante. Luz: sem consenso. Fármacos: sem uso clínico [VERIFICAR]"
-    },
-    {
-     "onde": "ondeErra[0].certo",
-     "trecho": "Ganho modesto e temporário, com riscos cirúrgicos; decisão informada [VERIFICAR]"
-    },
-    {
-     "onde": "ondeErra[1].porque",
-     "trecho": "ualidade não mostram efeito relevante para vibração; luz sem consenso [VERIFICAR]"
-    },
-    {
-     "onde": "autoteste[1].explicacoes[1]",
-     "trecho": "Correta: por isso acelera uma fase, não o tratamento inteiro [VERIFICAR]"
-    },
-    {
-     "onde": "autoteste[2].explicacoes[1]",
-     "trecho": "os ensaios de qualidade e as revisões não encontram efeito relevante [VERIFICAR]"
-    },
-    {
-     "onde": "autoteste[4].explicacoes[1]",
-     "trecho": "Evidência heterogênea e sem consenso [VERIFICAR]"
-    }
-   ]
+   "verificar": []
   },
   "ortodontia/diagnostico/cefalometria/analise-de-steiner": {
    "titulo": "Análise de Steiner: as medidas e o que cada uma diz",

@@ -64,11 +64,11 @@
         { "tipo": "p", "texto": "A leitura é em dois tempos. Primeiro o ANB diz a classe; depois SNA e SNB dizem quem é o culpado. ANB 8° com SNA 82° e SNB 74° é Classe II por mandíbula retruída. ANB 8° com SNA 88° e SNB 80° é Classe II por maxila protruída. O mesmo ANB, dois tratamentos diferentes." },
         { "tipo": "lista", "itens": [
           "SNA alto e SNB normal: maxila protruída.",
-          "SNA normal e SNB baixo: mandíbula retruída, o padrão mais comum na Classe II [VERIFICAR].",
-          "SNA baixo e SNB normal: maxila deficiente, frequente na Classe III [VERIFICAR].",
+          "SNA normal e SNB baixo: mandíbula retruída, o padrão mais comum na Classe II.",
+          "SNA baixo e SNB normal: maxila deficiente, frequente na Classe III.",
           "SNA normal e SNB alto: mandíbula protruída."
         ] },
-        { "tipo": "destaque", "estilo": "prova", "texto": "Decore o trio de Steiner: SNA 82°, SNB 80°, ANB 2°. A prova pede os valores, pede a interpretação de um caso com os três ângulos e pede a limitação do ANB. A faixa de normalidade do ANB costuma ser dada como 0° a 4° [VERIFICAR]; fora dela, classifique." }
+        { "tipo": "destaque", "estilo": "prova", "texto": "Decore o trio de Steiner: SNA 82°, SNB 80°, ANB 2°. A prova pede os valores, pede a interpretação de um caso com os três ângulos e pede a limitação do ANB. A faixa de normalidade do ANB costuma ser dada como 0° a 4°; fora dela, classifique." }
       ],
       "checagem": { "pergunta": "SNA 80°, SNB 84°, ANB -4°. Classe esquelética e origem?", "resposta": "Classe III esquelética, por mandíbula protruída: a maxila está em posição próxima do normal e a mandíbula está à frente." }
     },
@@ -87,7 +87,7 @@
             "<circle cx='300' cy='220' r='5' fill='none' stroke='var(--gold,#B08968)' stroke-width='2.5'/><text x='300' y='204' text-anchor='middle' font-size='12' font-weight='700' fill='var(--gold,#B08968)'>AO</text>",
             "<circle cx='260' cy='220' r='5' fill='none' stroke='var(--blue,#4A6B8A)' stroke-width='2.5'/><text x='260' y='204' text-anchor='middle' font-size='12' font-weight='700' fill='var(--blue,#4A6B8A)'>BO</text>",
             "<line x1='260' y1='250' x2='300' y2='250' stroke='var(--red,#B4533B)' stroke-width='2'/><line x1='260' y1='244' x2='260' y2='256' stroke='var(--red,#B4533B)' stroke-width='2'/><line x1='300' y1='244' x2='300' y2='256' stroke='var(--red,#B4533B)' stroke-width='2'/><text x='280' y='272' text-anchor='middle' font-size='12' font-weight='700' fill='var(--red,#B4533B)'>Wits = BO a AO</text>",
-            "<g font-size='12' fill='var(--ink,#23211C)'><text x='60' y='70' font-weight='700'>Leitura</text><text x='60' y='90'>BO atrás de AO: Classe II</text><text x='60' y='108'>BO à frente de AO: Classe III</text><text x='60' y='126'>referência: perto de zero,</text><text x='60' y='144'>homens ~ -1 mm, mulheres ~ 0 mm [VERIFICAR]</text></g>",
+            "<g font-size='12' fill='var(--ink,#23211C)'><text x='60' y='70' font-weight='700'>Leitura</text><text x='60' y='90'>BO atrás de AO: Classe II</text><text x='60' y='108'>BO à frente de AO: Classe III</text><text x='60' y='126'>referência: perto de zero,</text><text x='60' y='144'>homens ~ -1 mm, mulheres ~ 0 mm</text></g>",
             "<text x='280' y='340' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>independe do násio e do plano SN; depende da inclinação do plano oclusal</text>"
           ],
           "legenda": "Jacobson trocou a régua: em vez de medir a partir do násio, projeta A e B sobre o plano oclusal. Some às virtudes o defeito novo: um plano oclusal inclinado muda a medida." },
@@ -98,8 +98,8 @@
     {
       "titulo": "McNamara e Harvold: medir cada base contra o crânio e uma contra a outra",
       "blocos": [
-        { "tipo": "p", "texto": "McNamara propôs uma referência que não depende do plano SN: a perpendicular ao násio, uma linha vertical baixada do násio com a cabeça em posição natural, a partir do plano horizontal de Frankfurt. O ponto A deve ficar perto dessa linha, e o pogônio, um pouco atrás na criança e próximo dela no adulto [VERIFICAR]. Assim cada base é julgada contra o crânio, separadamente." },
-        { "tipo": "p", "texto": "Harvold acrescentou o tamanho. O comprimento efetivo da maxila vai do côndilo ao ponto A; o da mandíbula, do côndilo ao gnátio. A diferença entre os dois, a diferença maxilomandibular, deve cair em uma faixa que cresce com o tamanho da face; uma diferença pequena aponta Classe II e uma diferença grande aponta Classe III, independentemente do násio [VERIFICAR]." },
+        { "tipo": "p", "texto": "McNamara propôs uma referência que não depende do plano SN: a perpendicular ao násio, uma linha vertical baixada do násio com a cabeça em posição natural, a partir do plano horizontal de Frankfurt. O ponto A deve ficar perto dessa linha, e o pogônio, um pouco atrás na criança e próximo dela no adulto. Assim cada base é julgada contra o crânio, separadamente." },
+        { "tipo": "p", "texto": "Harvold acrescentou o tamanho. O comprimento efetivo da maxila vai do côndilo ao ponto A; o da mandíbula, do côndilo ao gnátio. A diferença entre os dois, a diferença maxilomandibular, deve cair em uma faixa que cresce com o tamanho da face; uma diferença pequena aponta Classe II e uma diferença grande aponta Classe III, independentemente do násio." },
         { "tipo": "visual", "formato": "comparativo", "titulo": "Três réguas para a mesma pergunta: ANB, Wits e McNamara", "descricao": "Três colunas. ANB: referência násio, mede a diferença SNA menos SNB, sofre com o násio, com o plano SN e com a altura facial. Wits: referência plano oclusal, mede AO a BO, sofre com a inclinação do plano oclusal. McNamara: referência perpendicular ao násio com a cabeça em posição natural, mede cada base separadamente e a diferença de comprimentos, sofre com a posição da cabeça e do násio.", "viewBox": "0 0 720 320",
           "svg": [
             "<use href='#c-caixa-gold' x='20' y='16' width='210' height='44'/><text x='125' y='44' text-anchor='middle' font-size='15' font-weight='700'>ANB</text>",
@@ -145,8 +145,8 @@
     {
       "titulo": "De onde vem cada classe: os componentes",
       "blocos": [
-        { "tipo": "p", "texto": "A Classe II esquelética pode nascer de maxila protruída, de mandíbula retruída ou pequena, ou de uma combinação. Nos estudos de componentes, o retrusão mandibular apareceu como o achado mais frequente, e a maxila, na maioria dos casos, estava em posição normal ou até retruída [VERIFICAR]. Isso importa: a Classe II típica é um problema de mandíbula, e é a mandíbula que o aparelho funcional tenta estimular." },
-        { "tipo": "p", "texto": "A Classe III esquelética pode nascer de mandíbula grande ou protruída, de maxila deficiente ou retruída, ou dos dois. A deficiência maxilar participa de uma grande parte dos casos, sozinha ou combinada [VERIFICAR], o que explica por que a tração reversa da maxila é a primeira ferramenta na criança. Na Classe III o problema é muitas vezes a maxila que ficou, não a mandíbula que passou." },
+        { "tipo": "p", "texto": "A Classe II esquelética pode nascer de maxila protruída, de mandíbula retruída ou pequena, ou de uma combinação. Nos estudos de componentes, o retrusão mandibular apareceu como o achado mais frequente, e a maxila, na maioria dos casos, estava em posição normal ou até retruída. Isso importa: a Classe II típica é um problema de mandíbula, e é a mandíbula que o aparelho funcional tenta estimular." },
+        { "tipo": "p", "texto": "A Classe III esquelética pode nascer de mandíbula grande ou protruída, de maxila deficiente ou retruída, ou dos dois. A deficiência maxilar participa de uma grande parte dos casos, sozinha ou combinada, o que explica por que a tração reversa da maxila é a primeira ferramenta na criança. Na Classe III o problema é muitas vezes a maxila que ficou, não a mandíbula que passou." },
         { "tipo": "imagem", "imagem": "telerradiografia lateral traçada de um paciente com Classe II esquelética por retrusão mandibular", "mostrar": "Traçado com S, N, A, B e pogônio marcados; SNA próximo de 82°, SNB reduzido, ANB aumentado; perpendicular ao násio com o pogônio bem atrás dela; plano oclusal com AO e BO marcados", "legenda": "Classe II esquelética por mandíbula retruída: SNA normal, SNB reduzido, pogônio atrás da perpendicular ao násio, BO atrás de AO.", "destacar": "Ponto B e pogônio em relação à perpendicular ao násio, valor de SNB, distância AO a BO" },
         { "tipo": "destaque", "estilo": "dica", "titulo": "Do componente ao plano", "texto": "Mandíbula retruída em paciente que ainda cresce: modificar o crescimento. Maxila protruída: conter a maxila. Adulto: camuflar com os dentes ou operar, conforme a gravidade. Maxila deficiente na criança: tração reversa. Mandíbula grande: esperar o fim do crescimento para decidir entre camuflagem e cirurgia. O componente escolhe a ferramenta." }
       ],
