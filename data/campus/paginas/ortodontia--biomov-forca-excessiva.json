@@ -1,0 +1,238 @@
+{
+  "id": "ortodontia/biologia-do-movimento/forcas/efeitos-de-forcas-excessivas",
+  "areaId": "ortodontia",
+  "area": "Ortodontia",
+  "modulo": "Biologia do movimento",
+  "tema": "Forças",
+  "titulo": "Efeitos de forças excessivas: o que acontece quando a pressão passa do limite",
+  "estado": "rascunho",
+  "versao": 1,
+  "formato": 2,
+  "autoria": "Rascunho escrito pela plataforma para validação; nada aqui é visível ao aluno antes da assinatura de um ortodontista.",
+  "abertura": {
+    "situacao": "Um paciente de 14 anos volta da consulta de ativação com dor forte por cinco dias, não consegue mastigar e diz que 'os dentes da frente estão soltos'. Na consulta seguinte, o ortodontista nota que o canino quase não se moveu, mas o molar de ancoragem inclinou para a frente e a gengiva vestibular do canino está pálida e retraída. A cadeia elastomérica havia sido ativada 'para dar um empurrão'.",
+    "pergunta": "Quais são os sinais de que uma força ultrapassou a janela biológica, e por que eles aparecem juntos: dor, mobilidade, ancoragem cedendo e gengiva sofrendo?"
+  },
+  "umMinuto": {
+    "frases": [
+      "Força excessiva é a força que gera, na área de ligamento comprimida, pressão acima da que os capilares suportam; o ligamento morre localmente, e tudo o que se segue deriva disso.",
+      "No ligamento: isquemia, hialinização, reabsorção solapante e movimento em saltos, com latência longa; o dente 'não anda' e depois pula.",
+      "Na raiz: as bordas da zona hialinizada atacam o cemento; com força pesada repetida, a reabsorção chega à dentina e o ápice encurta de forma permanente.",
+      "No osso e na ancoragem: a força pesada que hialiniza o dente-alvo cai na janela ideal dos dentes de ancoragem, que se movem; a ancoragem cede.",
+      "No paciente: dor intensa e prolongada por isquemia e mediadores, mobilidade além do fisiológico e, na periferia, isquemia gengival, deiscências e recessão quando a raiz é empurrada contra a cortical.",
+      "Na polpa: forças pesadas e intrusão excessiva podem alterar transitoriamente a circulação pulpar; necrose é rara e associada a dentes com trauma prévio ou ápice comprometido [VERIFICAR]."
+    ],
+    "caiNaProva": [
+      "Sequência da força excessiva no ligamento: isquemia, hialinização, reabsorção solapante, latência, movimento em salto.",
+      "Efeitos colaterais clássicos de forças pesadas: reabsorção radicular, perda de ancoragem, dor, mobilidade excessiva, dano periodontal e alteração pulpar.",
+      "Por que a força pesada move a ancoragem e não o dente-alvo: distribuição de pressão por área radicular (Storey e Smith).",
+      "Forças pesadas não aceleram o movimento: a velocidade estabiliza no platô e os danos crescem.",
+      "Diferença entre mobilidade fisiológica do tratamento e mobilidade patológica por força excessiva."
+    ],
+    "porQueImporta": "Você raramente vê a hialinização; vê as suas consequências. Reconhecer os sinais de força excessiva na cadeira, antes que a radiografia mostre a raiz encurtada, é a habilidade clínica que esta página treina."
+  },
+  "secoes": [
+    {
+      "titulo": "O que 'excessiva' significa para o tecido",
+      "blocos": [
+        { "tipo": "p", "texto": "Excessiva não é um número na balança; é a força que, distribuída pela área de ligamento que ela comprime, produz pressão acima da que os capilares suportam. A mesma força é adequada para transladar um canino e excessiva para intruir um incisivo, como a página anterior mostrou. O que muda quando o limite é ultrapassado é uma mudança de regime: a resposta deixa de ser celular e adaptativa e passa a ser necrose seguida de reparo." },
+        { "tipo": "p", "texto": "A partir desse ponto, os efeitos se encadeiam. O ligamento comprimido sem sangue morre e hialiniza. Sem células, a lâmina dura não pode ser reabsorvida pela frente; os osteoclastos vêm por baixo, dos espaços medulares, e o dente espera. Enquanto espera, a força continua ativa sobre os demais dentes ligados ao aparelho, dentro da janela ideal deles. Quando a parede finalmente cede, o dente pula, e as bordas da zona hialinizada já atacaram o cemento. Cada um desses passos é um efeito clínico distinto." },
+        { "tipo": "visual", "formato": "fluxograma", "titulo": "Da força excessiva aos efeitos clínicos", "descricao": "Cadeia com um nó de origem, pressão acima do limite capilar, que se ramifica em cinco consequências. Ligamento: hialinização, latência, movimento em saltos. Raiz: reabsorção do cemento nas bordas da zona, chegando à dentina se repetida. Ancoragem: força pesada cai na janela dos dentes de apoio, que se movem. Paciente: dor intensa e mobilidade excessiva. Periferia: raiz contra a cortical, isquemia gengival, deiscência e recessão.", "viewBox": "0 0 560 420", "svg": [
+            "<use href='#c-caixa-red' x='150' y='16' width='260' height='56'/><text x='280' y='40' text-anchor='middle' font-size='13' font-weight='700'>pressão acima do limite capilar</text><text x='280' y='58' text-anchor='middle' font-size='11'>ligamento sem sangue: necrose local</text>",
+            "<g stroke='var(--muted,#8A8478)' stroke-width='1.5' fill='none' marker-end='url(#c-seta)'><path d='M180 72 L70 118'/><path d='M230 72 L200 118'/><path d='M280 72 L280 118'/><path d='M330 72 L360 118'/><path d='M380 72 L490 118'/></g>",
+            "<g font-size='12' font-weight='700' fill='var(--ink,#23211C)' text-anchor='middle'><use href='#c-caixa' x='10' y='122' width='110' height='40'/><text x='65' y='147'>ligamento</text><use href='#c-caixa' x='145' y='122' width='110' height='40'/><text x='200' y='147'>raiz</text><use href='#c-caixa' x='225' y='176' width='110' height='40'/><text x='280' y='201'>ancoragem</text><use href='#c-caixa' x='305' y='122' width='110' height='40'/><text x='360' y='147'>paciente</text><use href='#c-caixa' x='435' y='122' width='115' height='40'/><text x='492' y='147'>periferia</text></g>",
+            "<g font-size='11' fill='var(--ink,#23211C)' text-anchor='middle'><text x='65' y='182'>hialinização</text><text x='65' y='196'>latência longa</text><text x='65' y='210'>movimento em saltos</text><text x='65' y='224'>menos velocidade</text></g>",
+            "<g font-size='11' fill='var(--ink,#23211C)' text-anchor='middle'><text x='200' y='182'>cemento atacado</text><text x='200' y='196'>nas bordas da zona</text><text x='200' y='210'>repetido: dentina</text><text x='200' y='224'>ápice encurta</text></g>",
+            "<g font-size='11' fill='var(--ink,#23211C)' text-anchor='middle'><text x='280' y='236'>força cai na janela</text><text x='280' y='250'>dos dentes de apoio</text><text x='280' y='264'>eles se movem</text><text x='280' y='278'>o alvo não</text></g>",
+            "<g font-size='11' fill='var(--ink,#23211C)' text-anchor='middle'><text x='360' y='182'>dor intensa</text><text x='360' y='196'>e prolongada</text><text x='360' y='210'>mobilidade</text><text x='360' y='224'>além do normal</text></g>",
+            "<g font-size='11' fill='var(--ink,#23211C)' text-anchor='middle'><text x='492' y='182'>raiz contra</text><text x='492' y='196'>a cortical</text><text x='492' y='210'>isquemia gengival</text><text x='492' y='224'>deiscência, recessão</text></g>",
+            "<use href='#c-caixa-ink' x='60' y='310' width='440' height='60'/><text x='280' y='334' text-anchor='middle' font-size='13' font-weight='700' fill='#fff'>nenhum desses efeitos acelera o dente</text><text x='280' y='354' text-anchor='middle' font-size='11' fill='#fff'>acima do platô, a força compra dano, não velocidade</text>",
+            "<text x='280' y='400' text-anchor='middle' font-size='11' fill='var(--muted,#8A8478)'>os cinco ramos costumam aparecer juntos: um sinal na cadeira sugere os outros</text>"
+          ], "legenda": "Uma causa, cinco ramos. Quando você vê um deles no paciente, procure os outros quatro." },
+        { "tipo": "destaque", "estilo": "prova", "texto": "Efeitos das forças excessivas, na ordem em que os livros os listam: hialinização com reabsorção solapante e movimento em saltos; reabsorção radicular; perda de ancoragem; dor e mobilidade; dano periodontal (deiscência, recessão) e alteração pulpar transitória. Nenhum item da lista é 'movimento mais rápido'." },
+        { "tipo": "pergunta", "pergunta": "Por que a força excessiva produz ao mesmo tempo um dente que não se move e um dente de ancoragem que se move?", "resposta": "Porque hialiniza o ligamento do dente-alvo, que entra em latência, enquanto a mesma força, distribuída pela área maior dos dentes de ancoragem, cai dentro da janela biológica deles." }
+      ],
+      "checagem": { "pergunta": "Defina força excessiva em termos biológicos e cite os cinco ramos de consequências.", "resposta": "Força que gera pressão acima do limite capilar na área comprimida, com necrose local. Ramos: ligamento (hialinização, latência, saltos), raiz (reabsorção), ancoragem (dentes de apoio se movem), paciente (dor, mobilidade) e periferia (isquemia gengival, deiscência, recessão)." }
+    },
+    {
+      "titulo": "Dor e mobilidade: os primeiros sinais",
+      "blocos": [
+        { "tipo": "p", "texto": "Alguma dor após ativação é esperada: começa em poucas horas, atinge o pico em torno de um a dois dias e cede em quase todos os pacientes em uma semana [VERIFICAR]. Ela vem da isquemia leve, dos mediadores inflamatórios, prostaglandinas e outros, e da sensibilização das terminações do ligamento. O sinal de força excessiva não é a presença de dor, e sim a sua intensidade e duração: dor que impede a mastigação, que dura além de uma semana ou que retorna a cada mordida sugere pressão acima do limite." },
+        { "tipo": "p", "texto": "A mobilidade segue a mesma lógica. Com força adequada, o ligamento se alarga e reorganiza, e o dente fica um pouco mais móvel durante todo o tratamento: mobilidade fisiológica do movimento. Com força excessiva, a hialinização extensa e a reabsorção solapante removem osso em bloco, o dente perde apoio por dias e a mobilidade se torna evidente ao paciente, que a descreve como 'dente solto'. Mobilidade acentuada é um sinal de que a mecânica deve ser aliviada, não reforçada." },
+        { "tipo": "visual", "formato": "comparativo", "titulo": "Resposta esperada e resposta a força excessiva", "descricao": "Duas colunas. Esperada: dor leve a moderada com pico em um a dois dias e fim em cerca de uma semana; mobilidade discreta e estável; dente se move de forma contínua; gengiva com cor normal; ancoragem mantida. Força excessiva: dor intensa que impede mastigar ou dura além de uma semana; mobilidade acentuada, dente 'solto'; dente parado e depois salto; gengiva pálida ou retraída sobre a raiz; dentes de ancoragem se deslocam.", "viewBox": "0 0 720 340", "svg": [
+            "<use href='#c-caixa-green' x='170' y='16' width='230' height='36'/><text x='285' y='40' text-anchor='middle' font-size='13' font-weight='700'>resposta esperada</text>",
+            "<use href='#c-caixa-red' x='430' y='16' width='260' height='36'/><text x='560' y='40' text-anchor='middle' font-size='13' font-weight='700'>força excessiva</text>",
+            "<g font-size='12' font-weight='700' fill='var(--ink,#23211C)'><text x='20' y='88'>dor</text><text x='20' y='138'>mobilidade</text><text x='20' y='188'>movimento</text><text x='20' y='238'>gengiva</text><text x='20' y='288'>ancoragem</text></g>",
+            "<g stroke='var(--border,#EDE6D8)' stroke-width='1'><line x1='20' y1='108' x2='700' y2='108'/><line x1='20' y1='158' x2='700' y2='158'/><line x1='20' y1='208' x2='700' y2='208'/><line x1='20' y1='258' x2='700' y2='258'/></g>",
+            "<g font-size='11' fill='var(--ink,#23211C)' text-anchor='middle'><text x='285' y='82'>leve a moderada, pico em 1 a 2 dias,</text><text x='285' y='96'>cede em cerca de uma semana [VERIFICAR]</text><text x='285' y='138'>discreta e estável</text><text x='285' y='188'>contínuo, sem pausas longas</text><text x='285' y='238'>cor e contorno normais</text><text x='285' y='288'>mantida</text></g>",
+            "<g font-size='11' fill='var(--ink,#23211C)' text-anchor='middle'><text x='560' y='82'>intensa, impede mastigar,</text><text x='560' y='96'>dura além de uma semana</text><text x='560' y='138'>acentuada, 'dente solto'</text><text x='560' y='188'>parado por semanas, depois salto</text><text x='560' y='238'>pálida ou retraída sobre a raiz</text><text x='560' y='288'>dentes de apoio se deslocam</text></g>",
+            "<text x='360' y='326' text-anchor='middle' font-size='11' fill='var(--muted,#8A8478)'>a coluna da direita pede alívio da mecânica, nunca reforço</text>"
+          ], "legenda": "Dor e mobilidade existem nos dois lados; o que muda é intensidade, duração e o que acontece com o dente e a ancoragem." },
+        { "tipo": "destaque", "estilo": "erro", "titulo": "Tratar a dor prolongada como 'sensibilidade do paciente'", "texto": "Dor que passa de uma semana ou impede a mastigação não é limiar baixo de dor; é sinal de isquemia extensa. A conduta é examinar oclusão e mecânica, aliviar a força e reavaliar em dias, não prescrever analgésico e manter a ativação." },
+        { "tipo": "pergunta", "pergunta": "Um paciente relata dor moderada nos dois primeiros dias após a troca do fio, que desaparece no quarto dia. Isso indica força excessiva?", "resposta": "Não. É o padrão esperado: dor com pico em um a dois dias e resolução em menos de uma semana, compatível com resposta inflamatória fisiológica ao movimento." }
+      ],
+      "checagem": { "pergunta": "Que características da dor e da mobilidade distinguem a resposta esperada da resposta a força excessiva?", "resposta": "Esperada: dor leve a moderada com pico em um a dois dias e fim em cerca de uma semana, mobilidade discreta. Excessiva: dor intensa que impede mastigar ou dura além de uma semana, mobilidade acentuada percebida pelo paciente." }
+    },
+    {
+      "titulo": "Ancoragem que cede e dente que não anda",
+      "blocos": [
+        { "tipo": "p", "texto": "A perda de ancoragem é o efeito colateral que mais compromete o plano, e é um efeito direto da magnitude. Toda mecânica ortodôntica é um par de forças iguais e opostas: o que puxa o canino para trás empurra a unidade de ancoragem para a frente. Com força leve, a pressão no canino fica na janela e a pressão nos dentes de apoio, de área maior, fica abaixo do limiar: só o canino se move. Com força pesada, o canino hialiniza e para; os dentes de apoio entram na janela e se movem." },
+        { "tipo": "p", "texto": "Foi exatamente o que Storey e Smith observaram: forças de 400 a 600 gramas moveram pouco os caninos e deslocaram a ancoragem [VERIFICAR]. Na cadeira, o sinal é a linha média que se desvia, o molar que inclina para mesial, o espaço de extração que fecha 'pelo lado errado'. Quando isso aparece, a primeira pergunta não é 'preciso de mais ancoragem?', e sim 'quanta força estou usando?'." },
+        { "tipo": "visual", "formato": "forcas", "titulo": "Força leve move o alvo; força pesada move o apoio", "descricao": "Duas linhas de dentes esquemáticos, cada uma com um canino à esquerda e um bloco de ancoragem, pré-molar e molar, à direita, ligados por uma mola. Acima, força leve: seta pequena, o canino se desloca para trás e o bloco de ancoragem fica no lugar. Abaixo, força pesada: seta grande, o canino quase não se move e o bloco de ancoragem se desloca para a frente, com a linha média marcada desviando.", "viewBox": "0 0 720 330", "svg": [
+            "<text x='30' y='40' font-size='13' font-weight='700' fill='var(--green,#3E7C4F)'>força leve</text>",
+            "<use href='#c-dente' x='170' y='30' width='50' height='118'/><use href='#c-dente' x='330' y='30' width='50' height='118'/><use href='#c-molar' x='400' y='30' width='72' height='118'/>",
+            "<line x1='220' y1='70' x2='330' y2='70' stroke='var(--gold,#B08968)' stroke-width='2.5'/><path d='M230 70 l10 -8 l10 8 l10 -8 l10 8 l10 -8 l10 8 l10 -8 l10 8 l10 -8 l10 8' fill='none' stroke='var(--gold,#B08968)' stroke-width='2'/>",
+            "<use href='#c-vetor-green' x='200' y='62' width='40' height='14' transform='rotate(180 220 69)'/>",
+            "<g font-size='11' fill='var(--ink,#23211C)'><text x='90' y='95' text-anchor='middle'>canino recua</text><text x='420' y='166' text-anchor='middle'>ancoragem parada: pressão abaixo do limiar</text></g>",
+            "<line x1='120' y1='30' x2='120' y2='150' stroke='var(--muted,#8A8478)' stroke-width='1' stroke-dasharray='4 3'/><text x='120' y='24' text-anchor='middle' font-size='10' fill='var(--muted,#8A8478)'>linha média</text>",
+            "<text x='30' y='210' font-size='13' font-weight='700' fill='var(--red,#B4533B)'>força pesada</text>",
+            "<use href='#c-dente' x='230' y='200' width='50' height='118'/><use href='#c-dente' x='290' y='200' width='50' height='118'/><use href='#c-molar' x='360' y='200' width='72' height='118'/>",
+            "<use href='#c-vetor-red' x='150' y='232' width='80' height='14' transform='rotate(180 190 239)'/>",
+            "<g stroke='var(--gold,#B08968)' stroke-width='2.5' fill='none'><path d='M340 240 l30 0'/></g>",
+            "<g font-size='11' fill='var(--ink,#23211C)'><text x='255' y='330' text-anchor='middle'>canino hialiniza e para</text><text x='520' y='240' text-anchor='start'>ancoragem avança:</text><text x='520' y='254' text-anchor='start'>caiu na janela dela</text></g>",
+            "<use href='#c-vetor-red' x='440' y='232' width='60' height='14'/>",
+            "<line x1='120' y1='200' x2='120' y2='320' stroke='var(--muted,#8A8478)' stroke-width='1' stroke-dasharray='4 3'/><line x1='160' y1='200' x2='160' y2='320' stroke='var(--red,#B4533B)' stroke-width='1.5' stroke-dasharray='4 3'/><text x='160' y='194' text-anchor='middle' font-size='10' fill='var(--red,#B4533B)'>desvio</text>"
+          ], "legenda": "A mesma mecânica com duas magnitudes. Leve: o alvo se move. Pesada: o alvo para e o apoio anda, e a linha média conta a história." },
+        { "tipo": "destaque", "estilo": "mito", "mito": "Se a ancoragem está cedendo, a solução é reforçar a ancoragem e manter a força.", "verdade": "Reforçar ancoragem sem revisar a magnitude trata o sintoma. Quase sempre a força está acima da janela do dente-alvo, que hialinizou e parou, e dentro da janela do apoio. Reduzir a força costuma resolver os dois problemas de uma vez." }
+      ],
+      "checagem": { "pergunta": "Que sinais clínicos indicam perda de ancoragem por força excessiva e qual é a primeira pergunta a fazer?", "resposta": "Linha média desviando, molar inclinando para mesial, espaço fechando pelo lado da ancoragem enquanto o dente-alvo não anda. Primeira pergunta: quanta força estou usando?" }
+    },
+    {
+      "titulo": "Raiz, osso e gengiva: os efeitos que ficam",
+      "blocos": [
+        { "tipo": "p", "texto": "Dor passa e ancoragem se recupera com planejamento; três efeitos deixam marca permanente. O primeiro é a reabsorção radicular. A cada ciclo de hialinização, as bordas da zona necrosada atacam o cemento; com força leve e episódios isolados, o cemento repara. Com força pesada e ativações repetidas, a reabsorção atravessa o cemento e chega à dentina, que não se regenera: o ápice encurta. A próxima página trata só disso." },
+        { "tipo": "p", "texto": "O segundo é o dano ao osso e à gengiva quando a raiz é empurrada contra a cortical. O osso alveolar acompanha o dente enquanto há espessura para remodelar; forçado contra a tábua vestibular ou lingual, o dente pode ultrapassar o envelope, o osso sobre a raiz se perde, deiscência, e a gengiva sobre ela, sem suporte, retrai. Isquemia gengival visível como palidez na consulta de ativação é o aviso precoce, especialmente em incisivos inferiores e em periodonto fino." },
+        { "tipo": "imagem", "imagem": "fotografia clínica de incisivo inferior com recessão gengival vestibular após vestibularização excessiva, comparada à radiografia com raiz proeminente", "mostrar": "Margem gengival do incisivo abaixo da junção amelocementária com raiz exposta, biotipo fino, e os dentes vizinhos com margem normal; na radiografia ou tomografia, raiz além da cortical vestibular", "legenda": "Raiz empurrada contra a cortical: o osso não acompanha, a gengiva perde suporte e retrai. O aviso foi a palidez gengival semanas antes.", "destacar": "nível da margem gengival do incisivo em relação aos vizinhos e posição da raiz na cortical" },
+        { "tipo": "p", "texto": "O terceiro é a polpa. Forças pesadas, e em especial a intrusão excessiva, comprimem os vasos apicais e podem reduzir transitoriamente a circulação pulpar, com sensibilidade aumentada e, raramente, necrose. O risco é maior em dentes com trauma prévio, ápice fechado e forças de intrusão fora da faixa [VERIFICAR]. Em dentes íntegros, a alteração costuma ser reversível; o histórico de trauma é o dado da anamnese que mais muda a conduta." },
+        { "tipo": "destaque", "estilo": "dica", "titulo": "Três perguntas na consulta de ativação", "texto": "A gengiva sobre a raiz que estou movendo ficou pálida? O paciente conta dor que durou a semana inteira ou dente solto? A linha média ou o molar mudaram de lugar sem eu pedir? Um sim já pede revisão da força; dois pedem alívio imediato." },
+        { "tipo": "pergunta", "pergunta": "Durante vestibularização de incisivos inferiores, você nota palidez da gengiva vestibular ao ativar. O que isso indica e o que fazer?", "resposta": "Indica isquemia da gengiva porque a raiz está sendo empurrada contra a cortical vestibular; risco de deiscência e recessão. Aliviar a força, rever o vetor e o limite do envelope ósseo, avaliar biotipo e, se preciso, tomografia." }
+      ],
+      "checagem": { "pergunta": "Quais três efeitos da força excessiva deixam marca permanente e por quê?", "resposta": "Reabsorção radicular que atinge a dentina (não regenera), deiscência óssea com recessão gengival (osso sobre a raiz perdido) e, raramente, necrose pulpar (mais em dentes com trauma prévio). Dor e perda de ancoragem são reversíveis com manejo." }
+    },
+    {
+      "titulo": "Por que a força pesada não compensa: a curva de novo",
+      "blocos": [
+        { "tipo": "p", "texto": "A tentação de 'dar um empurrão' assume que o dente andará mais rápido. A curva da página sobre magnitude mostra por que isso falha: acima do platô, a velocidade não cresce, e o movimento em saltos da hialinização pode até tornar o deslocamento médio menor, porque o dente passa semanas em latência. Von Böhl e colaboradores, em modelo animal, não encontraram relação proporcional entre magnitude e velocidade, e observaram hialinização com forças leves e pesadas [VERIFICAR]." },
+        { "tipo": "visual", "formato": "grafico", "titulo": "Ganho de velocidade versus custo em dano", "descricao": "Gráfico com a magnitude no eixo horizontal. Duas curvas: a velocidade do movimento sobe e estabiliza em um platô cedo; a curva de dano, reabsorção, dor, perda de ancoragem, começa baixa e cresce de forma acelerada após o mesmo ponto. Uma faixa sombreada marca a zona em que a velocidade já não cresce e o dano dispara.", "viewBox": "0 0 720 320", "svg": [
+            "<use href='#c-eixo' x='70' y='250' width='600' height='20'/><path d='M80 260 L80 40' stroke='var(--muted,#8A8478)' stroke-width='1.5'/><path d='M74 52 L80 40 L86 52 Z' fill='var(--muted,#8A8478)'/>",
+            "<text x='670' y='286' text-anchor='end' font-size='12' fill='var(--ink,#23211C)'>magnitude da força</text>",
+            "<rect x='330' y='50' width='330' height='210' fill='var(--red,#B4533B)' fill-opacity='0.08'/>",
+            "<path d='M80 258 L140 254 C 220 230, 260 120, 330 100 C 380 88, 500 84, 660 82' fill='none' stroke='var(--green,#3E7C4F)' stroke-width='3'/>",
+            "<path d='M80 258 C 200 256, 300 250, 340 230 C 420 190, 500 120, 600 60' fill='none' stroke='var(--red,#B4533B)' stroke-width='3' stroke-dasharray='8 5'/>",
+            "<text x='200' y='150' font-size='12' font-weight='700' fill='var(--green,#3E7C4F)'>velocidade</text><text x='200' y='166' font-size='11' fill='var(--ink,#23211C)'>sobe e estabiliza</text>",
+            "<text x='560' y='150' font-size='12' font-weight='700' fill='var(--red,#B4533B)'>dano</text><text x='560' y='166' font-size='11' fill='var(--ink,#23211C)'>reabsorção, dor,</text><text x='560' y='180' font-size='11' fill='var(--ink,#23211C)'>ancoragem, gengiva</text>",
+            "<line x1='330' y1='260' x2='330' y2='50' stroke='var(--muted,#8A8478)' stroke-width='1' stroke-dasharray='3 3'/><text x='330' y='42' text-anchor='middle' font-size='11' font-weight='700' fill='var(--ink,#23211C)'>platô</text>",
+            "<text x='495' y='240' text-anchor='middle' font-size='11' font-weight='700' fill='var(--red,#B4533B)'>zona da força excessiva: paga-se sem ganhar</text>",
+            "<text x='360' y='308' text-anchor='middle' font-size='11' fill='var(--muted,#8A8478)'>curvas conceituais, sem escala</text>"
+          ], "legenda": "Depois do platô as duas curvas se separam: a que você queria para de subir e a que você não queria dispara." },
+        { "tipo": "destaque", "estilo": "frase", "texto": "Força excessiva não compra tempo. Compra raiz, osso, gengiva e ancoragem, e paga com a paciência do paciente." },
+        { "tipo": "lista", "itens": [
+          "Se o dente não anda: verifique interferência oclusal, contato com vizinho, fio travado e latência por hialinização antes de pensar em força.",
+          "Se dói além de uma semana ou impede mastigar: alivie a mecânica e reavalie em dias.",
+          "Se a linha média ou o molar mudaram: meça a força; a ancoragem provavelmente entrou na janela.",
+          "Se a gengiva empalidece ao ativar: pare, reveja vetor e envelope ósseo.",
+          "Se a radiografia mostra ápices arredondados: reduza a força, aumente intervalos, considere pausa e documente."
+        ] }
+      ],
+      "checagem": { "pergunta": "Explique com a curva por que 'dar um empurrão' na força não acelera o tratamento.", "resposta": "Acima do platô a velocidade não cresce, e a latência da hialinização pode até reduzir o deslocamento médio; enquanto isso a curva de dano, reabsorção, dor, ancoragem e gengiva, cresce de forma acelerada." }
+    },
+    {
+      "titulo": "De volta ao paciente de 14 anos",
+      "blocos": [
+        { "tipo": "p", "texto": "Todos os ramos apareceram juntos. Dor de cinco dias que impedia mastigar: isquemia extensa. Dentes 'soltos': mobilidade por reabsorção solapante em bloco. Canino parado: hialinização e latência. Molar inclinado para a frente: a força pesada caiu na janela da ancoragem. Gengiva pálida e retraída sobre o canino: raiz empurrada contra a cortical. A causa foi uma só, a cadeia ativada além da faixa, e a radiografia dirá se houve o sexto efeito, a raiz." },
+        { "tipo": "destaque", "estilo": "erro", "titulo": "'Dar um empurrão' na ativação", "texto": "A frase esconde a ideia de que mais força é mais velocidade. Não é. O empurrão hialiniza o alvo, move o apoio, dói, solta o dente e pode encurtar a raiz. Se o tratamento precisa acelerar, a resposta está em continuidade da força e controle do vetor, nunca em magnitude." },
+        { "tipo": "p", "texto": "A conduta: remover ou aliviar a mecânica ativa, checar a oclusão, medir a força que estava sendo usada, radiografar os incisivos e o canino para registrar o estado das raízes, esperar o reparo por algumas semanas e recomeçar com força leve e contínua, registrando magnitude, tipo de duração e direção. O paciente aprende a confiar; o ortodontista aprende a medir." }
+      ],
+      "checagem": { "pergunta": "Relacione cada sinal do paciente ao ramo de efeito correspondente.", "resposta": "Dor prolongada: isquemia e mediadores. Dentes soltos: reabsorção solapante em bloco. Canino parado: hialinização e latência. Molar inclinado: perda de ancoragem. Gengiva pálida e retraída: raiz contra a cortical, deiscência." }
+    }
+  ],
+  "fechamento": {
+    "visual": { "formato": "mapa", "titulo": "Mapa da página", "descricao": "Nó central: força excessiva. Seis nós: pressão acima do capilar; hialinização e saltos; dor e mobilidade; ancoragem cede; raiz, osso e gengiva; não acelera nada.", "viewBox": "0 0 560 360", "svg": [
+        "<g stroke='var(--border,#EDE6D8)' stroke-width='1.5'><line x1='280' y1='180' x2='100' y2='60'/><line x1='280' y1='180' x2='460' y2='60'/><line x1='280' y1='180' x2='70' y2='180'/><line x1='280' y1='180' x2='490' y2='180'/><line x1='280' y1='180' x2='100' y2='300'/><line x1='280' y1='180' x2='460' y2='300'/></g>",
+        "<use href='#c-no-central' x='190' y='150' width='180' height='60'/>",
+        "<text x='280' y='186' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>Força excessiva</text>",
+        "<use href='#c-no' x='20' y='38' width='160' height='44'/><text x='100' y='65' text-anchor='middle' font-size='13' font-weight='700'>Acima do capilar</text>",
+        "<use href='#c-no' x='380' y='38' width='160' height='44'/><text x='460' y='65' text-anchor='middle' font-size='13' font-weight='700'>Hialiniza e salta</text>",
+        "<use href='#c-no' x='0' y='158' width='150' height='44'/><text x='75' y='185' text-anchor='middle' font-size='13' font-weight='700'>Dor e mobilidade</text>",
+        "<use href='#c-no' x='410' y='158' width='150' height='44'/><text x='485' y='185' text-anchor='middle' font-size='13' font-weight='700'>Ancoragem cede</text>",
+        "<use href='#c-no' x='20' y='278' width='160' height='44'/><text x='100' y='305' text-anchor='middle' font-size='13' font-weight='700'>Raiz, osso, gengiva</text>",
+        "<use href='#c-no' x='380' y='278' width='160' height='44'/><text x='460' y='305' text-anchor='middle' font-size='13' font-weight='700'>Não acelera</text>"
+      ], "legenda": "Uma causa, cinco ramos e uma lição: acima do platô a força só compra dano." },
+    "flashcards": [
+      { "frente": "Liste os efeitos das forças excessivas em cinco ramos.", "verso": "Ligamento: hialinização, latência, movimento em saltos. Raiz: reabsorção do cemento e da dentina. Ancoragem: dentes de apoio entram na janela e se movem. Paciente: dor intensa e prolongada, mobilidade acentuada. Periferia: raiz contra a cortical, isquemia gengival, deiscência e recessão." },
+      { "frente": "Como distinguir a dor esperada após ativação da dor por força excessiva?", "verso": "Esperada: leve a moderada, pico em um a dois dias, cede em cerca de uma semana [VERIFICAR]. Excessiva: intensa, impede a mastigação ou dura além de uma semana; acompanha mobilidade acentuada e dente que não anda." },
+      { "frente": "Por que a força pesada move a ancoragem em vez do dente-alvo?", "verso": "A força acima da janela hialiniza o alvo, que para; a mesma força distribuída pela área radicular maior dos dentes de apoio cai dentro da janela deles, e eles se movem (Storey e Smith)." }
+    ]
+  },
+  "infografico": {
+    "titulo": "Força excessiva em seis cartões",
+    "itens": [
+      { "rotulo": "Definição", "texto": "Pressão acima da capilar na área comprimida: o ligamento morre localmente e a resposta muda de regime." },
+      { "rotulo": "Ligamento", "texto": "Hialinização, reabsorção solapante, latência e salto. O dente parece parado e depois pula." },
+      { "rotulo": "Paciente", "texto": "Dor intensa e além de uma semana; mobilidade acentuada. Peça alívio, não analgésico e mais ativação." },
+      { "rotulo": "Ancoragem", "texto": "O alvo para, o apoio anda: linha média desvia, molar inclina. Primeira pergunta: quanta força?" },
+      { "rotulo": "Permanentes", "texto": "Reabsorção que chega à dentina, deiscência com recessão, alteração pulpar em dentes traumatizados." },
+      { "rotulo": "Curva", "texto": "Acima do platô a velocidade não cresce e o dano dispara. Empurrão compra dano, não tempo." }
+    ]
+  },
+  "fluxograma": {
+    "titulo": "Sinal de força excessiva na consulta: o que fazer",
+    "nos": [
+      { "id": "n1", "tipo": "inicio", "texto": "Paciente relata dor prolongada, dente solto, ou você nota ancoragem cedendo ou gengiva pálida" },
+      { "id": "n2", "tipo": "decisao", "texto": "Há interferência oclusal, contato com vizinho ou fio travado?" },
+      { "id": "n3", "tipo": "acao", "texto": "Corrigir a causa mecânica local e reavaliar" },
+      { "id": "n4", "tipo": "acao", "texto": "Medir a força ativa com dinamômetro e comparar com a faixa do movimento e do dente" },
+      { "id": "n5", "tipo": "decisao", "texto": "Força acima da faixa ou dispositivo de força pesada?" },
+      { "id": "n6", "tipo": "acao", "texto": "Aliviar ou remover a mecânica, radiografar as raízes, esperar o reparo e recomeçar leve e contínuo" },
+      { "id": "n7", "tipo": "acao", "texto": "Investigar outras causas: periodontal, endodôntica, hábito, trauma" },
+      { "id": "n8", "tipo": "fim", "texto": "Registrar sinais, força medida e conduta; reavaliar em dias" }
+    ],
+    "arestas": [
+      { "de": "n1", "para": "n2" },
+      { "de": "n2", "para": "n3", "rotulo": "sim" },
+      { "de": "n2", "para": "n4", "rotulo": "não" },
+      { "de": "n3", "para": "n4" },
+      { "de": "n4", "para": "n5" },
+      { "de": "n5", "para": "n6", "rotulo": "sim" },
+      { "de": "n5", "para": "n7", "rotulo": "não" },
+      { "de": "n6", "para": "n8" },
+      { "de": "n7", "para": "n8" }
+    ]
+  },
+  "passoAPasso": [
+    { "passo": "Em toda consulta de ativação, pergunte sobre dor (intensidade e dias) e sensação de dente solto desde a última visita.", "confira": "A dor passou de uma semana ou impediu mastigar?" },
+    { "passo": "Observe a gengiva sobre as raízes em movimento antes e depois de ativar; palidez é aviso.", "confira": "Alguma área empalideceu?" },
+    { "passo": "Confira linha média, posição dos molares e fechamento de espaços em relação ao planejado.", "confira": "A ancoragem está onde deveria?" },
+    { "passo": "Meça a força ativa e compare com a faixa do movimento e do dente; se acima, alivie.", "confira": "A força medida cabe na janela daquele dente?" },
+    { "passo": "Programe radiografias periapicais de controle nos dentes de risco e documente os achados.", "confira": "Os ápices mantêm o contorno em relação ao inicial?" }
+  ],
+  "macetes": [
+    { "titulo": "Cinco ramos", "texto": "Ligamento, raiz, ancoragem, paciente, periferia. Um sinal na cadeira, procure os outros quatro." },
+    { "titulo": "Uma semana", "texto": "Dor esperada cede em cerca de uma semana. Passou disso ou impede mastigar: força, não sensibilidade." },
+    { "titulo": "O apoio andou", "texto": "Linha média desviou e molar inclinou: a força pesada caiu na janela da ancoragem. Meça antes de reforçar." },
+    { "titulo": "Gengiva pálida, raiz na cortical", "texto": "Palidez ao ativar é aviso de deiscência e recessão. Pare e reveja o vetor." }
+  ],
+  "ondeErra": [
+    { "erro": "Aumentar a força quando o dente não anda.", "porque": "O dente parado está em latência por hialinização; mais força prolonga a latência e move a ancoragem.", "certo": "Procurar interferência, medir a força e, se alta, aliviar." },
+    { "erro": "Tratar dor prolongada com analgésico e manter a ativação.", "porque": "Dor além de uma semana sinaliza isquemia extensa, não limiar baixo de dor.", "certo": "Aliviar a mecânica, examinar oclusão e reavaliar em dias." },
+    { "erro": "Reforçar a ancoragem sem rever a magnitude.", "porque": "A ancoragem cede porque a força pesada entrou na janela dela; reforçar trata o sintoma.", "certo": "Reduzir a força para a janela do dente-alvo; a ancoragem sai da janela dela." },
+    { "erro": "Ignorar a palidez gengival na ativação.", "porque": "É isquemia por raiz contra a cortical, precursora de deiscência e recessão permanentes.", "certo": "Parar, rever vetor e envelope ósseo, avaliar biotipo." }
+  ],
+  "autoteste": [
+    { "pergunta": "A sequência de eventos no ligamento sob força excessiva é:", "alternativas": ["Reabsorção frontal, movimento contínuo, reparo", "Isquemia, hialinização, reabsorção solapante, latência, movimento em salto", "Tensão, aposição óssea, estabilização", "Hialinização, reabsorção frontal, aceleração"], "correta": 1, "explicacoes": ["Essa é a resposta à força leve.", "Correta: a necrose local impede a reabsorção frontal; o osso é removido por baixo e o dente pula.", "Descreve o lado de tensão sob força adequada.", "Hialinização exclui a reabsorção frontal e não acelera."] },
+    { "pergunta": "No experimento de Storey e Smith, a perda de ancoragem com forças pesadas se explica porque:", "alternativas": ["Os dentes de ancoragem têm ligamento mais fraco", "A força pesada hialinizou o canino e caiu na janela dos dentes de apoio, de maior área radicular", "As molas pesadas se deformaram", "O canino já estava anquilosado"], "correta": 1, "explicacoes": ["O ligamento dos dentes de apoio não é mais fraco; a área radicular é maior.", "Correta: distribuição de pressão por área explica alvo parado e apoio em movimento.", "Não é uma explicação biológica do fenômeno.", "Não havia anquilose; havia hialinização."] },
+    { "pergunta": "Um paciente relata dor intensa que impede a mastigação, com dez dias de duração após a ativação. A conduta mais adequada é:", "alternativas": ["Prescrever analgésico e manter a ativação", "Aumentar a força para vencer a resistência", "Examinar oclusão e mecânica, aliviar a força e reavaliar em dias", "Aguardar a próxima consulta mensal"], "correta": 2, "explicacoes": ["Trata o sintoma e mantém a causa.", "Agrava a isquemia e move a ancoragem.", "Correta: dor além de uma semana e que impede mastigar é sinal de força excessiva.", "Prolonga a hialinização e o risco de reabsorção."] },
+    { "pergunta": "Palidez da gengiva vestibular durante a vestibularização de incisivos inferiores indica:", "alternativas": ["Resposta normal ao movimento", "Isquemia por raiz empurrada contra a cortical, com risco de deiscência e recessão", "Gengivite por higiene deficiente", "Anquilose do dente"], "correta": 1, "explicacoes": ["Não é esperado; é aviso precoce.", "Correta: a raiz aproxima-se do limite do envelope ósseo e o tecido perde irrigação.", "Gengivite produz vermelhidão e sangramento, não palidez ao ativar.", "Anquilose não produz palidez gengival."] },
+    { "pergunta": "Sobre a relação entre magnitude da força e velocidade do movimento, é correto afirmar:", "alternativas": ["É linear: dobrar a força dobra a velocidade", "Acima de um platô a velocidade não cresce e os efeitos colaterais aumentam", "Forças pesadas são mais rápidas e mais seguras", "A velocidade independe da força"], "correta": 1, "explicacoes": ["Não há relação linear demonstrada.", "Correta: a curva tem limiar e platô; acima dele só cresce o dano.", "Forças pesadas hialinizam, param o dente e reabsorvem raiz.", "Abaixo do limiar não há movimento; a força importa até o platô."] }
+  ],
+  "pesquisa": { "termos": ["efeitos de forças pesadas ortodontia", "hialinização reabsorção solapante força excessiva", "perda de ancoragem força ortodôntica", "dor após ativação ortodôntica duração", "deiscência óssea recessão gengival movimento ortodôntico"] },
+  "referenciasBase": [
+    "Proffit WR, Fields HW, Larson BE, Sarver DM. Ortodontia Contemporânea. 6ª ed. Bases biológicas da terapia ortodôntica: efeitos deletérios da força.",
+    "Reitan K. Clinical and histologic observations on tooth movement during and after orthodontic treatment. Am J Orthod. 1967.",
+    "Storey E, Smith R. Force in orthodontics and its relation to tooth movement. Aust J Dent. 1952.",
+    "von Böhl M, Maltha JC, Von den Hoff JW, Kuijpers-Jagtman AM. Focal hyalinization during experimental tooth movement in beagle dogs. Am J Orthod Dentofacial Orthop. 2004.",
+    "Krishnan V. Orthodontic pain: from causes to management: a review. Eur J Orthod. 2007.",
+    "Wennström JL, Lindhe J, Sinclair F, Thilander B. Some periodontal tissue reactions to orthodontic tooth movement in monkeys. J Clin Periodontol. 1987."
+  ],
+  "validacao": { "validadoPor": null, "data": null }
+}

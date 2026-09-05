@@ -1,10 +1,10 @@
 {
  "atualizadoEm": "2026-09-05",
  "totalPaginas": 3387,
- "concluidas": 41,
+ "concluidas": 42,
  "porStatus": {
-  "pendente": 3346,
-  "rascunho": 41,
+  "pendente": 3345,
+  "rascunho": 42,
   "revisado": 0,
   "publicado": 0
  },
@@ -12,7 +12,7 @@
   "id": "ortodontia/biologia-do-movimento",
   "area": "Ortodontia",
   "modulo": "Biologia do movimento",
-  "faltam": 6
+  "faltam": 5
  },
  "imagensPendentes": [
   {
@@ -293,6 +293,15 @@
    "mostrar": "Ápices arredondados e raízes visivelmente mais curtas do que as dos dentes vizinhos não movimentados; comparação com radiografia inicial do mesmo paciente",
    "legenda": "Intrusão com força além da faixa: o ápice, que recebeu toda a pressão, é o que encurta.",
    "destacar": "contorno apical dos incisivos e o comprimento radicular em relação ao inicial"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/forcas/efeitos-de-forcas-excessivas",
+   "modulo": "Biologia do movimento",
+   "secao": "Raiz, osso e gengiva: os efeitos que ficam",
+   "imagem": "fotografia clínica de incisivo inferior com recessão gengival vestibular após vestibularização excessiva, comparada à radiografia com raiz proeminente",
+   "mostrar": "Margem gengival do incisivo abaixo da junção amelocementária com raiz exposta, biotipo fino, e os dentes vizinhos com margem normal; na radiografia ou tomografia, raiz além da cortical vestibular",
+   "legenda": "Raiz empurrada contra a cortical: o osso não acompanha, a gengiva perde suporte e retrai. O aviso foi a palidez gengival semanas antes.",
+   "destacar": "nível da margem gengival do incisivo em relação aos vizinhos e posição da raiz na cortical"
   }
  ],
  "verificarPendentes": [
@@ -1095,6 +1104,41 @@
    "pagina": "ortodontia/biologia-do-movimento/forcas/forcas-ideais-por-tipo-de-movimento",
    "onde": "autoteste[2].explicacoes[2]",
    "trecho": "Correta: intrusão 10 a 20 g; translação 70 a 120 g [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/forcas/efeitos-de-forcas-excessivas",
+   "onde": "umMinuto.frases[5]",
+   "trecho": "e é rara e associada a dentes com trauma prévio ou ápice comprometido [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/forcas/efeitos-de-forcas-excessivas",
+   "onde": "Seção \"Dor e mobilidade: os primeiros sinais\".blocos[0].texto",
+   "trecho": "no de um a dois dias e cede em quase todos os pacientes em uma semana [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/forcas/efeitos-de-forcas-excessivas",
+   "onde": "Seção \"Dor e mobilidade: os primeiros sinais\".blocos[2].svg[4]",
+   "trecho": "em 1 a 2 dias,</text><text x='285' y='96'>cede em cerca de uma semana [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/forcas/efeitos-de-forcas-excessivas",
+   "onde": "Seção \"Ancoragem que cede e dente que não anda\".blocos[1].texto",
+   "trecho": "de 400 a 600 gramas moveram pouco os caninos e deslocaram a ancoragem [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/forcas/efeitos-de-forcas-excessivas",
+   "onde": "Seção \"Raiz, osso e gengiva: os efeitos que ficam\".blocos[3].texto",
+   "trecho": "s com trauma prévio, ápice fechado e forças de intrusão fora da faixa [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/forcas/efeitos-de-forcas-excessivas",
+   "onde": "Seção \"Por que a força pesada não compensa: a curva de novo\".blocos[0].texto",
+   "trecho": "de e velocidade, e observaram hialinização com forças leves e pesadas [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/forcas/efeitos-de-forcas-excessivas",
+   "onde": "fechamento.flashcards[1].verso",
+   "trecho": "leve a moderada, pico em um a dois dias, cede em cerca de uma semana [VERIFICAR]"
   }
  ],
  "modulos": [
@@ -1372,11 +1416,11 @@
    "area": "Ortodontia",
    "modulo": "Biologia do movimento",
    "total": 12,
-   "concluidas": 6,
-   "palavras": 23096,
-   "visuais": 31,
-   "imagensClinicas": 5,
-   "verificar": 45,
+   "concluidas": 7,
+   "palavras": 27048,
+   "visuais": 36,
+   "imagensClinicas": 6,
+   "verificar": 52,
    "paginas": [
     {
      "id": "ortodontia/biologia-do-movimento/reacoes-teciduais/ligamento-e-osso-sob-forca",
@@ -1430,7 +1474,9 @@
      "id": "ortodontia/biologia-do-movimento/forcas/efeitos-de-forcas-excessivas",
      "nome": "Efeitos de forças excessivas",
      "tema": "Forças",
-     "status": "pendente"
+     "status": "rascunho",
+     "palavras": 3952,
+     "visuais": 5
     },
     {
      "id": "ortodontia/biologia-do-movimento/forcas/reabsorcao-radicular",
@@ -27933,6 +27979,82 @@
     {
      "onde": "autoteste[2].explicacoes[2]",
      "trecho": "Correta: intrusão 10 a 20 g; translação 70 a 120 g [VERIFICAR]"
+    }
+   ]
+  },
+  "ortodontia/biologia-do-movimento/forcas/efeitos-de-forcas-excessivas": {
+   "titulo": "Efeitos de forças excessivas: o que acontece quando a pressão passa do limite",
+   "arquivo": "data/campus/paginas/ortodontia--biomov-forca-excessiva.json",
+   "formato": 2,
+   "status": "rascunho",
+   "estado": "rascunho",
+   "palavras": 3952,
+   "visuais": [
+    {
+     "formato": "fluxograma",
+     "titulo": "Da força excessiva aos efeitos clínicos"
+    },
+    {
+     "formato": "comparativo",
+     "titulo": "Resposta esperada e resposta a força excessiva"
+    },
+    {
+     "formato": "forcas",
+     "titulo": "Força leve move o alvo; força pesada move o apoio"
+    },
+    {
+     "formato": "grafico",
+     "titulo": "Ganho de velocidade versus custo em dano"
+    },
+    {
+     "formato": "mapa",
+     "titulo": "Mapa da página"
+    }
+   ],
+   "quadros": {
+    "prova": 1,
+    "erro": 2,
+    "mito": 1,
+    "dica": 1,
+    "frase": 1
+   },
+   "imagensClinicas": [
+    {
+     "secao": "Raiz, osso e gengiva: os efeitos que ficam",
+     "imagem": "fotografia clínica de incisivo inferior com recessão gengival vestibular após vestibularização excessiva, comparada à radiografia com raiz proeminente",
+     "mostrar": "Margem gengival do incisivo abaixo da junção amelocementária com raiz exposta, biotipo fino, e os dentes vizinhos com margem normal; na radiografia ou tomografia, raiz além da cortical vestibular",
+     "legenda": "Raiz empurrada contra a cortical: o osso não acompanha, a gengiva perde suporte e retrai. O aviso foi a palidez gengival semanas antes.",
+     "destacar": "nível da margem gengival do incisivo em relação aos vizinhos e posição da raiz na cortical"
+    }
+   ],
+   "verificar": [
+    {
+     "onde": "umMinuto.frases[5]",
+     "trecho": "e é rara e associada a dentes com trauma prévio ou ápice comprometido [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Dor e mobilidade: os primeiros sinais\".blocos[0].texto",
+     "trecho": "no de um a dois dias e cede em quase todos os pacientes em uma semana [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Dor e mobilidade: os primeiros sinais\".blocos[2].svg[4]",
+     "trecho": "em 1 a 2 dias,</text><text x='285' y='96'>cede em cerca de uma semana [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Ancoragem que cede e dente que não anda\".blocos[1].texto",
+     "trecho": "de 400 a 600 gramas moveram pouco os caninos e deslocaram a ancoragem [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Raiz, osso e gengiva: os efeitos que ficam\".blocos[3].texto",
+     "trecho": "s com trauma prévio, ápice fechado e forças de intrusão fora da faixa [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Por que a força pesada não compensa: a curva de novo\".blocos[0].texto",
+     "trecho": "de e velocidade, e observaram hialinização com forças leves e pesadas [VERIFICAR]"
+    },
+    {
+     "onde": "fechamento.flashcards[1].verso",
+     "trecho": "leve a moderada, pico em um a dois dias, cede em cerca de uma semana [VERIFICAR]"
     }
    ]
   },
