@@ -57,7 +57,7 @@
             "<rect x='40' y='60' width='480' height='220' rx='6' fill='var(--gold-soft,#F4EEE4)' stroke='var(--ink,#23211C)' stroke-width='1.5'/>",
             "<text x='60' y='88' font-size='12' fill='var(--muted,#8A8478)'>esmalte</text>",
             "<rect x='230' y='30' width='100' height='40' rx='4' fill='var(--ink,#23211C)'/><text x='280' y='55' text-anchor='middle' font-size='11' font-weight='700' fill='#fff'>braquete</text>",
-            "<path d='M330 70 Q380 66 420 78 L420 90 Q380 82 330 86 Z' fill='var(--gold,#B08968)' fill-opacity='0.55'/><text x='440' y='86' font-size='11' fill='var(--gold,#B08968)' font-weight='700'>biofilme</text><text x='440' y='100' font-size='10' fill='var(--ink,#23211C)'>ácido várias vezes ao dia</text>",
+            "<path d='M330 70 Q380 66 420 78 L420 90 Q380 82 330 86 Z' fill='var(--gold,#B08968)' fill-opacity='0.55'/><text x='432' y='86' font-size='11' fill='var(--gold,#B08968)' font-weight='700'>biofilme</text><text x='432' y='100' font-size='10' fill='var(--ink,#23211C)'>ácido repetido</text>",
             "<rect x='330' y='60' width='100' height='14' fill='none' stroke='var(--green,#3E7C4F)' stroke-width='2'/><text x='360' y='134' font-size='11' fill='var(--green,#3E7C4F)' font-weight='700'>camada superficial íntegra</text><line x1='380' y1='74' x2='380' y2='122' stroke='var(--green,#3E7C4F)' stroke-width='1' stroke-dasharray='3 3'/>",
             "<ellipse cx='380' cy='170' rx='48' ry='32' fill='#fff' stroke='var(--muted,#8A8478)' stroke-width='1' stroke-dasharray='3 3'/><g fill='var(--muted,#8A8478)'><circle cx='362' cy='160' r='2.5'/><circle cx='380' cy='152' r='2.5'/><circle cx='396' cy='166' r='2.5'/><circle cx='372' cy='180' r='2.5'/><circle cx='392' cy='186' r='2.5'/><circle cx='352' cy='176' r='2.5'/><circle cx='404' cy='178' r='2.5'/></g>",
             "<text x='380' y='226' text-anchor='middle' font-size='11' font-weight='700' fill='var(--ink,#23211C)'>zona porosa subsuperficial</text><text x='380' y='240' text-anchor='middle' font-size='10' fill='var(--ink,#23211C)'>dispersa a luz: parece branca, mais quando seca</text>",
@@ -260,7 +260,7 @@
             "<path d='M380 105 L440 105' stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'/><text x='410' y='98' text-anchor='middle' font-size='10' fill='var(--muted,#8A8478)'>sim</text>",
             "<use href='#c-caixa-red' x='444' y='84' width='110' height='42'/><text x='499' y='102' text-anchor='middle' font-size='11' font-weight='700'>restauração</text><text x='499' y='116' text-anchor='middle' font-size='10'>conservadora</text>",
             "<path d='M280 130 L280 150' stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'/><text x='292' y='146' font-size='10' fill='var(--muted,#8A8478)'>não</text>",
-            "<use href='#c-caixa-green' x='90' y='154' width='380' height='60'/><text x='280' y='176' text-anchor='middle' font-size='12' font-weight='700'>esperar e remineralizar</text><text x='280' y='192' text-anchor='middle' font-size='11'>higiene, dentifrício fluoretado convencional, sem flúor concentrado</text><text x='280' y='206' text-anchor='middle' font-size='11'>reavaliar em seis meses [VERIFICAR]</text>",
+            "<use href='#c-caixa-green' x='90' y='154' width='380' height='60'/><text x='280' y='176' text-anchor='middle' font-size='12' font-weight='700'>esperar e remineralizar</text><text x='280' y='192' text-anchor='middle' font-size='11'>higiene e dentifrício fluoretado comum; sem flúor concentrado</text><text x='280' y='206' text-anchor='middle' font-size='11'>reavaliar em seis meses [VERIFICAR]</text>",
             "<path d='M280 214 L280 234' stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'/>",
             "<use href='#c-decisao' x='160' y='238' width='240' height='50'/><text x='280' y='260' text-anchor='middle' font-size='12' font-weight='700'>persiste e incomoda</text><text x='280' y='276' text-anchor='middle' font-size='11'>aos seis meses?</text>",
             "<path d='M160 263 L100 263' stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'/><text x='130' y='256' text-anchor='middle' font-size='10' fill='var(--muted,#8A8478)'>não</text>",
@@ -325,7 +325,7 @@
         "<use href='#c-no' x='0' y='158' width='150' height='44'/><text x='75' y='185' text-anchor='middle' font-size='13' font-weight='700'>Semanas, não anos</text>",
         "<use href='#c-no' x='410' y='158' width='150' height='44'/><text x='485' y='185' text-anchor='middle' font-size='13' font-weight='700'>Quatro pilares</text>",
         "<use href='#c-no' x='20' y='278' width='160' height='44'/><text x='100' y='305' text-anchor='middle' font-size='13' font-weight='700'>Esperar ao remover</text>",
-        "<use href='#c-no' x='380' y='278' width='160' height='44'/><text x='460' y='305' text-anchor='middle' font-size='13' font-weight='700'>Escada conservadora</text>"
+        "<use href='#c-no' x='380' y='278' width='160' height='44'/><text x='460' y='305' text-anchor='middle' font-size='13' font-weight='700'>Escada de opções</text>"
       ],
       "legenda": "O efeito colateral mais frequente e o mais evitável: tudo se decide antes da colagem e a cada consulta."
     },
