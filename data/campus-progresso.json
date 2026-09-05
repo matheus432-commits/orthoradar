@@ -1,10 +1,10 @@
 {
  "atualizadoEm": "2026-09-05",
  "totalPaginas": 3387,
- "concluidas": 44,
+ "concluidas": 45,
  "porStatus": {
-  "pendente": 3343,
-  "rascunho": 44,
+  "pendente": 3342,
+  "rascunho": 45,
   "revisado": 0,
   "publicado": 0
  },
@@ -12,7 +12,7 @@
   "id": "ortodontia/biologia-do-movimento",
   "area": "Ortodontia",
   "modulo": "Biologia do movimento",
-  "faltam": 3
+  "faltam": 2
  },
  "imagensPendentes": [
   {
@@ -320,6 +320,15 @@
    "mostrar": "Opacidades brancas bem delimitadas na face vestibular, no terço gengival, contornando a área onde a base do braquete estava colada; incisivos inferiores sem lesões; dentes secos para evidenciar",
    "legenda": "O padrão típico: meia-lua na gengival de onde estava o braquete, mais nos laterais e caninos superiores, inferiores poupados.",
    "destacar": "contorno das lesões em relação à área da base do braquete e a diferença entre arco superior e inferior"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/recessao-e-deiscencias",
+   "modulo": "Biologia do movimento",
+   "secao": "Da deiscência à recessão: por que uma leva à outra",
+   "imagem": "corte tomográfico axial e sagital de incisivo inferior após vestibularização, mostrando raiz fora da cortical vestibular, comparado ao corte inicial",
+   "mostrar": "No corte inicial, raiz centrada com cortical vestibular e lingual finas; no corte final, face vestibular da raiz sem cobertura óssea, crista deslocada para apical, e a fotografia clínica correspondente com margem gengival recuada",
+   "legenda": "A tomografia mostra o que a periapical esconde: a raiz saiu do envelope e a gengiva ficou sem alicerce.",
+   "destacar": "posição da raiz em relação à cortical vestibular nos dois momentos e o nível da crista óssea"
   }
  ],
  "verificarPendentes": [
@@ -1417,6 +1426,61 @@
    "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
    "onde": "autoteste[3].explicacoes[2]",
    "trecho": "Correta: a remineralização natural é maior nos primeiros meses [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/recessao-e-deiscencias",
+   "onde": "Seção \"O envelope de osso: onde o dente pode e onde não pode ir\".blocos[0].texto",
+   "trecho": "cal vestibular costuma ter menos de um milímetro em boa parte da raiz [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/recessao-e-deiscencias",
+   "onde": "Seção \"Da deiscência à recessão: por que uma leva à outra\".blocos[1].texto",
+   "trecho": "s tratados do que em não tratados, sobretudo nos incisivos inferiores [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/recessao-e-deiscencias",
+   "onde": "Seção \"Da deiscência à recessão: por que uma leva à outra\".blocos[3].verdade",
+   "trecho": "o tardia após vestibularização de incisivos inferiores é bem descrita [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/recessao-e-deiscencias",
+   "onde": "Seção \"Prevenir: ver o limite, respeitar ou ampliar\".blocos[0].texto",
+   "trecho": "alva de que osso muito fino pode não aparecer e ser lido como ausente [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/recessao-e-deiscencias",
+   "onde": "Seção \"Prevenir: ver o limite, respeitar ou ampliar\".blocos[4].texto",
+   "trecho": "solvido assim é quase um milímetro de raiz que avança para a cortical [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/recessao-e-deiscencias",
+   "onde": "Seção \"Recessão instalada: o que fazer durante e depois\".blocos[0].texto",
+   "trecho": "ido sobre ela e melhorar o prognóstico de qualquer cirurgia posterior [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/recessao-e-deiscencias",
+   "onde": "Seção \"Recessão instalada: o que fazer durante e depois\".blocos[1].texto",
+   "trecho": "entes estão preservadas, e piores quando a raiz permanece proeminente [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/recessao-e-deiscencias",
+   "onde": "Seção \"Recessão instalada: o que fazer durante e depois\".checagem.resposta",
+   "trecho": "ostuma ser feito após o término, com a posição final da raiz definida [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/recessao-e-deiscencias",
+   "onde": "fechamento.flashcards[2].verso",
+   "trecho": "tecido sobre ela e melhorando o prognóstico do recobrimento radicular [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/recessao-e-deiscencias",
+   "onde": "ondeErra[3].certo",
+   "trecho": "raiz para dentro do osso e, salvo progressão, recobrir após o término [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/recessao-e-deiscencias",
+   "onde": "autoteste[3].explicacoes[2]",
+   "trecho": "A recessão tardia após vestibularização é bem descrita [VERIFICAR]"
   }
  ],
  "modulos": [
@@ -1694,11 +1758,11 @@
    "area": "Ortodontia",
    "modulo": "Biologia do movimento",
    "total": 12,
-   "concluidas": 9,
-   "palavras": 35375,
-   "visuais": 48,
-   "imagensClinicas": 8,
-   "verificar": 104,
+   "concluidas": 10,
+   "palavras": 39623,
+   "visuais": 54,
+   "imagensClinicas": 9,
+   "verificar": 115,
    "paginas": [
     {
      "id": "ortodontia/biologia-do-movimento/reacoes-teciduais/ligamento-e-osso-sob-forca",
@@ -1776,7 +1840,9 @@
      "id": "ortodontia/biologia-do-movimento/efeitos-colaterais/recessao-e-deiscencias",
      "nome": "Recessão e deiscências",
      "tema": "Efeitos colaterais",
-     "status": "pendente"
+     "status": "rascunho",
+     "palavras": 4248,
+     "visuais": 6
     },
     {
      "id": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
@@ -28649,6 +28715,102 @@
     {
      "onde": "autoteste[3].explicacoes[2]",
      "trecho": "Correta: a remineralização natural é maior nos primeiros meses [VERIFICAR]"
+    }
+   ]
+  },
+  "ortodontia/biologia-do-movimento/efeitos-colaterais/recessao-e-deiscencias": {
+   "titulo": "Recessão e deiscências: o que acontece quando a raiz sai do envelope de osso",
+   "arquivo": "data/campus/paginas/ortodontia--biomov-recessao.json",
+   "formato": 2,
+   "status": "rascunho",
+   "estado": "rascunho",
+   "palavras": 4248,
+   "visuais": [
+    {
+     "formato": "anatomico",
+     "titulo": "Dentro e fora do envelope"
+    },
+    {
+     "formato": "processo",
+     "titulo": "Do movimento fora do osso à recessão"
+    },
+    {
+     "formato": "classificacao",
+     "titulo": "Fatores de risco para recessão durante o tratamento"
+    },
+    {
+     "formato": "fluxograma",
+     "titulo": "Decidir o movimento dos incisivos inferiores pelo envelope"
+    },
+    {
+     "formato": "comparativo",
+     "titulo": "Prevenir, conter e reparar: quem faz o que e quando"
+    },
+    {
+     "formato": "mapa",
+     "titulo": "Mapa da página"
+    }
+   ],
+   "quadros": {
+    "prova": 1,
+    "mito": 1,
+    "dica": 1,
+    "erro": 2,
+    "frase": 1
+   },
+   "imagensClinicas": [
+    {
+     "secao": "Da deiscência à recessão: por que uma leva à outra",
+     "imagem": "corte tomográfico axial e sagital de incisivo inferior após vestibularização, mostrando raiz fora da cortical vestibular, comparado ao corte inicial",
+     "mostrar": "No corte inicial, raiz centrada com cortical vestibular e lingual finas; no corte final, face vestibular da raiz sem cobertura óssea, crista deslocada para apical, e a fotografia clínica correspondente com margem gengival recuada",
+     "legenda": "A tomografia mostra o que a periapical esconde: a raiz saiu do envelope e a gengiva ficou sem alicerce.",
+     "destacar": "posição da raiz em relação à cortical vestibular nos dois momentos e o nível da crista óssea"
+    }
+   ],
+   "verificar": [
+    {
+     "onde": "Seção \"O envelope de osso: onde o dente pode e onde não pode ir\".blocos[0].texto",
+     "trecho": "cal vestibular costuma ter menos de um milímetro em boa parte da raiz [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Da deiscência à recessão: por que uma leva à outra\".blocos[1].texto",
+     "trecho": "s tratados do que em não tratados, sobretudo nos incisivos inferiores [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Da deiscência à recessão: por que uma leva à outra\".blocos[3].verdade",
+     "trecho": "o tardia após vestibularização de incisivos inferiores é bem descrita [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Prevenir: ver o limite, respeitar ou ampliar\".blocos[0].texto",
+     "trecho": "alva de que osso muito fino pode não aparecer e ser lido como ausente [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Prevenir: ver o limite, respeitar ou ampliar\".blocos[4].texto",
+     "trecho": "solvido assim é quase um milímetro de raiz que avança para a cortical [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Recessão instalada: o que fazer durante e depois\".blocos[0].texto",
+     "trecho": "ido sobre ela e melhorar o prognóstico de qualquer cirurgia posterior [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Recessão instalada: o que fazer durante e depois\".blocos[1].texto",
+     "trecho": "entes estão preservadas, e piores quando a raiz permanece proeminente [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Recessão instalada: o que fazer durante e depois\".checagem.resposta",
+     "trecho": "ostuma ser feito após o término, com a posição final da raiz definida [VERIFICAR]"
+    },
+    {
+     "onde": "fechamento.flashcards[2].verso",
+     "trecho": "tecido sobre ela e melhorando o prognóstico do recobrimento radicular [VERIFICAR]"
+    },
+    {
+     "onde": "ondeErra[3].certo",
+     "trecho": "raiz para dentro do osso e, salvo progressão, recobrir após o término [VERIFICAR]"
+    },
+    {
+     "onde": "autoteste[3].explicacoes[2]",
+     "trecho": "A recessão tardia após vestibularização é bem descrita [VERIFICAR]"
     }
    ]
   },

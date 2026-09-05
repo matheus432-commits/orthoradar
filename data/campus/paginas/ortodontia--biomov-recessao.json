@@ -1,0 +1,621 @@
+{
+  "id": "ortodontia/biologia-do-movimento/efeitos-colaterais/recessao-e-deiscencias",
+  "areaId": "ortodontia",
+  "area": "Ortodontia",
+  "modulo": "Biologia do movimento",
+  "tema": "Efeitos colaterais",
+  "titulo": "Recessão e deiscências: o que acontece quando a raiz sai do envelope de osso",
+  "estado": "rascunho",
+  "versao": 1,
+  "formato": 2,
+  "autoria": "Rascunho escrito pela plataforma para validação; nada aqui é visível ao aluno antes da assinatura de um ortodontista. Prevalências citadas são valores de referência e devem ser conferidas pelo validador.",
+  "abertura": {
+    "situacao": "Uma paciente de 27 anos, apinhamento inferior de seis milímetros, sínfise fina na telerradiografia e gengiva delgada e translúcida nos incisivos inferiores, pede tratamento sem extração. O plano escolhido alinha vestibularizando os incisivos. Aos oito meses, o incisivo central inferior esquerdo mostra a margem gengival dois milímetros abaixo da dos vizinhos e a raiz é palpável sob a mucosa vestibular.",
+    "pergunta": "A ortodontia causou essa recessão ou apenas revelou um risco que já estava lá? Onde fica o limite do osso, como você o enxerga antes de começar e o que faz agora?"
+  },
+  "umMinuto": {
+    "frases": [
+      "O dente só pode ser movido com segurança dentro do envelope de osso alveolar; o osso acompanha o dente enquanto há espessura para remodelar, e para de acompanhar quando a raiz encosta na cortical.",
+      "Deiscência é a perda do osso que cobria a raiz na face vestibular ou lingual, com a crista deslocada para apical; fenestração é uma janela no osso com a crista preservada. Ambas são radiograficamente invisíveis na periapical e só aparecem na tomografia ou na cirurgia.",
+      "Recessão é a migração da margem gengival para apical à junção amelocementária, com exposição de raiz. Sem osso sob a gengiva e com tecido fino, a recessão vem com qualquer agressão: escovação, biofilme, inflamação.",
+      "O movimento ortodôntico por si não causa recessão; move a raiz para fora do envelope e deixa a gengiva sem suporte. O fenótipo periodontal fino, a sínfise estreita e a vestibularização de incisivos inferiores são a tríade de risco clássica.",
+      "Prevenção: avaliar fenótipo e espessura óssea antes, escolher mecânica que mantenha a raiz no osso, torque controlado, expansão e vestibularização com limites, e enxerto gengival antes do movimento quando indicado.",
+      "Recessão instalada: controlar inflamação e higiene, mover a raiz de volta para dentro do osso se possível, e recobrimento radicular periodontal após o término, com prognóstico melhor quando a raiz volta ao envelope."
+    ],
+    "caiNaProva": [
+      "Diferença entre deiscência (crista óssea para apical, raiz descoberta a partir da margem) e fenestração (janela óssea com crista intacta).",
+      "Fatores de risco: fenótipo periodontal fino, sínfise estreita, vestibularização e expansão além do envelope, torque radicular vestibular, higiene e inflamação.",
+      "Movimento para dentro do osso pode melhorar a espessura de tecido sobre a raiz; movimento para fora a reduz.",
+      "Periapical não mostra deiscência vestibular ou lingual; tomografia sim, com limitações de resolução para osso fino.",
+      "Sequência de tratamento: avaliar fenótipo antes; enxerto antes do movimento em risco alto; recobrimento após o término com a raiz no osso."
+    ],
+    "porQueImporta": "A recessão é o efeito colateral que o periodontista vê e o ortodontista causou, ou pelo menos permitiu. Saber onde termina o osso antes de decidir para onde vai o dente é o que separa um plano seguro de um plano bonito no modelo."
+  },
+  "secoes": [
+    {
+      "titulo": "O envelope de osso: onde o dente pode e onde não pode ir",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "A raiz vive dentro de um envelope de osso alveolar cuja espessura varia de dente para dente e de pessoa para pessoa. Nos incisivos inferiores e nos dentes posteriores superiores, a cortical vestibular costuma ter menos de um milímetro em boa parte da raiz [VERIFICAR]; na sínfise estreita, o osso lingual também é fino. Quando você move um dente, o osso do lado da tensão se forma e o do lado da pressão se reabsorve, e o alvéolo acompanha, mas só enquanto existe osso a remodelar."
+        },
+        {
+          "tipo": "p",
+          "texto": "Quando a raiz alcança a cortical e continua sendo empurrada, não há espaço medular para o osso se reorganizar na frente dela. O resultado é que a raiz passa a ser coberta apenas por periósteo e gengiva, ou nem isso. A esse limite os autores chamam envelope ou limite anatômico do movimento; ultrapassá-lo é a causa comum de deiscências, fenestrações e, com a agressão seguinte, recessão."
+        },
+        {
+          "tipo": "visual",
+          "formato": "anatomico",
+          "titulo": "Dentro e fora do envelope",
+          "descricao": "Três cortes transversais de um incisivo inferior no osso alveolar. À esquerda, raiz centrada no osso, com cortical vestibular e lingual íntegras: dentro do envelope. No centro, a raiz deslocada para vestibular até encostar na cortical: no limite; o osso vestibular está fino. À direita, a raiz ultrapassou a cortical: a face vestibular da raiz está fora do osso, coberta só por gengiva, deiscência instalada.",
+          "viewBox": "0 0 560 320",
+          "svg": [
+            "<g font-size='13' font-weight='700' fill='var(--ink,#23211C)' text-anchor='middle'><text x='100' y='28'>dentro</text><text x='280' y='28'>no limite</text><text x='460' y='28'>fora</text></g>",
+            "<g fill='var(--gold-soft,#F4EEE4)' stroke='var(--ink,#23211C)' stroke-width='1.5'><path d='M50 60 L150 60 L150 230 Q150 250 130 250 L70 250 Q50 250 50 230 Z'/><path d='M230 60 L330 60 L330 230 Q330 250 310 250 L250 250 Q230 250 230 230 Z'/><path d='M410 60 L510 60 L510 230 Q510 250 490 250 L430 250 Q410 250 410 230 Z'/></g>",
+            "<g fill='#fff' stroke='var(--ink,#23211C)' stroke-width='1.5'><path d='M100 60 L100 60 M85 60 Q100 210 115 60 Z'/><path d='M85 60 Q100 220 115 60' /></g>",
+            "<g fill='#fff' stroke='var(--ink,#23211C)' stroke-width='1.5'><path d='M217 60 Q232 220 247 60 Z'/></g>",
+            "<g fill='#fff' stroke='var(--red,#B4533B)' stroke-width='1.5'><path d='M394 60 Q409 220 424 60 Z'/></g>",
+            "<path d='M404 60 Q404 150 410 200' fill='none' stroke='var(--red,#B4533B)' stroke-width='3' stroke-dasharray='4 3'/>",
+            "<g font-size='10' fill='var(--muted,#8A8478)'><text x='40' y='270'>V</text><text x='150' y='270'>L</text><text x='220' y='270'>V</text><text x='330' y='270'>L</text><text x='400' y='270'>V</text><text x='510' y='270'>L</text></g>",
+            "<g font-size='11' fill='var(--ink,#23211C)' text-anchor='middle'><text x='100' y='292'>osso dos dois lados</text><text x='100' y='306' fill='var(--green,#3E7C4F)' font-weight='700'>seguro</text><text x='280' y='292'>cortical vestibular fina</text><text x='280' y='306' fill='var(--gold,#B08968)' font-weight='700'>último milímetro</text><text x='460' y='292'>raiz fora do osso, só gengiva</text><text x='460' y='306' fill='var(--red,#B4533B)' font-weight='700'>deiscência</text></g>"
+          ],
+          "legenda": "Cortes transversais de um incisivo inferior. V, vestibular; L, lingual. O osso acompanha até o limite; depois, a raiz fica só com gengiva."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "prova",
+          "texto": "Deiscência: perda do osso que cobria a raiz a partir da crista, que se desloca para apical, deixando a raiz descoberta em continuidade com a margem. Fenestração: janela óssea sobre a raiz com a crista preservada. Ambas ocorrem sobretudo na vestibular de incisivos inferiores, caninos e primeiros pré-molares superiores, e não aparecem na radiografia periapical."
+        },
+        {
+          "tipo": "pergunta",
+          "pergunta": "Por que o osso 'acompanha' o dente durante o movimento e depois deixa de acompanhar?",
+          "resposta": "Porque a remodelação depende de osso a reabsorver de um lado e espaço para formar do outro; quando a raiz encosta na cortical, não há osso medular à frente para se reorganizar e a raiz sai do envelope."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Defina deiscência e fenestração e diga onde e como elas são detectadas.",
+        "resposta": "Deiscência: perda óssea sobre a raiz a partir da crista, que migra para apical. Fenestração: janela óssea com crista intacta. Mais comuns na vestibular de incisivos inferiores e dentes anteriores superiores; invisíveis na periapical, detectadas por tomografia ou cirurgia."
+      }
+    },
+    {
+      "titulo": "Da deiscência à recessão: por que uma leva à outra",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "A gengiva se sustenta no osso. Quando a raiz sai do envelope, a margem gengival pode permanecer no lugar por algum tempo, porque o tecido conjuntivo e o epitélio não dependem do osso para existir, mas dependem dele para resistir. Sobre uma deiscência, a gengiva é um tecido sem alicerce: qualquer agressão, a escovação vigorosa, o biofilme acumulado, a inflamação ou o próprio trauma do aparelho, faz a margem recuar até encontrar suporte."
+        },
+        {
+          "tipo": "p",
+          "texto": "Por isso os estudos são consistentes em dois pontos que parecem contraditórios: o movimento ortodôntico por si só, em periodonto saudável e dentro do osso, não causa recessão; e a recessão é mais frequente em pacientes tratados do que em não tratados, sobretudo nos incisivos inferiores [VERIFICAR]. A conciliação está no envelope: o que causa a recessão é a agressão sobre uma raiz que o movimento deixou sem osso."
+        },
+        {
+          "tipo": "visual",
+          "formato": "processo",
+          "titulo": "Do movimento fora do osso à recessão",
+          "descricao": "Cadeia de cinco etapas. Movimento leva a raiz contra a cortical. Osso vestibular se afina e desaparece: deiscência, sem sinal na periapical. Gengiva permanece, mas sem alicerce; em fenótipo fino, translúcida, e a raiz se vê por baixo. Agressão: escovação, biofilme, inflamação, trauma do aparelho. Margem recua até encontrar osso: recessão com raiz exposta.",
+          "viewBox": "0 0 560 420",
+          "svg": [
+            "<use href='#c-caixa' x='60' y='16' width='440' height='56'/><text x='280' y='40' text-anchor='middle' font-size='13' font-weight='700'>1. Movimento leva a raiz contra a cortical</text><text x='280' y='58' text-anchor='middle' font-size='11'>vestibularização, expansão, torque radicular vestibular</text>",
+            "<path d='M280 72 L280 90' stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'/>",
+            "<use href='#c-caixa-gold' x='60' y='94' width='440' height='56'/><text x='280' y='118' text-anchor='middle' font-size='13' font-weight='700'>2. Osso vestibular se afina e desaparece</text><text x='280' y='136' text-anchor='middle' font-size='11'>deiscência: a periapical não mostra; a tomografia sim</text>",
+            "<path d='M280 150 L280 168' stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'/>",
+            "<use href='#c-caixa-blue' x='60' y='172' width='440' height='56'/><text x='280' y='196' text-anchor='middle' font-size='13' font-weight='700'>3. Gengiva fica, mas sem alicerce</text><text x='280' y='214' text-anchor='middle' font-size='11'>fenótipo fino: translúcida, raiz palpável, margem ainda no lugar</text>",
+            "<path d='M280 228 L280 246' stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'/><text x='300' y='242' font-size='10' fill='var(--red,#B4533B)'>escovação, biofilme, inflamação, trauma</text>",
+            "<use href='#c-caixa-red' x='60' y='250' width='440' height='56'/><text x='280' y='274' text-anchor='middle' font-size='13' font-weight='700'>4. Margem recua até achar osso</text><text x='280' y='292' text-anchor='middle' font-size='11'>recessão: raiz exposta, sensibilidade, estética</text>",
+            "<use href='#c-caixa-ink' x='100' y='330' width='360' height='48'/><text x='280' y='350' text-anchor='middle' font-size='12' font-weight='700' fill='#fff'>o movimento cria a condição; a agressão dispara</text><text x='280' y='368' text-anchor='middle' font-size='11' fill='#fff'>sem etapa 2, a etapa 4 quase não acontece</text>",
+            "<text x='280' y='406' text-anchor='middle' font-size='11' fill='var(--muted,#8A8478)'>a recessão pode aparecer meses ou anos depois do fim do tratamento</text>"
+          ],
+          "legenda": "Quatro etapas e um intervalo variável entre a terceira e a quarta: a recessão pode vir durante o tratamento ou anos depois."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "mito",
+          "mito": "Se a gengiva está no lugar no dia da remoção do aparelho, não houve dano periodontal.",
+          "verdade": "A deiscência não aparece na periapical e a margem gengival pode ficar no lugar por meses ou anos sobre uma raiz sem osso. A recessão tardia após vestibularização de incisivos inferiores é bem descrita [VERIFICAR]. O que protege é ter mantido a raiz no osso, não a aparência no último dia."
+        },
+        {
+          "tipo": "imagem",
+          "imagem": "corte tomográfico axial e sagital de incisivo inferior após vestibularização, mostrando raiz fora da cortical vestibular, comparado ao corte inicial",
+          "mostrar": "No corte inicial, raiz centrada com cortical vestibular e lingual finas; no corte final, face vestibular da raiz sem cobertura óssea, crista deslocada para apical, e a fotografia clínica correspondente com margem gengival recuada",
+          "legenda": "A tomografia mostra o que a periapical esconde: a raiz saiu do envelope e a gengiva ficou sem alicerce.",
+          "destacar": "posição da raiz em relação à cortical vestibular nos dois momentos e o nível da crista óssea"
+        }
+      ],
+      "checagem": {
+        "pergunta": "Como conciliar as afirmações de que o movimento ortodôntico não causa recessão e de que pacientes tratados têm mais recessão?",
+        "resposta": "O movimento dentro do osso não causa recessão; o movimento que leva a raiz para fora do envelope cria deiscência e deixa a gengiva sem suporte, e a agressão seguinte (escovação, biofilme, inflamação) produz a recessão, às vezes anos depois."
+      }
+    },
+    {
+      "titulo": "Quem está em risco: a tríade e o que mais",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "Três fatores se repetem nos casos: fenótipo periodontal fino, com gengiva delgada e translúcida, faixa estreita de gengiva ceratinizada e osso fino; sínfise mandibular estreita na telerradiografia, sinal de pouco osso vestibular e lingual em volta dos incisivos inferiores; e a mecânica que empurra a raiz para vestibular, seja vestibularização de incisivos para resolver apinhamento sem extração, seja expansão dentária de arcos, seja torque radicular vestibular excessivo."
+        },
+        {
+          "tipo": "p",
+          "texto": "Somam-se fatores do paciente e do controle: inserção alta de freio, higiene deficiente ou escovação traumática, biofilme e inflamação gengival durante o tratamento, hábitos como piercing labial, e a idade adulta, em que o periodonto tem menos capacidade de adaptação e mais história acumulada. Nenhum deles exige contraindicação; todos exigem que o limite anatômico seja respeitado ou ampliado antes de mover."
+        },
+        {
+          "tipo": "visual",
+          "formato": "classificacao",
+          "titulo": "Fatores de risco para recessão durante o tratamento",
+          "descricao": "Três caixas para a tríade: fenótipo periodontal fino; sínfise estreita e osso vestibular fino; mecânica que empurra a raiz para vestibular. Uma quarta caixa com fatores adicionais: freio com inserção alta, higiene e inflamação, escovação traumática, piercing, idade adulta. Rodapé: nenhum contraindica; todos pedem avaliar o limite antes e respeitá-lo ou ampliá-lo.",
+          "viewBox": "0 0 560 360",
+          "svg": [
+            "<use href='#c-caixa-red' x='20' y='16' width='520' height='58'/><text x='36' y='40' font-size='13' font-weight='700'>1. Fenótipo periodontal fino</text><text x='36' y='58' font-size='11'>gengiva delgada e translúcida, pouca gengiva ceratinizada, osso fino; sonda visível pela margem</text>",
+            "<use href='#c-caixa-red' x='20' y='84' width='520' height='58'/><text x='36' y='108' font-size='13' font-weight='700'>2. Sínfise estreita, osso vestibular fino</text><text x='36' y='126' font-size='11'>telerradiografia com sínfise alta e estreita; incisivos inferiores com pouco osso dos dois lados</text>",
+            "<use href='#c-caixa-red' x='20' y='152' width='520' height='58'/><text x='36' y='176' font-size='13' font-weight='700'>3. Mecânica que empurra a raiz para fora</text><text x='36' y='194' font-size='11'>vestibularização para descruzar apinhamento, expansão de arco, torque radicular vestibular excessivo</text>",
+            "<use href='#c-caixa-gold' x='20' y='220' width='520' height='72'/><text x='36' y='244' font-size='13' font-weight='700'>Somam risco</text><text x='36' y='262' font-size='11'>freio com inserção alta; biofilme e inflamação durante o tratamento; escovação traumática</text><text x='36' y='278' font-size='11'>piercing labial; idade adulta; recessão prévia em outro dente</text>",
+            "<use href='#c-caixa-ink' x='80' y='306' width='400' height='40'/><text x='280' y='323' text-anchor='middle' font-size='12' font-weight='700' fill='#fff'>nenhum contraindica; todos pedem ver o limite antes</text><text x='280' y='339' text-anchor='middle' font-size='10' fill='#fff'>e respeitá-lo ou ampliá-lo com enxerto antes de mover</text>"
+          ],
+          "legenda": "A tríade em vermelho é a que mais aparece nos casos de recessão após ortodontia. Ela se vê no exame clínico e na telerradiografia, antes do primeiro fio."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "dica",
+          "titulo": "Teste da sonda pela margem",
+          "texto": "Insira a sonda periodontal no sulco: se a sombra da sonda é visível através da gengiva marginal, o fenótipo é fino. É um teste de segundos, feito no exame inicial, que decide se os incisivos inferiores podem ser vestibularizados e quanto. Registre como fino ou espesso no prontuário, junto com a faixa de gengiva ceratinizada."
+        },
+        {
+          "tipo": "pergunta",
+          "pergunta": "Que achado na telerradiografia inicial deve fazer você repensar um plano de vestibularização de incisivos inferiores?",
+          "resposta": "Sínfise mandibular alta e estreita, indicando pouco osso vestibular e lingual em volta das raízes dos incisivos: o envelope é curto e a vestibularização tende a levar a raiz para fora dele."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Cite a tríade clássica de risco para recessão durante o tratamento ortodôntico.",
+        "resposta": "Fenótipo periodontal fino, sínfise mandibular estreita com osso vestibular fino, e mecânica que desloca a raiz para vestibular (vestibularização, expansão, torque radicular vestibular)."
+      }
+    },
+    {
+      "titulo": "Prevenir: ver o limite, respeitar ou ampliar",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "Prevenir começa pelo diagnóstico do limite. O exame clínico registra fenótipo, faixa de gengiva ceratinizada, recessões existentes e freios. A telerradiografia mostra a sínfise. A tomografia, quando indicada por risco alto ou por plano que exige expansão ou vestibularização significativa, mostra a espessura real do osso vestibular e lingual em cada dente, com a ressalva de que osso muito fino pode não aparecer e ser lido como ausente [VERIFICAR]."
+        },
+        {
+          "tipo": "p",
+          "texto": "Com o limite conhecido, o plano se adapta. Quando o apinhamento pede mais espaço do que o envelope permite, as alternativas são desgaste interproximal, distalização, extração ou aceitar compromisso, em vez de empurrar a raiz para fora. Torque radicular vestibular nos incisivos inferiores é dosado e checado."
+        },
+        {
+          "tipo": "p",
+          "texto": "Expansão do arco inferior tem limite anatômico curto. E quando o plano exige mover para onde não há osso, o enxerto de tecido conjuntivo ou gengival antes do movimento, ou procedimentos de corticotomia com enxerto ósseo, ampliam o envelope, com indicação e execução do periodontista."
+        },
+        {
+          "tipo": "visual",
+          "formato": "fluxograma",
+          "titulo": "Decidir o movimento dos incisivos inferiores pelo envelope",
+          "descricao": "Início: plano exige vestibularizar, expandir ou dar torque vestibular em incisivos inferiores. Pergunta um: fenótipo fino, sínfise estreita ou recessão prévia? Se não: seguir com movimento dosado e monitorar. Se sim: tomografia para medir o osso. Pergunta dois: o movimento planejado cabe no osso disponível? Se sim: seguir com controle. Se não: mudar o plano (desgaste, distalização, extração, compromisso) ou ampliar o envelope com enxerto antes de mover.",
+          "viewBox": "0 0 560 440",
+          "svg": [
+            "<use href='#c-caixa-ink' x='120' y='16' width='320' height='40'/><text x='280' y='41' text-anchor='middle' font-size='12' font-weight='700' fill='#fff'>plano move a raiz inferior para vestibular</text>",
+            "<path d='M280 56 L280 76' stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'/>",
+            "<use href='#c-decisao' x='150' y='80' width='260' height='50'/><text x='280' y='101' text-anchor='middle' font-size='12' font-weight='700'>fenótipo fino, sínfise estreita</text><text x='280' y='117' text-anchor='middle' font-size='11'>ou recessão prévia?</text>",
+            "<path d='M150 105 L96 105' stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'/><text x='123' y='98' text-anchor='middle' font-size='10' fill='var(--muted,#8A8478)'>não</text>",
+            "<use href='#c-caixa-green' x='6' y='84' width='90' height='42'/><text x='51' y='102' text-anchor='middle' font-size='11' font-weight='700'>seguir dosado</text><text x='51' y='116' text-anchor='middle' font-size='10'>e monitorar</text>",
+            "<path d='M280 130 L280 150' stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'/><text x='292' y='146' font-size='10' fill='var(--muted,#8A8478)'>sim</text>",
+            "<use href='#c-caixa-blue' x='150' y='154' width='260' height='44'/><text x='280' y='173' text-anchor='middle' font-size='12' font-weight='700'>tomografia: medir osso vestibular</text><text x='280' y='189' text-anchor='middle' font-size='11'>e lingual em cada incisivo</text>",
+            "<path d='M280 198 L280 218' stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'/>",
+            "<use href='#c-decisao' x='150' y='222' width='260' height='50'/><text x='280' y='243' text-anchor='middle' font-size='12' font-weight='700'>o movimento planejado</text><text x='280' y='259' text-anchor='middle' font-size='11'>cabe no osso disponível?</text>",
+            "<path d='M410 247 L464 247' stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'/><text x='437' y='240' text-anchor='middle' font-size='10' fill='var(--muted,#8A8478)'>sim</text>",
+            "<use href='#c-caixa-green' x='466' y='226' width='88' height='42'/><text x='510' y='244' text-anchor='middle' font-size='11' font-weight='700'>seguir com</text><text x='510' y='258' text-anchor='middle' font-size='10'>controle</text>",
+            "<path d='M280 272 L280 292' stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'/><text x='292' y='288' font-size='10' fill='var(--muted,#8A8478)'>não</text>",
+            "<use href='#c-caixa-gold' x='40' y='296' width='230' height='72'/><text x='155' y='318' text-anchor='middle' font-size='12' font-weight='700'>mudar o plano</text><text x='155' y='334' text-anchor='middle' font-size='11'>desgaste interproximal</text><text x='155' y='348' text-anchor='middle' font-size='11'>distalização, extração</text><text x='155' y='362' text-anchor='middle' font-size='11'>ou compromisso</text>",
+            "<use href='#c-caixa-red' x='290' y='296' width='230' height='72'/><text x='405' y='318' text-anchor='middle' font-size='12' font-weight='700'>ampliar o envelope</text><text x='405' y='334' text-anchor='middle' font-size='11'>enxerto de conjuntivo ou gengival</text><text x='405' y='348' text-anchor='middle' font-size='11'>antes de mover; corticotomia com</text><text x='405' y='362' text-anchor='middle' font-size='11'>enxerto ósseo, com o periodontista</text>",
+            "<text x='280' y='404' text-anchor='middle' font-size='11' fill='var(--muted,#8A8478)'>o que nunca entra no fluxo: empurrar a raiz e 'ver o que acontece'</text>",
+            "<text x='280' y='424' text-anchor='middle' font-size='10' fill='var(--muted,#8A8478)'>ou: aplicar o limite antes do primeiro fio, não depois da recessão</text>"
+          ],
+          "legenda": "Duas perguntas antes de vestibularizar um incisivo inferior. A segunda exige uma imagem que a periapical não dá."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "erro",
+          "titulo": "Resolver apinhamento inferior 'só alinhando'",
+          "texto": "Alinhar sem criar espaço é vestibularizar; cada milímetro de apinhamento resolvido assim é quase um milímetro de raiz que avança para a cortical [VERIFICAR]. Em sínfise estreita e fenótipo fino, isso é o caminho mais curto para a deiscência. Espaço vem de desgaste, distalização ou extração; a vestibularização só é aceitável dentro do que o osso permite."
+        },
+        {
+          "tipo": "lista",
+          "itens": [
+            "Exame inicial: fenótipo (sonda pela margem), gengiva ceratinizada, recessões, freios; registre.",
+            "Telerradiografia: forma da sínfise; tomografia se o risco for alto ou o plano exigir vestibularização ou expansão relevante.",
+            "Plano: criar espaço em vez de vestibularizar; torque dosado; expansão inferior mínima.",
+            "Risco alto com movimento necessário: enxerto antes de mover, com o periodontista.",
+            "Durante: higiene e controle de inflamação rigorosos; observar cor, translucidez e nível da margem em cada consulta."
+          ]
+        }
+      ],
+      "checagem": {
+        "pergunta": "Quando o plano exige mover a raiz para onde o osso é insuficiente, quais são as duas saídas legítimas?",
+        "resposta": "Mudar o plano para criar espaço sem levar a raiz para fora (desgaste, distalização, extração, compromisso) ou ampliar o envelope antes de mover, com enxerto de tecido mole ou procedimentos com enxerto ósseo pelo periodontista."
+      }
+    },
+    {
+      "titulo": "Recessão instalada: o que fazer durante e depois",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "Quando a margem recua durante o tratamento, o primeiro passo é remover as agressões: controle rigoroso de biofilme com técnica não traumática, tratamento da inflamação e verificação de contatos do aparelho com a gengiva. O segundo é rever a mecânica: se a raiz está fora do envelope, movê-la de volta para dentro do osso, com torque lingual de raiz ou retração, costuma engrossar o tecido sobre ela e melhorar o prognóstico de qualquer cirurgia posterior [VERIFICAR]."
+        },
+        {
+          "tipo": "p",
+          "texto": "O recobrimento radicular, com enxerto de tecido conjuntivo e retalho, é em geral realizado após o término da ortodontia, quando a posição final da raiz está definida e a inflamação controlada. Os resultados são melhores quando a raiz está dentro do osso e as papilas adjacentes estão preservadas, e piores quando a raiz permanece proeminente [VERIFICAR]. Enxerto durante o tratamento é indicado quando a recessão progride ou quando o movimento restante vai piorar a situação."
+        },
+        {
+          "tipo": "visual",
+          "formato": "comparativo",
+          "titulo": "Prevenir, conter e reparar: quem faz o que e quando",
+          "descricao": "Três colunas. Antes do movimento: ortodontista avalia fenótipo e sínfise, pede tomografia se necessário, adapta o plano; periodontista faz enxerto prévio em risco alto. Durante: ortodontista controla higiene e inflamação, monitora a margem, move a raiz de volta ao osso se saiu; periodontista intervém se a recessão progride. Depois: ortodontista finaliza com a raiz no osso e contenção que permita higiene; periodontista faz recobrimento radicular com a posição final definida.",
+          "viewBox": "0 0 720 300",
+          "svg": [
+            "<g font-size='13' font-weight='700' fill='var(--ink,#23211C)' text-anchor='middle'><use href='#c-pilula' x='140' y='16' width='140' height='30'/><text x='210' y='36'>antes</text><use href='#c-pilula' x='320' y='16' width='140' height='30'/><text x='390' y='36'>durante</text><use href='#c-pilula' x='500' y='16' width='140' height='30'/><text x='570' y='36'>depois</text></g>",
+            "<g font-size='11' font-weight='700' fill='var(--ink,#23211C)'><text x='20' y='90'>ortodontista</text><text x='20' y='200'>periodontista</text></g>",
+            "<line x1='20' y1='160' x2='700' y2='160' stroke='var(--border,#EDE6D8)' stroke-width='1'/>",
+            "<g font-size='11' fill='var(--ink,#23211C)' text-anchor='middle'><text x='210' y='72'>fenótipo, sínfise, freios</text><text x='210' y='86'>tomografia se risco alto</text><text x='210' y='100'>criar espaço em vez de</text><text x='210' y='114'>vestibularizar; torque dosado</text></g>",
+            "<g font-size='11' fill='var(--ink,#23211C)' text-anchor='middle'><text x='390' y='72'>higiene e inflamação</text><text x='390' y='86'>margem observada em</text><text x='390' y='100'>toda consulta; raiz que saiu</text><text x='390' y='114'>volta para o osso</text></g>",
+            "<g font-size='11' fill='var(--ink,#23211C)' text-anchor='middle'><text x='570' y='72'>finalizar com a raiz</text><text x='570' y='86'>dentro do envelope</text><text x='570' y='100'>contenção que permita</text><text x='570' y='114'>higiene; controle periódico</text></g>",
+            "<g font-size='11' fill='var(--ink,#23211C)' text-anchor='middle'><text x='210' y='190'>enxerto de conjuntivo ou</text><text x='210' y='204'>gengival antes de mover</text><text x='210' y='218'>em risco alto</text></g>",
+            "<g font-size='11' fill='var(--ink,#23211C)' text-anchor='middle'><text x='390' y='190'>intervir se a recessão</text><text x='390' y='204'>progride ou se o movimento</text><text x='390' y='218'>restante vai piorar</text></g>",
+            "<g font-size='11' fill='var(--ink,#23211C)' text-anchor='middle'><text x='570' y='190'>recobrimento radicular com</text><text x='570' y='204'>a posição final definida</text><text x='570' y='218'>e inflamação controlada</text></g>",
+            "<use href='#c-caixa-ink' x='160' y='240' width='400' height='40'/><text x='360' y='265' text-anchor='middle' font-size='12' font-weight='700' fill='#fff'>a melhor cirurgia é a que não precisou acontecer</text>"
+          ],
+          "legenda": "Três tempos, dois profissionais. Quanto mais a decisão fica na coluna da esquerda, menos trabalho sobra para a da direita."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "frase",
+          "texto": "O dente vai onde o fio manda; o osso só vai até onde já estava. Planejar é descobrir onde o osso termina antes de decidir onde o dente para."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Diante de recessão que surge durante o tratamento, quais são os dois primeiros passos e quando o recobrimento radicular costuma ser feito?",
+        "resposta": "Remover as agressões (biofilme, inflamação, trauma, escovação) e rever a mecânica trazendo a raiz de volta para dentro do osso. O recobrimento radicular costuma ser feito após o término, com a posição final da raiz definida [VERIFICAR]."
+      }
+    },
+    {
+      "titulo": "De volta à paciente de 27 anos",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "A ortodontia não inventou o risco, mas o converteu em dano. A tríade estava toda no exame inicial: fenótipo fino, sínfise estreita e um plano que resolveu seis milímetros de apinhamento vestibularizando. A raiz palpável sob a mucosa é a deiscência; a margem dois milímetros abaixo dos vizinhos é a recessão que veio com a primeira agressão. A periapical não teria mostrado nada disso."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "erro",
+          "titulo": "Ler a periapical e concluir que 'o osso está normal'",
+          "texto": "A periapical mostra osso interproximal, não o osso vestibular e lingual sobre a raiz. Uma deiscência vestibular completa pode coexistir com uma periapical impecável. Em fenótipo fino e sínfise estreita, a pergunta sobre o osso vestibular só é respondida pela tomografia ou pelo exame clínico do tecido sobre a raiz."
+        },
+        {
+          "tipo": "p",
+          "texto": "A conduta: controlar biofilme e inflamação com técnica não traumática e verificar se o aparelho toca a gengiva; tomografia para medir onde a raiz está; rever o plano com criação de espaço por desgaste interproximal ou extração e trazer a raiz de volta para dentro do osso com torque lingual, se o osso lingual permitir; avaliação do periodontista para decidir entre enxerto agora, se a recessão progredir, ou recobrimento ao final com a raiz reposicionada."
+        },
+        {
+          "tipo": "p",
+          "texto": "E, no prontuário, o registro de que o fenótipo e a sínfise foram vistos e discutidos com a paciente, o que deveria ter acontecido antes do primeiro fio."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Que três elementos do exame inicial já indicavam o risco e que exame confirma o estado atual da raiz?",
+        "resposta": "Fenótipo periodontal fino, sínfise estreita na telerradiografia e o plano de vestibularizar seis milímetros de apinhamento. O estado atual da raiz em relação ao osso vestibular é confirmado por tomografia."
+      }
+    }
+  ],
+  "fechamento": {
+    "visual": {
+      "formato": "mapa",
+      "titulo": "Mapa da página",
+      "descricao": "Nó central: recessão e deiscências. Seis nós: envelope de osso; deiscência não aparece na periapical; gengiva sem alicerce recua; tríade de risco; ver o limite antes; raiz de volta ao osso e recobrimento depois.",
+      "viewBox": "0 0 560 360",
+      "svg": [
+        "<g stroke='var(--border,#EDE6D8)' stroke-width='1.5'><line x1='280' y1='180' x2='100' y2='60'/><line x1='280' y1='180' x2='460' y2='60'/><line x1='280' y1='180' x2='70' y2='180'/><line x1='280' y1='180' x2='490' y2='180'/><line x1='280' y1='180' x2='100' y2='300'/><line x1='280' y1='180' x2='460' y2='300'/></g>",
+        "<use href='#c-no-central' x='190' y='150' width='180' height='60'/>",
+        "<text x='280' y='186' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>Recessão</text>",
+        "<use href='#c-no' x='20' y='38' width='160' height='44'/><text x='100' y='65' text-anchor='middle' font-size='13' font-weight='700'>Envelope de osso</text>",
+        "<use href='#c-no' x='380' y='38' width='160' height='44'/><text x='460' y='65' text-anchor='middle' font-size='13' font-weight='700'>Periapical não vê</text>",
+        "<use href='#c-no' x='0' y='158' width='150' height='44'/><text x='75' y='185' text-anchor='middle' font-size='13' font-weight='700'>Gengiva sem base</text>",
+        "<use href='#c-no' x='410' y='158' width='150' height='44'/><text x='485' y='185' text-anchor='middle' font-size='13' font-weight='700'>Tríade de risco</text>",
+        "<use href='#c-no' x='20' y='278' width='160' height='44'/><text x='100' y='305' text-anchor='middle' font-size='13' font-weight='700'>Ver o limite antes</text>",
+        "<use href='#c-no' x='380' y='278' width='160' height='44'/><text x='460' y='305' text-anchor='middle' font-size='13' font-weight='700'>Raiz volta ao osso</text>"
+      ],
+      "legenda": "O dente vai onde o fio manda; o osso só vai até onde já estava."
+    },
+    "flashcards": [
+      {
+        "frente": "Diferencie deiscência de fenestração e diga por que nenhuma aparece na periapical.",
+        "verso": "Deiscência: perda do osso sobre a raiz a partir da crista, que migra para apical. Fenestração: janela óssea com a crista preservada. A periapical mostra osso interproximal, não as tábuas vestibular e lingual sobre a raiz; só a tomografia ou a cirurgia as mostram."
+      },
+      {
+        "frente": "Qual é a tríade de risco para recessão durante a ortodontia e como cada item é identificado antes do tratamento?",
+        "verso": "Fenótipo periodontal fino (sonda visível pela margem, pouca gengiva ceratinizada), sínfise mandibular estreita (telerradiografia) e mecânica que leva a raiz para vestibular (vestibularização, expansão, torque radicular vestibular, no plano)."
+      },
+      {
+        "frente": "Como o movimento ortodôntico pode causar e como pode ajudar a tratar uma recessão?",
+        "verso": "Causa quando leva a raiz para fora do envelope de osso, criando deiscência e deixando a gengiva sem suporte para a agressão seguinte. Ajuda quando traz a raiz de volta para dentro do osso, engrossando o tecido sobre ela e melhorando o prognóstico do recobrimento radicular [VERIFICAR]."
+      }
+    ]
+  },
+  "infografico": {
+    "titulo": "Recessão e deiscências em seis cartões",
+    "itens": [
+      {
+        "rotulo": "Envelope",
+        "texto": "O osso acompanha o dente até a cortical. Depois disso, a raiz fica só com gengiva: deiscência."
+      },
+      {
+        "rotulo": "Invisível",
+        "texto": "Periapical mostra osso interproximal, não vestibular. Deiscência só na tomografia ou na cirurgia."
+      },
+      {
+        "rotulo": "Recessão",
+        "texto": "Gengiva sem alicerce recua com a primeira agressão: escovação, biofilme, inflamação. Pode vir anos depois."
+      },
+      {
+        "rotulo": "Tríade",
+        "texto": "Fenótipo fino, sínfise estreita, raiz empurrada para vestibular. Tudo visível antes do primeiro fio."
+      },
+      {
+        "rotulo": "Prevenir",
+        "texto": "Ver o limite; criar espaço em vez de vestibularizar; torque dosado; enxerto antes de mover em risco alto."
+      },
+      {
+        "rotulo": "Instalada",
+        "texto": "Tirar agressões, trazer a raiz de volta ao osso, recobrimento radicular após o término com posição definida."
+      }
+    ]
+  },
+  "fluxograma": {
+    "titulo": "Margem gengival recuando durante o tratamento",
+    "nos": [
+      {
+        "id": "n1",
+        "tipo": "inicio",
+        "texto": "Margem gengival de um dente em movimento abaixo da dos vizinhos"
+      },
+      {
+        "id": "n2",
+        "tipo": "acao",
+        "texto": "Controlar biofilme e inflamação; técnica não traumática; verificar contato do aparelho com a gengiva"
+      },
+      {
+        "id": "n3",
+        "tipo": "decisao",
+        "texto": "A raiz está fora do envelope (palpável, tomografia)?"
+      },
+      {
+        "id": "n4",
+        "tipo": "acao",
+        "texto": "Rever a mecânica: trazer a raiz de volta para dentro do osso; criar espaço de outra forma"
+      },
+      {
+        "id": "n5",
+        "tipo": "decisao",
+        "texto": "A recessão progride ou o movimento restante vai piorá-la?"
+      },
+      {
+        "id": "n6",
+        "tipo": "acao",
+        "texto": "Periodontista agora: enxerto durante o tratamento"
+      },
+      {
+        "id": "n7",
+        "tipo": "acao",
+        "texto": "Finalizar com a raiz no osso; recobrimento radicular após o término"
+      },
+      {
+        "id": "n8",
+        "tipo": "fim",
+        "texto": "Registrar, informar a paciente, contenção que permita higiene, controle periódico"
+      }
+    ],
+    "arestas": [
+      {
+        "de": "n1",
+        "para": "n2"
+      },
+      {
+        "de": "n2",
+        "para": "n3"
+      },
+      {
+        "de": "n3",
+        "para": "n4",
+        "rotulo": "sim"
+      },
+      {
+        "de": "n3",
+        "para": "n5",
+        "rotulo": "não"
+      },
+      {
+        "de": "n4",
+        "para": "n5"
+      },
+      {
+        "de": "n5",
+        "para": "n6",
+        "rotulo": "sim"
+      },
+      {
+        "de": "n5",
+        "para": "n7",
+        "rotulo": "não"
+      },
+      {
+        "de": "n6",
+        "para": "n8"
+      },
+      {
+        "de": "n7",
+        "para": "n8"
+      }
+    ]
+  },
+  "passoAPasso": [
+    {
+      "passo": "No exame inicial, classifique o fenótipo com a sonda pela margem, meça a gengiva ceratinizada e registre recessões e freios.",
+      "confira": "Fenótipo fino ou espesso está anotado por dente de risco?"
+    },
+    {
+      "passo": "Na telerradiografia, observe a forma da sínfise; em risco alto ou plano com vestibularização ou expansão relevante, peça tomografia.",
+      "confira": "Você sabe quanto osso vestibular cada incisivo inferior tem?"
+    },
+    {
+      "passo": "Planeje o espaço sem levar a raiz para fora: desgaste, distalização, extração ou compromisso; dose o torque.",
+      "confira": "Quantos milímetros de vestibularização o plano exige e o osso permite?"
+    },
+    {
+      "passo": "Em risco alto com movimento necessário, envie ao periodontista para enxerto antes de mover.",
+      "confira": "O enxerto está previsto antes ou você está torcendo para não precisar?"
+    },
+    {
+      "passo": "Durante o tratamento, controle biofilme e inflamação e observe cor, translucidez e nível da margem em cada consulta; ao final, raiz no osso e contenção limpável.",
+      "confira": "Alguma margem recuou desde a última consulta?"
+    }
+  ],
+  "macetes": [
+    {
+      "titulo": "Osso até onde já estava",
+      "texto": "O dente vai onde o fio manda; o osso só acompanha até a cortical. Fora dela, deiscência."
+    },
+    {
+      "titulo": "Periapical não vê tábua",
+      "texto": "Mostra osso entre dentes, não sobre a raiz. Deiscência vestibular convive com periapical normal."
+    },
+    {
+      "titulo": "Sonda pela margem",
+      "texto": "Se a sonda aparece através da gengiva, fenótipo fino. Segundos que decidem quanto vestibularizar."
+    },
+    {
+      "titulo": "Fino, estreito, para fora",
+      "texto": "A tríade: gengiva fina, sínfise estreita, raiz empurrada para vestibular. Se os três, mude o plano ou enxerte antes."
+    }
+  ],
+  "ondeErra": [
+    {
+      "erro": "Alinhar apinhamento inferior só vestibularizando em sínfise estreita.",
+      "porque": "Cada milímetro de apinhamento resolvido assim empurra a raiz para a cortical fina.",
+      "certo": "Criar espaço por desgaste, distalização ou extração; vestibularizar só dentro do envelope."
+    },
+    {
+      "erro": "Concluir pela periapical que o osso vestibular está normal.",
+      "porque": "A periapical não mostra as tábuas vestibular e lingual sobre a raiz.",
+      "certo": "Exame do tecido sobre a raiz e tomografia quando o risco ou o plano exigem."
+    },
+    {
+      "erro": "Dar alta com a gengiva no lugar e considerar o periodonto íntegro.",
+      "porque": "A deiscência pode existir sem recessão; a margem recua meses ou anos depois com a primeira agressão.",
+      "certo": "Finalizar com a raiz dentro do osso e manter controle periódico."
+    },
+    {
+      "erro": "Operar a recessão no meio do tratamento sem rever a posição da raiz.",
+      "porque": "Recobrimento sobre raiz proeminente fora do osso tem pior prognóstico.",
+      "certo": "Trazer a raiz para dentro do osso e, salvo progressão, recobrir após o término [VERIFICAR]."
+    }
+  ],
+  "autoteste": [
+    {
+      "pergunta": "Deiscência óssea alveolar é definida como:",
+      "alternativas": [
+        "Janela no osso sobre a raiz com a crista preservada",
+        "Perda do osso sobre a raiz a partir da crista, que migra para apical",
+        "Perda óssea interproximal horizontal",
+        "Espessamento da cortical vestibular"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Essa é a fenestração.",
+        "Correta: a raiz fica descoberta em continuidade com a margem.",
+        "Perda interproximal é outro padrão, visível na periapical.",
+        "Deiscência é perda, não espessamento."
+      ]
+    },
+    {
+      "pergunta": "A radiografia periapical é limitada para diagnosticar deiscência porque:",
+      "alternativas": [
+        "Tem baixa resolução para esmalte",
+        "Não mostra as tábuas ósseas vestibular e lingual sobrepostas à raiz",
+        "Só é útil em dentes posteriores",
+        "Superestima a perda óssea"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "A resolução não é o problema; a geometria é.",
+        "Correta: a periapical mostra osso interproximal; o osso sobre a raiz se sobrepõe a ela e não é avaliável.",
+        "É útil em toda a boca, mas não para tábuas.",
+        "Ela não mostra a tábua; não superestima, simplesmente não vê."
+      ]
+    },
+    {
+      "pergunta": "A tríade clássica de risco para recessão gengival durante o tratamento ortodôntico inclui:",
+      "alternativas": [
+        "Fenótipo espesso, sínfise larga, retração de incisivos",
+        "Fenótipo fino, sínfise estreita, vestibularização de incisivos inferiores",
+        "Idade jovem, higiene adequada, extrações",
+        "Mordida profunda, Classe II, uso de elásticos"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Esses são fatores protetores ou neutros.",
+        "Correta: gengiva fina, pouco osso em volta dos incisivos e raiz empurrada para fora.",
+        "Higiene adequada protege; extrações criam espaço sem vestibularizar.",
+        "Não compõem a tríade de risco periodontal."
+      ]
+    },
+    {
+      "pergunta": "Sobre a relação entre movimento ortodôntico e recessão gengival, é correto afirmar:",
+      "alternativas": [
+        "O movimento dentro do envelope de osso, em periodonto saudável, não causa recessão",
+        "Todo movimento causa recessão",
+        "A recessão só ocorre durante o tratamento, nunca depois",
+        "Mover a raiz para fora do osso engrossa a gengiva"
+      ],
+      "correta": 0,
+      "explicacoes": [
+        "Correta: a recessão vem quando a raiz sai do envelope e a gengiva sem suporte sofre uma agressão.",
+        "Movimento dentro do osso é seguro para o periodonto.",
+        "A recessão tardia após vestibularização é bem descrita [VERIFICAR].",
+        "É o contrário: mover para dentro do osso pode engrossar o tecido; para fora o afina."
+      ]
+    },
+    {
+      "pergunta": "Em paciente com fenótipo fino que precisa de vestibularização de incisivos inferiores além do osso disponível, a conduta preventiva indicada é:",
+      "alternativas": [
+        "Vestibularizar e operar a recessão se aparecer",
+        "Aplicar flúor na gengiva",
+        "Mudar o plano para criar espaço sem levar a raiz para fora ou enxertar tecido antes de mover",
+        "Usar força maior para acelerar"
+      ],
+      "correta": 2,
+      "explicacoes": [
+        "Recobrir depois tem pior prognóstico que prevenir antes.",
+        "Flúor não protege o periodonto.",
+        "Correta: respeitar ou ampliar o envelope antes do movimento.",
+        "Força maior agrava a compressão contra a cortical."
+      ]
+    }
+  ],
+  "pesquisa": {
+    "termos": [
+      "recessão gengival ortodontia incisivos inferiores",
+      "deiscência óssea movimento ortodôntico tomografia",
+      "fenótipo periodontal fino ortodontia",
+      "envelope alveolar limite movimento dentário",
+      "enxerto gengival antes de ortodontia"
+    ]
+  },
+  "referenciasBase": [
+    "Proffit WR, Fields HW, Larson BE, Sarver DM. Ortodontia Contemporânea. 6ª ed. Efeitos colaterais do tratamento: periodonto.",
+    "Wennström JL. Mucogingival considerations in orthodontic treatment. Semin Orthod. 1996.",
+    "Wennström JL, Lindhe J, Sinclair F, Thilander B. Some periodontal tissue reactions to orthodontic tooth movement in monkeys. J Clin Periodontol. 1987.",
+    "Renkema AM, Fudalej PS, Renkema A, Kiekens R, Katsaros C. Development of labial gingival recessions in orthodontically treated patients. Am J Orthod Dentofacial Orthop. 2013.",
+    "Joss-Vassalli I, Grebenstein C, Topouzelis N, Sculean A, Katsaros C. Orthodontic therapy and gingival recession: a systematic review. Orthod Craniofac Res. 2010.",
+    "Handelman CS. The anterior alveolus: its importance in limiting orthodontic treatment and its influence on the occurrence of iatrogenic sequelae. Angle Orthod. 1996.",
+    "Kim DM, Neiva R. Periodontal soft tissue non-root coverage procedures: a systematic review from the AAP Regeneration Workshop. J Periodontol. 2015."
+  ],
+  "validacao": {
+    "validadoPor": null,
+    "data": null
+  }
+}
