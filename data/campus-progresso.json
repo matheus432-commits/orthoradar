@@ -1,10 +1,10 @@
 {
  "atualizadoEm": "2026-09-05",
  "totalPaginas": 3387,
- "concluidas": 23,
+ "concluidas": 24,
  "porStatus": {
-  "pendente": 3364,
-  "rascunho": 23,
+  "pendente": 3363,
+  "rascunho": 24,
   "revisado": 0,
   "publicado": 0
  },
@@ -12,7 +12,7 @@
   "id": "ortodontia/mas-oclusoes",
   "area": "Ortodontia",
   "modulo": "Más oclusões",
-  "faltam": 12
+  "faltam": 11
  },
  "imagensPendentes": [
   {
@@ -140,6 +140,15 @@
    "mostrar": "Dez vistas frontais em oclusão, da mais alinhada à mais comprometida, numeradas de 1 a 10, com as faixas 1 a 4, 5 a 7 e 8 a 10 destacadas",
    "legenda": "O componente estético do IOTN: o paciente ou o examinador aponta a foto mais parecida com a boca avaliada.",
    "destacar": "Progressão do apinhamento e do trespasse ao longo da escala, limites entre as três faixas"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/etiologia/fatores-geneticos-e-ambientais",
+   "modulo": "Más oclusões",
+   "secao": "Causas específicas que a prova adora",
+   "imagem": "fotografia frontal de face de paciente com assimetria mandibular por deficiência de crescimento condilar unilateral",
+   "mostrar": "Face em repouso com o mento desviado para o lado afetado, plano oclusal inclinado e diferença de altura entre os lados da mandíbula; ao lado, radiografia panorâmica mostrando o côndilo e o ramo menores do mesmo lado",
+   "legenda": "Assimetria por deficiência de crescimento condilar: o mento desvia para o lado que cresceu menos, e a panorâmica mostra o ramo curto.",
+   "destacar": "Direção do desvio do mento, inclinação do plano oclusal, comparação da altura dos ramos na panorâmica"
   }
  ],
  "verificarPendentes": [
@@ -437,6 +446,16 @@
    "pagina": "ortodontia/mas-oclusoes/classificacao/indices-de-necessidade-de-tratamento",
    "onde": "Seção \"PAR e ICON: medir o que o tratamento fez\".blocos[1].texto",
    "trecho": "há necessidade e quão complexo é o caso; lido depois, diz o resultado [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/etiologia/fatores-geneticos-e-ambientais",
+   "onde": "Seção \"O que os gêmeos e as populações ensinaram\".blocos[0].texto",
+   "trecho": "e alta; o apinhamento e a posição dos dentes, com herdabilidade baixa [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/etiologia/fatores-geneticos-e-ambientais",
+   "onde": "Seção \"O que os gêmeos e as populações ensinaram\".blocos[1].texto",
+   "trecho": "arcos, e dentes de tamanho herdado ficam sem espaço em arcos menores [VERIFICAR]"
   }
  ],
  "modulos": [
@@ -572,11 +591,11 @@
    "area": "Ortodontia",
    "modulo": "Más oclusões",
    "total": 16,
-   "concluidas": 4,
-   "palavras": 14643,
-   "visuais": 20,
-   "imagensClinicas": 4,
-   "verificar": 17,
+   "concluidas": 5,
+   "palavras": 18023,
+   "visuais": 25,
+   "imagensClinicas": 5,
+   "verificar": 19,
    "paginas": [
     {
      "id": "ortodontia/mas-oclusoes/classificacao/classificacao-de-angle",
@@ -614,7 +633,9 @@
      "id": "ortodontia/mas-oclusoes/etiologia/fatores-geneticos-e-ambientais",
      "nome": "Fatores genéticos e ambientais",
      "tema": "Etiologia",
-     "status": "pendente"
+     "status": "rascunho",
+     "palavras": 3380,
+     "visuais": 5
     },
     {
      "id": "ortodontia/mas-oclusoes/etiologia/habitos-succao-degluticao-e-respiracao",
@@ -25983,6 +26004,62 @@
     {
      "onde": "Seção \"PAR e ICON: medir o que o tratamento fez\".blocos[1].texto",
      "trecho": "há necessidade e quão complexo é o caso; lido depois, diz o resultado [VERIFICAR]"
+    }
+   ]
+  },
+  "ortodontia/mas-oclusoes/etiologia/fatores-geneticos-e-ambientais": {
+   "titulo": "Etiologia da má oclusão: o que vem dos genes, o que vem do ambiente",
+   "arquivo": "data/campus/paginas/ortodontia--maoclusao-etiologia-genetica.json",
+   "formato": 2,
+   "status": "rascunho",
+   "estado": "rascunho",
+   "palavras": 3380,
+   "visuais": [
+    {
+     "formato": "grafico",
+     "titulo": "Onde cada traço fica entre a herança e o ambiente"
+    },
+    {
+     "formato": "comparativo",
+     "titulo": "Duas evidências, uma conclusão"
+    },
+    {
+     "formato": "classificacao",
+     "titulo": "As causas da má oclusão em três grupos"
+    },
+    {
+     "formato": "forcas",
+     "titulo": "Força forte e breve versus força leve e prolongada"
+    },
+    {
+     "formato": "mapa",
+     "titulo": "Mapa da página"
+    }
+   ],
+   "quadros": {
+    "frase": 2,
+    "prova": 1,
+    "dica": 1,
+    "mito": 1,
+    "erro": 1
+   },
+   "imagensClinicas": [
+    {
+     "secao": "Causas específicas que a prova adora",
+     "imagem": "fotografia frontal de face de paciente com assimetria mandibular por deficiência de crescimento condilar unilateral",
+     "mostrar": "Face em repouso com o mento desviado para o lado afetado, plano oclusal inclinado e diferença de altura entre os lados da mandíbula; ao lado, radiografia panorâmica mostrando o côndilo e o ramo menores do mesmo lado",
+     "legenda": "Assimetria por deficiência de crescimento condilar: o mento desvia para o lado que cresceu menos, e a panorâmica mostra o ramo curto.",
+     "destacar": "Direção do desvio do mento, inclinação do plano oclusal, comparação da altura dos ramos na panorâmica"
+    }
+   ],
+   "verificar": [
+    {
+     "onde": "Seção \"O que os gêmeos e as populações ensinaram\".blocos[0].texto",
+     "trecho": "e alta; o apinhamento e a posição dos dentes, com herdabilidade baixa [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"O que os gêmeos e as populações ensinaram\".blocos[1].texto",
+     "trecho": "arcos, e dentes de tamanho herdado ficam sem espaço em arcos menores [VERIFICAR]"
     }
    ]
   },
