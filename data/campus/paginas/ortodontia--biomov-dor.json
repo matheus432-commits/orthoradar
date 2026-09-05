@@ -1,0 +1,612 @@
+{
+  "id": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
+  "areaId": "ortodontia",
+  "area": "Ortodontia",
+  "modulo": "Biologia do movimento",
+  "tema": "Efeitos colaterais",
+  "titulo": "Dor e mobilidade: o que é esperado, o que é alarme e como orientar o paciente",
+  "estado": "rascunho",
+  "versao": 1,
+  "formato": 2,
+  "autoria": "Rascunho escrito pela plataforma para validação; nada aqui é visível ao aluno antes da assinatura de um ortodontista. Prevalências e prazos citados são valores de referência e devem ser conferidos pelo validador.",
+  "abertura": {
+    "situacao": "Dois dias depois da instalação do primeiro fio, a mãe de um paciente de 12 anos liga: o menino não consegue morder pão, diz que 'todos os dentes estão doendo e moles' e não dormiu bem. Ela quer saber se alguma coisa deu errado, se pode dar remédio e se os dentes moles vão cair.",
+    "pergunta": "Como você distingue, por telefone, a dor e a mobilidade esperadas da resposta que exige consulta? O que dizer, o que prescrever e o que teria evitado a ligação?"
+  },
+  "umMinuto": {
+    "frases": [
+      "A dor após ativação é a regra, não a exceção: a maioria dos pacientes relata desconforto que começa em poucas horas, atinge o pico em torno de 24 horas e diminui até quase desaparecer em uma semana [VERIFICAR].",
+      "A causa é a resposta inflamatória do ligamento comprimido: isquemia leve, liberação de prostaglandinas, bradicinina, substância P e citocinas que sensibilizam as terminações nervosas; por isso morder dói mais do que ficar em repouso.",
+      "Separadores elásticos e o primeiro fio de alinhamento são os momentos mais dolorosos; trocas posteriores costumam doer menos, e a dor não é proporcional à magnitude da força de forma linear.",
+      "A mobilidade aumenta durante todo o tratamento porque o ligamento se alarga e reorganiza; é fisiológica, discreta, e diminui nos meses seguintes ao término.",
+      "Alarme: dor intensa que impede mastigar ou que dura além de uma semana, mobilidade que o paciente percebe como 'dente solto', dor localizada em um dente, ou dor que surge fora do período de ativação.",
+      "Manejo: informar antes, prescrever analgésico simples quando necessário, orientar dieta macia e mastigação leve; anti-inflamatórios de uso prolongado podem interferir no movimento e são evitados como rotina [VERIFICAR]."
+    ],
+    "caiNaProva": [
+      "Curva da dor ortodôntica: início em horas, pico em cerca de 24 horas, resolução em torno de sete dias [VERIFICAR].",
+      "Mediadores: prostaglandinas, bradicinina, substância P, interleucinas; sensibilização periférica dos nociceptores do ligamento.",
+      "Mobilidade fisiológica do tratamento versus mobilidade patológica: extensão, percepção pelo paciente, associação com dor prolongada e perda de suporte.",
+      "Anti-inflamatórios não esteroides inibem prostaglandinas e podem reduzir o movimento em modelos experimentais; paracetamol é a primeira escolha para a dor ortodôntica [VERIFICAR].",
+      "Informação prévia e expectativa reduzem a intensidade da dor relatada; ansiedade e catastrofização a aumentam."
+    ],
+    "porQueImporta": "Dor é o principal motivo de abandono e de medo do tratamento ortodôntico. Saber o que é esperado e comunicá-lo antes transforma uma ligação de pânico em uma consulta tranquila e, quando o padrão sai do esperado, permite reconhecer o alarme a tempo."
+  },
+  "secoes": [
+    {
+      "titulo": "A dor esperada: por que dói e por quanto tempo",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "Quando você ativa um aparelho, o ligamento do lado de pressão é comprimido, os vasos se estreitam e as células respondem liberando mediadores: prostaglandinas, bradicinina, histamina, substância P e citocinas como a interleucina-1 beta. Esses mediadores fazem duas coisas ao mesmo tempo: iniciam a remodelação que vai mover o dente e sensibilizam as terminações nervosas do ligamento. Um dente com o ligamento sensibilizado dói ao menor estímulo, e o estímulo mais frequente é a mordida."
+        },
+        {
+          "tipo": "p",
+          "texto": "A curva é previsível. O desconforto começa em poucas horas, geralmente à noite do mesmo dia, atinge o pico em torno de 24 horas e diminui progressivamente até quase desaparecer em torno do sétimo dia [VERIFICAR]."
+        },
+        {
+          "tipo": "p",
+          "texto": "A intensidade varia muito entre pessoas: para a maioria é moderada, para alguns é intensa, para poucos é ausente. Os momentos mais dolorosos são a colocação de separadores elásticos e o primeiro fio de alinhamento; trocas posteriores tendem a doer menos, em parte por adaptação, em parte porque os dentes já estão alinhados."
+        },
+        {
+          "tipo": "visual",
+          "formato": "grafico",
+          "titulo": "A curva da dor após uma ativação",
+          "descricao": "Gráfico com o tempo em dias no eixo horizontal, de zero a dez, e a intensidade da dor no eixo vertical. A curva parte de zero, sobe rapidamente nas primeiras horas, atinge o pico em torno de um dia e desce de forma progressiva até quase zero no sétimo dia. Uma faixa sombreada além do sétimo dia marca a zona de alarme: dor que persiste ali não é a dor esperada. Anotações marcam o pico e o fim esperado.",
+          "viewBox": "0 0 720 320",
+          "svg": [
+            "<use href='#c-eixo' x='70' y='250' width='600' height='20'/><path d='M80 260 L80 40' stroke='var(--muted,#8A8478)' stroke-width='1.5'/><path d='M74 52 L80 40 L86 52 Z' fill='var(--muted,#8A8478)'/>",
+            "<text x='670' y='286' text-anchor='end' font-size='12' fill='var(--ink,#23211C)'>dias após a ativação</text>",
+            "<text x='40' y='150' font-size='12' fill='var(--ink,#23211C)' transform='rotate(-90 40 150)' text-anchor='middle'>intensidade da dor</text>",
+            "<g font-size='10' fill='var(--muted,#8A8478)' text-anchor='middle'><text x='80' y='276'>0</text><text x='140' y='276'>1</text><text x='200' y='276'>2</text><text x='260' y='276'>3</text><text x='320' y='276'>4</text><text x='380' y='276'>5</text><text x='440' y='276'>6</text><text x='500' y='276'>7</text><text x='560' y='276'>8</text><text x='620' y='276'>9</text></g>",
+            "<rect x='500' y='50' width='160' height='210' fill='var(--red,#B4533B)' fill-opacity='0.08'/>",
+            "<path d='M80 258 C 100 200, 120 80, 140 76 C 170 72, 220 130, 260 170 C 330 230, 420 250, 500 256 L 660 258' fill='none' stroke='var(--gold,#B08968)' stroke-width='3'/>",
+            "<line x1='140' y1='76' x2='140' y2='260' stroke='var(--blue,#4A6B8A)' stroke-width='1' stroke-dasharray='3 3'/><text x='140' y='62' text-anchor='middle' font-size='11' font-weight='700' fill='var(--blue,#4A6B8A)'>pico: cerca de 24 h</text>",
+            "<text x='300' y='120' font-size='11' fill='var(--ink,#23211C)'>começa em horas, sobretudo à noite;</text><text x='300' y='134' font-size='11' fill='var(--ink,#23211C)'>morder dói mais do que ficar em repouso</text>",
+            "<text x='580' y='120' text-anchor='middle' font-size='11' font-weight='700' fill='var(--red,#B4533B)'>zona de alarme</text><text x='580' y='136' text-anchor='middle' font-size='10' fill='var(--ink,#23211C)'>dor que persiste ou</text><text x='580' y='150' text-anchor='middle' font-size='10' fill='var(--ink,#23211C)'>impede mastigar</text>",
+            "<text x='500' y='236' text-anchor='middle' font-size='10' fill='var(--green,#3E7C4F)' font-weight='700'>quase zero no 7º dia</text>",
+            "<text x='360' y='308' text-anchor='middle' font-size='11' fill='var(--muted,#8A8478)'>curva conceitual, sem escala de intensidade; prazos de referência [VERIFICAR]</text>"
+          ],
+          "legenda": "Sobe em horas, pico em um dia, quase nada em uma semana. O que fica além disso não é a dor esperada."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "prova",
+          "texto": "Dor ortodôntica: origem inflamatória no ligamento comprimido, mediada por prostaglandinas, bradicinina, substância P e citocinas; início em horas, pico em cerca de 24 horas, resolução em torno de sete dias [VERIFICAR]. Separadores e primeiro fio são os momentos mais dolorosos. A dor não é proporcional à força de forma linear, mas forças pesadas doem mais e por mais tempo."
+        },
+        {
+          "tipo": "pergunta",
+          "pergunta": "Por que morder dói mais do que ficar de boca fechada nos dias após a ativação?",
+          "resposta": "Porque os mediadores inflamatórios sensibilizaram as terminações nervosas do ligamento comprimido; a mordida acrescenta pressão sobre um ligamento já sensibilizado e dispara dor com estímulo que normalmente não doeria."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Descreva a curva temporal da dor após ativação e os dois momentos do tratamento em que ela costuma ser mais intensa.",
+        "resposta": "Início em poucas horas, pico em torno de 24 horas, redução progressiva até quase desaparecer em cerca de sete dias [VERIFICAR]. Mais intensa na colocação de separadores elásticos e no primeiro fio de alinhamento."
+      }
+    },
+    {
+      "titulo": "O que muda a dor: força, pessoa e expectativa",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "A intensidade da dor depende menos da força do que a intuição sugere e mais da pessoa. Forças pesadas doem mais e por mais tempo, porque produzem isquemia mais extensa e hialinização, mas dentro da faixa de forças leves a diferença entre fios ou dispositivos é pequena; revisões não encontraram diferença consistente de dor entre ligas de níquel-titânio e aço no alinhamento inicial, nem entre braquetes convencionais e autoligados [VERIFICAR]."
+        },
+        {
+          "tipo": "p",
+          "texto": "O que mais varia é o paciente. Ansiedade, catastrofização, experiências anteriores de dor e baixa expectativa de controle aumentam a dor relatada; informação prévia clara e a sensação de saber o que esperar a reduzem. Adolescentes e adultos relatam padrões diferentes, e mulheres tendem a relatar mais dor em muitos estudos, com variação grande entre eles [VERIFICAR]. Na prática, a consulta em que você explica o que vai acontecer é uma intervenção analgésica."
+        },
+        {
+          "tipo": "visual",
+          "formato": "classificacao",
+          "titulo": "O que aumenta e o que reduz a dor relatada",
+          "descricao": "Duas colunas de caixas. Aumenta: força pesada e hialinização, separadores e primeiro fio, ansiedade e catastrofização, experiência prévia negativa, interferência oclusal ou aparelho machucando a mucosa. Reduz: força leve e contínua, informação prévia sobre o que esperar, analgésico simples nas primeiras 24 a 48 horas, mastigação leve e dieta macia, sensação de controle e via de contato com a clínica.",
+          "viewBox": "0 0 560 330",
+          "svg": [
+            "<use href='#c-caixa-red' x='20' y='16' width='250' height='36'/><text x='145' y='40' text-anchor='middle' font-size='13' font-weight='700'>aumenta a dor</text>",
+            "<use href='#c-caixa-green' x='290' y='16' width='250' height='36'/><text x='415' y='40' text-anchor='middle' font-size='13' font-weight='700'>reduz a dor</text>",
+            "<g font-size='11' fill='var(--ink,#23211C)'><text x='36' y='84'>força pesada, hialinização extensa</text><text x='36' y='114'>separadores e primeiro fio</text><text x='36' y='144'>ansiedade, catastrofização</text><text x='36' y='174'>experiência prévia de dor</text><text x='36' y='204'>interferência oclusal, aparelho ferindo</text><text x='36' y='234'>não saber o que esperar</text></g>",
+            "<g font-size='11' fill='var(--ink,#23211C)'><text x='306' y='84'>força leve e contínua</text><text x='306' y='114'>informação prévia clara</text><text x='306' y='144'>analgésico simples nas primeiras 48 h</text><text x='306' y='174'>mastigação leve, dieta macia</text><text x='306' y='204'>sensação de controle</text><text x='306' y='234'>canal de contato com a clínica</text></g>",
+            "<g stroke='var(--border,#EDE6D8)' stroke-width='1'><line x1='36' y1='94' x2='260' y2='94'/><line x1='36' y1='124' x2='260' y2='124'/><line x1='36' y1='154' x2='260' y2='154'/><line x1='36' y1='184' x2='260' y2='184'/><line x1='36' y1='214' x2='260' y2='214'/><line x1='306' y1='94' x2='530' y2='94'/><line x1='306' y1='124' x2='530' y2='124'/><line x1='306' y1='154' x2='530' y2='154'/><line x1='306' y1='184' x2='530' y2='184'/><line x1='306' y1='214' x2='530' y2='214'/></g>",
+            "<use href='#c-caixa-ink' x='80' y='262' width='400' height='44'/><text x='280' y='281' text-anchor='middle' font-size='12' font-weight='700' fill='#fff'>a explicação antes da ativação é analgésico</text><text x='280' y='298' text-anchor='middle' font-size='10' fill='#fff'>a força que você escolhe é o outro</text>",
+            "<text x='280' y='324' text-anchor='middle' font-size='10' fill='var(--muted,#8A8478)'>diferenças entre fios e braquetes na faixa leve são pequenas [VERIFICAR]</text>"
+          ],
+          "legenda": "A coluna da direita cabe quase toda em uma conversa de cinco minutos antes de colocar o fio."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "mito",
+          "mito": "Fio de níquel-titânio dói menos que fio de aço, e braquete autoligado não dói.",
+          "verdade": "Dentro da faixa de forças leves usada no alinhamento, as revisões não mostram diferença consistente de dor entre ligas nem entre tipos de braquete [VERIFICAR]. O que muda a dor é a magnitude da força, o momento do tratamento e, sobretudo, a pessoa e a informação que ela recebeu."
+        },
+        {
+          "tipo": "pergunta",
+          "pergunta": "Que intervenção sem custo, feita antes da ativação, reduz a dor que o paciente vai relatar?",
+          "resposta": "Informar com clareza o que vai acontecer: quando a dor começa, quanto dura, que morder dói mais, o que fazer e quando ligar. A expectativa correta e a sensação de controle reduzem a dor relatada."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Cite dois fatores do tratamento e dois do paciente que aumentam a dor relatada após ativação.",
+        "resposta": "Tratamento: força pesada com hialinização e os momentos de separadores e primeiro fio. Paciente: ansiedade ou catastrofização e falta de informação prévia sobre o que esperar."
+      }
+    },
+    {
+      "titulo": "Mobilidade: o dente mais mole é o dente que está sendo movido",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "Todo dente em movimento fica um pouco mais móvel. O ligamento se alarga com a reorganização das fibras, o osso adjacente é reabsorvido e refeito, e por alguns meses o dente está ancorado em tecido em transformação. Essa mobilidade é fisiológica, discreta, difusa entre os dentes do arco e diminui nos meses após o término, à medida que o ligamento e o osso se reorganizam; é uma das razões da contenção."
+        },
+        {
+          "tipo": "p",
+          "texto": "A mobilidade que preocupa é diferente em quatro aspectos: é acentuada a ponto de o paciente perceber o dente 'solto'; é localizada em um ou poucos dentes; vem acompanhada de dor prolongada ou de dor à percussão; ou persiste e aumenta em vez de se estabilizar."
+        },
+        {
+          "tipo": "p",
+          "texto": "Suas causas mais comuns durante o tratamento são força excessiva com reabsorção solapante em bloco, movimento de vaivém do mesmo dente, trauma oclusal por contato prematuro criado pelo próprio tratamento, e, menos frequentes, perda de suporte periodontal, reabsorção radicular extensa ou lesão endodôntica."
+        },
+        {
+          "tipo": "visual",
+          "formato": "comparativo",
+          "titulo": "Mobilidade esperada e mobilidade que pede exame",
+          "descricao": "Duas colunas. Esperada: discreta, difusa entre os dentes do arco, estável ao longo do tratamento, sem dor à percussão, diminui nos meses após o término. Alarme: acentuada e percebida pelo paciente, localizada em um ou poucos dentes, aumenta com o tempo, com dor prolongada ou à percussão, associada a contato prematuro, vaivém ou perda de suporte. Linha final: conduta em cada caso.",
+          "viewBox": "0 0 720 330",
+          "svg": [
+            "<use href='#c-caixa-green' x='170' y='16' width='230' height='36'/><text x='285' y='40' text-anchor='middle' font-size='13' font-weight='700'>esperada</text>",
+            "<use href='#c-caixa-red' x='430' y='16' width='260' height='36'/><text x='560' y='40' text-anchor='middle' font-size='13' font-weight='700'>pede exame</text>",
+            "<g font-size='12' font-weight='700' fill='var(--ink,#23211C)'><text x='20' y='84'>grau</text><text x='20' y='124'>distribuição</text><text x='20' y='164'>evolução</text><text x='20' y='204'>dor</text><text x='20' y='244'>associações</text><text x='20' y='290'>conduta</text></g>",
+            "<g stroke='var(--border,#EDE6D8)' stroke-width='1'><line x1='20' y1='100' x2='700' y2='100'/><line x1='20' y1='140' x2='700' y2='140'/><line x1='20' y1='180' x2='700' y2='180'/><line x1='20' y1='220' x2='700' y2='220'/><line x1='20' y1='264' x2='700' y2='264'/></g>",
+            "<g font-size='11' fill='var(--ink,#23211C)' text-anchor='middle'><text x='285' y='84'>discreta, paciente não nota</text><text x='285' y='124'>difusa entre os dentes do arco</text><text x='285' y='164'>estável; cai após o término</text><text x='285' y='204'>sem dor à percussão</text><text x='285' y='244'>nenhuma</text><text x='285' y='290' fill='var(--green,#3E7C4F)' font-weight='700'>tranquilizar, seguir</text></g>",
+            "<g font-size='11' fill='var(--ink,#23211C)' text-anchor='middle'><text x='560' y='84'>acentuada, 'dente solto'</text><text x='560' y='124'>um ou poucos dentes</text><text x='560' y='164'>aumenta com o tempo</text><text x='560' y='204'>dor prolongada ou à percussão</text><text x='560' y='238'>contato prematuro, vaivém,</text><text x='560' y='252'>perda de suporte, reabsorção</text><text x='560' y='290' fill='var(--red,#B4533B)' font-weight='700'>examinar oclusão, força, periodonto, raiz</text></g>",
+            "<text x='360' y='318' text-anchor='middle' font-size='10' fill='var(--muted,#8A8478)'>a mobilidade do tratamento é a regra; a localizada e crescente é a exceção que se investiga</text>"
+          ],
+          "legenda": "Difusa e discreta é o tratamento funcionando. Localizada e crescente é um dente pedindo exame."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "erro",
+          "titulo": "Confundir contato prematuro com 'o dente está se movendo'",
+          "texto": "Um dente que passa a tocar primeiro na oclusão, porque foi extruído ou girado no caminho, recebe trauma oclusal a cada mordida: fica móvel, dolorido à percussão e pode parar de se mover. A mobilidade não é do movimento, é do trauma. Verificar a oclusão com papel carbono em toda consulta de ativação evita semanas de dor e de 'dente que não anda'."
+        },
+        {
+          "tipo": "imagem",
+          "imagem": "fotografia intraoral de contato prematuro marcado com papel carbono em um pré-molar durante o tratamento ortodôntico",
+          "mostrar": "Marca de carbono isolada e intensa na cúspide de um dente em movimento, com os demais dentes sem marca ou com marcas fracas; braquetes e fio visíveis",
+          "legenda": "Um só dente marcando forte: trauma oclusal criado pelo próprio movimento. Dói, fica móvel e para de andar até o contato ser aliviado.",
+          "destacar": "diferença entre a marca intensa isolada e as marcas fracas dos vizinhos"
+        }
+      ],
+      "checagem": {
+        "pergunta": "Cite quatro características que distinguem a mobilidade que pede exame da mobilidade esperada do tratamento.",
+        "resposta": "Acentuada e percebida pelo paciente, localizada em um ou poucos dentes, crescente com o tempo, acompanhada de dor prolongada ou à percussão; a esperada é discreta, difusa, estável e indolor."
+      }
+    },
+    {
+      "titulo": "Manejo: informar, aliviar, não atrapalhar o movimento",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "O manejo começa antes da dor. Explique ao paciente e aos responsáveis, na consulta da ativação, a curva esperada, que morder dói mais, que a dor é sinal de que o tratamento está agindo, o que fazer e quando ligar. Oriente dieta macia nos primeiros dias e mastigação leve; mastigar chiclete sem açúcar ou pastilhas de mordida parece reduzir o desconforto em alguns estudos, talvez por restaurar a circulação do ligamento comprimido [VERIFICAR]."
+        },
+        {
+          "tipo": "p",
+          "texto": "Para a dor que exige remédio, o paracetamol é a primeira escolha, na dose habitual, nas primeiras 24 a 48 horas."
+        },
+        {
+          "tipo": "p",
+          "texto": "Anti-inflamatórios não esteroides são eficazes para a dor, mas inibem a síntese de prostaglandinas, mediadores da própria remodelação, e em modelos experimentais reduziram a velocidade do movimento; por isso não são usados como rotina prolongada, embora uma ou duas doses no pico da dor tenham efeito clínico pequeno sobre o movimento [VERIFICAR]. Dose preventiva antes da ativação reduz a dor do pico em alguns estudos [VERIFICAR]."
+        },
+        {
+          "tipo": "visual",
+          "formato": "fluxograma",
+          "titulo": "Ligação por dor após ativação: triagem",
+          "descricao": "Início: paciente liga com dor após a ativação. Primeira pergunta: há quantos dias? Se menos de sete e a dor é difusa, permite comer coisas macias e melhora a cada dia: tranquilizar, paracetamol, dieta macia, retorno se piorar. Se mais de sete dias, dor intensa que impede mastigar, dor localizada em um dente, dente 'solto' ou ferida da mucosa: agendar consulta para examinar oclusão, força, aparelho e periodonto. Fim: registrar a ligação e a conduta.",
+          "viewBox": "0 0 560 430",
+          "svg": [
+            "<use href='#c-caixa-ink' x='150' y='16' width='260' height='40'/><text x='280' y='41' text-anchor='middle' font-size='12' font-weight='700' fill='#fff'>paciente liga com dor após ativação</text>",
+            "<path d='M280 56 L280 76' stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'/>",
+            "<use href='#c-decisao' x='150' y='80' width='260' height='50'/><text x='280' y='101' text-anchor='middle' font-size='12' font-weight='700'>menos de sete dias, dor difusa,</text><text x='280' y='117' text-anchor='middle' font-size='11'>come coisas macias, melhora a cada dia?</text>",
+            "<path d='M280 130 L280 150' stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'/><text x='292' y='146' font-size='10' fill='var(--muted,#8A8478)'>sim</text>",
+            "<use href='#c-caixa-green' x='90' y='154' width='380' height='72'/><text x='280' y='176' text-anchor='middle' font-size='12' font-weight='700'>resposta esperada: tranquilizar</text><text x='280' y='192' text-anchor='middle' font-size='11'>paracetamol na dose habitual nas primeiras 48 h; dieta macia</text><text x='280' y='206' text-anchor='middle' font-size='11'>mastigação leve; ligar de novo se piorar ou passar de uma semana</text><text x='280' y='220' text-anchor='middle' font-size='10' fill='var(--muted,#8A8478)'>anti-inflamatório: no máximo uma ou duas doses no pico [VERIFICAR]</text>",
+            "<path d='M410 105 L440 105 L440 250 L410 250' fill='none' stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'/><text x='452' y='180' font-size='10' fill='var(--muted,#8A8478)'>não</text>",
+            "<use href='#c-caixa-red' x='90' y='236' width='320' height='104'/><text x='250' y='258' text-anchor='middle' font-size='12' font-weight='700'>sinais de alarme: agendar consulta</text><text x='250' y='276' text-anchor='middle' font-size='11'>dor além de sete dias ou que impede mastigar</text><text x='250' y='290' text-anchor='middle' font-size='11'>dor localizada em um dente; dente 'solto'</text><text x='250' y='304' text-anchor='middle' font-size='11'>ferida da mucosa, fio solto, aparelho machucando</text><text x='250' y='324' text-anchor='middle' font-size='11' fill='var(--red,#B4533B)'>na consulta: oclusão, força, aparelho, periodonto, raiz</text>",
+            "<path d='M280 340 L280 360' stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'/>",
+            "<use href='#c-caixa' x='150' y='364' width='260' height='40'/><text x='280' y='389' text-anchor='middle' font-size='12' font-weight='700'>registrar a ligação e a conduta</text>",
+            "<text x='280' y='422' text-anchor='middle' font-size='10' fill='var(--muted,#8A8478)'>triagem por telefone; a consulta examina o que a ligação não vê</text>"
+          ],
+          "legenda": "Uma pergunta separa a maioria das ligações da minoria que precisa de cadeira."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "dica",
+          "titulo": "Anti-inflamatório: o dilema em uma frase",
+          "texto": "As prostaglandinas que fazem doer são as mesmas que fazem o dente andar. Bloqueá-las por dias alivia e freia; por isso paracetamol é a rotina e o anti-inflamatório fica para o pico, em uma ou duas doses, quando o paracetamol não basta [VERIFICAR]. Pacientes que usam anti-inflamatório contínuo por outra razão precisam ser identificados na anamnese."
+        },
+        {
+          "tipo": "lista",
+          "itens": [
+            "Antes: explicar a curva, dizer que morder dói, combinar o que fazer e quando ligar.",
+            "Primeiras 48 horas: paracetamol se necessário, dieta macia, mastigação leve, cera nos braquetes que incomodam.",
+            "Se a dor sair da curva: consulta para oclusão com papel carbono, medição da força, inspeção do aparelho e da mucosa, periodonto e, se indicado, radiografia.",
+            "Mobilidade percebida pelo paciente: examinar oclusão e força antes de tranquilizar.",
+            "Sempre: registrar o relato de dor e a conduta no prontuário."
+          ]
+        }
+      ],
+      "checagem": {
+        "pergunta": "Por que o paracetamol é preferido aos anti-inflamatórios não esteroides como rotina para a dor ortodôntica?",
+        "resposta": "Porque os anti-inflamatórios inibem as prostaglandinas, mediadores da própria remodelação óssea, e em modelos experimentais reduziram a velocidade do movimento; o paracetamol alivia sem esse efeito [VERIFICAR]."
+      }
+    },
+    {
+      "titulo": "Quando dor e mobilidade contam outra história",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "Fora da curva esperada, dor e mobilidade são sintomas de outra coisa e a lista de causas é curta. Força excessiva, com isquemia extensa e reabsorção solapante em bloco, produz dor prolongada e dente móvel, como você viu na página sobre forças excessivas."
+        },
+        {
+          "tipo": "p",
+          "texto": "Trauma oclusal por contato prematuro produz dor à percussão e mobilidade em um dente. Vaivém produz mobilidade crescente no dente que vai e volta. Problemas fora do movimento, pulpite em dente com restauração profunda, abscesso periodontal, fratura, imitam a dor ortodôntica e são diagnosticados pelo exame de sempre."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "frase",
+          "texto": "A dor ortodôntica tem relógio: sobe em horas, pico em um dia, some em uma semana. Dor sem relógio não é ortodôntica até prova em contrário."
+        },
+        {
+          "tipo": "p",
+          "texto": "Pulpa e ortodontia merecem uma nota. O movimento pode produzir hipersensibilidade transitória e alterações reversíveis na circulação pulpar; necrose é rara e associada a trauma prévio ou forças e intrusões excessivas [VERIFICAR]. Um dente com dor espontânea, prolongada ao frio ou noturna durante o tratamento não está 'doendo do aparelho': precisa de teste de sensibilidade, radiografia e, se preciso, avaliação endodôntica."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Que três causas ligadas ao tratamento explicam dor e mobilidade fora da curva esperada?",
+        "resposta": "Força excessiva com reabsorção solapante em bloco, trauma oclusal por contato prematuro criado pelo movimento, e vaivém do mesmo dente. Causas não ortodônticas (pulpar, periodontal, fratura) devem ser excluídas pelo exame."
+      }
+    },
+    {
+      "titulo": "De volta à ligação da mãe",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "Dois dias após o primeiro fio, dor difusa em 'todos os dentes', pior ao morder, com sensação de dentes moles: é a descrição de livro da resposta esperada, no momento mais doloroso do tratamento. As perguntas de triagem confirmam: começou na noite da instalação, está igual ou um pouco melhor hoje, ele consegue comer coisas macias, nenhum dente dói sozinho, nada machuca a bochecha."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "erro",
+          "titulo": "Responder 'é normal' sem perguntar",
+          "texto": "A frase é quase sempre verdadeira, e é exatamente por isso que perigosa: a ligação que descreve dor em um dente só, dente solto de verdade ou ferida na mucosa recebe a mesma resposta e perde a consulta. Quatro perguntas, começou quando, melhora ou piora, come coisas macias, algum dente ou lugar específico, custam um minuto e separam os casos."
+        },
+        {
+          "tipo": "p",
+          "texto": "O que dizer: que é o esperado nos primeiros dias, que o pico já passou, que deve melhorar a cada dia e quase sumir em uma semana; paracetamol na dose habitual se precisar, dieta macia, mastigação leve; que a sensação de dentes moles é o ligamento se reorganizando e que os dentes não vão cair; e que ligue de novo se piorar, se passar de uma semana ou se um dente específico começar a doer. E o que teria evitado a ligação: dizer tudo isso, com essas palavras, na consulta em que o fio foi colocado."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Quais quatro perguntas de triagem você faz antes de dizer 'é normal', e o que responde neste caso?",
+        "resposta": "Começou quando, está melhorando ou piorando, consegue comer coisas macias, algum dente ou lugar específico dói ou machuca. Neste caso: resposta esperada, paracetamol se necessário, dieta macia, melhora em uma semana, ligar se piorar, passar de sete dias ou localizar em um dente."
+      }
+    }
+  ],
+  "fechamento": {
+    "visual": {
+      "formato": "mapa",
+      "titulo": "Mapa da página",
+      "descricao": "Nó central: dor e mobilidade. Seis nós: inflamação do ligamento; relógio da dor; a pessoa pesa mais que o fio; mobilidade difusa é normal; localizada e crescente é alarme; informar, paracetamol, examinar.",
+      "viewBox": "0 0 560 360",
+      "svg": [
+        "<g stroke='var(--border,#EDE6D8)' stroke-width='1.5'><line x1='280' y1='180' x2='100' y2='60'/><line x1='280' y1='180' x2='460' y2='60'/><line x1='280' y1='180' x2='70' y2='180'/><line x1='280' y1='180' x2='490' y2='180'/><line x1='280' y1='180' x2='100' y2='300'/><line x1='280' y1='180' x2='460' y2='300'/></g>",
+        "<use href='#c-no-central' x='190' y='150' width='180' height='60'/>",
+        "<text x='280' y='186' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>Dor e mobilidade</text>",
+        "<use href='#c-no' x='20' y='38' width='160' height='44'/><text x='100' y='65' text-anchor='middle' font-size='13' font-weight='700'>Ligamento inflama</text>",
+        "<use href='#c-no' x='380' y='38' width='160' height='44'/><text x='460' y='65' text-anchor='middle' font-size='13' font-weight='700'>Relógio da dor</text>",
+        "<use href='#c-no' x='0' y='158' width='150' height='44'/><text x='75' y='185' text-anchor='middle' font-size='13' font-weight='700'>Pessoa pesa mais</text>",
+        "<use href='#c-no' x='410' y='158' width='150' height='44'/><text x='485' y='185' text-anchor='middle' font-size='13' font-weight='700'>Difusa é normal</text>",
+        "<use href='#c-no' x='20' y='278' width='160' height='44'/><text x='100' y='305' text-anchor='middle' font-size='13' font-weight='700'>Localizada: alarme</text>",
+        "<use href='#c-no' x='380' y='278' width='160' height='44'/><text x='460' y='305' text-anchor='middle' font-size='13' font-weight='700'>Informar e aliviar</text>"
+      ],
+      "legenda": "A dor ortodôntica tem relógio e a mobilidade tem padrão; o que foge deles pede exame."
+    },
+    "flashcards": [
+      {
+        "frente": "Descreva a origem e a curva temporal da dor após uma ativação ortodôntica.",
+        "verso": "Inflamação do ligamento comprimido: prostaglandinas, bradicinina, substância P e citocinas sensibilizam as terminações nervosas. Começa em horas, pico em torno de 24 horas, quase desaparece em cerca de sete dias [VERIFICAR]. Morder dói mais que o repouso."
+      },
+      {
+        "frente": "Diferencie a mobilidade fisiológica do tratamento da mobilidade que exige exame.",
+        "verso": "Fisiológica: discreta, difusa entre os dentes, estável, indolor, diminui após o término. Alarme: acentuada e percebida como 'dente solto', localizada, crescente, com dor prolongada ou à percussão; causas: força excessiva, contato prematuro, vaivém, perda de suporte, reabsorção."
+      },
+      {
+        "frente": "Por que o paracetamol é a primeira escolha para a dor ortodôntica e quando o anti-inflamatório entra?",
+        "verso": "Anti-inflamatórios inibem prostaglandinas, que também medeiam a remodelação, e podem reduzir o movimento em uso prolongado [VERIFICAR]. Paracetamol alivia sem esse efeito; o anti-inflamatório fica para uma ou duas doses no pico, se o paracetamol não bastar."
+      }
+    ]
+  },
+  "infografico": {
+    "titulo": "Dor e mobilidade em seis cartões",
+    "itens": [
+      {
+        "rotulo": "Causa",
+        "texto": "Ligamento comprimido inflama: prostaglandinas, bradicinina, substância P sensibilizam os nervos. Morder dói mais."
+      },
+      {
+        "rotulo": "Relógio",
+        "texto": "Horas para começar, um dia para o pico, uma semana para quase sumir [VERIFICAR]. Separadores e primeiro fio doem mais."
+      },
+      {
+        "rotulo": "Pessoa",
+        "texto": "Ansiedade e falta de informação aumentam a dor; explicar antes reduz. Fios e braquetes pesam pouco na faixa leve."
+      },
+      {
+        "rotulo": "Mobilidade",
+        "texto": "Difusa, discreta e estável é o tratamento. Localizada, crescente e dolorosa é força, contato prematuro ou vaivém."
+      },
+      {
+        "rotulo": "Remédio",
+        "texto": "Paracetamol nas primeiras 48 h; anti-inflamatório só no pico, uma ou duas doses [VERIFICAR]. Dieta macia, mastigar leve."
+      },
+      {
+        "rotulo": "Triagem",
+        "texto": "Começou quando, melhora ou piora, come macio, algum dente específico. Fora da curva: consulta."
+      }
+    ]
+  },
+  "fluxograma": {
+    "titulo": "Dor ou mobilidade relatada na consulta: o que examinar",
+    "nos": [
+      {
+        "id": "n1",
+        "tipo": "inicio",
+        "texto": "Paciente relata dor além da curva ou dente móvel"
+      },
+      {
+        "id": "n2",
+        "tipo": "decisao",
+        "texto": "Contato prematuro no papel carbono ou dor à percussão em um dente?"
+      },
+      {
+        "id": "n3",
+        "tipo": "acao",
+        "texto": "Trauma oclusal: aliviar o contato ou ajustar a mecânica; reavaliar em uma a duas semanas"
+      },
+      {
+        "id": "n4",
+        "tipo": "decisao",
+        "texto": "Força medida acima da faixa ou dente em vaivém?"
+      },
+      {
+        "id": "n5",
+        "tipo": "acao",
+        "texto": "Reduzir a força, eliminar o vaivém, esperar reparo"
+      },
+      {
+        "id": "n6",
+        "tipo": "decisao",
+        "texto": "Dor espontânea, ao frio, noturna, bolsa periodontal ou radiografia alterada?"
+      },
+      {
+        "id": "n7",
+        "tipo": "acao",
+        "texto": "Investigar polpa, periodonto e raiz: testes, radiografia, encaminhar se necessário"
+      },
+      {
+        "id": "n8",
+        "tipo": "fim",
+        "texto": "Registrar achados e conduta; orientar o paciente"
+      }
+    ],
+    "arestas": [
+      {
+        "de": "n1",
+        "para": "n2"
+      },
+      {
+        "de": "n2",
+        "para": "n3",
+        "rotulo": "sim"
+      },
+      {
+        "de": "n2",
+        "para": "n4",
+        "rotulo": "não"
+      },
+      {
+        "de": "n3",
+        "para": "n8"
+      },
+      {
+        "de": "n4",
+        "para": "n5",
+        "rotulo": "sim"
+      },
+      {
+        "de": "n4",
+        "para": "n6",
+        "rotulo": "não"
+      },
+      {
+        "de": "n5",
+        "para": "n8"
+      },
+      {
+        "de": "n6",
+        "para": "n7",
+        "rotulo": "sim"
+      },
+      {
+        "de": "n6",
+        "para": "n8",
+        "rotulo": "não"
+      },
+      {
+        "de": "n7",
+        "para": "n8"
+      }
+    ]
+  },
+  "passoAPasso": [
+    {
+      "passo": "Na consulta da ativação, explique a curva da dor, que morder dói mais, o que fazer e quando ligar; entregue por escrito.",
+      "confira": "O paciente e o responsável repetiram para você quando devem ligar?"
+    },
+    {
+      "passo": "Oriente paracetamol se necessário nas primeiras 48 horas, dieta macia, mastigação leve e cera nos pontos que incomodam.",
+      "confira": "Há anti-inflamatório de uso contínuo na anamnese?"
+    },
+    {
+      "passo": "Em cada consulta, pergunte sobre dor e mobilidade desde a última visita e verifique a oclusão com papel carbono.",
+      "confira": "Algum dente marca forte sozinho ou dói à percussão?"
+    },
+    {
+      "passo": "Se a dor saiu da curva ou a mobilidade é localizada, meça a força, examine aparelho e mucosa, avalie periodonto e raiz.",
+      "confira": "Você excluiu causa não ortodôntica?"
+    },
+    {
+      "passo": "Registre relato, exame e conduta; reavalie em uma a duas semanas quando houver intervenção.",
+      "confira": "A conduta está no prontuário com data?"
+    }
+  ],
+  "macetes": [
+    {
+      "titulo": "Horas, um dia, uma semana",
+      "texto": "Começa em horas, pico em 24 h, quase zero em sete dias [VERIFICAR]. Dor sem esse relógio pede exame."
+    },
+    {
+      "titulo": "Explicar é analgésico",
+      "texto": "Saber o que esperar reduz a dor relatada. A conversa antes do fio vale mais que a receita depois."
+    },
+    {
+      "titulo": "Prostaglandina dói e move",
+      "texto": "Anti-inflamatório alivia e freia. Paracetamol de rotina; anti-inflamatório só no pico [VERIFICAR]."
+    },
+    {
+      "titulo": "Difusa normal, localizada alarme",
+      "texto": "Mobilidade em todos os dentes é o tratamento. Em um dente, com dor: contato prematuro, força ou vaivém."
+    }
+  ],
+  "ondeErra": [
+    {
+      "erro": "Dizer 'é normal' sem fazer as perguntas de triagem.",
+      "porque": "A ligação com dor localizada, dente realmente solto ou ferida recebe a mesma resposta e perde a consulta.",
+      "certo": "Começou quando, melhora ou piora, come macio, algum dente específico: um minuto que separa os casos."
+    },
+    {
+      "erro": "Prescrever anti-inflamatório por vários dias como rotina.",
+      "porque": "Inibe as prostaglandinas da remodelação e pode reduzir o movimento [VERIFICAR].",
+      "certo": "Paracetamol como rotina; anti-inflamatório em uma ou duas doses no pico, se necessário."
+    },
+    {
+      "erro": "Atribuir mobilidade e dor de um dente ao 'movimento normal'.",
+      "porque": "Mobilidade localizada com dor à percussão costuma ser contato prematuro, força excessiva ou vaivém.",
+      "certo": "Papel carbono, medir a força, examinar periodonto e raiz."
+    },
+    {
+      "erro": "Não explicar a dor antes de ativar.",
+      "porque": "Falta de informação aumenta a dor relatada e gera ligações de pânico e abandono.",
+      "certo": "Explicar a curva e a conduta na consulta da ativação, por escrito."
+    }
+  ],
+  "autoteste": [
+    {
+      "pergunta": "A dor após a ativação ortodôntica tipicamente:",
+      "alternativas": [
+        "Começa imediatamente e dura um mês",
+        "Começa em horas, atinge o pico em cerca de 24 horas e quase desaparece em uma semana",
+        "Só ocorre com forças pesadas",
+        "Começa após uma semana"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Um mês está fora da curva esperada.",
+        "Correta: curva com relógio, pico em um dia e resolução em cerca de sete dias [VERIFICAR].",
+        "Ocorre na maioria dos pacientes mesmo com forças leves.",
+        "Começa em horas, não após uma semana."
+      ]
+    },
+    {
+      "pergunta": "Os mediadores associados à dor ortodôntica incluem:",
+      "alternativas": [
+        "Insulina e glucagon",
+        "Prostaglandinas, bradicinina e substância P",
+        "Hemoglobina e mioglobina",
+        "Colágeno tipo I e elastina"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Não participam da resposta inflamatória do ligamento.",
+        "Correta: mediadores inflamatórios que sensibilizam as terminações nervosas do ligamento.",
+        "Não são mediadores da dor.",
+        "São proteínas estruturais, não mediadores."
+      ]
+    },
+    {
+      "pergunta": "O analgésico de primeira escolha para a dor ortodôntica, considerando o efeito sobre o movimento dentário, é:",
+      "alternativas": [
+        "Anti-inflamatório não esteroide por sete dias",
+        "Corticoide",
+        "Paracetamol",
+        "Opioide"
+      ],
+      "correta": 2,
+      "explicacoes": [
+        "Inibe prostaglandinas da remodelação e pode reduzir o movimento em uso prolongado [VERIFICAR].",
+        "Corticoide reduz a remodelação e não é indicado para dor ortodôntica.",
+        "Correta: alivia a dor sem interferir na cascata de prostaglandinas da remodelação.",
+        "Desproporcional para dor ortodôntica."
+      ]
+    },
+    {
+      "pergunta": "Durante o tratamento, a mobilidade que exige exame é a que:",
+      "alternativas": [
+        "É discreta e difusa entre os dentes",
+        "Diminui após o término do tratamento",
+        "É localizada em um dente, crescente e acompanhada de dor à percussão",
+        "Não é percebida pelo paciente"
+      ],
+      "correta": 2,
+      "explicacoes": [
+        "Essa é a mobilidade fisiológica do tratamento.",
+        "Comportamento esperado da mobilidade fisiológica.",
+        "Correta: sugere contato prematuro, força excessiva, vaivém ou perda de suporte.",
+        "Mobilidade não percebida costuma ser a fisiológica."
+      ]
+    },
+    {
+      "pergunta": "A medida sem custo que reduz a dor relatada após a ativação é:",
+      "alternativas": [
+        "Usar sempre fio de níquel-titânio",
+        "Informar o paciente antes sobre o que esperar e o que fazer",
+        "Prescrever anti-inflamatório preventivo por uma semana",
+        "Trocar para braquetes autoligados"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "As diferenças de dor entre ligas na faixa leve são pequenas [VERIFICAR].",
+        "Correta: expectativa correta e sensação de controle reduzem a dor relatada.",
+        "Anti-inflamatório prolongado pode interferir no movimento.",
+        "Não há diferença consistente de dor entre tipos de braquete [VERIFICAR]."
+      ]
+    }
+  ],
+  "pesquisa": {
+    "termos": [
+      "dor ortodôntica curva 24 horas sete dias",
+      "orthodontic pain prostaglandins mediators",
+      "anti-inflamatórios movimento ortodôntico paracetamol",
+      "mobilidade dentária durante tratamento ortodôntico",
+      "informação prévia dor ortodôntica ansiedade"
+    ]
+  },
+  "referenciasBase": [
+    "Proffit WR, Fields HW, Larson BE, Sarver DM. Ortodontia Contemporânea. 6ª ed. Efeitos deletérios da força ortodôntica: dor e mobilidade.",
+    "Krishnan V. Orthodontic pain: from causes to management: a review. Eur J Orthod. 2007.",
+    "Ngan P, Kess B, Wilson S. Perception of discomfort by patients undergoing orthodontic treatment. Am J Orthod Dentofacial Orthop. 1989.",
+    "Jones M, Chan C. The pain and discomfort experienced during orthodontic treatment: a randomized controlled clinical trial of two initial aligning arch wires. Am J Orthod Dentofacial Orthop. 1992.",
+    "Bergius M, Kiliaridis S, Berggren U. Pain in orthodontics: a review and discussion of the literature. J Orofac Orthop. 2000.",
+    "Monk AB, Harrison JE, Worthington HV, Teague A. Pharmacological interventions for pain relief during orthodontic treatment. Cochrane Database Syst Rev. 2017.",
+    "Arias OR, Marquez-Orozco MC. Aspirin, acetaminophen, and ibuprofen: their effects on orthodontic tooth movement. Am J Orthod Dentofacial Orthop. 2006."
+  ],
+  "validacao": {
+    "validadoPor": null,
+    "data": null
+  }
+}

@@ -1,10 +1,10 @@
 {
  "atualizadoEm": "2026-09-05",
  "totalPaginas": 3387,
- "concluidas": 45,
+ "concluidas": 46,
  "porStatus": {
-  "pendente": 3342,
-  "rascunho": 45,
+  "pendente": 3341,
+  "rascunho": 46,
   "revisado": 0,
   "publicado": 0
  },
@@ -12,7 +12,7 @@
   "id": "ortodontia/biologia-do-movimento",
   "area": "Ortodontia",
   "modulo": "Biologia do movimento",
-  "faltam": 2
+  "faltam": 1
  },
  "imagensPendentes": [
   {
@@ -329,6 +329,15 @@
    "mostrar": "No corte inicial, raiz centrada com cortical vestibular e lingual finas; no corte final, face vestibular da raiz sem cobertura óssea, crista deslocada para apical, e a fotografia clínica correspondente com margem gengival recuada",
    "legenda": "A tomografia mostra o que a periapical esconde: a raiz saiu do envelope e a gengiva ficou sem alicerce.",
    "destacar": "posição da raiz em relação à cortical vestibular nos dois momentos e o nível da crista óssea"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
+   "modulo": "Biologia do movimento",
+   "secao": "Mobilidade: o dente mais mole é o dente que está sendo movido",
+   "imagem": "fotografia intraoral de contato prematuro marcado com papel carbono em um pré-molar durante o tratamento ortodôntico",
+   "mostrar": "Marca de carbono isolada e intensa na cúspide de um dente em movimento, com os demais dentes sem marca ou com marcas fracas; braquetes e fio visíveis",
+   "legenda": "Um só dente marcando forte: trauma oclusal criado pelo próprio movimento. Dói, fica móvel e para de andar até o contato ser aliviado.",
+   "destacar": "diferença entre a marca intensa isolada e as marcas fracas dos vizinhos"
   }
  ],
  "verificarPendentes": [
@@ -1481,6 +1490,156 @@
    "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/recessao-e-deiscencias",
    "onde": "autoteste[3].explicacoes[2]",
    "trecho": "A recessão tardia após vestibularização é bem descrita [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
+   "onde": "umMinuto.frases[0]",
+   "trecho": "co em torno de 24 horas e diminui até quase desaparecer em uma semana [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
+   "onde": "umMinuto.frases[5]",
+   "trecho": "o prolongado podem interferir no movimento e são evitados como rotina [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
+   "onde": "umMinuto.caiNaProva[0]",
+   "trecho": "em horas, pico em cerca de 24 horas, resolução em torno de sete dias [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
+   "onde": "umMinuto.caiNaProva[3]",
+   "trecho": "xperimentais; paracetamol é a primeira escolha para a dor ortodôntica [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
+   "onde": "Seção \"A dor esperada: por que dói e por quanto tempo\".blocos[1].texto",
+   "trecho": "diminui progressivamente até quase desaparecer em torno do sétimo dia [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
+   "onde": "Seção \"A dor esperada: por que dói e por quanto tempo\".blocos[3].svg[10]",
+   "trecho": "8)'>curva conceitual, sem escala de intensidade; prazos de referência [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
+   "onde": "Seção \"A dor esperada: por que dói e por quanto tempo\".blocos[4].texto",
+   "trecho": "em horas, pico em cerca de 24 horas, resolução em torno de sete dias [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
+   "onde": "Seção \"A dor esperada: por que dói e por quanto tempo\".checagem.resposta",
+   "trecho": "oras, redução progressiva até quase desaparecer em cerca de sete dias [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
+   "onde": "Seção \"O que muda a dor: força, pessoa e expectativa\".blocos[0].texto",
+   "trecho": "alinhamento inicial, nem entre braquetes convencionais e autoligados [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
+   "onde": "Seção \"O que muda a dor: força, pessoa e expectativa\".blocos[1].texto",
+   "trecho": "a relatar mais dor em muitos estudos, com variação grande entre eles [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
+   "onde": "Seção \"O que muda a dor: força, pessoa e expectativa\".blocos[2].svg[6]",
+   "trecho": "8A8478)'>diferenças entre fios e braquetes na faixa leve são pequenas [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
+   "onde": "Seção \"O que muda a dor: força, pessoa e expectativa\".blocos[3].verdade",
+   "trecho": "diferença consistente de dor entre ligas nem entre tipos de braquete [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
+   "onde": "Seção \"Manejo: informar, aliviar, não atrapalhar o movimento\".blocos[0].texto",
+   "trecho": "ns estudos, talvez por restaurar a circulação do ligamento comprimido [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
+   "onde": "Seção \"Manejo: informar, aliviar, não atrapalhar o movimento\".blocos[2].texto",
+   "trecho": "doses no pico da dor tenham efeito clínico pequeno sobre o movimento [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
+   "onde": "Seção \"Manejo: informar, aliviar, não atrapalhar o movimento\".blocos[2].texto",
+   "trecho": "se preventiva antes da ativação reduz a dor do pico em alguns estudos [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
+   "onde": "Seção \"Manejo: informar, aliviar, não atrapalhar o movimento\".blocos[3].svg[4]",
+   "trecho": "uted,#8A8478)'>anti-inflamatório: no máximo uma ou duas doses no pico [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
+   "onde": "Seção \"Manejo: informar, aliviar, não atrapalhar o movimento\".blocos[4].texto",
+   "trecho": "ica para o pico, em uma ou duas doses, quando o paracetamol não basta [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
+   "onde": "Seção \"Manejo: informar, aliviar, não atrapalhar o movimento\".checagem.resposta",
+   "trecho": "ziram a velocidade do movimento; o paracetamol alivia sem esse efeito [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
+   "onde": "Seção \"Quando dor e mobilidade contam outra história\".blocos[3].texto",
+   "trecho": "e é rara e associada a trauma prévio ou forças e intrusões excessivas [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
+   "onde": "fechamento.flashcards[0].verso",
+   "trecho": "as, pico em torno de 24 horas, quase desaparece em cerca de sete dias [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
+   "onde": "fechamento.flashcards[2].verso",
+   "trecho": "medeiam a remodelação, e podem reduzir o movimento em uso prolongado [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
+   "onde": "infografico.itens[1].texto",
+   "trecho": "Horas para começar, um dia para o pico, uma semana para quase sumir [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
+   "onde": "infografico.itens[4].texto",
+   "trecho": "l nas primeiras 48 h; anti-inflamatório só no pico, uma ou duas doses [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
+   "onde": "macetes[0].texto",
+   "trecho": "Começa em horas, pico em 24 h, quase zero em sete dias [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
+   "onde": "macetes[2].texto",
+   "trecho": "o alivia e freia. Paracetamol de rotina; anti-inflamatório só no pico [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
+   "onde": "ondeErra[1].porque",
+   "trecho": "Inibe as prostaglandinas da remodelação e pode reduzir o movimento [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
+   "onde": "autoteste[0].explicacoes[1]",
+   "trecho": ": curva com relógio, pico em um dia e resolução em cerca de sete dias [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
+   "onde": "autoteste[2].explicacoes[0]",
+   "trecho": "glandinas da remodelação e pode reduzir o movimento em uso prolongado [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
+   "onde": "autoteste[4].explicacoes[0]",
+   "trecho": "As diferenças de dor entre ligas na faixa leve são pequenas [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
+   "onde": "autoteste[4].explicacoes[3]",
+   "trecho": "Não há diferença consistente de dor entre tipos de braquete [VERIFICAR]"
   }
  ],
  "modulos": [
@@ -1758,11 +1917,11 @@
    "area": "Ortodontia",
    "modulo": "Biologia do movimento",
    "total": 12,
-   "concluidas": 10,
-   "palavras": 39623,
-   "visuais": 54,
-   "imagensClinicas": 9,
-   "verificar": 115,
+   "concluidas": 11,
+   "palavras": 43691,
+   "visuais": 59,
+   "imagensClinicas": 10,
+   "verificar": 145,
    "paginas": [
     {
      "id": "ortodontia/biologia-do-movimento/reacoes-teciduais/ligamento-e-osso-sob-forca",
@@ -1848,7 +2007,9 @@
      "id": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
      "nome": "Dor e mobilidade",
      "tema": "Efeitos colaterais",
-     "status": "pendente"
+     "status": "rascunho",
+     "palavras": 4068,
+     "visuais": 5
     },
     {
      "id": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
@@ -28811,6 +28972,174 @@
     {
      "onde": "autoteste[3].explicacoes[2]",
      "trecho": "A recessão tardia após vestibularização é bem descrita [VERIFICAR]"
+    }
+   ]
+  },
+  "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade": {
+   "titulo": "Dor e mobilidade: o que é esperado, o que é alarme e como orientar o paciente",
+   "arquivo": "data/campus/paginas/ortodontia--biomov-dor.json",
+   "formato": 2,
+   "status": "rascunho",
+   "estado": "rascunho",
+   "palavras": 4068,
+   "visuais": [
+    {
+     "formato": "grafico",
+     "titulo": "A curva da dor após uma ativação"
+    },
+    {
+     "formato": "classificacao",
+     "titulo": "O que aumenta e o que reduz a dor relatada"
+    },
+    {
+     "formato": "comparativo",
+     "titulo": "Mobilidade esperada e mobilidade que pede exame"
+    },
+    {
+     "formato": "fluxograma",
+     "titulo": "Ligação por dor após ativação: triagem"
+    },
+    {
+     "formato": "mapa",
+     "titulo": "Mapa da página"
+    }
+   ],
+   "quadros": {
+    "prova": 1,
+    "mito": 1,
+    "erro": 2,
+    "dica": 1,
+    "frase": 1
+   },
+   "imagensClinicas": [
+    {
+     "secao": "Mobilidade: o dente mais mole é o dente que está sendo movido",
+     "imagem": "fotografia intraoral de contato prematuro marcado com papel carbono em um pré-molar durante o tratamento ortodôntico",
+     "mostrar": "Marca de carbono isolada e intensa na cúspide de um dente em movimento, com os demais dentes sem marca ou com marcas fracas; braquetes e fio visíveis",
+     "legenda": "Um só dente marcando forte: trauma oclusal criado pelo próprio movimento. Dói, fica móvel e para de andar até o contato ser aliviado.",
+     "destacar": "diferença entre a marca intensa isolada e as marcas fracas dos vizinhos"
+    }
+   ],
+   "verificar": [
+    {
+     "onde": "umMinuto.frases[0]",
+     "trecho": "co em torno de 24 horas e diminui até quase desaparecer em uma semana [VERIFICAR]"
+    },
+    {
+     "onde": "umMinuto.frases[5]",
+     "trecho": "o prolongado podem interferir no movimento e são evitados como rotina [VERIFICAR]"
+    },
+    {
+     "onde": "umMinuto.caiNaProva[0]",
+     "trecho": "em horas, pico em cerca de 24 horas, resolução em torno de sete dias [VERIFICAR]"
+    },
+    {
+     "onde": "umMinuto.caiNaProva[3]",
+     "trecho": "xperimentais; paracetamol é a primeira escolha para a dor ortodôntica [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"A dor esperada: por que dói e por quanto tempo\".blocos[1].texto",
+     "trecho": "diminui progressivamente até quase desaparecer em torno do sétimo dia [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"A dor esperada: por que dói e por quanto tempo\".blocos[3].svg[10]",
+     "trecho": "8)'>curva conceitual, sem escala de intensidade; prazos de referência [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"A dor esperada: por que dói e por quanto tempo\".blocos[4].texto",
+     "trecho": "em horas, pico em cerca de 24 horas, resolução em torno de sete dias [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"A dor esperada: por que dói e por quanto tempo\".checagem.resposta",
+     "trecho": "oras, redução progressiva até quase desaparecer em cerca de sete dias [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"O que muda a dor: força, pessoa e expectativa\".blocos[0].texto",
+     "trecho": "alinhamento inicial, nem entre braquetes convencionais e autoligados [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"O que muda a dor: força, pessoa e expectativa\".blocos[1].texto",
+     "trecho": "a relatar mais dor em muitos estudos, com variação grande entre eles [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"O que muda a dor: força, pessoa e expectativa\".blocos[2].svg[6]",
+     "trecho": "8A8478)'>diferenças entre fios e braquetes na faixa leve são pequenas [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"O que muda a dor: força, pessoa e expectativa\".blocos[3].verdade",
+     "trecho": "diferença consistente de dor entre ligas nem entre tipos de braquete [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Manejo: informar, aliviar, não atrapalhar o movimento\".blocos[0].texto",
+     "trecho": "ns estudos, talvez por restaurar a circulação do ligamento comprimido [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Manejo: informar, aliviar, não atrapalhar o movimento\".blocos[2].texto",
+     "trecho": "doses no pico da dor tenham efeito clínico pequeno sobre o movimento [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Manejo: informar, aliviar, não atrapalhar o movimento\".blocos[2].texto",
+     "trecho": "se preventiva antes da ativação reduz a dor do pico em alguns estudos [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Manejo: informar, aliviar, não atrapalhar o movimento\".blocos[3].svg[4]",
+     "trecho": "uted,#8A8478)'>anti-inflamatório: no máximo uma ou duas doses no pico [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Manejo: informar, aliviar, não atrapalhar o movimento\".blocos[4].texto",
+     "trecho": "ica para o pico, em uma ou duas doses, quando o paracetamol não basta [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Manejo: informar, aliviar, não atrapalhar o movimento\".checagem.resposta",
+     "trecho": "ziram a velocidade do movimento; o paracetamol alivia sem esse efeito [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Quando dor e mobilidade contam outra história\".blocos[3].texto",
+     "trecho": "e é rara e associada a trauma prévio ou forças e intrusões excessivas [VERIFICAR]"
+    },
+    {
+     "onde": "fechamento.flashcards[0].verso",
+     "trecho": "as, pico em torno de 24 horas, quase desaparece em cerca de sete dias [VERIFICAR]"
+    },
+    {
+     "onde": "fechamento.flashcards[2].verso",
+     "trecho": "medeiam a remodelação, e podem reduzir o movimento em uso prolongado [VERIFICAR]"
+    },
+    {
+     "onde": "infografico.itens[1].texto",
+     "trecho": "Horas para começar, um dia para o pico, uma semana para quase sumir [VERIFICAR]"
+    },
+    {
+     "onde": "infografico.itens[4].texto",
+     "trecho": "l nas primeiras 48 h; anti-inflamatório só no pico, uma ou duas doses [VERIFICAR]"
+    },
+    {
+     "onde": "macetes[0].texto",
+     "trecho": "Começa em horas, pico em 24 h, quase zero em sete dias [VERIFICAR]"
+    },
+    {
+     "onde": "macetes[2].texto",
+     "trecho": "o alivia e freia. Paracetamol de rotina; anti-inflamatório só no pico [VERIFICAR]"
+    },
+    {
+     "onde": "ondeErra[1].porque",
+     "trecho": "Inibe as prostaglandinas da remodelação e pode reduzir o movimento [VERIFICAR]"
+    },
+    {
+     "onde": "autoteste[0].explicacoes[1]",
+     "trecho": ": curva com relógio, pico em um dia e resolução em cerca de sete dias [VERIFICAR]"
+    },
+    {
+     "onde": "autoteste[2].explicacoes[0]",
+     "trecho": "glandinas da remodelação e pode reduzir o movimento em uso prolongado [VERIFICAR]"
+    },
+    {
+     "onde": "autoteste[4].explicacoes[0]",
+     "trecho": "As diferenças de dor entre ligas na faixa leve são pequenas [VERIFICAR]"
+    },
+    {
+     "onde": "autoteste[4].explicacoes[3]",
+     "trecho": "Não há diferença consistente de dor entre tipos de braquete [VERIFICAR]"
     }
    ]
   },
