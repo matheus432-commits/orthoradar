@@ -1,18 +1,18 @@
 {
  "atualizadoEm": "2026-09-05",
  "totalPaginas": 3387,
- "concluidas": 46,
+ "concluidas": 47,
  "porStatus": {
-  "pendente": 3341,
-  "rascunho": 46,
+  "pendente": 3340,
+  "rascunho": 47,
   "revisado": 0,
   "publicado": 0
  },
  "proximoModulo": {
-  "id": "ortodontia/biologia-do-movimento",
+  "id": "ortodontia/diagnostico",
   "area": "Ortodontia",
-  "modulo": "Biologia do movimento",
-  "faltam": 1
+  "modulo": "Diagnóstico",
+  "faltam": 25
  },
  "imagensPendentes": [
   {
@@ -1640,6 +1640,196 @@
    "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/dor-e-mobilidade",
    "onde": "autoteste[4].explicacoes[3]",
    "trecho": "Não há diferença consistente de dor entre tipos de braquete [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
+   "onde": "umMinuto.frases[3]",
+   "trecho": "; a redução do tempo total de tratamento é pequena ou não demonstrada [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
+   "onde": "umMinuto.frases[4]",
+   "trecho": "rolados e das revisões não confirma aceleração clinicamente relevante [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
+   "onde": "umMinuto.caiNaProva[3]",
+   "trecho": "confirmação consistente; farmacológicos sem uso clínico estabelecido [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
+   "onde": "Seção \"Por que existe um limite de velocidade\".blocos[0].texto",
+   "trecho": "ontal avança em torno de um milímetro por mês em condições favoráveis [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
+   "onde": "Seção \"Por que existe um limite de velocidade\".blocos[2].svg[0]",
+   "trecho": "1' fill='var(--red,#B4533B)'>efeito modesto e transitório nos estudos [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
+   "onde": "Seção \"Por que existe um limite de velocidade\".blocos[2].svg[1]",
+   "trecho": "ill='var(--blue,#4A6B8A)'>experimentais; sem uso clínico estabelecido [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
+   "onde": "Seção \"Por que existe um limite de velocidade\".blocos[2].svg[2]",
+   "trecho": ",#B08968)'>evidência inconsistente; maioria das revisões não confirma [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
+   "onde": "Seção \"Por que existe um limite de velocidade\".checagem.resposta",
+   "trecho": "de células, em torno de um milímetro por mês em condições favoráveis [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
+   "onde": "Seção \"O fenômeno regional acelerado: a biologia das corticotomias\".blocos[0].texto",
+   "trecho": "em um a dois meses e regride em alguns meses, conforme o osso repara [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
+   "onde": "Seção \"O fenômeno regional acelerado: a biologia das corticotomias\".blocos[2].texto",
+   "trecho": "da também para permitir movimentos que o osso original não permitiria [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
+   "onde": "Seção \"O fenômeno regional acelerado: a biologia das corticotomias\".blocos[3].svg[11]",
+   "trecho": "razos de referência da literatura sobre o fenômeno regional acelerado [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
+   "onde": "Seção \"O fenômeno regional acelerado: a biologia das corticotomias\".blocos[4].verdade",
+   "trecho": "ente entre ensaios; metade do tempo não é o que a literatura sustenta [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
+   "onde": "Seção \"O fenômeno regional acelerado: a biologia das corticotomias\".checagem.resposta",
+   "trecho": "ssão ao osso, com pico em um a dois meses e regressão em alguns meses [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
+   "onde": "Seção \"Vibração, luz e outros dispositivos: o que os ensaios mostraram\".blocos[1].texto",
+   "trecho": "s sistemáticas concluem por ausência de efeito clinicamente relevante [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
+   "onde": "Seção \"Vibração, luz e outros dispositivos: o que os ensaios mostraram\".blocos[2].texto",
+   "trecho": "ivos e outros neutros, qualidade metodológica variável e sem consenso [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
+   "onde": "Seção \"Vibração, luz e outros dispositivos: o que os ensaios mostraram\".blocos[3].svg[8]",
+   "trecho": "uted,#8A8478)'>síntese de revisões sistemáticas até a data de redação [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
+   "onde": "Seção \"Vibração, luz e outros dispositivos: o que os ensaios mostraram\".blocos[4].texto",
+   "trecho": "lidade responderam não; para a luz, ainda não responderam com clareza [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
+   "onde": "Seção \"Vibração, luz e outros dispositivos: o que os ensaios mostraram\".blocos[5].itens[0]",
+   "trecho": "trolados de qualidade sem aceleração do alinhamento ou do tempo total [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
+   "onde": "Seção \"Vibração, luz e outros dispositivos: o que os ensaios mostraram\".blocos[5].itens[1]",
+   "trecho": "biomodulação: resultados heterogêneos, estudos pequenos, sem consenso [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
+   "onde": "Seção \"Vibração, luz e outros dispositivos: o que os ensaios mostraram\".blocos[5].itens[3]",
+   "trecho": "locais: efeito em animais, sem protocolo clínico seguro estabelecido [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
+   "onde": "Seção \"Vibração, luz e outros dispositivos: o que os ensaios mostraram\".checagem.resposta",
+   "trecho": "e relevante. Fotobiomodulação: resultados heterogêneos e sem consenso [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
+   "onde": "Seção \"Segurança: o que cada método pode custar\".blocos[1].texto",
+   "trecho": "consistente de reabsorção radicular, mas o seguimento longo é escasso [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
+   "onde": "Seção \"Segurança: o que cada método pode custar\".blocos[4].texto",
+   "trecho": "afetam todo o esqueleto; nenhum tem protocolo seguro para uso clínico [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
+   "onde": "Seção \"Segurança: o que cada método pode custar\".blocos[5].svg[7]",
+   "trecho": "8A8478)'>exceção: técnicas com enxerto ósseo podem ampliar o envelope [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
+   "onde": "Seção \"Segurança: o que cada método pode custar\".checagem.resposta",
+   "trecho": "de osso ou papila com retalho mal manejado, seguimento longo escasso [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
+   "onde": "Seção \"O acelerador que funciona: plano, mecânica e cooperação\".blocos[2].svg[11]",
+   "trecho": "0' fill='var(--muted,#8A8478)'>registrar a conversa e o consentimento [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
+   "onde": "Seção \"De volta ao executivo\".blocos[0].texto",
+   "trecho": "vidência de que reduza o tempo, que não faz mal, e que o custo é dele [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
+   "onde": "Seção \"De volta ao executivo\".blocos[1].texto",
+   "trecho": "iz que não pode prometer meses e que não indicaria como base do plano [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
+   "onde": "Seção \"De volta ao executivo\".checagem.resposta",
+   "trecho": "rurgia com riscos; decisão informada, sem promessa de metade do tempo [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
+   "onde": "fechamento.flashcards[0].verso",
+   "trecho": "e mais depressa enquanto a força move o dente; o efeito é transitório [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
+   "onde": "fechamento.flashcards[1].verso",
+   "trecho": "enos, sem consenso. Nenhum dos dois permite prometer redução do tempo [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
+   "onde": "infografico.itens[2].texto",
+   "trecho": "r meses e volta ao normal. Base das corticotomias; efeito transitório [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
+   "onde": "infografico.itens[3].texto",
+   "trecho": "o: sem efeito relevante. Luz: sem consenso. Fármacos: sem uso clínico [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
+   "onde": "ondeErra[0].certo",
+   "trecho": "Ganho modesto e temporário, com riscos cirúrgicos; decisão informada [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
+   "onde": "ondeErra[1].porque",
+   "trecho": "ualidade não mostram efeito relevante para vibração; luz sem consenso [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
+   "onde": "autoteste[1].explicacoes[1]",
+   "trecho": "Correta: por isso acelera uma fase, não o tratamento inteiro [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
+   "onde": "autoteste[2].explicacoes[1]",
+   "trecho": "os ensaios de qualidade e as revisões não encontram efeito relevante [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
+   "onde": "autoteste[4].explicacoes[1]",
+   "trecho": "Evidência heterogênea e sem consenso [VERIFICAR]"
   }
  ],
  "modulos": [
@@ -1917,11 +2107,11 @@
    "area": "Ortodontia",
    "modulo": "Biologia do movimento",
    "total": 12,
-   "concluidas": 11,
-   "palavras": 43691,
-   "visuais": 59,
+   "concluidas": 12,
+   "palavras": 47851,
+   "visuais": 65,
    "imagensClinicas": 10,
-   "verificar": 145,
+   "verificar": 183,
    "paginas": [
     {
      "id": "ortodontia/biologia-do-movimento/reacoes-teciduais/ligamento-e-osso-sob-forca",
@@ -2015,7 +2205,9 @@
      "id": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
      "nome": "Aceleração do movimento",
      "tema": "Efeitos colaterais",
-     "status": "pendente"
+     "status": "rascunho",
+     "palavras": 4160,
+     "visuais": 6
     }
    ]
   },
@@ -29140,6 +29332,202 @@
     {
      "onde": "autoteste[4].explicacoes[3]",
      "trecho": "Não há diferença consistente de dor entre tipos de braquete [VERIFICAR]"
+    }
+   ]
+  },
+  "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento": {
+   "titulo": "Aceleração do movimento: o que a biologia permite e o que o marketing promete",
+   "arquivo": "data/campus/paginas/ortodontia--biomov-aceleracao.json",
+   "formato": 2,
+   "status": "rascunho",
+   "estado": "rascunho",
+   "palavras": 4160,
+   "visuais": [
+    {
+     "formato": "classificacao",
+     "titulo": "Os métodos de aceleração e onde agem na biologia"
+    },
+    {
+     "formato": "grafico",
+     "titulo": "Fenômeno regional acelerado: efeito que sobe, desce e acaba"
+    },
+    {
+     "formato": "comparativo",
+     "titulo": "Os métodos lado a lado: mecanismo, evidência, custo"
+    },
+    {
+     "formato": "forcas",
+     "titulo": "Acelerar não amplia o envelope"
+    },
+    {
+     "formato": "fluxograma",
+     "titulo": "Paciente pede tratamento mais rápido: por onde começar"
+    },
+    {
+     "formato": "mapa",
+     "titulo": "Mapa da página"
+    }
+   ],
+   "quadros": {
+    "prova": 1,
+    "mito": 1,
+    "erro": 2,
+    "dica": 1,
+    "frase": 1
+   },
+   "imagensClinicas": [],
+   "verificar": [
+    {
+     "onde": "umMinuto.frases[3]",
+     "trecho": "; a redução do tempo total de tratamento é pequena ou não demonstrada [VERIFICAR]"
+    },
+    {
+     "onde": "umMinuto.frases[4]",
+     "trecho": "rolados e das revisões não confirma aceleração clinicamente relevante [VERIFICAR]"
+    },
+    {
+     "onde": "umMinuto.caiNaProva[3]",
+     "trecho": "confirmação consistente; farmacológicos sem uso clínico estabelecido [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Por que existe um limite de velocidade\".blocos[0].texto",
+     "trecho": "ontal avança em torno de um milímetro por mês em condições favoráveis [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Por que existe um limite de velocidade\".blocos[2].svg[0]",
+     "trecho": "1' fill='var(--red,#B4533B)'>efeito modesto e transitório nos estudos [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Por que existe um limite de velocidade\".blocos[2].svg[1]",
+     "trecho": "ill='var(--blue,#4A6B8A)'>experimentais; sem uso clínico estabelecido [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Por que existe um limite de velocidade\".blocos[2].svg[2]",
+     "trecho": ",#B08968)'>evidência inconsistente; maioria das revisões não confirma [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Por que existe um limite de velocidade\".checagem.resposta",
+     "trecho": "de células, em torno de um milímetro por mês em condições favoráveis [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"O fenômeno regional acelerado: a biologia das corticotomias\".blocos[0].texto",
+     "trecho": "em um a dois meses e regride em alguns meses, conforme o osso repara [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"O fenômeno regional acelerado: a biologia das corticotomias\".blocos[2].texto",
+     "trecho": "da também para permitir movimentos que o osso original não permitiria [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"O fenômeno regional acelerado: a biologia das corticotomias\".blocos[3].svg[11]",
+     "trecho": "razos de referência da literatura sobre o fenômeno regional acelerado [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"O fenômeno regional acelerado: a biologia das corticotomias\".blocos[4].verdade",
+     "trecho": "ente entre ensaios; metade do tempo não é o que a literatura sustenta [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"O fenômeno regional acelerado: a biologia das corticotomias\".checagem.resposta",
+     "trecho": "ssão ao osso, com pico em um a dois meses e regressão em alguns meses [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Vibração, luz e outros dispositivos: o que os ensaios mostraram\".blocos[1].texto",
+     "trecho": "s sistemáticas concluem por ausência de efeito clinicamente relevante [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Vibração, luz e outros dispositivos: o que os ensaios mostraram\".blocos[2].texto",
+     "trecho": "ivos e outros neutros, qualidade metodológica variável e sem consenso [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Vibração, luz e outros dispositivos: o que os ensaios mostraram\".blocos[3].svg[8]",
+     "trecho": "uted,#8A8478)'>síntese de revisões sistemáticas até a data de redação [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Vibração, luz e outros dispositivos: o que os ensaios mostraram\".blocos[4].texto",
+     "trecho": "lidade responderam não; para a luz, ainda não responderam com clareza [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Vibração, luz e outros dispositivos: o que os ensaios mostraram\".blocos[5].itens[0]",
+     "trecho": "trolados de qualidade sem aceleração do alinhamento ou do tempo total [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Vibração, luz e outros dispositivos: o que os ensaios mostraram\".blocos[5].itens[1]",
+     "trecho": "biomodulação: resultados heterogêneos, estudos pequenos, sem consenso [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Vibração, luz e outros dispositivos: o que os ensaios mostraram\".blocos[5].itens[3]",
+     "trecho": "locais: efeito em animais, sem protocolo clínico seguro estabelecido [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Vibração, luz e outros dispositivos: o que os ensaios mostraram\".checagem.resposta",
+     "trecho": "e relevante. Fotobiomodulação: resultados heterogêneos e sem consenso [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Segurança: o que cada método pode custar\".blocos[1].texto",
+     "trecho": "consistente de reabsorção radicular, mas o seguimento longo é escasso [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Segurança: o que cada método pode custar\".blocos[4].texto",
+     "trecho": "afetam todo o esqueleto; nenhum tem protocolo seguro para uso clínico [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Segurança: o que cada método pode custar\".blocos[5].svg[7]",
+     "trecho": "8A8478)'>exceção: técnicas com enxerto ósseo podem ampliar o envelope [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Segurança: o que cada método pode custar\".checagem.resposta",
+     "trecho": "de osso ou papila com retalho mal manejado, seguimento longo escasso [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"O acelerador que funciona: plano, mecânica e cooperação\".blocos[2].svg[11]",
+     "trecho": "0' fill='var(--muted,#8A8478)'>registrar a conversa e o consentimento [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"De volta ao executivo\".blocos[0].texto",
+     "trecho": "vidência de que reduza o tempo, que não faz mal, e que o custo é dele [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"De volta ao executivo\".blocos[1].texto",
+     "trecho": "iz que não pode prometer meses e que não indicaria como base do plano [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"De volta ao executivo\".checagem.resposta",
+     "trecho": "rurgia com riscos; decisão informada, sem promessa de metade do tempo [VERIFICAR]"
+    },
+    {
+     "onde": "fechamento.flashcards[0].verso",
+     "trecho": "e mais depressa enquanto a força move o dente; o efeito é transitório [VERIFICAR]"
+    },
+    {
+     "onde": "fechamento.flashcards[1].verso",
+     "trecho": "enos, sem consenso. Nenhum dos dois permite prometer redução do tempo [VERIFICAR]"
+    },
+    {
+     "onde": "infografico.itens[2].texto",
+     "trecho": "r meses e volta ao normal. Base das corticotomias; efeito transitório [VERIFICAR]"
+    },
+    {
+     "onde": "infografico.itens[3].texto",
+     "trecho": "o: sem efeito relevante. Luz: sem consenso. Fármacos: sem uso clínico [VERIFICAR]"
+    },
+    {
+     "onde": "ondeErra[0].certo",
+     "trecho": "Ganho modesto e temporário, com riscos cirúrgicos; decisão informada [VERIFICAR]"
+    },
+    {
+     "onde": "ondeErra[1].porque",
+     "trecho": "ualidade não mostram efeito relevante para vibração; luz sem consenso [VERIFICAR]"
+    },
+    {
+     "onde": "autoteste[1].explicacoes[1]",
+     "trecho": "Correta: por isso acelera uma fase, não o tratamento inteiro [VERIFICAR]"
+    },
+    {
+     "onde": "autoteste[2].explicacoes[1]",
+     "trecho": "os ensaios de qualidade e as revisões não encontram efeito relevante [VERIFICAR]"
+    },
+    {
+     "onde": "autoteste[4].explicacoes[1]",
+     "trecho": "Evidência heterogênea e sem consenso [VERIFICAR]"
     }
    ]
   },

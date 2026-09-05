@@ -1,0 +1,640 @@
+{
+  "id": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
+  "areaId": "ortodontia",
+  "area": "Ortodontia",
+  "modulo": "Biologia do movimento",
+  "tema": "Efeitos colaterais",
+  "titulo": "Aceleração do movimento: o que a biologia permite e o que o marketing promete",
+  "estado": "rascunho",
+  "versao": 1,
+  "formato": 2,
+  "autoria": "Rascunho escrito pela plataforma para validação; nada aqui é visível ao aluno antes da assinatura de um ortodontista. Este é um campo em evolução: as conclusões sobre eficácia refletem revisões sistemáticas até a data de redação e devem ser conferidas pelo validador.",
+  "abertura": {
+    "situacao": "Um paciente adulto de 34 anos, executivo, aceita o tratamento com uma condição: 'no máximo um ano'. Pesquisou na internet e chega com três nomes: um dispositivo vibratório, um aparelho de fotobiomodulação e uma cirurgia com cortes no osso que 'reduz o tempo pela metade'. Pergunta qual você recomenda e se são seguros.",
+    "pergunta": "Existe uma forma comprovada de mover dentes mais depressa sem pagar em raiz, osso ou estabilidade? O que cada método faz na biologia que você estudou neste módulo, e o que a evidência permite prometer?"
+  },
+  "umMinuto": {
+    "frases": [
+      "O limite de velocidade do movimento dentário é biológico: a taxa de remodelação do osso alveolar e o tempo da cascata celular. Aumentar a força não acelera; acima do platô só aumenta o dano.",
+      "Os métodos de aceleração tentam agir sobre a biologia, não sobre a força: aumentar a atividade celular do osso (cirúrgicos, farmacológicos) ou estimular as células do ligamento (vibração, luz, corrente).",
+      "Os procedimentos cirúrgicos, corticotomias e perfurações corticais, aceleram por meio do fenômeno regional acelerado de Frost: o osso ferido remodela mais depressa por semanas a meses. O efeito é transitório e local.",
+      "A evidência atual mostra aceleração modesta e temporária com corticotomia e com micro-osteoperfurações em alguns estudos, com heterogeneidade grande; a redução do tempo total de tratamento é pequena ou não demonstrada [VERIFICAR].",
+      "Vibração de baixa frequência e fotobiomodulação têm resultados inconsistentes: a maioria dos ensaios controlados e das revisões não confirma aceleração clinicamente relevante [VERIFICAR].",
+      "O que comprovadamente reduz o tempo de tratamento não é dispositivo: diagnóstico e plano corretos, mecânica eficiente com forças leves e contínuas, consultas regulares e cooperação do paciente."
+    ],
+    "caiNaProva": [
+      "Fenômeno regional acelerado (Frost): agressão ao osso desencadeia aceleração local e transitória da remodelação; base biológica das corticotomias e micro-osteoperfurações.",
+      "Classificação dos métodos: cirúrgicos (corticotomia, piezocisão, micro-osteoperfurações), farmacológicos (prostaglandinas, vitamina D, relaxina, PTH), físicos (vibração, fotobiomodulação, corrente elétrica, campo magnético).",
+      "Aumentar a magnitude da força não é método de aceleração: acima do platô só crescem os efeitos colaterais.",
+      "Evidência: efeito cirúrgico modesto e transitório; métodos físicos sem confirmação consistente; farmacológicos sem uso clínico estabelecido [VERIFICAR].",
+      "O maior ganho de tempo vem de plano, mecânica eficiente, intervalos adequados e cooperação."
+    ],
+    "porQueImporta": "Pacientes adultos pedem velocidade e a indústria oferece dispositivos. Você precisa saber o que cada um faz na biologia que estudou, o que a evidência sustenta e o que é seguro dizer, para não prometer o que o osso não entrega nem negar o que ele permite."
+  },
+  "secoes": [
+    {
+      "titulo": "Por que existe um limite de velocidade",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "Tudo o que você estudou neste módulo converge para uma conclusão: o dente se move na velocidade em que o osso alveolar consegue ser reabsorvido de um lado e formado do outro, e essa velocidade depende de células, não de força. A cascata leva dias para produzir osteoclastos ativos; a reabsorção frontal avança em torno de um milímetro por mês em condições favoráveis [VERIFICAR]; o adulto, com osso mais denso e ligamento menos celular, é mais lento."
+        },
+        {
+          "tipo": "p",
+          "texto": "Aumentar a força não muda esse limite, porque a curva de velocidade tem um platô: acima dele, a pressão oclui os vasos, o ligamento hialiniza, o dente para em latência e depois pula, e o deslocamento médio pode até diminuir. Qualquer método legítimo de aceleração precisa agir na biologia, aumentando o número ou a atividade das células que remodelam o osso, e é assim que os métodos se classificam."
+        },
+        {
+          "tipo": "visual",
+          "formato": "classificacao",
+          "titulo": "Os métodos de aceleração e onde agem na biologia",
+          "descricao": "Três grupos. Cirúrgicos: corticotomia, piezocisão, micro-osteoperfurações; agem pelo fenômeno regional acelerado, osso ferido remodela mais depressa. Farmacológicos: prostaglandinas, vitamina D, relaxina, hormônio paratireoidiano; agem na sinalização celular da remodelação; sem uso clínico estabelecido. Físicos: vibração de baixa frequência, fotobiomodulação, corrente elétrica, campo magnético; propostos como estimuladores celulares; evidência inconsistente. Rodapé: o que não é método: aumentar a força.",
+          "viewBox": "0 0 560 360",
+          "svg": [
+            "<use href='#c-caixa-red' x='20' y='16' width='520' height='76'/><text x='36' y='40' font-size='13' font-weight='700'>Cirúrgicos</text><text x='36' y='58' font-size='11'>corticotomia, piezocisão, micro-osteoperfurações</text><text x='36' y='72' font-size='11'>agem pelo fenômeno regional acelerado: osso ferido remodela mais depressa</text><text x='36' y='86' font-size='11' fill='var(--red,#B4533B)'>efeito modesto e transitório nos estudos [VERIFICAR]</text>",
+            "<use href='#c-caixa-blue' x='20' y='104' width='520' height='76'/><text x='36' y='128' font-size='13' font-weight='700'>Farmacológicos</text><text x='36' y='146' font-size='11'>prostaglandinas, vitamina D, relaxina, hormônio paratireoidiano</text><text x='36' y='160' font-size='11'>agem na sinalização da remodelação, local ou sistêmica</text><text x='36' y='174' font-size='11' fill='var(--blue,#4A6B8A)'>experimentais; sem uso clínico estabelecido [VERIFICAR]</text>",
+            "<use href='#c-caixa-gold' x='20' y='192' width='520' height='76'/><text x='36' y='216' font-size='13' font-weight='700'>Físicos</text><text x='36' y='234' font-size='11'>vibração de baixa frequência, fotobiomodulação, corrente elétrica, campo magnético</text><text x='36' y='248' font-size='11'>propostos como estímulo às células do ligamento e do osso</text><text x='36' y='262' font-size='11' fill='var(--gold,#B08968)'>evidência inconsistente; maioria das revisões não confirma [VERIFICAR]</text>",
+            "<use href='#c-caixa-ink' x='60' y='284' width='440' height='60'/><text x='280' y='308' text-anchor='middle' font-size='13' font-weight='700' fill='#fff'>o que não é método: aumentar a força</text><text x='280' y='328' text-anchor='middle' font-size='11' fill='#fff'>acima do platô só cresce o dano; a velocidade não</text>"
+          ],
+          "legenda": "Três famílias e uma não-família. Só a primeira tem mecanismo biológico bem demonstrado, e mesmo ela entrega menos do que promete."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "prova",
+          "texto": "Métodos de aceleração do movimento ortodôntico: cirúrgicos (corticotomia, piezocisão, micro-osteoperfurações), farmacológicos (prostaglandinas, vitamina D, relaxina, PTH) e físicos (vibração, fotobiomodulação, corrente, campo magnético). A base biológica dos cirúrgicos é o fenômeno regional acelerado de Frost. Aumentar a força não acelera."
+        },
+        {
+          "tipo": "pergunta",
+          "pergunta": "Por que 'apertar mais' não é um método de aceleração, mesmo que pareça o mais óbvio?",
+          "resposta": "Porque a velocidade depende da remodelação celular e tem um platô; acima dele a força hialiniza o ligamento, produz latência e movimento em saltos, e só aumenta reabsorção, dor e perda de ancoragem."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Qual é o limite biológico da velocidade do movimento e em que três famílias se classificam os métodos que tentam superá-lo?",
+        "resposta": "A taxa de remodelação do osso alveolar, dependente de células, em torno de um milímetro por mês em condições favoráveis [VERIFICAR]. Famílias: cirúrgicos, farmacológicos e físicos."
+      }
+    },
+    {
+      "titulo": "O fenômeno regional acelerado: a biologia das corticotomias",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "Frost descreveu, a partir de fraturas e cirurgias ósseas, que uma agressão ao osso desencadeia na região uma aceleração de toda a remodelação: mais unidades celulares ativas, reabsorção e formação mais rápidas, osso transitoriamente menos denso e mais reativo. É o fenômeno regional acelerado, um mecanismo de reparo. Ele começa em dias, atinge o pico em um a dois meses e regride em alguns meses, conforme o osso repara [VERIFICAR]."
+        },
+        {
+          "tipo": "p",
+          "texto": "As corticotomias aplicam essa ideia ao alvéolo: cortes ou perfurações na cortical em volta das raízes a serem movidas, com ou sem descolamento de retalho, criam a agressão controlada que reduz a densidade do osso local e acelera a sua remodelação, enquanto a força ortodôntica direciona o movimento."
+        },
+        {
+          "tipo": "p",
+          "texto": "A técnica com retalho e enxerto ósseo, chamada por seus autores de ortodontia osteogênica periodontalmente acelerada, acrescenta osso ao envelope e tem sido usada também para permitir movimentos que o osso original não permitiria [VERIFICAR]. Piezocisão e micro-osteoperfurações são versões sem retalho, menos invasivas, com efeito biológico proporcionalmente menor."
+        },
+        {
+          "tipo": "visual",
+          "formato": "grafico",
+          "titulo": "Fenômeno regional acelerado: efeito que sobe, desce e acaba",
+          "descricao": "Gráfico com o tempo em meses no eixo horizontal, de zero a seis, e a atividade de remodelação no eixo vertical. Uma linha basal horizontal representa o ritmo normal. Após a agressão cirúrgica no tempo zero, a curva sobe em dias, atinge o pico entre um e dois meses e regride até a linha basal por volta de quatro a seis meses. Sombreado sob a curva acima da basal marca a janela em que o movimento pode ser mais rápido.",
+          "viewBox": "0 0 720 320",
+          "svg": [
+            "<use href='#c-eixo' x='70' y='250' width='600' height='20'/><path d='M80 260 L80 40' stroke='var(--muted,#8A8478)' stroke-width='1.5'/><path d='M74 52 L80 40 L86 52 Z' fill='var(--muted,#8A8478)'/>",
+            "<text x='670' y='286' text-anchor='end' font-size='12' fill='var(--ink,#23211C)'>meses após a cirurgia</text>",
+            "<text x='40' y='150' font-size='12' fill='var(--ink,#23211C)' transform='rotate(-90 40 150)' text-anchor='middle'>atividade de remodelação</text>",
+            "<g font-size='10' fill='var(--muted,#8A8478)' text-anchor='middle'><text x='80' y='276'>0</text><text x='170' y='276'>1</text><text x='260' y='276'>2</text><text x='350' y='276'>3</text><text x='440' y='276'>4</text><text x='530' y='276'>5</text><text x='620' y='276'>6</text></g>",
+            "<line x1='80' y1='200' x2='660' y2='200' stroke='var(--muted,#8A8478)' stroke-width='1.5' stroke-dasharray='6 4'/><text x='650' y='192' text-anchor='end' font-size='11' fill='var(--muted,#8A8478)'>ritmo basal de remodelação</text>",
+            "<path d='M80 200 C 110 120, 150 70, 215 70 C 280 70, 340 140, 440 190 C 480 200, 520 200, 620 200 L 620 200 L 80 200 Z' fill='var(--gold,#B08968)' fill-opacity='0.15'/>",
+            "<path d='M80 200 C 110 120, 150 70, 215 70 C 280 70, 340 140, 440 190 C 480 200, 520 200, 620 200' fill='none' stroke='var(--gold,#B08968)' stroke-width='3'/>",
+            "<use href='#c-vetor-red' x='60' y='230' width='40' height='14' transform='rotate(-90 80 237)'/><text x='96' y='240' font-size='10' fill='var(--red,#B4533B)' font-weight='700'>agressão cirúrgica</text>",
+            "<line x1='215' y1='70' x2='215' y2='200' stroke='var(--blue,#4A6B8A)' stroke-width='1' stroke-dasharray='3 3'/><text x='225' y='62' font-size='11' font-weight='700' fill='var(--blue,#4A6B8A)'>pico: 1 a 2 meses</text>",
+            "<text x='260' y='150' font-size='11' fill='var(--ink,#23211C)'>janela em que o movimento</text><text x='260' y='164' font-size='11' fill='var(--ink,#23211C)'>pode ser mais rápido</text>",
+            "<text x='480' y='170' font-size='11' fill='var(--ink,#23211C)'>o osso repara e o efeito acaba;</text><text x='480' y='184' font-size='11' fill='var(--ink,#23211C)'>repetir exige nova cirurgia</text>",
+            "<text x='360' y='308' text-anchor='middle' font-size='11' fill='var(--muted,#8A8478)'>curva conceitual, sem escala; prazos de referência da literatura sobre o fenômeno regional acelerado [VERIFICAR]</text>"
+          ],
+          "legenda": "O osso ferido trabalha mais depressa por alguns meses e depois volta ao normal. Um tratamento de dois anos não cabe nessa janela."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "mito",
+          "mito": "A corticotomia reduz o tempo de tratamento pela metade.",
+          "verdade": "O efeito é local e transitório, com pico em um a dois meses e regressão em poucos meses. Estudos mostram aceleração do movimento na fase inicial, sobretudo de caninos em retração, com ganho sobre o tempo total pequeno e inconsistente entre ensaios; metade do tempo não é o que a literatura sustenta [VERIFICAR]."
+        },
+        {
+          "tipo": "pergunta",
+          "pergunta": "Por que o efeito de uma corticotomia sobre o tempo total de tratamento é menor do que o efeito sobre a velocidade de um canino nos primeiros meses?",
+          "resposta": "Porque o fenômeno regional acelerado dura alguns meses e regride quando o osso repara; a fase acelerada cobre apenas parte de um tratamento que dura mais de um ano, e as etapas de finalização não dependem da velocidade do osso."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Descreva o fenômeno regional acelerado e diga por que ele limita o que a corticotomia pode entregar.",
+        "resposta": "Aceleração local e transitória da remodelação após agressão ao osso, com pico em um a dois meses e regressão em alguns meses [VERIFICAR]; como é temporário, acelera uma fase, não o tratamento inteiro, e repetir exige nova cirurgia."
+      }
+    },
+    {
+      "titulo": "Vibração, luz e outros dispositivos: o que os ensaios mostraram",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "Os métodos físicos têm a atração de não cortar nada. A vibração de baixa frequência, aplicada por alguns minutos ao dia com um dispositivo mordido pelo paciente, foi proposta para estimular as células do ligamento e do osso. A fotobiomodulação com luz de baixa intensidade, aplicada sobre a gengiva, foi proposta para acelerar a resposta celular. Corrente elétrica de baixa intensidade e campos magnéticos foram testados em modelos experimentais."
+        },
+        {
+          "tipo": "p",
+          "texto": "A evidência clínica não acompanhou a expectativa. Para a vibração, os ensaios controlados randomizados de melhor qualidade não encontraram aceleração do alinhamento nem redução do tempo de tratamento, e as revisões sistemáticas concluem por ausência de efeito clinicamente relevante [VERIFICAR]."
+        },
+        {
+          "tipo": "p",
+          "texto": "Para a fotobiomodulação, os resultados são heterogêneos, com alguns estudos positivos e outros neutros, qualidade metodológica variável e sem consenso [VERIFICAR]. Para corrente e campos magnéticos, não há uso clínico estabelecido."
+        },
+        {
+          "tipo": "visual",
+          "formato": "comparativo",
+          "titulo": "Os métodos lado a lado: mecanismo, evidência, custo",
+          "descricao": "Tabela com quatro colunas: corticotomia com retalho, micro-osteoperfurações e piezocisão, vibração de baixa frequência, fotobiomodulação. Linhas: mecanismo proposto; efeito nos estudos; duração do efeito; invasividade e custo; o que dizer ao paciente.",
+          "viewBox": "0 0 720 360",
+          "svg": [
+            "<g font-size='11' font-weight='700' fill='var(--ink,#23211C)' text-anchor='middle'><use href='#c-pilula' x='150' y='14' width='130' height='34'/><text x='215' y='30'>corticotomia</text><text x='215' y='42' font-weight='400' font-size='10'>com retalho</text><use href='#c-pilula' x='290' y='14' width='130' height='34'/><text x='355' y='30'>perfurações</text><text x='355' y='42' font-weight='400' font-size='10'>e piezocisão</text><use href='#c-pilula' x='430' y='14' width='130' height='34'/><text x='495' y='30'>vibração</text><text x='495' y='42' font-weight='400' font-size='10'>baixa frequência</text><use href='#c-pilula' x='570' y='14' width='130' height='34'/><text x='635' y='30'>fotobiomodulação</text><text x='635' y='42' font-weight='400' font-size='10'>luz de baixa potência</text></g>",
+            "<g font-size='11' font-weight='700' fill='var(--ink,#23211C)'><text x='16' y='80'>mecanismo</text><text x='16' y='136'>efeito nos estudos</text><text x='16' y='192'>duração</text><text x='16' y='248'>invasão e custo</text><text x='16' y='304'>ao paciente</text></g>",
+            "<g stroke='var(--border,#EDE6D8)' stroke-width='1'><line x1='16' y1='108' x2='704' y2='108'/><line x1='16' y1='164' x2='704' y2='164'/><line x1='16' y1='220' x2='704' y2='220'/><line x1='16' y1='276' x2='704' y2='276'/></g>",
+            "<g font-size='10' fill='var(--ink,#23211C)' text-anchor='middle'><text x='215' y='76'>fenômeno regional</text><text x='215' y='89'>acelerado forte</text><text x='355' y='76'>fenômeno regional</text><text x='355' y='89'>acelerado menor</text><text x='495' y='76'>estímulo celular</text><text x='495' y='89'>proposto</text><text x='635' y='76'>estímulo celular</text><text x='635' y='89'>proposto</text></g>",
+            "<g font-size='10' fill='var(--ink,#23211C)' text-anchor='middle'><text x='215' y='132'>acelera fase inicial;</text><text x='215' y='145'>tempo total pouco menor</text><text x='355' y='132'>resultados mistos;</text><text x='355' y='145'>efeito pequeno se houver</text><text x='495' y='132'>ensaios de qualidade:</text><text x='495' y='145'>sem efeito relevante</text><text x='635' y='132'>heterogêneo;</text><text x='635' y='145'>sem consenso</text></g>",
+            "<g font-size='10' fill='var(--ink,#23211C)' text-anchor='middle'><text x='215' y='188'>meses; regride</text><text x='215' y='201'>com o reparo</text><text x='355' y='188'>semanas a meses;</text><text x='355' y='201'>alguns repetem</text><text x='495' y='194'>uso diário contínuo</text><text x='635' y='194'>uso diário contínuo</text></g>",
+            "<g font-size='10' fill='var(--ink,#23211C)' text-anchor='middle'><text x='215' y='244'>cirurgia com retalho;</text><text x='215' y='257'>custo alto</text><text x='355' y='244'>minimamente invasivo;</text><text x='355' y='257'>custo moderado</text><text x='495' y='244'>não invasivo;</text><text x='495' y='257'>dispositivo pago</text><text x='635' y='244'>não invasivo;</text><text x='635' y='257'>dispositivo pago</text></g>",
+            "<g font-size='10' font-weight='700' text-anchor='middle'><text x='215' y='300' fill='var(--gold,#B08968)'>ganho modesto,</text><text x='215' y='313' fill='var(--gold,#B08968)'>custo cirúrgico</text><text x='355' y='300' fill='var(--gold,#B08968)'>talvez algo;</text><text x='355' y='313' fill='var(--gold,#B08968)'>não garantido</text><text x='495' y='300' fill='var(--red,#B4533B)'>sem evidência</text><text x='495' y='313' fill='var(--red,#B4533B)'>de benefício</text><text x='635' y='300' fill='var(--red,#B4533B)'>evidência</text><text x='635' y='313' fill='var(--red,#B4533B)'>insuficiente</text></g>",
+            "<text x='360' y='346' text-anchor='middle' font-size='10' fill='var(--muted,#8A8478)'>síntese de revisões sistemáticas até a data de redação [VERIFICAR]; o campo muda, confira antes de indicar</text>"
+          ],
+          "legenda": "Quatro caminhos, nenhum atalho garantido. A linha final é o que você pode dizer ao paciente sem prometer o que a literatura não sustenta."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "erro",
+          "titulo": "Vender o dispositivo pelo mecanismo, não pelo resultado",
+          "texto": "'Estimula as células do ligamento' descreve uma hipótese, não um desfecho. O que interessa ao paciente é se o tratamento termina antes, e isso só um ensaio clínico controlado responde. Para a vibração, os ensaios de melhor qualidade responderam não; para a luz, ainda não responderam com clareza [VERIFICAR]. Indicar um dispositivo pago sobre essa base é transferir o risco da incerteza para o bolso do paciente."
+        },
+        {
+          "tipo": "lista",
+          "itens": [
+            "Vibração de baixa frequência: ensaios controlados de qualidade sem aceleração do alinhamento ou do tempo total [VERIFICAR].",
+            "Fotobiomodulação: resultados heterogêneos, estudos pequenos, sem consenso [VERIFICAR].",
+            "Corrente elétrica e campo magnético: experimentais, sem uso clínico.",
+            "Farmacológicos sistêmicos ou locais: efeito em animais, sem protocolo clínico seguro estabelecido [VERIFICAR].",
+            "Comum a todos: quem indica precisa conhecer a evidência do ano corrente, não a do lançamento."
+          ]
+        }
+      ],
+      "checagem": {
+        "pergunta": "O que a evidência atual mostra sobre vibração de baixa frequência e fotobiomodulação como aceleradores do movimento?",
+        "resposta": "Vibração: ensaios controlados de melhor qualidade e revisões não encontram aceleração clinicamente relevante. Fotobiomodulação: resultados heterogêneos e sem consenso [VERIFICAR]."
+      }
+    },
+    {
+      "titulo": "Segurança: o que cada método pode custar",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "Todo acelerador legítimo mexe na biologia que também protege o dente, e por isso a pergunta sobre segurança é tão importante quanto a sobre eficácia."
+        },
+        {
+          "tipo": "p",
+          "texto": "As corticotomias com retalho envolvem cirurgia, edema, dor pós-operatória, risco de dano radicular pelos cortes e de perda de osso e de papila se o retalho não for bem manejado; estudos não mostram aumento consistente de reabsorção radicular, mas o seguimento longo é escasso [VERIFICAR]. Micro-osteoperfurações e piezocisão são menos invasivas, com dor pós-operatória menor, e risco de lesão radicular se mal posicionadas."
+        },
+        {
+          "tipo": "pergunta",
+          "pergunta": "Um paciente com fenótipo fino e sínfise estreita pergunta se a aceleração cirúrgica sem enxerto o protegeria da recessão por permitir 'terminar antes'. O que você responde?",
+          "resposta": "Não: acelerar não amplia o envelope; a raiz chega à mesma cortical, só mais cedo. Proteção contra recessão vem de manter a raiz no osso ou de ampliar o envelope com enxerto, não de velocidade."
+        },
+        {
+          "tipo": "p",
+          "texto": "Os métodos físicos têm perfil de segurança favorável justamente porque fazem pouco: não há relato consistente de dano com vibração ou luz de baixa intensidade; o custo é financeiro e de expectativa."
+        },
+        {
+          "tipo": "p",
+          "texto": "Os farmacológicos são o oposto: prostaglandinas locais produzem dor intensa e reabsorção; hormônios sistêmicos afetam todo o esqueleto; nenhum tem protocolo seguro para uso clínico [VERIFICAR]. E há um efeito colateral comum a qualquer aceleração real: mover mais depressa dentro do mesmo envelope não amplia o envelope, e a raiz que sai do osso sai igualmente, só mais cedo."
+        },
+        {
+          "tipo": "visual",
+          "formato": "forcas",
+          "titulo": "Acelerar não amplia o envelope",
+          "descricao": "Dois cortes de um incisivo inferior no osso, com o mesmo envelope ósseo. À esquerda, movimento em velocidade normal ao longo de doze meses: a raiz chega à cortical no final. À direita, movimento acelerado ao longo de seis meses: a raiz chega à mesma cortical na metade do tempo. Em ambos, a distância disponível é a mesma; o que muda é quando o limite é alcançado. Exceção anotada: técnicas com enxerto ósseo podem ampliar o envelope.",
+          "viewBox": "0 0 720 300",
+          "svg": [
+            "<g font-size='13' font-weight='700' fill='var(--ink,#23211C)' text-anchor='middle'><text x='190' y='28'>velocidade normal</text><text x='530' y='28'>acelerado</text></g>",
+            "<g fill='var(--gold-soft,#F4EEE4)' stroke='var(--ink,#23211C)' stroke-width='1.5'><path d='M100 50 L280 50 L280 200 Q280 220 260 220 L120 220 Q100 220 100 200 Z'/><path d='M440 50 L620 50 L620 200 Q620 220 600 220 L460 220 Q440 220 440 200 Z'/></g>",
+            "<g fill='#fff' stroke='var(--muted,#8A8478)' stroke-width='1' stroke-dasharray='3 3'><path d='M176 50 Q190 240 204 50 Z'/><path d='M516 50 Q530 240 544 50 Z'/></g>",
+            "<g fill='#fff' stroke='var(--ink,#23211C)' stroke-width='1.5'><path d='M102 50 Q116 240 130 50 Z'/><path d='M442 50 Q456 240 470 50 Z'/></g>",
+            "<g><use href='#c-vetor-red' x='130' y='70' width='50' height='12' transform='rotate(180 155 76)'/><use href='#c-vetor-red' x='470' y='70' width='50' height='12' transform='rotate(180 495 76)'/></g>",
+            "<g font-size='11' fill='var(--ink,#23211C)' text-anchor='middle'><text x='190' y='246'>a raiz chega à cortical em 12 meses</text><text x='530' y='246'>a raiz chega à mesma cortical em 6 meses</text></g>",
+            "<g font-size='11' font-weight='700' text-anchor='middle'><text x='190' y='264' fill='var(--gold,#B08968)'>mesmo limite</text><text x='530' y='264' fill='var(--red,#B4533B)'>mesmo limite, mais cedo</text></g>",
+            "<text x='360' y='290' text-anchor='middle' font-size='10' fill='var(--muted,#8A8478)'>exceção: técnicas com enxerto ósseo podem ampliar o envelope [VERIFICAR]; cortes esquemáticos, fora de escala</text>"
+          ],
+          "legenda": "Velocidade não é espaço. O osso termina no mesmo lugar, e chegar lá mais rápido não é vantagem."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "dica",
+          "titulo": "A pergunta que desmonta a promessa",
+          "texto": "Diante de qualquer acelerador, pergunte: 'em quantos meses, em média, o tratamento terminou antes nos ensaios controlados, e com que efeitos adversos?'. Se a resposta vem em mecanismo ('estimula', 'ativa', 'modula') em vez de meses e eventos, você não tem base para indicar."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Cite os riscos das corticotomias com retalho e explique por que acelerar não protege contra deiscências.",
+        "resposta": "Cirurgia, edema, dor, dano radicular pelos cortes, perda de osso ou papila com retalho mal manejado, seguimento longo escasso [VERIFICAR]. Acelerar não amplia o envelope de osso: a raiz alcança a mesma cortical, apenas mais cedo."
+      }
+    },
+    {
+      "titulo": "O acelerador que funciona: plano, mecânica e cooperação",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "A maior parte do tempo perdido em um tratamento não é biológica. É diagnóstico que muda no meio do caminho, mecânica que produz movimentos que depois precisam ser desfeitos, forças fora da faixa que hialinizam e paralisam, consultas faltadas ou espaçadas demais, aparelhos quebrados, elásticos não usados e higiene que obriga a pausas. Nada disso é acelerado por vibração ou por corte no osso."
+        },
+        {
+          "tipo": "p",
+          "texto": "O que reduz o tempo de tratamento de forma consistente é o que este módulo ensinou: força leve e contínua que mantém a reabsorção frontal sem latência; direção correta que não exige vaivém; intervalo de consultas ajustado ao decaimento da força do dispositivo; plano que aceita objetivos proporcionais ao caso; e um paciente que entende o que está em jogo e coopera. A biologia já é rápida o bastante quando ninguém a atrapalha."
+        },
+        {
+          "tipo": "visual",
+          "formato": "fluxograma",
+          "titulo": "Paciente pede tratamento mais rápido: por onde começar",
+          "descricao": "Início: paciente pede velocidade. Primeira pergunta: o plano tem objetivos proporcionais e aceita compromisso? Se não, ajustar objetivos. Segunda: a mecânica evita vaivém e usa força leve e contínua com intervalos adequados? Se não, corrigir. Terceira: cooperação, higiene e comparecimento são previsíveis? Se não, trabalhar isso primeiro. Só depois: discutir aceleração cirúrgica, com evidência, riscos, custo e ganho realista em meses; dispositivos sem evidência ficam de fora ou entram como escolha informada do paciente sem promessa.",
+          "viewBox": "0 0 560 470",
+          "svg": [
+            "<use href='#c-caixa-ink' x='150' y='16' width='260' height='40'/><text x='280' y='41' text-anchor='middle' font-size='12' font-weight='700' fill='#fff'>paciente pede tratamento mais rápido</text>",
+            "<path d='M280 56 L280 76' stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'/>",
+            "<use href='#c-decisao' x='150' y='80' width='260' height='50'/><text x='280' y='101' text-anchor='middle' font-size='12' font-weight='700'>objetivos proporcionais</text><text x='280' y='117' text-anchor='middle' font-size='11'>e compromisso aceito?</text>",
+            "<path d='M410 105 L460 105' stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'/><use href='#c-caixa-gold' x='462' y='86' width='94' height='38'/><text x='509' y='103' text-anchor='middle' font-size='10' font-weight='700'>ajustar</text><text x='509' y='116' text-anchor='middle' font-size='10'>objetivos</text><text x='435' y='98' text-anchor='middle' font-size='10' fill='var(--muted,#8A8478)'>não</text>",
+            "<path d='M280 130 L280 150' stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'/><text x='292' y='146' font-size='10' fill='var(--muted,#8A8478)'>sim</text>",
+            "<use href='#c-decisao' x='150' y='154' width='260' height='50'/><text x='280' y='175' text-anchor='middle' font-size='12' font-weight='700'>força leve e contínua, sem vaivém,</text><text x='280' y='191' text-anchor='middle' font-size='11'>intervalos ajustados ao dispositivo?</text>",
+            "<path d='M410 179 L460 179' stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'/><use href='#c-caixa-gold' x='462' y='160' width='94' height='38'/><text x='509' y='177' text-anchor='middle' font-size='10' font-weight='700'>corrigir</text><text x='509' y='190' text-anchor='middle' font-size='10'>a mecânica</text><text x='435' y='172' text-anchor='middle' font-size='10' fill='var(--muted,#8A8478)'>não</text>",
+            "<path d='M280 204 L280 224' stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'/><text x='292' y='220' font-size='10' fill='var(--muted,#8A8478)'>sim</text>",
+            "<use href='#c-decisao' x='150' y='228' width='260' height='50'/><text x='280' y='249' text-anchor='middle' font-size='12' font-weight='700'>cooperação, higiene e</text><text x='280' y='265' text-anchor='middle' font-size='11'>comparecimento previsíveis?</text>",
+            "<path d='M410 253 L460 253' stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'/><use href='#c-caixa-gold' x='462' y='234' width='94' height='38'/><text x='509' y='251' text-anchor='middle' font-size='10' font-weight='700'>trabalhar</text><text x='509' y='264' text-anchor='middle' font-size='10'>isso primeiro</text><text x='435' y='246' text-anchor='middle' font-size='10' fill='var(--muted,#8A8478)'>não</text>",
+            "<path d='M280 278 L280 298' stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'/><text x='292' y='294' font-size='10' fill='var(--muted,#8A8478)'>sim</text>",
+            "<use href='#c-caixa-red' x='60' y='302' width='440' height='76'/><text x='280' y='324' text-anchor='middle' font-size='12' font-weight='700'>só então: discutir aceleração cirúrgica</text><text x='280' y='342' text-anchor='middle' font-size='11'>evidência, riscos, custo, ganho realista em meses, não em promessas</text><text x='280' y='356' text-anchor='middle' font-size='11'>dispositivos sem evidência: fora, ou escolha informada sem promessa</text><text x='280' y='370' text-anchor='middle' font-size='10' fill='var(--muted,#8A8478)'>registrar a conversa e o consentimento [VERIFICAR]</text>",
+            "<text x='280' y='410' text-anchor='middle' font-size='11' fill='var(--muted,#8A8478)'>as três primeiras perguntas costumam render mais meses do que a quarta caixa</text>",
+            "<text x='280' y='446' text-anchor='middle' font-size='10' fill='var(--muted,#8A8478)'>e não custam cirurgia nem dispositivo</text>"
+          ],
+          "legenda": "Três perguntas antes de qualquer acelerador. Quase sempre a resposta que faltava está em uma delas."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "frase",
+          "texto": "A biologia é rápida o bastante quando ninguém a atrapalha. O acelerador mais eficaz da ortodontia é um plano certo executado com força leve, contínua e sem vaivém."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Cite quatro fatores não biológicos que prolongam tratamentos e que nenhum acelerador resolve.",
+        "resposta": "Diagnóstico ou plano que muda no meio, mecânica com vaivém ou força fora da faixa, consultas faltadas ou intervalos inadequados, e falta de cooperação (elásticos, higiene, aparelhos quebrados)."
+      }
+    },
+    {
+      "titulo": "De volta ao executivo",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "As três opções que ele trouxe se distribuem pela tabela da página. O dispositivo vibratório tem os ensaios de melhor qualidade contra si: você diz que não há evidência de que reduza o tempo, que não faz mal, e que o custo é dele [VERIFICAR]."
+        },
+        {
+          "tipo": "p",
+          "texto": "A fotobiomodulação tem evidência heterogênea: você diz que não pode prometer meses e que não indicaria como base do plano [VERIFICAR]. A corticotomia tem mecanismo real e efeito modesto e transitório, com cirurgia no meio: você diz o que ela pode e não pode, em meses e riscos, e deixa a decisão informada com ele."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "erro",
+          "titulo": "Prometer o prazo que o paciente pediu",
+          "texto": "'Um ano' é uma restrição do paciente, não uma propriedade do caso. A resposta profissional é dizer quanto tempo o caso leva com plano e mecânica corretos, o que pode ser encurtado ajustando objetivos, e o que os aceleradores acrescentam de verdade, em meses e em riscos. Prometer o prazo e correr atrás dele com força é o caminho para raiz, ancoragem e recidiva."
+        },
+        {
+          "tipo": "p",
+          "texto": "O que você propõe: um plano com objetivos proporcionais, discutindo o que pode ser simplificado para caber em menos tempo; mecânica com força leve e contínua, intervalos ajustados ao decaimento do dispositivo, sem vaivém; compromisso dele com comparecimento e cooperação; e, se ainda assim ele quiser a corticotomia, avaliação com o periodontista, consentimento que registre ganho esperado modesto e riscos, e a ressalva de que a raiz continua limitada pelo mesmo osso."
+        },
+        {
+          "tipo": "p",
+          "texto": "Meses, riscos e escolha informada; nenhuma promessa."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Resuma em três frases o que dizer ao paciente sobre vibração, fotobiomodulação e corticotomia.",
+        "resposta": "Vibração: sem evidência de reduzir o tempo, sem dano, custo dele. Fotobiomodulação: evidência heterogênea, não dá para prometer meses. Corticotomia: mecanismo real, efeito modesto e transitório, cirurgia com riscos; decisão informada, sem promessa de metade do tempo [VERIFICAR]."
+      }
+    }
+  ],
+  "fechamento": {
+    "visual": {
+      "formato": "mapa",
+      "titulo": "Mapa da página",
+      "descricao": "Nó central: aceleração. Seis nós: limite é celular; força não acelera; fenômeno regional acelerado, transitório; dispositivos sem evidência consistente; acelerar não amplia o envelope; plano e mecânica rendem mais.",
+      "viewBox": "0 0 560 360",
+      "svg": [
+        "<g stroke='var(--border,#EDE6D8)' stroke-width='1.5'><line x1='280' y1='180' x2='100' y2='60'/><line x1='280' y1='180' x2='460' y2='60'/><line x1='280' y1='180' x2='70' y2='180'/><line x1='280' y1='180' x2='490' y2='180'/><line x1='280' y1='180' x2='100' y2='300'/><line x1='280' y1='180' x2='460' y2='300'/></g>",
+        "<use href='#c-no-central' x='190' y='150' width='180' height='60'/>",
+        "<text x='280' y='186' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>Aceleração</text>",
+        "<use href='#c-no' x='20' y='38' width='160' height='44'/><text x='100' y='65' text-anchor='middle' font-size='13' font-weight='700'>Limite é celular</text>",
+        "<use href='#c-no' x='380' y='38' width='160' height='44'/><text x='460' y='65' text-anchor='middle' font-size='13' font-weight='700'>Força não acelera</text>",
+        "<use href='#c-no' x='0' y='158' width='150' height='44'/><text x='75' y='185' text-anchor='middle' font-size='13' font-weight='700'>Frost: transitório</text>",
+        "<use href='#c-no' x='410' y='158' width='150' height='44'/><text x='485' y='185' text-anchor='middle' font-size='13' font-weight='700'>Dispositivos: fraco</text>",
+        "<use href='#c-no' x='20' y='278' width='160' height='44'/><text x='100' y='305' text-anchor='middle' font-size='13' font-weight='700'>Mesmo envelope</text>",
+        "<use href='#c-no' x='380' y='278' width='160' height='44'/><text x='460' y='305' text-anchor='middle' font-size='13' font-weight='700'>Plano rende mais</text>"
+      ],
+      "legenda": "O módulo termina onde começou: o osso dita o ritmo, e o melhor acelerador é não atrapalhá-lo."
+    },
+    "flashcards": [
+      {
+        "frente": "Explique o fenômeno regional acelerado e como as corticotomias o usam.",
+        "verso": "Após uma agressão ao osso, a remodelação local acelera por semanas a meses, com pico em um a dois meses e regressão com o reparo (Frost). Corticotomias, piezocisão e micro-osteoperfurações criam essa agressão em volta das raízes para que o osso remodele mais depressa enquanto a força move o dente; o efeito é transitório [VERIFICAR]."
+      },
+      {
+        "frente": "O que a evidência mostra sobre vibração de baixa frequência e fotobiomodulação para acelerar o movimento?",
+        "verso": "Vibração: ensaios controlados de melhor qualidade e revisões sistemáticas não encontram aceleração clinicamente relevante. Fotobiomodulação: resultados heterogêneos, estudos pequenos, sem consenso. Nenhum dos dois permite prometer redução do tempo [VERIFICAR]."
+      },
+      {
+        "frente": "Por que acelerar o movimento não protege contra deiscência e recessão?",
+        "verso": "Porque a velocidade não muda o envelope de osso: a raiz alcança a mesma cortical, apenas mais cedo. Só técnicas com enxerto ósseo podem ampliar o envelope; proteção real vem de manter a raiz no osso."
+      }
+    ]
+  },
+  "infografico": {
+    "titulo": "Aceleração em seis cartões",
+    "itens": [
+      {
+        "rotulo": "Limite",
+        "texto": "A velocidade é a da remodelação celular do osso alveolar. Força acima do platô não acelera; só danifica."
+      },
+      {
+        "rotulo": "Famílias",
+        "texto": "Cirúrgicos (corticotomia, piezocisão, perfurações), farmacológicos (experimentais), físicos (vibração, luz, corrente)."
+      },
+      {
+        "rotulo": "Frost",
+        "texto": "Osso agredido remodela mais depressa por meses e volta ao normal. Base das corticotomias; efeito transitório [VERIFICAR]."
+      },
+      {
+        "rotulo": "Evidência",
+        "texto": "Cirúrgicos: modesto e temporário. Vibração: sem efeito relevante. Luz: sem consenso. Fármacos: sem uso clínico [VERIFICAR]."
+      },
+      {
+        "rotulo": "Segurança",
+        "texto": "Cirurgia tem riscos; dispositivos custam dinheiro e expectativa. Acelerar não amplia o envelope de osso."
+      },
+      {
+        "rotulo": "O que funciona",
+        "texto": "Plano proporcional, força leve e contínua, sem vaivém, intervalos certos, cooperação. Meses, riscos e escolha informada."
+      }
+    ]
+  },
+  "fluxograma": {
+    "titulo": "Avaliar um acelerador proposto pelo paciente ou pelo mercado",
+    "nos": [
+      {
+        "id": "n1",
+        "tipo": "inicio",
+        "texto": "Método de aceleração proposto"
+      },
+      {
+        "id": "n2",
+        "tipo": "decisao",
+        "texto": "Há mecanismo biológico plausível na remodelação?"
+      },
+      {
+        "id": "n3",
+        "tipo": "acao",
+        "texto": "Descartar como método; explicar ao paciente"
+      },
+      {
+        "id": "n4",
+        "tipo": "decisao",
+        "texto": "Ensaios controlados mostram redução do tempo em meses, não só de velocidade inicial?"
+      },
+      {
+        "id": "n5",
+        "tipo": "acao",
+        "texto": "Informar que a evidência não sustenta promessa; se o paciente quiser, escolha informada sem garantia"
+      },
+      {
+        "id": "n6",
+        "tipo": "decisao",
+        "texto": "Os riscos e o custo são proporcionais ao ganho em meses?"
+      },
+      {
+        "id": "n7",
+        "tipo": "acao",
+        "texto": "Discutir com o paciente e, se cirúrgico, com o periodontista; consentimento com ganho esperado e riscos"
+      },
+      {
+        "id": "n8",
+        "tipo": "fim",
+        "texto": "Registrar a decisão; reavaliar a literatura periodicamente"
+      }
+    ],
+    "arestas": [
+      {
+        "de": "n1",
+        "para": "n2"
+      },
+      {
+        "de": "n2",
+        "para": "n3",
+        "rotulo": "não"
+      },
+      {
+        "de": "n2",
+        "para": "n4",
+        "rotulo": "sim"
+      },
+      {
+        "de": "n3",
+        "para": "n8"
+      },
+      {
+        "de": "n4",
+        "para": "n5",
+        "rotulo": "não"
+      },
+      {
+        "de": "n4",
+        "para": "n6",
+        "rotulo": "sim"
+      },
+      {
+        "de": "n5",
+        "para": "n8"
+      },
+      {
+        "de": "n6",
+        "para": "n7",
+        "rotulo": "sim"
+      },
+      {
+        "de": "n6",
+        "para": "n5",
+        "rotulo": "não"
+      },
+      {
+        "de": "n7",
+        "para": "n8"
+      }
+    ]
+  },
+  "passoAPasso": [
+    {
+      "passo": "Quando o paciente pede velocidade, traduza o pedido em meses e explique de onde vem o tempo do caso dele.",
+      "confira": "Ele entendeu que o limite é biológico e não de esforço?"
+    },
+    {
+      "passo": "Revise o plano: objetivos proporcionais, compromissos aceitáveis, extrações ou desgastes que encurtem etapas.",
+      "confira": "Há algo no plano que gera vaivém ou etapa desnecessária?"
+    },
+    {
+      "passo": "Revise a mecânica: força leve e contínua, direção correta, intervalos ajustados ao dispositivo.",
+      "confira": "Alguma força medida está acima da faixa?"
+    },
+    {
+      "passo": "Se ainda houver pedido de aceleração, apresente a evidência de cada método em meses e riscos, sem mecanismo como argumento.",
+      "confira": "Você consegue citar o ganho médio em meses dos ensaios?"
+    },
+    {
+      "passo": "Para métodos cirúrgicos, envolva o periodontista e registre consentimento com ganho esperado modesto e riscos; para dispositivos sem evidência, registre que foi escolha informada do paciente.",
+      "confira": "A ressalva de que a raiz continua limitada pelo mesmo osso está registrada?"
+    }
+  ],
+  "macetes": [
+    {
+      "titulo": "Célula, não força",
+      "texto": "A velocidade é da remodelação. Apertar mais hialiniza e para o dente. Acelerar de verdade é mexer na biologia."
+    },
+    {
+      "titulo": "Frost sobe e desce",
+      "texto": "Osso agredido remodela rápido por uns meses e volta ao normal. Corticotomia acelera uma fase, não o tratamento."
+    },
+    {
+      "titulo": "Meses, não mecanismo",
+      "texto": "Pergunte quantos meses os ensaios economizaram e com que riscos. 'Estimula as células' não é resposta."
+    },
+    {
+      "titulo": "Rápido não é largo",
+      "texto": "Acelerar não amplia o envelope. A raiz chega à mesma cortical, só mais cedo."
+    }
+  ],
+  "ondeErra": [
+    {
+      "erro": "Prometer redução do tempo pela metade com corticotomia.",
+      "porque": "O fenômeno regional acelerado é transitório e cobre só uma fase do tratamento.",
+      "certo": "Ganho modesto e temporário, com riscos cirúrgicos; decisão informada [VERIFICAR]."
+    },
+    {
+      "erro": "Indicar dispositivo vibratório ou de luz como parte do plano.",
+      "porque": "Ensaios de qualidade não mostram efeito relevante para vibração; luz sem consenso [VERIFICAR].",
+      "certo": "Informar a evidência; se o paciente quiser, escolha dele sem promessa."
+    },
+    {
+      "erro": "Tentar acelerar com mais força.",
+      "porque": "Acima do platô a velocidade não cresce e o dano dispara.",
+      "certo": "Força leve e contínua, sem vaivém, intervalos ajustados."
+    },
+    {
+      "erro": "Acreditar que acelerar protege o periodonto por 'terminar antes'.",
+      "porque": "A raiz alcança o mesmo limite de osso, só mais cedo.",
+      "certo": "Manter a raiz no osso ou ampliar o envelope com enxerto."
+    }
+  ],
+  "autoteste": [
+    {
+      "pergunta": "A base biológica das corticotomias e micro-osteoperfurações para acelerar o movimento dentário é:",
+      "alternativas": [
+        "A redução da pressão capilar no ligamento",
+        "O fenômeno regional acelerado descrito por Frost",
+        "O aumento da força aplicada ao dente",
+        "A anquilose transitória"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Não é o mecanismo dos procedimentos cirúrgicos.",
+        "Correta: a agressão ao osso acelera local e transitoriamente a remodelação.",
+        "Força não acelera acima do platô.",
+        "Anquilose impede o movimento."
+      ]
+    },
+    {
+      "pergunta": "Sobre a duração do efeito do fenômeno regional acelerado, é correto afirmar:",
+      "alternativas": [
+        "É permanente após uma única cirurgia",
+        "Dura alguns meses, com pico em um a dois meses, e regride com o reparo",
+        "Dura apenas algumas horas",
+        "Só ocorre em crianças"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "O efeito regride quando o osso repara.",
+        "Correta: por isso acelera uma fase, não o tratamento inteiro [VERIFICAR].",
+        "Dura semanas a meses, não horas.",
+        "Ocorre em qualquer idade após agressão óssea."
+      ]
+    },
+    {
+      "pergunta": "A evidência atual sobre dispositivos de vibração de baixa frequência para acelerar o alinhamento ortodôntico indica:",
+      "alternativas": [
+        "Redução consistente do tempo de tratamento pela metade",
+        "Ausência de aceleração clinicamente relevante nos ensaios controlados de melhor qualidade",
+        "Aumento importante de reabsorção radicular",
+        "Contraindicação absoluta"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Nenhuma revisão sustenta isso.",
+        "Correta: os ensaios de qualidade e as revisões não encontram efeito relevante [VERIFICAR].",
+        "Não há relato consistente de dano; o custo é financeiro e de expectativa.",
+        "Não é contraindicado; é ineficaz."
+      ]
+    },
+    {
+      "pergunta": "Um paciente com sínfise estreita quer acelerar o tratamento cirurgicamente sem enxerto para 'terminar antes que a gengiva sofra'. A afirmação correta é:",
+      "alternativas": [
+        "Acelerar amplia o envelope de osso e protege a gengiva",
+        "Acelerar não amplia o envelope; a raiz alcança a mesma cortical, apenas mais cedo",
+        "A velocidade do movimento impede a deiscência",
+        "A corticotomia sem enxerto aumenta a espessura óssea vestibular"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Velocidade não é espaço.",
+        "Correta: proteção vem de manter a raiz no osso ou de enxerto, não de velocidade.",
+        "A deiscência depende da posição da raiz em relação ao osso, não da velocidade.",
+        "Sem enxerto, a corticotomia não acrescenta osso ao envelope."
+      ]
+    },
+    {
+      "pergunta": "O fator que mais consistentemente reduz o tempo de tratamento ortodôntico é:",
+      "alternativas": [
+        "Aumentar a magnitude da força",
+        "Usar dispositivo de fotobiomodulação",
+        "Plano correto com mecânica eficiente, força leve e contínua, intervalos adequados e cooperação",
+        "Trocar o fio a cada semana"
+      ],
+      "correta": 2,
+      "explicacoes": [
+        "Acima do platô só cresce o dano.",
+        "Evidência heterogênea e sem consenso [VERIFICAR].",
+        "Correta: a maior parte do tempo perdido não é biológica.",
+        "Trocas frequentes sem necessidade não aceleram e podem hialinizar."
+      ]
+    }
+  ],
+  "pesquisa": {
+    "termos": [
+      "aceleração movimento ortodôntico revisão sistemática",
+      "fenômeno regional acelerado Frost corticotomia",
+      "micro-osteoperfurações eficácia ensaio clínico",
+      "vibração baixa frequência ortodontia ensaio randomizado",
+      "fotobiomodulação movimento ortodôntico evidência"
+    ]
+  },
+  "referenciasBase": [
+    "Proffit WR, Fields HW, Larson BE, Sarver DM. Ortodontia Contemporânea. 6ª ed. Bases biológicas: métodos para acelerar o movimento dentário.",
+    "Frost HM. The regional acceleratory phenomenon: a review. Henry Ford Hosp Med J. 1983.",
+    "Wilcko WM, Wilcko MT, Bouquot JE, Ferguson DJ. Rapid orthodontics with alveolar reshaping: two case reports of decrowding. Int J Periodontics Restorative Dent. 2001.",
+    "Alikhani M, Raptis M, Zoldan B, et al. Effect of micro-osteoperforations on the rate of tooth movement. Am J Orthod Dentofacial Orthop. 2013.",
+    "Woodhouse NR, DiBiase AT, Johnson N, et al. Supplemental vibrational force during orthodontic alignment: a randomized trial. J Dent Res. 2015.",
+    "El-Angbawi A, McIntyre G, Fleming PS, Bearn D. Non-surgical adjunctive interventions for accelerating tooth movement in patients undergoing orthodontic treatment. Cochrane Database Syst Rev. 2023.",
+    "Fleming PS, Fedorowicz Z, Johal A, El-Angbawi A, Pandis N. Surgical adjunctive procedures for accelerating orthodontic treatment. Cochrane Database Syst Rev. 2015."
+  ],
+  "validacao": {
+    "validadoPor": null,
+    "data": null
+  }
+}
