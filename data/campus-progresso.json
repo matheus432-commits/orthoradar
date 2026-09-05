@@ -724,7 +724,7 @@
   {
    "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/classe-iii",
    "onde": "Seção \"Os componentes: maxila, mandíbula ou os dois\".blocos[1].texto",
-   "trecho": "smo mandibular puro é menos frequente do que a imagem clássica sugere [VERIFICAR]"
+   "trecho": "quinto cada, e as combinações respondem pela maior parte do restante [VERIFICAR]"
   },
   {
    "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/classe-iii",
@@ -769,7 +769,7 @@
   {
    "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/mordida-profunda",
    "onde": "Seção \"O que é e como medir\".blocos[2].svg[11]",
-   "trecho": "le' font-size='12' fill='var(--muted,#8A8478)'>limiares de referência [VERIFICAR]"
+   "trecho": "t-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>limiares [VERIFICAR]"
   },
   {
    "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/mordida-profunda",
@@ -780,6 +780,11 @@
    "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/mordida-profunda",
    "onde": "Seção \"O que a mordida profunda faz de mal\".blocos[1].texto",
    "trecho": "e hoje é considerada fraca ou inconsistente pela evidência disponível [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/mordida-cruzada",
+   "onde": "Seção \"Por que não esperar\".blocos[0].texto",
+   "trecho": "ente se corrige sozinha, menos de um caso em dez nas séries clássicas [VERIFICAR]"
   },
   {
    "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/mordida-cruzada",
@@ -956,10 +961,10 @@
    "modulo": "Más oclusões",
    "total": 16,
    "concluidas": 16,
-   "palavras": 59493,
+   "palavras": 59504,
    "visuais": 78,
    "imagensClinicas": 16,
-   "verificar": 72,
+   "verificar": 73,
    "paginas": [
     {
      "id": "ortodontia/mas-oclusoes/classificacao/classificacao-de-angle",
@@ -1054,7 +1059,7 @@
      "nome": "Classe III",
      "tema": "Características por tipo",
      "status": "rascunho",
-     "palavras": 3879,
+     "palavras": 3881,
      "visuais": 5
     },
     {
@@ -1078,7 +1083,7 @@
      "nome": "Mordida cruzada",
      "tema": "Características por tipo",
      "status": "rascunho",
-     "palavras": 3757,
+     "palavras": 3766,
      "visuais": 4
     },
     {
@@ -26871,7 +26876,7 @@
    "formato": 2,
    "status": "rascunho",
    "estado": "rascunho",
-   "palavras": 3879,
+   "palavras": 3881,
    "visuais": [
     {
      "formato": "anatomico",
@@ -26921,7 +26926,7 @@
     },
     {
      "onde": "Seção \"Os componentes: maxila, mandíbula ou os dois\".blocos[1].texto",
-     "trecho": "smo mandibular puro é menos frequente do que a imagem clássica sugere [VERIFICAR]"
+     "trecho": "quinto cada, e as combinações respondem pela maior parte do restante [VERIFICAR]"
     },
     {
      "onde": "Seção \"Os componentes: maxila, mandíbula ou os dois\".blocos[2].svg[6]",
@@ -27045,7 +27050,7 @@
     },
     {
      "onde": "Seção \"O que é e como medir\".blocos[2].svg[11]",
-     "trecho": "le' font-size='12' fill='var(--muted,#8A8478)'>limiares de referência [VERIFICAR]"
+     "trecho": "t-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>limiares [VERIFICAR]"
     },
     {
      "onde": "Seção \"A curva de Spee profunda: a marca no arco inferior\".blocos[1].texto",
@@ -27063,7 +27068,7 @@
    "formato": 2,
    "status": "rascunho",
    "estado": "rascunho",
-   "palavras": 3757,
+   "palavras": 3766,
    "visuais": [
     {
      "formato": "anatomico",
@@ -27099,6 +27104,10 @@
     }
    ],
    "verificar": [
+    {
+     "onde": "Seção \"Por que não esperar\".blocos[0].texto",
+     "trecho": "ente se corrige sozinha, menos de um caso em dez nas séries clássicas [VERIFICAR]"
+    },
     {
      "onde": "Seção \"A ferramenta certa em cada idade\".blocos[0].texto",
      "trecho": "nto a sutura permite, com resposta que cai à medida que ela amadurece [VERIFICAR]"
