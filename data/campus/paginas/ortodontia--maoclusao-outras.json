@@ -1,0 +1,329 @@
+{
+  "id": "ortodontia/mas-oclusoes/classificacao/classificacao-de-andrews-e-outras",
+  "areaId": "ortodontia",
+  "area": "Ortodontia",
+  "modulo": "Más oclusões",
+  "tema": "Classificação",
+  "titulo": "Além de Angle: Lischer, Dewey, Simon, Ackerman e Proffit, Andrews",
+  "estado": "rascunho",
+  "versao": 1,
+  "formato": 2,
+  "autoria": "Rascunho escrito pela plataforma para validação; nada aqui é visível ao aluno antes da assinatura de um ortodontista.",
+  "abertura": {
+    "situacao": "Você apresenta um caso no seminário: \"Classe I de Angle\". O paciente tem mordida cruzada posterior bilateral, mordida aberta anterior de 3 mm, perfil convexo e apinhamento inferior de 6 mm. A professora anota e devolve: \"Você me disse onde está o molar. Não me disse nada do que importa nesse paciente.\"",
+    "pergunta": "Que outras classificações existem para descrever o que Angle deixa de fora, e o que cada uma acrescenta ao diagnóstico?"
+  },
+  "umMinuto": {
+    "frases": [
+      "Cada classificação nasceu para tapar um buraco da anterior: Angle descreveu o molar; os outros acrescentaram o dente isolado, a etiologia, a face, os três planos do espaço e a oclusão ideal.",
+      "Lischer trocou os números por nomes (neutroclusão, distoclusão, mesioclusão) e criou o vocabulário do dente fora do lugar: mesioversão, vestibuloversão, giroversão, infraversão e companhia.",
+      "Dewey subdividiu a Classe I em cinco tipos e a Classe III em três, para nomear apinhamento, protrusão, mordidas cruzadas e migração de molares.",
+      "Simon posicionou os arcos em relação a três planos do crânio: Frankfurt, orbital e sagital mediano; a lei do canino diz que o plano orbital passa pelo terço distal do canino superior.",
+      "Ackerman e Proffit organizaram cinco características, alinhamento, perfil, transversal, sagital e vertical, em um diagrama de conjuntos que descreve o paciente inteiro; em 2007 acrescentaram as rotações da face.",
+      "Andrews descreveu a oclusão normal com seis chaves e, depois, a harmonia da face com seis elementos: são classificações do alvo, não do defeito."
+    ],
+    "caiNaProva": [
+      "Nomenclatura de Lischer para dentes fora de posição",
+      "Tipos de Dewey na Classe I e na Classe III",
+      "Planos de Simon e a lei do canino",
+      "As cinco características de Ackerman e Proffit",
+      "Classificação dos incisivos do British Standards Institute"
+    ],
+    "porQueImporta": "O paciente não cabe em uma palavra. Saber as outras classificações é ter cinco ou seis lentes para descrever o mesmo caso, e escolher a que mostra o problema que você vai tratar."
+  },
+  "secoes": [
+    {
+      "titulo": "Por que uma classificação não bastou",
+      "blocos": [
+        { "tipo": "p", "texto": "Angle publicou em 1899 e, quase imediatamente, os colegas começaram a apontar o que faltava. A classificação era só sagital, só dentária, não dizia nada sobre o dente isolado, sobre a causa, sobre a face nem sobre os planos vertical e transversal. Nas décadas seguintes, cada autor propôs um remendo ou um sistema novo." },
+        { "tipo": "p", "texto": "Nenhum substituiu Angle, e isso diz algo sobre a força de um critério simples. Mas cada um deixou uma ferramenta que ainda se usa: um vocabulário, uma subdivisão, uma referência craniana, um diagrama. Conhecer todas é saber que lente pegar para cada pergunta." },
+        { "tipo": "visual", "formato": "linha-do-tempo", "titulo": "Um século de classificações, e o que cada uma acrescentou", "descricao": "Linha do tempo vertical. 1899, Angle: relação molar. 1912, Lischer: nomes das classes e do dente fora do lugar; Bennett: classificação pela causa. 1915, Dewey: tipos dentro da Classe I e da Classe III. 1922, Simon: três planos do crânio. 1969, Ackerman e Proffit: cinco características em diagrama. 1972, Andrews: seis chaves da oclusão normal. 1983, British Standards Institute: classificação pelos incisivos. 2000, Andrews: seis elementos da harmonia facial. 2007, Ackerman e Proffit acrescentam as rotações.", "viewBox": "0 0 560 560",
+          "svg": [
+            "<line x1='110' y1='30' x2='110' y2='540' stroke='var(--border,#EDE6D8)' stroke-width='3'/>",
+            "<g font-size='13' font-weight='700' fill='var(--ink,#23211C)' text-anchor='end'><text x='94' y='52'>1899</text><text x='94' y='112'>1912</text><text x='94' y='172'>1915</text><text x='94' y='232'>1922</text><text x='94' y='292'>1969</text><text x='94' y='352'>1972</text><text x='94' y='412'>1983</text><text x='94' y='472'>2000</text><text x='94' y='532'>2007</text></g>",
+            "<g><use href='#c-marco-cheio' x='100' y='38' width='20' height='20'/><use href='#c-marco' x='100' y='98' width='20' height='20'/><use href='#c-marco' x='100' y='158' width='20' height='20'/><use href='#c-marco' x='100' y='218' width='20' height='20'/><use href='#c-marco-blue' x='100' y='278' width='20' height='20'/><use href='#c-marco-green' x='100' y='338' width='20' height='20'/><use href='#c-marco' x='100' y='398' width='20' height='20'/><use href='#c-marco-green' x='100' y='458' width='20' height='20'/><use href='#c-marco-blue' x='100' y='518' width='20' height='20'/></g>",
+            "<g font-size='13' fill='var(--ink,#23211C)'><text x='134' y='46' font-weight='700'>Angle</text><text x='134' y='62' font-size='12'>relação dos primeiros molares, três classes</text>",
+            "<text x='134' y='106' font-weight='700'>Lischer e Bennett</text><text x='134' y='122' font-size='12'>neutro, disto e mesioclusão; dente fora do lugar; causa</text>",
+            "<text x='134' y='166' font-weight='700'>Dewey</text><text x='134' y='182' font-size='12'>cinco tipos na Classe I, três na Classe III</text>",
+            "<text x='134' y='226' font-weight='700'>Simon</text><text x='134' y='242' font-size='12'>três planos do crânio; lei do canino</text>",
+            "<text x='134' y='286' font-weight='700'>Ackerman e Proffit</text><text x='134' y='302' font-size='12'>cinco características em diagrama de conjuntos</text>",
+            "<text x='134' y='346' font-weight='700'>Andrews</text><text x='134' y='362' font-size='12'>seis chaves da oclusão normal</text>",
+            "<text x='134' y='406' font-weight='700'>British Standards Institute</text><text x='134' y='422' font-size='12'>classe pela relação dos incisivos</text>",
+            "<text x='134' y='466' font-weight='700'>Andrews</text><text x='134' y='482' font-size='12'>seis elementos da harmonia orofacial</text>",
+            "<text x='134' y='526' font-weight='700'>Ackerman, Proffit e Sarver</text><text x='134' y='542' font-size='12'>as rotações da face entram no diagrama</text></g>"
+          ],
+          "legenda": "Nenhuma substituiu Angle. Cada uma acrescentou uma lente: o dente, a causa, o crânio, a face inteira, o alvo ideal." },
+        { "tipo": "destaque", "estilo": "frase", "texto": "Angle nomeou o molar. Um século de ortodontia gastou-se nomeando o resto." }
+      ],
+      "checagem": { "pergunta": "Por que nenhuma das classificações posteriores substituiu a de Angle?", "resposta": "Porque o critério de Angle é simples, rápido e observável em qualquer boca; as outras acrescentam informação, mas custam mais para aplicar. Elas convivem: Angle como primeira palavra, as demais como complemento." }
+    },
+    {
+      "titulo": "Lischer e Dewey: nomes para as classes e para o dente fora do lugar",
+      "blocos": [
+        { "tipo": "p", "texto": "Lischer, em 1912, propôs chamar as classes de Angle pelo nome do que acontece: neutroclusão para a Classe I, distoclusão para a Classe II e mesioclusão para a Classe III. Mais útil ainda foi o vocabulário para o dente isolado, com o sufixo versão indicando a direção do desvio em relação à posição normal no arco." },
+        { "tipo": "visual", "formato": "classificacao", "titulo": "A nomenclatura de Lischer para o dente fora de posição", "descricao": "Nove caixas em grade. Mesioversão: para mesial. Distoversão: para distal. Vestibuloversão: para vestibular. Linguoversão: para lingual. Infraversão: aquém do plano oclusal. Supraversão: além do plano oclusal. Giroversão: rodado sobre o longo eixo. Axiversão: longo eixo inclinado. Transversão: fora da ordem no arco.", "viewBox": "0 0 560 330",
+          "svg": [
+            "<text x='280' y='28' text-anchor='middle' font-size='14' font-weight='700'>Sufixo versão: a direção do desvio</text>",
+            "<g font-size='12' fill='var(--ink,#23211C)'>",
+            "<use href='#c-caixa-gold' x='20' y='50' width='160' height='64'/><text x='100' y='74' text-anchor='middle' font-size='13' font-weight='700'>Mesioversão</text><text x='100' y='92' text-anchor='middle'>deslocado para mesial</text>",
+            "<use href='#c-caixa-gold' x='200' y='50' width='160' height='64'/><text x='280' y='74' text-anchor='middle' font-size='13' font-weight='700'>Distoversão</text><text x='280' y='92' text-anchor='middle'>deslocado para distal</text>",
+            "<use href='#c-caixa-gold' x='380' y='50' width='160' height='64'/><text x='460' y='74' text-anchor='middle' font-size='13' font-weight='700'>Vestibuloversão</text><text x='460' y='92' text-anchor='middle'>para vestibular</text>",
+            "<use href='#c-caixa-blue' x='20' y='134' width='160' height='64'/><text x='100' y='158' text-anchor='middle' font-size='13' font-weight='700'>Linguoversão</text><text x='100' y='176' text-anchor='middle'>para lingual ou palatino</text>",
+            "<use href='#c-caixa-blue' x='200' y='134' width='160' height='64'/><text x='280' y='158' text-anchor='middle' font-size='13' font-weight='700'>Infraversão</text><text x='280' y='176' text-anchor='middle'>aquém do plano oclusal</text>",
+            "<use href='#c-caixa-blue' x='380' y='134' width='160' height='64'/><text x='460' y='158' text-anchor='middle' font-size='13' font-weight='700'>Supraversão</text><text x='460' y='176' text-anchor='middle'>além do plano oclusal</text>",
+            "<use href='#c-caixa-green' x='20' y='218' width='160' height='64'/><text x='100' y='242' text-anchor='middle' font-size='13' font-weight='700'>Giroversão</text><text x='100' y='260' text-anchor='middle'>rodado sobre o longo eixo</text>",
+            "<use href='#c-caixa-green' x='200' y='218' width='160' height='64'/><text x='280' y='242' text-anchor='middle' font-size='13' font-weight='700'>Axiversão</text><text x='280' y='260' text-anchor='middle'>longo eixo inclinado</text>",
+            "<use href='#c-caixa-green' x='380' y='218' width='160' height='64'/><text x='460' y='242' text-anchor='middle' font-size='13' font-weight='700'>Transversão</text><text x='460' y='260' text-anchor='middle'>fora da ordem no arco</text>",
+            "</g>",
+            "<text x='280' y='312' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>mesiodistal em dourado, vestibulolingual e vertical em azul, eixo e ordem em verde</text>"
+          ],
+          "legenda": "Um dente pode acumular vários: um canino superior em vestibuloversão e giroversão é o caso típico do apinhamento." },
+        { "tipo": "p", "texto": "Dewey, em 1915, aceitou as classes de Angle e criou tipos dentro delas. Na Classe I: tipo 1, apinhamento dos anteriores; tipo 2, incisivos superiores protruídos; tipo 3, mordida cruzada anterior; tipo 4, mordida cruzada posterior com anteriores normais; tipo 5, molares que migraram para mesial por perda precoce. Na Classe III: tipo 1, arcos bem formados em topo; tipo 2, incisivos inferiores apinhados atrás dos superiores; tipo 3, maxila pouco desenvolvida com incisivos superiores apinhados em mordida cruzada." },
+        { "tipo": "destaque", "estilo": "prova", "texto": "Os tipos de Dewey aparecem em questão de múltipla escolha: \"Classe I tipo 5 de Dewey\" é migração mesial de molares por perda precoce; \"tipo 3\" é mordida cruzada anterior; \"tipo 4\" é mordida cruzada posterior. Na Classe III, o tipo 3 é o de maxila deficiente." }
+      ],
+      "checagem": { "pergunta": "Um pré-molar inferior rodado e inclinado para lingual recebe que nomes na nomenclatura de Lischer?", "resposta": "Giroversão (rodado sobre o longo eixo) e linguoversão (deslocado para lingual)." }
+    },
+    {
+      "titulo": "Simon: a arcada em relação ao crânio, antes da cefalometria",
+      "blocos": [
+        { "tipo": "p", "texto": "Em 1922, antes de haver telerradiografia, Simon propôs relacionar os arcos dentários a três planos do crânio, medidos em modelos montados com um aparelho chamado gnatostato. É a primeira classificação a perguntar onde os dentes estão em relação à face, e não só um arco em relação ao outro." },
+        { "tipo": "p", "texto": "O plano de Frankfurt, horizontal, separa o que está mais perto dele, em atração, do que está mais longe, em abstração. O plano orbital, vertical e perpendicular a Frankfurt pelo ponto orbital, separa o que está à frente dele, em protração, do que está atrás, em retração. O plano sagital mediano separa o que se aproxima da linha média, em contração, do que se afasta, em distração." },
+        { "tipo": "visual", "formato": "anatomico", "titulo": "Os três planos de Simon e a lei do canino", "descricao": "Esquema de perfil com o plano de Frankfurt horizontal, o plano orbital vertical descendo do ponto orbital, e a indicação do plano sagital mediano. O plano orbital toca o terço distal do canino superior: a lei do canino. Pares de termos ao lado de cada plano: atração e abstração; protração e retração; contração e distração.", "viewBox": "0 0 560 380",
+          "svg": [
+            "<use href='#c-cranio' x='130' y='40' width='260' height='286'/>",
+            "<line x1='60' y1='150' x2='500' y2='150' stroke='var(--gold,#B08968)' stroke-width='2'/><text x='500' y='142' text-anchor='end' font-size='12' font-weight='700' fill='var(--gold,#B08968)'>plano de Frankfurt</text>",
+            "<line x1='330' y1='60' x2='330' y2='340' stroke='var(--blue,#4A6B8A)' stroke-width='2' stroke-dasharray='6 4'/><text x='338' y='70' font-size='12' font-weight='700' fill='var(--blue,#4A6B8A)'>plano orbital</text>",
+            "<circle cx='330' cy='150' r='5' fill='var(--blue,#4A6B8A)'/><text x='338' y='170' font-size='11' fill='var(--blue,#4A6B8A)'>ponto orbital</text>",
+            "<circle cx='330' cy='300' r='6' fill='none' stroke='var(--red,#B4533B)' stroke-width='2.5'/><text x='342' y='318' font-size='12' font-weight='700' fill='var(--red,#B4533B)'>terço distal do canino superior</text>",
+            "<g font-size='12' fill='var(--ink,#23211C)'><text x='60' y='100' font-weight='700'>Vertical (Frankfurt)</text><text x='60' y='116'>perto: atração</text><text x='60' y='130'>longe: abstração</text></g>",
+            "<g font-size='12' fill='var(--ink,#23211C)'><text x='400' y='210' font-weight='700'>Sagital (orbital)</text><text x='400' y='226'>à frente: protração</text><text x='400' y='240'>atrás: retração</text></g>",
+            "<g font-size='12' fill='var(--ink,#23211C)'><text x='60' y='340' font-weight='700'>Transversal (sagital mediano)</text><text x='60' y='356'>para a linha média: contração</text><text x='60' y='370'>para fora: distração</text></g>"
+          ],
+          "legenda": "Três planos, três pares de palavras. A lei do canino é a que cai na prova: o plano orbital passa pelo terço distal do canino superior." },
+        { "tipo": "destaque", "estilo": "mito", "mito": "A classificação de Simon é peça de museu, sem uso hoje.", "verdade": "O gnatostato saiu de uso, mas a ideia ficou: julgar os arcos em relação a referências cranianas é exatamente o que a cefalometria faz. Simon antecipou o método com os instrumentos que tinha." }
+      ],
+      "checagem": { "pergunta": "Na classificação de Simon, um arco superior posicionado à frente do plano orbital está em que condição?", "resposta": "Protração. Atrás do plano orbital seria retração; perto ou longe de Frankfurt seria atração ou abstração; em relação à linha média, contração ou distração." }
+    },
+    {
+      "titulo": "Bennett, os incisivos do BSI e a relação de caninos",
+      "blocos": [
+        { "tipo": "p", "texto": "Bennett, também em 1912, classificou pela causa, não pela aparência: Classe I, posição anormal de um ou mais dentes por causas locais; Classe II, formação anormal de parte ou de todo um arco por defeito de desenvolvimento do osso; Classe III, relação anormal entre os arcos e entre eles e o contorno da face. É uma classificação etiológica, e por isso pouco prática: a causa raramente é uma só." },
+        { "tipo": "p", "texto": "O British Standards Institute publicou em 1983 uma classificação pelos incisivos, muito usada no Reino Unido. Classe I: a borda do incisivo inferior oclui no cíngulo do superior ou logo abaixo dele. Classe II: a borda inferior fica atrás do cíngulo; divisão 1 com incisivos superiores em inclinação normal ou para a frente e trespasse horizontal aumentado; divisão 2 com incisivos superiores para trás. Classe III: a borda inferior fica à frente do cíngulo, com trespasse horizontal reduzido ou invertido." },
+        { "tipo": "lista", "itens": [
+          "A relação de caninos é usada como complemento: canino superior entre canino e primeiro pré-molar inferiores é Classe I; à frente disso, Classe II; atrás, Classe III.",
+          "Vantagem dos incisivos e caninos: funcionam quando o primeiro molar foi perdido ou migrou, o que anula o critério de Angle.",
+          "Desvantagem: incisivos e caninos também migram e se inclinam; nenhum dente isolado é referência fixa."
+        ] },
+        { "tipo": "destaque", "estilo": "dica", "titulo": "Quando o molar não serve", "texto": "Primeiro molar extraído, migrado após perda precoce ou ausente em dentição decídua: use a relação de caninos ou de incisivos e diga qual usou. \"Classe II de caninos\" é informação; \"Classe II\" sem dizer o dente é adivinhação." }
+      ],
+      "checagem": { "pergunta": "O que diferencia a classificação de Bennett das de Angle e de Lischer?", "resposta": "Bennett classifica pela causa (posição dentária local, defeito de desenvolvimento do osso, relação entre arcos e face), enquanto Angle e Lischer classificam pela relação observada entre os dentes." }
+    },
+    {
+      "titulo": "Ackerman e Proffit: o paciente inteiro em um diagrama",
+      "blocos": [
+        { "tipo": "p", "texto": "Em 1969, Ackerman e Proffit propuseram descrever a má oclusão por cinco características em vez de uma. Primeira: alinhamento e simetria dos arcos, apinhamento ou espaçamento. Segunda: perfil facial, convexo, reto ou côncavo. Terceira: o plano transversal, mordidas cruzadas. Quarta: o plano sagital, a classe de Angle. Quinta: o plano vertical, mordida aberta ou profunda." },
+        { "tipo": "p", "texto": "A representação é um diagrama de conjuntos: o alinhamento envolve tudo, o perfil envolve os três planos, e os três planos se sobrepõem entre si. Um paciente pode estar em uma casa só ou em várias, e a descrição vira uma frase completa: apinhamento inferior, perfil convexo, mordida cruzada posterior bilateral, Classe I, mordida aberta anterior. Foi essa a frase que a professora esperava no seminário da abertura." },
+        { "tipo": "visual", "formato": "mapa", "titulo": "As cinco características de Ackerman e Proffit em conjuntos", "descricao": "Diagrama de conjuntos esquemático. Um retângulo externo, alinhamento e simetria. Dentro dele, um retângulo maior, perfil facial. Dentro do perfil, três círculos que se sobrepõem: transversal (mordidas cruzadas), sagital (classe de Angle) e vertical (mordida aberta e profunda). A intersecção central marca o paciente com desvio nos três planos. Nota sobre as rotações de 2007.", "viewBox": "0 0 560 400",
+          "svg": [
+            "<rect x='16' y='16' width='528' height='352' rx='14' fill='var(--gold-soft,#F4EEE4)' stroke='var(--gold,#B08968)' stroke-width='1.5'/>",
+            "<text x='30' y='40' font-size='13' font-weight='700' fill='var(--gold,#B08968)'>1. Alinhamento e simetria: apinhamento, espaçamento</text>",
+            "<rect x='40' y='56' width='480' height='296' rx='12' fill='var(--blue-soft,#E9EEF3)' stroke='var(--blue,#4A6B8A)' stroke-width='1.5'/>",
+            "<text x='54' y='80' font-size='13' font-weight='700' fill='var(--blue,#4A6B8A)'>2. Perfil: convexo, reto, côncavo</text>",
+            "<g fill-opacity='0.55' stroke-width='1.5'><circle cx='210' cy='190' r='90' fill='#fff' stroke='var(--green,#3E7C4F)'/><circle cx='350' cy='190' r='90' fill='#fff' stroke='var(--red,#B4533B)'/><circle cx='280' cy='280' r='70' fill='#fff' stroke='var(--ink,#23211C)'/></g>",
+            "<text x='160' y='150' text-anchor='middle' font-size='13' font-weight='700' fill='var(--green,#3E7C4F)'>3. Transversal</text><text x='160' y='166' text-anchor='middle' font-size='11' fill='var(--ink,#23211C)'>mordida cruzada</text>",
+            "<text x='400' y='150' text-anchor='middle' font-size='13' font-weight='700' fill='var(--red,#B4533B)'>4. Sagital</text><text x='400' y='166' text-anchor='middle' font-size='11' fill='var(--ink,#23211C)'>classe de Angle</text>",
+            "<text x='280' y='318' text-anchor='middle' font-size='13' font-weight='700' fill='var(--ink,#23211C)'>5. Vertical</text><text x='280' y='334' text-anchor='middle' font-size='11' fill='var(--ink,#23211C)'>aberta, profunda</text>",
+            "<circle cx='280' cy='222' r='6' fill='var(--ink,#23211C)'/><text x='280' y='212' text-anchor='middle' font-size='11' font-weight='700'>os três planos</text>",
+            "<text x='280' y='390' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>2007: acrescentam-se as rotações da face (pitch, roll e yaw) e o foco no tecido mole</text>"
+          ],
+          "legenda": "Um paciente é um ponto no diagrama. Quanto mais casas ele ocupa, mais complexo o caso, e mais completa precisa ser a frase que o descreve." },
+        { "tipo": "destaque", "estilo": "erro", "texto": "Usar Ackerman e Proffit como se fosse um rótulo de uma palavra. O sistema é uma frase de cinco partes; quem diz só \"Classe I\" voltou a Angle e perdeu as outras quatro características, que costumam ser as que definem o tratamento." }
+      ],
+      "checagem": { "pergunta": "Quais são as cinco características da classificação de Ackerman e Proffit, na ordem?", "resposta": "Alinhamento e simetria; perfil facial; plano transversal; plano sagital (classe de Angle); plano vertical." }
+    },
+    {
+      "titulo": "Andrews: classificar o alvo, não o defeito",
+      "blocos": [
+        { "tipo": "p", "texto": "Andrews fez o caminho inverso. Em vez de nomear a má oclusão, descreveu o que a oclusão normal tem em comum: as seis chaves de 1972, estudadas em detalhe na apostila de desenvolvimento da oclusão. Uma boca é classificada pelo que lhe falta em relação a esse alvo: falta a chave I, falta a chave IV." },
+        { "tipo": "p", "texto": "Em 2000, com William Andrews, ele estendeu a ideia à face: os seis elementos da harmonia orofacial. Em linhas gerais, os elementos descrevem a forma e o comprimento ideais dos arcos, a posição sagital dos maxilares tomando a testa como referência, a largura dos maxilares, a altura dos maxilares, a proeminência do mento e a oclusão pelas seis chaves [VERIFICAR]. É uma classificação do objetivo, usada por quem planeja pela face e pelo tecido mole." },
+        { "tipo": "imagem", "imagem": "fotografia de perfil de um paciente com a testa e os incisivos superiores em posição natural da cabeça", "mostrar": "Perfil em posição natural da cabeça, com uma linha vertical de referência descendo da testa e a posição do incisivo superior em relação a ela", "legenda": "Nos seis elementos, a referência sagital é a testa, não a base do crânio: a posição do incisivo superior é julgada em relação a ela.", "destacar": "Inclinação da testa, linha vertical de referência, ponto mais anterior do incisivo superior" },
+        { "tipo": "destaque", "estilo": "dica", "titulo": "Defeito ou alvo: use os dois", "texto": "Angle, Lischer, Dewey, Simon e Ackerman e Proffit descrevem o que está errado. Andrews descreve como deve ficar. No plano de tratamento você precisa dos dois: a frase do defeito diz por onde começar; a lista do alvo diz quando parar." }
+      ],
+      "checagem": { "pergunta": "Em que sentido as classificações de Andrews são diferentes de todas as anteriores?", "resposta": "Elas descrevem o alvo (a oclusão normal pelas seis chaves e a face harmônica pelos seis elementos), e a má oclusão é classificada pelo que falta em relação a ele, em vez de pela aparência do defeito." }
+    },
+    {
+      "titulo": "De volta ao seminário",
+      "blocos": [
+        { "tipo": "p", "texto": "\"Classe I de Angle\" era verdade e era insuficiente. Pela frase de Ackerman e Proffit: apinhamento inferior de 6 mm, perfil convexo, mordida cruzada posterior bilateral, Classe I, mordida aberta anterior de 3 mm. Pelas chaves de Andrews: faltam a IV, a V e a VI, no mínimo. Pela nomenclatura de Lischer: os pré-molares superiores estão em linguoversão. Cinco lentes, um paciente, e agora a professora sabe o que você vai tratar." },
+        { "tipo": "destaque", "estilo": "frase", "texto": "Classificar é escolher a lente. Angle para começar a frase, Ackerman e Proffit para terminá-la, Andrews para saber quando parar." }
+      ],
+      "checagem": { "pergunta": "Que classificação teria descrito o paciente do seminário de modo completo em uma frase?", "resposta": "A de Ackerman e Proffit, com as cinco características: alinhamento, perfil, transversal, sagital e vertical." }
+    }
+  ],
+  "fechamento": {
+    "visual": { "formato": "mapa", "titulo": "Mapa da página", "descricao": "Nó central: outras classificações. Seis nós: Lischer, nomes e versões; Dewey, tipos na Classe I e III; Simon, três planos e lei do canino; Bennett e BSI, causa e incisivos; Ackerman e Proffit, cinco características; Andrews, chaves e elementos.", "viewBox": "0 0 560 360",
+      "svg": [
+        "<g stroke='var(--border,#EDE6D8)' stroke-width='1.5'><line x1='280' y1='180' x2='100' y2='60'/><line x1='280' y1='180' x2='460' y2='60'/><line x1='280' y1='180' x2='70' y2='180'/><line x1='280' y1='180' x2='490' y2='180'/><line x1='280' y1='180' x2='100' y2='300'/><line x1='280' y1='180' x2='460' y2='300'/></g>",
+        "<use href='#c-no-central' x='190' y='150' width='180' height='60'/>",
+        "<text x='280' y='176' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>Além de</text><text x='280' y='194' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>Angle</text>",
+        "<use href='#c-no' x='20' y='38' width='160' height='44'/><text x='100' y='65' text-anchor='middle' font-size='13' font-weight='700'>Lischer: versões</text>",
+        "<use href='#c-no' x='380' y='38' width='160' height='44'/><text x='460' y='65' text-anchor='middle' font-size='13' font-weight='700'>Dewey: tipos</text>",
+        "<use href='#c-no' x='0' y='158' width='150' height='44'/><text x='75' y='185' text-anchor='middle' font-size='13' font-weight='700'>Simon: três planos</text>",
+        "<use href='#c-no' x='410' y='158' width='150' height='44'/><text x='485' y='185' text-anchor='middle' font-size='13' font-weight='700'>Bennett e BSI</text>",
+        "<use href='#c-no' x='20' y='278' width='160' height='44'/><text x='100' y='305' text-anchor='middle' font-size='13' font-weight='700'>Ackerman e Proffit: 5</text>",
+        "<use href='#c-no' x='380' y='278' width='160' height='44'/><text x='460' y='305' text-anchor='middle' font-size='13' font-weight='700'>Andrews: o alvo</text>"
+      ] },
+    "flashcards": [
+      { "frente": "Cite os nove termos de Lischer para o dente fora de posição.", "verso": "Mesioversão, distoversão, vestibuloversão, linguoversão, infraversão, supraversão, giroversão, axiversão e transversão." },
+      { "frente": "Os três planos de Simon e os pares de termos de cada um.", "verso": "Frankfurt: atração e abstração. Orbital: protração e retração (lei do canino: passa pelo terço distal do canino superior). Sagital mediano: contração e distração." },
+      { "frente": "As cinco características de Ackerman e Proffit.", "verso": "Alinhamento e simetria; perfil; transversal; sagital (Angle); vertical. Em 2007, acrescentaram as rotações da face." }
+    ]
+  },
+  "infografico": {
+    "titulo": "Seis lentes para o mesmo paciente",
+    "itens": [
+      { "rotulo": "Lischer, 1912", "texto": "Neutro, disto e mesioclusão. Dente fora do lugar: mesio, disto, vestíbulo, línguo, infra, supra, giro, axi e transversão." },
+      { "rotulo": "Dewey, 1915", "texto": "Classe I: tipos 1 a 5 (apinhamento, protrusão, cruzada anterior, cruzada posterior, migração de molares). Classe III: tipos 1 a 3." },
+      { "rotulo": "Simon, 1922", "texto": "Frankfurt (atração, abstração), orbital (protração, retração), sagital mediano (contração, distração). Lei do canino." },
+      { "rotulo": "Bennett e BSI", "texto": "Bennett: pela causa. BSI 1983: pelos incisivos, borda inferior no cíngulo (I), atrás (II) ou à frente (III)." },
+      { "rotulo": "Ackerman e Proffit, 1969", "texto": "Alinhamento, perfil, transversal, sagital, vertical. Diagrama de conjuntos; rotações em 2007." },
+      { "rotulo": "Andrews, 1972 e 2000", "texto": "Seis chaves da oclusão normal e seis elementos da harmonia orofacial: classificam o alvo." }
+    ]
+  },
+  "fluxograma": {
+    "titulo": "Que lente usar para descrever este paciente?",
+    "nos": [
+      { "id": "n1", "tipo": "inicio", "texto": "Paciente examinado, modelos e fotos na mão" },
+      { "id": "n2", "tipo": "acao", "texto": "Comece por Angle: classe molar, divisão, subdivisão" },
+      { "id": "n3", "tipo": "decisao", "texto": "Primeiro molar ausente, perdido ou migrado?" },
+      { "id": "n4", "tipo": "acao", "texto": "Use a relação de caninos ou de incisivos e diga qual usou" },
+      { "id": "n5", "tipo": "decisao", "texto": "Há problema fora do plano sagital: cruzada, aberta, profunda, apinhamento, perfil?" },
+      { "id": "n6", "tipo": "acao", "texto": "Complete com Ackerman e Proffit: as cinco características em uma frase" },
+      { "id": "n7", "tipo": "acao", "texto": "Nomeie o dente isolado com Lischer e, se pedirem, o tipo de Dewey" },
+      { "id": "n8", "tipo": "fim", "texto": "Defina o alvo pelas chaves de Andrews: o que falta é o que se trata" }
+    ],
+    "arestas": [
+      { "de": "n1", "para": "n2" },
+      { "de": "n2", "para": "n3" },
+      { "de": "n3", "para": "n4", "rotulo": "sim" },
+      { "de": "n4", "para": "n5" },
+      { "de": "n3", "para": "n5", "rotulo": "não" },
+      { "de": "n5", "para": "n6", "rotulo": "sim" },
+      { "de": "n5", "para": "n7", "rotulo": "não" },
+      { "de": "n6", "para": "n7" },
+      { "de": "n7", "para": "n8" }
+    ]
+  },
+  "passoAPasso": [
+    { "passo": "Classifique em Angle, com divisão e subdivisão, em relação cêntrica.", "confira": "O primeiro molar está presente e sem migração nos dois lados?" },
+    { "passo": "Se o molar não serve, use caninos ou incisivos e registre qual referência usou.", "confira": "A frase diz \"Classe II de caninos\" e não só \"Classe II\"?" },
+    { "passo": "Escreva a frase de Ackerman e Proffit: alinhamento, perfil, transversal, sagital, vertical.", "confira": "As cinco partes estão presentes, mesmo as normais?" },
+    { "passo": "Nomeie os dentes fora de posição com Lischer.", "confira": "Direção e rotação de cada dente desviado estão descritas?" },
+    { "passo": "Liste as chaves de Andrews que faltam: é a sua lista de objetivos.", "confira": "Cada objetivo do plano corresponde a uma chave ausente?" }
+  ],
+  "macetes": [
+    { "titulo": "Versão diz a direção", "texto": "Mesio, disto, vestíbulo, línguo: para onde foi. Infra e supra: aquém ou além do plano oclusal. Giro: rodou. Axi: inclinou. Trans: trocou de lugar." },
+    { "titulo": "Dewey 3, 4, 5", "texto": "Na Classe I de Dewey: 3 é cruzada anterior, 4 é cruzada posterior, 5 é molar que migrou. 1 é apinhamento, 2 é protrusão." },
+    { "titulo": "Simon em três pares", "texto": "Frankfurt: atração e abstração. Orbital: protração e retração. Sagital: contração e distração. O orbital passa pelo terço distal do canino." },
+    { "titulo": "A frase de cinco partes", "texto": "Ackerman e Proffit: alinhamento, perfil, transversal, sagital, vertical. Diga as cinco, mesmo quando uma é normal." }
+  ],
+  "ondeErra": [
+    { "erro": "Confundir os tipos de Dewey da Classe I com os da Classe III.", "porque": "São listas diferentes: cinco tipos na Classe I, três na Classe III.", "certo": "Classe I: apinhamento, protrusão, cruzada anterior, cruzada posterior, migração. Classe III: topo, inferiores apinhados, maxila deficiente." },
+    { "erro": "Trocar protração por atração na classificação de Simon.", "porque": "Protração e retração são em relação ao plano orbital (sagital); atração e abstração, ao plano de Frankfurt (vertical).", "certo": "Orbital: pro e retração. Frankfurt: a e abstração. Sagital mediano: con e distração." },
+    { "erro": "Usar Ackerman e Proffit e citar só a classe de Angle.", "porque": "A classe de Angle é apenas a quarta característica; as outras quatro costumam definir o tratamento.", "certo": "Frase completa com as cinco características." },
+    { "erro": "Classificar pelo molar quando ele foi perdido ou migrou.", "porque": "O critério de Angle pressupõe o molar no lugar; molar migrado dá classe falsa.", "certo": "Relação de caninos ou de incisivos, dizendo qual foi usada." }
+  ],
+  "autoteste": [
+    {
+      "pergunta": "Na nomenclatura de Lischer, um incisivo lateral superior deslocado para palatino e rodado sobre o próprio eixo está em:",
+      "alternativas": [
+        "Vestibuloversão e axiversão",
+        "Linguoversão e giroversão",
+        "Infraversão e transversão",
+        "Mesioversão e supraversão"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Vestibuloversão é para vestibular; axiversão é inclinação do longo eixo, não rotação.",
+        "Correta: linguoversão (ou palatoversão) para o deslocamento e giroversão para a rotação.",
+        "Infraversão é vertical; transversão é troca de posição no arco.",
+        "Não descreve deslocamento palatino nem rotação."
+      ]
+    },
+    {
+      "pergunta": "Segundo a modificação de Dewey, uma Classe I de Angle com molares permanentes que migraram para mesial após perda precoce de molares decíduos é classificada como:",
+      "alternativas": [
+        "Classe I tipo 1",
+        "Classe I tipo 3",
+        "Classe I tipo 5",
+        "Classe III tipo 3"
+      ],
+      "correta": 2,
+      "explicacoes": [
+        "Tipo 1 é apinhamento dos anteriores.",
+        "Tipo 3 é mordida cruzada anterior.",
+        "Correta: tipo 5 é a migração mesial dos molares por perda de espaço.",
+        "Classe III tipo 3 é maxila pouco desenvolvida com mordida cruzada anterior."
+      ]
+    },
+    {
+      "pergunta": "A lei do canino, na classificação de Simon, afirma que:",
+      "alternativas": [
+        "O plano de Frankfurt passa pela cúspide do canino inferior",
+        "O plano orbital passa pelo terço distal do canino superior",
+        "O plano sagital mediano passa entre os caninos",
+        "O canino superior oclui entre canino e primeiro pré-molar inferiores"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Frankfurt é o plano horizontal, sem relação com o canino.",
+        "Correta: o plano orbital, perpendicular a Frankfurt pelo ponto orbital, toca o terço distal do canino superior na oclusão normal.",
+        "O plano sagital mediano passa pela linha média, não entre os caninos.",
+        "Essa é a relação de caninos de Classe I, não a lei do canino de Simon."
+      ]
+    },
+    {
+      "pergunta": "As cinco características da classificação de Ackerman e Proffit são:",
+      "alternativas": [
+        "Relação molar, relação de caninos, relação de incisivos, trespasse horizontal e vertical",
+        "Alinhamento, perfil, plano transversal, plano sagital e plano vertical",
+        "Etiologia, idade, dentição, gravidade e necessidade de tratamento",
+        "Frankfurt, orbital, sagital mediano, oclusal e palatino"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Mistura relações dentárias sagitais; não é o sistema.",
+        "Correta: cinco características representadas em diagrama de conjuntos, com as rotações acrescentadas em 2007.",
+        "Não são as características do sistema.",
+        "Esses são planos de referência, três deles de Simon."
+      ]
+    },
+    {
+      "pergunta": "Na classificação dos incisivos do British Standards Institute, a Classe II divisão 2 caracteriza-se por:",
+      "alternativas": [
+        "Borda do incisivo inferior à frente do cíngulo do superior",
+        "Borda do incisivo inferior atrás do cíngulo, com incisivos superiores inclinados para trás",
+        "Borda do incisivo inferior no cíngulo do superior",
+        "Borda do incisivo inferior atrás do cíngulo, com incisivos superiores para a frente e trespasse horizontal aumentado"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Essa é a Classe III do BSI.",
+        "Correta: Classe II pela borda atrás do cíngulo, divisão 2 pelos superiores inclinados para trás.",
+        "Essa é a Classe I do BSI.",
+        "Essa é a Classe II divisão 1."
+      ]
+    }
+  ],
+  "pesquisa": { "termos": ["classificação das más oclusões", "Ackerman e Proffit", "nomenclatura de Lischer", "seis elementos de Andrews"] },
+  "referenciasBase": [
+    "Ackerman JL, Proffit WR. The characteristics of malocclusion: a modern approach to classification and diagnosis. Am J Orthod. 1969.",
+    "Ackerman JL, Proffit WR, Sarver DM, Ackerman MB, Kean MR. Pitch, roll, and yaw: describing the spatial orientation of dentofacial traits. Am J Orthod Dentofacial Orthop. 2007.",
+    "Andrews LF, Andrews WA. The six elements of orofacial harmony. Andrews J. 2000.",
+    "British Standards Institute. Glossary of dental terms (BS 4492). 1983.",
+    "Proffit WR, Fields HW, Larson BE, Sarver DM. Ortodontia Contemporânea. 6ª ed.",
+    "Moyers RE. Ortodontia. 4ª ed. Classificação e diagnóstico.",
+    "Graber LW, Vanarsdall RL, Vig KWL, Huang GJ. Ortodontia: princípios e técnicas atuais. 6ª ed."
+  ],
+  "validacao": { "validadoPor": null, "data": null }
+}
