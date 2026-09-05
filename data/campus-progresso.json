@@ -1,10 +1,10 @@
 {
  "atualizadoEm": "2026-09-05",
  "totalPaginas": 3387,
- "concluidas": 42,
+ "concluidas": 43,
  "porStatus": {
-  "pendente": 3345,
-  "rascunho": 42,
+  "pendente": 3344,
+  "rascunho": 43,
   "revisado": 0,
   "publicado": 0
  },
@@ -12,7 +12,7 @@
   "id": "ortodontia/biologia-do-movimento",
   "area": "Ortodontia",
   "modulo": "Biologia do movimento",
-  "faltam": 5
+  "faltam": 4
  },
  "imagensPendentes": [
   {
@@ -302,6 +302,15 @@
    "mostrar": "Margem gengival do incisivo abaixo da junção amelocementária com raiz exposta, biotipo fino, e os dentes vizinhos com margem normal; na radiografia ou tomografia, raiz além da cortical vestibular",
    "legenda": "Raiz empurrada contra a cortical: o osso não acompanha, a gengiva perde suporte e retrai. O aviso foi a palidez gengival semanas antes.",
    "destacar": "nível da margem gengival do incisivo em relação aos vizinhos e posição da raiz na cortical"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/forcas/reabsorcao-radicular",
+   "modulo": "Biologia do movimento",
+   "secao": "Quanto acontece e em quem",
+   "imagem": "par de radiografias periapicais dos incisivos superiores do mesmo paciente, inicial e após 24 meses de tratamento, com encurtamento e arredondamento apical",
+   "mostrar": "Ápices agudos e raízes de comprimento normal na inicial; ápices arredondados, contorno apical irregular e encurtamento visível, maior no lateral, na final; mesmo enquadramento e angulação para comparação",
+   "legenda": "A comparação com a radiografia inicial, na mesma angulação, é o que permite medir. Sem a inicial, não há como dizer quanto se perdeu.",
+   "destacar": "contorno e comprimento apical dos laterais e centrais nas duas imagens"
   }
  ],
  "verificarPendentes": [
@@ -1144,6 +1153,131 @@
    "pagina": "ortodontia/biologia-do-movimento/forcas/efeitos-de-forcas-excessivas",
    "onde": "fechamento.flashcards[1].verso",
    "trecho": "leve a moderada, pico em um a dois dias, cede em cerca de uma semana [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/forcas/reabsorcao-radicular",
+   "onde": "umMinuto.frases[2]",
+   "trecho": "quatro milímetros, é raro, na ordem de poucos por cento dos pacientes [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/forcas/reabsorcao-radicular",
+   "onde": "Seção \"O que é, e por que quase todo dente movido tem um pouco\".blocos[0].texto",
+   "trecho": "icos mostram lacunas desse tipo em quase todos os dentes movimentados [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/forcas/reabsorcao-radicular",
+   "onde": "Seção \"O que é, e por que quase todo dente movido tem um pouco\".blocos[2].texto",
+   "trecho": "m reparo e reabsorção circunferencial apical com perda de comprimento [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/forcas/reabsorcao-radicular",
+   "onde": "Seção \"O que é, e por que quase todo dente movido tem um pouco\".blocos[3].svg[7]",
+   "trecho": "y='398'>etapa 4: encurtamento moderado a grave, minoria dos pacientes [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/forcas/reabsorcao-radicular",
+   "onde": "Seção \"Quanto acontece e em quem\".blocos[0].texto",
+   "trecho": "cima de quatro milímetros ou de um terço da raiz, em poucos por cento [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/forcas/reabsorcao-radicular",
+   "onde": "Seção \"Fatores de risco: o que é do paciente, o que é seu\".blocos[1].texto",
+   "trecho": "ia, como o da interleucina-1 beta, foram associados em alguns estudos [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/forcas/reabsorcao-radicular",
+   "onde": "Seção \"Fatores de risco: o que é do paciente, o que é seu\".blocos[2].texto",
+   "trecho": "s alinhadores, as diferenças relatadas são pequenas ou inconsistentes [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/forcas/reabsorcao-radicular",
+   "onde": "Seção \"Fatores de risco: o que é do paciente, o que é seu\".blocos[3].svg[2]",
+   "trecho": "amento</text><text x='60' y='152'>predisposição individual e familiar [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/forcas/reabsorcao-radicular",
+   "onde": "Seção \"Fatores de risco: o que é do paciente, o que é seu\".blocos[4].texto",
+   "trecho": "e os vitais durante o movimento; alguns estudos encontraram até menos [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/forcas/reabsorcao-radicular",
+   "onde": "Seção \"Diagnóstico: quando olhar e como medir\".blocos[1].texto",
+   "trecho": "orque a reabsorção que aparece nesse período prediz a que virá depois [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/forcas/reabsorcao-radicular",
+   "onde": "Seção \"Diagnóstico: quando olhar e como medir\".blocos[1].texto",
+   "trecho": "metros a um terço da raiz; 4, encurtamento maior que um terço da raiz [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/forcas/reabsorcao-radicular",
+   "onde": "Seção \"Diagnóstico: quando olhar e como medir\".blocos[2].svg[5]",
+   "trecho": "t-size='11' fill='var(--muted,#8A8478)'>índice de Levander e Malmgren [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/forcas/reabsorcao-radicular",
+   "onde": "Seção \"Diagnóstico: quando olhar e como medir\".blocos[4].resposta",
+   "trecho": "o prediz reabsorção maior ao final e permite pausar e ajustar a tempo [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/forcas/reabsorcao-radicular",
+   "onde": "Seção \"Diagnóstico: quando olhar e como medir\".checagem.resposta",
+   "trecho": "Grau 4: mais de um terço da raiz, replanejar objetivos ou interromper [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/forcas/reabsorcao-radicular",
+   "onde": "Seção \"Conduta: prevenir, pausar, replanejar, prognosticar\".blocos[1].texto",
+   "trecho": "nal em pacientes que pausaram do que nos que seguiram sem interrupção [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/forcas/reabsorcao-radicular",
+   "onde": "Seção \"Conduta: prevenir, pausar, replanejar, prognosticar\".blocos[2].svg[8]",
+   "trecho": "ed,#8A8478)'>prazos de referência do protocolo de Levander e Malmgren [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/forcas/reabsorcao-radicular",
+   "onde": "Seção \"Conduta: prevenir, pausar, replanejar, prognosticar\".checagem.resposta",
+   "trecho": "ssivo, redução de força e deslocamento apical e revisão dos objetivos [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/forcas/reabsorcao-radicular",
+   "onde": "fechamento.flashcards[2].verso",
+   "trecho": "deslocamento apical, revisão dos objetivos; repetir a cada seis meses [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/forcas/reabsorcao-radicular",
+   "onde": "infografico.itens[1].texto",
+   "trecho": "leve na maioria; grave (mais de um terço ou 4 mm) em poucos por cento [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/forcas/reabsorcao-radicular",
+   "onde": "infografico.itens[5].texto",
+   "trecho": "le aos 6 a 9 meses; grau 2 ou mais: pausa de 2 a 3 meses e replanejar [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/forcas/reabsorcao-radicular",
+   "onde": "macetes[2].texto",
+   "trecho": "a radiografia de controle. O que aparece cedo prediz o que vem depois [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/forcas/reabsorcao-radicular",
+   "onde": "ondeErra[1].porque",
+   "trecho": "bem feita não aumenta o risco; o que aumenta é o trauma que a motivou [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/forcas/reabsorcao-radicular",
+   "onde": "autoteste[3].explicacoes[2]",
+   "trecho": "eta: permite reparo pelo cemento e reduz o deslocamento apical futuro [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/forcas/reabsorcao-radicular",
+   "onde": "autoteste[4].explicacoes[0]",
+   "trecho": "A endodontia em si não aumenta o risco; o trauma que a motivou, sim [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/forcas/reabsorcao-radicular",
+   "onde": "autoteste[4].explicacoes[3]",
+   "trecho": "Pausas permitem reparo e reduzem a reabsorção final [VERIFICAR]"
   }
  ],
  "modulos": [
@@ -1421,11 +1555,11 @@
    "area": "Ortodontia",
    "modulo": "Biologia do movimento",
    "total": 12,
-   "concluidas": 7,
-   "palavras": 27054,
-   "visuais": 36,
-   "imagensClinicas": 6,
-   "verificar": 53,
+   "concluidas": 8,
+   "palavras": 31150,
+   "visuais": 42,
+   "imagensClinicas": 7,
+   "verificar": 78,
    "paginas": [
     {
      "id": "ortodontia/biologia-do-movimento/reacoes-teciduais/ligamento-e-osso-sob-forca",
@@ -1487,7 +1621,9 @@
      "id": "ortodontia/biologia-do-movimento/forcas/reabsorcao-radicular",
      "nome": "Reabsorção radicular",
      "tema": "Forças",
-     "status": "pendente"
+     "status": "rascunho",
+     "palavras": 4096,
+     "visuais": 6
     },
     {
      "id": "ortodontia/biologia-do-movimento/efeitos-colaterais/descalcificacao-e-lesoes-brancas",
@@ -28064,6 +28200,158 @@
     {
      "onde": "fechamento.flashcards[1].verso",
      "trecho": "leve a moderada, pico em um a dois dias, cede em cerca de uma semana [VERIFICAR]"
+    }
+   ]
+  },
+  "ortodontia/biologia-do-movimento/forcas/reabsorcao-radicular": {
+   "titulo": "Reabsorção radicular: o preço que a raiz paga e como mantê-lo baixo",
+   "arquivo": "data/campus/paginas/ortodontia--biomov-reabsorcao.json",
+   "formato": 2,
+   "status": "rascunho",
+   "estado": "rascunho",
+   "palavras": 4096,
+   "visuais": [
+    {
+     "formato": "processo",
+     "titulo": "Do arranhão no cemento à raiz encurtada"
+    },
+    {
+     "formato": "grafico",
+     "titulo": "Quais dentes mais encurtam"
+    },
+    {
+     "formato": "comparativo",
+     "titulo": "Fatores do paciente e fatores do tratamento"
+    },
+    {
+     "formato": "classificacao",
+     "titulo": "Índice de Levander e Malmgren"
+    },
+    {
+     "formato": "linha-do-tempo",
+     "titulo": "Protocolo de vigilância da raiz ao longo do tratamento"
+    },
+    {
+     "formato": "mapa",
+     "titulo": "Mapa da página"
+    }
+   ],
+   "quadros": {
+    "prova": 1,
+    "mito": 1,
+    "dica": 1,
+    "erro": 2,
+    "frase": 1
+   },
+   "imagensClinicas": [
+    {
+     "secao": "Quanto acontece e em quem",
+     "imagem": "par de radiografias periapicais dos incisivos superiores do mesmo paciente, inicial e após 24 meses de tratamento, com encurtamento e arredondamento apical",
+     "mostrar": "Ápices agudos e raízes de comprimento normal na inicial; ápices arredondados, contorno apical irregular e encurtamento visível, maior no lateral, na final; mesmo enquadramento e angulação para comparação",
+     "legenda": "A comparação com a radiografia inicial, na mesma angulação, é o que permite medir. Sem a inicial, não há como dizer quanto se perdeu.",
+     "destacar": "contorno e comprimento apical dos laterais e centrais nas duas imagens"
+    }
+   ],
+   "verificar": [
+    {
+     "onde": "umMinuto.frases[2]",
+     "trecho": "quatro milímetros, é raro, na ordem de poucos por cento dos pacientes [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"O que é, e por que quase todo dente movido tem um pouco\".blocos[0].texto",
+     "trecho": "icos mostram lacunas desse tipo em quase todos os dentes movimentados [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"O que é, e por que quase todo dente movido tem um pouco\".blocos[2].texto",
+     "trecho": "m reparo e reabsorção circunferencial apical com perda de comprimento [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"O que é, e por que quase todo dente movido tem um pouco\".blocos[3].svg[7]",
+     "trecho": "y='398'>etapa 4: encurtamento moderado a grave, minoria dos pacientes [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Quanto acontece e em quem\".blocos[0].texto",
+     "trecho": "cima de quatro milímetros ou de um terço da raiz, em poucos por cento [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Fatores de risco: o que é do paciente, o que é seu\".blocos[1].texto",
+     "trecho": "ia, como o da interleucina-1 beta, foram associados em alguns estudos [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Fatores de risco: o que é do paciente, o que é seu\".blocos[2].texto",
+     "trecho": "s alinhadores, as diferenças relatadas são pequenas ou inconsistentes [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Fatores de risco: o que é do paciente, o que é seu\".blocos[3].svg[2]",
+     "trecho": "amento</text><text x='60' y='152'>predisposição individual e familiar [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Fatores de risco: o que é do paciente, o que é seu\".blocos[4].texto",
+     "trecho": "e os vitais durante o movimento; alguns estudos encontraram até menos [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Diagnóstico: quando olhar e como medir\".blocos[1].texto",
+     "trecho": "orque a reabsorção que aparece nesse período prediz a que virá depois [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Diagnóstico: quando olhar e como medir\".blocos[1].texto",
+     "trecho": "metros a um terço da raiz; 4, encurtamento maior que um terço da raiz [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Diagnóstico: quando olhar e como medir\".blocos[2].svg[5]",
+     "trecho": "t-size='11' fill='var(--muted,#8A8478)'>índice de Levander e Malmgren [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Diagnóstico: quando olhar e como medir\".blocos[4].resposta",
+     "trecho": "o prediz reabsorção maior ao final e permite pausar e ajustar a tempo [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Diagnóstico: quando olhar e como medir\".checagem.resposta",
+     "trecho": "Grau 4: mais de um terço da raiz, replanejar objetivos ou interromper [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Conduta: prevenir, pausar, replanejar, prognosticar\".blocos[1].texto",
+     "trecho": "nal em pacientes que pausaram do que nos que seguiram sem interrupção [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Conduta: prevenir, pausar, replanejar, prognosticar\".blocos[2].svg[8]",
+     "trecho": "ed,#8A8478)'>prazos de referência do protocolo de Levander e Malmgren [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Conduta: prevenir, pausar, replanejar, prognosticar\".checagem.resposta",
+     "trecho": "ssivo, redução de força e deslocamento apical e revisão dos objetivos [VERIFICAR]"
+    },
+    {
+     "onde": "fechamento.flashcards[2].verso",
+     "trecho": "deslocamento apical, revisão dos objetivos; repetir a cada seis meses [VERIFICAR]"
+    },
+    {
+     "onde": "infografico.itens[1].texto",
+     "trecho": "leve na maioria; grave (mais de um terço ou 4 mm) em poucos por cento [VERIFICAR]"
+    },
+    {
+     "onde": "infografico.itens[5].texto",
+     "trecho": "le aos 6 a 9 meses; grau 2 ou mais: pausa de 2 a 3 meses e replanejar [VERIFICAR]"
+    },
+    {
+     "onde": "macetes[2].texto",
+     "trecho": "a radiografia de controle. O que aparece cedo prediz o que vem depois [VERIFICAR]"
+    },
+    {
+     "onde": "ondeErra[1].porque",
+     "trecho": "bem feita não aumenta o risco; o que aumenta é o trauma que a motivou [VERIFICAR]"
+    },
+    {
+     "onde": "autoteste[3].explicacoes[2]",
+     "trecho": "eta: permite reparo pelo cemento e reduz o deslocamento apical futuro [VERIFICAR]"
+    },
+    {
+     "onde": "autoteste[4].explicacoes[0]",
+     "trecho": "A endodontia em si não aumenta o risco; o trauma que a motivou, sim [VERIFICAR]"
+    },
+    {
+     "onde": "autoteste[4].explicacoes[3]",
+     "trecho": "Pausas permitem reparo e reduzem a reabsorção final [VERIFICAR]"
     }
    ]
   },
