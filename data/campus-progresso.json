@@ -338,6 +338,15 @@
    "mostrar": "Marca de carbono isolada e intensa na cúspide de um dente em movimento, com os demais dentes sem marca ou com marcas fracas; braquetes e fio visíveis",
    "legenda": "Um só dente marcando forte: trauma oclusal criado pelo próprio movimento. Dói, fica móvel e para de andar até o contato ser aliviado.",
    "destacar": "diferença entre a marca intensa isolada e as marcas fracas dos vizinhos"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/efeitos-colaterais/aceleracao-do-movimento",
+   "modulo": "Biologia do movimento",
+   "secao": "O fenômeno regional acelerado: a biologia das corticotomias",
+   "imagem": "fotografia intraoral de micro-osteoperfurações na gengiva vestibular entre canino e primeiro molar superiores, durante retração de canino com mola",
+   "mostrar": "Três pequenas perfurações transmucosas alinhadas verticalmente na gengiva sobre o osso entre as raízes, sem retalho, com braquetes e mola de retração visíveis; tecido ao redor íntegro",
+   "legenda": "A agressão controlada que dispara o fenômeno regional acelerado. Pequena, local e transitória: o efeito também.",
+   "destacar": "posição das perfurações entre as raízes, longe delas, e a ausência de retalho"
   }
  ],
  "verificarPendentes": [
@@ -2108,9 +2117,9 @@
    "modulo": "Biologia do movimento",
    "total": 12,
    "concluidas": 12,
-   "palavras": 47851,
+   "palavras": 47927,
    "visuais": 65,
-   "imagensClinicas": 10,
+   "imagensClinicas": 11,
    "verificar": 183,
    "paginas": [
     {
@@ -2206,7 +2215,7 @@
      "nome": "Aceleração do movimento",
      "tema": "Efeitos colaterais",
      "status": "rascunho",
-     "palavras": 4160,
+     "palavras": 4236,
      "visuais": 6
     }
    ]
@@ -29341,7 +29350,7 @@
    "formato": 2,
    "status": "rascunho",
    "estado": "rascunho",
-   "palavras": 4160,
+   "palavras": 4236,
    "visuais": [
     {
      "formato": "classificacao",
@@ -29375,7 +29384,15 @@
     "dica": 1,
     "frase": 1
    },
-   "imagensClinicas": [],
+   "imagensClinicas": [
+    {
+     "secao": "O fenômeno regional acelerado: a biologia das corticotomias",
+     "imagem": "fotografia intraoral de micro-osteoperfurações na gengiva vestibular entre canino e primeiro molar superiores, durante retração de canino com mola",
+     "mostrar": "Três pequenas perfurações transmucosas alinhadas verticalmente na gengiva sobre o osso entre as raízes, sem retalho, com braquetes e mola de retração visíveis; tecido ao redor íntegro",
+     "legenda": "A agressão controlada que dispara o fenômeno regional acelerado. Pequena, local e transitória: o efeito também.",
+     "destacar": "posição das perfurações entre as raízes, longe delas, e a ausência de retalho"
+    }
+   ],
    "verificar": [
     {
      "onde": "umMinuto.frases[3]",

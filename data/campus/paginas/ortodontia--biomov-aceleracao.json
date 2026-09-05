@@ -99,7 +99,7 @@
             "<text x='670' y='286' text-anchor='end' font-size='12' fill='var(--ink,#23211C)'>meses após a cirurgia</text>",
             "<text x='40' y='150' font-size='12' fill='var(--ink,#23211C)' transform='rotate(-90 40 150)' text-anchor='middle'>atividade de remodelação</text>",
             "<g font-size='10' fill='var(--muted,#8A8478)' text-anchor='middle'><text x='80' y='276'>0</text><text x='170' y='276'>1</text><text x='260' y='276'>2</text><text x='350' y='276'>3</text><text x='440' y='276'>4</text><text x='530' y='276'>5</text><text x='620' y='276'>6</text></g>",
-            "<line x1='80' y1='200' x2='660' y2='200' stroke='var(--muted,#8A8478)' stroke-width='1.5' stroke-dasharray='6 4'/><text x='650' y='192' text-anchor='end' font-size='11' fill='var(--muted,#8A8478)'>ritmo basal de remodelação</text>",
+            "<line x1='80' y1='200' x2='660' y2='200' stroke='var(--muted,#8A8478)' stroke-width='1.5' stroke-dasharray='6 4'/><text x='300' y='216' text-anchor='start' font-size='11' fill='var(--muted,#8A8478)'>ritmo basal de remodelação</text>",
             "<path d='M80 200 C 110 120, 150 70, 215 70 C 280 70, 340 140, 440 190 C 480 200, 520 200, 620 200 L 620 200 L 80 200 Z' fill='var(--gold,#B08968)' fill-opacity='0.15'/>",
             "<path d='M80 200 C 110 120, 150 70, 215 70 C 280 70, 340 140, 440 190 C 480 200, 520 200, 620 200' fill='none' stroke='var(--gold,#B08968)' stroke-width='3'/>",
             "<use href='#c-vetor-red' x='60' y='230' width='40' height='14' transform='rotate(-90 80 237)'/><text x='96' y='240' font-size='10' fill='var(--red,#B4533B)' font-weight='700'>agressão cirúrgica</text>",
@@ -115,6 +115,13 @@
           "estilo": "mito",
           "mito": "A corticotomia reduz o tempo de tratamento pela metade.",
           "verdade": "O efeito é local e transitório, com pico em um a dois meses e regressão em poucos meses. Estudos mostram aceleração do movimento na fase inicial, sobretudo de caninos em retração, com ganho sobre o tempo total pequeno e inconsistente entre ensaios; metade do tempo não é o que a literatura sustenta [VERIFICAR]."
+        },
+        {
+          "tipo": "imagem",
+          "imagem": "fotografia intraoral de micro-osteoperfurações na gengiva vestibular entre canino e primeiro molar superiores, durante retração de canino com mola",
+          "mostrar": "Três pequenas perfurações transmucosas alinhadas verticalmente na gengiva sobre o osso entre as raízes, sem retalho, com braquetes e mola de retração visíveis; tecido ao redor íntegro",
+          "legenda": "A agressão controlada que dispara o fenômeno regional acelerado. Pequena, local e transitória: o efeito também.",
+          "destacar": "posição das perfurações entre as raízes, longe delas, e a ausência de retalho"
         },
         {
           "tipo": "pergunta",
@@ -255,7 +262,7 @@
           "descricao": "Início: paciente pede velocidade. Primeira pergunta: o plano tem objetivos proporcionais e aceita compromisso? Se não, ajustar objetivos. Segunda: a mecânica evita vaivém e usa força leve e contínua com intervalos adequados? Se não, corrigir. Terceira: cooperação, higiene e comparecimento são previsíveis? Se não, trabalhar isso primeiro. Só depois: discutir aceleração cirúrgica, com evidência, riscos, custo e ganho realista em meses; dispositivos sem evidência ficam de fora ou entram como escolha informada do paciente sem promessa.",
           "viewBox": "0 0 560 470",
           "svg": [
-            "<use href='#c-caixa-ink' x='150' y='16' width='260' height='40'/><text x='280' y='41' text-anchor='middle' font-size='12' font-weight='700' fill='#fff'>paciente pede tratamento mais rápido</text>",
+            "<use href='#c-caixa-ink' x='120' y='16' width='320' height='40'/><text x='280' y='41' text-anchor='middle' font-size='12' font-weight='700' fill='#fff'>paciente pede tratamento mais rápido</text>",
             "<path d='M280 56 L280 76' stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'/>",
             "<use href='#c-decisao' x='150' y='80' width='260' height='50'/><text x='280' y='101' text-anchor='middle' font-size='12' font-weight='700'>objetivos proporcionais</text><text x='280' y='117' text-anchor='middle' font-size='11'>e compromisso aceito?</text>",
             "<path d='M410 105 L460 105' stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'/><use href='#c-caixa-gold' x='462' y='86' width='94' height='38'/><text x='509' y='103' text-anchor='middle' font-size='10' font-weight='700'>ajustar</text><text x='509' y='116' text-anchor='middle' font-size='10'>objetivos</text><text x='435' y='98' text-anchor='middle' font-size='10' fill='var(--muted,#8A8478)'>não</text>",
