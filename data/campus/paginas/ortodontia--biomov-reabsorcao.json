@@ -62,7 +62,7 @@
             "<path d='M280 244 L280 264' stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'/><text x='300' y='259' font-size='10' fill='var(--red,#B4533B)'>repetição no ápice</text>",
             "<use href='#c-caixa-red' x='60' y='268' width='440' height='60'/><text x='280' y='292' text-anchor='middle' font-size='13' font-weight='700'>4. Reabsorção circunferencial apical</text><text x='280' y='312' text-anchor='middle' font-size='11'>o ápice encurta de forma permanente; é o que a radiografia mostra</text>",
             "<g font-size='11' fill='var(--ink,#23211C)'><text x='60' y='362'>etapas 1 e 2: praticamente todo dente movido, sem consequência clínica</text><text x='60' y='380'>etapa 3: encurtamento leve, frequente, raramente relevante</text><text x='60' y='398'>etapa 4: encurtamento moderado a grave, minoria dos pacientes [VERIFICAR]</text></g>",
-            "<text x='280' y='446' text-anchor='middle' font-size='11' fill='var(--muted,#8A8478)'>a parada ou a redução da força em qualquer etapa permite reparo com cemento; só a dentina perdida não volta</text>"
+            "<text x='280' y='432' text-anchor='middle' font-size='11' fill='var(--muted,#8A8478)'>parar ou reduzir a força em qualquer etapa permite reparo com cemento;</text><text x='280' y='448' text-anchor='middle' font-size='11' fill='var(--muted,#8A8478)'>só a dentina perdida não volta</text>"
           ],
           "legenda": "Quatro etapas, uma fronteira: enquanto o dano fica no cemento, repara; quando chega à dentina, fica."
         },
@@ -155,8 +155,8 @@
           "svg": [
             "<use href='#c-caixa-blue' x='40' y='16' width='300' height='40'/><text x='190' y='42' text-anchor='middle' font-size='13' font-weight='700'>do paciente: você identifica</text>",
             "<use href='#c-caixa-red' x='380' y='16' width='300' height='40'/><text x='530' y='42' text-anchor='middle' font-size='13' font-weight='700'>do tratamento: você controla</text>",
-            "<g font-size='12' fill='var(--ink,#23211C)'><text x='60' y='92'>raiz curta, em pipeta, dilacerada ou já reabsorvida</text><text x='60' y='122'>trauma dentário prévio, sobretudo com lesão do ligamento</text><text x='60' y='152'>predisposição individual e familiar [VERIFICAR]</text><text x='60' y='182'>agenesias e outras anomalias dentárias</text><text x='60' y='212'>onicofagia, bruxismo</text><text x='60' y='242'>doenças e remédios que alteram o osso</text></g>",
-            "<g font-size='12' fill='var(--ink,#23211C)'><text x='400' y='92'>duração total do tratamento</text><text x='400' y='122'>deslocamento apical: intrusão, torque, retrações longas</text><text x='400' y='152'>força pesada e contínua</text><text x='400' y='182'>vaivém do mesmo dente</text><text x='400' y='212'>ausência de pausas</text><text x='400' y='242'>primeira radiografia de controle tardia</text></g>",
+            "<g font-size='11' fill='var(--ink,#23211C)'><text x='60' y='92'>raiz curta, em pipeta, dilacerada ou já reabsorvida</text><text x='60' y='122'>trauma dentário prévio, sobretudo do ligamento</text><text x='60' y='152'>predisposição individual e familiar [VERIFICAR]</text><text x='60' y='182'>agenesias e outras anomalias dentárias</text><text x='60' y='212'>onicofagia, bruxismo</text><text x='60' y='242'>doenças e remédios que alteram o osso</text></g>",
+            "<g font-size='11' fill='var(--ink,#23211C)'><text x='400' y='92'>duração total do tratamento</text><text x='400' y='122'>deslocamento apical: intrusão, torque, retração longa</text><text x='400' y='152'>força pesada e contínua</text><text x='400' y='182'>vaivém do mesmo dente</text><text x='400' y='212'>ausência de pausas</text><text x='400' y='242'>primeira radiografia de controle tardia</text></g>",
             "<g stroke='var(--border,#EDE6D8)' stroke-width='1'><line x1='60' y1='102' x2='330' y2='102'/><line x1='60' y1='132' x2='330' y2='132'/><line x1='60' y1='162' x2='330' y2='162'/><line x1='60' y1='192' x2='330' y2='192'/><line x1='60' y1='222' x2='330' y2='222'/><line x1='400' y1='102' x2='670' y2='102'/><line x1='400' y1='132' x2='670' y2='132'/><line x1='400' y1='162' x2='670' y2='162'/><line x1='400' y1='192' x2='670' y2='192'/><line x1='400' y1='222' x2='670' y2='222'/></g>",
             "<use href='#c-caixa-ink' x='140' y='268' width='440' height='40'/><text x='360' y='293' text-anchor='middle' font-size='12' font-weight='700' fill='#fff'>coluna da esquerda cheia: encurte a da direita</text>"
           ],
@@ -308,10 +308,10 @@
         "<text x='280' y='186' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>Reabsorção radicular</text>",
         "<use href='#c-no' x='20' y='38' width='160' height='44'/><text x='100' y='65' text-anchor='middle' font-size='13' font-weight='700'>Cemento repara</text>",
         "<use href='#c-no' x='380' y='38' width='160' height='44'/><text x='460' y='65' text-anchor='middle' font-size='13' font-weight='700'>Incisivos superiores</text>",
-        "<use href='#c-no' x='0' y='158' width='150' height='44'/><text x='75' y='185' text-anchor='middle' font-size='13' font-weight='700'>Fatores do paciente</text>",
-        "<use href='#c-no' x='410' y='158' width='150' height='44'/><text x='485' y='185' text-anchor='middle' font-size='13' font-weight='700'>Fatores do plano</text>",
+        "<use href='#c-no' x='0' y='158' width='150' height='44'/><text x='75' y='185' text-anchor='middle' font-size='13' font-weight='700'>Do paciente</text>",
+        "<use href='#c-no' x='410' y='158' width='150' height='44'/><text x='485' y='185' text-anchor='middle' font-size='13' font-weight='700'>Do tratamento</text>",
         "<use href='#c-no' x='20' y='278' width='160' height='44'/><text x='100' y='305' text-anchor='middle' font-size='13' font-weight='700'>Radiografia aos 6 m</text>",
-        "<use href='#c-no' x='380' y='278' width='160' height='44'/><text x='460' y='305' text-anchor='middle' font-size='13' font-weight='700'>Pausar e replanejar</text>"
+        "<use href='#c-no' x='380' y='278' width='160' height='44'/><text x='460' y='305' text-anchor='middle' font-size='13' font-weight='700'>Pausar e rever</text>"
       ],
       "legenda": "A raiz paga um preço em quase todo tratamento; a vigilância decide se é centavos ou o ápice."
     },
