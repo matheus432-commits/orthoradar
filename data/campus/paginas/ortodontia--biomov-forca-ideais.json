@@ -1,0 +1,231 @@
+{
+  "id": "ortodontia/biologia-do-movimento/forcas/forcas-ideais-por-tipo-de-movimento",
+  "areaId": "ortodontia",
+  "area": "Ortodontia",
+  "modulo": "Biologia do movimento",
+  "tema": "Forças",
+  "titulo": "Forças ideais por tipo de movimento: por que intruir pede um quinto da força de transladar",
+  "estado": "rascunho",
+  "versao": 1,
+  "formato": 2,
+  "autoria": "Rascunho escrito pela plataforma para validação; nada aqui é visível ao aluno antes da assinatura de um ortodontista. Os valores de força citados são faixas didáticas da literatura clássica e devem ser conferidos pelo validador.",
+  "abertura": {
+    "situacao": "Um colega monta um arco de intrusão para os incisivos superiores de uma paciente com mordida profunda e ativa cada lado com a mesma força que usou na semana anterior para retrair um canino. Três meses depois, os incisivos intruíram pouco, a paciente reclamou de dor prolongada e a radiografia mostra ápices arredondados.",
+    "pergunta": "Se a força que retraiu bem um canino é a mesma, por que ela foi demais para intruir incisivos? O que faz a força ideal mudar de um movimento para outro?"
+  },
+  "umMinuto": {
+    "frases": [
+      "A força ideal não é um número único: depende de como a pressão se distribui no ligamento, e isso muda com o tipo de movimento e com a área radicular do dente.",
+      "A inclinação concentra a força em duas áreas pequenas, crista de um lado e ápice do outro, e por isso pede forças menores; a translação distribui pela raiz inteira e tolera forças maiores.",
+      "A intrusão concentra toda a força no ápice, uma área minúscula: é o movimento que exige menos força e o que mais reabsorve raiz quando exagerado.",
+      "As faixas didáticas de Proffit, em gramas: inclinação 35 a 60; translação 70 a 120; movimento de raiz 50 a 100; rotação 35 a 60; extrusão 35 a 60; intrusão 10 a 20 [VERIFICAR].",
+      "Os valores se referem a um dente unirradicular médio; multiplicam-se para molares e reduzem-se para incisivos inferiores e raízes curtas ou com perda óssea.",
+      "A regra prática: quanto menor a área que recebe a pressão, menor a força; quanto maior o risco de reabsorção do movimento, mais leve e mais contínua ela deve ser."
+    ],
+    "caiNaProva": [
+      "Ordem dos movimentos pela força ideal: intrusão (menor), inclinação, rotação e extrusão, movimento de raiz, translação (maior).",
+      "Justificativa biológica: distribuição da pressão no ligamento; inclinação e intrusão concentram, translação distribui.",
+      "Intrusão exige forças mínimas porque toda a força se concentra no ápice e o risco de reabsorção radicular é o maior.",
+      "Os valores das tabelas referem-se a dentes unirradiculares médios e devem ser ajustados pela área radicular.",
+      "Distinguir força ideal por movimento da classificação por duração: são eixos independentes da mesma decisão."
+    ],
+    "porQueImporta": "Escolher a força certa por movimento é a diferença entre um incisivo que intrui e um incisivo que perde raiz. As tabelas são a ponte entre a biologia do ligamento e o dinamômetro."
+  },
+  "secoes": [
+    {
+      "titulo": "Por que a força ideal muda com o movimento",
+      "blocos": [
+        { "tipo": "p", "texto": "A página anterior deixou a regra: o ligamento sente pressão, não força. A força ideal é aquela que produz, nas áreas comprimidas, uma pressão dentro da janela biológica, alta o bastante para ativar as células e baixa o bastante para não ocluir os vasos. Como a área comprimida muda com o tipo de movimento, a força que produz a mesma pressão também muda. Essa é a única ideia que você precisa para deduzir a tabela inteira." },
+        { "tipo": "p", "texto": "Na translação, o dente inteiro se desloca no mesmo sentido e a pressão se distribui por quase toda a face da raiz voltada para o movimento. Na inclinação, a coroa vai para um lado e o ápice para o outro; a pressão se concentra em duas faixas estreitas, na crista alveolar de um lado e no terço apical do outro. Na intrusão, o dente desce no alvéolo e toda a força se descarrega no ápice e nas áreas próximas a ele. Na extrusão, o ligamento é sobretudo tensionado, quase não há compressão." },
+        { "tipo": "visual", "formato": "forcas", "titulo": "Onde a pressão se concentra em cada movimento", "descricao": "Quatro dentes esquematizados. Translação: faixa de pressão longa e uniforme ao longo de toda a face da raiz. Inclinação: duas manchas pequenas, uma na crista de um lado e outra perto do ápice do lado oposto. Intrusão: mancha concentrada no ápice. Extrusão: nenhuma área de compressão marcada, ligamento em tensão ao redor. Abaixo de cada um, a força didática correspondente.", "viewBox": "0 0 720 340", "svg": [
+            "<g font-size='13' font-weight='700' fill='var(--ink,#23211C)' text-anchor='middle'><text x='100' y='28'>translação</text><text x='280' y='28'>inclinação</text><text x='460' y='28'>intrusão</text><text x='640' y='28'>extrusão</text></g>",
+            "<g><use href='#c-dente' x='65' y='44' width='70' height='166'/><use href='#c-dente' x='245' y='44' width='70' height='166'/><use href='#c-dente' x='425' y='44' width='70' height='166'/><use href='#c-dente' x='605' y='44' width='70' height='166'/></g>",
+            "<rect x='118' y='116' width='9' height='86' rx='4' fill='var(--red,#B4533B)' fill-opacity='0.4'/>",
+            "<rect x='298' y='116' width='9' height='22' rx='4' fill='var(--red,#B4533B)' fill-opacity='0.6'/><rect x='253' y='176' width='9' height='26' rx='4' fill='var(--red,#B4533B)' fill-opacity='0.6'/>",
+            "<ellipse cx='460' cy='204' rx='12' ry='8' fill='var(--red,#B4533B)' fill-opacity='0.7'/>",
+            "<g stroke='var(--blue,#4A6B8A)' stroke-width='1.5' stroke-dasharray='3 3' fill='none'><path d='M610 118 L610 200 M670 118 L670 200'/></g>",
+            "<g><use href='#c-vetor-red' x='30' y='70' width='40' height='12'/><use href='#c-vetor-red' x='210' y='70' width='40' height='12'/><use href='#c-vetor-red' x='454' y='0' width='12' height='40' transform='rotate(90 460 20)'/><use href='#c-vetor-red' x='634' y='0' width='12' height='40' transform='rotate(-90 640 20)'/></g>",
+            "<g font-size='11' fill='var(--ink,#23211C)' text-anchor='middle'><text x='100' y='232'>raiz inteira comprimida</text><text x='100' y='247'>pressão distribuída</text><text x='280' y='232'>crista de um lado,</text><text x='280' y='247'>ápice do outro</text><text x='460' y='232'>tudo no ápice</text><text x='460' y='247'>área mínima</text><text x='640' y='232'>ligamento tracionado</text><text x='640' y='247'>quase sem compressão</text></g>",
+            "<g font-size='12' font-weight='700' text-anchor='middle'><text x='100' y='278' fill='var(--green,#3E7C4F)'>70 a 120 g</text><text x='280' y='278' fill='var(--gold,#B08968)'>35 a 60 g</text><text x='460' y='278' fill='var(--red,#B4533B)'>10 a 20 g</text><text x='640' y='278' fill='var(--gold,#B08968)'>35 a 60 g</text></g>",
+            "<text x='360' y='326' text-anchor='middle' font-size='11' fill='var(--muted,#8A8478)'>faixas didáticas para dente unirradicular médio [VERIFICAR]; manchas indicam compressão; esquema fora de escala</text>"
+          ], "legenda": "A mesma pressão ideal, quatro áreas diferentes. Quanto menor a área que recebe a força, menor a força que a mantém dentro da janela." },
+        { "tipo": "destaque", "estilo": "prova", "texto": "A pergunta clássica pede a ordem crescente da força ideal: intrusão, depois inclinação, rotação e extrusão em faixa parecida, depois movimento de raiz, e por último translação. A justificativa esperada é a distribuição da pressão no ligamento, não a 'dificuldade' do movimento." },
+        { "tipo": "pergunta", "pergunta": "Por que a translação tolera forças maiores do que a inclinação, se o deslocamento do dente é o mesmo?", "resposta": "Porque na translação a força se distribui por toda a face da raiz voltada para o movimento, enquanto na inclinação ela se concentra em duas áreas pequenas, na crista e no ápice; a mesma força gera pressão muito maior nessas áreas." }
+      ],
+      "checagem": { "pergunta": "Qual é a única ideia necessária para deduzir a tabela de forças ideais e como ela se aplica à intrusão?", "resposta": "A força ideal é a que mantém a pressão dentro da janela biológica na área comprimida; na intrusão essa área é apenas o ápice, por isso a força ideal é a menor de todas." }
+    },
+    {
+      "titulo": "A tabela e como lê-la",
+      "blocos": [
+        { "tipo": "p", "texto": "A tabela mais reproduzida em provas vem de Proffit e traz faixas didáticas em gramas para um dente unirradicular médio: inclinação 35 a 60; translação 70 a 120; movimento de raiz 50 a 100; rotação 35 a 60; extrusão 35 a 60; intrusão 10 a 20 [VERIFICAR]. Os números não vêm de um único experimento; são uma síntese da experiência clínica e de estudos como o de Storey e Smith, e o próprio Proffit os apresenta como orientação, não como lei." },
+        { "tipo": "visual", "formato": "grafico", "titulo": "Faixas de força ideal por tipo de movimento", "descricao": "Gráfico de barras horizontais. Cada barra vai do valor mínimo ao máximo da faixa didática, em gramas: intrusão de 10 a 20; inclinação de 35 a 60; rotação de 35 a 60; extrusão de 35 a 60; movimento de raiz de 50 a 100; translação de 70 a 120. Eixo horizontal de zero a 140 gramas.", "viewBox": "0 0 720 340", "svg": [
+            "<g font-size='12' fill='var(--ink,#23211C)' text-anchor='end'><text x='150' y='58'>intrusão</text><text x='150' y='98'>inclinação</text><text x='150' y='138'>rotação</text><text x='150' y='178'>extrusão</text><text x='150' y='218'>movimento de raiz</text><text x='150' y='258'>translação</text></g>",
+            "<g stroke='var(--border,#EDE6D8)' stroke-width='1'><line x1='170' y1='36' x2='170' y2='276'/><line x1='270' y1='36' x2='270' y2='276'/><line x1='370' y1='36' x2='370' y2='276'/><line x1='470' y1='36' x2='470' y2='276'/><line x1='570' y1='36' x2='570' y2='276'/><line x1='670' y1='36' x2='670' y2='276'/></g>",
+            "<rect x='210' y='42' width='40' height='20' rx='4' fill='var(--red,#B4533B)'/><text x='258' y='57' font-size='11' fill='var(--ink,#23211C)'>10 a 20 g</text>",
+            "<rect x='310' y='82' width='100' height='20' rx='4' fill='var(--gold,#B08968)'/><text x='418' y='97' font-size='11' fill='var(--ink,#23211C)'>35 a 60 g</text>",
+            "<rect x='310' y='122' width='100' height='20' rx='4' fill='var(--gold,#B08968)'/><text x='418' y='137' font-size='11' fill='var(--ink,#23211C)'>35 a 60 g</text>",
+            "<rect x='310' y='162' width='100' height='20' rx='4' fill='var(--gold,#B08968)'/><text x='418' y='177' font-size='11' fill='var(--ink,#23211C)'>35 a 60 g</text>",
+            "<rect x='370' y='202' width='200' height='20' rx='4' fill='var(--blue,#4A6B8A)'/><text x='578' y='217' font-size='11' fill='var(--ink,#23211C)'>50 a 100 g</text>",
+            "<rect x='450' y='242' width='200' height='20' rx='4' fill='var(--green,#3E7C4F)'/><text x='658' y='257' font-size='11' fill='var(--ink,#23211C)'>70 a 120 g</text>",
+            "<use href='#c-eixo' x='170' y='278' width='520' height='14'/>",
+            "<g font-size='10' fill='var(--muted,#8A8478)' text-anchor='middle'><text x='170' y='306'>0</text><text x='270' y='306'>25</text><text x='370' y='306'>50</text><text x='470' y='306'>75</text><text x='570' y='306'>100</text><text x='670' y='306'>125 g</text></g>",
+            "<text x='360' y='330' text-anchor='middle' font-size='11' fill='var(--muted,#8A8478)'>faixas didáticas para dente unirradicular médio, conforme Proffit [VERIFICAR]; escala: 4 unidades por grama</text>"
+          ], "legenda": "Seis barras, uma ordem: intrusão pede um quinto da força da translação. Decore a ordem, entenda a razão e ajuste pela raiz do dente." },
+        { "tipo": "destaque", "estilo": "erro", "titulo": "Ler a tabela como lei", "texto": "A tabela vale para um dente unirradicular de tamanho médio, com osso e ligamento normais. Um molar tem área radicular duas a três vezes maior e aceita força proporcionalmente maior; um incisivo inferior, uma raiz reabsorvida ou um dente com perda óssea pede menos. Os valores são o ponto de partida do raciocínio, não o fim." },
+        { "tipo": "p", "texto": "Note que as faixas são largas e se sobrepõem. Isso reflete o que a página anterior mostrou: a relação entre força e velocidade tem um platô, e revisões sistemáticas não conseguiram fixar um valor ótimo único [VERIFICAR]. Por isso o exame não costuma perguntar se a força para inclinar é 40 ou 50 gramas, e sim se a inclinação pede mais ou menos força do que a translação, e por quê." },
+        { "tipo": "destaque", "estilo": "dica", "titulo": "Como não esquecer a ordem", "texto": "Pense na área: ápice (intrusão) é menor que duas faixas (inclinação, e rotação e extrusão andam junto), que é menor que a face da raiz com o ápice preso (movimento de raiz), que é menor que a face inteira (translação). Área crescente, força crescente." }
+      ],
+      "checagem": { "pergunta": "Cite as faixas didáticas de força para intrusão, inclinação e translação e diga para que tipo de dente elas foram propostas.", "resposta": "Intrusão 10 a 20 g, inclinação 35 a 60 g, translação 70 a 120 g [VERIFICAR]; propostas para um dente unirradicular médio com periodonto normal, ajustáveis pela área radicular." }
+    },
+    {
+      "titulo": "Intrusão: o movimento que mais pede leveza",
+      "blocos": [
+        { "tipo": "p", "texto": "A intrusão concentra a força no ápice, a menor área de ligamento do dente e a região onde o cemento é mais celular e mais suscetível. Duas consequências: a pressão sobe muito com pouca força, e a reabsorção radicular apical é o efeito colateral típico do movimento. É por isso que a intrusão tem a faixa mais baixa da tabela e é o movimento em que o dinamômetro é mais indispensável." },
+        { "tipo": "p", "texto": "Na prática, arcos de intrusão do tipo utilidade, arcos segmentados e mecânicas com miniparafusos são calibrados para poucas gramas por dente. Com quatro incisivos, uma força total de 40 a 80 gramas distribui 10 a 20 por dente [VERIFICAR]. Forças maiores tendem a não intruir mais rápido, porque a hialinização apical entra em latência, e tendem a reabsorver mais, porque a região hialinizada está justamente onde o cemento é mais fino." },
+        { "tipo": "imagem", "imagem": "radiografia periapical de incisivos superiores após intrusão com força excessiva, com encurtamento e arredondamento apical", "mostrar": "Ápices arredondados e raízes visivelmente mais curtas do que as dos dentes vizinhos não movimentados; comparação com radiografia inicial do mesmo paciente", "legenda": "Intrusão com força além da faixa: o ápice, que recebeu toda a pressão, é o que encurta.", "destacar": "contorno apical dos incisivos e o comprimento radicular em relação ao inicial" },
+        { "tipo": "destaque", "estilo": "mito", "mito": "Intrusão é um movimento difícil que exige força alta para vencer a resistência do osso apical.", "verdade": "A intrusão não é difícil por resistência mecânica, é delicada por concentração de pressão. Força alta hialiniza o ápice, entra em latência e reabsorve raiz. Força leve e contínua, algumas gramas por dente, é o que intrui." },
+        { "tipo": "pergunta", "pergunta": "Um arco de intrusão foi ativado com 150 g para quatro incisivos superiores. Quantas gramas por dente isso representa e o que você espera?", "resposta": "Cerca de 37 g por dente, o dobro do limite superior da faixa didática [VERIFICAR]. Espera-se pouca intrusão adicional, com hialinização apical, dor e maior risco de reabsorção apical." }
+      ],
+      "checagem": { "pergunta": "Por que a intrusão é ao mesmo tempo o movimento de menor força ideal e o de maior risco de reabsorção radicular?", "resposta": "Porque toda a força se concentra no ápice, área mínima de ligamento com cemento mais suscetível; pouca força já produz pressão alta, e a hialinização apical expõe justamente a região que mais reabsorve." }
+    },
+    {
+      "titulo": "Extrusão, rotação e movimento de raiz",
+      "blocos": [
+        { "tipo": "p", "texto": "A extrusão é o movimento em que o ligamento é quase todo tensionado. Como há pouca compressão, a hialinização é rara e o movimento é rápido, mas o osso e a gengiva acompanham o dente: a extrusão traz crista óssea e margem gengival junto, o que é desejável na extrusão ortodôntica pré-implante e indesejável quando o objetivo é só nivelar. As faixas didáticas ficam em torno de 35 a 60 gramas [VERIFICAR], não porque o ligamento sofra, mas porque forças maiores tendem a inclinar e a produzir mobilidade." },
+        { "tipo": "p", "texto": "A rotação distribui compressão e tensão em setores alternados ao redor da raiz; em raízes ovais ou achatadas, há áreas de compressão concentrada. A faixa didática também fica em torno de 35 a 60 gramas [VERIFICAR]. A rotação é o movimento que mais recidiva, porque as fibras supracrestais esticadas puxam o dente de volta por muitos meses, tema que você viu na página sobre remodelação e contenção." },
+        { "tipo": "visual", "formato": "comparativo", "titulo": "Quatro movimentos, o que cada um cobra", "descricao": "Tabela com quatro colunas: translação, inclinação, intrusão, extrusão. Linhas: onde a pressão se concentra; força didática; efeito colateral típico; controle mecânico necessário. Translação: face inteira da raiz; 70 a 120 g; perda de ancoragem se exagerar; exige contramomento. Inclinação: crista e ápice; 35 a 60 g; hialinização na crista; fácil de produzir, difícil de evitar. Intrusão: ápice; 10 a 20 g; reabsorção apical; exige força mínima e controle de vetor. Extrusão: quase nenhuma compressão; 35 a 60 g; osso e gengiva acompanham, recidiva; exige controle vertical.", "viewBox": "0 0 720 330", "svg": [
+            "<g font-size='12' font-weight='700' fill='var(--ink,#23211C)' text-anchor='middle'><use href='#c-pilula' x='150' y='16' width='120' height='30'/><text x='210' y='36'>translação</text><use href='#c-pilula' x='290' y='16' width='120' height='30'/><text x='350' y='36'>inclinação</text><use href='#c-pilula' x='430' y='16' width='120' height='30'/><text x='490' y='36'>intrusão</text><use href='#c-pilula' x='570' y='16' width='120' height='30'/><text x='630' y='36'>extrusão</text></g>",
+            "<g font-size='11' font-weight='700' fill='var(--ink,#23211C)'><text x='20' y='80'>pressão</text><text x='20' y='140'>força didática</text><text x='20' y='200'>efeito típico</text><text x='20' y='260'>controle</text></g>",
+            "<g stroke='var(--border,#EDE6D8)' stroke-width='1'><line x1='20' y1='108' x2='700' y2='108'/><line x1='20' y1='168' x2='700' y2='168'/><line x1='20' y1='228' x2='700' y2='228'/></g>",
+            "<g font-size='11' fill='var(--ink,#23211C)' text-anchor='middle'><text x='210' y='74'>face inteira</text><text x='210' y='89'>da raiz</text><text x='350' y='74'>crista de um lado,</text><text x='350' y='89'>ápice do outro</text><text x='490' y='74'>só o ápice</text><text x='630' y='74'>quase nenhuma;</text><text x='630' y='89'>ligamento tracionado</text></g>",
+            "<g font-size='12' font-weight='700' text-anchor='middle'><text x='210' y='146' fill='var(--green,#3E7C4F)'>70 a 120 g</text><text x='350' y='146' fill='var(--gold,#B08968)'>35 a 60 g</text><text x='490' y='146' fill='var(--red,#B4533B)'>10 a 20 g</text><text x='630' y='146' fill='var(--gold,#B08968)'>35 a 60 g</text></g>",
+            "<g font-size='11' fill='var(--ink,#23211C)' text-anchor='middle'><text x='210' y='194'>ancoragem cede</text><text x='210' y='209'>se exagerar</text><text x='350' y='194'>hialinização</text><text x='350' y='209'>na crista</text><text x='490' y='194'>reabsorção</text><text x='490' y='209'>apical</text><text x='630' y='194'>osso e gengiva</text><text x='630' y='209'>acompanham; recidiva</text></g>",
+            "<g font-size='11' fill='var(--ink,#23211C)' text-anchor='middle'><text x='210' y='254'>exige</text><text x='210' y='269'>contramomento</text><text x='350' y='254'>fácil de fazer,</text><text x='350' y='269'>difícil de evitar</text><text x='490' y='254'>força mínima,</text><text x='490' y='269'>vetor controlado</text><text x='630' y='254'>controle</text><text x='630' y='269'>vertical</text></g>",
+            "<text x='360' y='312' text-anchor='middle' font-size='11' fill='var(--muted,#8A8478)'>faixas didáticas [VERIFICAR]; rotação e movimento de raiz seguem no texto</text>"
+          ], "legenda": "Cada movimento tem a sua conta: onde comprime, quanto aceita, o que cobra quando se exagera e o que a mecânica precisa controlar." },
+        { "tipo": "p", "texto": "O movimento de raiz, ou de torque, mantém a coroa quase parada e desloca o ápice: a pressão se concentra na metade apical da raiz de um lado e na crista do outro, mas em áreas maiores que na inclinação simples. A faixa didática fica entre 50 e 100 gramas [VERIFICAR], e o desafio não é a força, é o momento: mover raiz exige as relações M/F mais altas, e é o movimento mais lento e mais exigente de ancoragem." },
+        { "tipo": "destaque", "estilo": "frase", "texto": "Decore a ordem, mas entenda a área: a tabela de forças ideais é a geometria do ligamento traduzida em gramas." }
+      ],
+      "checagem": { "pergunta": "Por que a extrusão hialiniza pouco e mesmo assim é um movimento que exige cuidado?", "resposta": "Porque o ligamento é tracionado, quase sem compressão; o cuidado vem de osso e gengiva acompanharem o dente, do risco de inclinação e mobilidade com forças maiores, e da recidiva." }
+    },
+    {
+      "titulo": "Ajustar pelo dente: área radicular e periodonto",
+      "blocos": [
+        { "tipo": "p", "texto": "Os números da tabela pressupõem um dente unirradicular médio. Para ajustar, pense na área radicular: um primeiro molar tem superfície várias vezes maior que um incisivo inferior, e a mesma pressão ideal exige força proporcionalmente maior. Isso explica por que forças de retração de molares chegam a centenas de gramas sem hialinizar, enquanto um incisivo inferior hialiniza com poucas dezenas." },
+        { "tipo": "lista", "itens": [
+          "Incisivos inferiores e laterais superiores: raízes finas, área pequena; use o limite inferior da faixa ou menos.",
+          "Caninos: raiz longa e forte; toleram a faixa cheia e são os dentes clássicos dos estudos de força.",
+          "Molares: área radicular grande; a força ideal por dente é multiplicada, o que ao mesmo tempo os torna boa ancoragem e alvos difíceis de mover.",
+          "Perda óssea ou raiz reabsorvida: menos área, menos ligamento; reduza a força e revise o centro de resistência, que desce e aumenta a inclinação.",
+          "Dente tratado endodonticamente, com trauma prévio ou raiz em pipeta: acompanhe com radiografia, use força mínima e intervalos maiores."
+        ] },
+        { "tipo": "visual", "formato": "classificacao", "titulo": "A mesma tabela, três dentes", "descricao": "Três caixas com dentes de áreas radiculares crescentes. Incisivo inferior: área pequena, usar o limite inferior ou menos, o primeiro a hialinizar. Canino: raiz forte, área média, tolera a faixa cheia, dente de referência da tabela. Molar: área grande, força multiplicada, boa ancoragem e difícil de mover. Rodapé: perda óssea e raiz curta reduzem a área e pedem menos força.", "viewBox": "0 0 560 300", "svg": [
+            "<use href='#c-caixa-red' x='20' y='16' width='520' height='64'/><use href='#c-dente' x='36' y='24' width='22' height='50'/><text x='72' y='40' font-size='13' font-weight='700'>Incisivo inferior: área pequena</text><text x='72' y='58' font-size='11'>limite inferior da faixa ou menos; o primeiro a hialinizar</text><text x='72' y='72' font-size='11' fill='var(--red,#B4533B)'>mesma força do canino aqui é força pesada</text>",
+            "<use href='#c-caixa-gold' x='20' y='92' width='520' height='64'/><use href='#c-dente' x='32' y='96' width='28' height='58'/><text x='72' y='116' font-size='13' font-weight='700'>Canino: raiz longa e forte</text><text x='72' y='134' font-size='11'>tolera a faixa cheia; dente de referência dos estudos clássicos de força</text><text x='72' y='148' font-size='11' fill='var(--gold,#B08968)'>150 a 200 g moveram bem o canino em Storey e Smith [VERIFICAR]</text>",
+            "<use href='#c-caixa-green' x='20' y='168' width='520' height='64'/><use href='#c-molar' x='28' y='172' width='36' height='58'/><text x='72' y='192' font-size='13' font-weight='700'>Molar: área grande</text><text x='72' y='210' font-size='11'>força ideal multiplicada; por isso é boa ancoragem e alvo difícil</text><text x='72' y='224' font-size='11' fill='var(--green,#3E7C4F)'>centenas de gramas sem hialinizar, se distribuídas</text>",
+            "<use href='#c-caixa-ink' x='60' y='246' width='440' height='40'/><text x='280' y='266' text-anchor='middle' font-size='12' font-weight='700' fill='#fff'>perda óssea ou raiz curta: menos área, menos força</text><text x='280' y='280' text-anchor='middle' font-size='10' fill='#fff'>e o centro de resistência desce: mais inclinação com a mesma mecânica</text>"
+          ], "legenda": "A tabela é para o dente médio. Divida pela área do dente que você tem na frente." },
+        { "tipo": "destaque", "estilo": "dica", "titulo": "Dinamômetro, não dedo", "texto": "A sensibilidade tátil não distingue 20 de 60 gramas, e a diferença entre esses dois valores é a diferença entre intruir e reabsorver. Meça a força de cada mola e elástico na ativação, especialmente em intrusão, em dentes de raiz fina e em pacientes com perda óssea." }
+      ],
+      "checagem": { "pergunta": "Que três características do dente ou do periodonto fazem você reduzir a força abaixo da faixa didática?", "resposta": "Raiz fina ou curta (área pequena, como incisivos inferiores), perda óssea (menos ligamento e centro de resistência mais apical) e raiz previamente reabsorvida ou traumatizada." }
+    },
+    {
+      "titulo": "De volta ao arco de intrusão",
+      "blocos": [
+        { "tipo": "p", "texto": "O colega transferiu a força de um movimento para outro sem trocar a conta. O canino, com raiz forte, em retração por translação ou inclinação controlada, aceitou algo como 150 gramas [VERIFICAR]. Os quatro incisivos em intrusão precisavam de 10 a 20 gramas cada, 40 a 80 no total [VERIFICAR]; a mesma força foi duas a quatro vezes o limite, concentrada no ápice, a menor área de ligamento e a mais suscetível." },
+        { "tipo": "p", "texto": "O resultado é o esperado pela biologia: hialinização apical, latência prolongada em vez de intrusão, dor que não passa e ápices arredondados. A correção é simples de enunciar e difícil de manter: medir a força por dente na ativação, ficar na faixa baixa, escolher um dispositivo de força contínua e acompanhar radiograficamente os ápices a cada seis meses em movimentos de risco." },
+        { "tipo": "destaque", "estilo": "erro", "titulo": "Transferir a força de um movimento para outro", "texto": "Cada movimento tem a sua faixa porque cada um comprime uma área diferente. A força certa para retrair um canino é força pesada para intruir um incisivo. Antes de ativar, pergunte: que movimento, em que dente, com que área?" }
+      ],
+      "checagem": { "pergunta": "Resuma em uma frase por que a força que retraiu bem o canino reabsorveu os incisivos em intrusão.", "resposta": "Porque a intrusão concentra toda a força no ápice, área mínima e suscetível; a força adequada para a raiz forte do canino em translação foi várias vezes a faixa ideal da intrusão." }
+    }
+  ],
+  "fechamento": {
+    "visual": { "formato": "mapa", "titulo": "Mapa da página", "descricao": "Nó central: força ideal por movimento. Seis nós: área comprimida decide; ordem intrusão a translação; intrusão pede o mínimo; extrusão traz osso e gengiva; ajustar pela área radicular; medir com dinamômetro.", "viewBox": "0 0 560 360", "svg": [
+        "<g stroke='var(--border,#EDE6D8)' stroke-width='1.5'><line x1='280' y1='180' x2='100' y2='60'/><line x1='280' y1='180' x2='460' y2='60'/><line x1='280' y1='180' x2='70' y2='180'/><line x1='280' y1='180' x2='490' y2='180'/><line x1='280' y1='180' x2='100' y2='300'/><line x1='280' y1='180' x2='460' y2='300'/></g>",
+        "<use href='#c-no-central' x='190' y='150' width='180' height='60'/>",
+        "<text x='280' y='186' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>Força por movimento</text>",
+        "<use href='#c-no' x='20' y='38' width='160' height='44'/><text x='100' y='65' text-anchor='middle' font-size='13' font-weight='700'>Área decide</text>",
+        "<use href='#c-no' x='380' y='38' width='160' height='44'/><text x='460' y='65' text-anchor='middle' font-size='13' font-weight='700'>Intrusão a translação</text>",
+        "<use href='#c-no' x='0' y='158' width='150' height='44'/><text x='75' y='185' text-anchor='middle' font-size='13' font-weight='700'>Intruir: mínimo</text>",
+        "<use href='#c-no' x='410' y='158' width='150' height='44'/><text x='485' y='185' text-anchor='middle' font-size='13' font-weight='700'>Extruir traz osso</text>",
+        "<use href='#c-no' x='20' y='278' width='160' height='44'/><text x='100' y='305' text-anchor='middle' font-size='13' font-weight='700'>Ajuste pela raiz</text>",
+        "<use href='#c-no' x='380' y='278' width='160' height='44'/><text x='460' y='305' text-anchor='middle' font-size='13' font-weight='700'>Meça, não sinta</text>"
+      ], "legenda": "A tabela inteira cabe em uma ideia: a força ideal é a geometria da área comprimida." },
+    "flashcards": [
+      { "frente": "Coloque em ordem crescente de força ideal: translação, intrusão, inclinação, movimento de raiz, e justifique.", "verso": "Intrusão (10 a 20 g), inclinação (35 a 60 g), movimento de raiz (50 a 100 g), translação (70 a 120 g) [VERIFICAR]. A ordem segue a área de ligamento comprimida: ápice, duas faixas, meia raiz, face inteira." },
+      { "frente": "Por que a intrusão exige a menor força e tem o maior risco de reabsorção radicular?", "verso": "Toda a força se concentra no ápice, a menor área de ligamento e a de cemento mais suscetível; pouca força já produz pressão alta, e a hialinização apical reabsorve justamente a ponta da raiz." },
+      { "frente": "Como ajustar a tabela de forças ideais para um molar, para um incisivo inferior e para um dente com perda óssea?", "verso": "Molar: área radicular grande, força multiplicada. Incisivo inferior: área pequena, limite inferior ou menos. Perda óssea: menos ligamento e centro de resistência mais apical, reduzir a força e aumentar o controle do momento." }
+    ]
+  },
+  "infografico": {
+    "titulo": "Força ideal em seis cartões",
+    "itens": [
+      { "rotulo": "Princípio", "texto": "A força ideal mantém a pressão dentro da janela na área comprimida. Área menor, força menor." },
+      { "rotulo": "Ordem", "texto": "Intrusão, inclinação, rotação e extrusão, movimento de raiz, translação: força crescente com a área." },
+      { "rotulo": "Faixas", "texto": "Intrusão 10 a 20; inclinação, rotação, extrusão 35 a 60; raiz 50 a 100; translação 70 a 120 g [VERIFICAR]." },
+      { "rotulo": "Intrusão", "texto": "Tudo no ápice: mínimo de força, máximo de risco de reabsorção. Medir por dente." },
+      { "rotulo": "Extrusão", "texto": "Quase sem compressão: rápida, mas osso e gengiva acompanham e a rotação e ela recidivam." },
+      { "rotulo": "Ajuste", "texto": "Molar multiplica, incisivo inferior reduz, perda óssea reduz e desce o centro de resistência. Dinamômetro sempre." }
+    ]
+  },
+  "fluxograma": {
+    "titulo": "Definir a força de uma ativação pelo movimento e pelo dente",
+    "nos": [
+      { "id": "n1", "tipo": "inicio", "texto": "Movimento planejado para um dente" },
+      { "id": "n2", "tipo": "decisao", "texto": "Qual é o movimento: intrusão, inclinação, rotação, extrusão, raiz ou translação?" },
+      { "id": "n3", "tipo": "acao", "texto": "Partir da faixa didática do movimento" },
+      { "id": "n4", "tipo": "decisao", "texto": "Área radicular do dente é maior ou menor que a de um unirradicular médio?" },
+      { "id": "n5", "tipo": "acao", "texto": "Maior (molar): multiplicar; menor (incisivo inferior, raiz curta): ir ao limite inferior ou abaixo" },
+      { "id": "n6", "tipo": "decisao", "texto": "Perda óssea, reabsorção prévia, trauma ou endodontia?" },
+      { "id": "n7", "tipo": "acao", "texto": "Reduzir a força, escolher dispositivo contínuo, aumentar o M/F e programar controle radiográfico" },
+      { "id": "n8", "tipo": "fim", "texto": "Medir com dinamômetro na ativação e registrar" }
+    ],
+    "arestas": [
+      { "de": "n1", "para": "n2" },
+      { "de": "n2", "para": "n3" },
+      { "de": "n3", "para": "n4" },
+      { "de": "n4", "para": "n5", "rotulo": "sim" },
+      { "de": "n4", "para": "n6", "rotulo": "média" },
+      { "de": "n5", "para": "n6" },
+      { "de": "n6", "para": "n7", "rotulo": "sim" },
+      { "de": "n6", "para": "n8", "rotulo": "não" },
+      { "de": "n7", "para": "n8" }
+    ]
+  },
+  "passoAPasso": [
+    { "passo": "Nomeie o movimento que você quer produzir naquele dente; se for uma combinação, identifique o componente de maior risco (intrusão, por exemplo).", "confira": "Você consegue dizer onde a pressão vai se concentrar?" },
+    { "passo": "Localize a faixa didática do movimento e anote o limite inferior como ponto de partida.", "confira": "Está na ordem: intrusão menor, translação maior?" },
+    { "passo": "Ajuste pela área radicular do dente e pelo estado do periodonto.", "confira": "Molar, canino ou incisivo inferior? Há perda óssea?" },
+    { "passo": "Escolha o dispositivo que entrega essa força de forma contínua e leve.", "confira": "A força ainda estará acima do limiar e abaixo do platô na próxima consulta?" },
+    { "passo": "Meça com dinamômetro, registre e programe controle radiográfico se o movimento for de risco.", "confira": "O valor medido bate com o planejado, por dente?" }
+  ],
+  "macetes": [
+    { "titulo": "Do ápice à face inteira", "texto": "Intrusão comprime só o ápice; translação, a face inteira. Área crescente, força crescente. A ordem sai sozinha." },
+    { "titulo": "10, 35, 50, 70", "texto": "Limites inferiores didáticos: intrusão 10, inclinação/rotação/extrusão 35, raiz 50, translação 70 gramas [VERIFICAR]." },
+    { "titulo": "Intrusão: um quinto", "texto": "A força da intrusão é cerca de um quinto da da translação. Se você usou a mesma, usou cinco vezes demais." },
+    { "titulo": "Molar multiplica, incisivo divide", "texto": "A tabela é para o dente médio. Área grande aceita mais; raiz fina e perda óssea pedem menos." }
+  ],
+  "ondeErra": [
+    { "erro": "Usar a mesma força para todos os movimentos.", "porque": "A área comprimida muda com o movimento; a mesma força é leve na translação e pesada na intrusão.", "certo": "Escolher a faixa pelo movimento e ajustar pelo dente." },
+    { "erro": "Justificar a ordem da tabela pela 'dificuldade' do movimento.", "porque": "A justificativa é biológica: distribuição da pressão no ligamento.", "certo": "Intrusão pede menos força porque concentra pressão no ápice, não porque é fácil." },
+    { "erro": "Aplicar a tabela a molares e incisivos inferiores sem ajuste.", "porque": "Os valores são para um unirradicular médio; a área radicular varia várias vezes entre dentes.", "certo": "Multiplicar para molares, reduzir para raízes finas e para perda óssea." },
+    { "erro": "Confiar na sensação tátil para forças de intrusão.", "porque": "O dedo não distingue 20 de 60 gramas, e essa diferença decide entre intruir e reabsorver.", "certo": "Medir com dinamômetro a cada ativação, por dente." }
+  ],
+  "autoteste": [
+    { "pergunta": "Entre os movimentos ortodônticos, o que exige a menor força ideal é:", "alternativas": ["Translação", "Movimento de raiz", "Intrusão", "Inclinação"], "correta": 2, "explicacoes": ["Translação distribui a pressão pela face inteira da raiz e aceita a maior força.", "Movimento de raiz comprime áreas maiores que a intrusão.", "Correta: toda a força se concentra no ápice, área mínima de ligamento.", "Inclinação concentra em duas áreas, mas maiores que o ápice isolado."] },
+    { "pergunta": "A razão biológica para a inclinação pedir menos força do que a translação é:", "alternativas": ["A inclinação é mais rápida", "A pressão se concentra na crista de um lado e no ápice do outro", "A translação exige menos ancoragem", "A inclinação não produz hialinização"], "correta": 1, "explicacoes": ["Velocidade não é a justificativa da tabela.", "Correta: áreas pequenas de compressão elevam a pressão para a mesma força.", "Ancoragem não define a força ideal.", "A inclinação é o movimento que mais hialiniza na crista."] },
+    { "pergunta": "As faixas didáticas de força para intrusão e translação de um dente unirradicular médio são, respectivamente:", "alternativas": ["70 a 120 g e 10 a 20 g", "35 a 60 g e 50 a 100 g", "10 a 20 g e 70 a 120 g", "50 a 100 g e 35 a 60 g"], "correta": 2, "explicacoes": ["Ordem invertida.", "Essas são as faixas de inclinação e de movimento de raiz.", "Correta: intrusão 10 a 20 g; translação 70 a 120 g [VERIFICAR].", "Não correspondem a esses movimentos."] },
+    { "pergunta": "Um paciente com perda óssea horizontal moderada será tratado com a mesma mecânica de um paciente com periodonto íntegro. A conduta correta quanto à força é:", "alternativas": ["Aumentar, porque há menos osso para resistir", "Manter, porque a tabela não muda", "Reduzir, porque há menos ligamento e o centro de resistência está mais apical", "Suspender qualquer movimento"], "correta": 2, "explicacoes": ["Menos osso significa menos área de ligamento, não menos resistência a vencer.", "A tabela é para periodonto normal.", "Correta: menos área e maior braço de momento pedem força menor e mais controle.", "Perda óssea moderada controlada não contraindica o movimento."] },
+    { "pergunta": "Sobre a extrusão ortodôntica, é correto afirmar:", "alternativas": ["Concentra pressão no ápice e reabsorve raiz com frequência", "O ligamento é tracionado, hialiniza pouco, e osso e gengiva acompanham o dente", "Exige a maior força da tabela", "Não recidiva"], "correta": 1, "explicacoes": ["Isso descreve a intrusão.", "Correta: pouca compressão, movimento rápido, com migração de crista e margem gengival.", "A maior força é a da translação.", "A extrusão recidiva e exige controle vertical na contenção."] }
+  ],
+  "pesquisa": { "termos": ["força ideal por tipo de movimento ortodôntico", "força ótima intrusão incisivos", "área radicular força ortodôntica", "Proffit optimum force tooth movement", "extrusão ortodôntica crista óssea"] },
+  "referenciasBase": [
+    "Proffit WR, Fields HW, Larson BE, Sarver DM. Ortodontia Contemporânea. 6ª ed. Bases biológicas da terapia ortodôntica: forças ideais por tipo de movimento.",
+    "Storey E, Smith R. Force in orthodontics and its relation to tooth movement. Aust J Dent. 1952.",
+    "Ren Y, Maltha JC, Kuijpers-Jagtman AM. Optimum force magnitude for orthodontic tooth movement: a systematic literature review. Angle Orthod. 2003.",
+    "Burstone CJ. Deep overbite correction by intrusion. Am J Orthod. 1977.",
+    "Reitan K. Some factors determining the evaluation of forces in orthodontics. Am J Orthod. 1957.",
+    "Krishnan V, Davidovitch Z. Cellular, molecular, and tissue-level reactions to orthodontic force. Am J Orthod Dentofacial Orthop. 2006."
+  ],
+  "validacao": { "validadoPor": null, "data": null }
+}
