@@ -1,18 +1,18 @@
 {
  "atualizadoEm": "2026-09-05",
  "totalPaginas": 3387,
- "concluidas": 34,
+ "concluidas": 35,
  "porStatus": {
-  "pendente": 3353,
-  "rascunho": 34,
+  "pendente": 3352,
+  "rascunho": 35,
   "revisado": 0,
   "publicado": 0
  },
  "proximoModulo": {
-  "id": "ortodontia/mas-oclusoes",
+  "id": "ortodontia/biologia-do-movimento",
   "area": "Ortodontia",
-  "modulo": "Más oclusões",
-  "faltam": 1
+  "modulo": "Biologia do movimento",
+  "faltam": 12
  },
  "imagensPendentes": [
   {
@@ -239,6 +239,15 @@
    "mostrar": "Vista frontal em oclusão com o segmento posterior direito cruzado e a linha média inferior desviada para a direita; ao lado, a mesma criança guiada até o primeiro contato, com linha média centrada e os dois lados em topo",
    "legenda": "O mesmo menino em duas posições: a cruzada \"unilateral\" da oclusão habitual é constrição bilateral com deslize ao fechar.",
    "destacar": "Linha média inferior nas duas fotos, relação vestibulolingual dos posteriores dos dois lados em cada posição"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/assimetrias",
+   "modulo": "Más oclusões",
+   "secao": "Mandíbula que cresce a menos de um lado",
+   "imagem": "radiografia panorâmica de paciente com assimetria mandibular por deficiência de crescimento condilar unilateral",
+   "mostrar": "Panorâmica com o côndilo e o ramo visivelmente menores de um lado, ângulo goníaco mais alto desse lado, e o plano oclusal inclinado; ao lado, fotografia frontal com o mento desviado para o lado do ramo curto",
+   "legenda": "Deficiência unilateral: ramo curto e côndilo pequeno de um lado, mento desviado para esse lado. O sentido do desvio conta a história.",
+   "destacar": "Comparação da altura dos ramos e do tamanho dos côndilos, direção do desvio do mento em relação ao lado afetado"
   }
  ],
  "verificarPendentes": [
@@ -786,6 +795,31 @@
    "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/mordida-cruzada",
    "onde": "Seção \"A ferramenta certa em cada idade\".blocos[2].svg[7]",
    "trecho": "middle' font-size='12' fill='var(--muted,#8A8478)'>idades aproximadas [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/assimetrias",
+   "onde": "Seção \"Mandíbula que cresce a mais de um lado\".blocos[0].texto",
+   "trecho": "a cabeça do côndilo pode parecer normal, sem aumento vertical do ramo [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/assimetrias",
+   "onde": "Seção \"Mandíbula que cresce a mais de um lado\".blocos[2].svg[6]",
+   "trecho": "são comuns; nas duas, a pergunta decisiva é se o côndilo ainda cresce [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/assimetrias",
+   "onde": "Seção \"Mandíbula que cresce a menos de um lado\".blocos[0].texto",
+   "trecho": "imento e piora com o crescimento, porque o lado afetado não acompanha [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/assimetrias",
+   "onde": "Seção \"O exame que fecha o diagnóstico\".blocos[1].texto",
+   "trecho": "levante entre os lados indica atividade, e a decisão terapêutica muda [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/assimetrias",
+   "onde": "Seção \"Tratar conforme a origem e a atividade\".blocos[2].texto",
+   "trecho": "onstrução do ramo, por distração ou enxerto, pode começar na infância [VERIFICAR]"
   }
  ],
  "modulos": [
@@ -921,11 +955,11 @@
    "area": "Ortodontia",
    "modulo": "Más oclusões",
    "total": 16,
-   "concluidas": 15,
-   "palavras": 55735,
-   "visuais": 73,
-   "imagensClinicas": 15,
-   "verificar": 67,
+   "concluidas": 16,
+   "palavras": 59493,
+   "visuais": 78,
+   "imagensClinicas": 16,
+   "verificar": 72,
    "paginas": [
     {
      "id": "ortodontia/mas-oclusoes/classificacao/classificacao-de-angle",
@@ -1051,7 +1085,9 @@
      "id": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/assimetrias",
      "nome": "Assimetrias",
      "tema": "Características por tipo",
-     "status": "pendente"
+     "status": "rascunho",
+     "palavras": 3758,
+     "visuais": 5
     }
    ]
   },
@@ -27074,6 +27110,74 @@
     {
      "onde": "Seção \"A ferramenta certa em cada idade\".blocos[2].svg[7]",
      "trecho": "middle' font-size='12' fill='var(--muted,#8A8478)'>idades aproximadas [VERIFICAR]"
+    }
+   ]
+  },
+  "ortodontia/mas-oclusoes/caracteristicas-por-tipo/assimetrias": {
+   "titulo": "Assimetrias: quando a face e a oclusão não batem com a linha média",
+   "arquivo": "data/campus/paginas/ortodontia--maoclusao-tipo-assimetrias.json",
+   "formato": 2,
+   "status": "rascunho",
+   "estado": "rascunho",
+   "palavras": 3758,
+   "visuais": [
+    {
+     "formato": "anatomico",
+     "titulo": "Lendo a assimetria na face: três referências"
+    },
+    {
+     "formato": "classificacao",
+     "titulo": "As quatro origens da assimetria e os sinais que as separam"
+    },
+    {
+     "formato": "comparativo",
+     "titulo": "Alongamento e hiperplasia hemimandibular, lado a lado"
+    },
+    {
+     "formato": "fluxograma",
+     "titulo": "Do mento desviado ao diagnóstico"
+    },
+    {
+     "formato": "mapa",
+     "titulo": "Mapa da página"
+    }
+   ],
+   "quadros": {
+    "frase": 2,
+    "prova": 1,
+    "mito": 1,
+    "dica": 2,
+    "erro": 1
+   },
+   "imagensClinicas": [
+    {
+     "secao": "Mandíbula que cresce a menos de um lado",
+     "imagem": "radiografia panorâmica de paciente com assimetria mandibular por deficiência de crescimento condilar unilateral",
+     "mostrar": "Panorâmica com o côndilo e o ramo visivelmente menores de um lado, ângulo goníaco mais alto desse lado, e o plano oclusal inclinado; ao lado, fotografia frontal com o mento desviado para o lado do ramo curto",
+     "legenda": "Deficiência unilateral: ramo curto e côndilo pequeno de um lado, mento desviado para esse lado. O sentido do desvio conta a história.",
+     "destacar": "Comparação da altura dos ramos e do tamanho dos côndilos, direção do desvio do mento em relação ao lado afetado"
+    }
+   ],
+   "verificar": [
+    {
+     "onde": "Seção \"Mandíbula que cresce a mais de um lado\".blocos[0].texto",
+     "trecho": "a cabeça do côndilo pode parecer normal, sem aumento vertical do ramo [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Mandíbula que cresce a mais de um lado\".blocos[2].svg[6]",
+     "trecho": "são comuns; nas duas, a pergunta decisiva é se o côndilo ainda cresce [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Mandíbula que cresce a menos de um lado\".blocos[0].texto",
+     "trecho": "imento e piora com o crescimento, porque o lado afetado não acompanha [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"O exame que fecha o diagnóstico\".blocos[1].texto",
+     "trecho": "levante entre os lados indica atividade, e a decisão terapêutica muda [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Tratar conforme a origem e a atividade\".blocos[2].texto",
+     "trecho": "onstrução do ramo, por distração ou enxerto, pode começar na infância [VERIFICAR]"
     }
    ]
   },
