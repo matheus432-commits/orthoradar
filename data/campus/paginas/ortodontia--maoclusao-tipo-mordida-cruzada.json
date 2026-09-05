@@ -1,0 +1,313 @@
+{
+  "id": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/mordida-cruzada",
+  "areaId": "ortodontia",
+  "area": "Ortodontia",
+  "modulo": "Más oclusões",
+  "tema": "Características por tipo",
+  "titulo": "Mordida cruzada: o problema transversal que a criança não corrige sozinha",
+  "estado": "rascunho",
+  "versao": 1,
+  "formato": 2,
+  "autoria": "Rascunho escrito pela plataforma para validação; nada aqui é visível ao aluno antes da assinatura de um ortodontista.",
+  "abertura": {
+    "situacao": "Menino de 7 anos, mordida cruzada posterior do lado direito. Em oclusão, a linha média inferior está desviada para a direita. Quando ele abre a boca e você observa o fechamento devagar, a mandíbula desce centrada e, no último momento, desliza para a direita para encaixar os dentes. Palato estreito e profundo dos dois lados.",
+    "pergunta": "A mordida cruzada é de um lado só ou dos dois? E por que a resposta muda o que você faz esta semana, e não daqui a cinco anos?"
+  },
+  "umMinuto": {
+    "frases": [
+      "Mordida cruzada é a relação vestibulolingual invertida entre dentes antagonistas. Posterior, quando os superiores de trás ocluem por dentro dos inferiores; anterior, quando os incisivos superiores ficam atrás dos inferiores; em tesoura, quando os superiores passam por fora dos inferiores.",
+      "A posterior pode ser unilateral ou bilateral, e dentária, esquelética ou funcional: a mais comum na criança é a constrição bilateral da maxila com desvio funcional da mandíbula para um lado, que parece unilateral e não é.",
+      "A causa quase sempre é a maxila estreita: hábito de sucção, respiração bucal, fissura palatina, herança; mais raramente, um dente ectópico ou uma mandíbula assimétrica.",
+      "O exame decisivo é a linha média em relação cêntrica: se ela centra quando a mandíbula é guiada e desvia ao ocluir, o cruzamento é funcional sobre uma maxila estreita dos dois lados.",
+      "Mordida cruzada posterior não se corrige sozinha e, com desvio funcional, treina a mandíbula a crescer torta: trata-se cedo, na dentição mista, com expansão da maxila.",
+      "A ferramenta muda com a idade: expansão lenta ou rápida na criança e no adolescente enquanto a sutura permite; ancoragem esquelética ou cirurgia no adulto."
+    ],
+    "caiNaProva": [
+      "Tipos de mordida cruzada: anterior, posterior, em tesoura; uni e bilateral",
+      "Dentária, esquelética e funcional: como diferenciar",
+      "Desvio funcional e linha média em relação cêntrica",
+      "Etiologia da constrição maxilar",
+      "Por que tratar cedo e com que ferramenta em cada idade"
+    ],
+    "porQueImporta": "É a má oclusão em que esperar custa mais barato de evitar: a expansão da maxila na criança é simples e a mandíbula que cresce desviada durante anos vira assimetria de adulto. Reconhecer o desvio funcional aos 6 ou 7 anos é a decisão mais rentável da ortodontia interceptativa."
+  },
+  "secoes": [
+    {
+      "titulo": "Cruzada é relação invertida: três lugares, dois lados",
+      "blocos": [
+        { "tipo": "p", "texto": "Na oclusão normal, os dentes superiores ficam por fora dos inferiores: as cúspides vestibulares superiores cobrem as inferiores atrás, e os incisivos superiores ficam à frente dos inferiores na frente. Mordida cruzada é a inversão dessa relação. Posterior, quando as cúspides vestibulares superiores caem por dentro das inferiores; anterior, quando um ou mais incisivos superiores ficam atrás dos inferiores." },
+        { "tipo": "p", "texto": "Há um terceiro tipo, menos lembrado: a mordida em tesoura, ou cruzada vestibular, em que os posteriores superiores passam totalmente por fora dos inferiores, sem contato oclusal; quando é bilateral e completa, chama-se síndrome de Brodie. E cada tipo pode ser de um dente só, de um segmento, de um lado ou dos dois lados. O nome completo diz tudo isso: cruzada posterior unilateral direita, por exemplo." },
+        { "tipo": "visual", "formato": "anatomico", "titulo": "Normal, cruzada posterior e mordida em tesoura, em corte frontal", "descricao": "Três cortes frontais esquemáticos de um par de molares antagonistas. Normal: cúspide vestibular superior por fora da inferior. Cruzada posterior: cúspide vestibular superior por dentro da inferior; o superior está para lingual ou o inferior para vestibular. Em tesoura: o superior passa inteiro por fora do inferior, sem contato oclusal.", "viewBox": "0 0 720 300",
+          "svg": [
+            "<g font-size='14' font-weight='700' text-anchor='middle' fill='var(--ink,#23211C)'><text x='120' y='34'>Normal</text><text x='360' y='34'>Cruzada posterior</text><text x='600' y='34'>Em tesoura</text></g>",
+            "<text x='30' y='60' font-size='11' fill='var(--muted,#8A8478)'>vestibular</text><text x='690' y='60' text-anchor='end' font-size='11' fill='var(--muted,#8A8478)'>vestibular</text>",
+            "<g fill='var(--gold-soft,#F4EEE4)' stroke='var(--ink,#23211C)' stroke-width='1.5' stroke-linejoin='round'><path d='M80 70 L160 70 L160 120 L140 140 L120 126 L100 140 L80 120 Z'/><path d='M350 70 L430 70 L430 120 L410 140 L390 126 L370 140 L350 120 Z'/><path d='M540 70 L620 70 L620 130 L600 150 L580 136 L560 150 L540 130 Z'/></g>",
+            "<g fill='var(--blue-soft,#E9EEF3)' stroke='var(--ink,#23211C)' stroke-width='1.5' stroke-linejoin='round'><path d='M100 220 L180 220 L180 170 L160 150 L140 164 L120 150 L100 170 Z'/><path d='M310 220 L390 220 L390 170 L370 150 L350 164 L330 150 L310 170 Z'/><path d='M640 230 L720 230 L720 180 L700 160 L680 174 L660 160 L640 180 Z' transform='translate(-40 0)'/></g>",
+            "<g font-size='11' fill='var(--muted,#8A8478)' text-anchor='middle'><text x='120' y='100'>superior</text><text x='140' y='206'>inferior</text><text x='390' y='100'>superior</text><text x='350' y='206'>inferior</text><text x='580' y='104'>superior</text><text x='640' y='216'>inferior</text></g>",
+            "<g fill='none' stroke='var(--red,#B4533B)' stroke-width='2.5'><circle cx='100' cy='142' r='7'/><circle cx='370' cy='142' r='7'/><circle cx='560' cy='152' r='7'/></g>",
+            "<g font-size='11' font-weight='700' text-anchor='middle'><text x='120' y='260' fill='var(--green,#3E7C4F)'>cúspide vestibular superior por fora</text><text x='360' y='260' fill='var(--red,#B4533B)'>cúspide vestibular superior por dentro</text><text x='600' y='260' fill='var(--red,#B4533B)'>superior inteiro por fora, sem contato</text></g>",
+            "<text x='360' y='288' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>círculo: a cúspide vestibular superior, a referência que diz de que lado o dente está</text>"
+          ],
+          "legenda": "Siga a cúspide vestibular superior: por fora é normal, por dentro é cruzada, longe demais por fora é tesoura. O resto do diagnóstico começa daí." },
+        { "tipo": "destaque", "estilo": "frase", "texto": "Cruzada não é um problema; é um endereço. Anterior ou posterior, um lado ou dois, dente, osso ou função: só o endereço completo diz o que fazer." }
+      ],
+      "checagem": { "pergunta": "O que diferencia a mordida cruzada posterior da mordida em tesoura?", "resposta": "Na cruzada posterior a cúspide vestibular superior cai por dentro da inferior; na tesoura o superior passa inteiro por fora do inferior, sem contato oclusal. São inversões em sentidos opostos." }
+    },
+    {
+      "titulo": "Dentária, esquelética ou funcional",
+      "blocos": [
+        { "tipo": "p", "texto": "A cruzada posterior pode vir de três lugares. Dentária: um ou poucos dentes inclinados ou erupcionados fora da linha, sobre bases de largura normal; um molar superior que erupcionou para palatino, por exemplo. Esquelética: a maxila é estreita na base, o palato é alto e profundo, e todo o segmento posterior cai por dentro, muitas vezes dos dois lados. Funcional: a maxila estreita dos dois lados não encaixa em nenhuma posição, e a mandíbula desliza para um lado para achar contato." },
+        { "tipo": "p", "texto": "A funcional é a mais comum na criança e a mais enganosa: parece cruzada unilateral, com linha média desviada, mas é uma constrição bilateral com a mandíbula deslocada. A prova é a linha média em relação cêntrica: guiada até o primeiro contato, a mandíbula centra e os dois lados ficam em topo. A verdadeira unilateral, por assimetria da maxila ou da mandíbula, mantém a linha média desviada em qualquer posição e é mais rara." },
+        { "tipo": "visual", "formato": "processo", "titulo": "Como a constrição bilateral vira uma cruzada \"unilateral\": o desvio funcional", "descricao": "Três quadros. 1: maxila estreita dos dois lados; em relação cêntrica, os dois lados ficam em topo, sem encaixe, e a linha média está centrada. 2: para encaixar os dentes, a mandíbula desliza para um lado ao fechar. 3: em oclusão habitual, um lado aparece cruzado, o outro aparece normal, e a linha média inferior está desviada para o lado cruzado.", "viewBox": "0 0 720 340",
+          "svg": [
+            "<g stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'><line x1='230' y1='150' x2='256' y2='150'/><line x1='470' y1='150' x2='496' y2='150'/></g>",
+            "<g font-size='12' font-weight='700' text-anchor='middle' fill='var(--ink,#23211C)'><text x='125' y='36'>1. Relação cêntrica</text><text x='365' y='36'>2. Ao fechar</text><text x='605' y='36'>3. Oclusão habitual</text></g>",
+            "<path d='M60 70 Q125 40 190 70 L190 130 Q125 160 60 130 Z' fill='var(--gold-soft,#F4EEE4)' stroke='var(--ink,#23211C)' stroke-width='1.5'/><path d='M40 150 Q125 110 210 150 L210 210 Q125 250 40 210 Z' fill='var(--blue-soft,#E9EEF3)' stroke='var(--ink,#23211C)' stroke-width='1.5'/><line x1='125' y1='60' x2='125' y2='240' stroke='var(--green,#3E7C4F)' stroke-width='1.5' stroke-dasharray='4 3'/>",
+            "<text x='125' y='268' text-anchor='middle' font-size='11' fill='var(--ink,#23211C)'>maxila estreita dos dois lados</text><text x='125' y='284' text-anchor='middle' font-size='11' fill='var(--ink,#23211C)'>topo bilateral; linha média centrada</text>",
+            "<path d='M300 70 Q365 40 430 70 L430 130 Q365 160 300 130 Z' fill='var(--gold-soft,#F4EEE4)' stroke='var(--ink,#23211C)' stroke-width='1.5'/><path d='M280 150 Q365 110 450 150 L450 210 Q365 250 280 210 Z' fill='var(--blue-soft,#E9EEF3)' stroke='var(--ink,#23211C)' stroke-width='1.5' transform='translate(18 0)'/>",
+            "<use href='#c-vetor-red' x='340' y='176' width='60' height='14'/><text x='365' y='268' text-anchor='middle' font-size='11' fill='var(--red,#B4533B)' font-weight='700'>a mandíbula desliza para um lado</text><text x='365' y='284' text-anchor='middle' font-size='11' fill='var(--ink,#23211C)'>para encaixar os dentes</text>",
+            "<path d='M540 70 Q605 40 670 70 L670 130 Q605 160 540 130 Z' fill='var(--gold-soft,#F4EEE4)' stroke='var(--ink,#23211C)' stroke-width='1.5'/><path d='M520 150 Q605 110 690 150 L690 210 Q605 250 520 210 Z' fill='var(--blue-soft,#E9EEF3)' stroke='var(--ink,#23211C)' stroke-width='1.5' transform='translate(24 0)'/>",
+            "<line x1='605' y1='60' x2='605' y2='140' stroke='var(--green,#3E7C4F)' stroke-width='1.5' stroke-dasharray='4 3'/><line x1='629' y1='150' x2='629' y2='240' stroke='var(--red,#B4533B)' stroke-width='1.5' stroke-dasharray='4 3'/>",
+            "<text x='605' y='268' text-anchor='middle' font-size='11' fill='var(--ink,#23211C)'>um lado cruzado, o outro \"normal\"</text><text x='605' y='284' text-anchor='middle' font-size='11' fill='var(--red,#B4533B)' font-weight='700'>linha média inferior desviada</text>",
+            "<text x='360' y='322' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>a linha média que centra em relação cêntrica e desvia ao ocluir denuncia o desvio funcional</text>"
+          ],
+          "legenda": "O que parece problema de um lado é problema dos dois lados mais um deslize. Guie a mandíbula e veja a linha média voltar ao centro." },
+        { "tipo": "destaque", "estilo": "prova", "texto": "A forma mais comum de mordida cruzada posterior na criança é a constrição bilateral da maxila com desvio funcional da mandíbula, que se apresenta como cruzada unilateral com desvio de linha média. O exame que a revela é a linha média em relação cêntrica versus oclusão habitual." }
+      ],
+      "checagem": { "pergunta": "Como você distingue uma cruzada unilateral funcional de uma unilateral verdadeira?", "resposta": "Guiando a mandíbula até o primeiro contato: na funcional a linha média centra e os dois lados ficam em topo; na verdadeira, por assimetria da maxila ou da mandíbula, a linha média continua desviada." }
+    },
+    {
+      "titulo": "De onde vem a maxila estreita",
+      "blocos": [
+        { "tipo": "p", "texto": "A maxila estreita é a causa central, e ela nasce do equilíbrio de forças da apostila de etiologia. Língua baixa por hábito de sucção ou por respiração bucal deixa o palato sem apoio por dentro; bochechas contraídas na sucção pressionam por fora; a maxila cresce menos em largura. A fissura palatina operada estreita a maxila pela cicatriz. E há o componente herdado, sobretudo na Classe III, em que a maxila pequena cruza os posteriores por diferença de largura entre os arcos." },
+        { "tipo": "p", "texto": "As causas dentárias são locais: erupção ectópica de um molar para palatino, retenção prolongada de um decíduo que desvia o permanente, apinhamento que empurra um dente para dentro da linha. E as causas mandibulares são as assimetrias verdadeiras: hiperplasia ou hipoplasia de um côndilo, fratura na infância, que deslocam a mandíbula para um lado e cruzam o lado oposto ou o mesmo." },
+        { "tipo": "lista", "itens": [
+          "Maxila estreita por função: sucção prolongada, respiração bucal, língua baixa; a mais comum.",
+          "Maxila estreita por herança ou por Classe III esquelética: arco superior pequeno sobre inferior largo.",
+          "Fissura labiopalatina operada: cicatriz que restringe a largura; cruzada frequente e difícil.",
+          "Dentária local: erupção ectópica, decíduo retido, apinhamento.",
+          "Mandibular: assimetria condilar, trauma; a cruzada é sinal de um problema maior."
+        ] },
+        { "tipo": "destaque", "estilo": "dica", "titulo": "Olhe o palato e a linha média antes dos dentes", "texto": "Palato alto e profundo com arco em V: constrição da maxila, provavelmente bilateral. Linha média que centra ao guiar: desvio funcional. Linha média que não centra e mento desviado: pense em mandíbula assimétrica e peça imagem. O molar cruzado é o sintoma; essas três observações são o diagnóstico." }
+      ],
+      "checagem": { "pergunta": "Por que a respiração bucal produz mordida cruzada posterior?", "resposta": "Porque a boca aberta leva a língua para baixo, tirando o apoio interno do palato, enquanto as bochechas pressionam por fora; o equilíbrio muda e a maxila cresce menos em largura." }
+    },
+    {
+      "titulo": "Por que não esperar",
+      "blocos": [
+        { "tipo": "p", "texto": "Ao contrário da mordida aberta do hábito, a cruzada posterior quase nunca se corrige sozinha: a maxila estreita não alarga espontaneamente, e a cruzada da dentição decídua tende a passar para a mista e para a permanente. Pior, o desvio funcional treina a mandíbula a fechar torta todos os dias. Com o tempo, a musculatura se adapta, o côndilo do lado do desvio pode se posicionar de modo diferente e a assimetria funcional pode virar assimetria de crescimento." },
+        { "tipo": "p", "texto": "A recomendação é tratar na dentição mista, quando a sutura palatina mediana ainda está aberta e a expansão é simples e esquelética. Na dentição decídua, com desvio funcional e caninos que travam a mandíbula em uma posição, o desgaste seletivo dos caninos decíduos às vezes libera a mandíbula e resolve casos leves; quando não resolve, expande-se. Esperar a dentição permanente completa é esperar a sutura fechar e a mandíbula aprender o caminho errado." },
+        { "tipo": "imagem", "imagem": "fotografia intrabucal frontal de criança com mordida cruzada posterior unilateral e desvio de linha média, em oclusão habitual e em relação cêntrica", "mostrar": "Vista frontal em oclusão com o segmento posterior direito cruzado e a linha média inferior desviada para a direita; ao lado, a mesma criança guiada até o primeiro contato, com linha média centrada e os dois lados em topo", "legenda": "O mesmo menino em duas posições: a cruzada \"unilateral\" da oclusão habitual é constrição bilateral com deslize ao fechar.", "destacar": "Linha média inferior nas duas fotos, relação vestibulolingual dos posteriores dos dois lados em cada posição" },
+        { "tipo": "destaque", "estilo": "mito", "mito": "Mordida cruzada posterior em criança pode esperar a troca dos dentes.", "verdade": "A maxila estreita não alarga sozinha e o desvio funcional se consolida com o tempo. A dentição mista é o momento de expandir, com a sutura aberta e a mandíbula ainda sem hábito. Esperar troca uma expansão simples por uma assimetria difícil." }
+      ],
+      "checagem": { "pergunta": "Qual é o risco de deixar um desvio funcional sem tratamento durante o crescimento?", "resposta": "A mandíbula fecha desviada todos os dias, a musculatura e os côndilos se adaptam à posição, e a assimetria funcional pode se transformar em assimetria de crescimento, mais difícil de corrigir." }
+    },
+    {
+      "titulo": "A ferramenta certa em cada idade",
+      "blocos": [
+        { "tipo": "p", "texto": "Para a maxila estreita, a resposta é expansão, e a idade escolhe o modo. Na dentição decídua e mista, expansão lenta com aparelhos como o quadri-hélice ou o arco em W, ou expansão rápida com disjuntor, abrem a sutura palatina mediana com efeito esquelético e dentário. No adolescente, a expansão rápida ainda funciona enquanto a sutura permite, com resposta que cai à medida que ela amadurece [VERIFICAR]." },
+        { "tipo": "p", "texto": "No adulto, a sutura já não abre com força convencional: a expansão dentária isolada inclina dentes e recidiva. As opções passam a ser a expansão com ancoragem esquelética em mini-implantes, que consegue abrir a sutura em parte dos adultos jovens, e a expansão cirurgicamente assistida, que a abre em qualquer idade [VERIFICAR]. Para a cruzada de um dente só, elásticos cruzados ou molas resolvem em qualquer idade; para a cruzada anterior de um incisivo, um plano inclinado ou uma placa com mola." },
+        { "tipo": "visual", "formato": "linha-do-tempo", "titulo": "Expandir a maxila: a ferramenta por idade", "descricao": "Linha do tempo de 4 a 25 anos. Decídua e mista precoce: desgaste seletivo de caninos decíduos em casos leves; expansão lenta com quadri-hélice ou arco em W; expansão rápida com disjuntor. Mista tardia e adolescência: expansão rápida com disjuntor enquanto a sutura permite. Adulto jovem: expansão com ancoragem esquelética. Adulto: expansão cirurgicamente assistida. Em qualquer idade: cruzada de um dente com elásticos cruzados.", "viewBox": "0 0 720 320",
+          "svg": [
+            "<line x1='50' y1='150' x2='670' y2='150' stroke='var(--ink,#23211C)' stroke-width='2'/>",
+            "<g stroke='var(--ink,#23211C)' stroke-width='2'><line x1='80' y1='142' x2='80' y2='158'/><line x1='240' y1='142' x2='240' y2='158'/><line x1='400' y1='142' x2='400' y2='158'/><line x1='530' y1='142' x2='530' y2='158'/><line x1='650' y1='142' x2='650' y2='158'/></g>",
+            "<g font-size='12' font-weight='700' fill='var(--ink,#23211C)' text-anchor='middle'><text x='80' y='178'>4</text><text x='240' y='178'>9</text><text x='400' y='178'>14</text><text x='530' y='178'>18</text><text x='650' y='178'>25 anos</text></g>",
+            "<use href='#c-caixa-green' x='60' y='40' width='200' height='80'/><text x='160' y='62' text-anchor='middle' font-size='12' font-weight='700'>Decídua e mista precoce</text><text x='160' y='80' text-anchor='middle' font-size='11'>desgaste de caninos em casos leves;</text><text x='160' y='94' text-anchor='middle' font-size='11'>quadri-hélice, arco em W ou disjuntor</text><text x='160' y='108' text-anchor='middle' font-size='11'>sutura aberta: efeito esquelético</text>",
+            "<use href='#c-caixa-gold' x='270' y='40' width='180' height='80'/><text x='360' y='62' text-anchor='middle' font-size='12' font-weight='700'>Mista tardia e adolescência</text><text x='360' y='80' text-anchor='middle' font-size='11'>expansão rápida com disjuntor</text><text x='360' y='94' text-anchor='middle' font-size='11'>resposta cai conforme</text><text x='360' y='108' text-anchor='middle' font-size='11'>a sutura amadurece</text>",
+            "<use href='#c-caixa-blue' x='460' y='40' width='220' height='80'/><text x='570' y='62' text-anchor='middle' font-size='12' font-weight='700'>Adulto</text><text x='570' y='80' text-anchor='middle' font-size='11'>ancoragem esquelética em adultos jovens</text><text x='570' y='94' text-anchor='middle' font-size='11'>expansão cirurgicamente assistida</text><text x='570' y='108' text-anchor='middle' font-size='11'>expansão só dentária recidiva</text>",
+            "<use href='#c-caixa-ink' x='140' y='210' width='440' height='44'/><text x='360' y='229' text-anchor='middle' font-size='12' font-weight='700' fill='#fff'>Em qualquer idade: cruzada de um dente só com elásticos cruzados ou molas;</text><text x='360' y='246' text-anchor='middle' font-size='12' font-weight='700' fill='#fff'>cruzada anterior de um incisivo com plano inclinado ou placa</text>",
+            "<text x='360' y='296' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>idades aproximadas [VERIFICAR]; a maturação da sutura, não a idade, define a resposta</text>"
+          ],
+          "legenda": "A sutura palatina mediana é o relógio da expansão: aberta, qualquer aparelho abre; amadurecida, só parafuso ou bisturi." },
+        { "tipo": "destaque", "estilo": "erro", "texto": "Expandir só com inclinação dentária em adulto e chamar de correção. Sem abrir a sutura, os molares inclinam para vestibular, as cúspides palatinas descem, a mordida abre atrás e a cruzada volta. No adulto, a expansão que dura é esquelética: mini-implantes ou cirurgia." }
+      ],
+      "checagem": { "pergunta": "Por que a expansão apenas dentária tende a recidivar no adulto?", "resposta": "Porque sem abrir a sutura os molares apenas inclinam para vestibular; as cúspides palatinas descem, a mordida pode abrir atrás e a musculatura devolve os dentes à posição original." }
+    },
+    {
+      "titulo": "Cruzada anterior e mordida em tesoura",
+      "blocos": [
+        { "tipo": "p", "texto": "A cruzada anterior de um ou dois incisivos, com bases normais, costuma vir de erupção desviada, decíduo retido ou trauma, e se corrige cedo com plano inclinado, placa com mola ou aparelho fixo parcial, desde que haja espaço no arco para o dente voltar. A cruzada anterior de todo o segmento, com molares em Classe III, é outra história: é o capítulo da Classe III, verdadeira ou pseudo, e o diagnóstico começa pela manobra da mandíbula." },
+        { "tipo": "p", "texto": "A mordida em tesoura é rara e teimosa. Unilateral, costuma vir de um segmento superior largo demais ou de um inferior estreito, às vezes com mandíbula deslocada; a correção exige aproximar o superior e afastar o inferior com elásticos cruzados invertidos, e o tempo é longo. Bilateral, a síndrome de Brodie, quase sempre tem componente esquelético e pode exigir cirurgia. Em toda tesoura, procure a causa antes de puxar dente." },
+        { "tipo": "destaque", "estilo": "dica", "titulo": "Cruzada anterior: quantos dentes e há espaço?", "texto": "Um ou dois incisivos cruzados com espaço para voltar: plano inclinado ou placa com mola, e em poucas semanas resolve. Sem espaço, primeiro abra o espaço, depois descruze; um incisivo forçado para a frente contra um arco apinhado não fica. Todo o segmento cruzado com molar em Classe III: pare e faça a manobra da mandíbula antes de qualquer aparelho." }
+      ],
+      "checagem": { "pergunta": "Qual é a condição para descruzar um incisivo isolado com plano inclinado ou placa?", "resposta": "Haver espaço no arco para o dente voltar à posição; sem espaço, é preciso abri-lo antes, ou o incisivo não se mantém." }
+    },
+    {
+      "titulo": "De volta ao menino de 7 anos",
+      "blocos": [
+        { "tipo": "p", "texto": "A linha média que centra ao abrir e desvia ao fechar, somada ao palato estreito e profundo dos dois lados, dá o diagnóstico: constrição bilateral da maxila com desvio funcional para a direita, e não uma cruzada unilateral. Aos 7 anos, a sutura está aberta e a mandíbula ainda não consolidou o caminho torto. Esta semana, e não daqui a cinco anos: expansão da maxila, lenta ou rápida, e a linha média volta ao centro por conta própria quando os dois lados encaixarem." },
+        { "tipo": "destaque", "estilo": "frase", "texto": "Uma cruzada que muda de lado quando a mandíbula é guiada é uma maxila estreita dos dois lados. Expanda a maxila e a mandíbula para de fugir." }
+      ],
+      "checagem": { "pergunta": "Que dois achados, no menino da abertura, mostram que a cruzada é funcional e bilateral, e por que isso pede ação agora?", "resposta": "A linha média que centra em relação cêntrica e desvia ao ocluir, e o palato estreito dos dois lados. Pede ação agora porque a sutura está aberta para expandir e a mandíbula ainda não consolidou a posição desviada." }
+    }
+  ],
+  "fechamento": {
+    "visual": { "formato": "mapa", "titulo": "Mapa da página", "descricao": "Nó central: mordida cruzada. Seis nós: posterior, anterior, tesoura; dentária, esquelética, funcional; linha média em relação cêntrica; maxila estreita por função, herança, fissura; não espera: dentição mista; ferramenta por idade, sutura é o relógio.", "viewBox": "0 0 560 360",
+      "svg": [
+        "<g stroke='var(--border,#EDE6D8)' stroke-width='1.5'><line x1='280' y1='180' x2='100' y2='60'/><line x1='280' y1='180' x2='460' y2='60'/><line x1='280' y1='180' x2='70' y2='180'/><line x1='280' y1='180' x2='490' y2='180'/><line x1='280' y1='180' x2='100' y2='300'/><line x1='280' y1='180' x2='460' y2='300'/></g>",
+        "<use href='#c-no-central' x='190' y='150' width='180' height='60'/>",
+        "<text x='280' y='186' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>Mordida cruzada</text>",
+        "<use href='#c-no' x='20' y='38' width='160' height='44'/><text x='100' y='65' text-anchor='middle' font-size='13' font-weight='700'>Posterior, anterior, tesoura</text>",
+        "<use href='#c-no' x='380' y='38' width='160' height='44'/><text x='460' y='65' text-anchor='middle' font-size='13' font-weight='700'>Dente, osso ou função</text>",
+        "<use href='#c-no' x='0' y='158' width='150' height='44'/><text x='75' y='185' text-anchor='middle' font-size='13' font-weight='700'>Linha média em cêntrica</text>",
+        "<use href='#c-no' x='410' y='158' width='150' height='44'/><text x='485' y='185' text-anchor='middle' font-size='13' font-weight='700'>Maxila estreita: causas</text>",
+        "<use href='#c-no' x='20' y='278' width='160' height='44'/><text x='100' y='305' text-anchor='middle' font-size='13' font-weight='700'>Não espera: mista</text>",
+        "<use href='#c-no' x='380' y='278' width='160' height='44'/><text x='460' y='305' text-anchor='middle' font-size='13' font-weight='700'>Sutura é o relógio</text>"
+      ] },
+    "flashcards": [
+      { "frente": "Qual é a apresentação mais comum da mordida cruzada posterior na criança e como se comprova?", "verso": "Constrição bilateral da maxila com desvio funcional da mandíbula, que parece unilateral com linha média desviada. Comprova-se guiando a mandíbula até o primeiro contato: a linha média centra e os dois lados ficam em topo." },
+      { "frente": "Por que a mordida cruzada posterior deve ser tratada na dentição mista?", "verso": "A maxila estreita não alarga sozinha, a sutura palatina mediana está aberta para expansão simples e o desvio funcional ainda não se transformou em assimetria de crescimento." },
+      { "frente": "Ferramentas de expansão por idade.", "verso": "Decídua e mista: quadri-hélice, arco em W, disjuntor (e desgaste de caninos decíduos em casos leves). Adolescente: disjuntor enquanto a sutura permite. Adulto: ancoragem esquelética ou expansão cirurgicamente assistida; só dentária recidiva." }
+    ]
+  },
+  "infografico": {
+    "titulo": "Mordida cruzada em seis cartões",
+    "itens": [
+      { "rotulo": "Tipos", "texto": "Posterior (superior por dentro), anterior (incisivo superior atrás), tesoura (superior inteiro por fora; Brodie se bilateral)." },
+      { "rotulo": "Origem", "texto": "Dentária (dente fora da linha), esquelética (maxila estreita na base), funcional (constrição bilateral com deslize)." },
+      { "rotulo": "Exame", "texto": "Linha média em relação cêntrica versus oclusão habitual; palato alto e profundo; mento desviado pede imagem." },
+      { "rotulo": "Causas", "texto": "Sucção, respiração bucal, língua baixa, fissura, herança e Classe III; local: ectopia, decíduo retido; mandibular: assimetria." },
+      { "rotulo": "Quando", "texto": "Dentição mista. Não se corrige sozinha; o desvio funcional vira assimetria de crescimento." },
+      { "rotulo": "Como", "texto": "Expansão lenta ou rápida na criança; disjuntor no adolescente; mini-implantes ou cirurgia no adulto; elásticos para um dente." }
+    ]
+  },
+  "fluxograma": {
+    "titulo": "Mordida cruzada posterior: do sinal à expansão",
+    "nos": [
+      { "id": "n1", "tipo": "inicio", "texto": "Cruzada posterior observada em oclusão habitual" },
+      { "id": "n2", "tipo": "decisao", "texto": "Guiada até o primeiro contato, a linha média centra e os dois lados ficam em topo?" },
+      { "id": "n3", "tipo": "acao", "texto": "Constrição bilateral com desvio funcional: expandir a maxila" },
+      { "id": "n4", "tipo": "decisao", "texto": "É um dente só, com bases de largura normal?" },
+      { "id": "n5", "tipo": "fim", "texto": "Cruzada dentária: elásticos cruzados ou molas, em qualquer idade" },
+      { "id": "n6", "tipo": "decisao", "texto": "Linha média continua desviada e o mento acompanha?" },
+      { "id": "n7", "tipo": "acao", "texto": "Suspeitar de assimetria mandibular: imagem e avaliação do côndilo" },
+      { "id": "n8", "tipo": "decisao", "texto": "Sutura palatina mediana ainda responde (criança, adolescente)?" },
+      { "id": "n9", "tipo": "fim", "texto": "Expansão lenta ou rápida com aparelho convencional" },
+      { "id": "n10", "tipo": "fim", "texto": "Adulto: ancoragem esquelética ou expansão cirurgicamente assistida" }
+    ],
+    "arestas": [
+      { "de": "n1", "para": "n2" },
+      { "de": "n2", "para": "n3", "rotulo": "sim" },
+      { "de": "n2", "para": "n4", "rotulo": "não" },
+      { "de": "n4", "para": "n5", "rotulo": "sim" },
+      { "de": "n4", "para": "n6", "rotulo": "não" },
+      { "de": "n6", "para": "n7", "rotulo": "sim" },
+      { "de": "n6", "para": "n3", "rotulo": "não" },
+      { "de": "n3", "para": "n8" },
+      { "de": "n7", "para": "n8" },
+      { "de": "n8", "para": "n9", "rotulo": "sim" },
+      { "de": "n8", "para": "n10", "rotulo": "não" }
+    ]
+  },
+  "passoAPasso": [
+    { "passo": "Descreva o endereço completo: anterior ou posterior, quais dentes, um lado ou dois, cruzada ou tesoura.", "confira": "A ficha diz exatamente quais dentes estão invertidos?" },
+    { "passo": "Observe a linha média em oclusão habitual e guie a mandíbula até o primeiro contato.", "confira": "A linha média centra ao guiar? Então é funcional e bilateral." },
+    { "passo": "Examine o palato: altura, profundidade, forma do arco; meça a largura intermolar dos dois arcos.", "confira": "Constrição da maxila na base ou dente isolado fora da linha?" },
+    { "passo": "Procure a causa: hábito, respiração, fissura, história de trauma, Classe III, dente ectópico.", "confira": "Há fator ativo que precise ser removido junto com a expansão?" },
+    { "passo": "Escolha a ferramenta pela idade e pela sutura, e trate na dentição mista sempre que possível.", "confira": "Se adulto, o plano prevê expansão esquelética, e não só dentária?" }
+  ],
+  "macetes": [
+    { "titulo": "Guie e veja a linha média", "texto": "Centra ao guiar, desvia ao ocluir: constrição bilateral com deslize. Não centra e o mento vai junto: assimetria mandibular." },
+    { "titulo": "Cruzada não espera", "texto": "Ao contrário da aberta do hábito, a cruzada posterior não se corrige sozinha. Dentição mista é a hora." },
+    { "titulo": "Por dentro é cruzada, por fora é tesoura", "texto": "Siga a cúspide vestibular superior: por dentro da inferior é cruzada posterior; inteira por fora, sem contato, é tesoura (Brodie se bilateral)." },
+    { "titulo": "Sutura é o relógio", "texto": "Aberta: qualquer expansor abre. Amadurecida: só mini-implante ou cirurgia. Expansão só dentária no adulto recidiva." }
+  ],
+  "ondeErra": [
+    { "erro": "Tratar como unilateral uma cruzada funcional sobre constrição bilateral.", "porque": "Expandir um lado só ou esperar deixa a maxila estreita e a mandíbula deslizando.", "certo": "Guiar a mandíbula, ver a linha média centrar e expandir os dois lados." },
+    { "erro": "Esperar a dentição permanente para expandir.", "porque": "A cruzada não se corrige sozinha, a sutura amadurece e o desvio funcional vira assimetria.", "certo": "Expandir na dentição mista." },
+    { "erro": "Expandir adulto só com inclinação dentária.", "porque": "Sem abrir a sutura, os molares inclinam, a mordida abre atrás e a cruzada volta.", "certo": "Ancoragem esquelética ou expansão cirurgicamente assistida." },
+    { "erro": "Descruzar um incisivo isolado sem espaço no arco.", "porque": "Forçado contra um arco apinhado, o dente não se mantém.", "certo": "Abrir espaço primeiro; depois plano inclinado ou placa com mola." }
+  ],
+  "autoteste": [
+    {
+      "pergunta": "Criança de 7 anos com mordida cruzada posterior direita e linha média inferior desviada para a direita; guiada até o primeiro contato, a linha média centra e os dois lados ficam em topo. O diagnóstico é:",
+      "alternativas": [
+        "Cruzada unilateral verdadeira por assimetria mandibular",
+        "Constrição bilateral da maxila com desvio funcional da mandíbula",
+        "Cruzada dentária de um molar ectópico",
+        "Mordida em tesoura unilateral"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Na verdadeira a linha média não centra ao guiar.",
+        "Correta: a linha média que centra em relação cêntrica denuncia a constrição bilateral com deslize.",
+        "Um dente ectópico não desvia a linha média nem centra ao guiar.",
+        "Na tesoura o superior passa por fora, não por dentro."
+      ]
+    },
+    {
+      "pergunta": "A mordida em tesoura bilateral completa, com os posteriores superiores inteiramente por fora dos inferiores, é chamada de:",
+      "alternativas": [
+        "Pseudo-Classe III",
+        "Síndrome de Brodie",
+        "Cruzada posterior bilateral",
+        "Mordida aberta posterior"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Pseudo-Classe III é desvio funcional sagital.",
+        "Correta: tesoura bilateral completa é a síndrome de Brodie, quase sempre com componente esquelético.",
+        "Na cruzada posterior o superior está por dentro, não por fora.",
+        "Na aberta posterior não há contato vertical, não inversão transversal."
+      ]
+    },
+    {
+      "pergunta": "Por que a mordida cruzada posterior deve ser tratada na dentição mista, e não aguardar a permanente?",
+      "alternativas": [
+        "Porque se corrige sozinha se tratada cedo",
+        "Porque a maxila estreita não alarga espontaneamente, a sutura está aberta e o desvio funcional pode virar assimetria de crescimento",
+        "Porque os aparelhos são mais baratos nessa idade",
+        "Porque a cruzada impede a erupção dos molares permanentes"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Contradição: se se corrigisse sozinha, não precisaria de tratamento.",
+        "Correta: os três motivos clássicos da intervenção precoce na cruzada.",
+        "Não é o argumento clínico.",
+        "Não é o mecanismo."
+      ]
+    },
+    {
+      "pergunta": "Adulto de 28 anos com constrição maxilar bilateral. A expansão com maior chance de resultado esquelético estável é:",
+      "alternativas": [
+        "Expansão com quadri-hélice",
+        "Expansão dentária com fio expandido",
+        "Expansão com ancoragem esquelética ou cirurgicamente assistida",
+        "Elásticos cruzados bilaterais"
+      ],
+      "correta": 2,
+      "explicacoes": [
+        "No adulto a sutura não abre com força convencional; o efeito é dentário e recidiva.",
+        "Só inclina dentes; recidiva.",
+        "Correta: no adulto, a expansão que dura é a esquelética, por mini-implantes ou cirurgia.",
+        "Servem para um dente isolado, não para constrição bilateral."
+      ]
+    },
+    {
+      "pergunta": "Sobre a cruzada anterior de um único incisivo com bases esqueléticas normais, é correto afirmar que:",
+      "alternativas": [
+        "É sempre Classe III esquelética",
+        "Pode ser corrigida cedo com plano inclinado ou placa com mola, desde que haja espaço no arco",
+        "Deve aguardar a dentição permanente completa",
+        "Exige expansão rápida da maxila"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Um incisivo isolado cruzado com bases normais é problema dentário local.",
+        "Correta: o espaço para o dente voltar é a condição; sem espaço, abra-o antes.",
+        "Corrige-se cedo, quando o dente ainda está em erupção.",
+        "A expansão é para constrição transversal, não para um incisivo."
+      ]
+    }
+  ],
+  "pesquisa": { "termos": ["mordida cruzada posterior", "desvio funcional", "expansão rápida da maxila", "constrição maxilar", "mordida em tesoura"] },
+  "referenciasBase": [
+    "Proffit WR, Fields HW, Larson BE, Sarver DM. Ortodontia Contemporânea. 6ª ed. Problemas transversais.",
+    "Kutin G, Hawes RR. Posterior cross-bites in the deciduous and mixed dentitions. Am J Orthod. 1969.",
+    "Haas AJ. Palatal expansion: just the beginning of dentofacial orthopedics. Am J Orthod. 1970.",
+    "Petrén S, Bondemark L, Söderfeldt B. A systematic review concerning early orthodontic treatment of unilateral posterior crossbite. Angle Orthod. 2003.",
+    "Graber LW, Vanarsdall RL, Vig KWL, Huang GJ. Ortodontia: princípios e técnicas atuais. 6ª ed.",
+    "Moyers RE. Ortodontia. 4ª ed."
+  ],
+  "validacao": { "validadoPor": null, "data": null }
+}
