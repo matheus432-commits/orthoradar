@@ -1,0 +1,584 @@
+{
+  "id": "ortodontia/biologia-do-movimento/reacoes-teciduais/ligamento-e-osso-sob-forca",
+  "areaId": "ortodontia",
+  "area": "Ortodontia",
+  "modulo": "Biologia do movimento",
+  "tema": "Reações teciduais",
+  "titulo": "Ligamento e osso sob força: o que acontece antes de o dente se mover",
+  "estado": "rascunho",
+  "versao": 1,
+  "formato": 2,
+  "autoria": "Rascunho escrito pela plataforma para validação; nada aqui é visível ao aluno antes da assinatura de um ortodontista.",
+  "abertura": {
+    "situacao": "Na clínica, um colega aperta o parafuso do disjuntor e comenta: \"quanto mais força, mais rápido anda\". Outro discorda: \"o dente não é empurrado pelo osso, é o osso que abre caminho\". O paciente, na cadeira, pergunta se vai doer e por quanto tempo.",
+    "pergunta": "Quem está certo, e o que acontece, hora a hora, dentro do ligamento e do osso depois que uma força começa a agir?"
+  },
+  "umMinuto": {
+    "frases": [
+      "O dente não está soldado ao osso: fica suspenso por um ligamento de fibras colágenas, células, vasos e nervos, com cerca de um quarto de milímetro de espessura, e é esse ligamento que traduz força em movimento.",
+      "O osso alveolar existe por causa do dente: forma-se com a erupção, é remodelado pela função e se reabsorve quando o dente sai. Ele não é empurrado; ele é reconstruído na frente e atrás do dente que se move.",
+      "Sob força sustentada, o líquido do ligamento é expulso em segundos, as fibras e vasos são comprimidos em minutos, mediadores químicos aparecem em horas e as células que reabsorvem e depositam osso chegam em cerca de dois dias.",
+      "O eixo RANKL, RANK e osteoprotegerina é o interruptor molecular: RANKL recruta e ativa osteoclastos no lado comprimido, a osteoprotegerina o bloqueia; prostaglandinas e citocinas ajustam o volume.",
+      "A teoria da pressão e tensão explica o movimento pela resposta celular ao ligamento comprimido e estirado; a teoria bioelétrica, pelos sinais gerados na deformação do osso, hoje vista como coadjuvante.",
+      "Força leve e contínua move; força pesada não move mais rápido, mata o ligamento e atrasa. O que anda é a biologia, e ela tem velocidade própria."
+    ],
+    "caiNaProva": [
+      "Componentes e funções do ligamento periodontal",
+      "Osso alveolar: origem, lâmina dura e dependência do dente",
+      "Sequência temporal da resposta à força: segundos, minutos, horas, dias",
+      "Eixo RANKL, RANK e osteoprotegerina; mediadores químicos",
+      "Teoria da pressão e tensão versus teoria bioelétrica"
+    ],
+    "porQueImporta": "Toda mecânica ortodôntica é uma conversa com o ligamento. Quem entende o que ele faz com a força entende por que a ativação é leve, por que dói no segundo dia e por que apertar mais atrasa em vez de acelerar."
+  },
+  "secoes": [
+    {
+      "titulo": "O dente está suspenso, não fixado",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "O dente não se funde ao osso. Entre a raiz e a parede do alvéolo há um espaço estreito, de cerca de um quarto de milímetro, ocupado pelo ligamento periodontal: fibras colágenas ancoradas no cemento de um lado e no osso do outro, células que fabricam e destroem esse tecido, vasos que o nutrem e nervos que sentem pressão e dor [VERIFICAR]. O dente fica suspenso nesse ligamento como em uma rede."
+        },
+        {
+          "tipo": "p",
+          "texto": "As fibras principais correm em grupos com direções diferentes, oblíquas na maior parte da raiz, horizontais perto da crista e apicais na ponta, de modo que qualquer direção de força encontra fibras para resistir. Entre elas circula líquido intersticial que funciona como amortecedor: a força mastigatória, breve, é absorvida pelo líquido e pelas fibras; a força ortodôntica, prolongada, expulsa o líquido e chega às células."
+        },
+        {
+          "tipo": "visual",
+          "formato": "anatomico",
+          "titulo": "O ligamento periodontal em corte: o que há entre a raiz e o osso",
+          "descricao": "Corte longitudinal esquemático de uma raiz dentro do alvéolo. De dentro para fora: dentina, cemento, espaço do ligamento com fibras oblíquas, horizontais e apicais, e a lâmina dura do osso alveolar seguida do osso trabecular. Rótulos apontam vasos e nervos no ligamento, células de superfície no cemento e no osso, e a largura do espaço, em torno de um quarto de milímetro.",
+          "viewBox": "0 0 560 420",
+          "svg": [
+            "<rect x='40' y='40' width='480' height='340' rx='10' fill='var(--gold-soft,#F4EEE4)' stroke='var(--ink,#23211C)' stroke-width='1.5'/>",
+            "<text x='60' y='66' font-size='12' fill='var(--muted,#8A8478)'>osso trabecular</text>",
+            "<path d='M190 60 L190 360 Q190 372 202 372 L358 372 Q370 372 370 360 L370 60' fill='var(--blue-soft,#E9EEF3)' stroke='var(--blue,#4A6B8A)' stroke-width='3'/>",
+            "<text x='120' y='210' text-anchor='middle' font-size='11' font-weight='700' fill='var(--blue,#4A6B8A)'>lâmina dura</text><text x='120' y='224' text-anchor='middle' font-size='10' fill='var(--blue,#4A6B8A)'>osso fasciculado</text>",
+            "<use href='#c-dente' x='226' y='30' width='108' height='330'/>",
+            "<g stroke='var(--muted,#8A8478)' stroke-width='1'><line x1='196' y1='120' x2='232' y2='134'/><line x1='196' y1='160' x2='232' y2='176'/><line x1='196' y1='200' x2='232' y2='218'/><line x1='196' y1='240' x2='232' y2='260'/><line x1='196' y1='280' x2='232' y2='300'/><line x1='364' y1='120' x2='328' y2='134'/><line x1='364' y1='160' x2='328' y2='176'/><line x1='364' y1='200' x2='328' y2='218'/><line x1='364' y1='240' x2='328' y2='260'/><line x1='364' y1='280' x2='328' y2='300'/><line x1='196' y1='90' x2='236' y2='90'/><line x1='324' y1='90' x2='364' y2='90'/><line x1='250' y1='366' x2='280' y2='340'/><line x1='310' y1='366' x2='280' y2='340'/></g>",
+            "<g fill='var(--red,#B4533B)'><circle cx='214' cy='150' r='3'/><circle cx='214' cy='230' r='3'/><circle cx='346' cy='190' r='3'/><circle cx='346' cy='270' r='3'/></g>",
+            "<g font-size='11' fill='var(--ink,#23211C)'><text x='400' y='96'>fibras horizontais (crista)</text><text x='400' y='180'>fibras oblíquas</text><text x='400' y='196' fill='var(--red,#B4533B)'>vasos e nervos</text><text x='400' y='300'>fibras apicais</text></g>",
+            "<line x1='196' y1='330' x2='226' y2='330' stroke='var(--red,#B4533B)' stroke-width='2'/><line x1='196' y1='324' x2='196' y2='336' stroke='var(--red,#B4533B)' stroke-width='2'/><line x1='226' y1='324' x2='226' y2='336' stroke='var(--red,#B4533B)' stroke-width='2'/><text x='120' y='334' text-anchor='middle' font-size='10' font-weight='700' fill='var(--red,#B4533B)'>~0,25 mm [VERIFICAR]</text>",
+            "<text x='280' y='404' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>cemento na superfície da raiz; células de superfície nos dois lados do espaço; esquema fora de escala</text>"
+          ],
+          "legenda": "Um espaço de um quarto de milímetro decide tudo. Fibras em todas as direções, líquido que amortece, vasos que sofrem com a compressão e células que respondem: é o ligamento que move o dente."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "frase",
+          "texto": "O dente não está pregado no osso; está pendurado em um ligamento. A ortodontia é a arte de conversar com essa rede."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Por que a força mastigatória não move dentes e a força ortodôntica move?",
+        "resposta": "Porque a mastigatória é breve e é absorvida pelo líquido e pelas fibras do ligamento; a ortodôntica é prolongada, expulsa o líquido, comprime e estira o ligamento e chega às células."
+      }
+    },
+    {
+      "titulo": "O osso alveolar existe por causa do dente",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "O osso alveolar é o osso que segura o dente, e é diferente do resto da maxila e da mandíbula por uma razão: ele existe em função do dente. Forma-se durante a erupção, remodela-se conforme a função e desaparece quando o dente é extraído. A parede do alvéolo, a lâmina dura das radiografias, é osso fasciculado, em que as fibras do ligamento se inserem; por trás dela vem o osso trabecular e, mais longe, as corticais."
+        },
+        {
+          "tipo": "p",
+          "texto": "Essa dependência tem uma consequência para o movimento: o dente não é empurrado através do osso, como se abrisse um túnel. O osso do lado para onde o dente vai é reabsorvido pelas células do ligamento, e o osso do lado de onde ele vem é depositado pelas células do ligamento. O alvéolo se move junto com o dente, e o ligamento, no fim, tem a mesma largura de antes."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "mito",
+          "mito": "O aparelho empurra o dente pelo osso; quanto mais força, mais rápido ele atravessa.",
+          "verdade": "O dente não atravessa osso nenhum. O ligamento reabsorve o osso na frente e deposita atrás, e essa reconstrução tem velocidade biológica própria. Força a mais não acelera a reconstrução; interrompe a circulação do ligamento e atrasa."
+        },
+        {
+          "tipo": "lista",
+          "itens": [
+            "Osso fasciculado (lâmina dura): parede do alvéolo, onde as fibras do ligamento se inserem; é o primeiro a ser remodelado.",
+            "Osso trabecular: entre a lâmina dura e as corticais; responde mais devagar.",
+            "Corticais vestibular e lingual: finas nos anteriores e nos pré-molares; limite anatômico do movimento.",
+            "Regra: o alvéolo acompanha o dente enquanto houver osso para onde ir; fora da cortical, não há ligamento nem remodelação."
+          ]
+        }
+      ],
+      "checagem": {
+        "pergunta": "O que acontece com o alvéolo quando o dente se move para um lado?",
+        "resposta": "O osso do lado para onde o dente vai é reabsorvido e o osso do lado de onde ele vem é depositado, de modo que o alvéolo acompanha o dente e o ligamento mantém a largura."
+      }
+    },
+    {
+      "titulo": "Segundos, minutos, horas, dias: a sequência da resposta",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "Quando uma força sustentada é aplicada, a resposta se desenrola em escalas de tempo diferentes. Em segundos, o líquido do espaço periodontal é espremido para fora e o dente se desloca dentro do alvéolo até onde as fibras permitem. Em minutos, as fibras do lado comprimido se dobram, os vasos são parcialmente estrangulados e o fluxo sanguíneo muda; no lado estirado, os vasos se alargam."
+        },
+        {
+          "tipo": "p",
+          "texto": "Em horas, o ambiente químico muda: prostaglandinas, citocinas e outros mediadores sobem, e os níveis de mensageiros intracelulares nas células do ligamento aumentam. Em cerca de dois dias, células novas se diferenciam: osteoclastos aparecem na superfície do osso do lado comprimido e começam a reabsorver; osteoblastos se multiplicam no lado estirado e começam a depositar. Só então o dente se move de verdade."
+        },
+        {
+          "tipo": "visual",
+          "formato": "linha-do-tempo",
+          "titulo": "Do primeiro segundo ao primeiro movimento",
+          "descricao": "Linha do tempo em escala logarítmica com quatro marcos. Segundos: líquido expulso, dente desloca dentro do alvéolo. Minutos: fibras comprimidas, vasos estrangulados de um lado e alargados do outro. Horas: prostaglandinas, citocinas e mensageiros intracelulares sobem. Cerca de dois dias: osteoclastos no lado comprimido, osteoblastos no lado estirado; começa a remodelação e o movimento verdadeiro.",
+          "viewBox": "0 0 720 300",
+          "svg": [
+            "<line x1='60' y1='150' x2='660' y2='150' stroke='var(--ink,#23211C)' stroke-width='2'/>",
+            "<g stroke='var(--ink,#23211C)' stroke-width='2'><line x1='100' y1='142' x2='100' y2='158'/><line x1='260' y1='142' x2='260' y2='158'/><line x1='420' y1='142' x2='420' y2='158'/><line x1='600' y1='142' x2='600' y2='158'/></g>",
+            "<g font-size='12' font-weight='700' fill='var(--ink,#23211C)' text-anchor='middle'><text x='100' y='178'>segundos</text><text x='260' y='178'>minutos</text><text x='420' y='178'>horas</text><text x='600' y='178'>cerca de 2 dias</text></g>",
+            "<use href='#c-marco' x='90' y='140' width='20' height='20'/><use href='#c-marco' x='250' y='140' width='20' height='20'/><use href='#c-marco-blue' x='410' y='140' width='20' height='20'/><use href='#c-marco-cheio' x='590' y='140' width='20' height='20'/>",
+            "<g font-size='11' fill='var(--ink,#23211C)' text-anchor='middle'><text x='100' y='70' font-weight='700'>Líquido expulso</text><text x='100' y='86'>dente desloca dentro</text><text x='100' y='100'>do alvéolo; fibras tensas</text>",
+            "<text x='420' y='70' font-weight='700' fill='var(--blue,#4A6B8A)'>Sinais químicos</text><text x='420' y='86'>prostaglandinas, citocinas,</text><text x='420' y='100'>mensageiros intracelulares</text></g>",
+            "<g font-size='11' fill='var(--ink,#23211C)' text-anchor='middle'><text x='260' y='206' font-weight='700'>Vasos e fibras</text><text x='260' y='222'>comprimidos de um lado,</text><text x='260' y='236'>alargados do outro</text>",
+            "<text x='600' y='206' font-weight='700' fill='var(--red,#B4533B)'>Células chegam</text><text x='600' y='222'>osteoclastos no lado comprimido,</text><text x='600' y='236'>osteoblastos no estirado: movimento</text></g>",
+            "<text x='360' y='280' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>escala de tempo aproximada para força leve e contínua [VERIFICAR]; força pesada muda o roteiro (hialinização)</text>"
+          ],
+          "legenda": "O dente se desloca em segundos, mas só se move em dias. O que acontece entre um e outro é química e recrutamento de células, e é isso que a força pesada atrapalha."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "prova",
+          "texto": "A prova pede a ordem: deslocamento pelo líquido (segundos), compressão de fibras e vasos (minutos), mediadores químicos (horas), diferenciação de osteoclastos e osteoblastos (cerca de dois dias). E pede a distinção entre deslocamento inicial dentro do alvéolo e movimento por remodelação."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Qual é a diferença entre o deslocamento dos primeiros segundos e o movimento que começa em dois dias?",
+        "resposta": "O deslocamento inicial é o dente se acomodando dentro do alvéolo, à custa do líquido e das fibras, sem mudar o osso; o movimento verdadeiro exige reabsorção e deposição de osso, que dependem de células recrutadas em cerca de dois dias."
+      }
+    },
+    {
+      "titulo": "O interruptor molecular: RANKL, RANK e osteoprotegerina",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "A reabsorção óssea é ligada e desligada por um eixo de três moléculas. Os osteoblastos e as células do ligamento sob compressão expressam RANKL na superfície; ele se liga ao receptor RANK nos precursores de osteoclastos e os faz amadurecer, fundir-se e reabsorver osso. A osteoprotegerina é a molécula que sequestra o RANKL antes que ele encontre o receptor: quanto mais dela, menos reabsorção."
+        },
+        {
+          "tipo": "p",
+          "texto": "A compressão do ligamento desloca esse equilíbrio para o lado do RANKL; o estiramento, para o lado da osteoprotegerina e da formação óssea. Em torno desse interruptor agem os mediadores que sobem nas primeiras horas: prostaglandina E2, interleucina 1, fator de necrose tumoral e outros, que amplificam o sinal. É por esse caminho que anti-inflamatórios potentes podem, em teoria, frear o movimento, e que a inflamação local, dentro de limites, faz parte do processo normal."
+        },
+        {
+          "tipo": "visual",
+          "formato": "processo",
+          "titulo": "Da compressão à reabsorção: a cascata molecular",
+          "descricao": "Cadeia de quatro etapas. Compressão do ligamento e alteração vascular. Mediadores sobem: prostaglandina E2, interleucina 1, fator de necrose tumoral. Osteoblastos e células do ligamento expressam RANKL; a osteoprotegerina cai. RANKL liga-se ao RANK dos precursores: osteoclastos amadurecem e reabsorvem o osso do lado comprimido. Nota ao lado: no lado estirado, o equilíbrio vai para osteoprotegerina e formação óssea.",
+          "viewBox": "0 0 560 440",
+          "svg": [
+            "<g stroke='var(--muted,#8A8478)' stroke-width='1.5' marker-end='url(#c-seta)'><line x1='200' y1='84' x2='200' y2='104'/><line x1='200' y1='168' x2='200' y2='188'/><line x1='200' y1='252' x2='200' y2='272'/></g>",
+            "<use href='#c-caixa' x='40' y='30' width='320' height='54'/><text x='200' y='52' text-anchor='middle' font-size='13' font-weight='700'>Compressão do ligamento</text><text x='200' y='72' text-anchor='middle' font-size='11'>fibras dobradas, vasos estrangulados, líquido expulso</text>",
+            "<use href='#c-caixa-blue' x='40' y='104' width='320' height='64'/><text x='200' y='126' text-anchor='middle' font-size='13' font-weight='700'>Mediadores sobem (horas)</text><text x='200' y='144' text-anchor='middle' font-size='11'>prostaglandina E2, interleucina 1,</text><text x='200' y='158' text-anchor='middle' font-size='11'>fator de necrose tumoral, mensageiros intracelulares</text>",
+            "<use href='#c-caixa-gold' x='40' y='188' width='320' height='64'/><text x='200' y='210' text-anchor='middle' font-size='13' font-weight='700'>RANKL sobe, osteoprotegerina cai</text><text x='200' y='228' text-anchor='middle' font-size='11'>osteoblastos e células do ligamento</text><text x='200' y='242' text-anchor='middle' font-size='11'>exibem RANKL na superfície</text>",
+            "<use href='#c-caixa-red' x='40' y='272' width='320' height='64'/><text x='200' y='294' text-anchor='middle' font-size='13' font-weight='700'>RANKL encontra RANK</text><text x='200' y='312' text-anchor='middle' font-size='11'>precursores viram osteoclastos e reabsorvem</text><text x='200' y='326' text-anchor='middle' font-size='11'>o osso do lado comprimido (cerca de 2 dias)</text>",
+            "<use href='#c-caixa-green' x='390' y='150' width='150' height='120'/><text x='465' y='176' text-anchor='middle' font-size='12' font-weight='700'>Lado estirado</text><text x='465' y='196' text-anchor='middle' font-size='11'>osteoprotegerina sobe,</text><text x='465' y='210' text-anchor='middle' font-size='11'>RANKL cai;</text><text x='465' y='230' text-anchor='middle' font-size='11'>osteoblastos depositam</text><text x='465' y='244' text-anchor='middle' font-size='11'>osso novo</text>",
+            "<use href='#c-caixa-ink' x='40' y='360' width='500' height='40'/><text x='290' y='385' text-anchor='middle' font-size='12' font-weight='700' fill='#fff'>Osteoprotegerina é o freio: sequestra o RANKL antes do receptor</text>",
+            "<text x='290' y='426' text-anchor='middle' font-size='12' fill='var(--muted,#8A8478)'>esquema simplificado; outros mediadores participam e a proporção varia com a força</text>"
+          ],
+          "legenda": "Comprimir liga o RANKL; estirar liga a osteoprotegerina. O dente se move porque um lado reabsorve enquanto o outro deposita, e a química decide qual é qual."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "dica",
+          "titulo": "Por que perguntar sobre remédios",
+          "texto": "Anti-inflamatórios não esteroides em uso contínuo, bisfosfonatos e corticoides interferem exatamente nesse eixo e podem lentificar o movimento ou alterar a resposta óssea. Pergunte sempre o que o paciente toma. Para a dor do ajuste, doses pontuais de analgésico comum são a escolha habitual, e o assunto volta na página sobre dor."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Qual é o papel da osteoprotegerina no movimento dentário?",
+        "resposta": "Ela se liga ao RANKL e o impede de ativar o receptor RANK nos precursores de osteoclastos; é o freio da reabsorção, predominante no lado estirado."
+      }
+    },
+    {
+      "titulo": "Duas teorias para um movimento",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "A explicação clássica é a teoria da pressão e tensão, construída a partir das observações histológicas do início do século vinte: a força comprime o ligamento de um lado e o estira do outro, a circulação muda, as células respondem, o osso é reabsorvido onde há pressão e depositado onde há tensão. Ela explica bem o que se vê ao microscópio e orienta a clínica até hoje."
+        },
+        {
+          "tipo": "p",
+          "texto": "A teoria bioelétrica propôs outro caminho: quando o osso alveolar se deforma sob a força, gera sinais elétricos, piezoelétricos e de potencial de fluxo, que orientariam a remodelação. Hoje se entende que esses sinais existem e importam para a resposta do osso à função mastigatória, mas que o movimento ortodôntico, produzido por força sustentada e não por deformação repetida, depende sobretudo da resposta celular do ligamento. As duas teorias não se excluem; a primeira manda."
+        },
+        {
+          "tipo": "visual",
+          "formato": "comparativo",
+          "titulo": "Pressão e tensão versus bioelétrica",
+          "descricao": "Duas colunas. Pressão e tensão: o ligamento comprimido e estirado muda a circulação, células respondem, osso reabsorvido onde há pressão e depositado onde há tensão; base histológica; explica o movimento por força sustentada. Bioelétrica: deformação do osso gera sinais piezoelétricos e potenciais de fluxo que orientam a remodelação; relevante para a resposta à função e a estímulos intermitentes; papel coadjuvante no movimento ortodôntico.",
+          "viewBox": "0 0 720 320",
+          "svg": [
+            "<use href='#c-caixa-gold' x='30' y='16' width='300' height='44'/><text x='180' y='44' text-anchor='middle' font-size='15' font-weight='700'>Pressão e tensão</text>",
+            "<use href='#c-caixa-blue' x='390' y='16' width='300' height='44'/><text x='540' y='44' text-anchor='middle' font-size='15' font-weight='700'>Bioelétrica</text>",
+            "<g font-size='12' fill='var(--ink,#23211C)'><text x='40' y='90' font-weight='700'>Mecanismo</text><text x='40' y='108'>ligamento comprimido e estirado;</text><text x='40' y='124'>circulação muda, células respondem</text><text x='40' y='156' font-weight='700'>Resultado</text><text x='40' y='174'>reabsorção onde há pressão,</text><text x='40' y='190'>deposição onde há tensão</text><text x='40' y='222' font-weight='700'>Explica</text><text x='40' y='240'>movimento por força sustentada;</text><text x='40' y='256'>base da clínica</text></g>",
+            "<g font-size='12' fill='var(--ink,#23211C)'><text x='400' y='90' font-weight='700'>Mecanismo</text><text x='400' y='108'>osso deformado gera sinais elétricos:</text><text x='400' y='124'>piezoelétricos e potenciais de fluxo</text><text x='400' y='156' font-weight='700'>Resultado</text><text x='400' y='174'>sinais orientariam a remodelação</text><text x='400' y='222' font-weight='700'>Explica</text><text x='400' y='240'>resposta do osso à função e a estímulos</text><text x='400' y='256'>intermitentes; coadjuvante na ortodontia</text></g>",
+            "<use href='#c-caixa-ink' x='120' y='276' width='480' height='34'/><text x='360' y='298' text-anchor='middle' font-size='12' font-weight='700' fill='#fff'>Não se excluem; a pressão e tensão explica o movimento ortodôntico</text>"
+          ],
+          "legenda": "Uma teoria manda no movimento ortodôntico, a outra ajuda a entender o osso sob função. A prova costuma pedir as duas e qual predomina."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "erro",
+          "texto": "Responder que a teoria bioelétrica \"substituiu\" a da pressão e tensão. Não substituiu: os sinais elétricos participam da resposta do osso à deformação, mas o movimento produzido por força ortodôntica sustentada se explica pela resposta celular do ligamento comprimido e estirado."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Por que a teoria bioelétrica é considerada coadjuvante no movimento ortodôntico?",
+        "resposta": "Porque os sinais piezoelétricos e de fluxo surgem com a deformação repetida do osso, típica da função, enquanto a força ortodôntica é sustentada e age sobretudo pela resposta celular do ligamento."
+      }
+    },
+    {
+      "titulo": "Força leve move; força pesada atrasa",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "Tudo o que foi dito depende de a circulação do ligamento continuar. Com força leve, os vasos do lado comprimido ficam parcialmente abertos, as células sobrevivem, os osteoclastos são recrutados na própria superfície do osso e a reabsorção começa por ali, na frente: é a reabsorção frontal, o caminho eficiente."
+        },
+        {
+          "tipo": "p",
+          "texto": "Com força pesada, os vasos são totalmente ocluídos, o ligamento comprimido morre e a reabsorção precisa vir por baixo, pelos espaços medulares: é a reabsorção solapante, lenta e dolorosa, tema da página sobre hialinização."
+        },
+        {
+          "tipo": "p",
+          "texto": "Por isso a força ótima não é a maior, é a que preserva a circulação. O limiar clássico que se cita é a pressão dos capilares do ligamento, algumas dezenas de gramas por centímetro quadrado de superfície radicular comprimida; acima dela, a circulação para [VERIFICAR]. Na prática, isso significa ativações leves, medidas em dezenas de gramas por dente, e a percepção de que o dente que se move confortável está se movendo do jeito certo."
+        },
+        {
+          "tipo": "imagem",
+          "imagem": "corte histológico de ligamento periodontal sob força leve, com reabsorção frontal",
+          "mostrar": "Lado de pressão com ligamento comprimido mas viável, osteoclastos na superfície do osso alveolar em lacunas de reabsorção; lado de tensão com fibras estiradas e osteoblastos alinhados depositando osso novo",
+          "legenda": "Força leve: o ligamento comprimido continua vivo e os osteoclastos trabalham na frente, na própria superfície do osso.",
+          "destacar": "Osteoclastos na superfície do osso do lado de pressão, ligamento sem áreas acelulares, osteoide no lado de tensão"
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "frase",
+          "texto": "A força certa é a que deixa o ligamento respirar. Mais que isso não é mais movimento; é menos ligamento."
+        }
+      ],
+      "checagem": {
+        "pergunta": "O que diferencia a reabsorção frontal da reabsorção solapante?",
+        "resposta": "Na frontal, com força leve, o ligamento comprimido continua vivo e os osteoclastos reabsorvem a superfície do osso voltada para ele. Na solapante, com força pesada, o ligamento morre e a reabsorção precisa vir por baixo, pelos espaços medulares, mais lenta."
+      }
+    },
+    {
+      "titulo": "De volta à discussão na clínica",
+      "blocos": [
+        {
+          "tipo": "p",
+          "texto": "O segundo colega tem razão: o dente não é empurrado pelo osso, é o ligamento que reabsorve na frente e deposita atrás, no ritmo das células. O primeiro erra no que mais importa: força a mais não acelera esse ritmo, estrangula a circulação e obriga a reabsorção a vir por baixo, mais lenta. E a resposta para o paciente vem da mesma biologia: a dor costuma começar horas depois, atinge o máximo em torno do segundo dia, quando as células e os mediadores estão no pico, e cede ao longo da semana."
+        },
+        {
+          "tipo": "destaque",
+          "estilo": "frase",
+          "texto": "Quem move o dente é o ligamento. A força só faz o pedido; a biologia decide a velocidade e a força pesada só atrapalha o atendimento."
+        }
+      ],
+      "checagem": {
+        "pergunta": "Por que a dor do ajuste costuma atingir o máximo em torno do segundo dia?",
+        "resposta": "Porque é quando os mediadores inflamatórios e o recrutamento celular no ligamento comprimido estão no pico; depois, com a reabsorção em curso e a pressão aliviada, a dor cede."
+      }
+    }
+  ],
+  "fechamento": {
+    "visual": {
+      "formato": "mapa",
+      "titulo": "Mapa da página",
+      "descricao": "Nó central: ligamento e osso sob força. Seis nós: dente suspenso no ligamento; osso alveolar existe pelo dente; segundos a dias; RANKL, RANK e osteoprotegerina; pressão e tensão manda, bioelétrica ajuda; leve move, pesada atrasa.",
+      "viewBox": "0 0 560 360",
+      "svg": [
+        "<g stroke='var(--border,#EDE6D8)' stroke-width='1.5'><line x1='280' y1='180' x2='100' y2='60'/><line x1='280' y1='180' x2='460' y2='60'/><line x1='280' y1='180' x2='70' y2='180'/><line x1='280' y1='180' x2='490' y2='180'/><line x1='280' y1='180' x2='100' y2='300'/><line x1='280' y1='180' x2='460' y2='300'/></g>",
+        "<use href='#c-no-central' x='190' y='150' width='180' height='60'/>",
+        "<text x='280' y='176' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>Ligamento e osso</text><text x='280' y='194' text-anchor='middle' font-size='14' font-weight='700' fill='#fff'>sob força</text>",
+        "<use href='#c-no' x='20' y='38' width='160' height='44'/><text x='100' y='65' text-anchor='middle' font-size='13' font-weight='700'>Dente suspenso</text>",
+        "<use href='#c-no' x='380' y='38' width='160' height='44'/><text x='460' y='65' text-anchor='middle' font-size='13' font-weight='700'>Osso existe pelo dente</text>",
+        "<use href='#c-no' x='0' y='158' width='150' height='44'/><text x='75' y='185' text-anchor='middle' font-size='13' font-weight='700'>Segundos a dias</text>",
+        "<use href='#c-no' x='410' y='158' width='150' height='44'/><text x='485' y='185' text-anchor='middle' font-size='13' font-weight='700'>RANKL e osteoprotegerina</text>",
+        "<use href='#c-no' x='20' y='278' width='160' height='44'/><text x='100' y='305' text-anchor='middle' font-size='13' font-weight='700'>Pressão e tensão manda</text>",
+        "<use href='#c-no' x='380' y='278' width='160' height='44'/><text x='460' y='305' text-anchor='middle' font-size='13' font-weight='700'>Leve move, pesada atrasa</text>"
+      ]
+    },
+    "flashcards": [
+      {
+        "frente": "Sequência temporal da resposta do ligamento a uma força sustentada.",
+        "verso": "Segundos: líquido expulso e deslocamento no alvéolo. Minutos: fibras e vasos comprimidos de um lado, alargados do outro. Horas: prostaglandinas, citocinas, mensageiros. Cerca de dois dias: osteoclastos no lado comprimido e osteoblastos no estirado."
+      },
+      {
+        "frente": "Explique o eixo RANKL, RANK e osteoprotegerina.",
+        "verso": "RANKL, exibido por osteoblastos e células do ligamento comprimido, liga-se ao RANK dos precursores e forma osteoclastos; a osteoprotegerina sequestra o RANKL e freia a reabsorção. Compressão favorece RANKL; estiramento favorece osteoprotegerina."
+      },
+      {
+        "frente": "Reabsorção frontal versus solapante.",
+        "verso": "Frontal: força leve, ligamento vivo, osteoclastos na superfície do osso, movimento eficiente. Solapante: força pesada, ligamento necrosado, reabsorção vinda dos espaços medulares, lenta e dolorosa."
+      }
+    ]
+  },
+  "infografico": {
+    "titulo": "Ligamento e osso em seis cartões",
+    "itens": [
+      {
+        "rotulo": "Ligamento",
+        "texto": "Fibras colágenas, células, vasos e nervos em um espaço de cerca de um quarto de milímetro. Amortece a mastigação, traduz a força sustentada."
+      },
+      {
+        "rotulo": "Osso alveolar",
+        "texto": "Existe pelo dente: nasce na erupção, remodela na função, some na extração. Lâmina dura é osso fasciculado."
+      },
+      {
+        "rotulo": "Tempo",
+        "texto": "Segundos: líquido. Minutos: fibras e vasos. Horas: mediadores. Dois dias: células e movimento."
+      },
+      {
+        "rotulo": "Interruptor",
+        "texto": "RANKL liga osteoclastos; osteoprotegerina desliga. Compressão favorece RANKL; estiramento, osteoprotegerina."
+      },
+      {
+        "rotulo": "Teorias",
+        "texto": "Pressão e tensão explica o movimento ortodôntico; bioelétrica ajuda a entender o osso sob função."
+      },
+      {
+        "rotulo": "Força",
+        "texto": "Leve preserva a circulação: reabsorção frontal. Pesada estrangula: hialinização e reabsorção solapante."
+      }
+    ]
+  },
+  "fluxograma": {
+    "titulo": "Do que depende o movimento que você vai pedir",
+    "nos": [
+      {
+        "id": "n1",
+        "tipo": "inicio",
+        "texto": "Força aplicada ao dente"
+      },
+      {
+        "id": "n2",
+        "tipo": "decisao",
+        "texto": "Sustentada por horas ou breve como a mastigação?"
+      },
+      {
+        "id": "n3",
+        "tipo": "fim",
+        "texto": "Breve: absorvida pelo líquido e pelas fibras; sem movimento"
+      },
+      {
+        "id": "n4",
+        "tipo": "decisao",
+        "texto": "Leve o bastante para manter a circulação do lado comprimido?"
+      },
+      {
+        "id": "n5",
+        "tipo": "acao",
+        "texto": "Ligamento vivo: mediadores, RANKL, osteoclastos na superfície em cerca de 2 dias"
+      },
+      {
+        "id": "n6",
+        "tipo": "fim",
+        "texto": "Reabsorção frontal: movimento eficiente e confortável"
+      },
+      {
+        "id": "n7",
+        "tipo": "acao",
+        "texto": "Vasos ocluídos: ligamento necrosa (hialinização)"
+      },
+      {
+        "id": "n8",
+        "tipo": "fim",
+        "texto": "Reabsorção solapante: atraso, dor e mais risco de reabsorção radicular"
+      }
+    ],
+    "arestas": [
+      {
+        "de": "n1",
+        "para": "n2"
+      },
+      {
+        "de": "n2",
+        "para": "n3",
+        "rotulo": "breve"
+      },
+      {
+        "de": "n2",
+        "para": "n4",
+        "rotulo": "sustentada"
+      },
+      {
+        "de": "n4",
+        "para": "n5",
+        "rotulo": "sim"
+      },
+      {
+        "de": "n5",
+        "para": "n6"
+      },
+      {
+        "de": "n4",
+        "para": "n7",
+        "rotulo": "não"
+      },
+      {
+        "de": "n7",
+        "para": "n8"
+      }
+    ]
+  },
+  "passoAPasso": [
+    {
+      "passo": "Antes de ativar, pergunte o que o paciente toma: anti-inflamatórios contínuos, bisfosfonatos, corticoides.",
+      "confira": "Algum medicamento interfere no eixo RANKL e na remodelação?"
+    },
+    {
+      "passo": "Escolha a força pela biologia: leve o bastante para preservar a circulação do ligamento comprimido.",
+      "confira": "A ativação está em dezenas de gramas por dente, não em centenas?"
+    },
+    {
+      "passo": "Explique ao paciente o roteiro: desconforto que começa em horas, pico em torno de dois dias, alívio ao longo da semana.",
+      "confira": "Ele sabe que dor que aumenta depois da primeira semana não é normal?"
+    },
+    {
+      "passo": "Respeite o tempo das células: reative quando a resposta anterior terminou, não antes.",
+      "confira": "O intervalo entre ativações dá tempo para a remodelação frontal?"
+    },
+    {
+      "passo": "Observe a mobilidade e a dor como termômetro: dente confortável com mobilidade leve está se movendo do jeito certo.",
+      "confira": "Mobilidade excessiva ou dor persistente sugerem força além do limiar?"
+    }
+  ],
+  "macetes": [
+    {
+      "titulo": "Pendurado, não pregado",
+      "texto": "O dente está suspenso no ligamento. Quem move é o ligamento, reabsorvendo na frente e depositando atrás."
+    },
+    {
+      "titulo": "Segundos, minutos, horas, dias",
+      "texto": "Líquido, vasos e fibras, mediadores, células. O movimento de verdade começa em cerca de dois dias."
+    },
+    {
+      "titulo": "RANKL liga, OPG desliga",
+      "texto": "RANKL recruta osteoclastos; osteoprotegerina sequestra o RANKL. Compressão favorece o primeiro; estiramento, a segunda."
+    },
+    {
+      "titulo": "Deixe o ligamento respirar",
+      "texto": "Força leve mantém a circulação e a reabsorção frontal. Força pesada estrangula e obriga a reabsorção solapante."
+    }
+  ],
+  "ondeErra": [
+    {
+      "erro": "Achar que mais força move mais rápido.",
+      "porque": "A força pesada oclui os vasos, necrosa o ligamento e força a reabsorção solapante, mais lenta.",
+      "certo": "Força leve e contínua; a velocidade é da biologia."
+    },
+    {
+      "erro": "Dizer que o dente atravessa o osso.",
+      "porque": "O osso é reabsorvido na frente e depositado atrás pelo ligamento; o alvéolo acompanha o dente.",
+      "certo": "Remodelação do alvéolo, não perfuração."
+    },
+    {
+      "erro": "Afirmar que a teoria bioelétrica substituiu a pressão e tensão.",
+      "porque": "Os sinais elétricos participam da resposta à função; o movimento por força sustentada depende do ligamento.",
+      "certo": "Pressão e tensão explica; bioelétrica complementa."
+    },
+    {
+      "erro": "Ignorar os medicamentos do paciente.",
+      "porque": "Anti-inflamatórios contínuos, bisfosfonatos e corticoides alteram o eixo RANKL e a remodelação.",
+      "certo": "Anamnese medicamentosa antes de planejar o ritmo do tratamento."
+    }
+  ],
+  "autoteste": [
+    {
+      "pergunta": "A primeira resposta do ligamento periodontal a uma força sustentada, em segundos, é:",
+      "alternativas": [
+        "Reabsorção óssea pelos osteoclastos",
+        "Expulsão do líquido intersticial e deslocamento do dente dentro do alvéolo",
+        "Deposição de osso pelos osteoblastos",
+        "Necrose do ligamento"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Osteoclastos aparecem em cerca de dois dias.",
+        "Correta: o líquido é espremido e o dente se acomoda até o limite das fibras.",
+        "A deposição vem depois do recrutamento celular.",
+        "Necrose só com força pesada, e leva mais tempo."
+      ]
+    },
+    {
+      "pergunta": "No eixo RANKL, RANK e osteoprotegerina, a osteoprotegerina:",
+      "alternativas": [
+        "Ativa os osteoclastos ligando-se ao RANK",
+        "Sequestra o RANKL e impede a ativação dos osteoclastos",
+        "É produzida apenas pelos osteoclastos maduros",
+        "Aumenta no lado de compressão do ligamento"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Quem se liga ao RANK é o RANKL.",
+        "Correta: é o freio da reabsorção, predominante no lado estirado.",
+        "É produzida por osteoblastos e células do ligamento.",
+        "Aumenta no lado estirado; no comprimido, sobe o RANKL."
+      ]
+    },
+    {
+      "pergunta": "Sobre a teoria bioelétrica do movimento dentário, é correto afirmar que:",
+      "alternativas": [
+        "Substituiu a teoria da pressão e tensão",
+        "Explica sinais gerados pela deformação do osso, relevantes para a resposta à função, com papel coadjuvante no movimento ortodôntico",
+        "Nega a participação das células do ligamento",
+        "Só se aplica a forças pesadas"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "Não substituiu; complementa.",
+        "Correta: os sinais piezoelétricos e de fluxo importam para o osso sob função; o movimento ortodôntico depende do ligamento.",
+        "Não nega; apenas propõe outro sinal de orientação.",
+        "Não tem relação com a magnitude da força."
+      ]
+    },
+    {
+      "pergunta": "O osso alveolar é descrito como dependente do dente porque:",
+      "alternativas": [
+        "É mais denso que o resto da mandíbula",
+        "Forma-se com a erupção, remodela-se com a função e se reabsorve após a extração",
+        "Não contém vasos sanguíneos",
+        "Não responde a forças ortodônticas"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "A densidade não é o critério.",
+        "Correta: sua existência acompanha a do dente.",
+        "Contém vasos e células.",
+        "Responde: é reabsorvido na frente e depositado atrás do dente em movimento."
+      ]
+    },
+    {
+      "pergunta": "Com força pesada que oclui totalmente os vasos do ligamento comprimido, o que se espera?",
+      "alternativas": [
+        "Movimento mais rápido por reabsorção frontal",
+        "Necrose do ligamento com reabsorção solapante, movimento atrasado e mais dor",
+        "Deposição óssea no lado de pressão",
+        "Nenhum efeito, pois o ligamento não depende de circulação"
+      ],
+      "correta": 1,
+      "explicacoes": [
+        "A reabsorção frontal exige ligamento vivo, com força leve.",
+        "Correta: sem circulação, o ligamento morre e a reabsorção vem por baixo, pelos espaços medulares.",
+        "No lado de pressão ocorre reabsorção, não deposição.",
+        "A circulação é a condição para a resposta celular."
+      ]
+    }
+  ],
+  "pesquisa": {
+    "termos": [
+      "ligamento periodontal força ortodôntica",
+      "RANKL osteoprotegerina movimento dentário",
+      "biologia do movimento dentário",
+      "reabsorção frontal solapante"
+    ]
+  },
+  "referenciasBase": [
+    "Proffit WR, Fields HW, Larson BE, Sarver DM. Ortodontia Contemporânea. 6ª ed. Bases biológicas da terapia ortodôntica.",
+    "Krishnan V, Davidovitch Z. Cellular, molecular, and tissue-level reactions to orthodontic force. Am J Orthod Dentofacial Orthop. 2006.",
+    "Reitan K. Clinical and histologic observations on tooth movement during and after orthodontic treatment. Am J Orthod. 1967.",
+    "Nanci A. Ten Cate Histologia Oral. Periodonto.",
+    "Graber LW, Vanarsdall RL, Vig KWL, Huang GJ. Ortodontia: princípios e técnicas atuais. 6ª ed."
+  ],
+  "validacao": {
+    "validadoPor": null,
+    "data": null
+  }
+}

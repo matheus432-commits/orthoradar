@@ -1,10 +1,10 @@
 {
  "atualizadoEm": "2026-09-05",
  "totalPaginas": 3387,
- "concluidas": 35,
+ "concluidas": 36,
  "porStatus": {
-  "pendente": 3352,
-  "rascunho": 35,
+  "pendente": 3351,
+  "rascunho": 36,
   "revisado": 0,
   "publicado": 0
  },
@@ -12,7 +12,7 @@
   "id": "ortodontia/biologia-do-movimento",
   "area": "Ortodontia",
   "modulo": "Biologia do movimento",
-  "faltam": 12
+  "faltam": 11
  },
  "imagensPendentes": [
   {
@@ -248,6 +248,15 @@
    "mostrar": "Panorâmica com o côndilo e o ramo visivelmente menores de um lado, ângulo goníaco mais alto desse lado, e o plano oclusal inclinado; ao lado, fotografia frontal com o mento desviado para o lado do ramo curto",
    "legenda": "Deficiência unilateral: ramo curto e côndilo pequeno de um lado, mento desviado para esse lado. O sentido do desvio conta a história.",
    "destacar": "Comparação da altura dos ramos e do tamanho dos côndilos, direção do desvio do mento em relação ao lado afetado"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/reacoes-teciduais/ligamento-e-osso-sob-forca",
+   "modulo": "Biologia do movimento",
+   "secao": "Força leve move; força pesada atrasa",
+   "imagem": "corte histológico de ligamento periodontal sob força leve, com reabsorção frontal",
+   "mostrar": "Lado de pressão com ligamento comprimido mas viável, osteoclastos na superfície do osso alveolar em lacunas de reabsorção; lado de tensão com fibras estiradas e osteoblastos alinhados depositando osso novo",
+   "legenda": "Força leve: o ligamento comprimido continua vivo e os osteoclastos trabalham na frente, na própria superfície do osso.",
+   "destacar": "Osteoclastos na superfície do osso do lado de pressão, ligamento sem áreas acelulares, osteoide no lado de tensão"
   }
  ],
  "verificarPendentes": [
@@ -825,6 +834,26 @@
    "pagina": "ortodontia/mas-oclusoes/caracteristicas-por-tipo/assimetrias",
    "onde": "Seção \"Tratar conforme a origem e a atividade\".blocos[2].texto",
    "trecho": "onstrução do ramo, por distração ou enxerto, pode começar na infância [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/reacoes-teciduais/ligamento-e-osso-sob-forca",
+   "onde": "Seção \"O dente está suspenso, não fixado\".blocos[0].texto",
+   "trecho": "oem esse tecido, vasos que o nutrem e nervos que sentem pressão e dor [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/reacoes-teciduais/ligamento-e-osso-sob-forca",
+   "onde": "Seção \"O dente está suspenso, não fixado\".blocos[2].svg[8]",
+   "trecho": "' font-size='10' font-weight='700' fill='var(--red,#B4533B)'>~0,25 mm [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/reacoes-teciduais/ligamento-e-osso-sob-forca",
+   "onde": "Seção \"Segundos, minutos, horas, dias: a sequência da resposta\".blocos[2].svg[8]",
+   "trecho": "muted,#8A8478)'>escala de tempo aproximada para força leve e contínua [VERIFICAR]"
+  },
+  {
+   "pagina": "ortodontia/biologia-do-movimento/reacoes-teciduais/ligamento-e-osso-sob-forca",
+   "onde": "Seção \"Força leve move; força pesada atrasa\".blocos[2].texto",
+   "trecho": "ado de superfície radicular comprimida; acima dela, a circulação para [VERIFICAR]"
   }
  ],
  "modulos": [
@@ -1102,17 +1131,19 @@
    "area": "Ortodontia",
    "modulo": "Biologia do movimento",
    "total": 12,
-   "concluidas": 0,
-   "palavras": 0,
-   "visuais": 0,
-   "imagensClinicas": 0,
-   "verificar": 0,
+   "concluidas": 1,
+   "palavras": 3695,
+   "visuais": 5,
+   "imagensClinicas": 1,
+   "verificar": 4,
    "paginas": [
     {
      "id": "ortodontia/biologia-do-movimento/reacoes-teciduais/ligamento-e-osso-sob-forca",
      "nome": "Ligamento e osso sob força",
      "tema": "Reações teciduais",
-     "status": "pendente"
+     "status": "rascunho",
+     "palavras": 3695,
+     "visuais": 5
     },
     {
      "id": "ortodontia/biologia-do-movimento/reacoes-teciduais/pressao-e-tensao",
@@ -27187,6 +27218,70 @@
     {
      "onde": "Seção \"Tratar conforme a origem e a atividade\".blocos[2].texto",
      "trecho": "onstrução do ramo, por distração ou enxerto, pode começar na infância [VERIFICAR]"
+    }
+   ]
+  },
+  "ortodontia/biologia-do-movimento/reacoes-teciduais/ligamento-e-osso-sob-forca": {
+   "titulo": "Ligamento e osso sob força: o que acontece antes de o dente se mover",
+   "arquivo": "data/campus/paginas/ortodontia--biomov-ligamento.json",
+   "formato": 2,
+   "status": "rascunho",
+   "estado": "rascunho",
+   "palavras": 3695,
+   "visuais": [
+    {
+     "formato": "anatomico",
+     "titulo": "O ligamento periodontal em corte: o que há entre a raiz e o osso"
+    },
+    {
+     "formato": "linha-do-tempo",
+     "titulo": "Do primeiro segundo ao primeiro movimento"
+    },
+    {
+     "formato": "processo",
+     "titulo": "Da compressão à reabsorção: a cascata molecular"
+    },
+    {
+     "formato": "comparativo",
+     "titulo": "Pressão e tensão versus bioelétrica"
+    },
+    {
+     "formato": "mapa",
+     "titulo": "Mapa da página"
+    }
+   ],
+   "quadros": {
+    "frase": 3,
+    "mito": 1,
+    "prova": 1,
+    "dica": 1,
+    "erro": 1
+   },
+   "imagensClinicas": [
+    {
+     "secao": "Força leve move; força pesada atrasa",
+     "imagem": "corte histológico de ligamento periodontal sob força leve, com reabsorção frontal",
+     "mostrar": "Lado de pressão com ligamento comprimido mas viável, osteoclastos na superfície do osso alveolar em lacunas de reabsorção; lado de tensão com fibras estiradas e osteoblastos alinhados depositando osso novo",
+     "legenda": "Força leve: o ligamento comprimido continua vivo e os osteoclastos trabalham na frente, na própria superfície do osso.",
+     "destacar": "Osteoclastos na superfície do osso do lado de pressão, ligamento sem áreas acelulares, osteoide no lado de tensão"
+    }
+   ],
+   "verificar": [
+    {
+     "onde": "Seção \"O dente está suspenso, não fixado\".blocos[0].texto",
+     "trecho": "oem esse tecido, vasos que o nutrem e nervos que sentem pressão e dor [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"O dente está suspenso, não fixado\".blocos[2].svg[8]",
+     "trecho": "' font-size='10' font-weight='700' fill='var(--red,#B4533B)'>~0,25 mm [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Segundos, minutos, horas, dias: a sequência da resposta\".blocos[2].svg[8]",
+     "trecho": "muted,#8A8478)'>escala de tempo aproximada para força leve e contínua [VERIFICAR]"
+    },
+    {
+     "onde": "Seção \"Força leve move; força pesada atrasa\".blocos[2].texto",
+     "trecho": "ado de superfície radicular comprimida; acima dela, a circulação para [VERIFICAR]"
     }
    ]
   },
